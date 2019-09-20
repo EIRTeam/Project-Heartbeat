@@ -3,12 +3,19 @@ extends Control
 
 var selected_option : Control
 const VISIBILITY_THRESHOLD = 3 # How many items should be visible
+
+export (float) var scale_factor = 0.75
+
 func _ready():
 	if get_child_count() > 0:
 		selected_option = get_child(0)
 
 func _process(delta):
 	var menu_start := Vector2(0, rect_size.y / 2)
+	
+	if not selected_option:
+		if get_child_count() > 0:
+			selected_option = get_children()[0]
 	
 	var children = get_children()
 	if selected_option:
@@ -47,7 +54,7 @@ func arrange_options(start, end, step, start_position, start_size):
 		else:
 			label.self_modulate = lerp(label.self_modulate, Color(1.0, 1.0, 1.0, 1.0), 0.1)
 		
-		var target_scale = prev_child_scale * 0.85
+		var target_scale = prev_child_scale * scale_factor
 		label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), 0.5)
 		print(label.rect_scale)
 		var pos_diff = Vector2(0, 0)
