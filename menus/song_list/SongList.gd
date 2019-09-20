@@ -1,0 +1,11 @@
+extends Control
+
+onready var vbox_container = get_node("HBoxContainer/VBoxContainer")
+
+func _ready():
+	for song_id in SongLoader.songs:
+		var song = SongLoader.songs[song_id]
+		var button = Button.new()
+		button.text = song.title
+		vbox_container.add_child(button)
+		button.connect("button_down", self, "_on_song_selected", [song_id])
