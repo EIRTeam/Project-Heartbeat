@@ -1,10 +1,17 @@
 extends Panel
 var spectrum : AudioEffectSpectrumAnalyzerInstance
-const FREQ_MAX = 44100.0 / 3
+var FREQ_MAX = 44100.0 / 3 setget set_freq_max
 const VU_COUNT = 512
-var MIN_DB = 60
+var MIN_DB = 60 setget set_min_db
 var spectrum_image := Image.new()
 var spectrum_image_texture := ImageTexture.new()
+
+func set_freq_max(value: float):
+	FREQ_MAX = value
+
+func set_min_db(value):
+	MIN_DB = value
+
 func _ready():
 	spectrum = AudioServer.get_bus_effect_instance(1,0)
 	spectrum_image_texture.flags = 0 # disable filter to avoid bugs
@@ -28,3 +35,5 @@ func _process(delta):
 		spectrum_image.unlock()
 		spectrum_image_texture.create_from_image(spectrum_image)
 		prev_hz = hz
+
+
