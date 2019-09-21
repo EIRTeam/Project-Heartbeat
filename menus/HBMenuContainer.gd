@@ -1,71 +1,147 @@
 extends Control
 
+class_name HBMenuContainer
 
 var selected_option : Control
 const VISIBILITY_THRESHOLD = 3 # How many items should be visible
-
+var lerp_weight = 8.0
+var target_scale := Vector2(1.0, 1.0)
+var target_opacity := 1.0
 export (float) var scale_factor = 0.75
-
+var previous_menu : HBMenuContainer
 func _ready():
+	focus_mode = FOCUS_ALL
+	get_viewport().connect("size_changed", self, "hard_arrange_all")
 	if get_child_count() > 0:
 		selected_option = get_child(0)
-
+		hard_arrange_all()
+	for child in get_children():
+		if child is BaseButton:
+			
+			child.connect("pressed", self, "_on_button_selected", [child])
+			
+func _on_button_selected(option: HBMenuButton):
+	if has_focus():
+		if option != selected_option:
+			selected_option = option
+		else:
+			if option is HBMenuButton:
+				var next_menu = option.get_node(option.next_menu) as HBMenuContainer
+				navigate_to_menu(next_menu)
+				
+func navigate_to_menu(next_menu: HBMenuContainer, back=false):
+	if back:
+		next_menu.rect_scale = Vector2(0.75, 0.75)
+		target_scale = Vector2(1.25, 1.25)
+	else:
+		next_menu.rect_scale = Vector2(1.25, 1.25)
+		target_scale = Vector2(0.75, 0.75)
+		
+	next_menu.modulate.a = 0.0
+	next_menu.target_scale = Vector2(1.0, 1.0)
+	next_menu.target_opacity = 1.0
+	target_opacity = 0.0
+	
+	focus_mode = FOCUS_NONE
+	
+	next_menu.focus_mode = FOCUS_ALL
+	next_menu.grab_focus()
+	next_menu.show()
+	get_parent().move_child(next_menu, get_parent().get_child_count()-1)
+	if not back:
+		next_menu.previous_menu = self
+		print(next_menu.previous_menu.name)
+			
 func _process(delta):
 	var menu_start := Vector2(0, rect_size.y / 2)
+	if not is_equal_approx(modulate.a, target_opacity):
+		modulate.a = lerp(modulate.a, target_opacity, 15.0 * delta)
+		
+	if rect_scale != target_scale:
+		rect_scale = lerp(rect_scale, target_scale, 15.0 * delta)
 	
 	if not selected_option:
 		if get_child_count() > 0:
 			selected_option = get_children()[0]
-	
-	var children = get_children()
 	if selected_option:
 		# Place select option:
-		selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), 0.5)
-		selected_option.rect_scale = Vector2(1.0, 1.0)
-		selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), 0.5)
+		selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
+		selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
+		#selected_option.rect_scale = Vector2(1.0, 1.0)
+		selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), lerp_weight * delta)
 		var prev_child_pos = selected_option.rect_position
 		var prev_child_scale = selected_option.rect_scale.y
 		arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y)
-		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y)
+		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, false, selected_option.rect_scale.y)
 
-func _input(event):
-	if selected_option:
-		if event.is_action_pressed("ui_down"):
-			var current_pos = selected_option.get_position_in_parent()
-			if current_pos < get_child_count()-1:
-				selected_option = get_child(current_pos + 1)
-		if event.is_action_pressed("ui_up"):
-			var current_pos = selected_option.get_position_in_parent()
-			if current_pos > 0:
-				selected_option = get_child(current_pos - 1)
+func _unhandled_input(event):
+	if has_focus():
+		if selected_option:
+			if event.is_action_pressed("ui_down"):
+				var current_pos = selected_option.get_position_in_parent()
+				if current_pos < get_child_count()-1:
+					selected_option = get_child(current_pos + 1)
+					get_tree().set_input_as_handled()					
+			if event.is_action_pressed("ui_up"):
+				var current_pos = selected_option.get_position_in_parent()
+				if current_pos > 0:
+					selected_option = get_child(current_pos - 1)
+					get_tree().set_input_as_handled()
+			if event.is_action_pressed("ui_accept"):
+				if selected_option is BaseButton:
+					selected_option.emit_signal("pressed")
+					get_tree().set_input_as_handled()
+			if event.is_action_pressed("ui_cancel"):
+				if previous_menu:
+					get_tree().set_input_as_handled()
+					navigate_to_menu(previous_menu, true)
 
-func arrange_options(start, end, step, start_position, start_size):
+func hard_arrange_all():
+	var menu_start := Vector2(0, rect_size.y / 2)
+	selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
+	selected_option.rect_scale = Vector2(1.0, 1.0)
+	selected_option.modulate.a = 1.0
+	arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
+	arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
+
+func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):
+	var lw = lerp_weight * get_process_delta_time()
 	var children = get_children()
-	var prev_child_scale = 1.0
+	var prev_child_scale = start_scale
 	var prev_child_pos = start_position
 	var prev_child_size = start_size
+	var target_poss_average_diff = 0.0
 	for i in range(start, end, step):
-		print("child", i)
-
 		var label = children[i]
 		
+		# Opacity interpolation
+		var target_op = 0.0
 		if (abs(selected_option.get_position_in_parent() - label.get_position_in_parent()) > VISIBILITY_THRESHOLD):
-			label.self_modulate = lerp(label.self_modulate, Color(1.0, 1.0, 1.0, 0.0), 0.1)
+			label.modulate.a = lerp(label.modulate.a, 0.0, lw)
 		else:
-			label.self_modulate = lerp(label.self_modulate, Color(1.0, 1.0, 1.0, 1.0), 0.1)
+			label.modulate.a = lerp(label.modulate.a, 1.0, lw)
+			target_op = 1.0
+		
+		# Scale interpolation
 		
 		var target_scale = prev_child_scale * scale_factor
-		label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), 0.5)
-		print(label.rect_scale)
+		label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), lw)
+		
+		# Calculate the difference between where our label is and wher eit should be
+		
 		var pos_diff = Vector2(0, 0)
 		if end > start:
-			# Under the selected one
+			# Under the selected one, important to care about thep revious child's size
 			pos_diff.y += prev_child_size * prev_child_scale
 		else:
-			# Over the selected one
+			# Over the selected one, only care about our own size
 			pos_diff.y += label.rect_size.y * label.rect_scale.y
-		label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, 0.5)
-		
+			
+		#label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
+		label.rect_position = prev_child_pos + sign(end-start) * pos_diff # Looks much better if we don't interpolate position...
+		if hard:
+			label.modulate.a = target_op
+			label.rect_scale = Vector2(target_scale, target_scale)
 		prev_child_pos = label.rect_position
 		prev_child_scale = label.rect_scale.y
 		prev_child_size = label.rect_size.y

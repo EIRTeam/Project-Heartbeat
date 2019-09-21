@@ -19,7 +19,7 @@ func _ready():
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("audio", spectrum_image_texture)
 	
-func _process(delta):
+func _physics_process(delta):
 	var offset = (FREQ_MAX / VU_COUNT)
 	var prev_hz = 0
 
