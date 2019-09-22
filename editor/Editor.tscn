@@ -1,0 +1,126 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://editor/waveformmockup.png" type="Texture" id=1]
+[ext_resource path="res://default_theme.tres" type="Theme" id=2]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=3]
+
+[node name="Editor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" parent="." instance=ExtResource( 3 )]
+
+[node name="Editor" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Editor"]
+anchor_right = 1.0
+margin_bottom = 63.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Editor/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Editor/Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1270.0
+margin_bottom = 53.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Editor/Panel/MarginContainer/VBoxContainer"]
+margin_right = 1260.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 7
+
+[node name="Panel2" type="Panel" parent="Editor"]
+self_modulate = Color( 1, 1, 1, 0.25 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -53.0
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Editor/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Editor/Panel2/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1270.0
+margin_bottom = 43.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Editor/Panel2/MarginContainer/VBoxContainer"]
+margin_right = 1260.0
+margin_bottom = 31.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSlider" type="HSlider" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 997.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1001.0
+margin_right = 1085.0
+margin_bottom = 31.0
+text = "1:00.000"
+valign = 3
+
+[node name="Play" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1089.0
+margin_right = 1137.0
+margin_bottom = 31.0
+text = "Play"
+
+[node name="Play2" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1141.0
+margin_right = 1205.0
+margin_bottom = 31.0
+text = "Pause"
+
+[node name="Play3" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1209.0
+margin_right = 1260.0
+margin_bottom = 31.0
+text = "Stop"

@@ -30,7 +30,6 @@ func load_wav(path: String):
 	stream.data = bytes
 	$AudioStreamPlayer.stream = stream
 	wav_file.close()
-
 func _input(event: InputEvent):
 	if event.is_action_pressed("hide_ui"):
 		$Panel.visible = !$Panel.visible

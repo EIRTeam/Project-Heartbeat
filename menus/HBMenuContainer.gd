@@ -9,7 +9,14 @@ var target_scale := Vector2(1.0, 1.0)
 var target_opacity := 1.0
 export (float) var scale_factor = 0.75
 var previous_menu : HBMenuContainer
+
+const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
+const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
+var move_sound_player = AudioStreamPlayer.new()
 func _ready():
+	move_sound_player.stream = MOVE_SOUND
+	get_tree().root.call_deferred("add_child", move_sound_player)
+
 	focus_mode = FOCUS_ALL
 	get_viewport().connect("size_changed", self, "hard_arrange_all")
 	if get_child_count() > 0:
@@ -17,10 +24,10 @@ func _ready():
 		hard_arrange_all()
 	for child in get_children():
 		if child is BaseButton:
+			print(child.name)
+			child.connect("pressed", self, "_on_button_pressed", [child])
 			
-			child.connect("pressed", self, "_on_button_selected", [child])
-			
-func _on_button_selected(option: HBMenuButton):
+func _on_button_pressed(option: BaseButton):
 	if has_focus():
 		if option != selected_option:
 			selected_option = option
@@ -28,6 +35,11 @@ func _on_button_selected(option: HBMenuButton):
 			if option is HBMenuButton:
 				var next_menu = option.get_node(option.next_menu) as HBMenuContainer
 				navigate_to_menu(next_menu)
+			else:
+				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
+				option.disconnect("pressed", self, "_on_button_pressed")
+				option.emit_signal("pressed")
+				option.connect("pressed", self, "_on_button_pressed", [option])
 				
 func navigate_to_menu(next_menu: HBMenuContainer, back=false):
 	if back:
@@ -81,12 +93,14 @@ func _unhandled_input(event):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos < get_child_count()-1:
 					selected_option = get_child(current_pos + 1)
-					get_tree().set_input_as_handled()					
+					get_tree().set_input_as_handled()
+					move_sound_player.play()
 			if event.is_action_pressed("ui_up"):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos > 0:
 					selected_option = get_child(current_pos - 1)
 					get_tree().set_input_as_handled()
+					move_sound_player.play()
 			if event.is_action_pressed("ui_accept"):
 				if selected_option is BaseButton:
 					selected_option.emit_signal("pressed")

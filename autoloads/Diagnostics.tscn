@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://autoloads/Diagnostics.gd" type="Script" id=1]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.5 )
+margin_left = 854.0
+margin_top = 20.0
+margin_right = 1010.0
+margin_bottom = 134.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 146.0
+margin_bottom = 104.0
+alignment = 1
+
+[node name="FrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 1.0
+margin_right = 136.0
+margin_bottom = 15.0
+text = "FPS:"
+
+[node name="AVGFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 19.0
+margin_right = 136.0
+margin_bottom = 33.0
+text = "Avg:"
+
+[node name="MinFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 37.0
+margin_right = 136.0
+margin_bottom = 51.0
+text = "Min:"
+
+[node name="MaxFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 55.0
+margin_right = 136.0
+margin_bottom = 69.0
+text = "Max:"
+
+[node name="ResetButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 73.0
+margin_right = 136.0
+margin_bottom = 93.0
+text = "Reset"
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ResetButton" to="Panel" method="_on_ResetButton_pressed"]
