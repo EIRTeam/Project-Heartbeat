@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Panel",
 "class": "EditorTimelineItem",
 "language": "GDScript",
-"path": "res://editor/EditorTimelineItem.gd"
+"path": "res://editor/timeline_items/EditorTimelineItem.gd"
 }, {
 "base": "Control",
 "class": "HBMainMenu",
@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "HBMenuContainer",
 "language": "GDScript",
 "path": "res://menus/HBMenuContainer.gd"
+}, {
+"base": "Reference",
+"class": "HBUtils",
+"language": "GDScript",
+"path": "res://scripts/HBUtils.gd"
 } ]
 _global_script_class_icons={
 "EditorTimelineItem": "",
 "HBMainMenu": "",
 "HBMenuButton": "",
-"HBMenuContainer": ""
+"HBMenuContainer": "",
+"HBUtils": ""
 }
 
 [application]
@@ -100,5 +106,5 @@ editor_select={
 
 [rendering]
 
-environment/default_clear_color=Color( 0.188235, 0.203922, 0.247059, 1 )
+environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"

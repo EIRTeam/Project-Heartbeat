@@ -9,14 +9,14 @@ onready var preview = get_node("EditorTimelinePreview")
 func _ready():
 	preview.hide()
 func place_child(child: EditorTimelineItem):
-	var x_pos = clamp(editor.scale_seconds(child.start), 0, 1000000.0)
+	var x_pos = max(editor.scale_msec(child.start), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
-	child.rect_size = Vector2(editor.scale_seconds(child.duration), child.rect_size.y)
+	child.rect_size = child.get_size()
 	
 func place_preview(start: float, duration: float):
-	var x_pos = clamp(editor.scale_seconds(start), 0, 1000000.0)
+	var x_pos = max(editor.scale_msec(start), 0)
 	preview.rect_position = Vector2(x_pos, 0)
-	preview.rect_size = Vector2(editor.scale_seconds(duration), preview.rect_size.y)
+	preview.rect_size = Vector2(editor.scale_msec(duration), preview.rect_size.y)
 	
 func add_item(item: EditorTimelineItem):
 	add_child(item)
@@ -29,7 +29,7 @@ func can_drop_data(position, data):
 	if data is EditorTimelineItem:
 		if not data in get_children():
 			preview.show()
-			place_preview(editor.scale_pixels(position.x + data._drag_x_offset), data.duration)
+			place_preview(editor.scale_pixels(position.x + data._drag_x_offset), editor.scale_pixels(data.get_size().x))
 			return true
 	else:
 		return false

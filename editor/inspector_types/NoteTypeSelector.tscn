@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://editor/inspector_types/NoteTypeSelector.gd" type="Script" id=1]
+[ext_resource path="res://graphics/notes/xbox/Y.png" type="Texture" id=2]
+[ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=3]
+[ext_resource path="res://graphics/notes/xbox/B.png" type="Texture" id=4]
+[ext_resource path="res://graphics/notes/xbox/X.png" type="Texture" id=5]
+
+[node name="Vector2" type="HBoxContainer"]
+margin_right = 26.0
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_right = 114.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Elemento 0"
+align = 1
+items = [ "Up", ExtResource( 2 ), false, 1, null, "Down", ExtResource( 3 ), false, 2, null, "Left", ExtResource( 5 ), false, 3, null, "Right", ExtResource( 4 ), false, 4, null ]
+selected = 0
+[connection signal="item_selected" from="OptionButton" to="." method="_on_OptionButton_item_selected"]

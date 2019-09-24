@@ -5,12 +5,13 @@
 [sub_resource type="Shader" id=1]
 code = "// credit: https://www.shadertoy.com/view/4tGXzt
 shader_type canvas_item;
+
 const float FREQ_RANGE = 512.0;
 const float PI = 3.1415;
 const float RADIUS = 0.6;
 const float BRIGHTNESS = 0.2;
 const float SPEED = 0.2;
-
+uniform vec2 size;
 uniform sampler2D audio : hint_white;
 
 //convert HSV to RGB
@@ -71,8 +72,10 @@ vec3 doLine(vec2 fragment, float radius, float x, float t) {
 
 
 void fragment() {
-	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
-    vec2 fragPos = FRAGCOORD.xy / iResolution.xy;
+	//vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 iResolution = size;
+	
+    vec2 fragPos = UV;
 	fragPos = (fragPos - 0.5) * 2.0;
     fragPos.x *= iResolution.x / iResolution.y;
 	
@@ -91,6 +94,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
+shader_param/size = Vector2( 1920, 1080 )
 
 [node name="Control" type="Panel"]
 material = SubResource( 2 )

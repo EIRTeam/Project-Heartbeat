@@ -1,20 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=1]
-[ext_resource path="res://default_theme.tres" type="Theme" id=2]
-[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=3]
-[ext_resource path="res://editor/Editor.gd" type="Script" id=7]
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://editor/Editor.gd" type="Script" id=2]
+[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=5]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 2 )
-script = ExtResource( 7 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Control" parent="." instance=ExtResource( 1 )]
 
 [node name="Editor" type="Control" parent="."]
 anchor_right = 1.0
@@ -23,9 +22,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="Editor"]
-self_modulate = Color( 1, 1, 1, 0.25 )
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.25 )
+margin_right = 1280.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_vertical = 4
@@ -33,7 +39,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Editor/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -44,7 +50,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Editor/Panel2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1270.0
@@ -53,42 +59,75 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Editor/Panel2/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1260.0
 margin_bottom = 31.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSlider" type="HSlider" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 997.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+ticks_on_borders = true
 
-[node name="Label" type="Label" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1001.0
 margin_right = 1085.0
 margin_bottom = 31.0
 text = "1:00.000"
 valign = 3
 
-[node name="Play" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Play" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1089.0
 margin_right = 1137.0
 margin_bottom = 31.0
 text = "Play"
 
-[node name="Play2" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Play2" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1141.0
 margin_right = 1205.0
 margin_bottom = 31.0
 text = "Pause"
 
-[node name="Play3" type="Button" parent="Editor/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Play3" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1209.0
 margin_right = 1260.0
 margin_bottom = 31.0
 text = "Stop"
 
-[node name="EditorTimeline" parent="Editor" instance=ExtResource( 3 )]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 54.0
+margin_right = 1280.0
+margin_bottom = 516.0
+size_flags_vertical = 3
+
+[node name="GameArea" type="Panel" parent="VBoxContainer/HBoxContainer"]
+margin_right = 981.0
+margin_bottom = 462.0
+size_flags_horizontal = 3
+
+[node name="Visualizer" parent="VBoxContainer/HBoxContainer/GameArea" instance=ExtResource( 4 )]
+
+[node name="EditorInspector" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 985.0
+margin_right = 1280.0
+margin_bottom = 462.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.5 )
+margin_top = 520.0
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 0, 200 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 5 )]
+self_modulate = Color( 1, 1, 1, 0.501961 )
+[connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]

@@ -35,5 +35,6 @@ func _physics_process(delta):
 		spectrum_image.unlock()
 		spectrum_image_texture.create_from_image(spectrum_image)
 		prev_hz = hz
-
+	var mat := material as ShaderMaterial
+	mat.set_shader_param("size", rect_size)
 
