@@ -10,7 +10,7 @@ func _ready():
 		set_process(false)
 	
 func _input(event):
-	if Input.is_action_pressed("toggle_diagnostics"):
+	if event.is_action_pressed("toggle_diagnostics"):
 		visible = !visible
 func _process(delta):
 	_seconds_since_startup += delta

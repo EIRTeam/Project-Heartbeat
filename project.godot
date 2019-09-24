@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Panel",
+"class": "EditorTimelineItem",
+"language": "GDScript",
+"path": "res://editor/EditorTimelineItem.gd"
+}, {
 "base": "Control",
 "class": "HBMainMenu",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://menus/HBMenuContainer.gd"
 } ]
 _global_script_class_icons={
+"EditorTimelineItem": "",
 "HBMainMenu": "",
 "HBMenuButton": "",
 "HBMenuContainer": ""
@@ -44,7 +50,7 @@ output_latency=4
 
 Log="*res://autoloads/Log.gd"
 SongLoader="*res://autoloads/SongLoader/SongLoader.gd"
-Diagnostics="*res://autoloads/Diagnostics.tscn"
+Diagnostics="res://autoloads/Diagnostics.tscn"
 
 [display]
 
@@ -84,6 +90,11 @@ hide_ui={
 toggle_diagnostics={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
+editor_select={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

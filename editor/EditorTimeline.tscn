@@ -1,20 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://editor/EditorTimeline.gd" type="Script" id=1]
-[ext_resource path="res://editor/EditorLayer.gd" type="Script" id=2]
 [ext_resource path="res://graphics/notes/xbox/Y.png" type="Texture" id=3]
 [ext_resource path="res://graphics/notes/xbox/B.png" type="Texture" id=4]
 [ext_resource path="res://graphics/notes/xbox/X.png" type="Texture" id=5]
 [ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=6]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.207843, 0.223529, 0.270588, 1 )
-
 [node name="EditorTimeline" type="Panel"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
+anchor_bottom = 1.0
+margin_top = -200.0
 rect_min_size = Vector2( 0, 200 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -42,54 +39,51 @@ margin_bottom = 200.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.3
 
-[node name="Control" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
-margin_right = 1268.0
-margin_bottom = 212.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
+margin_right = 1280.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="LayerNames" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
+margin_right = 116.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="LayerControl" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
+margin_left = 120.0
+margin_right = 1280.0
+margin_bottom = 154.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="Panel" type="Panel" parent="VBoxContainer/ScrollContainer/Control"]
-margin_right = 1268.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 1268, 50 )
-custom_styles/panel = SubResource( 1 )
-script = ExtResource( 2 )
+[node name="Control" type="Control" parent="."]
+visible = false
+margin_left = 93.8592
+margin_top = -173.278
+margin_right = 133.859
+margin_bottom = -133.278
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Panel2" type="Panel" parent="VBoxContainer/ScrollContainer/Control"]
-margin_top = 54.0
-margin_right = 1268.0
-margin_bottom = 104.0
-rect_min_size = Vector2( 0, 50 )
-custom_styles/panel = SubResource( 1 )
-
-[node name="Panel3" type="Panel" parent="VBoxContainer/ScrollContainer/Control"]
-margin_top = 108.0
-margin_right = 1268.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 0, 50 )
-custom_styles/panel = SubResource( 1 )
-
-[node name="Panel4" type="Panel" parent="VBoxContainer/ScrollContainer/Control"]
-margin_top = 162.0
-margin_right = 1268.0
-margin_bottom = 212.0
-rect_min_size = Vector2( 0, 50 )
-custom_styles/panel = SubResource( 1 )
-
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="Control"]
 margin_left = 70.0
 margin_right = 134.0
 margin_bottom = 64.0
 texture = ExtResource( 6 )
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="Control"]
 margin_left = 128.521
 margin_right = 192.521
 margin_bottom = 64.0
 texture = ExtResource( 4 )
 
-[node name="TextureRect3" type="TextureRect" parent="."]
+[node name="TextureRect3" type="TextureRect" parent="Control"]
 margin_left = 191.661
 margin_right = 255.661
 margin_bottom = 64.0
@@ -98,7 +92,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect4" type="TextureRect" parent="."]
+[node name="TextureRect4" type="TextureRect" parent="Control"]
 margin_left = 240.0
 margin_right = 304.0
 margin_bottom = 64.0
