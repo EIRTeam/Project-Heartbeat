@@ -15,19 +15,15 @@ const NOTE_PROPERTIES = {
 	}
 }
 
-export (HBNoteData.NOTE_TYPE) var note_type = HBNoteData.NOTE_TYPE.RIGHT setget set_note_type
-
 const WIDTH = 5.0
 
 func _ready():
 	set_color()
 
 func set_color():
-	get_stylebox("panel").bg_color = Color(NOTE_PROPERTIES[note_type].color)
-
-func set_note_type(value):
-	note_type = value
-	set_color()
+	var style_box = StyleBoxFlat.new()
+	style_box.bg_color = Color(NOTE_PROPERTIES[data.note_type].color)
+	add_stylebox_override("panel", style_box)
 func get_size():
 	return Vector2(WIDTH, rect_size.y)
 
@@ -37,3 +33,5 @@ func get_inspector_properties():
 	})
 	return props 
 
+func get_duration():
+	return 100

@@ -34,3 +34,9 @@ func judge_note (input: float, target_note_timing: float):
 			return DIFF_BASED_TIMING[TARGET_WINDOW-val-1]
 	elif adjusted_diff >= TARGET_WINDOW:
 		return JUDGE_RATINGS.WORST
+
+func get_target_window_msec():
+	return (TARGET_WINDOW/60.0) * 1000.0
+
+func get_target_window_sec():
+	return (TARGET_WINDOW/60.0)

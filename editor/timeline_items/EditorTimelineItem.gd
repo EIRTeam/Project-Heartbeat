@@ -4,8 +4,7 @@ class_name EditorTimelineItem
 
 signal item_bounds_changed
 
-export (int) var start = 0 setget set_start
-export (int) var duration = 1000 setget set_duration
+var data = HBTimingPoint.new()
 
 const DND_START_MARGIN = 25.0
 
@@ -20,21 +19,19 @@ func _ready():
 	set_process(false)
 
 func set_start(value: int):
-	start = value
-	emit_signal("item_bounds_changed")
-	
-func set_duration(value: int):
-	duration = value
+	data.time = value
 	emit_signal("item_bounds_changed")
 
-func get_size():
-	return Vector2(editor.scale_msec(duration), rect_size.y)
+func get_editor_size():
+	print("GET DURATION", get_duration())
+	return Vector2(editor.scale_msec(get_duration()), rect_size.y)
 
 func _process(delta):
+	
 	if abs(get_viewport().get_mouse_position().y - _drag_start_position.y) > DND_START_MARGIN:
 		force_drag(self, Control.new())
-		set_process(false)
-	set_start(clamp(_drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x), 0.0, 10000.0))
+	else:
+		set_start(clamp(_drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x), 0.0, editor.get_song_duration()))
 
 func deselect():
 	$SelectedPanel.hide()
@@ -42,7 +39,7 @@ func deselect():
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
 		_drag_start_position = get_viewport().get_mouse_position()
-		_drag_start_time = start
+		_drag_start_time = data.time
 		_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 		set_process(true)
 		editor.select_item(self)
@@ -51,7 +48,9 @@ func _gui_input(event: InputEvent):
 		set_process(false)
 func get_inspector_properties():
 	return {
-		"start": "float",
-		"duration": "float",
+		"time": "float",
 		"position": "Vector2"
 	}
+	
+func get_duration():
+	return 1000

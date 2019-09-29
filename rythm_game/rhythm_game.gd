@@ -11,6 +11,8 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.DOWN: ["ui_down"]
 }
 
+onready var audio_stream_player = get_node("AudioStreamPlayer")
+
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -21,16 +23,16 @@ var timing_points = []
 
 var notes_on_screen = []
 
+var size = Vector2(1280, 720)
+
+var editing = false
+
 func _ready():
-	var chart = HBChart.new()
-	var note1 = HBNoteData.new()
-	note1.time = 2000
-	var note2 = HBNoteData.new()
-	note2.time = 3000
-	
-	chart.layers.append({"items": [note1, note2]})
-	timing_points = chart.get_timing_points()
-	play_song()
+	#var note = HBNoteData.new()
+	#note.time = 2000
+	#timing_points.append(note)
+	#play_song()
+	pass
 
 func play_song():
 	time_begin = OS.get_ticks_usec()
@@ -69,39 +71,61 @@ func update_note(note):
 		note.get_meta("note_graphic").scale = Vector2(new_scale, new_scale)
 	
 func _process(delta):
-	# Obtain from ticks.
-	time = (OS.get_ticks_usec() - time_begin) / 1000000.0
-	# Compensate for latency.
-	time -= time_delay
-	# May be below 0 (did not being yet).
-	time = max(0, time)
-	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
+	if $AudioStreamPlayer.playing:
+		print("PLAYING")
+		# Obtain from ticks.
+		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
+		# Compensate for latency.
+		time -= time_delay
+		# May be below 0 (did not being yet).
+		time = max(0, time)
+		$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
+	
+	# Adding visible notes
 	
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
-			print("POINT")
-			if timing_point.time-timing_point.time_out >= time * 1000.0:
-				var note = NoteScene.instance()
-				var target = NoteTargetScene.instance()
-				add_child(note)
-				add_child(target)
-				target.time_out = timing_point.time_out
-				print("ADDING NOTE")
-				timing_point.set_meta("note_graphic", note)
-				timing_point.set_meta("note_target_graphic", target)
-				timing_point.set_meta("note_initial_position", note.position)
-				
-				notes_on_screen.append(timing_point)
-				timing_points.remove(i)
+			if time * 1000.0 >= (timing_point.time-timing_point.time_out):
+				if not timing_point in notes_on_screen:
+					# Ignore very old notes (for working in the editor)
+					if judge.judge_note(time, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
+						break
+					var note = NoteScene.instance()
+					note.note_data = timing_point
+					var target = NoteTargetScene.instance()
+					target.time_out = timing_point.time_out
+					target.type = timing_point.note_type
+					add_child(note)
+					add_child(target)
+					timing_point.set_meta("note_graphic", note)
+					timing_point.set_meta("note_target_graphic", target)
+					timing_point.set_meta("note_initial_position", note.position)
+					
+					notes_on_screen.append(timing_point)
+				if not editing:
+					timing_points.remove(i)
+			
 			
 	for i in range(notes_on_screen.size() - 1, -1, -1):
-		
 		var note = notes_on_screen[i]
 		update_note(note)
-		if judge.judge_note(time, note.time / 1000.0) == judge.JUDGE_RATINGS.WORST:
-			print("died of old age...")
+		
+#		if editing:
+#			if judge.judge_note(time, note.time/1000.0) == judge.JUDGE_RATINGS.COOL:
+#				var ev = InputEventAction.new()
+#				ev.pressed = true
+#				for type in NOTE_TYPE_TO_ACTIONS_MAP:
+#					if type == note.note_type:
+#						ev.action = NOTE_TYPE_TO_ACTIONS_MAP[type][0]
+#						break
+#				$HitEffect.play()
+		
+		# Killing notes after the user has run past them...
+		if time >= (note.time + judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note.time - note.time_out):
 			remove_note_from_screen(i)
+
+	# Judging tapped keys
 
 	for type in NOTE_TYPE_TO_ACTIONS_MAP:
 		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]

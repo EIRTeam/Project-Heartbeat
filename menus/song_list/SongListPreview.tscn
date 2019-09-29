@@ -10,46 +10,54 @@
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 3 )
 
-[node name="SongListPreview" type="MarginContainer"]
-margin_left = 824.0
-margin_right = 1280.0
-margin_bottom = 720.0
-size_flags_horizontal = 3
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+[node name="Panel" type="Panel"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 446.0
+margin_bottom = 710.0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="SongListPreview" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 446.0
-margin_bottom = 710.0
+margin_right = 426.0
+margin_bottom = 690.0
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 436.0
+[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
+margin_right = 416.0
 margin_bottom = 330.04
 rect_min_size = Vector2( 0, 330.04 )
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 7
 
-[node name="BPMLabel" type="Label" parent="VBoxContainer"]
+[node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 margin_top = 334.0
-margin_right = 436.0
+margin_right = 416.0
 margin_bottom = 365.0
 size_flags_horizontal = 3
 theme = ExtResource( 4 )
 text = "160 BPM"
 align = 1
 
-[node name="SongMetaLabel" type="Label" parent="VBoxContainer"]
+[node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 margin_top = 369.0
-margin_right = 436.0
+margin_right = 416.0
 margin_bottom = 452.0
 rect_min_size = Vector2( 0, 83 )
 size_flags_horizontal = 3
@@ -60,40 +68,40 @@ asdsadasd"
 align = 1
 autowrap = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 456.0
-margin_right = 436.0
+margin_right = 416.0
 margin_bottom = 479.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
-margin_right = 436.0
+[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/VBoxContainer"]
+margin_right = 416.0
 margin_bottom = 23.0
 theme = SubResource( 1 )
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 41.0
 margin_bottom = 23.0
 text = "Easy"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 45.0
-margin_right = 436.0
+margin_right = 416.0
 margin_bottom = 23.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 110.0
-margin_right = 141.0
+[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 100.0
+margin_right = 131.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 145.0
-margin_right = 176.0
+[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 135.0
+margin_right = 166.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
@@ -103,34 +111,34 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="TextureRect3" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 180.0
-margin_right = 211.0
+[node name="TextureRect3" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 170.0
+margin_right = 201.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 215.0
-margin_right = 246.0
+[node name="TextureRect4" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 205.0
+margin_right = 236.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 250.0
-margin_right = 281.0
+[node name="TextureRect5" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 240.0
+margin_right = 271.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 5
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SongListPreview"]
 bus = "Music"
 
-[node name="AudioFadeTween" type="Tween" parent="."]
+[node name="AudioFadeTween" type="Tween" parent="SongListPreview"]

@@ -1,10 +1,12 @@
 extends "res://editor/timeline_items/EditorTimelineItem.gd"
-var position = Vector2()
-func _ready():
-	pass
+
+class_name EditorTimelineItemNote
+
+func _init():
+	data = HBNoteData.new()
 
 func get_inspector_properties():
 	return {
-		"start": "float",
+		"time": "float",
 		"position": "Vector2"
 	}

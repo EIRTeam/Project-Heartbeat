@@ -8,7 +8,7 @@ enum TimeFormat {
 	FORMAT_DEFAULT = 1 << 1 | 1 << 2 | 1 << 3
 }
 
-static func format_time(time, format = TimeFormat.FORMAT_DEFAULT, digit_format = "%02d"):
+static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_format = "%02d"):
 	var digits = []
 	var s = time / 1000.0
 	if format & TimeFormat.FORMAT_HOURS:
@@ -34,7 +34,7 @@ static func format_time(time, format = TimeFormat.FORMAT_DEFAULT, digit_format =
 	if not formatted.empty():
 		formatted = formatted.rstrip(colon)
 	if format & TimeFormat.FORMAT_MILISECONDS:
-		var miliseconds = time % 1000
+		var miliseconds = fmod(time, 1000.0)
 		formatted += ".%03d" % [miliseconds]
 	return formatted
 

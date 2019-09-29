@@ -18,6 +18,8 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
+bus = "Music"
 
 [node name="HitEffect" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+bus = "Music"

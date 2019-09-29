@@ -1,25 +1,23 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://editor/Editor.gd" type="Script" id=2]
-[ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=3]
-[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=4]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=5]
-[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=6]
-
+[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=4]
+[ext_resource path="res://editor/icons/icon_pause.svg" type="Texture" id=5]
+[ext_resource path="res://editor/icons/icon_play.svg" type="Texture" id=6]
+[ext_resource path="res://editor/icons/icon_stop.svg" type="Texture" id=7]
+[ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=9]
+[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=10]
+[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=11]
+[ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Editor" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -69,36 +67,46 @@ __meta__ = {
 }
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 997.0
+margin_right = 1044.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ticks_on_borders = true
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1001.0
-margin_right = 1085.0
+[node name="CurrentTimeLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1048.0
+margin_right = 1132.0
 margin_bottom = 31.0
 text = "1:00.000"
 valign = 3
 
-[node name="Play" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1089.0
-margin_right = 1137.0
+[node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1136.0
+margin_right = 1164.0
 margin_bottom = 31.0
-text = "Play"
+icon = ExtResource( 6 )
+flat = true
 
-[node name="Play2" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1141.0
-margin_right = 1205.0
+[node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1168.0
+margin_right = 1196.0
 margin_bottom = 31.0
-text = "Pause"
+icon = ExtResource( 5 )
+flat = true
 
-[node name="Play3" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1209.0
+[node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1200.0
+margin_right = 1228.0
+margin_bottom = 31.0
+icon = ExtResource( 7 )
+flat = true
+
+[node name="RecordButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1232.0
 margin_right = 1260.0
 margin_bottom = 31.0
-text = "Stop"
+icon = ExtResource( 8 )
+flat = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 54.0
@@ -111,14 +119,23 @@ margin_right = 981.0
 margin_bottom = 462.0
 size_flags_horizontal = 3
 
-[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview" instance=ExtResource( 5 )]
+[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview" instance=ExtResource( 9 )]
 
-[node name="GamePreview" type="Node2D" parent="VBoxContainer/HBoxContainer/Preview"]
+[node name="GamePreview" type="Control" parent="VBoxContainer/HBoxContainer/Preview"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Node2D" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 3 )]
-position = Vector2( 73.5506, 34.5096 )
+[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 11 )]
 
-[node name="EditorInspector" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+margin_right = 8.0
+margin_bottom = 31.0
+
+[node name="EditorInspector" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
 margin_left = 985.0
 margin_right = 1280.0
 margin_bottom = 462.0
@@ -135,6 +152,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 6 )]
+[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 10 )]
 self_modulate = Color( 1, 1, 1, 0.501961 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "Music"
+
+[node name="Camera2D" type="Camera2D" parent="."]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]

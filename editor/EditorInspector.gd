@@ -20,12 +20,12 @@ func _on_property_value_changed(value, editor):
 	inspecting_item.set(editor.property_name, value)
 
 func update_label():
-		$MarginContainer/VBoxContainer/TitleLabel.text = "Note at %s" % HBUtils.format_time(inspecting_item.start, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
+		$MarginContainer/VBoxContainer/TitleLabel.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
 func update_values():
-	update_label()	
+	update_label()
 	for property in inspecting_item.get_inspector_properties():
-		inspecting_properties[property].set_value(inspecting_item.get(property))
+		inspecting_properties[property].set_value(inspecting_item.data.get(property))
 
 func inspect(item: EditorTimelineItem):
 	print(item)
