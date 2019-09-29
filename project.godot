@@ -14,20 +14,55 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://editor/timeline_items/EditorTimelineItem.gd"
 }, {
+"base": "Reference",
+"class": "HBChart",
+"language": "GDScript",
+"path": "res://scripts/HBChart.gd"
+}, {
+"base": "Control",
+"class": "HBListContainer",
+"language": "GDScript",
+"path": "res://menus/HBListContainer.gd"
+}, {
 "base": "Control",
 "class": "HBMainMenu",
 "language": "GDScript",
 "path": "res://menus/HBMainMenu.gd"
+}, {
+"base": "Control",
+"class": "HBMenu",
+"language": "GDScript",
+"path": "res://menus/HBMenu.gd"
 }, {
 "base": "Button",
 "class": "HBMenuButton",
 "language": "GDScript",
 "path": "res://menus/HBMenuButton.gd"
 }, {
-"base": "Control",
-"class": "HBMenuContainer",
+"base": "HBTimingPoint",
+"class": "HBNoteData",
 "language": "GDScript",
-"path": "res://menus/HBMenuContainer.gd"
+"path": "res://scripts/HBNoteData.gd"
+}, {
+"base": "Reference",
+"class": "HBResourceQueue",
+"language": "GDScript",
+"path": "res://resource_queue.gd"
+}, {
+"base": "Reference",
+"class": "HBSerializable",
+"language": "GDScript",
+"path": "res://scripts/HBSerializable.gd"
+}, {
+"base": "Reference",
+"class": "HBSong",
+"language": "GDScript",
+"path": "res://scripts/HBSong.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBTimingPoint",
+"language": "GDScript",
+"path": "res://scripts/HBTimingPoint.gd"
 }, {
 "base": "Reference",
 "class": "HBUtils",
@@ -36,21 +71,28 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "EditorTimelineItem": "",
+"HBChart": "",
+"HBListContainer": "",
 "HBMainMenu": "",
+"HBMenu": "",
 "HBMenuButton": "",
-"HBMenuContainer": "",
+"HBNoteData": "",
+"HBResourceQueue": "",
+"HBSerializable": "",
+"HBSong": "",
+"HBTimingPoint": "",
 "HBUtils": ""
 }
 
 [application]
 
 config/name="Project Heartbeat"
-run/main_scene="res://menus/song_list/MainMenu.tscn"
+run/main_scene="res://menus/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [audio]
 
-output_latency=4
+output_latency=2
 
 [autoload]
 

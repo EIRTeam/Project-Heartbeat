@@ -1,3 +1,5 @@
+class_name HBResourceQueue
+
 var thread
 var mutex
 var sem

@@ -15,7 +15,10 @@
    height="100"
    viewBox="0 0 100 100"
    sodipodi:docname="Y.svg"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14">
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/notes/xbox/Y.png"
+   inkscape:export-xdpi="61"
+   inkscape:export-ydpi="61">
   <metadata
      id="metadata1736">
     <rdf:RDF>
@@ -24,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -76,9 +79,9 @@
      showgrid="false"
      showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:zoom="4.72"
-     inkscape:cx="56.091765"
-     inkscape:cy="26.201481"
+     inkscape:zoom="6.675088"
+     inkscape:cx="19.592078"
+     inkscape:cy="35.322598"
      inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -96,7 +99,7 @@
   </sodipodi:namedview>
   <g
      id="g2392"
-     transform="translate(3.8146973e-7,2.0217896e-6)">
+     transform="translate(-3.895181,2.0217896e-6)">
     <text
        id="text2341"
        y="80.616074"

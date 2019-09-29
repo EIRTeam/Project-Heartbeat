@@ -1,0 +1,183 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=1]
+[ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=2]
+[ext_resource path="res://menus/HBListContainer.gd" type="Script" id=3]
+[ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=4]
+[ext_resource path="res://menus/HBMenu.gd" type="Script" id=5]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=6]
+[ext_resource path="res://default_theme.tres" type="Theme" id=7]
+[ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=8]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=9]
+[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 6 )
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 6 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Visualizer" parent="." instance=ExtResource( 9 )]
+
+[node name="Menus" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+custom_constants/margin_right = 150
+custom_constants/margin_left = 150
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menus"]
+margin_left = 150.0
+margin_right = 1130.0
+margin_bottom = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBMainMenu" type="Control" parent="Menus/HBoxContainer"]
+margin_right = 980.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+script = ExtResource( 4 )
+initial_menu_path = NodePath("StartMenu")
+
+[node name="StartMenu" type="Control" parent="Menus/HBoxContainer/HBMainMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartItems" type="Control" parent="Menus/HBoxContainer/HBMainMenu/StartMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+text = "Rhythm Game"
+flat = true
+align = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+next_menu = NodePath("../../../SongListMenu")
+
+[node name="OptionsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+text = "Options"
+flat = true
+align = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+next_menu = NodePath("")
+
+[node name="ToolsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+text = "Tools"
+flat = true
+align = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+next_menu = NodePath("../../../ToolsListMenu")
+
+[node name="ExitButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+text = "Exit"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolsListMenu" type="Control" parent="Menus/HBoxContainer/HBMainMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolsList" type="Control" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 7 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VisualizerTestButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+theme = SubResource( 2 )
+text = "Visualizer Test"
+flat = true
+align = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+next_menu = NodePath("")
+
+[node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 10 )]
+visible = false
+
+[node name="SongList" parent="Menus/HBoxContainer/HBMainMenu/SongListMenu/HBoxContainer" index="0"]
+margin_right = 627.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Menus"]
+stream = ExtResource( 8 )
+bus = "Music"
+
+[node name="AudioIn" type="Tween" parent="."]
+
+[node name="AudioOut" type="Tween" parent="."]
+[connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/StartMenu" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="grab_focus"]
+[connection signal="navigate_to_menu" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" to="Menus/HBoxContainer/HBMainMenu/StartMenu" method="navigate_to_menu"]
+[connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
+
+[editable path="Menus/HBoxContainer/HBMainMenu/SongListMenu"]

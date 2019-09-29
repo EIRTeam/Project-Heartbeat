@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://fonts/SongTitle-Label.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=2]
 [ext_resource path="res://menus/song_list/SongListItem.gd" type="Script" id=3]
 
 [sub_resource type="Theme" id=1]

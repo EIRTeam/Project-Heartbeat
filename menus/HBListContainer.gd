@@ -1,80 +1,61 @@
 extends Control
 
-class_name HBMenuContainer
+class_name HBListContainer
+
+signal selected_option_changed
+signal on_menu_focused
+signal navigate_to_menu(menu)
 
 var selected_option : Control
 const VISIBILITY_THRESHOLD = 3 # How many items should be visible
 var lerp_weight = 8.0
-var target_scale := Vector2(1.0, 1.0)
-var target_opacity := 1.0
+
 export (float) var scale_factor = 0.75
-var previous_menu : HBMenuContainer
 
 const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
+
+
+
 func _ready():
 	move_sound_player.stream = MOVE_SOUND
 	get_tree().root.call_deferred("add_child", move_sound_player)
-
 	focus_mode = FOCUS_ALL
 	get_viewport().connect("size_changed", self, "hard_arrange_all")
 	if get_child_count() > 0:
 		selected_option = get_child(0)
+		emit_signal("selected_option_changed")
 		hard_arrange_all()
 	for child in get_children():
 		if child is BaseButton:
-			print(child.name)
 			child.connect("pressed", self, "_on_button_pressed", [child])
 			
 func _on_button_pressed(option: BaseButton):
 	if has_focus():
 		if option != selected_option:
 			selected_option = option
+			emit_signal("selected_option_changed")
 		else:
 			if option is HBMenuButton:
-				var next_menu = option.get_node(option.next_menu) as HBMenuContainer
-				navigate_to_menu(next_menu)
+				emit_signal("navigate_to_menu", option.get_node(option.next_menu))
 			else:
 				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
 				option.disconnect("pressed", self, "_on_button_pressed")
 				option.emit_signal("pressed")
 				option.connect("pressed", self, "_on_button_pressed", [option])
 				
-func navigate_to_menu(next_menu: HBMenuContainer, back=false):
-	if back:
-		next_menu.rect_scale = Vector2(0.75, 0.75)
-		target_scale = Vector2(1.25, 1.25)
-	else:
-		next_menu.rect_scale = Vector2(1.25, 1.25)
-		target_scale = Vector2(0.75, 0.75)
-		
-	next_menu.modulate.a = 0.0
-	next_menu.target_scale = Vector2(1.0, 1.0)
-	next_menu.target_opacity = 1.0
-	target_opacity = 0.0
-	
-	focus_mode = FOCUS_NONE
-	
-	next_menu.focus_mode = FOCUS_ALL
-	next_menu.grab_focus()
-	next_menu.show()
-	get_parent().move_child(next_menu, get_parent().get_child_count()-1)
-	if not back:
-		next_menu.previous_menu = self
-		print(next_menu.previous_menu.name)
+
 			
 func _process(delta):
 	var menu_start := Vector2(0, rect_size.y / 2)
-	if not is_equal_approx(modulate.a, target_opacity):
-		modulate.a = lerp(modulate.a, target_opacity, 15.0 * delta)
-		
-	if rect_scale != target_scale:
-		rect_scale = lerp(rect_scale, target_scale, 15.0 * delta)
 	
 	if not selected_option:
 		if get_child_count() > 0:
 			selected_option = get_children()[0]
+			if has_focus():
+				emit_signal("selected_option_changed")
+			
 	if selected_option:
 		# Place select option:
 		selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
@@ -93,23 +74,21 @@ func _unhandled_input(event):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos < get_child_count()-1:
 					selected_option = get_child(current_pos + 1)
+					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
 					move_sound_player.play()
 			if event.is_action_pressed("ui_up"):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos > 0:
 					selected_option = get_child(current_pos - 1)
+					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
 					move_sound_player.play()
 			if event.is_action_pressed("ui_accept"):
 				if selected_option is BaseButton:
 					selected_option.emit_signal("pressed")
+					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
-			if event.is_action_pressed("ui_cancel"):
-				if previous_menu:
-					get_tree().set_input_as_handled()
-					navigate_to_menu(previous_menu, true)
-
 func hard_arrange_all():
 	var menu_start := Vector2(0, rect_size.y / 2)
 	selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)

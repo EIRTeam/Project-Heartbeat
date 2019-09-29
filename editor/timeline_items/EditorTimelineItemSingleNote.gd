@@ -1,28 +1,21 @@
 extends "res://editor/timeline_items/EditorTimelineItemNote.gd"
 
-enum NOTE_TYPE {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-
 const NOTE_PROPERTIES = {
-	NOTE_TYPE.UP: {
+	HBNoteData.NOTE_TYPE.UP: {
 		"color": "eeb136"
 	},
-	NOTE_TYPE.DOWN: {
+	HBNoteData.NOTE_TYPE.DOWN: {
 		"color": "87d639"
 	},
-	NOTE_TYPE.LEFT: {
+	HBNoteData.NOTE_TYPE.LEFT: {
 		"color": "4296f3"
 	},
-	NOTE_TYPE.RIGHT: {
+	HBNoteData.NOTE_TYPE.RIGHT: {
 		"color": "e02828"
 	}
 }
 
-export (NOTE_TYPE) var note_type = NOTE_TYPE.RIGHT setget set_note_type
+export (HBNoteData.NOTE_TYPE) var note_type = HBNoteData.NOTE_TYPE.RIGHT setget set_note_type
 
 const WIDTH = 5.0
 

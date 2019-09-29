@@ -19,7 +19,8 @@ func load_song_meta(song: String):
 		var song_json = JSON.parse(file.get_as_text())
 		if song_json.error == OK:
 			Log.log(self, "Loaded song %s succesfully" % song_json.result.title)
-			songs[song] = song_json.result
+			
+			songs[song] = HBSong.new(song, song_json.result)
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])
 	else:

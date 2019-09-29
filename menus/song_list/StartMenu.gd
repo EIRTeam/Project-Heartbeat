@@ -1,4 +1,4 @@
-extends HBMenuContainer
+extends HBListContainer
 
 func _ready():
 	pass

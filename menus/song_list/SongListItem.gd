@@ -1,11 +1,11 @@
 extends VBoxContainer
 
-var song : Dictionary setget set_song
+var song : HBSong setget set_song
 
-func set_song(value: Dictionary):
+func set_song(value: HBSong):
 	song = value
-	$TitleLabel.text = song.title
-	if song.has("artist_alias"):
-		$AuthorLabel.text = song.artist_alias
+	$TitleLabel.text = song.data.title
+	if song.data.has("artist_alias"):
+		$AuthorLabel.text = song.data.artist_alias
 	else:
-		$AuthorLabel.text = song.artist
+		$AuthorLabel.text = song.data.artist
