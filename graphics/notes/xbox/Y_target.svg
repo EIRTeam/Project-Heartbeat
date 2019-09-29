@@ -92,9 +92,9 @@
      showgrid="false"
      showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:zoom="4.72"
-     inkscape:cx="31.140731"
-     inkscape:cy="37.280238"
+     inkscape:zoom="6.675088"
+     inkscape:cx="8.7285328"
+     inkscape:cy="48.305126"
      inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -111,29 +111,39 @@
        inkscape:locked="false" />
   </sodipodi:namedview>
   <g
-     id="g2392"
-     transform="translate(-3.895181,2.0217896e-6)">
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.75931549px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#fffffc;fill-opacity:1;stroke:none;stroke-width:2.14398289;stroke-opacity:1;filter:url(#filter1461);"
-       x="27.702578"
-       y="80.616074"
-       id="text1459"><tspan
-         sodipodi:role="line"
-         id="tspan1457"
-         x="27.702578"
-         y="80.616074"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#fffffc;fill-opacity:1;stroke:none;stroke-width:2.14398289;stroke-opacity:1;">Y</tspan></text>
-    <text
-       id="text2341"
-       y="80.616074"
-       x="27.702578"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.75931549px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#ffffef;stroke-width:2.14398289;stroke-opacity:1;"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#272646;fill-opacity:1;stroke:#ffffef;stroke-width:2.14398289;stroke-opacity:1;"
-         y="80.616074"
-         x="27.702578"
-         id="tspan2339"
-         sodipodi:role="line">Y</tspan></text>
+     id="g1417"
+     transform="matrix(1.1702,0,0,0.9838552,-8.51,0.80724013)">
+    <g
+       id="g1408">
+      <g
+         id="g1400">
+        <g
+           transform="translate(1.6951647e-6,2.0217896e-6)"
+           id="g2392">
+          <text
+             id="text1459"
+             y="80.616074"
+             x="27.702578"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.75931549px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#fffffc;fill-opacity:1;stroke:none;stroke-width:2.14398289;stroke-opacity:1;filter:url(#filter1461)"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#fffffc;fill-opacity:1;stroke:none;stroke-width:2.14398289;stroke-opacity:1"
+               y="80.616074"
+               x="27.702578"
+               id="tspan1457"
+               sodipodi:role="line">Y</tspan></text>
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.75931549px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#ffffef;stroke-width:2.14398289;stroke-opacity:1"
+             x="27.702578"
+             y="80.616074"
+             id="text2341"><tspan
+               sodipodi:role="line"
+               id="tspan2339"
+               x="27.702578"
+               y="80.616074"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#272646;fill-opacity:1;stroke:#ffffef;stroke-width:2.14398289;stroke-opacity:1">Y</tspan></text>
+        </g>
+      </g>
+    </g>
   </g>
 </svg>

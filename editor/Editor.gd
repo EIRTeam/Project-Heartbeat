@@ -3,7 +3,9 @@ extends Control
 var scale = 15.0 # Seconds per 500 pixels
 	
 var playhead_position := 0
-	
+
+signal scale_changed(prev_scale, scale)
+
 onready var timeline = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline")
 	
 signal playhead_position_changed
@@ -20,11 +22,15 @@ onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePrev
 
 func _ready():
 	timeline.editor = self
+	timeline.set_layers_offset(1000)
 	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 	var test_item = EDITOR_TIMELINE_ITEM_SCENE.instance()
-	test_item.data.time = 1
+	test_item.data.time = 1000
+	var test_item2 = EDITOR_TIMELINE_ITEM_SCENE.instance()
+	test_item2.data.time = 2000
 	timeline.get_layers()[0].add_item(test_item)
+	timeline.get_layers()[0].add_item(test_item2)
 	rhythm_game.set_process_unhandled_input(false)
 	
 func get_timing_points():
@@ -105,7 +111,15 @@ func seek(value: int):
 	rhythm_game.time = playhead_position / 1000.0
 	
 	emit_signal("playhead_position_changed")
-
+	
+func _unhandled_input(event):
+	var prev_scale = scale
+	if event.is_action_pressed("editor_scale_down"):
+		scale += 1.0
+		emit_signal("scale_changed", prev_scale, scale)
+	if event.is_action_pressed("editor_scale_up"):
+		scale -= 1.0
+		emit_signal("scale_changed", prev_scale, scale)
 func pause():
 	recording = false
 	$AudioStreamPlayer.stream_paused = true
@@ -131,4 +145,4 @@ func _on_RecordButton_pressed():
 	
 func _on_timing_points_changed():
 	rhythm_game.timing_points = get_timing_points()
-	rhythm_game.notes_on_screen = []
+	rhythm_game.remove_all_notes_from_screen()

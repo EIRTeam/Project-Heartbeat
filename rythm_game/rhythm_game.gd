@@ -12,7 +12,7 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 }
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
-
+const LOG_NAME = "RhythmGame"
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -28,12 +28,22 @@ var size = Vector2(1280, 720)
 var editing = false
 
 func _ready():
-	#var note = HBNoteData.new()
-	#note.time = 2000
-	#timing_points.append(note)
-	#play_song()
+#	var note = HBNoteData.new()
+#	note.time = 2000
+#	timing_points.append(note)
+#	play_song()
 	pass
 
+func get_playing_field_size():
+	var ratio = 16.0/9.0
+	return Vector2(size.y*ratio, size.y)
+
+func remap_coords(coords: Vector2):
+	var field_size = get_playing_field_size()
+	var pos = coords * field_size
+	if coords.length() > 1.0:
+		Log.log(self, "remap_coords expects a position of size < 1.0, size was %d" % coords.length(), Log.LogLevel.WARN)
+	return Vector2((size.x - field_size.x) / 2.0 + pos.x, pos.y)
 func play_song():
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
@@ -51,10 +61,14 @@ func get_closest_note_of_type(note_type: int):
 	return closest_note
 
 func remove_note_from_screen(i):
-	notes_on_screen[i].get_meta("note_graphic").free()
-	notes_on_screen[i].get_meta("note_target_graphic").free()
+	notes_on_screen[i].get_meta("note_graphic").queue_free()
+	notes_on_screen[i].get_meta("note_target_graphic").queue_free()
 	
 	notes_on_screen.remove(i)
+	
+func remove_all_notes_from_screen():
+	for i in range(notes_on_screen.size() - 1, -1, -1):
+		remove_note_from_screen(i)
 	
 func update_note(note):
 	var note_target_graphic = note.get_meta("note_target_graphic")
@@ -69,10 +83,11 @@ func update_note(note):
 		if new_scale < 0:
 			print(new_scale)
 		note.get_meta("note_graphic").scale = Vector2(new_scale, new_scale)
+	else:
+		note.get_meta("note_graphic").scale = Vector2(1.0, 1.0)
 	
 func _process(delta):
 	if $AudioStreamPlayer.playing:
-		print("PLAYING")
 		# Obtain from ticks.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.
@@ -100,6 +115,7 @@ func _process(delta):
 					add_child(target)
 					timing_point.set_meta("note_graphic", note)
 					timing_point.set_meta("note_target_graphic", target)
+					target.position = remap_coords(note.note_data.position)
 					timing_point.set_meta("note_initial_position", note.position)
 					
 					notes_on_screen.append(timing_point)

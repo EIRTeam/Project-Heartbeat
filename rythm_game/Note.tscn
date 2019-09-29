@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=1]
 [ext_resource path="res://rythm_game/Note.gd" type="Script" id=2]
@@ -37,14 +37,18 @@ shader_param/modulate = null
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.358134, 1 ), 0.0, 0.0, 0, 0 ]
 
+[sub_resource type="Gradient" id=4]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 0 )
+
 [node name="Node2D" type="Sprite"]
 material = SubResource( 2 )
-position = Vector2( 1403.65, 372.905 )
+position = Vector2( 588.453, 54.8522 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="Node" type="Node" parent="."]
-
-[node name="Line2D" type="Line2D" parent="Node"]
+[node name="Line2D" type="Line2D" parent="."]
 z_index = -1
+points = PoolVector2Array( -1.67145, -7.59772 )
+width = 5.0
 width_curve = SubResource( 3 )
+gradient = SubResource( 4 )

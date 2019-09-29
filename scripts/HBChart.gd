@@ -10,7 +10,6 @@ func get_timing_points():
 	for layer in layers:
 		var items = layer.items
 		points += items
-		print(points)
 	return points
 		
 func get_serialized_type():

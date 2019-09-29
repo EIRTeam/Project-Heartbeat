@@ -8,11 +8,16 @@ onready var preview = get_node("EditorTimelinePreview")
 
 func _ready():
 	preview.hide()
+	
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
-	print("PLACING CHILD", child.get_editor_size())
 	child.rect_size = child.get_editor_size()
+	
+func place_all_children():
+	for child in get_children():
+		if child != preview:
+			place_child(child)
 	
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)

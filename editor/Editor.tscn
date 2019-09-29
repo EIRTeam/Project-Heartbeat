@@ -119,8 +119,6 @@ margin_right = 981.0
 margin_bottom = 462.0
 size_flags_horizontal = 3
 
-[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview" instance=ExtResource( 9 )]
-
 [node name="GamePreview" type="Control" parent="VBoxContainer/HBoxContainer/Preview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -130,10 +128,14 @@ __meta__ = {
 }
 
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 11 )]
+z_index = 1580
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
 margin_bottom = 31.0
+
+[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 9 )]
+show_behind_parent = true
 
 [node name="EditorInspector" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
 margin_left = 985.0
@@ -154,6 +156,8 @@ __meta__ = {
 
 [node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 10 )]
 self_modulate = Color( 1, 1, 1, 0.501961 )
+margin_left = -1.16632
+margin_right = -1.16626
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
@@ -161,6 +165,7 @@ bus = "Music"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
+[connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
