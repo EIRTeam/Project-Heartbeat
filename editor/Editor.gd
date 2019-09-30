@@ -32,6 +32,7 @@ func _ready():
 	timeline.get_layers()[0].add_item(test_item)
 	timeline.get_layers()[0].add_item(test_item2)
 	rhythm_game.set_process_unhandled_input(false)
+	seek(0)
 	
 func get_timing_points():
 	var points = []
@@ -52,7 +53,7 @@ func select_item(item: EditorTimelineItem):
 	if selected:
 		selected.deselect()
 	selected = item
-	$VBoxContainer/HBoxContainer/EditorInspector.inspect(item)
+	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
 func get_song_duration():
 	return int($AudioStreamPlayer.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
@@ -102,7 +103,7 @@ func _process(delta):
 					_on_timing_points_changed()
 
 func seek(value: int):
-	playhead_position = max(value, 0.0)
+	playhead_position = clamp(max(value, 0.0), timeline._offset, 1010000000)
 	if not $AudioStreamPlayer.playing:
 		pause()
 	else:
@@ -112,14 +113,17 @@ func seek(value: int):
 	
 	emit_signal("playhead_position_changed")
 	
-func _unhandled_input(event):
+func _input(event):
 	var prev_scale = scale
-	if event.is_action_pressed("editor_scale_down"):
-		scale += 1.0
-		emit_signal("scale_changed", prev_scale, scale)
-	if event.is_action_pressed("editor_scale_up"):
-		scale -= 1.0
-		emit_signal("scale_changed", prev_scale, scale)
+	if get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_scale_down"):
+			scale += 0.5
+			scale = max(scale, 0.1)
+			emit_signal("scale_changed", prev_scale, scale)
+		if event.is_action_pressed("editor_scale_up"):
+			scale -= 0.5
+			scale = max(scale, 0.1)
+			emit_signal("scale_changed", prev_scale, scale)
 func pause():
 	recording = false
 	$AudioStreamPlayer.stream_paused = true
@@ -146,3 +150,19 @@ func _on_RecordButton_pressed():
 func _on_timing_points_changed():
 	rhythm_game.timing_points = get_timing_points()
 	rhythm_game.remove_all_notes_from_screen()
+
+
+func serialize_chart():
+	var chart = HBChart.new()
+	var layers = timeline.get_layers()
+	for layer in layers:
+		chart.layers.append({
+			"name": layer.layer_name,
+			"timing_points": layer.get_timing_points()
+		})
+	print(chart.serialize())
+func _on_test_pressed():
+	serialize_chart()
+
+func get_song_length():
+	return $AudioStreamPlayer.stream.get_length()

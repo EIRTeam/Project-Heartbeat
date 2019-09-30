@@ -50,9 +50,10 @@ func get_timing_points():
 func drop_data(position, data: EditorTimelineItem):
 	data._layer.remove_child(data)
 	data.disconnect("item_bounds_changed", data._layer, "place_child")
-	data.data.time = editor.scale_pixels(position.x + data._drag_x_offset)
+	data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
 	add_item(data)
 
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
+

@@ -57,15 +57,15 @@
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter2724"
-       x="-0.14099458"
-       width="1.2819892"
-       y="-0.10444742"
-       height="1.2088948">
+       id="filter850"
+       x="-0.15193133"
+       width="1.3038627"
+       y="-0.099159664"
+       height="1.1983193">
       <feGaussianBlur
          inkscape:collect="always"
-         stdDeviation="2.6166634"
-         id="feGaussianBlur2726" />
+         stdDeviation="2.433064"
+         id="feGaussianBlur852" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -84,8 +84,8 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="8.3299999"
-     inkscape:cx="45.318071"
-     inkscape:cy="46.099696"
+     inkscape:cx="59.325662"
+     inkscape:cy="44.750786"
      inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -112,29 +112,28 @@
        inkscape:locked="false" />
   </sodipodi:namedview>
   <g
-     id="g832"
-     transform="translate(-5.7353551,0.61873625)">
-    <g
-       id="g2706"
-       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.0619185;stroke-opacity:1;filter:url(#filter2724)"
-       aria-label="B">
-      <path
-         sodipodi:nodetypes="csscsccscscc"
-         inkscape:connector-curvature="0"
-         id="path2704"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.0619185;stroke-opacity:1"
-         d="m 68.582075,47.266992 c 3.006965,0.966524 5.329308,2.751909 6.96703,5.356156 1.637721,2.604246 2.456582,5.799146 2.456582,9.584699 0,5.799147 -1.771961,10.121659 -5.315884,12.967536 -3.517075,2.845877 -8.87323,4.268816 -16.068467,4.268816 H 33.465023 v -60.12587 h 20.941361 c 7.517412,0 12.954112,1.261851 16.310099,3.785554 3.382835,2.523702 5.074253,6.564311 5.074253,12.121826 0,2.926421 -0.617502,5.423276 -1.852505,7.490564 -1.208156,2.04044 -2.993541,3.557346 -5.356156,4.550719 z" />
-    </g>
-    <g
-       aria-label="B"
-       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#fffffb;stroke-width:2.0619185;stroke-opacity:1"
-       id="text827">
-      <path
-         d="m 68.582075,47.266992 c 3.006965,0.966524 5.329308,2.751909 6.96703,5.356156 1.637721,2.604246 2.456582,5.799146 2.456582,9.584699 0,5.799147 -1.771961,10.121659 -5.315884,12.967536 -3.517075,2.845877 -8.87323,4.268816 -16.068467,4.268816 H 33.465023 v -60.12587 h 20.941361 c 7.517412,0 12.954112,1.261851 16.310099,3.785554 3.382835,2.523702 5.074253,6.564311 5.074253,12.121826 0,2.926421 -0.617502,5.423276 -1.852505,7.490564 -1.208156,2.04044 -2.993541,3.557346 -5.356156,4.550719 z"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#272646;fill-opacity:1;stroke:#fffffb;stroke-width:2.0619185;stroke-opacity:1"
-         id="path2701"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="csscsccscscc" />
-    </g>
+     id="g832">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#d2d2e6;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1;filter:url(#filter850);"
+       x="26.659081"
+       y="79.444199"
+       id="text848"><tspan
+         sodipodi:role="line"
+         id="tspan846"
+         x="26.659081"
+         y="79.444199"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#d2d2e6;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1;">B</tspan></text>
+    <text
+       id="text827"
+       y="79.444199"
+       x="26.659081"
+       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1;"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1;"
+         y="79.444199"
+         x="26.659081"
+         id="tspan825"
+         sodipodi:role="line">B</tspan></text>
   </g>
 </svg>

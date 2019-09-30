@@ -30,6 +30,7 @@ func _process(delta):
 	
 	if abs(get_viewport().get_mouse_position().y - _drag_start_position.y) > DND_START_MARGIN:
 		force_drag(self, Control.new())
+		set_process(false)
 	else:
 		set_start(clamp(_drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x), 0.0, editor.get_song_duration()))
 

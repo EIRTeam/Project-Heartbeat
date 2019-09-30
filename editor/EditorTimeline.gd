@@ -37,6 +37,7 @@ func add_layer(layer):
 	var lns = LAYER_NAME_SCENE.instance()
 	lns.layer_name = layer.layer_name
 	layer_names.add_child(lns)
+	scale_layer(layer)
 
 
 func get_layers():
@@ -44,7 +45,7 @@ func get_layers():
 
 
 func _on_PlayheadArea_mouse_x_input(value):
-	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, 10000000))
+	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0))
 
 func _on_playhead_position_changed():
 	update()
@@ -56,7 +57,11 @@ func set_layers_offset(ms: int):
 	#print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
+	update()
 
+func scale_layer(layer):
+	print("SCALING LAYER TO", editor.scale_msec(editor.get_song_length() * 1000.0))
+	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
 
 func _on_Editor_scale_changed(prev_scale, scale):
 	print("scale change", (scale/prev_scale))
@@ -66,4 +71,12 @@ func _on_Editor_scale_changed(prev_scale, scale):
 	
 	for layer in layers.get_children():
 		layer.place_all_children()
+		scale_layer(layer)
+		
 	update()
+	
+func _input(event):
+	if event is InputEventMouseMotion:
+		if get_global_rect().has_point(get_global_mouse_position()):
+			if Input.is_action_pressed("editor_pan"):
+				set_layers_offset(_offset - editor.scale_pixels(event.relative.x))

@@ -17,8 +17,8 @@
    sodipodi:docname="X_target.svg"
    inkscape:version="0.92.4 5da689c313, 2019-01-14"
    inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/notes/xbox/X.png"
-   inkscape:export-xdpi="61"
-   inkscape:export-ydpi="61">
+   inkscape:export-xdpi="122.88"
+   inkscape:export-ydpi="122.88">
   <metadata
      id="metadata1002">
     <rdf:RDF>
@@ -66,15 +66,15 @@
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter857"
-       x="-0.11931156"
-       width="1.2386231"
-       y="-0.12069643"
-       height="1.2413929">
+       id="filter893"
+       x="-0.13205357"
+       width="1.2641071"
+       y="-0.10996283"
+       height="1.2199257">
       <feGaussianBlur
          inkscape:collect="always"
-         stdDeviation="3.1295452"
-         id="feGaussianBlur859" />
+         stdDeviation="2.8049615"
+         id="feGaussianBlur895" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -93,8 +93,8 @@
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:zoom="6.675088"
-     inkscape:cx="47.449399"
-     inkscape:cy="49.071521"
+     inkscape:cx="42.218733"
+     inkscape:cy="46.124314"
      inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -111,19 +111,18 @@
        inkscape:locked="false" />
   </sodipodi:namedview>
   <g
-     id="g2337"
-     transform="translate(-6.7459266,0.50495046)">
+     id="g2337">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:113.79154205px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.84478879;stroke-opacity:1;filter:url(#filter857);"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:113.79154205px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.84478879;stroke-opacity:1;filter:url(#filter893);"
        x="23.714153"
        y="80.609924"
-       id="text855"><tspan
+       id="text875"><tspan
          sodipodi:role="line"
-         id="tspan853"
+         id="tspan873"
          x="23.714153"
          y="80.609924"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.84478879;stroke-opacity:1;">x</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.84478879;stroke-opacity:1;">x</tspan></text>
     <text
        id="text1618"
        y="80.609924"

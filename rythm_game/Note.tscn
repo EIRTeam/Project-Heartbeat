@@ -40,7 +40,7 @@ _data = [ Vector2( 0.358134, 1 ), 0.0, 0.0, 0, 0 ]
 [sub_resource type="Gradient" id=4]
 colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 0 )
 
-[node name="Node2D" type="Sprite"]
+[node name="Note" type="Sprite"]
 material = SubResource( 2 )
 position = Vector2( 588.453, 54.8522 )
 texture = ExtResource( 1 )

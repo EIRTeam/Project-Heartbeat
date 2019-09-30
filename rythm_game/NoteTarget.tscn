@@ -34,8 +34,10 @@ shader = SubResource( 1 )
 shader_param/radius = 2.0
 shader_param/modulate = null
 
-[node name="Node2D" type="Sprite"]
+[node name="NoteTarget" type="Sprite"]
 material = SubResource( 2 )
 position = Vector2( 612.153, 325.952 )
+scale = Vector2( 1.5, 1.5 )
+z_index = -990
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

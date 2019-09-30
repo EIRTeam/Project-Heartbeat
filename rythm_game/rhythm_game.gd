@@ -23,9 +23,17 @@ var timing_points = []
 
 var notes_on_screen = []
 
-var size = Vector2(1280, 720)
+const BASE_SIZE = Vector2(1920, 1080)
+const MAX_SCALE = 1.5
+
+var size = Vector2(1280, 720) setget set_size
 
 var editing = false
+
+func set_size(value):
+	size = value
+	for note in notes_on_screen:
+		note.get_meta("note_target_graphic").position = remap_coords(note.position)
 
 func _ready():
 #	var note = HBNoteData.new()
@@ -34,6 +42,9 @@ func _ready():
 #	play_song()
 	pass
 
+func get_note_scale():
+	return get_playing_field_size().length() / BASE_SIZE.length()
+
 func get_playing_field_size():
 	var ratio = 16.0/9.0
 	return Vector2(size.y*ratio, size.y)
@@ -41,8 +52,8 @@ func get_playing_field_size():
 func remap_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
 	var pos = coords * field_size
-	if coords.length() > 1.0:
-		Log.log(self, "remap_coords expects a position of size < 1.0, size was %d" % coords.length(), Log.LogLevel.WARN)
+	if abs(coords.x) > 1.0 or abs(coords.y) > 1.0 :
+		Log.log(self, "remap_coords expects a max size of < 1.0 in any dimension, coords was %s" % var2str(coords), Log.LogLevel.WARN)
 	return Vector2((size.x - field_size.x) / 2.0 + pos.x, pos.y)
 func play_song():
 	time_begin = OS.get_ticks_usec()
@@ -79,13 +90,13 @@ func update_note(note):
 	note.get_meta("note_graphic").position = lerp(note_initial_position, note_target_graphic.position, time_out_distance/note.time_out)
 	if time * 1000.0 > note.time:
 		var disappereance_time = note.time + (judge.TARGET_WINDOW / 60.0 * 1000.0)
-		var new_scale = (disappereance_time - time * 1000.0) / (judge.TARGET_WINDOW / 60.0 * 1000.0)
+		var new_scale = (disappereance_time - time * 1000.0) / (judge.TARGET_WINDOW / 60.0 * 1000.0) * get_note_scale()
 		if new_scale < 0:
 			print(new_scale)
 		note.get_meta("note_graphic").scale = Vector2(new_scale, new_scale)
 	else:
-		note.get_meta("note_graphic").scale = Vector2(1.0, 1.0)
-	
+		note.get_meta("note_graphic").scale = Vector2(get_note_scale(), get_note_scale())
+	note.get_meta("note_target_graphic").scale = Vector2(get_note_scale(), get_note_scale())
 func _process(delta):
 	if $AudioStreamPlayer.playing:
 		# Obtain from ticks.

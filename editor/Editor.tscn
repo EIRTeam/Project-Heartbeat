@@ -67,41 +67,48 @@ __meta__ = {
 }
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1044.0
+margin_right = 1012.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ticks_on_borders = true
 
 [node name="CurrentTimeLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1048.0
-margin_right = 1132.0
+margin_left = 1016.0
+margin_right = 1100.0
 margin_bottom = 31.0
 text = "1:00.000"
 valign = 3
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1136.0
-margin_right = 1164.0
+margin_left = 1104.0
+margin_right = 1132.0
 margin_bottom = 31.0
 icon = ExtResource( 6 )
 flat = true
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1168.0
-margin_right = 1196.0
+margin_left = 1136.0
+margin_right = 1164.0
 margin_bottom = 31.0
 icon = ExtResource( 5 )
 flat = true
 
 [node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1200.0
-margin_right = 1228.0
+margin_left = 1168.0
+margin_right = 1196.0
 margin_bottom = 31.0
 icon = ExtResource( 7 )
 flat = true
 
 [node name="RecordButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1200.0
+margin_right = 1228.0
+margin_bottom = 31.0
+icon = ExtResource( 8 )
+flat = true
+
+[node name="test" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1232.0
 margin_right = 1260.0
 margin_bottom = 31.0
@@ -133,14 +140,29 @@ z_index = 1580
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
 margin_bottom = 31.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 9 )]
 show_behind_parent = true
 
-[node name="EditorInspector" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.5 )
 margin_left = 985.0
 margin_right = 1280.0
 margin_bottom = 462.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+tab_align = 0
+
+[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 3 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
@@ -159,6 +181,28 @@ self_modulate = Color( 1, 1, 1, 0.501961 )
 margin_left = -1.16632
 margin_right = -1.16626
 
+[node name="HBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer" index="0"]
+margin_bottom = 46.0
+
+[node name="PlayheadPosText" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/HBoxContainer" index="0"]
+margin_bottom = 46.0
+
+[node name="PlayheadArea" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/HBoxContainer" index="1"]
+margin_bottom = 46.0
+
+[node name="ScrollContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer" index="1"]
+margin_top = 46.0
+margin_bottom = 200.0
+
+[node name="HBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer" index="0"]
+margin_bottom = 154.0
+
+[node name="LayerNames" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="0"]
+margin_bottom = 154.0
+
+[node name="Layers" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="1"]
+margin_bottom = 154.0
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 bus = "Music"
@@ -170,3 +214,6 @@ bus = "Music"
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/test" to="." method="_on_test_pressed"]
+
+[editable path="VBoxContainer/EditorTimelineContainer/EditorTimeline"]
