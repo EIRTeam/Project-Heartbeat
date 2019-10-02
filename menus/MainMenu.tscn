@@ -8,8 +8,8 @@
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=6]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=8]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=9]
-[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=10]
+[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 6 )
@@ -24,7 +24,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Visualizer" parent="." instance=ExtResource( 9 )]
+[node name="Visualizer" parent="." instance=ExtResource( 10 )]
 
 [node name="Menus" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -163,7 +163,7 @@ __meta__ = {
 }
 next_menu = NodePath("")
 
-[node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 10 )]
+[node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 9 )]
 visible = false
 
 [node name="SongList" parent="Menus/HBoxContainer/HBMainMenu/SongListMenu/HBoxContainer" index="0"]

@@ -2,7 +2,7 @@ extends Node
 
 const NoteTargetScene = preload("res://rythm_game/NoteTarget.tscn")
 const NoteScene = preload("res://rythm_game/Note.tscn")
-
+const NoteDrawer = preload("res://rythm_game/NoteDrawer.tscn")
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["ui_right"],
@@ -32,10 +32,9 @@ var editing = false
 
 signal note_updated(note)
 signal note_selected(note)
+signal time_changed(time)
 func set_size(value):
 	size = value
-	for note in notes_on_screen:
-		note.get_meta("note_target_graphic").position = remap_coords(note.position)
 
 func _ready():
 #	var note = HBNoteData.new()
@@ -79,33 +78,13 @@ func get_closest_note_of_type(note_type: int):
 	return closest_note
 
 func remove_note_from_screen(i):
-	notes_on_screen[i].get_meta("note_graphic").queue_free()
-	notes_on_screen[i].get_meta("note_target_graphic").queue_free()
+	notes_on_screen[i].get_meta("note_drawer").queue_free()
 	
 	notes_on_screen.remove(i)
 	
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		remove_note_from_screen(i)
-	
-func update_note(note):
-	var note_target_graphic = note.get_meta("note_target_graphic")
-	note_target_graphic.distance = note.time - time * 1000.0
-	note_target_graphic.update()
-	var note_initial_position = note.get_meta("note_initial_position")
-	var time_out_distance = note.time_out - (note.time - time*1000.0)
-	note.get_meta("note_graphic").position = lerp(note_initial_position, note_target_graphic.position, time_out_distance/note.time_out)
-	
-	if time * 1000.0 > note.time:
-		var disappereance_time = note.time + (judge.TARGET_WINDOW / 60.0 * 1000.0)
-		var new_scale = (disappereance_time - time * 1000.0) / (judge.TARGET_WINDOW / 60.0 * 1000.0) * get_note_scale()
-		if new_scale < 0:
-			print(new_scale)
-		note.get_meta("note_graphic").scale = Vector2(new_scale, new_scale)
-	else:
-		note.get_meta("note_graphic").scale = Vector2(get_note_scale(), get_note_scale())
-	note.get_meta("note_target_graphic").scale = Vector2(get_note_scale(), get_note_scale())
-	note.get_meta("note_target_graphic").position = remap_coords(note.position) # This makes moving targets in the editor work from the inspector, ugly but works
 func _process(delta):
 	if $AudioStreamPlayer.playing:
 		# Obtain from ticks.
@@ -126,35 +105,25 @@ func _process(delta):
 					# Ignore very old notes (editor optimization)
 					if judge.judge_note(time, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
 						break
-					var target = NoteTargetScene.instance()
-					target.note_data = timing_point
-					target.time_out = timing_point.time_out
-					target.game = self
-					add_child(target)
-					
-					var note_scene = NoteScene.instance()
-					target.position = remap_coords(note_scene.note_data.position)
-					note_scene.note_data = timing_point
-					add_child(note_scene)
-					
-					timing_point.set_meta("note_graphic", note_scene)
-					timing_point.set_meta("note_target_graphic", target)
-					timing_point.set_meta("note_initial_position", note_scene.position)
-					
-					
+					var note_drawer = NoteDrawer.instance()
+					note_drawer.note_data = timing_point
+					note_drawer.game = self
+					add_child(note_drawer)
 					# Connect signal to indicate a note has been move or selectedd by the user (in editing mode)
 					if editing and timing_point is HBNoteData:
-						target.connect("note_moved", self, "_on_note_moved", [timing_point])
-						target.connect("note_selected", self, "_on_note_selected", [timing_point])
-					
+						note_drawer.connect("target_moved", self, "_on_note_moved", [timing_point])
+						note_drawer.connect("target_selected", self, "_on_note_selected", [timing_point])
+					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
+					
+					connect("time_changed", note_drawer, "_on_game_time_changed")
+					
 				if not editing:
 					timing_points.remove(i)
 			
-			
+	emit_signal("time_changed", time)
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var note = notes_on_screen[i]
-		update_note(note)
 #		AUTOJUDGE: broken
 #		if editing:
 #			if judge.judge_note(time, note.time/1000.0) == judge.JUDGE_RATINGS.COOL:
