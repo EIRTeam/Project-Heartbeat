@@ -1,6 +1,4 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://editor/EditorTimelinePreview.gd" type="Script" id=1]
+[gd_scene load_steps=2 format=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -15,7 +13,6 @@ margin_right = 219.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

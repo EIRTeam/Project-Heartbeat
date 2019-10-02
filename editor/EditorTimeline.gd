@@ -37,7 +37,7 @@ func add_layer(layer):
 	var lns = LAYER_NAME_SCENE.instance()
 	lns.layer_name = layer.layer_name
 	layer_names.add_child(lns)
-	scale_layer(layer)
+	scale_layers()
 
 
 func get_layers():
@@ -59,7 +59,7 @@ func set_layers_offset(ms: int):
 	emit_signal("offset_changed")
 	update()
 
-func scale_layer(layer):
+func scale_layers():
 	print("SCALING LAYER TO", editor.scale_msec(editor.get_song_length() * 1000.0))
 	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
 
@@ -71,7 +71,7 @@ func _on_Editor_scale_changed(prev_scale, scale):
 	
 	for layer in layers.get_children():
 		layer.place_all_children()
-		scale_layer(layer)
+	scale_layers()
 		
 	update()
 	

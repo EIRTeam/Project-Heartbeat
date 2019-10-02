@@ -1,8 +1,5 @@
 extends "res://editor/inspector_types/EditorInspectorType.gd"
 
-func _ready():
-	pass
-
 func set_value(value):
 	$OptionButton.select(value)
 

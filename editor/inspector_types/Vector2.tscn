@@ -20,6 +20,8 @@ text = "X"
 margin_left = 12.0
 margin_right = 86.0
 margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
 align = 3
 
 [node name="Label2" type="Label" parent="."]
@@ -33,6 +35,8 @@ text = "y"
 margin_left = 101.0
 margin_right = 175.0
 margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
 align = 3
 [connection signal="value_changed" from="XSpinbox" to="." method="_on_XSpinbox_value_changed"]
 [connection signal="value_changed" from="YSpinbox" to="." method="_on_YSpinbox_value_changed"]

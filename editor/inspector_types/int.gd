@@ -5,7 +5,7 @@ func set_value(value):
 
 
 func emit_value_changed_signal():
-	emit_signal("value_changed", $Spinbox.value)
+	emit_signal("value_changed", int($Spinbox.value))
 
 
 func _on_Spinbox_value_changed(value):

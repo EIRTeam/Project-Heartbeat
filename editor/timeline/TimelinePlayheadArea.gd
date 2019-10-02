@@ -1,7 +1,5 @@
 extends Panel
 signal mouse_x_input(value)
-func _ready():
-	pass
 	
 func _gui_input(event):
 	if Input.is_action_pressed("editor_select"):

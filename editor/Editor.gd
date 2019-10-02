@@ -53,6 +53,7 @@ func select_item(item: EditorTimelineItem):
 	if selected:
 		selected.deselect()
 	selected = item
+	selected.select()
 	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
 func get_song_duration():
 	return int($AudioStreamPlayer.stream.get_length() * 1000.0)
@@ -166,3 +167,17 @@ func _on_test_pressed():
 
 func get_song_length():
 	return $AudioStreamPlayer.stream.get_length()
+
+
+func _on_RythmGame_note_selected(note):
+	for layer in timeline.get_layers():
+		for item in layer.get_editor_items():
+			if item.data == note:
+				select_item(item)
+				return
+
+
+func _on_RythmGame_note_updated(note):
+	if selected:
+		if note == selected.data:
+			selected.emit_signal("item_changed")

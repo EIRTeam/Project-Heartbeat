@@ -2,7 +2,7 @@ extends Panel
 
 class_name EditorTimelineItem
 
-signal item_bounds_changed
+signal item_changed
 
 var data = HBTimingPoint.new()
 
@@ -20,10 +20,9 @@ func _ready():
 
 func set_start(value: int):
 	data.time = value
-	emit_signal("item_bounds_changed")
+	emit_signal("item_changed")
 
 func get_editor_size():
-	print("GET DURATION", get_duration())
 	return Vector2(editor.scale_msec(get_duration()), rect_size.y)
 
 func _process(delta):
@@ -44,12 +43,16 @@ func _gui_input(event: InputEvent):
 		_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 		set_process(true)
 		editor.select_item(self)
-		$SelectedPanel.show()
+
 	elif event.is_action_released("editor_select"):
 		set_process(false)
+		
+func select():
+	$SelectedPanel.show()
+		
 func get_inspector_properties():
 	return {
-		"time": "float",
+		"time": "int",
 		"position": "Vector2"
 	}
 	

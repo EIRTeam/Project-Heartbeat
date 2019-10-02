@@ -8,7 +8,14 @@ enum NOTE_TYPE {
 	LEFT,
 	RIGHT
 }
-export (NOTE_TYPE) var note_type = NOTE_TYPE.RIGHT
+export (NOTE_TYPE) var note_type = NOTE_TYPE.RIGHT setget set_note_type
+
+signal note_type_changed
+signal note_data_changed
+
+func set_note_type(value):
+	note_type = value
+	emit_signal("note_type_changed")
 
 const NOTE_GRAPHICS = {
 	NOTE_TYPE.UP: {
@@ -31,7 +38,7 @@ const NOTE_GRAPHICS = {
 
 
 var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area
-var time_out: int = 1000 # time where the note target starts being visible
+var time_out: int = 1400 # time where the note target starts being visible
 func _init():
 	serializable_fields += ["position", "time_out", "note_type"]
 

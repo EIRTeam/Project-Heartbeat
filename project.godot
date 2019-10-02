@@ -104,7 +104,6 @@ output_latency=2
 
 Log="*res://autoloads/Log.gd"
 SongLoader="*res://autoloads/SongLoader/SongLoader.gd"
-Diagnostics="res://autoloads/Diagnostics.tscn"
 
 [display]
 

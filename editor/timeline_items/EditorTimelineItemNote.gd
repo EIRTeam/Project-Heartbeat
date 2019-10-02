@@ -7,6 +7,7 @@ func _init():
 
 func get_inspector_properties():
 	return {
-		"time": "float",
-		"position": "Vector2"
+		"time": "int",
+		"position": "Vector2",
+		"time_out": "int"
 	}

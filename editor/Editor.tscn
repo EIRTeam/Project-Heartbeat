@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://editor/Editor.gd" type="Script" id=2]
@@ -8,14 +8,14 @@
 [ext_resource path="res://editor/icons/icon_play.svg" type="Texture" id=6]
 [ext_resource path="res://editor/icons/icon_stop.svg" type="Texture" id=7]
 [ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=9]
+[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=9]
 [ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=10]
-[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=11]
 [ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -25,6 +25,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -119,22 +120,25 @@ flat = true
 margin_top = 54.0
 margin_right = 1280.0
 margin_bottom = 516.0
+mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="Preview" type="Control" parent="VBoxContainer/HBoxContainer"]
 margin_right = 981.0
 margin_bottom = 462.0
+mouse_filter = 2
 size_flags_horizontal = 3
 
 [node name="GamePreview" type="Control" parent="VBoxContainer/HBoxContainer/Preview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 11 )]
+[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 9 )]
 z_index = 1580
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
@@ -143,9 +147,6 @@ margin_bottom = 31.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 9 )]
-show_behind_parent = true
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -215,5 +216,7 @@ bus = "Music"
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/test" to="." method="_on_test_pressed"]
+[connection signal="note_selected" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_selected"]
+[connection signal="note_updated" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_updated"]
 
 [editable path="VBoxContainer/EditorTimelineContainer/EditorTimeline"]

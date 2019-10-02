@@ -29,7 +29,7 @@ func add_item(item: EditorTimelineItem):
 	item._layer = self
 	item.editor = editor
 	place_child(item)
-	item.connect("item_bounds_changed", self, "place_child", [item])
+	item.connect("item_changed", self, "place_child", [item])
 
 func can_drop_data(position, data):
 	if data is EditorTimelineItem:
@@ -47,9 +47,16 @@ func get_timing_points():
 			points.append(child.data)
 	return points
 
+func get_editor_items():
+	var points = []
+	for child in get_children():
+		if not child == preview:
+			points.append(child)
+	return points
+
 func drop_data(position, data: EditorTimelineItem):
 	data._layer.remove_child(data)
-	data.disconnect("item_bounds_changed", data._layer, "place_child")
+	data.disconnect("item_changed", data._layer, "place_child")
 	data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
 	add_item(data)
 
