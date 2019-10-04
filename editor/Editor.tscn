@@ -9,11 +9,11 @@
 [ext_resource path="res://editor/icons/icon_stop.svg" type="Texture" id=7]
 [ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
 [ext_resource path="res://editor/icons/icon_save.svg" type="Texture" id=9]
-[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=10]
-[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=11]
+[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=10]
+[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=11]
 [ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
-[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=13]
-[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=14]
+[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=13]
+[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=14]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=15]
 
 [node name="Editor" type="Control"]
@@ -151,7 +151,7 @@ margin_top = -0.999985
 margin_bottom = -1.0
 mouse_filter = 2
 
-[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 14 )]
+[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 10 )]
 z_index = 1580
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
@@ -170,7 +170,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 10 )]
+[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 11 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -233,7 +233,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 13 )]
+[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 14 )]
 self_modulate = Color( 1, 1, 1, 0.501961 )
 margin_left = -1.16632
 margin_right = -1.16626
@@ -277,9 +277,9 @@ bus = "Music"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="SongSelector" parent="." instance=ExtResource( 11 )]
+[node name="SongSelector" parent="." instance=ExtResource( 13 )]
 
-[node name="SaveSongSelector" parent="." instance=ExtResource( 11 )]
+[node name="SaveSongSelector" parent="." instance=ExtResource( 13 )]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]

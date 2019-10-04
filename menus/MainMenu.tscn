@@ -98,7 +98,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-next_menu = NodePath("")
 
 [node name="ToolsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
 margin_left = 8.85455
@@ -161,7 +160,21 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-next_menu = NodePath("")
+
+[node name="EditorButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+focus_mode = 0
+theme = SubResource( 2 )
+text = "Editor"
+flat = true
+align = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 10 )]
 visible = false
@@ -179,5 +192,6 @@ bus = "Music"
 [connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/StartMenu" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="grab_focus"]
 [connection signal="navigate_to_menu" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" to="Menus/HBoxContainer/HBMainMenu/StartMenu" method="navigate_to_menu"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
+[connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="grab_focus"]
 
 [editable path="Menus/HBoxContainer/HBMainMenu/SongListMenu"]

@@ -5,6 +5,7 @@ class_name HBSong
 
 var title := ""
 var artist := ""
+var artist_alias := ""
 var producers = []
 var writers = []
 var audio = ""
@@ -19,14 +20,14 @@ func get_serialized_type():
 	return "Song"
 
 func _init():
-	serializable_fields += ["title", "artist", "producers", "writers", "audio", "creator", "bpm", "preview_start", "charts"]
+	serializable_fields += ["title", "artist", "artist_alias", "producers", "writers", "audio", "creator", "bpm", "preview_start", "charts"]
 
 func get_meta_string():
 	var song_meta = []
 	if writers.size() > 0:
 		var writer_text = "Written by: "
 		song_meta.append(writer_text + PoolStringArray(writers).join(", "))
-	if producers > 0:
+	if producers.size() > 0:
 		var producer_text = "Produced by: "
 		song_meta.append(producer_text + PoolStringArray(producers).join(", "))
 

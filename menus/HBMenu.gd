@@ -42,8 +42,8 @@ func navigate_to_menu(next_menu, back=false):
 	focus_mode = FOCUS_NONE
 	
 	next_menu.focus_mode = FOCUS_ALL
-	next_menu.grab_focus()
 	next_menu.show()
+	next_menu.grab_focus()
 	get_parent().move_child(next_menu, get_parent().get_child_count()-1)
 	if not back:
 		next_menu.previous_menu = self

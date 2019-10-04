@@ -37,8 +37,8 @@ func _process(delta):
 		audio_stream_player.volume_db = -40
 		fade_in()
 		audio_stream_player.play()
-		if current_song.data.has("preview_start"):
-			audio_stream_player.seek(current_song.data.preview_start/1000.0)
+		if current_song.preview_start:
+			audio_stream_player.seek(current_song.preview_start/1000.0)
 		else:
 			audio_stream_player.seek(0)
 		queued_audio = null
@@ -50,8 +50,7 @@ func select_song(song: HBSong):
 	current_song = song
 	print("SEL")
 	var bpm = "UNK"
-	if song.data.has("bpm"):
-		bpm = song.data.bpm
+	bpm = song.bpm
 	$SongListPreview/VBoxContainer/BPMLabel.text = "%s BPM" % bpm
 
 	var song_meta = song.get_meta_string()
