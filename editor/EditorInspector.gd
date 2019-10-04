@@ -36,7 +36,7 @@ func inspect(item: EditorTimelineItem):
 	if item == inspecting_item:
 		return
 	if inspecting_item:
-		inspecting_item.disconnect("item_changed", self, "_on_item_bounds_changed")
+		inspecting_item.disconnect("item_changed", self, "update_values")
 	inspecting_properties = {}
 	inspecting_item = item
 	

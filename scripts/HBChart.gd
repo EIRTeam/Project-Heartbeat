@@ -29,3 +29,14 @@ func serialize():
 	return {
 		"layers": serialized_layers
 	}
+	
+func deserialize(data: Dictionary):
+	for layer in data.layers:
+		var timing_points = []
+		for point in layer.timing_points:
+			var _point = HBTimingPoint.deserialize(point)
+			timing_points.append(_point)
+		layers.append({
+			"name": layer.name,
+			"timing_points": timing_points
+		})

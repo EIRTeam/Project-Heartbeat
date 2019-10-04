@@ -1,14 +1,16 @@
 extends Control
 
 var editor
-
+const EDITOR_LAYER_SCENE = preload("res://editor/EditorLayer.tscn")
 onready var layers = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/LayerControl")
-onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/LayerNames")
+onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/LayerNames")
 signal offset_changed(offset)
 const LAYER_NAME_SCENE = preload("res://editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
 var _offset = 0
 var _prev_playhead_position = Vector2()
+
+signal layers_changed
 func _ready():
 	update()
 	connect("resized", self, "_on_viewport_size_changed")
@@ -38,6 +40,7 @@ func add_layer(layer):
 	lns.layer_name = layer.layer_name
 	layer_names.add_child(lns)
 	scale_layers()
+	emit_signal("layers_changed")
 
 
 func get_layers():
@@ -80,3 +83,7 @@ func _input(event):
 		if get_global_rect().has_point(get_global_mouse_position()):
 			if Input.is_action_pressed("editor_pan"):
 				set_layers_offset(_offset - editor.scale_pixels(event.relative.x))
+
+
+func _on_NewLayerButton_pressed():
+	add_layer(EDITOR_LAYER_SCENE.instance())

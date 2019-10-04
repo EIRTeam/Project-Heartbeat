@@ -8,7 +8,7 @@ enum NOTE_TYPE {
 	LEFT,
 	RIGHT
 }
-export (NOTE_TYPE) var note_type = NOTE_TYPE.RIGHT setget set_note_type
+export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
 
 signal note_type_changed
 signal note_data_changed

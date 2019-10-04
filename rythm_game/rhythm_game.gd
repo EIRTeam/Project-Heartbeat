@@ -104,7 +104,7 @@ func _process(delta):
 				if not timing_point in notes_on_screen:
 					# Ignore very old notes (editor optimization)
 					if judge.judge_note(time, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
-						break
+						continue
 					var note_drawer = NoteDrawer.instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self

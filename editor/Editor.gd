@@ -18,19 +18,21 @@ var time_begin
 var time_delay
 var _audio_play_offset
 
+onready var recording_layer_select_button = get_node("VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
+
 onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame")
 
 func _ready():
 	timeline.editor = self
-	timeline.set_layers_offset(1000)
-	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
-	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
-	var test_item = EDITOR_TIMELINE_ITEM_SCENE.instance()
-	test_item.data.time = 1000
-	var test_item2 = EDITOR_TIMELINE_ITEM_SCENE.instance()
-	test_item2.data.time = 2000
-	timeline.get_layers()[0].add_item(test_item)
-	timeline.get_layers()[0].add_item(test_item2)
+#	timeline.set_layers_offset(1000)
+#	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
+#	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
+#	var test_item = EDITOR_TIMELINE_ITEM_SCENE.instance()
+#	test_item.data.time = 1000
+#	var test_item2 = EDITOR_TIMELINE_ITEM_SCENE.instance()
+#	test_item2.data.time = 2000
+#	timeline.get_layers()[0].add_item(test_item)
+#	timeline.get_layers()[0].add_item(test_item2)
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
 	
@@ -100,7 +102,7 @@ func _process(delta):
 					var note = EDITOR_TIMELINE_ITEM_SCENE.instance()
 					note.data.time = int(time * 1000)
 					note.data.note_type = type
-					add_item(0, note)
+					add_item(recording_layer_select_button.get_selected_id(), note)
 					_on_timing_points_changed()
 
 func seek(value: int):
@@ -149,19 +151,11 @@ func _on_RecordButton_pressed():
 	play_from_pos(playhead_position)
 	
 func _on_timing_points_changed():
-	rhythm_game.timing_points = get_timing_points()
 	rhythm_game.remove_all_notes_from_screen()
+	rhythm_game.timing_points = get_timing_points()
 
 
-func serialize_chart():
-	var chart = HBChart.new()
-	var layers = timeline.get_layers()
-	for layer in layers:
-		chart.layers.append({
-			"name": layer.layer_name,
-			"timing_points": layer.get_timing_points()
-		})
-	print(chart.serialize())
+
 func _on_test_pressed():
 	serialize_chart()
 
@@ -181,3 +175,56 @@ func _on_RythmGame_note_updated(note):
 	if selected:
 		if note == selected.data:
 			selected.emit_signal("item_changed")
+
+func serialize_chart():
+	var chart = HBChart.new()
+	var layers = timeline.get_layers()
+	for layer in layers:
+		chart.layers.append({
+			"name": layer.layer_name,
+			"timing_points": layer.get_timing_points()
+		})
+	return chart.serialize()
+
+func from_chart(chart: HBChart):
+	for layer in chart.layers:
+		var layer_scene = EDITOR_LAYER_SCENE.instance()
+		timeline.add_layer(layer_scene)
+		for item_d in layer.timing_points:
+			var item = EDITOR_TIMELINE_ITEM_SCENE.instance()
+			item.data = item_d
+			layer_scene.add_item(item)
+	_on_timing_points_changed()
+
+func _on_SongSelector_chart_selected(song_id, difficulty):
+	var song = SongLoader.songs[song_id]
+	var chart_path = song.get_chart_path(difficulty)
+	
+	var file = File.new()
+	file.open(chart_path, File.READ)
+	
+	var chart_json = JSON.parse(file.get_as_text())
+	if chart_json.error == OK:
+		var result = chart_json.result
+		var chart = HBChart.new()
+		chart.deserialize(result)
+		from_chart(chart)
+		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
+
+
+func _on_SaveSongSelector_chart_selected(song_id, difficulty):
+	var song = SongLoader.songs[song_id]
+	var chart_path = song.get_chart_path(difficulty)
+	var file = File.new()
+	file.open(chart_path, File.WRITE)
+	file.store_string(JSON.print(serialize_chart(), "  "))
+	
+
+
+func _on_EditorTimeline_layers_changed():
+
+	recording_layer_select_button.clear()
+	for layer_i in range(timeline.get_layers().size()):
+		var layer = timeline.get_layers()[layer_i]
+		recording_layer_select_button.add_item(layer.layer_name, layer_i)
+	recording_layer_select_button.select(0)
