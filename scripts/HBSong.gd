@@ -38,5 +38,8 @@ func get_meta_string():
 func get_chart_path(difficulty):
 	return "res://songs/%s/%s" % [id, charts[difficulty].file]
 	
+func get_waveform_path():
+	return "res://songs/%s/%s" % [id, "waveform.json"]
+	
 func get_song_audio_res_path():
 	return "res://songs/%s/%s" % [id, audio]

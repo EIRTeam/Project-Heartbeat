@@ -27,8 +27,6 @@ static func deserialize(data: Dictionary):
 				object.set(field, int(data[field]))
 			else:
 				object.set(field, str2var(data[field]))
-			
-			print("DATA HAS", data[field])
 	return object
 	
 static func get_serializable_types():

@@ -64,7 +64,7 @@ func inv_map_coords(coords: Vector2):
 func play_song():
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-	$AudioStreamPlayer.play()
+	audio_stream_player.play()
 
 func get_closest_note_of_type(note_type: int):
 	var closest_note = null
@@ -86,7 +86,7 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		remove_note_from_screen(i)
 func _process(delta):
-	if $AudioStreamPlayer.playing:
+	if audio_stream_player.playing:
 		# Obtain from ticks.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.

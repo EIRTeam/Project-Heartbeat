@@ -9,7 +9,7 @@ const LAYER_NAME_SCENE = preload("res://editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
 var _offset = 0
 var _prev_playhead_position = Vector2()
-
+onready var waveform_drawer = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 signal layers_changed
 func _ready():
 	update()
@@ -22,9 +22,26 @@ func _on_viewport_size_changed():
 	yield(get_tree(), "idle_frame")
 	update()
 	
+	
+func _draw_timing_line_interval(interval, line_scale=0.5, offset=0):
+	var lines = int(editor.get_song_length() / interval)
+	lines -= ceil(offset / interval)
+	for line in range(lines):
+		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
+		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, playhead_area.rect_size.y * line_scale), Color.white, 1.0, false)
+	
+func _draw_timing_label():
+	pass
+	
+func _draw_timing_lines():
+	_draw_timing_line_interval(1, 0.5)
+	#_draw_timing_line_interval(5, 0.75, 2.5)
+	
 func _draw():
+	scale_waveform()
 	_draw_playhead()
-
+	_draw_timing_lines()
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 
@@ -55,7 +72,7 @@ func _on_playhead_position_changed():
 	$VBoxContainer/HBoxContainer/PlayheadPosText/Label.text = HBUtils.format_time(editor.playhead_position)
 var _prev_layers_rect_position
 func set_layers_offset(ms: int):
-	_offset = ms
+	_offset = max(ms, 0)
 	layers.rect_position.x = -editor.scale_msec(ms)
 	#print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
@@ -87,3 +104,21 @@ func _input(event):
 
 func _on_NewLayerButton_pressed():
 	add_layer(EDITOR_LAYER_SCENE.instance())
+	
+func _on_new_song_loaded(song: HBSong):
+	var file := File.new()
+	if file.file_exists(song.get_waveform_path()):
+		file.open(song.get_waveform_path(), File.READ)
+		
+		var result = JSON.parse(file.get_as_text())
+		if result.error == OK:
+			waveform_drawer.waveform_data = result.result
+	else:
+		Log.log(self, "Error loading song waveform %s" % [song.get_waveform_path()], Log.LogLevel.ERROR)
+	scale_waveform()
+func scale_waveform():
+	var song_length = editor.audio_stream_player.stream.get_length()
+	waveform_drawer.min_position = (clamp(editor.scale_pixels(int(0)) + _offset, _offset, editor.get_song_length()*1000.0) / 1000.0) / editor.audio_stream_player.stream.get_length()
+	waveform_drawer.max_position = (clamp(editor.scale_pixels(int(waveform_drawer.rect_size.x)) + _offset, _offset, editor.get_song_length()*1000.0) / 1000.0) / editor.audio_stream_player.stream.get_length()
+	waveform_drawer.min_position = waveform_drawer.min_position * 2.0
+	waveform_drawer.max_position = waveform_drawer.max_position * 2.0

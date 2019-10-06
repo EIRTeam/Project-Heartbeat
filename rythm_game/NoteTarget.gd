@@ -3,8 +3,6 @@ extends StaticBody2D
 var distance = 1400
 var time_out = 1400
 
-var dragging := false
-
 signal selected
 signal moved
 var grabbed_offset = Vector2()
@@ -12,8 +10,6 @@ var mouse_in = false
 var is_grabbing = false
 var pickable = true
 var note_data: HBNoteData = HBNoteData.new()
-
-var game
 
 func _draw():
 	pass

@@ -9,7 +9,8 @@ signal scale_changed(prev_scale, scale)
 onready var timeline = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline")
 	
 signal playhead_position_changed
-	
+signal load_song(song)
+
 const EDITOR_LAYER_SCENE = preload("res://editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 var selected: EditorTimelineItem
@@ -21,6 +22,14 @@ var _audio_play_offset
 onready var recording_layer_select_button = get_node("VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
 
 onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame")
+
+onready var time_slider = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/TimeSlider")
+
+onready var waveform_drawer = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
+
+onready var audio_stream_player = get_node("AudioStreamPlayer")
+
+const LOG_NAME = "HBEditor"
 
 func _ready():
 	timeline.editor = self
@@ -35,6 +44,7 @@ func _ready():
 #	timeline.get_layers()[0].add_item(test_item2)
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
+	load_song_audio(SongLoader.songs["sands_of_time"])
 	
 func get_timing_points():
 	var points = []
@@ -58,17 +68,17 @@ func select_item(item: EditorTimelineItem):
 	selected.select()
 	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
 func get_song_duration():
-	return int($AudioStreamPlayer.stream.get_length() * 1000.0)
+	return int(audio_stream_player.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	layer.add_item(item)
 
 func play_from_pos(position: float):
-	$AudioStreamPlayer.stream_paused = false
-	$AudioStreamPlayer.volume_db = 0
-	$AudioStreamPlayer.play()
-	$AudioStreamPlayer.seek(position / 1000.0)
+	audio_stream_player.stream_paused = false
+	audio_stream_player.volume_db = 0
+	audio_stream_player.play()
+	audio_stream_player.seek(position / 1000.0)
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	_audio_play_offset = position / 1000.0
@@ -81,7 +91,9 @@ func start_recording():
 
 func _process(delta):
 	var time = 0.0
-	if $AudioStreamPlayer.playing:
+	
+	time_slider.max_value = audio_stream_player.stream.get_length()
+	if audio_stream_player.playing:
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.
 		time -= time_delay
@@ -90,7 +102,10 @@ func _process(delta):
 		
 		time = time + _audio_play_offset
 		rhythm_game.time = time
-	if $AudioStreamPlayer.playing and not $AudioStreamPlayer.stream_paused:
+	
+	time_slider.value = time
+	
+	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTimeLabel.text = HBUtils.format_time(time * 1000.0)
 		playhead_position = max(time * 1000.0, 0.0)
 		emit_signal("playhead_position_changed")
@@ -107,7 +122,7 @@ func _process(delta):
 
 func seek(value: int):
 	playhead_position = clamp(max(value, 0.0), timeline._offset, 1010000000)
-	if not $AudioStreamPlayer.playing:
+	if not audio_stream_player.playing:
 		pause()
 	else:
 		play_from_pos(playhead_position)
@@ -127,11 +142,16 @@ func _input(event):
 			scale -= 0.5
 			scale = max(scale, 0.1)
 			emit_signal("scale_changed", prev_scale, scale)
+	if event.is_action_pressed("editor_delete"):
+		if selected:
+			selected.queue_free()
+			_on_timing_points_changed()
+			selected = null
 func pause():
 	recording = false
-	$AudioStreamPlayer.stream_paused = true
-	$AudioStreamPlayer.volume_db = -80
-	$AudioStreamPlayer.stop()
+	audio_stream_player.stream_paused = true
+	audio_stream_player.volume_db = -80
+	audio_stream_player.stop()
 func _on_PauseButton_pressed():
 	pause()
 
@@ -160,7 +180,7 @@ func _on_test_pressed():
 	serialize_chart()
 
 func get_song_length():
-	return $AudioStreamPlayer.stream.get_length()
+	return audio_stream_player.stream.get_length()
 
 
 func _on_RythmGame_note_selected(note):
@@ -210,6 +230,7 @@ func _on_SongSelector_chart_selected(song_id, difficulty):
 		chart.deserialize(result)
 		from_chart(chart)
 		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
+		load_song_audio(song)
 
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
@@ -228,3 +249,8 @@ func _on_EditorTimeline_layers_changed():
 		var layer = timeline.get_layers()[layer_i]
 		recording_layer_select_button.add_item(layer.layer_name, layer_i)
 	recording_layer_select_button.select(0)
+
+func load_song_audio(song: HBSong):
+	
+	emit_signal("load_song", song)
+	audio_stream_player.stream = load(song.get_song_audio_res_path())

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Control",
+"class": "BBCWaveform",
+"language": "GDScript",
+"path": "res://editor/BBCWaveform.gd"
+}, {
 "base": "Panel",
 "class": "EditorTimelineItem",
 "language": "GDScript",
@@ -75,6 +80,7 @@ _global_script_classes=[ {
 "path": "res://scripts/HBUtils.gd"
 } ]
 _global_script_class_icons={
+"BBCWaveform": "",
 "EditorTimelineItem": "",
 "EditorTimelineItemNote": "",
 "HBChart": "",
@@ -104,6 +110,12 @@ output_latency=2
 
 Log="*res://autoloads/Log.gd"
 SongLoader="*res://autoloads/SongLoader/SongLoader.gd"
+
+[debug]
+
+gdscript/warnings/unused_argument=false
+gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
@@ -163,6 +175,11 @@ editor_scale_down={
 editor_pan={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":3,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+editor_delete={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777224,"unicode":0,"echo":false,"script":null)
  ]
 }
 

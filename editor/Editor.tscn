@@ -10,11 +10,11 @@
 [ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
 [ext_resource path="res://editor/icons/icon_save.svg" type="Texture" id=9]
 [ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=10]
-[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=11]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=11]
 [ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
-[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=13]
+[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=13]
 [ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=14]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=15]
+[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=15]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -87,12 +87,13 @@ margin_bottom = 31.0
 icon = ExtResource( 9 )
 flat = true
 
-[node name="HSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TimeSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 64.0
 margin_right = 1076.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+step = 0.0
 ticks_on_borders = true
 
 [node name="CurrentTimeLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -145,7 +146,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 15 )]
+[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 11 )]
 show_behind_parent = true
 margin_top = -0.999985
 margin_bottom = -1.0
@@ -170,7 +171,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 11 )]
+[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 13 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -277,9 +278,10 @@ bus = "Music"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="SongSelector" parent="." instance=ExtResource( 13 )]
+[node name="SongSelector" parent="." instance=ExtResource( 15 )]
 
-[node name="SaveSongSelector" parent="." instance=ExtResource( 13 )]
+[node name="SaveSongSelector" parent="." instance=ExtResource( 15 )]
+[connection signal="load_song" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_new_song_loaded"]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]

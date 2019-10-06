@@ -1,6 +1,6 @@
 extends Node
 # frames at 60 fps
-const TARGET_WINDOW = 7.0
+const TARGET_WINDOW = 8.0
 
 enum JUDGE_RATINGS {
 	WORST
@@ -11,6 +11,7 @@ enum JUDGE_RATINGS {
 }
 # Timing withing the frame window seen when going into it, not away
 const DIFF_BASED_TIMING = [
+	JUDGE_RATINGS.SAD,
 	JUDGE_RATINGS.SAD,
 	JUDGE_RATINGS.SAFE,
 	JUDGE_RATINGS.SAFE,

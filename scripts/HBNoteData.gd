@@ -11,7 +11,6 @@ enum NOTE_TYPE {
 export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
 
 signal note_type_changed
-signal note_data_changed
 
 func set_note_type(value):
 	note_type = value

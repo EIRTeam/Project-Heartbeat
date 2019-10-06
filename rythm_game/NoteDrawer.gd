@@ -11,7 +11,9 @@ signal target_selected
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 	_on_note_type_changed()
-	z_index = VisualServer.CANVAS_ITEM_Z_MAX - (note_data.time % VisualServer.CANVAS_ITEM_Z_MAX)  # HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
+	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
+	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
+	z_index = VisualServer.CANVAS_ITEM_Z_MAX - (note_data.time % VisualServer.CANVAS_ITEM_Z_MAX)
 
 func update_graphic_positions(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)

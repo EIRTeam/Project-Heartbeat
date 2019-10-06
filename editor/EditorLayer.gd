@@ -24,6 +24,7 @@ func place_preview(start: float, duration: float):
 	preview.rect_position = Vector2(x_pos, 0)
 	preview.rect_size = Vector2(editor.scale_msec(duration), preview.rect_size.y)
 	
+	
 func add_item(item: EditorTimelineItem):
 	add_child(item)
 	item._layer = self

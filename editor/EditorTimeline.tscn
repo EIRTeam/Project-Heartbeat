@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://editor/EditorTimeline.gd" type="Script" id=1]
 [ext_resource path="res://editor/timeline/TimelinePlayheadArea.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://graphics/notes/xbox/X.png" type="Texture" id=5]
 [ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=6]
 [ext_resource path="res://editor/icons/icon_add.svg" type="Texture" id=7]
+[ext_resource path="res://editor/BBCWaveform.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -153,6 +154,14 @@ margin_bottom = 553.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BBCWaveform" type="Control" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

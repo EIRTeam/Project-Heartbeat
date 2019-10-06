@@ -1,7 +1,5 @@
 extends Control
 
-var editor
-
 const INSPECTOR_TYPES = {
 	"int": preload("res://editor/inspector_types/int.tscn"),
 	"Vector2": preload("res://editor/inspector_types/Vector2.tscn"),
@@ -14,8 +12,8 @@ var inspecting_properties = {}
 func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
 
-func _on_property_value_changed_by_user(value, editor):
-	inspecting_item.data.set(editor.property_name, value)
+func _on_property_value_changed_by_user(value, property_editor):
+	inspecting_item.data.set(property_editor.property_name, value)
 	inspecting_item.emit_signal("item_changed")
 
 func update_label():
