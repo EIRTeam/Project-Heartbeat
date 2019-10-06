@@ -21,6 +21,13 @@ const DIFF_BASED_TIMING = [
 	JUDGE_RATINGS.COOL,
 ]
 
+const RATING_TO_TEXT_MAP = {
+	JUDGE_RATINGS.WORST: "WORST",
+	JUDGE_RATINGS.SAD: "SAD",
+	JUDGE_RATINGS.SAFE: "SAFE",
+	JUDGE_RATINGS.FINE: "FINE",
+	JUDGE_RATINGS.COOL: "COOL"
+}
 func judge_note (input: float, target_note_timing: float):
 	var adjusted_diff =  (input - target_note_timing) * 60.0
 	if abs(adjusted_diff) < TARGET_WINDOW:

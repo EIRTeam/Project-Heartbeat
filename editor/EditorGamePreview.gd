@@ -3,6 +3,7 @@ extends Control
 func _ready():
 	$RythmGame.size = rect_size
 	$RythmGame.editing = true
+	$RythmGame.input_lag_compensation = 0.0
 	connect("resized", self, "_on_resized")
 	
 func _on_resized():

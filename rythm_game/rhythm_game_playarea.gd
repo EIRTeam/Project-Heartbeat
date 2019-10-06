@@ -11,9 +11,10 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.DOWN: ["ui_down"]
 }
 
-const INPUT_COMPENSATION = 0.1
+var input_lag_compensation = 0.1
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
+onready var rating_label = get_node("CanvasLayer/RatingLabel")
 const LOG_NAME = "RhythmGame"
 var judge = preload("res://rythm_game/judge.gd").new()
 
@@ -43,7 +44,7 @@ func _ready():
 #	note.time = 2000
 #	timing_points.append(note)
 #	play_song()
-	pass
+	rating_label.hide()
 
 func get_note_scale():
 	return get_playing_field_size().length() / BASE_SIZE.length()
@@ -115,13 +116,13 @@ func _process(delta):
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
-			if time * 1000.0 >= (timing_point.time + INPUT_COMPENSATION-timing_point.time_out):
+			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.time_out):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
 					if timing_point is HBMultiNoteData:
-						if judge.judge_note(time + INPUT_COMPENSATION, (timing_point.time + timing_point.duration)/1000.0) == judge.JUDGE_RATINGS.WORST:
+						if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.duration)/1000.0) == judge.JUDGE_RATINGS.WORST:
 							continue
-					elif judge.judge_note(time + INPUT_COMPENSATION, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
+					elif judge.judge_note(time + input_lag_compensation, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
 					if timing_point is HBMultiNoteData:
@@ -144,7 +145,7 @@ func _process(delta):
 				if not editing:
 					timing_points.remove(i)
 			
-	emit_signal("time_changed", time+INPUT_COMPENSATION)
+	emit_signal("time_changed", time+input_lag_compensation)
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var note = notes_on_screen[i]
 #		AUTOJUDGE: broken
@@ -159,8 +160,13 @@ func _process(delta):
 #				$HitEffect.play()
 
 func _on_note_judged(judgement, note):
-	pass
-				
+	if not editing:
+		var new_pos = remap_coords(note.position)
+		new_pos.x -= rating_label.rect_size.x / 2
+		rating_label.rect_position = new_pos
+		rating_label.get_node("AnimationPlayer").play("rating_appear")
+		rating_label.text = judge.RATING_TO_TEXT_MAP[judgement]
+		rating_label.show()
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				

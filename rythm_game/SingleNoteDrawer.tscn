@@ -1,8 +1,25 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "note_appear"
+length = 0.34
+step = 0.17
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:target_scale_modifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.17, 0.34 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.05, 1.0 ]
+}
 
 [node name="SingleNoteDrawer" type="Node2D"]
 script = ExtResource( 3 )
@@ -13,5 +30,8 @@ z_index = 1
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 position = Vector2( 2.21606, 1.10802 )
 z_index = -1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/note_appear = SubResource( 1 )
 [connection signal="moved" from="NoteTarget" to="." method="_on_NoteTarget_note_moved"]
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]

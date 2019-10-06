@@ -4,6 +4,8 @@ onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 var pickable = true setget set_pickable
 
+export(float) var target_scale_modifier = 1.0
+
 func set_pickable(value):
 	pickable = value
 	$NoteTarget.input_pickable = value
@@ -12,6 +14,8 @@ func _ready():
 	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	_on_note_type_changed()
+	$AnimationPlayer.play("note_appear")
+	print("APPEAR")
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
@@ -23,7 +27,7 @@ func update_graphic_positions_and_scale(time: float):
 		note_graphic.scale = Vector2(new_scale, new_scale)
 	else:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
-	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
+	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type)

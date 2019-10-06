@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://editor/Editor.gd" type="Script" id=2]
@@ -10,12 +10,13 @@
 [ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
 [ext_resource path="res://editor/icons/icon_save.svg" type="Texture" id=9]
 [ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=10]
-[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=11]
+[ext_resource path="res://rythm_game/rhythm_game_playarea.tscn" type="PackedScene" id=11]
 [ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
-[ext_resource path="res://rythm_game/rhythm_game_playarea.tscn" type="PackedScene" id=13]
-[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=14]
+[ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=13]
+[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=14]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=15]
 [ext_resource path="res://editor/EditorCreateTab.gd" type="Script" id=16]
+[ext_resource path="res://editor/icons/icon_back.svg" type="Texture" id=17]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -75,21 +76,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 20.0
+margin_bottom = 31.0
+icon = ExtResource( 17 )
+flat = true
+
 [node name="LoadButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 28.0
+margin_left = 24.0
+margin_right = 52.0
 margin_bottom = 31.0
 icon = ExtResource( 3 )
 flat = true
 
 [node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 32.0
-margin_right = 60.0
+margin_left = 56.0
+margin_right = 84.0
 margin_bottom = 31.0
 icon = ExtResource( 9 )
 flat = true
 
 [node name="TimeSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 64.0
+margin_left = 88.0
 margin_right = 1076.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
@@ -153,7 +161,7 @@ margin_top = -0.999985
 margin_bottom = -1.0
 mouse_filter = 2
 
-[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 13 )]
+[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 11 )]
 z_index = 1580
 
 [node name="DebugLabel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/CanvasLayer" index="0"]
@@ -175,7 +183,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 14 )]
+[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 13 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -324,12 +332,21 @@ margin_bottom = 154.0
 stream = ExtResource( 4 )
 bus = "Music"
 
-[node name="SongSelector" parent="." instance=ExtResource( 11 )]
+[node name="SongSelector" parent="." instance=ExtResource( 14 )]
 
-[node name="SaveSongSelector" parent="." instance=ExtResource( 11 )]
+[node name="SaveSongSelector" parent="." instance=ExtResource( 14 )]
+
+[node name="ExitDialog" type="ConfirmationDialog" parent="."]
+margin_right = 227.0
+margin_bottom = 86.0
+popup_exclusive = true
+window_title = "Are you sure about that?"
+dialog_text = "Any unsaved progress will be lost."
+dialog_autowrap = true
 [connection signal="load_song" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_new_song_loaded"]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SaveSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
@@ -343,6 +360,7 @@ bus = "Music"
 [connection signal="layers_changed" from="VBoxContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="chart_selected" from="SaveSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
+[connection signal="confirmed" from="ExitDialog" to="." method="_on_ExitDialog_confirmed"]
 
 [editable path="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame"]
 

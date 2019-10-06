@@ -11,7 +11,7 @@ func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
-	z_index = VisualServer.CANVAS_ITEM_Z_MAX - (note_data.time % VisualServer.CANVAS_ITEM_Z_MAX)
+	z_index = 8 - (note_data.time % 8)
 
 func update_graphic_positions_and_scale(time: float):
 	pass

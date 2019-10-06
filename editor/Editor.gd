@@ -272,3 +272,7 @@ func load_song_audio(song: HBSong):
 	
 	emit_signal("load_song", song)
 	audio_stream_player.stream = load(song.get_song_audio_res_path())
+
+
+func _on_ExitDialog_confirmed():
+	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
