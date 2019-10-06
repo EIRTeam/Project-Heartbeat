@@ -3,12 +3,14 @@ extends StaticBody2D
 var distance = 1400
 var time_out = 1400
 
+export (bool) var fire_moved_on_release = false
+
 signal selected
 signal moved
+signal finished_moving
 var grabbed_offset = Vector2()
 var mouse_in = false
 var is_grabbing = false
-var pickable = true
 var note_data: HBNoteData = HBNoteData.new()
 
 func _draw():
@@ -22,12 +24,14 @@ func set_note_type(type):
 	$Sprite.texture = HBNoteData.get_note_graphics(type).target
 
 func _process(delta):
-	if  Input.is_action_pressed("editor_select") and is_grabbing and pickable:
+	if  Input.is_action_pressed("editor_select") and is_grabbing and input_pickable:
 		global_position = get_global_mouse_position() + grabbed_offset
 		emit_signal("moved")
-
+	if Input.is_action_just_released("editor_select") and is_grabbing and input_pickable:
+		if fire_moved_on_release:
+			emit_signal("finished_moving")
 func _unhandled_input(event):
-	if event.is_action_pressed("editor_select") and pickable and mouse_in:
+	if event.is_action_pressed("editor_select") and input_pickable and mouse_in:
 		emit_signal("selected")
 		is_grabbing = true
 		grabbed_offset = global_position - get_global_mouse_position()

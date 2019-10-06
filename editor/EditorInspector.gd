@@ -6,6 +6,8 @@ const INSPECTOR_TYPES = {
 	"NoteTypeSelector": preload("res://editor/inspector_types/NoteTypeSelector.tscn")
 }
 
+onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")
+onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxContainer/PropertyContainer")
 var inspecting_item: EditorTimelineItem
 var inspecting_properties = {}
 
@@ -17,7 +19,7 @@ func _on_property_value_changed_by_user(value, property_editor):
 	inspecting_item.emit_signal("item_changed")
 
 func update_label():
-		$MarginContainer/VBoxContainer/TitleLabel.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
+		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
 func update_values():
 	update_label()
@@ -40,7 +42,7 @@ func inspect(item: EditorTimelineItem):
 	
 	update_label()
 	
-	for child in $MarginContainer/VBoxContainer/PropertyContainer.get_children():
+	for child in property_container.get_children():
 		child.free()
 	var properties = item.get_inspector_properties()
 	
@@ -52,8 +54,8 @@ func inspect(item: EditorTimelineItem):
 		
 		var label = Label.new()
 		label.text = property.capitalize()
-		$MarginContainer/VBoxContainer/PropertyContainer.add_child(label)
+		property_container.add_child(label)
 		inspector_editor.connect("value_changed", self, "_on_property_value_changed_by_user", [inspector_editor])
-		$MarginContainer/VBoxContainer/PropertyContainer.add_child(inspector_editor)
+		property_container.add_child(inspector_editor)
 		inspecting_properties[property] = inspector_editor
 	update_values()

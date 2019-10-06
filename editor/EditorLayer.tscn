@@ -7,6 +7,7 @@
 bg_color = Color( 0.207843, 0.223529, 0.270588, 1 )
 
 [node name="EditorLayer" type="Panel"]
+self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_right = 1.0
 rect_min_size = Vector2( 50, 50 )
 custom_styles/panel = SubResource( 1 )

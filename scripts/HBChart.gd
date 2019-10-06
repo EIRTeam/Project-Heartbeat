@@ -11,7 +11,20 @@ func get_timing_points():
 		var items = layer.timing_points
 		points += items
 	return points
-		
+	
+	
+# Gets timing points that are simplified, so multi notes are turned into individual notes
+func get_simplified_timing_points():
+	var points = []
+	for layer in layers:
+		var items = layer.timing_points
+		for item in items:
+			var simplified = item.get_simplified()
+			if simplified is Array:
+				points += simplified
+			else:
+				points.append(item)
+	return points
 func get_serialized_type():
 	return "Chart"
 	

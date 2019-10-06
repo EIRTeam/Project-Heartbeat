@@ -122,3 +122,8 @@ func scale_waveform():
 	waveform_drawer.max_position = (clamp(editor.scale_pixels(int(waveform_drawer.rect_size.x)) + _offset, _offset, editor.get_song_length()*1000.0) / 1000.0) / editor.audio_stream_player.stream.get_length()
 	waveform_drawer.min_position = waveform_drawer.min_position * 2.0
 	waveform_drawer.max_position = waveform_drawer.max_position * 2.0
+func clear_layers():
+	for layer in layers.get_children():
+		layer.queue_free()
+	for layer_name in layer_names.get_children():
+		layer_name.queue_free()

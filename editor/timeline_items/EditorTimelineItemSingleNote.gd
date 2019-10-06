@@ -19,6 +19,8 @@ const WIDTH = 5.0
 
 func _ready():
 	set_color()
+	data.connect("note_type_changed", self, "set_color")
+	
 
 func set_color():
 	var style_box = StyleBoxFlat.new()

@@ -2,9 +2,9 @@
 
 [ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
-[ext_resource path="res://rythm_game/NoteDrawer.gd" type="Script" id=3]
+[ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
 
-[node name="NoteDrawer" type="Node2D"]
+[node name="SingleNoteDrawer" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Note" parent="." instance=ExtResource( 2 )]

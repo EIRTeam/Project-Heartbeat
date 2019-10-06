@@ -14,6 +14,9 @@ var _drag_start_position : Vector2
 var _drag_start_time : float
 var _drag_x_offset : float
 var _layer
+
+var update_affects_timing_points = false
+
 func _ready():
 	deselect()
 	set_process(false)

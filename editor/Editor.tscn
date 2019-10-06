@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://editor/Editor.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=13]
 [ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=14]
 [ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=15]
+[ext_resource path="res://editor/EditorCreateTab.gd" type="Script" id=16]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -155,6 +156,9 @@ mouse_filter = 2
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 10 )]
 z_index = 1580
 
+[node name="DebugLabel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/CanvasLayer" index="0"]
+visible = false
+
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
 margin_bottom = 31.0
@@ -224,6 +228,50 @@ margin_bottom = 101.0
 text = "Start Recording"
 icon = ExtResource( 8 )
 
+[node name="Create" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 38.0
+margin_right = -5.0
+margin_bottom = -5.0
+script = ExtResource( 16 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 275.0
+margin_bottom = 409.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+margin_right = 265.0
+margin_bottom = 31.0
+text = "Note type to create"
+
+[node name="NoteTypeSelectButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+margin_top = 35.0
+margin_right = 265.0
+margin_bottom = 66.0
+text = "Single Note"
+
+[node name="CreateItemButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+margin_top = 70.0
+margin_right = 265.0
+margin_bottom = 101.0
+text = "Create"
+
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
 margin_top = 520.0
@@ -276,8 +324,6 @@ margin_bottom = 154.0
 stream = ExtResource( 4 )
 bus = "Music"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="SongSelector" parent="." instance=ExtResource( 15 )]
 
 [node name="SaveSongSelector" parent="." instance=ExtResource( 15 )]
@@ -292,8 +338,12 @@ bus = "Music"
 [connection signal="note_selected" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_selected"]
 [connection signal="note_updated" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_updated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
+[connection signal="create_note_type" from="VBoxContainer/HBoxContainer/TabContainer/Create" to="." method="add_user_timing_point"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
 [connection signal="layers_changed" from="VBoxContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="chart_selected" from="SaveSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
+
+[editable path="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame"]
 
 [editable path="VBoxContainer/EditorTimelineContainer/EditorTimeline"]

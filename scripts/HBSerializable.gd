@@ -33,7 +33,11 @@ static func get_serializable_types():
 	return {
 		"Note": load("res://scripts/HBNoteData.gd"),
 		"TimingPoint": load("res://scripts/HBTimingPoint.gd"),
+		"MultiNote": load("res://scripts/HBMultiNoteData.gd"),
 		"Song": load("res://scripts/HBSong.gd")
 	}
 func get_serialized_type():
 	pass
+
+static func can_show_in_editor():
+	return false

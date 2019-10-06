@@ -3,9 +3,15 @@ extends Sprite
 const trail_length = 200
 var last_pos = Vector2()
 
+var trail = true setget set_trail
+
+func set_trail(value):
+	trail = value
+	$Line2D.visible = trail
+
 func _ready():
 	last_pos = position
-	
+
 func set_note_type(type):
 	texture = HBNoteData.get_note_graphics(type).note
 	

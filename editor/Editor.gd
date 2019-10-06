@@ -34,7 +34,7 @@ const LOG_NAME = "HBEditor"
 func _ready():
 	timeline.editor = self
 #	timeline.set_layers_offset(1000)
-#	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
+	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 #	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 #	var test_item = EDITOR_TIMELINE_ITEM_SCENE.instance()
 #	test_item.data.time = 1000
@@ -44,6 +44,11 @@ func _ready():
 #	timeline.get_layers()[0].add_item(test_item2)
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
+	var data := HBMultiNoteData.new()
+	data.time = 1000
+	for note in data.get_simplified():
+		print(note.time)
+	
 	load_song_audio(SongLoader.songs["sands_of_time"])
 	
 func get_timing_points():
@@ -53,6 +58,9 @@ func get_timing_points():
 	for layer in layers:
 		points += layer.get_timing_points()
 	return points
+	
+func get_simplified_timing_points():
+	return get_chart().get_simplified_timing_points()
 	
 func scale_msec(msec: int) -> float:
 	return ((msec/1000.0)/scale)*500.0
@@ -70,10 +78,17 @@ func select_item(item: EditorTimelineItem):
 func get_song_duration():
 	return int(audio_stream_player.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
+	if item.update_affects_timing_points:
+		item.connect("item_changed", self, "_on_timing_points_changed")
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	layer.add_item(item)
-
+	
+func add_user_timing_point(timing_point_class: GDScript):
+	var timing_point := timing_point_class.new() as HBTimingPoint
+	timing_point.time = playhead_position
+	add_item(0, timing_point.get_timeline_item())
+	_on_timing_points_changed()
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
 	audio_stream_player.volume_db = 0
@@ -133,7 +148,7 @@ func seek(value: int):
 	
 func _input(event):
 	var prev_scale = scale
-	if get_global_rect().has_point(get_global_mouse_position()):
+	if timeline.get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_scale_down"):
 			scale += 0.5
 			scale = max(scale, 0.1)
@@ -196,7 +211,7 @@ func _on_RythmGame_note_updated(note):
 		if note == selected.data:
 			selected.emit_signal("item_changed")
 
-func serialize_chart():
+func get_chart():
 	var chart = HBChart.new()
 	var layers = timeline.get_layers()
 	for layer in layers:
@@ -204,14 +219,17 @@ func serialize_chart():
 			"name": layer.layer_name,
 			"timing_points": layer.get_timing_points()
 		})
-	return chart.serialize()
+	return chart
+func serialize_chart():
+	return get_chart().serialize()
 
 func from_chart(chart: HBChart):
+	timeline.clear_layers()
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		timeline.add_layer(layer_scene)
 		for item_d in layer.timing_points:
-			var item = EDITOR_TIMELINE_ITEM_SCENE.instance()
+			var item = item_d.get_timeline_item()
 			item.data = item_d
 			layer_scene.add_item(item)
 	_on_timing_points_changed()

@@ -2,7 +2,7 @@ extends Node
 
 const NoteTargetScene = preload("res://rythm_game/NoteTarget.tscn")
 const NoteScene = preload("res://rythm_game/Note.tscn")
-const NoteDrawer = preload("res://rythm_game/NoteDrawer.tscn")
+const NoteDrawer = preload("res://rythm_game/SingleNoteDrawer.tscn")
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["ui_right"],
@@ -68,33 +68,46 @@ func play_song():
 
 func get_closest_note_of_type(note_type: int):
 	var closest_note = null
-	for note in notes_on_screen:
-		if note.note_type == note_type:
-			if closest_note:
-				if note.time < closest_note.time:
+	for note_c in notes_on_screen:
+		# For multi-note support
+		var notes = note_c.get_meta("note_drawer").get_notes()
+		for note in notes:
+			if note.note_type == note_type:
+				if closest_note:
+					if note.time < closest_note.time:
+						closest_note = note
+				else:
 					closest_note = note
-			else:
-				closest_note = note
 	return closest_note
 
 func remove_note_from_screen(i):
-	notes_on_screen[i].get_meta("note_drawer").queue_free()
-	
 	notes_on_screen.remove(i)
 	
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
+		notes_on_screen[i].get_meta("note_drawer").queue_free()
 		remove_note_from_screen(i)
 func _process(delta):
 	if audio_stream_player.playing:
-		# Obtain from ticks.
+		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.
 		time -= time_delay
 		# May be below 0 (did not being yet).
 		time = max(0, time)
-		$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
-	
+	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
+	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
+	# Note SFX
+	for type in NOTE_TYPE_TO_ACTIONS_MAP:
+		var action_pressed = false
+		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
+		for action in actions:
+			if Input.is_action_just_pressed(action):
+				$HitEffect.play()
+				action_pressed = true
+				break
+		if action_pressed:
+			break
 	# Adding visible notes
 	
 	for i in range(timing_points.size() - 1, -1, -1):
@@ -102,10 +115,17 @@ func _process(delta):
 		if timing_point is HBNoteData:
 			if time * 1000.0 >= (timing_point.time-timing_point.time_out):
 				if not timing_point in notes_on_screen:
-					# Ignore very old notes (editor optimization)
-					if judge.judge_note(time, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
+					# Prevent older notes from being re-created
+					if timing_point is HBMultiNoteData:
+						if judge.judge_note(time, (timing_point.time + timing_point.duration)/1000.0) == judge.JUDGE_RATINGS.WORST:
+							continue
+					elif judge.judge_note(time, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
-					var note_drawer = NoteDrawer.instance()
+					var note_drawer
+					if timing_point is HBMultiNoteData:
+						note_drawer = preload("res://rythm_game/MultiNoteDrawer.tscn").instance()
+					else:
+						note_drawer = NoteDrawer.instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
 					add_child(note_drawer)
@@ -113,9 +133,10 @@ func _process(delta):
 					if editing and timing_point is HBNoteData:
 						note_drawer.connect("target_moved", self, "_on_note_moved", [timing_point])
 						note_drawer.connect("target_selected", self, "_on_note_selected", [timing_point])
+						note_drawer.connect("note_judged", self, "_on_note_judged", [timing_point])
+						note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
-					
 					connect("time_changed", note_drawer, "_on_game_time_changed")
 					
 				if not editing:
@@ -134,25 +155,12 @@ func _process(delta):
 #						ev.action = NOTE_TYPE_TO_ACTIONS_MAP[type][0]
 #						break
 #				$HitEffect.play()
-		
-		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
-		if time >= (note.time + judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note.time - note.time_out):
-			remove_note_from_screen(i)
 
-	# Judging tapped keys
-
-	for type in NOTE_TYPE_TO_ACTIONS_MAP:
-		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if Input.is_action_just_pressed(action):
-				$HitEffect.play()
-				var closest_note = get_closest_note_of_type(type)
-				if closest_note:
-					var judgement = judge.judge_note(time, closest_note.time/1000.0)
-					if judgement:
-						print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
-						remove_note_from_screen(notes_on_screen.find(closest_note))
-				break
+func _on_note_judged(judgement, note):
+	pass
+				
+func _on_note_removed(note):
+	remove_note_from_screen(notes_on_screen.find(note))
 				
 func _on_note_moved(note: HBNoteData):
 	if editing:

@@ -21,18 +21,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 255.0
 margin_bottom = 286.0
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 245.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+margin_right = 190.0
+margin_bottom = 35.0
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+margin_right = 190.0
 margin_bottom = 31.0
 text = "Note selected at time"
 
-[node name="PropertyContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="PropertyContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 35.0
-margin_right = 245.0
+margin_right = 190.0
 margin_bottom = 35.0
