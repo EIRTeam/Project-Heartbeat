@@ -35,6 +35,8 @@ func judge_note_input(time: float):
 					if judgement:
 						print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
 						emit_signal("note_judged", judgement)
+						emit_signal("note_removed")
+						queue_free()
 				break
 
 func _on_game_time_changed(time: float):

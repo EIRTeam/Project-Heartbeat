@@ -8,8 +8,10 @@
 script = ExtResource( 3 )
 
 [node name="Note" parent="." instance=ExtResource( 2 )]
+z_index = 1
 
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 position = Vector2( 2.21606, 1.10802 )
+z_index = -1
 [connection signal="moved" from="NoteTarget" to="." method="_on_NoteTarget_note_moved"]
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]
