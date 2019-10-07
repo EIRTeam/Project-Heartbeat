@@ -22,6 +22,7 @@ tracks/0/keys = {
 }
 
 [node name="SingleNoteDrawer" type="Node2D"]
+z_index = -2
 script = ExtResource( 3 )
 
 [node name="Note" parent="." instance=ExtResource( 2 )]

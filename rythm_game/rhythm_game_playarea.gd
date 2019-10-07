@@ -14,7 +14,7 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 var input_lag_compensation = 0.1
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var rating_label = get_node("CanvasLayer/RatingLabel")
+onready var rating_sprite = get_node("RatingSprite")
 const LOG_NAME = "RhythmGame"
 var judge = preload("res://rythm_game/judge.gd").new()
 
@@ -44,7 +44,7 @@ func _ready():
 #	note.time = 2000
 #	timing_points.append(note)
 #	play_song()
-	rating_label.hide()
+	rating_sprite.hide()
 
 func get_note_scale():
 	return get_playing_field_size().length() / BASE_SIZE.length()
@@ -161,12 +161,24 @@ func _process(delta):
 
 func _on_note_judged(judgement, note):
 	if not editing:
+		# Rating graphic
+		
 		var new_pos = remap_coords(note.position)
-		new_pos.x -= rating_label.rect_size.x / 2
-		rating_label.rect_position = new_pos
-		rating_label.get_node("AnimationPlayer").play("rating_appear")
-		rating_label.text = judge.RATING_TO_TEXT_MAP[judgement]
-		rating_label.show()
+		
+		var rating_to_graphic_width = {
+			judge.JUDGE_RATINGS.COOL: 195,
+			judge.JUDGE_RATINGS.FINE: 155,
+			judge.JUDGE_RATINGS.SAFE: 195,
+			judge.JUDGE_RATINGS.SAD: 155,
+			judge.JUDGE_RATINGS.WORST: 256
+		}
+		
+		rating_sprite.get_node("AnimationPlayer").play("rating_appear")
+		rating_sprite.region_rect.position.y = 64*(4-judgement)
+		rating_sprite.region_rect.size.x = rating_to_graphic_width[judgement]
+		rating_sprite.position = new_pos
+		rating_sprite.position.y -= 64
+		rating_sprite.show()
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				

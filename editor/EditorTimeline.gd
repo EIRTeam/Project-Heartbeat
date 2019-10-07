@@ -11,6 +11,7 @@ var _offset = 0
 var _prev_playhead_position = Vector2()
 onready var waveform_drawer = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 signal layers_changed
+const LOG_NAME = "Editor"
 func _ready():
 	update()
 	connect("resized", self, "_on_viewport_size_changed")

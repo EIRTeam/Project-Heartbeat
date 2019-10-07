@@ -28,7 +28,7 @@ func update_graphic_positions_and_scale(time: float):
 	else:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
-
+	target_graphic.arm_position = -((note_data.time - time*1000) / note_data.time_out)
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type)
 	target_graphic.set_note_type(note_data.note_type)

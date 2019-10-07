@@ -6,7 +6,7 @@
 code = "// credit: https://www.shadertoy.com/view/4tGXzt
 shader_type canvas_item;
 
-const float FREQ_RANGE = 512.0;
+uniform float FREQ_RANGE = 16.0;
 const float PI = 3.1415;
 const float RADIUS = 0.6;
 const float BRIGHTNESS = 0.2;
@@ -94,6 +94,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
+shader_param/FREQ_RANGE = 16.0
 shader_param/size = Vector2( 1920, 1080 )
 
 [node name="Control" type="Panel"]

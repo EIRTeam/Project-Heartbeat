@@ -12,7 +12,7 @@ var grabbed_offset = Vector2()
 var mouse_in = false
 var is_grabbing = false
 var note_data: HBNoteData = HBNoteData.new()
-
+var arm_position = 0
 func _draw():
 	pass
 #	draw_line(Vector2(0.0, 0.0), Vector2(400.0*distance/time_out, 0.0), Color("#FF0000"))
@@ -30,6 +30,8 @@ func _process(delta):
 	if Input.is_action_just_released("editor_select") and is_grabbing and input_pickable:
 		if fire_moved_on_release:
 			emit_signal("finished_moving")
+			
+	$TimingArm.rotation_degrees = arm_position * 360
 func _unhandled_input(event):
 	if event.is_action_pressed("editor_select") and input_pickable and mouse_in:
 		emit_signal("selected")
