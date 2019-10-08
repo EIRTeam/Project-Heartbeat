@@ -41,7 +41,7 @@ func _on_game_time_changed(time: float):
 	judge_note_input(time)
 	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
 	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-		emit_signal("note_judged", game.judge.JUDGE_RATINGS.WORST)
+		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
 		emit_signal("note_removed")
 		queue_free()
 		

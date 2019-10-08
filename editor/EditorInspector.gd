@@ -21,6 +21,11 @@ func _on_property_value_changed_by_user(value, property_editor):
 func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
+func stop_inspecting():
+	inspecting_item = null
+	for child in property_container.get_children():
+		child.free()
+
 func update_values():
 	update_label()
 	for property in inspecting_item.get_inspector_properties():

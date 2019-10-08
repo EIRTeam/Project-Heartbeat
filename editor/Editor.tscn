@@ -9,10 +9,10 @@
 [ext_resource path="res://editor/icons/icon_stop.svg" type="Texture" id=7]
 [ext_resource path="res://editor/icons/icon_record.svg" type="Texture" id=8]
 [ext_resource path="res://editor/icons/icon_save.svg" type="Texture" id=9]
-[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=10]
+[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=10]
 [ext_resource path="res://rythm_game/rhythm_game_playarea.tscn" type="PackedScene" id=11]
 [ext_resource path="res://editor/EditorGamePreview.gd" type="Script" id=12]
-[ext_resource path="res://editor/EditorTimeline.tscn" type="PackedScene" id=13]
+[ext_resource path="res://editor/SongSelector.tscn" type="PackedScene" id=13]
 [ext_resource path="res://editor/EditorInspector.tscn" type="PackedScene" id=14]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=15]
 [ext_resource path="res://editor/EditorCreateTab.gd" type="Script" id=16]
@@ -290,7 +290,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 13 )]
+[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 10 )]
 self_modulate = Color( 1, 1, 1, 0.501961 )
 margin_left = -1.16632
 margin_right = -1.16626
@@ -332,9 +332,9 @@ margin_bottom = 154.0
 stream = ExtResource( 4 )
 bus = "Music"
 
-[node name="SongSelector" parent="." instance=ExtResource( 10 )]
+[node name="SongSelector" parent="." instance=ExtResource( 13 )]
 
-[node name="SaveSongSelector" parent="." instance=ExtResource( 10 )]
+[node name="SaveSongSelector" parent="." instance=ExtResource( 13 )]
 
 [node name="ExitDialog" type="ConfirmationDialog" parent="."]
 margin_right = 227.0

@@ -159,9 +159,11 @@ func _input(event):
 			emit_signal("scale_changed", prev_scale, scale)
 	if event.is_action_pressed("editor_delete"):
 		if selected:
-			selected.queue_free()
-			_on_timing_points_changed()
+			if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
+				$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+			selected.free()
 			selected = null
+			_on_timing_points_changed()
 func pause():
 	recording = false
 	audio_stream_player.stream_paused = true

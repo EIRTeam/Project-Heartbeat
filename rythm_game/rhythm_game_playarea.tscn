@@ -5,9 +5,9 @@
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=3]
 [ext_resource path="res://graphics/ratings.png" type="Texture" id=5]
 
-[sub_resource type="Animation" id=1408]
-length = 0.32
-step = 0.16
+[sub_resource type="Animation" id=1]
+length = 0.1
+step = 0.016
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
@@ -15,7 +15,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.16, 0.32 ),
+"times": PoolRealArray( 0, 0.048, 0.096 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
@@ -51,4 +51,4 @@ region_enabled = true
 region_rect = Rect2( 0, 128, 195, 64 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingSprite"]
-anims/rating_appear = SubResource( 1408 )
+anims/rating_appear = SubResource( 1 )

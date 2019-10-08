@@ -88,8 +88,9 @@ func remove_note_from_screen(i):
 	
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
-		notes_on_screen[i].get_meta("note_drawer").queue_free()
-		remove_note_from_screen(i)
+		notes_on_screen[i].get_meta("note_drawer").free()
+		print("FREEING")
+	notes_on_screen = []
 func _process(delta):
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
@@ -136,7 +137,7 @@ func _process(delta):
 					if editing and timing_point is HBNoteData:
 						note_drawer.connect("target_moved", self, "_on_note_moved", [timing_point])
 						note_drawer.connect("target_selected", self, "_on_note_selected", [timing_point])
-					note_drawer.connect("note_judged", self, "_on_note_judged", [timing_point])
+					note_drawer.connect("note_judged", self, "_on_note_judged")
 					note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
@@ -159,7 +160,7 @@ func _process(delta):
 #						break
 #				$HitEffect.play()
 
-func _on_note_judged(judgement, note):
+func _on_note_judged(note, judgement):
 	if not editing:
 		# Rating graphic
 		

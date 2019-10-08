@@ -32,10 +32,11 @@ func _on_game_time_changed(time: float):
 		$Line2D.points[0] = game.remap_coords(note_data.position)
 		$Line2D.points[1] = game.remap_coords(note_data.target_position)
 
-		for point in timing_points:
-
+		for i in range(timing_points.size() - 1, -1, -1):
+			var point = timing_points[i]
 			if time * 1000.0 >= (point.time-point.time_out):
 				var note_found = false
+				# Create the note only if it does not exist already...
 				for note in notes:
 					if note.note_data == point:
 						note_found = true
@@ -50,6 +51,9 @@ func _on_game_time_changed(time: float):
 					note_drawer.pickable = false
 					add_child(note_drawer)
 					notes.append(note_drawer)
+					# Remove the note from the timing points so it doesn't get re-created
+					if not game.editing:
+						timing_points.remove(i)
 					
 	for i in range(notes.size() - 1, -1, -1):
 		var note = notes[i]
@@ -68,11 +72,12 @@ func _on_game_time_changed(time: float):
 		queue_free()
 func _on_note_judged(judgement, note_drawer):
 	notes.erase(note_drawer)
-	emit_signal("note_judged", judgement)
+	emit_signal("note_judged", note_drawer.note_data, judgement)
 	print("JUDGED NOT AT ", note_drawer.note_data.time)
-	if note_drawer.note_data == timing_points[timing_points.size()-1]:
+	if timing_points.size() == 0 and notes.size() == 0:
 		# My job is done here... uwu
 		emit_signal("note_removed")
+		print("KILL THE MULTI")
 		queue_free()
 
 func get_notes():

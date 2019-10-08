@@ -125,6 +125,6 @@ func scale_waveform():
 	waveform_drawer.max_position = waveform_drawer.max_position * 2.0
 func clear_layers():
 	for layer in layers.get_children():
-		layer.queue_free()
+		layer.free()
 	for layer_name in layer_names.get_children():
-		layer_name.queue_free()
+		layer_name.free()
