@@ -14,6 +14,9 @@ func _ready():
 	load_queue.start()
 
 func fade_out():
+	if audio_fade_tween.is_connected("tween_all_completed", self, "_on_previous_song_fade_out"):
+		return
+#		audio_fade_tween.disconnect("tween_all_completed", self, "_on_previous_song_fade_out")
 	audio_fade_tween.stop_all()
 	audio_fade_tween.interpolate_property(audio_stream_player, "volume_db", audio_stream_player.volume_db, -40, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
 	audio_fade_tween.start()
@@ -25,6 +28,7 @@ func fade_in():
 	audio_fade_tween.start()
 
 func _on_previous_song_fade_out():
+	print("FADED")
 	audio_stream_player.stream = null
 
 func _process(delta):
