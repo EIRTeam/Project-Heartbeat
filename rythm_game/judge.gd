@@ -1,6 +1,5 @@
 extends Node
-# frames at 60 fps
-const TARGET_WINDOW = 8.0
+const WINDOW_PER_TARGET = 16
 
 enum JUDGE_RATINGS {
 	WORST
@@ -17,9 +16,15 @@ const DIFF_BASED_TIMING = [
 	JUDGE_RATINGS.SAFE,
 	JUDGE_RATINGS.FINE,
 	JUDGE_RATINGS.FINE,
-	JUDGE_RATINGS.FINE,
 	JUDGE_RATINGS.COOL,
 ]
+# miliseconds from target where a value will be given
+const RATING_WINDOWS = {
+	128: JUDGE_RATINGS.SAD,
+	96: JUDGE_RATINGS.SAFE,
+	30: JUDGE_RATINGS.FINE,
+	20: JUDGE_RATINGS.COOL
+}
 
 const RATING_TO_TEXT_MAP = {
 	JUDGE_RATINGS.WORST: "WORST",
@@ -29,19 +34,24 @@ const RATING_TO_TEXT_MAP = {
 	JUDGE_RATINGS.COOL: "COOL"
 }
 func judge_note (input: float, target_note_timing: float):
-	var adjusted_diff =  (input - target_note_timing) * 60.0
-	if abs(adjusted_diff) < TARGET_WINDOW:
-		if sign(adjusted_diff) == -1:
-			var val = ceil(adjusted_diff)
-			return DIFF_BASED_TIMING[val+TARGET_WINDOW-1]
-		else:
-			var val = floor(adjusted_diff)
-			return DIFF_BASED_TIMING[TARGET_WINDOW-val-1]
-	elif adjusted_diff >= TARGET_WINDOW:
+	var diff =  (input - target_note_timing)*1000
+	var closest = 128
+	
+	if diff < -get_target_window_msec():
+		return
+	
+	for rating_window in RATING_WINDOWS:
+		if not rating_window < abs(diff):
+			closest = rating_window
+			
+	if diff >= get_target_window_msec():
 		return JUDGE_RATINGS.WORST
+			
+	print("DIFF", diff, closest)
+	return RATING_WINDOWS[closest]
 
 func get_target_window_msec():
-	return (TARGET_WINDOW/60.0) * 1000.0
+	return RATING_WINDOWS.keys()[0]
 
 func get_target_window_sec():
-	return (TARGET_WINDOW/60.0)
+	return get_target_window_msec()/1000

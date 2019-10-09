@@ -22,8 +22,8 @@ func update_graphic_positions_and_scale(time: float):
 	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
 	note_graphic.position = lerp(game.remap_coords(get_initial_position()), target_graphic.position, time_out_distance/note_data.time_out)
 	if time * 1000.0 > note_data.time:
-		var disappereance_time = note_data.time + (game.judge.TARGET_WINDOW / 60.0 * 1000.0)
-		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.TARGET_WINDOW / 60.0 * 1000.0) * game.get_note_scale()
+		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
+		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		note_graphic.scale = Vector2(new_scale, new_scale)
 	else:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
