@@ -1,5 +1,4 @@
 extends Node
-const WINDOW_PER_TARGET = 16
 
 enum JUDGE_RATINGS {
 	WORST
@@ -8,16 +7,6 @@ enum JUDGE_RATINGS {
 	FINE,
 	COOL
 }
-# Timing withing the frame window seen when going into it, not away
-const DIFF_BASED_TIMING = [
-	JUDGE_RATINGS.SAD,
-	JUDGE_RATINGS.SAD,
-	JUDGE_RATINGS.SAFE,
-	JUDGE_RATINGS.SAFE,
-	JUDGE_RATINGS.FINE,
-	JUDGE_RATINGS.FINE,
-	JUDGE_RATINGS.COOL,
-]
 # miliseconds from target where a value will be given
 const RATING_WINDOWS = {
 	128: JUDGE_RATINGS.SAD,
@@ -46,8 +35,6 @@ func judge_note (input: float, target_note_timing: float):
 			
 	if diff >= get_target_window_msec():
 		return JUDGE_RATINGS.WORST
-			
-	print("DIFF", diff, closest)
 	return RATING_WINDOWS[closest]
 
 func get_target_window_msec():

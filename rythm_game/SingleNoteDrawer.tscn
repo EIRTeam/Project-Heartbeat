@@ -18,7 +18,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.17, 0.34 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 1.05, 1.0 ]
+"values": [ 1.0, 1.1, 1.0 ]
 }
 
 [node name="SingleNoteDrawer" type="Node2D"]
