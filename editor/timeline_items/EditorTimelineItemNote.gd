@@ -9,5 +9,6 @@ func get_inspector_properties():
 	return {
 		"time": "int",
 		"position": "Vector2",
-		"time_out": "int"
+		"time_out": "int",
+		"angle": "Angle"
 	}

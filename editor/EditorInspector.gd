@@ -3,7 +3,8 @@ extends Control
 const INSPECTOR_TYPES = {
 	"int": preload("res://editor/inspector_types/int.tscn"),
 	"Vector2": preload("res://editor/inspector_types/Vector2.tscn"),
-	"NoteTypeSelector": preload("res://editor/inspector_types/NoteTypeSelector.tscn")
+	"NoteTypeSelector": preload("res://editor/inspector_types/NoteTypeSelector.tscn"),
+	"Angle": preload("res://editor/inspector_types/angle.tscn")
 }
 
 onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")

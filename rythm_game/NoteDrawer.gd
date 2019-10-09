@@ -21,7 +21,33 @@ func _on_note_type_changed():
 	pass
 
 func get_initial_position():
-	return Vector2(1.0, 0.5)
+	var angle_cos = -cos(deg2rad(note_data.angle))
+	var angle_sin = -sin(deg2rad(note_data.angle))
+	var x1 = 0
+	var y1 = 0
+	var x2 = 1.0
+	var y2 = 1.0
+	
+	var px = note_data.position.x
+	var py = note_data.position.y
+	
+	var ts = []
+	if angle_cos != 0:
+		ts.append((x1-px)/angle_cos)
+		ts.append((x2-px)/angle_cos)
+	if angle_sin != 0:
+		ts.append((y1-py)/angle_sin)
+		ts.append((y2-py)/angle_sin)
+	var length
+	for distance in ts:
+		if not length and distance > 0:
+			length = distance
+			continue
+		if distance > 0 and distance < length:
+			length = distance
+	var point = Vector2(px+length*angle_cos, py+length*angle_sin)
+
+	return point
 
 func judge_note_input(time: float):
 	# Judging tapped keys
@@ -35,7 +61,7 @@ func judge_note_input(time: float):
 					var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
 					if judgement:
 						print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
-						emit_signal("note_judged", judgement)
+						emit_signal("note_judged", note_data, judgement)
 						emit_signal("note_removed")
 						queue_free()
 				break

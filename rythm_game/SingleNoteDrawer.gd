@@ -33,9 +33,6 @@ func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type)
 	target_graphic.set_note_type(note_data.note_type)
 
-func get_initial_position():
-	return Vector2(1.0, 0.5)
-
 func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)
 	judge_note_input(time)

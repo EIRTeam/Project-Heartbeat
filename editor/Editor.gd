@@ -227,6 +227,7 @@ func serialize_chart():
 
 func from_chart(chart: HBChart):
 	timeline.clear_layers()
+	selected = null
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		timeline.add_layer(layer_scene)

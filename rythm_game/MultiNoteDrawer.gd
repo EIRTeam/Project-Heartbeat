@@ -2,16 +2,11 @@ extends "res://rythm_game/NoteDrawer.gd"
 
 const NOTE_DRAWER_SCENE = preload("res://rythm_game/SingleNoteDrawer.tscn")
 
-var _last_note_start_position
-var _last_note_target_position
-
 var notes = []
 var timing_points = []
 
 
 func _ready():
-	_last_note_start_position = note_data.position
-	_last_note_target_position = note_data.target_position
 	create_notes()
 	$Line2D.show()
 	_on_note_type_changed()

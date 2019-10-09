@@ -98,6 +98,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+next_menu = NodePath("")
 
 [node name="ToolsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
 margin_left = 8.85455
@@ -160,6 +161,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+next_menu = NodePath("")
 
 [node name="EditorButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
 margin_left = 8.85455
