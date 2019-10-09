@@ -10,5 +10,5 @@ func get_inspector_properties():
 		"time": "int",
 		"position": "Vector2",
 		"time_out": "int",
-		"angle": "Angle"
+		"entry_angle": "Angle"
 	}

@@ -21,8 +21,8 @@ func _on_note_type_changed():
 	pass
 
 func get_initial_position():
-	var angle_cos = -cos(deg2rad(note_data.angle))
-	var angle_sin = -sin(deg2rad(note_data.angle))
+	var angle_cos = -cos(deg2rad(note_data.entry_angle))
+	var angle_sin = -sin(deg2rad(note_data.entry_angle))
 	var x1 = 0
 	var y1 = 0
 	var x2 = 1.0
