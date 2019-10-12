@@ -15,12 +15,14 @@ func _ready():
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
-	print("APPEAR")
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
-	note_graphic.position = lerp(game.remap_coords(get_initial_position()), target_graphic.position, time_out_distance/note_data.time_out)
+	# Movement along wave
+	var oscillation_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
+	var starting_pos = game.remap_coords(get_initial_position())
+	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/note_data.time_out)
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()

@@ -1,7 +1,7 @@
 extends Panel
 var spectrum : AudioEffectSpectrumAnalyzerInstance
 var FREQ_MAX = 44100.0 / 3 setget set_freq_max
-const VU_COUNT = 512
+const VU_COUNT = 16 # high VU_COUNTS break on windows
 var MIN_DB = 60 setget set_min_db
 var spectrum_image := Image.new()
 var spectrum_image_texture := ImageTexture.new()

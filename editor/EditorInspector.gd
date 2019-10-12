@@ -3,6 +3,7 @@ extends Control
 const INSPECTOR_TYPES = {
 	"int": preload("res://editor/inspector_types/int.tscn"),
 	"Vector2": preload("res://editor/inspector_types/Vector2.tscn"),
+	"float": preload("res://editor/inspector_types/float.tscn"),
 	"NoteTypeSelector": preload("res://editor/inspector_types/NoteTypeSelector.tscn"),
 	"Angle": preload("res://editor/inspector_types/angle.tscn")
 }

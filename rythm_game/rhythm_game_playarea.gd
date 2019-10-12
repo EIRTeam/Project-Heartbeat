@@ -47,7 +47,7 @@ func _ready():
 	rating_sprite.hide()
 
 func get_note_scale():
-	return get_playing_field_size().length() / BASE_SIZE.length()
+	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.85
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0

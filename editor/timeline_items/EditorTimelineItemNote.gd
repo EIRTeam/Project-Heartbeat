@@ -10,5 +10,7 @@ func get_inspector_properties():
 		"time": "int",
 		"position": "Vector2",
 		"time_out": "int",
-		"entry_angle": "Angle"
+		"oscillation_amplitude": "float",
+		"oscillation_frequency": "int",
+		"entry_angle": "Angle",
 	}

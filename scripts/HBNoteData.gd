@@ -39,8 +39,10 @@ const NOTE_GRAPHICS = {
 var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area
 var time_out: int = 1400 # time where the note target starts being visible
 var entry_angle: float = 0.0
+var oscillation_amplitude = 0.05
+var oscillation_frequency = 1
 func _init():
-	serializable_fields += ["position", "time_out", "note_type", "entry_angle"]
+	serializable_fields += ["position", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
 
 func get_serialized_type():
 	return "Note"
