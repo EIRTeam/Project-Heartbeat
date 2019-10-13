@@ -1,19 +1,6 @@
 extends "res://editor/timeline_items/EditorTimelineItemNote.gd"
 
-const NOTE_PROPERTIES = {
-	HBNoteData.NOTE_TYPE.UP: {
-		"color": "eeb136"
-	},
-	HBNoteData.NOTE_TYPE.DOWN: {
-		"color": "87d639"
-	},
-	HBNoteData.NOTE_TYPE.LEFT: {
-		"color": "4296f3"
-	},
-	HBNoteData.NOTE_TYPE.RIGHT: {
-		"color": "e02828"
-	}
-}
+
 
 const WIDTH = 5.0
 
@@ -24,7 +11,7 @@ func _ready():
 
 func set_color():
 	var style_box = StyleBoxFlat.new()
-	style_box.bg_color = Color(NOTE_PROPERTIES[data.note_type].color)
+	style_box.bg_color = Color(data.NOTE_COLORS[data.note_type].color)
 	add_stylebox_override("panel", style_box)
 func get_size():
 	return Vector2(WIDTH, rect_size.y)

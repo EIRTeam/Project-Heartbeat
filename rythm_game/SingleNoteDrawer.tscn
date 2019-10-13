@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
@@ -21,6 +21,10 @@ tracks/0/keys = {
 "values": [ 1.0, 1.1, 1.0 ]
 }
 
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.00724638, 1 )
+colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.5 )
+
 [node name="SingleNoteDrawer" type="Node2D"]
 z_index = -2
 script = ExtResource( 3 )
@@ -34,5 +38,19 @@ z_index = -1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/note_appear = SubResource( 1 )
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = -1
+points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
+width = 3.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 2 )
+
+[node name="Line2D2" type="Line2D" parent="."]
+z_index = -1
+points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
+width = 3.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 2 )
 [connection signal="moved" from="NoteTarget" to="." method="_on_NoteTarget_note_moved"]
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]

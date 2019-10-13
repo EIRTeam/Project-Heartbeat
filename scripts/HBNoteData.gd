@@ -35,14 +35,28 @@ const NOTE_GRAPHICS = {
 	}
 }
 
-
+var NOTE_COLORS = {
+	NOTE_TYPE.UP: {
+		"color": "eeb136"
+	},
+	NOTE_TYPE.DOWN: {
+		"color": "87d639"
+	},
+	NOTE_TYPE.LEFT: {
+		"color": "4296f3"
+	},
+	NOTE_TYPE.RIGHT: {
+		"color": "e02828"
+	}
+}
 var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area
 var time_out: int = 1400 # time where the note target starts being visible
 var entry_angle: float = 0.0
 var oscillation_amplitude = 0.05
 var oscillation_frequency = 1
+var oscillation_phase_shift = 3
 func _init():
-	serializable_fields += ["position", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
+	serializable_fields += ["position", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
 
 func get_serialized_type():
 	return "Note"

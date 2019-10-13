@@ -52,14 +52,16 @@ static func merge_dict(target, patch):
 
 
 # Interpolates from a to b along a sine wave
-static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequency: float, value: float) -> Vector2:
+static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequency: float, value: float, phase_shift_angle: float = 0.0) -> Vector2:
 	var dist = (from - to).length()
 	value = clamp(value, 0, 1)
+	var period = 1/frequency
+	var phase_shift = (phase_shift_angle/360.0)*(period*2)
 	if dist != 0:
 		var t = value * dist
 		var x = t
 		var angle = from.angle_to_point(to)
-		var y = amplitude * sin((t/dist)*PI*frequency)
+		var y = amplitude * sin((((t/dist) + phase_shift)*(PI*frequency)))
 		var xp = (x * cos(angle)) - (y * sin(angle))
 		var yp = (x * sin(angle)) + (y * cos(angle))
 		return from-Vector2(xp, yp)
