@@ -45,6 +45,7 @@ points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 2 )
+joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
 z_index = -1
@@ -52,5 +53,6 @@ points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 2 )
+joint_mode = 2
 [connection signal="moved" from="NoteTarget" to="." method="_on_NoteTarget_note_moved"]
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]

@@ -56,7 +56,7 @@ static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequen
 	var dist = (from - to).length()
 	value = clamp(value, 0, 1)
 	var period = 1/frequency
-	var phase_shift = (phase_shift_angle/360.0)*(period*2)
+	var phase_shift = (phase_shift_angle/180.0)*(period)
 	if dist != 0:
 		var t = value * dist
 		var x = t
