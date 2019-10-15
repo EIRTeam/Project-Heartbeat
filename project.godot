@@ -121,6 +121,7 @@ output_latency=2
 [autoload]
 
 Log="*res://autoloads/Log.gd"
+PackageLoader="*res://autoloads/PackageLoader.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 

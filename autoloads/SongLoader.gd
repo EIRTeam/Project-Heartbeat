@@ -10,7 +10,8 @@ var songs := {}
 const SONGS_PATH = "res://songs"
 
 func _ready():
-	load_all_songs_meta()
+	pass
+#	load_all_songs_meta()
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()

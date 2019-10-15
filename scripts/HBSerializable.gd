@@ -5,7 +5,9 @@ func serialize():
 	var serialized_data = {}
 	for field in serializable_fields:
 		var _field = get(field)
-		if _field is Array or _field is int or _field is float or _field is String:
+		if _field is Object and field.has_method("serialize"):
+			serialized_data[field] = _field.serialize()
+		if _field is Array or _field is int or _field is float or _field is String or _field is Dictionary:
 			serialized_data[field] = get(field)
 		else:
 			serialized_data[field] = var2str(get(field))
@@ -40,11 +42,25 @@ static func get_serializable_types():
 func get_serialized_type():
 	pass
 
+static func from_file(path: String):
+	var file = File.new()
+	if file.open(path, File.READ) == OK:
+		var data = file.get_as_text()
+		var json_result := JSON.parse(data)
+		if json_result.error == OK:
+			return deserialize(json_result.result)
+		else:
+			print("Error parsing JSON file %s on line %d %s" % [path, json_result.error_line, json_result.error_string], Log.LogLevel.ERROR)
+			
+	else:
+		print("Error opening JSON file %s" % [path], Log.LogLevel.ERROR)
+
 func save_to_file(path: String):
 	var file := File.new()
+	var data = serialize()
 	var err = file.open(path, File.WRITE) == OK
 	if err:
-		file.store_string(JSON.print(serialize(), "  "))
+		file.store_string(JSON.print(data, "  "))
 	else:
 		Log.log(self, "Error when saving serialized object %s, error: %d" % [get_serialized_type(), err], Log.LogLevel.ERROR)
 	return err

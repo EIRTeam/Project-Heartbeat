@@ -293,6 +293,7 @@ text = "BPM"
 margin_top = 35.0
 margin_right = 616.0
 margin_bottom = 66.0
+max_value = 2.14748e+09
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -329,6 +330,7 @@ text = "Song preview start (in miliseconds)"
 margin_top = 175.0
 margin_right = 616.0
 margin_bottom = 206.0
+max_value = 2.14748e+09
 __meta__ = {
 "_edit_use_anchors_": false
 }
