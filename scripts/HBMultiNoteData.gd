@@ -17,6 +17,10 @@ func get_simplified():
 		var data = HBNoteData.new()
 		data.note_type = note_type
 		data.time_out = time_out
+		data.oscillation_amplitude = oscillation_amplitude
+		data.oscillation_frequency = oscillation_frequency
+		data.oscillation_phase_shift = oscillation_phase_shift
+		data.entry_angle = entry_angle
 		data.position = lerp(position, target_position, float(i)/float(number_of_notes-1))
 		data.time = int(time + (i * interval))
 		notes.append(data)

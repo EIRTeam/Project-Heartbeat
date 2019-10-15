@@ -65,7 +65,7 @@ func _on_game_time_changed(time: float):
 	if time * 1000.0 < (note_data.time - note_data.time_out):
 		emit_signal("note_removed")
 		queue_free()
-func _on_note_judged(judgement, note_drawer):
+func _on_note_judged(note_data, judgement, note_drawer):
 	notes.erase(note_drawer)
 	emit_signal("note_judged", note_drawer.note_data, judgement)
 	print("JUDGED NOT AT ", note_drawer.note_data.time)

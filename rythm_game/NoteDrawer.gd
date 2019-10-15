@@ -38,7 +38,7 @@ func get_initial_position():
 	if angle_sin != 0:
 		ts.append((y1-py)/angle_sin)
 		ts.append((y2-py)/angle_sin)
-	var length
+	var length = 0
 	for distance in ts:
 		if not length and distance > 0:
 			length = distance
