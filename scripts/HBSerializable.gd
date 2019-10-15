@@ -34,10 +34,19 @@ static func get_serializable_types():
 		"Note": load("res://scripts/HBNoteData.gd"),
 		"TimingPoint": load("res://scripts/HBTimingPoint.gd"),
 		"MultiNote": load("res://scripts/HBMultiNoteData.gd"),
-		"Song": load("res://scripts/HBSong.gd")
+		"Song": load("res://scripts/HBSong.gd"),
+		"Package": load("res://scripts/HBPackageMeta.gd")
 	}
 func get_serialized_type():
 	pass
 
+func save_to_file(path: String):
+	var file := File.new()
+	var err = file.open(path, File.WRITE) == OK
+	if err:
+		file.store_string(JSON.print(serialize(), "  "))
+	else:
+		Log.log(self, "Error when saving serialized object %s, error: %d" % [get_serialized_type(), err], Log.LogLevel.ERROR)
+	return err
 static func can_show_in_editor():
 	return false

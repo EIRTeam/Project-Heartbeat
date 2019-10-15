@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/editor/inspector_types/EditorInspectorTypeVector2.gd" type="Script" id=1]
+
+[node name="Vector2" type="HBoxContainer"]
+margin_right = 26.0
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = 5.0
+margin_right = 8.0
+margin_bottom = 19.0
+text = "X"
+
+[node name="XSpinbox" type="SpinBox" parent="."]
+margin_left = 12.0
+margin_right = 86.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
+align = 3
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 90.0
+margin_top = 5.0
+margin_right = 97.0
+margin_bottom = 19.0
+text = "y"
+
+[node name="YSpinbox" type="SpinBox" parent="."]
+margin_left = 101.0
+margin_right = 175.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
+align = 3
+[connection signal="value_changed" from="XSpinbox" to="." method="_on_XSpinbox_value_changed"]
+[connection signal="value_changed" from="YSpinbox" to="." method="_on_YSpinbox_value_changed"]

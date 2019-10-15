@@ -34,4 +34,4 @@ margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
 [connection signal="focus_entered" from="." to="HBoxContainer/SongList" method="grab_focus"]
-[connection signal="song_selected" from="HBoxContainer/SongList" to="HBoxContainer/SongListPreview" method="select_song"]
+[connection signal="song_hovered" from="HBoxContainer/SongList" to="HBoxContainer/SongListPreview" method="select_song"]

@@ -5,4 +5,4 @@ func _ready():
 
 
 func _on_EditorButton_pressed():
-	get_tree().change_scene_to(preload("res://editor/Editor.tscn"))
+	get_tree().change_scene_to(preload("res://tools/editor/Editor.tscn"))

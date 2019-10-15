@@ -12,17 +12,17 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "BBCWaveform",
 "language": "GDScript",
-"path": "res://editor/BBCWaveform.gd"
+"path": "res://tools/editor/BBCWaveform.gd"
 }, {
 "base": "Panel",
 "class": "EditorTimelineItem",
 "language": "GDScript",
-"path": "res://editor/timeline_items/EditorTimelineItem.gd"
+"path": "res://tools/editor/timeline_items/EditorTimelineItem.gd"
 }, {
 "base": "Panel",
 "class": "EditorTimelineItemNote",
 "language": "GDScript",
-"path": "res://editor/timeline_items/EditorTimelineItemNote.gd"
+"path": "res://tools/editor/timeline_items/EditorTimelineItemNote.gd"
 }, {
 "base": "Reference",
 "class": "HBChart",
@@ -58,6 +58,11 @@ _global_script_classes=[ {
 "class": "HBNoteData",
 "language": "GDScript",
 "path": "res://scripts/HBNoteData.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBPackageMeta",
+"language": "GDScript",
+"path": "res://scripts/HBPackageMeta.gd"
 }, {
 "base": "Reference",
 "class": "HBResourceQueue",
@@ -95,6 +100,7 @@ _global_script_class_icons={
 "HBMenuButton": "",
 "HBMultiNoteData": "",
 "HBNoteData": "",
+"HBPackageMeta": "",
 "HBResourceQueue": "",
 "HBSerializable": "",
 "HBSong": "",
@@ -115,7 +121,7 @@ output_latency=2
 [autoload]
 
 Log="*res://autoloads/Log.gd"
-SongLoader="*res://autoloads/SongLoader/SongLoader.gd"
+SongLoader="*res://autoloads/SongLoader.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 
 [debug]

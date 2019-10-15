@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://tools/SongSelector.tscn" type="PackedScene" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="HSplitContainer"]
+margin_right = 636.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+
+[node name="SongSelector" parent="HSplitContainer/Panel2" instance=ExtResource( 2 )]
+margin_right = 636.0
+margin_bottom = 720.0
+mode = 1
+
+[node name="Panel" type="Panel" parent="HSplitContainer"]
+margin_left = 644.0
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_horizontal = 3

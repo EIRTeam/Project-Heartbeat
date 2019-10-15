@@ -26,7 +26,7 @@ func get_duration():
 	return duration
 
 func get_timeline_item():
-	var timeline_item_scene = load("res://editor/timeline_items/EditorTimelineItemMultinote.tscn")
+	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemMultinote.tscn")
 	var timeline_item = timeline_item_scene.instance()
 	timeline_item.data = self
 	return timeline_item

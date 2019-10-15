@@ -67,3 +67,11 @@ static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequen
 		return from-Vector2(xp, yp)
 	else:
 		return to
+
+# Converts a string from being complex to snake case
+static func get_valid_filename(value: String):
+	# Convert to ascii to strip most characters
+	value = value.strip_edges().replace(' ', '_')
+	var regex = RegEx.new()
+	regex.compile("[^a-zA-Z0-9_]")
+	return regex.sub(value, "", true).to_lower()

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/editor/inspector_types/angle.gd" type="Script" id=1]
+[ext_resource path="res://tools/editor/inspector_types/AngleEdit.gd" type="Script" id=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 151.0
+margin_bottom = 64.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AngleEdit" type="Control" parent="."]
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spinbox" type="SpinBox" parent="."]
+margin_left = 68.0
+margin_top = 20.0
+margin_right = 151.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -360.0
+max_value = 360.0
+step = 0.0
+align = 1
+[connection signal="angle_changed" from="AngleEdit" to="." method="_on_angle_changed"]
+[connection signal="value_changed" from="Spinbox" to="." method="_on_Spinbox_value_changed"]

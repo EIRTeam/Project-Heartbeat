@@ -62,14 +62,14 @@ func get_serialized_type():
 	return "Note"
 
 
-static func get_note_graphics(note_type):
-	return NOTE_GRAPHICS[note_type]
+static func get_note_graphics(type):
+	return NOTE_GRAPHICS[type]
 	
 static func can_show_in_editor():
 	return true
 	
 func get_timeline_item():
-	var timeline_item_scene = load("res://editor/timeline_items/EditorTimelineItemSingleNote.tscn")
+	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 	var timeline_item = timeline_item_scene.instance()
 	timeline_item.data = self
 	return timeline_item

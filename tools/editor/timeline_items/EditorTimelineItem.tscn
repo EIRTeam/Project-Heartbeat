@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://tools/editor/timeline_items/EditorTimelineItemSelectedPanel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://tools/editor/timeline_items/EditorTimelineItem.gd" type="Script" id=2]
+
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+[node name="EditorTimelineItem" type="Panel"]
+margin_right = 166.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectedPanel" parent="." instance=ExtResource( 1 )]
