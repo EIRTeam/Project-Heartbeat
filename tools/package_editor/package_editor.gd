@@ -166,6 +166,7 @@ func _on_ExportPackageFileDialog_file_selected(path):
 		if file.open(ep_path, File.WRITE) == OK:
 			file.store_string(EXPORT_PRESETS_BASE)
 			
+	# Run a godot instance and export the mod as PCK (we assume we ship tools, should we?) 
 	var arguments = PoolStringArray()
 	arguments.append("--no-window")
 	arguments.append("--path")
