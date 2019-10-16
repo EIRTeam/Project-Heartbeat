@@ -3,6 +3,16 @@ extends HBSerializable
 
 class_name HBSong
 
+# Because user loaded songs don't have .import files we have to load stuff like songs
+# differently, seriously???
+enum SONG_FS_ORIGIN {
+	BUILT_IN,
+	USER
+}
+
+var path: String
+var id: String
+
 var title := ""
 var artist := ""
 var artist_alias := ""
@@ -14,7 +24,6 @@ var bpm = 150
 var preview_start = 77000
 var charts = []
 
-var id
 	
 func get_serialized_type():
 	return "Song"
@@ -35,11 +44,30 @@ func get_meta_string():
 		song_meta.append("Chart by: %s" % creator)
 	return song_meta
 	
+	
+func get_fs_origin():
+	if path.begins_with("res://"):
+		return SONG_FS_ORIGIN.BUILT_IN
+	return SONG_FS_ORIGIN.USER 
+	
 func get_chart_path(difficulty):
-	return "res://songs/%s/%s" % [id, charts[difficulty].file]
+	return path.plus_file("/%s" % [charts[difficulty].file])
 	
 func get_waveform_path():
-	return "res://songs/%s/%s" % [id, "waveform.json"]
+	return path.plus_file("/%s" % ["waveform.json"])
 	
 func get_song_audio_res_path():
-	return "res://songs/%s/%s" % [id, audio]
+	if audio:
+		return path.plus_file("/%s" % [audio])
+	else:
+		return path.plus_file(HBUtils.get_valid_filename(title)) + ".ogg"
+		
+func get_meta_path():
+	return path.plus_file("song.json")
+		
+func save_song():
+	# Ensure song directory exists
+	var dir := Directory.new()
+	dir.make_dir_recursive(path)
+	
+	save_to_file(get_meta_path())

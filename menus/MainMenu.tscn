@@ -29,8 +29,10 @@ __meta__ = {
 [node name="Menus" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -3.0
+margin_bottom = -3.0
 theme = ExtResource( 7 )
-custom_constants/margin_right = 150
+custom_constants/margin_right = 50
 custom_constants/margin_left = 150
 __meta__ = {
 "_edit_use_anchors_": false
@@ -38,14 +40,14 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menus"]
 margin_left = 150.0
-margin_right = 1130.0
+margin_right = 1230.0
 margin_bottom = 720.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBMainMenu" type="Control" parent="Menus/HBoxContainer"]
-margin_right = 980.0
+margin_right = 1080.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
 script = ExtResource( 4 )
@@ -177,6 +179,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SongMetaEditorButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
+margin_left = 8.85455
+margin_top = 82.7561
+margin_right = 281.855
+margin_bottom = 141.756
+theme = SubResource( 2 )
+text = "Song Metadata Editor"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 9 )]
 visible = false
 
@@ -195,5 +210,6 @@ bus = "Music"
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
 [connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="grab_focus"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/EditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_EditorButton_pressed"]
+[connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/SongMetaEditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_SongMetaEditorButton_pressed"]
 
 [editable path="Menus/HBoxContainer/HBMainMenu/SongListMenu"]

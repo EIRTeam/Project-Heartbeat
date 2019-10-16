@@ -14,6 +14,9 @@ const LogLevel2String = {
 	LogLevel.ERROR: "ERROR",
 }
 
+func _ready():
+	print("Project Heartbeat ")
+
 func log(caller: Object, message: String, log_level = LogLevel.INFO) -> void:
 	var caller_name = caller.get_class()
 	if caller.LOG_NAME:

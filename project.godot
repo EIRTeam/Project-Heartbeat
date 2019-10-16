@@ -59,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBNoteData.gd"
 }, {
-"base": "HBSerializable",
-"class": "HBPackageMeta",
-"language": "GDScript",
-"path": "res://scripts/HBPackageMeta.gd"
-}, {
 "base": "Reference",
 "class": "HBResourceQueue",
 "language": "GDScript",
@@ -100,7 +95,6 @@ _global_script_class_icons={
 "HBMenuButton": "",
 "HBMultiNoteData": "",
 "HBNoteData": "",
-"HBPackageMeta": "",
 "HBResourceQueue": "",
 "HBSerializable": "",
 "HBSong": "",
@@ -112,6 +106,8 @@ _global_script_class_icons={
 
 config/name="Project Heartbeat"
 run/main_scene="res://menus/MainMenu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Project Heartbeat"
 config/icon="res://icon.png"
 
 [audio]
@@ -121,7 +117,6 @@ output_latency=2
 [autoload]
 
 Log="*res://autoloads/Log.gd"
-PackageLoader="*res://autoloads/PackageLoader.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 

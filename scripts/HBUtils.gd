@@ -75,3 +75,12 @@ static func get_valid_filename(value: String):
 	var regex = RegEx.new()
 	regex.compile("[^a-zA-Z0-9_]")
 	return regex.sub(value, "", true).to_lower()
+	
+static func load_ogg(path: String) -> AudioStreamOGGVorbis:
+	var ogg_file = File.new()
+	ogg_file.open(path, File.READ)
+	var bytes = ogg_file.get_buffer(ogg_file.get_len())
+	var stream = AudioStreamOGGVorbis.new()
+	stream.data = bytes
+	ogg_file.close()
+	return stream

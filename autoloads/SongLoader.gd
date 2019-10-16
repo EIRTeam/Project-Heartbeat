@@ -9,9 +9,13 @@ var songs := {}
 
 const SONGS_PATH = "res://songs"
 
+const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
+
 func _ready():
-	pass
-#	load_all_songs_meta()
+	var dir = Directory.new()
+	for path in SONG_SEARCH_PATHS:
+		print(dir.make_dir_recursive(path))
+	load_all_songs_meta()
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
@@ -22,6 +26,7 @@ func load_song_meta(path: String, id: String) -> HBSong:
 			
 			var song_instance = HBSerializable.deserialize(song_json.result)
 			song_instance.id = id
+			song_instance.path = path.get_base_dir()
 			return song_instance
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])
@@ -46,8 +51,9 @@ func load_songs_from_path(path):
 					value[file_name] = song_meta
 			file_name = dir.get_next()
 	else:
-		print("An error occurred when trying to access the path.")
+		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 	return value
 func load_all_songs_meta():
-	songs = load_songs_from_path(SongLoader.SONGS_PATH)
+	for path in SONG_SEARCH_PATHS:
+		songs = HBUtils.merge_dict(songs, load_songs_from_path(path))
 	emit_signal("all_songs_loaded")
