@@ -35,7 +35,7 @@ const NOTE_GRAPHICS = {
 	}
 }
 
-var NOTE_COLORS = {
+const NOTE_COLORS = {
 	NOTE_TYPE.UP: {
 		"color": "eeb136"
 	},

@@ -12,6 +12,8 @@ var _prev_playhead_position = Vector2()
 onready var waveform_drawer = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 signal layers_changed
 const LOG_NAME = "Editor"
+
+const TRIANGLE_HEIGHT = 15
 func _ready():
 	update()
 	connect("resized", self, "_on_viewport_size_changed")
@@ -76,14 +78,14 @@ func _draw_playhead():
 		var playhead_pos = calculate_playhead_position()
 		_prev_playhead_position = playhead_pos
 	
-		draw_line(playhead_pos, playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
+		draw_line(playhead_pos + Vector2(0, playhead_area.rect_size.y), playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
 		
-		var triangle_height = 10
+		# Draw playhead triangle
 		var point1 = playhead_pos + Vector2(0, playhead_area.rect_size.y)
-		var point2 = playhead_pos + Vector2(triangle_height, playhead_area.rect_size.y - triangle_height)
-		var point3 = playhead_pos + Vector2(-triangle_height, playhead_area.rect_size.y - triangle_height)
+		var point2 = playhead_pos + Vector2(TRIANGLE_HEIGHT/2, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
+		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
 		
-		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red)
+		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red, PoolVector2Array(), null, null, true)
 
 func add_layer(layer):
 	layer.editor = editor

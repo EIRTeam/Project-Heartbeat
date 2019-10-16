@@ -17,6 +17,7 @@ func _ready():
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
+	$NoteTarget/Particles2D.emitting = true
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)

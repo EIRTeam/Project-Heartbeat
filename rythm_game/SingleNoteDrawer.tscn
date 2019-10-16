@@ -1,8 +1,33 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
+[ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.941077, 1 )
+colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+max_value = 6.0
+_data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 50.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "note_appear"
@@ -35,6 +60,15 @@ z_index = 1
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 position = Vector2( 2.21606, 1.10802 )
 z_index = -1
+
+[node name="Particles2D" type="Particles2D" parent="NoteTarget"]
+position = Vector2( -2.21606, -1.10802 )
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 4.0
+process_material = SubResource( 7 )
+texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/note_appear = SubResource( 1 )

@@ -26,11 +26,11 @@ func place_preview(start: float, duration: float):
 	
 	
 func add_item(item: EditorTimelineItem):
-	add_child(item)
 	item._layer = self
 	item.editor = editor
 	place_child(item)
 	item.connect("item_changed", self, "place_child", [item])
+	add_child(item)
 
 func can_drop_data(position, data):
 	if data is EditorTimelineItem:
