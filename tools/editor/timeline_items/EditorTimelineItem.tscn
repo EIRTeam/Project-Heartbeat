@@ -3,7 +3,6 @@
 [ext_resource path="res://tools/editor/timeline_items/EditorTimelineItemSelectedPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/timeline_items/EditorTimelineItem.gd" type="Script" id=2]
 
-
 [sub_resource type="StyleBoxFlat" id=1]
 
 [node name="EditorTimelineItem" type="Panel"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tools/editor/BBCWaveform.gd" type="Script" id=1]
 [ext_resource path="res://graphics/notes/xbox/X.png" type="Texture" id=2]
@@ -9,8 +9,16 @@
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
 [ext_resource path="res://tools/icons/icon_add.svg" type="Texture" id=8]
 
+[sub_resource type="StyleBoxFlat" id=2073]
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.0941176, 0.109804, 0.14902, 1 )
+border_width_bottom = 1
+border_color = Color( 0.541176, 0.541176, 0.541176, 1 )
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="EditorTimeline" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -73,12 +81,13 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 167.0
-size_flags_vertical = 3
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+custom_constants/separation = 0
 
 [node name="PlayheadPosText" type="Panel" parent="VBoxContainer/HBoxContainer"]
 margin_right = 116.0
-margin_bottom = 167.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
@@ -95,16 +104,16 @@ __meta__ = {
 }
 
 [node name="PlayheadArea" type="Panel" parent="VBoxContainer/HBoxContainer"]
-margin_left = 120.0
+margin_left = 116.0
 margin_right = 1280.0
-margin_bottom = 167.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
+custom_styles/panel = SubResource( 2073 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 167.0
+margin_top = 40.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
@@ -112,42 +121,44 @@ size_flags_stretch_ratio = 3.3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
 margin_right = 1280.0
-margin_bottom = 553.0
+margin_bottom = 680.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
+custom_constants/separation = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
 margin_right = 116.0
-margin_bottom = 553.0
+margin_bottom = 680.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="LayerNames" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 margin_right = 116.0
-margin_bottom = 527.0
+margin_bottom = 654.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 
 [node name="NewLayerButton" type="Button" parent="VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 margin_left = 44.0
-margin_top = 531.0
+margin_top = 658.0
 margin_right = 72.0
-margin_bottom = 553.0
+margin_bottom = 680.0
 size_flags_horizontal = 4
 icon = ExtResource( 8 )
 flat = true
 
 [node name="Layers" type="Panel" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
-margin_left = 120.0
+margin_left = 116.0
 margin_right = 1280.0
-margin_bottom = 553.0
+margin_bottom = 680.0
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="LayerControl" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
 margin_right = 1160.0
@@ -155,11 +166,13 @@ margin_bottom = 553.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
+custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BBCWaveform" type="Control" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
+self_modulate = Color( 1, 1, 1, 0.501961 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0

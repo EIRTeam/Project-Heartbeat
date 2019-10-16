@@ -24,19 +24,44 @@ func _on_viewport_size_changed():
 	update()
 	
 	
-func _draw_timing_line_interval(interval, line_scale=0.5, offset=0):
+func _draw_bars(interval, offset=0):
 	var lines = int(editor.get_song_length() / interval)
 	lines -= ceil(offset / interval)
 	for line in range(lines):
 		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, playhead_area.rect_size.y * line_scale), Color.white, 1.0, false)
+		var pos_sec = line*interval
+		if abs(_offset) > (line*interval) * 1000.0:
+			continue
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 1.0), 1.0, false)
 	
-func _draw_timing_label():
-	pass
+func _draw_interval(interval, offset=0, ignore_interval=null):
+	var lines = int(editor.get_song_length() / interval)
+	lines -= ceil(offset / interval)
+	for line in range(lines):
+		var starting_rect_pos = playhead_area.rect_position + Vector2(0, 10) + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
+		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
+		
+		var pos_sec = line*interval
+		if abs(_offset) > (line*interval) * 1000.0:
+			continue
+		if ignore_interval and ignore_interval > 0:
+			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
+				continue
+			
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(0.5, 0.5, 0.5), 1.0, false)
 	
 func _draw_timing_lines():
-	_draw_timing_line_interval(1, 0.5)
+	var bars_per_minute = editor.bpm / editor.get_beats_per_bar()
+	var seconds_per_bar = 60/bars_per_minute
+	
+	var beat_length = seconds_per_bar / editor.get_beats_per_bar()
+	var note_length = 1.0/4.0 # a quarter of a beat
+	var note_res = editor.get_note_resolution()
+	var interval = (editor.get_note_resolution() / note_length) * beat_length
+	
+	_draw_interval(interval, editor.get_note_snap_offset(), seconds_per_bar)
+	_draw_bars(seconds_per_bar, editor.get_note_snap_offset())
 	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
@@ -47,9 +72,18 @@ func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 
 func _draw_playhead():
-	var playhead_pos = calculate_playhead_position()
-	_prev_playhead_position = playhead_pos
-	draw_line(playhead_pos, playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
+	if editor.playhead_position > _offset:
+		var playhead_pos = calculate_playhead_position()
+		_prev_playhead_position = playhead_pos
+	
+		draw_line(playhead_pos, playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
+		
+		var triangle_height = 10
+		var point1 = playhead_pos + Vector2(0, playhead_area.rect_size.y)
+		var point2 = playhead_pos + Vector2(triangle_height, playhead_area.rect_size.y - triangle_height)
+		var point3 = playhead_pos + Vector2(-triangle_height, playhead_area.rect_size.y - triangle_height)
+		
+		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red)
 
 func add_layer(layer):
 	layer.editor = editor
@@ -88,7 +122,7 @@ func _on_Editor_scale_changed(prev_scale, scale):
 	print("scale change", (scale/prev_scale))
 	var new_offset = _offset * (scale/prev_scale)
 	var diff = _prev_playhead_position.x - calculate_playhead_position().x
-	set_layers_offset(new_offset - editor.scale_pixels(diff))
+	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))
 	
 	for layer in layers.get_children():
 		layer.place_all_children()
@@ -100,7 +134,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		if get_global_rect().has_point(get_global_mouse_position()):
 			if Input.is_action_pressed("editor_pan"):
-				set_layers_offset(_offset - editor.scale_pixels(event.relative.x))
+				set_layers_offset(max(_offset - editor.scale_pixels(event.relative.x), 0))
 
 
 func _on_NewLayerButton_pressed():
@@ -128,3 +162,7 @@ func clear_layers():
 		layer.free()
 	for layer_name in layer_names.get_children():
 		layer_name.free()
+
+
+func _on_timing_information_changed():
+	update()

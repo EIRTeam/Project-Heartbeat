@@ -1,6 +1,6 @@
 extends Control
 
-var scale = 15.0 # Seconds per 500 pixels
+var scale = 3.0 # Seconds per 500 pixels
 	
 var playhead_position := 0
 
@@ -10,6 +10,7 @@ onready var timeline = get_node("VBoxContainer/EditorTimelineContainer/EditorTim
 	
 signal playhead_position_changed
 signal load_song(song)
+signal timing_information_changed
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
@@ -23,14 +24,22 @@ onready var recording_layer_select_button = get_node("VBoxContainer/HBoxContaine
 
 onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame")
 
-onready var time_slider = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/TimeSlider")
-
 onready var waveform_drawer = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 
 const LOG_NAME = "HBEditor"
 
+var bpm setget set_bpm, get_bpm
+
+onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
+onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
+	
+func set_bpm(value):
+	BPM_spinbox.value = value
+
+func get_bpm():
+	return BPM_spinbox.value
 func _ready():
 	timeline.editor = self
 #	timeline.set_layers_offset(1000)
@@ -48,8 +57,8 @@ func _ready():
 	data.time = 1000
 	for note in data.get_simplified():
 		print(note.time)
-	
 	load_song_audio(SongLoader.songs["sands_of_time"])
+	
 	
 func get_timing_points():
 	var points = []
@@ -106,8 +115,6 @@ func start_recording():
 
 func _process(delta):
 	var time = 0.0
-	
-	time_slider.max_value = audio_stream_player.stream.get_length()
 	if audio_stream_player.playing:
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.
@@ -118,10 +125,7 @@ func _process(delta):
 		time = time + _audio_play_offset
 		rhythm_game.time = time
 	
-	time_slider.value = time
-	
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
-		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTimeLabel.text = HBUtils.format_time(time * 1000.0)
 		playhead_position = max(time * 1000.0, 0.0)
 		emit_signal("playhead_position_changed")
 	if recording:
@@ -227,6 +231,7 @@ func serialize_chart():
 
 func from_chart(chart: HBChart):
 	timeline.clear_layers()
+
 	selected = null
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -240,7 +245,6 @@ func from_chart(chart: HBChart):
 func _on_SongSelector_chart_selected(song_id, difficulty):
 	var song = SongLoader.songs[song_id]
 	var chart_path = song.get_chart_path(difficulty)
-	
 	var file = File.new()
 	file.open(chart_path, File.READ)
 	
@@ -252,6 +256,7 @@ func _on_SongSelector_chart_selected(song_id, difficulty):
 		from_chart(chart)
 		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
 		load_song_audio(song)
+		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
 
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
@@ -279,3 +284,21 @@ func load_song_audio(song: HBSong):
 
 func _on_ExitDialog_confirmed():
 	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
+
+func get_beats_per_bar():
+	match metre_option_button.selected:
+		0:
+			return 4
+		1:
+			return 3
+		2:
+			return 2
+
+func get_note_resolution():
+	return 1/$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution.value
+
+func get_note_snap_offset():
+	return $VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value
+
+func _on_timing_information_changed(ignoredarg=null):
+	emit_signal("timing_information_changed")

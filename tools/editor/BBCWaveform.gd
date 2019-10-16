@@ -38,4 +38,4 @@ func _draw():
 			var i = starting_position + point*point_interval
 			points.append(Vector2(point, rect_size.y / 2 + waveform_data.data[i] * y_scale))
 			#draw_line(Vector2(point, rect_size.y / 2), Vector2(point, rect_size.y / 2 - abs(waveform_data.data[i]) * y_scale ), Color.white)
-		draw_polyline(points, Color.gray, 1.0, true)
+		draw_polyline(points, Color(1.0, 1.0, 1.0, 0.25), 1.0, true)

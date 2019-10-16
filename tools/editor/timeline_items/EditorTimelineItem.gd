@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 class_name EditorTimelineItem
 
@@ -37,7 +37,7 @@ func _process(delta):
 		set_start(clamp(_drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x), 0.0, editor.get_song_duration()))
 
 func deselect():
-	$SelectedPanel.hide()
+	modulate = Color.white
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
@@ -51,7 +51,7 @@ func _gui_input(event: InputEvent):
 		set_process(false)
 		
 func select():
-	$SelectedPanel.show()
+	modulate = Color(0.5, 0.5, 0.5, 1.0)
 		
 func get_inspector_properties():
 	return {

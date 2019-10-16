@@ -18,8 +18,6 @@
 [ext_resource path="res://default_theme.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
 
-
-
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -98,39 +96,76 @@ margin_bottom = 31.0
 icon = ExtResource( 4 )
 flat = true
 
-[node name="TimeSlider" type="HSlider" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 88.0
-margin_right = 1076.0
+margin_right = 1260.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-step = 0.0
-ticks_on_borders = true
+alignment = 2
 
-[node name="CurrentTimeLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1080.0
-margin_right = 1164.0
+[node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 471.0
+margin_right = 559.0
 margin_bottom = 31.0
-text = "1:00.000"
-valign = 3
+rect_min_size = Vector2( 50, 0 )
+hint_tooltip = "Offset"
+step = 0.001
+align = 1
+suffix = "s"
 
-[node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1168.0
-margin_right = 1196.0
+[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 563.0
+margin_top = 4.0
+margin_right = 582.0
+margin_bottom = 27.0
+text = "1/"
+
+[node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 586.0
+margin_right = 741.42
+margin_bottom = 31.0
+rect_min_size = Vector2( 155.42, 0 )
+hint_tooltip = "Snap resolution"
+min_value = 1.0
+value = 4.0
+suffix = "th of a beat"
+
+[node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 745.0
+margin_right = 855.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 110, 0 )
+hint_tooltip = "Beats per minute"
+max_value = 1000.0
+value = 160.0
+suffix = "bpm"
+
+[node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 859.0
+margin_right = 1076.0
+margin_bottom = 31.0
+hint_tooltip = "Metre"
+text = "Quadruple metre (4/4)"
+items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (3/4)", null, false, 2, null ]
+selected = 0
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1080.0
+margin_right = 1108.0
 margin_bottom = 31.0
 icon = ExtResource( 11 )
 flat = true
 
-[node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1200.0
-margin_right = 1228.0
+[node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1112.0
+margin_right = 1140.0
 margin_bottom = 31.0
 icon = ExtResource( 9 )
 flat = true
 
-[node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1232.0
-margin_right = 1260.0
+[node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1144.0
+margin_right = 1172.0
 margin_bottom = 31.0
 icon = ExtResource( 6 )
 flat = true
@@ -138,13 +173,13 @@ flat = true
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 54.0
 margin_right = 1280.0
-margin_bottom = 516.0
+margin_bottom = 495.0
 mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="Preview" type="Control" parent="VBoxContainer/HBoxContainer"]
-margin_right = 981.0
-margin_bottom = 462.0
+margin_right = 1063.0
+margin_bottom = 441.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
@@ -178,11 +213,11 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-margin_left = 985.0
+margin_left = 1067.0
 margin_right = 1280.0
-margin_bottom = 462.0
+margin_bottom = 441.0
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.3
+size_flags_stretch_ratio = 0.2
 tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 14 )]
@@ -217,8 +252,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 275.0
-margin_bottom = 409.0
+margin_right = 193.0
+margin_bottom = 388.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_right = 265.0
@@ -261,8 +296,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 275.0
-margin_bottom = 409.0
+margin_right = 193.0
+margin_bottom = 388.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_right = 265.0
@@ -283,51 +318,43 @@ text = "Create"
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-margin_top = 520.0
+margin_top = 499.0
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 200 )
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 12 )]
-self_modulate = Color( 1, 1, 1, 0.501961 )
+self_modulate = Color( 1, 1, 1, 1 )
 margin_left = -1.16632
 margin_right = -1.16626
 
-[node name="HBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer" index="0"]
-margin_bottom = 46.0
-
-[node name="PlayheadPosText" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/HBoxContainer" index="0"]
-margin_bottom = 46.0
-
-[node name="PlayheadArea" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/HBoxContainer" index="1"]
-margin_bottom = 46.0
-
 [node name="ScrollContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer" index="1"]
-margin_top = 46.0
-margin_bottom = 200.0
+margin_bottom = 221.0
 
 [node name="HBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer" index="0"]
-margin_bottom = 154.0
+margin_bottom = 181.0
 
 [node name="VBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="0"]
-margin_bottom = 154.0
+margin_bottom = 181.0
 
 [node name="LayerNames" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="0"]
-margin_bottom = 119.0
+margin_bottom = 146.0
 
 [node name="NewLayerButton" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="1"]
 margin_left = 0.0
-margin_top = 123.0
+margin_top = 150.0
 margin_right = 116.0
-margin_bottom = 154.0
+margin_bottom = 181.0
 size_flags_horizontal = 1
 text = "Add Layer"
 
 [node name="Layers" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="1"]
-margin_bottom = 154.0
+margin_bottom = 181.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
@@ -347,12 +374,17 @@ dialog_autowrap = true
 [connection signal="load_song" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_new_song_loaded"]
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
+[connection signal="timing_information_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SaveSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
+[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
+[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
+[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
+[connection signal="item_selected" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton" to="." method="_on_timing_information_changed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
 [connection signal="note_selected" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_selected"]
 [connection signal="note_updated" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_updated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
