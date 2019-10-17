@@ -12,7 +12,7 @@ func get_inspector_properties():
 		"duration": "int",
 		"number_of_notes": "int"
 	})
-	return props 
+	return props
 
 func get_duration():
 	return data.duration

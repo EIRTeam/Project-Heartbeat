@@ -25,6 +25,7 @@ func update_graphic_positions_and_scale(time: float):
 	# Movement along wave
 	var oscillation_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
 	var starting_pos = game.remap_coords(get_initial_position())
+	
 	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/note_data.time_out)
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
@@ -59,11 +60,13 @@ func draw_trail(time: float):
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / note_data.time_out
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
+		print(game.get_note_scale())
 		var point1 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, note_data.oscillation_phase_shift)
 		var point2 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, -note_data.oscillation_phase_shift)
 		points2.append(point2)
 		points.append(point1)
-		
+	$Line2D2.width = 6 * game.get_note_scale()
+	$Line2D.width = 6 * game.get_note_scale()
 	$Line2D.points = points
 	$Line2D2.points = points2
 func _on_note_type_changed():
