@@ -11,9 +11,9 @@
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=10]
 [ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=11]
-[ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=12]
+[ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=12]
 [ext_resource path="res://tools/editor/SongSelectorDialog.tscn" type="PackedScene" id=13]
-[ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=14]
+[ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=14]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=15]
 [ext_resource path="res://default_theme.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
@@ -193,13 +193,10 @@ __meta__ = {
 }
 
 [node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 10 )]
+visible = false
 show_behind_parent = true
-margin_top = -0.999985
-margin_bottom = -1.0
-mouse_filter = 2
 
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
-z_index = 1580
 
 [node name="DebugLabel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/CanvasLayer" index="0"]
 visible = false
@@ -207,6 +204,14 @@ visible = false
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
 margin_bottom = 31.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WidgetArea" type="Control" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -220,7 +225,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 14 )]
+[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
 margin_top = 38.0
 margin_right = -5.0
@@ -328,7 +333,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 12 )]
+[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 14 )]
 self_modulate = Color( 1, 1, 1, 1 )
 margin_left = -1.16632
 margin_right = -1.16626

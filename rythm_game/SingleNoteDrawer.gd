@@ -60,7 +60,6 @@ func draw_trail(time: float):
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / note_data.time_out
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
-		print(game.get_note_scale())
 		var point1 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, note_data.oscillation_phase_shift)
 		var point2 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, -note_data.oscillation_phase_shift)
 		points2.append(point2)
@@ -82,12 +81,6 @@ func _on_game_time_changed(time: float):
 		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
 		emit_signal("note_removed")
 		queue_free()
-		
-
-
-func _on_NoteTarget_note_moved():
-	note_data.position = game.inv_map_coords(target_graphic.position)
-	emit_signal("target_moved")
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")

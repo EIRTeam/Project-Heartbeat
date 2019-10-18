@@ -5,32 +5,31 @@
 [ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.941077, 1 )
 colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=3]
 max_value = 6.0
 _data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 50.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 6 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "note_appear"
+[sub_resource type="Animation" id=6]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -46,7 +45,7 @@ tracks/0/keys = {
 "values": [ 1.0, 1.1, 1.0 ]
 }
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0.00724638, 1 )
 colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.5 )
 
@@ -67,18 +66,18 @@ emitting = false
 amount = 1
 one_shot = true
 speed_scale = 4.0
-process_material = SubResource( 7 )
+process_material = SubResource( 5 )
 texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 1 )
+anims/note_appear = SubResource( 6 )
 
 [node name="Line2D" type="Line2D" parent="."]
 z_index = -1
 points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
-gradient = SubResource( 2 )
+gradient = SubResource( 7 )
 joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
@@ -86,7 +85,6 @@ z_index = -1
 points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
-gradient = SubResource( 2 )
+gradient = SubResource( 7 )
 joint_mode = 2
-[connection signal="moved" from="NoteTarget" to="." method="_on_NoteTarget_note_moved"]
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]

@@ -19,6 +19,7 @@ func _ready():
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("audio", spectrum_image_texture)
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
+	set("z", -1000)
 	
 func _physics_process(delta):
 	var prev_hz = 0

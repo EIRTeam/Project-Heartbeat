@@ -15,6 +15,7 @@ var _drag_start_time : float
 var _drag_x_offset : float
 var _layer
 
+var widget: HBEditorWidget
 var update_affects_timing_points = false
 
 func _ready():
@@ -38,6 +39,8 @@ func _process(delta):
 
 func deselect():
 	modulate = Color.white
+	if widget:
+		widget.queue_free()
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
@@ -58,6 +61,15 @@ func get_inspector_properties():
 		"time": "int",
 		"position": "Vector2"
 	}
+	
+func get_editor_widget() -> PackedScene:
+	return null
+	
+func connect_widget(widget: HBEditorWidget):
+	self.widget = widget
+	var new_pos = editor.rhythm_game.remap_coords(data.position)
+	self.widget.rect_position = new_pos - self.widget.rect_size / 2
+	
 	
 func get_duration():
 	return 1000

@@ -93,6 +93,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
+render_priority = -128
 shader = SubResource( 1 )
 shader_param/FREQ_RANGE = 16.0
 shader_param/size = Vector2( 1920, 1080 )
@@ -102,6 +103,3 @@ material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

@@ -57,7 +57,6 @@ func judge_note_input(time: float):
 			if Input.is_action_just_pressed(action):
 				var closest_note = game.get_closest_note_of_type(type)
 				if closest_note == note_data:
-					print("SELF")
 					var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
 					if judgement:
 						print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
@@ -72,11 +71,6 @@ func _on_game_time_changed(time: float):
 	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
 	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
 		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
-
-
-func _on_NoteTarget_note_moved():
-	pass
-	emit_signal("target_moved")
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")

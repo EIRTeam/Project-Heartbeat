@@ -5,10 +5,10 @@ const NoteScene = preload("res://rythm_game/Note.tscn")
 const NoteDrawer = preload("res://rythm_game/SingleNoteDrawer.tscn")
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {
-	HBNoteData.NOTE_TYPE.RIGHT: ["ui_right"],
-	HBNoteData.NOTE_TYPE.LEFT: ["ui_left"],
-	HBNoteData.NOTE_TYPE.UP: ["ui_up"],
-	HBNoteData.NOTE_TYPE.DOWN: ["ui_down"]
+	HBNoteData.NOTE_TYPE.RIGHT: ["note_b"],
+	HBNoteData.NOTE_TYPE.LEFT: ["note_x"],
+	HBNoteData.NOTE_TYPE.UP: ["note_y"],
+	HBNoteData.NOTE_TYPE.DOWN: ["note_a"]
 }
 
 var input_lag_compensation = 0.1
@@ -89,7 +89,6 @@ func remove_note_from_screen(i):
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		notes_on_screen[i].get_meta("note_drawer").free()
-		print("FREEING")
 	notes_on_screen = []
 func _process(delta):
 	if audio_stream_player.playing:

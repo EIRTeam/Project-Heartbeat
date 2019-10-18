@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/editor/widgets/DualNoteMovementWidget.gd" type="Script" id=1]
+[ext_resource path="res://tools/editor/widgets/NoteMovementWidget.tscn" type="PackedScene" id=2]
+
+[node name="DualNoteMovementWidget" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartWidget" parent="." instance=ExtResource( 2 )]
+
+[node name="EndWidget" parent="." instance=ExtResource( 2 )]
+margin_left = 551.589
+margin_top = 205.052
+margin_right = 651.589
+margin_bottom = 305.052
+[connection signal="note_moved" from="StartWidget" to="." method="_on_StartWidget_note_moved"]
+[connection signal="note_moved" from="EndWidget" to="." method="_on_EndWidget_note_moved"]

@@ -84,14 +84,3 @@ func get_notes():
 
 func _on_selected():
 	emit_signal("target_selected")
-
-
-func _on_position_moved():
-	note_data.position = game.inv_map_coords($PositionStart.position)
-	note_data.target_position = game.inv_map_coords($PositionEnd.position)
-
-
-func _on_position_finished_moving():
-	note_data.position = game.inv_map_coords($PositionStart.position)
-	note_data.target_position = game.inv_map_coords($PositionEnd.position)
-	emit_signal("target_moved")

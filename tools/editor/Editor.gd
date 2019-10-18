@@ -27,7 +27,7 @@ onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePrev
 onready var waveform_drawer = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
-
+onready var game_preview = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview")
 const LOG_NAME = "HBEditor"
 
 var bpm setget set_bpm, get_bpm
@@ -55,8 +55,6 @@ func _ready():
 	seek(0)
 	var data := HBMultiNoteData.new()
 	data.time = 1000
-	for note in data.get_simplified():
-		print(note.time)
 	load_song_audio(SongLoader.songs["sands_of_time"])
 	
 	
@@ -83,6 +81,11 @@ func select_item(item: EditorTimelineItem):
 		selected.deselect()
 	selected = item
 	selected.select()
+	var widget := item.get_editor_widget()
+	if widget:
+		var widget_instance = widget.instance() as HBEditorWidget
+		item.connect_widget(widget_instance)
+		game_preview.widget_area.add_child(widget_instance)
 	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
 func get_song_duration():
 	return int(audio_stream_player.stream.get_length() * 1000.0)

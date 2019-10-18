@@ -13,20 +13,15 @@ points = PoolVector2Array( 0, 0, 150.75, 0 )
 default_color = Color( 0.4, 0.5, 1, 0.5 )
 
 [node name="PositionEnd" parent="." instance=ExtResource( 1 )]
-fire_moved_on_release = true
 
 [node name="Sprite" parent="PositionEnd" index="0"]
 self_modulate = Color( 0.980392, 0.0235294, 0.0235294, 0.380392 )
 
 [node name="PositionStart" parent="." instance=ExtResource( 1 )]
-fire_moved_on_release = true
 
 [node name="Sprite" parent="PositionStart" index="0"]
 self_modulate = Color( 0.980392, 0.0235294, 0.0235294, 0.380392 )
-[connection signal="moved" from="PositionEnd" to="." method="_on_position_moved"]
 [connection signal="selected" from="PositionEnd" to="." method="_on_selected"]
-[connection signal="finished_moving" from="PositionStart" to="." method="_on_position_finished_moving"]
-[connection signal="moved" from="PositionStart" to="." method="_on_position_moved"]
 [connection signal="selected" from="PositionStart" to="." method="_on_selected"]
 
 [editable path="PositionEnd"]

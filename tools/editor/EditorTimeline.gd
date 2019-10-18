@@ -82,8 +82,8 @@ func _draw_playhead():
 		
 		# Draw playhead triangle
 		var point1 = playhead_pos + Vector2(0, playhead_area.rect_size.y)
-		var point2 = playhead_pos + Vector2(TRIANGLE_HEIGHT/2, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
-		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
+		var point2 = playhead_pos + Vector2(TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
+		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
 		
 		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red, PoolVector2Array(), null, null, true)
 

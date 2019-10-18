@@ -1,5 +1,7 @@
 extends Control
 
+onready var widget_area = get_node("WidgetArea")
+
 func _ready():
 	$RythmGame.size = rect_size
 	$RythmGame.editing = true
