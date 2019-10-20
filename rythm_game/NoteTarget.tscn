@@ -1,23 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://graphics/notes/xbox/A_target.png" type="Texture" id=1]
 [ext_resource path="res://rythm_game/NoteTarget.gd" type="Script" id=2]
 [ext_resource path="res://graphics/arm.png" type="Texture" id=3]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-render_mode blend_mix;
-
-void fragment() {
-	vec4 color = texture(TEXTURE, UV);
-	float avg = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
-	COLOR = vec4(avg, avg, avg, color.a);
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 64 )
 
 [node name="NoteTarget" type="StaticBody2D"]
@@ -25,12 +12,12 @@ input_pickable = true
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
 z_index = -990
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+visible = false
+shape = SubResource( 1 )
 
 [node name="TimingArm" type="Sprite" parent="."]
 texture = ExtResource( 3 )

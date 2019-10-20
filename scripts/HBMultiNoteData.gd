@@ -1,14 +1,13 @@
-extends HBNoteData
+extends HBDurationNoteData
 
 class_name HBMultiNoteData
 
 var number_of_notes = 3
-var duration = 3000
 var target_position = Vector2(0.25, 0.5)
 
 func _init():
 	._init()
-	serializable_fields += ["number_of_notes", "duration", "target_position"]
+	serializable_fields += ["number_of_notes", "target_position"]
 
 func get_simplified():
 	var interval = duration / (number_of_notes - 1)
@@ -24,10 +23,10 @@ func get_simplified():
 		data.position = lerp(position, target_position, float(i)/float(number_of_notes-1))
 		data.time = int(time + (i * interval))
 		notes.append(data)
-	return notes 
+	return notes
 
-func get_duration():
-	return duration
+func get_drawer():
+	return load("res://rythm_game/MultiNoteDrawer.tscn")
 
 func get_timeline_item():
 	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemMultinote.tscn")

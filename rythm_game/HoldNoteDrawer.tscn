@@ -1,0 +1,110 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
+[ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rythm_game/HoldNoteDrawer.gd" type="Script" id=3]
+[ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
+[ext_resource path="res://rythm_game/HoldNoteTarget.gd" type="Script" id=5]
+[ext_resource path="res://graphics/notes/xbox/A_hold_target.png" type="Texture" id=6]
+[ext_resource path="res://graphics/notes/xbox/B_target_hold.png" type="Texture" id=7]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.941077, 1 )
+colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+max_value = 6.0
+_data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 50.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="Animation" id=6]
+length = 0.34
+step = 0.17
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:target_scale_modifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.17, 0.34 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.1, 1.0 ]
+}
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.00724638, 0.983885, 1 )
+colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.490982, 1, 0, 0, 0.5 )
+
+[node name="SingleNoteDrawer" type="Node2D"]
+z_index = -2
+script = ExtResource( 3 )
+
+[node name="NoteTrailing" parent="." instance=ExtResource( 2 )]
+position = Vector2( 408.836, 70.123 )
+z_index = 1
+texture = ExtResource( 6 )
+
+[node name="Note" parent="." instance=ExtResource( 2 )]
+position = Vector2( 408.836, 70.123 )
+z_index = 1
+texture = ExtResource( 6 )
+
+[node name="NoteTarget" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2.21606, 1.10802 )
+z_index = -1
+script = ExtResource( 5 )
+
+[node name="Sprite" parent="NoteTarget" index="0"]
+texture = ExtResource( 7 )
+
+[node name="Particles2D" type="Particles2D" parent="NoteTarget"]
+position = Vector2( -2.21606, -1.10802 )
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 4.0
+process_material = SubResource( 5 )
+texture = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/note_appear = SubResource( 6 )
+
+[node name="Line2D3" type="Line2D" parent="."]
+z_index = -1
+width = 3.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+joint_mode = 2
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = -1
+width = 3.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 7 )
+joint_mode = 2
+
+[node name="Line2D2" type="Line2D" parent="."]
+z_index = -1
+width = 3.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 7 )
+joint_mode = 2
+[connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]
+
+[editable path="NoteTarget"]

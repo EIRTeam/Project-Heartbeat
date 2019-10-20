@@ -19,19 +19,23 @@ func set_note_type(value):
 const NOTE_GRAPHICS = {
 	NOTE_TYPE.UP: {
 		"note": preload("res://graphics/notes/xbox/Y.png"),
-		"target": preload("res://graphics/notes/xbox/Y_target.png")
+		"target": preload("res://graphics/notes/xbox/Y_target.png"),
+		"hold_target": preload("res://graphics/notes/xbox/Y_target_hold.png")
 	},
 	NOTE_TYPE.DOWN: {
 		"note": preload("res://graphics/notes/xbox/A.png"),
-		"target": preload("res://graphics/notes/xbox/A_target.png")
+		"target": preload("res://graphics/notes/xbox/A_target.png"),
+		"hold_target": preload("res://graphics/notes/xbox/A_target_hold.png")
 	},
 	NOTE_TYPE.LEFT: {
 		"note": preload("res://graphics/notes/xbox/X.png"),
-		"target": preload("res://graphics/notes/xbox/X_target.png")
+		"target": preload("res://graphics/notes/xbox/X_target.png"),
+		"hold_target": preload("res://graphics/notes/xbox/X_target_hold.png")
 	},
 	NOTE_TYPE.RIGHT: {
 		"note": preload("res://graphics/notes/xbox/B.png"),
-		"target": preload("res://graphics/notes/xbox/B_target.png")
+		"target": preload("res://graphics/notes/xbox/B_target.png"),
+		"hold_target": preload("res://graphics/notes/xbox/B_target_hold.png")
 	}
 }
 
@@ -60,7 +64,9 @@ func _init():
 
 func get_serialized_type():
 	return "Note"
-
+	
+func get_drawer():
+	return load("res://rythm_game/SingleNoteDrawer.tscn")
 
 static func get_note_graphics(type):
 	return NOTE_GRAPHICS[type]

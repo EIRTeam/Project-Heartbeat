@@ -47,7 +47,7 @@ func _ready():
 	rating_sprite.hide()
 
 func get_note_scale():
-	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.85
+	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.90
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0
@@ -56,8 +56,8 @@ func get_playing_field_size():
 func remap_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
 	var pos = coords * field_size
-	if abs(coords.x) > 1.0 or abs(coords.y) > 1.0 :
-		Log.log(self, "remap_coords expects a max size of < 1.0 in any dimension, coords was %s" % var2str(coords), Log.LogLevel.WARN)
+#	if abs(coords.x) > 1.0 or abs(coords.y) > 1.0 :
+#		Log.log(self, "remap_coords expects a max size of < 1.0 in any dimension, coords was %s" % var2str(coords), Log.LogLevel.WARN)
 	return Vector2((size.x - field_size.x) / 2.0 + pos.x, pos.y)
 	
 func inv_map_coords(coords: Vector2):
@@ -90,6 +90,10 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		notes_on_screen[i].get_meta("note_drawer").free()
 	notes_on_screen = []
+	
+func play_note_sfx():
+	$HitEffect.play()
+	
 func _process(delta):
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
@@ -106,7 +110,7 @@ func _process(delta):
 		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
 		for action in actions:
 			if Input.is_action_just_pressed(action):
-				$HitEffect.play()
+				play_note_sfx()
 				action_pressed = true
 				break
 		if action_pressed:
@@ -119,16 +123,10 @@ func _process(delta):
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.time_out):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
-					if timing_point is HBMultiNoteData:
-						if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.duration)/1000.0) == judge.JUDGE_RATINGS.WORST:
-							continue
-					elif judge.judge_note(time + input_lag_compensation, timing_point.time/1000.0) == judge.JUDGE_RATINGS.WORST:
+					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
-					if timing_point is HBMultiNoteData:
-						note_drawer = preload("res://rythm_game/MultiNoteDrawer.tscn").instance()
-					else:
-						note_drawer = NoteDrawer.instance()
+					note_drawer = timing_point.get_drawer().instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
 					add_child(note_drawer)

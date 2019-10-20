@@ -14,7 +14,7 @@
    width="100"
    height="100"
    viewBox="0 0 100 100"
-   sodipodi:docname="B_target.svg"
+   sodipodi:docname="B_target_hold.svg"
    inkscape:version="0.92.4 5da689c313, 2019-01-14">
   <metadata
      id="metadata821">
@@ -67,6 +67,35 @@
          stdDeviation="2.433064"
          id="feGaussianBlur852" />
     </filter>
+    <meshgradient
+       inkscape:collect="always"
+       id="meshgradient827"
+       gradientUnits="userSpaceOnUse"
+       x="30.782919"
+       y="20.555801">
+      <meshrow
+         id="meshrow829">
+        <meshpatch
+           id="meshpatch831">
+          <stop
+             path="c 12.8114,0  25.6228,0  38.4342,0"
+             style="stop-color:#ffffff;stop-opacity:1"
+             id="stop833" />
+          <stop
+             path="c 0,19.6295  0,39.2589  0,58.8884"
+             style="stop-color:#272646;stop-opacity:1"
+             id="stop835" />
+          <stop
+             path="c -12.8114,0  -25.6228,0  -38.4342,0"
+             style="stop-color:#ffffff;stop-opacity:1"
+             id="stop837" />
+          <stop
+             path="c 0,-19.6295  0,-39.2589  0,-58.8884"
+             style="stop-color:#272646;stop-opacity:1"
+             id="stop839" />
+        </meshpatch>
+      </meshrow>
+    </meshgradient>
   </defs>
   <sodipodi:namedview
      pagecolor="#000000"
@@ -77,17 +106,17 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1052"
+     inkscape:window-width="2560"
+     inkscape:window-height="1028"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="8.3299999"
-     inkscape:cx="36.516091"
-     inkscape:cy="32.928295"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:zoom="5.8901994"
+     inkscape:cx="12.671253"
+     inkscape:cy="42.419991"
+     inkscape:window-x="1920"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g832">
     <sodipodi:guide
@@ -126,11 +155,11 @@
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#d2d2e6;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1;">B</tspan></text>
     <g
        aria-label="B"
-       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:82.47674561px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:url(#meshgradient827);fill-opacity:1;stroke:#e02828;stroke-width:4;stroke-opacity:1;stroke-miterlimit:100;stroke-dasharray:none;stroke-linecap:butt"
        id="text827">
       <path
          d="m 30.782918,20.555802 h 19.876895 c 2.391826,0 4.618698,0.24743 6.680617,0.742291 2.061919,0.49486 3.876407,1.319628 5.360988,2.474302 1.484582,1.154675 2.639256,2.721733 3.464024,4.618698 0.824767,1.979442 1.237151,4.288791 1.237151,7.093 0,3.216593 -0.742291,5.938326 -2.226872,8.247675 -1.484582,2.309349 -3.711454,3.79393 -6.680617,4.618698 v 0.164953 c 3.29907,0.49486 5.855849,1.896965 7.835291,4.206314 1.896965,2.391826 2.886686,5.525942 2.886686,9.484826 0,2.309349 -0.329907,4.536221 -0.907244,6.598139 -0.659814,2.144396 -1.649535,3.958884 -3.134116,5.525942 -1.484582,1.567059 -3.381547,2.80421 -5.690896,3.711454 -2.309349,0.989721 -5.196035,1.402105 -8.660058,1.402105 H 30.782918 Z"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2.0619185;stroke-opacity:1"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#272646;fill-opacity:1.0;stroke:#e02828;stroke-width:4;stroke-opacity:1;stroke-miterlimit:100;stroke-dasharray:none;stroke-linecap:butt"
          id="path835"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cssscsscccscscscc" />

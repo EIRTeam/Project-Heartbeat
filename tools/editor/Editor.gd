@@ -166,8 +166,11 @@ func _input(event):
 			emit_signal("scale_changed", prev_scale, scale)
 	if event.is_action_pressed("editor_delete"):
 		if selected:
+			
 			if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
+				
 				$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+			selected.deselect()
 			selected.free()
 			selected = null
 			_on_timing_points_changed()
@@ -268,6 +271,7 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
 	file.store_string(JSON.print(serialize_chart(), "  "))
+	print("STORING!!!", serialize_chart())
 	
 
 
