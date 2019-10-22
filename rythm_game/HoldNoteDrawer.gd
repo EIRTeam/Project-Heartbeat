@@ -1,6 +1,6 @@
 extends "res://rythm_game/NoteDrawer.gd"
 
-onready var target_graphic = get_node("NoteTarget")
+onready var target_graphic = get_node("HoldNoteTarget")
 onready var note_graphic = get_node("Note")
 onready var trailing_note_graphic = get_node("NoteTrailing")
 var pickable = true setget set_pickable
@@ -18,7 +18,7 @@ func _ready():
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
-	$NoteTarget/Particles2D.emitting = true
+	target_graphic.get_node("Particles2D").emitting = true
 	set_trail_color()
 	
 func update_graphic_positions_and_scale(time: float):
@@ -53,7 +53,8 @@ func update_graphic_positions_and_scale(time: float):
 		trailing_note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 		
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
-	target_graphic.arm_position = -((note_data.time - time*1000) / note_data.time_out)
+	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / note_data.time_out)
+	target_graphic.arm_position_2 = 1.0 - (((note_data.time+note_data.duration) - time*1000) / note_data.time_out)
 	draw_trail(time)
 	
 func set_trail_color():

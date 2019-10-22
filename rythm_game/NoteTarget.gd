@@ -6,8 +6,13 @@ var time_out = 1400
 signal selected
 
 var note_data: HBNoteData = HBNoteData.new()
-var arm_position = 0
+var arm_position = 0 setget set_arm_position
 var mouse_in = false
+
+func set_arm_position(value):
+	arm_position = value
+	$TimingArm.rotation_degrees = clamp(360 * value, 0, 360)
+
 func _draw():
 	pass
 #	draw_line(Vector2(0.0, 0.0), Vector2(400.0*distance/time_out, 0.0), Color("#FF0000"))

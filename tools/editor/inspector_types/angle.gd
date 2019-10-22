@@ -6,6 +6,7 @@ func set_value(value):
 	if $Spinbox.is_connected("value_changed", self, "_on_Spinbox_value_changed"):
 		$Spinbox.disconnect("value_changed", self, "_on_Spinbox_value_changed")
 		$Spinbox.value = value
+		$AngleEdit.angle = value
 		$Spinbox.connect("value_changed", self, "_on_Spinbox_value_changed")
 
 func emit_value_changed_signal():
