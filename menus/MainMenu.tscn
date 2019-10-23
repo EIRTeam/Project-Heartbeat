@@ -14,7 +14,7 @@
 [ext_resource path="res://graphics/background.png" type="Texture" id=12]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=13]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -100,17 +100,17 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 shader_param/FREQ_RANGE = 64.0
 
-[sub_resource type="Theme" id=1]
+[sub_resource type="Theme" id=3]
 default_font = ExtResource( 6 )
 
-[sub_resource type="Theme" id=2]
+[sub_resource type="Theme" id=4]
 default_font = ExtResource( 6 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "Def"
 length = 0.3
 tracks/0/type = "value"
@@ -162,8 +162,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "FadeOut"
+[sub_resource type="Animation" id=6]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -228,7 +227,7 @@ margin_bottom = 40.0
 texture = ExtResource( 12 )
 
 [node name="MainMenuVisualizer" type="Panel" parent="."]
-material = SubResource( 4 )
+material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 13 )
@@ -276,7 +275,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 1 )
+theme = SubResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -365,7 +364,7 @@ margin_top = 82.7561
 margin_right = 281.855
 margin_bottom = 141.756
 focus_mode = 0
-theme = SubResource( 2 )
+theme = SubResource( 4 )
 text = "Visualizer Test"
 flat = true
 align = 0
@@ -381,7 +380,7 @@ margin_top = 82.7561
 margin_right = 281.855
 margin_bottom = 141.756
 focus_mode = 0
-theme = SubResource( 2 )
+theme = SubResource( 4 )
 text = "Editor"
 flat = true
 align = 0
@@ -394,7 +393,7 @@ margin_left = 8.85455
 margin_top = 82.7561
 margin_right = 281.855
 margin_bottom = 141.756
-theme = SubResource( 2 )
+theme = SubResource( 4 )
 text = "Song Metadata Editor"
 flat = true
 align = 0
@@ -456,8 +455,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PressStart"]
-anims/Def = SubResource( 6 )
-anims/FadeOut = SubResource( 5 )
+anims/Def = SubResource( 5 )
+anims/FadeOut = SubResource( 6 )
 [connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/StartMenu" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="grab_focus"]
 [connection signal="navigate_to_menu" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" to="Menus/HBoxContainer/HBMainMenu/StartMenu" method="navigate_to_menu"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
