@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=2]
@@ -12,11 +12,21 @@
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=10]
 [ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=11]
 [ext_resource path="res://graphics/background.png" type="Texture" id=12]
+[ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=13]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
-
+uniform float FREQ_RANGE = 64.0;
+uniform sampler2D audio : hint_white;
+float getfrequency(float x) {
+	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
+}
+float getfrequency_smooth(float x) {
+	float index = floor(x * FREQ_RANGE) / FREQ_RANGE;
+    float next = floor(x * FREQ_RANGE + 1.0) / FREQ_RANGE;
+	return mix(getfrequency(index), getfrequency(next), smoothstep(0.0, 1.0, fract(x * FREQ_RANGE)));
+}
 void Rotate( inout vec2 p, float a ) 
 {
 	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
@@ -76,21 +86,23 @@ void fragment()
 	float intensity = 1.0;
 	
     Rotate( p, 0.2 + time * 0.03 );
-    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), intensity * vec3( 0.31, 0.19, 0.68 ) );
+    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), (intensity + getfrequency_smooth(0.0) * 1.0) * vec3( 0.31, 0.19, 0.68 ) );
 	Rotate( p, 0.3 - time * 0.05 );
 //    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
 	Rotate( p, 0.5 + time * 0.07 );
 //    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
     Rotate( p, 0.9 - time * 0.03 );
-    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), intensity * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
+    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), (intensity + getfrequency_smooth(0.5) * 1.0) * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
     Rotate( p, 0.0 + time * 0.05 );
-    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), intensity * vec3( 0.5, 0.4, 0.4 ) );     
+	
+    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), (intensity + getfrequency_smooth(1.0) * 1.0) * vec3( 0.5, 0.4, 0.4 ) );     
 
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 3 )
+shader_param/FREQ_RANGE = 64.0
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 6 )
@@ -219,6 +231,7 @@ texture = ExtResource( 12 )
 material = SubResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
