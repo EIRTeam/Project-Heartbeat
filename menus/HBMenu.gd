@@ -16,6 +16,8 @@ func _process(delta):
 		
 	if rect_scale != target_scale:
 		rect_scale = lerp(rect_scale, target_scale, 15.0 * delta)
+		var pos_diff = (rect_size - (rect_scale * rect_size)) / 2.0
+		rect_position = pos_diff
 		
 func back():
 	navigate_to_menu(previous_menu, true)

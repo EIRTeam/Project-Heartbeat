@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=2]
@@ -9,7 +9,85 @@
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=8]
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://graphics/Logo.png" type="Texture" id=10]
+[ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=11]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+const float MATH_PI	= float( 3.14159265359 );
+
+void Rotate( inout vec2 p, float a ) 
+{
+	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
+}
+
+float Circle( vec2 p, float r )
+{
+    return ( length( p / r ) - 1.0 ) * r;
+}
+
+float Rand( vec2 c )
+{
+	return fract( sin( dot( c.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );
+}
+
+float saturate( float x )
+{
+	return clamp( x, 0.0, 1.0 );
+}
+
+void BokehLayer( inout vec3 color, vec2 p, vec3 c )   
+{
+    float wrap = 450.0;    
+    if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
+    {
+        p.x += wrap * 0.5;
+    }    
+    
+    vec2 p2 = mod( p + 0.5 * wrap, wrap ) - 0.5 * wrap;
+    vec2 cell = floor( p / wrap + 0.5 );
+    float cellR = Rand( cell );
+        
+    c *= fract( cellR * 3.33 + 3.33 );    
+    float radius = mix( 30.0, 70.0, fract( cellR * 7.77 + 7.77 ) );
+    p2.x *= mix( 0.9, 1.1, fract( cellR * 11.13 + 11.13 ) );
+    p2.y *= mix( 0.9, 1.1, fract( cellR * 17.17 + 17.17 ) );
+    
+    float sdf = Circle( p2, radius );
+    float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
+    float glow	 = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
+    color += c * ( circle + glow );
+}
+
+void fragment()
+{    
+	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 uv = FRAGCOORD.xy / iResolution.xy;
+	vec2 p = ( 1.0 * FRAGCOORD.xy - iResolution.xy ) / iResolution.x * 1000.0;
+    
+    // background
+	vec3 bg = vec3(0.13, 0.07, 0.26);
+	vec3 color = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
+    float time = TIME - 15.0;
+    
+	float intensity = 1.0;
+	
+    Rotate( p, 0.2 + time * 0.03 );
+    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), intensity * vec3( 0.31, 0.19, 0.68 ) );
+	Rotate( p, 0.3 - time * 0.05 );
+//    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
+	Rotate( p, 0.5 + time * 0.07 );
+//    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
+    Rotate( p, 0.9 - time * 0.03 );
+    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), intensity * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
+    Rotate( p, 0.0 + time * 0.05 );
+    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), intensity * vec3( 0.5, 0.4, 0.4 ) );     
+
+	COLOR = vec4( color * vec3(0.7), 1.0 );
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 6 )
@@ -17,14 +95,125 @@ default_font = ExtResource( 6 )
 [sub_resource type="Theme" id=2]
 default_font = ExtResource( 6 )
 
+[sub_resource type="Animation" id=6]
+resource_name = "Def"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "FadeOut"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -128, -72 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuVisualizer" type="Panel" parent="."]
+material = SubResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Visualizer" parent="." instance=ExtResource( 10 )]
 
 [node name="Menus" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -205,11 +394,56 @@ bus = "Music"
 [node name="AudioIn" type="Tween" parent="."]
 
 [node name="AudioOut" type="Tween" parent="."]
+
+[node name="PressStart" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PressStart"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 120
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="PressStart/VBoxContainer"]
+margin_top = 202.0
+margin_right = 1280.0
+margin_bottom = 352.0
+rect_min_size = Vector2( 0, 150 )
+size_flags_horizontal = 3
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="PressStart/VBoxContainer"]
+margin_top = 472.0
+margin_right = 1280.0
+margin_bottom = 518.0
+custom_fonts/font = ExtResource( 6 )
+text = "Press any key"
+align = 1
+valign = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PressStart"]
+anims/Def = SubResource( 6 )
+anims/FadeOut = SubResource( 5 )
 [connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/StartMenu" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="grab_focus"]
 [connection signal="navigate_to_menu" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" to="Menus/HBoxContainer/HBMainMenu/StartMenu" method="navigate_to_menu"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
 [connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="grab_focus"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/EditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_EditorButton_pressed"]
 [connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/SongMetaEditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_SongMetaEditorButton_pressed"]
+[connection signal="start_pressed" from="PressStart" to="Menus/HBoxContainer/HBMainMenu" method="_on_start_pressed"]
+[connection signal="animation_finished" from="PressStart/AnimationPlayer" to="PressStart" method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Menus/HBoxContainer/HBMainMenu/SongListMenu"]

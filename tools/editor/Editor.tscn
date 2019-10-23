@@ -15,7 +15,7 @@
 [ext_resource path="res://tools/editor/SongSelectorDialog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=14]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=15]
-[ext_resource path="res://default_theme.tres" type="Theme" id=16]
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
 
 [node name="Editor" type="Control"]
@@ -71,42 +71,42 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1260.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 20.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 17 )
 flat = true
 
 [node name="LoadButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 24.0
 margin_right = 52.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 15 )
 flat = true
 
 [node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 56.0
 margin_right = 84.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 4 )
 flat = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 88.0
 margin_right = 1260.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 471.0
-margin_right = 559.0
-margin_bottom = 31.0
+margin_left = 527.0
+margin_right = 603.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
 step = 0.001
@@ -114,16 +114,16 @@ align = 1
 suffix = "s"
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 563.0
-margin_top = 4.0
-margin_right = 582.0
-margin_bottom = 27.0
+margin_left = 607.0
+margin_top = 1.0
+margin_right = 628.0
+margin_bottom = 23.0
 text = "1/"
 
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 586.0
-margin_right = 741.42
-margin_bottom = 31.0
+margin_left = 632.0
+margin_right = 787.42
+margin_bottom = 24.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
 min_value = 1.0
@@ -131,9 +131,9 @@ value = 4.0
 suffix = "th of a beat"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 745.0
-margin_right = 855.0
-margin_bottom = 31.0
+margin_left = 791.0
+margin_right = 901.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
 max_value = 1000.0
@@ -141,9 +141,9 @@ value = 160.0
 suffix = "bpm"
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 859.0
+margin_left = 905.0
 margin_right = 1076.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
 items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (3/4)", null, false, 2, null ]
@@ -152,21 +152,21 @@ selected = 0
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1080.0
 margin_right = 1108.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 11 )
 flat = true
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1112.0
 margin_right = 1140.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 9 )
 flat = true
 
 [node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1144.0
 margin_right = 1172.0
-margin_bottom = 31.0
+margin_bottom = 24.0
 icon = ExtResource( 6 )
 flat = true
 
@@ -227,7 +227,7 @@ tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 29.0
 margin_right = -5.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
@@ -239,7 +239,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 29.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -258,7 +258,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 193.0
-margin_bottom = 388.0
+margin_bottom = 397.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_right = 265.0
@@ -282,7 +282,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 29.0
 margin_right = -5.0
 margin_bottom = -5.0
 script = ExtResource( 7 )
@@ -302,7 +302,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 193.0
-margin_bottom = 388.0
+margin_bottom = 397.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_right = 265.0
@@ -348,11 +348,11 @@ margin_bottom = 181.0
 margin_bottom = 181.0
 
 [node name="LayerNames" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="0"]
-margin_bottom = 146.0
+margin_bottom = 153.0
 
 [node name="NewLayerButton" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="1"]
 margin_left = 0.0
-margin_top = 150.0
+margin_top = 157.0
 margin_right = 116.0
 margin_bottom = 181.0
 size_flags_horizontal = 1
