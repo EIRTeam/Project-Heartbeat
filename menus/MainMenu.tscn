@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=10]
 [ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=11]
+[ext_resource path="res://graphics/background.png" type="Texture" id=12]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -36,7 +37,7 @@ float saturate( float x )
 	return clamp( x, 0.0, 1.0 );
 }
 
-void BokehLayer( inout vec3 color, vec2 p, vec3 c )   
+void BokehLayer( inout vec4 color, vec2 p, vec3 c )   
 {
     float wrap = 450.0;    
     if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
@@ -55,8 +56,8 @@ void BokehLayer( inout vec3 color, vec2 p, vec3 c )
     
     float sdf = Circle( p2, radius );
     float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
-    float glow	 = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
-    color += c * ( circle + glow );
+    float glow = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
+    color.rgb += c * ( circle + glow );
 }
 
 void fragment()
@@ -67,7 +68,9 @@ void fragment()
     
     // background
 	vec3 bg = vec3(0.13, 0.07, 0.26);
-	vec3 color = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
+	vec4 color;
+	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
+	color.a = 0.75;
     float time = TIME - 15.0;
     
 	float intensity = 1.0;
@@ -83,7 +86,7 @@ void fragment()
     Rotate( p, 0.0 + time * 0.05 );
     BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), intensity * vec3( 0.5, 0.4, 0.4 ) );     
 
-	COLOR = vec4( color * vec3(0.7), 1.0 );
+	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
 [sub_resource type="ShaderMaterial" id=4]
@@ -206,6 +209,11 @@ theme = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 12 )
 
 [node name="MainMenuVisualizer" type="Panel" parent="."]
 material = SubResource( 4 )
