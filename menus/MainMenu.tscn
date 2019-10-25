@@ -1,114 +1,14 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=1]
-[ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=2]
-[ext_resource path="res://menus/ToolsList.gd" type="Script" id=3]
-[ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=4]
-[ext_resource path="res://menus/HBMenu.gd" type="Script" id=5]
+[ext_resource path="res://menus/song_list/SongListPreview.tscn" type="PackedScene" id=1]
+[ext_resource path="res://menus/MainMenuLeft.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=6]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
-[ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=8]
-[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=8]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=10]
 [ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=11]
 [ext_resource path="res://graphics/background.png" type="Texture" id=12]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=13]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-const float MATH_PI	= float( 3.14159265359 );
-uniform float FREQ_RANGE = 64.0;
-uniform sampler2D audio : hint_white;
-float getfrequency(float x) {
-	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
-}
-float getfrequency_smooth(float x) {
-	float index = floor(x * FREQ_RANGE) / FREQ_RANGE;
-    float next = floor(x * FREQ_RANGE + 1.0) / FREQ_RANGE;
-	return mix(getfrequency(index), getfrequency(next), smoothstep(0.0, 1.0, fract(x * FREQ_RANGE)));
-}
-void Rotate( inout vec2 p, float a ) 
-{
-	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
-}
-
-float Circle( vec2 p, float r )
-{
-    return ( length( p / r ) - 1.0 ) * r;
-}
-
-float Rand( vec2 c )
-{
-	return fract( sin( dot( c.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );
-}
-
-float saturate( float x )
-{
-	return clamp( x, 0.0, 1.0 );
-}
-
-void BokehLayer( inout vec4 color, vec2 p, vec3 c )   
-{
-    float wrap = 450.0;    
-    if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
-    {
-        p.x += wrap * 0.5;
-    }    
-    
-    vec2 p2 = mod( p + 0.5 * wrap, wrap ) - 0.5 * wrap;
-    vec2 cell = floor( p / wrap + 0.5 );
-    float cellR = Rand( cell );
-        
-    c *= fract( cellR * 3.33 + 3.33 );    
-    float radius = mix( 30.0, 70.0, fract( cellR * 7.77 + 7.77 ) );
-    p2.x *= mix( 0.9, 1.1, fract( cellR * 11.13 + 11.13 ) );
-    p2.y *= mix( 0.9, 1.1, fract( cellR * 17.17 + 17.17 ) );
-    
-    float sdf = Circle( p2, radius );
-    float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
-    float glow = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
-    color.rgb += c * ( circle + glow );
-}
-
-void fragment()
-{    
-	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
-	vec2 uv = FRAGCOORD.xy / iResolution.xy;
-	vec2 p = ( 1.0 * FRAGCOORD.xy - iResolution.xy ) / iResolution.x * 1000.0;
-    
-    // background
-	vec3 bg = vec3(0.13, 0.07, 0.26);
-	vec4 color;
-	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
-	color.a = 0.75;
-    float time = TIME - 15.0;
-    
-	float intensity = 1.0;
-	
-    Rotate( p, 0.2 + time * 0.03 );
-    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), (intensity + getfrequency_smooth(0.0) * 1.0) * vec3( 0.31, 0.19, 0.68 ) );
-	Rotate( p, 0.3 - time * 0.05 );
-//    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
-	Rotate( p, 0.5 + time * 0.07 );
-//    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
-    Rotate( p, 0.9 - time * 0.03 );
-    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), (intensity + getfrequency_smooth(0.5) * 1.0) * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
-    Rotate( p, 0.0 + time * 0.05 );
-	
-    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), (intensity + getfrequency_smooth(1.0) * 1.0) * vec3( 0.5, 0.4, 0.4 ) );     
-
-	COLOR = vec4( color.rgb * vec3(0.7), color.a);
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/FREQ_RANGE = 64.0
-
-[sub_resource type="Theme" id=3]
-default_font = ExtResource( 6 )
-
-[sub_resource type="Theme" id=4]
-default_font = ExtResource( 6 )
 
 [sub_resource type="Animation" id=5]
 resource_name = "Def"
@@ -213,239 +113,319 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[node name="MainMenu" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
+[sub_resource type="QuadMesh" id=11]
+size = Vector2( 1.6, 0.9 )
+
+[sub_resource type="ViewportTexture" id=12]
+flags = 5
+viewport_path = NodePath("ViewportLeft")
+
+[sub_resource type="SpatialMaterial" id=13]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_albedo_tex_force_srgb = true
+params_diffuse_mode = 1
+albedo_texture = SubResource( 12 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 0.4, 0.45, 0.01 )
+
+[sub_resource type="ViewportTexture" id=14]
+flags = 5
+viewport_path = NodePath("ViewportRight")
+
+[sub_resource type="SpatialMaterial" id=15]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_albedo_tex_force_srgb = true
+params_diffuse_mode = 1
+albedo_texture = SubResource( 14 )
+
+[sub_resource type="BoxShape" id=16]
+extents = Vector3( 0.4, 0.45, 0.01 )
+
+[sub_resource type="Shader" id=17]
+code = "shader_type canvas_item;
+const float MATH_PI	= float( 3.14159265359 );
+uniform float FREQ_RANGE = 64.0;
+uniform sampler2D audio : hint_white;
+float getfrequency(float x) {
+	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
+}
+float getfrequency_smooth(float x) {
+	float index = floor(x * FREQ_RANGE) / FREQ_RANGE;
+    float next = floor(x * FREQ_RANGE + 1.0) / FREQ_RANGE;
+	return mix(getfrequency(index), getfrequency(next), smoothstep(0.0, 1.0, fract(x * FREQ_RANGE)));
+}
+void Rotate( inout vec2 p, float a ) 
+{
+	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 12 )
-
-[node name="MainMenuVisualizer" type="Panel" parent="."]
-material = SubResource( 2 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false
+float Circle( vec2 p, float r )
+{
+    return ( length( p / r ) - 1.0 ) * r;
 }
 
-[node name="Menus" type="MarginContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -3.0
-margin_bottom = -3.0
-theme = ExtResource( 7 )
-custom_constants/margin_right = 50
-custom_constants/margin_left = 150
-__meta__ = {
-"_edit_use_anchors_": false
+float Rand( vec2 c )
+{
+	return fract( sin( dot( c.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Menus"]
-margin_left = 150.0
-margin_right = 1230.0
-margin_bottom = 720.0
-__meta__ = {
-"_edit_use_anchors_": false
+float saturate( float x )
+{
+	return clamp( x, 0.0, 1.0 );
 }
 
-[node name="HBMainMenu" type="Control" parent="Menus/HBoxContainer"]
-margin_right = 1080.0
-margin_bottom = 720.0
-size_flags_horizontal = 3
-script = ExtResource( 4 )
+void BokehLayer( inout vec4 color, vec2 p, vec3 c )   
+{
+    float wrap = 450.0;    
+    if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
+    {
+        p.x += wrap * 0.5;
+    }    
+    
+    vec2 p2 = mod( p + 0.5 * wrap, wrap ) - 0.5 * wrap;
+    vec2 cell = floor( p / wrap + 0.5 );
+    float cellR = Rand( cell );
+        
+    c *= fract( cellR * 3.33 + 3.33 );    
+    float radius = mix( 30.0, 70.0, fract( cellR * 7.77 + 7.77 ) );
+    p2.x *= mix( 0.9, 1.1, fract( cellR * 11.13 + 11.13 ) );
+    p2.y *= mix( 0.9, 1.1, fract( cellR * 17.17 + 17.17 ) );
+    
+    float sdf = Circle( p2, radius );
+    float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
+    float glow = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
+    color.rgb += c * ( circle + glow );
+}
+
+void fragment()
+{    
+	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 uv = FRAGCOORD.xy / iResolution.xy;
+	vec2 p = ( 1.0 * FRAGCOORD.xy - iResolution.xy ) / iResolution.x * 1000.0;
+    
+    // background
+	vec3 bg = vec3(0.13, 0.07, 0.26);
+	vec4 color;
+	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
+	color.a = 0.75;
+    float time = TIME - 15.0;
+    
+	float intensity = 1.0;
+	
+    Rotate( p, 0.2 + time * 0.03 );
+    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), (intensity + getfrequency_smooth(0.0) * 1.0) * vec3( 0.31, 0.19, 0.68 ) );
+	Rotate( p, 0.3 - time * 0.05 );
+//    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
+	Rotate( p, 0.5 + time * 0.07 );
+//    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
+    Rotate( p, 0.9 - time * 0.03 );
+    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), (intensity + getfrequency_smooth(0.5) * 1.0) * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
+    Rotate( p, 0.0 + time * 0.05 );
+	
+    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), (intensity + getfrequency_smooth(1.0) * 1.0) * vec3( 0.5, 0.4, 0.4 ) );     
+
+	COLOR = vec4( color.rgb * vec3(0.7), color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
+shader_param/FREQ_RANGE = 64.0
+
+[sub_resource type="QuadMesh" id=19]
+size = Vector2( 1.6, 0.9 )
+
+[sub_resource type="ViewportTexture" id=20]
+viewport_path = NodePath("ViewportBackground")
+
+[sub_resource type="SpatialMaterial" id=21]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_fixed_size = true
+flags_albedo_tex_force_srgb = true
+params_diffuse_mode = 1
+albedo_texture = SubResource( 20 )
+
+[sub_resource type="Animation" id=25]
+resource_name = "def"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportRight/SongListPreview:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.7, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "fade_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportRight/SongListPreview:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "fade_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportRight/SongListPreview:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.95, 0.95 ) ]
+}
+
+[node name="MainMenu3D" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+fov = 47.0
+size = 0.9
+
+[node name="ViewportLeft" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+hdr = false
+usage = 0
+render_target_v_flip = true
+
+[node name="MainMenuLeft" parent="ViewportLeft" instance=ExtResource( 2 )]
 initial_menu_path = NodePath("StartMenu")
 
-[node name="StartMenu" type="Control" parent="Menus/HBoxContainer/HBMainMenu"]
+[node name="ViewportRight" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+hdr = false
+usage = 0
+render_target_v_flip = true
+
+[node name="SongListPreview" parent="ViewportRight" instance=ExtResource( 1 )]
+modulate = Color( 1, 1, 1, 0 )
+rect_scale = Vector2( 0.7, 1 )
+
+[node name="StartMenu" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="StartItems" type="Control" parent="Menus/HBoxContainer/HBMainMenu/StartMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource( 3 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="StartButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-text = "Rhythm Game"
-flat = true
-align = 0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-next_menu = NodePath("../../../SongListMenu")
-
-[node name="OptionsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-text = "Options"
-flat = true
-align = 0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-next_menu = NodePath("")
-
-[node name="ToolsButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-text = "Tools"
-flat = true
-align = 0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-next_menu = NodePath("../../../ToolsListMenu")
-
-[node name="ExitButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-text = "Exit"
-flat = true
-align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ToolsListMenu" type="Control" parent="Menus/HBoxContainer/HBMainMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ToolsList" type="Control" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+mouse_filter = 2
 theme = ExtResource( 7 )
-script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VisualizerTestButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-theme = SubResource( 4 )
-text = "Visualizer Test"
-flat = true
-align = 0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-next_menu = NodePath("")
+[node name="AudioIn" type="Tween" parent="StartMenu"]
 
-[node name="EditorButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-focus_mode = 0
-theme = SubResource( 4 )
-text = "Editor"
-flat = true
-align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="AudioOut" type="Tween" parent="StartMenu"]
 
-[node name="SongMetaEditorButton" type="Button" parent="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList"]
-margin_left = 8.85455
-margin_top = 82.7561
-margin_right = 281.855
-margin_bottom = 141.756
-theme = SubResource( 4 )
-text = "Song Metadata Editor"
-flat = true
-align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SongListMenu" parent="Menus/HBoxContainer/HBMainMenu" instance=ExtResource( 9 )]
-visible = false
-
-[node name="SongList" parent="Menus/HBoxContainer/HBMainMenu/SongListMenu/HBoxContainer" index="0"]
-margin_right = 627.0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Menus"]
-stream = ExtResource( 8 )
-bus = "Music"
-
-[node name="AudioIn" type="Tween" parent="."]
-
-[node name="AudioOut" type="Tween" parent="."]
-
-[node name="PressStart" type="Control" parent="."]
+[node name="PressStart" type="Control" parent="StartMenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PressStart"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenu/PressStart"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 120
+mouse_filter = 2
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="PressStart/VBoxContainer"]
-margin_top = 202.0
+[node name="TextureRect3" type="TextureRect" parent="StartMenu/PressStart/VBoxContainer"]
+margin_top = 247.0
 margin_right = 1280.0
-margin_bottom = 352.0
-rect_min_size = Vector2( 0, 150 )
+margin_bottom = 347.0
+rect_min_size = Vector2( 0, 100 )
+mouse_filter = 2
 size_flags_horizontal = 3
 texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="PressStart/VBoxContainer"]
-margin_top = 472.0
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenu/PressStart/VBoxContainer"]
+margin_top = 351.0
 margin_right = 1280.0
-margin_bottom = 518.0
+margin_bottom = 472.0
+mouse_filter = 2
+custom_constants/separation = 70
+
+[node name="Label2" type="Label" parent="StartMenu/PressStart/VBoxContainer/VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 20.0
+text = "On the wings of a dream"
+align = 1
+valign = 1
+
+[node name="Label" type="Label" parent="StartMenu/PressStart/VBoxContainer/VBoxContainer"]
+margin_top = 90.0
+margin_right = 1280.0
+margin_bottom = 121.0
 custom_fonts/font = ExtResource( 6 )
 text = "Press any key"
 align = 1
@@ -454,16 +434,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PressStart"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StartMenu/PressStart"]
 anims/Def = SubResource( 5 )
 anims/FadeOut = SubResource( 6 )
-[connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/StartMenu" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="grab_focus"]
-[connection signal="navigate_to_menu" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" to="Menus/HBoxContainer/HBMainMenu/StartMenu" method="navigate_to_menu"]
-[connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems/ExitButton" to="Menus/HBoxContainer/HBMainMenu/StartMenu/StartItems" method="_on_ExitButton_pressed"]
-[connection signal="focus_entered" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="grab_focus"]
-[connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/EditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_EditorButton_pressed"]
-[connection signal="pressed" from="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList/SongMetaEditorButton" to="Menus/HBoxContainer/HBMainMenu/ToolsListMenu/ToolsList" method="_on_SongMetaEditorButton_pressed"]
-[connection signal="start_pressed" from="PressStart" to="Menus/HBoxContainer/HBMainMenu" method="_on_start_pressed"]
-[connection signal="animation_finished" from="PressStart/AnimationPlayer" to="PressStart" method="_on_AnimationPlayer_animation_finished"]
 
-[editable path="Menus/HBoxContainer/HBMainMenu/SongListMenu"]
+[node name="AreaLeft" type="Area" parent="."]
+transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.288441, 0, -0.25495 )
+script = ExtResource( 8 )
+viewport_path = NodePath("../ViewportLeft")
+
+[node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 11 )
+material/0 = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
+shape = SubResource( 10 )
+
+[node name="AreaRight" type="Area" parent="."]
+transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 1.21642, 0, -0.106111 )
+script = ExtResource( 8 )
+viewport_path = NodePath("../ViewportRight")
+
+[node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
+mesh = SubResource( 11 )
+material/0 = SubResource( 15 )
+
+[node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
+shape = SubResource( 16 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="ViewportBackground" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+render_target_v_flip = true
+
+[node name="TextureRect" type="TextureRect" parent="ViewportBackground"]
+margin_right = 1280.0
+margin_bottom = 720.0
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuVisualizer" type="Panel" parent="ViewportBackground"]
+material = SubResource( 18 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.82065 )
+mesh = SubResource( 19 )
+material/0 = SubResource( 21 )
+
+[node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/def = SubResource( 25 )
+anims/fade_in = SubResource( 22 )
+anims/fade_out = SubResource( 24 )
+[connection signal="navigate_to_menu" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportLeft/MainMenuLeft/StartMenu" method="navigate_to_menu"]
+[connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
+[connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
+[connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer/SongList" to="ViewportRight/SongListPreview" method="select_song"]
+[connection signal="start_pressed" from="StartMenu/PressStart" to="ViewportLeft/MainMenuLeft" method="_on_start_pressed"]
+[connection signal="animation_finished" from="StartMenu/PressStart/AnimationPlayer" to="StartMenu/PressStart" method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="ViewportLeft/MainMenuLeft"]
+
+[editable path="ViewportLeft/MainMenuLeft/SongListMenu"]

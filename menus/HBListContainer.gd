@@ -9,13 +9,13 @@ signal navigate_to_menu(menu)
 var selected_option : Control
 const VISIBILITY_THRESHOLD = 3 # How many items should be visible
 var lerp_weight = 8.0
-
+export(int) var margin
 export (float) var scale_factor = 0.75
 
 const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
-
+export(bool) var fixed_scale_factor = false
 
 
 func _ready():
@@ -38,7 +38,12 @@ func _on_button_pressed(option: BaseButton):
 			emit_signal("selected_option_changed")
 		else:
 			if option is HBMenuButton:
-				emit_signal("navigate_to_menu", option.get_node(option.next_menu))
+				if option.next_menu:
+					emit_signal("navigate_to_menu", option.get_node(option.next_menu))
+				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
+				option.disconnect("pressed", self, "_on_button_pressed")
+				option.emit_signal("pressed")
+				option.connect("pressed", self, "_on_button_pressed", [option])
 			else:
 				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
 				option.disconnect("pressed", self, "_on_button_pressed")
@@ -118,6 +123,8 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 		# Scale interpolation
 		
 		var target_scale = prev_child_scale * scale_factor
+		if fixed_scale_factor:
+			target_scale = scale_factor
 		label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), lw)
 		
 		# Calculate the difference between where our label is and wher eit should be
@@ -125,10 +132,10 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 		var pos_diff = Vector2(0, 0)
 		if end > start:
 			# Under the selected one, important to care about thep revious child's size
-			pos_diff.y += prev_child_size * prev_child_scale
+			pos_diff.y += (prev_child_size + margin) * prev_child_scale
 		else:
 			# Over the selected one, only care about our own size
-			pos_diff.y += label.rect_size.y * label.rect_scale.y
+			pos_diff.y += (label.rect_size.y + margin) * label.rect_scale.y
 			
 		#label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
 		label.rect_position = prev_child_pos + sign(end-start) * pos_diff # Looks much better if we don't interpolate position...

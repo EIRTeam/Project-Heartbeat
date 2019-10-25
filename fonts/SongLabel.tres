@@ -3,8 +3,7 @@
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
 
 [resource]
-size = 45
-outline_size = 3
+size = 30
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_filter = true
 font_data = ExtResource( 1 )

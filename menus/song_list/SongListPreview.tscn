@@ -1,108 +1,181 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://graphics/notes/star_receiver.svg" type="Texture" id=1]
 [ext_resource path="res://graphics/notes/star.png" type="Texture" id=2]
-[ext_resource path="res://fonts/SmolEmphasis.tres" type="DynamicFont" id=3]
-[ext_resource path="res://default_theme.tres" type="Theme" id=4]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://graphics/no_preview.png" type="Texture" id=5]
 [ext_resource path="res://menus/song_list/SongListPreview.gd" type="Script" id=6]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=7]
+[ext_resource path="res://PanelStyleOpaque.tres" type="StyleBox" id=8]
+[ext_resource path="res://PanelStyleTransparent.tres" type="StyleBox" id=9]
+
+[sub_resource type="DynamicFont" id=3]
+size = 19
+use_filter = true
+font_data = ExtResource( 3 )
 
 [sub_resource type="Theme" id=1]
-default_font = ExtResource( 3 )
+default_font = SubResource( 3 )
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="Control"]
 margin_left = 10.0
-margin_top = 10.0
+margin_top = 8.94736
 margin_right = 446.0
-margin_bottom = 710.0
+margin_bottom = 708.947
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SongListPreview" type="MarginContainer" parent="."]
-anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 330.0
 size_flags_horizontal = 3
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 426.0
-margin_bottom = 690.0
+margin_right = 330.0
+margin_bottom = 700.0
+size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
-margin_right = 416.0
+margin_right = 330.0
 margin_bottom = 330.04
 rect_min_size = Vector2( 0, 330.04 )
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 7
 
-[node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer"]
+[node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 334.0
-margin_right = 416.0
-margin_bottom = 365.0
+margin_right = 330.0
+margin_bottom = 700.0
+size_flags_vertical = 3
+
+[node name="Panel3" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
+margin_right = 330.0
+margin_bottom = 37.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+custom_styles/panel = ExtResource( 8 )
+
+[node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 7 )
+text = "THE TOP"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
+margin_top = 41.0
+margin_right = 330.0
+margin_bottom = 172.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
+margin_right = 330.0
+margin_bottom = 120.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
+margin_top = 3.0
+margin_right = 330.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 7 )
 text = "160 BPM"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer"]
-margin_top = 369.0
-margin_right = 416.0
-margin_bottom = 452.0
+[node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
+margin_top = 27.0
+margin_right = 330.0
+margin_bottom = 116.0
 rect_min_size = Vector2( 0, 83 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 7 )
 text = "Produced by:
 Written by:
-asdsadasd"
+asdsadasd
+asdasdsadas"
 align = 1
 autowrap = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 456.0
-margin_right = 416.0
-margin_bottom = 479.0
+[node name="Panel" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
+margin_top = 176.0
+margin_right = 330.0
+margin_bottom = 366.0
+rect_min_size = Vector2( 0, 37 )
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 9 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/VBoxContainer"]
-margin_right = 416.0
-margin_bottom = 23.0
+[node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/Control/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 5
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 5.0
+margin_right = 310.0
+margin_bottom = 185.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer"]
+margin_top = 80.0
+margin_right = 290.0
+margin_bottom = 100.0
 theme = SubResource( 1 )
 
-[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 41.0
-margin_bottom = 23.0
+[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 54.0
+margin_bottom = 20.0
 text = "Easy"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 45.0
-margin_right = 416.0
-margin_bottom = 23.0
+[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 58.0
+margin_right = 290.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 100.0
-margin_right = 131.0
-margin_bottom = 23.0
+[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 30.0
+margin_right = 61.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 135.0
-margin_right = 166.0
-margin_bottom = 23.0
+[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 65.0
+margin_right = 96.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
 expand = true
@@ -111,28 +184,28 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="TextureRect3" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 170.0
-margin_right = 201.0
-margin_bottom = 23.0
+[node name="TextureRect3" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 100.0
+margin_right = 131.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 205.0
-margin_right = 236.0
-margin_bottom = 23.0
+[node name="TextureRect4" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 135.0
+margin_right = 166.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="SongListPreview/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 240.0
-margin_right = 271.0
-margin_bottom = 23.0
+[node name="TextureRect5" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 170.0
+margin_right = 201.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
 expand = true

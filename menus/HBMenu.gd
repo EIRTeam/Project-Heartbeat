@@ -5,7 +5,7 @@ class_name HBMenu
 var target_scale := Vector2(1.0, 1.0)
 var target_opacity := 1.0
 var previous_menu
-
+signal navigation_back
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 
@@ -20,12 +20,14 @@ func _process(delta):
 		rect_position = pos_diff
 		
 func back():
+	emit_signal("navigation_back")
 	navigate_to_menu(previous_menu, true)
 		
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if previous_menu:
 			get_tree().set_input_as_handled()
+			
 			back()
 		
 func navigate_to_menu(next_menu, back=false):
@@ -44,8 +46,8 @@ func navigate_to_menu(next_menu, back=false):
 	focus_mode = FOCUS_NONE
 	
 	next_menu.focus_mode = FOCUS_ALL
-	next_menu.show()
 	next_menu.grab_focus()
+	next_menu.show()
 	get_parent().move_child(next_menu, get_parent().get_child_count()-1)
 	if not back:
 		next_menu.previous_menu = self

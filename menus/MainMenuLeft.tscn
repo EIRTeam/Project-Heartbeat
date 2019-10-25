@@ -1,0 +1,106 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://menus/HBMenu.gd" type="Script" id=1]
+[ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=2]
+[ext_resource path="res://menus/HBMenuButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://menus/ToolsList.gd" type="Script" id=4]
+[ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=5]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=8]
+[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 8 )
+
+[node name="HBMainMenuLeft" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 200.0
+margin_right = 200.0
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+initial_menu_path = NodePath("../../HBMainMenu/StartMenu")
+
+[node name="StartMenu" type="Control" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartMenu" type="Control" parent="StartMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 1 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+margin = 10
+scale_factor = 0.95
+fixed_scale_factor = true
+
+[node name="StartButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
+margin_left = -188.0
+margin_top = 244.0
+margin_right = 262.0
+margin_bottom = 304.0
+next_menu = NodePath("../../../SongListMenu")
+
+[node name="OptionsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
+margin_bottom = 143.0
+text = "Options"
+
+[node name="ToolsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
+margin_bottom = 143.0
+text = "Tools"
+next_menu = NodePath("../../../ToolsListMenu")
+
+[node name="ExitButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
+margin_bottom = 143.0
+text = "Exit"
+
+[node name="ToolsListMenu" type="Control" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolsList" type="Control" parent="ToolsListMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+margin = 10
+scale_factor = 0.95
+fixed_scale_factor = true
+
+[node name="EditorButton" parent="ToolsListMenu/ToolsList" instance=ExtResource( 3 )]
+margin_right = 554.0
+margin_bottom = 143.0
+
+[node name="SongMetaEditorButton" parent="ToolsListMenu/ToolsList" instance=ExtResource( 3 )]
+margin_right = 554.0
+margin_bottom = 143.0
+text = "Song Metadata Editor"
+
+[node name="SongListMenu" parent="." instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1280.0
+margin_bottom = 720.0
+[connection signal="focus_entered" from="StartMenu" to="StartMenu/StartMenu" method="grab_focus"]
+[connection signal="navigate_to_menu" from="StartMenu/StartMenu" to="StartMenu" method="navigate_to_menu"]
+[connection signal="pressed" from="StartMenu/StartMenu/ExitButton" to="StartMenu/StartMenu" method="_on_ExitButton_pressed"]
+[connection signal="focus_entered" from="ToolsListMenu" to="ToolsListMenu/ToolsList" method="grab_focus"]
+[connection signal="pressed" from="ToolsListMenu/ToolsList/EditorButton" to="ToolsListMenu/ToolsList" method="_on_EditorButton_pressed"]
+[connection signal="pressed" from="ToolsListMenu/ToolsList/SongMetaEditorButton" to="ToolsListMenu/ToolsList" method="_on_EditorButton_pressed"]

@@ -42,12 +42,12 @@ func select_song(song: HBSong):
 	print("SEL")
 	var bpm = "UNK"
 	bpm = song.bpm
-	$SongListPreview/VBoxContainer/BPMLabel.text = "%s BPM" % bpm
+	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/BPMLabel.text = "%s BPM" % bpm
 
 	var song_meta = song.get_meta_string()
 
-	$SongListPreview/VBoxContainer/SongMetaLabel.text = PoolStringArray(song_meta).join('\n')
-
+	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/SongMetaLabel.text = PoolStringArray(song_meta).join('\n')
+	$SongListPreview/VBoxContainer/Control/Panel3/TitleLabel.text = song.title
 	#load_queue.queue_resource(song.get_song_audio_res_path())
 	
 	#if loading_audio:

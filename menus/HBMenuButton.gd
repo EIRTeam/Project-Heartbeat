@@ -7,5 +7,5 @@ export (NodePath) var next_menu
 
 func _ready():
 	focus_mode = Control.FOCUS_NONE
-	flat = true
-	align = ALIGN_LEFT
+	flat = false
+	align = ALIGN_CENTER
