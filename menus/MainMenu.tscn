@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/song_list/SongListPreview.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menus/MainMenuLeft.tscn" type="PackedScene" id=2]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=6]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=8]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=10]
@@ -398,9 +398,9 @@ __meta__ = {
 }
 
 [node name="TextureRect3" type="TextureRect" parent="StartMenu/PressStart/VBoxContainer"]
-margin_top = 222.0
+margin_top = 228.0
 margin_right = 1280.0
-margin_bottom = 372.0
+margin_bottom = 378.0
 rect_min_size = Vector2( 0, 150 )
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -412,9 +412,9 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="StartMenu/PressStart/VBoxContainer"]
-margin_top = 376.0
+margin_top = 382.0
 margin_right = 1280.0
-margin_bottom = 497.0
+margin_bottom = 492.0
 mouse_filter = 2
 custom_constants/separation = 70
 
@@ -428,8 +428,8 @@ valign = 1
 [node name="Label" type="Label" parent="StartMenu/PressStart/VBoxContainer/VBoxContainer"]
 margin_top = 90.0
 margin_right = 1280.0
-margin_bottom = 121.0
-custom_fonts/font = ExtResource( 6 )
+margin_bottom = 110.0
+custom_fonts/font = ExtResource( 3 )
 text = "Press any key"
 align = 1
 valign = 3

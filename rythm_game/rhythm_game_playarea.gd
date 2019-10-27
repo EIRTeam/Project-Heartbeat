@@ -92,7 +92,10 @@ func remove_all_notes_from_screen():
 	notes_on_screen = []
 	
 func play_note_sfx():
-	$HitEffect.play()
+	var sfx = $HitEffect.duplicate() as AudioStreamPlayer
+	add_child(sfx)
+	sfx.connect("finished", sfx, "queue_free")
+	sfx.play()
 	
 func _process(delta):
 	if audio_stream_player.playing:

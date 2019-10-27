@@ -138,6 +138,7 @@ config/name="Project Heartbeat"
 run/main_scene="res://menus/MainMenu.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
+boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 
 [audio]
