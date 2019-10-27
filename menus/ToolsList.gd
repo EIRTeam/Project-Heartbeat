@@ -1,3 +1,4 @@
+tool
 extends HBListContainer
 
 func _ready():

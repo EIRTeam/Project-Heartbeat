@@ -22,6 +22,7 @@ __meta__ = {
 [node name="VBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -38,7 +39,7 @@ align = 2
 uppercase = true
 
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
-margin_left = 729.0
+margin_left = 745.0
 margin_top = 9.0
 margin_right = 1000.0
 margin_bottom = 40.0

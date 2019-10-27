@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=1]
 [ext_resource path="res://tools/song_meta_editor/UserSongList.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://default_theme.tres" type="Theme" id=6]
 [ext_resource path="res://tools/song_meta_editor/SongMetaEditor.gd" type="Script" id=7]
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=8]
+[ext_resource path="res://tools/icons/icon_folder.svg" type="Texture" id=9]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -38,40 +39,48 @@ size_flags_horizontal = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HSplitContainer/VBoxContainer"]
 margin_right = 1260.0
-margin_bottom = 31.0
+margin_bottom = 28.0
 
 [node name="BackButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 20.0
-margin_bottom = 31.0
+margin_bottom = 28.0
 icon = ExtResource( 1 )
 flat = true
 
 [node name="Label" type="Label" parent="HSplitContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 24.0
-margin_right = 489.0
-margin_bottom = 31.0
+margin_top = 4.0
+margin_right = 606.0
+margin_bottom = 24.0
 text = "Note that only development packages are shown here!"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/VBoxContainer"]
-margin_top = 35.0
+margin_top = 32.0
 margin_right = 1260.0
-margin_bottom = 66.0
+margin_bottom = 60.0
 alignment = 2
+
+[node name="FolderButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1168.0
+margin_right = 1196.0
+margin_bottom = 28.0
+hint_tooltip = "Open song folder"
+icon = ExtResource( 9 )
 
 [node name="AddButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1200.0
 margin_right = 1228.0
-margin_bottom = 31.0
+margin_bottom = 28.0
 icon = ExtResource( 3 )
 
 [node name="DeleteButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1232.0
 margin_right = 1260.0
-margin_bottom = 31.0
+margin_bottom = 28.0
 icon = ExtResource( 8 )
 
 [node name="SongList" type="Tree" parent="HSplitContainer/VBoxContainer"]
-margin_top = 70.0
+margin_top = 64.0
 margin_right = 1260.0
 margin_bottom = 700.0
 size_flags_vertical = 3
@@ -97,13 +106,13 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 35.0
 margin_right = -5.0
 margin_bottom = -5.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata"]
 margin_right = 616.0
-margin_bottom = 657.0
+margin_bottom = 660.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -188,13 +197,13 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 35.0
 margin_right = -5.0
 margin_bottom = -5.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data"]
 margin_right = 616.0
-margin_bottom = 657.0
+margin_bottom = 660.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -282,9 +291,9 @@ dialog_text = "Create a new package"
 
 [node name="LineEdit" type="LineEdit" parent="CreatePackageDialog"]
 margin_left = 8.0
-margin_top = 39.0
+margin_top = 28.0
 margin_right = 1252.0
-margin_bottom = 653.0
+margin_bottom = 656.0
 placeholder_text = "EIREXE's super wonderful mod"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -300,9 +309,9 @@ dialog_text = "Create a new song"
 
 [node name="LineEdit" type="LineEdit" parent="CreateSongDialog"]
 margin_left = 8.0
-margin_top = 39.0
+margin_top = 28.0
 margin_right = 1252.0
-margin_bottom = 653.0
+margin_bottom = 656.0
 placeholder_text = "EIREXE's super wonderful mod"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -319,6 +328,7 @@ filters = PoolStringArray( "*.pck; Package File" )
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer2/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/FolderButton" to="." method="_on_FolderButton_pressed"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/AddButton" to="." method="_on_AddButton_pressed"]
 [connection signal="song_selected" from="HSplitContainer/VBoxContainer/SongList" to="." method="_on_SongList_song_selected"]
 [connection signal="song_meta_saved" from="HSplitContainer/SongMetaEditor" to="HSplitContainer/VBoxContainer/SongList" method="_on_SongMetaEditor_song_meta_saved"]

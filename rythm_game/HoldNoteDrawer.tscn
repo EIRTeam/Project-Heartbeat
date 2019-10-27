@@ -4,9 +4,9 @@
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/HoldNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
-[ext_resource path="res://graphics/notes/xbox/A_hold_target.png" type="Texture" id=6]
+[ext_resource path="res://graphics/notes/xbox/A_target_hold.png" type="Texture" id=5]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -22,33 +22,33 @@ tracks/0/keys = {
 "values": [ 1.0, 1.1, 1.0 ]
 }
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.00724638, 0.983885, 1 )
 colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.490982, 1, 0, 0, 0.5 )
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.941077, 1 )
 colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=9]
-gradient = SubResource( 8 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=5]
 max_value = 6.0
 _data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=7]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 50.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 11 )
-color_ramp = SubResource( 9 )
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
 
 [node name="SingleNoteDrawer" type="Node2D"]
 z_index = -2
@@ -57,15 +57,15 @@ script = ExtResource( 3 )
 [node name="NoteTrailing" parent="." instance=ExtResource( 2 )]
 position = Vector2( 408.836, 70.123 )
 z_index = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 
 [node name="Note" parent="." instance=ExtResource( 2 )]
-position = Vector2( 408.836, 70.123 )
+position = Vector2( 405.594, 74.4458 )
 z_index = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 6 )
+anims/note_appear = SubResource( 1 )
 
 [node name="Line2D3" type="Line2D" parent="."]
 z_index = -1
@@ -77,14 +77,14 @@ joint_mode = 2
 z_index = -1
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
-gradient = SubResource( 7 )
+gradient = SubResource( 2 )
 joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
 z_index = -1
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
-gradient = SubResource( 7 )
+gradient = SubResource( 2 )
 joint_mode = 2
 
 [node name="HoldNoteTarget" parent="." instance=ExtResource( 1 )]
@@ -95,7 +95,7 @@ emitting = false
 amount = 1
 one_shot = true
 speed_scale = 4.0
-process_material = SubResource( 12 )
+process_material = SubResource( 7 )
 texture = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""

@@ -43,3 +43,7 @@ func _on_SongList_song_selected(song: HBSong):
 
 func _on_BackButton_pressed():
 	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
+
+
+func _on_FolderButton_pressed():
+	OS.shell_open(ProjectSettings.globalize_path("user://"))

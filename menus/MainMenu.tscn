@@ -10,7 +10,7 @@
 [ext_resource path="res://graphics/background.png" type="Texture" id=12]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=13]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=1]
 resource_name = "Def"
 length = 0.3
 tracks/0/type = "value"
@@ -62,7 +62,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -113,40 +113,40 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="QuadMesh" id=11]
+[sub_resource type="QuadMesh" id=3]
 size = Vector2( 1.6, 0.9 )
 
-[sub_resource type="ViewportTexture" id=12]
+[sub_resource type="ViewportTexture" id=4]
 flags = 5
 viewport_path = NodePath("ViewportLeft")
 
-[sub_resource type="SpatialMaterial" id=13]
+[sub_resource type="SpatialMaterial" id=5]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 12 )
+albedo_texture = SubResource( 4 )
 
-[sub_resource type="BoxShape" id=10]
-extents = Vector3( 0.4, 0.45, 0.01 )
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.8, 0.45, 0.01 )
 
-[sub_resource type="ViewportTexture" id=14]
+[sub_resource type="ViewportTexture" id=7]
 flags = 5
 viewport_path = NodePath("ViewportRight")
 
-[sub_resource type="SpatialMaterial" id=15]
+[sub_resource type="SpatialMaterial" id=8]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 14 )
+albedo_texture = SubResource( 7 )
 
-[sub_resource type="BoxShape" id=16]
+[sub_resource type="BoxShape" id=9]
 extents = Vector3( 0.4, 0.45, 0.01 )
 
-[sub_resource type="Shader" id=17]
+[sub_resource type="Shader" id=10]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -232,26 +232,26 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=18]
-shader = SubResource( 17 )
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
 shader_param/FREQ_RANGE = 64.0
 
-[sub_resource type="QuadMesh" id=19]
+[sub_resource type="QuadMesh" id=12]
 size = Vector2( 1.6, 0.9 )
 
-[sub_resource type="ViewportTexture" id=20]
+[sub_resource type="ViewportTexture" id=13]
 viewport_path = NodePath("ViewportBackground")
 
-[sub_resource type="SpatialMaterial" id=21]
+[sub_resource type="SpatialMaterial" id=14]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_fixed_size = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 20 )
+albedo_texture = SubResource( 13 )
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=15]
 resource_name = "def"
 length = 0.3
 tracks/0/type = "value"
@@ -279,7 +279,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.7, 1 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=16]
 resource_name = "fade_in"
 length = 0.3
 tracks/0/type = "value"
@@ -307,7 +307,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=17]
 resource_name = "fade_out"
 length = 0.3
 tracks/0/type = "value"
@@ -352,6 +352,9 @@ render_target_v_flip = true
 [node name="MainMenuLeft" parent="ViewportLeft" instance=ExtResource( 2 )]
 initial_menu_path = NodePath("StartMenu")
 
+[node name="SongList" parent="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer" index="0"]
+focus_mode = 2
+
 [node name="ViewportRight" type="Viewport" parent="."]
 size = Vector2( 1280, 720 )
 transparent_bg = true
@@ -395,10 +398,10 @@ __meta__ = {
 }
 
 [node name="TextureRect3" type="TextureRect" parent="StartMenu/PressStart/VBoxContainer"]
-margin_top = 247.0
+margin_top = 222.0
 margin_right = 1280.0
-margin_bottom = 347.0
-rect_min_size = Vector2( 0, 100 )
+margin_bottom = 372.0
+rect_min_size = Vector2( 0, 150 )
 mouse_filter = 2
 size_flags_horizontal = 3
 texture = ExtResource( 10 )
@@ -409,9 +412,9 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="StartMenu/PressStart/VBoxContainer"]
-margin_top = 351.0
+margin_top = 376.0
 margin_right = 1280.0
-margin_bottom = 472.0
+margin_bottom = 497.0
 mouse_filter = 2
 custom_constants/separation = 70
 
@@ -435,8 +438,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StartMenu/PressStart"]
-anims/Def = SubResource( 5 )
-anims/FadeOut = SubResource( 6 )
+anims/Def = SubResource( 1 )
+anims/FadeOut = SubResource( 2 )
 
 [node name="AreaLeft" type="Area" parent="."]
 transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.288441, 0, -0.25495 )
@@ -444,12 +447,11 @@ script = ExtResource( 8 )
 viewport_path = NodePath("../ViewportLeft")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 11 )
-material/0 = SubResource( 13 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
-shape = SubResource( 10 )
+shape = SubResource( 6 )
 
 [node name="AreaRight" type="Area" parent="."]
 transform = Transform( 0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 1.21642, 0, -0.106111 )
@@ -457,11 +459,11 @@ script = ExtResource( 8 )
 viewport_path = NodePath("../ViewportRight")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
-mesh = SubResource( 11 )
-material/0 = SubResource( 15 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
-shape = SubResource( 16 )
+shape = SubResource( 9 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
@@ -478,7 +480,7 @@ __meta__ = {
 }
 
 [node name="MainMenuVisualizer" type="Panel" parent="ViewportBackground"]
-material = SubResource( 18 )
+material = SubResource( 11 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 13 )
@@ -488,14 +490,13 @@ __meta__ = {
 
 [node name="Background" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.82065 )
-mesh = SubResource( 19 )
-material/0 = SubResource( 21 )
+mesh = SubResource( 12 )
+material/0 = SubResource( 14 )
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/def = SubResource( 25 )
-anims/fade_in = SubResource( 22 )
-anims/fade_out = SubResource( 24 )
-[connection signal="navigate_to_menu" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportLeft/MainMenuLeft/StartMenu" method="navigate_to_menu"]
+anims/def = SubResource( 15 )
+anims/fade_in = SubResource( 16 )
+anims/fade_out = SubResource( 17 )
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer/SongList" to="ViewportRight/SongListPreview" method="select_song"]
