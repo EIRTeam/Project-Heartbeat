@@ -6,6 +6,10 @@ var last_click_pos = null
 var viewport : Viewport = null
 export (NodePath) var viewport_path 
 export(Vector2)var viewport_size = Vector2(1.0, 1.0) # viewport size over 1280 x 720, for automatic UI scaling
+
+
+
+
 func _input(event):
 	# Check if the event is a non-mouse event
 	var is_mouse_event = false
@@ -66,8 +70,10 @@ func _on_area_input_event(_camera, event, click_pos, _click_normal, _shape_idx):
 
 
 func set_viewport_size():
-	var size = get_viewport().size / Vector2(1280, 720)
-	size *= Vector2(1280, 720) * viewport_size
+	var base_width = ProjectSettings.get("display/window/size/width")
+	var base_height = ProjectSettings.get("display/window/size/height")
+	var aspect_ratio = float(base_width)/float(base_height)
+	var size = Vector2(get_viewport().size.y * aspect_ratio, get_viewport().size.y)
 	viewport.size = size
 	print(size)
 
@@ -75,3 +81,4 @@ func _ready():
 	viewport = get_node(viewport_path)
 	set_viewport_size()
 	connect("input_event", self, "_on_area_input_event")
+	get_viewport().connect("size_changed", self, "set_viewport_size")

@@ -9,19 +9,20 @@
 [ext_resource path="res://PanelStyleOpaque.tres" type="StyleBox" id=8]
 [ext_resource path="res://PanelStyleTransparent.tres" type="StyleBox" id=9]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=1]
 size = 19
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Theme" id=1]
-default_font = SubResource( 3 )
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
 
 [node name="Panel" type="Control"]
-margin_left = 10.0
-margin_top = 8.94736
-margin_right = 446.0
-margin_bottom = 708.947
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -360.0
+margin_right = 357.0
+margin_bottom = 362.0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -37,7 +38,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 330.0
-margin_bottom = 700.0
+margin_bottom = 722.0
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
@@ -51,12 +52,12 @@ stretch_mode = 7
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 334.0
 margin_right = 330.0
-margin_bottom = 700.0
+margin_bottom = 722.0
 size_flags_vertical = 3
 
 [node name="Panel3" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
 margin_right = 330.0
-margin_bottom = 37.0
+margin_bottom = 40.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 custom_styles/panel = ExtResource( 8 )
@@ -75,9 +76,9 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-margin_top = 41.0
+margin_top = 44.0
 margin_right = 330.0
-margin_bottom = 172.0
+margin_bottom = 184.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.7
 custom_styles/panel = ExtResource( 9 )
@@ -117,9 +118,9 @@ align = 1
 autowrap = true
 
 [node name="Panel" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-margin_top = 176.0
+margin_top = 188.0
 margin_right = 330.0
-margin_bottom = 366.0
+margin_bottom = 388.0
 rect_min_size = Vector2( 0, 37 )
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 9 )
@@ -139,17 +140,17 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 5.0
 margin_right = 310.0
-margin_bottom = 185.0
+margin_bottom = 195.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer"]
-margin_top = 80.0
+margin_top = 85.0
 margin_right = 290.0
-margin_bottom = 100.0
-theme = SubResource( 1 )
+margin_bottom = 105.0
+theme = SubResource( 2 )
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 54.0
