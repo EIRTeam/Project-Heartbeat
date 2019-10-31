@@ -14,8 +14,6 @@ func set_pickable(value):
 	$NoteTarget.input_pickable = value
 
 func _ready():
-	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
-	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
 	target_graphic.get_node("Particles2D").emitting = true

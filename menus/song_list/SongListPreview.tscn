@@ -18,47 +18,46 @@ font_data = ExtResource( 3 )
 default_font = SubResource( 1 )
 
 [node name="Panel" type="Control"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -360.0
-margin_right = 357.0
-margin_bottom = 362.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SongListPreview" type="MarginContainer" parent="."]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 330.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
-margin_right = 330.0
-margin_bottom = 722.0
+margin_right = 1280.0
+margin_bottom = 720.0
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
-margin_right = 330.0
+margin_right = 1280.0
 margin_bottom = 330.04
 rect_min_size = Vector2( 0, 330.04 )
 texture = ExtResource( 5 )
 expand = true
-stretch_mode = 7
+stretch_mode = 6
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 334.0
-margin_right = 330.0
-margin_bottom = 722.0
+margin_right = 1280.0
+margin_bottom = 720.0
 size_flags_vertical = 3
 
 [node name="Panel3" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-margin_right = 330.0
+margin_right = 1280.0
 margin_bottom = 40.0
-size_flags_vertical = 3
+rect_min_size = Vector2( 0, 40 )
 size_flags_stretch_ratio = 0.2
 custom_styles/panel = ExtResource( 8 )
 
@@ -77,24 +76,24 @@ __meta__ = {
 
 [node name="Panel2" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
 margin_top = 44.0
-margin_right = 330.0
-margin_bottom = 184.0
+margin_right = 1280.0
+margin_bottom = 170.0
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.7
+size_flags_stretch_ratio = 0.6
 custom_styles/panel = ExtResource( 9 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
-margin_right = 330.0
-margin_bottom = 120.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-margin_top = 3.0
-margin_right = 330.0
-margin_bottom = 23.0
+margin_top = 6.0
+margin_right = 1280.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
 text = "160 BPM"
@@ -104,9 +103,9 @@ __meta__ = {
 }
 
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-margin_top = 27.0
-margin_right = 330.0
-margin_bottom = 116.0
+margin_top = 30.0
+margin_right = 1280.0
+margin_bottom = 119.0
 rect_min_size = Vector2( 0, 83 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
@@ -118,9 +117,9 @@ align = 1
 autowrap = true
 
 [node name="Panel" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-margin_top = 188.0
-margin_right = 330.0
-margin_bottom = 388.0
+margin_top = 174.0
+margin_right = 1280.0
+margin_bottom = 386.0
 rect_min_size = Vector2( 0, 37 )
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 9 )
@@ -139,17 +138,17 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer"]
 margin_left = 20.0
 margin_top = 5.0
-margin_right = 310.0
-margin_bottom = 195.0
+margin_right = 1260.0
+margin_bottom = 207.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer"]
-margin_top = 85.0
-margin_right = 290.0
-margin_bottom = 105.0
+margin_top = 91.0
+margin_right = 1240.0
+margin_bottom = 111.0
 theme = SubResource( 2 )
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -159,14 +158,14 @@ text = "Easy"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 58.0
-margin_right = 290.0
+margin_right = 1240.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 30.0
-margin_right = 61.0
+margin_left = 505.0
+margin_right = 536.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
@@ -174,8 +173,8 @@ expand = true
 stretch_mode = 5
 
 [node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 65.0
-margin_right = 96.0
+margin_left = 540.0
+margin_right = 571.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
@@ -186,8 +185,8 @@ __meta__ = {
 }
 
 [node name="TextureRect3" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 100.0
-margin_right = 131.0
+margin_left = 575.0
+margin_right = 606.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 2 )
@@ -195,8 +194,8 @@ expand = true
 stretch_mode = 5
 
 [node name="TextureRect4" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 135.0
-margin_right = 166.0
+margin_left = 610.0
+margin_right = 641.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
@@ -204,15 +203,10 @@ expand = true
 stretch_mode = 5
 
 [node name="TextureRect5" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 170.0
-margin_right = 201.0
+margin_left = 645.0
+margin_right = 676.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 31, 0 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 5
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SongListPreview"]
-bus = "Music"
-
-[node name="AudioFadeTween" type="Tween" parent="SongListPreview"]

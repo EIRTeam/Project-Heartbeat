@@ -1,8 +1,8 @@
 [gd_resource type="DynamicFont" load_steps=2 format=2]
 
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
 
 [resource]
-size = 15
+size = 19
 use_filter = true
 font_data = ExtResource( 1 )

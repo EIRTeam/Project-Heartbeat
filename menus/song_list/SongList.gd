@@ -1,4 +1,3 @@
-tool
 extends HBListContainer
 
 const SongListItem = preload("res://menus/song_list/SongListItem.tscn")

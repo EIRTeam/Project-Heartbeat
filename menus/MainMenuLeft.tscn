@@ -1,15 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://menus/HBMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/HBMenuButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/ToolsList.gd" type="Script" id=4]
 [ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=5]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=8]
+[ext_resource path="res://default_theme.tres" type="Theme" id=6]
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
-
-[sub_resource type="Theme" id=1]
-default_font = ExtResource( 8 )
 
 [node name="HBMainMenuLeft" type="MarginContainer"]
 anchor_right = 1.0
@@ -17,6 +14,7 @@ anchor_bottom = 1.0
 margin_left = 200.0
 margin_right = 200.0
 size_flags_horizontal = 3
+theme = ExtResource( 6 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -37,7 +35,6 @@ anchor_bottom = 1.0
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = SubResource( 1 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -79,6 +76,7 @@ rect_scale = Vector2( 0.95, 0.95 )
 text = "Exit"
 
 [node name="ToolsListMenu" type="Control" parent="."]
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 1 )
@@ -108,7 +106,7 @@ text = "Chart Editor"
 [node name="SongMetaEditorButton" parent="ToolsListMenu/ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 400.0
-margin_right = 545.0
+margin_right = 608.0
 margin_bottom = 460.0
 rect_scale = Vector2( 0.95, 0.95 )
 text = "Song Metadata Editor"
