@@ -11,25 +11,29 @@ var target_volume = 0
 var next_audio: AudioStreamOGGVorbis
 var current_song: HBSong
 var song_queued = false
+
 func _ready():
 	player.volume_db = FADE_OUT_VOLUME
-	randomize()
-	var default_song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
-	play_song(default_song)
+	play_random_song()
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	
+func play_random_song():
+	randomize()
+	var default_song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
+	play_song(default_song)
+	
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
-	playback_current_time_label.text = format_time($AudioStreamPlayer.get_playback_position())
-	if $AudioStreamPlayer.stream:
-		playback_progress_bar.value = $AudioStreamPlayer.get_playback_position() / $AudioStreamPlayer.stream.get_length()
+	playback_current_time_label.text = format_time(player.get_playback_position())
+	if player.stream:
+		playback_progress_bar.value = player.get_playback_position() / player.stream.get_length()
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
 		target_volume = 0
 		if next_audio:
-			$AudioStreamPlayer.stream = next_audio
-			$AudioStreamPlayer.play()
-			$AudioStreamPlayer.seek(current_song.preview_start/1000.0)
+			player.stream = next_audio
+			player.play()
+			player.seek(current_song.preview_start/1000.0)
 			song_title_label.text = current_song.title
 			if current_song.artist_alias != "":
 				song_artist_label.text = current_song.artist_alias
@@ -37,6 +41,13 @@ func _process(delta):
 				song_artist_label.text = current_song.artist
 			playback_max_label.text = format_time(next_audio.get_length())
 			song_queued = false
+			
+	if player.get_playback_position() >= player.stream.get_length():
+		var curr = current_song
+		# Ensure random song will always be different from current
+		while curr == current_song:
+			play_random_song()
+		player.play()
 func play_song(song: HBSong):
 	print("PUREI")
 	if song == current_song:

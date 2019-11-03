@@ -85,6 +85,9 @@ func _on_game_time_changed(time: float):
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")
 	
+	
+func _draw():
+	draw_line(game.remap_coords(get_initial_position()), game.remap_coords(note_data.position), Color.blue, 2.0, true)
 
 func get_notes():
 	return [note_data]

@@ -612,8 +612,8 @@ anims/fade_out = SubResource( 21 )
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/Control/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
-[connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer/SongList" to="ViewportRight/Control/MainMenuMusicPlayer" method="play_song"]
 [connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer/SongList" to="ViewportRight/SongListPreview" method="select_song"]
+[connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/VBoxContainer/SongList" to="ViewportRight/Control/MainMenuMusicPlayer" method="play_song"]
 [connection signal="start_pressed" from="StartMenu/PressStart" to="ViewportLeft/MainMenuLeft" method="_on_start_pressed"]
 [connection signal="animation_finished" from="StartMenu/PressStart/AnimationPlayer" to="StartMenu/PressStart" method="_on_AnimationPlayer_animation_finished"]
 

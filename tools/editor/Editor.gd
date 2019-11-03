@@ -286,7 +286,7 @@ func _on_EditorTimeline_layers_changed():
 func load_song_audio(song: HBSong):
 	
 	emit_signal("load_song", song)
-	audio_stream_player.stream = load(song.get_song_audio_res_path())
+	audio_stream_player.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 
 
 func _on_ExitDialog_confirmed():

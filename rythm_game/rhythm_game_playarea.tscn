@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
-[ext_resource path="res://songs/sands_of_time/T.Stebbins - Sands Of Time.ogg" type="AudioStream" id=2]
+[ext_resource path="res://through_the_fire_and_flames.ogg" type="AudioStream" id=2]
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=3]
 [ext_resource path="res://graphics/ratings.png" type="Texture" id=5]
 

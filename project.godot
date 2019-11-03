@@ -108,6 +108,16 @@ _global_script_classes=[ {
 "class": "HBUtils",
 "language": "GDScript",
 "path": "res://scripts/HBUtils.gd"
+}, {
+"base": "Reference",
+"class": "PPDLoader",
+"language": "GDScript",
+"path": "res://scripts/PPDLoader.gd"
+}, {
+"base": "Node",
+"class": "PPDPack",
+"language": "GDScript",
+"path": "res://scripts/PPDPack.gd"
 } ]
 _global_script_class_icons={
 "BBCWaveform": "",
@@ -129,7 +139,9 @@ _global_script_class_icons={
 "HBSerializable": "",
 "HBSong": "",
 "HBTimingPoint": "",
-"HBUtils": ""
+"HBUtils": "",
+"PPDLoader": "",
+"PPDPack": ""
 }
 
 [application]
