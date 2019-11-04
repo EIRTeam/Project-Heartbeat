@@ -52,7 +52,7 @@ func set_song(song: HBSong):
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 
 func get_note_scale():
-	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.90
+	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.85
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0

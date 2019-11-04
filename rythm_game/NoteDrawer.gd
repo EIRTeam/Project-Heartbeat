@@ -55,9 +55,7 @@ func judge_note_input(event: InputEvent, time: float, released = false):
 		var event_result = event.is_action_pressed(action) and not event.is_echo()
 		if released:
 			event_result = event.is_action_released(action)
-		print("ER: ", event_result)
 		if event_result:
-			print("RELEASE THE KRAKEN")
 			var closest_note = game.get_closest_note_of_type(note_data.note_type)
 			if closest_note == note_data:
 				var judgement = game.judge.judge_note(time, closest_note.time/1000.0)

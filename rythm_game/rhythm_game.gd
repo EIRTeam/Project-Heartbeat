@@ -3,7 +3,7 @@ extends Control
 func _ready():
 	set_game_size()
 	connect("resized", $RhythmGame, "set_size", [rect_size])
-	var chart_path = SongLoader.songs["the_top"].get_chart_path("easy")
+	var chart_path = SongLoader.songs["super_test_song"].get_chart_path("easy")
 	var file = File.new()
 	file.open(chart_path, File.READ)
 	var result = JSON.parse(file.get_as_text()).result
