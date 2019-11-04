@@ -1,7 +1,7 @@
 extends Control
 
 func _ready():
-	var chart = PPDLoader.PPD2HBChart("res://Extreme.ppd")
+	var chart = PPDLoader.PPD2HBChart("user://Extreme.ppd")
 	var file := File.new()
 	print(file.open("user://songs/super_test_song/test.json", File.WRITE))
 	file.store_string(JSON.print(chart.serialize(), "  "))

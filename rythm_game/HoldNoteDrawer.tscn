@@ -51,7 +51,6 @@ scale_curve = SubResource( 6 )
 color_ramp = SubResource( 4 )
 
 [node name="SingleNoteDrawer" type="Node2D"]
-z_index = -2
 script = ExtResource( 3 )
 
 [node name="NoteTrailing" parent="." instance=ExtResource( 2 )]
@@ -68,20 +67,17 @@ texture = ExtResource( 5 )
 anims/note_appear = SubResource( 1 )
 
 [node name="Line2D3" type="Line2D" parent="."]
-z_index = -1
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 joint_mode = 2
 
 [node name="Line2D" type="Line2D" parent="."]
-z_index = -1
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 2 )
 joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
-z_index = -1
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 2 )

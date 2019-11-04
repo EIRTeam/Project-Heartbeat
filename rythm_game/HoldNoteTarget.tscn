@@ -12,7 +12,7 @@ input_pickable = true
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-z_index = -990
+z_index = 2
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -20,11 +20,12 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="TimingArm" type="Sprite" parent="."]
+z_index = 3
 texture = ExtResource( 3 )
 offset = Vector2( 0, -30 )
 
 [node name="TimingArm2" type="Sprite" parent="."]
-z_index = -991
+z_index = 2
 texture = ExtResource( 3 )
 offset = Vector2( 0, -30 )
 [connection signal="mouse_entered" from="." to="." method="_on_NoteTarget_mouse_entered"]

@@ -1,5 +1,4 @@
 extends Node2D
-
 var note_data: HBNoteData = HBNoteData.new()
 var game
 
@@ -49,28 +48,27 @@ func get_initial_position():
 
 	return point
 
-func judge_note_input(time: float):
+func judge_note_input(event: InputEvent, time: float, released = false):
 	# Judging tapped keys
-	for type in game.NOTE_TYPE_TO_ACTIONS_MAP:
-		var actions = game.NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if Input.is_action_just_pressed(action):
-				var closest_note = game.get_closest_note_of_type(type)
-				if closest_note == note_data:
-					var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
-					if judgement:
-						print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
-						emit_signal("note_judged", note_data, judgement)
-						emit_signal("note_removed")
-						queue_free()
-				break
+	var out_judgement = -1
+	for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
+		var event_result = event.is_action_pressed(action) and not event.is_echo()
+		if released:
+			event_result = event.is_action_released(action)
+		print("ER: ", event_result)
+		if event_result:
+			print("RELEASE THE KRAKEN")
+			var closest_note = game.get_closest_note_of_type(note_data.note_type)
+			if closest_note == note_data:
+				var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
+				if judgement:
+					print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
+					out_judgement = judgement
+			break
+	return out_judgement
 
 func _on_game_time_changed(time: float):
-	update_graphic_positions_and_scale(time)
-	judge_note_input(time)
-	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
-	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+	pass
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")

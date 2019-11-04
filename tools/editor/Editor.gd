@@ -55,7 +55,7 @@ func _ready():
 	seek(0)
 	var data := HBMultiNoteData.new()
 	data.time = 1000
-	load_song_audio(SongLoader.songs["sands_of_time"])
+	load_song(SongLoader.songs["sands_of_time"])
 	
 	
 func get_timing_points():
@@ -261,7 +261,7 @@ func _on_SongSelector_chart_selected(song_id, difficulty):
 		chart.deserialize(result)
 		from_chart(chart)
 		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
-		load_song_audio(song)
+		load_song(song)
 		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
 
 
@@ -283,7 +283,7 @@ func _on_EditorTimeline_layers_changed():
 		recording_layer_select_button.add_item(layer.layer_name, layer_i)
 	recording_layer_select_button.select(0)
 
-func load_song_audio(song: HBSong):
+func load_song(song: HBSong):
 	
 	emit_signal("load_song", song)
 	audio_stream_player.stream = HBUtils.load_ogg(song.get_song_audio_res_path())

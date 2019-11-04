@@ -79,7 +79,7 @@ void fragment() {
 	fragPos = (fragPos - 0.5) * 2.0;
     fragPos.x *= iResolution.x / iResolution.y;
 	
-	vec3 color = vec3(0.0134, 0.052, 0.1);
+	vec3 color = vec3(0.13, 0.07, 0.26);
 	color += doHalo(fragPos, RADIUS, TIME);
 
     float c = cos(TIME * SPEED);
@@ -89,7 +89,7 @@ void fragment() {
 	
 	color += max(luma(color) - 1.0, 0.0);
     
-	COLOR = vec4(color, 1.0);
+	COLOR = vec4(color*0.5, 0.75);
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
@@ -103,3 +103,6 @@ material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

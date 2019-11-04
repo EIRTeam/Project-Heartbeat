@@ -3,7 +3,6 @@ extends "res://rythm_game/NoteDrawer.gd"
 onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 var pickable = true setget set_pickable
-
 export(float) var target_scale_modifier = 1.0
 
 const TRAIL_RESOLUTION = 32
@@ -73,9 +72,18 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data.note_type)
 	set_trail_color()
 
+func _unhandled_input(event):
+	var input_judgement = judge_note_input(event, game.time)
+	if input_judgement != -1:
+		queue_free()
+		emit_signal("note_judged", note_data, input_judgement)
+		emit_signal("note_removed")
+		get_tree().set_input_as_handled()
+		set_process_unhandled_input(false)
+
 func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)
-	judge_note_input(time)
+
 	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
 	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
 		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
@@ -86,8 +94,8 @@ func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")
 	
 	
-func _draw():
-	draw_line(game.remap_coords(get_initial_position()), game.remap_coords(note_data.position), Color.blue, 2.0, true)
+#func _draw():
+#	draw_line(game.remap_coords(get_initial_position()), game.remap_coords(note_data.position), Color.blue, 2.0, true)
 
 func get_notes():
 	return [note_data]

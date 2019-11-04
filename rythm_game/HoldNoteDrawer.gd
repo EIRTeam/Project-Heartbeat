@@ -104,51 +104,72 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data.note_type)
 	set_trail_color()
 
-func judge_note_input(time: float):
-	# Judging tapped keys
-	for type in game.NOTE_TYPE_TO_ACTIONS_MAP:
-		var actions = game.NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if Input.is_action_just_pressed(action):
-				var closest_note = game.get_closest_note_of_type(type)
-				if closest_note == note_data:
-					var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
-					if judgement:
-						if judgement > game.judge.JUDGE_RATINGS.SAFE:
-							print("JUDGED! HoldStart", judgement," ", time, " ", closest_note.time/1000.0)
-							holding = true
-							emit_signal("note_judged", note_data, judgement)
-						else:
-							print("JUDGED! HoldStartFail", judgement," ", time, " ", closest_note.time/1000.0)
-							emit_signal("note_judged", note_data, judgement)
-							emit_signal("note_removed")
-							queue_free()
-				break
-			if holding:
-				if Input.is_action_just_released(action):
-					var judgement = game.judge.judge_note(time, (note_data.time+note_data.duration)/1000.0)
-					if not judgement:
-						judgement = game.judge.JUDGE_RATINGS.WORST
-					else:
-						game.play_note_sfx()
-					print("JUDGED! HoldEnd", judgement," ", time, " ", (note_data.time+note_data.duration)/1000.0)
-					emit_signal("note_judged", note_data, judgement)
-					emit_signal("note_removed")
-					queue_free()
+#func judge_note_input(event: InputEvent, time: float):
+#	# Judging tapped keys
+#	var actions = game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]
+#	for action in actions:
+#		if event.is_action_pressed(action) and event.is_echo():
+#			var closest_note = game.get_closest_note_of_type(note_data.note_type)
+#			if closest_note == note_data:
+#				var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
+#				if judgement:
+#					if judgement > game.judge.JUDGE_RATINGS.SAFE:
+#						print("JUDGED! HoldStart", judgement," ", time, " ", closest_note.time/1000.0)
+#						holding = true
+#						emit_signal("note_judged", note_data, judgement)
+#					else:
+#						print("JUDGED! HoldStartFail", judgement," ", time, " ", closest_note.time/1000.0)
+#						emit_signal("note_judged", note_data, judgement)
+#						emit_signal("note_removed")
+#						queue_free()
+#			break
+#		if holding:
+#			if event.is_action_released(action) and not event.is_echo():
+#				var judgement = game.judge.judge_note(time, (note_data.time+note_data.duration)/1000.0)
+#				if not judgement:
+#					judgement = game.judge.JUDGE_RATINGS.WORST
+#				else:
+#					game.play_note_sfx()
+#				print("JUDGED! HoldEnd", judgement," ", time, " ", (note_data.time+note_data.duration)/1000.0)
+#				emit_signal("note_judged", note_data, judgement)
+#				emit_signal("note_removed")
+#				queue_free()
+#				set_process_unhandled_input(false)
+#				break
 
+func _unhandled_input(event):
+	print(event)
+	if not holding:
+		# When not holding, judge the first part of the note
+		var judgement = judge_note_input(event, game.time)
+		if judgement != -1:
+			emit_signal("note_judged", note_data, judgement)
+			holding = true
+			get_tree().set_input_as_handled()
+	else:
+		var judgement = judge_note_input(event, game.time-note_data.duration/1000.0, true)
+		print("Judge attempt: ", judgement, event.is_action_released("note_b"))
+		if judgement != -1:
+			emit_signal("note_judged", note_data, judgement)
+			holding = true
+			get_tree().set_input_as_handled()
+			set_process_unhandled_input(false)
+			game.play_note_sfx()
+			queue_free()
 func _on_game_time_changed(time: float):
+	
 	update_graphic_positions_and_scale(time)
-	judge_note_input(time)
-	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
-	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-		if not game.editing and not holding:
-			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
-			emit_signal("note_removed")
-			queue_free()
-	if time >= (note_data.time + game.judge.get_target_window_msec() + note_data.get_duration()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
-			emit_signal("note_removed")
-			queue_free()
+	if not is_queued_for_deletion():
+		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
+		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
+			if not game.editing and not holding:
+				emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+				emit_signal("note_removed")
+				queue_free()
+		if time >= (note_data.time + game.judge.get_target_window_msec() + note_data.get_duration()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
+				emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+				emit_signal("note_removed")
+				queue_free()
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")

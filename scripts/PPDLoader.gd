@@ -115,11 +115,12 @@ static func PPD2HBChart(path: String) -> HBChart:
 		var note = marks[i]
 		var note_data : HBNoteData
 		
-		if note.ex:
-			note_data = HBHoldNoteData.new() as HBHoldNoteData
-			note_data.duration = int((note.end_time*1000.0) - (note.time*1000.0))
-		else:
-			note_data = HBNoteData.new()
+#		if note.ex:
+#			note_data = HBHoldNoteData.new() as HBHoldNoteData
+#			note_data.duration = int((note.end_time*1000.0) - (note.time*1000.0))
+#		else:
+#			note_data = HBNoteData.new()
+		note_data = HBNoteData.new()
 		note_data.time = int(note.time*1000.0)
 		note_data.time_out = (60.0  / 250.0 * (1.0 + 3.0) * 1000.0)
 		note_data.position.x = note.position.x / 800.0

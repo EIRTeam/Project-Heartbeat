@@ -11,17 +11,19 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.DOWN: ["note_a"]
 }
 
-var input_lag_compensation = 0.1
+onready var notes_node = get_node("Notes")
+
+var input_lag_compensation = 0
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var rating_sprite = get_node("RatingSprite")
+onready var rating_label : Label = get_node("RatingLabel")
 const LOG_NAME = "RhythmGame"
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
 var time_delay: float
 var time: float
-
+var current_combo = 0
 var timing_points = []
 
 var notes_on_screen = []
@@ -44,7 +46,10 @@ func _ready():
 #	note.time = 2000
 #	timing_points.append(note)
 #	play_song()
-	rating_sprite.hide()
+	rating_label.hide()
+
+func set_song(song: HBSong):
+	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 
 func get_note_scale():
 	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.90
@@ -76,8 +81,12 @@ func get_closest_note_of_type(note_type: int):
 		var notes = note_c.get_meta("note_drawer").get_notes()
 		for note in notes:
 			if note.note_type == note_type:
+				var time_diff = abs(note.time - time * 1000.0)
 				if closest_note:
-					if note.time < closest_note.time:
+					if time_diff < abs(closest_note.time - time * 1000.0):
+						closest_note = note
+					time_diff = abs(note.time + note.get_duration() - time * 1000.0)
+					if time_diff < abs(closest_note.time - time * 1000.0):
 						closest_note = note
 				else:
 					closest_note = note
@@ -132,7 +141,7 @@ func _process(delta):
 					note_drawer = timing_point.get_drawer().instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
-					add_child(note_drawer)
+					notes_node.add_child(note_drawer)
 					# Connect signal to indicate a note has been move or selectedd by the user (in editing mode)
 					if editing and timing_point is HBNoteData:
 						note_drawer.connect("target_moved", self, "_on_note_moved", [timing_point])
@@ -145,7 +154,7 @@ func _process(delta):
 					
 				if not editing:
 					timing_points.remove(i)
-			
+	
 	emit_signal("time_changed", time+input_lag_compensation)
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var note = notes_on_screen[i]
@@ -163,23 +172,30 @@ func _process(delta):
 func _on_note_judged(note, judgement):
 	if not editing:
 		# Rating graphic
-		
+		if judgement < judge.JUDGE_RATINGS.FINE:
+			current_combo = 0
+		else:
+			current_combo += 1
 		var new_pos = remap_coords(note.position)
 		
-		var rating_to_graphic_width = {
-			judge.JUDGE_RATINGS.COOL: 195,
-			judge.JUDGE_RATINGS.FINE: 155,
-			judge.JUDGE_RATINGS.SAFE: 195,
-			judge.JUDGE_RATINGS.SAD: 155,
-			judge.JUDGE_RATINGS.WORST: 256
+		var rating_to_color = {
+			judge.JUDGE_RATINGS.COOL: "#ffd022",
+			judge.JUDGE_RATINGS.FINE: "#4ebeff",
+			judge.JUDGE_RATINGS.SAFE: "#00a13c",
+			judge.JUDGE_RATINGS.SAD: "#57a9ff",
+			judge.JUDGE_RATINGS.WORST: "#e470ff"
 		}
 		
-		rating_sprite.get_node("AnimationPlayer").play("rating_appear")
-		rating_sprite.region_rect.position.y = 64*(4-judgement)
-		rating_sprite.region_rect.size.x = rating_to_graphic_width[judgement]
-		rating_sprite.position = new_pos
-		rating_sprite.position.y -= 64
-		rating_sprite.show()
+		rating_label.get_node("AnimationPlayer").play("rating_appear")
+		rating_label.add_color_override("font_color", Color(rating_to_color[judgement]))
+		rating_label.text = judge.RATING_TO_TEXT_MAP[judgement]
+		if current_combo > 1:
+			rating_label.text += " " + str(current_combo)
+		rating_label.rect_size = rating_label.get_combined_minimum_size()
+		print(rating_label.get_combined_minimum_size())
+		rating_label.rect_position = new_pos - rating_label.get_combined_minimum_size() / 2
+		rating_label.rect_position.y -= 64
+		rating_label.show()
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				
