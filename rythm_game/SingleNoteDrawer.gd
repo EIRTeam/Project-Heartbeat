@@ -74,21 +74,22 @@ func _on_note_type_changed():
 
 func _unhandled_input(event):
 	var input_judgement = judge_note_input(event, game.time)
-	if input_judgement != -1:
-		queue_free()
-		emit_signal("note_judged", note_data, input_judgement)
-		emit_signal("note_removed")
-		get_tree().set_input_as_handled()
-		set_process_unhandled_input(false)
+	if not is_queued_for_deletion():
+		if input_judgement != -1:
+			queue_free()
+			emit_signal("note_judged", note_data, input_judgement)
+			emit_signal("note_removed")
+			get_tree().set_input_as_handled()
+			set_process_unhandled_input(false)
 
 func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)
-
-	# Killing notes after the user has run past them... TODO: make this produce a WORST rating
-	if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-		emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
-		emit_signal("note_removed")
-		queue_free()
+	if not is_queued_for_deletion():
+		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
+		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
+			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+			emit_signal("note_removed")
+			queue_free()
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")
