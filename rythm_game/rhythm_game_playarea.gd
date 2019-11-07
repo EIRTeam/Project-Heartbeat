@@ -192,7 +192,6 @@ func _on_note_judged(note, judgement):
 		if current_combo > 1:
 			rating_label.text += " " + str(current_combo)
 		rating_label.rect_size = rating_label.get_combined_minimum_size()
-		print(rating_label.get_combined_minimum_size())
 		rating_label.rect_position = new_pos - rating_label.get_combined_minimum_size() / 2
 		rating_label.rect_position.y -= 64
 		rating_label.show()

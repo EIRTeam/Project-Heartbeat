@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://menus/HBMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=2]
@@ -6,7 +6,11 @@
 [ext_resource path="res://menus/ToolsList.gd" type="Script" id=4]
 [ext_resource path="res://menus/song_list/StartMenu.gd" type="Script" id=5]
 [ext_resource path="res://default_theme.tres" type="Theme" id=6]
+[ext_resource path="res://graphics/icons/settings.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=8]
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
+[ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/exit-run.svg" type="Texture" id=11]
 
 [node name="HBMainMenuLeft" type="MarginContainer"]
 anchor_right = 1.0
@@ -46,34 +50,38 @@ fixed_scale_factor = true
 [node name="StartButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 330.0
-margin_right = 450.0
+margin_right = 430.0
 margin_bottom = 390.0
+icon = ExtResource( 8 )
 next_menu = NodePath("../../../SongListMenu")
 
 [node name="OptionsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 400.0
-margin_right = 450.0
+margin_right = 430.0
 margin_bottom = 460.0
 rect_scale = Vector2( 0.95, 0.95 )
 text = "Options"
+icon = ExtResource( 7 )
 
 [node name="ToolsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 466.5
-margin_right = 450.0
+margin_right = 430.0
 margin_bottom = 526.5
 rect_scale = Vector2( 0.95, 0.95 )
 text = "Tools"
+icon = ExtResource( 10 )
 next_menu = NodePath("../../../ToolsListMenu")
 
 [node name="ExitButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 533.0
-margin_right = 450.0
+margin_right = 430.0
 margin_bottom = 593.0
 rect_scale = Vector2( 0.95, 0.95 )
 text = "Exit"
+icon = ExtResource( 11 )
 
 [node name="ToolsListMenu" type="Control" parent="."]
 visible = false

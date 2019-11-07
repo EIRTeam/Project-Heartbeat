@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/HBMenuButton.gd" type="Script" id=1]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=2]
-[ext_resource path="res://PanelStyleTransparent.tres" type="StyleBox" id=3]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
+[ext_resource path="res://styles/PanelStyleTransparentHover.tres" type="StyleBox" id=4]
 
 [node name="StartButton" type="Button"]
 margin_left = 9.0
@@ -10,6 +11,7 @@ margin_top = 83.0
 margin_right = 459.0
 margin_bottom = 147.0
 focus_mode = 0
+custom_styles/hover = ExtResource( 4 )
 custom_styles/normal = ExtResource( 3 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )

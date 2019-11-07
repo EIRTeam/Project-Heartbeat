@@ -6,6 +6,7 @@ class_name HBListContainer
 signal selected_option_changed
 signal on_menu_focused
 signal navigate_to_menu(menu)
+signal navigated
 
 var selected_option : Control
 const VISIBILITY_THRESHOLD = 3 # How many items should be visible
@@ -41,6 +42,7 @@ func _on_button_pressed(option: BaseButton):
 			if option is HBMenuButton:
 				if option.next_menu:
 					emit_signal("navigate_to_menu", option.get_node(option.next_menu))
+					emit_signal("navigated")
 				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
 				option.disconnect("pressed", self, "_on_button_pressed")
 				option.emit_signal("pressed")
@@ -95,6 +97,11 @@ func _unhandled_input(event):
 					selected_option.emit_signal("pressed")
 					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
+			if event.is_action_pressed("ui_right"):
+				if focus_neighbour_right:
+					get_tree().set_input_as_handled()
+					var right_neighbour = get_node(focus_neighbour_right) as Control
+					right_neighbour.grab_focus()
 func hard_arrange_all():
 	var menu_start := Vector2(0, rect_size.y / 2)
 	selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)

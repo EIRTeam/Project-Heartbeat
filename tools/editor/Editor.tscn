@@ -96,16 +96,22 @@ margin_bottom = 24.0
 icon = ExtResource( 4 )
 flat = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 88.0
+margin_right = 149.0
+margin_bottom = 24.0
+text = "Save As"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 153.0
 margin_right = 1260.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 527.0
-margin_right = 603.0
+margin_left = 462.0
+margin_right = 538.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
@@ -114,15 +120,15 @@ align = 1
 suffix = "s"
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 607.0
+margin_left = 542.0
 margin_top = 1.0
-margin_right = 628.0
+margin_right = 563.0
 margin_bottom = 23.0
 text = "1/"
 
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 632.0
-margin_right = 787.42
+margin_left = 567.0
+margin_right = 722.42
 margin_bottom = 24.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
@@ -131,8 +137,8 @@ value = 4.0
 suffix = "th of a beat"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 791.0
-margin_right = 901.0
+margin_left = 726.0
+margin_right = 836.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
@@ -141,8 +147,8 @@ value = 160.0
 suffix = "bpm"
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 905.0
-margin_right = 1076.0
+margin_left = 840.0
+margin_right = 1011.0
 margin_bottom = 24.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
@@ -150,22 +156,22 @@ items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", n
 selected = 0
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1080.0
-margin_right = 1108.0
+margin_left = 1015.0
+margin_right = 1043.0
 margin_bottom = 24.0
 icon = ExtResource( 11 )
 flat = true
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1112.0
-margin_right = 1140.0
+margin_left = 1047.0
+margin_right = 1075.0
 margin_bottom = 24.0
 icon = ExtResource( 9 )
 flat = true
 
 [node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1144.0
-margin_right = 1172.0
+margin_left = 1079.0
+margin_right = 1107.0
 margin_bottom = 24.0
 icon = ExtResource( 6 )
 flat = true
@@ -198,8 +204,46 @@ show_behind_parent = true
 
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 
-[node name="DebugLabel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/CanvasLayer" index="0"]
-visible = false
+[node name="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="0"]
+margin_right = 706.0
+
+[node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="0"]
+margin_top = 2.0
+margin_right = 611.0
+
+[node name="SongAuthor" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 142.0
+margin_bottom = 28.0
+
+[node name="SongName" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 157.0
+margin_right = 255.0
+margin_bottom = 28.0
+
+[node name="HBoxContainer2" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="1"]
+margin_right = 611.0
+margin_bottom = 58.0
+
+[node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="0"]
+margin_right = 56.0
+margin_bottom = 28.0
+
+[node name="VBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="1"]
+margin_left = 60.0
+margin_right = 611.0
+margin_bottom = 28.0
+
+[node name="ProgressBar" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer" index="0"]
+margin_top = 12.0
+margin_right = 551.0
+margin_bottom = 15.0
+
+[node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="1"]
+margin_left = 710.0
+margin_right = 1063.0
+
+[node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/HBoxContainer" index="0"]
+margin_right = 353.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
@@ -367,7 +411,8 @@ bus = "Music"
 
 [node name="SongSelector" parent="." instance=ExtResource( 13 )]
 
-[node name="SaveSongSelector" parent="." instance=ExtResource( 13 )]
+[node name="SaveAsSongSelector" parent="." instance=ExtResource( 13 )]
+save_mode = 1
 
 [node name="ExitDialog" type="ConfirmationDialog" parent="."]
 margin_right = 227.0
@@ -382,7 +427,7 @@ dialog_autowrap = true
 [connection signal="timing_information_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="SaveSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
@@ -397,7 +442,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
 [connection signal="layers_changed" from="VBoxContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
-[connection signal="chart_selected" from="SaveSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
+[connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
 [connection signal="confirmed" from="ExitDialog" to="." method="_on_ExitDialog_confirmed"]
 
 [editable path="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame"]

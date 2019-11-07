@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBHoldNoteData.gd"
 }, {
+"base": "Button",
+"class": "HBHorizontalButton",
+"language": "GDScript",
+"path": "res://menus/HorizontalButton.gd"
+}, {
 "base": "Control",
 "class": "HBListContainer",
 "language": "GDScript",
@@ -129,6 +134,7 @@ _global_script_class_icons={
 "HBEditorRoundMovementGizmo": "",
 "HBEditorWidget": "",
 "HBHoldNoteData": "",
+"HBHorizontalButton": "",
 "HBListContainer": "",
 "HBMainMenu": "",
 "HBMenu": "",
