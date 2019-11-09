@@ -15,7 +15,7 @@ func set_song(value: HBSong):
 func _on_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
 	var scene = new_scene.instance()
-	scene.set_song(song)
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
+	scene.set_song(song)

@@ -8,7 +8,8 @@ signal timing_information_changed
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
-
+onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
+onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline")
 onready var recording_layer_select_button = get_node("VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
 onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame")
@@ -28,6 +29,8 @@ var time_begin
 var time_delay
 var _audio_play_offset
 var bpm setget set_bpm, get_bpm
+var current_song: HBSong
+var current_difficulty: String
 
 	
 func set_bpm(value):
@@ -42,7 +45,7 @@ func _ready():
 	seek(0)
 	var data := HBMultiNoteData.new()
 	data.time = 1000
-	load_song(SongLoader.songs["sands_of_time"], "easy")
+#	load_song(SongLoader.songs["sands_of_time"], "easy")
 	
 	
 func get_timing_points():
@@ -264,9 +267,11 @@ func load_song(song: HBSong, difficulty: String):
 		chart.deserialize(result)
 		from_chart(chart)
 		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
-		load_song(song, difficulty)
 		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
-
+		current_song = song
+		current_difficulty = difficulty
+		save_button.disabled = false
+		save_as_button.disabled = false
 	audio_stream_player.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	emit_signal("load_song", song)
 
@@ -291,3 +296,14 @@ func get_note_snap_offset():
 
 func _on_timing_information_changed(ignoredarg=null):
 	emit_signal("timing_information_changed")
+
+
+func _on_SaveButton_pressed():
+	var chart_path = current_song.get_chart_path(current_difficulty)
+	var file = File.new()
+	file.open(chart_path, File.WRITE)
+	file.store_string(JSON.print(serialize_chart(), "  "))
+
+
+func _on_ShowGridbutton_toggled(button_pressed):
+	pass # Replace with function body.

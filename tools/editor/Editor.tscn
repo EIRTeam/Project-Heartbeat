@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
@@ -17,6 +17,14 @@
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=15]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
+[ext_resource path="res://tools/icons/icon_snap_grid.svg" type="Texture" id=18]
+[ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=20]
+
+[sub_resource type="InputEventAction" id=1]
+action = "editor_save"
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -93,6 +101,8 @@ flat = true
 margin_left = 56.0
 margin_right = 84.0
 margin_bottom = 24.0
+disabled = true
+shortcut = SubResource( 2 )
 icon = ExtResource( 4 )
 flat = true
 
@@ -100,6 +110,7 @@ flat = true
 margin_left = 88.0
 margin_right = 149.0
 margin_bottom = 24.0
+disabled = true
 text = "Save As"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -255,7 +266,72 @@ __meta__ = {
 [node name="WidgetArea" type="Control" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -0.735077
+margin_bottom = -0.735077
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea"]
+self_modulate = Color( 1, 1, 1, 0.5 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -236.0
+margin_top = -28.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridSnapButton" type="Button" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+margin_right = 28.0
+margin_bottom = 27.0
+hint_tooltip = "Snap to grid"
+toggle_mode = true
+icon = ExtResource( 18 )
+flat = true
+
+[node name="ShowGridbutton" type="Button" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+margin_left = 32.0
+margin_right = 60.0
+margin_bottom = 27.0
+hint_tooltip = "Show grid"
+toggle_mode = true
+icon = ExtResource( 20 )
+flat = true
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+margin_left = 64.0
+margin_right = 140.0
+margin_bottom = 27.0
+max_value = 100.0
+value = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+margin_left = 144.0
+margin_top = 2.0
+margin_right = 159.0
+margin_bottom = 24.0
+text = "x"
+
+[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+margin_left = 163.0
+margin_right = 239.0
+margin_bottom = 27.0
+value = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -427,6 +503,7 @@ dialog_autowrap = true
 [connection signal="timing_information_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
@@ -437,6 +514,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
 [connection signal="note_selected" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_selected"]
 [connection signal="note_updated" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_updated"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
 [connection signal="create_note_type" from="VBoxContainer/HBoxContainer/TabContainer/Create" to="." method="add_user_timing_point"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]

@@ -17,6 +17,10 @@ var input_lag_compensation = 0
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var rating_label : Label = get_node("RatingLabel")
+
+onready var author_label = get_node("Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer/SongAuthor")
+onready var song_name_label = get_node("Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
+
 const LOG_NAME = "RhythmGame"
 var judge = preload("res://rythm_game/judge.gd").new()
 
@@ -45,12 +49,24 @@ func _ready():
 #	var note = HBNoteData.new()
 #	note.time = 2000
 #	timing_points.append(note)
-#	play_song()
 	rating_label.hide()
 
 func set_song(song: HBSong):
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
-
+	song_name_label.text = song.title
+	if song.artist_alias != "":
+		author_label.text = song.artist_alias
+	else:
+		author_label.text = song.artist
+	var chart_path = song.get_chart_path("easy")
+	var file = File.new()
+	file.open(chart_path, File.READ)
+	var result = JSON.parse(file.get_as_text()).result
+	
+	var chart = HBChart.new()
+	chart.deserialize(result)
+	timing_points = chart.get_timing_points()
+	play_song()
 func get_note_scale():
 	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.85
 

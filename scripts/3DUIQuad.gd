@@ -73,7 +73,7 @@ func set_viewport_size():
 	var base_height = base_viewport_size.y
 	var aspect_ratio = float(base_width)/float(base_height)
 	var size = Vector2(get_viewport().size.y * aspect_ratio, get_viewport().size.y)
-	viewport.size = size
+#	viewport.size = size
 
 func _ready():
 	viewport = get_node(viewport_path)
