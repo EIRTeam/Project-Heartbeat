@@ -83,4 +83,4 @@ func _ready():
 	get_viewport().connect("size_changed", self, "set_viewport_size")
 	var shape = $CollisionShape.shape as BoxShape
 	var mesh = $MeshInstance.mesh as QuadMesh
-	shape.extents = Vector3(mesh.size.x / 2, mesh.size.y / 2, 0.01)
+#	shape.extents = Vector3(mesh.size.x / 2, mesh.size.y / 2, 0.01)
