@@ -26,7 +26,7 @@ func get_editor_widget():
 	return preload("res://tools/editor/widgets/NoteMovementWidget.tscn")
 
 func _on_note_moved(new_position: Vector2):
-	data.position = editor.rhythm_game.inv_map_coords(new_position + widget.rect_size/2)
+	data.position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_position + widget.rect_size/2))
 	emit_signal("item_changed")
 
 func _on_view_port_size_changed():

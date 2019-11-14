@@ -31,7 +31,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-direction = 1
 
 [node name="RoundMovementGizmo" type="Control" parent="."]
 margin_left = 40.0
@@ -41,5 +40,6 @@ margin_bottom = 60.0
 rect_pivot_offset = Vector2( 20, 20 )
 script = ExtResource( 3 )
 [connection signal="dragged" from="XAxisArrow" to="." method="_on_XAxisArrow_dragged"]
+[connection signal="start_dragging" from="XAxisArrow" to="." method="_on_start_dragging"]
 [connection signal="dragged" from="YAxisArrow" to="." method="_on_YAxisArrow_dragged"]
 [connection signal="dragged" from="RoundMovementGizmo" to="." method="_on_dragged"]

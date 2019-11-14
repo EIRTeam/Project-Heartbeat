@@ -2,7 +2,6 @@ extends Node2D
 var note_data: HBNoteData = HBNoteData.new()
 var game
 
-signal target_moved
 signal target_selected
 signal note_judged(judgement)
 signal note_removed

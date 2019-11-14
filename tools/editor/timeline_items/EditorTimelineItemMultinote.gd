@@ -26,11 +26,11 @@ func set_texture():
 	.set_texture()
 	update()
 func _on_end_moved(new_pos: Vector2):
-	data.target_position = editor.rhythm_game.inv_map_coords(new_pos)
+	data.target_position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_pos))
 	emit_signal("item_changed")
 	
 func _on_start_moved(new_pos: Vector2):
-	data.position = editor.rhythm_game.inv_map_coords(new_pos)
+	data.position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_pos))
 	emit_signal("item_changed")
 	
 func _on_view_port_size_changed():

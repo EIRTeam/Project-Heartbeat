@@ -18,7 +18,7 @@ onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var game_preview = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
-
+onready var grid_renderer = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -31,6 +31,7 @@ var _audio_play_offset
 var bpm setget set_bpm, get_bpm
 var current_song: HBSong
 var current_difficulty: String
+var snap_to_grid_enabled = false
 
 	
 func set_bpm(value):
@@ -74,6 +75,7 @@ func select_item(item: EditorTimelineItem):
 	var widget := item.get_editor_widget()
 	if widget:
 		var widget_instance = widget.instance() as HBEditorWidget
+		widget_instance.editor = self
 		item.connect_widget(widget_instance)
 		game_preview.widget_area.add_child(widget_instance)
 	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
@@ -306,4 +308,14 @@ func _on_SaveButton_pressed():
 
 
 func _on_ShowGridbutton_toggled(button_pressed):
-	pass # Replace with function body.
+	grid_renderer.visible = button_pressed
+
+func _on_GridSnapButton_toggled(button_pressed):
+	snap_to_grid_enabled = button_pressed
+
+func snap_position_to_grid(new_pos: Vector2):
+	var final_position = new_pos
+	if snap_to_grid_enabled:
+		final_position.x = round(grid_renderer.vertical * new_pos.x) / float(grid_renderer.vertical)
+		final_position.y = round(grid_renderer.horizontal * new_pos.y) / float(grid_renderer.horizontal)
+	return final_position

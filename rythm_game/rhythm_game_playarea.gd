@@ -158,10 +158,6 @@ func _process(delta):
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
 					notes_node.add_child(note_drawer)
-					# Connect signal to indicate a note has been move or selectedd by the user (in editing mode)
-					if editing and timing_point is HBNoteData:
-						note_drawer.connect("target_moved", self, "_on_note_moved", [timing_point])
-						note_drawer.connect("target_selected", self, "_on_note_selected", [timing_point])
 					note_drawer.connect("note_judged", self, "_on_note_judged")
 					note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 					timing_point.set_meta("note_drawer", note_drawer)

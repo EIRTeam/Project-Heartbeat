@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
 [ext_resource path="res://tools/icons/icon_snap_grid.svg" type="Texture" id=18]
+[ext_resource path="res://tools/editor/GridRenderer.gd" type="Script" id=19]
 [ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=20]
 
 [sub_resource type="InputEventAction" id=1]
@@ -25,6 +26,18 @@ action = "editor_save"
 
 [sub_resource type="ShortCut" id=2]
 shortcut = SubResource( 1 )
+
+[sub_resource type="InputEventAction" id=3]
+action = "editor_grid_snap"
+
+[sub_resource type="ShortCut" id=4]
+shortcut = SubResource( 3 )
+
+[sub_resource type="InputEventAction" id=5]
+action = "editor_grid"
+
+[sub_resource type="ShortCut" id=6]
+shortcut = SubResource( 5 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -298,6 +311,7 @@ margin_right = 28.0
 margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
+shortcut = SubResource( 4 )
 icon = ExtResource( 18 )
 flat = true
 
@@ -307,6 +321,7 @@ margin_right = 60.0
 margin_bottom = 27.0
 hint_tooltip = "Show grid"
 toggle_mode = true
+shortcut = SubResource( 6 )
 icon = ExtResource( 20 )
 flat = true
 
@@ -314,8 +329,7 @@ flat = true
 margin_left = 64.0
 margin_right = 140.0
 margin_bottom = 27.0
-max_value = 100.0
-value = 25.0
+value = 5.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -331,7 +345,18 @@ text = "x"
 margin_left = 163.0
 margin_right = 239.0
 margin_bottom = 27.0
-value = 20.0
+value = 7.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridRenderer" type="Control" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -514,7 +539,10 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
 [connection signal="note_selected" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_selected"]
 [connection signal="note_updated" from="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" to="." method="_on_RythmGame_note_updated"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_vertical"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
 [connection signal="create_note_type" from="VBoxContainer/HBoxContainer/TabContainer/Create" to="." method="add_user_timing_point"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
