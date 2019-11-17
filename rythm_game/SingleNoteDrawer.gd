@@ -23,12 +23,8 @@ func _unhandled_tap(event: InputEvent):
 	var input_judgement = judge_note_input(event, game.time)
 	if not is_queued_for_deletion():
 		if input_judgement != -1:
-			queue_free()
-			emit_signal("note_judged", note_data, input_judgement)
-			emit_signal("note_removed")
-			get_tree().set_input_as_handled()
 			HBInput.set_tap_as_handled()
-			set_process_unhandled_input(false)
+			_on_note_judged(input_judgement)
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
@@ -84,16 +80,27 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data.note_type)
 	set_trail_color()
 
+func _on_note_judged(judgement):
+	if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+		var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
+		var particles = particles_scene.instance()
+		
+		if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+			particles.scale = Vector2(-1.0, 1.0)
+		game.add_child(particles)
+		particles.position = game.remap_coords(note_data.position)
+	queue_free()
+	emit_signal("note_judged", note_data, judgement)
+	emit_signal("note_removed")
+	get_tree().set_input_as_handled()
+	set_process_unhandled_input(false)
+
 func _unhandled_input(event):
 	if not event is InputEventJoypadMotion:
 		var input_judgement = judge_note_input(event, game.time)
 		if not is_queued_for_deletion():
 			if input_judgement != -1:
-				queue_free()
-				emit_signal("note_judged", note_data, input_judgement)
-				emit_signal("note_removed")
-				get_tree().set_input_as_handled()
-				set_process_unhandled_input(false)
+				_on_note_judged(input_judgement)
 
 func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)

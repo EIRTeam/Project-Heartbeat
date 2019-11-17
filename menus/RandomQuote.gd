@@ -10,7 +10,8 @@ const QUOTES = [
 	"Imagine the nerves",
 	"Machinations A",
 	"NO SHE DID NOT CREATE MINECRAFT YOU MANIAC",
-	"Many hentai games led to this"
+	"Many hentai games led to this",
+	"Mentally unstable game development therapy"
 ]
 
 func _ready():
