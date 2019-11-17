@@ -82,13 +82,14 @@ func _on_note_type_changed():
 
 func _on_note_judged(judgement):
 	if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
-		var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
-		var particles = particles_scene.instance()
-		
-		if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-			particles.scale = Vector2(-1.0, 1.0)
-		game.add_child(particles)
-		particles.position = game.remap_coords(note_data.position)
+		if judgement >= game.judge.JUDGE_RATINGS.FINE:
+			var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
+			var particles = particles_scene.instance()
+			
+			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+				particles.scale = Vector2(-1.0, 1.0)
+			game.add_child(particles)
+			particles.position = game.remap_coords(note_data.position)
 	queue_free()
 	emit_signal("note_judged", note_data, judgement)
 	emit_signal("note_removed")
