@@ -559,7 +559,7 @@ margin_right = 483.0
 margin_right = 555.0
 
 [node name="SongMetaEditorButton" parent="ViewportLeft/MainMenuLeft/ToolsListMenu/ToolsList" index="1"]
-margin_right = 713.0
+margin_right = 555.0
 
 [node name="SongListMenu" parent="ViewportLeft/MainMenuLeft" index="2"]
 visible = false

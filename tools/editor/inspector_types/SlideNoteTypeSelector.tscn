@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://graphics/notes/Slide_Right_small.png" type="Texture" id=6]
+[ext_resource path="res://graphics/notes/Slide_Left_small.png" type="Texture" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://tools/editor/inspector_types/EditorInspectorType.gd\"
+
+func set_value(value):
+	$OptionButton.select(value)
+
+
+func emit_value_changed_signal():
+	emit_signal(\"value_changed\", $OptionButton.selected)
+
+func _on_OptionButton_item_selected(id):
+	emit_value_changed_signal()
+"
+
+[node name="Vector2" type="HBoxContainer"]
+margin_right = 26.0
+alignment = 1
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_right = 180.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+text = "Left"
+icon = ExtResource( 7 )
+align = 1
+items = [ "Left", ExtResource( 7 ), false, 1, null, "Right", ExtResource( 6 ), false, 2, null ]
+selected = 0
+[connection signal="item_selected" from="OptionButton" to="." method="_on_OptionButton_item_selected"]

@@ -8,7 +8,9 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_b"],
 	HBNoteData.NOTE_TYPE.LEFT: ["note_x"],
 	HBNoteData.NOTE_TYPE.UP: ["note_y"],
-	HBNoteData.NOTE_TYPE.DOWN: ["note_a"]
+	HBNoteData.NOTE_TYPE.DOWN: ["note_a"],
+	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
+	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
 }
 
 onready var notes_node = get_node("Notes")

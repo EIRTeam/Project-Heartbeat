@@ -49,7 +49,6 @@ func _process(delta):
 			play_random_song()
 		player.play()
 func play_song(song: HBSong):
-	print("PUREI")
 	if song == current_song:
 		target_volume = 0
 		return

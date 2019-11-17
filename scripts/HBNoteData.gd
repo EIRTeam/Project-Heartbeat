@@ -6,7 +6,9 @@ enum NOTE_TYPE {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	SLIDE_LEFT,
+	SLIDE_RIGHT
 }
 export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
 
@@ -36,6 +38,14 @@ const NOTE_GRAPHICS = {
 		"note": preload("res://graphics/notes/xbox/B.png"),
 		"target": preload("res://graphics/notes/xbox/B_target.png"),
 		"hold_target": preload("res://graphics/notes/xbox/B_target_hold.png")
+	},
+	NOTE_TYPE.SLIDE_RIGHT: {
+		"note": preload("res://graphics/notes/Slide_Right.png"),
+		"target": preload("res://graphics/notes/Slide_Right_Target.png")
+	},
+	NOTE_TYPE.SLIDE_LEFT: {
+		"note": preload("res://graphics/notes/Slide_Left.png"),
+		"target": preload("res://graphics/notes/Slide_Left_Target.png")
 	}
 }
 
@@ -51,6 +61,12 @@ const NOTE_COLORS = {
 	},
 	NOTE_TYPE.RIGHT: {
 		"color": "e02828"
+	},
+	NOTE_TYPE.SLIDE_LEFT: {
+		"color": "f39e42"
+	},
+	NOTE_TYPE.SLIDE_RIGHT: {
+		"color": "f39e42"
 	}
 }
 var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area

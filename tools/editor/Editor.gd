@@ -40,6 +40,8 @@ func set_bpm(value):
 func get_bpm():
 	return BPM_spinbox.value
 func _ready():
+	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	get_viewport()
 	timeline.editor = self
 	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 	rhythm_game.set_process_unhandled_input(false)
@@ -279,6 +281,7 @@ func load_song(song: HBSong, difficulty: String):
 
 
 func _on_ExitDialog_confirmed():
+	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
 
 func get_beats_per_bar():

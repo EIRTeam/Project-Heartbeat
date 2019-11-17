@@ -17,6 +17,18 @@ func _ready():
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
 	$NoteTarget/Particles2D.emitting = true
+	HBInput.add_to_processing_unhandled_taps(self)
+	
+func _unhandled_tap(event: InputEvent):
+	var input_judgement = judge_note_input(event, game.time)
+	if not is_queued_for_deletion():
+		if input_judgement != -1:
+			queue_free()
+			emit_signal("note_judged", note_data, input_judgement)
+			emit_signal("note_removed")
+			get_tree().set_input_as_handled()
+			HBInput.set_tap_as_handled()
+			set_process_unhandled_input(false)
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
@@ -73,14 +85,15 @@ func _on_note_type_changed():
 	set_trail_color()
 
 func _unhandled_input(event):
-	var input_judgement = judge_note_input(event, game.time)
-	if not is_queued_for_deletion():
-		if input_judgement != -1:
-			queue_free()
-			emit_signal("note_judged", note_data, input_judgement)
-			emit_signal("note_removed")
-			get_tree().set_input_as_handled()
-			set_process_unhandled_input(false)
+	if not event is InputEventJoypadMotion:
+		var input_judgement = judge_note_input(event, game.time)
+		if not is_queued_for_deletion():
+			if input_judgement != -1:
+				queue_free()
+				emit_signal("note_judged", note_data, input_judgement)
+				emit_signal("note_removed")
+				get_tree().set_input_as_handled()
+				set_process_unhandled_input(false)
 
 func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)

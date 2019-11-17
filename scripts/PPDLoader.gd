@@ -105,8 +105,8 @@ static func PPD2HBChart(path: String) -> HBChart:
 		PPDButtons.Down: HBNoteData.NOTE_TYPE.DOWN,
 		PPDButtons.Right: HBNoteData.NOTE_TYPE.RIGHT,
 		PPDButtons.Up: HBNoteData.NOTE_TYPE.UP,
-		PPDButtons.R: HBNoteData.NOTE_TYPE.RIGHT,
-		PPDButtons.L: HBNoteData.NOTE_TYPE.LEFT
+		PPDButtons.R: HBNoteData.NOTE_TYPE.SLIDE_RIGHT,
+		PPDButtons.L: HBNoteData.NOTE_TYPE.SLIDE_LEFT
 	}
 	var chart = HBChart.new()
 	var layer = {"timing_points": [], "name": "New Layer"}
