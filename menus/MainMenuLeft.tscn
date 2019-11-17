@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://menus/HBMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBMainMenu.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=9]
 [ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=10]
 [ext_resource path="res://graphics/icons/exit-run.svg" type="Texture" id=11]
+[ext_resource path="res://graphics/Logo.png" type="Texture" id=12]
 
 [node name="HBMainMenuLeft" type="MarginContainer"]
 anchor_right = 1.0
@@ -44,7 +45,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 margin = 10
-scale_factor = 0.95
+scale_factor = 1.0
+disable_repositioning = true
 fixed_scale_factor = true
 
 [node name="StartButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
@@ -60,28 +62,36 @@ margin_left = 0.0
 margin_top = 400.0
 margin_right = 430.0
 margin_bottom = 460.0
-rect_scale = Vector2( 0.95, 0.95 )
 text = "Options"
 icon = ExtResource( 7 )
 
 [node name="ToolsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 466.5
+margin_top = 470.0
 margin_right = 430.0
-margin_bottom = 526.5
-rect_scale = Vector2( 0.95, 0.95 )
+margin_bottom = 529.999
 text = "Tools"
 icon = ExtResource( 10 )
 next_menu = NodePath("../../../ToolsListMenu")
 
 [node name="ExitButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 533.0
+margin_top = 539.999
 margin_right = 430.0
-margin_bottom = 593.0
-rect_scale = Vector2( 0.95, 0.95 )
+margin_bottom = 599.999
 text = "Exit"
 icon = ExtResource( 11 )
+
+[node name="TextureRect" type="TextureRect" parent="StartMenu"]
+margin_top = 148.0
+margin_right = 430.0
+margin_bottom = 302.0
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ToolsListMenu" type="Control" parent="."]
 visible = false
@@ -102,6 +112,7 @@ __meta__ = {
 }
 margin = 10
 scale_factor = 0.95
+disable_repositioning = false
 fixed_scale_factor = true
 
 [node name="EditorButton" parent="ToolsListMenu/ToolsList" instance=ExtResource( 3 )]

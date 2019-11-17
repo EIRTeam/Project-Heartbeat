@@ -548,22 +548,18 @@ margin_right = 483.0
 
 [node name="OptionsButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="1"]
 margin_right = 483.0
-next_menu = NodePath("")
 
 [node name="ToolsButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="2"]
 margin_right = 483.0
 
 [node name="ExitButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="3"]
 margin_right = 483.0
-next_menu = NodePath("")
 
 [node name="EditorButton" parent="ViewportLeft/MainMenuLeft/ToolsListMenu/ToolsList" index="0"]
 margin_right = 555.0
-next_menu = NodePath("")
 
 [node name="SongMetaEditorButton" parent="ViewportLeft/MainMenuLeft/ToolsListMenu/ToolsList" index="1"]
 margin_right = 555.0
-next_menu = NodePath("")
 
 [node name="SongListMenu" parent="ViewportLeft/MainMenuLeft" index="2"]
 visible = false

@@ -4,7 +4,6 @@ extends Control
 class_name HBListContainer
 
 signal selected_option_changed
-signal on_menu_focused
 signal navigate_to_menu(menu)
 signal navigated
 
@@ -13,7 +12,7 @@ const VISIBILITY_THRESHOLD = 3 # How many items should be visible
 var lerp_weight = 8.0
 export(int) var margin
 export (float) var scale_factor = 0.75
-
+export (bool) var disable_repositioning = false
 const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
@@ -21,6 +20,8 @@ export(bool) var fixed_scale_factor = false
 
 
 func _ready():
+	connect("focus_entered", self, "_on_focus_entered")
+	connect("focus_exited", self, "_on_focus_exited")
 	move_sound_player.stream = MOVE_SOUND
 	get_tree().root.call_deferred("add_child", move_sound_player)
 	focus_mode = FOCUS_ALL
@@ -53,9 +54,18 @@ func _on_button_pressed(option: BaseButton):
 				option.emit_signal("pressed")
 				option.connect("pressed", self, "_on_button_pressed", [option])
 				
-
+func _on_focus_entered():
+	if selected_option:
+		selected_option.hover()
+			
+func _on_focus_exited():
+	if selected_option:
+		selected_option.stop_hover()
 			
 func _process(delta):
+	
+
+	
 	var menu_start := Vector2(0, rect_size.y / 2)
 	
 	if not selected_option:
@@ -65,15 +75,21 @@ func _process(delta):
 				emit_signal("selected_option_changed")
 			
 	if selected_option:
-		# Place select option:
-		selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
-		selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
-		#selected_option.rect_scale = Vector2(1.0, 1.0)
-		selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), lerp_weight * delta)
-		var prev_child_pos = selected_option.rect_position
-		var prev_child_scale = selected_option.rect_scale.y
-		arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y)
-		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, false, selected_option.rect_scale.y)
+		if disable_repositioning:
+			selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
+			selected_option.rect_scale = Vector2(1.0, 1.0)
+			selected_option.modulate.a = 1.0
+			arrange_options(1, get_child_count(), 1.0, get_child(0).rect_position, selected_option.rect_size.y, true)
+		else:
+			# Place select option:
+			selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
+			selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
+			#selected_option.rect_scale = Vector2(1.0, 1.0)
+			selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), lerp_weight * delta)
+			var prev_child_pos = selected_option.rect_position
+			var prev_child_scale = selected_option.rect_scale.y
+			arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y)
+			arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, false, selected_option.rect_scale.y)
 
 func _unhandled_input(event):
 	if has_focus():
@@ -81,14 +97,18 @@ func _unhandled_input(event):
 			if event.is_action_pressed("ui_down"):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos < get_child_count()-1:
+					selected_option.stop_hover()
 					selected_option = get_child(current_pos + 1)
+					selected_option.hover()
 					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
 					move_sound_player.play()
 			if event.is_action_pressed("ui_up"):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos > 0:
+					selected_option.stop_hover()
 					selected_option = get_child(current_pos - 1)
+					selected_option.hover()
 					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
 					move_sound_player.play()

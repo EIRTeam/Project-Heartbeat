@@ -2,6 +2,8 @@ extends BaseButton
 
 var song : HBSong setget set_song
 
+var hover_style = preload("res://styles/SongListItemHover.tres")
+var normal_style = preload("res://styles/SongListItemNormal.tres")
 func set_song(value: HBSong):
 	song = value
 	$VBoxContainer/TitleLabel.text = song.title
@@ -10,7 +12,11 @@ func set_song(value: HBSong):
 	else:
 		$VBoxContainer/AuthorLabel.text = song.artist
 
+func hover():
+	add_stylebox_override("normal", hover_style)
 
+func stop_hover():
+	add_stylebox_override("normal", normal_style)
 
 func _on_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
