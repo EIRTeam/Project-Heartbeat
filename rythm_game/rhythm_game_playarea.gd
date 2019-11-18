@@ -13,7 +13,7 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
 }
 
-onready var notes_node = get_node("Notes")
+onready var notes_node = get_node("Viewport/Notes")
 
 var input_lag_compensation = 0
 
@@ -52,7 +52,12 @@ func _ready():
 #	note.time = 2000
 #	timing_points.append(note)
 	rating_label.hide()
-
+	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	_on_viewport_size_changed()
+func _on_viewport_size_changed():
+	print(get_viewport().size)
+	$Viewport.size = get_viewport().size
+	
 func set_song(song: HBSong):
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	song_name_label.text = song.title
@@ -91,6 +96,9 @@ func play_song():
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	audio_stream_player.play()
+
+func _unhandled_input(event):
+	$Viewport.unhandled_input(event)
 
 func get_closest_note_of_type(note_type: int):
 	var closest_note = null
@@ -219,3 +227,18 @@ func _on_note_moved(note: HBNoteData):
 func _on_note_selected(note: HBNoteData):
 	if editing:
 		emit_signal("note_selected", note)
+
+func pause_game():
+	audio_stream_player.stream_paused = true
+	get_tree().paused = true
+func resume():
+	get_tree().paused = false
+	play_from_pos(audio_stream_player.get_playback_position())
+	
+func play_from_pos(position: float):
+	audio_stream_player.stream_paused = false
+
+	audio_stream_player.play()
+	audio_stream_player.seek(position)
+	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
+	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()

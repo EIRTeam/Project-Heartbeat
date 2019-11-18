@@ -1,0 +1,232 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=1]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
+[ext_resource path="res://menus/HBListContainer.gd" type="Script" id=3]
+[ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=4]
+[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=5]
+[ext_resource path="res://menus/HBMenuButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=7]
+[ext_resource path="res://rythm_game/pause_menu/PauseMenu3D.gd" type="Script" id=8]
+
+[sub_resource type="ViewportTexture" id=1]
+flags = 5
+viewport_path = NodePath("ViewportLeft")
+
+[sub_resource type="SpatialMaterial" id=2]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_albedo_tex_force_srgb = true
+params_diffuse_mode = 1
+albedo_texture = SubResource( 1 )
+
+[sub_resource type="PlaneMesh" id=3]
+size = Vector2( 1.6, 0.9 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.8, 0.45, 0.01 )
+
+[sub_resource type="ViewportTexture" id=5]
+flags = 5
+viewport_path = NodePath("ViewportRight")
+
+[sub_resource type="SpatialMaterial" id=6]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+flags_albedo_tex_force_srgb = true
+params_diffuse_mode = 1
+albedo_texture = SubResource( 5 )
+
+[sub_resource type="PlaneMesh" id=7]
+size = Vector2( 1.6, 0.9 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.8, 0.45, 0.01 )
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 8 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.399 )
+fov = 47.0
+
+[node name="ViewportLeft" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ViewportLeft"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -839.0
+margin_bottom = 6.10352e-05
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ViewportLeft/MarginContainer"]
+margin_right = 441.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Panel" type="Panel" parent="ViewportLeft/MarginContainer/VBoxContainer"]
+margin_top = 294.0
+margin_right = 441.0
+margin_bottom = 358.0
+rect_min_size = Vector2( 0, 64 )
+custom_styles/panel = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="ViewportLeft/MarginContainer/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+custom_fonts/font = ExtResource( 5 )
+text = "PAUSED"
+valign = 1
+
+[node name="HBListContainer" type="Control" parent="ViewportLeft/MarginContainer/VBoxContainer"]
+margin_top = 362.0
+margin_right = 441.0
+margin_bottom = 426.0
+rect_min_size = Vector2( 0, 64 )
+focus_mode = 2
+size_flags_horizontal = 3
+script = ExtResource( 3 )
+margin = 10
+scale_factor = 1.0
+disable_repositioning = true
+fixed_scale_factor = true
+
+[node name="ResumeButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 441.0
+margin_bottom = 64.0
+text = "Resume"
+
+[node name="RestartButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
+margin_left = 0.0
+margin_top = 74.0
+margin_right = 441.0
+margin_bottom = 138.0
+text = "Restart"
+
+[node name="QuitButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
+margin_left = 0.0
+margin_top = 148.0
+margin_right = 441.0
+margin_bottom = 212.0
+text = "Quit"
+
+[node name="ViewportRight" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ViewportRight"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 6.10352e-05
+custom_constants/margin_right = 839
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ViewportRight/MarginContainer"]
+margin_right = 441.0
+margin_bottom = 720.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ViewportRight/MarginContainer/HBoxContainer"]
+margin_right = 441.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Panel" type="Panel" parent="ViewportRight/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 294.0
+margin_right = 441.0
+margin_bottom = 358.0
+rect_min_size = Vector2( 0, 64 )
+custom_styles/panel = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="ViewportRight/MarginContainer/HBoxContainer/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 5 )
+text = "Song title"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="ViewportRight/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 362.0
+margin_right = 441.0
+margin_bottom = 426.0
+rect_min_size = Vector2( 0, 64 )
+custom_styles/panel = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="ViewportRight/MarginContainer/HBoxContainer/VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 5 )
+text = "Song title"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AreaLeft" type="Area" parent="."]
+transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.344894, 0, -0.051738 )
+script = ExtResource( 1 )
+viewport_path = NodePath("../ViewportLeft")
+
+[node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+material_override = SubResource( 2 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
+shape = SubResource( 4 )
+
+[node name="AreaRight" type="Area" parent="."]
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.90772, 0, 0.189321 )
+script = ExtResource( 1 )
+viewport_path = NodePath("../ViewportRight")
+
+[node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.19209e-07, -1.53967e-09, 0.00945042 )
+material_override = SubResource( 6 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
+shape = SubResource( 8 )
+
+[node name="RestartPopup" parent="." instance=ExtResource( 7 )]
+visible = false
+margin_left = -275.0
+margin_right = 275.0
+text = "Are you sure you want to restart?"
+accept_text = "Restart"
+cancel_text = "Cancel"
+
+[node name="QuitPopup" parent="." instance=ExtResource( 7 )]
+visible = false
+margin_left = -275.0
+margin_right = 275.0
+text = "Are you sure you want to quit?"
+accept_text = "Quit"
+cancel_text = "Cancel"
+[connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/ResumeButton" to="." method="emit_signal" binds= [ "resumed" ]]
+[connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton" to="RestartPopup" method="popup_centered"]
+[connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/QuitButton" to="QuitPopup" method="popup_centered"]

@@ -9,7 +9,6 @@
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=8]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
 
-
 [sub_resource type="DynamicFont" id=1]
 size = 19
 use_filter = true

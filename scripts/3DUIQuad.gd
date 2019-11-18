@@ -11,6 +11,10 @@ var base_viewport_size
 
 func _input(event):
 	# Check if the event is a non-mouse event
+	if event.is_action_pressed("editor_grid_snap") and not event.is_echo():
+		var mat := $MeshInstance.get_surface_material(0) as SpatialMaterial
+		var tex := mat.albedo_texture as ViewportTexture
+		print(tex.get_size())
 	var is_mouse_event = false
 	var mouse_events = [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]
 	for mouse_event in mouse_events:
@@ -72,8 +76,9 @@ func set_viewport_size():
 	var base_width = base_viewport_size.x
 	var base_height = base_viewport_size.y
 	var aspect_ratio = float(base_width)/float(base_height)
-	var size = Vector2(get_viewport().size.y * aspect_ratio, get_viewport().size.y)
-#	viewport.size = size
+	var size = Vector2(OS.window_size.y * aspect_ratio, OS.window_size.y)
+	viewport.size = size
+
 
 func _ready():
 	viewport = get_node(viewport_path)

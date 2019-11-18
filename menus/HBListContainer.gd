@@ -18,11 +18,11 @@ const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
 export(bool) var fixed_scale_factor = false
 
-
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
 	move_sound_player.stream = MOVE_SOUND
+	move_sound_player.pause_mode = PAUSE_MODE_PROCESS
 	get_tree().root.call_deferred("add_child", move_sound_player)
 	focus_mode = FOCUS_ALL
 	get_viewport().connect("size_changed", self, "hard_arrange_all")

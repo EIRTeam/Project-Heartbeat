@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=6]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
+[ext_resource path="res://icon.png" type="Texture" id=9]
+
+[sub_resource type="ViewportTexture" id=2]
+flags = 5
+viewport_path = NodePath("Viewport")
 
 [sub_resource type="Animation" id=1]
 length = 0.1
@@ -51,9 +56,30 @@ bus = "Music"
 stream = ExtResource( 3 )
 bus = "Music"
 
-[node name="Notes" type="Node2D" parent="."]
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Notes" type="Node2D" parent="Viewport"]
 show_behind_parent = true
 z_as_relative = false
+
+[node name="Sprite" type="Sprite" parent="Viewport/Notes"]
+position = Vector2( 1000, 500 )
+texture = ExtResource( 9 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 7
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RatingLabel" type="Label" parent="."]
 margin_left = 43.0

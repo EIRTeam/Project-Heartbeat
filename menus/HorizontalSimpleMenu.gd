@@ -35,7 +35,7 @@ func _unhandled_input(event):
 					var neighbour_right = get_node(focus_neighbour_right) as Control
 					neighbour_right.grab_focus()
 			else:
-				select_button(selected_button_i-1)
+				select_button(selected_button_i+1)
 	elif event.is_action_pressed("ui_accept"):
 		if selected_button:
 			selected_button.emit_signal("pressed")
