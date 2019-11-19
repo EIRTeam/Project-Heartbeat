@@ -82,7 +82,8 @@ func _process(delta):
 			arrange_options(1, get_child_count(), 1.0, get_child(0).rect_position, selected_option.rect_size.y, true)
 		else:
 			# Place select option:
-			selected_option.rect_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
+			var starting_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
+			selected_option.rect_position = starting_position
 			selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
 			#selected_option.rect_scale = Vector2(1.0, 1.0)
 			selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), lerp_weight * delta)

@@ -4,6 +4,11 @@ var song : HBSong setget set_song
 
 var hover_style = preload("res://styles/SongListItemHover.tres")
 var normal_style = preload("res://styles/SongListItemNormal.tres")
+
+var target_opacity = 1.0
+
+const LERP_SPEED = 3.0
+
 func set_song(value: HBSong):
 	song = value
 	$VBoxContainer/TitleLabel.text = song.title
@@ -17,6 +22,9 @@ func hover():
 
 func stop_hover():
 	add_stylebox_override("normal", normal_style)
+	
+func _process(delta):
+	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
 
 func _on_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game.tscn")

@@ -7,7 +7,6 @@
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
 [ext_resource path="res://menus/MainMenuMusicPlayer.gd" type="Script" id=6]
 
-
 [sub_resource type="DynamicFont" id=1]
 size = 15
 use_mipmaps = true
