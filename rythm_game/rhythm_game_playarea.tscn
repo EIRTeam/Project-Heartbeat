@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=6]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
+[ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 
 [sub_resource type="ViewportTexture" id=1]
 flags = 5
@@ -187,6 +188,7 @@ margin_right = 1280.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
+alignment = 2
 
 [node name="Label" type="Label" parent="Control/HBoxContainer/HBoxContainer"]
 margin_right = 426.0
@@ -197,3 +199,4 @@ custom_fonts/font = ExtResource( 8 )
 text = "0000000"
 align = 1
 valign = 1
+script = ExtResource( 9 )

@@ -6,9 +6,9 @@ onready var trailing_note_graphic = get_node("NoteTrailing")
 var pickable = true setget set_pickable
 var holding = false
 export(float) var target_scale_modifier = 1.0
-
+var held_bonus_score = 0
 const TRAIL_RESOLUTION = 32 # points per second
-
+const INCREMENT_SCORE_BY = 10.0
 func set_pickable(value):
 	pickable = value
 	$NoteTarget.input_pickable = value
@@ -20,6 +20,7 @@ func _ready():
 	set_trail_color()
 	
 func update_graphic_positions_and_scale(time: float):
+
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
 	# Movement along wave
@@ -40,7 +41,6 @@ func update_graphic_positions_and_scale(time: float):
 		
 	if holding:
 		note_graphic.scale = Vector2(0, 0)
-		
 		
 	# Scale for trailing note
 	if time * 1000.0 > note_data.time + note_data.get_duration():
@@ -138,28 +138,47 @@ func _on_note_type_changed():
 #				break
 
 func _unhandled_input(event):
-	print(event)
 	if not holding:
 		# When not holding, judge the first part of the note
 		var judgement = judge_note_input(event, game.time)
 		if judgement != -1:
 			emit_signal("note_judged", note_data, judgement)
 			holding = true
+			game.add_score(NOTE_SCORES[judgement])
 			get_tree().set_input_as_handled()
 	else:
 		var judgement = judge_note_input(event, game.time-note_data.duration/1000.0, true)
-		print("Judge attempt: ", judgement, event.is_action_released("note_b"))
+		
+		if judgement == -1:
+			for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
+				if event.is_action_released(action):
+					judgement = HBJudge.JUDGE_RATINGS.WORST
+					break
 		if judgement != -1:
 			emit_signal("note_judged", note_data, judgement)
 			holding = true
 			get_tree().set_input_as_handled()
 			set_process_unhandled_input(false)
 			game.play_note_sfx()
+			# Ensure that if the user passes they get the full bonus score
+			game.add_score(NOTE_SCORES[judgement] + (int(note_data.get_duration() / 10.0) - held_bonus_score))
 			queue_free()
 func _on_game_time_changed(time: float):
 	
 	update_graphic_positions_and_scale(time)
 	if not is_queued_for_deletion():
+		# Score string and other magic
+		if holding:
+			var next_score = note_data.duration - (note_data.time + note_data.duration - int(time*1000))
+			next_score = next_score / 10.0
+			next_score = clamp(int(next_score), 0, int(note_data.get_duration() / 10.0))
+			next_score = int(next_score / INCREMENT_SCORE_BY) * INCREMENT_SCORE_BY
+			if next_score != held_bonus_score:
+				var score_diff = next_score-held_bonus_score
+				game.add_score(score_diff)
+				held_bonus_score = next_score
+				$HoldNoteTarget/ScoreLabel.show()
+				$HoldNoteTarget/ScoreLabel.text = "+" + str(next_score)
 		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
 		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
 			if not game.editing and not holding:

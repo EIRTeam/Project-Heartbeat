@@ -213,7 +213,6 @@ material/0 = null
 shape = SubResource( 8 )
 
 [node name="RestartPopup" parent="." instance=ExtResource( 7 )]
-visible = false
 margin_left = -275.0
 margin_right = 275.0
 text = "Are you sure you want to restart?"
@@ -221,7 +220,6 @@ accept_text = "Restart"
 cancel_text = "Cancel"
 
 [node name="QuitPopup" parent="." instance=ExtResource( 7 )]
-visible = false
 margin_left = -275.0
 margin_right = 275.0
 text = "Are you sure you want to quit?"
@@ -230,3 +228,5 @@ cancel_text = "Cancel"
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/ResumeButton" to="." method="emit_signal" binds= [ "resumed" ]]
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton" to="RestartPopup" method="popup_centered"]
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/QuitButton" to="QuitPopup" method="popup_centered"]
+[connection signal="cancel" from="RestartPopup" to="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" method="grab_focus"]
+[connection signal="cancel" from="QuitPopup" to="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" method="grab_focus"]

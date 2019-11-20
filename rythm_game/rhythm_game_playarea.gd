@@ -14,8 +14,12 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 }
 
 onready var notes_node = get_node("Viewport/Notes")
-
+onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 var input_lag_compensation = 0
+
+var stats = {
+	"score": 0
+}
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var rating_label : Label = get_node("RatingLabel")
@@ -242,3 +246,6 @@ func play_from_pos(position: float):
 	audio_stream_player.seek(position)
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
+func add_score(score_to_add):
+	stats.score += score_to_add
+	score_counter.score = stats.score

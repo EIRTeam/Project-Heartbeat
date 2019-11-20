@@ -17,7 +17,7 @@ func _ready():
 		var item = SongListItem.instance()
 		vbox_container.add_child(item)
 		item.song = song
-	
+
 	connect("focus_entered", self, "_on_focus_entered")
 
 
@@ -26,32 +26,32 @@ func select_child(child):
 		selected_child.stop_hover()
 	selected_child = child
 	child.hover()
-	
+
 	var child_i = vbox_container.get_children().find(child)
-	
-	
+
+
 	# Get the next N children (see visible items)
-	
+
 	var next_children = []
 	var next_children_size = 0
 	if child_i < vbox_container.get_child_count()-1:
 		for i in range(child_i+1, clamp(vbox_container.get_child_count(), child_i, child_i+visible_items+1)):
 			if vbox_container.get_child(i) is BaseButton:
 				next_children.append(vbox_container.get_child(i))
-				
+
 	if next_children.size() > 0:
 		var next_child = next_children[next_children.size()-1]
-		
+
 		next_children_size = (next_child.rect_position.y + next_child.rect_size.y) - (child.rect_position.y + child.rect_size.y)
 	# Child is not visible (from bottom)
 	if child.rect_position.y + child.rect_size.y + next_children_size - rect_size.y + TOP_MARGIN + BOTTOM_MARGIN - vbox_container.get_constant("separation") > scroll_vertical:
 		scroll_target = child.rect_position.y - rect_size.y + child.rect_size.y + next_children_size + TOP_MARGIN + BOTTOM_MARGIN - vbox_container.get_constant("separation")
 
 	# Get the previous n children (see visible items)
-	
+
 	var prev_children = []
 	var prev_children_size = 0
-	
+
 	if vbox_container.get_child_count() > 1:
 		for i in range(clamp(child_i-visible_items, 0, vbox_container.get_child_count()-1), child_i):
 			if vbox_container.get_child(i) is BaseButton:
@@ -59,26 +59,26 @@ func select_child(child):
 				break
 	if prev_children.size() > 0:
 		var prev_child = prev_children[0]
-		
+
 		prev_children_size =  child.rect_position.y - prev_child.rect_position.y
 
 	# Child is not visible (from top)
 	if child.rect_position.y - prev_children_size - TOP_MARGIN < scroll_vertical:
 		scroll_target = child.rect_position.y - prev_children_size - TOP_MARGIN
-		
+
 	_set_opacities()
-		
+
 func _set_opacities():
 	for child in vbox_container.get_children():
 		if child.rect_position.y + TOP_MARGIN < scroll_target or child.rect_position.y + child.rect_size.y + BOTTOM_MARGIN - vbox_container.get_constant("separation") > scroll_target + rect_size.y:
 			child.target_opacity = 0
 		else:
 			child.target_opacity = 1.0
-		
+
 func _unhandled_input(event):
 	if get_focus_owner() == self:
 		if selected_child:
-			if event is InputEventKey:
+			if event is InputEventKey or event is InputEventJoypadButton:
 				var child_i = vbox_container.get_children().find(selected_child)
 				if event.is_action_pressed("ui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
 					select_child(vbox_container.get_child(child_i+1))
@@ -91,6 +91,7 @@ func _unhandled_input(event):
 					emit_signal("song_hovered", selected_child.song)
 					$AudioStreamPlayer.play()
 				if event.is_action_pressed("ui_accept"):
+					get_tree().set_input_as_handled()
 					selected_child.emit_signal("pressed")
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )

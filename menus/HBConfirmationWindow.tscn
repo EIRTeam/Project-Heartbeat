@@ -6,7 +6,6 @@
 [ext_resource path="res://menus/HBConfirmationWindow.gd" type="Script" id=4]
 
 [node name="HBConfirmationWindow" type="Popup"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -82,3 +81,4 @@ script = ExtResource( 2 )
 [connection signal="about_to_show" from="." to="." method="_on_Control_about_to_show"]
 [connection signal="pressed" from="Panel/HBoxContainer/AcceptButton" to="." method="emit_signal" binds= [ "accept" ]]
 [connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="emit_signal" binds= [ "cancel" ]]
+[connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="hide"]

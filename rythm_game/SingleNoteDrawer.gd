@@ -7,6 +7,8 @@ export(float) var target_scale_modifier = 1.0
 
 const TRAIL_RESOLUTION = 32
 
+
+
 func set_pickable(value):
 	pickable = value
 	$NoteTarget.input_pickable = value
@@ -90,6 +92,7 @@ func _on_note_judged(judgement):
 				particles.scale = Vector2(-1.0, 1.0)
 			game.add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
+	game.add_score(NOTE_SCORES[judgement])
 	queue_free()
 	emit_signal("note_judged", note_data, judgement)
 	emit_signal("note_removed")
