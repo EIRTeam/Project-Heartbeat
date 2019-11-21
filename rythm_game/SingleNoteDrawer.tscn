@@ -29,6 +29,10 @@ scale = 0.1
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.00724638, 1 )
+colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.5 )
+
 [sub_resource type="Animation" id=6]
 length = 0.34
 step = 0.17
@@ -45,20 +49,11 @@ tracks/0/keys = {
 "values": [ 1.0, 1.1, 1.0 ]
 }
 
-[sub_resource type="Gradient" id=7]
-offsets = PoolRealArray( 0.00724638, 1 )
-colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.5 )
-
 [node name="SingleNoteDrawer" type="Node2D"]
-z_index = 4
 script = ExtResource( 3 )
-
-[node name="Note" parent="." instance=ExtResource( 2 )]
-z_index = 1
 
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 position = Vector2( 2.21606, 1.10802 )
-z_index = -1
 
 [node name="Particles2D" type="Particles2D" parent="NoteTarget"]
 position = Vector2( -2.21606, -1.10802 )
@@ -69,11 +64,7 @@ speed_scale = 4.0
 process_material = SubResource( 5 )
 texture = ExtResource( 4 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 6 )
-
 [node name="Line2D" type="Line2D" parent="."]
-z_index = -1
 points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
@@ -81,10 +72,14 @@ gradient = SubResource( 7 )
 joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
-z_index = -1
 points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
 gradient = SubResource( 7 )
 joint_mode = 2
+
+[node name="Note" parent="." instance=ExtResource( 2 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/note_appear = SubResource( 6 )
 [connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]

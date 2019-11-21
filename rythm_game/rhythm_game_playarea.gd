@@ -13,13 +13,13 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
 }
 
-onready var notes_node = get_node("Viewport/Notes")
+var hit_effect_queue = []
+
+onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 var input_lag_compensation = 0
 
-var stats = {
-	"score": 0
-}
+var result = HBResult.new()
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var rating_label : Label = get_node("RatingLabel")
@@ -36,7 +36,11 @@ var time: float
 var current_combo = 0
 var timing_points = []
 
+var _sfx_played_this_cycle = false
+
 var notes_on_screen = []
+
+var auto_play = true
 
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
@@ -44,6 +48,8 @@ const MAX_SCALE = 1.5
 var size = Vector2(1280, 720) setget set_size
 
 var editing = false
+
+const MAX_NOTE_SFX = 4
 
 signal note_updated(note)
 signal note_selected(note)
@@ -58,11 +64,19 @@ func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
+	
+	hit_effect_queue.append($HitEffect)
+	for i in range(MAX_NOTE_SFX-1):
+		var new_sfx = $HitEffect.duplicate()
+		add_child(new_sfx)
+		hit_effect_queue.append(new_sfx)
 func _on_viewport_size_changed():
 	print(get_viewport().size)
-	$Viewport.size = get_viewport().size
+	$Viewport.size = self.rect_size
 	
 func set_song(song: HBSong):
+	result = HBResult.new()
+	result.song_id = song.id
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	song_name_label.text = song.title
 	if song.artist_alias != "":
@@ -131,10 +145,12 @@ func remove_all_notes_from_screen():
 	notes_on_screen = []
 	
 func play_note_sfx():
-	var sfx = $HitEffect.duplicate() as AudioStreamPlayer
-	add_child(sfx)
-	sfx.connect("finished", sfx, "queue_free")
-	sfx.play()
+	if not _sfx_played_this_cycle:
+		var curr_effect = hit_effect_queue[0]
+		curr_effect.play()
+		hit_effect_queue.pop_front()
+		hit_effect_queue.push_back(curr_effect)
+		_sfx_played_this_cycle = true
 	
 func _process(delta):
 	if audio_stream_player.playing:
@@ -182,19 +198,17 @@ func _process(delta):
 					timing_points.remove(i)
 	
 	emit_signal("time_changed", time+input_lag_compensation)
-	for i in range(notes_on_screen.size() - 1, -1, -1):
-		var note = notes_on_screen[i]
-#		AUTOJUDGE: broken
-#		if editing:
-#			if judge.judge_note(time, note.time/1000.0) == judge.JUDGE_RATINGS.COOL:
-#				var ev = InputEventAction.new()
-#				ev.pressed = true
-#				for type in NOTE_TYPE_TO_ACTIONS_MAP:
-#					if type == note.note_type:
-#						ev.action = NOTE_TYPE_TO_ACTIONS_MAP[type][0]
-#						break
-#				$HitEffect.play()
-
+	if auto_play:
+		for i in range(notes_on_screen.size() - 1, -1, -1):
+			var note = notes_on_screen[i]
+			if note is HBNoteData:
+				if judge.judge_note(time, note.time/1000.0) == judge.JUDGE_RATINGS.COOL:
+					var a = InputEventAction.new()
+					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
+					a.pressed = true
+					play_note_sfx()
+					Input.parse_input_event(a)
+	_sfx_played_this_cycle = false
 func _on_note_judged(note, judgement):
 	if not editing:
 		# Rating graphic
@@ -202,6 +216,13 @@ func _on_note_judged(note, judgement):
 			current_combo = 0
 		else:
 			current_combo += 1
+			result.notes_hit += 1
+		
+		
+		result.note_ratings[judgement] += 1
+		result.total_notes += 1
+		if current_combo > result.max_combo:
+			result.max_combo = current_combo
 		var new_pos = remap_coords(note.position)
 		
 		var rating_to_color = {
@@ -247,5 +268,5 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):
-	stats.score += score_to_add
-	score_counter.score = stats.score
+	result.score += score_to_add
+	score_counter.score = result.score

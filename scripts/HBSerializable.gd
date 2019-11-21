@@ -38,7 +38,8 @@ static func get_serializable_types():
 		"MultiNote": load("res://scripts/HBMultiNoteData.gd"),
 		"HoldNote": load("res://scripts/HBHoldNoteData.gd"),
 		"SlideNote": load("res://scripts/HBTimingPoint.gd"),
-		"Song": load("res://scripts/HBSong.gd")
+		"Song": load("res://scripts/HBSong.gd"),
+		"Result": load("res://scripts/HBResult.gd")
 	}
 func get_serialized_type():
 	pass

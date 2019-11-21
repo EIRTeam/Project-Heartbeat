@@ -38,6 +38,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Notes" type="Node2D" parent="."]
+show_behind_parent = true
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DebugLabel" type="Label" parent="CanvasLayer"]
@@ -62,11 +65,8 @@ transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Notes" type="Node2D" parent="Viewport"]
-show_behind_parent = true
-z_as_relative = false
-
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = SubResource( 1 )
@@ -200,3 +200,6 @@ text = "0000000"
 align = 1
 valign = 1
 script = ExtResource( 9 )
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 0

@@ -2,7 +2,7 @@ extends Control
 
 func _ready():
 	set_game_size()
-	connect("resized", $RhythmGame, "set_size", [rect_size])
+	connect("resized", self, "set_game_size", [rect_size])
 
 	
 func set_song(song: HBSong):
