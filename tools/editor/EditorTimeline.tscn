@@ -9,7 +9,7 @@
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
 [ext_resource path="res://tools/icons/icon_add.svg" type="Texture" id=8]
 
-[sub_resource type="StyleBoxFlat" id=2073]
+[sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
@@ -92,9 +92,8 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PlayheadPosText"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -7.62939e-06
+margin_right = 116.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 align = 1
@@ -109,7 +108,7 @@ margin_right = 1280.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 2073 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]

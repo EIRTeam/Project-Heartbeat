@@ -35,7 +35,9 @@ func _process(delta):
 		force_drag(self, Control.new())
 		set_process(false)
 	else:
-		set_start(clamp(_drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x), 0.0, editor.get_song_duration()))
+		var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
+		new_time = editor.snap_time_to_timeline(new_time)
+		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
 	modulate = Color.white

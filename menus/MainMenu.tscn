@@ -791,7 +791,6 @@ anims/fade_in = SubResource( 24 )
 anims/fade_out = SubResource( 25 )
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_in" ]]
-[connection signal="navigate_to_menu" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportLeft/MainMenuLeft/StartMenu" method="navigate_to_menu"]
 [connection signal="navigated" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]

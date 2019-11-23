@@ -28,11 +28,12 @@ var recording: bool = false
 var time_begin
 var time_delay
 var _audio_play_offset
-var bpm setget set_bpm, get_bpm
+var bpm = 150 setget set_bpm, get_bpm
 var current_song: HBSong
 var current_difficulty: String
 var snap_to_grid_enabled = false
 
+var timeline_snap_enabled = false
 	
 func set_bpm(value):
 	BPM_spinbox.value = value
@@ -322,3 +323,26 @@ func snap_position_to_grid(new_pos: Vector2):
 		final_position.x = round(grid_renderer.vertical * new_pos.x) / float(grid_renderer.vertical)
 		final_position.y = round(grid_renderer.horizontal * new_pos.y) / float(grid_renderer.horizontal)
 	return final_position
+
+
+func _on_TimelineGridSnapButton_toggled(button_pressed):
+	timeline_snap_enabled = true
+
+func snap_time_to_timeline(time):
+
+	if timeline_snap_enabled:
+		var bars_per_minute = get_bpm() / float(get_beats_per_bar())
+		var seconds_per_bar = 60.0/bars_per_minute
+		
+		var beat_length = seconds_per_bar / float(get_beats_per_bar())
+		var note_length = 1.0/4.0 # a quarter of a beat
+		var note_res = get_note_resolution()
+		var interval = (get_note_resolution() / note_length) * beat_length
+		interval = interval * 1000.0
+		print(interval, " ", time)
+		var n = time / float(interval)
+		n = round(n)
+		print("FINAL TIME: ", n*interval)
+		return n*interval
+	else:
+		return time

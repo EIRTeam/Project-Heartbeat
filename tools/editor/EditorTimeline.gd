@@ -54,10 +54,10 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(0.5, 0.5, 0.5), 1.0, false)
 	
 func _draw_timing_lines():
-	var bars_per_minute = editor.bpm / editor.get_beats_per_bar()
+	var bars_per_minute = editor.bpm / float(editor.get_beats_per_bar())
 	var seconds_per_bar = 60/bars_per_minute
 	
-	var beat_length = seconds_per_bar / editor.get_beats_per_bar()
+	var beat_length = seconds_per_bar / float(editor.get_beats_per_bar())
 	var note_length = 1.0/4.0 # a quarter of a beat
 	var note_res = editor.get_note_resolution()
 	var interval = (editor.get_note_resolution() / note_length) * beat_length

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
@@ -27,17 +27,21 @@ action = "editor_save"
 [sub_resource type="ShortCut" id=2]
 shortcut = SubResource( 1 )
 
-[sub_resource type="InputEventAction" id=3]
+[sub_resource type="ViewportTexture" id=3]
+flags = 5
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="InputEventAction" id=4]
 action = "editor_grid_snap"
 
-[sub_resource type="ShortCut" id=4]
-shortcut = SubResource( 3 )
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
 
-[sub_resource type="InputEventAction" id=5]
+[sub_resource type="InputEventAction" id=6]
 action = "editor_grid"
 
-[sub_resource type="ShortCut" id=6]
-shortcut = SubResource( 5 )
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -132,6 +136,15 @@ margin_right = 1260.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 alignment = 2
+
+[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 430.0
+margin_right = 458.0
+margin_bottom = 24.0
+hint_tooltip = "Enable timeline snap"
+toggle_mode = true
+icon = ExtResource( 18 )
+flat = true
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 462.0
@@ -228,6 +241,9 @@ show_behind_parent = true
 
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 
+[node name="TextureRect" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame" index="5"]
+texture = SubResource( 3 )
+
 [node name="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="0"]
 margin_right = 706.0
 
@@ -311,7 +327,7 @@ margin_right = 28.0
 margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
-shortcut = SubResource( 4 )
+shortcut = SubResource( 5 )
 icon = ExtResource( 18 )
 flat = true
 
@@ -321,7 +337,7 @@ margin_right = 60.0
 margin_bottom = 27.0
 hint_tooltip = "Show grid"
 toggle_mode = true
-shortcut = SubResource( 6 )
+shortcut = SubResource( 7 )
 icon = ExtResource( 20 )
 flat = true
 
@@ -530,6 +546,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
+[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
