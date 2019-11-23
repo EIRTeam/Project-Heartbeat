@@ -338,11 +338,12 @@ func snap_time_to_timeline(time):
 		var note_length = 1.0/4.0 # a quarter of a beat
 		var note_res = get_note_resolution()
 		var interval = (get_note_resolution() / note_length) * beat_length
+		time -= get_note_snap_offset()*1000.0
 		interval = interval * 1000.0
 		print(interval, " ", time)
 		var n = time / float(interval)
 		n = round(n)
 		print("FINAL TIME: ", n*interval)
-		return n*interval
+		return n*interval + get_note_snap_offset()*1000.0
 	else:
 		return time
