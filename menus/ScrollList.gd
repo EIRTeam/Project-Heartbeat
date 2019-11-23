@@ -90,8 +90,9 @@ func _gui_input(event):
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )
 	scroll_vertical = current_scroll
-	get_v_scrollbar().rect_size.y = rect_size.y - BOTTOM_MARGIN - TOP_MARGIN + vbox_container.get_constant("separation")
-	get_v_scrollbar().rect_position.y = TOP_MARGIN
+	if get_v_scrollbar():
+		get_v_scrollbar().rect_size.y = rect_size.y - BOTTOM_MARGIN - TOP_MARGIN + vbox_container.get_constant("separation")
+		get_v_scrollbar().rect_position.y = TOP_MARGIN
 func _on_focus_entered():
 	scroll_vertical = 0
 	scroll_target = 0

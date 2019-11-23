@@ -197,6 +197,11 @@ func _process(delta):
 				if not editing:
 					timing_points.remove(i)
 	
+	if timing_points.size() == 0:
+		var file = File.new()
+		file.open("user://testresult.json", File.WRITE)
+		file.store_string(JSON.print(result.serialize(), "  "))
+	
 	emit_signal("time_changed", time+input_lag_compensation)
 	if auto_play:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
@@ -225,17 +230,12 @@ func _on_note_judged(note, judgement):
 			result.max_combo = current_combo
 		var new_pos = remap_coords(note.position)
 		
-		var rating_to_color = {
-			judge.JUDGE_RATINGS.COOL: "#ffd022",
-			judge.JUDGE_RATINGS.FINE: "#4ebeff",
-			judge.JUDGE_RATINGS.SAFE: "#00a13c",
-			judge.JUDGE_RATINGS.SAD: "#57a9ff",
-			judge.JUDGE_RATINGS.WORST: "#e470ff"
-		}
+
 		
 		rating_label.get_node("AnimationPlayer").play("rating_appear")
-		rating_label.add_color_override("font_color", Color(rating_to_color[judgement]))
-		rating_label.text = judge.RATING_TO_TEXT_MAP[judgement]
+		rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
+		$RatingLabel.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
+		rating_label.text = judge.JUDGE_RATINGS.keys()[judgement]
 		if current_combo > 1:
 			rating_label.text += " " + str(current_combo)
 		rating_label.rect_size = rating_label.get_combined_minimum_size()

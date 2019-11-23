@@ -16,7 +16,6 @@ custom_styles/normal = ExtResource( 3 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Rhythm Game"
-align = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
