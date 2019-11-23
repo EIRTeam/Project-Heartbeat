@@ -7,7 +7,7 @@ func serialize():
 		var _field = get(field)
 		if _field is Object and field.has_method("serialize"):
 			serialized_data[field] = _field.serialize()
-		if _field is Array or _field is int or _field is float or _field is String or _field is Dictionary:
+		if _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
 			serialized_data[field] = get(field)
 		else:
 			serialized_data[field] = var2str(get(field))
@@ -23,7 +23,7 @@ static func deserialize(data: Dictionary):
 			if field is Dictionary:
 				if data[field].has("type"):
 					object.set(field, deserialize(data[field]))
-			elif _field is Array or _field is float or _field is String or _field is Dictionary:
+			elif _field is Array or _field is float or _field is String or _field is Dictionary or _field is bool:
 				object.set(field, data[field])
 			elif _field is int:
 				object.set(field, int(data[field]))
@@ -39,7 +39,8 @@ static func get_serializable_types():
 		"HoldNote": load("res://scripts/HBHoldNoteData.gd"),
 		"SlideNote": load("res://scripts/HBTimingPoint.gd"),
 		"Song": load("res://scripts/HBSong.gd"),
-		"Result": load("res://scripts/HBResult.gd")
+		"Result": load("res://scripts/HBResult.gd"),
+		"UserSettings": load("res://scripts/HBUserSettings.gd")
 	}
 func get_serialized_type():
 	pass

@@ -27,7 +27,6 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if previous_menu:
 			get_tree().set_input_as_handled()
-			
 			back()
 		
 func navigate_to_menu(next_menu, back=false):

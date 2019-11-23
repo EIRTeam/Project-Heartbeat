@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
+[ext_resource path="res://menus/options_menu/OptionMenuButton.gd" type="Script" id=2]
+[ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=3]
+[ext_resource path="res://styles/OptionButtonHover.tres" type="StyleBox" id=4]
+
+[node name="Controls" type="Button"]
+margin_right = 217.0
+margin_bottom = 81.0
+rect_min_size = Vector2( 0, 64 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/normal = ExtResource( 3 )
+custom_fonts/font = ExtResource( 1 )
+text = "Controls"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

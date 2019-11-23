@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://menus/options_menu/OptionSection.gd" type="Script" id=1]
+[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
+[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=4]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=5]
+
+[node name="OptionSection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 572.0
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 15
+custom_constants/margin_left = 30
+custom_constants/margin_bottom = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 30.0
+margin_top = 15.0
+margin_right = 1260.0
+margin_bottom = 542.0
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+margin_top = 576.0
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+custom_styles/panel = ExtResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer"]
+margin_right = 1280.0
+margin_bottom = 144.0
+custom_constants/separation = 68
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 286.0
+margin_right = 326.0
+margin_bottom = 144.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 394.0
+margin_top = 62.0
+margin_right = 994.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 5 )
+text = "description uwu"
+align = 1
+valign = 1
+autowrap = true
+[connection signal="focus_entered" from="." to="VBoxContainer/Panel2/MarginContainer/ScrollContainer" method="grab_focus"]

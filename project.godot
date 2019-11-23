@@ -55,9 +55,9 @@ _global_script_classes=[ {
 "path": "res://scripts/HBHoldNoteData.gd"
 }, {
 "base": "Button",
-"class": "HBHorizontalButton",
+"class": "HBHovereableButton",
 "language": "GDScript",
-"path": "res://menus/HorizontalButton.gd"
+"path": "res://menus/HBHovereableButton.gd"
 }, {
 "base": "Node",
 "class": "HBJudge",
@@ -99,10 +99,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://resource_queue.gd"
 }, {
-"base": "HBTimingPoint",
+"base": "HBSerializable",
 "class": "HBResult",
 "language": "GDScript",
 "path": "res://scripts/HBResult.gd"
+}, {
+"base": "ScrollContainer",
+"class": "HBScrollList",
+"language": "GDScript",
+"path": "res://menus/ScrollList.gd"
 }, {
 "base": "Reference",
 "class": "HBSerializable",
@@ -118,6 +123,11 @@ _global_script_classes=[ {
 "class": "HBTimingPoint",
 "language": "GDScript",
 "path": "res://scripts/HBTimingPoint.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBUserSettings",
+"language": "GDScript",
+"path": "res://scripts/HBUserSettings.gd"
 }, {
 "base": "Reference",
 "class": "HBUtils",
@@ -144,7 +154,7 @@ _global_script_class_icons={
 "HBEditorRoundMovementGizmo": "",
 "HBEditorWidget": "",
 "HBHoldNoteData": "",
-"HBHorizontalButton": "",
+"HBHovereableButton": "",
 "HBJudge": "",
 "HBListContainer": "",
 "HBMainMenu": "",
@@ -154,9 +164,11 @@ _global_script_class_icons={
 "HBNoteData": "",
 "HBResourceQueue": "",
 "HBResult": "",
+"HBScrollList": "",
 "HBSerializable": "",
 "HBSong": "",
 "HBTimingPoint": "",
+"HBUserSettings": "",
 "HBUtils": "",
 "PPDLoader": "",
 "PPDPack": ""
@@ -177,9 +189,10 @@ output_latency=2
 
 [autoload]
 
-Log="*res://autoloads/Log.gd"
-SongLoader="*res://autoloads/SongLoader.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
+Log="*res://autoloads/Log.gd"
+UserSettings="*res://autoloads/UserSettings.gd"
+SongLoader="*res://autoloads/SongLoader.gd"
 HBInput="*res://autoloads/HBInput.gd"
 
 [debug]

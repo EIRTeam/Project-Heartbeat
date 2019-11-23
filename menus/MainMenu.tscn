@@ -15,7 +15,7 @@
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=13]
 [ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=14]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=15]
-[ext_resource path="res://menus/HorizontalButton.gd" type="Script" id=16]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=16]
 [ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=17]
 
 [sub_resource type="Animation" id=1]
@@ -540,6 +540,9 @@ margin_left = 50.0
 margin_right = 50.0
 initial_menu_path = NodePath("StartMenu")
 
+[node name="StartMenu" parent="ViewportLeft/MainMenuLeft" index="0"]
+margin_right = 1280.0
+
 [node name="StartMenu" parent="ViewportLeft/MainMenuLeft/StartMenu" index="0"]
 focus_neighbour_right = NodePath("../../../../ViewportRight/StartMenuRight/SocialButtons/HorizontalSimpleMenu")
 
@@ -548,6 +551,7 @@ margin_right = 483.0
 
 [node name="OptionsButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="1"]
 margin_right = 483.0
+text = "Settings"
 
 [node name="ToolsButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="2"]
 margin_right = 483.0
@@ -555,14 +559,21 @@ margin_right = 483.0
 [node name="ExitButton" parent="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" index="3"]
 margin_right = 483.0
 
+[node name="OptionsMenu" parent="ViewportLeft/MainMenuLeft" index="1"]
+margin_right = 1280.0
+
+[node name="ToolsListMenu" parent="ViewportLeft/MainMenuLeft" index="2"]
+margin_right = 1280.0
+
 [node name="EditorButton" parent="ViewportLeft/MainMenuLeft/ToolsListMenu/ToolsList" index="0"]
 margin_right = 555.0
 
 [node name="SongMetaEditorButton" parent="ViewportLeft/MainMenuLeft/ToolsListMenu/ToolsList" index="1"]
 margin_right = 555.0
 
-[node name="SongListMenu" parent="ViewportLeft/MainMenuLeft" index="2"]
+[node name="SongListMenu" parent="ViewportLeft/MainMenuLeft" index="3"]
 visible = false
+margin_right = 1280.0
 
 [node name="ViewportRight" type="Viewport" parent="."]
 size = Vector2( 360, 720 )
@@ -780,11 +791,13 @@ anims/fade_in = SubResource( 24 )
 anims/fade_out = SubResource( 25 )
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_in" ]]
+[connection signal="navigate_to_menu" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportLeft/MainMenuLeft/StartMenu" method="navigate_to_menu"]
 [connection signal="navigated" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
+[connection signal="selected_child_changed" from="ViewportLeft/MainMenuLeft/SongListMenu/ScrollContainer" to="ViewportBackground/MainMenuVisualizer" method="play"]
 [connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/ScrollContainer" to="ViewportRight/SongListPreview" method="select_song"]
 [connection signal="song_hovered" from="ViewportLeft/MainMenuLeft/SongListMenu/ScrollContainer" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer" method="play_song"]
 [connection signal="pressed" from="ViewportRight/StartMenuRight/SocialButtons/HorizontalSimpleMenu/DiscordButton" to="ViewportRight/StartMenuRight/SocialButtons" method="_on_DiscordButton_pressed"]

@@ -24,7 +24,6 @@ func _process(delta):
 		_min_fps = Engine.get_frames_per_second()
 		$MarginContainer/VBoxContainer/MinFrameRateLabel.text = "Min: %f" %_min_fps
 
-
 func _on_ResetButton_pressed():
 	_seconds_since_startup = 0.0
 	_frames_drawn_offset = Engine.get_frames_drawn()

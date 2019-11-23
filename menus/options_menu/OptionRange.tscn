@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menus/options_menu/OptionSelect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://menus/options_menu/OptionRange.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+rect_min_size = Vector2( 0, 64 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionRange" parent="." instance=ExtResource( 1 )]
+script = null
+
+[editable path="OptionRange"]

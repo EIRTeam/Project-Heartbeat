@@ -55,6 +55,7 @@ func _on_button_pressed(option: BaseButton):
 				option.connect("pressed", self, "_on_button_pressed", [option])
 				
 func _on_focus_entered():
+	print("FOCUS")
 	if selected_option:
 		selected_option.hover()
 			
@@ -104,6 +105,7 @@ func _unhandled_input(event):
 					emit_signal("selected_option_changed")
 					get_tree().set_input_as_handled()
 					move_sound_player.play()
+					print("DOWN")
 			if event.is_action_pressed("ui_up"):
 				var current_pos = selected_option.get_position_in_parent()
 				if current_pos > 0:

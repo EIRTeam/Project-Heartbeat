@@ -1,4 +1,4 @@
-extends HBTimingPoint
+extends HBSerializable
 
 class_name HBResult
 
