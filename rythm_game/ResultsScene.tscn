@@ -370,18 +370,18 @@ margin_bottom = 416.0
 
 [node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1160.0
-margin_bottom = 254.0
+margin_bottom = 224.0
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExtraDataPanel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
-margin_top = 258.0
+margin_top = 228.0
 margin_right = 1160.0
 margin_bottom = 386.0
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.7
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel"]
 anchor_right = 1.0
@@ -398,16 +398,45 @@ __meta__ = {
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1145.0
-margin_bottom = 113.0
+margin_bottom = 143.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
-margin_top = 7.0
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
 margin_right = 1130.0
-margin_bottom = 47.0
+margin_bottom = 40.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_right = 1023.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 6 )
+text = "TOTAL NOTES"
+
+[node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 1027.0
+margin_right = 1130.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = ExtResource( 6 )
+text = "700"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 1130.0
+margin_bottom = 84.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -435,9 +464,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
-margin_top = 51.0
+margin_top = 88.0
 margin_right = 1130.0
-margin_bottom = 91.0
+margin_bottom = 128.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false

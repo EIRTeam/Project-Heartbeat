@@ -109,8 +109,13 @@ static func PPD2HBChart(path: String) -> HBChart:
 		PPDButtons.L: HBNoteData.NOTE_TYPE.SLIDE_LEFT
 	}
 	var chart = HBChart.new()
-	var layer = {"timing_points": [], "name": "New Layer"}
 	var marks = _get_marks_from_ppd_pack(path)
+	var prev_note
+	
+	# For when multiple notes are on screen, to count how many layers
+	# deep we are going to ensure they don't overlap
+	var same_position_note_count = 0
+
 	for i in range(marks.size()):
 		var note = marks[i]
 		var note_data : HBNoteData
@@ -139,6 +144,18 @@ static func PPD2HBChart(path: String) -> HBChart:
 			print(str(i)+": ",note.right_rotation)
 				
 		note_data.note_type = PPDButton2HBNoteType[note.type]
-		layer.timing_points.append(note_data)
-	chart.layers.append(layer)
+		
+		if prev_note:
+			if prev_note.time == note_data.time:
+				same_position_note_count += 1
+			else:
+				same_position_note_count = 0
+		
+		while chart.layers.size() < same_position_note_count+1:
+			chart.layers.append({"timing_points": [], "name": "New Layer"})
+			
+			
+		chart.layers[same_position_note_count].timing_points.append(note_data)
+		prev_note = note_data
+
 	return chart
