@@ -106,6 +106,7 @@ margin_top = 0.0
 margin_right = 441.0
 margin_bottom = 64.0
 text = "Resume"
+align = 0
 
 [node name="RestartButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
 margin_left = 0.0
@@ -113,6 +114,7 @@ margin_top = 74.0
 margin_right = 441.0
 margin_bottom = 138.0
 text = "Restart"
+align = 0
 
 [node name="QuitButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
 margin_left = 0.0
@@ -120,6 +122,7 @@ margin_top = 148.0
 margin_right = 441.0
 margin_bottom = 212.0
 text = "Quit"
+align = 0
 
 [node name="ViewportRight" type="Viewport" parent="."]
 size = Vector2( 1280, 720 )
@@ -215,6 +218,7 @@ shape = SubResource( 8 )
 [node name="RestartPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
+popup_exclusive = true
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
@@ -222,6 +226,7 @@ cancel_text = "Cancel"
 [node name="QuitPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
+popup_exclusive = true
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"
