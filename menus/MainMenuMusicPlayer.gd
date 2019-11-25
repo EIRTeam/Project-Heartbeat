@@ -19,9 +19,11 @@ func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	
 func play_random_song():
-	randomize()
-	var default_song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
-	play_song(default_song)
+	var song = HBSong.new()
+	while song.audio == "":
+		randomize()
+		song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
+	play_song(song)
 	
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)

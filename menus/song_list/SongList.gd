@@ -11,7 +11,8 @@ func _ready():
 	connect("option_hovered", self, "_on_option_hovered")
 		
 func _on_option_hovered(option):
-	emit_signal("song_hovered", option.song)
+	if option.song.audio != "":
+		emit_signal("song_hovered", option.song)
 		
 func _on_focus_entered():
 	._on_focus_entered()

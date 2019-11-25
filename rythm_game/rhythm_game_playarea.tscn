@@ -10,7 +10,7 @@
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
@@ -75,7 +75,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-anims/rating_appear = SubResource( 2 )
+anims/rating_appear = SubResource( 1 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0

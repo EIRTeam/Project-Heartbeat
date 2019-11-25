@@ -1,14 +1,14 @@
 extends Control
 
 func _ready():
-	set_game_size()
+	set_game_size(Vector2())
 	connect("resized", self, "set_game_size", [rect_size])
 
 	
 func set_song(song: HBSong):
 	$RhythmGame.set_song(song)
 
-func set_game_size():
+func set_game_size(j):
 	$RhythmGame.size = rect_size
 	
 func _on_resumed():

@@ -22,7 +22,7 @@ var audio = ""
 var creator = ""
 var bpm = 150
 var preview_start = 77000
-var charts = []
+var charts = {}
 
 	
 func get_serialized_type():

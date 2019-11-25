@@ -93,7 +93,7 @@ func set_song(song: HBSong):
 	timing_points = chart.get_timing_points()
 	play_song()
 func get_note_scale():
-	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.85
+	return (get_playing_field_size().length() / BASE_SIZE.length()) * 1.0
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0

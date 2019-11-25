@@ -21,7 +21,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/offset = Vector2( 4, 4 )
+shader_param/offset = Vector2( 8, 8 )
 shader_param/modulate = Color( 0, 0, 0, 0.5 )
 
 [node name="Note" type="Sprite"]

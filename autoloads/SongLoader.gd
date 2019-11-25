@@ -4,7 +4,6 @@ signal all_songs_loaded
 
 const LOG_NAME = "SongLoader"
 
-
 var songs := {}
 
 const SONGS_PATH = "res://songs"
@@ -13,8 +12,6 @@ const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 
 func _ready():
 	var dir = Directory.new()
-	for path in SONG_SEARCH_PATHS:
-		print(dir.make_dir_recursive(path))
 	load_all_songs_meta()
 	
 func load_song_meta(path: String, id: String) -> HBSong:
@@ -35,21 +32,36 @@ func load_song_meta(path: String, id: String) -> HBSong:
 	file.close()
 	return null
 	
+func load_ppd_song_meta(path: String, id: String) -> HBSong:
+	var file = File.new()
+	if file.open(path, File.READ) == OK:
+		var txt = file.get_as_text()
+		return HBPPDSong.from_ini(txt, id)
+		
+	return null
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}
 	if dir.open(path) == OK:
 		dir.list_dir_begin()
-		var file_name = dir.get_next()
+		var dir_name = dir.get_next()
 
-		while (file_name != ""):
-			if dir.current_is_dir() and not file_name.begins_with("."):
-				var song_json_path = path + "/%s/song.json" % file_name
+		while dir_name != "":
+			if dir.current_is_dir() and not dir_name.begins_with("."):
+				var song_json_path = path + "/%s/song.json" % dir_name
+				var song_ppd_ini_path = path + "/%s/data.ini" % dir_name
+				print(song_ppd_ini_path)
+				var file = File.new()
 				
-				var song_meta : HBSong = load_song_meta(song_json_path, file_name)
-				if song_meta:
-					value[file_name] = song_meta
-			file_name = dir.get_next()
+				if file.file_exists(song_json_path):
+					var song_meta : HBSong = load_song_meta(song_json_path, dir_name)
+					if song_meta:
+						value[dir_name] = song_meta
+				elif file.file_exists(song_ppd_ini_path):
+					var song_meta : HBSong = load_ppd_song_meta(song_ppd_ini_path, dir_name)
+					if song_meta:
+						value[dir_name] = song_meta
+			dir_name = dir.get_next()
 	else:
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 	return value

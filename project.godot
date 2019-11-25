@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/HBHovereableButton.gd"
 }, {
+"base": "Reference",
+"class": "HBINIParser",
+"language": "GDScript",
+"path": "res://scripts/HBINIParser.gd"
+}, {
 "base": "Node",
 "class": "HBJudge",
 "language": "GDScript",
@@ -93,6 +98,11 @@ _global_script_classes=[ {
 "class": "HBNoteData",
 "language": "GDScript",
 "path": "res://scripts/HBNoteData.gd"
+}, {
+"base": "HBSong",
+"class": "HBPPDSong",
+"language": "GDScript",
+"path": "res://scripts/HBPPDSong.gd"
 }, {
 "base": "Reference",
 "class": "HBResourceQueue",
@@ -155,6 +165,7 @@ _global_script_class_icons={
 "HBEditorWidget": "",
 "HBHoldNoteData": "",
 "HBHovereableButton": "",
+"HBINIParser": "",
 "HBJudge": "",
 "HBListContainer": "",
 "HBMainMenu": "",
@@ -162,6 +173,7 @@ _global_script_class_icons={
 "HBMenuButton": "",
 "HBMultiNoteData": "",
 "HBNoteData": "",
+"HBPPDSong": "",
 "HBResourceQueue": "",
 "HBResult": "",
 "HBScrollList": "",
@@ -194,6 +206,7 @@ Log="*res://autoloads/Log.gd"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBInput="*res://autoloads/HBInput.gd"
+MouseTrap="*res://autoloads/MouseTrap.tscn"
 
 [debug]
 
