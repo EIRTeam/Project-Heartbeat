@@ -10,6 +10,7 @@ export(String) var cancel_text  = "No" setget set_cancel_text
 func _ready():
 	popup_exclusive = true
 	connect("cancel", self, "hide")
+	connect("accept", self, "hide")
 
 func set_text(value):
 	text = value

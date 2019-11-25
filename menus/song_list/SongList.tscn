@@ -36,4 +36,5 @@ __meta__ = {
 margin_right = -335.0
 margin_bottom = 6.10352e-05
 script = ExtResource( 4 )
+maintain_selected_child = true
 [connection signal="focus_entered" from="." to="ScrollContainer" method="grab_focus"]

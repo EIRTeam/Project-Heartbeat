@@ -2,6 +2,8 @@ extends ScrollContainer
 
 class_name HBScrollList
 
+export(bool) var maintain_selected_child = false
+
 onready var vbox_container = get_node("MarginContainer/VBoxContainer")
 const INTERP_SPEED = 5
 export(float) var visible_items = 3 # Items that will be visible after the selected one, if possible
@@ -94,11 +96,14 @@ func _process(delta):
 		get_v_scrollbar().rect_size.y = rect_size.y - BOTTOM_MARGIN - TOP_MARGIN + vbox_container.get_constant("separation")
 		get_v_scrollbar().rect_position.y = TOP_MARGIN
 func _on_focus_entered():
-	scroll_vertical = 0
-	scroll_target = 0
-	current_scroll = 0
-	for child in vbox_container.get_children():
-		if child.has_method("hover"):
-			select_child(child)
-			break
+	if maintain_selected_child and selected_child:
+		select_child(selected_child)
+	else:
+		scroll_vertical = 0
+		scroll_target = 0
+		current_scroll = 0
+		for child in vbox_container.get_children():
+			if child.has_method("hover"):
+				select_child(child)
+				break
 

@@ -5,9 +5,8 @@
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBConfirmationWindow.gd" type="Script" id=4]
 
-
-
 [node name="HBConfirmationWindow" type="Popup"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -17,6 +16,7 @@ margin_top = -118.0
 margin_right = 235.782
 margin_bottom = 118.0
 theme = ExtResource( 1 )
+popup_exclusive = true
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -51,6 +51,7 @@ margin_right = 500.0
 margin_bottom = 115.0
 text = "Are you sure you want to do this?"
 align = 1
+autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
 anchor_top = 1.0

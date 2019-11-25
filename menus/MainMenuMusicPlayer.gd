@@ -54,7 +54,8 @@ func play_song(song: HBSong):
 	if song == current_song:
 		target_volume = 0
 		return
-	next_audio = HBUtils.load_ogg(song.get_song_audio_res_path())
-	target_volume = FADE_OUT_VOLUME
 	current_song = song
-	song_queued = true
+	if song.audio != "":
+		next_audio = HBUtils.load_ogg(song.get_song_audio_res_path())
+		target_volume = FADE_OUT_VOLUME
+		song_queued = true

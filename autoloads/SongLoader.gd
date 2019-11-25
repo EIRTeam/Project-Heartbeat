@@ -36,8 +36,24 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
 	if file.open(path, File.READ) == OK:
 		var txt = file.get_as_text()
-		return HBPPDSong.from_ini(txt, id)
+		var song = HBPPDSong.from_ini(txt, id)
+		song.id = id
+		song.path = path.get_base_dir()
 		
+		# Audio file discovery
+		var dir := Directory.new()
+		if dir.open(song.path) == OK:
+			dir.list_dir_begin()
+			var dir_name = dir.get_next()
+			while dir_name != "":
+				print(dir_name)
+				if not dir.current_is_dir():
+					if dir_name.ends_with(".ogg"):
+						song.audio = dir_name
+						break
+				dir_name = dir.get_next()
+		
+		return song
 	return null
 func load_songs_from_path(path):
 	var dir := Directory.new()
