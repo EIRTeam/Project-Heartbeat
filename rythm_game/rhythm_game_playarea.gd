@@ -160,6 +160,7 @@ func play_note_sfx():
 		_sfx_played_this_cycle = true
 	
 func _process(delta):
+	_sfx_played_this_cycle = false
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
@@ -220,7 +221,6 @@ func _process(delta):
 					a.pressed = true
 					play_note_sfx()
 					Input.parse_input_event(a)
-	_sfx_played_this_cycle = false
 func _on_note_judged(note, judgement):
 	if not editing:
 		# Rating graphic

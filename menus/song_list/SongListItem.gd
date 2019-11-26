@@ -34,7 +34,7 @@ func _on_pressed():
 	if song is HBPPDSong:
 		if song.audio == "":
 			prev_focus = get_focus_owner()
-			$CanvasLayer/PPDAudioBrowseWindow.popup_centered_ratio(0.5)
+			$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 			return
 	emit_signal("song_selected", song)
 #	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
