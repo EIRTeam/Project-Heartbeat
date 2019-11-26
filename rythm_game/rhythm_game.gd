@@ -5,8 +5,8 @@ func _ready():
 	connect("resized", self, "set_game_size", [rect_size])
 
 	
-func set_song(song: HBSong):
-	$RhythmGame.set_song(song)
+func set_song(song: HBSong, difficulty: String):
+	$RhythmGame.set_song(song, difficulty)
 
 func set_game_size(j):
 	$RhythmGame.size = rect_size

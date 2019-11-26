@@ -74,22 +74,29 @@ func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
 	
-func set_song(song: HBSong):
+func set_song(song: HBSong, difficulty: String):
+	audio_stream_player.seek(0)
 	result = HBResult.new()
 	result.song_id = song.id
+	result.difficulty = difficulty
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	song_name_label.text = song.title
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
 	else:
 		author_label.text = song.artist
-	var chart_path = song.get_chart_path("easy")
-	var file = File.new()
-	file.open(chart_path, File.READ)
-	var result = JSON.parse(file.get_as_text()).result
+	var chart_path = song.get_chart_path(difficulty)
+	var chart : HBChart
+	if song is HBPPDSong:
+		chart = PPDLoader.PPD2HBChart(chart_path)
+	else:
+		var file = File.new()
+		file.open(chart_path, File.READ)
+		var result = JSON.parse(file.get_as_text()).result
+		chart = HBChart.new()
+
+		chart.deserialize(result)
 	
-	var chart = HBChart.new()
-	chart.deserialize(result)
 	timing_points = chart.get_timing_points()
 	play_song()
 func get_note_scale():
@@ -259,6 +266,10 @@ func pause_game():
 func resume():
 	get_tree().paused = false
 	play_from_pos(audio_stream_player.get_playback_position())
+	
+func restart():
+	get_tree().paused = false
+	set_song(SongLoader.songs[result.song_id], result.difficulty)
 	
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false

@@ -11,6 +11,8 @@ const LERP_SPEED = 3.0
 
 var prev_focus
 
+signal song_selected(song)
+
 func set_song(value: HBSong):
 	song = value
 	$VBoxContainer/TitleLabel.text = song.title
@@ -33,6 +35,8 @@ func _on_pressed():
 		if song.audio == "":
 			prev_focus = get_focus_owner()
 			$CanvasLayer/PPDAudioBrowseWindow.popup_centered_ratio(0.5)
+			return
+	emit_signal("song_selected", song)
 #	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()

@@ -4,6 +4,9 @@ signal start_pressed
 
 func _unhandled_input(event):
 	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventMouseButton:
+		if event is InputEventKey or event is InputEventJoypadButton:
+			if not event.pressed:
+				return
 		if $AnimationPlayer.current_animation != "FadeOut":
 			$AnimationPlayer.play("FadeOut")
 			emit_signal("start_pressed")

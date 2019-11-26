@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://menus/MainMenuLeft.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menus/song_list/SongListPreview.tscn" type="PackedScene" id=2]
@@ -17,6 +17,13 @@
 [ext_resource path="res://graphics/background.png" type="Texture" id=15]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=16]
 [ext_resource path="res://menus/Background.gd" type="Script" id=17]
+
+[sub_resource type="GDScript" id=26]
+script/source = "extends Spatial
+
+func _ready():
+	pass
+"
 
 [sub_resource type="Animation" id=1]
 resource_name = "def"
@@ -522,6 +529,7 @@ tracks/1/keys = {
 }
 
 [node name="MainMenu3D" type="Spatial"]
+script = SubResource( 26 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )

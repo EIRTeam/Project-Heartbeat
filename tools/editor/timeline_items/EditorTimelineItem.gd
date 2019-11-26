@@ -51,9 +51,11 @@ func _gui_input(event: InputEvent):
 		_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 		set_process(true)
 		editor.select_item(self)
+		get_tree().set_input_as_handled()
 
 	elif event.is_action_released("editor_select"):
 		set_process(false)
+		get_tree().set_input_as_handled()
 		
 func select():
 	modulate = Color(0.5, 0.5, 0.5, 1.0)

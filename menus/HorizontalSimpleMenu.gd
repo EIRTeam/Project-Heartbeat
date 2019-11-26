@@ -48,27 +48,30 @@ func _gui_input(event):
 		if selected_button:
 			if selected_button_i == 0:
 				if focus_neighbour_left:
+					get_tree().set_input_as_handled()
 					var neighbor_left = get_node(focus_neighbour_left) as Control
 					neighbor_left.grab_focus()
-
 			else:
+				get_tree().set_input_as_handled()
 				select_button(selected_button_i-1)
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
 			if selected_button_i == get_child_count()-1:
 				if focus_neighbour_right:
+					get_tree().set_input_as_handled()
 					var neighbour_right = get_node(focus_neighbour_right) as Control
 					neighbour_right.grab_focus()
 			else:
+				get_tree().set_input_as_handled()
 				select_button(selected_button_i+1)
 	elif event.is_action_pressed("ui_accept"):
 		if selected_button:
+			get_tree().set_input_as_handled()
 			selected_button.emit_signal("pressed")
 	elif event.is_action("ui_cancel"):
 		get_tree().set_input_as_handled()
 		emit_signal("back")
-			
 func _on_focus_exited():
 	if selected_button:
 		if stop_hover_on_focus_exit:

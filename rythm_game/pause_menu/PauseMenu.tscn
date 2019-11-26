@@ -53,4 +53,6 @@ flip_v = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="quit" from="ViewportContainer/Viewport/Spatial" to="." method="_on_quit"]
+[connection signal="restart" from="ViewportContainer/Viewport/Spatial" to="." method="_on_restart"]
 [connection signal="resumed" from="ViewportContainer/Viewport/Spatial" to="." method="emit_signal" binds= [ "resumed" ]]

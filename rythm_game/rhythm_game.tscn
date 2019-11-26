@@ -31,4 +31,5 @@ pause_mode = 1
 pause_mode = 1
 
 [node name="PauseMenu" parent="." instance=ExtResource( 5 )]
+[connection signal="restarted" from="PauseMenu" to="RhythmGame" method="restart"]
 [connection signal="resumed" from="PauseMenu" to="." method="_on_resumed"]

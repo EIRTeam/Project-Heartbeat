@@ -66,7 +66,6 @@ func load_songs_from_path(path):
 			if dir.current_is_dir() and not dir_name.begins_with("."):
 				var song_json_path = path + "/%s/song.json" % dir_name
 				var song_ppd_ini_path = path + "/%s/data.ini" % dir_name
-				print(song_ppd_ini_path)
 				var file = File.new()
 				
 				if file.file_exists(song_json_path):

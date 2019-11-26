@@ -15,6 +15,7 @@ func _gui_input(event):
 		if Input.is_action_pressed("editor_select"):
 			var center = rect_size / 2
 			set_angle(round(rad2deg(center.angle_to_point(get_local_mouse_position()))))
+			get_tree().set_input_as_handled()
 
 func _draw():
 	var center = rect_size / 2

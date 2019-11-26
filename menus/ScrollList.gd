@@ -83,12 +83,16 @@ func _gui_input(event):
 				select_child(vbox_container.get_child(child_i+1))
 				emit_signal("option_hovered", selected_child)
 				$AudioStreamPlayer.play()
+				get_tree().set_input_as_handled()
 			if event.is_action_pressed("ui_up") and not event.is_echo() and child_i > 0:
 				select_child(vbox_container.get_child(child_i-1))
 				emit_signal("option_hovered", selected_child)
 				$AudioStreamPlayer.play()
+				get_tree().set_input_as_handled()
 			if event.is_action_pressed("ui_accept"):
+				get_tree().set_input_as_handled()
 				selected_child.emit_signal("pressed")
+				get_tree().set_input_as_handled()
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )
 	scroll_vertical = current_scroll

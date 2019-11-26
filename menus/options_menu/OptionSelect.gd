@@ -29,4 +29,4 @@ func _gui_input(event):
 	if option_change != 0:
 		select(clamp(selected_option+option_change, 0, options.size()-1))
 		emit_signal("changed", options[selected_option])
-	
+		get_tree().set_input_as_handled()

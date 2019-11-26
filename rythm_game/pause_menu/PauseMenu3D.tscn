@@ -107,6 +107,7 @@ margin_right = 441.0
 margin_bottom = 64.0
 text = "Resume"
 align = 0
+next_menu = NodePath("")
 
 [node name="RestartButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
 margin_left = 0.0
@@ -115,6 +116,7 @@ margin_right = 441.0
 margin_bottom = 138.0
 text = "Restart"
 align = 0
+next_menu = NodePath("")
 
 [node name="QuitButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" instance=ExtResource( 6 )]
 margin_left = 0.0
@@ -123,6 +125,7 @@ margin_right = 441.0
 margin_bottom = 212.0
 text = "Quit"
 align = 0
+next_menu = NodePath("")
 
 [node name="ViewportRight" type="Viewport" parent="."]
 size = Vector2( 1280, 720 )
@@ -218,7 +221,6 @@ shape = SubResource( 8 )
 [node name="RestartPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-popup_exclusive = true
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
@@ -226,12 +228,13 @@ cancel_text = "Cancel"
 [node name="QuitPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-popup_exclusive = true
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/ResumeButton" to="." method="emit_signal" binds= [ "resumed" ]]
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton" to="RestartPopup" method="popup_centered"]
 [connection signal="pressed" from="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/QuitButton" to="QuitPopup" method="popup_centered"]
+[connection signal="accept" from="RestartPopup" to="." method="emit_signal" binds= [ "restart" ]]
 [connection signal="cancel" from="RestartPopup" to="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" method="grab_focus"]
+[connection signal="accept" from="QuitPopup" to="." method="emit_signal" binds= [ "quit" ]]
 [connection signal="cancel" from="QuitPopup" to="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" method="grab_focus"]

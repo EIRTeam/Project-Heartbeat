@@ -51,10 +51,12 @@ size_flags_horizontal = 3
 theme = SubResource( 1 )
 text = "Song Title"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PPDAudioBrowseWindow" parent="CanvasLayer" instance=ExtResource( 6 )]
+[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 6 )]
+margin_left = -174.218
+margin_top = 217.0
+margin_right = 375.782
+margin_bottom = 453.0
 text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
 [connection signal="pressed" from="." to="." method="_on_pressed"]
-[connection signal="accept" from="CanvasLayer/PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_accept"]
-[connection signal="cancel" from="CanvasLayer/PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_cancel"]
+[connection signal="accept" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_accept"]
+[connection signal="cancel" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_cancel"]

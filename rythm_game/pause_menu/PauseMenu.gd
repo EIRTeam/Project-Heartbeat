@@ -1,7 +1,7 @@
 extends Panel
 
 signal resumed
-
+signal restarted
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
@@ -21,3 +21,17 @@ func show_pause():
 	show()
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.show()
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.grab_focus()
+
+
+func _on_quit():
+	var new_scene = preload("res://menus/MainMenu.tscn")
+	var scene = new_scene.instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	get_tree().paused = false
+
+
+func _on_restart():
+	emit_signal("restarted")
+	hide()
