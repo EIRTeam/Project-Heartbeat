@@ -83,3 +83,7 @@ static func load_ogg(path: String) -> AudioStreamOGGVorbis:
 	stream.data = bytes
 	ogg_file.close()
 	return stream
+	
+static func find_key(dictionary, value):
+	var index = dictionary.values().find(value)
+	return dictionary.keys()[index]

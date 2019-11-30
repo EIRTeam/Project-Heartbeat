@@ -19,7 +19,7 @@
 [ext_resource path="res://menus/Background.gd" type="Script" id=17]
 [ext_resource path="res://menus/MainMenu.gd" type="Script" id=18]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -44,6 +44,33 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -58,33 +85,6 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 0.95, 0.95 ) ]
 }
 tracks/1/type = "value"
@@ -100,7 +100,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=4]
 script/source = "extends VBoxContainer
 
 func _ready():
@@ -111,7 +111,7 @@ func _on_DiscordButton_pressed():
 	OS.shell_open(\"https://discord.gg/qGMdbez\")
 "
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -138,7 +138,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -165,7 +165,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -192,7 +192,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -243,7 +243,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
@@ -294,43 +294,43 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="QuadMesh" id=11]
+[sub_resource type="QuadMesh" id=10]
 size = Vector2( 1.6, 0.9 )
 
-[sub_resource type="ViewportTexture" id=12]
+[sub_resource type="ViewportTexture" id=11]
 flags = 5
 viewport_path = NodePath("ViewportLeft")
 
-[sub_resource type="SpatialMaterial" id=13]
+[sub_resource type="SpatialMaterial" id=12]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 12 )
+albedo_texture = SubResource( 11 )
 
-[sub_resource type="BoxShape" id=14]
+[sub_resource type="BoxShape" id=13]
 extents = Vector3( 0.8, 0.45, 0.01 )
 
-[sub_resource type="QuadMesh" id=15]
+[sub_resource type="QuadMesh" id=14]
 size = Vector2( 0.45, 0.9 )
 
-[sub_resource type="ViewportTexture" id=16]
+[sub_resource type="ViewportTexture" id=15]
 flags = 5
 viewport_path = NodePath("ViewportRight")
 
-[sub_resource type="SpatialMaterial" id=17]
+[sub_resource type="SpatialMaterial" id=16]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 16 )
+albedo_texture = SubResource( 15 )
 
-[sub_resource type="BoxShape" id=18]
+[sub_resource type="BoxShape" id=17]
 extents = Vector3( 0.225, 0.45, 0.01 )
 
-[sub_resource type="Shader" id=19]
+[sub_resource type="Shader" id=18]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -416,26 +416,26 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=20]
-shader = SubResource( 19 )
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 18 )
 shader_param/FREQ_RANGE = 64.0
 
-[sub_resource type="QuadMesh" id=21]
+[sub_resource type="QuadMesh" id=20]
 size = Vector2( 1.6, 0.9 )
 
-[sub_resource type="ViewportTexture" id=22]
+[sub_resource type="ViewportTexture" id=21]
 viewport_path = NodePath("ViewportBackground")
 
-[sub_resource type="SpatialMaterial" id=23]
+[sub_resource type="SpatialMaterial" id=22]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_fixed_size = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
-albedo_texture = SubResource( 22 )
+albedo_texture = SubResource( 21 )
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=23]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
@@ -462,7 +462,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.7, 1 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=24]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
@@ -489,7 +489,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=25]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("ViewportRight/SongListPreview:modulate")
@@ -597,9 +597,9 @@ rect_min_size = Vector2( 0, 0 )
 rect_scale = Vector2( 0.95, 0.95 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportRight/MusicPlayer/MainMenuMusicPlayer"]
-anims/def = SubResource( 2 )
-anims/fade_in = SubResource( 3 )
-anims/fade_out = SubResource( 4 )
+anims/def = SubResource( 1 )
+anims/fade_in = SubResource( 2 )
+anims/fade_out = SubResource( 3 )
 
 [node name="StartMenuRight" type="Control" parent="ViewportRight"]
 modulate = Color( 1, 1, 1, 0 )
@@ -615,7 +615,7 @@ margin_top = 620.0
 margin_right = 20.0
 margin_bottom = 680.0
 rect_min_size = Vector2( 0, 60 )
-script = SubResource( 5 )
+script = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -641,9 +641,9 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportRight/StartMenuRight"]
-anims/def = SubResource( 6 )
-anims/fade_in = SubResource( 7 )
-anims/fade_out = SubResource( 8 )
+anims/def = SubResource( 5 )
+anims/fade_in = SubResource( 6 )
+anims/fade_out = SubResource( 7 )
 
 [node name="StartMenu" type="Control" parent="."]
 anchor_right = 1.0
@@ -720,8 +720,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StartMenu/PressStart"]
-anims/Def = SubResource( 9 )
-anims/FadeOut = SubResource( 10 )
+anims/Def = SubResource( 8 )
+anims/FadeOut = SubResource( 9 )
 
 [node name="AreaLeft" type="Area" parent="."]
 transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.24791, 0, -0.518273 )
@@ -729,11 +729,11 @@ script = ExtResource( 14 )
 viewport_path = NodePath("../ViewportLeft")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
-mesh = SubResource( 11 )
-material/0 = SubResource( 13 )
+mesh = SubResource( 10 )
+material/0 = SubResource( 12 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
-shape = SubResource( 14 )
+shape = SubResource( 13 )
 
 [node name="AreaRight" type="Area" parent="."]
 transform = Transform( 0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.651739, 0, -0.235812 )
@@ -741,12 +741,12 @@ script = ExtResource( 14 )
 viewport_path = NodePath("../ViewportRight")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
-mesh = SubResource( 15 )
-material/0 = SubResource( 17 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 16 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
 transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0 )
-shape = SubResource( 18 )
+shape = SubResource( 17 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
@@ -765,7 +765,7 @@ __meta__ = {
 }
 
 [node name="MainMenuVisualizer" type="Panel" parent="ViewportBackground"]
-material = SubResource( 20 )
+material = SubResource( 19 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 16 )
@@ -775,21 +775,20 @@ __meta__ = {
 
 [node name="Background" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.82065 )
-mesh = SubResource( 21 )
-material/0 = SubResource( 23 )
+mesh = SubResource( 20 )
+material/0 = SubResource( 22 )
 script = ExtResource( 17 )
 viewport_path = NodePath("../ViewportBackground")
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/def = SubResource( 24 )
-anims/fade_in = SubResource( 25 )
-anims/fade_out = SubResource( 26 )
+anims/def = SubResource( 23 )
+anims/fade_in = SubResource( 24 )
+anims/fade_out = SubResource( 25 )
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_in" ]]
-[connection signal="navigate_to_menu" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportLeft/MainMenuLeft/StartMenu" method="navigate_to_menu"]
 [connection signal="navigated" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_out" ]]
-[connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_out" ]]
+[connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="pressed" from="ViewportRight/StartMenuRight/SocialButtons/HorizontalSimpleMenu/DiscordButton" to="ViewportRight/StartMenuRight/SocialButtons" method="_on_DiscordButton_pressed"]
 [connection signal="start_pressed" from="StartMenu/PressStart" to="ViewportLeft/MainMenuLeft" method="_on_start_pressed"]

@@ -48,8 +48,8 @@ func update_graphic_positions_and_scale(time: float):
 	
 func set_trail_color():
 	var gradient = Gradient.new()
-	var color1 = Color(note_data.NOTE_COLORS[note_data.note_type].color)
-	var color2 = Color(note_data.NOTE_COLORS[note_data.note_type].color)
+	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	color1.a = 0.0
 	color2.a = 0.5
 	gradient.set_color(0, color1)

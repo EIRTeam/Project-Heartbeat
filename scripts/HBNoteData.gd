@@ -85,7 +85,10 @@ func get_drawer():
 	return load("res://rythm_game/SingleNoteDrawer.tscn")
 
 static func get_note_graphics(type):
-	return NOTE_GRAPHICS[type]
+	var graphics = IconPackLoader.get_variations(HBUtils.find_key(NOTE_TYPE, type))
+	if graphics == null:
+		graphics = NOTE_GRAPHICS[type]
+	return graphics
 	
 static func can_show_in_editor():
 	return true
