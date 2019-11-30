@@ -10,9 +10,22 @@ const SONGS_PATH = "res://songs"
 
 const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 
+const SONG_SCORES_PATH = "user://scores.json"
+const SCORES_KEY = "ScoresV1"
+var scores = {}
 func _ready():
 	var dir = Directory.new()
 	load_all_songs_meta()
+	
+func load_scores():
+	var dir := Directory.new()
+	if dir.file_exists(SONG_SCORES_PATH):
+		pass
+	
+func save_scores():
+	var file = File.new()
+	#file.get_buffer()
+	file.open_encrypted_with_pass(SONG_SCORES_PATH, File.COMPRESSION_ZSTD, SCORES_KEY)
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
@@ -84,3 +97,4 @@ func load_all_songs_meta():
 	for path in SONG_SEARCH_PATHS:
 		songs = HBUtils.merge_dict(songs, load_songs_from_path(path))
 	emit_signal("all_songs_loaded")
+

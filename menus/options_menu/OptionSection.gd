@@ -39,8 +39,8 @@ func _ready():
 func _unhandled_input(event):
 	if visible:
 		if event.is_action_pressed("ui_cancel"):
-			emit_signal("back")
 			get_tree().set_input_as_handled()
+			emit_signal("back")
 			if scroll_container.selected_child:
 				scroll_container.selected_child.stop_hover()
 		else:

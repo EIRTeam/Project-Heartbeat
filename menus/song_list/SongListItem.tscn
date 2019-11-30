@@ -1,62 +1,113 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=1]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=2]
+[ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=1]
+[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/song_list/SongListItem.gd" type="Script" id=3]
-[ext_resource path="res://fonts/SongLabelAuthor.tres" type="DynamicFont" id=4]
-[ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=5]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=4]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://fonts/SongLabelAuthor.tres" type="DynamicFont" id=6]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=7]
+[ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=8]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=9]
+
+[sub_resource type="DynamicFont" id=2]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 0.2 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
 
 [sub_resource type="Theme" id=1]
-default_font = ExtResource( 2 )
+default_font = ExtResource( 7 )
 
 [node name="Control" type="Button"]
 anchor_right = 1.0
 margin_right = -280.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
+rect_min_size = Vector2( 0, 100 )
 focus_mode = 0
-custom_styles/hover = ExtResource( 5 )
-custom_styles/normal = ExtResource( 1 )
+custom_styles/hover = ExtResource( 1 )
+custom_styles/normal = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+margin_right = 90.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="HBoxContainer/TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 19.0
+custom_fonts/font = SubResource( 2 )
+text = "10"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 94.0
+margin_right = 1000.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 22.0
+margin_right = 906.0
+margin_bottom = 53.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AuthorLabel" type="Label" parent="VBoxContainer"]
-margin_top = 9.0
-margin_right = 420.0
-margin_bottom = 40.0
-size_flags_horizontal = 3
+[node name="AuthorLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 230.0
+margin_bottom = 31.0
 size_flags_stretch_ratio = 0.75
-custom_fonts/font = ExtResource( 4 )
-text = "Ken Blast"
-align = 2
+custom_fonts/font = ExtResource( 6 )
+text = "Ken asdsad"
+align = 3
 uppercase = true
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
-margin_left = 440.0
-margin_top = 9.0
-margin_right = 1000.0
-margin_bottom = 40.0
+[node name="TitleLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 250.0
+margin_right = 906.0
+margin_bottom = 31.0
 size_flags_horizontal = 3
 theme = SubResource( 1 )
 text = "Song Title"
 
-[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 6 )]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 57.0
+margin_right = 906.0
+margin_bottom = 77.0
+custom_fonts/font = ExtResource( 8 )
+text = "105.05%"
+
+[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 9 )]
 margin_left = -174.218
 margin_top = 217.0
 margin_right = 375.782
 margin_bottom = 453.0
 text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
+accept_text = "Yes"
+cancel_text = "No"
 [connection signal="pressed" from="." to="." method="_on_pressed"]
 [connection signal="accept" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_accept"]
 [connection signal="cancel" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_cancel"]

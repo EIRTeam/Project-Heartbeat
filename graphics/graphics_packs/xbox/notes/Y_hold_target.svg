@@ -1,0 +1,29 @@
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" id="svg1730" width="100" height="100" viewBox="0 0 100 100" sodipodi:docname="Y.svg" inkscape:version="0.92.4 5da689c313, 2019-01-14" inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/notes/xbox/Y.png" inkscape:export-xdpi="61" inkscape:export-ydpi="61">
+  <metadata id="metadata1736">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs1734">
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath888">
+      <text id="text892" y="197.22488" x="140.47195" style="font-style:normal;font-weight:normal;font-size:12.1545887px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" xml:space="preserve"><tspan style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" y="197.22488" x="140.47195" id="tspan890" sodipodi:role="line">B</tspan></text>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="clipPath2358">
+      <text id="text2362" y="80.616074" x="27.702578" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.75931549px;line-height:1.25;font-family:Helvetica;-inkscape-font-specification:Helvetica;letter-spacing:0px;word-spacing:0px;fill:#eeb136;fill-opacity:1;stroke:#000000;stroke-width:2.14398289;stroke-opacity:1" xml:space="preserve"><tspan style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#eeb136;fill-opacity:1;stroke:#000000;stroke-width:2.14398289;stroke-opacity:1" y="80.616074" x="27.702578" id="tspan2360" sodipodi:role="line">Y</tspan></text>
+    </clipPath>
+  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.15193133" width="1.3038627" y="-0.099159664" height="1.1983193">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="2.433064" id="gaussianBlurBack"/>
+    </filter></defs>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="2560" inkscape:window-height="1028" id="namedview1732" showgrid="false" showguides="false" inkscape:guide-bbox="true" inkscape:zoom="6.675088" inkscape:cx="22.609153" inkscape:cy="42.225786" inkscape:window-x="1920" inkscape:window-y="24" inkscape:window-maximized="1" inkscape:current-layer="g2392">
+    <sodipodi:guide inkscape:locked="false" id="guide2343" orientation="0,1" position="61.422411,19.625209"/>
+    <sodipodi:guide inkscape:locked="false" id="guide2345" orientation="0,1" position="42.845877,80.747999"/>
+  </sodipodi:namedview>
+  <g id="g2392">
+    <svg:path d="m 49.901376,43.053495 h 0.197247 L 59.960944,19.383924 H 75.346166 L 57.100871,56.517708 V 80.616076 H 42.899129 V 56.517708 L 24.653835,19.383924 h 15.97696 z" style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:2.0;stroke-opacity:1;filter:url(#backFilter);" id="path828" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccccccccc"/>
+  <path d="m 49.901376,43.053495 h 0.197247 L 59.960944,19.383924 H 75.346166 L 57.100871,56.517708 V 80.616076 H 42.899129 V 56.517708 L 24.653835,19.383924 h 15.97696 z" style="fill:#272646;fill-opacity:1;stroke:#eeb136;stroke-width:3;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" id="path828" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccccccccc"/>
+  </g>
+</svg>

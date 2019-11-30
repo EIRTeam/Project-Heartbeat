@@ -10,3 +10,6 @@ func hover():
 
 func stop_hover():
 	add_stylebox_override("normal", normal_style)
+
+func _ready():
+	stop_hover()

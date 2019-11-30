@@ -57,6 +57,7 @@ margin_top = 330.0
 margin_right = 430.0
 margin_bottom = 390.0
 icon = ExtResource( 8 )
+align = 0
 next_menu = NodePath("../../../SongListMenu")
 
 [node name="OptionsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
@@ -66,6 +67,7 @@ margin_right = 430.0
 margin_bottom = 460.0
 text = "Options"
 icon = ExtResource( 7 )
+align = 0
 next_menu = NodePath("../../../OptionsMenu")
 
 [node name="ToolsButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
@@ -75,6 +77,7 @@ margin_right = 430.0
 margin_bottom = 529.999
 text = "Tools"
 icon = ExtResource( 10 )
+align = 0
 next_menu = NodePath("../../../ToolsListMenu")
 
 [node name="ExitButton" parent="StartMenu/StartMenu" instance=ExtResource( 3 )]
@@ -84,6 +87,8 @@ margin_right = 430.0
 margin_bottom = 599.999
 text = "Exit"
 icon = ExtResource( 11 )
+align = 0
+next_menu = NodePath("")
 
 [node name="OptionsMenu" type="Control" parent="."]
 margin_right = 1020.0
@@ -124,6 +129,8 @@ margin_top = 330.0
 margin_right = 545.0
 margin_bottom = 390.0
 text = "Chart Editor"
+align = 0
+next_menu = NodePath("")
 
 [node name="SongMetaEditorButton" parent="ToolsListMenu/ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -132,6 +139,8 @@ margin_right = 608.0
 margin_bottom = 460.0
 rect_scale = Vector2( 0.95, 0.95 )
 text = "Song Metadata Editor"
+align = 0
+next_menu = NodePath("")
 
 [node name="SongListMenu" parent="." instance=ExtResource( 9 )]
 anchor_right = 0.0

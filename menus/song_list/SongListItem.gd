@@ -11,15 +11,18 @@ const LERP_SPEED = 3.0
 
 var prev_focus
 
+onready var title_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/TitleLabel")
+onready var author_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
+
 signal song_selected(song)
 
 func set_song(value: HBSong):
 	song = value
-	$VBoxContainer/TitleLabel.text = song.title
+	title_label.text = song.title
 	if song.artist_alias != "":
-		$VBoxContainer/AuthorLabel.text = song.artist_alias
+		author_label.text = song.artist_alias
 	else:
-		$VBoxContainer/AuthorLabel.text = song.artist
+		author_label.text = song.artist
 
 func hover():
 	add_stylebox_override("normal", hover_style)

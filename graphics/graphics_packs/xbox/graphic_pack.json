@@ -1,0 +1,125 @@
+{
+    "name": "Xbox™",
+    "graphics": {
+        "LEFT": {
+            "color": "#4296f3",
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X_target"
+                },
+                "hold_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X_hold_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X_multi_note_target"
+                }
+            }
+        },
+        "DOWN": {
+            "color": "#87d639",
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/A",
+                    "target_path": "notes/A"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/A_target",
+                    "target_path": "notes/A_target"
+                },
+                "hold_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/A",
+                    "target_path": "notes/A_hold_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/A",
+                    "target_path": "notes/A_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/A_target",
+                    "target_path": "notes/A_multi_note_target"
+                }
+            }
+        },
+        "RIGHT": {
+            "color": "#e02828",
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/B",
+                    "target_path": "notes/B"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/B_target",
+                    "target_path": "notes/B_target"
+                },
+                "hold_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/B",
+                    "target_path": "notes/B_hold_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/B",
+                    "target_path": "notes/B_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/B_target",
+                    "target_path": "notes/B_multi_note_target"
+                }
+            }
+        },
+        "UP": {
+            "color": "#eeb136",
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/Y"
+                    ,"target_path": "notes/Y"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/Y_target"
+                },
+                "hold_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/Y_hold_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/Y_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/Y_multi_note_target"
+                }
+            }
+        }
+    }
+}
