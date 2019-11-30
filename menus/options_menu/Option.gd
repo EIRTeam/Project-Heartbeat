@@ -4,6 +4,7 @@ var normal_style
 var hover_style
 var value setget set_value
 signal hover
+
 func set_value(val):
 	value = val
 func _init():

@@ -13,6 +13,11 @@ var OPTIONS = {
 	"Controls": {
 	},
 	"Graphics": {
+		"icon_pack": {
+			"name": "Icons",
+			"description": "The type of icons to use, depending on your input method of choice",
+			"type": "icon_type_selector"
+		},
 		"visualizer_enabled": {
 			"name": "Enable visualizer",
 			"description": "Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems."
@@ -29,6 +34,7 @@ onready var buttons = get_node("VBoxContainer")
 
 const OptionMenuButton = preload("res://menus/options_menu/OptionMenuButton.tscn")
 const OptionSection = preload("res://menus/options_menu/OptionSection.tscn")
+
 var section_name_to_section_control = {}
 
 func _ready():

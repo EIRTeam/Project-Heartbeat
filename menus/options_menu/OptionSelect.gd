@@ -1,6 +1,7 @@
 extends "Option.gd"
 
 var options = ["Yes", "No"]
+var options_pretty = []
 var selected_option = 0
 var text setget set_text
 
@@ -16,7 +17,10 @@ func _ready():
 	
 func select(option: int):
 	selected_option = option
-	$HBoxContainer/Control/OptionLabel.text = options[option]
+	if options_pretty.size() > option:
+		$HBoxContainer/Control/OptionLabel.text = options_pretty[option]
+	else:
+		$HBoxContainer/Control/OptionLabel.text = options[option]
 	
 func _gui_input(event):
 	var option_change = 0
@@ -26,6 +30,7 @@ func _gui_input(event):
 	elif event.is_action_pressed("ui_right"):
 		option_change = 1
 		get_tree().set_input_as_handled()
+
 	if option_change != 0:
 		select(clamp(selected_option+option_change, 0, options.size()-1))
 		emit_signal("changed", options[selected_option])

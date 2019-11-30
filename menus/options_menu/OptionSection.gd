@@ -4,6 +4,7 @@ var section_data = {}
 
 const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
+const OptionIconTypeSelect = preload("res://menus/options_menu/OptionIconTypeSelect.tscn")
 signal back
 signal changed(property_name, new_value)
 
@@ -15,23 +16,28 @@ func _ready():
 		var option = section_data[option_name]
 		print(option_name)
 		var option_scene
-		match typeof(option.default_value):
-			TYPE_BOOL:
-				option_scene = OptionBool.instance()
-			TYPE_REAL, TYPE_INT:
-				option_scene = OptionRange.instance()
-				if option.has("maximum"):
-					option_scene.maximum = option.maximum
-				if option.has("minimum"):
-					option_scene.minimum = option.minimum
-				if option.has("step"):
-					option_scene.step = option.step
+		if option.has('type'):
+			match option.type:
+				"icon_type_selector":
+					option_scene = OptionIconTypeSelect.instance()
+		else:
+			match typeof(option.default_value):
+				TYPE_BOOL:
+					option_scene = OptionBool.instance()
+				TYPE_REAL, TYPE_INT:
+					option_scene = OptionRange.instance()
+					if option.has("maximum"):
+						option_scene.maximum = option.maximum
+					if option.has("minimum"):
+						option_scene.minimum = option.minimum
+					if option.has("step"):
+						option_scene.step = option.step
 		if option_scene:
 			options_container.add_child(option_scene)
+			option_scene.value = section_data[option_name].default_value
 			option_scene.text = section_data[option_name].name
 			option_scene.connect("changed", self, "_on_value_changed", [option_name])
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
-			option_scene.value = section_data[option_name].default_value
 		if section_data.size() > 0:
 			# We force a hover on the first section data to make sure the description
 			# text is completely filled
