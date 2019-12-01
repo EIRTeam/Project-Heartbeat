@@ -34,7 +34,7 @@ var time_begin: int
 var time_delay: float
 var time: float
 var current_combo = 0
-var timing_points = []
+var timing_points = [] setget set_timing_points
 
 var _sfx_played_this_cycle = false
 
@@ -51,11 +51,24 @@ var editing = false
 
 const MAX_NOTE_SFX = 4
 
+var current_bpm = 180.0
+
 signal note_updated(note)
 signal note_selected(note)
 signal time_changed(time)
 func set_size(value):
 	size = value
+
+func set_timing_points(points):
+	timing_points = points
+	# When timing points change, we might introduce new BPM change events
+	if editing:
+		for point in points:
+			if point.time <= time:
+				if point is HBBPMChange:
+					current_bpm = point.bpm
+			else:
+				break
 
 func _ready():
 #	var note = HBNoteData.new()
@@ -79,6 +92,7 @@ func set_song(song: HBSong, difficulty: String):
 	result = HBResult.new()
 	result.song_id = song.id
 	result.difficulty = difficulty
+	current_bpm = song.bpm
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	song_name_label.text = song.title
 	if song.artist_alias != "":
@@ -186,7 +200,7 @@ func _process(delta):
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
-			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.time_out):
+			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:

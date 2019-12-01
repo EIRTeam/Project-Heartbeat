@@ -9,6 +9,8 @@ func get_inspector_properties():
 	return {
 		"time": "int",
 		"position": "Vector2",
+		"distance": "float",
+		"auto_time_out": "bool",
 		"time_out": "int",
 		"oscillation_amplitude": "float",
 		"oscillation_frequency": "int",

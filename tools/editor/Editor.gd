@@ -261,7 +261,7 @@ func _on_EditorTimeline_layers_changed():
 	recording_layer_select_button.select(0)
 
 func load_song(song: HBSong, difficulty: String):
-	
+	rhythm_game.current_bpm = song.bpm
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
 	file.open(chart_path, File.READ)

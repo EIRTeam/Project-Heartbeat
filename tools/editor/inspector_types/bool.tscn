@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/editor/inspector_types/bool.gd" type="Script" id=1]
+
+[node name="Vector2" type="HBoxContainer"]
+margin_right = 26.0
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="."]
+margin_right = 26.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+align = 3
+[connection signal="toggled" from="CheckBox" to="." method="_on_Spinbox_toggled"]

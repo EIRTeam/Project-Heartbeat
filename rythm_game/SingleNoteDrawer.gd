@@ -30,12 +30,13 @@ func _unhandled_tap(event: InputEvent):
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
-	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
+	print(get_time_out())
+	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Movement along wave
 	var oscillation_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
 	var starting_pos = game.remap_coords(get_initial_position())
-	
-	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/note_data.time_out)
+	print(get_time_out())
+	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
@@ -43,7 +44,7 @@ func update_graphic_positions_and_scale(time: float):
 	else:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
-	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / note_data.time_out)
+	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	draw_trail(time)
 	
 func set_trail_color():
@@ -58,16 +59,17 @@ func set_trail_color():
 	$Line2D2.gradient = gradient
 	
 func draw_trail(time: float):
-	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
+	
+	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Trail will be time_out / 2 behind
-	var trail_time = note_data.time_out/2.0
+	var trail_time = get_time_out()/2.0
 	$Line2D.clear_points()
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
 	for i in range(TRAIL_RESOLUTION):
 		var starting_pos = game.remap_coords(get_initial_position())
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
-		var t = ((time_out_distance - trail_time) + t_trail_time) / note_data.time_out
+		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
 		var point1 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, note_data.oscillation_phase_shift)
 		var point2 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, -note_data.oscillation_phase_shift)
@@ -110,7 +112,7 @@ func _on_game_time_changed(time: float):
 	update_graphic_positions_and_scale(time)
 	if not is_queued_for_deletion():
 		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
-		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
+		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
 			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
 			emit_signal("note_removed")
 			queue_free()

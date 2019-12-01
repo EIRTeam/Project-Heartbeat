@@ -49,9 +49,20 @@ func get_initial_position():
 			continue
 		if distance > 0 and distance < length:
 			length = distance
+	
+	# We used to make the notes come from the corner, but we realised we are idits and we don't need this anymore
+	
+#	length = clamp(length, note_data.distance, note_data.distance)
+	length = note_data.distance
 	var point = Vector2(px+length*angle_cos, py+length*angle_sin)
 
 	return point
+
+func get_time_out():
+	if note_data.auto_time_out:
+		return int((60.0  / game.current_bpm * (1 + 3) * 1000.0))
+	else:
+		return note_data.time_out
 
 func judge_note_input(event: InputEvent, time: float, released = false):
 	# Judging tapped keys

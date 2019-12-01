@@ -5,7 +5,8 @@ const INSPECTOR_TYPES = {
 	"Vector2": preload("res://tools/editor/inspector_types/Vector2.tscn"),
 	"float": preload("res://tools/editor/inspector_types/float.tscn"),
 	"NoteTypeSelector": preload("res://tools/editor/inspector_types/NoteTypeSelector.tscn"),
-	"Angle": preload("res://tools/editor/inspector_types/angle.tscn")
+	"Angle": preload("res://tools/editor/inspector_types/angle.tscn"),
+	"bool": preload("res://tools/editor/inspector_types/bool.tscn")
 }
 
 onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")

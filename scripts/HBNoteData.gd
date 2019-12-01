@@ -71,15 +71,23 @@ const NOTE_COLORS = {
 }
 var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area
 var time_out: int = 1400 # time where the note target starts being visible
+var auto_time_out: bool = true # If we should get the time out value from BPM change events
 var entry_angle: float = 0.0
 var oscillation_amplitude = 0.05
 var oscillation_frequency = 1
 var oscillation_phase_shift = 3
+var distance = 1.0
 func _init():
-	serializable_fields += ["position", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
+	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
 
 func get_serialized_type():
 	return "Note"
+	
+func get_time_out(bpm):
+	if auto_time_out:
+		return int((60.0  / bpm * (1 + 3) * 1000.0))
+	else:
+		return time_out
 	
 func get_drawer():
 	return load("res://rythm_game/SingleNoteDrawer.tscn")

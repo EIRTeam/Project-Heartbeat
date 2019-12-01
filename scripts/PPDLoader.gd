@@ -14,6 +14,9 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 	var u = 0
 	var marks = []
 	var right_rotation = false
+	
+	var params = {}
+	
 	while file.get_position() < file_offset + file_len:
 		var time = file.get_float()
 		if is_nan(time):
@@ -38,6 +41,13 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 						if xml.get_named_attribute_value("Key") == "#RightRotation":
 							if xml.get_named_attribute_value("Value") == "1":
 								right_rotation = true
+						if xml.get_named_attribute_value("Key") == "Distance":
+							if not params.has(mark_id):
+								params[mark_id] = []
+							params[mark_id].append({
+								"type": "distance",
+								"distance": float(xml.get_named_attribute_value("Value"))
+							})
 
 				index += 1
 				if index >= count:
@@ -75,7 +85,10 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 			break
 
 		marks.append(note_data)
-	return marks
+	return {
+		"marks": marks,
+		"params": params
+	}
 
 enum PPDButtons {
 	Square,
@@ -109,7 +122,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 		PPDButtons.L: HBNoteData.NOTE_TYPE.SLIDE_LEFT
 	}
 	var chart = HBChart.new()
-	var marks = _get_marks_from_ppd_pack(path)
+	var data = _get_marks_from_ppd_pack(path)
+	var marks = data.marks
+	var params = data.params
 	var prev_note
 	
 	# For when multiple notes are on screen, to count how many layers
@@ -128,6 +143,8 @@ static func PPD2HBChart(path: String) -> HBChart:
 		note_data = HBNoteData.new()
 		note_data.time = int(note.time*1000.0)
 		note_data.time_out = (60.0  / 250.0 * (1.0 + 3.0) * 1000.0)
+		note_data.auto_time_out = true
+		
 		note_data.position.x = note.position.x / 800.0
 		note_data.position.y = note.position.y / 450
 		note_data.entry_angle = 180-rad2deg(note.rotation)
@@ -154,6 +171,10 @@ static func PPD2HBChart(path: String) -> HBChart:
 		while chart.layers.size() < same_position_note_count+1:
 			chart.layers.append({"timing_points": [], "name": "New Layer"})
 			
+		if params.has(note.id):
+			for param in params[note.id]:
+				if param.type == "distance":
+					note_data.distance = param.distance/(300000.0)
 			
 		chart.layers[same_position_note_count].timing_points.append(note_data)
 		prev_note = note_data

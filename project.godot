@@ -20,9 +20,19 @@ _global_script_classes=[ {
 "path": "res://tools/editor/timeline_items/EditorTimelineItem.gd"
 }, {
 "base": "Control",
+"class": "EditorTimelineItemBPMChange",
+"language": "GDScript",
+"path": "res://tools/editor/timeline_items/EditorTimelineItemBPMChange.gd"
+}, {
+"base": "Control",
 "class": "EditorTimelineItemNote",
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemNote.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBBPMChange",
+"language": "GDScript",
+"path": "res://scripts/HBBPMChange.gd"
 }, {
 "base": "Reference",
 "class": "HBChart",
@@ -157,7 +167,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "BBCWaveform": "",
 "EditorTimelineItem": "",
+"EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
+"HBBPMChange": "",
 "HBChart": "",
 "HBDurationNoteData": "",
 "HBEditorAxisGizmoArrow": "",

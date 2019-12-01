@@ -12,10 +12,10 @@ static func from_ini(content: String, id: String):
 	var song := load("res://scripts/HBPPDSong.gd").new() as HBSong
 	song.title = id
 	song.artist = "[PPD]"
-	if dict.has("authorname"):
-		song.creator = dict.authorname
-	if dict.has("bpm"):
-		song.bpm = dict.bpm
+	if dict.setting.has("authorname"):
+		song.creator = dict.setting.authorname
+	if dict.setting.has("bpm"):
+		song.bpm = float(dict.setting.bpm)
 		
 	var difficulties = ["easy", "normal", "hard", "extreme"]
 	

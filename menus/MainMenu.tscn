@@ -784,9 +784,8 @@ viewport_path = NodePath("../ViewportBackground")
 anims/def = SubResource( 23 )
 anims/fade_in = SubResource( 24 )
 anims/fade_out = SubResource( 25 )
-[connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_in" ]]
-[connection signal="navigated" from="ViewportLeft/MainMenuLeft/StartMenu/StartMenu" to="ViewportRight/StartMenuRight/AnimationPlayer" method="play" binds= [ "fade_out" ]]
+[connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/StartMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="ViewportRight/MusicPlayer/MainMenuMusicPlayer/AnimationPlayer" method="play" binds= [ "fade_out" ]]
 [connection signal="focus_entered" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_in" ]]
 [connection signal="navigation_back" from="ViewportLeft/MainMenuLeft/SongListMenu" to="SongListPreviewAnimationPlayer" method="play" binds= [ "fade_out" ]]
