@@ -7,7 +7,10 @@ export(float) var target_scale_modifier = 1.0
 
 const TRAIL_RESOLUTION = 32
 
-
+func set_connected_notes(val):
+	.set_connected_notes(val)
+	if connected_notes.size() > 0:
+		_on_note_type_changed()
 
 func set_pickable(value):
 	pickable = value
@@ -30,12 +33,12 @@ func _unhandled_tap(event: InputEvent):
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
-	print(get_time_out())
+
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Movement along wave
 	var oscillation_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
 	var starting_pos = game.remap_coords(get_initial_position())
-	print(get_time_out())
+
 	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
@@ -80,8 +83,8 @@ func draw_trail(time: float):
 	$Line2D.points = points
 	$Line2D2.points = points2
 func _on_note_type_changed():
-	$Note.set_note_type(note_data.note_type)
-	target_graphic.set_note_type(note_data.note_type)
+	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
+	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	set_trail_color()
 
 func _on_note_judged(judgement):

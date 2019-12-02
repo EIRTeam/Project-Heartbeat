@@ -7,3 +7,4 @@ func set_arm_position_2(value):
 
 func set_note_type(type):
 	$Sprite.texture = HBNoteData.get_note_graphics(type).hold_target
+	

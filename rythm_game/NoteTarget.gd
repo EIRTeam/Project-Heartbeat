@@ -20,8 +20,11 @@ func _draw():
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 
-func set_note_type(type):
-	$Sprite.texture = HBNoteData.get_note_graphics(type).target
+func set_note_type(type, multi = false):
+	if multi:
+		$Sprite.texture = HBNoteData.get_note_graphics(type).multi_note_target
+	else:
+		$Sprite.texture = HBNoteData.get_note_graphics(type).target
 			
 	$TimingArm.rotation_degrees = arm_position * 360
 func _unhandled_input(event):

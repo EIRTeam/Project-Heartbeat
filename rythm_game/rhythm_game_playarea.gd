@@ -173,6 +173,11 @@ func play_note_sfx():
 		hit_effect_queue.push_back(curr_effect)
 		_sfx_played_this_cycle = true
 	
+func hookup_multi_notes(notes: Array):
+	for note in notes:
+		var note_drawer = note.get_meta("note_drawer")
+		note_drawer.connected_notes = notes
+	
 func _process(delta):
 	_sfx_played_this_cycle = false
 	if audio_stream_player.playing:
@@ -196,16 +201,20 @@ func _process(delta):
 		if action_pressed:
 			break
 	# Adding visible notes
-	
+	var multi_notes = []
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
+			
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
+					
+						
+					
 					note_drawer = timing_point.get_drawer().instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
@@ -215,10 +224,18 @@ func _process(delta):
 					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
 					connect("time_changed", note_drawer, "_on_game_time_changed")
-					
+					if multi_notes.size() > 0:
+						if multi_notes[0].time == timing_point.time:
+							multi_notes.append(timing_point)
+						elif multi_notes.size() > 1:
+							hookup_multi_notes(multi_notes)
+							multi_notes = []
+					else:
+						multi_notes.append(timing_point)
 				if not editing:
 					timing_points.remove(i)
-	
+	if multi_notes.size() > 1:
+		hookup_multi_notes(multi_notes)
 	if timing_points.size() == 0:
 		var file = File.new()
 		file.open("user://testresult.json", File.WRITE)

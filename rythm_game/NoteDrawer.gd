@@ -11,6 +11,15 @@ var NOTE_SCORES = {
 signal target_selected
 signal note_judged(judgement)
 signal note_removed
+
+var connected_notes = [] setget set_connected_notes
+
+
+var next_note = null
+
+func set_connected_notes(val):
+	connected_notes = val
+
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
