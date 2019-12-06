@@ -5,7 +5,6 @@
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://styles/PanelStyleTransparentHover.tres" type="StyleBox" id=4]
 
-
 [node name="StartButton" type="Button"]
 margin_left = 9.0
 margin_top = 83.0
@@ -16,7 +15,9 @@ custom_styles/hover = ExtResource( 4 )
 custom_styles/normal = ExtResource( 3 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/hseparation = 10
 text = "Rhythm Game"
+align = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

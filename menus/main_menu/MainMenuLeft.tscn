@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphics/icons/exit-run.svg" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/earth.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/Logo.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -37,6 +39,7 @@ script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+VISIBILITY_THRESHOLD = 4
 margin = 10
 scale_factor = 1.0
 disable_repositioning = true
@@ -48,36 +51,57 @@ margin_top = 330.0
 margin_right = 430.0
 margin_bottom = 390.0
 icon = ExtResource( 2 )
-align = 0
 next_menu = "song_list"
 
-[node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
+[node name="MultiplayerButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 400.0
 margin_right = 430.0
 margin_bottom = 460.0
+text = "Multiplayer"
+icon = ExtResource( 7 )
+
+[node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_top = 470.0
+margin_right = 430.0
+margin_bottom = 530.0
 text = "Options"
 icon = ExtResource( 3 )
-align = 0
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 470.0
+margin_top = 540.0
 margin_right = 430.0
-margin_bottom = 529.999
+margin_bottom = 599.999
 text = "Tools"
 icon = ExtResource( 6 )
-align = 0
 next_menu = "tools_menu"
 
 [node name="ExitButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 539.999
+margin_top = 609.999
 margin_right = 430.0
-margin_bottom = 599.999
+margin_bottom = 669.999
 text = "Exit"
 icon = ExtResource( 5 )
-align = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 596
+custom_constants/margin_top = 147
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+margin_top = 147.0
+margin_right = 478.0
+margin_bottom = 720.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 5
 [connection signal="focus_entered" from="." to="StartMenu" method="grab_focus"]
 [connection signal="pressed" from="StartMenu/ExitButton" to="StartMenu" method="_on_ExitButton_pressed"]

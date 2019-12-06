@@ -8,7 +8,7 @@ signal navigate_to_menu(menu)
 signal navigated
 
 var selected_option : Control
-const VISIBILITY_THRESHOLD = 3 # How many items should be visible
+export(int) var VISIBILITY_THRESHOLD = 3 # How many items should be visible
 var lerp_weight = 8.0
 export(int) var margin
 export (float) var scale_factor = 0.75
