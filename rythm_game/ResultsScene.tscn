@@ -9,11 +9,12 @@
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=7]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=8]
 [ext_resource path="res://Theme_Game.tres" type="Theme" id=9]
-[ext_resource path="res://menus/HBMenuButton.tscn" type="PackedScene" id=10]
+[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=10]
 [ext_resource path="res://styles/OptionButtonHover.tres" type="StyleBox" id=11]
 [ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=12]
 [ext_resource path="res://menus/ScrollList.gd" type="Script" id=13]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=14]
+
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;

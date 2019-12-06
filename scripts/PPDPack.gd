@@ -48,7 +48,6 @@ func _init(path: String):
 func get_file_index(file_name: String):
 	var index = -1
 	for i in range(file_names.size()):
-		print(file_names[i].get_string_from_utf8())
 		if file_name == file_names[i].get_string_from_utf8():
 			index = i
 	return index

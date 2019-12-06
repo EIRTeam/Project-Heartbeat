@@ -1,9 +1,9 @@
 tool
 extends Button
 
-class_name HBMenuButton
+class_name HBMenuChangeButton
 
-export (NodePath) var next_menu
+export (String) var next_menu
 
 var normal_style = preload("res://styles/PanelStyleTransparent.tres")
 var hover_style = preload("res://styles/PanelStyleTransparentHover.tres")

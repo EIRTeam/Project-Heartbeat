@@ -5,9 +5,10 @@
 [ext_resource path="res://menus/HBListContainer.gd" type="Script" id=3]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=4]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=5]
-[ext_resource path="res://menus/HBMenuButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=6]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=7]
 [ext_resource path="res://rythm_game/pause_menu/PauseMenu3D.gd" type="Script" id=8]
+
 
 [sub_resource type="ViewportTexture" id=1]
 flags = 5

@@ -33,16 +33,16 @@ func _ready():
 	for child in get_children():
 		if child is BaseButton:
 			child.connect("pressed", self, "_on_button_pressed", [child])
-			
+	hard_arrange_all()
 func _on_button_pressed(option: BaseButton):
 	if has_focus():
 		if option != selected_option:
 			selected_option = option
 			emit_signal("selected_option_changed")
 		else:
-			if option is HBMenuButton:
+			if option is HBMenuChangeButton:
 				if option.next_menu:
-					emit_signal("navigate_to_menu", option.get_node(option.next_menu))
+					emit_signal("navigate_to_menu", option.next_menu)
 					emit_signal("navigated")
 				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
 				option.disconnect("pressed", self, "_on_button_pressed")
@@ -93,38 +93,37 @@ func _process(delta):
 			arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y)
 			arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, false, selected_option.rect_scale.y)
 
-func _unhandled_input(event):
-	if has_focus():
-		if selected_option:
-			if event.is_action_pressed("ui_down"):
-				var current_pos = selected_option.get_position_in_parent()
-				if current_pos < get_child_count()-1:
-					selected_option.stop_hover()
-					selected_option = get_child(current_pos + 1)
-					selected_option.hover()
-					emit_signal("selected_option_changed")
-					get_tree().set_input_as_handled()
-					move_sound_player.play()
-					print("DOWN")
-			if event.is_action_pressed("ui_up"):
-				var current_pos = selected_option.get_position_in_parent()
-				if current_pos > 0:
-					selected_option.stop_hover()
-					selected_option = get_child(current_pos - 1)
-					selected_option.hover()
-					emit_signal("selected_option_changed")
-					get_tree().set_input_as_handled()
-					move_sound_player.play()
-			if event.is_action_pressed("ui_accept"):
-				if selected_option is BaseButton:
-					selected_option.emit_signal("pressed")
-					emit_signal("selected_option_changed")
-					get_tree().set_input_as_handled()
-			if event.is_action_pressed("ui_right"):
-				if focus_neighbour_right:
-					get_tree().set_input_as_handled()
-					var right_neighbour = get_node(focus_neighbour_right) as Control
-					right_neighbour.grab_focus()
+func _gui_input(event):
+	if selected_option:
+		if event.is_action_pressed("ui_down"):
+			var current_pos = selected_option.get_position_in_parent()
+			if current_pos < get_child_count()-1:
+				get_tree().set_input_as_handled()
+				selected_option.stop_hover()
+				selected_option = get_child(current_pos + 1)
+				selected_option.hover()
+				emit_signal("selected_option_changed")
+				move_sound_player.play()
+				print("DOWN")
+		if event.is_action_pressed("ui_up"):
+			var current_pos = selected_option.get_position_in_parent()
+			if current_pos > 0:
+				get_tree().set_input_as_handled()
+				selected_option.stop_hover()
+				selected_option = get_child(current_pos - 1)
+				selected_option.hover()
+				emit_signal("selected_option_changed")
+				move_sound_player.play()
+		if event.is_action_pressed("ui_accept"):
+			if selected_option is BaseButton:
+				get_tree().set_input_as_handled()
+				selected_option.emit_signal("pressed")
+				emit_signal("selected_option_changed")
+		if event.is_action_pressed("ui_right"):
+			if focus_neighbour_right:
+				get_tree().set_input_as_handled()
+				var right_neighbour = get_node(focus_neighbour_right) as Control
+				right_neighbour.grab_focus()
 func hard_arrange_all():
 	var menu_start := Vector2(0, rect_size.y / 2)
 	selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)

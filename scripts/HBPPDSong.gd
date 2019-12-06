@@ -23,7 +23,6 @@ static func from_ini(content: String, id: String):
 	
 	for key in song_settings:
 		for difficulty in difficulties:
-			print(key)
 			if key == "difficulty " + difficulty:
 				if song_settings[key].length() > 0:
 					song.charts[difficulty] = {

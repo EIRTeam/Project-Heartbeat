@@ -25,6 +25,7 @@ func _unhandled_input(event):
 			debounce_polls[action] -= 1
 		for action in ACTIONS_TO_TRACK_FOR_TAPS:
 			if event.is_action(action):
+				
 				if event.get_action_strength(action) > 0.5:
 					if pressed_inputs[action] == false:
 						if debounce_polls[action] <= 0:

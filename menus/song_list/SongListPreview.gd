@@ -1,4 +1,4 @@
-extends Control
+extends HBMenu
 
 
 func select_song(song: HBSong):

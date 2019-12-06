@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends HBMenu
 
 var OPTIONS = {
 	"Game": {
@@ -52,10 +52,10 @@ func _ready():
 		sections.add_child(section)
 		
 		section_name_to_section_control[section_name] = section
+		
+func _on_menu_enter():
 	$VBoxContainer.grab_focus()
-		
-		
-	
+
 func add_default_values():
 	for section_name in OPTIONS:
 		var section = OPTIONS[section_name]
@@ -65,7 +65,6 @@ func add_default_values():
 func _show_section(section_name):
 	for section_n in section_name_to_section_control:
 		var section = section_name_to_section_control[section_n]
-		print(section_n, section_n)
 		if section_name == section_n:
 			section.show()
 		else:
@@ -83,3 +82,8 @@ func _on_value_changed(property_name, new_value):
 
 func _on_back():
 	$VBoxContainer.grab_focus()
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().set_input_as_handled()
+		change_to_menu("main_menu")

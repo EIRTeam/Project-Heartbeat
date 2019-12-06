@@ -59,7 +59,6 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 			dir.list_dir_begin()
 			var dir_name = dir.get_next()
 			while dir_name != "":
-				print(dir_name)
 				if not dir.current_is_dir():
 					if dir_name.ends_with(".ogg"):
 						song.audio = dir_name

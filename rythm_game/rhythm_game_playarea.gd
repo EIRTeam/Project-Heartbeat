@@ -40,7 +40,7 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 
-var auto_play = true
+var auto_play = false
 
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5

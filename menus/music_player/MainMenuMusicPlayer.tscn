@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://graphics/no_preview.png" type="Texture" id=3]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=4]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://menus/MainMenuMusicPlayer.gd" type="Script" id=6]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://graphics/no_preview.png" type="Texture" id=4]
+[ext_resource path="res://menus/music_player/MainMenuMusicPlayer.gd" type="Script" id=5]
+[ext_resource path="res://default_theme.tres" type="Theme" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 15
@@ -17,17 +17,18 @@ font_data = ExtResource( 2 )
 size = 15
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 5 )
+font_data = ExtResource( 3 )
 
 [node name="MainMenuMusicPlayer" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 0.25
+margin_bottom = -10.0
 rect_min_size = Vector2( 0, 170 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 1 )
-custom_styles/panel = ExtResource( 4 )
-script = ExtResource( 6 )
+theme = ExtResource( 6 )
+custom_styles/panel = ExtResource( 1 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -47,61 +48,61 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1270.0
-margin_bottom = 170.0
+margin_bottom = 160.0
 custom_constants/separation = 10
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_right = 1260.0
-margin_bottom = 121.0
+margin_bottom = 111.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 418.0
-margin_bottom = 121.0
+margin_bottom = 111.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 422.0
 margin_right = 1260.0
-margin_bottom = 121.0
+margin_bottom = 111.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 alignment = 1
 
 [node name="SongLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 37.0
+margin_top = 32.0
 margin_right = 838.0
-margin_bottom = 53.0
+margin_bottom = 48.0
 custom_fonts/font = SubResource( 1 )
 text = "-"
 autowrap = true
 
 [node name="ArtistLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 68.0
+margin_top = 63.0
 margin_right = 838.0
-margin_bottom = 84.0
+margin_bottom = 79.0
 custom_fonts/font = SubResource( 2 )
 text = "-"
 
 [node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
-margin_top = 131.0
+margin_top = 121.0
 margin_right = 1260.0
-margin_bottom = 134.0
+margin_bottom = 124.0
 max_value = 1.0
 step = 0.0
 value = 0.5
 percent_visible = false
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 144.0
+margin_top = 134.0
 margin_right = 1260.0
-margin_bottom = 160.0
+margin_bottom = 150.0
 
 [node name="PlaybackCurrentTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 628.0

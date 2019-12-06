@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://autoloads/MouseTrap.gd" type="Script" id=1]
-[ext_resource path="res://menus/song_list/SongListDifficultySelect.tscn" type="PackedScene" id=2]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -17,6 +16,3 @@ __meta__ = {
 margin_right = 307.0
 margin_bottom = 130.0
 window_title = "Guardar un Archivo"
-
-[node name="DifficultySelectDialog" parent="MouseTrap" instance=ExtResource( 2 )]
-margin_right = 86.0

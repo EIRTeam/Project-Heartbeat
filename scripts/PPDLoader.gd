@@ -10,7 +10,6 @@ static func _get_marks_from_ppd_pack(path: String):
 static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 	file.seek(file_offset)
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
-	print(signature)
 	var u = 0
 	var marks = []
 	var right_rotation = false
@@ -114,9 +113,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 		PPDButtons.Cross: HBNoteData.NOTE_TYPE.DOWN,
 		PPDButtons.Circle: HBNoteData.NOTE_TYPE.RIGHT,
 		PPDButtons.Triangle: HBNoteData.NOTE_TYPE.UP,
-		PPDButtons.Left: HBNoteData.NOTE_TYPE.LEFT,
+		PPDButtons.Left: HBNoteData.NOTE_TYPE.SLIDE_LEFT,
 		PPDButtons.Down: HBNoteData.NOTE_TYPE.DOWN,
-		PPDButtons.Right: HBNoteData.NOTE_TYPE.RIGHT,
+		PPDButtons.Right: HBNoteData.NOTE_TYPE.SLIDE_RIGHT,
 		PPDButtons.Up: HBNoteData.NOTE_TYPE.UP,
 		PPDButtons.R: HBNoteData.NOTE_TYPE.SLIDE_RIGHT,
 		PPDButtons.L: HBNoteData.NOTE_TYPE.SLIDE_LEFT

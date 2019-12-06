@@ -85,19 +85,14 @@ _global_script_classes=[ {
 "path": "res://menus/HBListContainer.gd"
 }, {
 "base": "Control",
-"class": "HBMainMenu",
-"language": "GDScript",
-"path": "res://menus/HBMainMenu.gd"
-}, {
-"base": "Control",
 "class": "HBMenu",
 "language": "GDScript",
-"path": "res://menus/HBMenu.gd"
+"path": "res://menus/Menu.gd"
 }, {
 "base": "Button",
-"class": "HBMenuButton",
+"class": "HBMenuChangeButton",
 "language": "GDScript",
-"path": "res://menus/HBMenuButton.gd"
+"path": "res://menus/HBMenuChangeButton.gd"
 }, {
 "base": "HBDurationNoteData",
 "class": "HBMultiNoteData",
@@ -180,9 +175,8 @@ _global_script_class_icons={
 "HBINIParser": "",
 "HBJudge": "",
 "HBListContainer": "",
-"HBMainMenu": "",
 "HBMenu": "",
-"HBMenuButton": "",
+"HBMenuChangeButton": "",
 "HBMultiNoteData": "",
 "HBNoteData": "",
 "HBPPDSong": "",
@@ -201,7 +195,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Project Heartbeat"
-run/main_scene="res://menus/MainMenu.tscn"
+run/main_scene="res://menus/MainMenu3D.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
