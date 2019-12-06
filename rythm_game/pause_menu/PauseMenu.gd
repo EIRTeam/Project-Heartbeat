@@ -24,7 +24,7 @@ func show_pause():
 
 
 func _on_quit():
-	var new_scene = preload("res://menus/MainMenu.tscn")
+	var new_scene = load("res://menus/MainMenu3D.tscn")
 	var scene = new_scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)

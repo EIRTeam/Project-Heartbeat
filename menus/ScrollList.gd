@@ -29,16 +29,21 @@ func is_child_off_the_top(child):
 	if child.rect_position.y < scroll_target:
 		return true
 	return false
-func select_child(child):
+func select_child(child, hard = false):
 	if is_child_off_the_bottom(child):
 		scroll_target = child.rect_position.y + child.rect_size.y - rect_size.y
+		if hard:
+			current_scroll = scroll_target
+			scroll_vertical = scroll_target
 	elif is_child_off_the_top(child):
 		scroll_target = child.rect_position.y
+		current_scroll = scroll_target
+		scroll_vertical = scroll_target
 	if selected_child:
 		selected_child.stop_hover()
 	selected_child = child
 	selected_child.hover()
-	_set_opacities()
+	_set_opacities(hard)
 func _set_opacities(hard=false):
 	for child in vbox_container.get_children():
 		if child is BaseButton:

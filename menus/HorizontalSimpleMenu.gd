@@ -30,10 +30,6 @@ func _on_focus_entered():
 		else:
 			select_button(0)
 
-func _input(event):
-	if event.is_action_pressed("toggle_diagnostics"):
-		print(get_focus_owner())
-
 func _gui_input(event):
 
 	var next_action = "ui_right"

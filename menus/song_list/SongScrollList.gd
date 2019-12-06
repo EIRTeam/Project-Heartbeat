@@ -2,13 +2,9 @@ extends HBScrollList
 
 const SongListItem = preload("res://menus/song_list/SongListItem.tscn")
 signal song_hovered(song)
+signal song_selected(song)
 func _ready():
-	for song_id in SongLoader.songs:
-		var song = SongLoader.songs[song_id]
-		var item = SongListItem.instance()
-		vbox_container.add_child(item)
-		item.song = song
-		item.connect("song_selected", self, "_on_song_selected")
+
 	connect("option_hovered", self, "_on_option_hovered")
 	# HACK: Not entirely sure why but we have to wait two frames for _set_opacities to work
 	yield(get_tree(), "idle_frame")
@@ -24,6 +20,23 @@ func _on_focus_entered():
 	if selected_child:
 		emit_signal("song_hovered", selected_child.song)
 func _on_song_selected(song: HBSong):
-	pass
-#	MouseTrap.difficulty_select_dialog.load_song(song)
-#	MouseTrap.difficulty_select_dialog.popup_centered()
+	emit_signal("song_selected", song)
+	
+func set_songs(songs: Array):
+	var previously_selected_song_id = null
+	if selected_child:
+		previously_selected_song_id = selected_child.song.id
+	for child in vbox_container.get_children():
+		vbox_container.remove_child(child)
+		child.queue_free()
+	for song in songs:
+		var item = SongListItem.instance()
+		vbox_container.add_child(item)
+		item.song = song
+		item.connect("song_selected", self, "_on_song_selected")
+	select_child(vbox_container.get_children()[0])
+	if previously_selected_song_id:
+		for child in vbox_container.get_children():
+			if child.song.id == previously_selected_song_id:
+				select_child(child)
+	_set_opacities(true)

@@ -13,6 +13,9 @@ const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 const SONG_SCORES_PATH = "user://scores.json"
 const SCORES_KEY = "ScoresV1"
 var scores = {}
+
+var available_difficulties = []
+
 func _ready():
 	var dir = Directory.new()
 	load_all_songs_meta()
@@ -79,15 +82,19 @@ func load_songs_from_path(path):
 				var song_json_path = path + "/%s/song.json" % dir_name
 				var song_ppd_ini_path = path + "/%s/data.ini" % dir_name
 				var file = File.new()
-				
+				var song_meta : HBSong
 				if file.file_exists(song_json_path):
-					var song_meta : HBSong = load_song_meta(song_json_path, dir_name)
+					song_meta = load_song_meta(song_json_path, dir_name)
 					if song_meta:
 						value[dir_name] = song_meta
 				elif file.file_exists(song_ppd_ini_path):
-					var song_meta : HBSong = load_ppd_song_meta(song_ppd_ini_path, dir_name)
+					song_meta = load_ppd_song_meta(song_ppd_ini_path, dir_name)
 					if song_meta:
 						value[dir_name] = song_meta
+						
+				for difficulty in song_meta.charts:
+					if not difficulty in available_difficulties:
+						available_difficulties.append(difficulty)
 			dir_name = dir.get_next()
 	else:
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
@@ -97,3 +104,10 @@ func load_all_songs_meta():
 		songs = HBUtils.merge_dict(songs, load_songs_from_path(path))
 	emit_signal("all_songs_loaded")
 
+func get_songs_with_difficulty(difficulty: String):
+	var result = []
+	for song_id in songs:
+		var song = songs[song_id]
+		if song.charts.has(difficulty):
+			result.append(song)
+	return result

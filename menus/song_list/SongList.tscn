@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://menus/song_list/SongScrollList.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=4]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=5]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=7]
 
@@ -42,7 +41,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="DifficultyList" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1280.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -51,34 +50,6 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="HBHovereableButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1040.0
-margin_right = 1082.0
-margin_bottom = 50.0
-text = "EASY"
-script = ExtResource( 5 )
-
-[node name="HBHovereableButton2" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1086.0
-margin_right = 1155.0
-margin_bottom = 50.0
-text = "NORMAL"
-script = ExtResource( 5 )
-
-[node name="HBHovereableButton4" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1159.0
-margin_right = 1208.0
-margin_bottom = 50.0
-text = "HARD"
-script = ExtResource( 5 )
-
-[node name="HBHovereableButton3" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1212.0
-margin_right = 1280.0
-margin_bottom = 50.0
-text = "EXTREME"
-script = ExtResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 50.0
