@@ -4,6 +4,7 @@ var current_difficulty
 onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var scroll_container = get_node("VBoxContainer/MarginContainer/ScrollContainer")
 func _on_menu_enter():
+	._on_menu_enter()
 	$VBoxContainer/MarginContainer/ScrollContainer.grab_focus()
 
 func _ready():

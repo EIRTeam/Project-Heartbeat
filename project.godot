@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "HBMenu",
 "language": "GDScript",
-"path": "res://menus/Menu.gd"
+"path": "res://menus/HBMenu.gd"
 }, {
 "base": "Button",
 "class": "HBMenuChangeButton",

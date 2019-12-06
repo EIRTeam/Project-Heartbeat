@@ -56,7 +56,7 @@ func _set_opacities(hard=false):
 				if hard:
 					child.modulate.a = 1.0
 
-func _gui_input(event):
+func _unhandled_input(event):
 	if selected_child:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			var child_i = vbox_container.get_children().find(selected_child)

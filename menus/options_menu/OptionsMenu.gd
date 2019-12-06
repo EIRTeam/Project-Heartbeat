@@ -54,6 +54,7 @@ func _ready():
 		section_name_to_section_control[section_name] = section
 		
 func _on_menu_enter():
+	._on_menu_enter()
 	$VBoxContainer.grab_focus()
 
 func add_default_values():

@@ -53,15 +53,17 @@ func _on_change_to_menu(menu_name: String):
 	
 	if left_menu:
 		left_menu.disconnect("change_to_menu", self, "change_to_menu")
-		left_menu_container.remove_child(left_menu)
-	
+		left_menu._on_menu_exit()
+		left_menu.connect("transition_finished", left_menu_container, "remove_child", [left_menu], CONNECT_ONESHOT)
 	if right_menu and menu_data.has("right"):
 		right_menu.disconnect("change_to_menu", self, "change_to_menu")
-		right_menu_container.remove_child(right_menu)
+		right_menu._on_menu_exit()
+		right_menu.connect("transition_finished", right_menu_container, "remove_child", [right_menu], CONNECT_ONESHOT)
 	
 	if fullscreen_menu:
 		fullscreen_menu.disconnect("change_to_menu", self, "change_to_menu")
-		fullscreen_menu_container.remove_child(fullscreen_menu)
+		fullscreen_menu._on_menu_exit()
+		fullscreen_menu.connect("transition_finished", fullscreen_menu_container, "remove_child", [fullscreen_menu], CONNECT_ONESHOT)
 		fullscreen_menu = null
 	if menu_data.has("fullscreen"):
 		fullscreen_menu = menu_data["fullscreen"]
@@ -69,7 +71,7 @@ func _on_change_to_menu(menu_name: String):
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu")
 		fullscreen_menu._on_menu_enter()
 	if menu_data.has("left"):
-		left_menu = menu_data.left as HBMenu
+		left_menu = menu_data.left
 		left_menu_container.add_child(left_menu)
 		left_menu.connect("change_to_menu", self, "change_to_menu")
 		left_menu._on_menu_enter()

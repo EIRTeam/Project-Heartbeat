@@ -46,6 +46,10 @@ margin_top = 15.0
 margin_right = 1260.0
 margin_bottom = 542.0
 
+[node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
+margin_right = 1230.0
+margin_bottom = 527.0
+
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 margin_top = 576.0
 margin_right = 1280.0
@@ -85,4 +89,5 @@ text = "description uwu"
 align = 1
 valign = 1
 autowrap = true
-[connection signal="focus_entered" from="." to="VBoxContainer/Panel2/MarginContainer/ScrollContainer" method="grab_focus"]
+
+[editable path="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]

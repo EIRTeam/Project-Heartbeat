@@ -8,9 +8,10 @@ const OptionIconTypeSelect = preload("res://menus/options_menu/OptionIconTypeSel
 signal back
 signal changed(property_name, new_value)
 
-onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer")
+onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer/VBoxContainer")
 onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer")
 func _ready():
+	connect("focus_entered", self, "_on_focus_entered")
 	focus_mode = Control.FOCUS_ALL
 	for option_name in section_data:
 		var option = section_data[option_name]
@@ -45,13 +46,15 @@ func _ready():
 func _unhandled_input(event):
 	if visible:
 		if event.is_action_pressed("ui_cancel"):
-			get_tree().set_input_as_handled()
-			emit_signal("back")
-			if scroll_container.selected_child:
-				scroll_container.selected_child.stop_hover()
+			if get_focus_owner() == scroll_container:
+				get_tree().set_input_as_handled()
+				emit_signal("back")
+				if scroll_container.selected_child:
+					scroll_container.selected_child.stop_hover()
 		else:
 			if scroll_container.selected_child:
 				scroll_container.selected_child._gui_input(event)
+			
 				
 func _on_value_changed(value, property_name):
 	emit_signal("changed", property_name, value)
@@ -59,3 +62,6 @@ func _on_value_changed(value, property_name):
 func _on_option_hovered(option_name):
 	if section_data[option_name].has("description"):
 		$VBoxContainer/Panel/MarginContainer/HBoxContainer/DescriptionLabel.text = section_data[option_name].description
+
+func _on_focus_entered():
+	scroll_container.grab_focus()

@@ -5,6 +5,7 @@ func _ready():
 	$ToolsList/EditorButton.connect("pressed", self, "_on_EditorButton_pressed")
 	$ToolsList/SongMetaEditorButton.connect("pressed", self, "_on_SongMetaEditorButton_pressed")
 func _on_menu_enter():
+	._on_menu_enter()
 	$ToolsList.grab_focus()
 
 
