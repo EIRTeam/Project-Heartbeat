@@ -72,6 +72,7 @@ gradient = SubResource( 6 )
 joint_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
+z_as_relative = false
 points = PoolVector2Array( 45.471, 205.367, 413.891, 203.262 )
 width = 3.0
 default_color = Color( 0.4, 0.501961, 1, 1 )

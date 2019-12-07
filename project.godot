@@ -358,4 +358,5 @@ pause={
 [rendering]
 
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
