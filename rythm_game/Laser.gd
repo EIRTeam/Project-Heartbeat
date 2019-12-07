@@ -43,7 +43,7 @@ func _process(delta):
 			var current_position = positions[i]
 			var target_position = positions[i+1]
 			for laser_i in range(LASER_RES+1):
-				new_points.append(sin_pos_interp(current_position, target_position, 3, frequency, laser_i/float(LASER_RES), phase_shift + t*360 * timescale))
+				new_points.append(sin_pos_interp(current_position, target_position, 5, frequency, laser_i/float(LASER_RES), phase_shift + t*360 * timescale))
 	$LineGlow.points = new_points
 	$Line2D.points = new_points
 	t += delta

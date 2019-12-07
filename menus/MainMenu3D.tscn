@@ -137,6 +137,7 @@ shader_param/FREQ_RANGE = 64.0
 size = Vector2( 1.6, 0.9 )
 
 [sub_resource type="ViewportTexture" id=12]
+flags = 5
 viewport_path = NodePath("ViewportBackground")
 
 [sub_resource type="SpatialMaterial" id=13]

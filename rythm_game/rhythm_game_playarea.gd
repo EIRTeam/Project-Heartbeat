@@ -249,7 +249,7 @@ func _process(delta):
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBNoteData:
-				if judge.judge_note(time, note.time/1000.0) == judge.JUDGE_RATINGS.COOL:
+				if time*1000 > note.time:
 					var a = InputEventAction.new()
 					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
 					a.pressed = true
