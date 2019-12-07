@@ -35,7 +35,6 @@ static func get_serializable_types():
 	return {
 		"Note": load("res://scripts/HBNoteData.gd"),
 		"TimingPoint": load("res://scripts/HBTimingPoint.gd"),
-		"MultiNote": load("res://scripts/HBMultiNoteData.gd"),
 		"HoldNote": load("res://scripts/HBHoldNoteData.gd"),
 		"SlideNote": load("res://scripts/HBTimingPoint.gd"),
 		"Song": load("res://scripts/HBSong.gd"),

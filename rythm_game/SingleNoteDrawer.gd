@@ -4,13 +4,18 @@ onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 var pickable = true setget set_pickable
 export(float) var target_scale_modifier = 1.0
-
 const TRAIL_RESOLUTION = 32
 
 func set_connected_notes(val):
 	.set_connected_notes(val)
-	if connected_notes.size() > 0:
+	if connected_notes.size() > 1:
 		_on_note_type_changed()
+		$Line2D.hide()
+		$Line2D2.hide()
+	else:
+		$Line2D.show()
+		$Line2D2.show()
+		
 
 func set_pickable(value):
 	pickable = value
@@ -49,6 +54,7 @@ func update_graphic_positions_and_scale(time: float):
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	draw_trail(time)
+	.update_graphic_positions_and_scale(time)
 	
 func set_trail_color():
 	var gradient = Gradient.new()
@@ -112,6 +118,7 @@ func _unhandled_input(event):
 				_on_note_judged(input_judgement)
 
 func _on_game_time_changed(time: float):
+	._on_game_time_changed(time)
 	update_graphic_positions_and_scale(time)
 	if not is_queued_for_deletion():
 		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
@@ -119,7 +126,8 @@ func _on_game_time_changed(time: float):
 			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
 			emit_signal("note_removed")
 			queue_free()
-
+func get_note_graphic():
+	return note_graphic
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")
 	

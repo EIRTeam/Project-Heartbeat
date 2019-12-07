@@ -94,11 +94,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/HBMenuChangeButton.gd"
 }, {
-"base": "HBDurationNoteData",
-"class": "HBMultiNoteData",
-"language": "GDScript",
-"path": "res://scripts/HBMultiNoteData.gd"
-}, {
 "base": "HBTimingPoint",
 "class": "HBNoteData",
 "language": "GDScript",
@@ -177,7 +172,6 @@ _global_script_class_icons={
 "HBListContainer": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
-"HBMultiNoteData": "",
 "HBNoteData": "",
 "HBPPDSong": "",
 "HBResourceQueue": "",

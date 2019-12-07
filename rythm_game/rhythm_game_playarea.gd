@@ -177,6 +177,8 @@ func hookup_multi_notes(notes: Array):
 	for note in notes:
 		var note_drawer = note.get_meta("note_drawer")
 		note_drawer.connected_notes = notes
+		note_drawer.note_master = false
+	notes[0].get_meta("note_drawer").note_master = true
 	
 func _process(delta):
 	_sfx_played_this_cycle = false
@@ -234,14 +236,15 @@ func _process(delta):
 						multi_notes.append(timing_point)
 				if not editing:
 					timing_points.remove(i)
-	if multi_notes.size() > 1:
-		hookup_multi_notes(multi_notes)
+
 	if timing_points.size() == 0:
 		var file = File.new()
 		file.open("user://testresult.json", File.WRITE)
 		file.store_string(JSON.print(result.serialize(), "  "))
 	
 	emit_signal("time_changed", time+input_lag_compensation)
+	if multi_notes.size() > 1:
+		hookup_multi_notes(multi_notes)
 	if auto_play:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]

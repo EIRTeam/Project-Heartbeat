@@ -48,8 +48,6 @@ func _ready():
 	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
-	var data := HBMultiNoteData.new()
-	data.time = 1000
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	
 	

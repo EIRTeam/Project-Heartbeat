@@ -20,7 +20,6 @@ func _ready():
 	set_trail_color()
 	
 func update_graphic_positions_and_scale(time: float):
-
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
 	# Movement along wave
@@ -54,6 +53,7 @@ func update_graphic_positions_and_scale(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / note_data.time_out)
 	target_graphic.arm_position_2 = 1.0 - (((note_data.time+note_data.duration) - time*1000) / note_data.time_out)
 	draw_trail(time)
+	.update_graphic_positions_and_scale(time)
 	
 func set_trail_color():
 	var gradient = Gradient.new()
@@ -72,6 +72,9 @@ func set_trail_color():
 	$Line2D.gradient = gradient_back
 	$Line2D2.gradient = gradient
 	$Line2D3.default_color = Color.white
+	
+func get_note_graphic():
+	return note_graphic
 	
 func draw_trail(time: float):
 	var time_out_distance = note_data.time_out - (note_data.time - time*1000.0)
@@ -164,7 +167,7 @@ func _unhandled_input(event):
 			game.add_score(NOTE_SCORES[judgement] + (int(note_data.get_duration() / 10.0) - held_bonus_score))
 			queue_free()
 func _on_game_time_changed(time: float):
-	
+	._on_game_time_changed(time)
 	update_graphic_positions_and_scale(time)
 	if not is_queued_for_deletion():
 		# Score string and other magic
