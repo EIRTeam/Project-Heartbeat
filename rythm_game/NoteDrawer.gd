@@ -135,7 +135,8 @@ func _on_game_time_changed(time: float):
 	if note_master:
 		for note in connected_notes:
 			if note.get_meta("note_drawer") != self:
-				note.get_meta("note_drawer")._on_game_time_changed(time)
+				if not note.get_meta("note_drawer").is_queued_for_deletion():
+					note.get_meta("note_drawer")._on_game_time_changed(time)
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")
