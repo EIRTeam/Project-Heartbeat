@@ -1,10 +1,16 @@
 extends Control
 
+var MainMenu = load("res://menus/MainMenu3D.tscn")
+
+const FADE_OUT_TIME = 1.0
+
+onready var fade_out_tween = get_node("FadeOutTween")
+
 func _ready():
 	set_game_size(Vector2())
 	connect("resized", self, "set_game_size", [rect_size])
+	MainMenu = load("res://menus/MainMenu3D.tscn")
 
-	
 func set_song(song: HBSong, difficulty: String):
 	$RhythmGame.set_song(song, difficulty)
 
@@ -24,3 +30,20 @@ func _unhandled_input(event):
 			_on_resumed()
 			$PauseMenu._on_resumed()
 		get_tree().set_input_as_handled()
+
+func _show_results(results: HBResult):
+	var scene = MainMenu.instance()
+	get_tree().current_scene.queue_free()
+	scene.starting_menu = "results"
+	scene.starting_menu_args = {"results": results}
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+#	scene.set_result(results)
+
+func _on_RhythmGame_song_cleared(results: HBResult):
+	var original_color = Color.black
+	original_color.a = 0
+	var target_color = Color.black
+	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	fade_out_tween.connect("tween_all_completed", self, "_show_results", [results])
+	fade_out_tween.start()

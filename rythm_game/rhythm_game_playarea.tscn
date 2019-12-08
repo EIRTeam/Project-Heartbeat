@@ -187,3 +187,4 @@ script = ExtResource( 9 )
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = 0
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

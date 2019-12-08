@@ -1,4 +1,4 @@
-extends Control
+extends HBMenu
 
 var result : HBResult setget set_result
 
@@ -8,29 +8,44 @@ onready var artist_label = get_node("MarginContainer/VBoxContainer/VBoxContainer
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/TitleLabel")
 onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
 onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
+onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3/TotalNotesLabel")
+onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
+onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons")
+onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons/ReturnButton")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 
+func _on_menu_enter(force_hard_transition = false, args = {}):
+	._on_menu_enter(force_hard_transition, args)
+	if args.has("results"):
+		set_result(args.results)
+	buttons.grab_focus()
+
 func _ready():
-	var file = File.new()
-	file.open("user://testresult.json", File.READ)
 	for rating in HBJudge.JUDGE_RATINGS.values():
 		var rating_scene = ResultRating.instance()
 		rating_results_container.add_child(rating_scene)
 		rating_results_scenes[rating] = rating_scene
 		rating_scene.rating = rating
-		
-	set_result(HBSerializable.deserialize(JSON.parse(file.get_as_text()).result))
+	return_button.connect("pressed", self, "_on_return_button_pressed")
+
+func _on_return_button_pressed():
+	change_to_menu("song_list", false, {"song": result.song_id, "song_difficulty": result.difficulty})
 
 func set_result(val):
 	result = val
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
-		rating_scene.percentage = result.note_ratings[str(rating)] / float(result.total_notes)
-		rating_scene.total_notes = result.note_ratings[str(rating)]
-	var cool = float(result.note_ratings[str(HBJudge.JUDGE_RATINGS.COOL)])
-	var fine = float(result.note_ratings[str(HBJudge.JUDGE_RATINGS.FINE)])
-	percentage_label.text = "%.2f" % (((cool + fine) / float(result.total_notes)) * 100.0)
+		rating_scene.percentage = 0
+		if float(result.total_notes) > 0:
+			rating_scene.percentage = result.note_ratings[rating] / float(result.total_notes)
+		rating_scene.total_notes = result.note_ratings[rating]
+	var cool = float(result.note_ratings[HBJudge.JUDGE_RATINGS.COOL])
+	var fine = float(result.note_ratings[HBJudge.JUDGE_RATINGS.FINE])
+	var pass_ratio = 0
+	if result.total_notes > 0:
+		pass_ratio = (cool + fine) / float(result.total_notes)
+	percentage_label.text = "%.2f" % (pass_ratio * 100.0)
 	percentage_label.text += " %"
 	if SongLoader.songs.has(result.song_id):
 		var song = SongLoader.songs[result.song_id] as HBSong
@@ -41,3 +56,6 @@ func set_result(val):
 			artist_label.text = song.artist.to_upper()
 	combo_label.text = str(result.max_combo)
 	score_label.text = str(result.score)
+	total_notes_label.text = str(result.total_notes)
+
+	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())

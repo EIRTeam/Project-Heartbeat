@@ -40,7 +40,7 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 
-var auto_play = false
+var auto_play = true
 
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
@@ -54,8 +54,8 @@ const MAX_NOTE_SFX = 4
 var current_bpm = 180.0
 
 signal note_updated(note)
-signal note_selected(note)
 signal time_changed(time)
+signal song_cleared(results)
 func set_size(value):
 	size = value
 
@@ -286,14 +286,6 @@ func _on_note_judged(note, judgement):
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				
-func _on_note_moved(note: HBNoteData):
-	if editing:
-		emit_signal("note_updated", note)
-		
-func _on_note_selected(note: HBNoteData):
-	if editing:
-		emit_signal("note_selected", note)
-
 func pause_game():
 	audio_stream_player.stream_paused = true
 	get_tree().paused = true
@@ -315,3 +307,7 @@ func play_from_pos(position: float):
 func add_score(score_to_add):
 	result.score += score_to_add
 	score_counter.score = result.score
+
+
+func _on_AudioStreamPlayer_finished():
+	emit_signal("song_cleared", result)
