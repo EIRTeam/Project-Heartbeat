@@ -198,14 +198,6 @@ func get_song_length():
 	return audio_stream_player.stream.get_length()
 
 
-func _on_RythmGame_note_selected(note):
-	for layer in timeline.get_layers():
-		for item in layer.get_editor_items():
-			if item.data == note:
-				select_item(item)
-				return
-
-
 func _on_RythmGame_note_updated(note):
 	if selected:
 		if note == selected.data:
@@ -283,7 +275,7 @@ func load_song(song: HBSong, difficulty: String):
 func _on_ExitDialog_confirmed():
 	MouseTrap.enable_mouse_trap()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
-	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
+	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 
 func get_beats_per_bar():
 	match metre_option_button.selected:
