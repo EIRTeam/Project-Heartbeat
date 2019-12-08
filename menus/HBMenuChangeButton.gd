@@ -12,6 +12,7 @@ func _ready():
 	focus_mode = Control.FOCUS_NONE
 	flat = false
 	align = ALIGN_LEFT
+	add_stylebox_override("normal", normal_style)
 
 func hover():
 	add_stylebox_override("normal", hover_style)
