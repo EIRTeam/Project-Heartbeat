@@ -20,10 +20,22 @@ static func deserialize(data: Dictionary):
 	for field in object.serializable_fields:
 		var _field = object.get(field)
 		if data.has(field):
-			if field is Dictionary:
+			if _field is Dictionary:
 				if data[field].has("type"):
+					# Recursive serialized objects
 					object.set(field, deserialize(data[field]))
-			elif _field is Array or _field is float or _field is String or _field is Dictionary or _field is bool:
+				elif _field.size() > 0:
+					# Support for enums
+					var dict := data[field] as Dictionary
+					if _field.keys()[0] is int:
+						# we found an enum
+						var result_field = {}
+						for key in dict:
+							result_field[int(key)] = dict[key]
+						object.set(field, result_field)
+				else:
+					object.set(field, data[field])
+			elif _field is Array or _field is float or _field is String or _field is bool:
 				object.set(field, data[field])
 			elif _field is int:
 				object.set(field, int(data[field]))
