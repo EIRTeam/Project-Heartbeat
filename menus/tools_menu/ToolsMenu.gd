@@ -4,8 +4,8 @@ extends HBMenu
 func _ready():
 	$ToolsList/EditorButton.connect("pressed", self, "_on_EditorButton_pressed")
 	$ToolsList/SongMetaEditorButton.connect("pressed", self, "_on_SongMetaEditorButton_pressed")
-func _on_menu_enter():
-	._on_menu_enter()
+func _on_menu_enter(force_hard_transition=false, args = {}):
+	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
 
 

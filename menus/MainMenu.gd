@@ -1,5 +1,7 @@
 extends "res://menus/MenuTransitionProvider.gd"
 
+var starting_menu = "start_menu"
+var starting_menu_args = []
 func _init():
 	MENUS = {
 		"start_menu": {
@@ -24,6 +26,10 @@ func _init():
 		},
 		"tools_menu": {
 			"left": preload("res://menus/tools_menu/ToolsMenu.tscn").instance()
+		},
+		"results": {
+			"left": preload("res://rythm_game/ResultsScreen.tscn").instance(),
+			"right": "music_player"
 		}
 	}
 
@@ -45,43 +51,44 @@ func _ready():
 	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
 	player.name = "HJHH"
 	player.volume_db = FADE_OUT_VOLUME
+	player.bus = "Music"
 	play_random_song()
-	
-func _on_change_to_menu(menu_name: String):
+
+func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
 	print("CHANGING TO " + menu_name)
 	var menu_data = MENUS[menu_name]
 	
 	if left_menu:
 		left_menu.disconnect("change_to_menu", self, "change_to_menu")
-		left_menu._on_menu_exit()
+		left_menu._on_menu_exit(force_hard_transition)
 		left_menu.connect("transition_finished", left_menu_container, "remove_child", [left_menu], CONNECT_ONESHOT)
-	if right_menu and menu_data.has("right"):
+	if right_menu and menu_data.has("right") and not right_menu == MENUS[menu_data.right].right:
 		right_menu.disconnect("change_to_menu", self, "change_to_menu")
-		right_menu._on_menu_exit()
+		right_menu._on_menu_exit(force_hard_transition)
 		right_menu.connect("transition_finished", right_menu_container, "remove_child", [right_menu], CONNECT_ONESHOT)
 	
 	if fullscreen_menu:
 		fullscreen_menu.disconnect("change_to_menu", self, "change_to_menu")
-		fullscreen_menu._on_menu_exit()
+		fullscreen_menu._on_menu_exit(force_hard_transition)
 		fullscreen_menu.connect("transition_finished", fullscreen_menu_container, "remove_child", [fullscreen_menu], CONNECT_ONESHOT)
 		fullscreen_menu = null
 	if menu_data.has("fullscreen"):
 		fullscreen_menu = menu_data["fullscreen"]
 		fullscreen_menu_container.add_child(fullscreen_menu)
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu")
-		fullscreen_menu._on_menu_enter()
+		fullscreen_menu._on_menu_enter(force_hard_transition, args)
 	if menu_data.has("left"):
 		left_menu = menu_data.left
 		left_menu_container.add_child(left_menu)
 		left_menu.connect("change_to_menu", self, "change_to_menu")
-		left_menu._on_menu_enter()
+		left_menu._on_menu_enter(force_hard_transition, args)
 
 	if menu_data.has("right"):
 		# Right side of menus are single instance if they are the same
 		right_menu = MENUS[menu_data.right].right as HBMenu
 		right_menu_container.add_child(right_menu)
 		right_menu.connect("change_to_menu", self, "change_to_menu")
-		right_menu._on_menu_enter()
+		right_menu._on_menu_enter(force_hard_transition, args)
 
 # Audio playback shit
 
@@ -120,7 +127,7 @@ func _process(delta):
 		player.play()
 func play_song(song: HBSong):
 	if song == current_song:
-		target_volume = 0
+#		target_volume = 0
 		return
 	current_song = song
 	if song.audio != "":
