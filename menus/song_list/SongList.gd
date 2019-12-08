@@ -3,9 +3,13 @@ signal song_hovered(song)
 var current_difficulty
 onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var scroll_container = get_node("VBoxContainer/MarginContainer/ScrollContainer")
-func _on_menu_enter():
-	._on_menu_enter()
+func _on_menu_enter(force_hard_transition=false, args = {}):
+	._on_menu_enter(force_hard_transition, args)
 	$VBoxContainer/MarginContainer/ScrollContainer.grab_focus()
+	if args.has("song_difficulty"):
+		_select_difficulty(args.song_difficulty)
+	if args.has("song"):
+		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
 
 func _ready():
 	print(get_node("VBoxContainer/MarginContainer/ScrollContainer"))
@@ -35,6 +39,8 @@ func _on_song_selected(song: HBSong):
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	scene.set_song(song, current_difficulty)
+
+
 
 func _select_difficulty(difficulty: String):
 	current_difficulty = difficulty
