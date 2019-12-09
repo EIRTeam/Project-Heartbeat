@@ -6,6 +6,8 @@ var pickable = true setget set_pickable
 export(float) var target_scale_modifier = 1.0
 const TRAIL_RESOLUTION = 32
 
+var connected_note_judgements = {}
+
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -94,6 +96,7 @@ func _on_note_type_changed():
 	set_trail_color()
 
 func _on_note_judged(judgement):
+	
 	if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
@@ -103,27 +106,76 @@ func _on_note_judged(judgement):
 				particles.scale = Vector2(-1.0, 1.0)
 			game.add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
-	game.add_score(NOTE_SCORES[judgement])
 	queue_free()
-	emit_signal("note_judged", note_data, judgement)
-	emit_signal("note_removed")
 	get_tree().set_input_as_handled()
 	set_process_unhandled_input(false)
 
 func _unhandled_input(event):
-	if not event is InputEventJoypadMotion:
-		var input_judgement = judge_note_input(event, game.time)
-		if not is_queued_for_deletion():
+	# Master notes handle all the input
+	if not is_queued_for_deletion():
+		var conn_notes = connected_notes
+		if conn_notes.size() == 0:
+			conn_notes = [note_data]
+		for note in conn_notes:
+			var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
+			
 			if input_judgement != -1:
-				_on_note_judged(input_judgement)
+				connected_note_judgements[note] = input_judgement
+				get_tree().set_input_as_handled()
+		# Note priority is the following:
+		# If any of the notes hit returns worse, sad, or safe, that's the final rating
+		# else, the final rating will be the rating that's been obtained the most
+		# (so if you obtain 3 cools and 1 fine, it will result in a cool)
+		if connected_note_judgements.size() == conn_notes.size():
+			var result_judgement = null
+			var cools = 0
+			var fines = 0
+			for note in connected_note_judgements:
+				var note_judgement = connected_note_judgements[note]
+				if note_judgement < HBJudge.JUDGE_RATINGS.FINE:
+					result_judgement = note_judgement
+					break
+				elif note_judgement == HBJudge.JUDGE_RATINGS.COOL:
+					cools += 1
+				elif result_judgement == HBJudge.JUDGE_RATINGS.FINE:
+					fines += 1
+			
+			if not result_judgement:
+				if cools > fines:
+					result_judgement = HBJudge.JUDGE_RATINGS.COOL
+				else:
+					result_judgement = HBJudge.JUDGE_RATINGS.FINE
+					
+			game.disconnect("time_changed", self, "_on_game_time_changed")
+			emit_signal("notes_judged", conn_notes, result_judgement)
+			
+			# Make multinotes count
+			game.add_score(NOTE_SCORES[result_judgement])
+			
+			for note in conn_notes:
+				note.get_meta("note_drawer")._on_note_judged(result_judgement)
+				note.get_meta("note_drawer").emit_signal("note_removed")
+
+			
+
+			
+			
+#		if not event is InputEventJoypadMotion:
+#			var actions = []
+#			var input_judgement = judge_note_input(event, game.time)
+#			if input_judgement != -1:
+#				_on_note_judged(input_judgement)
 
 func _on_game_time_changed(time: float):
-	._on_game_time_changed(time)
-	update_graphic_positions_and_scale(time)
 	if not is_queued_for_deletion():
-		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
+		._on_game_time_changed(time)
+		update_graphic_positions_and_scale(time)
+		var conn_notes = connected_notes
+		if conn_notes.size() == 0:
+			conn_notes = [note_data]
+		
 		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
-			emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+			emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST)
 			emit_signal("note_removed")
 			queue_free()
 func get_note_graphic():

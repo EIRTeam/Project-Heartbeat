@@ -40,7 +40,7 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 
-var auto_play = true
+var auto_play = false
 
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
@@ -139,23 +139,23 @@ func play_song():
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 
-func get_closest_note_of_type(note_type: int):
-	var closest_note = null
+func get_closest_notes_of_type(note_type: int) -> Array:
+	var closest_notes = []
 	for note_c in notes_on_screen:
-		# For multi-note support
-		var notes = note_c.get_meta("note_drawer").get_notes()
-		for note in notes:
-			if note.note_type == note_type:
-				var time_diff = abs(note.time - time * 1000.0)
-				if closest_note:
-					if time_diff < abs(closest_note.time - time * 1000.0):
-						closest_note = note
-					time_diff = abs(note.time + note.get_duration() - time * 1000.0)
-					if time_diff < abs(closest_note.time - time * 1000.0):
-						closest_note = note
-				else:
-					closest_note = note
-	return closest_note
+		var note = note_c.get_meta("note_drawer").note_data
+		if note.note_type == note_type:
+			var time_diff = abs(note.time + note.get_duration() - time * 1000.0)
+			if closest_notes.size() > 0:
+				if time_diff < abs(closest_notes[0].time - time * 1000.0):
+					closest_notes = [note]
+				time_diff = abs(note.time + note.get_duration() - time * 1000.0)
+				if time_diff < abs(closest_notes[0].time - time * 1000.0):
+					closest_notes.append(note)
+				elif note.time == closest_notes[0].time:
+					closest_notes.append(note)
+			else:
+				closest_notes = [note]
+	return closest_notes
 
 func remove_note_from_screen(i):
 	notes_on_screen.remove(i)
@@ -221,14 +221,15 @@ func _process(delta):
 					note_drawer.note_data = timing_point
 					note_drawer.game = self
 					notes_node.add_child(note_drawer)
-					note_drawer.connect("note_judged", self, "_on_note_judged")
+					note_drawer.connect("notes_judged", self, "_on_notes_judged")
 					note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
 					connect("time_changed", note_drawer, "_on_game_time_changed")
 					if multi_notes.size() > 0:
 						if multi_notes[0].time == timing_point.time:
-							multi_notes.append(timing_point)
+							if not timing_point is HBHoldNoteData:
+								multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
 							multi_notes = []
@@ -255,23 +256,28 @@ func _process(delta):
 					a.pressed = true
 					play_note_sfx()
 					Input.parse_input_event(a)
-func _on_note_judged(note, judgement):
+func _on_notes_judged(notes: Array, judgement):
+	var note = notes[0]
 	if not editing:
 		# Rating graphic
 		if judgement < judge.JUDGE_RATINGS.FINE:
 			current_combo = 0
 		else:
-			current_combo += 1
-			result.notes_hit += 1
+			current_combo += notes.size()
+			result.notes_hit += notes.size()
 		
 		
-		result.note_ratings[judgement] += 1
-		result.total_notes += 1
+		result.note_ratings[judgement] += notes.size()
+		result.total_notes += notes.size()
 		if current_combo > result.max_combo:
 			result.max_combo = current_combo
-		var new_pos = remap_coords(note.position)
-		
 
+		
+		# We average the notes position so that multinote ratings are centered
+		var avg_pos = Vector2()
+		for n in notes:
+			avg_pos += n.position
+		avg_pos = avg_pos / float(notes.size())
 		
 		rating_label.get_node("AnimationPlayer").play("rating_appear")
 		rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
@@ -280,7 +286,7 @@ func _on_note_judged(note, judgement):
 		if current_combo > 1:
 			rating_label.text += " " + str(current_combo)
 		rating_label.rect_size = rating_label.get_combined_minimum_size()
-		rating_label.rect_position = new_pos - rating_label.get_combined_minimum_size() / 2
+		rating_label.rect_position = remap_coords(avg_pos) - rating_label.get_combined_minimum_size() / 2
 		rating_label.rect_position.y -= 64
 		rating_label.show()
 func _on_note_removed(note):

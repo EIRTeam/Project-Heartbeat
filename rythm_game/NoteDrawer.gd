@@ -9,7 +9,7 @@ var NOTE_SCORES = {
 	HBJudge.JUDGE_RATINGS.WORST: 0
 }
 signal target_selected
-signal note_judged(judgement)
+signal notes_judged(judgement)
 signal note_removed
 
 var connected_notes = [] setget set_connected_notes
@@ -25,7 +25,9 @@ func set_note_master(val):
 	note_master = val
 	if val == false:
 		game.disconnect("time_changed", self, "_on_game_time_changed")
+		set_process_unhandled_input(false)
 	else:
+		set_process_unhandled_input(true)
 		game.connect("time_changed", self, "_on_game_time_changed")
 		
 
@@ -117,16 +119,16 @@ func judge_note_input(event: InputEvent, time: float, released = false):
 	for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		var event_result = event.is_action_pressed(action) and not event.is_echo()
 		if released:
-			print("CHECK RELEASED FOR " + action + " RESULT: " + str(event.is_action_released(action)))
+#			print("CHECK RELEASED FOR " + action + " RESULT: " + str(event.is_action_released(action)))
 			event_result = event.is_action_released(action)
 		if event_result:
-			var closest_note = game.get_closest_note_of_type(note_data.note_type)
-			if closest_note == note_data:
-				var judgement = game.judge.judge_note(time, closest_note.time/1000.0)
+			var closest_notes = game.get_closest_notes_of_type(note_data.note_type)
+			if note_data in closest_notes:
+				var judgement = game.judge.judge_note(time, note_data.time/1000.0)
 				if not judgement:
-					judgement = game.judge.judge_note(time, closest_note.time+closest_note.get_duration()/1000.0)
+					judgement = game.judge.judge_note(time, note_data.time+note_data.get_duration()/1000.0)
 				if judgement:
-					print("JUDGED!", judgement," ", time, " ", closest_note.time/1000.0)
+					print("JUDGED!", judgement," ", time, " ", note_data.time/1000.0)
 					out_judgement = judgement
 			break
 	return out_judgement
