@@ -145,7 +145,7 @@ func _unhandled_input(event):
 		# When not holding, judge the first part of the note
 		var judgement = judge_note_input(event, game.time)
 		if judgement != -1:
-			emit_signal("note_judged", note_data, judgement)
+			emit_signal("notes_judged", [note_data], judgement)
 			holding = true
 			game.add_score(NOTE_SCORES[judgement])
 			get_tree().set_input_as_handled()
@@ -158,7 +158,8 @@ func _unhandled_input(event):
 					judgement = HBJudge.JUDGE_RATINGS.WORST
 					break
 		if judgement != -1:
-			emit_signal("note_judged", note_data, judgement)
+			emit_signal("notes_judged", [note_data], judgement)
+			emit_signal("note_removed")
 			holding = true
 			get_tree().set_input_as_handled()
 			set_process_unhandled_input(false)
@@ -185,11 +186,11 @@ func _on_game_time_changed(time: float):
 		# Killing notes after the user has run past them... TODO: make this produce a WORST rating
 		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
 			if not game.editing and not holding:
-				emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+				emit_signal("notes_judged", [note_data], game.judge.JUDGE_RATINGS.WORST)
 				emit_signal("note_removed")
 				queue_free()
 		if time >= (note_data.time + game.judge.get_target_window_msec() + note_data.get_duration()) / 1000.0 or time * 1000.0 < (note_data.time - note_data.time_out):
-				emit_signal("note_judged", note_data, game.judge.JUDGE_RATINGS.WORST)
+				emit_signal("notes_judged", [note_data], game.judge.JUDGE_RATINGS.WORST)
 				emit_signal("note_removed")
 				queue_free()
 
