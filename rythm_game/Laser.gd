@@ -1,6 +1,6 @@
 extends Node2D
 
-const LASER_RES = 64
+const LASER_RES = 32
 
 var positions = []
 
@@ -36,7 +36,7 @@ static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequen
 	else:
 		return to
 	
-func _process(delta):
+func _physics_process(delta):
 	var new_points = PoolVector2Array()
 	for i in range(positions.size()):
 		if i < positions.size()-1:
