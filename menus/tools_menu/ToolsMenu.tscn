@@ -26,13 +26,21 @@ scale_factor = 1.0
 disable_repositioning = true
 fixed_scale_factor = true
 
+[node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 260.0
+margin_right = 536.0
+margin_bottom = 320.0
+text = "Open Songs Directory"
+next_menu = ""
+
 [node name="EditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 330.0
 margin_right = 536.0
 margin_bottom = 390.0
 text = "Chart Editor"
-align = 0
+next_menu = ""
 
 [node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -40,4 +48,4 @@ margin_top = 400.0
 margin_right = 536.0
 margin_bottom = 460.0
 text = "Song Metadata Editor"
-align = 0
+next_menu = ""
