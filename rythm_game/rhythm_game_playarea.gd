@@ -92,6 +92,8 @@ func set_song(song: HBSong, difficulty: String):
 	result = HBResult.new()
 	result.song_id = song.id
 	result.difficulty = difficulty
+	current_combo = 0
+	rating_label.hide()
 	current_bpm = song.bpm
 	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	song_name_label.text = song.title
