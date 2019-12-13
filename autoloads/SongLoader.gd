@@ -17,7 +17,11 @@ var scores = {}
 var available_difficulties = []
 
 func _ready():
-	var dir = Directory.new()
+	var dir := Directory.new()
+	
+	if not dir.file_exists("user://songs"):
+		dir.make_dir_recursive("user://songs")
+	
 	load_all_songs_meta()
 	
 func load_scores():
