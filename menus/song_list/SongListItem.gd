@@ -14,6 +14,8 @@ var prev_focus
 onready var title_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/TitleLabel")
 onready var author_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
 onready var score_label = get_node("HBoxContainer/VBoxContainer/ScoreLabel")
+
+onready var stars_label = get_node("HBoxContainer/TextureRect/StarsLabel")
 signal song_selected(song)
 
 func set_song(value: HBSong, difficulty: String):
@@ -23,6 +25,12 @@ func set_song(value: HBSong, difficulty: String):
 		author_label.text = song.artist_alias
 	else:
 		author_label.text = song.artist
+		
+	if value.charts[difficulty].has("stars"):
+		stars_label.text = str(int(value.charts[difficulty].stars))
+	else:
+		stars_label.text = "-"
+		
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
 		var pass_results = result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] + result.note_ratings[HBJudge.JUDGE_RATINGS.COOL]

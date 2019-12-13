@@ -27,7 +27,7 @@ static func from_ini(content: String, id: String):
 				if song_settings[key].length() > 0:
 					song.charts[difficulty] = {
 						"file": difficulty.capitalize() + ".ppd",
-						"stars": int(song_settings[key].substr(1, song_settings[key].length()-1))
+						"stars": float(song_settings[key].substr(1, song_settings[key].length()-1))
 					}
 	var file = File.new()
 	file.open("user://ppdtest.json", File.WRITE)
