@@ -8,7 +8,7 @@ var total_notes = 0
 var notes_hit = 0
 var song_id = ""
 var difficulty = ""
-var failed = true
+var failed = false
 var note_ratings = {
 	HBJudge.JUDGE_RATINGS.WORST: 0,
 	HBJudge.JUDGE_RATINGS.SAD: 0,
