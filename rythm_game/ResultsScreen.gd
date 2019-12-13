@@ -59,3 +59,11 @@ func set_result(val):
 	total_notes_label.text = str(result.total_notes)
 
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
+
+	# add result to history
+	if ScoreHistory.has_result(result.song_id, result.difficulty):
+		var existing_result : HBResult = ScoreHistory.get_result(result.song_id, result.difficulty)
+		if existing_result.score < result.score:
+			ScoreHistory.add_result_to_history(result)
+	else:
+			ScoreHistory.add_result_to_history(result)
