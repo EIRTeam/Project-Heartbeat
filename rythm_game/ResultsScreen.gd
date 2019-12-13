@@ -32,7 +32,7 @@ func _ready():
 func _on_return_button_pressed():
 	change_to_menu("song_list", false, {"song": result.song_id, "song_difficulty": result.difficulty})
 
-func set_result(val):
+func set_result(val: HBResult):
 	result = val
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]

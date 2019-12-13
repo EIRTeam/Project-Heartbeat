@@ -8,6 +8,7 @@ var total_notes = 0
 var notes_hit = 0
 var song_id = ""
 var difficulty = ""
+var failed = true
 var note_ratings = {
 	HBJudge.JUDGE_RATINGS.WORST: 0,
 	HBJudge.JUDGE_RATINGS.SAD: 0,
@@ -17,7 +18,7 @@ var note_ratings = {
 }
 
 func _init():
-	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "song_id", "difficulty"]
+	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "song_id", "difficulty", "failed"]
 
 func get_serialized_type():
 	return "Result"
@@ -40,6 +41,8 @@ func get_result_rating():
 		
 	var pass_results = note_ratings[HBJudge.JUDGE_RATINGS.FINE] + note_ratings[HBJudge.JUDGE_RATINGS.COOL]
 	pass_results = float(pass_results / float(total_notes))
+	if failed:
+		return RESULT_RATING.FAIL
 	if pass_results >= 0.97:
 		return RESULT_RATING.EXCELLENT
 	elif pass_results >= 0.94:

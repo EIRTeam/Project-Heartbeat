@@ -2,29 +2,28 @@ extends Node
 
 var scores = {} # contains key with song name into a dictionary that uses difficulty as key
 
-const SCORE_HISTORY_PATH = "user://user_settings.json"
+const SCORE_HISTORY_PATH = "user://history.json"
 const LOG_NAME = "ScoreHistory"
 
 func _ready():
 	load_history()
-	save_history()
 func load_history():
 	var file := File.new()
 	if file.file_exists(SCORE_HISTORY_PATH):
 		if file.open(SCORE_HISTORY_PATH, File.READ) == OK:
 			var result = JSON.parse(file.get_as_text())
 			if result.error == OK:
-				scores = history_from_dict(result.result)
+				history_from_dict(result.result)
 				Log.log(self, "Successfully loaded score history from " + SCORE_HISTORY_PATH)
 			else:
-				Log.log(self, "Error loading score history, error code: " + result.error, Log.LogLevel.ERROR)
+				Log.log(self, "Error loading score history, error code: " + str(result.error), Log.LogLevel.ERROR)
 
 func history_from_dict(data: Dictionary):
 	for song_name in data:
 		scores[song_name] = {}
 		for difficulty in data[song_name]:
 			scores[song_name][difficulty] = HBResult.deserialize(data[song_name][difficulty])
-
+	
 func history_to_dict() -> Dictionary:
 	var result_dict = {}
 	for song_name in scores:
@@ -46,6 +45,7 @@ func add_result_to_history(result: HBResult):
 		var current_result = scores[result.song_id][result.difficulty] as HBResult
 		if current_result.score > result.score:
 			Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLeveL.ERROR)
+			return
 	scores[result.song_id][result.difficulty] = result
 	save_history()
 
@@ -61,5 +61,5 @@ func get_result(song_id: String, difficulty: String):
 	var r = null
 	if scores.has(song_id):
 		if scores[song_id].has(difficulty):
-			scores[song_id][difficulty]
+			r = scores[song_id][difficulty]
 	return r

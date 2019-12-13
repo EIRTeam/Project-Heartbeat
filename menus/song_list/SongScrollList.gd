@@ -27,7 +27,7 @@ func select_song_by_id(song_id: String):
 			select_child(child, true)
 			emit_signal("option_hovered", child)
 			break
-func set_songs(songs: Array):
+func set_songs(songs: Array, difficulty: String):
 	var previously_selected_song_id = null
 	if selected_child:
 		previously_selected_song_id = selected_child.song.id
@@ -37,7 +37,7 @@ func set_songs(songs: Array):
 	for song in songs:
 		var item = SongListItem.instance()
 		vbox_container.add_child(item)
-		item.song = song
+		item.set_song(song, difficulty)
 		item.connect("song_selected", self, "_on_song_selected")
 	select_child(vbox_container.get_children()[0])
 	if previously_selected_song_id:

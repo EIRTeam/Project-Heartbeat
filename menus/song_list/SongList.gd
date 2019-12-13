@@ -44,4 +44,4 @@ func _on_song_selected(song: HBSong):
 
 func _select_difficulty(difficulty: String):
 	current_difficulty = difficulty
-	$VBoxContainer/MarginContainer/ScrollContainer.set_songs(SongLoader.get_songs_with_difficulty(difficulty))
+	$VBoxContainer/MarginContainer/ScrollContainer.set_songs(SongLoader.get_songs_with_difficulty(difficulty), difficulty)

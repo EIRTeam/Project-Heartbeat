@@ -208,6 +208,7 @@ SongLoader="*res://autoloads/SongLoader.gd"
 HBInput="*res://autoloads/HBInput.gd"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
+ScoreHistory="*res://autoloads/ScoreHistory.gd"
 
 [debug]
 
