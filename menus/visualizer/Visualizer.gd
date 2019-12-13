@@ -20,6 +20,8 @@ func _ready():
 	mat.set_shader_param("audio", spectrum_image_texture)
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
 	set("z", -1000)
+	if not UserSettings.user_settings.visualizer_enabled:
+		set_physics_process(false)
 	
 func _physics_process(delta):
 	var prev_hz = 0
