@@ -49,6 +49,9 @@ func _ready():
 	connect("change_to_menu", self, "_on_change_to_menu")
 	add_child(player)
 	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
+	
+	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
+	
 	player.name = "HJHH"
 	player.volume_db = FADE_OUT_VOLUME
 	player.bus = "Music"
