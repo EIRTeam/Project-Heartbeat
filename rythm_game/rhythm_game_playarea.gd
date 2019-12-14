@@ -125,15 +125,15 @@ func get_playing_field_size():
 
 func remap_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
+	coords = coords / BASE_SIZE
 	var pos = coords * field_size
-#	if abs(coords.x) > 1.0 or abs(coords.y) > 1.0 :
-#		Log.log(self, "remap_coords expects a max size of < 1.0 in any dimension, coords was %s" % var2str(coords), Log.LogLevel.WARN)
 	return Vector2((size.x - field_size.x) / 2.0 + pos.x, pos.y)
 	
 func inv_map_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
-	var x = (coords.x - ((size.x - field_size.x) / 2.0)) / get_playing_field_size().x
-	return Vector2(x, coords.y / get_playing_field_size().y)
+	var x = (coords.x - ((size.x - field_size.x) / 2.0)) / get_playing_field_size().x * BASE_SIZE.x
+	var y = (coords.y - ((size.y - field_size.y) / 2.0)) / get_playing_field_size().y * BASE_SIZE.y
+	return Vector2(x, y)
 func play_song():
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()

@@ -102,11 +102,6 @@ enum PPDButtons {
 	L
 }
 
-
-
-
-	
-
 static func PPD2HBChart(path: String) -> HBChart:
 	var PPDButton2HBNoteType = {
 		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
@@ -144,8 +139,8 @@ static func PPD2HBChart(path: String) -> HBChart:
 		note_data.time_out = (60.0  / 250.0 * (1.0 + 3.0) * 1000.0)
 		note_data.auto_time_out = true
 		
-		note_data.position.x = note.position.x / 800.0
-		note_data.position.y = note.position.y / 450.0
+		note_data.position.x = (note.position.x / 800.0) * 1920
+		note_data.position.y = (note.position.y / 450.0) * 1080
 		note_data.entry_angle = 180-rad2deg(note.rotation)
 		# Simulataneous notes have no amplitude
 		var is_multi_note = false
@@ -173,7 +168,7 @@ static func PPD2HBChart(path: String) -> HBChart:
 		if params.has(note.id):
 			for param in params[note.id]:
 				if param.type == "distance":
-					note_data.distance = param.distance/(300000.0)
+					note_data.distance = param.distance/(300000.0) * 1200
 			
 		chart.layers[same_position_note_count].timing_points.append(note_data)
 		prev_note = note_data

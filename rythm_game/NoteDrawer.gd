@@ -74,8 +74,6 @@ func _on_note_type_changed():
 	pass
 
 func get_initial_position():
-	var angle_cos = -cos(deg2rad(note_data.entry_angle))
-	var angle_sin = -sin(deg2rad(note_data.entry_angle))
 #	var x1 = 0
 #	var y1 = 0
 #	var x2 = 1.0
@@ -102,6 +100,8 @@ func get_initial_position():
 	# We used to make the notes come from the corner, but we realised we are idiots and we don't need this anymore
 	
 #	length = clamp(length, note_data.distance, note_data.distance)
+	var angle_cos = -cos(deg2rad(note_data.entry_angle))
+	var angle_sin = -sin(deg2rad(note_data.entry_angle))
 	var length = note_data.distance
 	var point = Vector2(px+length*angle_cos, py+length*angle_sin)
 

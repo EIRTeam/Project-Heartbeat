@@ -69,14 +69,14 @@ const NOTE_COLORS = {
 		"color": "f39e42"
 	}
 }
-var position: Vector2 = Vector2(0.5, 0.5) # Position goes from 0 to 1, in a 16:9 play area
+var position: Vector2 = Vector2(960, 540) # Position goes from 0 to 1, in a 16:9 play area
 var time_out: int = 1400 # time where the note target starts being visible
 var auto_time_out: bool = true # If we should get the time out value from BPM change events
 var entry_angle: float = 0.0
 var oscillation_amplitude = 0.05
-var oscillation_frequency = 1
+var oscillation_frequency = 2
 var oscillation_phase_shift = 3
-var distance = 1.0
+var distance = 1200
 func _init():
 	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
 

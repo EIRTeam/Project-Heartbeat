@@ -37,6 +37,8 @@ func _unhandled_tap(event: InputEvent):
 		if input_judgement != -1:
 			HBInput.set_tap_as_handled()
 			_on_note_judged(input_judgement)
+			
+
 	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
