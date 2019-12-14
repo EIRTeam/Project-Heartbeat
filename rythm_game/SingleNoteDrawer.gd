@@ -48,7 +48,8 @@ func update_graphic_positions_and_scale(time: float):
 	var oscillation_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
 	var starting_pos = game.remap_coords(get_initial_position())
 
-	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
+	note_graphic.position = game.remap_coords(HBUtils.get_sine_point(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
+#	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
@@ -75,17 +76,16 @@ func draw_trail(time: float):
 	
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Trail will be time_out / 2 behind
-	var trail_time = get_time_out()/2.0
+	var trail_time = get_time_out()
 	$Line2D.clear_points()
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
 	for i in range(TRAIL_RESOLUTION):
-		var starting_pos = game.remap_coords(get_initial_position())
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
-		var point1 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, note_data.oscillation_phase_shift)
-		var point2 = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, t, -note_data.oscillation_phase_shift)
+		var point1 = game.remap_coords(HBUtils.get_sine_point(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
+		var point2 = game.remap_coords(HBUtils.get_sine_point(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.5, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
 	$Line2D2.width = 6 * game.get_note_scale()

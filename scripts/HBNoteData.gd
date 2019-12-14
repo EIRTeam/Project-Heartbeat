@@ -73,10 +73,10 @@ var position: Vector2 = Vector2(960, 540) # Position goes from 0 to 1, in a 16:9
 var time_out: int = 1400 # time where the note target starts being visible
 var auto_time_out: bool = true # If we should get the time out value from BPM change events
 var entry_angle: float = 0.0
-var oscillation_amplitude = 0.05
-var oscillation_frequency = 2
-var oscillation_phase_shift = 3
-var distance = 1200
+var oscillation_amplitude = 500.0
+var oscillation_frequency = 2.0
+var oscillation_phase_shift = 3.0
+var distance = 1200.0
 func _init():
 	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
 
