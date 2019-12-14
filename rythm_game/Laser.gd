@@ -1,6 +1,6 @@
 extends Node2D
 
-const LASER_RES = 32
+const LASER_RES = 16
 
 var positions = []
 

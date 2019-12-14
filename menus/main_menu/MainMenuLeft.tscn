@@ -60,6 +60,7 @@ margin_right = 430.0
 margin_bottom = 460.0
 text = "Multiplayer"
 icon = ExtResource( 7 )
+next_menu = ""
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -86,6 +87,7 @@ margin_right = 430.0
 margin_bottom = 669.999
 text = "Exit"
 icon = ExtResource( 5 )
+next_menu = ""
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -98,7 +100,7 @@ __meta__ = {
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 margin_top = 147.0
-margin_right = 478.0
+margin_right = 424.0
 margin_bottom = 720.0
 texture = ExtResource( 8 )
 expand = true

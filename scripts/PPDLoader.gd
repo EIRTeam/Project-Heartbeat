@@ -145,7 +145,7 @@ static func PPD2HBChart(path: String) -> HBChart:
 		note_data.auto_time_out = true
 		
 		note_data.position.x = note.position.x / 800.0
-		note_data.position.y = note.position.y / 450
+		note_data.position.y = note.position.y / 450.0
 		note_data.entry_angle = 180-rad2deg(note.rotation)
 		# Simulataneous notes have no amplitude
 		var is_multi_note = false

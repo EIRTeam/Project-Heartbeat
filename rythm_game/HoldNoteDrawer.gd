@@ -7,7 +7,7 @@ var pickable = true setget set_pickable
 var holding = false
 export(float) var target_scale_modifier = 1.0
 var held_bonus_score = 0
-const TRAIL_RESOLUTION = 32 # points per second
+const TRAIL_RESOLUTION = 16 # points per second
 const INCREMENT_SCORE_BY = 10.0
 func set_pickable(value):
 	pickable = value
