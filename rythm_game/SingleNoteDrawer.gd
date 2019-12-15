@@ -65,9 +65,10 @@ func set_trail_color():
 	var gradient = Gradient.new()
 	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	color1.a = 0.0
+	color1.a = 0.1
 	color2.a = 0.5
 	gradient.set_color(0, color1)
+	gradient.set_offset(0, 0.75)
 	gradient.set_color(1, color2)
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
@@ -85,7 +86,7 @@ func draw_trail(time: float):
 		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
 		var point1 = game.remap_coords(HBUtils.get_sine_point(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
-		var point2 = game.remap_coords(HBUtils.get_sine_point(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.5, note_data.distance))
+		var point2 = game.remap_coords(HBUtils.get_sine_point(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.75, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
 	$Line2D2.width = 6 * game.get_note_scale()
