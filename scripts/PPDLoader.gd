@@ -12,14 +12,12 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
 	var u = 0
 	var marks = []
-	var right_rotation = false
 	
 	var params = {}
 	
 	while file.get_position() < file_offset + file_len:
 		var time = file.get_float()
 		if is_nan(time):
-			right_rotation = false
 
 			var count = file.get_32()
 			# TODO, make engine load 
@@ -37,16 +35,12 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 
 				while xml.read() == OK:
 					if xml.has_attribute("Key"):
-						if xml.get_named_attribute_value("Key") == "#RightRotation":
-							if xml.get_named_attribute_value("Value") == "1":
-								right_rotation = true
-						if xml.get_named_attribute_value("Key") == "Distance":
-							if not params.has(mark_id):
-								params[mark_id] = []
-							params[mark_id].append({
-								"type": "distance",
-								"distance": float(xml.get_named_attribute_value("Value"))
-							})
+						var VALUES_TO_OBTAIN = ["#RightRotation", "Distance", "Amplitude", "Frequency"]
+						for value in VALUES_TO_OBTAIN:
+							if xml.get_named_attribute_value("Key") == value:
+								if not params.has(mark_id):
+									params[mark_id] = {}
+								params[mark_id][value] = xml.get_named_attribute_value("Value")
 
 				index += 1
 				if index >= count:
@@ -76,7 +70,6 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 			"ex": is_EX,
 			"id": id,
 			"type": type,
-			"right_rotation": right_rotation,
 			"end_time": end_time
 		}
 		# TODO: Use data sector in PPD file
@@ -150,9 +143,6 @@ static func PPD2HBChart(path: String) -> HBChart:
 			is_multi_note = true
 		if is_multi_note:
 			note_data.oscillation_amplitude = 0
-			
-		if note.right_rotation:
-			print(str(i)+": ",note.right_rotation)
 				
 		note_data.note_type = PPDButton2HBNoteType[note.type]
 		
@@ -166,9 +156,15 @@ static func PPD2HBChart(path: String) -> HBChart:
 			chart.layers.append({"timing_points": [], "name": "New Layer"})
 			
 		if params.has(note.id):
-			for param in params[note.id]:
-				if param.type == "distance":
-					note_data.distance = param.distance/(300000.0) * 1200
+			var note_params = params[note.id]
+			if note_params.has("Distance"):
+				note_data.distance = float(note_params.Distance)/(300000.0) * 1200
+			if note_params.has("Amplitude"):
+				note_data.oscillation_amplitude = float(note_params.Amplitude)
+			if note_params.has("Frequency"):
+				note_data.oscillation_frequency = float(note_params.Frequency)
+			if note_params.has("#RightRotation"):
+				note_data.oscillation_frequency = -note_data.oscillation_frequency
 			
 		chart.layers[same_position_note_count].timing_points.append(note_data)
 		prev_note = note_data
