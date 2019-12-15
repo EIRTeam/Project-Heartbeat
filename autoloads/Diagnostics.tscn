@@ -3,16 +3,16 @@
 [ext_resource path="res://autoloads/Diagnostics.gd" type="Script" id=1]
 
 [node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -192.744
-margin_top = 28.393
-margin_right = -36.7439
-margin_bottom = 142.393
-script = ExtResource( 1 )
+margin_left = -193.0
+margin_top = 28.0
+margin_right = -37.0
+margin_bottom = 172.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -32,36 +32,48 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 146.0
-margin_bottom = 104.0
+margin_bottom = 138.0
 alignment = 1
 
 [node name="FrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 1.0
 margin_right = 136.0
-margin_bottom = 15.0
+margin_bottom = 14.0
 text = "FPS:"
 
 [node name="AVGFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 19.0
+margin_top = 18.0
 margin_right = 136.0
-margin_bottom = 33.0
+margin_bottom = 32.0
 text = "Avg:"
 
 [node name="MinFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 37.0
+margin_top = 36.0
 margin_right = 136.0
-margin_bottom = 51.0
+margin_bottom = 50.0
 text = "Min:"
 
 [node name="MaxFrameRateLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 55.0
+margin_top = 54.0
 margin_right = 136.0
-margin_bottom = 69.0
+margin_bottom = 68.0
 text = "Max:"
 
 [node name="ResetButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 73.0
+margin_top = 72.0
 margin_right = 136.0
-margin_bottom = 93.0
+margin_bottom = 92.0
 text = "Reset"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 96.0
+margin_right = 136.0
+margin_bottom = 100.0
+
+[node name="AutoplayCheckbox" type="CheckBox" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 104.0
+margin_right = 136.0
+margin_bottom = 128.0
+focus_mode = 0
+text = "Enable autoplay"
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ResetButton" to="Panel" method="_on_ResetButton_pressed"]

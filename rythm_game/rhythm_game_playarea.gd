@@ -41,8 +41,6 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 
-var auto_play = false
-
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 
@@ -250,7 +248,7 @@ func _process(delta):
 	last_time = time
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
-	if auto_play:
+	if Diagnostics.enable_autoplay:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBNoteData:
