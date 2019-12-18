@@ -502,15 +502,7 @@ margin_bottom = 181.0
 margin_bottom = 181.0
 
 [node name="LayerNames" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="0"]
-margin_bottom = 153.0
-
-[node name="NewLayerButton" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="1"]
-margin_left = 0.0
-margin_top = 157.0
-margin_right = 116.0
 margin_bottom = 181.0
-size_flags_horizontal = 1
-text = "Add Layer"
 
 [node name="Layers" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="1"]
 margin_bottom = 181.0
