@@ -45,7 +45,9 @@ func _ready():
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_viewport()
 	timeline.editor = self
-	timeline.add_layer(EDITOR_LAYER_SCENE.instance())
+	
+	from_chart(HBChart.new())
+	
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
@@ -84,11 +86,36 @@ func select_item(item: EditorTimelineItem):
 func get_song_duration():
 	return int(audio_stream_player.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
-	if item.update_affects_timing_points:
-		item.connect("item_changed", self, "_on_timing_points_changed")
+
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
+	add_item_to_layer(layer, item)
+	
+func add_item_to_layer(layer, item: EditorTimelineItem):
+	if item.update_affects_timing_points:
+		item.connect("item_changed", self, "_on_timing_points_changed")
+	else:
+		item.connect("item_changed", self, "_on_item_changed")
 	layer.add_item(item)
+func _on_item_changed():
+	# Ensure note is in the proper layer
+	if selected:
+		var note = selected.data
+		if note is HBNoteData:
+			for layer in timeline.get_layers():
+				if note in layer.get_timing_points():
+					var note_type_string = HBUtils.find_key(HBNoteData.NOTE_TYPE, note.note_type)
+					# We move the note to the proper layer if we find it's not in the correct one
+					if not note_type_string == layer.layer_name:
+						var found_proper_layer = false
+						for l in timeline.get_layers():
+							if l.layer_name == note_type_string:
+								l.drop_data(null, selected)
+								break
+						if found_proper_layer:
+							break
+					else:
+						break
 	
 func add_user_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -164,6 +191,7 @@ func _input(event):
 			if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
 				
 				$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+			
 			selected.deselect()
 			selected.free()
 			selected = null
@@ -221,11 +249,13 @@ func from_chart(chart: HBChart):
 	selected = null
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
+		layer_scene.layer_name = layer.name
 		timeline.add_layer(layer_scene)
+		var layer_n = timeline.get_layers().size()-1
 		for item_d in layer.timing_points:
 			var item = item_d.get_timeline_item()
 			item.data = item_d
-			layer_scene.add_item(item)
+			add_item(layer_n, item)
 	_on_timing_points_changed()
 
 func _on_SongSelector_chart_selected(song_id, difficulty):

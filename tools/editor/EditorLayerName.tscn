@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/editor/EditorLayerName.gd" type="Script" id=1]
+[ext_resource path="res://graphics/icon_packs/playstation/notes/Circle.png" type="Texture" id=2]
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=3]
 
-[sub_resource type="StyleBoxFlat" id=2073]
+[sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
@@ -16,7 +17,7 @@ border_color = Color( 0.541176, 0.541176, 0.541176, 1 )
 margin_right = 116.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = SubResource( 2073 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -33,3 +34,11 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LayerNoteType" type="TextureRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6

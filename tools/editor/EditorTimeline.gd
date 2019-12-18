@@ -137,10 +137,6 @@ func _input(event):
 		if get_global_rect().has_point(get_global_mouse_position()):
 			if Input.is_action_pressed("editor_pan"):
 				set_layers_offset(max(_offset - editor.scale_pixels(event.relative.x), 0))
-
-
-func _on_NewLayerButton_pressed():
-	add_layer(EDITOR_LAYER_SCENE.instance())
 	
 func _on_new_song_loaded(song: HBSong):
 	var file := File.new()

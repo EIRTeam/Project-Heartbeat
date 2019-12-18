@@ -1,6 +1,22 @@
 class_name HBChart
 
 var layers = []
+
+func _init():
+	pass
+	_populate_layers()
+
+func _populate_layers():
+	for NOTE_TYPE in HBNoteData.NOTE_TYPE:
+		layers.append({
+			"name": NOTE_TYPE,
+			"timing_points": []
+		})
+	layers.append({
+		"name": "Events",
+		"timing_points": []
+	})
+
 func compare_notes(a, b):
 	if a.time < b.time:
 		return true
@@ -49,7 +65,15 @@ func deserialize(data: Dictionary):
 		for point in layer.timing_points:
 			var _point = HBTimingPoint.deserialize(point)
 			timing_points.append(_point)
-		layers.append({
-			"name": layer.name,
-			"timing_points": timing_points
-		})
+			
+		var found_matching_layer = false
+		for l in layers:
+			if l.name == layer.name:
+				l.timing_points = timing_points
+				found_matching_layer = true
+				break
+		if not found_matching_layer:
+			layers.append({
+				"name": layer.name,
+				"timing_points": timing_points
+			})

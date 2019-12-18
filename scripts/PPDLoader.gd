@@ -145,15 +145,6 @@ static func PPD2HBChart(path: String) -> HBChart:
 			note_data.oscillation_amplitude = 0
 				
 		note_data.note_type = PPDButton2HBNoteType[note.type]
-		
-		if prev_note:
-			if prev_note.time == note_data.time:
-				same_position_note_count += 1
-			else:
-				same_position_note_count = 0
-		
-		while chart.layers.size() < same_position_note_count+1:
-			chart.layers.append({"timing_points": [], "name": "New Layer"})
 			
 		if params.has(note.id):
 			var note_params = params[note.id]
@@ -165,8 +156,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 				note_data.oscillation_frequency = float(note_params.Frequency)
 			if note_params.has("#RightRotation"):
 				note_data.oscillation_frequency = -note_data.oscillation_frequency
-			
-		chart.layers[same_position_note_count].timing_points.append(note_data)
+		for l in chart.layers:
+			if l.name == HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type):
+				chart.layers[note_data.note_type].timing_points.append(note_data)
 		prev_note = note_data
 
 	return chart

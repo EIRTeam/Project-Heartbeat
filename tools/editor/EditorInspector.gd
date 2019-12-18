@@ -34,9 +34,9 @@ func update_values():
 	for property in inspecting_item.get_inspector_properties():
 		var editor = inspecting_properties[property]
 		# UGLYYYY but works
-		editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
+#		editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
 		inspecting_properties[property].set_value(inspecting_item.data.get(property))
-		editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
+#		editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
 		
 
 func inspect(item: EditorTimelineItem):

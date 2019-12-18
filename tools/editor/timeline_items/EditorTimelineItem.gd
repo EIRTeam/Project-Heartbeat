@@ -43,6 +43,7 @@ func deselect():
 	modulate = Color.white
 	if widget:
 		widget.queue_free()
+		widget = null
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
@@ -52,7 +53,6 @@ func _gui_input(event: InputEvent):
 		set_process(true)
 		editor.select_item(self)
 		get_tree().set_input_as_handled()
-
 	elif event.is_action_released("editor_select"):
 		set_process(false)
 		get_tree().set_input_as_handled()

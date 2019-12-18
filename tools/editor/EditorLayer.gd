@@ -9,6 +9,7 @@ onready var preview = get_node("EditorTimelinePreview")
 func _ready():
 	preview.hide()
 	
+	
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
@@ -55,12 +56,29 @@ func get_editor_items():
 			points.append(child)
 	return points
 
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if layer_name in HBNoteData.NOTE_TYPE.keys():
+			if event.doubleclick:
+				var new_note = HBNoteData.new()
+				new_note.note_type = HBNoteData.NOTE_TYPE[layer_name]
+				new_note.time = editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x))
+				var found_item_at_same_time = false # To prevent items being placed at the same time when creating a note with snap on
+				for i in get_timing_points():
+					if i.time == new_note.time:
+						found_item_at_same_time = true
+				if not found_item_at_same_time:
+					var item = new_note.get_timeline_item()
+					item.data = new_note
+					editor.add_item_to_layer(self, item)
+					editor._on_timing_points_changed()
+
 func drop_data(position, data: EditorTimelineItem):
 	data._layer.remove_child(data)
 	data.disconnect("item_changed", data._layer, "place_child")
-	data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
+	if not position == null:
+		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
 	add_item(data)
-
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
