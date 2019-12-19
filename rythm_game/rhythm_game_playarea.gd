@@ -33,7 +33,6 @@ var judge = preload("res://rythm_game/judge.gd").new()
 var time_begin: int
 var time_delay: float
 var time: float
-var last_time: float = -1.0 # time at the last cycle
 var current_combo = 0
 var timing_points = [] setget set_timing_points
 
@@ -243,9 +242,7 @@ func _process(delta):
 		var file = File.new()
 		file.open("user://testresult.json", File.WRITE)
 		file.store_string(JSON.print(result.serialize(), "  "))
-	if not time == last_time:
-		emit_signal("time_changed", time+input_lag_compensation)
-	last_time = time
+	emit_signal("time_changed", time+input_lag_compensation)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
 	if Diagnostics.enable_autoplay:
