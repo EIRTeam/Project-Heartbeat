@@ -130,11 +130,11 @@ func _on_item_changed():
 					else:
 						break
 	
-func add_user_timing_point(timing_point_class: GDScript):
+func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
 	timing_point.time = playhead_position
-	add_item(0, timing_point.get_timeline_item())
-	_on_timing_points_changed()
+	# Event layer is the last one
+	user_create_timing_point(timeline.get_layers()[-1], timing_point.get_timeline_item())
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
 	audio_stream_player.volume_db = 0
