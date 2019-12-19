@@ -32,9 +32,15 @@ func _ready():
 		hard_arrange_all()
 	for child in get_children():
 		if child is BaseButton:
-			child.connect("pressed", self, "_on_button_pressed", [child])
+			child.connect("pressed", self, "_on_button_pressed", [child], CONNECT_ONESHOT)
 	hard_arrange_all()
+	
+var ignore_next_press = false
+
 func _on_button_pressed(option: BaseButton):
+	if ignore_next_press:
+		ignore_next_press = false
+		return
 	if has_focus():
 		if option != selected_option:
 			selected_option = option
@@ -44,15 +50,9 @@ func _on_button_pressed(option: BaseButton):
 				if option.next_menu:
 					emit_signal("navigate_to_menu", option.next_menu)
 					emit_signal("navigated")
-				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
-				option.disconnect("pressed", self, "_on_button_pressed")
-				option.emit_signal("pressed")
-				option.connect("pressed", self, "_on_button_pressed", [option])
-			else:
-				# HACK?: we temporarily disconnect the pressed signal so we don't create an inifinite loop
-				option.disconnect("pressed", self, "_on_button_pressed")
-				option.emit_signal("pressed")
-				option.connect("pressed", self, "_on_button_pressed", [option])
+			ignore_next_press = true
+			option.emit_signal("pressed")
+			option.connect("pressed", self, "_on_button_pressed", [option], CONNECT_ONESHOT)
 				
 func _on_focus_entered():
 	print("FOCUS")
