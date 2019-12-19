@@ -99,7 +99,7 @@ static func get_note_graphics(type):
 	return graphics
 	
 static func can_show_in_editor():
-	return true
+	return false
 	
 func get_timeline_item():
 	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
