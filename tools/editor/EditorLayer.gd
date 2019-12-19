@@ -30,8 +30,12 @@ func add_item(item: EditorTimelineItem):
 	item._layer = self
 	item.editor = editor
 	place_child(item)
-	item.connect("item_changed", self, "place_child", [item])
+	if not item.is_connected("item_changed", self, "place_child"):
+		item.connect("item_changed", self, "place_child", [item])
 	add_child(item)
+
+func remove_item(item: EditorTimelineItem):
+	remove_child(item)
 
 func can_drop_data(position, data):
 	if data is EditorTimelineItem:
@@ -70,8 +74,7 @@ func _gui_input(event):
 				if not found_item_at_same_time:
 					var item = new_note.get_timeline_item()
 					item.data = new_note
-					editor.add_item_to_layer(self, item)
-					editor._on_timing_points_changed()
+					editor.user_create_timing_point(self, item)
 
 func drop_data(position, data: EditorTimelineItem):
 	data._layer.remove_child(data)

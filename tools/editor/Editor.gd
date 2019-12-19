@@ -35,6 +35,8 @@ var snap_to_grid_enabled = false
 
 var timeline_snap_enabled = false
 	
+var undo_redo = UndoRedo.new()
+	
 func set_bpm(value):
 	BPM_spinbox.value = value
 
@@ -52,6 +54,14 @@ func _ready():
 	seek(0)
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	
+	
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_undo"):
+		get_tree().set_input_as_handled()
+		undo_redo.undo()
+	if event.is_action_pressed("ui_redo"):
+		get_tree().set_input_as_handled()
+		undo_redo.redo()
 	
 func get_timing_points():
 	var points = []
@@ -93,10 +103,13 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 	
 func add_item_to_layer(layer, item: EditorTimelineItem):
 	if item.update_affects_timing_points:
-		item.connect("item_changed", self, "_on_timing_points_changed")
+		if not item.is_connected("item_changed", self, "_on_timing_points_changed"):
+			item.connect("item_changed", self, "_on_timing_points_changed")
 	else:
-		item.connect("item_changed", self, "_on_item_changed")
+		if not item.is_connected("item_changed", self, "_on_item_changed"):
+			item.connect("item_changed", self, "_on_item_changed")
 	layer.add_item(item)
+	
 func _on_item_changed():
 	# Ensure note is in the proper layer
 	if selected:
@@ -187,15 +200,31 @@ func _input(event):
 			emit_signal("scale_changed", prev_scale, scale)
 	if event.is_action_pressed("editor_delete"):
 		if selected:
+			delete_selected()
 			
-			if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
-				
-				$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+func delete_selected():
+	if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
+		$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+	selected.deselect()
+	undo_redo.create_action("Delete note")
+	undo_redo.add_do_reference(selected)
+	undo_redo.add_do_method(selected._layer, "remove_item", selected)
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_reference(selected)
+	undo_redo.add_undo_method("add_item_to_layer", selected._layer, selected)
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.commit_action()
 			
-			selected.deselect()
-			selected.free()
-			selected = null
-			_on_timing_points_changed()
+func user_create_timing_point(layer, item: EditorTimelineItem):
+	undo_redo.create_action("Add new timing point")
+	undo_redo.add_do_reference(item)
+	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_reference(item)
+	undo_redo.add_undo_method(layer, "remove_item", item)
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.commit_action()
+			
 func pause():
 	recording = false
 	audio_stream_player.stream_paused = true
