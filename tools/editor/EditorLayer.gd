@@ -74,6 +74,7 @@ func _gui_input(event):
 				for i in get_timing_points():
 					if i.time == new_note.time:
 						found_item_at_same_time = true
+						break
 				if not found_item_at_same_time:
 					var item = new_note.get_timeline_item()
 					item.data = new_note
