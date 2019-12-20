@@ -219,20 +219,18 @@ func delete_selected():
 		$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
 	selected.deselect()
 	undo_redo.create_action("Delete note")
-	undo_redo.add_do_reference(selected)
 	undo_redo.add_do_method(selected._layer, "remove_item", selected)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_reference(selected)
-	undo_redo.add_undo_method("add_item_to_layer", selected._layer, selected)
+	undo_redo.add_undo_method(self, "add_item_to_layer", selected._layer, selected)
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
+	selected = null
+	
 			
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
-	undo_redo.add_do_reference(item)
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_reference(item)
 	undo_redo.add_undo_method(layer, "remove_item", item)
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
