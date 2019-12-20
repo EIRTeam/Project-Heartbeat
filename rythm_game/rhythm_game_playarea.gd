@@ -32,7 +32,7 @@ var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
 var time_delay: float
-var time: float
+var time: float	
 var current_combo = 0
 var timing_points = [] setget set_timing_points
 
@@ -46,6 +46,7 @@ const MAX_SCALE = 1.5
 var size = Vector2(1280, 720) setget set_size
 
 var editing = false
+var previewing = false
 
 const MAX_NOTE_SFX = 4
 
@@ -235,7 +236,7 @@ func _process(delta):
 							multi_notes = []
 					else:
 						multi_notes.append(timing_point)
-				if not editing:
+				if not editing or previewing:
 					timing_points.remove(i)
 
 	if timing_points.size() == 0:
@@ -245,7 +246,7 @@ func _process(delta):
 	emit_signal("time_changed", time+input_lag_compensation)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
-	if Diagnostics.enable_autoplay:
+	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBNoteData:
@@ -257,7 +258,7 @@ func _process(delta):
 					Input.parse_input_event(a)
 func _on_notes_judged(notes: Array, judgement):
 	var note = notes[0]
-	if not editing:
+	if not editing or previewing:
 		# Rating graphic
 		if judgement < judge.JUDGE_RATINGS.FINE:
 			current_combo = 0
@@ -287,7 +288,10 @@ func _on_notes_judged(notes: Array, judgement):
 		rating_label.rect_size = rating_label.get_combined_minimum_size()
 		rating_label.rect_position = remap_coords(avg_pos) - rating_label.get_combined_minimum_size() / 2
 		rating_label.rect_position.y -= 64
-		rating_label.show()
+		if not previewing:
+			rating_label.show()
+		else:
+			rating_label.hide()
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				
@@ -310,8 +314,9 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):
-	result.score += score_to_add
-	score_counter.score = result.score
+	if not previewing:
+		result.score += score_to_add
+		score_counter.score = result.score
 
 
 func _on_AudioStreamPlayer_finished():
