@@ -101,34 +101,46 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
 	
+func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
+	print("CHANGING PROP ", property_name, " from " + str(old_value) + " to ", str(new_value))
+	
+	var action_name = "Note " + property_name + " changed"
+	undo_redo.create_action(action_name)
+	undo_redo.add_do_property(child.data, property_name, new_value)
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	
+	undo_redo.add_undo_property(child.data, property_name, old_value)
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	if property_name == "position":
+		undo_redo.add_do_method(child, "update_widget_position")
+		undo_redo.add_undo_method(child, "update_widget_position")
+	
+	undo_redo.commit_action()
+	var note = child.data
+	if property_name == "note_type":
+		var layer = child._layer
+		var note_type_string = HBUtils.find_key(HBNoteData.NOTE_TYPE, note.note_type)
+		# We move the note to the proper layer if we find it's not in the correct one
+		if not note_type_string == layer.layer_name:
+			for l in timeline.get_layers():
+				if l.layer_name == note_type_string:
+					l.drop_data(null, selected)
+					break
 func add_item_to_layer(layer, item: EditorTimelineItem):
 	if item.update_affects_timing_points:
-		if not item.is_connected("item_changed", self, "_on_timing_points_changed"):
-			item.connect("item_changed", self, "_on_timing_points_changed")
+		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
+			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])
 	else:
-		if not item.is_connected("item_changed", self, "_on_item_changed"):
-			item.connect("item_changed", self, "_on_item_changed")
+		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
+			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
 	layer.add_item(item)
 	
 func _on_item_changed():
 	# Ensure note is in the proper layer
 	if selected:
 		var note = selected.data
-		if note is HBNoteData:
-			for layer in timeline.get_layers():
-				if note in layer.get_timing_points():
-					var note_type_string = HBUtils.find_key(HBNoteData.NOTE_TYPE, note.note_type)
-					# We move the note to the proper layer if we find it's not in the correct one
-					if not note_type_string == layer.layer_name:
-						var found_proper_layer = false
-						for l in timeline.get_layers():
-							if l.layer_name == note_type_string:
-								l.drop_data(null, selected)
-								break
-						if found_proper_layer:
-							break
-					else:
-						break
+
 	
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -143,7 +155,6 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	_audio_play_offset = position / 1000.0
-	
 	playhead_position = max(position, 0.0)
 	emit_signal("playhead_position_changed")
 
@@ -230,6 +241,7 @@ func pause():
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80
 	audio_stream_player.stop()
+	_on_timing_points_changed()
 func _on_PauseButton_pressed():
 	pause()
 
@@ -274,6 +286,7 @@ func serialize_chart():
 
 func from_chart(chart: HBChart):
 	timeline.clear_layers()
+	undo_redo.clear_history()
 
 	selected = null
 	for layer in chart.layers:

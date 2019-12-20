@@ -2,7 +2,7 @@ extends Control
 
 class_name EditorTimelineItem
 
-signal item_changed
+signal property_changed(property_name, old_value, new_value)
 
 var data = HBTimingPoint.new()
 
@@ -13,18 +13,23 @@ var editor
 var _drag_start_position : Vector2
 var _drag_start_time : float
 var _drag_x_offset : float
+var _drag_new_time : float
 var _layer
 
 var widget: HBEditorWidget
 var update_affects_timing_points = false
+
+signal time_changed
 
 func _ready():
 	deselect()
 	set_process(false)
 
 func set_start(value: int):
-	data.time = value
-	emit_signal("item_changed")
+	if data.time != value:
+		data.time = value
+		emit_signal("time_changed")
+
 
 func get_editor_size():
 	return Vector2(editor.scale_msec(get_duration()), rect_size.y)
@@ -53,9 +58,11 @@ func _gui_input(event: InputEvent):
 		set_process(true)
 		editor.select_item(self)
 		get_tree().set_input_as_handled()
-	elif event.is_action_released("editor_select"):
+	elif event.is_action_released("editor_select") and not event.is_echo():
 		set_process(false)
 		get_tree().set_input_as_handled()
+		if _drag_start_time != data.time:
+			emit_signal("property_changed", "time", _drag_start_time, data.time)
 		
 func select():
 	modulate = Color(0.5, 0.5, 0.5, 1.0)
@@ -71,9 +78,14 @@ func get_editor_widget() -> PackedScene:
 	
 func connect_widget(widget: HBEditorWidget):
 	self.widget = widget
-	var new_pos = editor.rhythm_game.remap_coords(data.position)
-	self.widget.rect_position = new_pos - self.widget.rect_size / 2
+	update_widget_position()
+
 	
+func update_widget_position():
+	if widget:
+		widget.starting_pos = data.position
+		var new_pos = editor.rhythm_game.remap_coords(data.position)
+		self.widget.rect_position = new_pos - self.widget.rect_size / 2
 	
 func get_duration():
 	return 1000

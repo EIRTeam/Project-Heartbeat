@@ -12,6 +12,7 @@ enum DIRECTION {
 signal dragged(relative_movement)
 
 signal start_dragging
+signal finish_dragging
 
 export(DIRECTION) var direction = DIRECTION.Y
 var fired_drag_start = false
@@ -29,6 +30,7 @@ func _input(event):
 
 		if event.is_action_released("editor_select"):
 			fired_drag_start = false
+			emit_signal("finish_dragging")
 	
 func _on_mouse_entered():
 	hovering = true

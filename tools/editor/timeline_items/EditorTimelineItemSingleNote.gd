@@ -26,8 +26,12 @@ func get_editor_widget():
 	return preload("res://tools/editor/widgets/NoteMovementWidget.tscn")
 
 func _on_note_moved(new_position: Vector2):
+	var old_pos = data.position
 	data.position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_position + widget.rect_size/2))
-	emit_signal("item_changed")
+#	emit_signal("property_changed", "position", old_pos, data.position)
+
+func _on_note_moving_finished():
+	emit_signal("property_changed", "position", widget.starting_pos, data.position)
 
 func _on_view_port_size_changed():
 	if self.widget:
@@ -40,3 +44,4 @@ func _on_view_port_size_changed():
 func connect_widget(widget: HBEditorWidget):
 	.connect_widget(widget)
 	widget.connect("note_moved", self, "_on_note_moved")
+	widget.connect("note_moving_finished", self, "_on_note_moving_finished")

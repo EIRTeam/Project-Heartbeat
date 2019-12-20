@@ -18,8 +18,9 @@ func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
 
 func _on_property_value_changed_by_user(value, property_editor):
+	var old_val = inspecting_item.data.get(property_editor.property_name)
 	inspecting_item.data.set(property_editor.property_name, value)
-	inspecting_item.emit_signal("item_changed")
+	inspecting_item.emit_signal("property_changed", property_editor.property_name, old_val, value)
 
 func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
@@ -29,22 +30,28 @@ func stop_inspecting():
 	for child in property_container.get_children():
 		child.free()
 
-func update_values():
+func update_value(name, old_value, new_value):
 	update_label()
-	for property in inspecting_item.get_inspector_properties():
-		var editor = inspecting_properties[property]
-		# UGLYYYY but works
-#		editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
-		inspecting_properties[property].set_value(inspecting_item.data.get(property))
-#		editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
+	for property_name in inspecting_item.get_inspector_properties():
+		if property_name == name:
+			var editor = inspecting_properties[property_name]
+			editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
+			inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
+			editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
 		
+func update_values():
+	for property_name in inspecting_item.get_inspector_properties():
+		var editor = inspecting_properties[property_name]
+		editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
+		inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
+		editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
 
 func inspect(item: EditorTimelineItem):
 	print(item)
 	if item == inspecting_item:
 		return
 	if inspecting_item:
-		inspecting_item.disconnect("item_changed", self, "update_values")
+		inspecting_item.disconnect("property_changed", self, "update_value")
 	inspecting_properties = {}
 	inspecting_item = item
 	
@@ -54,7 +61,7 @@ func inspect(item: EditorTimelineItem):
 		child.free()
 	var properties = item.get_inspector_properties()
 	
-	item.connect("item_changed", self, "update_values")
+	item.connect("property_changed", self, "update_value")
 	
 	for property in properties:
 		var inspector_editor = get_inspector_type(properties[property]).instance()

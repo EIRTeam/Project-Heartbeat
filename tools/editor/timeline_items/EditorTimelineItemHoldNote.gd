@@ -3,7 +3,7 @@ extends "res://tools/editor/timeline_items/EditorTimelineItemSingleNote.gd"
 func _init():
 	update_affects_timing_points = true
 func _ready():
-	connect("item_changed", self, "set_texture")
+	connect("property_changed", self, "_on_property_changed")
 	set_texture()
 	
 func get_inspector_properties():
@@ -11,6 +11,10 @@ func get_inspector_properties():
 		"duration": "int",
 	})
 	return props
+
+func _on_property_changed(property_name, old_value, new_value):
+	if property_name == "note_type":
+		set_texture()
 
 func get_duration():
 	return data.duration
@@ -43,5 +47,6 @@ func get_editor_widget():
 	return preload("res://tools/editor/widgets/NoteMovementWidget.tscn")
 
 func _on_note_moved(new_position: Vector2):
+	var old_pos = data.position
 	data.position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_position + widget.rect_size/2))
-	emit_signal("item_changed")
+	emit_signal("property_changed", "position", old_pos, data.position)
