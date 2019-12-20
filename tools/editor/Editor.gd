@@ -148,6 +148,7 @@ func add_event_timing_point(timing_point_class: GDScript):
 	# Event layer is the last one
 	user_create_timing_point(timeline.get_layers()[-1], timing_point.get_timeline_item())
 func play_from_pos(position: float):
+	rhythm_game.previewing = true
 	audio_stream_player.stream_paused = false
 	audio_stream_player.volume_db = 0
 	audio_stream_player.play()
@@ -242,6 +243,7 @@ func pause():
 	audio_stream_player.volume_db = -80
 	audio_stream_player.stop()
 	_on_timing_points_changed()
+	rhythm_game.previewing = false
 func _on_PauseButton_pressed():
 	pause()
 
