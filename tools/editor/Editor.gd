@@ -101,16 +101,20 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
 	
+# Handles when a user changes a timing point's property
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
-	print("CHANGING PROP ", property_name, " from " + str(old_value) + " to ", str(new_value))
+	
 	
 	var action_name = "Note " + property_name + " changed"
 	undo_redo.create_action(action_name)
+	
 	undo_redo.add_do_property(child.data, property_name, new_value)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(child._layer, "place_child", child)
 	
 	undo_redo.add_undo_property(child.data, property_name, old_value)
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(child._layer, "place_child", child)
 	
 	if property_name == "position":
 		undo_redo.add_do_method(child, "update_widget_position")
@@ -259,6 +263,7 @@ func _on_RecordButton_pressed():
 	recording = true
 	play_from_pos(playhead_position)
 	
+# Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.timing_points = get_timing_points()
