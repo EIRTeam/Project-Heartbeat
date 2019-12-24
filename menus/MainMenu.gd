@@ -87,7 +87,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		# Right side of menus are single instance if they are the same
 		right_menu = MENUS[menu_data.right].right as HBMenu
 		right_menu_container.add_child(right_menu)
-		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
+#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		right_menu._on_menu_enter(force_hard_transition, args)
 
 # Audio playback shit
