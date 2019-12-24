@@ -17,11 +17,12 @@ var inspecting_properties = {}
 func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
 
+var ignore_next_value_update = false
+
 func _on_property_value_changed_by_user(value, property_editor):
 	var old_val = inspecting_item.data.get(property_editor.property_name)
 	inspecting_item.data.set(property_editor.property_name, value)
 	inspecting_item.emit_signal("property_changed", property_editor.property_name, old_val, value)
-
 func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
@@ -31,13 +32,15 @@ func stop_inspecting():
 		child.free()
 
 func update_value(name, old_value, new_value):
+	if ignore_next_value_update:
+		ignore_next_value_update = false
+		return
 	update_label()
 	for property_name in inspecting_item.get_inspector_properties():
 		if property_name == name:
 			var editor = inspecting_properties[property_name]
-			editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
+			ignore_next_value_update = true
 			inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
-			editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
 		
 func update_values():
 	for property_name in inspecting_item.get_inspector_properties():
