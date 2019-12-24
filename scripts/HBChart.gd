@@ -16,16 +16,16 @@ func _populate_layers():
 		"name": "Events",
 		"timing_points": []
 	})
-
-func compare_notes(a, b):
-	if a.time < b.time:
-		return true
-	return false
+	
+func _note_comparison(a, b):
+	return a.time < b.time
+	
 func get_timing_points():
 	var points = []
 	for layer in layers:
 		var items = layer.timing_points
 		points += items
+	points.sort_custom(self, "_note_comparison")
 	return points
 	
 	

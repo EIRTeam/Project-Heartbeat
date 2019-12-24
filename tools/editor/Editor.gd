@@ -62,13 +62,17 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_redo"):
 		get_tree().set_input_as_handled()
 		undo_redo.redo()
-	
+
+func _note_comparison(a, b):
+	return a.time < b.time
+
 func get_timing_points():
 	var points = []
 	var chart = HBChart.new()
 	var layers = timeline.get_layers()
 	for layer in layers:
 		points += layer.get_timing_points()
+	points.sort_custom(self, "_note_comparison")
 	return points
 	
 func get_simplified_timing_points():
@@ -104,7 +108,7 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 # Handles when a user changes a timing point's property
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
 	
-	
+	print("PROP " + property_name + " changed")
 	var action_name = "Note " + property_name + " changed"
 	undo_redo.create_action(action_name)
 	
