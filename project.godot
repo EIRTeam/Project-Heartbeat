@@ -144,6 +144,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBUtils.gd"
 }, {
+"base": "Node",
+"class": "HBVersion",
+"language": "GDScript",
+"path": "res://scripts/HBVersion.gd"
+}, {
 "base": "Reference",
 "class": "PPDLoader",
 "language": "GDScript",
@@ -182,6 +187,7 @@ _global_script_class_icons={
 "HBTimingPoint": "",
 "HBUserSettings": "",
 "HBUtils": "",
+"HBVersion": "",
 "PPDLoader": "",
 "PPDPack": ""
 }
@@ -195,6 +201,9 @@ config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
+config/version="Early Access v0.1.0"
+config/build_time=1577183832
+config/build_commit="ffc83204da5199271cce7f3357187e04e96336a3"
 
 [audio]
 

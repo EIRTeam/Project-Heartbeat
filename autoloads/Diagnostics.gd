@@ -13,7 +13,7 @@ func set_autoplay(value):
 func _ready():
 	$Panel.hide()
 	$Panel/MarginContainer/VBoxContainer/AutoplayCheckbox.connect("toggled", self, "set_autoplay")
-	
+	$"Version Label".text = HBVersion.get_version_string()
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		$Panel.visible = !$Panel.visible
