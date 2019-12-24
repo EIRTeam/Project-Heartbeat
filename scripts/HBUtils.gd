@@ -88,7 +88,7 @@ static func find_key(dictionary, value):
 	var index = dictionary.values().find(value)
 	return dictionary.keys()[index]
 
-static func get_sine_point(time: float, pos: Vector2, degrees: float, frequency: float, amplitude: float, distance: float):
+static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequency: float, amplitude: float, distance: float):
 	if distance == 0:
 		return pos
 	elif not fmod(frequency, 2) == 0:
@@ -96,5 +96,5 @@ static func get_sine_point(time: float, pos: Vector2, degrees: float, frequency:
 	time = 1.0 - time
 	var point_x = time * distance
 	var point_y = sin(time * PI * frequency) / 12.0 * amplitude
-	var point = Vector2(point_x, point_y).rotated(deg2rad(degrees - 180.0)) + pos
+	var point = Vector2(point_x, point_y).rotated(deg2rad(angle - 180.0)) + pos
 	return point
