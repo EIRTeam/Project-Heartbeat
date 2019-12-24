@@ -194,6 +194,7 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [audio]
 
