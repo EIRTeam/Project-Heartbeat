@@ -22,7 +22,9 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 	buttons.grab_focus()
 
 func _ready():
-	for rating in HBJudge.JUDGE_RATINGS.values():
+	var values = HBJudge.JUDGE_RATINGS.values()
+	for i in range(values.size()-1, -1, -1):
+		var rating = values[i]
 		var rating_scene = ResultRating.instance()
 		rating_results_container.add_child(rating_scene)
 		rating_results_scenes[rating] = rating_scene
