@@ -125,19 +125,19 @@ __meta__ = {
 }
 
 [node name="SongAuthor" type="Label" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_right = 134.0
+margin_right = 101.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 6 )
-text = "KEN BLAST"
+text = "NOSONG"
 valign = 1
 uppercase = true
 
 [node name="SongName" type="Label" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 149.0
-margin_right = 239.0
+margin_left = 116.0
+margin_right = 215.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 5 )
-text = "The Top"
+text = "LOADED"
 valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/Panel/VBoxContainer"]
