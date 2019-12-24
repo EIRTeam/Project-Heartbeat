@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,16 +64,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1028"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="5.8901994"
-     inkscape:cx="40.556378"
-     inkscape:cy="40.14843"
-     inkscape:window-x="1920"
+     inkscape:zoom="8.3299999"
+     inkscape:cx="40.138938"
+     inkscape:cy="50.211469"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g832">
@@ -106,8 +106,13 @@
   <g
      id="g832">
     <path
-       style="opacity:1;vector-effect:none;fill:#040d59;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.10638332;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 50 20.367188 A 29.632675 29.632675 0 0 0 20.367188 50 A 29.632675 29.632675 0 0 0 50 79.632812 A 29.632675 29.632675 0 0 0 79.632812 50 A 29.632675 29.632675 0 0 0 50 20.367188 z M 50 32.951172 A 17.048836 17.048836 0 0 1 67.048828 50 A 17.048836 17.048836 0 0 1 50 67.048828 A 17.048836 17.048836 0 0 1 32.951172 50 A 17.048836 17.048836 0 0 1 50 32.951172 z "
-       id="path949" />
+       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:6.20925617;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 50,14.826172 A 35.174068,35.174068 0 0 0 14.826172,50 35.174068,35.174068 0 0 0 50,85.173828 35.174068,35.174068 0 0 0 85.173828,50 35.174068,35.174068 0 0 0 50,14.826172 Z m 0,18.007812 A 17.166866,17.166866 0 0 1 67.166016,50 17.166866,17.166866 0 0 1 50,67.166016 17.166866,17.166866 0 0 1 32.833984,50 17.166866,17.166866 0 0 1 50,32.833984 Z"
+       id="main_path"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:#94107f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 86.314528,20.168066 A 30.372149,30.372149 0 0 1 55.942379,50.540215 30.372149,30.372149 0 0 1 25.57023,20.168066 30.372149,30.372149 0 0 1 55.942379,-10.204082 30.372149,30.372149 0 0 1 86.314528,20.168066 Z"
+       id="shadow" />
   </g>
 </svg>

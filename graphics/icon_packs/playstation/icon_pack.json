@@ -2,7 +2,8 @@
     "name": "PlayStation™",
     "graphics": {
         "LEFT": {
-            "color": "#f84ac7",
+            "color": "#f971d3",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -33,6 +34,7 @@
         },
         "DOWN": {
             "color": "#2996f8",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -63,6 +65,7 @@
         },
         "RIGHT": {
             "color": "#ff0c5c",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -92,7 +95,8 @@
             }
         },
         "UP": {
-            "color": "#00cc94",
+            "color": "#09e2a6",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -122,7 +126,8 @@
             }
         },
         "SLIDE_LEFT": {
-            "color": "#f39e42",
+            "color": "#f6b977",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -152,7 +157,8 @@
             }
         },
         "SLIDE_RIGHT": {
-            "color": "#f39e42",
+            "color": "#f6b977",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",

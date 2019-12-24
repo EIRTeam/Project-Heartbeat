@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,16 +64,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1028"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="5.8901994"
-     inkscape:cx="81.757081"
-     inkscape:cy="21.017832"
-     inkscape:window-x="1920"
+     inkscape:cx="31.074964"
+     inkscape:cy="36.894571"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g832">
@@ -107,7 +107,14 @@
      id="g832">
     <path
        style="opacity:1;vector-effect:none;fill:#055904;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.95617247;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 20.375 20.375 L 20.375 79.625 L 79.625 79.625 L 79.625 20.375 L 20.375 20.375 z M 32.939453 32.939453 L 67.060547 32.939453 L 67.060547 67.060547 L 32.939453 67.060547 L 32.939453 32.939453 z "
-       id="rect897" />
+       d="m 20.375,20.375 v 59.25 h 59.25 V 20.375 Z M 34.939,34.939 H 65.061 V 65.061 H 34.939 Z"
+       id="main_path"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       style="opacity:1;vector-effect:none;fill:#040d59;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 9.9316406,11.716797 V 34.552734 H 29.285156 v 2.376954 h 7.046875 V 29.882812 H 32.595703 V 11.716797 Z M 53.648438,22.583984 v 2.460938 h 2.460937 v -2.460938 z m -8.574219,1.1875 v 4.330078 h 4.330078 v -4.330078 z m 12.138672,4.5 v 4.667969 h 4.669921 v -4.667969 z"
+       id="shadow"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
