@@ -21,15 +21,17 @@ func popullate_tree():
 	create_item()
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		var item := create_item()
-		item.set_text(0, song.title)
-		if mode == SELECTOR_MODE.CHART:
-			item.set_selectable(0, false)
-			for chart in song.charts:
-				var chart_item := create_item(item)
-				chart_item.set_text(0, chart.capitalize())
-				chart_item.set_meta("song_id", song_id)
-				chart_item.set_meta("difficulty", chart)
+		if not song is HBPPDSong:
+			var item := create_item()
+			item.set_text(0, song.title)
+			
+			if mode == SELECTOR_MODE.CHART:
+				item.set_selectable(0, false)
+				for chart in song.charts:
+					var chart_item := create_item(item)
+					chart_item.set_text(0, chart.capitalize())
+					chart_item.set_meta("song_id", song_id)
+					chart_item.set_meta("difficulty", chart)
 
 func _on_SongSelector_item_selected():
 	selected_song = get_selected().get_meta("song_id")

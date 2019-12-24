@@ -14,7 +14,8 @@ func update_user_song_list():
 	for song_id in SongLoader.songs:
 		var song := SongLoader.songs[song_id] as HBSong
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
-			song_list.add_song(song)
+			if not song is HBPPDSong:
+				song_list.add_song(song)
 
 func _on_CreateSongDialog_confirmed():
 	if $CreateSongDialog/LineEdit.text != "":
