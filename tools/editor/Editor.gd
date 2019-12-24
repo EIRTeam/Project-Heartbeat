@@ -332,20 +332,23 @@ func load_song(song: HBSong, difficulty: String):
 	rhythm_game.current_bpm = song.bpm
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
-	file.open(chart_path, File.READ)
-	
-	var chart_json = JSON.parse(file.get_as_text())
-	if chart_json.error == OK:
-		var result = chart_json.result
-		var chart = HBChart.new()
-		chart.deserialize(result)
-		from_chart(chart)
-		OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
-		$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
-		current_song = song
-		current_difficulty = difficulty
-		save_button.disabled = false
-		save_as_button.disabled = false
+	var dir = Directory.new()
+	var chart = HBChart.new()
+	if dir.file_exists(chart_path):
+		file.open(chart_path, File.READ)
+		
+		var chart_json = JSON.parse(file.get_as_text())
+		if chart_json.error == OK:
+			var result = chart_json.result
+			chart = HBChart.new()
+			chart.deserialize(result)
+			from_chart(chart)
+	OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
+	$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
+	current_song = song
+	current_difficulty = difficulty
+	save_button.disabled = false
+	save_as_button.disabled = false
 	audio_stream_player.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
 	emit_signal("load_song", song)
 
