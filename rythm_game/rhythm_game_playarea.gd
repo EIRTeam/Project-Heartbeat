@@ -94,7 +94,7 @@ func set_song(song: HBSong, difficulty: String):
 	current_combo = 0
 	rating_label.hide()
 	current_bpm = song.bpm
-	$AudioStreamPlayer.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
+	$AudioStreamPlayer.stream = song.get_audio_stream()
 	song_name_label.text = song.title
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias

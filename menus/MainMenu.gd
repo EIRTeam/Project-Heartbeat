@@ -131,7 +131,7 @@ func play_song(song: HBSong):
 		return
 	current_song = song
 	if song.audio != "":
-		next_audio = HBUtils.load_ogg(song.get_song_audio_res_path())
+		next_audio = song.get_audio_stream()
 		target_volume = FADE_OUT_VOLUME
 		song_queued = true
 	MENUS.music_player.right.set_song(current_song, next_audio.get_length())

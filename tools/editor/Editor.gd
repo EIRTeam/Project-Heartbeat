@@ -349,7 +349,7 @@ func load_song(song: HBSong, difficulty: String):
 	current_difficulty = difficulty
 	save_button.disabled = false
 	save_as_button.disabled = false
-	audio_stream_player.stream = HBUtils.load_ogg(song.get_song_audio_res_path())
+	audio_stream_player.stream = song.get_audio_stream()
 	emit_signal("load_song", song)
 
 

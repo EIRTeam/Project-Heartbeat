@@ -65,6 +65,13 @@ func get_song_audio_res_path():
 func get_meta_path():
 	return path.plus_file("song.json")
 		
+func get_audio_stream():
+	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
+		return load(get_song_audio_res_path())
+	else:
+		return HBUtils.load_ogg(get_song_audio_res_path())
+		
+	
 func save_song():
 	# Ensure song directory exists
 	var dir := Directory.new()
