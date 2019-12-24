@@ -14,6 +14,8 @@ onready var bpm_edit = get_node("TabContainer/Technical Data/VBoxContainer/BPMSp
 onready var audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
 onready var preview_start_edit = get_node("TabContainer/Technical Data/VBoxContainer/SongPreviewSpinBox")
 
+onready var difficulties_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer")
+onready var stars_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer2")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -27,6 +29,20 @@ func set_song_meta(value):
 	bpm_edit.value = song_meta.bpm
 	audio_filename_edit.text = song_meta.audio
 	preview_start_edit.value = song_meta.preview_start
+	
+	# Uncheck all difficulties
+	for difficulty_checkbox in difficulties_container.get_children():
+		difficulty_checkbox.pressed = false
+	for difficulty in song_meta.charts:
+		for difficulty_checkbox in difficulties_container.get_children():
+			print("comparing ", difficulty_checkbox.text.to_lower(), " with ", difficulty.to_lower())
+			if difficulty_checkbox.text.to_lower() == difficulty.to_lower():
+				difficulty_checkbox.pressed = true
+				break
+		for star_spinbox in stars_container.get_children():
+			if star_spinbox.name.to_lower() == difficulty.to_lower():
+				star_spinbox.value = song_meta.charts[difficulty].stars
+	
 func _ready():
 	pass
 
@@ -42,7 +58,20 @@ func _on_SaveButton_pressed():
 	song_meta.bpm = bpm_edit.value
 	song_meta.audio = audio_filename_edit.text
 	song_meta.preview_start = preview_start_edit.value
+	
+	for difficulty_checkbox in difficulties_container.get_children():
+		if difficulty_checkbox.pressed:
+			var difficulty = difficulty_checkbox.text.to_lower()
+			if not difficulty in song_meta.charts:
+				song_meta.charts[difficulty] = {
+					"file": difficulty + ".json"
+				}
+				
+	for star_spinbox in stars_container.get_children():
+		if star_spinbox.name.to_lower() in song_meta.charts:
+			song_meta.charts[star_spinbox.name.to_lower()].stars = star_spinbox.value
 	song_meta.save_song()
+	
 	emit_signal("song_meta_saved")
 
 

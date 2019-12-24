@@ -42,7 +42,7 @@ func _on_SongList_song_selected(song: HBSong):
 
 
 func _on_BackButton_pressed():
-	get_tree().change_scene_to(load("res://menus/MainMenu.tscn"))
+	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 
 
 func _on_FolderButton_pressed():
