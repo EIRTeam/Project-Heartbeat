@@ -83,4 +83,3 @@ joint_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/note_appear = SubResource( 7 )
-[connection signal="selected" from="NoteTarget" to="." method="_on_NoteTarget_note_selected"]
