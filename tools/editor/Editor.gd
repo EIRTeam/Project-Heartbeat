@@ -31,9 +31,9 @@ var _audio_play_offset
 var bpm = 150 setget set_bpm, get_bpm
 var current_song: HBSong
 var current_difficulty: String
-var snap_to_grid_enabled = false
+var snap_to_grid_enabled = true
 
-var timeline_snap_enabled = false
+var timeline_snap_enabled = true
 	
 var undo_redo = UndoRedo.new()
 	
@@ -409,7 +409,7 @@ func snap_position_to_grid(new_pos: Vector2):
 
 
 func _on_TimelineGridSnapButton_toggled(button_pressed):
-	timeline_snap_enabled = true
+	timeline_snap_enabled = button_pressed
 
 func snap_time_to_timeline(time):
 

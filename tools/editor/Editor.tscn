@@ -138,6 +138,7 @@ margin_right = 458.0
 margin_bottom = 24.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
+pressed = true
 icon = ExtResource( 18 )
 flat = true
 
@@ -319,6 +320,7 @@ margin_right = 28.0
 margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
+pressed = true
 shortcut = SubResource( 4 )
 icon = ExtResource( 18 )
 flat = true
