@@ -1,7 +1,7 @@
 extends Control
 
-var horizontal := 5 setget set_horizontal
-var vertical := 7 setget set_vertical
+var horizontal := 20 setget set_horizontal
+var vertical := 40 setget set_vertical
 
 onready var game = get_node("../RythmGame")
 

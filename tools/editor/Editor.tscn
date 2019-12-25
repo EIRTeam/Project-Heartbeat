@@ -337,7 +337,7 @@ flat = true
 margin_left = 64.0
 margin_right = 140.0
 margin_bottom = 27.0
-value = 5.0
+value = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -353,7 +353,7 @@ text = "x"
 margin_left = 163.0
 margin_right = 239.0
 margin_bottom = 27.0
-value = 7.0
+value = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
