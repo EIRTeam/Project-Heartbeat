@@ -62,6 +62,22 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_redo"):
 		get_tree().set_input_as_handled()
 		undo_redo.redo()
+	var prev_scale = scale
+	if timeline.get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_scale_down"):
+			get_tree().set_input_as_handled()
+			scale += 0.5
+			scale = max(scale, 0.1)
+			emit_signal("scale_changed", prev_scale, scale)
+		if event.is_action_pressed("editor_scale_up"):
+			get_tree().set_input_as_handled()
+			scale -= 0.5
+			scale = max(scale, 0.1)
+			emit_signal("scale_changed", prev_scale, scale)
+	if event.is_action_pressed("editor_delete"):
+		if selected:
+			get_tree().set_input_as_handled()
+			delete_selected()
 
 func _note_comparison(a, b):
 	return a.time < b.time
@@ -89,6 +105,8 @@ func select_item(item: EditorTimelineItem):
 	if selected:
 		selected.deselect()
 	selected = item
+	if get_focus_owner():
+		get_focus_owner().release_focus()
 	selected.select()
 	var widget := item.get_editor_widget()
 	if widget:
@@ -207,21 +225,6 @@ func seek(value: int):
 	
 	emit_signal("playhead_position_changed")
 	_on_timing_points_changed()
-	
-func _input(event):
-	var prev_scale = scale
-	if timeline.get_global_rect().has_point(get_global_mouse_position()):
-		if event.is_action_pressed("editor_scale_down"):
-			scale += 0.5
-			scale = max(scale, 0.1)
-			emit_signal("scale_changed", prev_scale, scale)
-		if event.is_action_pressed("editor_scale_up"):
-			scale -= 0.5
-			scale = max(scale, 0.1)
-			emit_signal("scale_changed", prev_scale, scale)
-	if event.is_action_pressed("editor_delete"):
-		if selected:
-			delete_selected()
 			
 func delete_selected():
 	if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:

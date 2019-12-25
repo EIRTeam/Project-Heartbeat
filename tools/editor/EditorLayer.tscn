@@ -12,6 +12,7 @@ self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_right = 1.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 50, 35 )
+focus_mode = 2
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
