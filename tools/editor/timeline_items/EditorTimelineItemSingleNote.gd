@@ -7,7 +7,7 @@ func _ready():
 	data.connect("note_type_changed", self, "set_texture")
 	get_viewport().connect("size_changed", self, "_on_view_port_size_changed")
 func set_texture():
-	$TextureRect.texture = HBNoteData.NOTE_GRAPHICS[data.note_type].note
+	$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).note
 	$TextureRect.rect_size = Vector2(get_size().y, get_size().y)
 	$TextureRect.rect_position = Vector2(-get_size().y / 2, 0)
 func get_size():
