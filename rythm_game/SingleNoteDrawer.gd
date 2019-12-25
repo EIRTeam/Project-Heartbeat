@@ -184,8 +184,6 @@ func _on_game_time_changed(time: float):
 			queue_free()
 func get_note_graphic():
 	return note_graphic
-func _on_NoteTarget_note_selected():
-	emit_signal("target_selected")
 	
 	
 #func _draw():
