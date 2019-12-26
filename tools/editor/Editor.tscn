@@ -216,8 +216,204 @@ margin_bottom = 495.0
 mouse_filter = 2
 size_flags_vertical = 3
 
+[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.5 )
+margin_right = 212.0
+margin_bottom = 441.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+tab_align = 0
+
+[node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 29.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrange" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 29.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 194.0
+margin_bottom = 397.0
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_right = 184.0
+margin_bottom = 182.0
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
+margin_right = 182.0
+margin_bottom = 182.0
+rect_min_size = Vector2( 182, 0 )
+columns = 3
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_right = 58.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 62.0
+margin_right = 120.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 124.0
+margin_right = 182.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_top = 62.0
+margin_right = 58.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button5" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 62.0
+margin_top = 62.0
+margin_right = 120.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button6" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 124.0
+margin_top = 62.0
+margin_right = 182.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button7" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_top = 124.0
+margin_right = 58.0
+margin_bottom = 182.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button8" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 62.0
+margin_top = 124.0
+margin_right = 120.0
+margin_bottom = 182.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="Button9" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+margin_left = 124.0
+margin_top = 124.0
+margin_right = 182.0
+margin_bottom = 182.0
+rect_min_size = Vector2( 0, 58 )
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 186.0
+margin_right = 184.0
+margin_bottom = 208.0
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 25.0
+margin_bottom = 22.0
+text = "<-"
+
+[node name="Button2" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 29.0
+margin_right = 155.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+align = 1
+suffix = "º"
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 159.0
+margin_right = 184.0
+margin_bottom = 22.0
+text = "->"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 212.0
+margin_right = 184.0
+margin_bottom = 234.0
+text = "V/H separation per 8th"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 238.0
+margin_right = 184.0
+margin_bottom = 260.0
+max_value = 2.14748e+09
+value = 96.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 264.0
+margin_right = 184.0
+margin_bottom = 286.0
+text = "Diagonal separation per 8th"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 290.0
+margin_right = 184.0
+margin_bottom = 312.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 14.0
+margin_right = 90.0
+margin_bottom = 22.0
+max_value = 2.14748e+09
+value = 80.0
+
+[node name="SpinBox3" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 94.0
+margin_right = 170.0
+margin_bottom = 22.0
+max_value = 2.14748e+09
+value = 54.0
+
 [node name="Preview" type="Control" parent="VBoxContainer/HBoxContainer"]
-margin_right = 1020.0
+margin_left = 216.0
+margin_right = 1064.0
 margin_bottom = 441.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -238,11 +434,11 @@ show_behind_parent = true
 [node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 
 [node name="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="0"]
-margin_right = 677.0
+margin_right = 562.0
 
 [node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="0"]
 margin_top = 2.0
-margin_right = 582.0
+margin_right = 467.0
 
 [node name="SongAuthor" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer" index="0"]
 margin_right = 109.0
@@ -254,7 +450,7 @@ margin_right = 231.0
 margin_bottom = 28.0
 
 [node name="HBoxContainer2" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="1"]
-margin_right = 582.0
+margin_right = 467.0
 margin_bottom = 58.0
 
 [node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="0"]
@@ -263,20 +459,20 @@ margin_bottom = 28.0
 
 [node name="VBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="1"]
 margin_left = 60.0
-margin_right = 582.0
+margin_right = 467.0
 margin_bottom = 28.0
 
 [node name="ProgressBar" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer" index="0"]
 margin_top = 12.0
-margin_right = 522.0
+margin_right = 407.0
 margin_bottom = 15.0
 
 [node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="1"]
-margin_left = 681.0
-margin_right = 1020.0
+margin_left = 566.0
+margin_right = 848.0
 
 [node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/HBoxContainer" index="0"]
-margin_right = 339.0
+margin_right = 282.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
@@ -373,7 +569,7 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-margin_left = 1024.0
+margin_left = 1068.0
 margin_right = 1280.0
 margin_bottom = 441.0
 size_flags_horizontal = 3
@@ -412,7 +608,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 236.0
+margin_right = 192.0
 margin_bottom = 397.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
@@ -456,7 +652,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 236.0
+margin_right = 192.0
 margin_bottom = 397.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
