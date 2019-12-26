@@ -3,6 +3,7 @@
     "graphics": {
         "LEFT": {
             "color": "#f971d3",
+            "shadow_color": "#f5a0de",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -34,6 +35,7 @@
         },
         "DOWN": {
             "color": "#2996f8",
+            "shadow_color": "#aad1f2",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -65,6 +67,7 @@
         },
         "RIGHT": {
             "color": "#ff0c5c",
+            "shadow_color": "#fd73b9",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -96,6 +99,7 @@
         },
         "UP": {
             "color": "#09e2a6",
+            "shadow_color": "#64e9c4",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -127,6 +131,7 @@
         },
         "SLIDE_LEFT": {
             "color": "#f6b977",
+            "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -158,6 +163,7 @@
         },
         "SLIDE_RIGHT": {
             "color": "#f6b977",
+            "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
                 "note": {

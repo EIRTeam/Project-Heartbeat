@@ -123,6 +123,7 @@
         },
         "SLIDE_LEFT": {
             "color": "#f39e42",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -153,6 +154,7 @@
         },
         "SLIDE_RIGHT": {
             "color": "#f39e42",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
