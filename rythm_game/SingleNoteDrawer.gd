@@ -82,7 +82,7 @@ func draw_trail(time: float):
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
 	for i in range(TRAIL_RESOLUTION):
-		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
+		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION-1))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
 		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
 		
