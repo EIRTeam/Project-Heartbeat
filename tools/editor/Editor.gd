@@ -84,15 +84,11 @@ func _note_comparison(a, b):
 
 func get_timing_points():
 	var points = []
-	var chart = HBChart.new()
 	var layers = timeline.get_layers()
 	for layer in layers:
 		points += layer.get_timing_points()
 	points.sort_custom(self, "_note_comparison")
 	return points
-	
-func get_simplified_timing_points():
-	return get_chart().get_simplified_timing_points()
 	
 func scale_msec(msec: int) -> float:
 	return ((msec/1000.0)/scale)*500.0
