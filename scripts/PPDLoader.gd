@@ -141,8 +141,6 @@ static func PPD2HBChart(path: String) -> HBChart:
 			is_multi_note = true
 		if i < marks.size()-1 and note.time == marks[i+1].time:
 			is_multi_note = true
-		if is_multi_note:
-			note_data.oscillation_amplitude = 0
 				
 		note_data.note_type = PPDButton2HBNoteType[note.type]
 			
