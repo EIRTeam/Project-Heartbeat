@@ -65,10 +65,10 @@ func set_trail_color():
 	var gradient = Gradient.new()
 	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	color1.a = 0.1
-	color2.a = 0.5
-	gradient.set_color(0, color1.inverted())
-	gradient.set_offset(0, 0.25)
+	color1.a = 0.0
+	color2.a = 0.75
+	gradient.set_color(0, color1.contrasted())
+	gradient.set_offset(0, 0)
 	gradient.set_color(1, color2)
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
