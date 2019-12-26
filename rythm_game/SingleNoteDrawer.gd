@@ -4,9 +4,11 @@ onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 var pickable = true setget set_pickable
 export(float) var target_scale_modifier = 1.0
-const TRAIL_RESOLUTION = 18
+const TRAIL_RESOLUTION = 19
 
 var connected_note_judgements = {}
+
+var trail_bounding_box : Rect2
 
 func set_connected_notes(val):
 	.set_connected_notes(val)
@@ -30,7 +32,9 @@ func _ready():
 	$AnimationPlayer.play("note_appear")
 	$NoteTarget/Particles2D.emitting = true
 	HBInput.add_to_processing_unhandled_taps(self)
-	
+	var trail_bounding_box_offset = game.BASE_SIZE / TRAIL_RESOLUTION
+	var trail_bounding_box_size = game.BASE_SIZE + trail_bounding_box_offset * 4
+	trail_bounding_box = Rect2(-trail_bounding_box_offset * 2, trail_bounding_box_size)
 func _unhandled_tap(event: InputEvent):
 	var input_judgement = judge_note_input(event, game.time)
 	if not is_queued_for_deletion():
@@ -66,7 +70,7 @@ func set_trail_color():
 	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	color1.a = 0.0
-	color2.a = 0.75
+	color2.a = 0.5
 	gradient.set_offset(0, 0)
 	gradient.set_color(0, color2)
 	gradient.set_color(1, color1.contrasted())
@@ -91,9 +95,11 @@ func draw_trail(time: float):
 		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle + deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.8, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
-		var rect = Rect2(Vector2.ZERO, game.BASE_SIZE)
-		if not rect.has_point(point1_internal):
+
+		if not trail_bounding_box.has_point(point1_internal):
+			$Line2D.gradient.set_offset(0, i / float(TRAIL_RESOLUTION))
 			break
+
 	$Line2D2.width = 6 * game.get_note_scale()
 	$Line2D.width = 6 * game.get_note_scale()
 	$Line2D.points = points
