@@ -83,8 +83,17 @@ func _gui_input(event):
 func drop_data(position, data: EditorTimelineItem):
 	data._layer.remove_child(data)
 #	data.disconnect("item_changed", data._layer, "place_child")
+
+	for i in get_timing_points():
+		if i.time == data.data.time:
+			return
+
 	if not position == null:
 		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
+	if layer_name in HBNoteData.NOTE_TYPE.keys():
+		if data.data is HBNoteData:
+			data.data.note_type = HBNoteData.NOTE_TYPE[layer_name]
+		
 	add_item(data)
 
 func _on_EditorLayer_mouse_exited():
