@@ -4,7 +4,7 @@ onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 var pickable = true setget set_pickable
 export(float) var target_scale_modifier = 1.0
-const TRAIL_RESOLUTION = 48
+const TRAIL_RESOLUTION = 18
 
 var connected_note_judgements = {}
 
@@ -67,9 +67,9 @@ func set_trail_color():
 	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	color1.a = 0.0
 	color2.a = 0.75
-	gradient.set_color(0, color1.contrasted())
 	gradient.set_offset(0, 0)
-	gradient.set_color(1, color2)
+	gradient.set_color(0, color2)
+	gradient.set_color(1, color1.contrasted())
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
 	
@@ -81,15 +81,19 @@ func draw_trail(time: float):
 	$Line2D.clear_points()
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
-	for i in range(TRAIL_RESOLUTION):
-		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION-1))
+	for i in range(TRAIL_RESOLUTION, -1, -1):
+		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
-		var oscillation_amplitude = game.remap_coords(Vector2(1.0, 1)).x * note_data.oscillation_amplitude
+		var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 		
-		var point1 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
+		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+		var point1 = game.remap_coords(point1_internal)
 		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle + deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.8, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
+		var rect = Rect2(Vector2.ZERO, game.BASE_SIZE)
+		if not rect.has_point(point1_internal):
+			break
 	$Line2D2.width = 6 * game.get_note_scale()
 	$Line2D.width = 6 * game.get_note_scale()
 	$Line2D.points = points

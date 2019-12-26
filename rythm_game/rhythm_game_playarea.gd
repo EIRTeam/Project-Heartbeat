@@ -125,7 +125,9 @@ func remap_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
 	coords = coords / BASE_SIZE
 	var pos = coords * field_size
-	return Vector2((size.x - field_size.x) / 2.0 + pos.x, pos.y)
+	coords.x = (size.x - field_size.x) / 2.0 + pos.x
+	coords.y = pos.y
+	return coords
 	
 func inv_map_coords(coords: Vector2):
 	var field_size = get_playing_field_size()
@@ -213,7 +215,6 @@ func _process(delta):
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
-					print("TRYING FOR ", timing_point.time)
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
