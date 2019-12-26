@@ -50,9 +50,9 @@ _global_script_classes=[ {
 "path": "res://tools/editor/widgets/AxisGizmoArrow.gd"
 }, {
 "base": "Control",
-"class": "HBEditorRoundMovementGizmo",
+"class": "HBEditorMovementGizmo",
 "language": "GDScript",
-"path": "res://tools/editor/widgets/RoundMovementGizmo.gd"
+"path": "res://tools/editor/widgets/MovementGizmo.gd"
 }, {
 "base": "Control",
 "class": "HBEditorWidget",
@@ -168,7 +168,7 @@ _global_script_class_icons={
 "HBChart": "",
 "HBDurationNoteData": "",
 "HBEditorAxisGizmoArrow": "",
-"HBEditorRoundMovementGizmo": "",
+"HBEditorMovementGizmo": "",
 "HBEditorWidget": "",
 "HBHoldNoteData": "",
 "HBHovereableButton": "",
@@ -202,8 +202,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1577183832
-config/build_commit="ffc83204da5199271cce7f3357187e04e96336a3"
+config/build_time=1577205012
+config/build_commit="5c5be547a0f9b49b7d3d25e48f966a8eda08f339"
 
 [audio]
 
