@@ -206,7 +206,8 @@ func _process(delta):
 			break
 	# Adding visible notes
 	var multi_notes = []
-	for timing_point in timing_points:
+	for i in range(timing_points.size() - 1, -1, -1):
+		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
 			
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
@@ -234,13 +235,13 @@ func _process(delta):
 								multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
-							multi_notes = []
 						else:
-							print("FAILED TO MATCH")
+							multi_notes = [timing_point]
+						
 					else:
 						multi_notes.append(timing_point)
-#				if not editing or previewing:
-#					timing_points.remove(i)
+				if not editing or previewing:
+					timing_points.remove(i)
 
 	if timing_points.size() == 0:
 		var file = File.new()
