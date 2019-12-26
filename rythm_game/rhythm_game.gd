@@ -7,16 +7,17 @@ const FADE_OUT_TIME = 1.0
 onready var fade_out_tween = get_node("FadeOutTween")
 
 func _ready():
-	set_game_size(Vector2())
-	connect("resized", self, "set_game_size", [rect_size])
+	set_game_size()
+	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 
 func set_song(song: HBSong, difficulty: String):
 	$RhythmGame.set_song(song, difficulty)
 
-func set_game_size(j):
+func set_game_size():
 	$RhythmGame.size = rect_size
-	
+	$Node2D/TextureRect.rect_size = rect_size
+	$Node2D/Control.rect_size = rect_size
 func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()

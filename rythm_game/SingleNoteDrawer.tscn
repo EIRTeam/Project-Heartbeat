@@ -54,6 +54,8 @@ script = ExtResource( 3 )
 
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 position = Vector2( 2.21606, 1.10802 )
+z_index = -1
+z_as_relative = false
 
 [node name="Particles2D" type="Particles2D" parent="NoteTarget"]
 position = Vector2( -2.21606, -1.10802 )

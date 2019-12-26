@@ -18,17 +18,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Node2D"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 1280.0
+margin_bottom = 720.0
 texture = ExtResource( 4 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" parent="." instance=ExtResource( 3 )]
+[node name="Control" parent="Node2D" instance=ExtResource( 3 )]
 pause_mode = 1
+margin_right = 1280.0
+margin_bottom = 720.0
 
 [node name="RhythmGame" parent="." instance=ExtResource( 1 )]
 pause_mode = 1

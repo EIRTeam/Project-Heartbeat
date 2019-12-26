@@ -49,7 +49,7 @@ func set_connected_notes(val):
 			laser2.frequency = 5
 			laser2.phase_shift = 90
 func _ready():
-	z_index = 0
+#	z_index = 0
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
