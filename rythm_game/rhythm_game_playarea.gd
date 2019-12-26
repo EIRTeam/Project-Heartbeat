@@ -175,6 +175,7 @@ func play_note_sfx():
 		_sfx_played_this_cycle = true
 	
 func hookup_multi_notes(notes: Array):
+	print("HOOKING UP %d notes" % [notes.size()])
 	for note in notes:
 		var note_drawer = note.get_meta("note_drawer")
 		note_drawer.connected_notes = notes
@@ -205,13 +206,13 @@ func _process(delta):
 			break
 	# Adding visible notes
 	var multi_notes = []
-	for i in range(timing_points.size() - 1, -1, -1):
-		var timing_point = timing_points[i]
+	for timing_point in timing_points:
 		if timing_point is HBNoteData:
 			
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
+					print("TRYING FOR ", timing_point.time)
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
@@ -234,10 +235,12 @@ func _process(delta):
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
 							multi_notes = []
+						else:
+							print("FAILED TO MATCH")
 					else:
 						multi_notes.append(timing_point)
-				if not editing or previewing:
-					timing_points.remove(i)
+#				if not editing or previewing:
+#					timing_points.remove(i)
 
 	if timing_points.size() == 0:
 		var file = File.new()
