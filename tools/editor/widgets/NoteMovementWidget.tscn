@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/editor/widgets/NoteMovementWidget.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/widgets/AxisGizmoArrow.gd" type="Script" id=2]
-[ext_resource path="res://tools/editor/widgets/RoundMovementGizmo.gd" type="Script" id=3]
+[ext_resource path="res://tools/editor/widgets/MovementGizmo.gd" type="Script" id=3]
 
 [node name="NoteMovementWidget" type="Control"]
 margin_right = 100.0
@@ -12,37 +11,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="XAxisArrow" type="Control" parent="."]
-margin_left = 50.0
-margin_top = 45.0
-margin_right = 100.0
-margin_bottom = 55.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-direction = 0
-
-[node name="YAxisArrow" type="Control" parent="."]
-margin_left = 45.0
-margin_right = 55.0
-margin_bottom = 50.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RoundMovementGizmo" type="Control" parent="."]
+[node name="MovementGizmo" type="Control" parent="."]
 margin_left = 40.0
 margin_top = 40.0
 margin_right = 60.0
 margin_bottom = 60.0
 rect_pivot_offset = Vector2( 20, 20 )
 script = ExtResource( 3 )
-[connection signal="dragged" from="XAxisArrow" to="." method="_on_XAxisArrow_dragged"]
-[connection signal="finish_dragging" from="XAxisArrow" to="." method="_on_finish_dragging"]
-[connection signal="start_dragging" from="XAxisArrow" to="." method="_on_start_dragging"]
-[connection signal="dragged" from="YAxisArrow" to="." method="_on_YAxisArrow_dragged"]
-[connection signal="finish_dragging" from="YAxisArrow" to="." method="_on_finish_dragging"]
-[connection signal="dragged" from="RoundMovementGizmo" to="." method="_on_dragged"]
-[connection signal="finish_dragging" from="RoundMovementGizmo" to="." method="_on_finish_dragging"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="dragged" from="MovementGizmo" to="." method="_on_dragged"]
+[connection signal="finish_dragging" from="MovementGizmo" to="." method="_on_finish_dragging"]

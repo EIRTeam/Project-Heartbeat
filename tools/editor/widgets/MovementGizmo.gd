@@ -1,16 +1,20 @@
 tool
 extends Control
 
-class_name HBEditorRoundMovementGizmo
+class_name HBEditorMovementGizmo
 
 signal dragged(relative_movement)
 signal finish_dragging()
 var hovering = false
 func _draw():
-	var color = Color.white
+	var inside_color = Color.lightgray
+	inside_color.a = 0.5
+	var border_color = Color.white
 	if hovering:
-		color = Color.yellow
-	draw_circle(rect_size/2, rect_size.x/2, color)
+		border_color = Color.yellow
+	border_color.a = 0.75
+	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true, 0.0)
+	draw_rect(Rect2(Vector2(0,0), rect_size), border_color, false, 2.0)
 
 
 func _ready():
