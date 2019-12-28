@@ -225,7 +225,6 @@ size_flags_stretch_ratio = 0.25
 tab_align = 0
 
 [node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -245,6 +244,7 @@ __meta__ = {
 }
 
 [node name="Arrange" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -274,7 +274,8 @@ margin_right = 184.0
 margin_bottom = 182.0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
-margin_right = 182.0
+margin_left = 1.0
+margin_right = 183.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 182, 0 )
 columns = 3
@@ -527,6 +528,7 @@ margin_right = 60.0
 margin_bottom = 27.0
 hint_tooltip = "Show grid"
 toggle_mode = true
+pressed = true
 shortcut = SubResource( 6 )
 icon = ExtResource( 20 )
 flat = true
