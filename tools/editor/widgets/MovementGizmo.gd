@@ -13,7 +13,7 @@ func _draw():
 	if hovering:
 		border_color = Color.yellow
 	border_color.a = 0.75
-	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true, 0.0)
+	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true)
 	draw_rect(Rect2(Vector2(0,0), rect_size), border_color, false, 2.0)
 
 
@@ -25,7 +25,7 @@ func _input(event):
 	if hovering:
 		if event is InputEventMouseMotion and Input.is_action_pressed("editor_select"):
 			emit_signal("dragged", event.relative)
-		if event.is_action_released("editor_select"):
+		if event.is_action_released("editor_select") and not event.is_echo():
 			emit_signal("finish_dragging")
 	
 func _on_mouse_entered():
