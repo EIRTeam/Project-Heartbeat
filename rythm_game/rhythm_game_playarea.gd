@@ -52,7 +52,6 @@ const MAX_NOTE_SFX = 4
 
 var current_bpm = 180.0
 
-signal note_updated(note)
 signal time_changed(time)
 signal song_cleared(results)
 func set_size(value):
