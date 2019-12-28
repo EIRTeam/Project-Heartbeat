@@ -15,10 +15,10 @@ var _drag_start_time : float
 var _drag_x_offset : float
 var _drag_new_time : float
 var _layer
+var _drag_last
 
 var widget: HBEditorWidget
 var update_affects_timing_points = false
-
 signal time_changed
 
 func _ready():
@@ -33,7 +33,7 @@ func set_start(value: int):
 
 func get_editor_size():
 	return Vector2(editor.scale_msec(get_duration()), rect_size.y)
-
+var a = false
 func _process(delta):
 	
 	if abs(get_viewport().get_mouse_position().y - _drag_start_position.y) > DND_START_MARGIN:
@@ -42,7 +42,12 @@ func _process(delta):
 	else:
 		var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
 		new_time = editor.snap_time_to_timeline(new_time)
-		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
+		var drag_delta = new_time -_drag_last
+		_drag_last = new_time
+		if abs(drag_delta) > 0:
+			editor._change_selected_property_delta("time",  int(drag_delta))
+		emit_signal("time_changed")
+#		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
 	modulate = Color.white
@@ -52,17 +57,22 @@ func deselect():
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
-		_drag_start_position = get_viewport().get_mouse_position()
-		_drag_start_time = data.time
-		_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
-		set_process(true)
-		editor.select_item(self)
-		get_tree().set_input_as_handled()
+		if event is InputEventWithModifiers:
+			get_tree().set_input_as_handled()
+			editor.select_item(self, event.shift)
+			
+			_drag_start_position = get_viewport().get_mouse_position()
+			_drag_start_time = data.time
+			_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+			_drag_last = data.time
+			set_process(true)
 	elif event.is_action_released("editor_select") and not event.is_echo():
-		set_process(false)
 		get_tree().set_input_as_handled()
-		if _drag_start_time != data.time:
-			emit_signal("property_changed", "time", _drag_start_time, data.time)
+		set_process(false)
+		editor._commit_selected_property_change("time")
+#		if _drag_start_time != data.time:
+#			emit_signal("property_changed", "time", _drag_start_time, data.time)
+			
 		
 func select():
 	modulate = Color(0.5, 0.5, 0.5, 1.0)
@@ -78,14 +88,20 @@ func get_editor_widget() -> PackedScene:
 	
 func connect_widget(widget: HBEditorWidget):
 	self.widget = widget
-	update_widget_position()
+	update_widget_data()
+	if not editor.game_preview.widget_area.is_connected("widget_area_input", self, "_widget_area_input"):
+		editor.game_preview.widget_area.connect("widget_area_input", self, "_widget_area_input")
 
+func _widget_area_input(event: InputEvent):
+	if widget:
+		widget._widget_area_input(event)
 	
-func update_widget_position():
+func update_widget_data():
 	if widget:
 		widget.starting_pos = data.position
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
 		self.widget.rect_position = new_pos - self.widget.rect_size / 2
+		widget.entry_angle = deg2rad(data.entry_angle)
 	
 func get_duration():
 	return 1000

@@ -19,11 +19,12 @@ onready var game_preview = get_node("VBoxContainer/HBoxContainer/Preview/GamePre
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
+onready var inspector = get_node("VBoxContainer/HBoxContainer/TabContainer/Inspector")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
 var scale = 3.0 # Seconds per 500 pixels
-var selected: EditorTimelineItem
+var selected: Array
 var recording: bool = false
 var time_begin
 var time_delay
@@ -52,6 +53,10 @@ func _ready():
 	
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
+	
+	inspector.connect("user_changed_property", self, "_change_selected_property")
+	inspector.connect("user_commited_property", self, "_commit_selected_property_change")
+	
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	
 	
@@ -97,13 +102,17 @@ func scale_msec(msec: int) -> float:
 func scale_pixels(pixels: float) -> float:
 	return (pixels * scale / 500) * 1000.0
 
-func select_item(item: EditorTimelineItem):
-	if selected:
-		selected.deselect()
-	selected = item
+func select_item(item: EditorTimelineItem, add = false):
+	if selected.size() > 0 and not add:
+		for selected_item in selected:
+			selected_item.deselect()
+	if add:
+		selected.append(item)
+	else:
+		selected = [item]
 	if get_focus_owner():
 		get_focus_owner().release_focus()
-	selected.select()
+	item.select()
 	var widget := item.get_editor_widget()
 	if widget:
 		var widget_instance = widget.instance() as HBEditorWidget
@@ -119,10 +128,57 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
 	
+var old_property_values = {}
+	
+# Changes the selected property by an amount, but doesn't commit it to undo_redo, to
+# prevent creating more undo_redo actions than necessary
+func _change_selected_property_delta(property_name: String, new_value):
+	
+	for selected_item in selected:
+		if not selected_item in old_property_values:
+			old_property_values[selected_item] = {}
+		
+		if not property_name in old_property_values[selected_item]:
+			old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
+		selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
+		selected_item.update_widget_data()
+	_on_timing_points_changed()
+# Changes the selected property, but doesn't commit it to undo_redo, to
+# prevent creating more undo_redo actions than necessary
+func _change_selected_property(property_name: String, new_value):
+	
+	for selected_item in selected:
+		if not selected_item in old_property_values:
+			old_property_values[selected_item] = {}
+		
+		if not property_name in old_property_values[selected_item]:
+			old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
+		selected_item.data.set(property_name, new_value)
+
+		selected_item.update_widget_data()
+	_on_timing_points_changed()
+		
+func _commit_selected_property_change(property_name: String):
+	var action_name = "Note " + property_name + " changed"
+	print(action_name)
+	undo_redo.create_action(action_name)
+	for selected_item in selected:
+		if old_property_values.has(selected_item):
+			if old_property_values[selected_item].has(property_name):
+				
+				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
+				undo_redo.add_do_method(self, "_on_timing_points_changed")
+				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
+				undo_redo.add_do_method(selected_item, "update_widget_data")
+
+				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
+				undo_redo.add_undo_method(self, "_on_timing_points_changed")
+				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
+				undo_redo.add_undo_method(selected_item, "update_widget_data")
+	undo_redo.commit_action()
+	old_property_values = {}
 # Handles when a user changes a timing point's property
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
-	
-	print("PROP " + property_name + " changed")
 	var action_name = "Note " + property_name + " changed"
 	undo_redo.create_action(action_name)
 	
@@ -134,9 +190,9 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(child._layer, "place_child", child)
 	
-	if property_name == "position":
-		undo_redo.add_do_method(child, "update_widget_position")
-		undo_redo.add_undo_method(child, "update_widget_position")
+	if property_name == "position" or property_name:
+		undo_redo.add_do_method(child, "update_widget_data")
+		undo_redo.add_undo_method(child, "update_widget_data")
 	
 	undo_redo.commit_action()
 	var note = child.data
@@ -157,12 +213,6 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
 	layer.add_item(item)
-	
-func _on_item_changed():
-	# Ensure note is in the proper layer
-	if selected:
-		var note = selected.data
-
 	
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -223,17 +273,20 @@ func seek(value: int):
 	_on_timing_points_changed()
 			
 func delete_selected():
-	if selected == $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item:
-		$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
-	selected.deselect()
-	undo_redo.create_action("Delete note")
-	undo_redo.add_do_method(selected._layer, "remove_item", selected)
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "add_item_to_layer", selected._layer, selected)
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
-	undo_redo.commit_action()
-	selected = null
+	if selected.size() > 0:	
+		if $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item in selected:
+			$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+	undo_redo.create_action("Delete notes")
 	
+	for selected_item in selected:
+		selected_item.deselect()
+		undo_redo.add_do_method(selected_item._layer, "remove_item", selected_item)
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	selected = []
+	
+	undo_redo.commit_action()
 			
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
@@ -275,12 +328,6 @@ func _on_timing_points_changed():
 func get_song_length():
 	return audio_stream_player.stream.get_length()
 
-
-func _on_RythmGame_note_updated(note):
-	if selected:
-		if note == selected.data:
-			selected.emit_signal("item_changed")
-
 func get_chart():
 	var chart = HBChart.new()
 	var layers = timeline.get_layers()
@@ -297,7 +344,7 @@ func from_chart(chart: HBChart):
 	timeline.clear_layers()
 	undo_redo.clear_history()
 
-	selected = null
+	selected = []
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name
@@ -419,10 +466,8 @@ func snap_time_to_timeline(time):
 		var interval = (get_note_resolution() / note_length) * beat_length
 		time -= get_note_snap_offset()*1000.0
 		interval = interval * 1000.0
-		print(interval, " ", time)
 		var n = time / float(interval)
 		n = round(n)
-		print("FINAL TIME: ", n*interval)
 		return n*interval + get_note_snap_offset()*1000.0
 	else:
 		return time

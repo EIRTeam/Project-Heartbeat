@@ -14,15 +14,18 @@ onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxC
 var inspecting_item: EditorTimelineItem
 var inspecting_properties = {}
 
+signal user_changed_property(property_name)
+signal user_commited_property(property_name)
+
 func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
 
 var ignore_next_value_update = false
 
 func _on_property_value_changed_by_user(value, property_editor):
-	var old_val = inspecting_item.data.get(property_editor.property_name)
-	inspecting_item.data.set(property_editor.property_name, value)
-	inspecting_item.emit_signal("property_changed", property_editor.property_name, old_val, value)
+	emit_signal("user_changed_property", property_editor.property_name, value)
+	emit_signal("user_commited_property", property_editor.property_name)
+
 func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
