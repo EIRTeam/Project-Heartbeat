@@ -4,8 +4,8 @@ class_name HBNoteData
 
 enum NOTE_TYPE {
 	UP,
-	DOWN,
 	LEFT,
+	DOWN,
 	RIGHT,
 	SLIDE_LEFT,
 	SLIDE_RIGHT
