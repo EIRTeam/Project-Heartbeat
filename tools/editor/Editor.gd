@@ -20,6 +20,7 @@ onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
 onready var inspector = get_node("VBoxContainer/HBoxContainer/TabContainer/Inspector")
+onready var angle_arrange_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -471,3 +472,20 @@ func snap_time_to_timeline(time):
 		return n*interval + get_note_snap_offset()*1000.0
 	else:
 		return time
+
+func arrange_selected_by_angle(diff):
+	undo_redo.create_action("Arrange selected notes by angle")
+	var mult = 0
+	for selected_item in selected:
+		undo_redo.add_do_property(selected_item.data, "entry_angle", int(selected_item.data.entry_angle + diff * mult))
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		mult += 1
+	undo_redo.commit_action()
+func _on_AngleArrangeButtonPlus_pressed():
+	arrange_selected_by_angle(angle_arrange_spinbox.value)
+
+
+func _on_AngleArrangeButtonMinus_pressed():
+	arrange_selected_by_angle(-angle_arrange_spinbox.value)

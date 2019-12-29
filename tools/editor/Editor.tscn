@@ -225,27 +225,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
 
-[node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 29.0
-margin_right = -5.0
-margin_bottom = -5.0
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Settings"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Arrange" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -347,53 +327,29 @@ margin_bottom = 182.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 186.0
 margin_right = 184.0
 margin_bottom = 208.0
-
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_right = 25.0
-margin_bottom = 22.0
-text = "<-"
-
-[node name="Button2" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 29.0
-margin_right = 155.0
-margin_bottom = 22.0
-size_flags_horizontal = 3
-align = 1
-suffix = "º"
-
-[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 159.0
-margin_right = 184.0
-margin_bottom = 22.0
-text = "->"
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 212.0
-margin_right = 184.0
-margin_bottom = 234.0
 text = "V/H separation per 8th"
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 238.0
+margin_top = 212.0
 margin_right = 184.0
-margin_bottom = 260.0
+margin_bottom = 234.0
 max_value = 2.14748e+09
 value = 96.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 264.0
+margin_top = 238.0
 margin_right = 184.0
-margin_bottom = 286.0
+margin_bottom = 260.0
 text = "Diagonal separation per 8th"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 290.0
+margin_top = 264.0
 margin_right = 184.0
-margin_bottom = 312.0
+margin_bottom = 286.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -412,6 +368,57 @@ margin_right = 170.0
 margin_bottom = 22.0
 max_value = 2.14748e+09
 value = 54.0
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 290.0
+margin_right = 184.0
+margin_bottom = 312.0
+text = "Arrangle angles"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 316.0
+margin_right = 184.0
+margin_bottom = 338.0
+
+[node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 25.0
+margin_bottom = 22.0
+text = "<-"
+
+[node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 29.0
+margin_right = 155.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+max_value = 360.0
+align = 1
+suffix = "º"
+
+[node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 159.0
+margin_right = 184.0
+margin_bottom = 22.0
+text = "->"
+
+[node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 29.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Preview" type="Control" parent="VBoxContainer/HBoxContainer"]
 margin_left = 216.0
@@ -738,6 +745,8 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
