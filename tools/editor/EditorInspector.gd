@@ -24,6 +24,8 @@ var ignore_next_value_update = false
 
 func _on_property_value_changed_by_user(value, property_editor):
 	emit_signal("user_changed_property", property_editor.property_name, value)
+
+func _on_property_value_commited_by_user(property_editor):
 	emit_signal("user_commited_property", property_editor.property_name)
 
 func update_label():
@@ -48,9 +50,8 @@ func update_value(name, old_value, new_value):
 func update_values():
 	for property_name in inspecting_item.get_inspector_properties():
 		var editor = inspecting_properties[property_name]
-		editor.disconnect("value_changed", self, "_on_property_value_changed_by_user")
+
 		inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
-		editor.connect("value_changed", self, "_on_property_value_changed_by_user", [editor])
 
 func inspect(item: EditorTimelineItem):
 	print(item)
@@ -77,6 +78,7 @@ func inspect(item: EditorTimelineItem):
 		label.text = property.capitalize()
 		property_container.add_child(label)
 		inspector_editor.connect("value_changed", self, "_on_property_value_changed_by_user", [inspector_editor])
+		inspector_editor.connect("value_committed", self, "_on_property_value_commited_by_user", [inspector_editor])
 		property_container.add_child(inspector_editor)
 		inspecting_properties[property] = inspector_editor
 	update_values()

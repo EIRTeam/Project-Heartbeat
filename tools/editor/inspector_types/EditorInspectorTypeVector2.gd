@@ -8,7 +8,7 @@ func set_value(value):
 
 func emit_value_changed_signal():
 	emit_signal("value_changed", Vector2($XSpinbox.value, $YSpinbox.value))
-
+	emit_signal("value_committed")
 func _on_XSpinbox_value_changed(value):
 	if not ignore_next_value_change:
 		emit_value_changed_signal()
