@@ -61,15 +61,17 @@ func _gui_input(event: InputEvent):
 			get_tree().set_input_as_handled()
 			editor.select_item(self, event.shift)
 			
-			_drag_start_position = get_viewport().get_mouse_position()
-			_drag_start_time = data.time
-			_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
-			_drag_last = data.time
-			set_process(true)
+			if not event.shift:
+				_drag_start_position = get_viewport().get_mouse_position()
+				_drag_start_time = data.time
+				_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+				_drag_last = data.time
+				set_process(true)
 	elif event.is_action_released("editor_select") and not event.is_echo():
-		get_tree().set_input_as_handled()
-		set_process(false)
-		editor._commit_selected_property_change("time")
+		if is_processing():
+			get_tree().set_input_as_handled()
+			set_process(false)
+			editor._commit_selected_property_change("time")
 #		if _drag_start_time != data.time:
 #			emit_signal("property_changed", "time", _drag_start_time, data.time)
 			
