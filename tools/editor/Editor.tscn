@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
@@ -21,6 +21,14 @@
 [ext_resource path="res://tools/editor/GridRenderer.gd" type="Script" id=19]
 [ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=20]
 [ext_resource path="res://tools/editor/WidgetArea.gd" type="Script" id=21]
+[ext_resource path="res://tools/icons/arrow-top-left-thick.svg" type="Texture" id=22]
+[ext_resource path="res://tools/icons/arrow-top-right-thick.svg" type="Texture" id=23]
+[ext_resource path="res://tools/icons/arrow-up-thick.svg" type="Texture" id=24]
+[ext_resource path="res://tools/icons/arrow-down-thick.svg" type="Texture" id=25]
+[ext_resource path="res://tools/icons/arrow-left-thick.svg" type="Texture" id=26]
+[ext_resource path="res://tools/icons/arrow-right-thick.svg" type="Texture" id=27]
+[ext_resource path="res://tools/icons/arrow-bottom-left-thick.svg" type="Texture" id=28]
+[ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_save"
@@ -247,108 +255,115 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 194.0
+margin_right = 198.0
 margin_bottom = 397.0
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 182.0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
-margin_left = 1.0
-margin_right = 183.0
+margin_right = 188.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 182, 0 )
 columns = 3
 
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_right = 58.0
+margin_right = 60.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 22 )
 
 [node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 62.0
-margin_right = 120.0
+margin_left = 64.0
+margin_right = 124.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 24 )
 
 [node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 124.0
-margin_right = 182.0
+margin_left = 128.0
+margin_right = 188.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 23 )
 
 [node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 62.0
-margin_right = 58.0
+margin_right = 60.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 26 )
 
 [node name="Button5" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 62.0
+margin_left = 64.0
 margin_top = 62.0
-margin_right = 120.0
+margin_right = 124.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 
 [node name="Button6" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 124.0
+margin_left = 128.0
 margin_top = 62.0
-margin_right = 182.0
+margin_right = 188.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 27 )
 
 [node name="Button7" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 124.0
-margin_right = 58.0
+margin_right = 60.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 28 )
 
 [node name="Button8" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 62.0
+margin_left = 64.0
 margin_top = 124.0
-margin_right = 120.0
+margin_right = 124.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 25 )
 
 [node name="Button9" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 124.0
+margin_left = 128.0
 margin_top = 124.0
-margin_right = 182.0
+margin_right = 188.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
+icon = ExtResource( 29 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 186.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 208.0
 text = "V/H separation per 8th"
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 212.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 234.0
 max_value = 2.14748e+09
 value = 96.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 238.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 260.0
 text = "Diagonal separation per 8th"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 264.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 286.0
 alignment = 1
 __meta__ = {
@@ -356,28 +371,28 @@ __meta__ = {
 }
 
 [node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 14.0
-margin_right = 90.0
+margin_left = 16.0
+margin_right = 92.0
 margin_bottom = 22.0
 max_value = 2.14748e+09
 value = 80.0
 
 [node name="SpinBox3" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 94.0
-margin_right = 170.0
+margin_left = 96.0
+margin_right = 172.0
 margin_bottom = 22.0
 max_value = 2.14748e+09
 value = 54.0
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 290.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 312.0
 text = "Arrangle angles"
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 316.0
-margin_right = 184.0
+margin_right = 188.0
 margin_bottom = 338.0
 
 [node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
@@ -387,7 +402,7 @@ text = "<-"
 
 [node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
 margin_left = 29.0
-margin_right = 155.0
+margin_right = 159.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 max_value = 360.0
@@ -395,8 +410,8 @@ align = 1
 suffix = "º"
 
 [node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 159.0
-margin_right = 184.0
+margin_left = 163.0
+margin_right = 188.0
 margin_bottom = 22.0
 text = "->"
 
@@ -718,6 +733,7 @@ stream = ExtResource( 2 )
 bus = "Music"
 
 [node name="SongSelector" parent="." instance=ExtResource( 13 )]
+from_ppd_allowed = true
 
 [node name="SaveAsSongSelector" parent="." instance=ExtResource( 13 )]
 save_mode = 1
@@ -756,6 +772,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
 [connection signal="layers_changed" from="VBoxContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
+[connection signal="ppd_chart_selected" from="SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
 [connection signal="confirmed" from="ExitDialog" to="." method="_on_ExitDialog_confirmed"]
 

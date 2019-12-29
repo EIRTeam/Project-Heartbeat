@@ -11,10 +11,13 @@ enum SAVE_MODE {
 	SAVE
 }
 
+export(bool) var from_ppd_allowed = false
+
 export(SELECTOR_MODE) var mode = SELECTOR_MODE.CHART
 export (SAVE_MODE) var save_mode = SAVE_MODE.LOAD
 signal chart_selected(song_id, difficulty)
 signal song_selected(song_id)
+signal ppd_chart_selected(path)
 
 func _ready():
 	song_selector.mode = mode
@@ -23,7 +26,14 @@ func _ready():
 	else:
 		get_ok().text = "Save"
 	get_ok().connect("pressed", self, "_on_OK_pressed")
+	
+	if from_ppd_allowed:
+		var ppd_button = add_button("From PPD")
+		ppd_button.connect("pressed", self, "_on_ppd_button_pressed")
+	$PPDFileDialog.connect("file_selected", self, "_on_ppd_file_selected")
 
+func _on_ppd_button_pressed():
+	$PPDImportConfirmationDialog.popup_centered()
 
 func _on_OK_pressed():
 	if song_selector.selected_song:
@@ -32,3 +42,10 @@ func _on_OK_pressed():
 		elif mode == SELECTOR_MODE.SONG:
 			emit_signal("song_selected", song_selector.selected_song)
 		hide()
+
+
+func _on_PPDImportConfirmationDialog_confirmed():
+	$PPDFileDialog.popup_centered_ratio(0.5)
+	
+func _on_ppd_file_selected(path):
+	emit_signal("ppd_chart_selected", path)
