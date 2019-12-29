@@ -96,5 +96,5 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	time = 1.0 - time
 	var point_x = time * distance
 	var point_y = sin(time * PI * frequency) / 12.0 * amplitude
-	var point = Vector2(point_x, point_y).rotated(deg2rad(angle - 180.0)) + pos
+	var point = Vector2(point_x, point_y).rotated(deg2rad(angle)) + pos
 	return point
