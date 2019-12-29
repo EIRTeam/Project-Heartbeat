@@ -45,7 +45,6 @@ func set_bpm(value):
 func get_bpm():
 	return BPM_spinbox.value
 func _ready():
-	MouseTrap.disable_mouse_trap()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_viewport()
 	timeline.editor = self
@@ -406,7 +405,6 @@ func load_song(song: HBSong, difficulty: String):
 
 
 func _on_ExitDialog_confirmed():
-	MouseTrap.enable_mouse_trap()
 	Diagnostics.show_WIP_label()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
