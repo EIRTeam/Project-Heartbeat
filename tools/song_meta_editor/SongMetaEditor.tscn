@@ -5,7 +5,7 @@
 [ext_resource path="res://tools/icons/icon_add.svg" type="Texture" id=3]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=4]
 [ext_resource path="res://tools/song_meta_editor/SongMetadataEditorControl.gd" type="Script" id=5]
-[ext_resource path="res://default_theme.tres" type="Theme" id=6]
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=6]
 [ext_resource path="res://tools/song_meta_editor/SongMetaEditor.gd" type="Script" id=7]
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=8]
 [ext_resource path="res://tools/icons/icon_folder.svg" type="Texture" id=9]
@@ -39,48 +39,41 @@ size_flags_horizontal = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HSplitContainer/VBoxContainer"]
 margin_right = 626.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 
 [node name="BackButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 20.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 icon = ExtResource( 1 )
 flat = true
 
-[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 24.0
-margin_top = 4.0
-margin_right = 606.0
-margin_bottom = 24.0
-text = "Note that only development packages are shown here!"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/VBoxContainer"]
-margin_top = 32.0
+margin_top = 29.0
 margin_right = 626.0
-margin_bottom = 60.0
+margin_bottom = 54.0
 alignment = 2
 
 [node name="FolderButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
 margin_left = 534.0
 margin_right = 562.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 hint_tooltip = "Open song folder"
 icon = ExtResource( 9 )
 
 [node name="AddButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
 margin_left = 566.0
 margin_right = 594.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 icon = ExtResource( 3 )
 
 [node name="DeleteButton" type="Button" parent="HSplitContainer/VBoxContainer/HBoxContainer"]
 margin_left = 598.0
 margin_right = 626.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 icon = ExtResource( 8 )
 
 [node name="SongList" type="Tree" parent="HSplitContainer/VBoxContainer"]
-margin_top = 64.0
+margin_top = 58.0
 margin_right = 626.0
 margin_bottom = 700.0
 size_flags_vertical = 3
@@ -102,17 +95,16 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 35.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata"]
 margin_right = 616.0
-margin_bottom = 660.0
+margin_bottom = 663.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -121,62 +113,62 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_right = 616.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 text = "Title"
 
 [node name="SongTitle" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 24.0
+margin_top = 29.0
 margin_right = 616.0
-margin_bottom = 52.0
+margin_bottom = 54.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Label4" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 56.0
+margin_top = 58.0
 margin_right = 616.0
-margin_bottom = 76.0
+margin_bottom = 83.0
 text = "Artist"
 
 [node name="SongArtist" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 80.0
+margin_top = 87.0
 margin_right = 616.0
-margin_bottom = 108.0
+margin_bottom = 112.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Label2" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 112.0
+margin_top = 116.0
 margin_right = 616.0
-margin_bottom = 132.0
+margin_bottom = 141.0
 text = "Artist alias (leave empty if using real name)"
 
 [node name="SongArtistAlias" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 136.0
+margin_top = 145.0
 margin_right = 616.0
-margin_bottom = 164.0
+margin_bottom = 170.0
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Label7" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 168.0
+margin_top = 174.0
 margin_right = 616.0
-margin_bottom = 188.0
+margin_bottom = 199.0
 text = "Producers (separated by newline)"
 
 [node name="SongProducers" type="TextEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 192.0
+margin_top = 203.0
 margin_right = 616.0
-margin_bottom = 384.0
+margin_bottom = 387.0
 size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 388.0
+margin_top = 391.0
 margin_right = 616.0
-margin_bottom = 408.0
+margin_bottom = 416.0
 text = "Writers"
 
 [node name="SongWriters" type="TextEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 412.0
+margin_top = 420.0
 margin_right = 616.0
 margin_bottom = 604.0
 size_flags_vertical = 3
@@ -184,13 +176,13 @@ size_flags_vertical = 3
 [node name="Label5" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 608.0
 margin_right = 616.0
-margin_bottom = 628.0
+margin_bottom = 633.0
 text = "Chart creator"
 
 [node name="SongCreator" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 632.0
+margin_top = 637.0
 margin_right = 616.0
-margin_bottom = 660.0
+margin_bottom = 662.0
 
 [node name="Technical Data" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
 visible = false
@@ -262,6 +254,7 @@ __meta__ = {
 }
 
 [node name="Difficulties" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -358,9 +351,9 @@ dialog_text = "Create a new package"
 
 [node name="LineEdit" type="LineEdit" parent="CreatePackageDialog"]
 margin_left = 8.0
-margin_top = 28.0
+margin_top = 37.0
 margin_right = 1252.0
-margin_bottom = 656.0
+margin_bottom = 655.0
 placeholder_text = "EIREXE's super wonderful mod"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -376,9 +369,9 @@ dialog_text = "Create a new song"
 
 [node name="LineEdit" type="LineEdit" parent="CreateSongDialog"]
 margin_left = 8.0
-margin_top = 28.0
+margin_top = 37.0
 margin_right = 1252.0
-margin_bottom = 656.0
+margin_bottom = 655.0
 placeholder_text = "EIREXE's super wonderful mod"
 __meta__ = {
 "_edit_use_anchors_": false
