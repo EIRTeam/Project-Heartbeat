@@ -22,6 +22,8 @@ func _ready():
 	set("z", -1000)
 	if not UserSettings.user_settings.visualizer_enabled:
 		set_physics_process(false)
+	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+		queue_free()
 	
 func _physics_process(delta):
 	var prev_hz = 0

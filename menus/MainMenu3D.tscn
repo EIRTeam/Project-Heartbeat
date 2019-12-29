@@ -5,7 +5,7 @@
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=3]
 [ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=4]
 [ext_resource path="res://menus/Background.gd" type="Script" id=5]
-[ext_resource path="res://graphics/background.png" type="Texture" id=6]
+[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=6]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 1.6, 0.9 )
@@ -48,6 +48,7 @@ code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
 uniform sampler2D audio : hint_white;
+uniform sampler2D background;
 float getfrequency(float x) {
 	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
 }
@@ -109,7 +110,7 @@ void fragment()
 	vec3 bg = vec3(0.13, 0.07, 0.26);
 	vec4 color;
 	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
-	color.a = 0.75;
+	color.a = 1.0;
     float time = TIME - 15.0;
     
 	float intensity = 1.0;
@@ -132,6 +133,7 @@ void fragment()
 [sub_resource type="ShaderMaterial" id=10]
 shader = SubResource( 9 )
 shader_param/FREQ_RANGE = 64.0
+shader_param/background = ExtResource( 6 )
 
 [sub_resource type="QuadMesh" id=11]
 size = Vector2( 1.6, 0.9 )
@@ -142,7 +144,6 @@ viewport_path = NodePath("ViewportBackground")
 
 [sub_resource type="SpatialMaterial" id=13]
 resource_local_to_scene = true
-flags_transparent = true
 flags_unshaded = true
 flags_fixed_size = true
 flags_albedo_tex_force_srgb = true
@@ -228,6 +229,7 @@ shape = SubResource( 8 )
 
 [node name="ViewportBackground" type="Viewport" parent="."]
 size = Vector2( 1280, 720 )
+usage = 0
 render_target_v_flip = true
 
 [node name="TextureRect" type="TextureRect" parent="ViewportBackground"]
