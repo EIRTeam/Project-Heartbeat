@@ -7,6 +7,9 @@
 .mono/
 .game/
 
+libsteam_api.so
+steam_api64.dll
+
 # System/tool-specific ignores
 .directory
 *~

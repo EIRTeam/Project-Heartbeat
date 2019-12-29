@@ -15,8 +15,7 @@ const LogLevel2String = {
 }
 
 func _ready():
-	print(HBVersion.get_version_string())
-
+	pass
 func log(caller: Object, message: String, log_level = LogLevel.INFO) -> void:
 	var caller_name = caller.get_class()
 	if caller.LOG_NAME:

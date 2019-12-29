@@ -158,6 +158,11 @@ _global_script_classes=[ {
 "class": "PPDPack",
 "language": "GDScript",
 "path": "res://scripts/PPDPack.gd"
+}, {
+"base": "Node",
+"class": "PlatformServiceProvider",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
 } ]
 _global_script_class_icons={
 "BBCWaveform": "",
@@ -189,7 +194,8 @@ _global_script_class_icons={
 "HBUtils": "",
 "HBVersion": "",
 "PPDLoader": "",
-"PPDPack": ""
+"PPDPack": "",
+"PlatformServiceProvider": ""
 }
 
 [application]
@@ -213,6 +219,8 @@ output_latency=2
 
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
+PlatformService="*res://autoloads/platform_service/PlatformService.gd"
+DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBInput="*res://autoloads/HBInput.gd"
