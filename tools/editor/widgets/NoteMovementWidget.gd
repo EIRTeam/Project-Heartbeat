@@ -47,13 +47,13 @@ func _widget_area_input(event: InputEvent):
 				get_tree().set_input_as_handled()
 				var note_center = rect_size/2
 				entry_angle = note_center.angle_to_point(get_local_mouse_position())
-				editor._change_selected_property("entry_angle", rad2deg(entry_angle))
+				editor._change_selected_property("entry_angle", rad2deg(entry_angle) - 180)
 				show_angle = true
 				update()
 func _draw():
 	if show_angle:
 		var note_center = rect_size/2
-		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle - deg2rad(180))
+		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle)
 		draw_line(note_center, note_center + rotated_n_v * 1000, Color.green)
 func _on_start_dragging():
 	internal_pos = rect_position
