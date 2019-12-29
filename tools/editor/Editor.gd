@@ -476,8 +476,11 @@ func snap_time_to_timeline(time):
 func arrange_selected_by_angle(diff):
 	undo_redo.create_action("Arrange selected notes by angle")
 	var mult = 0
+	var first_angle = null
 	for selected_item in selected:
-		undo_redo.add_do_property(selected_item.data, "entry_angle", int(selected_item.data.entry_angle + diff * mult))
+		if not first_angle:
+			first_angle = selected_item.data.entry_angle
+		undo_redo.add_do_property(selected_item.data, "entry_angle", int(first_angle + diff * mult))
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
