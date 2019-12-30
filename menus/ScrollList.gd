@@ -3,7 +3,6 @@ extends ScrollContainer
 class_name HBScrollList
 
 export(bool) var maintain_selected_child = false
-
 onready var vbox_container = get_node("VBoxContainer")
 
 const INTERP_SPEED = 5
@@ -37,8 +36,9 @@ func select_child(child, hard = false):
 			scroll_vertical = scroll_target
 	elif is_child_off_the_top(child):
 		scroll_target = child.rect_position.y
-		current_scroll = scroll_target
-		scroll_vertical = scroll_target
+		if hard:
+			current_scroll = scroll_target
+			scroll_vertical = scroll_target
 	if selected_child:
 		selected_child.stop_hover()
 	selected_child = child
@@ -77,9 +77,7 @@ func _unhandled_input(event):
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )
 	scroll_vertical = current_scroll
-	if get_v_scrollbar():
-		get_v_scrollbar().rect_size.y = rect_size.y - BOTTOM_MARGIN - TOP_MARGIN + vbox_container.get_constant("separation")
-		get_v_scrollbar().rect_position.y = TOP_MARGIN
+
 func _on_focus_entered():
 	if maintain_selected_child and selected_child:
 		select_child(selected_child)
@@ -89,6 +87,7 @@ func _on_focus_entered():
 		current_scroll = 0
 		for child in vbox_container.get_children():
 			if child.has_method("hover"):
+				
 				select_child(child)
 				_set_opacities(true)
 				break

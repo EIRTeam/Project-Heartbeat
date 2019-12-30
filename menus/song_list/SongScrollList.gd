@@ -45,4 +45,6 @@ func set_songs(songs: Array, difficulty: String):
 			if child.song.id == previously_selected_song_id:
 				select_child(child)
 	emit_signal("option_hovered", selected_child)
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	_set_opacities(true)
