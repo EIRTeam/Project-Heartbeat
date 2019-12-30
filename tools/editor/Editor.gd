@@ -21,6 +21,9 @@ onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var grid_renderer = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
 onready var inspector = get_node("VBoxContainer/HBoxContainer/TabContainer/Inspector")
 onready var angle_arrange_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
+onready var time_arrange_hv_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
+onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
+onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -274,7 +277,7 @@ func seek(value: int):
 	_on_timing_points_changed()
 			
 func delete_selected():
-	if selected.size() > 0:	
+	if selected.size() > 0:
 		if $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item in selected:
 			$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
 	undo_redo.create_action("Delete notes")
@@ -463,7 +466,6 @@ func snap_time_to_timeline(time):
 		
 		var beat_length = seconds_per_bar / float(get_beats_per_bar())
 		var note_length = 1.0/4.0 # a quarter of a beat
-		var note_res = get_note_resolution()
 		var interval = (get_note_resolution() / note_length) * beat_length
 		time -= get_note_snap_offset()*1000.0
 		interval = interval * 1000.0
@@ -497,3 +499,51 @@ func _on_AngleArrangeButtonMinus_pressed():
 func _on_SongSelector_ppd_chart_selected(path):
 	var chart = PPDLoader.PPD2HBChart(path)
 	from_chart(chart)
+
+# Arranges the selected notes in the playarea by a certain distances
+func arrange_selected_notes_by_time(direction: Vector2):
+	var separation : Vector2 = Vector2.ZERO
+	var hv_separation = time_arrange_hv_spinbox.value
+	var diagonal_separation_x = time_arrange_diagonal_separation_x_spinbox.value
+	var diagonal_separation_y = time_arrange_diagonal_separation_y_spinbox.value
+	
+	if abs(direction.x) > 0 and abs(direction.y) > 0:
+		# We got a diagonal boi
+		separation = Vector2(diagonal_separation_x, diagonal_separation_y)
+	else:
+		separation = Vector2(hv_separation, hv_separation)
+	separation *= Vector2(sign(direction.x), sign(direction.y))
+	
+	var first_note_position : Vector2
+	var first_note_time : int
+	
+	
+	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
+	var seconds_per_bar = 60/bars_per_minute
+	
+	var beat_length = seconds_per_bar / float(get_beats_per_bar())
+	var note_length = 1.0/4.0 # a quarter of a beat
+	var note_res = get_note_resolution()
+	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
+
+	undo_redo.create_action("Arrange selected notes by time")
+	
+	for selected_item in selected:
+		if selected_item.data is HBNoteData:
+			if not first_note_position:
+				first_note_position = selected_item.data.position
+				first_note_time = selected_item.data.time
+				continue
+				
+			# Real snapping hours
+			var diff = selected_item.data.time - first_note_time
+			var new_pos = first_note_position + (separation * (float(diff) / float(interval * 1000.0)))
+			
+			undo_redo.add_do_property(selected_item.data, "position", new_pos)
+			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_do_method(selected_item, "update_widget_data")
+			
+			undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
+			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+			undo_redo.add_undo_method(selected_item, "update_widget_data")
+	undo_redo.commit_action()

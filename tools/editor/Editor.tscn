@@ -101,28 +101,28 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1260.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 20.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 icon = ExtResource( 17 )
 flat = true
 
 [node name="LoadButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 24.0
 margin_right = 52.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 icon = ExtResource( 15 )
 flat = true
 
 [node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 56.0
 margin_right = 84.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 disabled = true
 shortcut = SubResource( 2 )
 icon = ExtResource( 4 )
@@ -131,20 +131,20 @@ flat = true
 [node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 88.0
 margin_right = 149.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 text = "Save As"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 153.0
 margin_right = 1260.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 430.0
-margin_right = 458.0
-margin_bottom = 24.0
+margin_left = 445.0
+margin_right = 473.0
+margin_bottom = 25.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
 pressed = true
@@ -152,9 +152,9 @@ icon = ExtResource( 18 )
 flat = true
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 462.0
-margin_right = 538.0
-margin_bottom = 24.0
+margin_left = 477.0
+margin_right = 541.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
 step = 0.001
@@ -162,16 +162,15 @@ align = 1
 suffix = "s"
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 542.0
-margin_top = 1.0
-margin_right = 563.0
-margin_bottom = 23.0
+margin_left = 545.0
+margin_right = 567.0
+margin_bottom = 25.0
 text = "1/"
 
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 567.0
-margin_right = 722.42
-margin_bottom = 24.0
+margin_left = 571.0
+margin_right = 726.42
+margin_bottom = 25.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
 min_value = 1.0
@@ -179,9 +178,9 @@ value = 4.0
 suffix = "th of a beat"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 726.0
-margin_right = 836.0
-margin_bottom = 24.0
+margin_left = 730.0
+margin_right = 840.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
 max_value = 1000.0
@@ -189,9 +188,9 @@ value = 160.0
 suffix = "bpm"
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 840.0
+margin_left = 844.0
 margin_right = 1011.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
 items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (3/4)", null, false, 2, null ]
@@ -200,21 +199,21 @@ selected = 0
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1015.0
 margin_right = 1043.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 icon = ExtResource( 11 )
 flat = true
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1047.0
 margin_right = 1075.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 icon = ExtResource( 9 )
 flat = true
 
 [node name="StopButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1079.0
 margin_right = 1107.0
-margin_bottom = 24.0
+margin_bottom = 25.0
 icon = ExtResource( 6 )
 flat = true
 
@@ -237,7 +236,7 @@ tab_align = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 29.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -256,11 +255,17 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 198.0
-margin_bottom = 397.0
+margin_bottom = 395.0
+
+[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 25.0
+text = "Note this only works at 4/4"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 29.0
 margin_right = 188.0
-margin_bottom = 182.0
+margin_bottom = 211.0
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
 margin_right = 188.0
@@ -343,76 +348,76 @@ size_flags_horizontal = 3
 icon = ExtResource( 29 )
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 186.0
+margin_top = 215.0
 margin_right = 188.0
-margin_bottom = 208.0
-text = "V/H separation per 8th"
+margin_bottom = 240.0
+text = "H/V separation per 8th"
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 212.0
+[node name="TimeArrangeHVSeparationSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 244.0
 margin_right = 188.0
-margin_bottom = 234.0
+margin_bottom = 269.0
 max_value = 2.14748e+09
 value = 96.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 238.0
+margin_top = 273.0
 margin_right = 188.0
-margin_bottom = 260.0
+margin_bottom = 298.0
 text = "Diagonal separation per 8th"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 264.0
+margin_top = 302.0
 margin_right = 188.0
-margin_bottom = 286.0
+margin_bottom = 327.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 16.0
+[node name="TimeArrangeDiagonalSeparationXSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 28.0
 margin_right = 92.0
-margin_bottom = 22.0
+margin_bottom = 25.0
 max_value = 2.14748e+09
 value = 80.0
 
-[node name="SpinBox3" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TimeArrangeDiagonalSeparationYSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 96.0
-margin_right = 172.0
-margin_bottom = 22.0
+margin_right = 160.0
+margin_bottom = 25.0
 max_value = 2.14748e+09
 value = 54.0
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 290.0
+margin_top = 331.0
 margin_right = 188.0
-margin_bottom = 312.0
+margin_bottom = 356.0
 text = "Arrangle angles"
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 316.0
+margin_top = 360.0
 margin_right = 188.0
-margin_bottom = 338.0
+margin_bottom = 385.0
 
 [node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_right = 25.0
-margin_bottom = 22.0
+margin_right = 23.0
+margin_bottom = 25.0
 text = "<-"
 
 [node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 29.0
-margin_right = 159.0
-margin_bottom = 22.0
+margin_left = 27.0
+margin_right = 161.0
+margin_bottom = 25.0
 size_flags_horizontal = 3
 max_value = 360.0
 align = 1
 suffix = "º"
 
 [node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 163.0
+margin_left = 165.0
 margin_right = 188.0
-margin_bottom = 22.0
+margin_bottom = 25.0
 text = "->"
 
 [node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
@@ -420,7 +425,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 29.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -558,7 +563,7 @@ flat = true
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_left = 64.0
-margin_right = 140.0
+margin_right = 128.0
 margin_bottom = 27.0
 value = 20.0
 __meta__ = {
@@ -566,15 +571,15 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
-margin_left = 144.0
-margin_top = 2.0
-margin_right = 159.0
-margin_bottom = 24.0
+margin_left = 132.0
+margin_top = 1.0
+margin_right = 147.0
+margin_bottom = 26.0
 text = "x"
 
 [node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
-margin_left = 163.0
-margin_right = 239.0
+margin_left = 151.0
+margin_right = 215.0
 margin_bottom = 27.0
 value = 40.0
 __meta__ = {
@@ -602,7 +607,7 @@ tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
-margin_top = 29.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
@@ -614,7 +619,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 29.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -633,7 +638,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 192.0
-margin_bottom = 397.0
+margin_bottom = 394.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_right = 183.0
@@ -657,7 +662,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 29.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 script = ExtResource( 7 )
@@ -677,7 +682,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 192.0
-margin_bottom = 397.0
+margin_bottom = 394.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_right = 226.0
@@ -761,6 +766,14 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button4" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 0 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 1 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, 1 ) ]]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 1 ) ]]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
