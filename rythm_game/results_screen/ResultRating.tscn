@@ -3,16 +3,22 @@
 [ext_resource path="res://rythm_game/results_screen/ResultRating.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
 
-[node name="HBoxContainer" type="HBoxContainer"]
+[node name="Panel" type="Panel"]
 anchor_right = 1.0
-margin_bottom = 40.0
-alignment = 1
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RatingLabel" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="HBoxContainer"]
 margin_right = 605.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
@@ -21,7 +27,7 @@ custom_colors/font_color = Color( 0.894118, 0.439216, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0.894118, 0.439216, 1, 1 )
 text = "WORST"
 
-[node name="ValueLabel2" type="Label" parent="."]
+[node name="ValueLabel2" type="Label" parent="HBoxContainer"]
 margin_left = 609.0
 margin_right = 669.0
 margin_bottom = 40.0
@@ -35,13 +41,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ValueLabel3" type="HBoxContainer" parent="."]
+[node name="ValueLabel3" type="HBoxContainer" parent="HBoxContainer"]
 margin_left = 673.0
 margin_right = 1280.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
-[node name="TotalLabel" type="Label" parent="ValueLabel3"]
+[node name="TotalLabel" type="Label" parent="HBoxContainer/ValueLabel3"]
 margin_right = 301.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
@@ -53,7 +59,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PercentageLabel" type="Label" parent="ValueLabel3"]
+[node name="PercentageLabel" type="Label" parent="HBoxContainer/ValueLabel3"]
 margin_left = 305.0
 margin_right = 607.0
 margin_bottom = 40.0

@@ -5,6 +5,8 @@ export (HBJudge.JUDGE_RATINGS) var rating setget set_rating
 var total_notes setget set_total_notes
 var percentage setget set_percentage
 
+onready var total_label = get_node("HBoxContainer/ValueLabel3/TotalLabel") 
+onready var percentage_label = get_node("HBoxContainer/ValueLabel3/PercentageLabel")
 func set_total_notes(val):
 	total_notes = val
 	$ValueLabel3/TotalLabel.text = str(val) + "/"

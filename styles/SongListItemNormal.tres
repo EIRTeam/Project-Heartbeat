@@ -2,10 +2,14 @@
 
 [resource]
 content_margin_left = 25.0
-bg_color = Color( 0.176471, 0.0941176, 0.301961, 0.501961 )
-border_color = Color( 0.8, 0.8, 0.8, 0.5 )
-border_blend = true
+bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+corner_detail = 20
