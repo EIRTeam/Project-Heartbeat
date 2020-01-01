@@ -38,9 +38,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="-83.643075"
-     inkscape:cy="-8.252933"
+     inkscape:zoom="3.959798"
+     inkscape:cx="-34.9937"
+     inkscape:cy="52.547193"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -88,5 +88,9 @@
        style="fill:#87d639;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.94221032;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccc" />
+    <path
+       style="opacity:1;vector-effect:none;fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 75.00383,-0.00510199 A 67.932762,67.932762 0 0 1 7.0710678,67.92766 67.932762,67.932762 0 0 1 -60.861694,-0.00510199 67.932762,67.932762 0 0 1 7.0710678,-67.937864 67.932762,67.932762 0 0 1 75.00383,-0.00510199 Z"
+       id="shadow" />
   </g>
 </svg>

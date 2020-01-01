@@ -80,8 +80,8 @@
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:zoom="6.675088"
-     inkscape:cx="18.11483"
-     inkscape:cy="40.727678"
+     inkscape:cx="44.781145"
+     inkscape:cy="40.877489"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -105,5 +105,9 @@
        id="main_path"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccc" />
+    <path
+       style="opacity:1;vector-effect:none;fill:#f2f2f2;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 73.557082,3.072439 A 65.916733,65.916733 0 0 1 7.6403489,68.989172 65.916733,65.916733 0 0 1 -58.276384,3.072439 65.916733,65.916733 0 0 1 7.6403489,-62.844294 65.916733,65.916733 0 0 1 73.557082,3.072439 Z"
+       id="shadow" />
   </g>
 </svg>
