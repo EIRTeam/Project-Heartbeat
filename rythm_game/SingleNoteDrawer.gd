@@ -120,6 +120,12 @@ func _on_note_judged(judgement):
 				particles.scale = Vector2(-1.0, 1.0)
 			game.add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
+	else:
+		if judgement >= game.judge.JUDGE_RATINGS.FINE:
+			var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
+			var effect = effect_scene.instance()
+			game.add_child(effect)
+			effect.position = game.remap_coords(note_data.position)
 	queue_free()
 	get_tree().set_input_as_handled()
 	set_process_unhandled_input(false)
