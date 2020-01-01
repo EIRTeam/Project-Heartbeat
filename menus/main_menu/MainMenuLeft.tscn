@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
-[ext_resource path="res://graphics/icons/settings.svg" type="Texture" id=3]
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphics/icons/exit-run.svg" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=6]
@@ -60,7 +59,6 @@ margin_right = 430.0
 margin_bottom = 460.0
 text = "Multiplayer"
 icon = ExtResource( 7 )
-next_menu = ""
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -68,7 +66,6 @@ margin_top = 470.0
 margin_right = 430.0
 margin_bottom = 530.0
 text = "Options"
-icon = ExtResource( 3 )
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="StartMenu" instance=ExtResource( 4 )]
@@ -87,7 +84,6 @@ margin_right = 430.0
 margin_bottom = 669.999
 text = "Exit"
 icon = ExtResource( 5 )
-next_menu = ""
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0

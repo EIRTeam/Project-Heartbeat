@@ -1,22 +1,25 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://menus/HBMenuChangeButton.gd" type="Script" id=1]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=2]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
+[ext_resource path="res://graphics/icons/settings.svg" type="Texture" id=3]
 [ext_resource path="res://styles/PanelStyleTransparentHover.tres" type="StyleBox" id=4]
+[ext_resource path="res://styles/NewButtonStyle.tres" type="StyleBox" id=5]
 
 [node name="StartButton" type="Button"]
 margin_left = 9.0
 margin_top = 83.0
-margin_right = 459.0
+margin_right = 417.0
 margin_bottom = 147.0
+rect_pivot_offset = Vector2( 768.465, 260.259 )
 focus_mode = 0
 custom_styles/hover = ExtResource( 4 )
-custom_styles/normal = ExtResource( 3 )
+custom_styles/normal = ExtResource( 5 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_constants/hseparation = 10
+custom_constants/hseparation = 69
 text = "Rhythm Game"
+icon = ExtResource( 3 )
 align = 0
 script = ExtResource( 1 )
 __meta__ = {

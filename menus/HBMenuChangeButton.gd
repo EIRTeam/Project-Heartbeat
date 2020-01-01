@@ -5,8 +5,8 @@ class_name HBMenuChangeButton
 
 export (String) var next_menu
 
-var normal_style = preload("res://styles/PanelStyleTransparent.tres")
-var hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
+var normal_style = preload("res://styles/NewButtonStyle.tres")
+var hover_style = preload("res://styles/NewButtonStyleHover.tres")
 
 func _ready():
 	focus_mode = Control.FOCUS_NONE

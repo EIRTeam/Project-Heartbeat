@@ -17,6 +17,7 @@ func set_song(song: HBSong, difficulty: String):
 func set_game_size():
 	$RhythmGame.size = rect_size
 	$Node2D/Control.rect_size = rect_size
+	$Node2D/TextureRect.rect_size = rect_size
 func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()

@@ -11,11 +11,11 @@ var target_opacity = 1.0
 const LERP_SPEED = 3.0
 
 var prev_focus
-onready var title_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/TitleLabel")
-onready var author_label = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
-onready var score_label = get_node("HBoxContainer/VBoxContainer/ScoreLabel")
+onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/TitleLabel")
+onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
+onready var score_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/ScoreLabel")
 
-onready var stars_label = get_node("HBoxContainer/TextureRect/StarsLabel")
+onready var stars_label = get_node("MarginContainer/HBoxContainer/TextureRect/StarsLabel")
 signal song_selected(song)
 
 func set_song(value: HBSong, difficulty: String):
