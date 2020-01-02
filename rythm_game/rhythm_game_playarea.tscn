@@ -1,14 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=3]
-[ext_resource path="res://rythm_game/TopPanelStyle.tres" type="StyleBox" id=4]
+[ext_resource path="res://graphics/heart_outside.png" type="Texture" id=4]
 [ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=5]
 [ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=6]
 [ext_resource path="res://default_theme.tres" type="Theme" id=7]
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
+[ext_resource path="res://graphics/heart.png" type="Texture" id=10]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=11]
 
 [sub_resource type="Animation" id=1]
 length = 0.1
@@ -25,6 +27,16 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 77.0
+bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
+border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+corner_radius_bottom_right = 1024
+corner_detail = 1
+expand_margin_right = 77.0
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
 
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
@@ -85,28 +97,67 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+anchor_left = 0.005
+anchor_top = 0.005
 anchor_right = 1.0
-margin_bottom = 60.0
+anchor_bottom = 0.066
+margin_left = -0.4
+margin_top = 0.4
+margin_bottom = 76.48
 rect_min_size = Vector2( 0, 60 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="Control/HBoxContainer"]
-margin_right = 850.0
-margin_bottom = 60.0
-size_flags_horizontal = 3
-theme = ExtResource( 7 )
-custom_styles/panel = ExtResource( 4 )
+[node name="ComboTextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 120, 120 )
+max_value = 10.0
+value = 7.0
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 4 )
+fill_mode = 4
+tint_under = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_progress = Color( 0.658824, 0.466667, 0.941176, 1 )
+
+[node name="ComboMultiplierLabel" type="Label" parent="Control/HBoxContainer/ComboTextureProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "x1"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/Panel"]
+[node name="VBoxContainer" type="Control" parent="Control/HBoxContainer"]
+show_behind_parent = true
+margin_left = 132.0
+margin_right = 890.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
+anchor_left = -0.087
+anchor_top = 0.194
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -75.0
+margin_bottom = -60.0
+rect_min_size = Vector2( 0, 65 )
+size_flags_horizontal = 3
+theme = ExtResource( 7 )
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel"]
+anchor_left = 0.085
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -115,16 +166,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/Panel/VBoxContainer"]
-margin_top = 10.0
-margin_right = 755.0
-margin_bottom = 30.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer"]
+margin_top = 12.0
+margin_right = 753.0
+margin_bottom = 32.0
 custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SongAuthor" type="Label" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+[node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
 margin_right = 101.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 6 )
@@ -132,7 +183,7 @@ text = "NOSONG"
 valign = 1
 uppercase = true
 
-[node name="SongName" type="Label" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+[node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
 margin_left = 116.0
 margin_right = 215.0
 margin_bottom = 20.0
@@ -140,43 +191,43 @@ custom_fonts/font = ExtResource( 5 )
 text = "LOADED"
 valign = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/Panel/VBoxContainer"]
-margin_top = 30.0
-margin_right = 755.0
-margin_bottom = 50.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer"]
+margin_top = 32.0
+margin_right = 753.0
+margin_bottom = 52.0
 alignment = 1
 
-[node name="Label" type="Label" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
 margin_right = 48.0
 margin_bottom = 20.0
 text = "LIFE"
 valign = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
 margin_left = 52.0
-margin_right = 755.0
+margin_right = 753.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
 margin_top = 8.0
-margin_right = 703.0
+margin_right = 701.0
 margin_bottom = 11.0
 size_flags_horizontal = 3
 percent_visible = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer"]
-margin_left = 854.0
-margin_right = 1280.0
-margin_bottom = 60.0
+margin_left = 894.0
+margin_right = 1274.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 alignment = 2
 
 [node name="Label" type="Label" parent="Control/HBoxContainer/HBoxContainer"]
-margin_right = 426.0
-margin_bottom = 60.0
+margin_right = 380.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 8 )

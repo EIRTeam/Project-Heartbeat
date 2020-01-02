@@ -15,24 +15,23 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 
 var hit_effect_queue = []
 
-onready var notes_node = get_node("Notes")
-onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 var input_lag_compensation = 0
 
 var result = HBResult.new()
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var rating_label : Label = get_node("RatingLabel")
-
-onready var author_label = get_node("Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer/SongAuthor")
-onready var song_name_label = get_node("Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
-
-const LOG_NAME = "RhythmGame"
+onready var notes_node = get_node("Notes")
+onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
+onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongAuthor")
+onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
+onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextureProgress/ComboMultiplierLabel")
+onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
 var time_delay: float
-var time: float	
+var time: float
 var current_combo = 0
 var timing_points = [] setget set_timing_points
 
@@ -40,15 +39,17 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 
+const LOG_NAME = "RhythmGame"
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
+const MAX_NOTE_SFX = 4
+const NOTES_PER_COMBO_MULTIPLIER = 16.0
+
 
 var size = Vector2(1280, 720) setget set_size
-
 var editing = false
 var previewing = false
 
-const MAX_NOTE_SFX = 4
 
 var current_bpm = 180.0
 
@@ -81,6 +82,8 @@ func _ready():
 		var new_sfx = $HitEffect.duplicate()
 		add_child(new_sfx)
 		hit_effect_queue.append(new_sfx)
+	set_current_combo(0)
+	combo_texture_progress.max_value = NOTES_PER_COMBO_MULTIPLIER
 func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
@@ -260,19 +263,39 @@ func _process(delta):
 					a.pressed = true
 					play_note_sfx()
 					Input.parse_input_event(a)
+
+func get_combo_multiplier() -> int:
+	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, 3))
+
+func set_current_combo(combo: int):
+	current_combo = combo
+	var combo_multiplier = get_combo_multiplier()
+	if combo_multiplier > 1:
+		combo_multiplier_label.show()
+		combo_multiplier_label.text = "x" + str(combo_multiplier)
+	else:
+		combo_multiplier_label.hide()
+	if current_combo < int(NOTES_PER_COMBO_MULTIPLIER) * 4:
+		combo_texture_progress.value = current_combo % int(NOTES_PER_COMBO_MULTIPLIER)
+	else:
+		combo_texture_progress.value = int(NOTES_PER_COMBO_MULTIPLIER) * 4
+	
+
 func _on_notes_judged(notes: Array, judgement):
 	var note = notes[0]
+	# Some notes might be considered more than 1 at the same time? connected ones aren't
+	var notes_hit = 1
 	if not editing or previewing:
 		# Rating graphic
 		if judgement < judge.JUDGE_RATINGS.FINE:
-			current_combo = 0
+			set_current_combo(0)
 		else:
-			current_combo += notes.size()
-			result.notes_hit += notes.size()
+			set_current_combo(current_combo + notes_hit)
+			result.notes_hit += notes_hit
 		
 		
-		result.note_ratings[judgement] += notes.size()
-		result.total_notes += notes.size()
+		result.note_ratings[judgement] += notes_hit
+		result.total_notes += notes_hit
 		if current_combo > result.max_combo:
 			result.max_combo = current_combo
 
@@ -309,6 +332,7 @@ func resume():
 func restart():
 	get_tree().paused = false
 	set_song(SongLoader.songs[result.song_id], result.difficulty)
+	set_current_combo(0)
 	
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
@@ -319,7 +343,7 @@ func play_from_pos(position: float):
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):
 	if not previewing:
-		result.score += score_to_add
+		result.score += score_to_add * get_combo_multiplier()
 		score_counter.score = result.score
 
 
