@@ -128,13 +128,16 @@ static func PPD2HBChart(path: String) -> HBChart:
 #		else:
 #			note_data = HBNoteData.new()
 		note_data = HBNoteData.new()
+		
+		note_data.oscillation_frequency = -note_data.oscillation_frequency
+		
 		note_data.time = int(note.time*1000.0)
 		note_data.time_out = (60.0  / 250.0 * (1.0 + 3.0) * 1000.0)
 		note_data.auto_time_out = true
 		
 		note_data.position.x = (note.position.x / 800.0) * 1920
 		note_data.position.y = (note.position.y / 450.0) * 1080
-		note_data.entry_angle = rad2deg(note.rotation)
+		note_data.entry_angle = 360 - rad2deg(note.rotation)
 		# Simulataneous notes have no amplitude
 		var is_multi_note = false
 		if i > 0 and note.time == marks[i-1].time:
@@ -151,7 +154,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 			if note_params.has("Amplitude"):
 				note_data.oscillation_amplitude = float(note_params.Amplitude)
 			if note_params.has("Frequency"):
-				note_data.oscillation_frequency = float(note_params.Frequency)
+				note_data.oscillation_frequency = -float(note_params.Frequency)
+			
+			
 			if note_params.has("#RightRotation"):
 				note_data.oscillation_frequency = -note_data.oscillation_frequency
 		for l in chart.layers:
