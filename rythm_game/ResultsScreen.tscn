@@ -140,7 +140,7 @@ margin_top = 10.0
 margin_right = 1210.0
 margin_bottom = 177.0
 
-[node name="ExtraDataPanel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
+[node name="ExtraDataPanel" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1200.0
 margin_bottom = 167.0
 size_flags_vertical = 3
