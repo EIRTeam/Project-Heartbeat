@@ -97,20 +97,28 @@ custom_constants/separation = 0
 margin_right = 1220.0
 margin_bottom = 552.0
 size_flags_horizontal = 3
-custom_constants/separation = 25
+custom_constants/separation = 15
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
 margin_right = 1220.0
-margin_bottom = 210.0
+margin_bottom = 253.0
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.35
+custom_styles/panel = ExtResource( 2 )
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 235.0
+margin_top = 268.0
 margin_right = 1220.0
-margin_bottom = 445.0
+margin_bottom = 455.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 2 )
@@ -118,29 +126,30 @@ custom_styles/panel = ExtResource( 2 )
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 1205.0
-margin_bottom = 195.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1210.0
+margin_bottom = 177.0
 
 [node name="ExtraDataPanel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
-margin_right = 1190.0
-margin_bottom = 180.0
+margin_right = 1200.0
+margin_bottom = 167.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.7
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 14.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 15
 custom_constants/margin_left = 15
@@ -152,8 +161,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1175.0
-margin_bottom = 165.0
+margin_right = 1185.0
+margin_bottom = 166.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -161,7 +170,7 @@ __meta__ = {
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
 margin_top = 11.0
-margin_right = 1160.0
+margin_right = 1170.0
 margin_bottom = 51.0
 alignment = 1
 __meta__ = {
@@ -169,15 +178,15 @@ __meta__ = {
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_right = 1050.0
+margin_right = 1060.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 6 )
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 1054.0
-margin_right = 1160.0
+margin_left = 1064.0
+margin_right = 1170.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
@@ -191,7 +200,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
 margin_top = 55.0
-margin_right = 1160.0
+margin_right = 1170.0
 margin_bottom = 95.0
 alignment = 1
 __meta__ = {
@@ -199,15 +208,15 @@ __meta__ = {
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1050.0
+margin_right = 1060.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 6 )
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1054.0
-margin_right = 1160.0
+margin_left = 1064.0
+margin_right = 1170.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
@@ -221,7 +230,7 @@ __meta__ = {
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
 margin_top = 99.0
-margin_right = 1160.0
+margin_right = 1170.0
 margin_bottom = 139.0
 alignment = 1
 __meta__ = {
@@ -229,15 +238,15 @@ __meta__ = {
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 931.0
+margin_right = 941.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 6 )
 text = "SCORE"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 935.0
-margin_right = 1160.0
+margin_left = 945.0
+margin_right = 1170.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1

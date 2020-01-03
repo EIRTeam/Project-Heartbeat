@@ -2,7 +2,7 @@ extends HBMenu
 
 var result : HBResult setget set_result
 
-onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/RatingResultsContainer")
+onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel/RatingResultsContainer")
 onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
 onready var artist_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/ArtistLabel")
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/TitleLabel")
@@ -26,6 +26,7 @@ func _ready():
 	for i in range(values.size()-1, -1, -1):
 		var rating = values[i]
 		var rating_scene = ResultRating.instance()
+		rating_scene.odd = i % 2 == 0
 		rating_results_container.add_child(rating_scene)
 		rating_results_scenes[rating] = rating_scene
 		rating_scene.rating = rating
