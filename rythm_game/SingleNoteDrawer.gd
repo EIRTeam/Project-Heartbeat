@@ -67,22 +67,28 @@ func update_graphic_positions_and_scale(time: float):
 	
 func set_trail_color():
 	var gradient = Gradient.new()
-	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	color1.a = 0.0
-	color2.a = 0.5
-	gradient.set_offset(0, 0)
-	gradient.set_color(0, color2)
-	gradient.set_color(1, color1.contrasted())
+	if not game.heart_power_enabled:
+		var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+		var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+		color1.a = 0.0
+		color2.a = 0.5
+		gradient.set_offset(0, 0)
+		gradient.set_color(0, color2)
+		gradient.set_color(1, color1.contrasted())
+
+	else:
+		for point in range(TRAIL_RESOLUTION):
+			var hue = point/float(TRAIL_RESOLUTION-1)
+			var col = Color.from_hsv(hue, 0.75, 1.0, hue * 0.75)
+			gradient.add_point(1.0-hue, col)
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
-	
+
 func draw_trail(time: float):
 	
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Trail will be time_out / 2 behind
 	var trail_time = get_time_out()
-	$Line2D.clear_points()
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
 	for i in range(TRAIL_RESOLUTION, -1, -1):
@@ -97,7 +103,7 @@ func draw_trail(time: float):
 		points.append(point1)
 
 		if not trail_bounding_box.has_point(point1_internal):
-			$Line2D.gradient.set_offset(0, i / float(TRAIL_RESOLUTION))
+#			$Line2D.gradient.set_offset(0, i / float(TRAIL_RESOLUTION))
 			break
 
 	$Line2D2.width = 6 * game.get_note_scale()
@@ -207,3 +213,9 @@ func get_note_graphic():
 
 func get_notes():
 	return [note_data]
+	
+func _on_heart_power_activated():
+	set_trail_color()
+	
+func _on_heart_power_end():
+	set_trail_color()

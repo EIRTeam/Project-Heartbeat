@@ -27,6 +27,8 @@ onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/V
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
 onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextureProgress/ComboMultiplierLabel")
 onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
+onready var heart_power_progress_bar = get_node("Control/TextureProgress")
+onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -38,7 +40,7 @@ var timing_points = [] setget set_timing_points
 var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
-
+var current_song: HBSong = HBSong.new()
 const LOG_NAME = "RhythmGame"
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
@@ -53,8 +55,17 @@ var previewing = false
 
 var current_bpm = 180.0
 
+var current_heart_power_duration = 0.0
+var current_heart_power_to_remove = 0.0
+var current_starting_heart_power = 0.0
+var heart_power_enabled = false
+var heart_power = 0.0
+var current_heart_power_start_time = 0.0
+const MAX_HEART_POWER = 100.0
 signal time_changed(time)
 signal song_cleared(results)
+signal heart_power_activate
+signal heart_power_end
 func set_size(value):
 	size = value
 
@@ -83,12 +94,15 @@ func _ready():
 		add_child(new_sfx)
 		hit_effect_queue.append(new_sfx)
 	set_current_combo(0)
+	update_heart_power_ui()
+	update_combo_multiplier_ui()
 	combo_texture_progress.max_value = NOTES_PER_COMBO_MULTIPLIER
 func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
 	
 func set_song(song: HBSong, difficulty: String):
+	current_song = song
 	audio_stream_player.seek(0)
 	result = HBResult.new()
 	result.song_id = song.id
@@ -117,7 +131,7 @@ func set_song(song: HBSong, difficulty: String):
 	timing_points = chart.get_timing_points()
 	play_song()
 func get_note_scale():
-	return (get_playing_field_size().length() / BASE_SIZE.length()) * 1.0
+	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.95
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0
@@ -143,7 +157,8 @@ func play_song():
 
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
-
+	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
+		activate_heart_power()
 func get_closest_notes_of_type(note_type: int) -> Array:
 	var closest_notes = []
 	for note_c in notes_on_screen:
@@ -208,6 +223,17 @@ func _process(delta):
 				break
 		if action_pressed:
 			break
+	# Heart power stuff
+	if heart_power_enabled:
+		if time - current_heart_power_start_time >= current_heart_power_duration:
+			heart_power_enabled = false
+			heart_power = current_starting_heart_power - current_heart_power_to_remove
+			emit_signal("heart_power_end")
+			update_heart_power_ui()
+		else:
+			var hp_progress = (time - current_heart_power_start_time) / current_heart_power_duration
+			heart_power = current_starting_heart_power - (current_heart_power_to_remove * hp_progress)
+			update_heart_power_ui()
 	# Adding visible notes
 	var multi_notes = []
 	for i in range(timing_points.size() - 1, -1, -1):
@@ -229,6 +255,8 @@ func _process(delta):
 					notes_node.add_child(note_drawer)
 					note_drawer.connect("notes_judged", self, "_on_notes_judged")
 					note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
+					connect("heart_power_activate", note_drawer, "_on_heart_power_activated")
+					connect("heart_power_end", note_drawer, "_on_heart_power_end")
 					timing_point.set_meta("note_drawer", note_drawer)
 					notes_on_screen.append(timing_point)
 					connect("time_changed", note_drawer, "_on_game_time_changed")
@@ -265,10 +293,12 @@ func _process(delta):
 					Input.parse_input_event(a)
 
 func get_combo_multiplier() -> int:
-	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, 3))
+	var m = 1
+	if heart_power_enabled:
+		m = 2
+	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, 3)) * m
 
-func set_current_combo(combo: int):
-	current_combo = combo
+func update_combo_multiplier_ui():
 	var combo_multiplier = get_combo_multiplier()
 	if combo_multiplier > 1:
 		combo_multiplier_label.show()
@@ -279,8 +309,50 @@ func set_current_combo(combo: int):
 		combo_texture_progress.value = current_combo % int(NOTES_PER_COMBO_MULTIPLIER)
 	else:
 		combo_texture_progress.value = int(NOTES_PER_COMBO_MULTIPLIER) * 4
-	
 
+func set_current_combo(combo: int):
+	current_combo = combo
+	update_combo_multiplier_ui()
+	
+func activate_heart_power():
+	if not heart_power_enabled:
+		if heart_power >= MAX_HEART_POWER / 2.0:
+			var activation_duration = get_heart_power_duration()
+			var hp_points_to_use = MAX_HEART_POWER
+			if heart_power < MAX_HEART_POWER:
+				activation_duration = activation_duration / 2.0
+				hp_points_to_use = hp_points_to_use / 2.0
+			current_heart_power_start_time = time
+			current_heart_power_duration = activation_duration
+			current_heart_power_to_remove = hp_points_to_use
+			current_starting_heart_power = heart_power
+			heart_power_enabled = true
+			emit_signal("heart_power_activate")
+			heart_power_prompt_animation_player.play("HeartPowerEnabled")
+			update_combo_multiplier_ui()
+		
+
+func get_heart_power_points_per_note():
+	return 100 / current_song.bpm
+
+# Heart power activation for half phase is minimum 4 seconds, otherwise it's 1/8th of the max power points
+func get_heart_power_duration():
+	return max(round(500000/(pow(current_song.bpm, 2.0))), 4)
+
+func increase_heart_power():
+	var old_heart_power = heart_power
+	heart_power += get_heart_power_points_per_note()
+	
+	heart_power = clamp(heart_power, 0, MAX_HEART_POWER)
+	if old_heart_power < MAX_HEART_POWER/2.0 and heart_power > MAX_HEART_POWER/2.0:
+		heart_power_prompt_animation_player.play("HeartPowerAvailable")
+	update_heart_power_ui()
+	
+	
+func update_heart_power_ui():
+	heart_power_progress_bar.value = heart_power / MAX_HEART_POWER
+	heart_power_progress_bar.decreasing = heart_power_enabled
+	
 func _on_notes_judged(notes: Array, judgement):
 	var note = notes[0]
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
@@ -290,9 +362,11 @@ func _on_notes_judged(notes: Array, judgement):
 		if judgement < judge.JUDGE_RATINGS.FINE:
 			set_current_combo(0)
 		else:
+			if not heart_power_enabled and get_combo_multiplier() >= 4 and current_combo > NOTES_PER_COMBO_MULTIPLIER * 4:
+				increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			result.notes_hit += notes_hit
-		
+			
 		
 		result.note_ratings[judgement] += notes_hit
 		result.total_notes += notes_hit
@@ -344,6 +418,7 @@ func play_from_pos(position: float):
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add * get_combo_multiplier()
+		print(score_to_add * get_combo_multiplier())
 		score_counter.score = result.score
 
 

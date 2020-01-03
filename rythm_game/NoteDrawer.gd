@@ -148,3 +148,8 @@ func get_note_graphic():
 
 func get_notes():
 	return [note_data]
+
+func _on_heart_power_activated():
+	pass
+func _on_heart_power_end():
+	pass
