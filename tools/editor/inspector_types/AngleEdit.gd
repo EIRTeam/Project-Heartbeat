@@ -7,7 +7,7 @@ signal angle_changed(angle)
 signal angle_finished_changing
 func set_angle(value):
 	angle = value
-	emit_signal("angle_changed", angle)
+#	emit_signal("angle_changed", angle)
 	update()
 
 func _gui_input(event):
