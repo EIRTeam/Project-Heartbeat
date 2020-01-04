@@ -12,8 +12,7 @@ func _ready():
 	._set_opacities(true)
 #	MouseTrap.difficulty_select_dialog.connect("popup_hide", self, "grab_focus")
 func _on_option_hovered(option):
-	if option.song.audio:
-		emit_signal("song_hovered", option.song)
+	emit_signal("song_hovered", option.song)
 		
 func _on_focus_entered():
 	._on_focus_entered()

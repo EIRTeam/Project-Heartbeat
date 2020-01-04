@@ -16,6 +16,9 @@ onready var preview_start_edit = get_node("TabContainer/Technical Data/VBoxConta
 
 onready var difficulties_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer")
 onready var stars_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer2")
+
+onready var preview_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
+onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -29,6 +32,8 @@ func set_song_meta(value):
 	bpm_edit.value = song_meta.bpm
 	audio_filename_edit.text = song_meta.audio
 	preview_start_edit.value = song_meta.preview_start
+	background_image_filename_edit.text = song_meta.background_image
+	preview_image_filename_edit.text = song_meta.preview_image
 	
 	# Uncheck all difficulties
 	for difficulty_checkbox in difficulties_container.get_children():
@@ -58,6 +63,9 @@ func _on_SaveButton_pressed():
 	song_meta.bpm = bpm_edit.value
 	song_meta.audio = audio_filename_edit.text
 	song_meta.preview_start = preview_start_edit.value
+	song_meta.background_image = background_image_filename_edit.text
+	song_meta.preview_image = preview_image_filename_edit.text
+	
 	
 	for difficulty_checkbox in difficulties_container.get_children():
 		if difficulty_checkbox.pressed:
@@ -75,7 +83,7 @@ func _on_SaveButton_pressed():
 	emit_signal("song_meta_saved")
 
 
-func _on_FileDialog_file_selected(path: String):
+func _on_AudioFileDialog_file_selected(path: String):
 	var dir = Directory.new()
 	var extension = path.get_extension()
 	var audio_path := song_meta.get_song_audio_res_path() as String
@@ -83,4 +91,28 @@ func _on_FileDialog_file_selected(path: String):
 	dir.copy(path, audio_path)
 	song_meta.audio = audio_path.get_file()
 	audio_filename_edit.text = song_meta.audio
+	_on_SaveButton_pressed()
+
+
+func _on_BackgroundFileDialog_file_selected(path):
+	var dir = Directory.new()
+	var extension = path.get_extension()
+	song_meta.background_image = "background." + extension
+	
+	var image_path := song_meta.get_song_background_image_res_path() as String
+	
+	dir.copy(path, image_path)
+	background_image_filename_edit.text = song_meta.background_image
+	_on_SaveButton_pressed()
+
+
+func _on_PreviewFileDialog_file_selected(path):
+	var dir = Directory.new()
+	var extension = path.get_extension()
+	song_meta.preview_image = "preview." + extension
+	
+	var image_path := song_meta.get_song_background_image_res_path() as String
+	
+	dir.copy(path, image_path)
+	preview_image_filename_edit.text = song_meta.preview_image
 	_on_SaveButton_pressed()

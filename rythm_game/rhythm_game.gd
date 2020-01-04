@@ -12,6 +12,11 @@ func _ready():
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 
 func set_song(song: HBSong, difficulty: String):
+	var bg_path = song.get_song_background_image_res_path()
+	var image = HBUtils.image_from_fs(bg_path)
+	var image_texture = ImageTexture.new()
+	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
+	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.set_song(song, difficulty)
 
 func set_game_size():

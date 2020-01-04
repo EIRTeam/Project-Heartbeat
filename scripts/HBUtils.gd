@@ -98,3 +98,8 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	var point_y = sin(time * PI * frequency) / 12.0 * amplitude
 	var point = Vector2(point_x, point_y).rotated(deg2rad(angle)) + pos
 	return point
+	
+static func image_from_fs(path: String) -> Image:
+	var image = Image.new()
+	image.load(path)
+	return image
