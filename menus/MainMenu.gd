@@ -126,12 +126,12 @@ func _process(delta):
 			play_random_song()
 		player.play()
 func play_song(song: HBSong):
-	if song == current_song:
-#		target_volume = 0
-		return
-	current_song = song
 	if song.audio != "":
+		if song == current_song:
+	#		target_volume = 0
+			return
+		current_song = song
 		next_audio = song.get_audio_stream()
 		target_volume = FADE_OUT_VOLUME
 		song_queued = true
-	MENUS.music_player.right.set_song(current_song, next_audio.get_length())
+		MENUS.music_player.right.set_song(current_song, next_audio.get_length())
