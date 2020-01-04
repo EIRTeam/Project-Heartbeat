@@ -29,6 +29,7 @@ func _on_CreateSongDialog_confirmed():
 			song_meta.path = "user://songs/%s" % song_name
 			song_meta.save_song()
 			song_list.add_song(song_meta)
+			SongLoader.songs[song_meta.id] = song_meta
 
 
 func _on_AddButton_pressed():
