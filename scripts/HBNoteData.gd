@@ -75,10 +75,9 @@ var auto_time_out: bool = true # If we should get the time out value from BPM ch
 var entry_angle: float = 0.0
 var oscillation_amplitude = 500.0
 var oscillation_frequency = 2.0
-var oscillation_phase_shift = 3.0
 var distance = 1200.0
 func _init():
-	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "oscillation_phase_shift"]
+	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
 
 func get_serialized_type():
 	return "Note"

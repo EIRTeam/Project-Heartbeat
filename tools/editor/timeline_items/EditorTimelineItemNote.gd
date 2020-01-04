@@ -14,6 +14,5 @@ func get_inspector_properties():
 		"time_out": "int",
 		"oscillation_amplitude": "float",
 		"oscillation_frequency": "int",
-		"oscillation_phase_shift": "int",
 		"entry_angle": "Angle",
 	}
