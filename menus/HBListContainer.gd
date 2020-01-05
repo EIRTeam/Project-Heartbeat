@@ -43,6 +43,7 @@ func _on_button_pressed(option: BaseButton):
 		else:
 			if option is HBMenuChangeButton:
 				if option.next_menu:
+					option.stop_hover()
 					emit_signal("navigate_to_menu", option.next_menu)
 					emit_signal("navigated")
 			else:

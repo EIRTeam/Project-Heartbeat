@@ -8,7 +8,6 @@ export (NodePath) var viewport_path
 
 var base_viewport_size
 
-
 func _input(event):
 	# Check if the event is a non-mouse event
 	if event.is_action_pressed("editor_grid_snap") and not event.is_echo():
@@ -77,7 +76,8 @@ func set_viewport_size():
 	var base_height = base_viewport_size.y
 	var aspect_ratio = float(base_width)/float(base_height)
 	var size = Vector2(OS.window_size.y * aspect_ratio, OS.window_size.y)
-#	viewport.size = size
+	viewport.size = size
+	viewport.size = size
 
 
 func _ready():

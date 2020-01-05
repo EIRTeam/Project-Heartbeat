@@ -168,7 +168,7 @@ fov = 47.0
 size = 0.9
 
 [node name="ViewportLeft" type="Viewport" parent="."]
-size = Vector2( 1280, 720 )
+size = Vector2( 1920, 1080 )
 transparent_bg = true
 disable_3d = true
 usage = 0
@@ -188,7 +188,7 @@ __meta__ = {
 }
 
 [node name="ViewportRight" type="Viewport" parent="."]
-size = Vector2( 360, 720 )
+size = Vector2( 720, 1440 )
 transparent_bg = true
 disable_3d = true
 usage = 0
@@ -266,6 +266,7 @@ anims/fade_out = SubResource( 16 )
 [node name="FullscreenMenuContainer" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

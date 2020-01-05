@@ -4,8 +4,8 @@ signal hovered
 
 class_name HBHovereableButton
 
-var normal_style = preload("res://styles/PanelStyleTransparentIcon.tres")
-var hover_style = preload("res://styles/PanelStyleTransparentIconHover.tres")
+export(StyleBox) var normal_style = preload("res://styles/PanelStyleTransparentIcon.tres")
+export(StyleBox) var hover_style = preload("res://styles/PanelStyleTransparentIconHover.tres")
 
 func hover():
 	add_stylebox_override("normal", hover_style)
@@ -15,3 +15,4 @@ func stop_hover():
 
 func _ready():
 	stop_hover()
+	add_stylebox_override("hover", hover_style)

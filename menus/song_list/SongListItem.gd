@@ -33,9 +33,8 @@ func set_song(value: HBSong, difficulty: String):
 		
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
-		var pass_results = result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] + result.note_ratings[HBJudge.JUDGE_RATINGS.COOL]
-		pass_results = float(pass_results / float(result.total_notes))
-		var score_text = "%s - %.2f" % [HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating()), pass_results * 100.0]
+		var pass_percentage = result.get_percentage()
+		var score_text = "%s - %.2f" % [HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating()), pass_percentage * 100.0]
 		score_text += " %"
 		score_label.text = score_text
 	else:

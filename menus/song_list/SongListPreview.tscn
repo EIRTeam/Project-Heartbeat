@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=2]
@@ -8,6 +8,25 @@
 [ext_resource path="res://graphics/notes/star.png" type="Texture" id=6]
 [ext_resource path="res://graphics/no_preview.png" type="Texture" id=7]
 [ext_resource path="res://menus/song_list/SongListPreview.gd" type="Script" id=8]
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 25.0
+content_margin_right = 0.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
 
 [sub_resource type="DynamicFont" id=1]
 size = 19
@@ -38,13 +57,14 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 504.0
+margin_bottom = 525.0
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
 margin_right = 1280.0
 margin_bottom = 330.04
 rect_min_size = Vector2( 0, 330.04 )
+size_flags_vertical = 3
 texture = ExtResource( 7 )
 expand = true
 stretch_mode = 6
@@ -52,7 +72,7 @@ stretch_mode = 6
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 334.0
 margin_right = 1280.0
-margin_bottom = 504.0
+margin_bottom = 525.0
 size_flags_vertical = 3
 
 [node name="Panel3" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
@@ -75,26 +95,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
+[node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
 margin_top = 44.0
 margin_right = 1280.0
-margin_bottom = 170.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.6
-custom_styles/panel = ExtResource( 3 )
+margin_bottom = 177.0
+size_flags_vertical = 4
+custom_styles/panel = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 1280.0
+margin_bottom = 123.0
+size_flags_vertical = 4
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-margin_top = 6.0
-margin_right = 1280.0
-margin_bottom = 26.0
+margin_right = 1255.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "160 BPM"
@@ -104,9 +125,9 @@ __meta__ = {
 }
 
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-margin_top = 30.0
-margin_right = 1280.0
-margin_bottom = 119.0
+margin_top = 24.0
+margin_right = 1255.0
+margin_bottom = 113.0
 rect_min_size = Vector2( 0, 83 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
