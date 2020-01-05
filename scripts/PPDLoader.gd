@@ -140,13 +140,34 @@ static func PPD2HBChart(path: String) -> HBChart:
 		note_data.entry_angle = 360 - rad2deg(note.rotation)
 		# Simulataneous notes have no amplitude
 		var is_multi_note = false
+		var is_second_slider = false
+		
+		note_data.note_type = PPDButton2HBNoteType[note.type]
+		
 		if i > 0 and note.time == marks[i-1].time:
 			is_multi_note = true
+			# Checking for two sliders of the same direction
+			if note_data.note_type == HBNoteData.NOTE_TYPE.UP:
+				if PPDButton2HBNoteType[marks[i-1].type] == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_LEFT
+					is_second_slider = true
+			if note_data.note_type == HBNoteData.NOTE_TYPE.RIGHT:
+				if PPDButton2HBNoteType[marks[i-1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
+					is_second_slider = true
 		if i < marks.size()-1 and note.time == marks[i+1].time:
 			is_multi_note = true
-				
-		note_data.note_type = PPDButton2HBNoteType[note.type]
+			if note_data.note_type == HBNoteData.NOTE_TYPE.UP:
+				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_LEFT
+					is_second_slider = true
+			if note_data.note_type == HBNoteData.NOTE_TYPE.RIGHT:
+				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
+					is_second_slider = true
 			
+		if is_second_slider:
+			chart.editor_settings.set_layer_visibility(true, HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")
 		if params.has(note.id):
 			var note_params = params[note.id]
 			if note_params.has("Distance"):
@@ -161,7 +182,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 				note_data.oscillation_frequency = -note_data.oscillation_frequency
 		for l in chart.layers:
 			if l.name == HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type):
-				chart.layers[note_data.note_type].timing_points.append(note_data)
+				if is_second_slider:
+					chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")].timing_points.append(note_data)
+				else:
+					chart.layers[note_data.note_type].timing_points.append(note_data)
 		prev_note = note_data
-
 	return chart

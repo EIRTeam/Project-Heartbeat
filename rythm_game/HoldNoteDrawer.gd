@@ -147,7 +147,7 @@ func _unhandled_input(event):
 		if judgement != -1:
 			emit_signal("notes_judged", [note_data], judgement)
 			holding = true
-			game.add_score(NOTE_SCORES[judgement])
+			game.add_score(HBNoteData.NOTE_SCORES[judgement])
 			get_tree().set_input_as_handled()
 	else:
 		var judgement = judge_note_input(event, game.time-note_data.duration/1000.0, true)
@@ -165,7 +165,7 @@ func _unhandled_input(event):
 			set_process_unhandled_input(false)
 			game.play_note_sfx()
 			# Ensure that if the user passes they get the full bonus score
-			game.add_score(NOTE_SCORES[judgement] + (int(note_data.get_duration() / 10.0) - held_bonus_score))
+			game.add_score(HBNoteData.NOTE_SCORES[judgement] + (int(note_data.get_duration() / 10.0) - held_bonus_score))
 			queue_free()
 func _on_game_time_changed(time: float):
 	._on_game_time_changed(time)

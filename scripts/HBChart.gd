@@ -40,19 +40,6 @@ func get_timing_points():
 	points.sort_custom(self, "_note_comparison")
 	return points
 	
-	
-# Gets timing points that are simplified, so multi notes are turned into individual notes
-func get_simplified_timing_points():
-	var points = []
-	for layer in layers:
-		var items = layer.timing_points
-		for item in items:
-			var simplified = item.get_simplified()
-			if simplified is Array:
-				points += simplified
-			else:
-				points.append(item)
-	return points
 func get_serialized_type():
 	return "Chart"
 	
@@ -92,3 +79,27 @@ func deserialize(data: Dictionary):
 			})
 	if data.has("editor_settings"):
 		editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)
+
+func get_max_score():
+	var tp = get_timing_points()
+	var max_score = 0.0
+	
+	var last_point: HBNoteData
+	
+	for point in tp:
+		if point is HBNoteData:
+			if last_point:
+				if last_point.time == point.time:
+					continue
+			max_score += HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] * 2
+			last_point = point
+	
+	# Compensate for score multiplier
+	max_score -= HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] * 15
+	
+	return max_score
+	
+func get_layer_i(layer_name: String):
+	for i in range(layers.size()):
+		if layers[i].name == layer_name:
+			return i

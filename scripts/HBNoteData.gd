@@ -10,6 +10,14 @@ enum NOTE_TYPE {
 	SLIDE_LEFT,
 	SLIDE_RIGHT
 }
+
+const NOTE_SCORES = {
+	HBJudge.JUDGE_RATINGS.COOL: 1000,
+	HBJudge.JUDGE_RATINGS.FINE: 800,
+	HBJudge.JUDGE_RATINGS.SAFE: 500,
+	HBJudge.JUDGE_RATINGS.SAD: 100,
+	HBJudge.JUDGE_RATINGS.WORST: 0
+}
 export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
 
 signal note_type_changed

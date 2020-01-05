@@ -1,13 +1,7 @@
 extends Node2D
 var note_data: HBNoteData = HBNoteData.new()
 var game
-var NOTE_SCORES = {
-	HBJudge.JUDGE_RATINGS.COOL: 500,
-	HBJudge.JUDGE_RATINGS.FINE: 250,
-	HBJudge.JUDGE_RATINGS.SAFE: 100,
-	HBJudge.JUDGE_RATINGS.SAD: 50,
-	HBJudge.JUDGE_RATINGS.WORST: 0
-}
+
 signal target_selected
 signal notes_judged(judgement)
 signal note_removed

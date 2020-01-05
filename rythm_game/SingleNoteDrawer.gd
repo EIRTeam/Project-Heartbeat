@@ -31,16 +31,9 @@ func _ready():
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
 	$NoteTarget/Particles2D.emitting = true
-	HBInput.add_to_processing_unhandled_taps(self)
 	var trail_bounding_box_offset = game.BASE_SIZE / TRAIL_RESOLUTION
 	var trail_bounding_box_size = game.BASE_SIZE + trail_bounding_box_offset * 4
 	trail_bounding_box = Rect2(-trail_bounding_box_offset * 2, trail_bounding_box_size)
-func _unhandled_tap(event: InputEvent):
-	var input_judgement = judge_note_input(event, game.time)
-	if not is_queued_for_deletion():
-		if input_judgement != -1:
-			HBInput.set_tap_as_handled()
-			_on_note_judged(input_judgement)
 			
 
 	
@@ -146,8 +139,10 @@ func _unhandled_input(event):
 			var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
 			
 			if input_judgement != -1:
-				connected_note_judgements[note] = input_judgement
-				get_tree().set_input_as_handled()
+				if not note in connected_note_judgements:
+					connected_note_judgements[note] = input_judgement
+					get_tree().set_input_as_handled()
+					break
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating
 		# else, the final rating will be the rating that's been obtained the most
@@ -176,7 +171,7 @@ func _unhandled_input(event):
 			emit_signal("notes_judged", conn_notes, result_judgement)
 			
 			# Make multinotes count
-			game.add_score(NOTE_SCORES[result_judgement])
+			game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
 			
 			for note in conn_notes:
 				note.get_meta("note_drawer")._on_note_judged(result_judgement)
