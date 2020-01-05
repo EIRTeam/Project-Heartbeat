@@ -130,7 +130,9 @@ func set_song(song: HBSong, difficulty: String):
 		chart.deserialize(result)
 	
 	timing_points = chart.get_timing_points()
-	clear_bar.max_value = chart.get_max_score()
+	var max_score = chart.get_max_score()
+	clear_bar.max_value = max_score
+	result.max_score = max_score
 	play_song()
 func get_note_scale():
 	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.95
@@ -420,9 +422,11 @@ func play_from_pos(position: float):
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add * get_combo_multiplier()
-		print(score_to_add * get_combo_multiplier())
+#		print(score_to_add * get_combo_multiplier())
 		score_counter.score = result.score
 		clear_bar.value = result.score
+		if heart_power_enabled:
+			result.heart_power_bonus += score_to_add * (get_combo_multiplier() / 2.0)
 
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)

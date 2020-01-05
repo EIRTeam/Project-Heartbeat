@@ -6,6 +6,8 @@ var score = 0
 var max_combo = 0
 var total_notes = 0
 var notes_hit = 0
+var heart_power_bonus = 0
+var max_score = 1
 var song_id = ""
 var difficulty = ""
 var failed = false
@@ -18,7 +20,7 @@ var note_ratings = {
 }
 
 func _init():
-	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "song_id", "difficulty", "failed"]
+	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score"]
 
 func get_serialized_type():
 	return "Result"
@@ -32,22 +34,29 @@ enum RESULT_RATING {
 	PERFECT
 }
 
+func get_percentage():
+	return score/max_score
+
 func get_result_rating():
+	# All ratings except perfect are score based
+	
+	
 	var failure = note_ratings[HBJudge.JUDGE_RATINGS.SAD]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.SAFE]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.WORST]
 	if failure <= 0:
 		return RESULT_RATING.PERFECT
-		
-	var pass_results = note_ratings[HBJudge.JUDGE_RATINGS.FINE] + note_ratings[HBJudge.JUDGE_RATINGS.COOL]
-	pass_results = float(pass_results / float(total_notes))
+
+
+	var final_score_ratio = get_percentage()
+	
 	if failed:
 		return RESULT_RATING.FAIL
-	if pass_results >= 0.97:
+	if final_score_ratio >= 0.97:
 		return RESULT_RATING.EXCELLENT
-	elif pass_results >= 0.94:
+	elif final_score_ratio >= 0.94:
 		return RESULT_RATING.GREAT
-	elif pass_results >= 0.85:
+	elif final_score_ratio >= 0.85:
 		return RESULT_RATING.STANDARD
 	else:
 		return RESULT_RATING.CHEAP

@@ -12,6 +12,7 @@ onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxCont
 onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
 onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons")
 onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons/ReturnButton")
+onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 
@@ -45,11 +46,12 @@ func set_result(val: HBResult):
 		rating_scene.total_notes = result.note_ratings[rating]
 	var cool = float(result.note_ratings[HBJudge.JUDGE_RATINGS.COOL])
 	var fine = float(result.note_ratings[HBJudge.JUDGE_RATINGS.FINE])
-	var pass_ratio = 0
+	var score_percentage = 0
 	if result.total_notes > 0:
-		pass_ratio = (cool + fine) / float(result.total_notes)
-	percentage_label.text = "%.2f" % (pass_ratio * 100.0)
+		score_percentage = val.get_percentage()
+	percentage_label.text = "%.2f" % (score_percentage * 100.0)
 	percentage_label.text += " %"
+	heart_power_label.text = str(val.heart_power_bonus)
 	if SongLoader.songs.has(result.song_id):
 		var song = SongLoader.songs[result.song_id] as HBSong
 		title_label.text = song.title

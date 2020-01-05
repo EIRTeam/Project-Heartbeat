@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://Theme_Game.tres" type="Theme" id=4]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=5]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://styles/NewButtonStyle.tres" type="StyleBox" id=7]
+[ext_resource path="res://styles/NewButtonStyleHover.tres" type="StyleBox" id=8]
 [ext_resource path="res://styles/OptionButtonHover.tres" type="StyleBox" id=10]
-[ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=11]
 [ext_resource path="res://rythm_game/ResultsScreen.gd" type="Script" id=12]
 [ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=13]
 [ext_resource path="res://fonts/ResultsAuthorFont.tres" type="DynamicFont" id=14]
@@ -101,7 +102,7 @@ custom_constants/separation = 15
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
 margin_right = 1220.0
-margin_bottom = 253.0
+margin_bottom = 276.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.35
 custom_styles/panel = ExtResource( 2 )
@@ -116,9 +117,9 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 268.0
+margin_top = 291.0
 margin_right = 1220.0
-margin_bottom = 455.0
+margin_bottom = 496.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 2 )
@@ -138,11 +139,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1210.0
-margin_bottom = 177.0
+margin_bottom = 195.0
 
 [node name="ExtraDataPanel" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1200.0
-margin_bottom = 167.0
+margin_bottom = 185.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.7
 
@@ -162,16 +163,15 @@ __meta__ = {
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1185.0
-margin_bottom = 166.0
+margin_bottom = 187.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
-margin_top = 11.0
 margin_right = 1170.0
-margin_bottom = 51.0
+margin_bottom = 40.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -199,9 +199,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
-margin_top = 55.0
+margin_top = 44.0
 margin_right = 1170.0
-margin_bottom = 95.0
+margin_bottom = 84.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -228,10 +228,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
-margin_top = 99.0
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
+margin_top = 88.0
 margin_right = 1170.0
-margin_bottom = 139.0
+margin_bottom = 128.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer4"]
+margin_right = 1060.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 6 )
+text = "HEART POWER BONUS"
+
+[node name="HeartPowerLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer4"]
+margin_left = 1064.0
+margin_right = 1170.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = ExtResource( 6 )
+text = "0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer"]
+margin_top = 132.0
+margin_right = 1170.0
+margin_bottom = 172.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -259,12 +289,11 @@ __meta__ = {
 }
 
 [node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 470.0
+margin_top = 511.0
 margin_right = 1220.0
 margin_bottom = 551.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-custom_constants/separation = 10
+size_flags_stretch_ratio = 0.05
+custom_constants/separation = 51
 alignment = 1
 script = ExtResource( 3 )
 __meta__ = {
@@ -272,26 +301,28 @@ __meta__ = {
 }
 
 [node name="RetryButton" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons" instance=ExtResource( 1 )]
-margin_left = 450.0
+margin_left = 414.0
 margin_top = 0.0
-margin_right = 594.0
-margin_bottom = 81.0
-rect_min_size = Vector2( 144, 81 )
+margin_right = 574.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 144, 40 )
 custom_styles/hover = ExtResource( 10 )
-custom_styles/normal = ExtResource( 11 )
 text = "Retry"
 align = 1
 script = ExtResource( 5 )
+normal_style = ExtResource( 7 )
+hover_style = ExtResource( 8 )
 
 [node name="ReturnButton" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons" instance=ExtResource( 1 )]
-margin_left = 604.0
+margin_left = 625.0
 margin_top = 0.0
-margin_right = 769.0
-margin_bottom = 81.0
-rect_min_size = Vector2( 144, 81 )
+margin_right = 806.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 144, 40 )
 focus_mode = 2
 custom_styles/hover = ExtResource( 10 )
-custom_styles/normal = ExtResource( 11 )
 text = "Return"
 align = 1
 script = ExtResource( 5 )
+normal_style = ExtResource( 7 )
+hover_style = ExtResource( 8 )
