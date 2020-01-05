@@ -29,6 +29,7 @@ onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextur
 onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
 onready var heart_power_progress_bar = get_node("Control/TextureProgress")
 onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
+onready var clear_bar = get_node("Control/ClearBar")
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -46,7 +47,7 @@ const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
 const NOTES_PER_COMBO_MULTIPLIER = 16.0
-
+const MAX_COMBO_MULTIPLIER = 2
 
 var size = Vector2(1280, 720) setget set_size
 var editing = false
@@ -129,6 +130,7 @@ func set_song(song: HBSong, difficulty: String):
 		chart.deserialize(result)
 	
 	timing_points = chart.get_timing_points()
+	clear_bar.max_value = chart.get_max_score()
 	play_song()
 func get_note_scale():
 	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.95
@@ -296,7 +298,7 @@ func get_combo_multiplier() -> int:
 	var m = 1
 	if heart_power_enabled:
 		m = 2
-	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, 3)) * m
+	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, MAX_COMBO_MULTIPLIER-1)) * m
 
 func update_combo_multiplier_ui():
 	var combo_multiplier = get_combo_multiplier()
@@ -305,10 +307,10 @@ func update_combo_multiplier_ui():
 		combo_multiplier_label.text = "x" + str(combo_multiplier)
 	else:
 		combo_multiplier_label.hide()
-	if current_combo < int(NOTES_PER_COMBO_MULTIPLIER) * 4:
+	if current_combo < int(NOTES_PER_COMBO_MULTIPLIER) * 2:
 		combo_texture_progress.value = current_combo % int(NOTES_PER_COMBO_MULTIPLIER)
 	else:
-		combo_texture_progress.value = int(NOTES_PER_COMBO_MULTIPLIER) * 4
+		combo_texture_progress.value = int(NOTES_PER_COMBO_MULTIPLIER) * 2
 
 func set_current_combo(combo: int):
 	current_combo = combo
@@ -362,8 +364,8 @@ func _on_notes_judged(notes: Array, judgement):
 		if judgement < judge.JUDGE_RATINGS.FINE:
 			set_current_combo(0)
 		else:
-			if not heart_power_enabled and get_combo_multiplier() >= 4 and current_combo > NOTES_PER_COMBO_MULTIPLIER * 4:
-				increase_heart_power()
+#			if not heart_power_enabled and get_combo_multiplier() >= MAX_COMBO_MULTIPLIER and current_combo > NOTES_PER_COMBO_MULTIPLIER * MAX_COMBO_MULTIPLIER:
+			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			result.notes_hit += notes_hit
 			
@@ -420,7 +422,7 @@ func add_score(score_to_add):
 		result.score += score_to_add * get_combo_multiplier()
 		print(score_to_add * get_combo_multiplier())
 		score_counter.score = result.score
-
+		clear_bar.value = result.score
 
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
