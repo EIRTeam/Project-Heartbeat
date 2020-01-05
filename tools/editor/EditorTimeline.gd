@@ -164,3 +164,11 @@ func clear_layers():
 
 func _on_timing_information_changed():
 	update()
+
+func change_layer_visibility(visibility: bool, layer_name: String):
+	for layer in layers.get_children():
+		if layer.layer_name == layer_name:
+			layer.visible = visibility
+	for layer_n in layer_names.get_children():
+		if layer_n.layer_name == layer_name:
+			layer_n.visible = visibility

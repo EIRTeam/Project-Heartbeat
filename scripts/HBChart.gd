@@ -1,7 +1,7 @@
 class_name HBChart
 
 var layers = []
-
+var editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 func _init():
 	pass
 	_populate_layers()
@@ -12,6 +12,18 @@ func _populate_layers():
 			"name": NOTE_TYPE,
 			"timing_points": []
 		})
+	# Extra slide layers
+	
+	layers.append({
+		"name": HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2",
+		"timing_points": []
+	})
+	
+	layers.append({
+		"name": HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2",
+		"timing_points": []
+	})
+	
 	layers.append({
 		"name": "Events",
 		"timing_points": []
@@ -56,7 +68,8 @@ func serialize():
 		}
 		serialized_layers.append(l)
 	return {
-		"layers": serialized_layers
+		"layers": serialized_layers,
+		"editor_settings": editor_settings.serialize()
 	}
 	
 func deserialize(data: Dictionary):
@@ -77,3 +90,5 @@ func deserialize(data: Dictionary):
 				"name": layer.name,
 				"timing_points": timing_points
 			})
+	if data.has("editor_settings"):
+		editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)

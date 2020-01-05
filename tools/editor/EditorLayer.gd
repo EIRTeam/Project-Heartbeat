@@ -65,10 +65,17 @@ func get_editor_items():
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
-		if layer_name in HBNoteData.NOTE_TYPE.keys():
+		var ln = layer_name
+		if ln.ends_with("2"):
+		# For second layers of the same type, this ensures we don't
+		# just do any layer with 2 at the end
+			var new_val = ln.substr(0, ln.length()-1)
+			if new_val in HBNoteData.NOTE_TYPE.keys():
+				ln = new_val
+		if ln in HBNoteData.NOTE_TYPE.keys():
 			if event.doubleclick:
 				var new_note = HBNoteData.new()
-				new_note.note_type = HBNoteData.NOTE_TYPE[layer_name]
+				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
 				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
 				var found_item_at_same_time = false # To prevent items being placed at the same time when creating a note with snap on
 				for i in get_timing_points():
@@ -90,9 +97,18 @@ func drop_data(position, data: EditorTimelineItem):
 
 	if not position == null:
 		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
-	if layer_name in HBNoteData.NOTE_TYPE.keys():
+		
+	var ln = layer_name
+	if ln.ends_with("2"):
+	# For second layers of the same type, this ensures we don't
+	# just do any layer with 2 at the end
+		var new_val = ln.substr(0, ln.length()-1)
+		if new_val in HBNoteData.NOTE_TYPE.keys():
+			ln = new_val
+		
+	if ln in HBNoteData.NOTE_TYPE.keys():
 		if data.data is HBNoteData:
-			data.data.note_type = HBNoteData.NOTE_TYPE[layer_name]
+			data.data.note_type = HBNoteData.NOTE_TYPE[ln]
 		
 	add_item(data)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://tools/icons/arrow-right-thick.svg" type="Texture" id=27]
 [ext_resource path="res://tools/icons/arrow-bottom-left-thick.svg" type="Texture" id=28]
 [ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
+[ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_save"
@@ -217,22 +218,28 @@ margin_bottom = 25.0
 icon = ExtResource( 6 )
 flat = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer"]
 margin_top = 54.0
 margin_right = 1280.0
-margin_bottom = 495.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer"]
+margin_right = 1280.0
+margin_bottom = 440.0
 mouse_filter = 2
 size_flags_vertical = 3
 
-[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
 margin_right = 212.0
-margin_bottom = 441.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
 
-[node name="Arrange" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+[node name="Arrange" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -240,7 +247,7 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -251,36 +258,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 198.0
 margin_bottom = 395.0
 
-[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_right = 188.0
 margin_bottom = 25.0
 text = "Note this only works at 4/4"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 29.0
 margin_right = 188.0
 margin_bottom = 211.0
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer"]
 margin_right = 188.0
 margin_bottom = 182.0
 rect_min_size = Vector2( 182, 0 )
 columns = 3
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_right = 60.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 22 )
 
-[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button2" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 64.0
 margin_right = 124.0
 margin_bottom = 58.0
@@ -288,7 +295,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 24 )
 
-[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button3" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 128.0
 margin_right = 188.0
 margin_bottom = 58.0
@@ -296,7 +303,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 23 )
 
-[node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button4" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 62.0
 margin_right = 60.0
 margin_bottom = 120.0
@@ -304,7 +311,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 26 )
 
-[node name="Button5" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button5" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 64.0
 margin_top = 62.0
 margin_right = 124.0
@@ -312,7 +319,7 @@ margin_bottom = 120.0
 rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 
-[node name="Button6" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button6" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 128.0
 margin_top = 62.0
 margin_right = 188.0
@@ -321,7 +328,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 27 )
 
-[node name="Button7" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button7" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_top = 124.0
 margin_right = 60.0
 margin_bottom = 182.0
@@ -329,7 +336,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 28 )
 
-[node name="Button8" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button8" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 64.0
 margin_top = 124.0
 margin_right = 124.0
@@ -338,7 +345,7 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 25 )
 
-[node name="Button9" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Button9" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer"]
 margin_left = 128.0
 margin_top = 124.0
 margin_right = 188.0
@@ -347,26 +354,26 @@ rect_min_size = Vector2( 0, 58 )
 size_flags_horizontal = 3
 icon = ExtResource( 29 )
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 215.0
 margin_right = 188.0
 margin_bottom = 240.0
 text = "H/V separation per 8th"
 
-[node name="TimeArrangeHVSeparationSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="TimeArrangeHVSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 244.0
 margin_right = 188.0
 margin_bottom = 269.0
 max_value = 2.14748e+09
 value = 96.0
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 273.0
 margin_right = 188.0
 margin_bottom = 298.0
 text = "Diagonal separation per 8th"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 302.0
 margin_right = 188.0
 margin_bottom = 327.0
@@ -375,37 +382,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TimeArrangeDiagonalSeparationXSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TimeArrangeDiagonalSeparationXSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 28.0
 margin_right = 92.0
 margin_bottom = 25.0
 max_value = 2.14748e+09
 value = 80.0
 
-[node name="TimeArrangeDiagonalSeparationYSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TimeArrangeDiagonalSeparationYSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 96.0
 margin_right = 160.0
 margin_bottom = 25.0
 max_value = 2.14748e+09
 value = 54.0
 
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 331.0
 margin_right = 188.0
 margin_bottom = 356.0
 text = "Arrangle angles"
 
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 360.0
 margin_right = 188.0
 margin_bottom = 385.0
 
-[node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
 margin_right = 23.0
 margin_bottom = 25.0
 text = "<-"
 
-[node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
 margin_left = 27.0
 margin_right = 161.0
 margin_bottom = 25.0
@@ -414,13 +421,13 @@ max_value = 360.0
 align = 1
 suffix = "º"
 
-[node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
 margin_left = 165.0
 margin_right = 188.0
 margin_bottom = 25.0
 text = "->"
 
-[node name="Settings" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer2"]
+[node name="Layers" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -429,25 +436,32 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer2/Settings"]
+[node name="LayerManager" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
+script = ExtResource( 30 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Preview" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 192.0
+margin_bottom = 393.0
+
+[node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_left = 216.0
 margin_right = 1064.0
-margin_bottom = 441.0
+margin_bottom = 440.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
-[node name="GamePreview" type="Control" parent="VBoxContainer/HBoxContainer/Preview"]
+[node name="GamePreview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -456,61 +470,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Visualizer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 10 )]
+[node name="Visualizer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 10 )]
 visible = false
 show_behind_parent = true
 
-[node name="RythmGame" parent="VBoxContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
+[node name="RythmGame" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 
-[node name="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="0"]
-margin_right = 562.0
-
-[node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="0"]
-margin_top = 2.0
-margin_right = 467.0
-
-[node name="SongAuthor" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 109.0
-margin_bottom = 28.0
-
-[node name="SongName" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 124.0
-margin_right = 231.0
-margin_bottom = 28.0
-
-[node name="HBoxContainer2" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer" index="1"]
-margin_right = 467.0
-margin_bottom = 58.0
-
-[node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="0"]
-margin_right = 56.0
-margin_bottom = 28.0
-
-[node name="VBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2" index="1"]
-margin_left = 60.0
-margin_right = 467.0
-margin_bottom = 28.0
-
-[node name="ProgressBar" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer" index="0"]
-margin_top = 12.0
-margin_right = 407.0
-margin_bottom = 15.0
-
-[node name="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer" index="1"]
-margin_left = 566.0
-margin_right = 848.0
-
-[node name="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame/Control/HBoxContainer/HBoxContainer" index="0"]
-margin_right = 282.0
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
 margin_bottom = 31.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WidgetArea" type="Control" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+[node name="WidgetArea" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.735077
@@ -520,7 +493,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea"]
+[node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea"]
 self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_left = 1.0
 anchor_top = 1.0
@@ -532,7 +505,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -1.0
@@ -540,7 +513,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridSnapButton" type="Button" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_right = 28.0
 margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
@@ -550,7 +523,7 @@ shortcut = SubResource( 4 )
 icon = ExtResource( 18 )
 flat = true
 
-[node name="ShowGridbutton" type="Button" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+[node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 27.0
@@ -561,7 +534,7 @@ shortcut = SubResource( 6 )
 icon = ExtResource( 20 )
 flat = true
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_left = 64.0
 margin_right = 128.0
 margin_bottom = 27.0
@@ -570,14 +543,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_left = 132.0
 margin_top = 1.0
 margin_right = 147.0
 margin_bottom = 26.0
 text = "x"
 
-[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
+[node name="SpinBox2" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer"]
 margin_left = 151.0
 margin_right = 215.0
 margin_bottom = 27.0
@@ -586,7 +559,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridRenderer" type="Control" parent="VBoxContainer/HBoxContainer/Preview/GamePreview"]
+[node name="GridRenderer" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -596,16 +569,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
 margin_left = 1068.0
 margin_right = 1280.0
-margin_bottom = 441.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
+[node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -614,7 +587,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
-[node name="Recording" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer"]
+[node name="Recording" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -623,7 +596,7 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Recording"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -634,30 +607,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 192.0
-margin_bottom = 394.0
+margin_bottom = 393.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_right = 183.0
 margin_bottom = 22.0
 text = "Layer to write to:"
 
-[node name="RecordingLayerSelectButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
+[node name="RecordingLayerSelectButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_top = 26.0
 margin_right = 183.0
 margin_bottom = 48.0
 
-[node name="RecordButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
+[node name="RecordButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
 margin_top = 52.0
 margin_right = 183.0
 margin_bottom = 76.0
 text = "Start Recording"
 icon = ExtResource( 1 )
 
-[node name="Create" type="Control" parent="VBoxContainer/HBoxContainer/TabContainer"]
+[node name="Create" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -667,7 +640,7 @@ margin_right = -5.0
 margin_bottom = -5.0
 script = ExtResource( 7 )
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -678,34 +651,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 192.0
-margin_bottom = 394.0
+margin_bottom = 393.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_right = 226.0
 margin_bottom = 22.0
 text = "Note type to create"
 
-[node name="NoteTypeSelectButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+[node name="NoteTypeSelectButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_top = 26.0
 margin_right = 226.0
 margin_bottom = 48.0
 text = "Single Note"
 
-[node name="CreateItemButton" type="Button" parent="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
+[node name="CreateItemButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
 margin_top = 52.0
 margin_right = 226.0
 margin_bottom = 74.0
 text = "Create"
 
-[node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer"]
+[node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-margin_top = 499.0
+margin_top = 448.0
 margin_right = 1280.0
-margin_bottom = 720.0
+margin_bottom = 666.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
@@ -713,25 +686,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/EditorTimelineContainer" instance=ExtResource( 14 )]
+[node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer" instance=ExtResource( 14 )]
 self_modulate = Color( 1, 1, 1, 1 )
 margin_left = -1.16632
 margin_right = -1.16626
-
-[node name="ScrollContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer" index="1"]
-margin_bottom = 221.0
-
-[node name="HBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer" index="0"]
-margin_bottom = 181.0
-
-[node name="VBoxContainer" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="0"]
-margin_bottom = 181.0
-
-[node name="LayerNames" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" index="0"]
-margin_bottom = 181.0
-
-[node name="Layers" parent="VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer" index="1"]
-margin_bottom = 181.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
@@ -750,10 +708,10 @@ popup_exclusive = true
 window_title = "Are you sure about that?"
 dialog_text = "Any unsaved progress will be lost."
 dialog_autowrap = true
-[connection signal="load_song" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_new_song_loaded"]
-[connection signal="playhead_position_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
-[connection signal="scale_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
-[connection signal="timing_information_changed" from="." to="VBoxContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
+[connection signal="load_song" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_new_song_loaded"]
+[connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
+[connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
+[connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="SongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
@@ -766,29 +724,25 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, -1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, -1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, -1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button4" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 0 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 0 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, 1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 1 ) ]]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
-[connection signal="value_changed" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
-[connection signal="value_changed" from="VBoxContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_vertical"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
-[connection signal="create_note_type" from="VBoxContainer/HBoxContainer/TabContainer/Create" to="." method="add_event_timing_point"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
-[connection signal="layers_changed" from="VBoxContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, -1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button4" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 0 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 0 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, 1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 1 ) ]]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_vertical"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
+[connection signal="create_note_type" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create" to="." method="add_event_timing_point"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
+[connection signal="layers_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
 [connection signal="confirmed" from="ExitDialog" to="." method="_on_ExitDialog_confirmed"]
-
-[editable path="VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame"]
-
-[editable path="VBoxContainer/EditorTimelineContainer/EditorTimeline"]

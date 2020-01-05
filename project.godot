@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBPPDSong.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBPerSongEditorSettings",
+"language": "GDScript",
+"path": "res://scripts/HBPerSongEditorSettings.gd"
+}, {
 "base": "Reference",
 "class": "HBResourceQueue",
 "language": "GDScript",
@@ -184,6 +189,7 @@ _global_script_class_icons={
 "HBMenuChangeButton": "",
 "HBNoteData": "",
 "HBPPDSong": "",
+"HBPerSongEditorSettings": "",
 "HBResourceQueue": "",
 "HBResult": "",
 "HBScrollList": "",
@@ -208,8 +214,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1577205012
-config/build_commit="5c5be547a0f9b49b7d3d25e48f966a8eda08f339"
+config/build_time=1578142241
+config/build_commit="3e16dcbb75204588d94e408cf7c5851554641585"
 
 [audio]
 

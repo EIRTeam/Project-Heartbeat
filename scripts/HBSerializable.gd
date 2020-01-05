@@ -52,7 +52,8 @@ static func get_serializable_types():
 		"Song": load("res://scripts/HBSong.gd"),
 		"Result": load("res://scripts/HBResult.gd"),
 		"UserSettings": load("res://scripts/HBUserSettings.gd"),
-		"BpmChange": load("res://scripts/HBBPMChange.gd")
+		"BpmChange": load("res://scripts/HBBPMChange.gd"),
+		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd")
 	}
 func get_serialized_type():
 	pass

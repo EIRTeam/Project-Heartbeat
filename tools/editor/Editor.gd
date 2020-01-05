@@ -10,20 +10,22 @@ const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
-onready var timeline = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline")
-onready var recording_layer_select_button = get_node("VBoxContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
-onready var rhythm_game = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/RythmGame")
-onready var waveform_drawer = get_node("VBoxContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
+onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
+onready var recording_layer_select_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
+onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RythmGame")
+onready var waveform_drawer = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var game_preview = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview")
+onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
-onready var grid_renderer = get_node("VBoxContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
-onready var inspector = get_node("VBoxContainer/HBoxContainer/TabContainer/Inspector")
-onready var angle_arrange_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_hv_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
-onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
-onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
+onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
+onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Inspector")
+onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
+onready var time_arrange_hv_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
+onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
+onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
+onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager")
+
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -41,6 +43,8 @@ var snap_to_grid_enabled = true
 var timeline_snap_enabled = true
 	
 var undo_redo = UndoRedo.new()
+
+var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 	
 func set_bpm(value):
 	BPM_spinbox.value = value
@@ -56,11 +60,12 @@ func _ready():
 	
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
-	
 	inspector.connect("user_changed_property", self, "_change_selected_property")
 	inspector.connect("user_commited_property", self, "_commit_selected_property_change")
 	
 	Diagnostics.hide_WIP_label()
+	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
+	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	
 	
@@ -123,7 +128,7 @@ func select_item(item: EditorTimelineItem, add = false):
 		widget_instance.editor = self
 		item.connect_widget(widget_instance)
 		game_preview.widget_area.add_child(widget_instance)
-	$VBoxContainer/HBoxContainer/TabContainer/Inspector.inspect(item)
+	inspector.inspect(item)
 func get_song_duration():
 	return int(audio_stream_player.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
@@ -278,8 +283,8 @@ func seek(value: int):
 			
 func delete_selected():
 	if selected.size() > 0:
-		if $VBoxContainer/HBoxContainer/TabContainer/Inspector.inspecting_item in selected:
-			$VBoxContainer/HBoxContainer/TabContainer/Inspector.stop_inspecting()
+		if inspector.inspecting_item in selected:
+			inspector.stop_inspecting()
 	undo_redo.create_action("Delete notes")
 	
 	for selected_item in selected:
@@ -336,6 +341,7 @@ func get_song_length():
 func get_chart():
 	var chart = HBChart.new()
 	var layers = timeline.get_layers()
+	chart.editor_settings = song_editor_settings
 	for layer in layers:
 		chart.layers.append({
 			"name": layer.layer_name,
@@ -348,8 +354,9 @@ func serialize_chart():
 func from_chart(chart: HBChart):
 	timeline.clear_layers()
 	undo_redo.clear_history()
-
+	song_editor_settings = HBPerSongEditorSettings.new()
 	selected = []
+	layer_manager.clear_layers()
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name
@@ -359,6 +366,10 @@ func from_chart(chart: HBChart):
 			var item = item_d.get_timeline_item()
 			item.data = item_d
 			add_item(layer_n, item)
+			
+		var layer_visible = not layer.name in chart.editor_settings.hidden_layers
+		layer_manager.add_layer(layer.name, layer_visible)
+		timeline.change_layer_visibility(layer_visible, layer.name)
 	_on_timing_points_changed()
 
 func _on_SongSelector_chart_selected(song_id, difficulty):
@@ -399,7 +410,7 @@ func load_song(song: HBSong, difficulty: String):
 			chart.deserialize(result)
 			from_chart(chart)
 	OS.set_window_title("Project Heartbeat - " + song.title + " - " + difficulty.capitalize())
-	$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox.value = song.bpm
+	BPM_spinbox.value = song.bpm
 	current_song = song
 	current_difficulty = difficulty
 	save_button.disabled = false
@@ -548,3 +559,6 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			undo_redo.add_undo_method(self, "_on_timing_points_changed")
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
 	undo_redo.commit_action()
+
+func _on_layer_visibility_changed(visibility: bool, layer_name: String):
+	song_editor_settings.set_layer_visibility(visibility, layer_name)

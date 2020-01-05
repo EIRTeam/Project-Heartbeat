@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/icons/icon_GUI_visibility_visible.svg" type="Texture" id=1]
+[ext_resource path="res://tools/editor/EditorLayerManagerLayer.gd" type="Script" id=2]
+
+[node name="EditorLayerManagerLayer" type="HBoxContainer"]
+margin_right = 182.0
+margin_bottom = 25.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LayerNameLabel" type="Label" parent="."]
+margin_top = 5.0
+margin_right = 150.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Slide Left"
+
+[node name="VisibilityButton" type="Button" parent="."]
+margin_left = 154.0
+margin_right = 182.0
+margin_bottom = 25.0
+toggle_mode = true
+pressed = true
+icon = ExtResource( 1 )
+flat = true

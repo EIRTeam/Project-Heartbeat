@@ -91,8 +91,8 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PlayheadPosText"]
-margin_right = 116.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 align = 1
