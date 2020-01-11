@@ -26,3 +26,6 @@ func set_service_provider(provider: PlatformServiceProvider):
 	service_provider = provider
 	
 	return init_result
+
+func _process(delta):
+	service_provider.run_callbacks()

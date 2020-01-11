@@ -44,8 +44,6 @@ func set_result(val: HBResult):
 		if float(result.total_notes) > 0:
 			rating_scene.percentage = result.note_ratings[rating] / float(result.total_notes)
 		rating_scene.total_notes = result.note_ratings[rating]
-	var cool = float(result.note_ratings[HBJudge.JUDGE_RATINGS.COOL])
-	var fine = float(result.note_ratings[HBJudge.JUDGE_RATINGS.FINE])
 	var score_percentage = 0
 	if result.total_notes > 0:
 		score_percentage = val.get_percentage()

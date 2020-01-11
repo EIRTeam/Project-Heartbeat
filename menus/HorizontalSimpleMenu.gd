@@ -10,6 +10,7 @@ export(bool) var stop_hover_on_focus_exit = true
 export(ORIENTATION) var orientation = ORIENTATION.HORIZONTAL
 signal hover(hovered_button)
 signal back
+signal bottom
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
@@ -34,11 +35,20 @@ func _gui_input(event):
 
 	var next_action = "ui_right"
 	var prev_action = "ui_left"
-
+	var down_action = "ui_down"
+	var up_action = "up_action"
 	if orientation == ORIENTATION.VERTICAL:
 		next_action = "ui_down"
 		prev_action = "ui_up"
 
+	if event.is_action_pressed(down_action):
+		if orientation == ORIENTATION.VERTICAL:
+			if selected_button_i == get_child_count()-1:
+				get_tree().set_input_as_handled()
+				emit_signal("bottom")
+		else:
+			get_tree().set_input_as_handled()
+			emit_signal("bottom")
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:

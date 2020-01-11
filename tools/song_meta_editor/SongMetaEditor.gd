@@ -10,7 +10,6 @@ func _ready():
 	song_meta_editor.hide()
 
 func update_user_song_list():
-	var dir := Directory.new()
 	for song_id in SongLoader.songs:
 		var song := SongLoader.songs[song_id] as HBSong
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
@@ -21,7 +20,6 @@ func _on_CreateSongDialog_confirmed():
 	if $CreateSongDialog/LineEdit.text != "":
 		var song_name = HBUtils.get_valid_filename($CreateSongDialog/LineEdit.text)
 		if song_name != "":
-			var dir := Directory.new()
 			
 			var song_meta = HBSong.new()
 			song_meta.title = $CreateSongDialog/LineEdit.text

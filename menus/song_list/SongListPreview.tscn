@@ -1,15 +1,25 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
-[ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=4]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://graphics/notes/star_receiver.svg" type="Texture" id=5]
 [ext_resource path="res://graphics/notes/star.png" type="Texture" id=6]
 [ext_resource path="res://graphics/no_preview.png" type="Texture" id=7]
 [ext_resource path="res://menus/song_list/SongListPreview.gd" type="Script" id=8]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=10]
+[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=11]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="DynamicFont" id=1]
+size = 30
+outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+fallback/0 = ExtResource( 9 )
+
+[sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 25.0
 content_margin_right = 0.0
 content_margin_top = 10.0
@@ -28,13 +38,13 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 19
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 3 )
 
 [node name="Panel" type="Control"]
 anchor_right = 1.0
@@ -57,12 +67,49 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 525.0
+margin_bottom = 556.0
 size_flags_vertical = 3
+custom_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 1 )
+text = "THE TOP"
+align = 1
+valign = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer"]
+margin_top = 43.0
+margin_right = 1280.0
+margin_bottom = 69.0
+alignment = 1
+
+[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/HBoxContainer"]
+margin_left = 530.0
+margin_right = 564.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 10 )
+text = "by"
+
+[node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/HBoxContainer"]
+margin_left = 568.0
+margin_top = 3.0
+margin_right = 749.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 11 )
+text = "DRAGONFORCE"
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
+margin_top = 81.0
 margin_right = 1280.0
-margin_bottom = 330.04
+margin_bottom = 411.04
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 texture = ExtResource( 7 )
@@ -70,37 +117,16 @@ expand = true
 stretch_mode = 6
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 334.0
+margin_top = 423.0
 margin_right = 1280.0
-margin_bottom = 525.0
+margin_bottom = 556.0
 size_flags_vertical = 3
 
-[node name="Panel3" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-margin_right = 1280.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 0, 40 )
-size_flags_stretch_ratio = 0.2
-custom_styles/panel = ExtResource( 4 )
-
-[node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 6
-custom_fonts/font = ExtResource( 2 )
-text = "THE TOP"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
-margin_top = 44.0
 margin_right = 1280.0
-margin_bottom = 177.0
+margin_bottom = 133.0
 size_flags_vertical = 4
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
 margin_left = 25.0
@@ -172,7 +198,7 @@ __meta__ = {
 margin_top = 91.0
 margin_right = 1240.0
 margin_bottom = 111.0
-theme = SubResource( 2 )
+theme = SubResource( 4 )
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 54.0

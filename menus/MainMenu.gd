@@ -1,5 +1,7 @@
 extends "res://menus/MenuTransitionProvider.gd"
 
+const LOG_NAME = "MainMenu"
+
 var starting_menu = "start_menu"
 var starting_menu_args = []
 func _init():
@@ -10,6 +12,17 @@ func _init():
 		"main_menu": {
 			"left": preload("res://menus/main_menu/MainMenuLeft.tscn").instance(),
 			"right": "music_player"
+		},
+		"lobby_list": {
+			"left": preload("res://multiplayer/lobby/LobbyList.tscn").instance()
+		},
+		"lobby": {
+			"left": preload("res://multiplayer/lobby/LobbyMenu.tscn").instance(),
+			"right": "song_list_preview"
+		},
+		"song_list_lobby": {
+			"left": preload("res://multiplayer/lobby/LobbySongSelector.tscn").instance(),
+			"right": "song_list_preview"
 		},
 		"music_player": {
 			"right": preload("res://menus/music_player/MainMenuMusicPlayer.tscn").instance()
@@ -51,14 +64,14 @@ func _ready():
 	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
 	
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
-	
+	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
 	player.name = "HJHH"
 	player.volume_db = FADE_OUT_VOLUME
 	player.bus = "Music"
 	play_random_song()
 
 func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
-	print("CHANGING TO " + menu_name)
+	Log.log(self, "Changing to menu " + menu_name)
 	var menu_data = MENUS[menu_name]
 	
 	if left_menu:
@@ -84,11 +97,12 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		left_menu._on_menu_enter(force_hard_transition, args)
 
 	if menu_data.has("right"):
-		# Right side of menus are single instance if they are the same
 		right_menu = MENUS[menu_data.right].right as HBMenu
-		right_menu_container.add_child(right_menu)
-#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
-		right_menu._on_menu_enter(force_hard_transition, args)
+		if not right_menu in right_menu_container.get_children():
+			# Right side of menus are single instance if they are the same
+			right_menu_container.add_child(right_menu)
+	#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
+			right_menu._on_menu_enter(force_hard_transition, args)
 
 # Audio playback shit
 

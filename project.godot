@@ -84,6 +84,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/HBListContainer.gd"
 }, {
+"base": "Reference",
+"class": "HBLobby",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/Lobby.gd"
+}, {
+"base": "Reference",
+"class": "HBLobbyMember",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/LobbyMember.gd"
+}, {
 "base": "Control",
 "class": "HBMenu",
 "language": "GDScript",
@@ -93,6 +103,11 @@ _global_script_classes=[ {
 "class": "HBMenuChangeButton",
 "language": "GDScript",
 "path": "res://menus/HBMenuChangeButton.gd"
+}, {
+"base": "Node",
+"class": "HBMultiplayerService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/MultiplayerService.gd"
 }, {
 "base": "HBTimingPoint",
 "class": "HBNoteData",
@@ -134,6 +149,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSong.gd"
 }, {
+"base": "HBMenu",
+"class": "HBSongListMenu",
+"language": "GDScript",
+"path": "res://menus/song_list/SongList.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -168,6 +188,21 @@ _global_script_classes=[ {
 "class": "PlatformServiceProvider",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
+}, {
+"base": "HBLobby",
+"class": "SteamLobby",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/SteamLobby.gd"
+}, {
+"base": "HBLobbyMember",
+"class": "SteamLobbyMember",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/SteamLobbyMember.gd"
+}, {
+"base": "HBMultiplayerService",
+"class": "SteamMultiplayerService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/SteamMultiplayerService.gd"
 } ]
 _global_script_class_icons={
 "BBCWaveform": "",
@@ -185,8 +220,11 @@ _global_script_class_icons={
 "HBINIParser": "",
 "HBJudge": "",
 "HBListContainer": "",
+"HBLobby": "",
+"HBLobbyMember": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
+"HBMultiplayerService": "",
 "HBNoteData": "",
 "HBPPDSong": "",
 "HBPerSongEditorSettings": "",
@@ -195,13 +233,17 @@ _global_script_class_icons={
 "HBScrollList": "",
 "HBSerializable": "",
 "HBSong": "",
+"HBSongListMenu": "",
 "HBTimingPoint": "",
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
 "PPDLoader": "",
 "PPDPack": "",
-"PlatformServiceProvider": ""
+"PlatformServiceProvider": "",
+"SteamLobby": "",
+"SteamLobbyMember": "",
+"SteamMultiplayerService": ""
 }
 
 [application]

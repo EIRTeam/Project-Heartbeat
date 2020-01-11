@@ -5,7 +5,6 @@ onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/Textu
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
 var default_image_texture = preload("res://graphics/no_preview.png")
 
-
 func _ready():
 	default_image_texture = preview_texture_rect.texture
 
@@ -17,7 +16,15 @@ func select_song(song: HBSong):
 	var song_meta = song.get_meta_string()
 
 	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/SongMetaLabel.text = PoolStringArray(song_meta).join('\n')
-	$SongListPreview/VBoxContainer/Control/Panel3/TitleLabel.text = song.title
+	$SongListPreview/VBoxContainer/TitleLabel.text = song.title
+	var auth = ""
+	if song.artist_alias != "":
+		auth = song.artist_alias
+	else:
+		auth = song.artist
+		
+	$SongListPreview/VBoxContainer/HBoxContainer/AuthorLabel.text = auth
+		
 	var image_path = song.get_song_preview_res_path()
 	if image_path != DEFAULT_IMAGE_PATH:
 		preview_texture_rect.texture = ImageTexture.new()

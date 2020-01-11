@@ -1,4 +1,7 @@
 extends HBMenu
+
+class_name HBSongListMenu
+
 signal song_hovered(song)
 var current_difficulty
 onready var difficulty_list = get_node("VBoxContainer/DifficultyList")

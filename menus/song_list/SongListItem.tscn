@@ -49,8 +49,6 @@ margin_top = 217.0
 margin_right = 375.782
 margin_bottom = 453.0
 text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -100,9 +98,9 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 22.0
+margin_top = 19.0
 margin_right = 876.0
-margin_bottom = 53.0
+margin_bottom = 50.0
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
@@ -126,9 +124,9 @@ theme = SubResource( 3 )
 text = "Song Title"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 57.0
+margin_top = 54.0
 margin_right = 876.0
-margin_bottom = 77.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 8 )
 text = "105.05%"
 [connection signal="pressed" from="." to="." method="_on_pressed"]

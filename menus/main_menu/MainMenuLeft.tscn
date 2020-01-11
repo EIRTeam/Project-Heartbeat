@@ -60,6 +60,7 @@ margin_right = 430.0
 margin_bottom = 460.0
 text = "Multiplayer"
 icon = ExtResource( 7 )
+next_menu = "lobby_list"
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0

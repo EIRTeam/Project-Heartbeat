@@ -1,6 +1,7 @@
-[gd_resource type="DynamicFont" load_steps=2 format=2]
+[gd_resource type="DynamicFont" load_steps=3 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=2]
 
 [resource]
 size = 35
@@ -9,3 +10,4 @@ use_mipmaps = true
 use_filter = true
 extra_spacing_char = 5
 font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 2 )

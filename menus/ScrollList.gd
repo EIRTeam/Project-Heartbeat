@@ -14,9 +14,12 @@ signal selected_child_changed
 const BOTTOM_MARGIN = 50
 const TOP_MARGIN = 50
 
+signal out_from_top
+
 signal option_hovered(option)
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
+	connect("focus_exited", self, "_on_focus_lost")
 	_set_opacities(true)
 
 func is_child_off_the_bottom(child):
@@ -24,10 +27,24 @@ func is_child_off_the_bottom(child):
 		return true
 	return false
 	
+func clear_children():
+	for child in vbox_container.get_children():
+		vbox_container.remove_child(child)
+		child.queue_free()
+	selected_child = null
+	
 func is_child_off_the_top(child):
 	if child.rect_position.y < scroll_target:
 		return true
 	return false
+	
+func deselect_child():
+	if selected_child:
+		selected_child.stop_hover()
+	
+func _on_focus_lost():
+	deselect_child()
+	
 func select_child(child, hard = false):
 	if is_child_off_the_bottom(child):
 		scroll_target = child.rect_position.y + child.rect_size.y - rect_size.y
@@ -60,6 +77,8 @@ func _unhandled_input(event):
 	if selected_child:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			var child_i = vbox_container.get_children().find(selected_child)
+			if child_i == 0 and event.is_action_pressed("ui_up") and not event.is_echo():
+				emit_signal("out_from_top")
 			if event.is_action_pressed("ui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
 				get_tree().set_input_as_handled()
 				select_child(vbox_container.get_child(child_i+1))

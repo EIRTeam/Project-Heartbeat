@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/default_avatar.png-02dca78d81ebf7712013602dd8179119.stex"
+path="res://.import/refresh.svg-f212282aca75a0f54221cda80b279717.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/default_avatar.png"
-dest_files=[ "res://.import/default_avatar.png-02dca78d81ebf7712013602dd8179119.stex" ]
+source_file="res://graphics/icons/refresh.svg"
+dest_files=[ "res://.import/refresh.svg-f212282aca75a0f54221cda80b279717.stex" ]
 
 [params]
 
@@ -21,8 +21,8 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=true
+flags/mipmaps=false
+flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false

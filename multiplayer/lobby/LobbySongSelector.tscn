@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=1]
+[ext_resource path="res://multiplayer/lobby/LobbySongSelector.gd" type="Script" id=2]
+[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
+
+[node name="SongListMenu" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="LobbyTitleLabel" type="Label" parent="VBoxContainer" index="0"]
+margin_right = 1280.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 3 )
+text = "Selecting song for"
+
+[node name="DifficultyList" parent="VBoxContainer" index="1"]
+margin_top = 31.0
+margin_bottom = 81.0
+
+[node name="MarginContainer" parent="VBoxContainer" index="2"]
+margin_top = 81.0
+
+[node name="ScrollContainer" parent="VBoxContainer/MarginContainer" index="0"]
+margin_bottom = 579.0
