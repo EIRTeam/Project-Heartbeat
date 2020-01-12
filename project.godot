@@ -266,7 +266,7 @@ output_latency=2
 [autoload]
 
 Diagnostics="*res://autoloads/Diagnostics.tscn"
-Steam="*res://autoloads/platform_service/SteamPlaceholder.gd"
+Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"

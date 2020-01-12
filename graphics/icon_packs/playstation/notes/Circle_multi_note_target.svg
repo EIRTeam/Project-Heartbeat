@@ -15,8 +15,8 @@
     <clipPath clipPathUnits="userSpaceOnUse" id="clipPath888">
       <text id="text892" y="197.22488" x="140.47195" style="font-style:normal;font-weight:normal;font-size:12.1545887px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" xml:space="preserve"><tspan style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" y="197.22488" x="140.47195" id="tspan890" sodipodi:role="line">B</tspan></text>
     </clipPath>
-  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.15193133" width="1.3038627" y="-0.099159664" height="1.1983193">
-      <feGaussianBlur inkscape:collect="always" stdDeviation="2.433064" id="gaussianBlurBack"/>
+  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter><linearGradient inkscape:collect="always" id="bgLinearGradient">
       <stop style="stop-color:#f94723;stop-opacity:1" offset="0" id="stop844"/>
       <stop style="stop-color:#b10000;stop-opacity:1" offset="1" id="stop846"/>
@@ -29,7 +29,7 @@
     <sodipodi:guide position="54.501802,33.013206" orientation="0,1" id="guide895" inkscape:locked="false"/>
   </sodipodi:namedview>
   <g id="g1970">
-    <svg:path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="main_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:#e7ba3f;fill-opacity:1;fill:#e7ba3f;stroke-width:2.0;stroke-opacity:1;filter:url(#backFilter);"/>
+    <svg:path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="background_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:#e7ba3f;fill-opacity:1;stroke:#e7ba3f;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);"/>
   <path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="main_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#e7ba3f;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"/>
   </g>
 </svg>
