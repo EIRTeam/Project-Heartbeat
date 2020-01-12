@@ -27,6 +27,8 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		set_lobby(args.lobby)
 	options_vertical_menu.grab_focus()
 	_check_ownership_changed()
+	chat_line_edit.clear()
+	chat_box.clear()
 	if args.has("song"):
 		var song = args.song as HBSong
 		lobby.song_name = song.title
