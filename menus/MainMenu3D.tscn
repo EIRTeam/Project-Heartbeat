@@ -1,11 +1,11 @@
 [gd_scene load_steps=23 format=2]
 
-[ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=1]
+[ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=1]
 [ext_resource path="res://default_theme.tres" type="Theme" id=2]
-[ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=3]
-[ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=4]
-[ext_resource path="res://menus/Background.gd" type="Script" id=5]
-[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=6]
+[ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=3]
+[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=4]
+[ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=5]
+[ext_resource path="res://menus/Background.gd" type="Script" id=6]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 1.6, 0.9 )
@@ -133,7 +133,6 @@ void fragment()
 [sub_resource type="ShaderMaterial" id=10]
 shader = SubResource( 9 )
 shader_param/FREQ_RANGE = 64.0
-shader_param/background = ExtResource( 6 )
 
 [sub_resource type="QuadMesh" id=11]
 size = Vector2( 1.6, 0.9 )
@@ -160,7 +159,7 @@ length = 0.3
 length = 0.3
 
 [node name="MainMenu3D" type="Spatial"]
-script = ExtResource( 4 )
+script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
@@ -204,7 +203,7 @@ size_flags_vertical = 3
 
 [node name="AreaLeft" type="Area" parent="."]
 transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.24791, 0, -0.518273 )
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 viewport_path = NodePath("../ViewportLeft")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
@@ -216,7 +215,7 @@ shape = SubResource( 4 )
 
 [node name="AreaRight" type="Area" parent="."]
 transform = Transform( 0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.651739, 0, -0.235812 )
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 viewport_path = NodePath("../ViewportRight")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
@@ -235,7 +234,7 @@ render_target_v_flip = true
 [node name="TextureRect" type="TextureRect" parent="ViewportBackground"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 7
 __meta__ = {
@@ -246,7 +245,7 @@ __meta__ = {
 material = SubResource( 10 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 3 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -255,7 +254,7 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.82065 )
 mesh = SubResource( 11 )
 material/0 = SubResource( 13 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 viewport_path = NodePath("../ViewportBackground")
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
