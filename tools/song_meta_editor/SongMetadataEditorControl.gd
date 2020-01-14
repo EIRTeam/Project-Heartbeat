@@ -111,7 +111,7 @@ func _on_PreviewFileDialog_file_selected(path):
 	var extension = path.get_extension()
 	song_meta.preview_image = "preview." + extension
 	
-	var image_path := song_meta.get_song_background_image_res_path() as String
+	var image_path := song_meta.get_song_preview_res_path() as String
 	
 	dir.copy(path, image_path)
 	preview_image_filename_edit.text = song_meta.preview_image
