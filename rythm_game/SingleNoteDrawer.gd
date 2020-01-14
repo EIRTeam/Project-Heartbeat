@@ -131,6 +131,8 @@ func _on_note_judged(judgement):
 
 func _unhandled_input(event):
 	# Master notes handle all the input
+	if not event is InputEventAction and not event.is_action("tap_left") and not event.is_action("tap_right"):
+		return
 	if not is_queued_for_deletion():
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:

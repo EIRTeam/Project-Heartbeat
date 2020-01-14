@@ -256,8 +256,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1578142241
-config/build_commit="3e16dcbb75204588d94e408cf7c5851554641585"
+config/build_time=1578851309
+config/build_commit="7f170b44879785057ce00ce4483d8e6334a576b1"
 
 [audio]
 
@@ -273,6 +273,7 @@ DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBInput="*res://autoloads/HBInput.gd"
+HBTapHandler="*res://autoloads/HBTapHandler.gd"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"

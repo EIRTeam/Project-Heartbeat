@@ -1,75 +1,53 @@
 extends Node
 
-var pressed_inputs = {}
-var objects_processing = []
-const ACTIONS_TO_TRACK_FOR_TAPS = ["tap_right_analog", "tap_left_analog"]
+var action_tracking = {}
 
-const ANALOG_TO_DIGITAL_MAP = {
-	"tap_right_analog": "tap_right",
-	"tap_left_analog": "tap_left"
-}
+const TRACKED_ACTIONS = ["note_a", "note_b", "note_x", "note_y"]
 
-# device -> action -> axis -> pressed
+func is_action_pressed(action: String):
+	var action_inputs = action_tracking[action]
+	for device in action_inputs:
+		for button in action_inputs[device]:
+			if action_inputs[device][button] == true:
+				return true
+	return false
 
-var device_map = {
-	
-}
-# device -> axis -> action
-var last_axis_values = {
-	
-}
 
-var debounce_polls = {}
 
-func _ready():
-	for action in ACTIONS_TO_TRACK_FOR_TAPS:
-		pressed_inputs[action] = false
-		debounce_polls[action] = 0
-
-var current_tap_handled = false
-
-func add_to_processing_unhandled_taps(object):
-	objects_processing.append(object)
-	
-func set_tap_as_handled():
-	current_tap_handled = true
-	
-func get_action_status_in_device_axis(action: String, device: int, axis: int):
-	if not device_map.has(device):
-		device_map[device] = {}
-	if not device_map[device].has(action):
-		device_map[device][action] = {}
-	if not device_map[device][action][axis]:
-		device_map[device][action][axis] = false
-	
 func _unhandled_input(event):
-	if event is InputEventJoypadMotion:
-#		for action in ACTIONS_TO_TRACK_FOR_TAPS:
-#			if event.is_action(action):
-#				print("ACTION!!!")
-		for action in debounce_polls:
-			debounce_polls[action] -= 1
-		for action in ACTIONS_TO_TRACK_FOR_TAPS:
-			if event.is_action(action):
-				if not last_axis_values.has(event.device):
-					last_axis_values[event.device] = {}
-				if not last_axis_values[event.device].has(action):
-					last_axis_values[event.device][action] = {}
-				if not last_axis_values[event.device][action].has(event.axis):
-					last_axis_values[event.device][action][event.axis] = 0.0
-				var last_value = last_axis_values[event.device][action][event.axis]
-				if last_value < 0.5 and event.get_action_strength(action) >= 0.5:
-					if pressed_inputs[action] == false:
-						print("TAP")
-						var a = InputEventAction.new()
-						a.action = ANALOG_TO_DIGITAL_MAP[action]
-						a.pressed = true
-						Input.parse_input_event(a)
-
-				elif last_value >= 0.5 and event.get_action_strength(action) < 0.5:
-						print("UNTAP")
-						var a = InputEventAction.new()
-						a.action = ANALOG_TO_DIGITAL_MAP[action]
-						a.pressed = false
-						Input.parse_input_event(a)
-				last_axis_values[event.device][action][event.axis] = event.get_action_strength(action)
+	if not event is InputEventAction:
+		if event is InputEventJoypadButton or event is InputEventKey:
+			if not event.is_echo():
+				var found_action
+				for action in TRACKED_ACTIONS:
+					if event.is_action(action):
+						found_action = action
+						break
+				if not found_action:
+					return
+				
+				var previous_state = false
+				
+				var button = 0
+				
+				if event is InputEventKey:
+					button = event.scancode
+				elif event is InputEventJoypadButton:
+					button = event.button_index
+				
+				if not action_tracking.has(found_action):
+					action_tracking[found_action] = {}
+				if not action_tracking[found_action].has(event.device):
+					action_tracking[found_action][event.device] = {}
+				if not action_tracking[found_action][event.device].has(button):
+					action_tracking[found_action][event.device][button] = false
+	
+				previous_state = is_action_pressed(found_action)
+				action_tracking[found_action][event.device][button] = event.is_pressed()
+				get_tree().set_input_as_handled()
+				
+				if not is_action_pressed(found_action) or event.is_pressed():
+					var ev = InputEventAction.new()
+					ev.action = found_action
+					ev.pressed = is_action_pressed(found_action)
+					Input.parse_input_event(ev)
