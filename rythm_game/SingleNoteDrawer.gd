@@ -7,7 +7,7 @@ export(float) var target_scale_modifier = 1.0
 const TRAIL_RESOLUTION = 19
 
 var connected_note_judgements = {}
-
+var slide_particles_scene = preload("res://graphics/effects/SlideParticles.tscn").instance()
 var trail_bounding_box : Rect2
 
 func set_connected_notes(val):
@@ -112,8 +112,8 @@ func _on_note_judged(judgement):
 	
 	if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
-			var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
-			var particles = particles_scene.instance()
+			
+			var particles = slide_particles_scene
 			
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
