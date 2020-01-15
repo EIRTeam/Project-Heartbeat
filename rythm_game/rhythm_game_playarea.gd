@@ -210,6 +210,7 @@ func _process(delta):
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
+		time = time * audio_stream_player.pitch_scale
 		# Compensate for latency.
 		time -= time_delay
 		# May be below 0 (did not being yet).
