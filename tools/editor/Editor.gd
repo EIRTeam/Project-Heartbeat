@@ -168,7 +168,7 @@ func _change_selected_property(property_name: String, new_value):
 	_on_timing_points_changed()
 		
 func _commit_selected_property_change(property_name: String):
-	var action_name = "Note " + property_name + " changed"
+	var action_name = "Note " + property_name + " change commited"
 	print(action_name)
 	undo_redo.create_action(action_name)
 	for selected_item in selected:

@@ -1,7 +1,7 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 var ignore_next_value_change = false
 func set_value(value):
-	ignore_next_value_change = true
+	ignore_next_value_change = false
 	$CheckBox.pressed = value
 
 

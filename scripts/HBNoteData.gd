@@ -84,8 +84,9 @@ var entry_angle: float = 0.0
 var oscillation_amplitude = 500.0
 var oscillation_frequency = 2.0
 var distance = 1200.0
+var hold = false
 func _init():
-	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
+	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "hold"]
 
 func get_serialized_type():
 	return "Note"

@@ -17,7 +17,7 @@ func _draw():
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
 
-func set_note_type(type, multi = false, hold = false):
+func set_note_type(type, multi = false, hold = true):
 	if multi:
 		$Sprite.texture = HBNoteData.get_note_graphics(type).multi_note_target
 		$Sprite/HoldTextSpriteMulti.visible = hold

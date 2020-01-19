@@ -97,6 +97,18 @@ func get_max_score():
 	# Compensate for score multiplier
 	max_score -= HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] * 15
 	
+	# Fallback for very short charts
+	if max_score <= 0:
+		max_score = 0
+		last_point = null
+		
+		for point in tp:
+			if point is HBNoteData:
+				if last_point:
+					if last_point.time == point.time:
+						continue
+				max_score += HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] 
+	
 	return max_score
 	
 func get_layer_i(layer_name: String):

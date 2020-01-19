@@ -12,7 +12,8 @@ func get_inspector_properties():
 		"distance": "float",
 		"auto_time_out": "bool",
 		"time_out": "int",
+		"hold": "bool",
 		"oscillation_amplitude": "float",
 		"oscillation_frequency": "int",
-		"entry_angle": "Angle",
+		"entry_angle": "Angle"
 	}

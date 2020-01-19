@@ -34,7 +34,7 @@ func _ready():
 	var trail_bounding_box_offset = game.BASE_SIZE / TRAIL_RESOLUTION
 	var trail_bounding_box_size = game.BASE_SIZE + trail_bounding_box_offset * 4
 	trail_bounding_box = Rect2(-trail_bounding_box_offset * 2, trail_bounding_box_size)
-			
+	
 
 	
 func update_graphic_positions_and_scale(time: float):
@@ -105,7 +105,7 @@ func draw_trail(time: float):
 	$Line2D2.points = points2
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
-	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0)
+	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
 	set_trail_color()
 
 func _on_note_judged(judgement):
@@ -138,13 +138,14 @@ func _unhandled_input(event):
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
 		for note in conn_notes:
-			var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
-			
-			if input_judgement != -1:
-				if not note in connected_note_judgements:
-					connected_note_judgements[note] = input_judgement
-					get_tree().set_input_as_handled()
-					break
+			if event.is_pressed():
+				var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
+				
+				if input_judgement != -1:
+					if not note in connected_note_judgements:
+						connected_note_judgements[note] = input_judgement
+						get_tree().set_input_as_handled()
+						break
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating
 		# else, the final rating will be the rating that's been obtained the most

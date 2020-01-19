@@ -30,6 +30,8 @@ onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextur
 onready var heart_power_progress_bar = get_node("Control/TextureProgress")
 onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
 onready var clear_bar = get_node("Control/ClearBar")
+onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
+
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -48,6 +50,7 @@ const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
 const NOTES_PER_COMBO_MULTIPLIER = 16.0
 const MAX_COMBO_MULTIPLIER = 2
+const MAX_HOLD = 3300 # miliseconds
 
 var size = Vector2(1280, 720) setget set_size
 var editing = false
@@ -67,8 +70,14 @@ signal time_changed(time)
 signal song_cleared(results)
 signal heart_power_activate
 signal heart_power_end
+signal held_notes_changed(held_notes)
+
+var held_notes = []
+var current_hold_score = 0.0
+var current_hold_start_time = 0.0
 func set_size(value):
 	size = value
+	$UnderNotesUI/Control.rect_size = value
 
 func set_timing_points(points):
 	timing_points = points
@@ -163,6 +172,12 @@ func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
 		activate_heart_power()
+	if event is InputEventAction:
+		if not event.is_pressed() and not event.is_echo():
+			for note_type in held_notes:
+				if event.action in NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
+					hold_release()
+					break
 func get_closest_notes_of_type(note_type: int) -> Array:
 	var closest_notes = []
 	for note_c in notes_on_screen:
@@ -286,6 +301,23 @@ func _process(delta):
 	emit_signal("time_changed", time+input_lag_compensation)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
+		
+	# Hold combo
+	if held_notes.size() > 0:
+		var max_time = current_hold_start_time + (MAX_HOLD/1000.0) * held_notes.size()
+		if time >= max_time:
+			current_hold_score = MAX_HOLD * held_notes.size() * get_combo_multiplier()
+			
+			add_score(MAX_HOLD) # Add score extra for max combo OwO
+			
+			hold_indicator.current_score = current_hold_score
+			hold_release()
+			
+			hold_indicator.show_max_combo(MAX_HOLD)
+			
+		else:
+			current_hold_score = (time - current_hold_start_time) * 1000.0 * held_notes.size() * get_combo_multiplier()
+			hold_indicator.current_score = current_hold_score
 	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
@@ -296,7 +328,6 @@ func _process(delta):
 					a.pressed = true
 					play_note_sfx()
 					Input.parse_input_event(a)
-
 func get_combo_multiplier() -> int:
 	var m = 1
 	if heart_power_enabled:
@@ -364,13 +395,21 @@ func _on_notes_judged(notes: Array, judgement):
 	var notes_hit = 1
 	if not editing or previewing:
 		# Rating graphic
+		if note.note_type in held_notes:
+			hold_release()
 		if judgement < judge.JUDGE_RATINGS.FINE:
 			set_current_combo(0)
+			hold_release()
 		else:
 #			if not heart_power_enabled and get_combo_multiplier() >= MAX_COMBO_MULTIPLIER and current_combo > NOTES_PER_COMBO_MULTIPLIER * MAX_COMBO_MULTIPLIER:
 			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			result.notes_hit += notes_hit
+			
+			for note in notes:
+				note = note as HBNoteData
+				if note.hold:
+					start_hold(note.note_type)
 			
 		
 		result.note_ratings[judgement] += notes_hit
@@ -421,6 +460,7 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):
+	print("adding ", score_to_add)
 	if not previewing:
 		result.score += score_to_add * get_combo_multiplier()
 #		print(score_to_add * get_combo_multiplier())
@@ -431,3 +471,20 @@ func add_score(score_to_add):
 
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
+
+func hold_release():
+	add_score(current_hold_score)
+	print("END hold ", current_hold_score)
+	held_notes = []
+	current_hold_score = 0
+	hold_indicator.disappear()
+
+func start_hold(note_type):
+	if note_type in held_notes:
+		hold_release()
+	print("STARTING TO HOLD: ", note_type)
+	if held_notes.size() == 0:
+		current_hold_start_time = time
+	held_notes.append(note_type)
+	hold_indicator.current_holds = held_notes
+	hold_indicator.appear()

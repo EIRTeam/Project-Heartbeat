@@ -5,5 +5,5 @@ func set_arm_position_2(value):
 	arm_position_2 = value
 	$TimingArm2.rotation_degrees = clamp(360 * value, 0, 360)
 
-func set_note_type(type, multi = false):
+func set_note_type(type, multi = false, hold = false):
 	$Sprite.texture = HBNoteData.get_note_graphics(type).hold_target
