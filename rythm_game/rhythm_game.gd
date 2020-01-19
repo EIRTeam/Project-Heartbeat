@@ -5,7 +5,7 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 const FADE_OUT_TIME = 1.0
 
 onready var fade_out_tween = get_node("FadeOutTween")
-
+onready var game = get_node("RhythmGame")
 func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
@@ -53,3 +53,12 @@ func _on_RhythmGame_song_cleared(results: HBResult):
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [results])
 	fade_out_tween.start()
+
+
+func _on_PauseMenu_quit():
+	var scene = MainMenu.instance()
+	get_tree().current_scene.queue_free()
+	scene.starting_menu = "song_list"
+	scene.starting_menu_args = {"song": game.current_song.id, "song_difficulty": game.result.difficulty}
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene

@@ -46,8 +46,7 @@ func _on_button_pressed(option: BaseButton):
 					option.stop_hover()
 					emit_signal("navigate_to_menu", option.next_menu)
 					emit_signal("navigated")
-			else:
-				option.emit_signal("pressed")
+#				option.emit_signal("pressed")
 
 #			option.connect("pressed", self, "_on_button_pressed", [option], CONNECT_ONESHOT)
 				
