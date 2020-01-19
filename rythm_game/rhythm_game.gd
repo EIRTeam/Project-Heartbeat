@@ -62,3 +62,4 @@ func _on_PauseMenu_quit():
 	scene.starting_menu_args = {"song": game.current_song.id, "song_difficulty": game.result.difficulty}
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
+	_on_resumed()
