@@ -448,49 +448,49 @@ valign = 1
 
 [node name="Up" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
 margin_left = 29.0
-margin_right = 65.0
+margin_right = 75.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 36, 0 )
+rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 21 )
 expand = true
 stretch_mode = 6
 
 [node name="Left" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 69.0
-margin_right = 105.0
+margin_left = 79.0
+margin_right = 125.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 36, 0 )
+rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 20 )
 expand = true
 stretch_mode = 6
 
 [node name="Down" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 109.0
-margin_right = 145.0
+margin_left = 129.0
+margin_right = 175.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 36, 0 )
+rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 19 )
 expand = true
 stretch_mode = 6
 
 [node name="Right" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 149.0
-margin_right = 185.0
+margin_left = 179.0
+margin_right = 225.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 36, 0 )
+rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 24 )
 expand = true
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 189.0
+margin_left = 229.0
 margin_right = 626.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 437.0
+margin_right = 397.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

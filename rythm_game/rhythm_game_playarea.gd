@@ -75,6 +75,7 @@ signal held_notes_changed(held_notes)
 var held_notes = []
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
+var accumulated_hold_score = 0.0 # for when you hit another hold note after holding one
 func set_size(value):
 	size = value
 	$UnderNotesUI/Control.rect_size = value
@@ -304,10 +305,11 @@ func _process(delta):
 		
 	# Hold combo
 	if held_notes.size() > 0:
-		var max_time = current_hold_start_time + (MAX_HOLD/1000.0) * held_notes.size()
+		var max_time = current_hold_start_time + (MAX_HOLD/1000.0)
+		print(max_time * 1000.0)
 		if time >= max_time:
-			current_hold_score = MAX_HOLD * held_notes.size() * get_combo_multiplier()
-			
+			current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size() * get_combo_multiplier()
+			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			add_score(MAX_HOLD) # Add score extra for max combo OwO
 			
 			hold_indicator.current_score = current_hold_score
@@ -316,8 +318,8 @@ func _process(delta):
 			hold_indicator.show_max_combo(MAX_HOLD)
 			
 		else:
-			current_hold_score = (time - current_hold_start_time) * 1000.0 * held_notes.size() * get_combo_multiplier()
-			hold_indicator.current_score = current_hold_score
+			current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size() * get_combo_multiplier()
+			hold_indicator.current_score = current_hold_score + accumulated_hold_score
 	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
@@ -482,9 +484,10 @@ func hold_release():
 func start_hold(note_type):
 	if note_type in held_notes:
 		hold_release()
-	print("STARTING TO HOLD: ", note_type)
-	if held_notes.size() == 0:
-		current_hold_start_time = time
+	if held_notes.size() > 0:
+		accumulated_hold_score += current_hold_score
+	current_hold_score = 0
+	current_hold_start_time = time
 	held_notes.append(note_type)
 	hold_indicator.current_holds = held_notes
 	hold_indicator.appear()
