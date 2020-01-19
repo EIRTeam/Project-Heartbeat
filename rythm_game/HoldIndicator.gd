@@ -17,6 +17,7 @@ onready var max_combo_label = get_node("Panel2/Control/MarginContainer/HBoxConta
 func _ready():
 	_on_resized()
 	connect("resized", self, "_on_resized")
+	animation_player.play("start")
 	
 func _on_resized():
 	for texture_rect in icon_nodes.values():
