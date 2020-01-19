@@ -43,7 +43,7 @@ func appear():
 		
 func show_max_combo(combo):
 	animation_player.play("appear_max")
-	max_combo_label.text = "Max Combo Bonus! %d" % combo
+	max_combo_label.text = "Max Hold Bonus! %d" % combo
 	
 func disappear():
 	animation_player.play("disappear")
