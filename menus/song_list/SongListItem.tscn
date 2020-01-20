@@ -24,6 +24,7 @@ outline_size = 4
 outline_color = Color( 0, 0, 0, 0.486275 )
 use_mipmaps = true
 use_filter = true
+extra_spacing_top = 14
 font_data = ExtResource( 5 )
 
 [sub_resource type="Theme" id=3]
@@ -48,7 +49,11 @@ margin_left = -174.218
 margin_top = 217.0
 margin_right = 375.782
 margin_bottom = 453.0
+has_cancel = true
+has_accept = true
 text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
+accept_text = "Yes"
+cancel_text = "No"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -81,7 +86,6 @@ stretch_mode = 6
 [node name="StarsLabel" type="Label" parent="MarginContainer/HBoxContainer/TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 19.0
 custom_fonts/font = SubResource( 2 )
 text = "1"
 align = 1
