@@ -50,6 +50,7 @@ func set_song(value: HBSong, difficulty: String):
 		var it = ImageTexture.new()
 		it.create_from_image(image, Texture.FLAGS_DEFAULT)
 		circle_text_rect.texture = it
+		_on_resized()
 	else:
 		author_label.show()
 		circle_text_rect.hide()

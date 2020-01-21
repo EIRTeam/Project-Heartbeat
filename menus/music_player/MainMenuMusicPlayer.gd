@@ -12,6 +12,7 @@ func set_song(song: HBSong, length: float):
 	var song_title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/SongLabel")
 	var song_artist_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ArtistLabel")
 	var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
+	var circle_logo_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CircleLogo")
 	current_song_length = length
 	song_title_label.text = song.title
 	if song.artist_alias != "":
@@ -26,6 +27,17 @@ func set_song(song: HBSong, length: float):
 		image_preview_texture_rect.texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	else:
 		image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE
+	var circle_logo_path = song.get_song_circle_logo_image_res_path()
+	if circle_logo_path:
+		song_artist_label.hide()
+		circle_logo_texture_rect.show()
+		var image = HBUtils.image_from_fs(circle_logo_path)
+		var it = ImageTexture.new()
+		it.create_from_image(image, Texture.FLAGS_DEFAULT)
+		circle_logo_texture_rect.texture = it	
+	else:
+		song_artist_label.show()
+		circle_logo_texture_rect.hide()
 func set_time(time: float):
 	var playback_current_time_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
 	playback_current_time_label.text = format_time(time)
