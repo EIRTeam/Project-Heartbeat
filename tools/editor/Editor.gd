@@ -15,6 +15,7 @@ onready var recording_layer_select_button = get_node("VBoxContainer/VSplitContai
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RythmGame")
 onready var waveform_drawer = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 onready var audio_stream_player = get_node("AudioStreamPlayer")
+onready var audio_stream_player_voice = get_node("AudioStreamPlayerVoice")
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
@@ -234,6 +235,10 @@ func play_from_pos(position: float):
 	audio_stream_player.volume_db = 0
 	audio_stream_player.play()
 	audio_stream_player.seek(position / 1000.0)
+	audio_stream_player_voice.stream_paused = false
+	audio_stream_player_voice.volume_db = 0
+	audio_stream_player_voice.play()
+	audio_stream_player_voice.seek(position / 1000.0)
 	time_begin = OS.get_ticks_usec()
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	_audio_play_offset = position / 1000.0
@@ -311,6 +316,9 @@ func pause():
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80
 	audio_stream_player.stop()
+	audio_stream_player_voice.stream_paused = true
+	audio_stream_player_voice.volume_db = -80
+	audio_stream_player_voice.stop()
 	_on_timing_points_changed()
 	rhythm_game.previewing = false
 func _on_PauseButton_pressed():
@@ -416,6 +424,8 @@ func load_song(song: HBSong, difficulty: String):
 	save_button.disabled = false
 	save_as_button.disabled = false
 	audio_stream_player.stream = song.get_audio_stream()
+	if song.voice:
+		audio_stream_player_voice.stream = song.get_voice_stream()
 	emit_signal("load_song", song)
 
 

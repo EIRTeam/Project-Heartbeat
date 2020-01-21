@@ -1,7 +1,7 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
-[ext_resource path="res://songs/the_top/Ken Blast - The Top.ogg" type="AudioStream" id=2]
+[ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
@@ -30,6 +30,7 @@
 [ext_resource path="res://tools/icons/arrow-bottom-left-thick.svg" type="Texture" id=28]
 [ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
+[ext_resource path="res://songs/imademo_2012/imademo_2012.ogg" type="AudioStream" id=31]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_save"
@@ -692,8 +693,12 @@ margin_left = -1.16632
 margin_right = -1.16626
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
+stream = ExtResource( 31 )
 bus = "Music"
+
+[node name="AudioStreamPlayerVoice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+bus = "Vocals"
 
 [node name="SongSelector" parent="." instance=ExtResource( 13 )]
 from_ppd_allowed = true
