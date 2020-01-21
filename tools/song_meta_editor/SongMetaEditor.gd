@@ -9,10 +9,11 @@ func _ready():
 	update_user_song_list()
 	song_meta_editor.hide()
 
-func update_user_song_list():
+func update_user_song_list(allow_internal=false):
+	song_list.clear_songs()
 	for song_id in SongLoader.songs:
 		var song := SongLoader.songs[song_id] as HBSong
-		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER or allow_internal:
 			if not song is HBPPDSong:
 				song_list.add_song(song)
 
@@ -29,6 +30,10 @@ func _on_CreateSongDialog_confirmed():
 			song_list.add_song(song_meta)
 			SongLoader.songs[song_meta.id] = song_meta
 
+
+func _unhandled_input(event):
+	if event.is_action_pressed("free_friends"):
+		update_user_song_list(true)
 
 func _on_AddButton_pressed():
 	create_song_popup.popup_centered_ratio(0.25)

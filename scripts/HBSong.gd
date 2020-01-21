@@ -16,32 +16,39 @@ var id: String
 var title := ""
 var artist := ""
 var artist_alias := ""
-var producers = []
+var composers = []
 var writers = []
+var vocals = []
 var audio = ""
 var voice = ""
 var creator = ""
+var original_title = ""
 var bpm = 150
 var preview_start = 77000
 var charts = {}
 var preview_image = ""
 var background_image = ""
+var circle_image = ""
 
 func get_serialized_type():
 	return "Song"
 
 func _init():
-	serializable_fields += ["title", "artist", "artist_alias", "producers", "writers", "audio", "creator", "bpm", "preview_start", "charts", "preview_image", "background_image", "voice"]
+	serializable_fields += ["title", "artist", "artist_alias", "composers", "vocals", "writers",
+	"audio", "creator", "original_title", "bpm", "preview_start", "charts", 
+	"preview_image", "background_image", "voice", "circle_image"]
 
 func get_meta_string():
 	var song_meta = []
 	if writers.size() > 0:
 		var writer_text = "Written by: "
 		song_meta.append(writer_text + PoolStringArray(writers).join(", "))
-	if producers.size() > 0:
-		var producer_text = "Produced by: "
-		song_meta.append(producer_text + PoolStringArray(producers).join(", "))
-
+	if vocals.size() > 0:
+		var vocals_text = "Vocals by: "
+		song_meta.append(vocals_text + PoolStringArray(vocals).join(", "))
+	if composers.size() > 0:
+		var composers_text = "Composed by: "
+		song_meta.append(composers_text + PoolStringArray(composers).join(", "))
 	if creator != "":
 		song_meta.append("Chart by: %s" % creator)
 	return song_meta
@@ -80,6 +87,12 @@ func get_song_background_image_res_path():
 		return path.plus_file("/%s" % [background_image])
 	else:
 		return "res://graphics/background.png"
+		
+func get_song_circle_image_res_path():
+	if circle_image != "":
+		return path.plus_file("/%s" % [circle_image])
+	else:
+		return null
 		
 func get_meta_path():
 	return path.plus_file("song.json")

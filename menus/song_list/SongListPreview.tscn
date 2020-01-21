@@ -1,16 +1,14 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://graphics/notes/star_receiver.svg" type="Texture" id=5]
-[ext_resource path="res://graphics/notes/star.png" type="Texture" id=6]
 [ext_resource path="res://graphics/no_preview.png" type="Texture" id=7]
 [ext_resource path="res://menus/song_list/SongListPreview.gd" type="Script" id=8]
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=10]
 [ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=11]
+[ext_resource path="res://menus/song_list/unnamed.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -18,6 +16,34 @@ outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 fallback/0 = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 15
+outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 1, 1, 1, 1 )
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
 
 [sub_resource type="StyleBoxFlat" id=2]
 content_margin_left = 25.0
@@ -37,14 +63,6 @@ corner_radius_bottom_left = 5
 corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
-
-[sub_resource type="DynamicFont" id=3]
-size = 19
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=4]
-default_font = SubResource( 3 )
 
 [node name="Panel" type="Control"]
 anchor_right = 1.0
@@ -67,7 +85,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 556.0
+margin_bottom = 642.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -79,26 +97,41 @@ size_flags_vertical = 7
 custom_fonts/font = SubResource( 1 )
 text = "THE TOP"
 align = 1
-valign = 2
+valign = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer"]
+[node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 margin_top = 43.0
 margin_right = 1280.0
-margin_bottom = 69.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 7 )
+text = "Original title: "
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AuthorInfo" type="HBoxContainer" parent="SongListPreview/VBoxContainer"]
+margin_top = 86.0
+margin_right = 1280.0
+margin_bottom = 112.0
 alignment = 1
 
-[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
 margin_left = 530.0
 margin_right = 564.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 10 )
 text = "by"
 
-[node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/HBoxContainer"]
+[node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
 margin_left = 568.0
 margin_top = 3.0
 margin_right = 749.0
@@ -106,25 +139,68 @@ margin_bottom = 23.0
 custom_fonts/font = ExtResource( 11 )
 text = "DRAGONFORCE"
 
-[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer"]
-margin_top = 81.0
+[node name="CirclePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
+margin_top = 124.0
 margin_right = 1280.0
-margin_bottom = 411.04
+margin_bottom = 224.0
+rect_min_size = Vector2( 0, 100 )
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 5 )
+
+[node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CirclePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/CirclePanel/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 1260.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 50 )
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongCoverPanel" type="Panel" parent="SongListPreview/VBoxContainer"]
+margin_top = 236.0
+margin_right = 1280.0
+margin_bottom = 566.04
+rect_min_size = Vector2( 0, 330.04 )
+rect_clip_content = true
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 6 )
+
+[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 texture = ExtResource( 7 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 423.0
+margin_top = 578.0
 margin_right = 1280.0
-margin_bottom = 556.0
+margin_bottom = 642.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
 margin_right = 1280.0
-margin_bottom = 133.0
+margin_bottom = 64.0
 size_flags_vertical = 4
 custom_styles/panel = SubResource( 2 )
 
@@ -132,7 +208,7 @@ custom_styles/panel = SubResource( 2 )
 margin_left = 25.0
 margin_top = 10.0
 margin_right = 1280.0
-margin_bottom = 123.0
+margin_bottom = 54.0
 size_flags_vertical = 4
 alignment = 1
 __meta__ = {
@@ -153,109 +229,8 @@ __meta__ = {
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
 margin_top = 24.0
 margin_right = 1255.0
-margin_bottom = 113.0
-rect_min_size = Vector2( 0, 83 )
+margin_bottom = 44.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Produced by:
-Written by:
-asdsadasd
-asdasdsadas"
 align = 1
 autowrap = true
-
-[node name="Panel" type="Panel" parent="SongListPreview/VBoxContainer/Control"]
-visible = false
-margin_top = 174.0
-margin_right = 1280.0
-margin_bottom = 386.0
-rect_min_size = Vector2( 0, 37 )
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
-
-[node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/Control/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 5
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer"]
-margin_left = 20.0
-margin_top = 5.0
-margin_right = 1260.0
-margin_bottom = 207.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer"]
-margin_top = 91.0
-margin_right = 1240.0
-margin_bottom = 111.0
-theme = SubResource( 4 )
-
-[node name="Label" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 54.0
-margin_bottom = 20.0
-text = "Easy"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 58.0
-margin_right = 1240.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 505.0
-margin_right = 536.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 31, 0 )
-texture = ExtResource( 6 )
-expand = true
-stretch_mode = 5
-
-[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 540.0
-margin_right = 571.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 31, 0 )
-texture = ExtResource( 6 )
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="TextureRect3" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 575.0
-margin_right = 606.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 31, 0 )
-texture = ExtResource( 6 )
-expand = true
-stretch_mode = 5
-
-[node name="TextureRect4" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 610.0
-margin_right = 641.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 31, 0 )
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 5
-
-[node name="TextureRect5" type="TextureRect" parent="SongListPreview/VBoxContainer/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 645.0
-margin_right = 676.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 31, 0 )
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 5

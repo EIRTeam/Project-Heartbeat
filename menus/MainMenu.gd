@@ -57,17 +57,20 @@ var left_menu_container
 var right_menu_container
 
 var player = AudioStreamPlayer.new()
+var voice_player = AudioStreamPlayer.new()
 
 func _ready():
 	connect("change_to_menu", self, "_on_change_to_menu")
 	add_child(player)
+	add_child(voice_player)
 	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
 	
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
-	player.name = "HJHH"
 	player.volume_db = FADE_OUT_VOLUME
 	player.bus = "Music"
+	voice_player.volume_db = FADE_OUT_VOLUME
+	voice_player.bus = "Voice"
 	play_random_song()
 
 func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
@@ -109,6 +112,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 const FADE_OUT_VOLUME = -40
 var target_volume = 0
 var next_audio: AudioStreamOGGVorbis
+var next_voice: AudioStreamOGGVorbis
 var current_song: HBSong
 var song_queued = false
 
@@ -123,6 +127,7 @@ func play_random_song():
 	
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
+	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 	if player.stream:
 		MENUS.music_player.right.set_time(player.get_playback_position())
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
@@ -131,14 +136,21 @@ func _process(delta):
 			player.stream = next_audio
 			player.play()
 			player.seek(current_song.preview_start/1000.0)
-			song_queued = false
-			
+			if next_voice:
+				voice_player.stream = next_voice
+				voice_player.play()
+				voice_player.seek(current_song.preview_start/1000.0)
+				song_queued = false
+			else:
+				voice_player.stream = null
 	if player.get_playback_position() >= player.stream.get_length():
 		var curr = current_song
 		# Ensure random song will always be different from current
-		while curr == current_song:
+		if SongLoader.songs.size() > 1:
+			while curr == current_song:
+				play_random_song()
+		else:
 			play_random_song()
-		player.play()
 func play_song(song: HBSong):
 	if song.audio != "":
 		if song == current_song:
@@ -146,6 +158,10 @@ func play_song(song: HBSong):
 			return
 		current_song = song
 		next_audio = song.get_audio_stream()
+		if song.voice:
+			next_voice = song.get_voice_stream()
+		else:
+			next_voice = null
 		target_volume = FADE_OUT_VOLUME
 		song_queued = true
 		MENUS.music_player.right.set_song(current_song, next_audio.get_length())

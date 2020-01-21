@@ -22,3 +22,7 @@ func get_selected_song():
 func _on_SongMetaEditor_song_meta_saved():
 	var song = get_selected().get_meta("song") as HBSong
 	get_selected().set_text(0, song.title)
+
+func clear_songs():
+	clear()
+	create_item()

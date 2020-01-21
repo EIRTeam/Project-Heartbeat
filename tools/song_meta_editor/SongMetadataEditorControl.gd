@@ -6,9 +6,11 @@ signal song_meta_saved
 onready var title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongTitle")
 onready var artist_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtist")
 onready var artist_alias_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtistAlias")
-onready var producers_edit = get_node("TabContainer/Metadata/VBoxContainer/SongProducers")
+onready var vocals_edit = get_node("TabContainer/Metadata/VBoxContainer/SongVocals")
 onready var writers_edit = get_node("TabContainer/Metadata/VBoxContainer/SongWriters")
 onready var creator_edit = get_node("TabContainer/Metadata/VBoxContainer/SongCreator")
+onready var original_title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongOriginalTitle")
+onready var composers_edit = get_node("TabContainer/Metadata/VBoxContainer/SongComposers")
 
 onready var bpm_edit = get_node("TabContainer/Technical Data/VBoxContainer/BPMSpinBox")
 onready var audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
@@ -20,18 +22,22 @@ onready var stars_container = get_node("TabContainer/Difficulties/HBoxContainer/
 
 onready var preview_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
 onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
+
+onready var circle_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
 func set_song_meta(value):
 	song_meta = value
 	
 	title_edit.text = song_meta.title
 	artist_edit.text = song_meta.artist
 	artist_alias_edit.text = song_meta.artist_alias
-	producers_edit.text = PoolStringArray(song_meta.producers).join("\n")
+	vocals_edit.text = PoolStringArray(song_meta.vocals).join("\n")
 	writers_edit.text = PoolStringArray(song_meta.writers).join("\n")
+	composers_edit.text = PoolStringArray(song_meta.composers).join("\n")
 	creator_edit.text = song_meta.creator
-
+	original_title_edit.text = song_meta.original_title
 	bpm_edit.value = song_meta.bpm
 	audio_filename_edit.text = song_meta.audio
+	voice_audio_filename_edit.text = song_meta.voice
 	preview_start_edit.value = song_meta.preview_start
 	background_image_filename_edit.text = song_meta.background_image
 	preview_image_filename_edit.text = song_meta.preview_image
@@ -41,7 +47,6 @@ func set_song_meta(value):
 		difficulty_checkbox.pressed = false
 	for difficulty in song_meta.charts:
 		for difficulty_checkbox in difficulties_container.get_children():
-			print("comparing ", difficulty_checkbox.text.to_lower(), " with ", difficulty.to_lower())
 			if difficulty_checkbox.text.to_lower() == difficulty.to_lower():
 				difficulty_checkbox.pressed = true
 				break
@@ -57,7 +62,8 @@ func _on_SaveButton_pressed():
 	song_meta.title = title_edit.text
 	song_meta.artist = artist_edit.text
 	song_meta.artist_alias = artist_alias_edit.text
-	song_meta.producers = Array(producers_edit.text.split("\n"))
+	song_meta.vocals = Array(vocals_edit.text.split("\n"))
+	song_meta.composers = Array(composers_edit.text.split("\n"))
 	song_meta.writers = Array(writers_edit.text.split("\n"))
 	song_meta.creator = creator_edit.text
 	
@@ -127,4 +133,16 @@ func _on_VoiceAudioFileDialog_file_selected(path):
 	dir.copy(path, audio_path)
 	song_meta.voice = audio_path.get_file()
 	voice_audio_filename_edit.text = song_meta.voice
+	_on_SaveButton_pressed()
+
+
+func _on_CircleFileDialog_file_selected(path):
+	var dir = Directory.new()
+	var extension = path.get_extension()
+	song_meta.circle_image = "circle." + extension
+	
+	var image_path := song_meta.get_song_circle_image_res_path() as String
+	
+	dir.copy(path, image_path)
+	circle_image_line_edit.text = song_meta.circle_image
 	_on_SaveButton_pressed()

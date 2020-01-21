@@ -85,6 +85,7 @@ margin_left = 0.0
 margin_top = 609.999
 margin_right = 430.0
 margin_bottom = 669.999
+enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
 

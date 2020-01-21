@@ -49,11 +49,7 @@ margin_left = -174.218
 margin_top = 217.0
 margin_right = 375.782
 margin_bottom = 453.0
-has_cancel = true
-has_accept = true
 text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
