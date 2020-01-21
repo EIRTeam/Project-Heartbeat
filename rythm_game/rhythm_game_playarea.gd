@@ -25,6 +25,7 @@ onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongAuthor")
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
+onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/DifficultyLabel")
 onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextureProgress/ComboMultiplierLabel")
 onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
 onready var heart_power_progress_bar = get_node("Control/TextureProgress")
@@ -127,6 +128,7 @@ func set_song(song: HBSong, difficulty: String):
 		author_label.text = song.artist_alias
 	else:
 		author_label.text = song.artist
+	difficulty_label.text = "[%s]" % difficulty
 	var chart_path = song.get_chart_path(difficulty)
 	var chart : HBChart
 	if song is HBPPDSong:

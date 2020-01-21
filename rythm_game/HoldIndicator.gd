@@ -14,6 +14,14 @@ onready var hold_count_label = get_node("Panel/MarginContainer/HBoxContainer/Hol
 onready var panel = get_node("Panel")
 onready var animation_player = get_node("AnimationPlayer")
 onready var max_combo_label = get_node("Panel2/Control/MarginContainer/HBoxContainer/MaxComboLabel")
+onready var bonus_label = get_node("Panel/MarginContainer/HBoxContainer/BonusLabel")
+const BONUS_TEXTS = {
+	1: "SINGLE BONUS",
+	2: "DOUBLE BONUS",
+	3: "TRIPLE BONUS",
+	4: "QADRUPLE BONUS"
+}
+
 func _ready():
 	_on_resized()
 	connect("resized", self, "_on_resized")
@@ -33,6 +41,7 @@ func set_current_holds(val):
 		else:
 			icon_nodes[note_type].hide()
 	hold_count_label.text = str(current_holds.size())
+	bonus_label.text = BONUS_TEXTS[current_holds.size()]
 
 func set_current_score(val):
 	current_score = val

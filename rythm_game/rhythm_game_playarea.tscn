@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -31,7 +31,16 @@
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
-outline_size = 1
+outline_size = 2
+outline_color = Color( 0.490196, 0.219608, 0.505882, 1 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 7
+font_data = ExtResource( 14 )
+fallback/0 = ExtResource( 25 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 25
 outline_color = Color( 0.964706, 0.756863, 0.203922, 1 )
 use_filter = true
 extra_spacing_top = 7
@@ -401,7 +410,6 @@ __meta__ = {
 }
 
 [node name="HoldIndicator" type="VBoxContainer" parent="UnderNotesUI/Control"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.25
 anchor_top = 0.75
@@ -447,9 +455,20 @@ text = "2"
 align = 2
 valign = 1
 
-[node name="Up" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
+[node name="BonusLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
 margin_left = 29.0
-margin_right = 75.0
+margin_right = 327.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 298, 0 )
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 16 )
+text = "QUADRUPLE BONUS"
+align = 1
+valign = 1
+
+[node name="Up" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
+margin_left = 331.0
+margin_right = 377.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 21 )
@@ -457,8 +476,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Left" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 79.0
-margin_right = 125.0
+margin_left = 381.0
+margin_right = 427.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 20 )
@@ -466,8 +485,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Down" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 129.0
-margin_right = 175.0
+margin_left = 431.0
+margin_right = 477.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 19 )
@@ -475,8 +494,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Right" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 179.0
-margin_right = 225.0
+margin_left = 481.0
+margin_right = 527.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 24 )
@@ -484,14 +503,14 @@ expand = true
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 229.0
+margin_left = 531.0
 margin_right = 626.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 397.0
+margin_right = 95.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -593,6 +612,7 @@ anchor_bottom = 1.0
 margin_top = -0.735077
 margin_bottom = -0.735107
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -678,8 +698,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+margin_right = 145.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 6 )
+text = "[DIFFICULTY]"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_right = 101.0
+margin_left = 160.0
+margin_right = 261.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 6 )
 text = "NOSONG"
@@ -687,8 +719,8 @@ valign = 1
 uppercase = true
 
 [node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 116.0
-margin_right = 215.0
+margin_left = 276.0
+margin_right = 375.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 5 )
 text = "LOADED"
@@ -773,6 +805,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Prompts" type="Control" parent="."]
 anchor_right = 1.0
@@ -782,6 +817,7 @@ margin_top = 1.58344
 margin_right = 1.99561
 margin_bottom = 1.58344
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
