@@ -1,6 +1,8 @@
 extends HBMenu
 
 var current_song_length
+onready var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
+const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 func set_song(song: HBSong, length: float):
@@ -9,6 +11,7 @@ func set_song(song: HBSong, length: float):
 
 	var song_title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/SongLabel")
 	var song_artist_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ArtistLabel")
+	var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 	current_song_length = length
 	song_title_label.text = song.title
 	if song.artist_alias != "":
@@ -16,7 +19,13 @@ func set_song(song: HBSong, length: float):
 	else:
 		song_artist_label.text = song.artist
 	playback_max_label.text = format_time(length)
-	
+	var image_path = song.get_song_preview_res_path()
+	if image_path:
+		image_preview_texture_rect.texture = ImageTexture.new()
+		var image = HBUtils.image_from_fs(image_path)
+		image_preview_texture_rect.texture.create_from_image(image, Texture.FLAGS_DEFAULT)
+	else:
+		image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE
 func set_time(time: float):
 	var playback_current_time_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
 	playback_current_time_label.text = format_time(time)

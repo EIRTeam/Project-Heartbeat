@@ -676,10 +676,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/HBoxContainer/VBoxContainer/Panel"]
 anchor_left = 0.085
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_scale = Vector2( 1, 0.996064 )
+custom_constants/margin_top = 7
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
+margin_top = 7.0
+margin_right = 753.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -688,18 +700,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer"]
-margin_top = 12.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
 margin_right = 753.0
-margin_bottom = 32.0
+margin_bottom = 25.0
+size_flags_vertical = 3
 custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+[node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 2.0
 margin_right = 145.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 custom_fonts/font = ExtResource( 6 )
 text = "[DIFFICULTY]"
 valign = 1
@@ -708,46 +721,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
+[node name="CircleImage" type="TextureRect" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 160.0
-margin_right = 261.0
-margin_bottom = 20.0
+margin_right = 160.0
+margin_bottom = 25.0
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 175.0
+margin_top = 2.0
+margin_right = 276.0
+margin_bottom = 22.0
 custom_fonts/font = ExtResource( 6 )
 text = "NOSONG"
 valign = 1
 uppercase = true
 
-[node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 276.0
-margin_right = 375.0
-margin_bottom = 20.0
+[node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 291.0
+margin_top = 2.0
+margin_right = 390.0
+margin_bottom = 22.0
 custom_fonts/font = ExtResource( 5 )
 text = "LOADED"
 valign = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer"]
-margin_top = 32.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 25.0
 margin_right = 753.0
-margin_bottom = 52.0
+margin_bottom = 51.0
+size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 3.0
 margin_right = 48.0
-margin_bottom = 20.0
+margin_bottom = 23.0
 text = "LIFE"
 valign = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 52.0
 margin_right = 753.0
-margin_bottom = 20.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
-margin_top = 8.0
+[node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+margin_top = 11.0
 margin_right = 701.0
-margin_bottom = 11.0
+margin_bottom = 14.0
 size_flags_horizontal = 3
 percent_visible = false
 

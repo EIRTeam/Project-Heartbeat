@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=10]
 [ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=11]
-[ext_resource path="res://menus/song_list/unnamed.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -85,7 +84,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 642.0
+margin_bottom = 627.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -93,7 +92,7 @@ custom_constants/separation = 12
 margin_right = 1280.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
-size_flags_vertical = 7
+size_flags_vertical = 5
 custom_fonts/font = SubResource( 1 )
 text = "THE TOP"
 align = 1
@@ -106,9 +105,9 @@ __meta__ = {
 [node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
 margin_top = 43.0
 margin_right = 1280.0
-margin_bottom = 74.0
+margin_bottom = 59.0
 size_flags_horizontal = 3
-size_flags_vertical = 7
+size_flags_vertical = 1
 custom_fonts/font = SubResource( 7 )
 text = "Original title: "
 align = 1
@@ -119,9 +118,9 @@ __meta__ = {
 }
 
 [node name="AuthorInfo" type="HBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 86.0
+margin_top = 71.0
 margin_right = 1280.0
-margin_bottom = 112.0
+margin_bottom = 97.0
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
@@ -140,9 +139,9 @@ custom_fonts/font = ExtResource( 11 )
 text = "DRAGONFORCE"
 
 [node name="CirclePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
-margin_top = 124.0
+margin_top = 109.0
 margin_right = 1280.0
-margin_bottom = 224.0
+margin_bottom = 209.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
@@ -164,7 +163,6 @@ margin_top = 20.0
 margin_right = 1260.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 50 )
-texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
 __meta__ = {
@@ -172,9 +170,9 @@ __meta__ = {
 }
 
 [node name="SongCoverPanel" type="Panel" parent="SongListPreview/VBoxContainer"]
-margin_top = 236.0
+margin_top = 221.0
 margin_right = 1280.0
-margin_bottom = 566.04
+margin_bottom = 551.04
 rect_min_size = Vector2( 0, 330.04 )
 rect_clip_content = true
 size_flags_vertical = 3
@@ -193,9 +191,9 @@ __meta__ = {
 }
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 578.0
+margin_top = 563.0
 margin_right = 1280.0
-margin_bottom = 642.0
+margin_bottom = 627.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]

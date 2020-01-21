@@ -11,12 +11,24 @@ var target_opacity = 1.0
 const LERP_SPEED = 3.0
 
 var prev_focus
-onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/TitleLabel")
-onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
-onready var score_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/ScoreLabel")
-
+onready var title_label = get_node("MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/TitleLabel")
+onready var author_label = get_node("MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/AuthorLabel")
+onready var score_label = get_node("MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreLabel")
+onready var circle_text_rect = get_node("MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/CircleLabel")
 onready var stars_label = get_node("MarginContainer/HBoxContainer/TextureRect/StarsLabel")
 signal song_selected(song)
+
+func _ready():
+	connect("resized", self, "_on_resized")
+	_on_resized()
+func _on_resized():
+	var hbox_container2 = get_node("MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
+	if circle_text_rect.texture:
+		var image = circle_text_rect.texture.get_data() as Image
+		var ratio = image.get_width() / image.get_height()
+		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
+		new_size.x = clamp(new_size.x, 0, 250)
+		circle_text_rect.rect_min_size = new_size
 
 func set_song(value: HBSong, difficulty: String):
 	song = value
@@ -30,6 +42,17 @@ func set_song(value: HBSong, difficulty: String):
 		stars_label.text = str(int(value.charts[difficulty].stars))
 	else:
 		stars_label.text = "-"
+	var circle_logo_path = value.get_song_circle_logo_image_res_path()
+	if circle_logo_path:
+		author_label.hide()
+		circle_text_rect.show()
+		var image = HBUtils.image_from_fs(circle_logo_path)
+		var it = ImageTexture.new()
+		it.create_from_image(image, Texture.FLAGS_DEFAULT)
+		circle_text_rect.texture = it
+	else:
+		author_label.show()
+		circle_text_rect.hide()
 		
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
@@ -76,7 +99,6 @@ func _on_PPDAudioBrowseWindow_accept():
 	dialog.popup_centered_ratio()
 	dialog.connect("popup_hide", self, "_on_PPDAudioBrowseWindow_cancel", [], CONNECT_ONESHOT)
 	dialog.connect("file_selected", self, "_on_ppd_audio_selected", [], CONNECT_ONESHOT)
-
 
 func _on_PPDAudioBrowseWindow_cancel():
 	if prev_focus:

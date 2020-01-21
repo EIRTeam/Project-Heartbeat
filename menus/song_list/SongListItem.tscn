@@ -90,42 +90,61 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 160.0
-margin_right = 1036.0
+margin_right = 582.0
 margin_bottom = 100.0
+custom_constants/margin_top = 10
+custom_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer"]
+margin_top = 10.0
+margin_right = 422.0
+margin_bottom = 90.0
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 19.0
-margin_right = 876.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 422.0
 margin_bottom = 50.0
+size_flags_vertical = 3
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AuthorLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="CircleLabel" type="TextureRect" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+visible = false
+margin_right = 250.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 250, 0 )
+expand = true
+stretch_mode = 6
+
+[node name="AuthorLabel" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 230.0
-margin_bottom = 31.0
+margin_bottom = 50.0
+size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
 custom_fonts/font = ExtResource( 6 )
 text = "Ken asdsad"
 align = 3
+valign = 1
 uppercase = true
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 250.0
-margin_right = 876.0
-margin_bottom = 31.0
+margin_right = 422.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
+size_flags_vertical = 7
 theme = SubResource( 3 )
 text = "Song Title"
+valign = 1
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 margin_top = 54.0
-margin_right = 876.0
+margin_right = 422.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 8 )
 text = "105.05%"

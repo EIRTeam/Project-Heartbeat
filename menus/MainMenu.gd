@@ -71,7 +71,10 @@ func _ready():
 	player.bus = "Music"
 	voice_player.volume_db = FADE_OUT_VOLUME
 	voice_player.bus = "Voice"
-	play_random_song()
+	set_process(false)
+	yield(MENUS.music_player.right, "ready")
+	call_deferred("play_random_song")
+	set_process(true)
 
 func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
 	Log.log(self, "Changing to menu " + menu_name)

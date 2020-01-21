@@ -3,10 +3,9 @@ extends HBMenu
 onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
 
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
-var default_image_texture = preload("res://graphics/no_preview.png")
+const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
 
 func _ready():
-	default_image_texture = preview_texture_rect.texture
 	connect("resized", self, "_on_resized")
 	_on_resized()
 func select_song(song: HBSong):
@@ -42,12 +41,12 @@ func select_song(song: HBSong):
 	$SongListPreview/VBoxContainer/AuthorInfo/AuthorLabel.text = auth
 		
 	var image_path = song.get_song_preview_res_path()
-	if image_path != DEFAULT_IMAGE_PATH:
+	if image_path:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = ImageTexture.new()
 		var image = HBUtils.image_from_fs(image_path)
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	else:
-		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = default_image_texture
+		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
 
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x

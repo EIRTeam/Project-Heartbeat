@@ -95,6 +95,7 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -369,7 +370,6 @@ max_value = 10.0
 value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -454,6 +454,29 @@ margin_right = 616.0
 margin_bottom = 25.0
 text = "Select file"
 
+[node name="Label2123" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer"]
+margin_top = 174.0
+margin_right = 616.0
+margin_bottom = 199.0
+text = "Circle Logo (optional, replaces artist/circle text in some circumstances)."
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer"]
+margin_top = 203.0
+margin_right = 616.0
+margin_bottom = 228.0
+size_flags_horizontal = 3
+
+[node name="SelectCircleLogoLineEdit" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
+margin_right = 542.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="SelectCircleLogoButton" type="Button" parent="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
+margin_left = 546.0
+margin_right = 616.0
+margin_bottom = 25.0
+text = "Select file"
+
 [node name="SaveButton" type="Button" parent="HSplitContainer/SongMetaEditor"]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -505,6 +528,16 @@ current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
+margin_right = 535.0
+margin_bottom = 298.0
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+
+[node name="CircleLogoFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
 margin_bottom = 298.0
 window_title = "Abrir un Archivo"
@@ -570,12 +603,14 @@ current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="HSplitContainer/SongMetaEditor/PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton" to="HSplitContainer/SongMetaEditor/BackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageButton" to="HSplitContainer/SongMetaEditor/CircleFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer6/SelectCircleLogoButton" to="HSplitContainer/SongMetaEditor/CircleLogoFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/SaveButton" to="HSplitContainer/SongMetaEditor" method="_on_SaveButton_pressed"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/AudioFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_AudioFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/VoiceAudioFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_VoiceAudioFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/PreviewFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_PreviewFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/BackgroundFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_BackgroundFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/CircleFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_CircleFileDialog_file_selected"]
+[connection signal="file_selected" from="HSplitContainer/SongMetaEditor/CircleLogoFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_CircleLogoFileDialog_file_selected"]
 [connection signal="confirmed" from="CreatePackageDialog" to="." method="_on_CreatePackageDialog_confirmed"]
 [connection signal="confirmed" from="CreateSongDialog" to="." method="_on_CreateSongDialog_confirmed"]
 [connection signal="file_selected" from="ExportPackageFileDialog" to="." method="_on_ExportPackageFileDialog_file_selected"]

@@ -24,6 +24,7 @@ onready var preview_image_filename_edit = get_node("TabContainer/Graphics/VBoxCo
 onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
 
 onready var circle_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
+onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -37,6 +38,8 @@ func set_song_meta(value):
 	original_title_edit.text = song_meta.original_title
 	bpm_edit.value = song_meta.bpm
 	audio_filename_edit.text = song_meta.audio
+	circle_image_line_edit.text = song_meta.circle_image
+	circle_logo_image_line_edit.text = song_meta.circle_logo
 	voice_audio_filename_edit.text = song_meta.voice
 	preview_start_edit.value = song_meta.preview_start
 	background_image_filename_edit.text = song_meta.background_image
@@ -145,4 +148,16 @@ func _on_CircleFileDialog_file_selected(path):
 	
 	dir.copy(path, image_path)
 	circle_image_line_edit.text = song_meta.circle_image
+	_on_SaveButton_pressed()
+
+
+func _on_CircleLogoFileDialog_file_selected(path):
+	var dir = Directory.new()
+	var extension = path.get_extension()
+	song_meta.circle_logo = "circle_logo." + extension
+	
+	var image_path := song_meta.get_song_circle_logo_image_res_path() as String
+	
+	dir.copy(path, image_path)
+	circle_logo_image_line_edit.text = song_meta.circle_logo
 	_on_SaveButton_pressed()

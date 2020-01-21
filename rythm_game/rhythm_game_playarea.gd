@@ -24,15 +24,17 @@ onready var audio_stream_player_voice = get_node("AudioStreamPlayerVocals")
 onready var rating_label : Label = get_node("RatingLabel")
 onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
-onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongAuthor")
-onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/SongName")
-onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/VBoxContainer/HBoxContainer/DifficultyLabel")
+onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
+onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
+onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
 onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextureProgress/ComboMultiplierLabel")
 onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
 onready var heart_power_progress_bar = get_node("Control/TextureProgress")
 onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
+
+onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
 
 var judge = preload("res://rythm_game/judge.gd").new()
 
@@ -113,7 +115,14 @@ func _ready():
 func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
-	
+		
+	var hbox_container2 = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer")
+	if circle_text_rect.texture:
+		var image = circle_text_rect.texture.get_data() as Image
+		var ratio = image.get_width() / image.get_height()
+		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
+		new_size.x = clamp(new_size.x, 0, 250)
+		circle_text_rect.rect_min_size = new_size
 func set_song(song: HBSong, difficulty: String):
 	current_song = song
 	audio_stream_player.seek(0)
@@ -125,6 +134,16 @@ func set_song(song: HBSong, difficulty: String):
 	rating_label.hide()
 	current_bpm = song.bpm
 	audio_stream_player.stream = song.get_audio_stream()
+
+	var circle_logo_path = song.get_song_circle_logo_image_res_path()
+	if circle_logo_path:
+		author_label.hide()
+		circle_text_rect.show()
+		var image = HBUtils.image_from_fs(circle_logo_path)
+		var it = ImageTexture.new()
+		it.create_from_image(image, Texture.FLAGS_DEFAULT)
+		circle_text_rect.texture = it
+		_on_viewport_size_changed()
 	if song.voice:
 		audio_stream_player_voice.stream = song.get_voice_stream()
 	song_name_label.text = song.title
@@ -171,7 +190,7 @@ func inv_map_coords(coords: Vector2):
 	var y = (coords.y - ((size.y - field_size.y) / 2.0)) / get_playing_field_size().y * BASE_SIZE.y
 	return Vector2(x, y)
 func play_song():
-	play_from_pos(25)
+	play_from_pos(0)
 #	time_begin = OS.get_ticks_usec()
 #	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 #	audio_stream_player.play()

@@ -29,6 +29,7 @@ var charts = {}
 var preview_image = ""
 var background_image = ""
 var circle_image = ""
+var circle_logo = ""
 
 func get_serialized_type():
 	return "Song"
@@ -36,7 +37,7 @@ func get_serialized_type():
 func _init():
 	serializable_fields += ["title", "artist", "artist_alias", "composers", "vocals", "writers",
 	"audio", "creator", "original_title", "bpm", "preview_start", "charts", 
-	"preview_image", "background_image", "voice", "circle_image"]
+	"preview_image", "background_image", "voice", "circle_image", "circle_logo"]
 
 func get_meta_string():
 	var song_meta = []
@@ -80,7 +81,7 @@ func get_song_preview_res_path():
 	if preview_image != "":
 		return path.plus_file("/%s" % [preview_image])
 	else:
-		return "res://graphics/no_preview.png"
+		null
 		
 func get_song_background_image_res_path():
 	if background_image != "":
@@ -91,6 +92,12 @@ func get_song_background_image_res_path():
 func get_song_circle_image_res_path():
 	if circle_image != "":
 		return path.plus_file("/%s" % [circle_image])
+	else:
+		return null
+		
+func get_song_circle_logo_image_res_path():
+	if circle_logo != "":
+		return path.plus_file("/%s" % [circle_logo])
 	else:
 		return null
 		
