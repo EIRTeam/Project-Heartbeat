@@ -19,18 +19,19 @@ var artist_alias := ""
 var producers = []
 var writers = []
 var audio = ""
+var voice = ""
 var creator = ""
 var bpm = 150
 var preview_start = 77000
 var charts = {}
 var preview_image = ""
 var background_image = ""
-	
+
 func get_serialized_type():
 	return "Song"
 
 func _init():
-	serializable_fields += ["title", "artist", "artist_alias", "producers", "writers", "audio", "creator", "bpm", "preview_start", "charts", "preview_image", "background_image"]
+	serializable_fields += ["title", "artist", "artist_alias", "producers", "writers", "audio", "creator", "bpm", "preview_start", "charts", "preview_image", "background_image", "voice"]
 
 func get_meta_string():
 	var song_meta = []
@@ -63,6 +64,11 @@ func get_song_audio_res_path():
 	else:
 		return path.plus_file(HBUtils.get_valid_filename(title)) + ".ogg"
 		
+func get_song_voice_res_path():
+	if voice:
+		return path.plus_file("/%s" % [voice])
+	else:
+		return path.plus_file("/%s" % ["voice.ogg"])
 func get_song_preview_res_path():
 	if preview_image != "":
 		return path.plus_file("/%s" % [preview_image])
@@ -83,7 +89,11 @@ func get_audio_stream():
 		return load(get_song_audio_res_path())
 	else:
 		return HBUtils.load_ogg(get_song_audio_res_path())
-		
+func get_voice_stream():
+	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
+		return load(get_song_voice_res_path())
+	else:
+		return HBUtils.load_ogg(get_song_voice_res_path())
 	
 func save_song():
 	# Ensure song directory exists

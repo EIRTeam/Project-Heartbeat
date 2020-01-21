@@ -39,7 +39,7 @@ extra_spacing_top = 7
 font_data = ExtResource( 14 )
 fallback/0 = ExtResource( 25 )
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=2]
 size = 25
 outline_color = Color( 0.964706, 0.756863, 0.203922, 1 )
 use_filter = true
@@ -47,7 +47,7 @@ extra_spacing_top = 7
 font_data = ExtResource( 14 )
 fallback/0 = ExtResource( 25 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 24
 use_mipmaps = true
 use_filter = true
@@ -56,7 +56,7 @@ extra_spacing_char = 2
 font_data = ExtResource( 27 )
 fallback/0 = ExtResource( 26 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 25.0
 content_margin_right = 0.0
 bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
@@ -73,8 +73,7 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="Animation" id=4]
-resource_name = "appear"
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel2:visible")
 tracks/0/interp = 1
@@ -100,8 +99,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "appear_max"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
@@ -151,8 +149,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "disappear"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -166,8 +163,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "start"
+[sub_resource type="Animation" id=8]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -181,7 +177,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
@@ -197,7 +193,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=10]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
@@ -207,7 +203,7 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="Shader" id=10]
+[sub_resource type="Shader" id=11]
 code = "shader_type canvas_item;
 
 uniform vec4 under_color: hint_color;
@@ -242,15 +238,15 @@ void fragment() {
 
 }"
 
-[sub_resource type="ShaderMaterial" id=11]
-shader = SubResource( 10 )
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
 shader_param/under_color = Color( 0.176471, 0.105882, 0.380392, 1 )
 shader_param/progress_color = Color( 0.658824, 0.466667, 0.941176, 1 )
 shader_param/st_color = Color( 0, 0.929412, 1, 1 )
 shader_param/progress = 0.5
 shader_param/decreasing = false
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -258,7 +254,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 14 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=14]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -266,7 +262,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 14 )
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=15]
 length = 5.0
 step = 0.05
 tracks/0/type = "value"
@@ -320,7 +316,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=16]
 length = 3.0
 step = 0.05
 tracks/0/type = "value"
@@ -461,7 +457,7 @@ margin_right = 327.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 298, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 2 )
 text = "QUADRUPLE BONUS"
 align = 1
 valign = 1
@@ -514,7 +510,7 @@ margin_right = 95.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "+1000"
 align = 2
 valign = 1
@@ -531,7 +527,7 @@ rect_min_size = Vector2( 0, 30 )
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -559,10 +555,10 @@ text = "Max Hold Bonus! +3300"
 align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/HoldIndicator"]
-anims/appear = SubResource( 4 )
-anims/appear_max = SubResource( 5 )
-anims/disappear = SubResource( 6 )
-anims/start = SubResource( 7 )
+anims/appear = SubResource( 5 )
+anims/appear_max = SubResource( 6 )
+anims/disappear = SubResource( 7 )
+anims/start = SubResource( 8 )
 next/appear_max = "disappear"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -578,6 +574,9 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = "Music"
+
+[node name="AudioStreamPlayerVocals" type="AudioStreamPlayer" parent="."]
+bus = "Vocals"
 
 [node name="HitEffect" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
@@ -604,7 +603,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-anims/rating_appear = SubResource( 8 )
+anims/rating_appear = SubResource( 9 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -672,7 +671,7 @@ margin_bottom = -60.0
 rect_min_size = Vector2( 0, 65 )
 size_flags_horizontal = 3
 theme = ExtResource( 7 )
-custom_styles/panel = SubResource( 9 )
+custom_styles/panel = SubResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -772,7 +771,7 @@ valign = 1
 script = ExtResource( 9 )
 
 [node name="TextureProgress" type="TextureProgress" parent="Control"]
-material = SubResource( 11 )
+material = SubResource( 12 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 14.0
@@ -832,7 +831,7 @@ margin_top = -27.0
 margin_right = -25.72
 margin_bottom = 28.0
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER AVAILABLE!"
@@ -852,7 +851,7 @@ margin_top = -27.0
 margin_right = -25.72
 margin_bottom = 56.0
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER!!!"
@@ -862,8 +861,8 @@ __meta__ = {
 }
 
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 14 )
-anims/HeartPowerEnabled = SubResource( 15 )
+anims/HeartPowerAvailable = SubResource( 15 )
+anims/HeartPowerEnabled = SubResource( 16 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 16 )

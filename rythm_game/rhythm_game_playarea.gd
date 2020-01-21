@@ -20,6 +20,7 @@ var input_lag_compensation = 0
 var result = HBResult.new()
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
+onready var audio_stream_player_voice = get_node("AudioStreamPlayerVocals")
 onready var rating_label : Label = get_node("RatingLabel")
 onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
@@ -116,13 +117,16 @@ func _on_viewport_size_changed():
 func set_song(song: HBSong, difficulty: String):
 	current_song = song
 	audio_stream_player.seek(0)
+	audio_stream_player_voice.seek(0)
 	result = HBResult.new()
 	result.song_id = song.id
 	result.difficulty = difficulty
 	current_combo = 0
 	rating_label.hide()
 	current_bpm = song.bpm
-	$AudioStreamPlayer.stream = song.get_audio_stream()
+	audio_stream_player.stream = song.get_audio_stream()
+	if song.voice:
+		audio_stream_player_voice.stream = song.get_voice_stream()
 	song_name_label.text = song.title
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
@@ -167,10 +171,11 @@ func inv_map_coords(coords: Vector2):
 	var y = (coords.y - ((size.y - field_size.y) / 2.0)) / get_playing_field_size().y * BASE_SIZE.y
 	return Vector2(x, y)
 func play_song():
-	time_begin = OS.get_ticks_usec()
-	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-	audio_stream_player.play()
-
+	play_from_pos(25)
+#	time_begin = OS.get_ticks_usec()
+#	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
+#	audio_stream_player.play()
+#	audio_stream_player_voice.play()
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
@@ -402,12 +407,15 @@ func _on_notes_judged(notes: Array, judgement):
 		if note.note_type in held_notes:
 			hold_release()
 		if judgement < judge.JUDGE_RATINGS.FINE:
+			audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
 			hold_release()
 		else:
 #			if not heart_power_enabled and get_combo_multiplier() >= MAX_COMBO_MULTIPLIER and current_combo > NOTES_PER_COMBO_MULTIPLIER * MAX_COMBO_MULTIPLIER:
 			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
+			audio_stream_player_voice.volume_db = 0
+			print("voice")
 			result.notes_hit += notes_hit
 			
 			for note in notes:
@@ -446,6 +454,7 @@ func _on_note_removed(note):
 				
 func pause_game():
 	audio_stream_player.stream_paused = true
+	audio_stream_player_voice.stream_paused = true
 	get_tree().paused = true
 func resume():
 	get_tree().paused = false
@@ -454,13 +463,16 @@ func resume():
 func restart():
 	get_tree().paused = false
 	set_song(SongLoader.songs[result.song_id], result.difficulty)
+	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
 	
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
-
+	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()
+	audio_stream_player_voice.play()
 	audio_stream_player.seek(position)
+	audio_stream_player_voice.seek(position)
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):

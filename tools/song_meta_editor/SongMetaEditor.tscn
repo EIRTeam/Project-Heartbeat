@@ -186,7 +186,6 @@ margin_right = 616.0
 margin_bottom = 662.0
 
 [node name="Technical Data" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -239,16 +238,38 @@ margin_right = 616.0
 margin_bottom = 25.0
 text = "Select file"
 
-[node name="Label3" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
+[node name="Label4" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
 margin_top = 116.0
 margin_right = 616.0
 margin_bottom = 141.0
-text = "Song preview start (in miliseconds)"
+text = "Voice audio file"
 
-[node name="SongPreviewSpinBox" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
 margin_top = 145.0
 margin_right = 616.0
 margin_bottom = 170.0
+
+[node name="SelectVoiceAudioFileLineEdit" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer3"]
+margin_right = 542.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="SelectVoiceAudioFileButton" type="Button" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer3"]
+margin_left = 546.0
+margin_right = 616.0
+margin_bottom = 25.0
+text = "Select file"
+
+[node name="Label3" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
+margin_top = 174.0
+margin_right = 616.0
+margin_bottom = 199.0
+text = "Song preview start (in miliseconds)"
+
+[node name="SongPreviewSpinBox" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
+margin_top = 203.0
+margin_right = 616.0
+margin_bottom = 228.0
 max_value = 2.14748e+09
 __meta__ = {
 "_edit_use_anchors_": false
@@ -323,6 +344,7 @@ max_value = 10.0
 value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -404,6 +426,16 @@ filters = PoolStringArray( "*.ogg; OGG" )
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
+[node name="VoiceAudioFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
+margin_right = 535.0
+margin_bottom = 298.0
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.ogg; OGG" )
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+
 [node name="PreviewFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
 margin_bottom = 298.0
@@ -476,10 +508,12 @@ current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="song_selected" from="HSplitContainer/VBoxContainer/SongList" to="." method="_on_SongList_song_selected"]
 [connection signal="song_meta_saved" from="HSplitContainer/SongMetaEditor" to="HSplitContainer/VBoxContainer/SongList" method="_on_SongMetaEditor_song_meta_saved"]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="HSplitContainer/SongMetaEditor/AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="HSplitContainer/SongMetaEditor/VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="HSplitContainer/SongMetaEditor/PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton" to="HSplitContainer/SongMetaEditor/BackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/SaveButton" to="HSplitContainer/SongMetaEditor" method="_on_SaveButton_pressed"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/AudioFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_AudioFileDialog_file_selected"]
+[connection signal="file_selected" from="HSplitContainer/SongMetaEditor/VoiceAudioFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_VoiceAudioFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/PreviewFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_PreviewFileDialog_file_selected"]
 [connection signal="file_selected" from="HSplitContainer/SongMetaEditor/BackgroundFileDialog" to="HSplitContainer/SongMetaEditor" method="_on_BackgroundFileDialog_file_selected"]
 [connection signal="confirmed" from="CreatePackageDialog" to="." method="_on_CreatePackageDialog_confirmed"]

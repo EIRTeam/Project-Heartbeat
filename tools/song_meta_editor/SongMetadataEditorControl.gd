@@ -13,6 +13,7 @@ onready var creator_edit = get_node("TabContainer/Metadata/VBoxContainer/SongCre
 onready var bpm_edit = get_node("TabContainer/Technical Data/VBoxContainer/BPMSpinBox")
 onready var audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
 onready var preview_start_edit = get_node("TabContainer/Technical Data/VBoxContainer/SongPreviewSpinBox")
+onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
 onready var difficulties_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer")
 onready var stars_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer2")
@@ -115,4 +116,15 @@ func _on_PreviewFileDialog_file_selected(path):
 	
 	dir.copy(path, image_path)
 	preview_image_filename_edit.text = song_meta.preview_image
+	_on_SaveButton_pressed()
+
+
+func _on_VoiceAudioFileDialog_file_selected(path):
+	var dir = Directory.new()
+	var extension = path.get_extension()
+	var audio_path := song_meta.get_song_voice_res_path() as String
+	
+	dir.copy(path, audio_path)
+	song_meta.voice = audio_path.get_file()
+	voice_audio_filename_edit.text = song_meta.voice
 	_on_SaveButton_pressed()
