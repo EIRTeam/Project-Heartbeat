@@ -28,7 +28,7 @@ var OPTIONS = {
 		},
 		"romanized_titles_enabled": {
 			"name": "Enable romanized titles",
-			"description": "Shows (where available) versions of song titles in latin script, such as romanized japanese."
+			"description": "Shows romanized versions of foreign titles when available."
 		}
 	}
 }
