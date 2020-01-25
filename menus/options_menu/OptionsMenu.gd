@@ -19,7 +19,7 @@ var OPTIONS = {
 			"type": "icon_type_selector"
 		},
 		"visualizer_enabled": {
-			"name": "Enable visualizer",
+			"name": "Visualizer",
 			"description": "Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems."
 		},
 		"visualizer_resolution": {
@@ -27,7 +27,7 @@ var OPTIONS = {
 			"description": "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
 		},
 		"romanized_titles_enabled": {
-			"name": "Enable romanized titles",
+			"name": "Romanized titles",
 			"description": "Shows romanized versions of foreign titles when available."
 		}
 	}
