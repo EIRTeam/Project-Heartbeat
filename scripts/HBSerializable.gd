@@ -2,9 +2,13 @@ class_name HBSerializable
 
 var serializable_fields := []
 func serialize():
+	var defaults = get_serializable_types()[get_serialized_type()].new()
 	var serialized_data = {}
 	for field in serializable_fields:
 		var _field = get(field)
+		# Ensures that we don't write defaults to disk, in case we change them
+		if _field == defaults.get(field):
+			continue
 		if _field is Object and field.has_method("serialize"):
 			serialized_data[field] = _field.serialize()
 		if _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
