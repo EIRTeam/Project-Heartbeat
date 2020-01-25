@@ -17,7 +17,7 @@ func load_user_settings():
 				user_settings = HBSerializable.deserialize(result.result)
 				Log.log(self, "Successfully loaded user settings from " + USER_SETTINGS_PATH)
 			else:
-				Log.log(self, "Error loading user settings, error code: " + result.error, Log.LogLevel.ERROR)
+				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
 
 func save_user_settings():
 	var file := File.new()
