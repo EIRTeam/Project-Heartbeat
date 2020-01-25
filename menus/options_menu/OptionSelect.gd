@@ -1,6 +1,6 @@
 extends "Option.gd"
 
-var options = ["Yes", "No"]
+var options = ["No", "Yes"]
 var options_pretty = []
 var selected_option = 0
 var text setget set_text

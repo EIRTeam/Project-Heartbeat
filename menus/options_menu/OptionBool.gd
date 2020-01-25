@@ -18,7 +18,7 @@ func set_text(val):
 
 func _ready():
 	$OptionSelect.connect("changed", self, "_on_changed")
-	$OptionSelect.options = ["Yes", "No"]
+	$OptionSelect.options = ["No", "Yes"]
 func _on_changed(val):
 	if val == "Yes":
 		emit_signal("changed", true)

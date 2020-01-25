@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=1]
 [ext_resource path="res://tools/song_meta_editor/UserSongList.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://tools/song_meta_editor/SongMetaEditor.gd" type="Script" id=7]
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=8]
 [ext_resource path="res://tools/icons/icon_folder.svg" type="Texture" id=9]
+[ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=10]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -95,7 +96,6 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -124,91 +124,134 @@ margin_bottom = 54.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Label4" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="Label10" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 58.0
 margin_right = 616.0
 margin_bottom = 83.0
-text = "Artist/Circle"
 
-[node name="SongArtist" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="Label" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer/Label10"]
+margin_right = 104.0
+margin_bottom = 25.0
+text = "Romanized title"
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer/Label10"]
+margin_left = 108.0
+margin_right = 123.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 25 )
+hint_tooltip = "Title transliterated to use the latin script.
+
+For example, a japanese song's title transliterated to romaji."
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="SongRomanizedTitle" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 87.0
 margin_right = 616.0
 margin_bottom = 112.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Label2" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="Label4" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 116.0
 margin_right = 616.0
 margin_bottom = 141.0
-text = "Artist alias (leave empty if using real name)"
+text = "Artist/Circle"
 
-[node name="SongArtistAlias" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="SongArtist" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 145.0
 margin_right = 616.0
 margin_bottom = 170.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Label6" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="Label2" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 174.0
 margin_right = 616.0
 margin_bottom = 199.0
-text = "Original title"
+text = "Artist alias (leave empty if using real name)"
 
-[node name="SongOriginalTitle" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="SongArtistAlias" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 203.0
 margin_right = 616.0
 margin_bottom = 228.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Label7" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+[node name="Label6" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
 margin_top = 232.0
 margin_right = 616.0
 margin_bottom = 257.0
+
+[node name="Label" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer/Label6"]
+margin_right = 82.0
+margin_bottom = 25.0
+text = "Original title"
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer/Label6"]
+margin_left = 86.0
+margin_right = 101.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 25 )
+hint_tooltip = "Title used for songs that are based on others, such as remixes."
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="SongOriginalTitle" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+margin_top = 261.0
+margin_right = 616.0
+margin_bottom = 286.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Label7" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
+margin_top = 290.0
+margin_right = 616.0
+margin_bottom = 315.0
 text = "Vocals (separated by newline)"
 
 [node name="SongVocals" type="TextEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 261.0
+margin_top = 319.0
 margin_right = 616.0
-margin_bottom = 353.0
+margin_bottom = 392.0
 size_flags_vertical = 3
 
 [node name="Label8" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 357.0
+margin_top = 396.0
 margin_right = 616.0
-margin_bottom = 382.0
+margin_bottom = 421.0
 text = "Composers"
 
 [node name="SongComposers" type="TextEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 386.0
+margin_top = 425.0
 margin_right = 616.0
-margin_bottom = 478.0
+margin_bottom = 498.0
 size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 482.0
+margin_top = 502.0
 margin_right = 616.0
-margin_bottom = 507.0
+margin_bottom = 527.0
 text = "Writers"
 
 [node name="SongWriters" type="TextEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 511.0
+margin_top = 531.0
 margin_right = 616.0
-margin_bottom = 603.0
+margin_bottom = 604.0
 size_flags_vertical = 3
 
 [node name="Label5" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 607.0
+margin_top = 608.0
 margin_right = 616.0
-margin_bottom = 632.0
+margin_bottom = 633.0
 text = "Chart creator"
 
 [node name="SongCreator" type="LineEdit" parent="HSplitContainer/SongMetaEditor/TabContainer/Metadata/VBoxContainer"]
-margin_top = 636.0
+margin_top = 637.0
 margin_right = 616.0
-margin_bottom = 661.0
+margin_bottom = 662.0
 
 [node name="Technical Data" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
 visible = false
@@ -264,11 +307,27 @@ margin_right = 616.0
 margin_bottom = 25.0
 text = "Select file"
 
-[node name="Label4" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
+[node name="Label10" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
 margin_top = 116.0
 margin_right = 616.0
 margin_bottom = 141.0
+
+[node name="Label" type="Label" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/Label10"]
+margin_right = 101.0
+margin_bottom = 25.0
 text = "Voice audio file"
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/Label10"]
+margin_left = 105.0
+margin_right = 120.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 25 )
+hint_tooltip = "(Optional) Audio for the voice, separated from the original instrumental, this makes the voice audio channel fade when the user fails a note.
+
+If you use this, please ensure the audio file is instrumental only."
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer"]
 margin_top = 145.0
@@ -370,6 +429,7 @@ max_value = 10.0
 value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -494,8 +554,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -504,8 +564,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="PreviewFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -514,8 +574,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -524,8 +584,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -534,8 +594,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -544,8 +604,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 
 [node name="CreatePackageDialog" type="ConfirmationDialog" parent="."]
 margin_left = 10.0
@@ -591,8 +651,8 @@ margin_bottom = 710.0
 window_title = "Guardar un Archivo"
 access = 2
 filters = PoolStringArray( "*.pck; Package File" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/home/eirexe/Project-Heartbeat"
+current_path = "/home/eirexe/Project-Heartbeat/"
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer2/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/FolderButton" to="." method="_on_FolderButton_pressed"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/AddButton" to="." method="_on_AddButton_pressed"]

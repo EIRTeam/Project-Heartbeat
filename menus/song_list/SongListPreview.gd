@@ -16,7 +16,7 @@ func select_song(song: HBSong):
 	var song_meta = song.get_meta_string()
 
 	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/SongMetaLabel.text = PoolStringArray(song_meta).join('\n')
-	$SongListPreview/VBoxContainer/TitleLabel.text = song.title
+	$SongListPreview/VBoxContainer/TitleLabel.text = song.get_visible_title()
 	var auth = ""
 	if song.artist_alias:
 		auth = song.artist_alias

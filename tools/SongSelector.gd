@@ -23,7 +23,7 @@ func popullate_tree():
 		var song = SongLoader.songs[song_id]
 		if not song is HBPPDSong:
 			var item := create_item()
-			item.set_text(0, song.title)
+			item.set_text(0, song.get_visible_title())
 			
 			if mode == SELECTOR_MODE.CHART:
 				item.set_selectable(0, false)

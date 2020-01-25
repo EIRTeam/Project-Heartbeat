@@ -24,7 +24,7 @@ func get_song_name():
 	# song we just use whatever the server gave us
 	var song = get_song()
 	if song:
-		return song.title
+		return song.get_visible_title()
 	else:
 		return Steam.getLobbyData(_lobby_id, "song_name")
 

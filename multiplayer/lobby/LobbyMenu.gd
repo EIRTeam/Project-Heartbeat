@@ -31,7 +31,7 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	chat_box.clear()
 	if args.has("song"):
 		var song = args.song as HBSong
-		lobby.song_name = song.title
+		lobby.song_name = song.get_visible_title()
 		lobby.song_id = song.id
 		lobby.song_difficulty = args.difficulty
 	else:

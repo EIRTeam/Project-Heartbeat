@@ -14,6 +14,7 @@ var path: String
 var id: String
 
 var title := ""
+var romanized_title := ""
 var artist := ""
 var artist_alias := ""
 var composers = []
@@ -35,9 +36,10 @@ func get_serialized_type():
 	return "Song"
 
 func _init():
-	serializable_fields += ["title", "artist", "artist_alias", "composers", "vocals", "writers",
-	"audio", "creator", "original_title", "bpm", "preview_start", "charts", 
-	"preview_image", "background_image", "voice", "circle_image", "circle_logo"]
+	serializable_fields += ["title", "romanized_title", "artist", "artist_alias", 
+	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
+	"preview_start", "charts", "preview_image", "background_image", "voice", 
+	"circle_image", "circle_logo"]
 
 func get_meta_string():
 	var song_meta = []
@@ -121,3 +123,9 @@ func save_song():
 	dir.make_dir_recursive(path)
 	
 	save_to_file(get_meta_path())
+
+func get_visible_title() -> String:
+	if UserSettings.user_settings.romanized_titles_enabled and romanized_title:
+		return romanized_title
+	else:
+		return title

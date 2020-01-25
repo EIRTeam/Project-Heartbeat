@@ -146,7 +146,7 @@ func set_song(song: HBSong, difficulty: String):
 		_on_viewport_size_changed()
 	if song.voice:
 		audio_stream_player_voice.stream = song.get_voice_stream()
-	song_name_label.text = song.title
+	song_name_label.text = song.get_visible_title()
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
 	else:

@@ -39,11 +39,11 @@ func load_song_meta(path: String, id: String) -> HBSong:
 	if file.open(path, File.READ) == OK:
 		var song_json = JSON.parse(file.get_as_text())
 		if song_json.error == OK:
-			Log.log(self, "Loaded song %s succesfully" % song_json.result.title)
 			
-			var song_instance = HBSerializable.deserialize(song_json.result)
+			var song_instance = HBSerializable.deserialize(song_json.result) as HBSong
 			song_instance.id = id
 			song_instance.path = path.get_base_dir()
+			Log.log(self, "Loaded song %s succesfully" % song_instance.get_visible_title())
 			return song_instance
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])

@@ -12,7 +12,7 @@ var OPTIONS = {
 	},
 	"Controls": {
 	},
-	"Graphics": {
+	"Visual": {
 		"icon_pack": {
 			"name": "Icons",
 			"description": "The type of icons to use, depending on your input method of choice",
@@ -25,6 +25,10 @@ var OPTIONS = {
 		"visualizer_resolution": {
 			"name": "Visualizer Resolution",
 			"description": "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
+		},
+		"romanized_titles_enabled": {
+			"name": "Enable romanized titles",
+			"description": "Shows (where available) versions of song titles in latin script, such as romanized japanese."
 		}
 	}
 }

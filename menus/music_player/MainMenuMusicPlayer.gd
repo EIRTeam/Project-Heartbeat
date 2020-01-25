@@ -14,7 +14,7 @@ func set_song(song: HBSong, length: float):
 	var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 	var circle_logo_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CircleLogo")
 	current_song_length = length
-	song_title_label.text = song.title
+	song_title_label.text = song.get_visible_title()
 	if song.artist_alias != "":
 		song_artist_label.text = song.artist_alias
 	else:

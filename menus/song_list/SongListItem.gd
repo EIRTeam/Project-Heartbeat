@@ -32,7 +32,7 @@ func _on_resized():
 
 func set_song(value: HBSong, difficulty: String):
 	song = value
-	title_label.text = song.title
+	title_label.text = song.get_visible_title()
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
 	else:

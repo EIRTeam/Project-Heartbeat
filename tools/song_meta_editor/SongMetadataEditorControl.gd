@@ -4,6 +4,7 @@ var song_meta: HBSong setget set_song_meta
 signal song_meta_saved
 
 onready var title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongTitle")
+onready var romanized_title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongRomanizedTitle")
 onready var artist_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtist")
 onready var artist_alias_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtistAlias")
 onready var vocals_edit = get_node("TabContainer/Metadata/VBoxContainer/SongVocals")
@@ -29,6 +30,7 @@ func set_song_meta(value):
 	song_meta = value
 	
 	title_edit.text = song_meta.title
+	romanized_title_edit.text = song_meta.romanized_title
 	artist_edit.text = song_meta.artist
 	artist_alias_edit.text = song_meta.artist_alias
 	vocals_edit.text = PoolStringArray(song_meta.vocals).join("\n")
@@ -63,6 +65,7 @@ func _ready():
 
 func _on_SaveButton_pressed():
 	song_meta.title = title_edit.text
+	song_meta.romanized_title = romanized_title_edit.text
 	song_meta.artist = artist_edit.text
 	song_meta.artist_alias = artist_alias_edit.text
 	song_meta.vocals = Array(vocals_edit.text.split("\n"))

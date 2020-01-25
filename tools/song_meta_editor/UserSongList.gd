@@ -8,7 +8,7 @@ func _ready():
 
 func add_song(song: HBSong):
 	var song_item := create_item()
-	song_item.set_text(0, song.title)
+	song_item.set_text(0, song.get_visible_title())
 	song_item.set_meta("song", song)
 	
 func _on_item_selected():
@@ -21,7 +21,7 @@ func get_selected_song():
 
 func _on_SongMetaEditor_song_meta_saved():
 	var song = get_selected().get_meta("song") as HBSong
-	get_selected().set_text(0, song.title)
+	get_selected().set_text(0, song.get_visible_title())
 
 func clear_songs():
 	clear()
