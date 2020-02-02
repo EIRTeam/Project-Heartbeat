@@ -50,6 +50,7 @@ margin_left = 0.0
 margin_top = 330.0
 margin_right = 430.0
 margin_bottom = 390.0
+text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
 
