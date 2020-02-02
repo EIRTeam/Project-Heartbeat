@@ -88,6 +88,7 @@ margin_bottom = 669.999
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
+next_menu = ""
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_top = 0.5

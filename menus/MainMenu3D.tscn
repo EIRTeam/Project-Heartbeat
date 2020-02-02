@@ -1,11 +1,10 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=1]
 [ext_resource path="res://default_theme.tres" type="Theme" id=2]
 [ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=3]
 [ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=4]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=5]
-[ext_resource path="res://menus/Background.gd" type="Script" id=6]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 1.6, 0.9 )
@@ -43,7 +42,20 @@ albedo_texture = SubResource( 6 )
 [sub_resource type="BoxShape" id=8]
 extents = Vector3( 0.225, 0.45, 0.01 )
 
-[sub_resource type="Shader" id=9]
+[sub_resource type="Animation" id=14]
+length = 0.3
+
+[sub_resource type="Animation" id=15]
+length = 0.3
+
+[sub_resource type="Animation" id=16]
+length = 0.3
+
+[sub_resource type="Environment" id=17]
+background_mode = 4
+background_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="Shader" id=18]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -130,33 +142,9 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=10]
-shader = SubResource( 9 )
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 18 )
 shader_param/FREQ_RANGE = 64.0
-
-[sub_resource type="QuadMesh" id=11]
-size = Vector2( 1.6, 0.9 )
-
-[sub_resource type="ViewportTexture" id=12]
-flags = 5
-viewport_path = NodePath("ViewportBackground")
-
-[sub_resource type="SpatialMaterial" id=13]
-resource_local_to_scene = true
-flags_unshaded = true
-flags_fixed_size = true
-flags_albedo_tex_force_srgb = true
-params_diffuse_mode = 1
-albedo_texture = SubResource( 12 )
-
-[sub_resource type="Animation" id=14]
-length = 0.3
-
-[sub_resource type="Animation" id=15]
-length = 0.3
-
-[sub_resource type="Animation" id=16]
-length = 0.3
 
 [node name="MainMenu3D" type="Spatial"]
 script = ExtResource( 1 )
@@ -168,6 +156,7 @@ size = 0.9
 
 [node name="ViewportLeft" type="Viewport" parent="."]
 size = Vector2( 1920, 1080 )
+own_world = true
 transparent_bg = true
 disable_3d = true
 usage = 0
@@ -188,6 +177,7 @@ __meta__ = {
 
 [node name="ViewportRight" type="Viewport" parent="."]
 size = Vector2( 720, 1440 )
+own_world = true
 transparent_bg = true
 disable_3d = true
 usage = 0
@@ -226,37 +216,6 @@ material/0 = SubResource( 7 )
 transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0 )
 shape = SubResource( 8 )
 
-[node name="ViewportBackground" type="Viewport" parent="."]
-size = Vector2( 1280, 720 )
-usage = 0
-render_target_v_flip = true
-
-[node name="TextureRect" type="TextureRect" parent="ViewportBackground"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MainMenuVisualizer" type="Panel" parent="ViewportBackground"]
-material = SubResource( 10 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Background" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.82065 )
-mesh = SubResource( 11 )
-material/0 = SubResource( 13 )
-script = ExtResource( 6 )
-viewport_path = NodePath("../ViewportBackground")
-
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/def = SubResource( 14 )
 anims/fade_in = SubResource( 15 )
@@ -266,6 +225,31 @@ anims/fade_out = SubResource( 16 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 17 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -128
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuVisualizer2" type="Panel" parent="CanvasLayer"]
+material = SubResource( 19 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
