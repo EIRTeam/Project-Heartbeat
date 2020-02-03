@@ -207,6 +207,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 		undo_redo.add_undo_method(child, "update_widget_data")
 	
 	undo_redo.commit_action()
+	inspector.update_values()
 	var note = child.data
 	if property_name == "note_type":
 		var layer = child._layer
@@ -302,6 +303,7 @@ func delete_selected():
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	selected = []
 	undo_redo.commit_action()
+	inspector.update_values()
 			
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
