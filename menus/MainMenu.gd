@@ -72,8 +72,8 @@ func _ready():
 	voice_player.volume_db = FADE_OUT_VOLUME
 	voice_player.bus = "Voice"
 	set_process(false)
-	yield(MENUS.music_player.right, "ready")
-	call_deferred("play_random_song")
+	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
+	play_random_song()
 	set_process(true)
 
 func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
@@ -131,7 +131,7 @@ func play_random_song():
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
-	if player.stream:
+	if player.stream and right_menu == MENUS.music_player.right:
 		MENUS.music_player.right.set_time(player.get_playback_position())
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
 		target_volume = 0
@@ -167,4 +167,7 @@ func play_song(song: HBSong):
 			next_voice = null
 		target_volume = FADE_OUT_VOLUME
 		song_queued = true
-		MENUS.music_player.right.set_song(current_song, next_audio.get_length())
+		if MENUS.music_player.right == right_menu:
+			MENUS.music_player.right.set_song(current_song, next_audio.get_length())
+func _on_music_player_ready():
+	MENUS.music_player.right.set_song(current_song, player.stream.get_length())

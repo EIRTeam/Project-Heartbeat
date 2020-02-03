@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://styles/ResultRatingStyleEven.tres" type="StyleBox" id=2]
+[ext_resource path="res://menus/leaderboard_control/LeaderboardItem.gd" type="Script" id=3]
+[ext_resource path="res://graphics/no_preview.png" type="Texture" id=4]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+outline_size = 2
+outline_color = Color( 1, 1, 1, 0.2 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 7
+font_data = ExtResource( 5 )
+
+[node name="Panel" type="Panel"]
+anchor_right = 1.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/panel = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -3.8147e-06
+custom_constants/margin_right = 16
+custom_constants/margin_top = 5
+custom_constants/margin_left = 16
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 16.0
+margin_top = 5.0
+margin_right = 1264.0
+margin_bottom = 55.0
+custom_constants/separation = 23
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Rank" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_top = 1.0
+margin_right = 88.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = SubResource( 1 )
+text = "1"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UserAvatar" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+margin_left = 111.0
+margin_right = 161.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="UserName" type="Label" parent="MarginContainer/HBoxContainer"]
+margin_left = 184.0
+margin_top = 1.0
+margin_right = 343.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = SubResource( 1 )
+text = "Eirewe"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_left = 366.0
+margin_right = 1248.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+
+[node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
+margin_top = 1.0
+margin_right = 882.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = ExtResource( 1 )
+text = "100.000 (100%)"
+align = 2
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -3,6 +3,8 @@ extends HBMenu
 var current_song_length
 onready var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
+
+
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 func set_song(song: HBSong, length: float):

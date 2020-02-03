@@ -3,7 +3,7 @@
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 
 [resource]
-size = 40
+size = 30
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true

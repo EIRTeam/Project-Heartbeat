@@ -16,13 +16,13 @@ use_filter = true
 font_data = ExtResource( 4 )
 fallback/0 = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=2]
 size = 15
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 25.0
 content_margin_right = 0.0
 bg_color = Color( 1, 1, 1, 1 )
@@ -35,7 +35,7 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 25.0
 content_margin_right = 0.0
 bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
@@ -44,7 +44,7 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 25.0
 content_margin_right = 0.0
 content_margin_top = 10.0
@@ -77,14 +77,14 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
-custom_constants/margin_bottom = 216
+custom_constants/margin_bottom = 87
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 627.0
+margin_bottom = 639.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -108,7 +108,7 @@ margin_right = 1280.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 2 )
 text = "Original title: "
 align = 1
 valign = 1
@@ -144,7 +144,7 @@ margin_right = 1280.0
 margin_bottom = 209.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CirclePanel"]
 anchor_right = 1.0
@@ -176,7 +176,7 @@ margin_bottom = 551.04
 rect_min_size = Vector2( 0, 330.04 )
 rect_clip_content = true
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
 anchor_right = 1.0
@@ -193,14 +193,14 @@ __meta__ = {
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 563.0
 margin_right = 1280.0
-margin_bottom = 627.0
+margin_bottom = 639.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
 margin_right = 1280.0
 margin_bottom = 64.0
 size_flags_vertical = 4
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
 margin_left = 25.0

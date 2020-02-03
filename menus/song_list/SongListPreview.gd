@@ -47,7 +47,6 @@ func select_song(song: HBSong):
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	else:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
-
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x
 	$SongListPreview/VBoxContainer/SongCoverPanel.rect_min_size.y = rect_size.x

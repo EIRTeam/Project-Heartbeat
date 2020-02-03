@@ -79,6 +79,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/judge.gd"
 }, {
+"base": "Reference",
+"class": "HBLeadearboardEntry",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/leaderboard_services/LeaderboardEntry.gd"
+}, {
+"base": "Reference",
+"class": "HBLeaderboardService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/leaderboard_services/LeaderboardService.gd"
+}, {
 "base": "Control",
 "class": "HBListContainer",
 "language": "GDScript",
@@ -89,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/Lobby.gd"
 }, {
-"base": "Reference",
+"base": "HBServiceMember",
 "class": "HBLobbyMember",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/LobbyMember.gd"
@@ -144,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSerializable.gd"
 }, {
+"base": "Reference",
+"class": "HBServiceMember",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/ServiceMember.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBSong",
 "language": "GDScript",
@@ -189,12 +204,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
 }, {
+"base": "HBLeaderboardService",
+"class": "SteamLeaderboardService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/leaderboard_services/SteamLeaderboardService.gd"
+}, {
 "base": "HBLobby",
 "class": "SteamLobby",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/SteamLobby.gd"
 }, {
-"base": "HBLobbyMember",
+"base": "SteamServiceMember",
 "class": "SteamLobbyMember",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/SteamLobbyMember.gd"
@@ -203,6 +223,11 @@ _global_script_classes=[ {
 "class": "SteamMultiplayerService",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/SteamMultiplayerService.gd"
+}, {
+"base": "HBServiceMember",
+"class": "SteamServiceMember",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/multiplayer_services/SteamServiceMember.gd"
 } ]
 _global_script_class_icons={
 "BBCWaveform": "",
@@ -219,6 +244,8 @@ _global_script_class_icons={
 "HBHovereableButton": "",
 "HBINIParser": "",
 "HBJudge": "",
+"HBLeadearboardEntry": "",
+"HBLeaderboardService": "",
 "HBListContainer": "",
 "HBLobby": "",
 "HBLobbyMember": "",
@@ -232,6 +259,7 @@ _global_script_class_icons={
 "HBResult": "",
 "HBScrollList": "",
 "HBSerializable": "",
+"HBServiceMember": "",
 "HBSong": "",
 "HBSongListMenu": "",
 "HBTimingPoint": "",
@@ -241,9 +269,11 @@ _global_script_class_icons={
 "PPDLoader": "",
 "PPDPack": "",
 "PlatformServiceProvider": "",
+"SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamLobbyMember": "",
-"SteamMultiplayerService": ""
+"SteamMultiplayerService": "",
+"SteamServiceMember": ""
 }
 
 [application]
