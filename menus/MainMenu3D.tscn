@@ -42,20 +42,20 @@ albedo_texture = SubResource( 6 )
 [sub_resource type="BoxShape" id=8]
 extents = Vector3( 0.225, 0.45, 0.01 )
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=9]
 length = 0.3
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=10]
 length = 0.3
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=11]
 length = 0.3
 
-[sub_resource type="Environment" id=17]
+[sub_resource type="Environment" id=12]
 background_mode = 4
 background_color = Color( 0, 0, 0, 0 )
 
-[sub_resource type="Shader" id=18]
+[sub_resource type="Shader" id=13]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -142,8 +142,8 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=19]
-shader = SubResource( 18 )
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
 shader_param/FREQ_RANGE = 64.0
 
 [node name="MainMenu3D" type="Spatial"]
@@ -217,9 +217,9 @@ transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0 )
 shape = SubResource( 8 )
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/def = SubResource( 14 )
-anims/fade_in = SubResource( 15 )
-anims/fade_out = SubResource( 16 )
+anims/def = SubResource( 9 )
+anims/fade_in = SubResource( 10 )
+anims/fade_out = SubResource( 11 )
 
 [node name="FullscreenMenuContainer" type="Control" parent="."]
 anchor_right = 1.0
@@ -230,7 +230,7 @@ __meta__ = {
 }
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 17 )
+environment = SubResource( 12 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -128
@@ -246,7 +246,7 @@ __meta__ = {
 }
 
 [node name="MainMenuVisualizer2" type="Panel" parent="CanvasLayer"]
-material = SubResource( 19 )
+material = SubResource( 14 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 5 )

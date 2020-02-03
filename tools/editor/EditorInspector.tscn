@@ -38,10 +38,10 @@ size_flags_vertical = 3
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 1260.0
-margin_bottom = 22.0
+margin_bottom = 25.0
 text = "Note selected at time"
 
 [node name="PropertyContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 26.0
+margin_top = 29.0
 margin_right = 1260.0
-margin_bottom = 26.0
+margin_bottom = 29.0
