@@ -4,6 +4,14 @@ const LOG_NAME = "MainMenu"
 
 var starting_menu = "start_menu"
 var starting_menu_args = []
+var background_transition_animation_player: AnimationPlayer
+var first_background_texrect: TextureRect
+var second_background_texrect: TextureRect
+var default_bg: Texture = preload("res://graphics/predarkenedbg.png")
+var last_bg = 1
+
+const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
+
 func _init():
 	MENUS = {
 		"start_menu": {
@@ -61,6 +69,7 @@ var voice_player = AudioStreamPlayer.new()
 
 func _ready():
 	connect("change_to_menu", self, "_on_change_to_menu")
+	menu_setup()
 	add_child(player)
 	add_child(voice_player)
 	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
@@ -75,6 +84,9 @@ func _ready():
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	play_random_song()
 	set_process(true)
+
+func menu_setup():
+	pass
 
 func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
 	Log.log(self, "Changing to menu " + menu_name)
@@ -169,5 +181,27 @@ func play_song(song: HBSong):
 		song_queued = true
 		if MENUS.music_player.right == right_menu:
 			MENUS.music_player.right.set_song(current_song, next_audio.get_length())
+	# Background changes should only happen outside the start menu
+	if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
+		var bg_path = song.get_song_background_image_res_path()
+		var image = HBUtils.image_from_fs(bg_path)
+		var image_texture = ImageTexture.new()
+		image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
+		change_to_background(image_texture)
+	else:
+		change_to_background(null, true)
 func _on_music_player_ready():
 	MENUS.music_player.right.set_song(current_song, player.stream.get_length())
+
+func change_to_background(background: Texture, use_default = false):
+	if use_default:
+		background = default_bg
+	background_transition_animation_player.playback_speed = 1/BACKGROUND_TRANSITION_TIME
+	if last_bg == 1:
+		second_background_texrect.texture = background
+		background_transition_animation_player.play("1to2")
+		last_bg = 2
+	else:
+		first_background_texrect.texture = background
+		background_transition_animation_player.play_backwards("1to2")
+		last_bg = 1

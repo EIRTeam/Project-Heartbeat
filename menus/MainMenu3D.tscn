@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=1]
 [ext_resource path="res://default_theme.tres" type="Theme" id=2]
 [ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=3]
-[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=4]
+[ext_resource path="res://graphics/background.png" type="Texture" id=4]
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=5]
+[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=6]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 1.6, 0.9 )
@@ -54,6 +55,9 @@ length = 0.3
 [sub_resource type="Environment" id=12]
 background_mode = 4
 background_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.129412, 0.0705882, 0.258824, 1 )
 
 [sub_resource type="Shader" id=13]
 code = "shader_type canvas_item;
@@ -146,6 +150,33 @@ void fragment()
 shader = SubResource( 13 )
 shader_param/FREQ_RANGE = 64.0
 
+[sub_resource type="Animation" id=15]
+resource_name = "1to2"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Background1:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.75 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Background2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.75 ) ]
+}
+
 [node name="MainMenu3D" type="Spatial"]
 script = ExtResource( 1 )
 
@@ -235,10 +266,31 @@ environment = SubResource( 12 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -128
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background1" type="TextureRect" parent="CanvasLayer"]
+self_modulate = Color( 1, 1, 1, 0.74902 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 4 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background2" type="TextureRect" parent="CanvasLayer"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 7
 __meta__ = {
@@ -253,3 +305,6 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/1to2 = SubResource( 15 )

@@ -23,7 +23,6 @@ func _ready():
 		dir.make_dir_recursive("user://songs")
 	
 	load_all_songs_meta()
-	
 func load_scores():
 	var dir := Directory.new()
 	if dir.file_exists(SONG_SCORES_PATH):
