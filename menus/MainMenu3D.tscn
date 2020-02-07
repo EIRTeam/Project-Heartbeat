@@ -56,10 +56,10 @@ length = 0.3
 background_mode = 4
 background_color = Color( 0, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.129412, 0.0705882, 0.258824, 1 )
 
-[sub_resource type="Shader" id=13]
+[sub_resource type="Shader" id=14]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
@@ -146,12 +146,11 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=14]
-shader = SubResource( 13 )
+[sub_resource type="ShaderMaterial" id=15]
+shader = SubResource( 14 )
 shader_param/FREQ_RANGE = 64.0
 
-[sub_resource type="Animation" id=15]
-resource_name = "1to2"
+[sub_resource type="Animation" id=16]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Background1:self_modulate")
 tracks/0/interp = 1
@@ -270,7 +269,7 @@ layer = -128
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -298,7 +297,7 @@ __meta__ = {
 }
 
 [node name="MainMenuVisualizer2" type="Panel" parent="CanvasLayer"]
-material = SubResource( 14 )
+material = SubResource( 15 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 5 )
@@ -307,4 +306,4 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
-anims/1to2 = SubResource( 15 )
+anims/1to2 = SubResource( 16 )

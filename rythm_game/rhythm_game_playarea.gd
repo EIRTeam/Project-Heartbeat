@@ -508,11 +508,12 @@ func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
 
 func hold_release():
-	add_score(current_hold_score)
-	print("END hold ", current_hold_score)
-	held_notes = []
-	current_hold_score = 0
-	hold_indicator.disappear()
+	if held_notes.size() > 0:
+		add_score(current_hold_score)
+		print("END hold ", current_hold_score)
+		held_notes = []
+		current_hold_score = 0
+		hold_indicator.disappear()
 
 func start_hold(note_type):
 	if note_type in held_notes:
