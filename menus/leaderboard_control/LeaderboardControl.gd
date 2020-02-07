@@ -15,8 +15,9 @@ func set_song_id(value):
 		child.queue_free()
 	if song_id and PlatformService.service_provider.implements_leaderboards:
 		var provider = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
-		provider.connect("leaderboard_entries_downloaded", self, "_on_leaderboard_entries_downloaded")
-		provider.get_leaderboard_entries_for_song(song_id, minimum_position, max_position, HBLeaderboardService.LEADERBOARD_DATA_REQUEST_TYPE.GLOBAL)
+		if not provider.is_connected("leaderboard_entries_downloaded", self, "_on_leaderboard_entries_downloaded"):
+			provider.connect("leaderboard_entries_downloaded", self, "_on_leaderboard_entries_downloaded")
+			provider.get_leaderboard_entries_for_song(song_id, minimum_position, max_position, HBLeaderboardService.LEADERBOARD_DATA_REQUEST_TYPE.GLOBAL)
 
 func _on_leaderboard_entries_downloaded(handle, entries: Array):
 	print(entries)
