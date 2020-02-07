@@ -132,7 +132,7 @@ static func PPD2HBChart(path: String) -> HBChart:
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
 		note_data.time = int(note.time*1000.0)
-		note_data.time_out = (60.0  / 250.0 * (1.0 + 3.0) * 1000.0)
+		note_data.time_out = (60.0  / 155.0 * (1.0 + 3.0) * 1000.0)
 		note_data.auto_time_out = true
 		
 		note_data.position.x = (note.position.x / 800.0) * 1920
@@ -168,6 +168,9 @@ static func PPD2HBChart(path: String) -> HBChart:
 			
 		if is_second_slider:
 			chart.editor_settings.set_layer_visibility(true, HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")
+		if is_multi_note:
+			note_data.oscillation_amplitude = 0
+			note_data.distance = note_data.distance * (2.2/3.0)
 		if params.has(note.id):
 			var note_params = params[note.id]
 			if note_params.has("Distance"):
