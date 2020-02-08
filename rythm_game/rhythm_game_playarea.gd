@@ -13,6 +13,12 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
 }
 
+const HEART_POWER_UNDER_TINT = Color("2d1b61")
+const HEART_POWER_OVER_TINT = Color("4f30ae")
+const HEART_POWER_PROGRESS_TINT = Color("a877f0")
+const HEART_INDICATOR_MISSED = Color("211448")
+const HEART_INDICATOR_DECREASING = Color("77c3f0")
+
 var hit_effect_queue = []
 
 var input_lag_compensation = 0
@@ -27,13 +33,10 @@ onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label"
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
 onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
-onready var combo_multiplier_label = get_node("Control/HBoxContainer/ComboTextureProgress/ComboMultiplierLabel")
-onready var combo_texture_progress = get_node("Control/HBoxContainer/ComboTextureProgress")
-onready var heart_power_progress_bar = get_node("Control/TextureProgress")
 onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
-
+onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
 
 var judge = preload("res://rythm_game/judge.gd").new()
@@ -52,8 +55,6 @@ const LOG_NAME = "RhythmGame"
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
-const NOTES_PER_COMBO_MULTIPLIER = 16.0
-const MAX_COMBO_MULTIPLIER = 2
 const MAX_HOLD = 3300 # miliseconds
 
 var size = Vector2(1280, 720) setget set_size
@@ -110,8 +111,8 @@ func _ready():
 		hit_effect_queue.append(new_sfx)
 	set_current_combo(0)
 	update_heart_power_ui()
-	update_combo_multiplier_ui()
-	combo_texture_progress.max_value = NOTES_PER_COMBO_MULTIPLIER
+	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
+#	combo_texture_progress.max_value = NOTES_PER_COMBO_MULTIPLIER
 func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
@@ -332,9 +333,8 @@ func _process(delta):
 	# Hold combo
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + (MAX_HOLD/1000.0)
-		print(max_time * 1000.0)
+		current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size()
 		if time >= max_time:
-			current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size() * get_combo_multiplier()
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			add_score(MAX_HOLD) # Add score extra for max combo OwO
 			
@@ -344,7 +344,6 @@ func _process(delta):
 			hold_indicator.show_max_combo(MAX_HOLD)
 			
 		else:
-			current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size() * get_combo_multiplier()
 			hold_indicator.current_score = current_hold_score + accumulated_hold_score
 	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
@@ -356,27 +355,9 @@ func _process(delta):
 					a.pressed = true
 					play_note_sfx()
 					Input.parse_input_event(a)
-func get_combo_multiplier() -> int:
-	var m = 1
-	if heart_power_enabled:
-		m = 2
-	return int(1 + clamp((current_combo / NOTES_PER_COMBO_MULTIPLIER), 0, MAX_COMBO_MULTIPLIER-1)) * m
-
-func update_combo_multiplier_ui():
-	var combo_multiplier = get_combo_multiplier()
-	if combo_multiplier > 1:
-		combo_multiplier_label.show()
-		combo_multiplier_label.text = "x" + str(combo_multiplier)
-	else:
-		combo_multiplier_label.hide()
-	if current_combo < int(NOTES_PER_COMBO_MULTIPLIER) * 2:
-		combo_texture_progress.value = current_combo % int(NOTES_PER_COMBO_MULTIPLIER)
-	else:
-		combo_texture_progress.value = int(NOTES_PER_COMBO_MULTIPLIER) * 2
 
 func set_current_combo(combo: int):
 	current_combo = combo
-	update_combo_multiplier_ui()
 	
 func activate_heart_power():
 	if not heart_power_enabled:
@@ -393,20 +374,19 @@ func activate_heart_power():
 			heart_power_enabled = true
 			emit_signal("heart_power_activate")
 			heart_power_prompt_animation_player.play("HeartPowerEnabled")
-			update_combo_multiplier_ui()
 		
 
 func get_heart_power_points_per_note():
-	return 100 / current_song.bpm
+	return 100.0 / current_song.bpm
 
 # Heart power activation for half phase is minimum 4 seconds, otherwise it's 1/8th of the max power points
 func get_heart_power_duration():
-	return max(round(500000/(pow(current_song.bpm, 2.0))), 4)
+	return max(round(50000/(pow(current_song.bpm, 2.0))), 4)
 
 func increase_heart_power():
 	var old_heart_power = heart_power
 	heart_power += get_heart_power_points_per_note()
-	
+	print("INCREASE", heart_power)
 	heart_power = clamp(heart_power, 0, MAX_HEART_POWER)
 	if old_heart_power < MAX_HEART_POWER/2.0 and heart_power > MAX_HEART_POWER/2.0:
 		heart_power_prompt_animation_player.play("HeartPowerAvailable")
@@ -414,8 +394,11 @@ func increase_heart_power():
 	
 	
 func update_heart_power_ui():
-	heart_power_progress_bar.value = heart_power / MAX_HEART_POWER
-	heart_power_progress_bar.decreasing = heart_power_enabled
+	heart_power_indicator.value = heart_power / MAX_HEART_POWER
+	if heart_power_enabled:
+		heart_power_indicator.tint_progress = HEART_INDICATOR_DECREASING
+	else:
+		heart_power_indicator.tint_progress = HEART_POWER_PROGRESS_TINT
 	
 func _on_notes_judged(notes: Array, judgement):
 	var note = notes[0]
@@ -426,11 +409,14 @@ func _on_notes_judged(notes: Array, judgement):
 		if note.note_type in held_notes:
 			hold_release()
 		if judgement < judge.JUDGE_RATINGS.FINE:
+			# Missed a note
 			audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
+			# make the heart power indicator darker to indicate that a perfect
+			# is not possible anymore
+			heart_power_indicator.tint_over = HEART_INDICATOR_MISSED
 			hold_release()
 		else:
-#			if not heart_power_enabled and get_combo_multiplier() >= MAX_COMBO_MULTIPLIER and current_combo > NOTES_PER_COMBO_MULTIPLIER * MAX_COMBO_MULTIPLIER:
 			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = 0
@@ -484,6 +470,7 @@ func restart():
 	set_song(SongLoader.songs[result.song_id], result.difficulty)
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
+	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 	
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
@@ -497,12 +484,11 @@ func play_from_pos(position: float):
 func add_score(score_to_add):
 	print("adding ", score_to_add)
 	if not previewing:
-		result.score += score_to_add * get_combo_multiplier()
-#		print(score_to_add * get_combo_multiplier())
+		result.score += score_to_add
 		score_counter.score = result.score
 		clear_bar.value = result.score
 		if heart_power_enabled:
-			result.heart_power_bonus += score_to_add * (get_combo_multiplier() / 2.0)
+			result.heart_power_bonus += score_to_add * (1.0 / 2.0)
 
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
