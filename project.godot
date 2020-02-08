@@ -286,8 +286,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1580650471
-config/build_commit="969f6f7b5b79b64db9b55f883a58425e5c165a43"
+config/build_time=1581156919
+config/build_commit="de38a2ae128e430d3e2b736e0fef6d20fc9ffef4"
 
 [audio]
 
@@ -489,6 +489,10 @@ free_friends={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[logging]
+
+file_logging/enable_file_logging=true
 
 [rendering]
 

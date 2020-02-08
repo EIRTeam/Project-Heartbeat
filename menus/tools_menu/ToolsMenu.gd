@@ -5,6 +5,7 @@ func _ready():
 	$ToolsList/EditorButton.connect("pressed", self, "_on_EditorButton_pressed")
 	$ToolsList/SongMetaEditorButton.connect("pressed", self, "_on_SongMetaEditorButton_pressed")
 	$ToolsList/OpenSongsDirectoryButton.connect("pressed", self, "_on_OpenSongsDirectoryButton_pressed")
+	$ToolsList/OpenLogsDirectoryButton.connect("pressed", self, "_on_OpenLogsDirectoryButton_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -22,3 +23,7 @@ func _on_SongMetaEditorButton_pressed():
 
 func _on_OpenSongsDirectoryButton_pressed():
 	OS.shell_open(ProjectSettings.globalize_path("user://songs"))
+
+
+func _on_OpenLogsDirectoryButton_pressed():
+	OS.shell_open(ProjectSettings.globalize_path("user://logs"))
