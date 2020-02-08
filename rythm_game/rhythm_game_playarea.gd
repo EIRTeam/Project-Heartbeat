@@ -16,7 +16,7 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 const HEART_POWER_UNDER_TINT = Color("2d1b61")
 const HEART_POWER_OVER_TINT = Color("4f30ae")
 const HEART_POWER_PROGRESS_TINT = Color("a877f0")
-const HEART_INDICATOR_MISSED = Color("211448")
+const HEART_INDICATOR_MISSED = Color("4f30ae")
 const HEART_INDICATOR_DECREASING = Color("77c3f0")
 
 var hit_effect_queue = []
@@ -97,9 +97,6 @@ func set_timing_points(points):
 				break
 
 func _ready():
-#	var note = HBNoteData.new()
-#	note.time = 2000
-#	timing_points.append(note)
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
@@ -112,7 +109,6 @@ func _ready():
 	set_current_combo(0)
 	update_heart_power_ui()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
-#	combo_texture_progress.max_value = NOTES_PER_COMBO_MULTIPLIER
 func _on_viewport_size_changed():
 	print(get_viewport().size)
 	$Viewport.size = self.rect_size
