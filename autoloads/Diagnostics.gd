@@ -17,6 +17,12 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		$Panel.visible = !$Panel.visible
+	if event.is_action_pressed("take_screenshot"):
+		var img = get_viewport().get_texture().get_data()
+
+		# Flip it on the y-axis (because it's flipped).
+		img.flip_y()
+		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
 func _process(delta):
 	_seconds_since_startup += delta
 	$Panel/MarginContainer/VBoxContainer/FrameRateLabel.text = "FPS: %f" % Engine.get_frames_per_second()
