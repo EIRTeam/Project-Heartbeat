@@ -14,7 +14,6 @@ signal bottom
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
-	focus_mode = Control.FOCUS_ALL
 func select_button(i: int):
 	var child = get_child(i)
 	if selected_button:
@@ -32,7 +31,6 @@ func _on_focus_entered():
 			select_button(0)
 
 func _gui_input(event):
-
 	var next_action = "ui_right"
 	var prev_action = "ui_left"
 	var down_action = "ui_down"

@@ -191,6 +191,9 @@ func play_song(song: HBSong):
 	else:
 		change_to_background(null, true)
 func _on_music_player_ready():
+	call_deferred("play_first_song")
+
+func play_first_song():
 	MENUS.music_player.right.set_song(current_song, player.stream.get_length())
 
 func change_to_background(background: Texture, use_default = false):

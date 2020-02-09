@@ -32,7 +32,6 @@ margin_top = 330.0
 margin_right = 536.0
 margin_bottom = 390.0
 text = "Open Logs Directory"
-script = null
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -40,7 +39,6 @@ margin_top = 400.0
 margin_right = 536.0
 margin_bottom = 460.0
 text = "Open Songs Directory"
-next_menu = ""
 
 [node name="EditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -48,7 +46,6 @@ margin_top = 470.0
 margin_right = 536.0
 margin_bottom = 530.0
 text = "Chart Editor"
-next_menu = ""
 
 [node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -56,5 +53,3 @@ margin_top = 540.0
 margin_right = 536.0
 margin_bottom = 600.0
 text = "Song Metadata Editor"
-next_menu = ""
-[connection signal="pressed" from="ToolsList/OpenLogsDirectoryButton" to="." method="_on_OpenLogsDirectoryButton_pressed"]

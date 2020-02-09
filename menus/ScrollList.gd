@@ -73,11 +73,12 @@ func _set_opacities(hard=false):
 				if hard:
 					child.modulate.a = 1.0
 
-func _unhandled_input(event):
+func _gui_input(event):
 	if selected_child:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			var child_i = vbox_container.get_children().find(selected_child)
 			if child_i == 0 and event.is_action_pressed("ui_up") and not event.is_echo():
+				get_tree().set_input_as_handled()
 				emit_signal("out_from_top")
 			if event.is_action_pressed("ui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
 				get_tree().set_input_as_handled()

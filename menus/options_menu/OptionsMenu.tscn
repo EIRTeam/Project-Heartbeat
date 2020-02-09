@@ -14,6 +14,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_bottom = 720.0
+focus_mode = 2
 script = ExtResource( 1 )
 stop_hover_on_focus_exit = false
 orientation = 1

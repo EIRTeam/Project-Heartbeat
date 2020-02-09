@@ -23,6 +23,7 @@ func _ready():
 	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
 	for difficulty in SongLoader.available_difficulties:
 		var button = HBHovereableButton.new()
+		button.focus_mode = FOCUS_NONE
 		button.text = difficulty.capitalize()
 		button.connect("hovered", self, "_select_difficulty", [difficulty])
 		button.set_meta("difficulty", difficulty)
