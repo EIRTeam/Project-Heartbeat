@@ -36,7 +36,7 @@ func set_song(song: HBSong, length: float):
 		var image = HBUtils.image_from_fs(circle_logo_path)
 		var it = ImageTexture.new()
 		it.create_from_image(image, Texture.FLAGS_DEFAULT)
-		circle_logo_texture_rect.texture = it	
+		circle_logo_texture_rect.texture = it
 	else:
 		song_artist_label.show()
 		circle_logo_texture_rect.hide()

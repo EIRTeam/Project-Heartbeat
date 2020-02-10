@@ -290,9 +290,6 @@ func _process(delta):
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					var note_drawer
-					
-						
-					
 					note_drawer = timing_point.get_drawer().instance()
 					note_drawer.note_data = timing_point
 					note_drawer.game = self

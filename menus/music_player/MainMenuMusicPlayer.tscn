@@ -23,6 +23,8 @@ fallback/0 = ExtResource( 7 )
 
 [node name="MainMenuMusicPlayer" type="Panel"]
 anchor_right = 1.0
+anchor_bottom = 0.205
+margin_bottom = 2.39999
 rect_min_size = Vector2( 350, 150 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
