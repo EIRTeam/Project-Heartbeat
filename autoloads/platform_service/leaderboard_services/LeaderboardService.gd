@@ -14,7 +14,7 @@ func _init():
 func find_leadeboard(leaderboard_name: String):
 	pass
 
-func get_leaderboard_entries_for_song(song_id: String, start, end, type):
+func get_leaderboard_entries_for_leaderboard(leaderboard_id: String, start, end, type):
 	pass
 
 func download_leaderboard_entries(handle: int, start, end, type):

@@ -138,6 +138,7 @@ func add_item(layer_n: int, item: EditorTimelineItem):
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
 	
+# property values for continuously updating undo_redo actions like angle changes
 var old_property_values = {}
 	
 # Changes the selected property by an amount, but doesn't commit it to undo_redo, to
@@ -189,7 +190,8 @@ func _commit_selected_property_change(property_name: String):
 	undo_redo.commit_action()
 	inspector.update_values()
 	old_property_values = {}
-# Handles when a user changes a timing point's property
+# Handles when a user changes a timing point's property, this is used for properties
+# that won't constantly change
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
 	var action_name = "Note " + property_name + " changed"
 	undo_redo.create_action(action_name)
@@ -208,7 +210,9 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 	
 	undo_redo.commit_action()
 	inspector.update_values()
+	
 	var note = child.data
+	
 	if property_name == "note_type":
 		var layer = child._layer
 		var note_type_string = HBUtils.find_key(HBNoteData.NOTE_TYPE, note.note_type)

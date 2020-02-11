@@ -2,8 +2,9 @@ extends HBoxContainer
 onready var title_label = get_node("TitleLabel")
 onready var author_label = get_node("AuthorLabel")
 onready var circle_text_rect = get_node("CircleLabel")
+onready var difficulty_label = get_node("DifficultyLabel")
 var song: HBSong setget set_song
-
+var difficulty setget set_difficulty
 func set_song(value):
 	song = value
 	title_label.text = song.get_visible_title()
@@ -23,6 +24,14 @@ func set_song(value):
 	else:
 		author_label.show()
 		circle_text_rect.hide()
+func set_difficulty(value):
+	if not value:
+		difficulty_label.hide()
+	else:
+		difficulty_label.show()
+		difficulty = value
+		difficulty_label.text = "[%s]" % value
+		
 func _on_resized():
 	if circle_text_rect.texture:
 		var image = circle_text_rect.texture.get_data() as Image

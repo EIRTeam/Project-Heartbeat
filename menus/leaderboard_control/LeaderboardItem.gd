@@ -1,5 +1,6 @@
 tool
 extends Panel
+class_name HBLeaderboardItem
 
 const style_even = preload("res://styles/ResultRatingStyleEven.tres")
 var odd = false

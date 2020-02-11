@@ -11,7 +11,7 @@ func _on_leaderboard_found(handle, found):
 	print("Found leaderboard ", handle)
 	emit_signal("leaderboard_found", handle, found)
 
-func get_leaderboard_entries_for_song(song_id: String, start, end, type):
+func get_leaderboard_entries_for_leaderboard(song_id: String, start, end, type):
 	connect("leaderboard_found", self, "_get_leaderboard_entries", [start, end, type], CONNECT_ONESHOT)
 	find_leadeboard(song_id)
 	

@@ -42,12 +42,13 @@ func _unhandled_input(event):
 		$VBoxContainer/DifficultyList._gui_input(event)
 
 func _on_song_selected(song: HBSong):
-	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
-	var scene = new_scene.instance()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(scene)
-	get_tree().current_scene = scene
-	scene.set_song(song, current_difficulty)
+	change_to_menu("pre_song", false, {"song": song, "difficulty": current_difficulty})
+#	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
+#	var scene = new_scene.instance()
+#	get_tree().current_scene.queue_free()
+#	get_tree().root.add_child(scene)
+#	get_tree().current_scene = scene
+#	scene.set_song(song, current_difficulty)
 
 
 

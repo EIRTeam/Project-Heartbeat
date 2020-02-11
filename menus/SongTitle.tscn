@@ -25,6 +25,18 @@ rect_min_size = Vector2( 250, 0 )
 expand = true
 stretch_mode = 6
 
+[node name="DifficultyLabel" type="Label" parent="."]
+visible = false
+margin_right = 185.0
+margin_bottom = 50.0
+size_flags_vertical = 7
+size_flags_stretch_ratio = 0.75
+custom_fonts/font = ExtResource( 2 )
+text = "[EXTREME]"
+align = 3
+valign = 1
+uppercase = true
+
 [node name="AuthorLabel" type="Label" parent="."]
 margin_right = 230.0
 margin_bottom = 50.0
