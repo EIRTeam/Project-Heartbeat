@@ -24,6 +24,9 @@ func _init():
 		"lobby_list": {
 			"left": preload("res://multiplayer/lobby/LobbyList.tscn").instance()
 		},
+		"pre_song": {
+			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance()
+		},
 		"lobby": {
 			"left": preload("res://multiplayer/lobby/LobbyMenu.tscn").instance(),
 			"right": "song_list_preview"
@@ -148,7 +151,6 @@ func _process(delta):
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
 		target_volume = 0
 		if next_audio:
-			player.stream = next_audio
 			player.play()
 			player.seek(current_song.preview_start/1000.0)
 			if next_voice:
@@ -179,6 +181,8 @@ func play_song(song: HBSong):
 			next_voice = null
 		target_volume = FADE_OUT_VOLUME
 		song_queued = true
+		if not player.stream:
+			player.stream = next_audio
 		if MENUS.music_player.right == right_menu:
 			MENUS.music_player.right.set_song(current_song, next_audio.get_length())
 	# Background changes should only happen outside the start menu
