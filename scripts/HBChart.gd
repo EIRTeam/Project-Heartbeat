@@ -29,8 +29,9 @@ func _populate_layers():
 		"timing_points": []
 	})
 	
+# Notes are sorted by appearance time
 func _note_comparison(a, b):
-	return a.time < b.time
+	return a.time > b.time
 	
 func get_timing_points():
 	var points = []

@@ -283,7 +283,8 @@ func _process(delta):
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
-			
+			if time * 1000.0 < (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
+				break
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
