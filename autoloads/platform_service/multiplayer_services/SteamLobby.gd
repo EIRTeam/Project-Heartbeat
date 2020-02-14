@@ -124,7 +124,7 @@ func leave_lobby():
 
 func is_owned_by_local_user():
 	var owner = get_lobby_owner() as HBLobbyMember
-	return owner.member_id == Steam.getSteamID()
+	return owner.service_member.member_id == Steam.getSteamID()
 
 func invite_friend_to_lobby():
 	Steam.activateGameOverlayInviteDialog(_lobby_id)

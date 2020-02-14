@@ -9,8 +9,8 @@ onready var owner_crown = get_node("VBoxContainer/HBoxContainer/HBoxContainer/Te
 
 func set_member(val: HBLobbyMember):
 	member = val
-	member_name_label.text = member.member_name
-	avatar_texture_rect.texture = member.avatar
+	member_name_label.text = member.service_member.member_name
+	avatar_texture_rect.texture = member.service_member.avatar
 	
 func set_is_owner(val):
 	is_owner = val
