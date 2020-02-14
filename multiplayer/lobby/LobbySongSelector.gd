@@ -11,3 +11,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 func _on_song_selected(song: HBSong):
 	change_to_menu("lobby", false, {"song": song, "difficulty": current_difficulty})
 	
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().set_input_as_handled()
+		change_to_menu("lobby")
+	if event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right"):
+		$VBoxContainer/DifficultyList._gui_input(event)

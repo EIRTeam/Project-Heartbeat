@@ -69,7 +69,7 @@ var song_name: String = "melody" setget set_song_name,get_song_name
 var song_id: String = "melody" setget set_song_id,get_song_id
 var song_difficulty: String = "extreme" setget set_song_difficulty,get_song_difficulty
 var members: Dictionary = {}
-var lobby_owner: HBLobbyMember setget ,get_lobby_owner
+var lobby_owner: HBServiceMember setget ,get_lobby_owner
 var pure = true # pure lobbies perform checks
 
 func set_lobby_name(val):

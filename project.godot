@@ -104,11 +104,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/Lobby.gd"
 }, {
-"base": "Reference",
-"class": "HBLobbyMember",
-"language": "GDScript",
-"path": "res://autoloads/platform_service/multiplayer_services/LobbyMember.gd"
-}, {
 "base": "Control",
 "class": "HBMenu",
 "language": "GDScript",
@@ -219,11 +214,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/SteamLobby.gd"
 }, {
-"base": "HBLobbyMember",
-"class": "SteamLobbyMember",
-"language": "GDScript",
-"path": "res://autoloads/platform_service/multiplayer_services/SteamLobbyMember.gd"
-}, {
 "base": "HBMultiplayerService",
 "class": "SteamMultiplayerService",
 "language": "GDScript",
@@ -254,7 +244,6 @@ _global_script_class_icons={
 "HBLeaderboardService": "",
 "HBListContainer": "",
 "HBLobby": "",
-"HBLobbyMember": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
 "HBMultiplayerService": "",
@@ -277,7 +266,6 @@ _global_script_class_icons={
 "PlatformServiceProvider": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
-"SteamLobbyMember": "",
 "SteamMultiplayerService": "",
 "SteamServiceMember": ""
 }

@@ -48,7 +48,7 @@ func update_lobby_members():
 	
 	for member_i in range(0, member_n):
 		var member_id = Steam.getLobbyMemberByIndex(_lobby_id, member_i)
-		var member = SteamLobbyMember.new(member_id)
+		var member = SteamServiceMember.new(member_id)
 		members[member_id] = member
 func _on_lobby_joined(lobby_id, permissions, locked, response):
 	
@@ -123,8 +123,8 @@ func leave_lobby():
 	emit_signal("lobby_left")
 
 func is_owned_by_local_user():
-	var owner = get_lobby_owner() as HBLobbyMember
-	return owner.service_member.member_id == Steam.getSteamID()
+	var owner = get_lobby_owner() as HBServiceMember
+	return owner.member_id == Steam.getSteamID()
 
 func invite_friend_to_lobby():
 	Steam.activateGameOverlayInviteDialog(_lobby_id)

@@ -62,7 +62,7 @@ func set_lobby(lobby: HBLobby):
 	update_lobby_data_display()
 	if not lobby is SteamLobby:
 		get_tree().call_group("steam_only", "hide")
-func _on_chat_message_received(member: HBLobbyMember, message, type):
+func _on_chat_message_received(member: HBServiceMember, message, type):
 	match type:
 		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:
 			print("MESSAGE FROM: " + member.get_member_name())
@@ -71,7 +71,7 @@ func _on_chat_message_received(member: HBLobbyMember, message, type):
 func append_service_message(message: String):
 	chat_box.bbcode_text += "\n[color=#FF0000]" + message + "[/color]"
 
-func _on_lobby_chat_update(changed: HBLobbyMember, making_change: HBLobbyMember, state):
+func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMember, state):
 	var msg
 	if state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.JOINED:
 		msg = " has joined."

@@ -108,6 +108,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = 800.0
 margin_bottom = 406.0
+focus_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 script = ExtResource( 4 )
