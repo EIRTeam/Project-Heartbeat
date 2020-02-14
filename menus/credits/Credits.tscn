@@ -7,12 +7,12 @@
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=5]
 [ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=6]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 25
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 6 )
@@ -87,7 +87,7 @@ size_flags_vertical = 3
 [node name="Label" type="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 787.0
 margin_bottom = 26.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "Thank you"
 align = 1
 valign = 1
@@ -98,14 +98,14 @@ margin_right = 787.0
 margin_bottom = 643.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Thank you to everyone that made this possible. In particular I'd like to thank my best friends, Emmilly and Estrella for putting up with me and helping me when I was feeling down.
 
 Thank you Blizzin and Twoncity for making the charts for the game and Blizzin in particular for helping with his technical knowledge.
 
-Thank you Emmilly for your great art, you are the best.
+Thank you Emmilly for your great art, you are the best, I couldn't wish for a better friend.
 
-Thank you to the following groups of people: my new mates from Castellbisbal, Xenoteckers, my long-time friends the R... comando, the HobbyFiguras people, the Knockout community, the Godot community, the Clone Hero Community, the PonySomnio people and the Eurobeat-prime community.
+Thank you to the following groups of people: my new mates from Castellbisbal, Xenoteckers, my long-time friends the R... commando, the HobbyFiguras people, the Knockout community, the Godot community, the PonySomnio people and the Eurobeat-prime community.
 
 And to the following people in particular: the 2 Adrians, Lorena, Sergi-kun, Pity, Willy, Gerard, Tokyo Ghetto, Pere, Pol, Edu (vendido), the 2 Angelas, the soft Marina, Júlia, Helena, Paula, Tudor, the great Brian, Ivanex, Jordi, Dano, Marwan S, Joel H, David SK, my art teacher Ana, Eris and bigm8gte thank you for putting up with me day to day.
 
@@ -113,7 +113,7 @@ If you feel like you are missing from this list, you probably are.
 
 (Xénia, I hope you are okay.)
 
-Very big thank you to Mr. Sugano for letting me license his songs, they are great, in this case also thanks to Carmen for the idea of Imademo and Red for helping me with the japanese shenanigans.
+Very big thank you to Mr. Sugano for letting me license his songs, they are great.
 
 I'd also like to thank the rhythm game community for being so supportive of this title, and I hope it met your expectations.
 
