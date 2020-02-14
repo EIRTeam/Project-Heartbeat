@@ -105,7 +105,7 @@ margin_right = 1210.0
 margin_bottom = 96.0
 focus_mode = 2
 size_flags_vertical = 3
-alignment = 2
+alignment = 1
 script = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -113,9 +113,9 @@ __meta__ = {
 orientation = 1
 
 [node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer"]
-margin_top = 2.0
+margin_top = 1.0
 margin_right = 1200.0
-margin_bottom = 42.0
+margin_bottom = 41.0
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "Start"
@@ -128,9 +128,9 @@ normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
 
 [node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer"]
-margin_top = 46.0
+margin_top = 45.0
 margin_right = 1200.0
-margin_bottom = 86.0
+margin_bottom = 85.0
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "Back"
@@ -142,4 +142,5 @@ __meta__ = {
 }
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]

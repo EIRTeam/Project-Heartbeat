@@ -19,7 +19,7 @@ func _get_leaderboard_entries(leaderboard_handle: int, found: int, start: int, e
 	download_leaderboard_entries(leaderboard_handle, start, end, type)
 
 func download_leaderboard_entries(handle: int, start, end, type):
-	Steam.connect("leaderboard_scores_downloaded", self, "_on_leaderboard_entries_downloaded", [handle])
+	Steam.connect("leaderboard_scores_downloaded", self, "_on_leaderboard_entries_downloaded", [handle], CONNECT_ONESHOT)
 	Steam.downloadLeaderboardEntries(start, end, type)
 	
 func _on_leaderboard_entries_downloaded(handle):

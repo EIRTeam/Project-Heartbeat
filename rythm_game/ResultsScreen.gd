@@ -6,15 +6,21 @@ onready var rating_results_container = get_node("MarginContainer/VBoxContainer/V
 onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
 onready var artist_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/ArtistLabel")
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/TitleLabel")
-onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
-onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
-onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer3/TotalNotesLabel")
+onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
+onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
+onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TotalNotesLabel")
 onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
-onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons")
-onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons/ReturnButton")
-onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/VBoxContainer/ExtraDataPanel/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
+onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
+onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
+onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
+onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
+onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
+onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
+
+const BASE_BUTTON_PANEL_HEIGHT = 106
+const BASE_HEIGHT = 720.0
 
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -22,7 +28,16 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		set_result(args.results)
 	buttons.grab_focus()
 
+func _on_resized():
+	# We have to wait a frame for the resize to happen...
+	# seriously wtf
+	yield(get_tree(), "idle_frame")
+	var inv = 0.65 / (rect_size.y / BASE_HEIGHT)
+	button_panel.size_flags_stretch_ratio = inv
+
 func _ready():
+	connect("resized", self, "_on_resized")
+	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	for i in range(values.size()-1, -1, -1):
 		var rating = values[i]
@@ -32,7 +47,16 @@ func _ready():
 		rating_results_scenes[rating] = rating_scene
 		rating_scene.rating = rating
 	return_button.connect("pressed", self, "_on_return_button_pressed")
-
+	retry_button.connect("pressed", self, "_on_retry_button_pressed")
+	
+func _on_retry_button_pressed():
+	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
+	var scene = new_scene.instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	scene.set_song(SongLoader.songs[result.song_id], result.difficulty)
+	
 func _on_return_button_pressed():
 	change_to_menu("song_list", false, {"song": result.song_id, "song_difficulty": result.difficulty})
 

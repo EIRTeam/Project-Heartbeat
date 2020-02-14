@@ -12,7 +12,7 @@ const BASE_HEIGHT = 720.0
 
 func _ready():
 	connect("resized", self, "_on_resized")
-
+	_on_resized()
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf

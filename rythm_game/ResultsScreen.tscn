@@ -1,18 +1,46 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://Theme_Game.tres" type="Theme" id=4]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=5]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=6]
-[ext_resource path="res://styles/NewButtonStyle.tres" type="StyleBox" id=7]
-[ext_resource path="res://styles/NewButtonStyleHover.tres" type="StyleBox" id=8]
-[ext_resource path="res://fonts/RatingFontSmaller.tres" type="DynamicFont" id=9]
-[ext_resource path="res://styles/OptionButtonHover.tres" type="StyleBox" id=10]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=7]
 [ext_resource path="res://rythm_game/ResultsScreen.gd" type="Script" id=12]
 [ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=13]
 [ext_resource path="res://fonts/ResultsAuthorFont.tres" type="DynamicFont" id=14]
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+outline_size = 2
+outline_color = Color( 1, 1, 1, 0.2 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 7
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxEmpty" id=1]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="ResultsScene" type="Control"]
 anchor_right = 1.0
@@ -103,7 +131,7 @@ custom_constants/separation = 15
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
 margin_right = 1220.0
-margin_bottom = 272.0
+margin_bottom = 225.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.35
 custom_styles/panel = ExtResource( 2 )
@@ -118,9 +146,9 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 287.0
+margin_top = 240.0
 margin_right = 1220.0
-margin_bottom = 489.0
+margin_bottom = 406.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 2 )
@@ -129,39 +157,38 @@ custom_styles/panel = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
-custom_constants/margin_top = 10
+custom_constants/margin_top = 0
 custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+custom_constants/margin_bottom = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer"]
 margin_left = 10.0
-margin_top = 10.0
 margin_right = 1210.0
-margin_bottom = 194.0
+margin_bottom = 166.0
 custom_constants/margin_right = 15
-custom_constants/margin_top = 10
+custom_constants/margin_top = 0
 custom_constants/margin_left = 15
-custom_constants/margin_bottom = 10
+custom_constants/margin_bottom = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer"]
 margin_left = 15.0
-margin_top = 10.0
 margin_right = 1185.0
-margin_bottom = 174.0
+margin_bottom = 166.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 11.0
 margin_right = 1170.0
-margin_bottom = 38.0
+margin_bottom = 44.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -169,18 +196,18 @@ __meta__ = {
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_right = 1060.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 1064.0
 margin_right = 1170.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "700"
 align = 2
 valign = 1
@@ -189,9 +216,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 42.0
+margin_top = 48.0
 margin_right = 1170.0
-margin_bottom = 80.0
+margin_bottom = 81.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -199,18 +226,18 @@ __meta__ = {
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 1060.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1064.0
 margin_right = 1170.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "700"
 align = 2
 valign = 1
@@ -219,9 +246,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 84.0
+margin_top = 85.0
 margin_right = 1170.0
-margin_bottom = 122.0
+margin_bottom = 118.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -229,18 +256,18 @@ __meta__ = {
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_right = 1060.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "HEART POWER BONUS"
 
 [node name="HeartPowerLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_left = 1064.0
 margin_right = 1170.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "0"
 align = 2
 valign = 1
@@ -249,28 +276,28 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 126.0
+margin_top = 122.0
 margin_right = 1170.0
-margin_bottom = 164.0
+margin_bottom = 155.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 996.0
-margin_bottom = 38.0
+margin_right = 1024.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "SCORE"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 1000.0
+margin_left = 1028.0
 margin_right = 1170.0
-margin_bottom = 38.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
 text = "131231412"
 align = 2
 valign = 1
@@ -278,41 +305,68 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 504.0
+[node name="Panel3" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
+margin_top = 421.0
 margin_right = 1220.0
-margin_bottom = 544.0
-size_flags_stretch_ratio = 0.05
-custom_constants/separation = 51
-alignment = 1
-script = ExtResource( 3 )
+margin_bottom = 529.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.65
+custom_styles/panel = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_stretch_ratio = 0.5
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RetryButton" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons" instance=ExtResource( 1 )]
-margin_left = 414.0
-margin_top = 0.0
-margin_right = 574.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 144, 40 )
-custom_styles/hover = ExtResource( 10 )
-text = "Retry"
-align = 1
-script = ExtResource( 5 )
-normal_style = ExtResource( 7 )
-hover_style = ExtResource( 8 )
-
-[node name="ReturnButton" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Buttons" instance=ExtResource( 1 )]
-margin_left = 625.0
-margin_top = 0.0
-margin_right = 806.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 144, 40 )
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1210.0
+margin_bottom = 98.0
 focus_mode = 2
-custom_styles/hover = ExtResource( 10 )
-text = "Return"
-align = 1
+alignment = 1
+script = ExtResource( 3 )
+orientation = 1
+
+[node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+margin_top = 2.0
+margin_right = 1200.0
+margin_bottom = 42.0
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Retry"
+align = 0
 script = ExtResource( 5 )
-normal_style = ExtResource( 7 )
-hover_style = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+normal_style = SubResource( 1 )
+hover_style = SubResource( 2 )
+
+[node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 1200.0
+margin_bottom = 86.0
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Return"
+align = 0
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+normal_style = SubResource( 1 )
+hover_style = SubResource( 2 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
+margin_top = 544.0
+margin_right = 1220.0
+margin_bottom = 544.0
