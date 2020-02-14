@@ -1,0 +1,66 @@
+# Song asset loader with abort capabilities
+extends Node
+
+class_name HBBackgroundSongAssetsLoader
+
+signal song_assets_loaded(song, assets)
+
+var current_song: HBSong
+var _current_song_mutex = Mutex.new()
+var enable_abort = true # Aborts loading of one song when another request comes
+func _load_song_assets_thread(userdata):
+	var song := SongLoader.songs[userdata.song_id] as HBSong
+	
+	var loaded_assets = {}
+	for asset in userdata.requested_assets:
+		var loaded_asset
+		var image_loaded = false
+		match asset:
+			"preview":
+				if song.preview_image:
+					image_loaded = true
+					loaded_asset = HBUtils.image_from_fs(song.get_song_preview_res_path())
+			"background":
+				if song.background_image:
+					image_loaded = true
+					loaded_asset = HBUtils.image_from_fs(song.get_song_background_image_res_path())
+			"audio":
+				if song.audio:
+					loaded_asset = song.get_audio_stream()
+			"voice":
+				if song.voice:
+					loaded_asset = song.get_voice_stream()
+			"circle_image":
+				if song.circle_image:
+					image_loaded = true
+					loaded_asset = HBUtils.image_from_fs(song.get_song_circle_image_res_path())
+			"circle_logo":
+				if song.circle_logo:
+					image_loaded = true
+					loaded_asset = HBUtils.image_from_fs(song.get_song_circle_logo_image_res_path())
+		if image_loaded:
+			var image_texture = ImageTexture.new()
+			image_texture.create_from_image(loaded_asset, Texture.FLAGS_DEFAULT)
+			loaded_asset = image_texture
+		loaded_assets[asset] = loaded_asset
+		if enable_abort:
+			# Current song changed, abort
+			_current_song_mutex.lock()
+			if current_song.id != userdata.song_id:
+				call_deferred("_song_asset_loading_aborted", userdata.thread)
+			_current_song_mutex.unlock()
+#	OS.delay_msec(int(1 * 1000.0)) # Delay simulation
+	
+	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
+	
+func _song_asset_loading_aborted(thread: Thread):
+	thread.wait_to_finish()
+	
+func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
+	thread.wait_to_finish() # Windows breaks if you don't do this
+	emit_signal("song_assets_loaded", song, assets)
+	
+func load_song_assets(song, requested_assets=["preview", "background", "audio", "voice"]):
+	var thread = Thread.new()
+	current_song = song
+	thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})

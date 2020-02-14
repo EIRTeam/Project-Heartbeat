@@ -9,7 +9,6 @@ const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
 var _offset = 0
 var _prev_playhead_position = Vector2()
-onready var waveform_drawer = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
 signal layers_changed
 const LOG_NAME = "Editor"
 
@@ -67,7 +66,6 @@ func _draw_timing_lines():
 	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
-	scale_waveform()
 	_draw_playhead()
 	_draw_timing_lines()
 func calculate_playhead_position():
@@ -140,21 +138,6 @@ func _input(event):
 	
 func _on_new_song_loaded(song: HBSong):
 	var file := File.new()
-	if file.file_exists(song.get_waveform_path()):
-		file.open(song.get_waveform_path(), File.READ)
-		
-		var result = JSON.parse(file.get_as_text())
-		if result.error == OK:
-			waveform_drawer.waveform_data = result.result
-	else:
-		Log.log(self, "Error loading song waveform %s" % [song.get_waveform_path()], Log.LogLevel.ERROR)
-	scale_waveform()
-func scale_waveform():
-	var song_length = editor.audio_stream_player.stream.get_length()
-	waveform_drawer.min_position = (clamp(editor.scale_pixels(int(0)) + _offset, _offset, editor.get_song_length()*1000.0) / 1000.0) / editor.audio_stream_player.stream.get_length()
-	waveform_drawer.max_position = (clamp(editor.scale_pixels(int(waveform_drawer.rect_size.x)) + _offset, _offset, editor.get_song_length()*1000.0) / 1000.0) / editor.audio_stream_player.stream.get_length()
-	waveform_drawer.min_position = waveform_drawer.min_position * 2.0
-	waveform_drawer.max_position = waveform_drawer.max_position * 2.0
 func clear_layers():
 	for layer in layers.get_children():
 		layer.free()

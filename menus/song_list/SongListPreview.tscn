@@ -84,7 +84,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1280.0
-margin_bottom = 639.0
+margin_bottom = 633.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -193,7 +193,7 @@ __meta__ = {
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 563.0
 margin_right = 1280.0
-margin_bottom = 639.0
+margin_bottom = 633.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]

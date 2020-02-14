@@ -13,7 +13,7 @@ onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBox
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
 onready var recording_layer_select_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RythmGame")
-onready var waveform_drawer = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline/VBoxContainer/ScrollContainer/HBoxContainer/Layers/BBCWaveform")
+
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice = get_node("AudioStreamPlayerVoice")
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")

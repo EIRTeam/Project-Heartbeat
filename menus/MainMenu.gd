@@ -64,29 +64,24 @@ var left_menu
 var right_menu
 
 var fullscreen_menu_container
+
 var left_menu_container
 var right_menu_container
 
-var player = AudioStreamPlayer.new()
-var voice_player = AudioStreamPlayer.new()
-
+var player = HBBackgroundMusicPlayer.new()
 func _ready():
 	connect("change_to_menu", self, "_on_change_to_menu")
 	menu_setup()
 	add_child(player)
-	add_child(voice_player)
-	MENUS["song_list"].left.connect("song_hovered", self, "play_song")
+	MENUS["song_list"].left.connect("song_hovered", player, "play_song")
 	
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
-	player.volume_db = FADE_OUT_VOLUME
-	player.bus = "Music"
-	voice_player.volume_db = FADE_OUT_VOLUME
-	voice_player.bus = "Voice"
-	set_process(false)
+	player.connect("song_started", self, "_on_song_started")
+	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
-	play_random_song()
-	set_process(true)
+	player.play_random_song()
+
 
 func menu_setup():
 	pass
@@ -125,80 +120,25 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 	#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 			right_menu._on_menu_enter(force_hard_transition, args)
 
-# Audio playback shit
-
-const FADE_OUT_VOLUME = -40
-var target_volume = 0
-var next_audio: AudioStreamOGGVorbis
-var next_voice: AudioStreamOGGVorbis
-var current_song: HBSong
-var song_queued = false
-
-
 	
-func play_random_song():
-	var song = HBSong.new()
-	while song.audio == "":
-		randomize()
-		song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
-	play_song(song)
-	
-func _process(delta):
-	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
-	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
-	if player.stream and right_menu == MENUS.music_player.right:
-		MENUS.music_player.right.set_time(player.get_playback_position())
-	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
-		target_volume = 0
-		if next_audio:
-			player.stream = next_audio
-			player.play()
-			player.seek(current_song.preview_start/1000.0)
-			if next_voice:
-				voice_player.stream = next_voice
-				voice_player.play()
-				voice_player.seek(current_song.preview_start/1000.0)
-				song_queued = false
-			else:
-				voice_player.stream = null
-	if player.get_playback_position() >= player.stream.get_length():
-		var curr = current_song
-		# Ensure random song will always be different from current
-		if SongLoader.songs.size() > 1:
-			while curr == current_song:
-				play_random_song()
-		else:
-			play_random_song()
-func play_song(song: HBSong):
-	if song.audio != "":
-		if song == current_song:
-	#		target_volume = 0
-			return
-		current_song = song
-		next_audio = song.get_audio_stream()
-		if song.voice:
-			next_voice = song.get_voice_stream()
-		else:
-			next_voice = null
-		target_volume = FADE_OUT_VOLUME
-		song_queued = true
-		if MENUS.music_player.right == right_menu:
-			MENUS.music_player.right.set_song(current_song, next_audio.get_length())
-	# Background changes should only happen outside the start menu
-	if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
-		var bg_path = song.get_song_background_image_res_path()
-		var image = HBUtils.image_from_fs(bg_path)
-		var image_texture = ImageTexture.new()
-		image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
-		change_to_background(image_texture)
-	else:
-		change_to_background(null, true)
+
 func _on_music_player_ready():
 	call_deferred("play_first_song")
 
-func play_first_song():
-	MENUS.music_player.right.set_song(current_song, next_audio.get_length())
+#func play_first_song():
+#	MENUS.music_player.right.set_song(current_song, next_audio.get_length())
 
+var iflag = true # Flag that tells it to ignore the first background change
+func _on_song_started(song, assets):
+	MENUS.music_player.right.set_song(song, player.get_song_length())
+	if not iflag:
+		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
+			change_to_background(assets.background)
+		else:
+			change_to_background(null, true)
+	else:
+		iflag = false
+	
 func change_to_background(background: Texture, use_default = false):
 	if use_default:
 		background = default_bg
@@ -211,3 +151,6 @@ func change_to_background(background: Texture, use_default = false):
 		first_background_texrect.texture = background
 		background_transition_animation_player.play_backwards("1to2")
 		last_bg = 1
+
+func _on_song_time_changed(time):
+	MENUS["music_player"].right.set_time(time)

@@ -65,9 +65,6 @@ func get_fs_origin():
 func get_chart_path(difficulty):
 	return path.plus_file("/%s" % [charts[difficulty].file])
 	
-func get_waveform_path():
-	return path.plus_file("/%s" % ["waveform.json"])
-	
 func get_song_audio_res_path():
 	if audio:
 		return path.plus_file("/%s" % [audio])

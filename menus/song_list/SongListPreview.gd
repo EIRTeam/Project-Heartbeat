@@ -4,10 +4,24 @@ onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongC
 
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
 const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
-
+var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
+	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
+	
+func _on_song_assets_loaded(song, assets):
+	if song.circle_image:
+		$SongListPreview/VBoxContainer/AuthorInfo.hide()
+		$SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2.texture = assets.circle_image
+		$SongListPreview/VBoxContainer/CirclePanel.show()
+	else:
+		$SongListPreview/VBoxContainer/CirclePanel.hide()
+		$SongListPreview/VBoxContainer/AuthorInfo.show()
+	if song.preview_image:
+		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = assets.preview
+	else:
+		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
 func select_song(song: HBSong):
 	var bpm = "UNK"
 	bpm = song.bpm
@@ -22,16 +36,7 @@ func select_song(song: HBSong):
 		auth = song.artist_alias
 	else:
 		auth = song.artist
-	if song.circle_image:
-		$SongListPreview/VBoxContainer/AuthorInfo.hide()
-		var circle_texture = ImageTexture.new()
-		var circle_image = HBUtils.image_from_fs(song.get_song_circle_image_res_path())
-		circle_texture.create_from_image(circle_image, Texture.FLAGS_DEFAULT)
-		$SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2.texture = circle_texture
-		$SongListPreview/VBoxContainer/CirclePanel.show()
-	else:
-		$SongListPreview/VBoxContainer/CirclePanel.hide()
-		$SongListPreview/VBoxContainer/AuthorInfo.show()
+
 	if song.original_title:
 		$SongListPreview/VBoxContainer/OriginalTitleLabel.show()
 		$SongListPreview/VBoxContainer/OriginalTitleLabel.text = song.original_title
@@ -39,14 +44,9 @@ func select_song(song: HBSong):
 		$SongListPreview/VBoxContainer/OriginalTitleLabel.hide()
 		
 	$SongListPreview/VBoxContainer/AuthorInfo/AuthorLabel.text = auth
-		
-	var image_path = song.get_song_preview_res_path()
-	if image_path:
-		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = ImageTexture.new()
-		var image = HBUtils.image_from_fs(image_path)
-		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture.create_from_image(image, Texture.FLAGS_DEFAULT)
-	else:
-		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
+	
+	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview"])
+
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x
 	$SongListPreview/VBoxContainer/SongCoverPanel.rect_min_size.y = rect_size.x

@@ -10,11 +10,6 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Control",
-"class": "BBCWaveform",
-"language": "GDScript",
-"path": "res://tools/editor/BBCWaveform.gd"
-}, {
-"base": "Control",
 "class": "EditorTimelineItem",
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItem.gd"
@@ -33,6 +28,16 @@ _global_script_classes=[ {
 "class": "HBBPMChange",
 "language": "GDScript",
 "path": "res://scripts/HBBPMChange.gd"
+}, {
+"base": "Node",
+"class": "HBBackgroundMusicPlayer",
+"language": "GDScript",
+"path": "res://menus/BackgroundMusicPlayer.gd"
+}, {
+"base": "Node",
+"class": "HBBackgroundSongAssetsLoader",
+"language": "GDScript",
+"path": "res://menus/BackgroundSongAssetsLoader.gd"
 }, {
 "base": "Reference",
 "class": "HBChart",
@@ -225,11 +230,12 @@ _global_script_classes=[ {
 "path": "res://autoloads/platform_service/multiplayer_services/SteamServiceMember.gd"
 } ]
 _global_script_class_icons={
-"BBCWaveform": "",
 "EditorTimelineItem": "",
 "EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
 "HBBPMChange": "",
+"HBBackgroundMusicPlayer": "",
+"HBBackgroundSongAssetsLoader": "",
 "HBChart": "",
 "HBDurationNoteData": "",
 "HBEditorAxisGizmoArrow": "",
