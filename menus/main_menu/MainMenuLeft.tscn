@@ -91,12 +91,12 @@ text = "Exit"
 icon = ExtResource( 5 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = -1.36035
-margin_top = -229.405
-margin_right = 498.64
-margin_bottom = -29.4051
+anchor_top = 0.291
+anchor_bottom = 0.463
+margin_left = -1.0
+margin_top = -4.52
+margin_right = 499.0
+margin_bottom = -11.36
 texture = ExtResource( 8 )
 expand = true
 stretch_mode = 6
