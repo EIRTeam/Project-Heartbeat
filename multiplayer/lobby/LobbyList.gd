@@ -24,6 +24,11 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	refresh_lobby_list()
 	scroll_list.grab_focus()
 	
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().set_input_as_handled()
+		change_to_menu("main_menu")
+	
 func _on_get_lobby_list(lobbies):
 	scroll_list.clear_children()
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
@@ -55,7 +60,8 @@ func _on_out_from_top():
 	create_lobby_menu.grab_focus()
 	
 func _on_create_lobby_menu_down():
-	scroll_list.grab_focus()
+	if scroll_list.vbox_container.get_child_count() > 0:
+		scroll_list.grab_focus()
 
 func _on_lobby_button_pressed(lobby: HBLobby):
 	lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
