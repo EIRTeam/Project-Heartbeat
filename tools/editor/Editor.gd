@@ -95,7 +95,7 @@ func _unhandled_input(event):
 			delete_selected()
 
 func _note_comparison(a, b):
-	return a.time < b.time
+	return a.time > b.time
 
 func get_timing_points():
 	var points = []
