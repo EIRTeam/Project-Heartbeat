@@ -71,10 +71,10 @@ func _ready():
 	
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_undo"):
+	if event.is_action_pressed("gui_undo"):
 		get_tree().set_input_as_handled()
 		undo_redo.undo()
-	if event.is_action_pressed("ui_redo"):
+	if event.is_action_pressed("gui_redo"):
 		get_tree().set_input_as_handled()
 		undo_redo.redo()
 	var prev_scale = scale

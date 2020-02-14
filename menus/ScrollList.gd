@@ -77,21 +77,21 @@ func _gui_input(event):
 	if selected_child:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			var child_i = vbox_container.get_children().find(selected_child)
-			if child_i == 0 and event.is_action_pressed("ui_up") and not event.is_echo():
+			if child_i == 0 and event.is_action_pressed("gui_up") and not event.is_echo():
 				get_tree().set_input_as_handled()
 				emit_signal("out_from_top")
-			if event.is_action_pressed("ui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
+			if event.is_action_pressed("gui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
 				get_tree().set_input_as_handled()
 				select_child(vbox_container.get_child(child_i+1))
 				emit_signal("option_hovered", selected_child)
 				$AudioStreamPlayer.play()
-			if event.is_action_pressed("ui_up") and not event.is_echo() and child_i > 0:
+			if event.is_action_pressed("gui_up") and not event.is_echo() and child_i > 0:
 				get_tree().set_input_as_handled()
 				select_child(vbox_container.get_child(child_i-1))
 				emit_signal("option_hovered", selected_child)
 				$AudioStreamPlayer.play()
 
-			if event.is_action_pressed("ui_accept"):
+			if event.is_action_pressed("gui_accept"):
 				get_tree().set_input_as_handled()
 				selected_child.emit_signal("pressed")
 func _process(delta):

@@ -89,6 +89,6 @@ func _on_back():
 	$VBoxContainer.grab_focus()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
 		change_to_menu("main_menu")

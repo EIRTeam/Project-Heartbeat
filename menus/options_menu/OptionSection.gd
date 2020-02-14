@@ -45,7 +45,7 @@ func _ready():
 			_on_option_hovered(section_data.keys()[0])
 func _unhandled_input(event):
 	if visible:
-		if event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
 				emit_signal("back")

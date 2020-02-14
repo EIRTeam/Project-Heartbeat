@@ -35,10 +35,10 @@ func _on_song_hovered(song: HBSong):
 	emit_signal("song_hovered", song)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
-		change_to_menu("lobby")
-	if event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right"):
+		change_to_menu("main_menu")
+	if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
 		$VBoxContainer/DifficultyList._gui_input(event)
 
 func _on_song_selected(song: HBSong):

@@ -38,10 +38,10 @@ func _ready():
 	
 func _gui_input(event):
 	var option_change = 0
-	if event.is_action_pressed("ui_left"):
+	if event.is_action_pressed("gui_left"):
 		option_change = -step
 		get_tree().set_input_as_handled()
-	elif event.is_action_pressed("ui_right"):
+	elif event.is_action_pressed("gui_right"):
 		option_change = step
 		get_tree().set_input_as_handled()
 	if option_change != 0:

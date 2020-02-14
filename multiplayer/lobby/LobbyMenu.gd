@@ -115,10 +115,10 @@ func _on_SelectSongButton_pressed():
 
 
 func _on_LineEdit_gui_input(event: InputEvent):
-	if event.is_action_pressed("ui_up") and not event.is_echo():
+	if event.is_action_pressed("gui_up") and not event.is_echo():
 		get_tree().set_input_as_handled()
 		options_vertical_menu.grab_focus()
 		options_vertical_menu.select_button(options_vertical_menu.get_child_count()-1)
-	if event.is_action_pressed("ui_accept") and not event.is_echo():
+	if event.is_action_pressed("gui_accept") and not event.is_echo():
 		send_chat_message()
 		

@@ -24,14 +24,14 @@ func select(option: int):
 	
 func _gui_input(event):
 	var option_change = 0
-	if event.is_action_pressed("ui_left"):
+	if event.is_action_pressed("gui_left"):
+		get_tree().set_input_as_handled()
 		option_change = -1
+	elif event.is_action_pressed("gui_right"):
 		get_tree().set_input_as_handled()
-	elif event.is_action_pressed("ui_right"):
 		option_change = 1
-		get_tree().set_input_as_handled()
 
 	if option_change != 0:
+		get_tree().set_input_as_handled()
 		select(clamp(selected_option+option_change, 0, options.size()-1))
 		emit_signal("changed", options[selected_option])
-		get_tree().set_input_as_handled()

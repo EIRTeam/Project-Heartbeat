@@ -91,7 +91,7 @@ func _process(delta):
 
 func _gui_input(event):
 	if selected_option:
-		if event.is_action_pressed("ui_down"):
+		if event.is_action_pressed("gui_down"):
 			var current_pos = selected_option.get_position_in_parent()
 			if current_pos < get_child_count()-1:
 				get_tree().set_input_as_handled()
@@ -101,7 +101,7 @@ func _gui_input(event):
 				emit_signal("selected_option_changed")
 				move_sound_player.play()
 				print("DOWN")
-		if event.is_action_pressed("ui_up"):
+		if event.is_action_pressed("gui_up"):
 			var current_pos = selected_option.get_position_in_parent()
 			if current_pos > 0:
 				get_tree().set_input_as_handled()
@@ -110,12 +110,12 @@ func _gui_input(event):
 				selected_option.hover()
 				emit_signal("selected_option_changed")
 				move_sound_player.play()
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("gui_accept"):
 			if selected_option is BaseButton:
 				get_tree().set_input_as_handled()
 				selected_option.emit_signal("pressed")
 				emit_signal("selected_option_changed")
-		if event.is_action_pressed("ui_right"):
+		if event.is_action_pressed("gui_right"):
 			if focus_neighbour_right:
 				get_tree().set_input_as_handled()
 				var right_neighbour = get_node(focus_neighbour_right) as Control
