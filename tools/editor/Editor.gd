@@ -26,7 +26,7 @@ onready var time_arrange_hv_spinbox = get_node("VBoxContainer/VSplitContainer/HB
 onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
 onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager")
-
+onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -425,6 +425,7 @@ func load_song(song: HBSong, difficulty: String):
 			chart.deserialize(result)
 			from_chart(chart)
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
+	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm
 	current_song = song
 	current_difficulty = difficulty

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=1]
 [ext_resource path="res://tools/song_meta_editor/UserSongList.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=8]
 [ext_resource path="res://tools/icons/icon_folder.svg" type="Texture" id=9]
 [ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=10]
+[ext_resource path="res://tools/icons/pencil.svg" type="Texture" id=11]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -96,6 +97,7 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -360,8 +362,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Difficulties" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
-visible = false
+[node name="Charts" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -369,13 +370,13 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts"]
 margin_right = 616.0
 margin_bottom = 663.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer"]
 margin_right = 79.0
 margin_bottom = 663.0
 size_flags_vertical = 3
@@ -383,36 +384,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Normal" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer"]
+[node name="Normal" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer"]
 margin_right = 79.0
 margin_bottom = 25.0
 text = "Normal"
 
-[node name="Hard" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer"]
+[node name="Hard" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer"]
 margin_top = 29.0
 margin_right = 79.0
 margin_bottom = 54.0
 text = "Hard"
 
-[node name="Extreme" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer"]
+[node name="Extreme" type="CheckBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer"]
 margin_top = 58.0
 margin_right = 79.0
 margin_bottom = 83.0
 text = "Extreme"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer"]
 margin_left = 83.0
 margin_right = 147.0
 margin_bottom = 663.0
 
-[node name="Normal" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer2"]
+[node name="Normal" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer2"]
 margin_right = 64.0
 margin_bottom = 25.0
 min_value = 1.0
 max_value = 10.0
 value = 1.0
 
-[node name="Hard" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer2"]
+[node name="Hard" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer2"]
 margin_top = 29.0
 margin_right = 64.0
 margin_bottom = 54.0
@@ -420,13 +421,44 @@ min_value = 1.0
 max_value = 10.0
 value = 1.0
 
-[node name="Extreme" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Difficulties/HBoxContainer/VBoxContainer2"]
+[node name="Extreme" type="SpinBox" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer2"]
 margin_top = 58.0
 margin_right = 64.0
 margin_bottom = 83.0
 min_value = 1.0
 max_value = 10.0
 value = 1.0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer"]
+margin_left = 151.0
+margin_right = 237.0
+margin_bottom = 663.0
+
+[node name="Normal" type="Button" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3"]
+margin_right = 86.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 0 )
+disabled = true
+text = "Edit chart"
+icon = ExtResource( 11 )
+
+[node name="Hard" type="Button" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3"]
+margin_top = 29.0
+margin_right = 86.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 25, 0 )
+disabled = true
+text = "Edit chart"
+icon = ExtResource( 11 )
+
+[node name="Extreme" type="Button" parent="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3"]
+margin_top = 58.0
+margin_right = 86.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 25, 0 )
+disabled = true
+text = "Edit chart"
+icon = ExtResource( 11 )
 
 [node name="Graphics" type="ScrollContainer" parent="HSplitContainer/SongMetaEditor/TabContainer"]
 visible = false
@@ -554,8 +586,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -564,8 +596,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="PreviewFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -574,8 +606,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -584,8 +616,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -594,8 +626,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="HSplitContainer/SongMetaEditor"]
 margin_right = 535.0
@@ -604,8 +636,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CreatePackageDialog" type="ConfirmationDialog" parent="."]
 margin_left = 10.0
@@ -651,8 +683,8 @@ margin_bottom = 710.0
 window_title = "Guardar un Archivo"
 access = 2
 filters = PoolStringArray( "*.pck; Package File" )
-current_dir = "/home/eirexe/Project-Heartbeat"
-current_path = "/home/eirexe/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer2/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/FolderButton" to="." method="_on_FolderButton_pressed"]
 [connection signal="pressed" from="HSplitContainer/VBoxContainer/HBoxContainer/AddButton" to="." method="_on_AddButton_pressed"]
@@ -660,6 +692,12 @@ current_path = "/home/eirexe/Project-Heartbeat/"
 [connection signal="song_meta_saved" from="HSplitContainer/SongMetaEditor" to="HSplitContainer/VBoxContainer/SongList" method="_on_SongMetaEditor_song_meta_saved"]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="HSplitContainer/SongMetaEditor/AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="HSplitContainer/SongMetaEditor/VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="toggled" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer/Normal" to="HSplitContainer/SongMetaEditor" method="_on_dificulty_checkbox_toggled" binds= [ "normal" ]]
+[connection signal="toggled" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer/Hard" to="HSplitContainer/SongMetaEditor" method="_on_dificulty_checkbox_toggled" binds= [ "hard" ]]
+[connection signal="toggled" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer/Extreme" to="HSplitContainer/SongMetaEditor" method="_on_dificulty_checkbox_toggled" binds= [ "extreme" ]]
+[connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3/Normal" to="HSplitContainer/SongMetaEditor" method="_on_edit_chart_button_pressed" binds= [ "normal" ]]
+[connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3/Hard" to="HSplitContainer/SongMetaEditor" method="_on_edit_chart_button_pressed" binds= [ "hard" ]]
+[connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Charts/HBoxContainer/VBoxContainer3/Extreme" to="HSplitContainer/SongMetaEditor" method="_on_edit_chart_button_pressed" binds= [ "extreme" ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="HSplitContainer/SongMetaEditor/PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton" to="HSplitContainer/SongMetaEditor/BackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="HSplitContainer/SongMetaEditor/TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageButton" to="HSplitContainer/SongMetaEditor/CircleFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]

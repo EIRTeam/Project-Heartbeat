@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://menus/HBListContainer.gd" type="Script" id=1]
 [ext_resource path="res://menus/tools_menu/ToolsMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphics/icons/folder-music.svg" type="Texture" id=4]
+[ext_resource path="res://graphics/icons/folder-cog.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture" id=6]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -21,6 +24,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+VISIBILITY_THRESHOLD = 3
 margin = 10
 scale_factor = 1.0
 disable_repositioning = true
@@ -32,24 +36,23 @@ margin_top = 330.0
 margin_right = 536.0
 margin_bottom = 390.0
 text = "Open Logs Directory"
+icon = ExtResource( 5 )
+next_menu = ""
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 400.0
-margin_right = 536.0
+margin_right = 545.0
 margin_bottom = 460.0
 text = "Open Songs Directory"
+icon = ExtResource( 4 )
+next_menu = ""
 
-[node name="EditorButton" parent="ToolsList" instance=ExtResource( 3 )]
+[node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 470.0
 margin_right = 536.0
 margin_bottom = 530.0
-text = "Chart Editor"
-
-[node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 540.0
-margin_right = 536.0
-margin_bottom = 600.0
-text = "Song Metadata Editor"
+text = "Song Editor"
+icon = ExtResource( 6 )
+next_menu = ""

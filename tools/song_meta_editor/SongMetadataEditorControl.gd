@@ -18,8 +18,9 @@ onready var audio_filename_edit = get_node("TabContainer/Technical Data/VBoxCont
 onready var preview_start_edit = get_node("TabContainer/Technical Data/VBoxContainer/SongPreviewSpinBox")
 onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
-onready var difficulties_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer")
-onready var stars_container = get_node("TabContainer/Difficulties/HBoxContainer/VBoxContainer2")
+onready var difficulties_container = get_node("TabContainer/Charts/HBoxContainer/VBoxContainer")
+onready var stars_container = get_node("TabContainer/Charts/HBoxContainer/VBoxContainer2")
+onready var editor_button_container = get_node("TabContainer/Charts/HBoxContainer/VBoxContainer3")
 
 onready var preview_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
 onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
@@ -58,6 +59,9 @@ func set_song_meta(value):
 		for star_spinbox in stars_container.get_children():
 			if star_spinbox.name.to_lower() == difficulty.to_lower():
 				star_spinbox.value = song_meta.charts[difficulty].stars
+		for editor_button in editor_button_container.get_children():
+			if editor_button.name.to_lower() == difficulty.to_lower():
+				editor_button.disabled = false
 	
 func _ready():
 	pass
@@ -164,3 +168,20 @@ func _on_CircleLogoFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	_on_SaveButton_pressed()
+
+
+func _on_dificulty_checkbox_toggled(button_pressed, difficulty):
+	for editor_button in editor_button_container.get_children():
+		if editor_button.name.to_lower() == difficulty.to_lower():
+			editor_button.disabled = !button_pressed
+			
+func _on_edit_chart_button_pressed(difficulty):
+	_on_SaveButton_pressed()
+	var editor_scene = preload("res://tools/editor/Editor.tscn").instance()
+	var us = get_tree().current_scene
+	var tree = get_tree()
+	tree.root.add_child(editor_scene)
+	tree.current_scene.get_parent().remove_child(tree.current_scene)
+	tree.current_scene = editor_scene
+	editor_scene.load_song(song_meta, difficulty)
+	us.queue_free()
