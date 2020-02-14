@@ -58,6 +58,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -74.0
 margin_bottom = -28.0
+focus_mode = 2
 custom_constants/separation = 20
 alignment = 1
 script = ExtResource( 3 )
