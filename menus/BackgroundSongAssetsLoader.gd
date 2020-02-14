@@ -14,16 +14,13 @@ func _load_song_assets_thread(userdata):
 	var loaded_assets = {}
 	for asset in userdata.requested_assets:
 		var loaded_asset
-		var image_loaded = false
 		match asset:
 			"preview":
 				if song.preview_image:
-					image_loaded = true
-					loaded_asset = HBUtils.image_from_fs(song.get_song_preview_res_path())
+					loaded_asset = HBUtils.image_from_fs_async(song.get_song_preview_res_path())
 			"background":
 				if song.background_image:
-					image_loaded = true
-					loaded_asset = HBUtils.image_from_fs(song.get_song_background_image_res_path())
+					loaded_asset = HBUtils.image_from_fs_async(song.get_song_background_image_res_path())
 			"audio":
 				if song.audio:
 					loaded_asset = song.get_audio_stream()
@@ -32,16 +29,10 @@ func _load_song_assets_thread(userdata):
 					loaded_asset = song.get_voice_stream()
 			"circle_image":
 				if song.circle_image:
-					image_loaded = true
-					loaded_asset = HBUtils.image_from_fs(song.get_song_circle_image_res_path())
+					loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_image_res_path())
 			"circle_logo":
 				if song.circle_logo:
-					image_loaded = true
-					loaded_asset = HBUtils.image_from_fs(song.get_song_circle_logo_image_res_path())
-		if image_loaded:
-			var image_texture = ImageTexture.new()
-			image_texture.create_from_image(loaded_asset, Texture.FLAGS_DEFAULT)
-			loaded_asset = image_texture
+					loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_logo_image_res_path())
 		loaded_assets[asset] = loaded_asset
 		if enable_abort:
 			# Current song changed, abort

@@ -106,6 +106,18 @@ static func image_from_fs(path: String) -> Image:
 		var image = Image.new()
 		image.load(path)
 		return image
+static func image_from_fs_async(path: String):
+	if path.begins_with("res://"):
+		var ril = ResourceLoader.load_interactive(path)
+		while true:
+			if ril.poll() == ERR_FILE_EOF:
+				return ril.get_resource()
+	else:
+		var image = Image.new()
+		image.load(path)
+		var image_texture = ImageTexture.new()
+		image_texture.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
+		return image_texture
 		
 static func thousands_sep(number, prefix=''):
 	number = int(number)
