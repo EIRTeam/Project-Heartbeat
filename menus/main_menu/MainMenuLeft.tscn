@@ -92,8 +92,8 @@ icon = ExtResource( 5 )
 next_menu = ""
 
 [node name="TextureRect" type="TextureRect" parent="."]
-anchor_top = 0.291
-anchor_bottom = 0.463
+anchor_top = 0.232
+anchor_bottom = 0.437
 margin_left = -1.0
 margin_top = -4.52
 margin_right = 499.0
