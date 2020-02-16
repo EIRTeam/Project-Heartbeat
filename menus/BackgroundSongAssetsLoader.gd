@@ -39,7 +39,8 @@ func _load_song_assets_thread(userdata):
 			_current_song_mutex.lock()
 			if current_song.id != userdata.song_id:
 				call_deferred("_song_asset_loading_aborted", userdata.thread)
-			_current_song_mutex.unlock()
+				_current_song_mutex.unlock()
+				return
 #	OS.delay_msec(int(1 * 1000.0)) # Delay simulation
 	
 	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
@@ -49,9 +50,16 @@ func _song_asset_loading_aborted(thread: Thread):
 	
 func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 	thread.wait_to_finish() # Windows breaks if you don't do this
+	for asset_name in assets:
+		if assets[asset_name] is Image:
+			var image = assets[asset_name] as Image
+			var tex = ImageTexture.new()
+			tex.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
+			assets[asset_name] = tex
 	emit_signal("song_assets_loaded", song, assets)
 	
 func load_song_assets(song, requested_assets=["preview", "background", "audio", "voice"]):
 	var thread = Thread.new()
 	current_song = song
-	thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})
+	var result = thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})
+	print("Error starting thread for asset loader: ", result)

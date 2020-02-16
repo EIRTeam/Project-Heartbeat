@@ -101,7 +101,7 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	
 static func image_from_fs(path: String) -> Image:
 	if path.begins_with("res://"):
-		return load(path).get_data()
+		return load(path) as Image
 	else:
 		var image = Image.new()
 		image.load(path)
