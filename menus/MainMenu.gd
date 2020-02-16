@@ -71,7 +71,6 @@ var right_menu_container
 var player = HBBackgroundMusicPlayer.new()
 func _ready():
 	connect("change_to_menu", self, "_on_change_to_menu")
-	menu_setup()
 	add_child(player)
 	MENUS["song_list"].left.connect("song_hovered", player, "play_song")
 	
@@ -81,6 +80,7 @@ func _ready():
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	player.play_random_song()
+	menu_setup()
 
 
 func menu_setup():

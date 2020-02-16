@@ -10,11 +10,13 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$VBoxContainer/MarginContainer/ScrollContainer.grab_focus()
 	if args.has("song_difficulty"):
-		_select_difficulty(args.song_difficulty)
+#		_select_difficulty(args.song_difficulty)
 		for i in range(difficulty_list.get_child_count()):
 			var button = difficulty_list.get_child(i)
 			if button.get_meta("difficulty") == args.song_difficulty:
 				difficulty_list.select_button(i)
+	else:
+		difficulty_list.select_button(0)
 	if args.has("song"):
 		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
 
@@ -28,7 +30,7 @@ func _ready():
 		button.connect("hovered", self, "_select_difficulty", [difficulty])
 		button.set_meta("difficulty", difficulty)
 		difficulty_list.add_child(button)
-	difficulty_list.select_button(0)
+
 	scroll_container.connect("song_selected", self, "_on_song_selected")
 	
 func _on_song_hovered(song: HBSong):

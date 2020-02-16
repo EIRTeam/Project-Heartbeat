@@ -16,15 +16,13 @@ func _on_option_hovered(option):
 		
 func _on_focus_entered():
 	._on_focus_entered()
-	if selected_child:
-		emit_signal("song_hovered", selected_child.song)
 func _on_song_selected(song: HBSong):
 	emit_signal("song_selected", song)
 func select_song_by_id(song_id: String):
 	for child in vbox_container.get_children():
 		if child.song.id == song_id:
 			select_child(child, true)
-			emit_signal("option_hovered", child)
+			emit_signal("song_hovered", child.song)
 			break
 func set_songs(songs: Array, difficulty: String):
 	var previously_selected_song_id = null
