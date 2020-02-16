@@ -228,13 +228,20 @@ func remove_all_notes_from_screen():
 		notes_on_screen[i].get_meta("note_drawer").free()
 	notes_on_screen = []
 	
-func play_note_sfx():
-	if not _sfx_played_this_cycle:
-		var curr_effect = hit_effect_queue[0]
-		curr_effect.play()
-		hit_effect_queue.pop_front()
-		hit_effect_queue.push_back(curr_effect)
-		_sfx_played_this_cycle = true
+func play_note_sfx(slide=false):
+	if not slide:
+		if not _sfx_played_this_cycle:
+			var curr_effect = hit_effect_queue[0]
+			curr_effect.play()
+			hit_effect_queue.pop_front()
+			hit_effect_queue.push_back(curr_effect)
+			_sfx_played_this_cycle = true
+	else:
+		print("PLAY SLIDE")
+		var dup = $HitEffect2.duplicate()
+		add_child(dup)
+		dup.connect("finished", dup, "queue_free")
+		dup.play()
 	
 func hookup_multi_notes(notes: Array):
 	print("HOOKING UP %d notes" % [notes.size()])
@@ -262,7 +269,7 @@ func _process(delta):
 		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
 		for action in actions:
 			if Input.is_action_just_pressed(action):
-				play_note_sfx()
+				play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
 				action_pressed = true
 				break
 		if action_pressed:
@@ -347,7 +354,7 @@ func _process(delta):
 					var a = InputEventAction.new()
 					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
 					a.pressed = true
-					play_note_sfx()
+					play_note_sfx(note.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
 					Input.parse_input_event(a)
 
 func set_current_combo(combo: int):

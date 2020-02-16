@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 [ext_resource path="res://graphics/heart.png" type="Texture" id=10]
+[ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=11]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=14]
 [ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=16]
 [ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=17]
@@ -199,10 +200,10 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=12]
 size = 20
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -548,6 +549,13 @@ bus = "Vocals"
 stream = ExtResource( 3 )
 bus = "Music"
 
+[node name="HitEffect2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+bus = "SlideSFX"
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 1280, 720 )
 transparent_bg = true
@@ -756,7 +764,7 @@ anchor_top = 0.924
 anchor_right = 1.0
 anchor_bottom = 0.924
 rect_min_size = Vector2( 0, 32 )
-custom_styles/panel = SubResource( 17 )
+custom_styles/panel = SubResource( 11 )
 script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -767,7 +775,7 @@ CLEAR_COLOR = Color( 0.662745, 0.0509804, 0.364706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 1.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 12 )
 text = "0.00 %"
 align = 1
 valign = 1
