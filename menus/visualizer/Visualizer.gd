@@ -3,7 +3,7 @@ var spectrum : AudioEffectSpectrumAnalyzerInstance
 var FREQ_MAX = 44100.0 / 3 setget set_freq_max
 const VU_COUNT = 64 # high VU_COUNTS break on windows
 var MIN_DB = 60 setget set_min_db
-var spectrum_image := Image.new()
+var spectrum_image
 var spectrum_image_texture
 
 func set_freq_max(value: float):
@@ -13,10 +13,11 @@ func set_min_db(value):
 	MIN_DB = value
 
 func _ready():
+	spectrum_image = Image.new()
 	spectrum_image_texture = ImageTexture.new()
 	spectrum = AudioServer.get_bus_effect_instance(1,0)
 	spectrum_image_texture.flags = 0 # disable filter to avoid bugs
-	spectrum_image.create(VU_COUNT,1,false,Image.FORMAT_R8)
+	spectrum_image.create(VU_COUNT,2,false,Image.FORMAT_R8)
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("audio", spectrum_image_texture)
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
