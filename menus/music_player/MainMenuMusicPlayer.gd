@@ -6,7 +6,7 @@ const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
 
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 
-func _ready():
+func _init():
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 
 func _on_song_assets_loaded(song, assets):
