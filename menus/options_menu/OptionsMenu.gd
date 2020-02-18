@@ -18,6 +18,22 @@ var OPTIONS = {
 			"description": "The type of icons to use, depending on your input method of choice",
 			"type": "icon_type_selector"
 		},
+		"left_arrow_override_enabled": {
+			"name": "Use arrow instead of left icon",
+			"description": "Replaces all instances of the left icon of the selected icon pack with a left arrow."
+		},
+		"right_arrow_override_enabled": {
+			"name": "Use arrow instead of right icon",
+			"description": "Replaces all instances of the right icon of the selected icon pack with a right arrow."
+		},
+		"up_arrow_override_enabled": {
+			"name": "Use arrow instead of up icon",
+			"description": "Replaces all instances of the up icon of the selected icon pack with a up arrow."
+		},
+		"down_arrow_override_enabled": {
+			"name": "Use arrow instead of down icon",
+			"description": "Replaces all instances of the down icon of the selected icon pack with a down arrow."
+		},
 		"visualizer_enabled": {
 			"name": "Visualizer",
 			"description": "Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems."
