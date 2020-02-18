@@ -92,7 +92,7 @@
                 },
                 "multi_note_target": {
                     "style": "multi_note_target",
-                    "src_path": "notes/Right_target",
+                    "src_path": "notes/Right",
                     "target_path": "notes/Right_multi_note_target"
                 }
             }
