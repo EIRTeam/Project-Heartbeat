@@ -6,10 +6,10 @@ var text setget set_text
 
 func set_value(val):
 	.set_value(val)
-	var res = 0
+	var res = 1
 	
 	if not val:
-		res = 1
+		res = 0
 	$OptionSelect.select(res)
 	print("SELECTING VALUE", res)
 func set_text(val):
