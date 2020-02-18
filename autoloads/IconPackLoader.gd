@@ -8,13 +8,15 @@ const LOG_NAME = "IconPackLoader"
 
 var preloaded_graphics = {}
 var current_pack
+var arrow_overrides_graphics
 func _ready():
 	load_all_icon_packs()
-	preload_graphics(UserSettings.user_settings.icon_pack)
-	pass
-func preload_graphics(pack: String):
-	var icon_pack = packs[pack]
-	preloaded_graphics = {}
+	# Todo use default if pack doesn't exist
+	preloaded_graphics = preload_graphics(packs[UserSettings.user_settings.icon_pack])
+	current_pack = UserSettings.user_settings.icon_pack
+	arrow_overrides_graphics = preload_graphics(load_icon_pack("res://graphics/arrow_overrides"))
+func preload_graphics(icon_pack):
+	var result = {}
 	var graphics = {}
 	for graphic_type in icon_pack.graphics:
 
@@ -24,8 +26,8 @@ func preload_graphics(pack: String):
 			var source = graphic_srcs[variation_type]
 			var graphic_path = icon_pack.__origin + "/" + source.target_path + ".png"
 			graphics[graphic_type][variation_type] = load(graphic_path)
-	HBUtils.merge_dict(preloaded_graphics, graphics)
-	current_pack = pack
+	HBUtils.merge_dict(result, graphics)
+
 func load_icon_packs_from_path(path: String):
 	var dir := Directory.new()
 	var value = {}
@@ -35,22 +37,26 @@ func load_icon_packs_from_path(path: String):
 
 		while dir_name != "":
 			if dir.current_is_dir() and not dir_name.begins_with("."):
-				var pack_json_path = path + "/%s/icon_pack.json" % dir_name
-				var file = File.new()
-				
-				if file.file_exists(pack_json_path):
-					file.open(pack_json_path, File.READ)
-					var result = JSON.parse(file.get_as_text())
-					if result.error == OK:
-						value[dir_name] = result.result
-						value[dir_name]["__origin"] = path + "/%s" % dir_name
-					else:
-						Log.log(self, "Error parsing icon pack: %s from %s" % [dir_name, pack_json_path], Log.LogLevel.ERROR)
-					
-					
+				var pack_path = path + "/%s" % dir_name
+				value[dir_name] = load_icon_pack(pack_path)
 			dir_name = dir.get_next()
 	return value
 
+func load_icon_pack(path: String):
+	var pack_json_path = path + "/icon_pack.json"
+	var file = File.new()
+	
+	var value = {}
+	
+	if file.file_exists(pack_json_path):
+		file.open(pack_json_path, File.READ)
+		var result = JSON.parse(file.get_as_text())
+		if result.error == OK:
+			value = result.result
+			value["__origin"] = path
+		else:
+			Log.log(self, "Error parsing icon pack: %s from %s" % [path, pack_json_path], Log.LogLevel.ERROR)
+	return value
 func load_all_icon_packs():
 	for path in ICON_PACKS_SEARCH_PATHS:
 		packs = HBUtils.merge_dict(packs, load_icon_packs_from_path(path))

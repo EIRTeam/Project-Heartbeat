@@ -26,8 +26,10 @@ func _ready():
 		queue_free()
 	set_physics_process(false)
 	
-func _physics_process(delta):
+func _process(delta):
 	var prev_hz = 0
+	
+	spectrum_image.create(64,1,false,Image.FORMAT_RGB8)
 
 	for i in range(VU_COUNT):
 		var hz = i * (FREQ_MAX / VU_COUNT);

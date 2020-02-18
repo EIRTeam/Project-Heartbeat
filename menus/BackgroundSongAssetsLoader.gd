@@ -62,4 +62,5 @@ func load_song_assets(song, requested_assets=["preview", "background", "audio", 
 	var thread = Thread.new()
 	current_song = song
 	var result = thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})
-	print("Error starting thread for asset loader: ", result)
+	if result != OK:
+		print("Error starting thread for asset loader: ", result)
