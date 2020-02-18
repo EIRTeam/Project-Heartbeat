@@ -26,7 +26,7 @@ func preload_graphics(icon_pack):
 			var source = graphic_srcs[variation_type]
 			var graphic_path = icon_pack.__origin + "/" + source.target_path + ".png"
 			graphics[graphic_type][variation_type] = load(graphic_path)
-	HBUtils.merge_dict(result, graphics)
+	return HBUtils.merge_dict(result, graphics)
 
 func load_icon_packs_from_path(path: String):
 	var dir := Directory.new()
@@ -66,7 +66,6 @@ func get_icon(type, variation):
 		if preloaded_graphics[type].has(variation):
 			return preloaded_graphics[type][variation]
 func get_variations(type):
-	
 	if preloaded_graphics.has(type):
 		return preloaded_graphics[type]
 		
