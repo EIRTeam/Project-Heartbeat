@@ -35,7 +35,7 @@ func _ready():
 						option_scene.step = option.step
 		if option_scene:
 			options_container.add_child(option_scene)
-			option_scene.value = section_data[option_name].default_value
+			option_scene.value = UserSettings.user_settings.get(option_name)
 			option_scene.text = section_data[option_name].name
 			option_scene.connect("changed", self, "_on_value_changed", [option_name])
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
