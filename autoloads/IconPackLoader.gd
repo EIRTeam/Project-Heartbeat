@@ -15,6 +15,7 @@ func _ready():
 	preloaded_graphics = preload_graphics(packs[UserSettings.user_settings.icon_pack])
 	current_pack = UserSettings.user_settings.icon_pack
 	arrow_overrides_graphics = preload_graphics(load_icon_pack("res://graphics/arrow_overrides"))
+	
 func preload_graphics(icon_pack):
 	var result = {}
 	var graphics = {}
@@ -66,8 +67,22 @@ func get_icon(type, variation):
 		if preloaded_graphics[type].has(variation):
 			return preloaded_graphics[type][variation]
 func get_variations(type):
-	if preloaded_graphics.has(type):
-		return preloaded_graphics[type]
+	# This makes arrow overrides work
+	
+	var directional_types_property_map = {
+		"LEFT": "left_arrow_override_enabled",
+		"RIGHT": "right_arrow_override_enabled",
+		"UP": "up_arrow_override_enabled",
+		"DOWN": "left_arrow_override_enabled"
+	}
+	
+	var graphics = preloaded_graphics
+	
+	if type in directional_types_property_map.keys():
+		if UserSettings.user_settings.get(directional_types_property_map[type]):
+			graphics = arrow_overrides_graphics
+	if graphics.has(type):
+		return graphics[type]
 		
 func get_color(type) -> Color:
 	var color = "#FFFFFF"
