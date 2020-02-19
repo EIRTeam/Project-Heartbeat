@@ -24,25 +24,23 @@ func _ready():
 		set_physics_process(false)
 	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
 		queue_free()
-	set_physics_process(false)
 	
-func _process(delta):
+func _physics_process(delta):
 	var prev_hz = 0
-	
-	spectrum_image.create(64,1,false,Image.FORMAT_RGB8)
-
+	spectrum_image.lock()
 	for i in range(VU_COUNT):
 		var hz = i * (FREQ_MAX / VU_COUNT);
 		var f = spectrum.get_magnitude_for_frequency_range(prev_hz,hz, 1)
 		var energy = clamp((MIN_DB + linear2db(f.length()))/MIN_DB,0,1)
-		spectrum_image.lock()
+		
 		spectrum_image.set_pixel(i, 0, Color(energy, 1.0, 1.0))
 		if (i == -1):
 			spectrum_image.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
 			
-		spectrum_image.unlock()
+		
 		spectrum_image_texture.create_from_image(spectrum_image)
 		prev_hz = hz
+	spectrum_image.unlock()
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("size", rect_size)
 
