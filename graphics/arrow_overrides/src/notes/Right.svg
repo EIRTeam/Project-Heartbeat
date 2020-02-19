@@ -38,9 +38,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="36.189454"
-     inkscape:cy="51.462398"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="43.341335"
+     inkscape:cy="48.406901"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -51,9 +51,9 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="2560"
-     inkscape:window-height="1080"
+     inkscape:window-height="1056"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="0">
     <sodipodi:guide
        position="74.751288,10.101525"
@@ -84,7 +84,7 @@
      id="layer1">
     <path
        style="opacity:0.431;vector-effect:none;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 21.293945,65.135742 H 43.791991 V 82.223633 L 61.739257,68.74707 79.688476,55.270508 61.739257,41.793945 43.791991,28.31543 V 44.688476 H 21.293945 Z"
+       d="M 21.293945,60.084979 H 43.791991 V 77.17287 L 61.739257,63.696307 79.688476,50.219745 61.739257,36.743182 43.791991,23.264667 V 39.637713 H 21.293945 Z"
        id="main_path"
        inkscape:connector-curvature="0" />
     <circle

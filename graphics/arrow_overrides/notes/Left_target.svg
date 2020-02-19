@@ -6,7 +6,7 @@
   <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
       <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter></defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="5.6" inkscape:cx="36.189454" inkscape:cy="51.462398" inkscape:document-units="mm" inkscape:current-layer="layer1" showgrid="false" fit-margin-top="0" fit-margin-left="0" fit-margin-right="0" fit-margin-bottom="0" showguides="true" inkscape:guide-bbox="true" inkscape:window-width="2560" inkscape:window-height="1080" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="0">
+  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="7.9195959" inkscape:cx="43.341335" inkscape:cy="48.406901" inkscape:document-units="mm" inkscape:current-layer="layer1" showgrid="false" fit-margin-top="0" fit-margin-left="0" fit-margin-right="0" fit-margin-bottom="0" showguides="true" inkscape:guide-bbox="true" inkscape:window-width="2560" inkscape:window-height="1056" inkscape:window-x="0" inkscape:window-y="24" inkscape:window-maximized="0">
     <sodipodi:guide position="74.751288,10.101525" orientation="0,1" id="guide3724" inkscape:locked="false"/>
     <sodipodi:guide position="13.497112,10.523738" orientation="1,0" id="guide3728" inkscape:locked="false"/>
   </sodipodi:namedview>
@@ -20,7 +20,7 @@
     </rdf:RDF>
   </metadata>
   <g inkscape:label="Capa 1" inkscape:groupmode="layer" id="layer1">
-    <svg:path style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:2.0;stroke-opacity:1;filter:url(#backFilter);" d="M 79.688476,45.403321 H 57.19043 V 28.31543 L 39.243164,41.791993 21.293945,55.268555 39.243164,68.745118 57.19043,82.223633 V 65.850587 h 22.498046 z" id="background_path" inkscape:connector-curvature="0"/>
-    <path style="fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="M 79.688476,45.403321 H 57.19043 V 28.31543 L 39.243164,41.791993 21.293945,55.268555 39.243164,68.745118 57.19043,82.223633 V 65.850587 h 22.498046 z" id="main_path" inkscape:connector-curvature="0"/>
+    <svg:path style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:2.0;stroke-opacity:1;filter:url(#backFilter);" d="m 79.688476,40.352558 -22.498046,0 V 23.264667 L 39.243164,36.74123 21.293945,50.217792 39.243164,63.694355 57.19043,77.17287 V 60.799824 l 22.498046,0 z" id="background_path" inkscape:connector-curvature="0"/>
+    <path style="fill:#272646;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="m 79.688476,40.352558 -22.498046,0 V 23.264667 L 39.243164,36.74123 21.293945,50.217792 39.243164,63.694355 57.19043,77.17287 V 60.799824 l 22.498046,0 z" id="main_path" inkscape:connector-curvature="0"/>
     </g>
 </svg>
