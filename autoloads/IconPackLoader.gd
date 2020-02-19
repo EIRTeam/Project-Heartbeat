@@ -9,12 +9,22 @@ const LOG_NAME = "IconPackLoader"
 var preloaded_graphics = {}
 var current_pack
 var arrow_overrides_graphics
+var arrow_overrides_pack
+
+const DIRECTIONAL_TYPES_PROPERTY_MAP = {
+	"LEFT": "left_arrow_override_enabled",
+	"RIGHT": "right_arrow_override_enabled",
+	"UP": "up_arrow_override_enabled",
+	"DOWN": "down_arrow_override_enabled"
+}
+
 func _ready():
 	load_all_icon_packs()
 	# Todo use default if pack doesn't exist
 	preloaded_graphics = preload_graphics(packs[UserSettings.user_settings.icon_pack])
 	current_pack = UserSettings.user_settings.icon_pack
-	arrow_overrides_graphics = preload_graphics(load_icon_pack("res://graphics/arrow_overrides"))
+	var arrow_overrides_pack = load_icon_pack("res://graphics/arrow_overrides")
+	arrow_overrides_graphics = preload_graphics(arrow_overrides_pack)
 	
 func preload_graphics(icon_pack):
 	var result = {}
@@ -66,26 +76,36 @@ func get_icon(type, variation):
 	if preloaded_graphics.has(type):
 		if preloaded_graphics[type].has(variation):
 			return preloaded_graphics[type][variation]
-func get_variations(type):
+			
+# For overrides (like arrows)
+func get_graphics_for_type(type):
 	# This makes arrow overrides work
-	
-	var directional_types_property_map = {
-		"LEFT": "left_arrow_override_enabled",
-		"RIGHT": "right_arrow_override_enabled",
-		"UP": "up_arrow_override_enabled",
-		"DOWN": "left_arrow_override_enabled"
-	}
 	
 	var graphics = preloaded_graphics
 	
-	if type in directional_types_property_map.keys():
-		if UserSettings.user_settings.get(directional_types_property_map[type]):
+	if type in DIRECTIONAL_TYPES_PROPERTY_MAP.keys():
+		if UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[type]):
 			graphics = arrow_overrides_graphics
 	if graphics.has(type):
 		return graphics[type]
 		
+func get_pack_for_type(type):
+	var pack = packs[current_pack]
+	
+	if type in DIRECTIONAL_TYPES_PROPERTY_MAP.keys():
+		if UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[type]):
+			if arrow_overrides_pack.has(type):
+				pack = arrow_overrides_pack
+	return pack
+		
+func get_variations(type):
+	var graphics = get_graphics_for_type(type)
+	if graphics:
+		return graphics
+		
 func get_color(type) -> Color:
 	var color = "#FFFFFF"
-	if packs[current_pack].graphics.has(type):
-		color = packs[current_pack].graphics[type].color
+	var pack = get_pack_for_type(type)
+	if pack.graphics.has(type):
+		color = pack.graphics[type].color
 	return Color(color)
