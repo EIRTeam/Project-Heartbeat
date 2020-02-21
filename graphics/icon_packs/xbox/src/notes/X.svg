@@ -73,18 +73,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1028"
+     inkscape:window-width="2560"
+     inkscape:window-height="1080"
      id="namedview998"
      showgrid="false"
      showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:zoom="4.72"
-     inkscape:cx="-18.089984"
-     inkscape:cy="27.140039"
+     inkscape:zoom="9.44"
+     inkscape:cx="40.029679"
+     inkscape:cy="55.439565"
      inkscape:window-x="0"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg996">
     <sodipodi:guide
        position="48.239064,19.475399"
@@ -98,7 +98,8 @@
        inkscape:locked="false" />
   </sodipodi:namedview>
   <g
-     id="g2337">
+     id="g2337"
+     transform="matrix(1.1656472,0,0,1,-8.2823607,0)">
     <path
        inkscape:connector-curvature="0"
        id="main_path"

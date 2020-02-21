@@ -15,8 +15,8 @@
     <clipPath clipPathUnits="userSpaceOnUse" id="clipPath888">
       <text id="text892" y="197.22488" x="140.47195" style="font-style:normal;font-weight:normal;font-size:12.1545887px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" xml:space="preserve"><tspan style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1" y="197.22488" x="140.47195" id="tspan890" sodipodi:role="line">B</tspan></text>
     </clipPath>
-  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.15193133" width="1.3038627" y="-0.099159664" height="1.1983193">
-      <feGaussianBlur inkscape:collect="always" stdDeviation="2.433064" id="gaussianBlurBack"/>
+  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter></defs>
   <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1920" inkscape:window-height="1028" id="namedview817" showgrid="false" showguides="true" inkscape:guide-bbox="true" inkscape:zoom="2.0825" inkscape:cx="60.14376" inkscape:cy="-2.6603487" inkscape:window-x="0" inkscape:window-y="24" inkscape:window-maximized="1" inkscape:current-layer="g832">
     <sodipodi:guide position="57.553229,67.060547" orientation="0,1" id="guide829" inkscape:locked="false"/>

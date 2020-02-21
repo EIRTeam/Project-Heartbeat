@@ -3,8 +3,8 @@
     <clipPath clipPathUnits="userSpaceOnUse" id="clipPath4597">
       <path d="m 143.8989,191.06182 -1.05237,2.656 h 2.15486 z m -4.44335,6.04698 h 2.00452 l 0.7684,-1.87089 h 3.14446 l 0.6643,1.87089 h 2.33024 l -3.70889,-8.44623 h -1.51191 z" style="fill:#87d639;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path4599" inkscape:connector-curvature="0"/>
     </clipPath>
-  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.15193133" width="1.3038627" y="-0.099159664" height="1.1983193">
-      <feGaussianBlur inkscape:collect="always" stdDeviation="2.433064" id="gaussianBlurBack"/>
+  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter></defs>
   <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="7.9195959" inkscape:cx="20.192235" inkscape:cy="34.621741" inkscape:document-units="mm" inkscape:current-layer="layer1" showgrid="false" fit-margin-top="0" fit-margin-left="0" fit-margin-right="0" fit-margin-bottom="0" showguides="true" inkscape:guide-bbox="true" inkscape:window-width="1920" inkscape:window-height="1028" inkscape:window-x="0" inkscape:window-y="24" inkscape:window-maximized="1">
     <sodipodi:guide position="74.751288,10.101525" orientation="0,1" id="guide3724" inkscape:locked="false"/>

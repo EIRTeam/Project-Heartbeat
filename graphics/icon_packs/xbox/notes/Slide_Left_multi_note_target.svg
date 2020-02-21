@@ -18,8 +18,8 @@
     <clipPath clipPathUnits="userSpaceOnUse" id="clipPath907">
       <path style="fill:#f39e42;fill-opacity:1;stroke:#000000;stroke-width:2.84598422;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 95.130123,77.873965 H 15.992721 L 54.730369,25.049784 v 22.86203 h 40.399754 z" id="path909" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccc"/>
     </clipPath>
-  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.15193133" width="1.3038627" y="-0.099159664" height="1.1983193">
-      <feGaussianBlur inkscape:collect="always" stdDeviation="2.433064" id="gaussianBlurBack"/>
+  <filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter><linearGradient inkscape:collect="always" id="bgLinearGradient">
       <stop style="stop-color:#f94723;stop-opacity:1" offset="0" id="stop844"/>
       <stop style="stop-color:#b10000;stop-opacity:1" offset="1" id="stop846"/>
@@ -31,7 +31,7 @@
     <sodipodi:guide position="113.98305,49.152542" orientation="0,1" id="guide1452" inkscape:locked="false"/>
   </sodipodi:namedview>
   <g style="fill:#d40000;fill-opacity:1" id="g885">
-    <svg:path style="fill:#e7ba3f;fill-opacity:1;fill:#e7ba3f;stroke-width:2.0;stroke-opacity:1;filter:url(#backFilter);" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="background_path" inkscape:connector-curvature="0"/>
+    <svg:path style="fill:#e7ba3f;fill-opacity:1;stroke:#e7ba3f;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="background_path" inkscape:connector-curvature="0"/>
   <path style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#e7ba3f;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="main_path" inkscape:connector-curvature="0"/>
   </g>
 </svg>
