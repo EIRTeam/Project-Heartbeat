@@ -8,6 +8,7 @@ const LOG_NAME = "IconPackLoader"
 
 var preloaded_graphics = {}
 var current_pack
+# Arrows pack also acts as fallback when other graphics are not available
 var arrow_overrides_graphics
 var arrow_overrides_pack
 
@@ -23,7 +24,7 @@ func _ready():
 	# Todo use default if pack doesn't exist
 	preloaded_graphics = preload_graphics(packs[UserSettings.user_settings.icon_pack])
 	current_pack = UserSettings.user_settings.icon_pack
-	var arrow_overrides_pack = load_icon_pack("res://graphics/arrow_overrides")
+	arrow_overrides_pack = load_icon_pack("res://graphics/arrow_overrides")
 	arrow_overrides_graphics = preload_graphics(arrow_overrides_pack)
 	
 func preload_graphics(icon_pack):
@@ -76,6 +77,9 @@ func get_icon(type, variation):
 	if preloaded_graphics.has(type):
 		if preloaded_graphics[type].has(variation):
 			return preloaded_graphics[type][variation]
+	elif arrow_overrides_graphics.has(type):
+		if arrow_overrides_graphics[type].has(variation):
+			return arrow_overrides_graphics[type][variation]
 			
 # For overrides (like arrows)
 func get_graphics_for_type(type):
@@ -88,6 +92,9 @@ func get_graphics_for_type(type):
 			graphics = arrow_overrides_graphics
 	if graphics.has(type):
 		return graphics[type]
+	else:
+		return arrow_overrides_graphics[type]
+		
 		
 func get_pack_for_type(type):
 	var pack = packs[current_pack]
@@ -108,4 +115,7 @@ func get_color(type) -> Color:
 	var pack = get_pack_for_type(type)
 	if pack.graphics.has(type):
 		color = pack.graphics[type].color
+	else:
+		if pack != arrow_overrides_pack:
+			color = arrow_overrides_pack.graphics[type].color
 	return Color(color)
