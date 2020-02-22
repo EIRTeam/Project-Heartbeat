@@ -13,12 +13,6 @@ func _ready():
 		icon_select_button.connect("pressed", self, "_on_pack_selected", [pack])
 
 	connect("focus_entered", self, "_on_focus_grabbed")
-func _unhandled_input(event: InputEvent):
-	$Control._gui_input(event)
-	if event.is_action_pressed("gui_cancel"):
-		get_tree().set_input_as_handled()
-		_on_pack_selected(UserSettings.user_settings.icon_pack)
-		
 func _on_focus_grabbed():
 	scroll_container.grab_focus()
 	for button in pack_container.get_children():
@@ -26,3 +20,7 @@ func _on_focus_grabbed():
 			scroll_container.select_child(button, true)
 func _on_pack_selected(pack_name):
 	emit_signal("selected_pack_changed", pack_name)
+
+
+func _on_Control_back():
+	_on_pack_selected(UserSettings.user_settings.icon_pack)

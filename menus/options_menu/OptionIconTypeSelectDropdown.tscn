@@ -3,7 +3,17 @@
 [ext_resource path="res://menus/options_menu/OptionIconTypeSelectDropdown.gd" type="Script" id=1]
 [ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
-[ext_resource path="res://menus/ScrollList.gd" type="Script" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends HBScrollList
+
+signal back
+
+func _gui_input(event):
+	if event.is_action_pressed(\"gui_cancel\"):
+		get_tree().set_input_as_handled()
+		emit_signal(\"back\")
+"
 
 [node name="Panel" type="Panel"]
 anchor_right = 1.0
@@ -21,7 +31,7 @@ anchor_bottom = 1.0
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 4 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -38,3 +48,4 @@ __meta__ = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control"]
 stream = ExtResource( 2 )
 bus = "SFX"
+[connection signal="back" from="Control" to="." method="_on_Control_back"]
