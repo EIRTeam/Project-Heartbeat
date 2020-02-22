@@ -28,7 +28,7 @@ func _ready():
 	$OptionSelect.options = options
 	$OptionSelect.options_pretty = pretty_options
 func _on_changed(val):
-	IconPackLoader.preload_graphics(val)
+	IconPackLoader.preload_graphics(IconPackLoader.packs[val])
 	emit_signal("changed", val)
 
 func _gui_input(event):

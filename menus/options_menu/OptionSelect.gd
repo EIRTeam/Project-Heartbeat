@@ -13,7 +13,6 @@ func set_text(value):
 
 func _ready():
 	focus_mode = Control.FOCUS_ALL
-	grab_focus()
 	
 func select(option: int):
 	selected_option = option
