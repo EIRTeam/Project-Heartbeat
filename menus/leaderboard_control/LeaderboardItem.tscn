@@ -50,20 +50,20 @@ __meta__ = {
 
 [node name="Rank" type="Label" parent="MarginContainer/HBoxContainer"]
 margin_top = 1.0
-margin_right = 88.0
+margin_right = 103.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 custom_fonts/font = SubResource( 1 )
-text = "1"
+text = "(NT)1"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="UserAvatar" type="TextureRect" parent="MarginContainer/HBoxContainer"]
-margin_left = 111.0
-margin_right = 161.0
+margin_left = 126.0
+margin_right = 176.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 texture = ExtResource( 4 )
@@ -71,33 +71,33 @@ expand = true
 stretch_mode = 6
 
 [node name="UserName" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_left = 184.0
+margin_left = 199.0
 margin_top = 1.0
-margin_right = 343.0
+margin_right = 445.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 custom_fonts/font = SubResource( 1 )
-text = "Eirewe"
+text = "(NT)Eirewe"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 366.0
+margin_left = 468.0
 margin_right = 1248.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
 margin_top = 1.0
-margin_right = 882.0
+margin_right = 780.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 custom_fonts/font = ExtResource( 1 )
-text = "100.000 (100%)"
+text = "(NT)100.000 (100%)"
 align = 2
 valign = 2
 __meta__ = {

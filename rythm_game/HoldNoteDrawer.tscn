@@ -113,7 +113,7 @@ margin_top = -95.113
 margin_right = 32.5
 margin_bottom = -64.113
 custom_fonts/font = SubResource( 8 )
-text = "+0"
+text = "(NT)+0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

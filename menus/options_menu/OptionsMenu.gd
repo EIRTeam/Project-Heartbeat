@@ -3,7 +3,7 @@ extends HBMenu
 var OPTIONS = {
 	"Game": {
 		"lag_compensation": {
-			"name": "Latency compensation",
+			"name": tr("Latency compensation"),
 			"description": "Delay applied to gameplay relative to audio, in miliseconds. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
 			"minimum": -30,
 			"maximum": 30,
@@ -14,39 +14,39 @@ var OPTIONS = {
 	},
 	"Visual": {
 		"icon_pack": {
-			"name": "Icons",
-			"description": "The type of icons to use, depending on your input method of choice",
+			"name": tr("Icons"),
+			"description": tr("The type of icons to use, depending on your input method of choice"),
 			"type": "icon_type_selector"
 		},
 		"left_arrow_override_enabled": {
-			"name": "Use arrow instead of left icon",
-			"description": "Replaces all instances of the left icon of the selected icon pack with a left arrow."
+			"name": tr("Use arrow instead of left icon"),
+			"description": tr("Replaces all instances of the left icon of the selected icon pack with a left arrow.")
 		},
 		"right_arrow_override_enabled": {
-			"name": "Use arrow instead of right icon",
-			"description": "Replaces all instances of the right icon of the selected icon pack with a right arrow."
+			"name": tr("Use arrow instead of right icon"),
+			"description": tr("Replaces all instances of the right icon of the selected icon pack with a right arrow.")
 		},
 		"up_arrow_override_enabled": {
-			"name": "Use arrow instead of up icon",
-			"description": "Replaces all instances of the up icon of the selected icon pack with a up arrow."
+			"name": tr("Use arrow instead of up icon"),
+			"description": tr("Replaces all instances of the up icon of the selected icon pack with a up arrow.")
 		},
 		"down_arrow_override_enabled": {
-			"name": "Use arrow instead of down icon",
-			"description": "Replaces all instances of the down icon of the selected icon pack with a down arrow."
+			"name": tr("Use arrow instead of down icon"),
+			"description": tr("Replaces all instances of the down icon of the selected icon pack with a down arrow.")
 		},
 		"visualizer_enabled": {
-			"name": "Visualizer",
-			"description": "Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems."
+			"name": tr("Visualizer"),
+			"description": tr("Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems.")
 		},
 		"visualizer_resolution": {
-			"name": "Visualizer Resolution",
-			"description": "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems.",
+			"name": tr("Visualizer Resolution"),
+			"description": tr("How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."),
 			"minimum": -64,
 			"maximum": 64
 		},
 		"romanized_titles_enabled": {
-			"name": "Romanized titles",
-			"description": "Shows romanized versions of foreign titles when available."
+			"name": tr("Romanized titles"),
+			"description": tr("Shows romanized versions of foreign titles when available.")
 		}
 	}
 }

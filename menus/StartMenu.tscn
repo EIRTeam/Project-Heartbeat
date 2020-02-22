@@ -65,7 +65,7 @@ custom_constants/separation = 70
 [node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
 margin_right = 1280.0
 margin_bottom = 20.0
-text = "On the wings of a dream"
+text = "(NT)On the wings of a dream"
 align = 1
 valign = 1
 script = ExtResource( 3 )

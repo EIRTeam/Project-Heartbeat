@@ -403,24 +403,24 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer"]
 margin_left = 7.0
-margin_right = 633.0
+margin_right = 754.0
 margin_bottom = 46.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HoldCount" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_right = 25.0
+margin_right = 91.0
 margin_bottom = 46.0
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
-text = "2"
+text = "(NT)2"
 align = 2
 valign = 1
 
 [node name="BonusLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 29.0
-margin_right = 327.0
+margin_left = 95.0
+margin_right = 393.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 298, 0 )
 size_flags_vertical = 3
@@ -430,8 +430,8 @@ align = 1
 valign = 1
 
 [node name="Up" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 331.0
-margin_right = 377.0
+margin_left = 397.0
+margin_right = 443.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 21 )
@@ -439,8 +439,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Left" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 381.0
-margin_right = 427.0
+margin_left = 447.0
+margin_right = 493.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 20 )
@@ -448,8 +448,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Down" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 431.0
-margin_right = 477.0
+margin_left = 497.0
+margin_right = 543.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 19 )
@@ -457,8 +457,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Right" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 481.0
-margin_right = 527.0
+margin_left = 547.0
+margin_right = 593.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 46, 0 )
 texture = ExtResource( 24 )
@@ -466,19 +466,19 @@ expand = true
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 531.0
-margin_right = 626.0
+margin_left = 597.0
+margin_right = 747.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 95.0
+margin_right = 150.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 3 )
-text = "+1000"
+text = "(NT)+1000"
 align = 2
 valign = 1
 
@@ -518,7 +518,7 @@ margin_right = 315.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 28 )
-text = "Max Hold Bonus! +3300"
+text = "(NT)Max Hold Bonus! +3300"
 align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/HoldIndicator"]
@@ -534,7 +534,7 @@ next/appear_max = "disappear"
 visible = false
 margin_right = 40.0
 margin_bottom = 14.0
-text = "esss"
+text = "(NT)esss"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -571,7 +571,7 @@ margin_bottom = 344.0
 rect_scale = Vector2( 0.75, 0.75 )
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 2 )
-text = "WORST"
+text = "(NT)WORST"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -673,10 +673,10 @@ __meta__ = {
 
 [node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 2.0
-margin_right = 145.0
+margin_right = 189.0
 margin_bottom = 22.0
 custom_fonts/font = ExtResource( 6 )
-text = "[DIFFICULTY]"
+text = "(NT)[DIFFICULTY]"
 valign = 1
 uppercase = true
 __meta__ = {
@@ -684,8 +684,8 @@ __meta__ = {
 }
 
 [node name="CircleImage" type="TextureRect" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 160.0
-margin_right = 160.0
+margin_left = 204.0
+margin_right = 204.0
 margin_bottom = 25.0
 expand = true
 stretch_mode = 6
@@ -694,22 +694,22 @@ __meta__ = {
 }
 
 [node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 175.0
+margin_left = 219.0
 margin_top = 2.0
-margin_right = 276.0
+margin_right = 364.0
 margin_bottom = 22.0
 custom_fonts/font = ExtResource( 6 )
-text = "NOSONG"
+text = "(NT)NOSONG"
 valign = 1
 uppercase = true
 
 [node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 291.0
+margin_left = 379.0
 margin_top = 2.0
-margin_right = 390.0
+margin_right = 522.0
 margin_bottom = 22.0
 custom_fonts/font = ExtResource( 5 )
-text = "LOADED"
+text = "(NT)LOADED"
 valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
@@ -721,13 +721,13 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 3.0
-margin_right = 48.0
+margin_right = 88.0
 margin_bottom = 23.0
-text = "LIFE"
+text = "(NT)LIFE"
 valign = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 52.0
+margin_left = 92.0
 margin_right = 753.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
@@ -735,7 +735,7 @@ alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 margin_top = 11.0
-margin_right = 701.0
+margin_right = 661.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 percent_visible = false
@@ -754,7 +754,7 @@ margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 8 )
-text = "0000000"
+text = "(NT)0000000"
 align = 1
 valign = 1
 script = ExtResource( 9 )
@@ -776,7 +776,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 1.0
 custom_fonts/font = SubResource( 12 )
-text = "0.00 %"
+text = "(NT)0.00 %"
 align = 1
 valign = 1
 __meta__ = {

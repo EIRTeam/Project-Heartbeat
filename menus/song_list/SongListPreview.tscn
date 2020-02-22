@@ -94,7 +94,7 @@ margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 custom_fonts/font = SubResource( 1 )
-text = "THE TOP"
+text = "(NT)THE TOP"
 align = 1
 valign = 1
 autowrap = true
@@ -109,7 +109,7 @@ margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = SubResource( 2 )
-text = "Original title: "
+text = "(NT)Original title: "
 align = 1
 valign = 1
 autowrap = true
@@ -124,19 +124,19 @@ margin_bottom = 97.0
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-margin_left = 530.0
-margin_right = 564.0
+margin_left = 508.0
+margin_right = 542.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 10 )
 text = "by"
 
 [node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-margin_left = 568.0
+margin_left = 546.0
 margin_top = 3.0
-margin_right = 749.0
+margin_right = 771.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 11 )
-text = "DRAGONFORCE"
+text = "(NT)DRAGONFORCE"
 
 [node name="CirclePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
 margin_top = 109.0
@@ -218,7 +218,7 @@ margin_right = 1255.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
-text = "160 BPM"
+text = "(NT)160 BPM"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

@@ -23,35 +23,35 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 252.0
+margin_right = 316.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
-text = "Boolean Option"
+text = "(NT)Boolean Option"
 align = 1
 valign = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 256.0
+margin_left = 320.0
 margin_right = 1240.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Control"]
-margin_left = 878.0
-margin_right = 894.0
+margin_left = 750.0
+margin_right = 766.0
 margin_bottom = 64.0
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="OptionLabel" type="Label" parent="HBoxContainer/Control"]
-margin_left = 898.0
-margin_right = 964.0
+margin_left = 770.0
+margin_right = 900.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
-text = "Yes"
+text = "(NT)Yes"
 align = 1
 valign = 1
 __meta__ = {
@@ -59,8 +59,8 @@ __meta__ = {
 }
 
 [node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Control"]
-margin_left = 968.0
-margin_right = 984.0
+margin_left = 904.0
+margin_right = 920.0
 margin_bottom = 64.0
 texture = ExtResource( 3 )
 stretch_mode = 4

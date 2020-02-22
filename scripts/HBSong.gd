@@ -44,16 +44,16 @@ func _init():
 func get_meta_string():
 	var song_meta = []
 	if writers.size() > 0:
-		var writer_text = "Written by: "
+		var writer_text = tr("Written by: ")
 		song_meta.append(writer_text + PoolStringArray(writers).join(", "))
 	if vocals.size() > 0:
-		var vocals_text = "Vocals by: "
+		var vocals_text = tr("Vocals by: ")
 		song_meta.append(vocals_text + PoolStringArray(vocals).join(", "))
 	if composers.size() > 0:
-		var composers_text = "Composed by: "
+		var composers_text = tr("Composed by: ")
 		song_meta.append(composers_text + PoolStringArray(composers).join(", "))
 	if creator != "":
-		song_meta.append("Chart by: %s" % creator)
+		song_meta.append(tr("Chart by: %s") % creator)
 	return song_meta
 	
 	

@@ -12,7 +12,7 @@ rect_min_size = Vector2( 0, 64 )
 custom_styles/hover = ExtResource( 4 )
 custom_styles/normal = ExtResource( 3 )
 custom_fonts/font = ExtResource( 1 )
-text = "Controls"
+text = "(NT)Controls"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

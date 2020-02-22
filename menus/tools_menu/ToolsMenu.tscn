@@ -37,7 +37,6 @@ margin_right = 536.0
 margin_bottom = 390.0
 text = "Open Logs Directory"
 icon = ExtResource( 5 )
-next_menu = ""
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -46,7 +45,6 @@ margin_right = 545.0
 margin_bottom = 460.0
 text = "Open Songs Directory"
 icon = ExtResource( 4 )
-next_menu = ""
 
 [node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
@@ -55,4 +53,3 @@ margin_right = 536.0
 margin_bottom = 530.0
 text = "Song Editor"
 icon = ExtResource( 6 )
-next_menu = ""

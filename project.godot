@@ -562,6 +562,11 @@ gui_cancel={
  ]
 }
 
+[locale]
+
+test="es"
+translations=PoolStringArray( "res://locale/es.po" )
+
 [logging]
 
 file_logging/enable_file_logging=true

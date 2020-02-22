@@ -81,7 +81,7 @@ margin_right = 964.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 theme = SubResource( 3 )
-text = "I can't believe my little lobby can be this cute"
+text = "(NT)I can't believe my little lobby can be this cute"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 54.0
@@ -90,7 +90,7 @@ margin_bottom = 80.0
 custom_constants/separation = 52
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_right = 147.0
+margin_right = 201.0
 margin_bottom = 26.0
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
@@ -102,16 +102,16 @@ expand = true
 
 [node name="SongNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
 margin_left = 24.0
-margin_right = 147.0
+margin_right = 201.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 4 )
-text = "105.05%"
+text = "(NT)105.05%"
 align = 1
 valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 199.0
-margin_right = 346.0
+margin_left = 253.0
+margin_right = 454.0
 margin_bottom = 26.0
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
@@ -124,9 +124,9 @@ stretch_mode = 6
 
 [node name="MemberCountLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
 margin_left = 24.0
-margin_right = 147.0
+margin_right = 201.0
 margin_bottom = 26.0
 custom_fonts/font = ExtResource( 4 )
-text = "105.05%"
+text = "(NT)105.05%"
 align = 1
 valign = 1
