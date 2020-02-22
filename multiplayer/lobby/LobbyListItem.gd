@@ -1,9 +1,5 @@
 extends HBHovereableButton
 
-var target_opacity = 1.0
-
-const LERP_SPEED = 3.0
-
 var lobby_name: String = "I can't believe my little lobby can be this cute" setget set_lobby_name
 var lobby_max_members: int = 10 setget set_lobby_max_members
 var lobby_members: int = 1 setget set_lobby_members
@@ -27,10 +23,7 @@ func set_lobby_members(val):
 func set_lobby_max_members(val):
 	lobby_max_members = val
 	lobby_member_count_label.text = "%d/%d" % [lobby_members, lobby_max_members]
-	
 
-func _process(delta):
-	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
 
 func set_lobby(lobby: HBLobby):
 	self.lobby = lobby

@@ -22,10 +22,13 @@ const DIRECTIONAL_TYPES_PROPERTY_MAP = {
 func _ready():
 	load_all_icon_packs()
 	# Todo use default if pack doesn't exist
-	preloaded_graphics = preload_graphics(packs[UserSettings.user_settings.icon_pack])
-	current_pack = UserSettings.user_settings.icon_pack
+	set_current_pack(UserSettings.user_settings.icon_pack)
 	arrow_overrides_pack = load_icon_pack("res://graphics/arrow_overrides")
 	arrow_overrides_graphics = preload_graphics(arrow_overrides_pack)
+	
+func set_current_pack(pack_name):
+	preloaded_graphics = preload_graphics(packs[pack_name])
+	current_pack = pack_name
 	
 func preload_graphics(icon_pack):
 	var result = {}

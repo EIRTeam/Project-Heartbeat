@@ -9,13 +9,13 @@
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=8]
 [ext_resource path="res://multiplayer/lobby/LobbyMenu.gd" type="Script" id=9]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id=2]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
 content_margin_bottom = 10.0
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
@@ -124,13 +124,13 @@ margin_top = 224.0
 margin_right = 790.0
 margin_bottom = 264.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 8 )
 text = "Select Song..."
 align = 0
 script = ExtResource( 6 )
-normal_style = SubResource( 1 )
-hover_style = SubResource( 2 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
 
 [node name="InviteFriendButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
@@ -139,13 +139,13 @@ hover_style = SubResource( 2 )
 margin_top = 268.0
 margin_right = 790.0
 margin_bottom = 308.0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 8 )
 text = "Invite friend..."
 align = 0
 script = ExtResource( 6 )
-normal_style = SubResource( 1 )
-hover_style = SubResource( 2 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
 
 [node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
@@ -154,26 +154,26 @@ margin_top = 312.0
 margin_right = 790.0
 margin_bottom = 352.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 8 )
 text = "Start Game"
 align = 0
 script = ExtResource( 6 )
-normal_style = SubResource( 1 )
-hover_style = SubResource( 2 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
 
 [node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer"]
 margin_top = 356.0
 margin_right = 790.0
 margin_bottom = 396.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 8 )
 text = "Leave This Lobby"
 align = 0
 script = ExtResource( 6 )
-normal_style = SubResource( 1 )
-hover_style = SubResource( 2 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
 
 [node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource( 2 )]
 anchor_right = 0.0

@@ -40,7 +40,9 @@ var OPTIONS = {
 		},
 		"visualizer_resolution": {
 			"name": "Visualizer Resolution",
-			"description": "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."
+			"description": "How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems.",
+			"minimum": -64,
+			"maximum": 64
 		},
 		"romanized_titles_enabled": {
 			"name": "Romanized titles",
