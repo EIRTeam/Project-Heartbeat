@@ -41,6 +41,7 @@ func _load_song_assets_thread(userdata):
 				call_deferred("_song_asset_loading_aborted", userdata.thread)
 				_current_song_mutex.unlock()
 				return
+			_current_song_mutex.unlock()
 #	OS.delay_msec(int(1 * 1000.0)) # Delay simulation
 	
 	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
