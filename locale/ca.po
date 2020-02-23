@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-22 14:54+0100\n"
-"PO-Revision-Date: 2020-02-22 02:34+0000\n"
+"POT-Creation-Date: 2020-02-23 08:11+0100\n"
+"PO-Revision-Date: 2020-02-23 07:12+0000\n"
 "Last-Translator: Álex Román Núñez <eirexe123@gmail.com>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -96,9 +96,8 @@ msgid "Icons"
 msgstr "Icones"
 
 #: ../menus/options_menu/OptionsMenu.gd:18
-msgid "The type of icons to use, depending on your input method of choice"
-msgstr ""
-"El tipus de icones a utilitzar, depenent del mètode de entrada escollit."
+msgid "Switches between available Icon-Sets."
+msgstr "Switches between available Icon-Sets."
 
 #: ../menus/options_menu/OptionsMenu.gd:22
 msgid "Use arrow instead of left icon"
@@ -146,7 +145,7 @@ msgstr "Visualitzador"
 
 #: ../menus/options_menu/OptionsMenu.gd:39
 msgid ""
-"Built-in audio visualization effects, disaling this setting might yield a "
+"Built-in audio visualization effects, disabling this setting might yield a "
 "considerable performance boost on more modest systems."
 msgstr ""
 "Efectes de visualització de so, desactivar aquesta opció pot resultar en "

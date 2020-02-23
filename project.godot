@@ -564,7 +564,7 @@ gui_cancel={
 
 [locale]
 
-test="es"
+test="zh_CN"
 translations=PoolStringArray( "res://locale/es.po", "res://locale/ca.po" )
 
 [logging]

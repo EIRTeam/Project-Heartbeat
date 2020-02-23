@@ -1,13 +1,14 @@
+# Hans Peter Klaus <gigglesxtreme@googlemail.com>, 2020. #zanata
 # Álex Román Núñez <eirexe123@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-02-23 08:11+0100\n"
-"PO-Revision-Date: 2020-02-23 07:14+0000\n"
+"PO-Revision-Date: 2020-02-23 07:06+0000\n"
 "Last-Translator: Álex Román Núñez <eirexe123@gmail.com>\n"
-"Language-Team: Spanish\n"
-"Language: es\n"
+"Language-Team: German\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,258 +18,252 @@ msgstr ""
 
 #: ../autoloads/Diagnostics.tscn:42
 msgid "FPS:"
-msgstr "CPS:"
+msgstr "FPS:"
 
 #: ../autoloads/Diagnostics.tscn:48
 msgid "Avg:"
-msgstr "Media:"
+msgstr "durchschn:"
 
 #: ../autoloads/Diagnostics.tscn:54
 msgid "Min:"
-msgstr ""
+msgstr "Min:"
 
 #: ../autoloads/Diagnostics.tscn:60
 msgid "Max:"
-msgstr ""
+msgstr "Max:"
 
 #: ../autoloads/Diagnostics.tscn:66
 msgid "Reset"
-msgstr "Reiniciar"
+msgstr "Reset"
 
 #: ../autoloads/Diagnostics.tscn:78
 msgid "Enable autoplay"
-msgstr "Activar juego automatico"
+msgstr "Enable autoplay"
 
 #: ../autoloads/Diagnostics.tscn:96
 msgid "[WORK IN PROGRESS]"
-msgstr "[EN DESARROLLO]"
+msgstr "[IN ENTWICKLUNG]"
 
 #: ../menus/HBConfirmationWindow.tscn:51
 msgid "Are you sure you want to do this?"
-msgstr "¿Estás seguro de querer hacer esto?"
+msgstr "Sind Sie sicher?"
 
 #: ../menus/HBConfirmationWindow.tscn:74
 msgid "Yes"
-msgstr "Sí"
+msgstr "Ja"
 
 #: ../menus/HBConfirmationWindow.tscn:82
 msgid "No"
-msgstr "No"
+msgstr "Nein"
 
 #: ../menus/StartMenu.tscn:78
 msgid "Press any key"
-msgstr "Pulsa cualquier tecla"
+msgstr "Drücke eine Taste"
 
 #: ../menus/credits/Credits.tscn:91
 msgid "Thank you"
-msgstr "Gracias"
+msgstr "Thank you"
 
 #: ../menus/leaderboard_control/LeaderboardControl.tscn:37
 msgid "Leaderboard not available for this song"
-msgstr "Tabla de clasificación no disponible para esta canción"
+msgstr "Keine Rangliste für dieses Lied verfügbar"
 
 #: ../menus/main_menu/MainMenuLeft.tscn:53
 msgid "Free Play"
-msgstr "Juego Libre"
+msgstr "Freies Spiel"
 
 #: ../menus/main_menu/MainMenuLeft.tscn:62
 msgid "Multiplayer"
-msgstr "Multijugador"
+msgstr "Mehrspieler"
 
 #: ../menus/main_menu/MainMenuLeft.tscn:71
 msgid "Options"
-msgstr "Opciones"
+msgstr "Optionen"
 
 #: ../menus/main_menu/MainMenuLeft.tscn:80
 msgid "Tools"
-msgstr "Herramientas"
+msgstr "Tools"
 
 #: ../menus/main_menu/MainMenuLeft.tscn:90
 msgid "Exit"
-msgstr "Salir"
+msgstr "Beenden"
 
 #: ../menus/options_menu/OptionsMenu.gd:6
 msgid "Latency compensation"
-msgstr "Compensación de latencia"
+msgstr "Latenz "
 
 #: ../menus/options_menu/OptionsMenu.gd:17
 msgid "Icons"
-msgstr "Iconos"
+msgstr "Icons"
 
 #: ../menus/options_menu/OptionsMenu.gd:18
 msgid "Switches between available Icon-Sets."
-msgstr "Cambia entre los sets de iconos disponibles."
+msgstr "Wechselt zwischen den verschieden Icon-Sets."
 
 #: ../menus/options_menu/OptionsMenu.gd:22
 msgid "Use arrow instead of left icon"
-msgstr "Usar flecha en vez de icono izquierda"
+msgstr "Benutze einen Pfeil anstelle eines Icons für die LINKE Richtungstaste"
 
 #: ../menus/options_menu/OptionsMenu.gd:23
 msgid ""
 "Replaces all instances of the left icon of the selected icon pack with a "
 "left arrow."
-msgstr "Reemplaza todas las instancias del icono izquierdo por una flecha"
+msgstr "Ersetzt alle Icons für die LINKE Richtungstaste mit einem Pfeil"
 
 #: ../menus/options_menu/OptionsMenu.gd:26
 msgid "Use arrow instead of right icon"
-msgstr "Usar flecha en vez de icono izquierda"
+msgstr ""
+"Benutze einen Pfeil anstelle eines Icons für die RECHTE Richtungstaste"
 
 #: ../menus/options_menu/OptionsMenu.gd:27
 msgid ""
 "Replaces all instances of the right icon of the selected icon pack with a "
 "right arrow."
-msgstr "Reemplaza todas las instancias del icono derecho por una flecha"
+msgstr "Ersetzt alle Icons für die RECHTE Richtungstaste mit einem Pfeil"
 
 #: ../menus/options_menu/OptionsMenu.gd:30
 msgid "Use arrow instead of up icon"
-msgstr "Usar flecha en vez de icono hacia arriba"
+msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:31
 msgid ""
 "Replaces all instances of the up icon of the selected icon pack with a up "
 "arrow."
-msgstr "Reemplaza todas las instancias del icono hacia arriba por una flecha"
+msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:34
 msgid "Use arrow instead of down icon"
-msgstr "Usar flecha en vez de icono hacia abajo"
+msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:35
 msgid ""
 "Replaces all instances of the down icon of the selected icon pack with a "
 "down arrow."
-msgstr "Reemplaza todas las instancias del icono hacia abajo por una flecha"
+msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:38
 msgid "Visualizer"
-msgstr "Visualizador"
+msgstr "Visualisierer"
 
 #: ../menus/options_menu/OptionsMenu.gd:39
 msgid ""
 "Built-in audio visualization effects, disabling this setting might yield a "
 "considerable performance boost on more modest systems."
 msgstr ""
-"Efectos de visualización de sonido, desactivar esta opción puede resultar en"
-" mejoras de rendimiento considerables en sistemas más modestos."
 
 #: ../menus/options_menu/OptionsMenu.gd:42
 msgid "Visualizer Resolution"
-msgstr "Resolución del visualizador"
+msgstr "Visualisierer Auflösung"
 
 #: ../menus/options_menu/OptionsMenu.gd:43
 msgid ""
 "How many points of data the audio visualization effects use, lowering this "
 "setting might yield a considerable performance boost on more modest systems."
 msgstr ""
-"Cuantos puntos de datos utiliza la visualización de audio, reducir esta "
-"configuración podría resultar en una mejora de rendimiento considerable en "
-"sistemas más modestos."
 
 #: ../menus/options_menu/OptionsMenu.gd:48
 msgid "Romanized titles"
-msgstr "Títulos romanizados"
+msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:49
 msgid "Shows romanized versions of foreign titles when available."
 msgstr ""
-"Mostrar versiones romanizadas de títulos extranjeros cuando estén "
-"disponibles."
 
 #: ../menus/pregame_screen/PreGameScreen.tscn:121
 msgid "Start"
-msgstr "Iniciar"
+msgstr "Start"
 
 #: ../menus/pregame_screen/PreGameScreen.tscn:136
 msgid "Back"
-msgstr "Atrás"
+msgstr "Zurück"
 
 #: ../menus/song_list/SongList.tscn:29
 msgid "2 Songs"
-msgstr ""
+msgstr "Songs"
 
 #: ../menus/song_list/SongListItem.tscn:48
 msgid ""
 "The song you are trying to load is a song from PPD, which doesn't have an "
 "audio file, do you want to load one? This will require you to use the mouse."
 msgstr ""
-"La canción que intentas cargar es una canción de PPD que no tiene un archivo"
-" de audio, quieres cargar uno? Esto requerirá que uses el ratón."
+"Der geladene Song stammt von PPD und besitzt keine Audiodatei. Möchten Sie "
+"eine Audiodatei hinzufügen?"
 
 #: ../menus/song_list/SongListPreview.tscn:131
 msgid "by"
-msgstr "por"
+msgstr "von"
 
 #: ../menus/tools_menu/ToolsMenu.tscn:38
 msgid "Open Logs Directory"
-msgstr "Abrir Directorio de Registros"
+msgstr "Öffne Logs-Verzeichnis"
 
 #: ../menus/tools_menu/ToolsMenu.tscn:46
 msgid "Open Songs Directory"
-msgstr "Abrir Directorio de Canciones"
+msgstr "Öffne Song-Verzeichnis"
 
 #: ../menus/tools_menu/ToolsMenu.tscn:54
 msgid "Song Editor"
-msgstr "Editor de Canciones"
+msgstr "Song Editor"
 
 #: ../menus/visualizer/VisualizerTest.tscn:52
 msgid "Cutoff Freq"
-msgstr "Frecuencia de corte"
+msgstr "Cutoff Freq"
 
 #: ../menus/visualizer/VisualizerTest.tscn:85
 msgid "Min dB"
-msgstr "dB minimos"
+msgstr "Min dB"
 
 #: ../menus/visualizer/VisualizerTest.tscn:111
 msgid "Load Song..."
-msgstr "Cargar Canción..."
+msgstr "Load Song..."
 
 #: ../menus/visualizer/VisualizerTest.tscn:117
 msgid "Play"
-msgstr "Reproducir"
+msgstr "Play"
 
 #: ../menus/visualizer/VisualizerTest.tscn:123
 msgid "Pause"
-msgstr "Pausar"
+msgstr "Pause"
 
 #: ../menus/visualizer/VisualizerTest.tscn:129
 msgid "Stop"
-msgstr "Parar"
+msgstr "Stop"
 
 #: ../menus/visualizer/VisualizerTest.tscn:145
 msgid "press h to hide me"
-msgstr "pulsa h para esconderme"
+msgstr "press h to hide me"
 
 #: ../multiplayer/lobby/LobbyList.tscn:72 ../tools/editor/Editor.tscn:668
 msgid "Create"
-msgstr "Crear"
+msgstr ""
 
 #: ../multiplayer/lobby/LobbyMenu.tscn:129
 msgid "Select Song..."
-msgstr "Seleccionar Canción..."
+msgstr ""
 
 #: ../multiplayer/lobby/LobbyMenu.tscn:144
 msgid "Invite friend..."
-msgstr "Invitar Amigo..."
+msgstr ""
 
 #: ../multiplayer/lobby/LobbyMenu.tscn:159
 msgid "Start Game"
-msgstr "Iniciar Partida"
+msgstr ""
 
 #: ../multiplayer/lobby/LobbyMenu.tscn:172
 msgid "Leave This Lobby"
-msgstr "Salir de este Lobby"
+msgstr ""
 
 #: ../multiplayer/lobby/LobbyMenu.tscn:241
 msgid "Send"
-msgstr "Enviar"
+msgstr ""
 
 #: ../multiplayer/lobby/LobbySongSelector.tscn:14
 msgid "Selecting song for"
-msgstr "Seleccionar canción para"
+msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:202
 msgid "TOTAL NOTES"
-msgstr "NOTAS TOTALES"
+msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:232
 msgid "COMBO"
@@ -276,27 +271,27 @@ msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:262
 msgid "HEART POWER BONUS"
-msgstr "BONUS DE HEART POWER"
+msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:292
 msgid "SCORE"
-msgstr "PUNTIACIÓN"
+msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:345
 msgid "Retry"
-msgstr "Reintentar"
+msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:360
 msgid "Return"
-msgstr "Volver"
+msgstr ""
 
 #: ../rythm_game/rhythm_game_playarea.tscn:428
 msgid "QUADRUPLE BONUS"
-msgstr "BONUS CUADRUPLE"
+msgstr ""
 
 #: ../rythm_game/rhythm_game_playarea.tscn:812
 msgid "HEART POWER AVAILABLE!"
-msgstr "HEART POWER DISPONIBLE!"
+msgstr ""
 
 #: ../rythm_game/rhythm_game_playarea.tscn:832
 msgid "HEART POWER!!!"
@@ -305,31 +300,31 @@ msgstr ""
 #: ../rythm_game/pause_menu/PauseMenu3D.tscn:97
 #: ../rythm_game/pause_menu/PauseMenu3D.tscn:116
 msgid "Song title"
-msgstr "Titulo de Canción"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenu3D.tscn:155
 msgid "Are you sure you want to restart?"
-msgstr "Seguro que quieres reiniciar?"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenu3D.tscn:162
 msgid "Are you sure you want to quit?"
-msgstr "Seguro que quieres salir?"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenuLeft.tscn:40
 msgid "PAUSED"
-msgstr "PAUSA"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenuLeft.tscn:69
 msgid "Resume"
-msgstr "Resumir"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenuLeft.tscn:82
 msgid "Restart"
-msgstr "Reiniciar"
+msgstr ""
 
 #: ../rythm_game/pause_menu/PauseMenuLeft.tscn:95
 msgid "Quit"
-msgstr "Salir"
+msgstr ""
 
 #: ../rythm_game/results_screen/ResultRating.tscn:57
 msgid ":"
@@ -337,32 +332,32 @@ msgstr ""
 
 #: ../scripts/HBSong.gd:47
 msgid "Written by: "
-msgstr "Escrito por: "
+msgstr ""
 
 #: ../scripts/HBSong.gd:50
 msgid "Vocals by: "
-msgstr "Vocales por: "
+msgstr ""
 
 #: ../scripts/HBSong.gd:53
 msgid "Composed by: "
-msgstr "Compuesto por: "
+msgstr ""
 
 #: ../scripts/HBSong.gd:56
 #, python-format
 msgid "Chart by: %s"
-msgstr "Chart por: %s"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:128
 msgid "Save As"
-msgstr "Guardar Como..."
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:146
 msgid "Enable timeline snap"
-msgstr "Activar encaje de la linea de tiempo"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:157
 msgid "Offset"
-msgstr "Offset"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:166
 msgid "1/"
@@ -370,35 +365,35 @@ msgstr ""
 
 #: ../tools/editor/Editor.tscn:173
 msgid "Snap resolution"
-msgstr "Resolución de encaje"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:183
 msgid "Beats per minute"
-msgstr "Pulsaciones por minuto"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:192
 msgid "Metre"
-msgstr "Metro"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:193
 msgid "Quadruple metre (4/4)"
-msgstr "Metro cuádruple (4/4)"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:267
 msgid "Note this only works at 4/4"
-msgstr "Esto solo funciona en 4/4"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:358
 msgid "H/V separation per 8th"
-msgstr "Separación H/V por octava"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:371
 msgid "Diagonal separation per 8th"
-msgstr "Separación diagonal por octava"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:400
 msgid "Arrangle angles"
-msgstr "Distribuir angulos"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:410
 msgid "<-"
@@ -410,11 +405,11 @@ msgstr ""
 
 #: ../tools/editor/Editor.tscn:512
 msgid "Snap to grid"
-msgstr "Encajar a la cuadricula"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:523
 msgid "Show grid"
-msgstr "Mostrar cuadricula"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:544
 msgid "x"
@@ -422,39 +417,39 @@ msgstr ""
 
 #: ../tools/editor/Editor.tscn:612
 msgid "Layer to write to:"
-msgstr "Capa a la que escribir:"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:623
 msgid "Start Recording"
-msgstr "Comenzar a grabar"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:656
 msgid "Note type to create"
-msgstr "Tipo de nota a crear"
+msgstr ""
 
 #: ../tools/editor/Editor.tscn:662
 msgid "Single Note"
-msgstr "Nota Unica"
+msgstr ""
 
 #: ../tools/editor/EditorInspector.tscn:42
 msgid "Note selected at time"
-msgstr "Nota seleccionada en el momento"
+msgstr ""
 
 #: ../tools/editor/EditorLayerManagerLayer.tscn:19
 msgid "Slide Left"
-msgstr "Deslizador Izquierdo"
+msgstr ""
 
 #: ../tools/editor/EditorLayerName.tscn:31
 msgid "Layer"
-msgstr "Capa"
+msgstr ""
 
 #: ../tools/editor/inspector_types/NoteTypeSelector.tscn:23
 msgid "Up"
-msgstr "Arriba"
+msgstr ""
 
 #: ../tools/editor/inspector_types/SlideNoteTypeSelector.tscn:32
 msgid "Left"
-msgstr "Izquierda"
+msgstr ""
 
 #: ../tools/editor/inspector_types/Vector2.tscn:17
 msgid "X"
@@ -470,47 +465,47 @@ msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:62
 msgid "Open song folder"
-msgstr "Abrir carpeta de canciones"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:120
 msgid "Title"
-msgstr "Titulo"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:137
 msgid "Romanized title"
-msgstr "Titulo romanizado"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:162
 msgid "Artist/Circle"
-msgstr "Artista/Circulo"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:175
 msgid "Artist alias (leave empty if using real name)"
-msgstr "Alias de artista (dejar en blanco si usa el nombre real)"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:192
 msgid "Original title"
-msgstr "Titulo original"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:199
 msgid "Title used for songs that are based on others, such as remixes."
-msgstr "Titulo usado para canciones basadas en otras, como remixes."
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:215
 msgid "Vocals (separated by newline)"
-msgstr "Vocales (separado por salto de linea)"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:227
 msgid "Composers"
-msgstr "Compositores"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:239
 msgid "Writers"
-msgstr "Escritores"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:251
 msgid "Chart creator"
-msgstr "Creador del chart"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:279
 msgid "BPM"
@@ -518,7 +513,7 @@ msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:294
 msgid "Audio file"
-msgstr "Archivo de audio"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:310
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:348
@@ -527,15 +522,15 @@ msgstr "Archivo de audio"
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:547
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:570
 msgid "Select file"
-msgstr "Seleccionar archivo"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:320
 msgid "Voice audio file"
-msgstr "Archivo de audio de voz"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:354
 msgid "Song preview start (in miliseconds)"
-msgstr "Inicio de previsualización de la canción (en milisegundos)"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:390
 msgid "Normal"
@@ -553,23 +548,21 @@ msgstr ""
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:451
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:460
 msgid "Edit chart"
-msgstr "Editar chart"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:484
 msgid "Preview image"
-msgstr "Imagen de previsualización"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:507
 msgid "Background image"
-msgstr "Imagen de fondo"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:530
 msgid "Circle Image (optional)"
-msgstr "Imagen de circulo (opcional)"
+msgstr ""
 
 #: ../tools/song_meta_editor/SongMetaEditor.tscn:553
 msgid ""
 "Circle Logo (optional, replaces artist/circle text in some circumstances)."
 msgstr ""
-"Logo de circulo (opcional, reemplaza texto de artista/circulo en algunas "
-"circunstancias)."

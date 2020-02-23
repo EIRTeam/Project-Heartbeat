@@ -15,7 +15,7 @@ var OPTIONS = {
 	"Visual": {
 		"icon_pack": {
 			"name": tr("Icons"),
-			"description": tr("The type of icons to use, depending on your input method of choice"),
+			"description": tr("Switches between available Icon-Sets."),
 			"type": "icon_type_selector"
 		},
 		"left_arrow_override_enabled": {
@@ -36,7 +36,7 @@ var OPTIONS = {
 		},
 		"visualizer_enabled": {
 			"name": tr("Visualizer"),
-			"description": tr("Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems.")
+			"description": tr("Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems.")
 		},
 		"visualizer_resolution": {
 			"name": tr("Visualizer Resolution"),

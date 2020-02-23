@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-22 14:54+0100\n"
+"POT-Creation-Date: 2020-02-23 08:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +98,7 @@ msgid "Icons"
 msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:18
-msgid "The type of icons to use, depending on your input method of choice"
+msgid "Switches between available Icon-Sets."
 msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:22
@@ -138,7 +138,7 @@ msgid "Visualizer"
 msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:39
-msgid "Built-in audio visualization effects, disaling this setting might yield a considerable performance boost on more modest systems."
+msgid "Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems."
 msgstr ""
 
 #: ../menus/options_menu/OptionsMenu.gd:42
