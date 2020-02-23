@@ -20,3 +20,6 @@ func get_avatar() -> Texture:
 
 func run_callbacks():
 	pass
+
+func get_achivements():
+	return []
