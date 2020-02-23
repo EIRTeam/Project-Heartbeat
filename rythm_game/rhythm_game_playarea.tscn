@@ -721,13 +721,13 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 3.0
-margin_right = 88.0
+margin_right = 48.0
 margin_bottom = 23.0
-text = "(NT)LIFE"
+text = "LIFE"
 valign = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 92.0
+margin_left = 52.0
 margin_right = 753.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
@@ -735,7 +735,7 @@ alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 margin_top = 11.0
-margin_right = 661.0
+margin_right = 701.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 percent_visible = false

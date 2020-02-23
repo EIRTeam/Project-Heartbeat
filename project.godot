@@ -140,6 +140,11 @@ _global_script_classes=[ {
 "path": "res://scripts/HBPerSongEditorSettings.gd"
 }, {
 "base": "Reference",
+"class": "HBPlatformAchievment",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/PlatformAchievment.gd"
+}, {
+"base": "Reference",
 "class": "HBResourceQueue",
 "language": "GDScript",
 "path": "res://resource_queue.gd"
@@ -256,6 +261,7 @@ _global_script_class_icons={
 "HBNoteData": "",
 "HBPPDSong": "",
 "HBPerSongEditorSettings": "",
+"HBPlatformAchievment": "",
 "HBResourceQueue": "",
 "HBResult": "",
 "HBScrollList": "",
@@ -564,7 +570,7 @@ gui_cancel={
 
 [locale]
 
-test="zh_CN"
+test="en"
 translations=PoolStringArray( "res://locale/es.po", "res://locale/ca.po" )
 
 [logging]
