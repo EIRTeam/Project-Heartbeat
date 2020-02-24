@@ -4,7 +4,6 @@ var _seconds_since_startup = 0.0
 var _frames_drawn_offset = 0.0
 var _max_fps = 0.0
 var _min_fps = 10000000
-
 var enable_autoplay = false setget set_autoplay
 func set_autoplay(value):
 	enable_autoplay = value
@@ -16,10 +15,13 @@ onready var max_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBox
 onready var autoplay_checkbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/AutoplayCheckbox")
 func _ready():
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
-	
+
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
-		$WindowDialog.popup_centered_ratio(0.75)
+		var window_size = get_viewport().size * 0.75
+		$WindowDialog.rect_size = window_size
+		$WindowDialog.rect_position = get_viewport().size / 8.0
+		$WindowDialog.visible = !$WindowDialog.visible
 	if event.is_action_pressed("take_screenshot"):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).

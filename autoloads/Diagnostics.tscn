@@ -29,17 +29,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WindowDialog" type="WindowDialog" parent="."]
-visible = true
+[node name="WindowDialog" type="Panel" parent="."]
+visible = false
 margin_left = 345.0
 margin_top = 163.0
 margin_right = 1105.0
 margin_bottom = 583.0
 theme = ExtResource( 3 )
-window_title = "Tools"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TabContainer" type="TabContainer" parent="WindowDialog"]
 anchor_right = 1.0
