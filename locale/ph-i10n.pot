@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-23 14:01+0100\n"
+"POT-Creation-Date: 2020-02-24 19:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,32 +17,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: ../autoloads/Diagnostics.tscn:42
-msgid "FPS:"
-msgstr ""
-
-#: ../autoloads/Diagnostics.tscn:48
-msgid "Avg:"
-msgstr ""
-
-#: ../autoloads/Diagnostics.tscn:54
-msgid "Min:"
-msgstr ""
-
-#: ../autoloads/Diagnostics.tscn:60
-msgid "Max:"
-msgstr ""
-
-#: ../autoloads/Diagnostics.tscn:66
-msgid "Reset"
+#: ../autoloads/Diagnostics.tscn:26
+msgid "[WORK IN PROGRESS]"
 msgstr ""
 
 #: ../autoloads/Diagnostics.tscn:78
-msgid "Enable autoplay"
+msgid "FPS:"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:84
+msgid "Avg:"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:90
+msgid "Min:"
 msgstr ""
 
 #: ../autoloads/Diagnostics.tscn:96
-msgid "[WORK IN PROGRESS]"
+msgid "Max:"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:102
+msgid "Reset"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:114
+msgid "Enable autoplay"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:134
+msgid "Clear achievment..."
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:140
+msgid "Obtain achivement"
+msgstr ""
+
+#: ../autoloads/Diagnostics.tscn:146
+msgid "Set achievment progress"
 msgstr ""
 
 #: ../menus/HBConfirmationWindow.tscn:51
@@ -267,6 +279,10 @@ msgstr ""
 
 #: ../rythm_game/ResultsScreen.tscn:360
 msgid "Return"
+msgstr ""
+
+#: ../rythm_game/RhythmGameMultiplayer.tscn:50
+msgid "Waiting for other players to load!"
 msgstr ""
 
 #: ../rythm_game/rhythm_game_playarea.tscn:428

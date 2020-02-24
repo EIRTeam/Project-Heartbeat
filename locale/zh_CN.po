@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-23 08:11+0100\n"
+"POT-Creation-Date: 2020-02-23 14:01+0100\n"
 "PO-Revision-Date: 2020-02-22 04:46+0000\n"
 "Last-Translator: HKAnima <hkgamerthomas18@gmail.com>\n"
 "Language-Team: Chinese (China)\n"
@@ -284,6 +284,10 @@ msgstr "返回"
 #: ../rythm_game/rhythm_game_playarea.tscn:428
 msgid "QUADRUPLE BONUS"
 msgstr "QUADRUPLE BONUS"
+
+#: ../rythm_game/rhythm_game_playarea.tscn:726
+msgid "LIFE"
+msgstr ""
 
 #: ../rythm_game/rhythm_game_playarea.tscn:812
 msgid "HEART POWER AVAILABLE!"
