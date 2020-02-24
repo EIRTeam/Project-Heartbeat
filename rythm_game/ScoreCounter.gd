@@ -6,6 +6,9 @@ var _display_score = 0
 
 const INCREASE_SPEED = 2000 # points per second
 
+func _ready():
+	text = "%0*d" % [7, 0]
+
 func _process(delta):
 	if _display_score < score:
 		var speed = INCREASE_SPEED + (INCREASE_SPEED * _display_score / score)

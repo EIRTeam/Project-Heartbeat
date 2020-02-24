@@ -51,13 +51,38 @@ enum LOBBY_CHAT_UPDATE_STATUS {
 	BANNED = 16
 }
 
+enum PACKET_SEND_TYPE {
+	UNREALIABLE = 0,
+	UNREALIABLE_NO_DELAY = 1,
+	RELIABLE = 2,
+	RELIABLE_BUFFERED = 3
+}
+
+enum PACKET_TYPE {
+	HANDSHAKE,
+	LOADED,
+	START_GAME,
+	NOTE_HIT,
+	HEART_POWER_ACTIVATED,
+	GAME_DONE
+}
+
+# when we joined a lobby
 signal lobby_joined(response)
+# reception of chat message
 signal lobby_chat_message(member, message, type)
+# lobby data changed
 signal lobby_data_updated()
 signal lobby_user_data_updated(user)
 signal lobby_created(result)
-signal lobby_chat_update(changed, making_change, state)
 signal lobby_left
+signal lobby_chat_update(changed, making_change, state)
+
+signal lobby_loading_start # sent by authority
+signal game_member_loading_finished(member)
+signal game_start # sent by authority
+signal game_note_hit(member, score, rating)
+signal game_done(results) # sent by authority
 
 var _lobby_id
 
@@ -105,7 +130,7 @@ func get_song() -> HBSong:
 func _init(lobby_id):
 	self._lobby_id = lobby_id
 		
-func get_lobby_owner():
+func get_lobby_owner() -> HBServiceMember:
 	return members.values()[0]
 func join_lobby():
 	pass
@@ -122,3 +147,18 @@ func leave_lobby():
 func is_owned_by_local_user():
 	pass
 
+func start_session():
+	pass
+func send_packet(data, send_type, channel):
+	pass
+# Used to let authority know we've loaded the current song and we are ready to play
+func notify_game_loaded():
+	pass
+
+# Called by authority to start the game
+func start_game():
+	pass
+
+# Lets everyone else know that our score (and last rating) has changed
+func send_note_hit_update(score, rating):
+	pass

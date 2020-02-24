@@ -12,6 +12,8 @@ var leaderboard_provider: HBLeaderboardService
 var implements_lobby_list = false
 var implements_leaderboards = false
 
+signal run_mp_callbacks
+
 func init_platform() -> int:
 	return 0
 

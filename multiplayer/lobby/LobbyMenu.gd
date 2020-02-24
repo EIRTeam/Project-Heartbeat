@@ -58,6 +58,7 @@ func set_lobby(lobby: HBLobby):
 	lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
 	lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
 	lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
+	lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 	update_member_list()
 	update_lobby_data_display()
 	if not lobby is SteamLobby:
@@ -101,6 +102,7 @@ func _on_LeaveLobbyButton_pressed():
 	lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
 	lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
 	lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
+	lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
 	lobby.leave_lobby()
 	change_to_menu("lobby_list")
 
@@ -121,4 +123,20 @@ func _on_LineEdit_gui_input(event: InputEvent):
 		options_vertical_menu.select_button(options_vertical_menu.get_child_count()-1)
 	if event.is_action_pressed("gui_accept") and not event.is_echo():
 		send_chat_message()
-		
+
+func _on_StartGameButton_pressed():
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/RhythmGameMultiplayer.tscn").instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(rhythm_game_multiplayer_scene)
+	get_tree().current_scene = rhythm_game_multiplayer_scene
+	rhythm_game_multiplayer_scene.lobby = lobby
+	rhythm_game_multiplayer_scene.start_game()
+	
+# called when authority sends a game start packet, sets up mp and starts loading
+func _on_lobby_loading_start():
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/RhythmGameMultiplayer.tscn").instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(rhythm_game_multiplayer_scene)
+	get_tree().current_scene = rhythm_game_multiplayer_scene
+	rhythm_game_multiplayer_scene.lobby = lobby
+	rhythm_game_multiplayer_scene.start_loading()

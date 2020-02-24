@@ -76,6 +76,7 @@ signal song_cleared(results)
 signal heart_power_activate
 signal heart_power_end
 signal held_notes_changed(held_notes)
+signal note_judged(judgement)
 
 var held_notes = []
 var current_hold_score = 0.0
@@ -455,6 +456,8 @@ func _on_notes_judged(notes: Array, judgement):
 			rating_label.show()
 		else:
 			rating_label.hide()
+		emit_signal("note_judged", judgement)
+
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 				

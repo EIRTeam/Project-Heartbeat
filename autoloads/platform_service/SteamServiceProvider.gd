@@ -26,6 +26,7 @@ func init_platform() -> int:
 		return ERR_METHOD_NOT_FOUND
 func run_callbacks():
 	Steam.run_callbacks()
+	emit_signal("run_mp_callbacks")
 
 # TODO
 func get_achivements():

@@ -14,7 +14,6 @@ onready var average_frame_rate_label = get_node("WindowDialog/TabContainer/Game/
 onready var min_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MinFrameRateLabel")
 onready var max_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MaxFrameRateLabel")
 onready var autoplay_checkbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/AutoplayCheckbox")
-onready var graph = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/Control")
 func _ready():
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 	

@@ -36,11 +36,14 @@ func get_song_difficulty():
 
 func _init(lobby_id).(lobby_id):
 	self._lobby_id = lobby_id
-
+	PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
 func join_lobby():
 	Log.log(self, "Attempting to join lobby " + str(_lobby_id))
 	Steam.joinLobby(_lobby_id)
 	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
+	Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
+	Steam.connect("p2p_session_connect_fail", self, "_on_P2P_Session_Connect_Fail")
+
 func update_lobby_members():
 	members.clear()
 	
@@ -71,7 +74,7 @@ func get_member_by_id(id):
 		return members[id]
 	return null
 
-func get_lobby_owner():
+func get_lobby_owner() -> HBServiceMember:
 	return members[Steam.getLobbyOwner(_lobby_id)]
 
 func _on_lobby_data_updated(success, lobby_id, id, key):
@@ -128,3 +131,109 @@ func is_owned_by_local_user():
 
 func invite_friend_to_lobby():
 	Steam.activateGameOverlayInviteDialog(_lobby_id)
+
+# P2P specific shit
+
+func send_packet(data, send_type, channel, to_owner = false):
+	Log.log(self, "Sending packet " + HBUtils.find_key(PACKET_TYPE, data[0]))
+	if to_owner:
+		Steam.sendP2PPacket(get_lobby_owner().member_id, data, send_type, channel)
+	elif get_lobby_member_count() > 1:
+		for member in members.values():
+			if member.member_id != Steam.getSteamID():
+				print("SENDIN THE PACKET TO " + member.member_name)
+				Steam.sendP2PPacket(member.member_id, data, send_type, channel)
+
+func start_session():
+	if is_owned_by_local_user():
+		var data = PoolByteArray()
+		Steam.setLobbyJoinable(_lobby_id, false)
+		data.append(PACKET_TYPE.HANDSHAKE)
+		send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
+	else:
+		Log.log(self, "Tried to launch a P2P session while we don't own the lobby", Log.LogLevel.ERROR)
+
+func _on_p2p_packet_received():
+	# P2P packets are comprised of a packet type code and followed by byte data
+	# as a Dictionary using var2byes
+	var size = Steam.getAvailableP2PPacketSize(0)
+	if size > 0:
+		var packet = Steam.readP2PPacket(size, 0)
+		if packet.empty():
+			Log.log(self, "Empty P2P packet received with non-zero size")
+		var packet_id = str(packet.steamIDRemote)
+		var packet_type = packet.data[0]
+		var packet_data: Dictionary
+		Log.log(self, "Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
+		if size > 1:
+			packet_data = bytes2var(packet.data.subarray(1, size - 1))
+		if is_owned_by_local_user():
+			match packet_type:
+				PACKET_TYPE.LOADED:
+					emit_signal("game_member_loading_finished", get_member_by_id(packet_id))
+		match packet_type:
+			PACKET_TYPE.HANDSHAKE:
+				emit_signal("lobby_loading_start")
+			PACKET_TYPE.NOTE_HIT:
+				emit_signal("game_note_hit", get_member_by_id(packet.steamIDRemote), packet_data.score, packet_data.rating)
+			PACKET_TYPE.START_GAME:
+				emit_signal("game_start")
+			PACKET_TYPE.GAME_DONE:
+				emit_signal("game_done", packet_data)
+func _on_p2p_session_request(remote_id):
+	var found_member = false
+	if members.has(remote_id):
+		found_member = true
+	if found_member:
+		Steam.acceptP2PSessionWithUser(remote_id)
+	else:
+		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + _lobby_id)
+	_on_p2p_packet_received()
+func notify_game_loaded():
+	var data = PoolByteArray()
+	data.append(PACKET_TYPE.LOADED)
+	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
+
+func start_game():
+	var data = PoolByteArray()
+	data.append(PACKET_TYPE.START_GAME)
+	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
+# Lets everyone else know that our score (and last rating) has changed
+func send_note_hit_update(score, rating):
+	var data = PoolByteArray()
+	data.append(PACKET_TYPE.NOTE_HIT)
+	data.append_array(var2bytes({
+		"score": score,
+		"rating": rating
+	}))
+	send_packet(data, PACKET_SEND_TYPE.UNREALIABLE, 0)
+
+func _on_P2P_Session_Connect_Fail(lobbyID, session_error):
+
+	# If no error was given
+	if session_error == 0:
+		print("WARNING: Session failure with "+str(lobbyID)+" [no error given].")
+
+	# Else if target user was not running the same game
+	elif session_error == 1:
+		print("WARNING: Session failure with "+str(lobbyID)+" [target user not running the same game].")
+
+	# Else if local user doesn't own app / game
+	elif session_error == 2:
+		print("WARNING: Session failure with "+str(lobbyID)+" [local user doesn't own app / game].")
+
+	# Else if target user isn't connected to Steam
+	elif session_error == 3:
+		print("WARNING: Session failure with "+str(lobbyID)+" [target user isn't connected to Steam].")
+
+	# Else if connection timed out
+	elif session_error == 4:
+		print("WARNING: Session failure with "+str(lobbyID)+" [connection timed out].")
+
+	# Else if unused
+	elif session_error == 5:
+		print("WARNING: Session failure with "+str(lobbyID)+" [unused].")
+
+	# Else no known error
+	else:
+		print("WARNING: Session failure with "+str(lobbyID)+" [unknown error "+str(session_error)+"].")

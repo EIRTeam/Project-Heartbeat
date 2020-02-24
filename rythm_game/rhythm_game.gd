@@ -6,6 +6,7 @@ const FADE_OUT_TIME = 1.0
 
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var game = get_node("RhythmGame")
+var pause_disabled = false
 func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
@@ -28,7 +29,7 @@ func _on_resumed():
 	$PauseMenu.hide()
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("pause") and not event.is_echo():
+	if event.is_action_pressed("pause") and not event.is_echo() and not pause_disabled:
 		if not get_tree().paused:
 			$RhythmGame.pause_game()
 			$PauseMenu.show_pause()

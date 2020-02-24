@@ -39,3 +39,6 @@ func get_avatar():
 	if not steam_avatar_cached:
 		cache_steam_avatar()
 	return avatar
+
+func is_local_user():
+	return member_id == Steam.getSteamID()
