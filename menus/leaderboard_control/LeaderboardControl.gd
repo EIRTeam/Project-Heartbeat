@@ -25,7 +25,6 @@ func set_song(song_id, difficulty):
 	_set_leaderboard(current_leaderboard)
 
 func _leaderboard_found(handle, found):
-	print("FOUND", handle, " ", found)
 	if not found:
 		not_found_label.show()
 	else:

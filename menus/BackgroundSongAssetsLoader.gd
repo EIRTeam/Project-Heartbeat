@@ -8,6 +8,9 @@ signal song_assets_loaded(song, assets)
 var current_song: HBSong
 var _current_song_mutex = Mutex.new()
 var enable_abort = true # Aborts loading of one song when another request comes
+
+const LOG_NAME = "BackgroundSongAssetsLoader.gd"
+
 func _load_song_assets_thread(userdata):
 	var song := SongLoader.songs[userdata.song_id] as HBSong
 	
@@ -64,4 +67,4 @@ func load_song_assets(song, requested_assets=["preview", "background", "audio", 
 	current_song = song
 	var result = thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})
 	if result != OK:
-		print("Error starting thread for asset loader: ", result)
+		Log.log(self, "Error starting thread for asset loader: " + str(result), Log.LogLevel.ERROR)

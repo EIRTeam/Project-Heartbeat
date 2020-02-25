@@ -1,8 +1,10 @@
 extends HBMenu
 
+onready var start_menu = get_node("VBoxContainer/StartMenu")
+
 func _ready():
-	$StartMenu.connect("navigate_to_menu", self, "change_to_menu")
+	start_menu.connect("navigate_to_menu", self, "change_to_menu")
 	
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
-	$StartMenu.grab_focus()
+	start_menu.grab_focus()

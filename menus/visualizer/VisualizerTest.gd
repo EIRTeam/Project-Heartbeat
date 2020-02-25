@@ -17,7 +17,6 @@ func load_ogg(path: String):
 	stream.data = bytes
 	$AudioStreamPlayer.stream = stream
 	ogg_file.close()
-	print("Loaded:", stream)
 
 func load_wav(path: String):
 	var wav_file = File.new()

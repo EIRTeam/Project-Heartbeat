@@ -31,7 +31,6 @@ func _init(path: String):
 	for name_length in file_name_lengths:
 		var file_name = file.get_buffer(name_length)
 		file_names.append(file_name)
-		print(file_name.get_string_from_utf8())
 		var size = file.get_32()
 		file_sizes.append(size)
 		size_sum += size

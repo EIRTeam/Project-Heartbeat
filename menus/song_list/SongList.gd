@@ -21,7 +21,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
 
 func _ready():
-	print(get_node("VBoxContainer/MarginContainer/ScrollContainer"))
 	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
 	for difficulty in SongLoader.available_difficulties:
 		var button = HBHovereableButton.new()

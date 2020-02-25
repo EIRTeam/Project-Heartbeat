@@ -42,7 +42,7 @@ func join_lobby():
 	Steam.joinLobby(_lobby_id)
 	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
 	Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
-	Steam.connect("p2p_session_connect_fail", self, "_on_P2P_Session_Connect_Fail")
+	Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
 
 func update_lobby_members():
 	members.clear()
@@ -141,7 +141,6 @@ func send_packet(data, send_type, channel, to_owner = false):
 	elif get_lobby_member_count() > 1:
 		for member in members.values():
 			if member.member_id != Steam.getSteamID():
-				print("SENDIN THE PACKET TO " + member.member_name)
 				Steam.sendP2PPacket(member.member_id, data, send_type, channel)
 
 func start_session():
@@ -208,32 +207,18 @@ func send_note_hit_update(score, rating):
 	}))
 	send_packet(data, PACKET_SEND_TYPE.UNREALIABLE, 0)
 
-func _on_P2P_Session_Connect_Fail(lobbyID, session_error):
-
-	# If no error was given
+func _on_p2p_session_connect_fail(lobby_id, session_error):
 	if session_error == 0:
-		print("WARNING: Session failure with "+str(lobbyID)+" [no error given].")
-
-	# Else if target user was not running the same game
+		Log.log(self, "Session failure with "+str(lobby_id)+" [no error given].")
 	elif session_error == 1:
-		print("WARNING: Session failure with "+str(lobbyID)+" [target user not running the same game].")
-
-	# Else if local user doesn't own app / game
+		Log.log(self, "Session failure with "+str(lobby_id)+" [target user not running the same game].")
 	elif session_error == 2:
-		print("WARNING: Session failure with "+str(lobbyID)+" [local user doesn't own app / game].")
-
-	# Else if target user isn't connected to Steam
+		Log.log(self, "Session failure with "+str(lobby_id)+" [local user doesn't own game].")
 	elif session_error == 3:
-		print("WARNING: Session failure with "+str(lobbyID)+" [target user isn't connected to Steam].")
-
-	# Else if connection timed out
+		Log.log(self, "Session failure with "+str(lobby_id)+" [target user isn't connected to Steam].")
 	elif session_error == 4:
-		print("WARNING: Session failure with "+str(lobbyID)+" [connection timed out].")
-
-	# Else if unused
+		Log.log(self, "Session failure with "+str(lobby_id)+" [connection timed out].")
 	elif session_error == 5:
-		print("WARNING: Session failure with "+str(lobbyID)+" [unused].")
-
-	# Else no known error
+		Log.log(self, "Session failure with "+str(lobby_id)+" [unused].")
 	else:
-		print("WARNING: Session failure with "+str(lobbyID)+" [unknown error "+str(session_error)+"].")
+		Log.log(self, "Session failure with "+str(lobby_id)+" [unknown error "+str(session_error)+"].")

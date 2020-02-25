@@ -14,7 +14,6 @@ func set_value(val):
 	if not val:
 		res = 0
 	select(res)
-	print("SELECTING VALUE", res)
 func set_text(val):
 	text = val
 	$HBoxContainer/Label.text = val

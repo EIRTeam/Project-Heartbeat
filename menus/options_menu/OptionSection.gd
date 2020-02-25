@@ -15,7 +15,6 @@ func _ready():
 	focus_mode = Control.FOCUS_ALL
 	for option_name in section_data:
 		var option = section_data[option_name]
-		print(option_name)
 		var option_scene
 		if option.has('type'):
 			match option.type:

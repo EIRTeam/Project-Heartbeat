@@ -111,7 +111,6 @@ func _ready():
 	update_heart_power_ui()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 func _on_viewport_size_changed():
-	print(get_viewport().size)
 	$Viewport.size = self.rect_size
 		
 	var hbox_container2 = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer")
@@ -238,14 +237,12 @@ func play_note_sfx(slide=false):
 			hit_effect_queue.push_back(curr_effect)
 			_sfx_played_this_cycle = true
 	else:
-		print("PLAY SLIDE")
 		var dup = $HitEffect2.duplicate()
 		add_child(dup)
 		dup.connect("finished", dup, "queue_free")
 		dup.play()
 	
 func hookup_multi_notes(notes: Array):
-	print("HOOKING UP %d notes" % [notes.size()])
 	for note in notes:
 		var note_drawer = note.get_meta("note_drawer")
 		note_drawer.connected_notes = notes
@@ -388,7 +385,6 @@ func get_heart_power_duration():
 func increase_heart_power():
 	var old_heart_power = heart_power
 	heart_power += get_heart_power_points_per_note()
-	print("INCREASE", heart_power)
 	heart_power = clamp(heart_power, 0, MAX_HEART_POWER)
 	if old_heart_power < MAX_HEART_POWER/2.0 and heart_power > MAX_HEART_POWER/2.0:
 		heart_power_prompt_animation_player.play("HeartPowerAvailable")
@@ -422,7 +418,6 @@ func _on_notes_judged(notes: Array, judgement):
 			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = 0
-			print("voice")
 			result.notes_hit += notes_hit
 			
 			for note in notes:
@@ -486,7 +481,6 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):
-	print("adding ", score_to_add)
 	if not previewing:
 		result.score += score_to_add
 		score_counter.score = result.score

@@ -13,7 +13,6 @@ func _input(event):
 	if event.is_action_pressed("editor_grid_snap") and not event.is_echo():
 		var mat := $MeshInstance.get_surface_material(0) as SpatialMaterial
 		var tex := mat.albedo_texture as ViewportTexture
-		print(tex.get_size())
 	var is_mouse_event = false
 	var mouse_events = [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]
 	for mouse_event in mouse_events:

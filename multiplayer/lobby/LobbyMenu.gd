@@ -66,7 +66,6 @@ func set_lobby(lobby: HBLobby):
 func _on_chat_message_received(member: HBServiceMember, message, type):
 	match type:
 		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:
-			print("MESSAGE FROM: " + member.get_member_name())
 			chat_box.bbcode_text += "\n" + member.get_member_name() + ": " + str(message)
 
 func append_service_message(message: String):
