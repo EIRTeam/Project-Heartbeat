@@ -22,7 +22,7 @@ onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
-
+	$WindowDialog.hide()
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
