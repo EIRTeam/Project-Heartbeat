@@ -11,6 +11,7 @@ onready var rating_label = get_node("MarginContainer/HBoxContainer/RatingLabel")
 
 const style_even = preload("res://styles/ResultRatingStyleEven.tres")
 var odd = false
+
 func set_total_notes(val):
 	total_notes = val
 	total_label.text = str(val) + "/"
@@ -18,7 +19,6 @@ func set_total_notes(val):
 func _ready():
 	if not odd:
 		add_stylebox_override("panel", style_even)
-
 func set_percentage(val):
 	percentage = val
 	percentage_label.text = "%.2f" % (val*100.0)

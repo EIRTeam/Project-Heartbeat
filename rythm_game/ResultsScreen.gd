@@ -32,7 +32,7 @@ func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
 	yield(get_tree(), "idle_frame")
-	var inv = 0.65 / (rect_size.y / BASE_HEIGHT)
+	var inv = 0.3 / (rect_size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
@@ -43,6 +43,7 @@ func _ready():
 		var rating = values[i]
 		var rating_scene = ResultRating.instance()
 		rating_scene.odd = i % 2 == 0
+		print(rating_scene.odd)
 		rating_results_container.add_child(rating_scene)
 		rating_results_scenes[rating] = rating_scene
 		rating_scene.rating = rating
