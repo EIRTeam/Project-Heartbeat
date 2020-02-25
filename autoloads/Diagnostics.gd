@@ -5,6 +5,9 @@ var _frames_drawn_offset = 0.0
 var _max_fps = 0.0
 var _min_fps = 10000000
 var enable_autoplay = false setget set_autoplay
+var known_log_names = []
+# LogCaller : message dict
+var log_messages = {}
 func set_autoplay(value):
 	enable_autoplay = value
 
@@ -13,7 +16,11 @@ onready var average_frame_rate_label = get_node("WindowDialog/TabContainer/Game/
 onready var min_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MinFrameRateLabel")
 onready var max_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MaxFrameRateLabel")
 onready var autoplay_checkbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/AutoplayCheckbox")
+onready var log_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton")
+onready var log_rich_text_label = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer/RichTextLabel")
+onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
 func _ready():
+	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 
 func _input(event):
@@ -49,3 +56,38 @@ func hide_WIP_label():
 	$"WIP Label".hide()
 func show_WIP_label():
 	$"WIP Label".show()
+	
+func show_log_messages():
+	var messages_to_show = []
+	var selected_log_filter = log_filter_option_button.get_item_text(log_filter_option_button.selected)
+	if log_filter_option_button.selected > 0:
+		messages_to_show = log_messages[selected_log_filter]
+	else:
+		for log_values in log_messages.values():
+			messages_to_show += log_values
+			
+	var messages = ""
+	
+	for message in messages_to_show:
+		var log_level = log_level_filter_option_button.selected
+		if message.log_level <= log_level:
+			var color = "aqua"
+			if message.log_level == Log.LogLevel.ERROR:
+				color = "red"
+			elif message.log_level == Log.LogLevel.WARN:
+				color = "yellow"
+			messages += "[color=%s][%s][/color] %s: %s\n" % [color, HBUtils.find_key(Log.LogLevel, message.log_level), message.caller, message.message]
+	var text_label_text = "[code]%s[/code]" % messages
+	log_rich_text_label.bbcode_text = text_label_text
+func _on_message_logged(logger_name, message, log_level):
+	if not logger_name in known_log_names:
+		known_log_names.append(logger_name)
+		log_filter_option_button.add_item(logger_name)
+	if not log_messages.has(logger_name):
+		log_messages[logger_name] = []
+	log_messages[logger_name].append({"caller": logger_name, "message": message, "log_level": log_level})
+	show_log_messages()
+
+
+func _on_LogFilterOptionButton_item_selected(id):
+	show_log_messages()

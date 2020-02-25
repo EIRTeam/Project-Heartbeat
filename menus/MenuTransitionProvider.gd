@@ -4,7 +4,7 @@ signal change_to_menu(menu_name)
 
 var MENUS = {} # should be HBMenu
 
-const LOG_NAME = "MenuTransitionProvider"
+var LOG_NAME = "MenuTransitionProvider"
 
 func change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
 	if not menu_name in MENUS:

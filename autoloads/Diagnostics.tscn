@@ -30,12 +30,14 @@ __meta__ = {
 }
 
 [node name="WindowDialog" type="Panel" parent="."]
-visible = false
 margin_left = 345.0
 margin_top = 163.0
 margin_right = 1105.0
 margin_bottom = 583.0
 theme = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TabContainer" type="TabContainer" parent="WindowDialog"]
 anchor_right = 1.0
@@ -45,6 +47,7 @@ __meta__ = {
 }
 
 [node name="Game" type="MarginContainer" parent="WindowDialog/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -140,4 +143,66 @@ margin_top = 58.0
 margin_right = 750.0
 margin_bottom = 83.0
 text = "Set achievment progress"
+
+[node name="Logs" type="MarginContainer" parent="WindowDialog/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Logs"]
+margin_right = 750.0
+margin_bottom = 383.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Logs/VBoxContainer"]
+margin_right = 750.0
+margin_bottom = 25.0
+
+[node name="Label" type="Label" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 25.0
+text = "Filter by:"
+
+[node name="LogFilterOptionButton" type="OptionButton" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+margin_left = 64.0
+margin_right = 107.0
+margin_bottom = 25.0
+text = "All"
+items = [ "All", null, false, 0, null ]
+selected = 0
+
+[node name="Label2" type="Label" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+margin_left = 111.0
+margin_right = 176.0
+margin_bottom = 25.0
+text = "Log level:"
+
+[node name="LogLevelFilterOptionButton" type="OptionButton" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+margin_left = 180.0
+margin_right = 253.0
+margin_bottom = 25.0
+text = "ERROR"
+items = [ "INFO", null, false, 0, null, "WARN", null, false, 1, null, "ERROR", null, false, 2, null ]
+selected = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="WindowDialog/TabContainer/Logs/VBoxContainer"]
+margin_top = 29.0
+margin_right = 750.0
+margin_bottom = 383.0
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer"]
+margin_right = 750.0
+margin_bottom = 354.0
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+selection_enabled = true
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
+[connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

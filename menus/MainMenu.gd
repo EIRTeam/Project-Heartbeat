@@ -1,6 +1,6 @@
 extends "res://menus/MenuTransitionProvider.gd"
 
-const LOG_NAME = "MainMenu"
+
 
 var starting_menu = "start_menu"
 var starting_menu_args = []
@@ -13,6 +13,7 @@ var last_bg = 1
 const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
 
 func _init():
+	LOG_NAME = "MainMenu"
 	MENUS = {
 		"start_menu": {
 			"fullscreen": preload("res://menus/StartMenu.tscn").instance()
