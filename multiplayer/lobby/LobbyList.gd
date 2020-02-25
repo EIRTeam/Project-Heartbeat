@@ -30,7 +30,6 @@ func _unhandled_input(event):
 		change_to_menu("main_menu")
 	
 func _on_get_lobby_list(lobbies):
-	scroll_list.clear_children()
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	var first_child
 	for lobby in lobbies:
@@ -49,9 +48,10 @@ func _on_get_lobby_list(lobbies):
 	else:
 		lobbies_found_label.text = "%d lobbies found!" % [n_of_lobbies]
 	loadingu.hide()
-	if lobbies.size() <= 0:
-		create_lobby_menu.grab_focus()
+#	if lobbies.size() <= 0:
+#		create_lobby_menu.grab_focus()
 func refresh_lobby_list():
+	scroll_list.clear_children()
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	mp_provider.request_lobby_list()
 	loadingu.show()
