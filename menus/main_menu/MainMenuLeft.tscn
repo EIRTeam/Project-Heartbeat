@@ -54,7 +54,9 @@ text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
 
-[node name="MultiplayerButton" parent="StartMenu" instance=ExtResource( 4 )]
+[node name="MultiplayerButton" parent="StartMenu" groups=[
+"mponly",
+] instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 400.0
 margin_right = 430.0
