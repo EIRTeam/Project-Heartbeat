@@ -38,7 +38,7 @@ onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
 onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
-
+onready var latency_display = get_node("Control/LatencyDisplay")
 var judge = preload("res://rythm_game/judge.gd").new()
 
 var time_begin: int
@@ -101,7 +101,7 @@ func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
-	
+	connect("note_judged", latency_display, "_on_note_judged")
 	hit_effect_queue.append($HitEffect)
 	for i in range(MAX_NOTE_SFX-1):
 		var new_sfx = $HitEffect.duplicate()
@@ -122,6 +122,11 @@ func _on_viewport_size_changed():
 		circle_text_rect.rect_min_size = new_size
 func set_song(song: HBSong, difficulty: String):
 	current_song = song
+	heart_power_indicator.value = 0
+	heart_power = 0
+	clear_bar.value = 0
+	score_counter.score = 0
+	rating_label.hide()
 	audio_stream_player.seek(0)
 	audio_stream_player_voice.seek(0)
 	result = HBResult.new()
@@ -451,7 +456,12 @@ func _on_notes_judged(notes: Array, judgement):
 			rating_label.show()
 		else:
 			rating_label.hide()
-		emit_signal("note_judged", judgement)
+		var judgement_info = {
+			"judgement": judgement,
+			"target_time": notes[0].time,
+			"time": int(time*1000)
+		}
+		emit_signal("note_judged", judgement_info)
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))

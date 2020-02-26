@@ -8,6 +8,10 @@ var OPTIONS = {
 			"minimum": -30,
 			"maximum": 30,
 			"step": 1
+		},
+		"show_latency": {
+			"name": tr("Show latency"),
+			"description": tr("Shows how late or how early you were when hitting notes.")
 		}
 	},
 	"Controls": {

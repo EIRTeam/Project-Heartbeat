@@ -11,11 +11,12 @@ var left_arrow_override_enabled = false
 var right_arrow_override_enabled = false
 var up_arrow_override_enabled = false
 var down_arrow_override_enabled = false
+var show_latency = false
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
-	"icon_pack", "romanized_titles_enabled"]
+	"icon_pack", "romanized_titles_enabled", "show_latency"]
 
 func get_serialized_type():
 	return "UserSettings"

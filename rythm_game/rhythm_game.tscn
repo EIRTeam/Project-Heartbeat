@@ -42,9 +42,9 @@ margin_bottom = 720.0
 pause_mode = 1
 
 [node name="PauseMenu" parent="." instance=ExtResource( 5 )]
-visible = false
 
 [node name="FadeToBlack" type="Panel" parent="."]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0

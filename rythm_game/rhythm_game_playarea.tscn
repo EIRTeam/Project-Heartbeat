@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 [ext_resource path="res://graphics/heart.png" type="Texture" id=10]
 [ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=11]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=12]
+[ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=13]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=14]
 [ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=16]
 [ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=17]
@@ -211,6 +213,13 @@ use_mipmaps = true
 use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 14 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 15
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 12 )
+fallback/0 = ExtResource( 26 )
 
 [sub_resource type="DynamicFont" id=13]
 size = 25
@@ -547,7 +556,7 @@ bus = "Vocals"
 
 [node name="HitEffect" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-bus = "Music"
+bus = "SFX"
 
 [node name="HitEffect2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
@@ -779,6 +788,19 @@ custom_fonts/font = SubResource( 12 )
 text = "(NT)0.00 %"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LatencyDisplay" type="Label" parent="Control"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 17 )
+text = "Too Late! +100ms"
+align = 1
+script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

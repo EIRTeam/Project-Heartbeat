@@ -65,9 +65,9 @@ func _on_game_member_loading_finished(member: HBServiceMember):
 func _on_game_note_hit(member, score, rating):
 	mp_scoreboard.set_last_note_hit_for_member(member, score, rating)
 
-func _on_note_judged(judgement):
+func _on_note_judged(judgement_info):
 	var score = rhythm_game.game.result.score
 	for member in lobby.members.values():
 		if member.is_local_user():
-			_on_game_note_hit(member, score, judgement)
-	lobby.send_note_hit_update(score, judgement)
+			_on_game_note_hit(member, score, judgement_info.judgement)
+	lobby.send_note_hit_update(score, judgement_info.judgement)
