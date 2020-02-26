@@ -99,9 +99,13 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	var point = Vector2(point_x, point_y).rotated(deg2rad(angle)) + pos
 	return point
 	
-static func image_from_fs(path: String) -> Image:
+static func image_from_fs(path: String):
 	if path.begins_with("res://"):
-		return load(path) as Image
+		var src = load(path)
+		if src is Texture:
+			return src.get_data()
+		else:
+			return src
 	else:
 		var image = Image.new()
 		image.load(path)
