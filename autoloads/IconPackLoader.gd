@@ -122,3 +122,17 @@ func get_color(type) -> Color:
 		if pack != arrow_overrides_pack:
 			color = arrow_overrides_pack.graphics[type].color
 	return Color(color)
+
+func get_trail_margin(type) -> float:
+	var margin = 0.0
+	var pack = get_pack_for_type(type)
+	if pack.graphics.has(type):
+		if pack.graphics[type].has("trail_margin"):
+			margin = pack.graphics[type].trail_margin
+	else:
+		if pack != arrow_overrides_pack:
+			if arrow_overrides_pack.graphics[type].has("trail_margin"):
+				margin = arrow_overrides_pack.graphics[type].trail_margin
+	return margin
+
+

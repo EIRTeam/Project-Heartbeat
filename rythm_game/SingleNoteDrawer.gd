@@ -82,14 +82,19 @@ func draw_trail(time: float):
 	var trail_time = get_time_out()
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
+	# How much margin we leave for the trail from the note center, this prevents
+	# the trail from leaking into notes with holes in the middl
+	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var margin = (trail_margin) * trail_time/1000
 	for i in range(TRAIL_RESOLUTION, -1, -1):
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / get_time_out()
 		var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
+
 		
-		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+		var point1_internal = HBUtils.calculate_note_sine(t-margin, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
 		var point1 = game.remap_coords(point1_internal)
-		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle + deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.8, note_data.distance))
+		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t-margin, note_data.position, note_data.entry_angle + deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.8, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
 
