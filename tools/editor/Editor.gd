@@ -243,7 +243,8 @@ func play_from_pos(position: float):
 	audio_stream_player.play()
 	audio_stream_player.seek(position / 1000.0)
 	audio_stream_player_voice.stream_paused = false
-	audio_stream_player_voice.volume_db = 0
+	if current_song.voice:
+		audio_stream_player_voice.volume_db = 0
 	audio_stream_player_voice.play()
 	audio_stream_player_voice.seek(position / 1000.0)
 	time_begin = OS.get_ticks_usec()
@@ -433,7 +434,10 @@ func load_song(song: HBSong, difficulty: String):
 	save_as_button.disabled = false
 	audio_stream_player.stream = song.get_audio_stream()
 	if song.voice:
+		audio_stream_player_voice.volume_db = 0
 		audio_stream_player_voice.stream = song.get_voice_stream()
+	else:
+		audio_stream_player_voice.volume_db = -100
 	emit_signal("load_song", song)
 
 
