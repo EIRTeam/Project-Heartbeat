@@ -50,6 +50,11 @@ _global_script_classes=[ {
 "path": "res://scripts/HBDurationNoteData.gd"
 }, {
 "base": "Control",
+"class": "HBEditor",
+"language": "GDScript",
+"path": "res://tools/editor/Editor.gd"
+}, {
+"base": "Control",
 "class": "HBEditorAxisGizmoArrow",
 "language": "GDScript",
 "path": "res://tools/editor/widgets/AxisGizmoArrow.gd"
@@ -58,6 +63,11 @@ _global_script_classes=[ {
 "class": "HBEditorMovementGizmo",
 "language": "GDScript",
 "path": "res://tools/editor/widgets/MovementGizmo.gd"
+}, {
+"base": "Reference",
+"class": "HBEditorPlugin",
+"language": "GDScript",
+"path": "res://tools/editor/editor_plugins/EditorPlugin.gd"
 }, {
 "base": "Control",
 "class": "HBEditorWidget",
@@ -219,6 +229,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
 }, {
+"base": "Reference",
+"class": "SMFLoader",
+"language": "GDScript",
+"path": "res://scripts/SMFLoader.gd"
+}, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
 "language": "GDScript",
@@ -248,8 +263,10 @@ _global_script_class_icons={
 "HBBackgroundSongAssetsLoader": "",
 "HBChart": "",
 "HBDurationNoteData": "",
+"HBEditor": "",
 "HBEditorAxisGizmoArrow": "",
 "HBEditorMovementGizmo": "",
+"HBEditorPlugin": "",
 "HBEditorWidget": "",
 "HBHoldNoteData": "",
 "HBHovereableButton": "",
@@ -282,6 +299,7 @@ _global_script_class_icons={
 "PPDLoader": "",
 "PPDPack": "",
 "PlatformServiceProvider": "",
+"SMFLoader": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
@@ -298,8 +316,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1581156919
-config/build_commit="de38a2ae128e430d3e2b736e0fef6d20fc9ffef4"
+config/build_time=1583326230
+config/build_commit="3bd9f91d0124319aae645c3778aa2a550dddb94a"
 
 [audio]
 

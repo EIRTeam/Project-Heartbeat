@@ -1,5 +1,6 @@
 extends Control
 
+class_name HBEditor
 
 signal scale_changed(prev_scale, scale)
 signal playhead_position_changed
@@ -8,6 +9,7 @@ signal timing_information_changed
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
+const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
@@ -47,11 +49,29 @@ var undo_redo = UndoRedo.new()
 
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 	
+var plugins = []
+	
 func set_bpm(value):
 	BPM_spinbox.value = value
 
 func get_bpm():
 	return BPM_spinbox.value
+	
+func load_plugins():
+	var dir := Directory.new()
+	var file = File.new()
+	if dir.open(EDITOR_PLUGINS_DIR) == OK:
+		dir.list_dir_begin()
+		var dir_name = dir.get_next()
+		while dir_name != "":
+			if dir.current_is_dir() and not dir_name.begins_with("."):
+				var plugin_script_path = EDITOR_PLUGINS_DIR + "/%s/%s.gd" % [dir_name, dir_name]
+				if file.file_exists(plugin_script_path):
+					var plugin = load(plugin_script_path).new(self)
+					plugins.append(plugin)
+#				
+			dir_name = dir.get_next()
+	
 func _ready():
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_viewport()
@@ -68,7 +88,7 @@ func _ready():
 	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
 	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
-	
+	load_plugins()
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_undo"):
@@ -558,7 +578,6 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	
 	var beat_length = seconds_per_bar / float(get_beats_per_bar())
 	var note_length = 1.0/4.0 # a quarter of a beat
-	var note_res = get_note_resolution()
 	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
 
 	undo_redo.create_action("Arrange selected notes by time")
@@ -583,6 +602,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
 	undo_redo.commit_action()
 	inspector.update_value()
+
+func add_button_to_tools_tab(button: BaseButton):
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(button)
 
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)

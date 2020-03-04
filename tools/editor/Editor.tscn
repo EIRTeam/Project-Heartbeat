@@ -451,6 +451,32 @@ margin_top = 10.0
 margin_right = 192.0
 margin_bottom = 393.0
 
+[node name="Tools" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="PluginButtons" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 192.0
+margin_bottom = 393.0
+
 [node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_left = 216.0
 margin_right = 1064.0
