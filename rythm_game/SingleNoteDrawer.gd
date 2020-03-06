@@ -151,7 +151,7 @@ func _unhandled_input(event):
 				allowed_actions.append(action)
 		for note in conn_notes:
 			if event.is_pressed():
-				if note in game.get_closest_notes_of_type(note.note_type):
+				if note in game.get_closest_notes():
 					# Check for wrongs
 					var found_input = false
 					for action in allowed_actions:
@@ -173,6 +173,7 @@ func _unhandled_input(event):
 						if input_judgement != -1:
 							wrong_rating = input_judgement
 							wrong = true
+							get_tree().set_input_as_handled()
 							break
 					# Non-wrong note checks
 					var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
