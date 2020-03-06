@@ -22,11 +22,18 @@ const RATING_TO_COLOR = {
 	JUDGE_RATINGS.WORST: "#e470ff"
 }
 const RATING_TO_TEXT_MAP = {
-	JUDGE_RATINGS.WORST: "WORST",
+	JUDGE_RATINGS.WORST: "WORST/WRONG",
 	JUDGE_RATINGS.SAD: "SAD",
 	JUDGE_RATINGS.SAFE: "SAFE",
 	JUDGE_RATINGS.FINE: "FINE",
 	JUDGE_RATINGS.COOL: "COOL"
+}
+const RATING_TO_WRONG_TEXT_MAP = {
+	JUDGE_RATINGS.WORST: "WORST",
+	JUDGE_RATINGS.SAD: "sAd",
+	JUDGE_RATINGS.SAFE: "sAfE",
+	JUDGE_RATINGS.FINE: "fInE",
+	JUDGE_RATINGS.COOL: "CoOl"
 }
 func judge_note (input: float, target_note_timing: float):
 	var diff =  (input - target_note_timing)*1000

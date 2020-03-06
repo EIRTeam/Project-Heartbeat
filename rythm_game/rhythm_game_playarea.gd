@@ -56,6 +56,7 @@ const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
 const MAX_HOLD = 3300 # miliseconds
+const WRONG_COLOR = "#ff6524"
 
 var size = Vector2(1280, 720) setget set_size
 var editing = false
@@ -403,7 +404,7 @@ func update_heart_power_ui():
 	else:
 		heart_power_indicator.tint_progress = HEART_POWER_PROGRESS_TINT
 	
-func _on_notes_judged(notes: Array, judgement):
+func _on_notes_judged(notes: Array, judgement, wrong):
 	var note = notes[0]
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
 	var notes_hit = 1
@@ -411,7 +412,7 @@ func _on_notes_judged(notes: Array, judgement):
 		# Rating graphic
 		if note.note_type in held_notes:
 			hold_release()
-		if judgement < judge.JUDGE_RATINGS.FINE:
+		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
 			audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
@@ -430,9 +431,13 @@ func _on_notes_judged(notes: Array, judgement):
 				if note.hold:
 					start_hold(note.note_type)
 			
-		
-		result.note_ratings[judgement] += notes_hit
+		if not wrong:
+			result.note_ratings[judgement] += notes_hit
+		else:
+			result.wrong_note_ratings[judgement] += notes_hit
+			
 		result.total_notes += notes_hit
+		
 		if current_combo > result.max_combo:
 			result.max_combo = current_combo
 
@@ -444,9 +449,14 @@ func _on_notes_judged(notes: Array, judgement):
 		avg_pos = avg_pos / float(notes.size())
 		
 		rating_label.get_node("AnimationPlayer").play("rating_appear")
-		rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
-		$RatingLabel.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
-		rating_label.text = judge.JUDGE_RATINGS.keys()[judgement]
+		if not wrong:
+			rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
+			$RatingLabel.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
+			rating_label.text = judge.JUDGE_RATINGS.keys()[judgement]
+		else:
+			rating_label.add_color_override("font_color", Color(WRONG_COLOR))
+			$RatingLabel.add_color_override("font_outline_modulate", WRONG_COLOR)
+			rating_label.text = judge.RATING_TO_WRONG_TEXT_MAP[judgement]
 		if current_combo > 1:
 			rating_label.text += " " + str(current_combo)
 		rating_label.rect_size = rating_label.get_combined_minimum_size()

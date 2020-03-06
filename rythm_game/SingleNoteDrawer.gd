@@ -140,23 +140,57 @@ func _unhandled_input(event):
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
+			
+		var wrong = false
+		var wrong_rating
+		# get a list of actions that can happen amongst these connected notes, this
+		# is used for wrong note detection
+		var allowed_actions = []
+		for note in conn_notes:
+			for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
+				allowed_actions.append(action)
 		for note in conn_notes:
 			if event.is_pressed():
-				var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
-				
-				if input_judgement != -1:
-					if not note in connected_note_judgements:
-						connected_note_judgements[note] = input_judgement
-						get_tree().set_input_as_handled()
-						break
+				if note in game.get_closest_notes_of_type(note.note_type):
+					# Check for wrongs
+					var found_input = false
+					for action in allowed_actions:
+						if event.is_action_pressed(action):
+							found_input = true
+							break
+					# If the action was not amongs the allowed action of the connected
+					# notes and our note is amongst the closest notes it means we got
+					# a wrong
+					if not found_input:
+						# janky way of emulating the correct input and figuring out
+						# what the rating would be, if we would get a rating it means
+						# we got a wrong note
+						var a = InputEventAction.new()
+						a.action = game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
+						a.pressed = true
+						
+						var input_judgement = note.get_meta("note_drawer").judge_note_input(a, game.time)
+						if input_judgement != -1:
+							wrong_rating = input_judgement
+							wrong = true
+							break
+					# Non-wrong note checks
+					var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
+					
+					if input_judgement != -1:
+						if not note in connected_note_judgements:
+							connected_note_judgements[note] = input_judgement
+							get_tree().set_input_as_handled()
+							break
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating
 		# else, the final rating will be the rating that's been obtained the most
 		# (so if you obtain 3 cools and 1 fine, it will result in a cool)
-		if connected_note_judgements.size() == conn_notes.size():
+		if connected_note_judgements.size() == conn_notes.size() or wrong:
 			var result_judgement = null
 			var cools = 0
 			var fines = 0
+			
 			for note in connected_note_judgements:
 				var note_judgement = connected_note_judgements[note]
 				if note_judgement < HBJudge.JUDGE_RATINGS.FINE:
@@ -173,11 +207,15 @@ func _unhandled_input(event):
 				else:
 					result_judgement = HBJudge.JUDGE_RATINGS.FINE
 					
+			if wrong:
+				result_judgement = wrong_rating
+					
 			game.disconnect("time_changed", self, "_on_game_time_changed")
-			emit_signal("notes_judged", conn_notes, result_judgement)
+			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
 			
 			# Make multinotes count
-			game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
+			if not wrong:
+				game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
 			
 			for note in conn_notes:
 				note.get_meta("note_drawer")._on_note_judged(result_judgement)
@@ -202,7 +240,7 @@ func _on_game_time_changed(time: float):
 			conn_notes = [note_data]
 		
 		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
-			emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST)
+			emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 			emit_signal("note_removed")
 			queue_free()
 func get_note_graphic():

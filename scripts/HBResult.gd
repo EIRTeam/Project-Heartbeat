@@ -18,9 +18,17 @@ var note_ratings = {
 	HBJudge.JUDGE_RATINGS.FINE: 0,
 	HBJudge.JUDGE_RATINGS.COOL: 0
 }
+# Wrong notes are notes that are hit on time but with the wrong button
+var wrong_note_ratings = {
+	HBJudge.JUDGE_RATINGS.WORST: 0,
+	HBJudge.JUDGE_RATINGS.SAD: 0,
+	HBJudge.JUDGE_RATINGS.SAFE: 0,
+	HBJudge.JUDGE_RATINGS.FINE: 0,
+	HBJudge.JUDGE_RATINGS.COOL: 0
+}
 
 func _init():
-	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score"]
+	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "wrong_note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score"]
 
 func get_serialized_type():
 	return "Result"

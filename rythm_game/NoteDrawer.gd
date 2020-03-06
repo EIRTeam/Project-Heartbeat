@@ -3,7 +3,7 @@ var note_data: HBNoteData = HBNoteData.new()
 var game
 
 signal target_selected
-signal notes_judged(judgement)
+signal notes_judged(notes, judgement, wrong)
 signal note_removed
 
 var connected_notes = [] setget set_connected_notes
@@ -18,7 +18,8 @@ const Laser = preload("res://rythm_game/Laser.tscn")
 func set_note_master(val):
 	note_master = val
 	if val == false:
-		game.disconnect("time_changed", self, "_on_game_time_changed")
+		if game.is_connected("time_changed", self, "_on_game_time_changed"):
+			game.disconnect("time_changed", self, "_on_game_time_changed")
 		set_process_unhandled_input(false)
 	else:
 		set_process_unhandled_input(true)
