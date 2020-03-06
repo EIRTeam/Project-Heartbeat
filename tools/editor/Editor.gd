@@ -328,8 +328,7 @@ func delete_selected():
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	selected = []
 	undo_redo.commit_action()
-	inspector.update_values()
-			
+
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
