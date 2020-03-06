@@ -9,10 +9,6 @@ export (NodePath) var viewport_path
 var base_viewport_size
 
 func _input(event):
-	# Check if the event is a non-mouse event
-	if event.is_action_pressed("editor_grid_snap") and not event.is_echo():
-		var mat := $MeshInstance.get_surface_material(0) as SpatialMaterial
-		var tex := mat.albedo_texture as ViewportTexture
 	var is_mouse_event = false
 	var mouse_events = [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]
 	for mouse_event in mouse_events:
@@ -85,6 +81,6 @@ func _ready():
 	set_viewport_size()
 	connect("input_event", self, "_on_area_input_event")
 	get_viewport().connect("size_changed", self, "set_viewport_size")
-	var shape = $CollisionShape.shape as BoxShape
-	var mesh = $MeshInstance.mesh as QuadMesh
+#	var shape = $CollisionShape.shape as BoxShape
+#	var mesh = $MeshInstance.mesh as QuadMesh
 #	shape.extents = Vector3(mesh.size.x / 2, mesh.size.y / 2, 0.01)

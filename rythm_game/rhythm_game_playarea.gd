@@ -76,7 +76,6 @@ signal time_changed(time)
 signal song_cleared(results)
 signal heart_power_activate
 signal heart_power_end
-signal held_notes_changed(held_notes)
 signal note_judged(judgement)
 
 var held_notes = []
@@ -104,7 +103,7 @@ func _ready():
 	_on_viewport_size_changed()
 	connect("note_judged", latency_display, "_on_note_judged")
 	hit_effect_queue.append($HitEffect)
-	for i in range(MAX_NOTE_SFX-1):
+	for _i in range(MAX_NOTE_SFX-1):
 		var new_sfx = $HitEffect.duplicate()
 		add_child(new_sfx)
 		hit_effect_queue.append(new_sfx)

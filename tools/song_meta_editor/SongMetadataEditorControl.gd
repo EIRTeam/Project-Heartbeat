@@ -102,7 +102,6 @@ func _on_SaveButton_pressed():
 
 func _on_AudioFileDialog_file_selected(path: String):
 	var dir = Directory.new()
-	var extension = path.get_extension()
 	var audio_path := song_meta.get_song_audio_res_path() as String
 	
 	dir.copy(path, audio_path)
@@ -137,7 +136,6 @@ func _on_PreviewFileDialog_file_selected(path):
 
 func _on_VoiceAudioFileDialog_file_selected(path):
 	var dir = Directory.new()
-	var extension = path.get_extension()
 	var audio_path := song_meta.get_song_voice_res_path() as String
 	
 	dir.copy(path, audio_path)

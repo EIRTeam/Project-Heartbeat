@@ -13,7 +13,6 @@ const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
-onready var recording_layer_select_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordingLayerSelectButton")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RythmGame")
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
@@ -34,7 +33,6 @@ const LOG_NAME = "HBEditor"
 var playhead_position := 0
 var scale = 3.0 # Seconds per 500 pixels
 var selected: Array
-var recording: bool = false
 var time_begin
 var time_delay
 var _audio_play_offset
@@ -273,9 +271,6 @@ func play_from_pos(position: float):
 	playhead_position = max(position, 0.0)
 	emit_signal("playhead_position_changed")
 
-func start_recording():
-	pass
-
 func _process(delta):
 	var time = 0.0
 	if audio_stream_player.playing:
@@ -291,16 +286,6 @@ func _process(delta):
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		playhead_position = max(time * 1000.0, 0.0)
 		emit_signal("playhead_position_changed")
-	if recording:
-		for type in rhythm_game.NOTE_TYPE_TO_ACTIONS_MAP:
-			var actions = rhythm_game.NOTE_TYPE_TO_ACTIONS_MAP[type]
-			for action in actions:
-				if Input.is_action_just_pressed(action):
-					var note = EDITOR_TIMELINE_ITEM_SCENE.instance()
-					note.data.time = int(time * 1000)
-					note.data.note_type = type
-					add_item(recording_layer_select_button.get_selected_id(), note)
-					_on_timing_points_changed()
 
 func seek(value: int):
 	playhead_position = clamp(max(value, 0.0), timeline._offset, 1010000000)
@@ -339,7 +324,6 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.commit_action()
 			
 func pause():
-	recording = false
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80
 	audio_stream_player.stop()
@@ -357,13 +341,8 @@ func _on_PlayButton_pressed():
 
 
 func _on_StopButton_pressed():
-	recording = false
 	play_from_pos(0)
 	pause()
-
-func _on_RecordButton_pressed():
-	recording = true
-	play_from_pos(playhead_position)
 	
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
@@ -418,16 +397,6 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
 	file.store_string(JSON.print(serialize_chart(), "  "))
-	
-
-
-func _on_EditorTimeline_layers_changed():
-
-	recording_layer_select_button.clear()
-	for layer_i in range(timeline.get_layers().size()):
-		var layer = timeline.get_layers()[layer_i]
-		recording_layer_select_button.add_item(layer.layer_name, layer_i)
-	recording_layer_select_button.select(0)
 
 func load_song(song: HBSong, difficulty: String):
 	rhythm_game.current_bpm = song.bpm

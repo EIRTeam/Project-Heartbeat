@@ -43,14 +43,11 @@ func update_value(name, old_value, new_value):
 	update_label()
 	for property_name in inspecting_item.get_inspector_properties():
 		if property_name == name:
-			var editor = inspecting_properties[property_name]
 			ignore_next_value_update = true
 			inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
 		
 func update_values():
 	for property_name in inspecting_item.get_inspector_properties():
-		var editor = inspecting_properties[property_name]
-
 		inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
 
 func inspect(item: EditorTimelineItem):

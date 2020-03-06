@@ -47,8 +47,5 @@ func _gui_input(event):
 	if option_change != 0:
 		set_value(clamp(value+option_change, minimum, maximum))
 		emit_signal("changed", value)
-	
-	var normal_style
-
 
 

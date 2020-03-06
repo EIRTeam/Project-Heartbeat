@@ -1,12 +1,10 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=34 format=2]
 
-[ext_resource path="res://tools/icons/icon_record.svg" type="Texture" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
 [ext_resource path="res://tools/icons/icon_stop.svg" type="Texture" id=6]
-[ext_resource path="res://tools/editor/EditorCreateTab.gd" type="Script" id=7]
 [ext_resource path="res://rythm_game/rhythm_game_playarea.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
 [ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=11]
@@ -606,93 +604,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
-[node name="Recording" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 192.0
-margin_bottom = 393.0
-
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
-margin_right = 183.0
-margin_bottom = 22.0
-text = "Layer to write to:"
-
-[node name="RecordingLayerSelectButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
-margin_top = 26.0
-margin_right = 183.0
-margin_bottom = 48.0
-
-[node name="RecordButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer"]
-margin_top = 52.0
-margin_right = 183.0
-margin_bottom = 76.0
-text = "Start Recording"
-icon = ExtResource( 1 )
-
-[node name="Create" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-script = ExtResource( 7 )
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 192.0
-margin_bottom = 393.0
-
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
-margin_right = 226.0
-margin_bottom = 22.0
-text = "Note type to create"
-
-[node name="NoteTypeSelectButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
-margin_top = 26.0
-margin_right = 226.0
-margin_bottom = 48.0
-text = "Single Note"
-
-[node name="CreateItemButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer"]
-margin_top = 52.0
-margin_right = 226.0
-margin_bottom = 74.0
-text = "Create"
-
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
 margin_top = 448.0
@@ -762,10 +673,6 @@ dialog_autowrap = true
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_vertical"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Recording/MarginContainer/VBoxContainer/RecordButton" to="." method="_on_RecordButton_pressed"]
-[connection signal="create_note_type" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create" to="." method="add_event_timing_point"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create/MarginContainer/VBoxContainer/CreateItemButton" to="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Create" method="_on_create_note"]
-[connection signal="layers_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" to="." method="_on_EditorTimeline_layers_changed"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]

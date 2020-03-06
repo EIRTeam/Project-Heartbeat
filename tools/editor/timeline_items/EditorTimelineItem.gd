@@ -95,8 +95,8 @@ func get_inspector_properties():
 func get_editor_widget() -> PackedScene:
 	return null
 	
-func connect_widget(widget: HBEditorWidget):
-	self.widget = widget
+func connect_widget(_widget: HBEditorWidget):
+	self.widget = _widget
 	update_widget_data()
 	if not editor.game_preview.widget_area.is_connected("widget_area_input", self, "_widget_area_input"):
 		editor.game_preview.widget_area.connect("widget_area_input", self, "_widget_area_input")
