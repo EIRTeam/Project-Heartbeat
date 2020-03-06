@@ -7,6 +7,7 @@ signal property_changed(property_name, old_value, new_value)
 var data = HBTimingPoint.new()
 
 const DND_START_MARGIN = 25.0
+const SIDE_MOVEMENT_DEADZONE = 10.0
 
 var editor
 
@@ -14,6 +15,7 @@ var _drag_start_position : Vector2
 var _drag_start_time : float
 var _drag_x_offset : float
 var _drag_new_time : float
+var _drag_moving = false
 var _layer
 var _drag_last
 
@@ -40,13 +42,15 @@ func _process(delta):
 		force_drag(self, Control.new())
 		set_process(false)
 	else:
-		var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
-		new_time = editor.snap_time_to_timeline(new_time)
-		var drag_delta = new_time -_drag_last
-		_drag_last = new_time
-		if abs(drag_delta) > 0:
-			editor._change_selected_property_delta("time",  int(drag_delta))
-		emit_signal("time_changed")
+		if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
+			_drag_moving = true
+			var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
+			new_time = editor.snap_time_to_timeline(new_time)
+			var drag_delta = new_time -_drag_last
+			_drag_last = new_time
+			if abs(drag_delta) > 0:
+				editor._change_selected_property_delta("time",  int(drag_delta))
+			emit_signal("time_changed")
 #		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
@@ -62,16 +66,19 @@ func _gui_input(event: InputEvent):
 			editor.select_item(self, event.shift)
 			
 			if not event.shift:
+				_drag_moving = false
 				_drag_start_position = get_viewport().get_mouse_position()
 				_drag_start_time = data.time
 				_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 				_drag_last = data.time
 				set_process(true)
 	elif event.is_action_released("editor_select") and not event.is_echo():
+		_drag_moving = false
 		if is_processing():
 			get_tree().set_input_as_handled()
 			set_process(false)
-			editor._commit_selected_property_change("time")
+			if _drag_start_time != data.time:
+				editor._commit_selected_property_change("time")
 #		if _drag_start_time != data.time:
 #			emit_signal("property_changed", "time", _drag_start_time, data.time)
 			
