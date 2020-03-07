@@ -19,8 +19,6 @@ const HEART_POWER_PROGRESS_TINT = Color("a877f0")
 const HEART_INDICATOR_MISSED = Color("4f30ae")
 const HEART_INDICATOR_DECREASING = Color("77c3f0")
 
-var hit_effect_queue = []
-
 var input_lag_compensation = 0
 
 var result = HBResult.new()
@@ -102,11 +100,6 @@ func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
 	connect("note_judged", latency_display, "_on_note_judged")
-	hit_effect_queue.append($HitEffect)
-	for _i in range(MAX_NOTE_SFX-1):
-		var new_sfx = $HitEffect.duplicate()
-		add_child(new_sfx)
-		hit_effect_queue.append(new_sfx)
 	set_current_combo(0)
 	update_heart_power_ui()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
@@ -264,10 +257,10 @@ func remove_all_notes_from_screen():
 func play_note_sfx(slide=false):
 	if not slide:
 		if not _sfx_played_this_cycle:
-			var curr_effect = hit_effect_queue[0]
-			curr_effect.play()
-			hit_effect_queue.pop_front()
-			hit_effect_queue.push_back(curr_effect)
+			var dup = $HitEffect.duplicate()
+			add_child(dup)
+			dup.connect("finished", dup, "queue_free")
+			dup.play()
 			_sfx_played_this_cycle = true
 	else:
 		var dup = $HitEffect2.duplicate()
