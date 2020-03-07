@@ -109,15 +109,24 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
 	if menu_data.has("left"):
 		left_menu = menu_data.left
-		left_menu_container.add_child(left_menu)
+		# Prevent softlock when transiton hasn't finished
+		if left_menu.is_connected("transition_finished", left_menu_container, "remove_child"):
+			left_menu.disconnect("transition_finished", left_menu_container, "remove_child")
+		if not left_menu in left_menu_container.get_children():
+			left_menu_container.add_child(left_menu)
+
 		left_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		left_menu._on_menu_enter(force_hard_transition, args)
 
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
+		# Prevent softlock when transiton hasn't finished
+		if right_menu.is_connected("transition_finished", right_menu_container, "remove_child"):
+			right_menu.disconnect("transition_finished", right_menu_container, "remove_child")
 		if not right_menu in right_menu_container.get_children():
 			# Right side of menus are single instance if they are the same
-			right_menu_container.add_child(right_menu)
+			if not right_menu in right_menu_container.get_children():
+				right_menu_container.add_child(right_menu)
 	#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 			right_menu._on_menu_enter(force_hard_transition, args)
 
