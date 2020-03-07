@@ -22,4 +22,6 @@ func load_user_settings():
 func save_user_settings():
 	var file := File.new()
 	if file.open(USER_SETTINGS_PATH, File.WRITE) == OK:
-		file.store_string(JSON.print(user_settings.serialize(), "  "))
+		var contents = JSON.print(user_settings.serialize(), "  ")
+		file.store_string(contents)
+		PlatformService.service_provider.write_remote_file_async(USER_SETTINGS_PATH.get_file(), contents.to_utf8())

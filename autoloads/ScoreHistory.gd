@@ -36,7 +36,9 @@ func history_to_dict() -> Dictionary:
 func save_history():
 	var file := File.new()
 	if file.open(SCORE_HISTORY_PATH, File.WRITE) == OK:
-		file.store_string(JSON.print(history_to_dict(), "  "))
+		var contents = JSON.print(history_to_dict(), "  ")
+		file.store_string(contents)
+		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8())
 		
 func add_result_to_history(result: HBResult):
 	if not scores.has(result.song_id):
@@ -44,7 +46,7 @@ func add_result_to_history(result: HBResult):
 	if scores[result.song_id].has(result.difficulty):
 		var current_result = scores[result.song_id][result.difficulty] as HBResult
 		if current_result.score > result.score:
-			Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLeveL.ERROR)
+			Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
 			return
 	scores[result.song_id][result.difficulty] = result
 	save_history()

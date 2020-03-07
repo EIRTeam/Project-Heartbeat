@@ -51,6 +51,7 @@ func _on_RhythmGame_song_cleared(results: HBResult):
 	var original_color = Color.black
 	original_color.a = 0
 	var target_color = Color.black
+	$FadeToBlack.show()
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [results])
 	fade_out_tween.start()
