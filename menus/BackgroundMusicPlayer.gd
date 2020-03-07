@@ -39,7 +39,7 @@ func play_random_song():
 	if possible_songs.size() > 0:
 		randomize()
 		song = possible_songs[randi() % possible_songs.size()]
-	play_song(song)
+	play_song(song, true)
 	
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
@@ -86,8 +86,10 @@ func _on_song_assets_loaded(song, assets):
 		current_song = song
 		emit_signal("song_started", song, assets)
 			
-func play_song(song: HBSong):
+func play_song(song: HBSong, force = false):
 	waiting_for_song_assets = true
+	if song == current_song and not force:
+		return
 #	if player.stream:
 #		# Sometimes, when doing this normally we would 
 #		if player.stream.get_length() - player.get_playback_position() < 5.0:
