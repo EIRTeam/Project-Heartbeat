@@ -19,7 +19,6 @@ onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 
-const BASE_BUTTON_PANEL_HEIGHT = 106
 const BASE_HEIGHT = 720.0
 
 func _on_menu_enter(force_hard_transition = false, args = {}):
@@ -32,7 +31,7 @@ func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
 	yield(get_tree(), "idle_frame")
-	var inv = 0.3 / (rect_size.y / BASE_HEIGHT)
+	var inv = 0.2 / (rect_size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
@@ -69,7 +68,9 @@ func set_result(val: HBResult):
 		if float(result.total_notes) > 0:
 			var results = result.note_ratings[rating]
 			if rating == HBJudge.JUDGE_RATINGS.WORST:
-				results += result.wrong_note_ratings.values()
+				# Add wrong notes
+				for r in result.wrong_note_ratings.values():
+					results += r
 					
 			rating_scene.percentage = results  / float(result.total_notes)
 		rating_scene.total_notes = result.note_ratings[rating]
@@ -96,6 +97,7 @@ func set_result(val: HBResult):
 	if ScoreHistory.has_result(result.song_id, result.difficulty):
 		var existing_result : HBResult = ScoreHistory.get_result(result.song_id, result.difficulty)
 		if existing_result.score < result.score:
-			ScoreHistory.add_result_to_history(result)
+			pass
+		ScoreHistory.add_result_to_history(result)
 	else:
 			ScoreHistory.add_result_to_history(result)
