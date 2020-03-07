@@ -58,6 +58,7 @@ func show_WIP_label():
 	$"WIP Label".show()
 	
 func show_log_messages():
+	yield(get_tree(), "idle_frame")
 	var messages_to_show = []
 	var selected_log_filter = log_filter_option_button.get_item_text(log_filter_option_button.selected)
 	if log_filter_option_button.selected > 0:
