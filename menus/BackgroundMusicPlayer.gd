@@ -10,7 +10,7 @@ var next_audio: AudioStreamOGGVorbis
 var next_voice: AudioStreamOGGVorbis
 var current_song: HBSong
 var song_queued = false
-
+var waiting_for_song_assets = false
 var player = AudioStreamPlayer.new()
 var voice_player = AudioStreamPlayer.new()
 
@@ -27,12 +27,18 @@ func _ready():
 	add_child(player)
 	add_child(voice_player)
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
+	player.connect("finished", self, "play_random_song")
 
 func play_random_song():
-	var song = HBSong.new()
-	while song.audio == "":
+	# Ensure random song will always be different from current
+	var song = current_song
+	var possible_songs = []
+	for song in SongLoader.songs.values():
+		if song.audio and not song == current_song:
+			possible_songs.append(song)
+	if possible_songs.size() > 0:
 		randomize()
-		song = SongLoader.songs.values()[randi() % SongLoader.songs.keys().size()]
+		song = possible_songs[randi() % possible_songs.size()]
 	play_song(song)
 	
 func _process(delta):
@@ -52,18 +58,11 @@ func _process(delta):
 				song_queued = false
 			else:
 				voice_player.stream = null
-	if player.stream:
+	if player.stream and not waiting_for_song_assets:
 		emit_signal("stream_time_changed", player.get_playback_position())
-		if player.get_playback_position() >= player.stream.get_length():
-			var curr = current_song
-			# Ensure random song will always be different from current
-			if SongLoader.songs.size() > 1:
-				while curr == current_song:
-					play_random_song()
-			else:
-				play_random_song()
 			
 func _on_song_assets_loaded(song, assets):
+	waiting_for_song_assets = false
 	if song.audio != "":
 		if not current_song:
 			player.stream = assets.audio
@@ -88,10 +87,14 @@ func _on_song_assets_loaded(song, assets):
 		emit_signal("song_started", song, assets)
 			
 func play_song(song: HBSong):
-	if song == current_song:
-		return
+	waiting_for_song_assets = true
+#	if player.stream:
+#		# Sometimes, when doing this normally we would 
+#		if player.stream.get_length() - player.get_playback_position() < 5.0:
+#			player.stream = null
+#			player.volume_db = FADE_OUT_VOLUME
+		
 	background_song_assets_loader.load_song_assets(song, ["audio", "voice", "background", "preview", "background", "circle_logo"])
-
 
 		
 func get_song_length():
