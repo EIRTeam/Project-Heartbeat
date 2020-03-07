@@ -12,6 +12,10 @@ var OPTIONS = {
 		"show_latency": {
 			"name": tr("Show latency"),
 			"description": tr("Shows how late or how early you were when hitting notes.")
+		},
+		"enable_voice_fade": {
+			"name": tr("Voice fade"),
+			"description": tr("Make the voice fade when missing a note (only on supported charts).")
 		}
 	},
 	"Controls": {

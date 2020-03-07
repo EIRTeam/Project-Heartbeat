@@ -423,7 +423,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			hold_release()
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
-			audio_stream_player_voice.volume_db = -90
+			if UserSettings.user_settings.enable_voice_fade:
+				audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
 			# make the heart power indicator darker to indicate that a perfect
 			# is not possible anymore
