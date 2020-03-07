@@ -201,6 +201,17 @@ func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
 		activate_heart_power()
+	# Note SFX
+	for type in NOTE_TYPE_TO_ACTIONS_MAP:
+		var action_pressed = false
+		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
+		for action in actions:
+			if event.is_action_pressed(action):
+				play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
+				action_pressed = true
+				break
+		if action_pressed:
+			break
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
 			for note_type in held_notes:
@@ -283,17 +294,6 @@ func _process(delta):
 		time = max(0, time)
 	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
 	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
-	# Note SFX
-	for type in NOTE_TYPE_TO_ACTIONS_MAP:
-		var action_pressed = false
-		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if Input.is_action_just_pressed(action):
-				play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
-				action_pressed = true
-				break
-		if action_pressed:
-			break
 	# Heart power stuff
 	if heart_power_enabled:
 		if time - current_heart_power_start_time >= current_heart_power_duration:
