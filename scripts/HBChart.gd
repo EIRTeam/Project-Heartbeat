@@ -87,28 +87,17 @@ func get_max_score():
 	
 	var last_point: HBNoteData
 	
+	var notes = 0
+	
 	for point in tp:
 		if point is HBNoteData:
 			if last_point:
 				if last_point.time == point.time:
 					continue
-			max_score += HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] * 2
+			notes += 1
 			last_point = point
-	
-	# Compensate for score multiplier
-	max_score -= HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] * 15
-	
-	# Fallback for very short charts
-	if max_score <= 0:
-		max_score = 0
-		last_point = null
-		
-		for point in tp:
-			if point is HBNoteData:
-				if last_point:
-					if last_point.time == point.time:
-						continue
-				max_score += HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL] 
+	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.FINE]
+	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL]
 	
 	return max_score
 	
