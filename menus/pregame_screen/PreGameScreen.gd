@@ -7,7 +7,6 @@ onready var button_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer
 var current_song: HBSong
 var current_difficulty: String
 
-const BASE_BUTTON_PANEL_HEIGHT = 106
 const BASE_HEIGHT = 720.0
 
 func _ready():
