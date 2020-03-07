@@ -1,0 +1,147 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://tools/editor/EditorOpenChartPopup.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/SongMetaDataEditor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://tools/editor/CreateDifficultyDialog.tscn" type="PackedScene" id=4]
+
+[node name="Control" type="ConfirmationDialog"]
+margin_top = -1.0
+margin_right = 500.0
+margin_bottom = 199.0
+rect_min_size = Vector2( 500, 200 )
+theme = ExtResource( 1 )
+popup_exclusive = true
+window_title = "Select a song to edit"
+dialog_hide_on_ok = false
+script = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -41.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 474.0
+margin_bottom = 151.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 464.0
+margin_bottom = 141.0
+size_flags_vertical = 3
+
+[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 358.0
+margin_bottom = 141.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+hide_root = true
+
+[node name="VBoxContainerSong" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 362.0
+margin_right = 464.0
+margin_bottom = 141.0
+
+[node name="NewSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+margin_right = 102.0
+margin_bottom = 25.0
+text = "New song"
+
+[node name="AddDifficultyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+margin_top = 29.0
+margin_right = 102.0
+margin_bottom = 54.0
+text = "Add chart"
+
+[node name="EditDataButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+margin_top = 58.0
+margin_right = 102.0
+margin_bottom = 83.0
+text = "Edit song data"
+
+[node name="CreateSongDialog" type="ConfirmationDialog" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 492.0
+margin_bottom = 159.0
+rect_min_size = Vector2( 150, 70 )
+popup_exclusive = true
+window_title = "Create a new song..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreateSongDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -41.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="CreateSongDialog/VBoxContainer"]
+margin_right = 564.0
+margin_bottom = 25.0
+placeholder_text = "EIREXE's incredible song..."
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 492.0
+margin_bottom = 159.0
+rect_min_size = Vector2( 150, 0 )
+window_title = "¡Alerta!"
+dialog_text = "You must add an audio track to your song before editing, you can do this from \\\"Edit song data\\\"."
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongMetaEditorDialog" type="ConfirmationDialog" parent="."]
+visible = true
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 492.0
+margin_bottom = 159.0
+rect_min_size = Vector2( 150, 0 )
+popup_exclusive = true
+window_title = "Song Metadata Editor"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongMetaEditor" parent="SongMetaEditorDialog" instance=ExtResource( 3 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -41.0
+
+[node name="CreateDifficultyDialog" parent="." instance=ExtResource( 4 )]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 492.0
+margin_bottom = 159.0
+[connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]

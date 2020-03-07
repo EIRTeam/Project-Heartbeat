@@ -28,6 +28,7 @@ onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer
 onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
+onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -75,8 +76,6 @@ func _ready():
 	get_viewport()
 	timeline.editor = self
 	
-	from_chart(HBChart.new())
-	
 	rhythm_game.set_process_unhandled_input(false)
 	seek(0)
 	inspector.connect("user_changed_property", self, "_change_selected_property")
@@ -87,6 +86,13 @@ func _ready():
 	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	load_plugins()
+	_show_open_chart_dialog()
+	# You HAVE to open a chart, this ensures that if no chart is selected we return
+	# to the main menu
+	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
+	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
+func _show_open_chart_dialog():
+	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))	
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_undo"):
@@ -385,10 +391,10 @@ func from_chart(chart: HBChart):
 		layer_manager.add_layer(layer.name, layer_visible)
 		timeline.change_layer_visibility(layer_visible, layer.name)
 	_on_timing_points_changed()
-
-func _on_SongSelector_chart_selected(song_id, difficulty):
-	var song = SongLoader.songs[song_id]
-	load_song(song, difficulty)
+	# Disconnect the cancel action in the chart open dialog, because we already have at least
+	# a chart loaded
+	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
+		open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "disconnect")
 
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
