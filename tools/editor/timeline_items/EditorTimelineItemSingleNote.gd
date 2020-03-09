@@ -15,9 +15,8 @@ func get_size():
 
 func get_inspector_properties():
 	var props = HBUtils.merge_dict(.get_inspector_properties(),  {
-		"note_type": "NoteTypeSelector"
 	})
-	return props 
+	return props
 
 func get_duration():
 	return 100

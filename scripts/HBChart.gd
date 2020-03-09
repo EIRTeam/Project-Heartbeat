@@ -7,11 +7,16 @@ func _init():
 	_populate_layers()
 
 func _populate_layers():
+	var disabled_types = [
+		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE),
+		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE),
+	]
 	for NOTE_TYPE in HBNoteData.NOTE_TYPE:
-		layers.append({
-			"name": NOTE_TYPE,
-			"timing_points": []
-		})
+		if not NOTE_TYPE in disabled_types:
+			layers.append({
+				"name": NOTE_TYPE,
+				"timing_points": []
+			})
 	# Extra slide layers
 	
 	layers.append({

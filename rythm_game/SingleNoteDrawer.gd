@@ -110,10 +110,11 @@ func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
 	set_trail_color()
+		
 
 func _on_note_judged(judgement):
 	
-	if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+	if note_data.is_slide_note():
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			
 			var particles = slide_particles_scene
@@ -124,10 +125,7 @@ func _on_note_judged(judgement):
 			particles.position = game.remap_coords(note_data.position)
 	else:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
-			var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
-			var effect = effect_scene.instance()
-			game.add_child(effect)
-			effect.position = game.remap_coords(note_data.position)
+			show_note_hit_effect()
 	queue_free()
 	get_tree().set_input_as_handled()
 	set_process_unhandled_input(false)
@@ -135,6 +133,8 @@ func _on_note_judged(judgement):
 func _unhandled_input(event):
 	# Master notes handle all the input
 	if not event is InputEventAction and not event.is_action("tap_left") and not event.is_action("tap_right"):
+		return
+	if note_data.note_type in HBNoteData.NO_INPUT_LIST:
 		return
 	if not is_queued_for_deletion():
 		var conn_notes = connected_notes
@@ -147,8 +147,9 @@ func _unhandled_input(event):
 		# is used for wrong note detection
 		var allowed_actions = []
 		for note in conn_notes:
-			for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
-				allowed_actions.append(action)
+			if note.note_type in game.NOTE_TYPE_TO_ACTIONS_MAP:
+				for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
+					allowed_actions.append(action)
 		for note in conn_notes:
 			if event.is_pressed():
 				if note in game.get_closest_notes():
@@ -239,11 +240,11 @@ func _on_game_time_changed(time: float):
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
-		
-		if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
-			emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
-			emit_signal("note_removed")
-			queue_free()
+		if note_data.can_be_judged():
+			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
+				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
+				emit_signal("note_removed")
+				queue_free()
 func get_note_graphic():
 	return note_graphic
 	

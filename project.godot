@@ -139,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBNoteData.gd"
 }, {
+"base": "Node2D",
+"class": "HBNoteDrawer",
+"language": "GDScript",
+"path": "res://rythm_game/NoteDrawer.gd"
+}, {
 "base": "HBSong",
 "class": "HBPPDSong",
 "language": "GDScript",
@@ -281,6 +286,7 @@ _global_script_class_icons={
 "HBMenuChangeButton": "",
 "HBMultiplayerService": "",
 "HBNoteData": "",
+"HBNoteDrawer": "",
 "HBPPDSong": "",
 "HBPerSongEditorSettings": "",
 "HBPlatformAchievment": "",
@@ -316,11 +322,12 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.1.0"
-config/build_time=1583326230
-config/build_commit="3bd9f91d0124319aae645c3778aa2a550dddb94a"
+config/build_time=1583570350
+config/build_commit="89e4a8164e734ef8187b7cb9fc57770e6ef4559c"
 
 [audio]
 
+driver="ALSA"
 output_latency=2
 
 [autoload]

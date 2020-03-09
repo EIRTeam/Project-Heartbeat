@@ -32,7 +32,7 @@ onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
-var scale = 3.0 # Seconds per 500 pixels
+var scale = 1.5 # Seconds per 500 pixels
 var selected: Array
 var time_begin
 var time_delay
@@ -247,6 +247,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l.drop_data(null, selected)
 					break
 func add_item_to_layer(layer, item: EditorTimelineItem):
+	print("ADDING ITEM!!!")
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])
@@ -555,6 +556,7 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
 
 	undo_redo.create_action("Arrange selected notes by time")
+	var ordered_items = []
 	
 	for selected_item in selected:
 		if selected_item.data is HBNoteData:
@@ -575,10 +577,16 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			undo_redo.add_undo_method(self, "_on_timing_points_changed")
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
 	undo_redo.commit_action()
-	inspector.update_value()
+#	inspector.update_value()
 
 func add_button_to_tools_tab(button: BaseButton):
 	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(button)
-
+func add_tool_to_tools_tab(tool_control: Control):
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
+
+func show_error(error: String):
+	$PluginErrorDialog.rect_size = Vector2.ZERO
+	$PluginErrorDialog.dialog_text = error
+	$PluginErrorDialog.popup_centered_minsize(300, 80)

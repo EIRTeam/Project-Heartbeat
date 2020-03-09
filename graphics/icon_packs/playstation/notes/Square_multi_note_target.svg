@@ -29,7 +29,7 @@
     <sodipodi:guide position="54.501802,33.013206" orientation="0,1" id="guide895" inkscape:locked="false"/>
   </sodipodi:namedview>
   <g id="g832">
-    <svg:path style="fill:#e7ba3f;fill-opacity:1;stroke:#e7ba3f;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" d="m 20.375,20.375 v 59.25 h 59.25 v -59.25 z" id="background_path" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
-  <path style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#e7ba3f;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="m 20.375,20.375 v 59.25 h 59.25 v -59.25 z" id="main_path" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+    <svg:path style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" d="m 20.375,20.375 v 59.25 h 59.25 v -59.25 z" id="background_path" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+  <path style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="m 20.375,20.375 v 59.25 h 59.25 v -59.25 z" id="main_path" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
   </g>
 </svg>

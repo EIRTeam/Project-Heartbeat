@@ -181,7 +181,7 @@ rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
 min_value = 1.0
 value = 4.0
-suffix = "th of a beat"
+suffix = "th of a note"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 718.0
@@ -658,6 +658,13 @@ dialog_autowrap = true
 [node name="OpenChartPopupDialog" parent="." instance=ExtResource( 1 )]
 margin_right = 616.0
 margin_bottom = 275.0
+
+[node name="PluginErrorDialog" type="AcceptDialog" parent="."]
+margin_right = 300.0
+margin_bottom = 80.0
+window_title = "Plugin Error"
+dialog_text = "Plugin ERROR!"
+dialog_autowrap = true
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]

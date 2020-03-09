@@ -31,7 +31,7 @@
     <sodipodi:guide position="113.98305,49.152542" orientation="0,1" id="guide1452" inkscape:locked="false"/>
   </sodipodi:namedview>
   <g style="fill:#d40000;fill-opacity:1" id="g885">
-    <svg:path style="fill:#e7ba3f;fill-opacity:1;stroke:#e7ba3f;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="background_path" inkscape:connector-curvature="0"/>
-  <path style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#e7ba3f;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="main_path" inkscape:connector-curvature="0"/>
+    <svg:path style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="background_path" inkscape:connector-curvature="0"/>
+  <path style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="M 58.459392,18.808112 17.716188,68.528643 H 82.283811 V 41.424048 H 58.459392 Z" id="main_path" inkscape:connector-curvature="0"/>
   </g>
 </svg>

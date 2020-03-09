@@ -80,6 +80,20 @@ var held_notes = []
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
 var accumulated_hold_score = 0.0 # for when you hit another hold note after holding one
+
+# List of slide hold note chains
+# It's a list key, contains an array of slide notes
+# hold pieces.
+var slide_hold_chains = []
+
+# List of slide hold note chains that are active
+# It is an array of dictionaris, each dictionary contains a slide hold piece array
+# (this array contains only remaining ones in the chain), this uses "pieces" as key
+# it also has an AudioStreamPlayer for the loop, called sfx_player
+# it finally contains a reference to the original slide note that starts the chain
+# as slide_note
+var active_slide_hold_chains = []
+
 func set_size(value):
 	size = value
 	$UnderNotesUI/Control.rect_size = value
@@ -160,6 +174,37 @@ func set_song(song: HBSong, difficulty: String):
 		chart.deserialize(result)
 	
 	timing_points = chart.get_timing_points()
+	
+	# Find slide hold chains
+	slide_hold_chains = {}
+	active_slide_hold_chains = []
+	var last_right_slide
+	var last_left_slide
+	
+	for i in range(timing_points.size() - 1, -1, -1):
+		var point = timing_points[i]
+		if point is HBNoteData:
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+				last_left_slide = point
+				slide_hold_chains[point] = []
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+				last_right_slide = point
+				slide_hold_chains[point] = []
+				
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE:
+				if last_left_slide:
+					slide_hold_chains[last_left_slide].append(point)
+				else:
+					Log.log(self, "Left slide hold piece found before left slide, this shouldn't happen")
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
+				if last_right_slide:
+					slide_hold_chains[last_right_slide].append(point)
+					print("ADDING POINT TO ", last_right_slide.time)
+				else:
+					Log.log(self, "Right slide hold piece found before right slide, this shouldn't happen")
+	for slide in slide_hold_chains.keys():
+		if slide_hold_chains[slide].size() == 0:
+			slide_hold_chains.erase(slide)
 	var max_score = chart.get_max_score()
 	clear_bar.max_value = max_score
 	result.max_score = max_score
@@ -205,6 +250,21 @@ func _unhandled_input(event):
 				break
 		if action_pressed:
 			break
+	# Slide hold release shenanigans
+	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
+	for slide_type in slide_types:
+		for action in NOTE_TYPE_TO_ACTIONS_MAP[slide_type]:
+			if event.is_action_released(action) and not event.is_echo():
+				for i in range(active_slide_hold_chains.size() - 1, -1, -1):
+					var active_hold_chain = active_slide_hold_chains[i]
+					if active_hold_chain.slide_note.note_type == slide_type:
+						for piece in active_hold_chain.pieces:
+							var note_drawer = piece.get_meta("note_drawer")
+							note_drawer.emit_signal("note_removed")
+							note_drawer.queue_free()
+						active_hold_chain.sfx_player.queue_free()
+						active_slide_hold_chains.remove(i)
+				
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
 			for note_type in held_notes:
@@ -255,6 +315,7 @@ func remove_all_notes_from_screen():
 	notes_on_screen = []
 	
 func play_note_sfx(slide=false):
+	print("NOTE SFX")
 	if not slide:
 		if not _sfx_played_this_cycle:
 			var dup = $HitEffect.duplicate()
@@ -325,13 +386,14 @@ func _process(delta):
 					if multi_notes.size() > 0:
 						if multi_notes[0].time == timing_point.time:
 							if not timing_point is HBHoldNoteData:
-								multi_notes.append(timing_point)
+								if timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
+									multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
 						else:
 							multi_notes = [timing_point]
 						
-					else:
+					elif timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
 						multi_notes.append(timing_point)
 				if not editing or previewing:
 					timing_points.remove(i)
@@ -359,10 +421,22 @@ func _process(delta):
 			
 		else:
 			hold_indicator.current_score = current_hold_score + accumulated_hold_score
+	for ii in range(active_slide_hold_chains.size() - 1, -1, -1):
+		var chain = active_slide_hold_chains[ii]
+		for i in range(chain.pieces.size() - 1, -1, -1):
+			var piece = chain.pieces[i]
+			if time * 1000.0 >= piece.time:
+				var piece_drawer = piece.get_meta("note_drawer") as HBNoteDrawer
+				piece_drawer.show_note_hit_effect()
+				piece_drawer.emit_signal("note_removed")
+				piece_drawer.queue_free()
+				chain.pieces.remove(i)
+		if chain.pieces.size() == 0:
+			active_slide_hold_chains.remove(ii)
 	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
-			if note is HBNoteData:
+			if note is HBNoteData and note.note_type in NOTE_TYPE_TO_ACTIONS_MAP:
 				if time*1000 > note.time:
 					var a = InputEventAction.new()
 					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
@@ -414,7 +488,7 @@ func update_heart_power_ui():
 		heart_power_indicator.tint_progress = HEART_POWER_PROGRESS_TINT
 	
 func _on_notes_judged(notes: Array, judgement, wrong):
-	var note = notes[0]
+	var note = notes[0] as HBNoteData
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
 	var notes_hit = 1
 	if not editing or previewing:
@@ -451,6 +525,31 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		if current_combo > result.max_combo:
 			result.max_combo = current_combo
 
+		# Slide chain starting shenanigans
+		if note.is_slide_note():
+			if note in slide_hold_chains:
+				if not wrong and judgement >= judge.JUDGE_RATINGS.FINE:
+					var hold_player = $SlideChainLoopSFX.duplicate()
+					add_child(hold_player)
+					hold_player.play()
+					hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
+					
+					print(slide_hold_chains[note].size())
+					
+					var active_hold_chain = {
+						"pieces": slide_hold_chains[note],
+						"slide_note": note,
+						"sfx_player": hold_player,
+						"is_playing_loop": false
+					}
+					active_slide_hold_chains.append(active_hold_chain)
+				else:
+					# kill slide and younglings
+					for piece in slide_hold_chains[note]:
+						var piece_drawer = piece.get_meta("note_drawer")
+						piece_drawer.emit_signal("note_removed")
+						piece_drawer.queue_free()
+			
 		
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
@@ -482,6 +581,11 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			"time": int(time*1000)
 		}
 		emit_signal("note_judged", judgement_info)
+
+func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
+	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
+	hold_player.seek(0)
+	hold_player.play()
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))

@@ -29,7 +29,7 @@
     <sodipodi:guide position="54.501802,33.013206" orientation="0,1" id="guide895" inkscape:locked="false"/>
   </sodipodi:namedview>
   <g id="g1970">
-    <svg:path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="background_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:#e7ba3f;fill-opacity:1;stroke:#e7ba3f;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);"/>
-  <path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="main_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#e7ba3f;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"/>
+    <svg:path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="background_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);"/>
+  <path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="main_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"/>
   </g>
 </svg>

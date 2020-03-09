@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Right_small.png-bf83a6e318697fb620d9ad6de16eaa26.stex"
+path="res://.import/Slide_Right_Hold_Piece.png-7810d2f8894cffe7bc3fc7c09770223e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/arrow_overrides/notes/Right_small.png"
-dest_files=[ "res://.import/Right_small.png-bf83a6e318697fb620d9ad6de16eaa26.stex" ]
+source_file="res://graphics/arrow_overrides/notes/Slide_Right_Hold_Piece.png"
+dest_files=[ "res://.import/Slide_Right_Hold_Piece.png-7810d2f8894cffe7bc3fc7c09770223e.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=true
+flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

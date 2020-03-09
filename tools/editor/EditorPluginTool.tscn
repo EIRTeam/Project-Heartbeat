@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/editor/EditorPluginTool.gd" type="Script" id=1]
+
+[node name="Control" type="VBoxContainer"]
+margin_left = -266.0
+margin_bottom = 234.0
+size_flags_horizontal = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolName" type="Label" parent="."]
+margin_right = 266.0
+margin_bottom = 14.0
+text = "Slide Hold Creator"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 18.0
+margin_right = 266.0
+margin_bottom = 22.0
+size_flags_horizontal = 3

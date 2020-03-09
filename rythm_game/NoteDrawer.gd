@@ -1,4 +1,5 @@
 extends Node2D
+class_name HBNoteDrawer
 var note_data: HBNoteData = HBNoteData.new()
 var game
 
@@ -14,7 +15,11 @@ var next_note = null
 var note_master = true setget set_note_master # Master notes take care of multi-note stuff...
 
 const Laser = preload("res://rythm_game/Laser.tscn")
-
+func show_note_hit_effect():
+	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
+	var effect = effect_scene.instance()
+	game.add_child(effect)
+	effect.position = game.remap_coords(note_data.position)
 func set_note_master(val):
 	note_master = val
 	if val == false:

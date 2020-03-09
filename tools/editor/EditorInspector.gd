@@ -4,7 +4,6 @@ const INSPECTOR_TYPES = {
 	"int": preload("res://tools/editor/inspector_types/int.tscn"),
 	"Vector2": preload("res://tools/editor/inspector_types/Vector2.tscn"),
 	"float": preload("res://tools/editor/inspector_types/float.tscn"),
-	"NoteTypeSelector": preload("res://tools/editor/inspector_types/NoteTypeSelector.tscn"),
 	"Angle": preload("res://tools/editor/inspector_types/angle.tscn"),
 	"bool": preload("res://tools/editor/inspector_types/bool.tscn")
 }

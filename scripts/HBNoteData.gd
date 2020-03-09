@@ -8,8 +8,27 @@ enum NOTE_TYPE {
 	DOWN,
 	RIGHT,
 	SLIDE_LEFT,
-	SLIDE_RIGHT
+	SLIDE_RIGHT,
+	SLIDE_LEFT_HOLD_PIECE,
+	SLIDE_RIGHT_HOLD_PIECE
 }
+# List of notes that should NEVER EVER be considered multinotes
+const NO_MULTI_LIST = [
+	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+]
+
+# List of notes that do not accept input by themselves, instead it's handled 
+# somewhere else
+const NO_INPUT_LIST = [
+	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+]
+
+const NO_JUDGE_LIST = [
+	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+]
 
 const NOTE_SCORES = {
 	HBJudge.JUDGE_RATINGS.COOL: 1000,
@@ -114,3 +133,9 @@ func get_timeline_item():
 	var timeline_item = timeline_item_scene.instance()
 	timeline_item.data = self
 	return timeline_item
+
+func is_slide_note():
+	return note_type == NOTE_TYPE.SLIDE_LEFT or note_type == NOTE_TYPE.SLIDE_RIGHT
+
+func can_be_judged():
+	return not note_type in NO_JUDGE_LIST

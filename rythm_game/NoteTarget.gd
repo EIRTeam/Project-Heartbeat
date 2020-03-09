@@ -16,7 +16,6 @@ func _draw():
 
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
-
 func set_note_type(type, multi = false, hold = true):
 	if multi:
 		$Sprite.texture = HBNoteData.get_note_graphics(type).multi_note_target
@@ -24,4 +23,12 @@ func set_note_type(type, multi = false, hold = true):
 	else:
 		$Sprite/HoldTextSprite.visible = hold
 		$Sprite.texture = HBNoteData.get_note_graphics(type).target
+	var arm_disabled_types = [
+		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+		HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	]
+	if type in arm_disabled_types:
+		$TimingArm.hide()
+	else:
+		$TimingArm.show()
 	$TimingArm.rotation_degrees = arm_position * 360
