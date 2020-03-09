@@ -568,6 +568,7 @@ __meta__ = {
 
 [node name="SlideChainLoopSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
+volume_db = 13.0
 bus = "SlideSFX"
 __meta__ = {
 "_editor_description_": ""
