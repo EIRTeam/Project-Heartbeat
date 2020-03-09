@@ -235,21 +235,27 @@ func play_song():
 #	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 #	audio_stream_player.play()
 #	audio_stream_player_voice.play()
+
+func _input(event):
+	if event is InputEventAction:
+		if event.pressed and not event.is_echo():
+			print("RECEIVED ACTION " + event.action)
+		# Note SFX
+		for type in NOTE_TYPE_TO_ACTIONS_MAP:
+			var action_pressed = false
+			var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
+			for action in actions:
+				if event.action == action and event.pressed and not event.is_echo():
+					play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
+					action_pressed = true
+					break
+			if action_pressed:
+				break
+
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
 		activate_heart_power()
-	# Note SFX
-	for type in NOTE_TYPE_TO_ACTIONS_MAP:
-		var action_pressed = false
-		var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if event.is_action_pressed(action):
-				play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
-				action_pressed = true
-				break
-		if action_pressed:
-			break
 	# Slide hold release shenanigans
 	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
 	for slide_type in slide_types:
@@ -432,6 +438,8 @@ func _process(delta):
 				piece_drawer.queue_free()
 				chain.pieces.remove(i)
 		if chain.pieces.size() == 0:
+			chain.sfx_player.queue_free()
+			play_note_sfx(true)
 			active_slide_hold_chains.remove(ii)
 	if Diagnostics.enable_autoplay or previewing:
 		for i in range(notes_on_screen.size() - 1, -1, -1):

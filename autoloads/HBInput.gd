@@ -2,7 +2,7 @@ extends Node
 
 var action_tracking = {}
 
-const TRACKED_ACTIONS = ["note_a", "note_b", "note_x", "note_y"]
+const TRACKED_ACTIONS = ["note_a", "note_b", "note_x", "note_y", "tap_left", "tap_right"]
 
 func is_action_pressed(action: String):
 	var action_inputs = action_tracking[action]
@@ -14,7 +14,7 @@ func is_action_pressed(action: String):
 
 
 
-func _unhandled_input(event):
+func _input(event):
 	if not event is InputEventAction:
 		if event is InputEventJoypadButton or event is InputEventKey:
 			if not event.is_echo():
@@ -50,4 +50,5 @@ func _unhandled_input(event):
 					var ev = InputEventAction.new()
 					ev.action = found_action
 					ev.pressed = is_action_pressed(found_action)
+					print("SENDING ", found_action)
 					Input.parse_input_event(ev)
