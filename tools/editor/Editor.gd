@@ -247,7 +247,6 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l.drop_data(null, selected)
 					break
 func add_item_to_layer(layer, item: EditorTimelineItem):
-	print("ADDING ITEM!!!")
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])

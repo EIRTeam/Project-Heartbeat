@@ -137,5 +137,8 @@ func get_timeline_item():
 func is_slide_note():
 	return note_type == NOTE_TYPE.SLIDE_LEFT or note_type == NOTE_TYPE.SLIDE_RIGHT
 
+func is_slide_hold_piece():
+	return note_type == NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE or note_type == NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+
 func can_be_judged():
 	return not note_type in NO_JUDGE_LIST

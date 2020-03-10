@@ -109,8 +109,7 @@ func get_max_score():
 	
 	return max_score
 	
-func get_slide_hold_chains():
-	var timing_points = get_timing_points()
+static func get_slide_hold_chains(timing_points):
 	var last_right_slide
 	var last_left_slide
 	var slide_hold_chains = {}
@@ -129,12 +128,12 @@ func get_slide_hold_chains():
 				if last_left_slide:
 					slide_hold_chains[last_left_slide].append(point)
 				else:
-					Log.log(self, "Left slide hold piece found before left slide, this shouldn't happen")
+					print("Left slide hold piece found before left slide, this shouldn't happen")
 			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
 				if last_right_slide:
 					slide_hold_chains[last_right_slide].append(point)
 				else:
-					Log.log(self, "Right slide hold piece found before right slide, this shouldn't happen")
+					print( "Right slide hold piece found before right slide, this shouldn't happen")
 	for slide in slide_hold_chains.keys():
 		if slide_hold_chains[slide].size() == 0:
 			slide_hold_chains.erase(slide)

@@ -113,7 +113,7 @@ func set_timing_points(points):
 					current_bpm = point.bpm
 			else:
 				break
-
+	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -182,7 +182,7 @@ func set_song(song: HBSong, difficulty: String):
 	timing_points = chart.get_timing_points()
 	
 	# Find slide hold chains
-	slide_hold_chains = chart.get_slide_hold_chains()
+	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 	active_slide_hold_chains = []
 	var max_score = chart.get_max_score()
 	clear_bar.max_value = max_score
@@ -374,9 +374,27 @@ func _process(delta):
 							hookup_multi_notes(multi_notes)
 						else:
 							multi_notes = [timing_point]
-						
 					elif timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
 						multi_notes.append(timing_point)
+				
+				# Ensure that we delete any hold piece that doesn't have parent when previewing
+				if previewing:
+					for timing_point in notes_on_screen:
+						if timing_point is HBNoteData and timing_point.is_slide_hold_piece():
+							var parent_found = false
+							for chain_starter in slide_hold_chains:
+								if timing_point in slide_hold_chains[chain_starter]:
+									if not chain_starter in notes_on_screen:
+										for i in range(active_slide_hold_chains.size() - 1, -1, -1):
+											var active_chain = active_slide_hold_chains[i]
+											if timing_point in active_chain.pieces:
+												parent_found = true
+									else:
+										parent_found = true
+							if not parent_found:
+								var note_drawer = timing_point.get_meta("note_drawer")
+								note_drawer.emit_signal("note_removed")
+								note_drawer.queue_free()
 				if not editing or previewing:
 					timing_points.remove(i)
 
@@ -542,7 +560,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 						var piece_drawer = piece.get_meta("note_drawer")
 						piece_drawer.emit_signal("note_removed")
 						piece_drawer.queue_free()
-			
+			print("SETACTIVE")
 		
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
