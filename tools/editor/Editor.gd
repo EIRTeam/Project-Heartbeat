@@ -92,7 +92,7 @@ func _ready():
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
 func _show_open_chart_dialog():
-	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))	
+	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_undo"):
@@ -396,7 +396,7 @@ func from_chart(chart: HBChart):
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
-		open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "disconnect")
+		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
