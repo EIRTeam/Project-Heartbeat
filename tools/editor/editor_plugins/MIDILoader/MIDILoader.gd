@@ -5,33 +5,39 @@ var midi_loader_popup_gh = preload("res://tools/editor/editor_plugins/MIDILoader
 var file_dialog = FileDialog.new()
 var file_dialog_gh = FileDialog.new()
 func _init(editor).(editor):
+	var vbox_container = VBoxContainer.new()
+	vbox_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var run_button = Button.new()
 	run_button.text = "Import timing from MIDI..."
+	run_button.clip_text = true
 	run_button.connect("pressed", self, "_on_run_button_pressed")
-	add_button_to_tools_tab(run_button)
+	vbox_container.add_child(run_button)
 	
 	var gh_run_button = Button.new()
 	gh_run_button.text = "Import timing from Guitar Hero MIDI..."
+	gh_run_button.clip_text = true
 	gh_run_button.connect("pressed", self, "_on_gh_run_button_pressed")
-	add_button_to_tools_tab(gh_run_button)
+	vbox_container.add_child(gh_run_button)
 	
 	midi_loader_popup.connect("track_import_accepted", self, "_on_track_import_accepted")
-	add_child_to_editor(midi_loader_popup)
+	vbox_container.add_child(midi_loader_popup)
 	
 	midi_loader_popup_gh.connect("track_import_accepted", self, "_on_track_import_accepted")
-	add_child_to_editor(midi_loader_popup_gh)
+	vbox_container.add_child(midi_loader_popup_gh)
 	
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.mid ; Standard MIDI File"]
 	file_dialog.connect("file_selected", self, "_on_mid_file_selected")
-	add_child_to_editor(file_dialog)
+	vbox_container.add_child(file_dialog)
 	
 	file_dialog_gh.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog_gh.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog_gh.filters = ["*.mid ; Guitar Hero MIDI File"]
 	file_dialog_gh.connect("file_selected", self, "_on_gh_mid_file_selected")
-	add_child_to_editor(file_dialog_gh)
+	vbox_container.add_child(file_dialog_gh)
+	
+	add_tool_to_tools_tab(vbox_container, "MIDI Import")
 func _on_run_button_pressed():
 	file_dialog.popup_centered_ratio()
 	
@@ -90,8 +96,6 @@ func merge_tracks(smf: SMFLoader.SMF, allowed_tracks=[]):
 					next_time = e_time
 			time = next_time
 	return track_events
-
-const NOTES_TO_CARE = [96,97,98,99,100]
 
 func _on_track_import_accepted(smf: SMFLoader.SMF, note_range=[0, 255], tracks=[]):
 	var chart = HBChart.new()
