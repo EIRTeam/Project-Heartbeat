@@ -15,7 +15,12 @@ const QUOTES = [
 	"Allô, oui c'est Twingo", # Reference to the legendary Renault Twingo
 	"He will attack if you go out through this door", # Twingo meme
 	"Alex's singing passion", # Reference to miku's singing passion (a hard song)
-	"Excellent-o" # Reference to miku's pronounciation of excellent in PD games
+	"Excellent-o", # Reference to miku's pronounciation of excellent in PD games
+	"STOP BEING THEM", # Reference to daniel ricciardo
+	"You can be my new best friend", # Reference
+	"International Turururru Association",
+	"Into the Heartbeat",
+	"One more time to escape from all this madness" # My spirit will go on by DF
 ]
 
 func _ready():
