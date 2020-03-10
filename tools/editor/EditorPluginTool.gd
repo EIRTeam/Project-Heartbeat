@@ -1,20 +1,15 @@
 extends VBoxContainer
 
-var tool_name setget set_tool_name
+onready var toggle_tool_button = get_node("HBoxContainer/ToggleToolButton")
+onready var tool_name_label = get_node("HBoxContainer/ToolName")
 
 const DOWN_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_down.svg")
 const RIGHT_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")
-onready var toggle_tool_button = get_node("HBoxContainer/ToggleToolButton")
 var tool_control 
 
-func set_tool_name(val):
-	tool_name = val
-
-func set_tool(child):
+func set_tool(child, tool_name: String):
 	tool_control = child
-	add_child(child)
-
-
+	$HBoxContainer/ToolName.text = tool_name
 
 func _on_ToggleToolButton_pressed():
 	if tool_control:
