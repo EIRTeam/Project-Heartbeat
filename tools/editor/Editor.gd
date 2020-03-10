@@ -137,6 +137,8 @@ func scale_pixels(pixels: float) -> float:
 	return (pixels * scale / 500) * 1000.0
 
 func select_item(item: EditorTimelineItem, add = false):
+	if item in selected:
+		return
 	if selected.size() > 0 and not add:
 		for selected_item in selected:
 			selected_item.deselect()
