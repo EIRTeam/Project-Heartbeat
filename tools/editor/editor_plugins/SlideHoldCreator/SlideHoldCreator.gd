@@ -7,7 +7,7 @@ func _init(_editor).(_editor):
 	add_tool_to_tools_tab(creator_control, "Slide Hold Creator")
 	creator_control.connect("create_notes", self, "_on_create_notes")
 
-func _on_create_notes(notes_per_beat: float, beats: float):
+func _on_create_notes(notes_per_note: float, beats: float):
 	# Slide Holds are set 1/32th of a note apart of eachother
 	if _editor.selected.size() > 0:
 		var timeline_item = _editor.selected[0] as EditorTimelineItem
@@ -23,8 +23,8 @@ func _on_create_notes(notes_per_beat: float, beats: float):
 				var starting_time = note_data.time
 				# base separation for slide hold pieces is 7500/bpm for placing them
 				# every 1/32th
-				var time_interval = (7500 / _editor.current_song.bpm) * (1/float(notes_per_beat) / (1.0/32.0))
-				var notes_to_create = beats * notes_per_beat
+				var time_interval = (7500 / float(_editor.current_song.bpm)) * (1/float(notes_per_note) / (1.0/32.0))
+				var notes_to_create = beats * (notes_per_note/4.0)
 				var initial_x_offset = 48
 				var interval_x_offset = 32
 				_editor.undo_redo.create_action("Create slide hold pieces")
