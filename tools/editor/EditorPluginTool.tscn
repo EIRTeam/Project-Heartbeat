@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/editor/EditorPluginTool.gd" type="Script" id=1]
+[ext_resource path="res://tools/icons/icon_GUI_tree_arrow_down.svg" type="Texture" id=2]
 
 [node name="Control" type="VBoxContainer"]
 margin_left = -266.0
@@ -11,13 +12,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ToolName" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 266.0
-margin_bottom = 14.0
+margin_bottom = 20.0
+
+[node name="ToggleToolButton" type="Button" parent="HBoxContainer"]
+margin_right = 24.0
+margin_bottom = 20.0
+icon = ExtResource( 2 )
+flat = true
+
+[node name="ToolName" type="Label" parent="HBoxContainer"]
+margin_left = 28.0
+margin_top = 3.0
+margin_right = 143.0
+margin_bottom = 17.0
 text = "Slide Hold Creator"
 
 [node name="HSeparator" type="HSeparator" parent="."]
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 266.0
-margin_bottom = 22.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
+[connection signal="pressed" from="HBoxContainer/ToggleToolButton" to="." method="_on_ToggleToolButton_pressed"]
