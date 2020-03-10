@@ -50,5 +50,4 @@ func _input(event):
 					var ev = InputEventAction.new()
 					ev.action = found_action
 					ev.pressed = is_action_pressed(found_action)
-					print("SENDING ", found_action)
 					Input.parse_input_event(ev)

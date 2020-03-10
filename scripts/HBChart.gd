@@ -99,13 +99,46 @@ func get_max_score():
 			if last_point:
 				if last_point.time == point.time:
 					continue
-			notes += 1
-			last_point = point
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE or point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
+				max_score += 10
+			else:
+				notes += 1
+				last_point = point
 	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.FINE]
 	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL]
 	
 	return max_score
 	
+func get_slide_hold_chains():
+	var timing_points = get_timing_points()
+	var last_right_slide
+	var last_left_slide
+	var slide_hold_chains = {}
+	
+	for i in range(timing_points.size() - 1, -1, -1):
+		var point = timing_points[i]
+		if point is HBNoteData:
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+				last_left_slide = point
+				slide_hold_chains[point] = []
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+				last_right_slide = point
+				slide_hold_chains[point] = []
+				
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE:
+				if last_left_slide:
+					slide_hold_chains[last_left_slide].append(point)
+				else:
+					Log.log(self, "Left slide hold piece found before left slide, this shouldn't happen")
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
+				if last_right_slide:
+					slide_hold_chains[last_right_slide].append(point)
+				else:
+					Log.log(self, "Right slide hold piece found before right slide, this shouldn't happen")
+	for slide in slide_hold_chains.keys():
+		if slide_hold_chains[slide].size() == 0:
+			slide_hold_chains.erase(slide)
+	return slide_hold_chains
 func get_layer_i(layer_name: String):
 	for i in range(layers.size()):
 		if layers[i].name == layer_name:

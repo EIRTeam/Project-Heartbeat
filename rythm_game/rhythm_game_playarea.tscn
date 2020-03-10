@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_playarea.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=26]
 [ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=27]
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=28]
+[ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=29]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -369,6 +370,21 @@ __meta__ = {
 [node name="Notes" type="Node2D" parent="."]
 show_behind_parent = true
 
+[node name="AboveNotesUI" type="Node2D" parent="."]
+
+[node name="Control" type="Control" parent="AboveNotesUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SlideHoldScoreText" parent="AboveNotesUI/Control" instance=ExtResource( 29 )]
+margin_left = 202.697
+margin_top = 329.212
+margin_right = 591.697
+margin_bottom = 369.212
+
 [node name="UnderNotesUI" type="Node2D" parent="."]
 z_index = -1
 
@@ -568,7 +584,7 @@ __meta__ = {
 
 [node name="SlideChainLoopSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
-volume_db = 13.0
+volume_db = 5.0
 bus = "SlideSFX"
 __meta__ = {
 "_editor_description_": ""
