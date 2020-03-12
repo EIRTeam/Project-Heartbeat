@@ -1,9 +1,9 @@
 extends Control
 
 func _ready():
-	var chart = PPDLoader.PPD2HBChart("user://Extreme.ppd")
+	var chart = PPDLoader.PPD2HBChart("user://Easy.ppd", 100)
 	var file := File.new()
-	print(file.open("user://songs/super_test_song/test.json", File.WRITE))
+	print(file.open("user://test.json", File.WRITE))
 	file.store_string(JSON.print(chart.serialize(), "  "))
 #	extract_pack("user://resource.pak")
 func extract_pack(path: String):

@@ -35,12 +35,14 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 
 				while xml.read() == OK:
 					if xml.has_attribute("Key"):
-						var VALUES_TO_OBTAIN = ["#RightRotation", "Distance", "Amplitude", "Frequency"]
-						for value in VALUES_TO_OBTAIN:
-							if xml.get_named_attribute_value("Key") == value:
-								if not params.has(mark_id):
-									params[mark_id] = {}
-								params[mark_id][value] = xml.get_named_attribute_value("Value")
+#						var VALUES_TO_OBTAIN = ["#RightRotation", "Distance", "Amplitude", "Frequency"]
+#						for value in VALUES_TO_OBTAIN:
+						
+						if xml.has_attribute("Key") and xml.has_attribute("Value"):
+#							print("Obtained key %s with value %s" % [xml.get_named_attribute_value("Key"), xml.get_named_attribute_value("Value")])
+							if not params.has(mark_id):
+								params[mark_id] = {}
+							params[mark_id][xml.get_named_attribute_value("Key")] = xml.get_named_attribute_value("Value")
 
 				index += 1
 				if index >= count:
@@ -77,6 +79,7 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 			break
 
 		marks.append(note_data)
+		
 	return {
 		"marks": marks,
 		"params": params
@@ -95,7 +98,8 @@ enum PPDButtons {
 	L
 }
 
-static func PPD2HBChart(path: String) -> HBChart:
+static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
+	var bpm = base_bpm
 	var PPDButton2HBNoteType = {
 		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
 		PPDButtons.Cross: HBNoteData.NOTE_TYPE.DOWN,
@@ -189,5 +193,31 @@ static func PPD2HBChart(path: String) -> HBChart:
 					chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")].timing_points.append(note_data)
 				else:
 					chart.layers[note_data.note_type].timing_points.append(note_data)
+		# Chain slides
+		if note.has("end_time") and note_data.is_slide_note():
+			var beats = (base_bpm / 60) * (note.end_time - note.time)
+			var pieces_per_note = 32.0
+			# Asuming chain slide pieces are done to the 32th
+			var time_interval = (7500 / float(bpm)) * (1/float(pieces_per_note) / (1.0/32.0))
+			var initial_x_offset = 48
+			var interval_x_offset = 32
+			var notes_to_create = beats * (pieces_per_note/4.0)
+			var starting_time = note_data.time
+			for i in range(notes_to_create):
+				var note_time = starting_time + ((i+1) * time_interval)
+				var note_position = note_data.position
+				var position_increment = initial_x_offset + interval_x_offset * i
+				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					position_increment *= -1
+					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE
+				note_position.x += position_increment
+				var new_note = note_data.clone()
+				new_note.note_type = new_note_type
+				new_note.time = note_time
+				new_note.position = note_position
+				chart.layers[note_data.note_type].timing_points.append(new_note)
+		elif note.ex:
+			note_data.hold = true
 		prev_note = note_data
 	return chart
