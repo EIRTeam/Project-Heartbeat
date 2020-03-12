@@ -8,15 +8,15 @@ __meta__ = {
 }
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-margin_left = 217.658
-margin_top = 250.307
-margin_right = 774.658
-margin_bottom = 393.307
+visible = true
+margin_right = 1280.0
+margin_bottom = 160.0
 window_title = "PPD Import Disclaimer"
 dialog_text = "Before you import a PPD chart, please keep in mind:
 - Placing a PPD chart in the songs folder will make it work seamlessly with the game.
 - Importing in the editor should only be used for porting charts to PH.
 - While it will mostly work with old-style charts, this is with FT style charts in mind.
+- Ensure your song BPM is correctly set before importing, failing to do so will break slide chains.
 
 Are you entirely sure that you want to do this?"
 
@@ -30,6 +30,7 @@ current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="Button" type="Button" parent="."]
+margin_top = 164.0
 margin_right = 1280.0
-margin_bottom = 20.0
+margin_bottom = 184.0
 text = "Import chart from PPD (AFT)..."

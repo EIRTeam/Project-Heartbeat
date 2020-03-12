@@ -33,5 +33,5 @@ func _init(_editor).(_editor):
 	
 	add_tool_to_tools_tab(vbox_container, "PPD Importer")
 func _on_file_selected(file_path: String):
-	var charter = PPDLoader.PPD2HBChart(file_path)
+	var charter = PPDLoader.PPD2HBChart(file_path, _editor.get_bpm())
 	get_editor().from_chart(charter)
