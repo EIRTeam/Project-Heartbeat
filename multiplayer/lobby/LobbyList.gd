@@ -22,7 +22,7 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	if not mp_provider.is_connected("lobby_match_list", self, "_on_get_lobby_list"):
 		mp_provider.connect("lobby_match_list", self, "_on_get_lobby_list")
 	refresh_lobby_list()
-	scroll_list.grab_focus()
+	create_lobby_menu.grab_focus()
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
