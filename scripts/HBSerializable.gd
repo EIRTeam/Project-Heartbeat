@@ -86,3 +86,7 @@ func save_to_file(path: String):
 	return err
 static func can_show_in_editor():
 	return false
+
+# Returns a clone of itself
+func clone() -> HBSerializable:
+	return deserialize(serialize())
