@@ -526,11 +526,6 @@ func _on_AngleArrangeButtonPlus_pressed():
 func _on_AngleArrangeButtonMinus_pressed():
 	arrange_selected_by_angle(-angle_arrange_spinbox.value)
 
-
-func _on_SongSelector_ppd_chart_selected(path):
-	var chart = PPDLoader.PPD2HBChart(path)
-	from_chart(chart)
-
 # Arranges the selected notes in the playarea by a certain distances
 func arrange_selected_notes_by_time(direction: Vector2):
 	var separation : Vector2 = Vector2.ZERO

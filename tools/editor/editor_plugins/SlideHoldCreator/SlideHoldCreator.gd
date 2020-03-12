@@ -14,19 +14,12 @@ func _on_create_notes(notes_per_note: float, beats: float):
 		if timeline_item.data is HBNoteData:
 			var note_data = timeline_item.data as HBNoteData
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
-				var bars_per_minute = _editor.get_bpm() / float(_editor.get_beats_per_bar())
-				var seconds_per_bar = 60.0/bars_per_minute
-
-#				var note_length = 1.0/4.0 # a quarter of a beat
-#				var interval = (note_resolution / note_length) * beat_length
-				
 				var starting_time = note_data.time
-				# base separation for slide hold pieces is 7500/bpm for placing them
-				# every 1/32th
 				var time_interval = (7500 / float(_editor.current_song.bpm)) * (1/float(notes_per_note) / (1.0/32.0))
 				var notes_to_create = beats * (notes_per_note/4.0)
 				var initial_x_offset = 48
 				var interval_x_offset = 32
+				
 				_editor.undo_redo.create_action("Create slide hold pieces")
 				for i in range(notes_to_create):
 					var note_time = starting_time + ((i+1) * time_interval)

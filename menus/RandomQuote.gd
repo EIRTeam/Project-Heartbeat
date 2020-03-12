@@ -18,8 +18,9 @@ const QUOTES = [
 	"Excellent-o", # Reference to miku's pronounciation of excellent in PD games
 	"STOP BEING THEM", # Reference to daniel ricciardo
 	"You can be my new best friend", # Reference
-	"International Turururru Association",
-	"Into the Heartbeat",
+	"International Turururru Association", # ???
+	"Into the Heartbeat", # WOWOWOWOO YOU BETTER TAKE YOUR CHANCES RIGHT NOW
+	"Stop being them", # Daniel Ricciardo reference
 	"One more time to escape from all this madness" # My spirit will go on by DF
 ]
 
