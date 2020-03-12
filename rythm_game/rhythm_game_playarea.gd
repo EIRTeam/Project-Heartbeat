@@ -649,7 +649,7 @@ func _on_AudioStreamPlayer_finished():
 
 func hold_release():
 	if held_notes.size() > 0:
-		add_hold_score(current_hold_score)
+		add_hold_score(round(current_hold_score))
 		print("END hold ", current_hold_score)
 		held_notes = []
 		current_hold_score = 0
