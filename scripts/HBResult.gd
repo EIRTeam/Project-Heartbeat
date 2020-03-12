@@ -1,8 +1,14 @@
 extends HBSerializable
 
 class_name HBResult
-
+const MAX_SCORE_FROM_HOLD_BONUS = 0.075
+const MAX_SCORE_FROM_SLIDE_BONUS = 0.075
+# Total score (includes hold_bonus and slide_bonus)
 var score = 0
+# Score from holds
+var hold_bonus = 0
+# Score from chain slides
+var slide_bonus = 0
 var max_combo = 0
 var total_notes = 0
 var notes_hit = 0
@@ -28,7 +34,7 @@ var wrong_note_ratings = {
 }
 
 func _init():
-	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "wrong_note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score"]
+	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings", "wrong_note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score", "hold_bonus", "slide_bonus"]
 
 func get_serialized_type():
 	return "Result"
@@ -43,8 +49,14 @@ enum RESULT_RATING {
 }
 
 func get_percentage():
-	return score/max_score
-
+	return get_capped_score()/max_score
+# Capped score is the score with the capped hold and slide bonuses
+# used for computing percentage
+func get_capped_score():
+	var base_score = score - hold_bonus - slide_bonus
+	var capped_hold_bonus = clamp(hold_bonus, 0, MAX_SCORE_FROM_HOLD_BONUS*max_score)
+	var capped_slide_bonus = clamp(slide_bonus, 0, MAX_SCORE_FROM_SLIDE_BONUS*max_score)
+	return base_score + capped_hold_bonus + capped_slide_bonus
 func get_result_rating():
 	# All ratings except perfect are score based
 	

@@ -60,6 +60,7 @@ const MAX_HOLD = 3300 # miliseconds
 const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
 
+
 var size = Vector2(1280, 720) setget set_size
 var editing = false
 var previewing = false
@@ -170,7 +171,7 @@ func set_song(song: HBSong, difficulty: String):
 	var chart_path = song.get_chart_path(difficulty)
 	var chart : HBChart
 	if song is HBPPDSong:
-		chart = PPDLoader.PPD2HBChart(chart_path)
+		chart = PPDLoader.PPD2HBChart(chart_path, song.bpm)
 	else:
 		var file = File.new()
 		file.open(chart_path, File.READ)
@@ -306,10 +307,12 @@ func play_note_sfx(slide=false):
 			dup.play()
 			_sfx_played_this_cycle = true
 	else:
-		var dup = $HitEffect2.duplicate()
-		add_child(dup)
-		dup.connect("finished", dup, "queue_free")
-		dup.play()
+		if not _sfx_played_this_cycle:
+			var dup = $HitEffect2.duplicate()
+			add_child(dup)
+			dup.connect("finished", dup, "queue_free")
+			dup.play()
+			_sfx_played_this_cycle = true
 	
 func hookup_multi_notes(notes: Array):
 	for note in notes:
@@ -412,7 +415,7 @@ func _process(delta):
 		current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size()
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
-			add_score(MAX_HOLD) # Add score extra for max combo OwO
+			add_hold_score(MAX_HOLD)
 			
 			hold_indicator.current_score = current_hold_score
 			hold_release()
@@ -427,7 +430,7 @@ func _process(delta):
 		for i in range(chain.pieces.size() - 1, -1, -1):
 			var piece = chain.pieces[i]
 			if time * 1000.0 >= piece.time:
-				add_score(SLIDE_HOLD_PIECE_SCORE)
+				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
 				chain.accumulated_score += SLIDE_HOLD_PIECE_SCORE
 				var piece_drawer = piece.get_meta("note_drawer") as HBNoteDrawer
 				piece_drawer.show_note_hit_effect()
@@ -596,6 +599,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
 	hold_player.seek(0)
+	hold_player.volume_db = 4
 	hold_player.play()
 
 func _on_note_removed(note):
@@ -629,16 +633,23 @@ func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
 		score_counter.score = result.score
-		clear_bar.value = result.score
+		clear_bar.value = result.get_capped_score()
 		if heart_power_enabled:
-			result.heart_power_bonus += score_to_add * (1.0 / 2.0)
+			result.heart_power_bonus += score_to_add * 0.5
 
+func add_hold_score(score_to_add):
+	result.hold_bonus += score_to_add
+	add_score(score_to_add)
+	
+func add_slide_chain_score(score_to_add):
+	result.slide_bonus += score_to_add
+	add_score(score_to_add)
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
 
 func hold_release():
 	if held_notes.size() > 0:
-		add_score(current_hold_score)
+		add_hold_score(current_hold_score)
 		print("END hold ", current_hold_score)
 		held_notes = []
 		current_hold_score = 0
