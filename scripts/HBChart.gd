@@ -99,13 +99,12 @@ func get_max_score():
 			if last_point:
 				if last_point.time == point.time:
 					continue
-			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE or point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
-				max_score += 10
+			if point.is_slide_hold_piece():
+				continue
 			else:
 				notes += 1
 				last_point = point
-	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.FINE]
-	max_score += round(notes / 2.0) * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL]
+	max_score += notes * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL]
 	
 	return max_score
 	
