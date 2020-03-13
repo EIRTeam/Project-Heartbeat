@@ -28,6 +28,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("difficulty"):
 		current_difficulty = args.difficulty
 	song_title.difficulty = current_difficulty
+	song_title.set_song(current_song)
 	leaderboard.set_song(current_song.id, current_difficulty)
 	
 
