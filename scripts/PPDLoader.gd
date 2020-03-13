@@ -184,7 +184,6 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 			if note_params.has("Frequency"):
 				note_data.oscillation_frequency = -float(note_params.Frequency)
 			
-			
 			if note_params.has("#RightRotation"):
 				note_data.oscillation_frequency = -note_data.oscillation_frequency
 		for l in chart.layers:

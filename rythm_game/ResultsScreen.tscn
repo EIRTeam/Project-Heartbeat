@@ -124,14 +124,26 @@ margin_bottom = 557.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
 margin_right = 1220.0
-margin_bottom = 300.0
+margin_bottom = 492.0
+size_flags_vertical = 3
+custom_constants/separation = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_right = 1220.0
+margin_bottom = 492.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_right = 1220.0
+margin_bottom = 306.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.35
 custom_styles/panel = ExtResource( 2 )
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel"]
+[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
@@ -140,16 +152,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 315.0
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_top = 321.0
 margin_right = 1220.0
-margin_bottom = 481.0
+margin_bottom = 492.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 custom_styles/panel = ExtResource( 2 )
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -160,10 +172,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
 margin_left = 10.0
 margin_right = 1210.0
-margin_bottom = 166.0
+margin_bottom = 171.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 0
 custom_constants/margin_left = 15
@@ -172,32 +184,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer"]
 margin_left = 15.0
 margin_right = 1185.0
-margin_bottom = 166.0
+margin_bottom = 171.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 11.0
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 13.0
 margin_right = 1170.0
-margin_bottom = 44.0
+margin_bottom = 46.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_right = 1053.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "TOTAL NOTES"
 
-[node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 1057.0
 margin_right = 1170.0
 margin_bottom = 33.0
@@ -211,23 +223,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 48.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 50.0
 margin_right = 1170.0
-margin_bottom = 81.0
+margin_bottom = 83.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 1053.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "COMBO"
 
-[node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1057.0
 margin_right = 1170.0
 margin_bottom = 33.0
@@ -241,23 +253,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 85.0
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 87.0
 margin_right = 1170.0
-margin_bottom = 118.0
+margin_bottom = 120.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_right = 1060.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "HEART POWER BONUS"
 
-[node name="HeartPowerLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="HeartPowerLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_left = 1064.0
 margin_right = 1170.0
 margin_bottom = 33.0
@@ -271,23 +283,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 122.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 124.0
 margin_right = 1170.0
-margin_bottom = 155.0
+margin_bottom = 157.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 970.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "SCORE"
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 974.0
 margin_right = 1170.0
 margin_bottom = 33.0
@@ -302,12 +314,12 @@ __meta__ = {
 }
 
 [node name="Panel3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 496.0
+margin_top = 507.0
 margin_right = 1220.0
-margin_bottom = 540.0
+margin_bottom = 557.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.1
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3"]
 anchor_right = 1.0
@@ -319,7 +331,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer"]
 margin_right = 1220.0
-margin_bottom = 44.0
+margin_bottom = 50.0
 focus_mode = 2
 alignment = 1
 script = ExtResource( 3 )
@@ -327,7 +339,7 @@ script = ExtResource( 3 )
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 521.0
 margin_right = 601.0
-margin_bottom = 44.0
+margin_bottom = 50.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
 text = "Retry"
@@ -342,7 +354,7 @@ hover_style = SubResource( 2 )
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 605.0
 margin_right = 698.0
-margin_bottom = 44.0
+margin_bottom = 50.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
 text = "Return"
@@ -353,8 +365,3 @@ __meta__ = {
 }
 normal_style = ExtResource( 8 )
 hover_style = SubResource( 2 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 555.0
-margin_right = 1220.0
-margin_bottom = 555.0

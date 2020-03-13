@@ -31,7 +31,8 @@ var preview_image = ""
 var background_image = ""
 var circle_image = ""
 var circle_logo = ""
-
+func get_leaderboard_name(difficulty: String):
+	return id + "_%s" % difficulty
 func get_serialized_type():
 	return "Song"
 

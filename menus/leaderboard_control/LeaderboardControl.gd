@@ -6,7 +6,10 @@ export(bool) var show_user_position := true
 const LeaderboardItem = preload("res://menus/leaderboard_control/LeaderboardItem.tscn")
 onready var not_found_label = get_node("CenterContainer/Label")
 onready var entries_container = get_node("Entries")
+onready var loading_texture_rect = get_node("CenterContainer/TextureRect")
 var current_leaderboard = ""
+func _ready():
+	$CenterContainer/AnimationPlayer.play("spin")
 func _set_leaderboard(value):
 	var leaderboard_id = value
 	for child in entries_container.get_children():
@@ -19,12 +22,14 @@ func _set_leaderboard(value):
 		provider.find_leadeboard(value)
 	else:
 		not_found_label.show()
+		loading_texture_rect.hide()
 
 func set_song(song_id, difficulty):
 	current_leaderboard = song_id + "_%s" % difficulty
 	_set_leaderboard(current_leaderboard)
 
-func _leaderboard_found(handle, found):
+func _leaderboard_found(name, handle, found):
+	loading_texture_rect.hide()
 	if not found:
 		not_found_label.show()
 	else:

@@ -2,24 +2,27 @@ extends HBMenu
 
 var result : HBResult setget set_result
 
-onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel/RatingResultsContainer")
+onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel/RatingResultsContainer")
 onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
 onready var artist_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/ArtistLabel")
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/TitleLabel")
-onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
-onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
-onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TotalNotesLabel")
+onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
+onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
+onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TotalNotesLabel")
 onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
 onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
-onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
+onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
 onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
 onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
+onready var leaderboard_control = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/Panel3/LeaderboardControl")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 
 const BASE_HEIGHT = 720.0
+
+signal show_song_results(song_id, difficulty)
 
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -31,11 +34,12 @@ func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
 	yield(get_tree(), "idle_frame")
-	var inv = 0.2 / (rect_size.y / BASE_HEIGHT)
+	var inv = 0.1 / (rect_size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
 	connect("resized", self, "_on_resized")
+	ScoreHistory.connect("score_entered", self, "_on_score_entered")
 	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	for i in range(values.size()-1, -1, -1):
@@ -48,6 +52,7 @@ func _ready():
 		rating_scene.rating = rating
 	return_button.connect("pressed", self, "_on_return_button_pressed")
 	retry_button.connect("pressed", self, "_on_retry_button_pressed")
+	
 	
 func _on_retry_button_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
@@ -97,7 +102,10 @@ func set_result(val: HBResult):
 	if ScoreHistory.has_result(result.song_id, result.difficulty):
 		var existing_result : HBResult = ScoreHistory.get_result(result.song_id, result.difficulty)
 		if existing_result.score < result.score:
-			pass
+			return
 		ScoreHistory.add_result_to_history(result)
 	else:
-			ScoreHistory.add_result_to_history(result)
+		ScoreHistory.add_result_to_history(result)
+
+func _on_score_entered(song, difficulty):
+	emit_signal("show_song_results", song, difficulty)

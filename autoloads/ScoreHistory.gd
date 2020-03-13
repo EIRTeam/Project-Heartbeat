@@ -5,8 +5,26 @@ var scores = {} # contains key with song name into a dictionary that uses diffic
 const SCORE_HISTORY_PATH = "user://history.json"
 const LOG_NAME = "ScoreHistory"
 
+signal score_entered(song, difficulty)
+
+var results_queued_for_upload = []
+
 func _ready():
 	load_history()
+	if PlatformService.service_provider.implements_leaderboards:
+		var lb_provider = PlatformService.service_provider.leaderboard_provider
+		lb_provider.connect("score_uploaded", self, "_on_leaderboard_score_uploaded")
+	
+		
+func _on_leaderboard_score_uploaded(success, lb_name, score, score_changed, new_rank, old_rank):
+	for result in results_queued_for_upload:
+		var current_result = result as HBResult
+		var song = SongLoader.songs[current_result.song_id] as HBSong
+		if song.get_leaderboard_name(current_result.difficulty) == lb_name:
+			emit_signal("score_entered", song.id, current_result.difficulty)
+		results_queued_for_upload.erase(result)
+		break
+		
 func load_history():
 	var file := File.new()
 	if file.file_exists(SCORE_HISTORY_PATH):
@@ -43,6 +61,15 @@ func save_history():
 func add_result_to_history(result: HBResult):
 	if not scores.has(result.song_id):
 		scores[result.song_id] = {}
+		
+	if PlatformService.service_provider.implements_leaderboards:
+		var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
+		var song = SongLoader.songs[result.song_id] as HBSong
+		results_queued_for_upload.append(result)
+		leaderboard_service.upload_score(song.get_leaderboard_name(result.difficulty), result.score, result.get_percentage())
+	else:
+		emit_signal("score_entered", result.song_id, result.difficulty)
+		
 	if scores[result.song_id].has(result.difficulty):
 		var current_result = scores[result.song_id][result.difficulty] as HBResult
 		if current_result.score > result.score:
@@ -50,6 +77,7 @@ func add_result_to_history(result: HBResult):
 			return
 	scores[result.song_id][result.difficulty] = result
 	save_history()
+
 
 func has_result(song_id: String, difficulty: String):
 	var r = false

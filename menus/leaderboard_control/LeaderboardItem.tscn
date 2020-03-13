@@ -1,13 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://styles/ResultRatingStyleEven.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/leaderboard_control/LeaderboardItem.gd" type="Script" id=3]
 [ext_resource path="res://graphics/no_preview.png" type="Texture" id=4]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
 
 [sub_resource type="DynamicFont" id=1]
-size = 40
+size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
@@ -49,9 +48,10 @@ __meta__ = {
 }
 
 [node name="Rank" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_top = 1.0
-margin_right = 103.0
-margin_bottom = 48.0
+margin_top = 8.0
+margin_right = 64.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 25, 0 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 custom_fonts/font = SubResource( 1 )
@@ -62,8 +62,8 @@ __meta__ = {
 }
 
 [node name="UserAvatar" type="TextureRect" parent="MarginContainer/HBoxContainer"]
-margin_left = 126.0
-margin_right = 176.0
+margin_left = 87.0
+margin_right = 137.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 texture = ExtResource( 4 )
@@ -71,12 +71,11 @@ expand = true
 stretch_mode = 6
 
 [node name="UserName" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_left = 199.0
-margin_top = 1.0
-margin_right = 445.0
-margin_bottom = 48.0
+margin_left = 160.0
+margin_top = 8.0
+margin_right = 692.0
+margin_bottom = 41.0
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
 custom_fonts/font = SubResource( 1 )
 text = "(NT)Eirewe"
 valign = 2
@@ -85,18 +84,18 @@ __meta__ = {
 }
 
 [node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 468.0
+margin_left = 715.0
 margin_right = 1248.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
-margin_top = 1.0
-margin_right = 780.0
-margin_bottom = 48.0
+margin_top = 8.0
+margin_right = 533.0
+margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = SubResource( 1 )
 text = "(NT)100.000 (100%)"
 align = 2
 valign = 2
