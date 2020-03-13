@@ -560,10 +560,12 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 				else:
 					# kill slide and younglings
 					for piece in slide_hold_chains[note]:
-						var piece_drawer = piece.get_meta("note_drawer")
-						piece_drawer.emit_signal("note_removed")
-						piece_drawer.queue_free()
-			print("SETACTIVE")
+						if piece in notes_on_screen:
+							var piece_drawer = piece.get_meta("note_drawer")
+							piece_drawer.emit_signal("note_removed")
+							piece_drawer.queue_free()
+						else:
+							timing_points.remove(timing_points.find(piece))
 		
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
