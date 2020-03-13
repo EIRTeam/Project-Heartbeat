@@ -81,6 +81,8 @@ func read_remote_file_to_path(file_name: String, target_path: String):
 		var err = file.open(target_path, File.WRITE)
 		if err == OK:
 			file.store_buffer(result.buffer)
-			print ("READ: " + result.buffer.get_string_from_utf8())
 		else:
 			Log.log(self, "Error opening file to write remote data: %s (Error: %d)" % [file_name, err])
+
+func is_remote_storage_enabled():
+	return Steam.isCloudEnabledForApp()

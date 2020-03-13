@@ -17,8 +17,9 @@ var implements_leaderboards = false
 signal run_mp_callbacks
 
 func init_platform() -> int:
-	for file_path in FILES_TO_SYNC_ON_STARTUP:
-		read_remote_file_to_path(file_path, "user://" + file_path.get_file())
+	if is_remote_storage_enabled():
+		for file_path in FILES_TO_SYNC_ON_STARTUP:
+			read_remote_file_to_path(file_path, "user://" + file_path.get_file())
 #		write_remote_file_from_path(file_path, "user://" + file_path.get_file())
 	return 0
 
@@ -44,3 +45,5 @@ func read_remote_file(file_name: String):
 	
 func read_remote_file_to_path(file_name: String, target_path: String):
 	pass
+func is_remote_storage_enabled():
+	return false
