@@ -52,6 +52,7 @@ var _sfx_played_this_cycle = false
 
 var notes_on_screen = []
 var current_song: HBSong = HBSong.new()
+var current_difficulty: String = ""
 const LOG_NAME = "RhythmGame"
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
@@ -104,6 +105,10 @@ func set_size(value):
 	$UnderNotesUI/Control.rect_size = value
 	$AboveNotesUI/Control.rect_size = value
 
+func set_modifiers(modifiers: Array):
+	# TODO
+	pass
+
 func set_timing_points(points):
 	timing_points = points
 	# When timing points change, we might introduce new BPM change events
@@ -144,8 +149,6 @@ func set_song(song: HBSong, difficulty: String):
 	audio_stream_player.seek(0)
 	audio_stream_player_voice.seek(0)
 	result = HBResult.new()
-	result.song_id = song.id
-	result.difficulty = difficulty
 	current_combo = 0
 	rating_label.hide()
 	current_bpm = song.bpm
@@ -188,6 +191,7 @@ func set_song(song: HBSong, difficulty: String):
 	var max_score = chart.get_max_score()
 	clear_bar.max_value = max_score
 	result.max_score = max_score
+	current_difficulty = difficulty
 	play_song()
 func get_note_scale():
 	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.95
@@ -617,7 +621,7 @@ func resume():
 	
 func restart():
 	get_tree().paused = false
-	set_song(SongLoader.songs[result.song_id], result.difficulty)
+	set_song(SongLoader.songs[current_song.id], current_difficulty)
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT

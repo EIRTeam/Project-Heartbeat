@@ -1,6 +1,6 @@
 extends HBMenu
 
-var result : HBResult setget set_result
+var session : HBGameSession setget set_session
 
 onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel/RatingResultsContainer")
 onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
@@ -18,7 +18,6 @@ onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxConta
 onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
-
 const BASE_HEIGHT = 720.0
 
 signal show_song_results(song_id, difficulty)
@@ -26,7 +25,7 @@ signal show_song_results(song_id, difficulty)
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("results"):
-		set_result(args.results)
+		set_session(args.results)
 	buttons.grab_focus()
 
 func _on_resized():
@@ -59,13 +58,15 @@ func _on_retry_button_pressed():
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	scene.set_song(SongLoader.songs[result.song_id], result.difficulty)
+	var session = HBGameSession
+	scene.set_song(SongLoader.songs[session.song_id], session.difficulty)
 	
 func _on_return_button_pressed():
-	change_to_menu("song_list", false, {"song": result.song_id, "song_difficulty": result.difficulty})
+	change_to_menu("song_list", false, {"song": session.song_id, "song_difficulty": session.difficulty})
 
-func set_result(val: HBResult):
-	result = val
+func set_session(val: HBGameSession):
+	session = val
+	var result = session.result as HBResult
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
 		rating_scene.percentage = 0
@@ -80,12 +81,12 @@ func set_result(val: HBResult):
 		rating_scene.total_notes = result.note_ratings[rating]
 	var score_percentage = 0
 	if result.total_notes > 0:
-		score_percentage = val.get_percentage()
+		score_percentage = result.get_percentage()
 	percentage_label.text = "%.2f" % (score_percentage * 100.0)
 	percentage_label.text += " %"
-	heart_power_label.text = str(val.heart_power_bonus)
-	if SongLoader.songs.has(result.song_id):
-		var song = SongLoader.songs[result.song_id] as HBSong
+	heart_power_label.text = str(result.heart_power_bonus)
+	if SongLoader.songs.has(session.song_id):
+		var song = SongLoader.songs[session.song_id] as HBSong
 		title_label.text = song.title
 		if song.artist_alias != "":
 			artist_label.text = song.artist_alias.to_upper()
@@ -98,13 +99,13 @@ func set_result(val: HBResult):
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
 
 	# add result to history
-	if ScoreHistory.has_result(result.song_id, result.difficulty):
-		var existing_result : HBResult = ScoreHistory.get_result(result.song_id, result.difficulty)
+	if ScoreHistory.has_result(session.song_id, session.difficulty):
+		var existing_result : HBResult = ScoreHistory.get_result(session.song_id, session.difficulty)
 		if existing_result.score < result.score:
 			return
-		ScoreHistory.add_result_to_history(result)
+		ScoreHistory.add_result_to_history(session)
 	else:
-		ScoreHistory.add_result_to_history(result)
+		ScoreHistory.add_result_to_history(session)
 
 func _on_score_entered(song, difficulty):
 	emit_signal("show_song_results", song, difficulty)

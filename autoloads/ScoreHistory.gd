@@ -7,7 +7,7 @@ const LOG_NAME = "ScoreHistory"
 
 signal score_entered(song, difficulty)
 
-var results_queued_for_upload = []
+var sessions_queued_for_upload = []
 
 func _ready():
 	load_history()
@@ -17,12 +17,11 @@ func _ready():
 	
 		
 func _on_leaderboard_score_uploaded(success, lb_name, score, score_changed, new_rank, old_rank):
-	for result in results_queued_for_upload:
-		var current_result = result as HBResult
-		var song = SongLoader.songs[current_result.song_id] as HBSong
-		if song.get_leaderboard_name(current_result.difficulty) == lb_name:
-			emit_signal("score_entered", song.id, current_result.difficulty)
-		results_queued_for_upload.erase(result)
+	for session in sessions_queued_for_upload:
+		var song = SongLoader.songs[session.song_id] as HBSong
+		if song.get_leaderboard_name(session.difficulty) == lb_name:
+			emit_signal("score_entered", session.id, session.difficulty)
+		sessions_queued_for_upload.erase(session)
 		break
 		
 func load_history():
@@ -37,17 +36,23 @@ func load_history():
 				Log.log(self, "Error loading score history, error code: " + str(result.error), Log.LogLevel.ERROR)
 
 func history_from_dict(data: Dictionary):
+	var found_error = false
 	for song_name in data:
 		scores[song_name] = {}
 		for difficulty in data[song_name]:
-			scores[song_name][difficulty] = HBResult.deserialize(data[song_name][difficulty])
-	
+			var result = HBGameSession.deserialize(data[song_name][difficulty])
+			if not result is HBGameSession:
+				found_error = true
+			else:
+				scores[song_name][difficulty] = result
+	if found_error:
+		save_history()
 func history_to_dict() -> Dictionary:
 	var result_dict = {}
 	for song_name in scores:
 		result_dict[song_name] = {}
 		for difficulty in scores[song_name]:
-			var result := scores[song_name][difficulty] as HBResult
+			var result := scores[song_name][difficulty] as HBGameSession
 			result_dict[song_name][difficulty] = result.serialize()
 	return result_dict
 
@@ -58,24 +63,25 @@ func save_history():
 		file.store_string(contents)
 		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8())
 		
-func add_result_to_history(result: HBResult):
-	if not scores.has(result.song_id):
-		scores[result.song_id] = {}
+func add_result_to_history(session: HBGameSession):
+	var result = session.result as HBResult
+	if not scores.has(session.song_id):
+		scores[session.song_id] = {}
 		
 	if PlatformService.service_provider.implements_leaderboards:
 		var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
-		var song = SongLoader.songs[result.song_id] as HBSong
-		results_queued_for_upload.append(result)
-		leaderboard_service.upload_score(song.get_leaderboard_name(result.difficulty), result.score, result.get_percentage())
+		var song = SongLoader.songs[session.song_id] as HBSong
+		sessions_queued_for_upload.append(session)
+		leaderboard_service.upload_score(song.get_leaderboard_name(session.difficulty), result.score, result.get_percentage())
 	else:
-		emit_signal("score_entered", result.song_id, result.difficulty)
+		emit_signal("score_entered", session.song_id, session.difficulty)
 		
-	if scores[result.song_id].has(result.difficulty):
-		var current_result = scores[result.song_id][result.difficulty] as HBResult
+	if scores[session.song_id].has(session.difficulty):
+		var current_result = scores[session.song_id][session.difficulty].result as HBResult
 		if current_result.score > result.score:
 			Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
 			return
-	scores[result.song_id][result.difficulty] = result
+	scores[session.song_id][session.difficulty] = session
 	save_history()
 
 
@@ -87,9 +93,9 @@ func has_result(song_id: String, difficulty: String):
 			
 	return r
 		
-func get_result(song_id: String, difficulty: String):
+func get_result(song_id: String, difficulty: String) -> HBResult:
 	var r = null
 	if scores.has(song_id):
 		if scores[song_id].has(difficulty):
-			r = scores[song_id][difficulty]
+			r = scores[song_id][difficulty].result
 	return r

@@ -14,10 +14,7 @@ var total_notes = 0
 var notes_hit = 0
 var heart_power_bonus = 0
 var max_score = 1
-var song_id = ""
-var difficulty = ""
 var failed = false
-var invalid = false
 var note_ratings = {
 	HBJudge.JUDGE_RATINGS.WORST: 0,
 	HBJudge.JUDGE_RATINGS.SAD: 0,
@@ -36,8 +33,8 @@ var wrong_note_ratings = {
 
 func _init():
 	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings",
-	"wrong_note_ratings", "song_id", "difficulty", "failed", "heart_power_bonus", "max_score",
-	"hold_bonus", "slide_bonus", "invalid"]
+	"wrong_note_ratings", "failed", "heart_power_bonus", "max_score",
+	"hold_bonus", "slide_bonus"]
 
 func get_serialized_type():
 	return "Result"

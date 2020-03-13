@@ -9,9 +9,9 @@ func serialize():
 		# Ensures that we don't write defaults to disk, in case we change them
 		if _field == defaults.get(field):
 			continue
-		if _field is Object and field.has_method("serialize"):
+		if _field is Object and _field.has_method("serialize"):
 			serialized_data[field] = _field.serialize()
-		if _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
+		elif _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
 			serialized_data[field] = get(field)
 		else:
 			serialized_data[field] = var2str(get(field))
@@ -24,11 +24,11 @@ static func deserialize(data: Dictionary):
 	for field in object.serializable_fields:
 		var _field = object.get(field)
 		if data.has(field):
-			if _field is Dictionary:
+			if _field is Object and _field.has_method("serialize"):
 				if data[field].has("type"):
-					# Recursive serialized objects
 					object.set(field, deserialize(data[field]))
-				elif _field.size() > 0:
+			elif _field is Dictionary:
+				if _field.size() > 0:
 					# Support for enums
 					var dict := data[field] as Dictionary
 					if _field.keys()[0] is int:
@@ -44,6 +44,7 @@ static func deserialize(data: Dictionary):
 			elif _field is int:
 				object.set(field, int(data[field]))
 			else:
+				print(_field is Dictionary)
 				object.set(field, str2var(data[field]))
 	return object
 	
@@ -57,7 +58,8 @@ static func get_serializable_types():
 		"Result": load("res://scripts/HBResult.gd"),
 		"UserSettings": load("res://scripts/HBUserSettings.gd"),
 		"BpmChange": load("res://scripts/HBBPMChange.gd"),
-		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd")
+		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
+		"GameSession": load("res://scripts/HBGameSession.gd")
 	}
 func get_serialized_type():
 	pass

@@ -39,7 +39,6 @@ func start_loading():
 	background_song_assets_loaded.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	background_song_assets_loaded.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice"])
 	lobby.connect("game_start", self, "_on_game_started")
-	lobby.connect("game_note_hit", self, "_on_game_note_hit")
 
 func _on_song_assets_loaded(song, assets):
 	# Authority doesn't have to send a packet...
