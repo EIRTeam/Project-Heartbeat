@@ -10,10 +10,9 @@
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
-resource_name = "spin"
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_rotation")
+tracks/0/path = NodePath("../CenterContainer2/TextureRect2:rect_rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false

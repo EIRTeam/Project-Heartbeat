@@ -25,8 +25,9 @@ func _init():
 		"lobby_list": {
 			"left": preload("res://multiplayer/lobby/LobbyList.tscn").instance()
 		},
-		"pre_song": {
-			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance()
+		"pre_game": {
+			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance(),
+			"right": "leaderboard"
 		},
 		"lobby": {
 			"left": preload("res://multiplayer/lobby/LobbyMenu.tscn").instance(),
@@ -81,6 +82,7 @@ func _ready():
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
 	MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
+	MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
 	player.connect("song_started", self, "_on_song_started")
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
@@ -112,16 +114,6 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu_container.add_child(fullscreen_menu)
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
-	if menu_data.has("left"):
-		left_menu = menu_data.left
-		# Prevent softlock when transiton hasn't finished
-		if left_menu.is_connected("transition_finished", left_menu_container, "remove_child"):
-			left_menu.disconnect("transition_finished", left_menu_container, "remove_child")
-		if not left_menu in left_menu_container.get_children():
-			left_menu_container.add_child(left_menu)
-
-		left_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
-		left_menu._on_menu_enter(force_hard_transition, args)
 
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
@@ -135,7 +127,16 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 	#		right_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 			right_menu._on_menu_enter(force_hard_transition, args)
 
-	
+	if menu_data.has("left"):
+		left_menu = menu_data.left
+		# Prevent softlock when transiton hasn't finished
+		if left_menu.is_connected("transition_finished", left_menu_container, "remove_child"):
+			left_menu.disconnect("transition_finished", left_menu_container, "remove_child")
+		if not left_menu in left_menu_container.get_children():
+			left_menu_container.add_child(left_menu)
+
+		left_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
+		left_menu._on_menu_enter(force_hard_transition, args)
 
 func _on_music_player_ready():
 	call_deferred("play_first_song")

@@ -24,6 +24,9 @@ tracks/0/keys = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Entries" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -33,21 +36,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 
 [node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 390.0
-margin_top = 286.0
-margin_right = 890.0
-margin_bottom = 433.0
-rect_min_size = Vector2( 500, 0 )
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1270.0
+margin_bottom = 710.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
@@ -56,15 +59,26 @@ align = 1
 valign = 1
 autowrap = true
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer2"]
 margin_left = 640.0
 margin_top = 360.0
 margin_right = 640.0
 margin_bottom = 360.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer2"]
 playback_speed = -1.0
 anims/spin = SubResource( 1 )

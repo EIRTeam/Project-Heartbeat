@@ -1,13 +1,14 @@
 extends HBMenu
 
 onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
-onready var leaderboard = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/Leaderboard")
 onready var button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer")
 onready var button_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2")
 var current_song: HBSong
 var current_difficulty: String
 
 const BASE_HEIGHT = 720.0
+
+signal song_selected(song_id, difficulty)
 
 func _ready():
 	connect("resized", self, "_on_resized")
@@ -29,8 +30,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		current_difficulty = args.difficulty
 	song_title.difficulty = current_difficulty
 	song_title.set_song(current_song)
-	leaderboard.set_song(current_song.id, current_difficulty)
-	
+	emit_signal("song_selected", current_song.id, current_difficulty)
 
 func _on_StartButton_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
