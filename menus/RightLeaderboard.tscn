@@ -13,20 +13,20 @@ func get_leadearboard_control():
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1270.0
-margin_bottom = 710.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1275.0
+margin_bottom = 715.0
 custom_styles/panel = ExtResource( 2 )
 
 [node name="Leaderboard" parent="Panel" instance=ExtResource( 1 )]
