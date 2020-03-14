@@ -44,7 +44,7 @@ func _unhandled_input(event):
 
 func _on_song_selected(song: HBSong):
 	change_to_menu("pre_game", false, {"song": song, "difficulty": current_difficulty})
-#	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
+#	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()
 #	get_tree().root.add_child(scene)

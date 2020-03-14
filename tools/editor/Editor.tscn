@@ -7,7 +7,7 @@
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
 [ext_resource path="res://tools/icons/icon_stop.svg" type="Texture" id=6]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=7]
-[ext_resource path="res://rythm_game/rhythm_game_playarea.tscn" type="PackedScene" id=8]
+[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
 [ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=11]
 [ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=12]
@@ -29,6 +29,8 @@
 [ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
 [ext_resource path="res://songs/imademo_2012/imademo_2012.ogg" type="AudioStream" id=31]
+
+
 
 [sub_resource type="InputEventAction" id=8]
 action = "editor_open"

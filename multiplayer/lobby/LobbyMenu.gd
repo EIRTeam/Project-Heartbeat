@@ -124,7 +124,7 @@ func _on_LineEdit_gui_input(event: InputEvent):
 		send_chat_message()
 
 func _on_StartGameButton_pressed():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/RhythmGameMultiplayer.tscn").instance()
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene
@@ -133,7 +133,7 @@ func _on_StartGameButton_pressed():
 	
 # called when authority sends a game start packet, sets up mp and starts loading
 func _on_lobby_loading_start():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/RhythmGameMultiplayer.tscn").instance()
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene

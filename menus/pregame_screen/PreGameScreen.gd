@@ -33,7 +33,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	emit_signal("song_selected", current_song.id, current_difficulty)
 
 func _on_StartButton_pressed():
-	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
+	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 	var scene = new_scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)

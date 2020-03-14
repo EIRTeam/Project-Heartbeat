@@ -8,7 +8,7 @@ var fade_out_t = FADE_OUT_TIME
 var travel_up_t = TRAVEL_UP_TIME
 var target_opacity = 0.0
 var starting_point = Vector2.ZERO
-var _game: HBRhythmGamePlayArea
+var _game: HBRhythmGame
 
 func _ready():
 	hide()

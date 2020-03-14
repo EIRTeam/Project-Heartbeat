@@ -49,7 +49,7 @@ func _on_pressed():
 			$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 			return
 	emit_signal("song_selected", song)
-#	var new_scene = preload("res://rythm_game/rhythm_game.tscn")
+#	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()
 #	get_tree().root.add_child(scene)

@@ -175,9 +175,9 @@ _global_script_classes=[ {
 "path": "res://scripts/HBResult.gd"
 }, {
 "base": "Node",
-"class": "HBRhythmGamePlayArea",
+"class": "HBRhythmGame",
 "language": "GDScript",
-"path": "res://rythm_game/rhythm_game_playarea.gd"
+"path": "res://rythm_game/rhythm_game.gd"
 }, {
 "base": "ScrollContainer",
 "class": "HBScrollList",
@@ -303,7 +303,7 @@ _global_script_class_icons={
 "HBPlatformAchievment": "",
 "HBResourceQueue": "",
 "HBResult": "",
-"HBRhythmGamePlayArea": "",
+"HBRhythmGame": "",
 "HBScrollList": "",
 "HBSerializable": "",
 "HBServiceMember": "",
