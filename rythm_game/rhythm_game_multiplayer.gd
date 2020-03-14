@@ -7,7 +7,7 @@ const LOG_NAME = "RhythmGameMultiplayer"
 
 var loaded_members = []
 
-var background_song_assets_loaded = HBBackgroundSongAssetsLoader.new()
+var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 
 var _preloaded_assets
 
@@ -36,8 +36,8 @@ func _ready():
 	rhythm_game.game.connect("note_judged", self, "_on_note_judged")
 
 func start_loading():
-	background_song_assets_loaded.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-	background_song_assets_loaded.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice"])
+	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
+	background_song_assets_loader.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice"])
 	lobby.connect("game_start", self, "_on_game_started")
 
 func _on_song_assets_loaded(song, assets):

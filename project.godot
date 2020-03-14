@@ -75,9 +75,9 @@ _global_script_classes=[ {
 "path": "res://tools/editor/widgets/EditorWidget.gd"
 }, {
 "base": "HBSerializable",
-"class": "HBGameSession",
+"class": "HBGameInfo",
 "language": "GDScript",
-"path": "res://scripts/HBGameSession.gd"
+"path": "res://scripts/HBGameInfo.gd"
 }, {
 "base": "HBDurationNoteData",
 "class": "HBHoldNoteData",
@@ -283,7 +283,7 @@ _global_script_class_icons={
 "HBEditorMovementGizmo": "",
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
-"HBGameSession": "",
+"HBGameInfo": "",
 "HBHoldNoteData": "",
 "HBHovereableButton": "",
 "HBINIParser": "",

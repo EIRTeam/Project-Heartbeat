@@ -139,7 +139,7 @@ func _on_viewport_size_changed():
 		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect.rect_min_size = new_size
-func set_song(song: HBSong, difficulty: String):
+func set_song(song: HBSong, difficulty: String, assets = null):
 	current_song = song
 	heart_power_indicator.value = 0
 	heart_power = 0
@@ -152,19 +152,24 @@ func set_song(song: HBSong, difficulty: String):
 	current_combo = 0
 	rating_label.hide()
 	current_bpm = song.bpm
-	audio_stream_player.stream = song.get_audio_stream()
+	if assets:
+		audio_stream_player.stream = assets.audio
+		if song.voice:
+			audio_stream_player_voice.stream = assets.voice
+	else:
+		audio_stream_player.stream = song.get_audio_stream()
 
-	var circle_logo_path = song.get_song_circle_logo_image_res_path()
-	if circle_logo_path:
-		author_label.hide()
-		circle_text_rect.show()
-		var image = HBUtils.image_from_fs(circle_logo_path)
-		var it = ImageTexture.new()
-		it.create_from_image(image, Texture.FLAGS_DEFAULT)
-		circle_text_rect.texture = it
-		_on_viewport_size_changed()
-	if song.voice:
-		audio_stream_player_voice.stream = song.get_voice_stream()
+		var circle_logo_path = song.get_song_circle_logo_image_res_path()
+		if circle_logo_path:
+			author_label.hide()
+			circle_text_rect.show()
+			var image = HBUtils.image_from_fs(circle_logo_path)
+			var it = ImageTexture.new()
+			it.create_from_image(image, Texture.FLAGS_DEFAULT)
+			circle_text_rect.texture = it
+			_on_viewport_size_changed()
+		if song.voice:
+			audio_stream_player_voice.stream = song.get_voice_stream()
 	song_name_label.text = song.get_visible_title()
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
@@ -550,8 +555,6 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 					add_child(hold_player)
 					hold_player.play()
 					hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
-					
-					print(slide_hold_chains[note].size())
 					
 					var active_hold_chain = {
 						"pieces": slide_hold_chains[note],

@@ -52,14 +52,12 @@ func _unhandled_input(event):
 				var last_value = last_axis_values[event.device][action][event.axis]
 				if last_value < 0.5 and event.get_action_strength(action) >= 0.5:
 					if pressed_inputs[action] == false:
-						print("TAP")
 						var a = InputEventAction.new()
 						a.action = ANALOG_TO_DIGITAL_MAP[action]
 						a.pressed = true
 						Input.parse_input_event(a)
 
 				elif last_value >= 0.5 and event.get_action_strength(action) < 0.5:
-						print("UNTAP")
 						var a = InputEventAction.new()
 						a.action = ANALOG_TO_DIGITAL_MAP[action]
 						a.pressed = false

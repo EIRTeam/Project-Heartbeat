@@ -10,27 +10,27 @@ onready var fade_out_tween = get_node("FadeOutTween")
 onready var game = get_node("RhythmGame")
 var pause_disabled = false
 
-var current_session: HBGameSession 
+var current_game_info: HBGameInfo 
 
 func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 
-func start_session(session: HBGameSession):
-	if not SongLoader.songs.has(session.song_id):
-		Log.log(self, "Error starting session: Song not found %s" % [session.song_id])
+func start_session(game_info: HBGameInfo):
+	if not SongLoader.songs.has(game_info.song_id):
+		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
 		return
 	
-	var song = SongLoader.songs[session.song_id] as HBSong
+	var song = SongLoader.songs[game_info.song_id] as HBSong
 	
-	if not song.charts.has(session.difficulty):
-		Log.log(self, "Error starting session: Chart not found %s %s" % [session.song_id, session.difficulty])
+	if not song.charts.has(game_info.difficulty):
+		Log.log(self, "Error starting session: Chart not found %s %s" % [game_info.song_id, game_info.difficulty])
 		return
 	
-	current_session = session
+	current_game_info = game_info
 	
-	set_song(song, session.difficulty, session.modifiers)
+	set_song(song, game_info.difficulty, game_info.modifiers)
 
 func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var bg_path = song.get_song_background_image_res_path()
@@ -59,11 +59,11 @@ func _unhandled_input(event):
 			$PauseMenu._on_resumed()
 		get_tree().set_input_as_handled()
 
-func _show_results(session: HBGameSession):
+func _show_results(game_info: HBGameInfo):
 	var scene = MainMenu.instance()
 	get_tree().current_scene.queue_free()
 	scene.starting_menu = "results"
-	scene.starting_menu_args = {"results": session}
+	scene.starting_menu_args = {"game_info": game_info}
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 #	scene.set_result(results)
@@ -73,9 +73,9 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	original_color.a = 0
 	var target_color = Color.black
 	$FadeToBlack.show()
-	current_session.result = result
+	current_game_info.result = result
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_session])
+	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
 	fade_out_tween.start()
 
 
@@ -83,7 +83,7 @@ func _on_PauseMenu_quit():
 	var scene = MainMenu.instance()
 	get_tree().current_scene.queue_free()
 	scene.starting_menu = "song_list"
-	scene.starting_menu_args = {"song": current_session.song_id, "song_difficulty": current_session.difficulty}
+	scene.starting_menu_args = {"song": current_game_info.song_id, "song_difficulty": current_game_info.difficulty}
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	_on_resumed()

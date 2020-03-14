@@ -1,6 +1,8 @@
+# This class holds information regarding a game session that was played, and also
+# doubles as a configuration class
 extends HBSerializable
 
-class_name HBGameSession
+class_name HBGameInfo
 
 enum GAME_SESSION_TYPE {
 	OFFLINE,
@@ -23,4 +25,4 @@ func is_valid():
 	return used_autoplay or modifiers.size() > 0
 
 func get_serialized_type():
-	return "GameSession"
+	return "GameInfo"

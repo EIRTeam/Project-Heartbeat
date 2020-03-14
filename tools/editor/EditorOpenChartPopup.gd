@@ -74,7 +74,6 @@ func show_error(error: String):
 func _on_confirmed():
 	var item = tree.get_selected()
 	var song = item.get_meta("song") as HBSong
-	print("CUMFIRMED")
 	if song.audio == "":
 		show_error("You must add an audio track to your song before editing, you can do this from \"Edit song data\".")
 	else:

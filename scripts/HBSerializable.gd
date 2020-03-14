@@ -20,6 +20,9 @@ func serialize():
 	})
 	
 static func deserialize(data: Dictionary):
+	if not data.type in get_serializable_types():
+		print("Error deserializing unknown type " + data.type)
+		return null
 	var object = get_serializable_types()[data.type].new()
 	for field in object.serializable_fields:
 		var _field = object.get(field)
@@ -44,7 +47,6 @@ static func deserialize(data: Dictionary):
 			elif _field is int:
 				object.set(field, int(data[field]))
 			else:
-				print(_field is Dictionary)
 				object.set(field, str2var(data[field]))
 	return object
 	
@@ -59,7 +61,7 @@ static func get_serializable_types():
 		"UserSettings": load("res://scripts/HBUserSettings.gd"),
 		"BpmChange": load("res://scripts/HBBPMChange.gd"),
 		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
-		"GameSession": load("res://scripts/HBGameSession.gd")
+		"GameInfo": load("res://scripts/HBGameInfo.gd")
 	}
 func get_serialized_type():
 	pass

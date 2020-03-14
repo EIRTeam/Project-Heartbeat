@@ -7,7 +7,7 @@ const LOG_NAME = "ScoreHistory"
 
 signal score_entered(song, difficulty)
 
-var sessions_queued_for_upload = []
+var games_queued_for_upload = []
 
 func _ready():
 	load_history()
@@ -17,11 +17,11 @@ func _ready():
 	
 		
 func _on_leaderboard_score_uploaded(success, lb_name, score, score_changed, new_rank, old_rank):
-	for session in sessions_queued_for_upload:
-		var song = SongLoader.songs[session.song_id] as HBSong
-		if song.get_leaderboard_name(session.difficulty) == lb_name:
-			emit_signal("score_entered", session.id, session.difficulty)
-		sessions_queued_for_upload.erase(session)
+	for game_info in games_queued_for_upload:
+		var song = SongLoader.songs[game_info.song_id] as HBSong
+		if song.get_leaderboard_name(game_info.difficulty) == lb_name:
+			emit_signal("score_entered", game_info.id, game_info.difficulty)
+		games_queued_for_upload.erase(game_info)
 		break
 		
 func load_history():
@@ -40,8 +40,8 @@ func history_from_dict(data: Dictionary):
 	for song_name in data:
 		scores[song_name] = {}
 		for difficulty in data[song_name]:
-			var result = HBGameSession.deserialize(data[song_name][difficulty])
-			if not result is HBGameSession:
+			var result = HBGameInfo.deserialize(data[song_name][difficulty])
+			if not result is HBGameInfo:
 				found_error = true
 			else:
 				scores[song_name][difficulty] = result
@@ -52,7 +52,7 @@ func history_to_dict() -> Dictionary:
 	for song_name in scores:
 		result_dict[song_name] = {}
 		for difficulty in scores[song_name]:
-			var result := scores[song_name][difficulty] as HBGameSession
+			var result := scores[song_name][difficulty] as HBGameInfo
 			result_dict[song_name][difficulty] = result.serialize()
 	return result_dict
 
@@ -63,25 +63,25 @@ func save_history():
 		file.store_string(contents)
 		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8())
 		
-func add_result_to_history(session: HBGameSession):
-	var result = session.result as HBResult
-	if not scores.has(session.song_id):
-		scores[session.song_id] = {}
+func add_result_to_history(game_info: HBGameInfo):
+	var result = game_info.result as HBResult
+	if not scores.has(game_info.song_id):
+		scores[game_info.song_id] = {}
 		
 	if PlatformService.service_provider.implements_leaderboards:
 		var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
-		var song = SongLoader.songs[session.song_id] as HBSong
-		sessions_queued_for_upload.append(session)
-		leaderboard_service.upload_score(song.get_leaderboard_name(session.difficulty), result.score, result.get_percentage())
+		var song = SongLoader.songs[game_info.song_id] as HBSong
+		games_queued_for_upload.append(game_info)
+		leaderboard_service.upload_score(song.get_leaderboard_name(game_info.difficulty), result.score, result.get_percentage())
 	else:
-		emit_signal("score_entered", session.song_id, session.difficulty)
+		emit_signal("score_entered", game_info.song_id, game_info.difficulty)
 		
-	if scores[session.song_id].has(session.difficulty):
-		var current_result = scores[session.song_id][session.difficulty].result as HBResult
+	if scores[game_info.song_id].has(game_info.difficulty):
+		var current_result = scores[game_info.song_id][game_info.difficulty].result as HBResult
 		if current_result.score > result.score:
 			Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
 			return
-	scores[session.song_id][session.difficulty] = session
+	scores[game_info.song_id][game_info.difficulty] = game_info
 	save_history()
 
 

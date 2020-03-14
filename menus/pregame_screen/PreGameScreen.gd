@@ -38,10 +38,10 @@ func _on_StartButton_pressed():
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	var session = HBGameSession.new()
-	session.song_id = current_song.id
-	session.difficulty = current_difficulty
-	scene.start_session(session)
+	var game_info = HBGameInfo.new()
+	game_info.song_id = current_song.id
+	game_info.difficulty = current_difficulty
+	scene.start_session(game_info)
 
 
 func _on_BackButton_pressed():
