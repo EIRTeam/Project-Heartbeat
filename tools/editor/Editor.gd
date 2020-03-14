@@ -420,7 +420,8 @@ func load_song(song: HBSong, difficulty: String):
 			var result = chart_json.result
 			chart = HBChart.new()
 			chart.deserialize(result)
-			from_chart(chart)
+	
+	from_chart(chart)
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm

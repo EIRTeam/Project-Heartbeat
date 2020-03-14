@@ -7,12 +7,15 @@ onready var edit_data_button = get_node("MarginContainer/VBoxContainer/HBoxConta
 onready var song_meta_editor_dialog = get_node("SongMetaEditorDialog")
 onready var song_meta_editor = get_node("SongMetaEditorDialog/SongMetaEditor")
 onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
+onready var create_song_dialog = get_node("CreateSongDialog")
 signal chart_selected(song, difficulty)
 
 func _ready():
 	connect("about_to_show", self, "_on_about_to_show")
 	tree.connect("item_selected", self, "_on_item_selected")
 	edit_data_button.connect("pressed", self, "_show_meta_editor")
+	new_song_button.connect("pressed", create_song_dialog, "popup_centered")
+	create_song_dialog.connect("confirmed", self, "_on_CreateSongDialog_confirmed")
 	call_deferred("popup_centered")
 	connect("confirmed", self, "_on_confirmed")
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
@@ -55,12 +58,12 @@ func _show_meta_editor():
 	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
 	song_meta_editor_dialog.popup_centered_minsize(Vector2(500, 650))
 func _on_CreateSongDialog_confirmed():
-	if $CreateSongDialog/LineEdit.text != "":
-		var song_name = HBUtils.get_valid_filename($CreateSongDialog/LineEdit.text)
+	if $CreateSongDialog/VBoxContainer/LineEdit.text != "":
+		var song_name = HBUtils.get_valid_filename($CreateSongDialog/VBoxContainer/LineEdit.text)
 		if song_name != "":
 			
 			var song_meta = HBSong.new()
-			song_meta.title = $CreateSongDialog/LineEdit.text
+			song_meta.title = $CreateSongDialog/VBoxContainer/LineEdit.text
 			song_meta.id = song_name
 			song_meta.path = "user://songs/%s" % song_name
 			song_meta.save_song()
@@ -88,8 +91,9 @@ func _on_difficulty_created(difficulty: String, stars):
 	var song = tree.get_selected().get_meta("song") as HBSong
 	var diff = HBUtils.get_valid_filename(difficulty.strip_edges())
 	if diff:
-		song.charts[difficulty] = {
-			"file": difficulty + ".json"
+		song.charts[difficulty.to_lower()] = {
+			"file": difficulty.to_lower() + ".json",
+			"stars": stars
 		}
 		song.save_song()
 		populate_tree()

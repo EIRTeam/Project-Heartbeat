@@ -3,7 +3,6 @@ class_name HBChart
 var layers = []
 var editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 func _init():
-	pass
 	_populate_layers()
 
 func _populate_layers():

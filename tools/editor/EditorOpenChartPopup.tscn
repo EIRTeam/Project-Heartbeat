@@ -95,7 +95,7 @@ __meta__ = {
 }
 
 [node name="LineEdit" type="LineEdit" parent="CreateSongDialog/VBoxContainer"]
-margin_right = 564.0
+margin_right = 468.0
 margin_bottom = 25.0
 placeholder_text = "EIREXE's incredible song..."
 caret_blink = true
@@ -105,7 +105,6 @@ __meta__ = {
 }
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
-visible = true
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 492.0
@@ -119,7 +118,6 @@ __meta__ = {
 }
 
 [node name="SongMetaEditorDialog" type="ConfirmationDialog" parent="."]
-visible = true
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 492.0
