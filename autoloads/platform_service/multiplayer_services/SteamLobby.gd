@@ -41,6 +41,7 @@ func get_song_difficulty():
 func _init(lobby_id).(lobby_id):
 	self._lobby_id = lobby_id
 	PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
+	connect("game_done", self, "_on_game_done")
 func join_lobby():
 	Log.log(self, "Attempting to join lobby " + str(_lobby_id))
 	Steam.joinLobby(_lobby_id)
@@ -209,7 +210,7 @@ func _on_p2p_packet_received():
 						print("DELETING USER: ", member.get_member_name())
 						game_results.erase(member)
 				if game_results.size() == members.size():
-					emit_signal("game_done", game_results)
+					emit_signal("game_done", game_results, game_info)
 func _on_p2p_session_request(remote_id):
 	var found_member = false
 	if members.has(remote_id):
@@ -261,9 +262,12 @@ func notify_game_finished(result: HBResult):
 	data.append_array(var2bytes(result.serialize()))
 	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
 	game_results[get_member_by_id(Steam.getSteamID())] = result
-
+	game_info.result = result
 	for member in game_results:
 		if not member.member_id in members:
 			game_results.erase(member)
 	if game_results.size() == members.size():
-		emit_signal("game_done", game_results)
+		emit_signal("game_done", game_results, game_info)
+
+func _on_game_done(result, game_info):
+	Steam.setLobbyJoinable(_lobby_id, true)

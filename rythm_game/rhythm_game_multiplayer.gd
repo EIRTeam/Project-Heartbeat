@@ -12,7 +12,7 @@ var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 var _preloaded_assets
 
 onready var mp_loading_label = get_node("MPLoadingLabel")
-onready var mp_scoreboard = get_node("Control/MultiplayerScoreboard")
+onready var mp_scoreboard = get_node("Node2D/MultiplayerScoreboard")
 func set_lobby(val):
 	lobby = val
 
@@ -23,7 +23,6 @@ func start_game():
 		lobby.start_session()
 		# Hook up authority specific lobby signals
 		lobby.connect("game_member_loading_finished", self, "_on_game_member_loading_finished")
-		lobby.connect("game_note_hit", self, "_on_game_note_hit")
 		start_loading()
 	else:
 		Log.log(self, "Cannot start a game if lobby isn't set", Log.LogLevel.ERROR)
@@ -36,7 +35,11 @@ func _ready():
 	rhythm_game_controller.prevent_showing_results = true
 	rhythm_game_controller.game.connect("note_judged", self, "_on_note_judged")
 	rhythm_game_controller.connect("fade_out_finished", self, "_on_fade_out_finished")
-
+	_on_resized()
+	connect("resized", self, "_on_resized")
+func _on_resized():
+	mp_scoreboard.rect_size.y = rect_size.y
+	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	background_song_assets_loader.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice"])
@@ -57,6 +60,7 @@ func _on_game_started(game_info: HBGameInfo):
 	rhythm_game_controller.start_session(game_info)
 	mp_scoreboard.members = lobby.members.values()
 	mp_loading_label.hide()
+	lobby.connect("game_note_hit", self, "_on_game_note_hit")
 # Called when a client has finished loading the song (this includes authority)
 func _on_game_member_loading_finished(member: HBServiceMember):
 	loaded_members.append(member)
@@ -66,6 +70,7 @@ func _on_game_member_loading_finished(member: HBServiceMember):
 			_on_game_started(lobby.game_info)
 
 func _on_game_note_hit(member, score, rating):
+	print("NOTE HIT BY ", member.get_member_name())
 	mp_scoreboard.set_last_note_hit_for_member(member, score, rating)
 
 func _on_note_judged(judgement_info):
@@ -78,6 +83,17 @@ func _on_note_judged(judgement_info):
 func _on_fade_out_finished(game_info: HBGameInfo):
 	lobby.notify_game_finished(game_info.result)
 
-func _on_game_done(results):
-	for member in results:
-		print("Game done for ", member.get_member_name())
+var MainMenu = load("res://menus/MainMenu3D.tscn")
+
+func _on_game_done(results, game_info):
+	var scene = MainMenu.instance()
+	get_tree().current_scene.queue_free()
+	scene.starting_menu = "results"
+	scene.starting_menu_args = {
+		"game_info": game_info,
+		"hide_retry": true,
+		"mp_entries": results,
+		"lobby": lobby
+	}
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene

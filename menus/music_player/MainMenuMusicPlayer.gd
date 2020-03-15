@@ -2,11 +2,11 @@ extends HBMenu
 
 var current_song_length
 onready var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
-const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
-
+var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 
 func _init():
+
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 
 func _on_song_assets_loaded(song, assets):

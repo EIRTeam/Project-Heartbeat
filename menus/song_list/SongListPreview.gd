@@ -3,13 +3,12 @@ extends HBMenu
 onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
 
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
-const DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview.png")
+var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-	
 func _on_song_assets_loaded(song, assets):
 	if song.circle_image:
 		$SongListPreview/VBoxContainer/AuthorInfo.hide()

@@ -67,6 +67,10 @@ func _on_lobby_button_pressed(lobby: HBLobby):
 	lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
 	lobby.join_lobby()
 
+func _input(event):
+	if event.is_action("free_friends"):
+		print(get_focus_owner().name)
+
 func show_error(error: String):
 	error_prompt.connect("accept", self, "_on_error_prompt_accepted", [get_focus_owner()], CONNECT_ONESHOT)
 	error_prompt.text = error

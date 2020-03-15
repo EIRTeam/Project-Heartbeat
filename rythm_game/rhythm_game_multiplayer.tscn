@@ -16,17 +16,16 @@ __meta__ = {
 
 [node name="RhythmGame" parent="." instance=ExtResource( 3 )]
 
-[node name="Control" type="Control" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+z_index = -1
+
+[node name="MultiplayerScoreboard" type="VBoxContainer" parent="Node2D"]
 anchor_left = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MultiplayerScoreboard" type="VBoxContainer" parent="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 204.8
+margin_right = 460.8
+rect_min_size = Vector2( 256, 0 )
 alignment = 1
 script = ExtResource( 5 )
 __meta__ = {

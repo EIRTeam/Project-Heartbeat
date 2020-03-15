@@ -24,13 +24,16 @@ func _set_leaderboard(value):
 		not_found_label.show()
 		loading_texture_rect.hide()
 
+func set_entries(entries: Array):
+	print("ENTRIEES")
+	_on_leaderboard_entries_downloaded(0, entries)
+
 func set_song(song_id, difficulty):
 	current_leaderboard = song_id + "_%s" % difficulty
 	print("setsong ", current_leaderboard)
 	_set_leaderboard(current_leaderboard)
 
 func _leaderboard_found(name, handle, found):
-	loading_texture_rect.hide()
 	if not found:
 		not_found_label.show()
 	else:
@@ -40,6 +43,8 @@ func _leaderboard_found(name, handle, found):
 			provider.connect("leaderboard_entries_downloaded", self, "_on_leaderboard_entries_downloaded")
 		provider.get_leaderboard_entries_for_leaderboard(current_leaderboard, minimum_position, max_position, HBLeaderboardService.LEADERBOARD_DATA_REQUEST_TYPE.GLOBAL)
 func _on_leaderboard_entries_downloaded(handle, entries: Array):
+	loading_texture_rect.hide()
+	not_found_label.hide()
 	for i in range(entries.size()):
 		var entry = entries[i]
 		var item = LeaderboardItem.instance()

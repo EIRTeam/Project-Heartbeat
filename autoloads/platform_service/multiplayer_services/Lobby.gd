@@ -83,7 +83,7 @@ signal lobby_loading_start # sent by authority
 signal game_member_loading_finished(member)
 signal game_start # sent by authority
 signal game_note_hit(member, score, rating)
-signal game_done(results) # sent when we realise that all other members have finished
+signal game_done(results, game_info) # sent when we realise that all other members have finished
 
 var _lobby_id
 

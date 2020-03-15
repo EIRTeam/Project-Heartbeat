@@ -150,8 +150,6 @@ hover_style = SubResource( 2 )
 [node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
 ]]
-anchor_top = 0.00252525
-anchor_bottom = 0.00252525
 margin_top = 312.0
 margin_right = 790.0
 margin_bottom = 352.0

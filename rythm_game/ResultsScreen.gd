@@ -21,13 +21,53 @@ const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn"
 const BASE_HEIGHT = 720.0
 
 signal show_song_results(song_id, difficulty)
+signal show_song_results_mp(entries)
 
+var mp_lobby: HBLobby
+var mp_entries = {}
+
+func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
+	return a.score < b.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("game_info"):
 		set_game_info(args.game_info)
+	if args.has("hide_retry"):
+		retry_button.hide()
+	else:
+		retry_button.show()
+	if args.has("mp_entries"):
+		mp_entries = args.mp_entries
+		var lb_entries = []
+		for member in mp_entries:
+			var entry = mp_entries[member] as HBResult
+			var lb_entry = HBLeadearboardEntry.new(member)
+			lb_entry.score = entry.get_capped_score()
+			lb_entry.percentage = entry.get_percentage()
+			lb_entries.append(lb_entry)
+		lb_entries.sort_custom(self, "custom_sort_mp_entries")
+		for entry_i in lb_entries.size():
+			lb_entries[entry_i].rank = entry_i+1
+		emit_signal("show_song_results_mp", lb_entries)
+	if args.has("lobby"):
+		mp_lobby = args.lobby
+		# To be able to handle a song starting while we look at results		
+		mp_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 	buttons.grab_focus()
-
+	
+func _on_menu_exit(force_hard_transition=false):
+	._on_menu_exit(force_hard_transition)
+	mp_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+	mp_lobby = null
+# called when authority sends a game start packet, sets up mp and starts loading
+func _on_lobby_loading_start():
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(rhythm_game_multiplayer_scene)
+	get_tree().current_scene = rhythm_game_multiplayer_scene
+	rhythm_game_multiplayer_scene.lobby = mp_lobby
+	rhythm_game_multiplayer_scene.start_loading()
+	
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
@@ -60,9 +100,12 @@ func _on_retry_button_pressed():
 	scene.set_song(SongLoader.songs[game_info.song_id], game_info.difficulty)
 	
 func _on_return_button_pressed():
-	change_to_menu("song_list", false, {"song": game_info.song_id, "song_difficulty": game_info.difficulty})
-
+	if not mp_lobby:
+		change_to_menu("song_list", false, {"song": game_info.song_id, "song_difficulty": game_info.difficulty})
+	else:
+		change_to_menu("lobby", false, {"lobby": mp_lobby})
 func set_game_info(val: HBGameInfo):
+	game_info = val
 	var result = game_info.result as HBResult
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
@@ -105,4 +148,5 @@ func set_game_info(val: HBGameInfo):
 		ScoreHistory.add_result_to_history(game_info)
 
 func _on_score_entered(song, difficulty):
-	emit_signal("show_song_results", song, difficulty)
+	if not mp_lobby:
+		emit_signal("show_song_results", song, difficulty)

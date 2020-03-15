@@ -28,7 +28,11 @@ func _on_focus_entered():
 		if selected_button:
 			select_button(selected_button_i)
 		else:
-			select_button(0)
+			for child_i in range(get_child_count()):
+				var child = get_child(child_i)
+				if child.visible:
+					select_button(child_i)
+					break
 
 func _gui_input(event):
 	var next_action = "gui_right"
@@ -57,7 +61,13 @@ func _gui_input(event):
 					neighbor_left.grab_focus()
 			else:
 				get_tree().set_input_as_handled()
-				select_button(selected_button_i-1)
+				var i = selected_button_i-1
+				while i >= 0:
+					if get_child(i).visible:
+						select_button(i)
+						break
+					i -= 1
+				
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
@@ -68,7 +78,12 @@ func _gui_input(event):
 					neighbour_right.grab_focus()
 			else:
 				get_tree().set_input_as_handled()
-				select_button(selected_button_i+1)
+				var i = selected_button_i+1
+				while i <= get_child_count()-1:
+					if get_child(i).visible:
+						select_button(i)
+						break
+					i += 1
 	elif event.is_action_pressed("gui_accept"):
 		if selected_button:
 			get_tree().set_input_as_handled()
