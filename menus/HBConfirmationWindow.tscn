@@ -6,6 +6,7 @@
 [ext_resource path="res://menus/HBConfirmationWindow.gd" type="Script" id=4]
 
 [node name="HBConfirmationWindow" type="Popup"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

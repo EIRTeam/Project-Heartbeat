@@ -33,7 +33,7 @@ func set_lobby(lobby: HBLobby):
 		song_status_icon.texture = NOTE_OK_ICON
 	
 	song_name_label.text = lobby.get_song_name()
-		
+	print(lobby.song_id)
 	set_lobby_name(lobby.lobby_name)
 	set_lobby_members(lobby.member_count)
 	set_lobby_max_members(lobby.max_members)

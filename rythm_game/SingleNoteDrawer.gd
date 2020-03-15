@@ -212,20 +212,15 @@ func _unhandled_input(event):
 				result_judgement = wrong_rating
 					
 			game.disconnect("time_changed", self, "_on_game_time_changed")
-			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
+
 			
 			# Make multinotes count
 			if not wrong:
 				game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
-			
+			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
 			for note in conn_notes:
 				note.get_meta("note_drawer")._on_note_judged(result_judgement)
 				note.get_meta("note_drawer").emit_signal("note_removed")
-
-			
-
-			
-			
 #		if not event is InputEventJoypadMotion:
 #			var actions = []
 #			var input_judgement = judge_note_input(event, game.time)

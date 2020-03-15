@@ -31,4 +31,7 @@ func set_cancel_text(value):
 
 func _on_Control_about_to_show():
 	$Panel/HBoxContainer.grab_focus()
-	$Panel/HBoxContainer.select_button(1)
+	if has_cancel:
+		$Panel/HBoxContainer.select_button(1)
+	else:
+		$Panel/HBoxContainer.select_button(0)

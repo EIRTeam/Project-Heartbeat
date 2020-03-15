@@ -77,12 +77,13 @@ signal lobby_user_data_updated(user)
 signal lobby_created(result)
 signal lobby_left
 signal lobby_chat_update(changed, making_change, state)
+signal member_left(member)
 
 signal lobby_loading_start # sent by authority
 signal game_member_loading_finished(member)
 signal game_start # sent by authority
 signal game_note_hit(member, score, rating)
-signal game_done(results) # sent by authority
+signal game_done(results) # sent when we realise that all other members have finished
 
 var _lobby_id
 
@@ -96,15 +97,17 @@ var song_difficulty: String = "extreme" setget set_song_difficulty,get_song_diff
 var members: Dictionary = {}
 var lobby_owner: HBServiceMember setget ,get_lobby_owner
 var pure = true # pure lobbies perform checks
+var game_results = {}
+var game_info: HBGameInfo = HBGameInfo.new()
 
 func set_lobby_name(val):
 	lobby_name = val
 func set_song_name(val):
 	song_name = val
 func set_song_id(val):
-	song_id = val
+	game_info.song_id = val
 func set_song_difficulty(val):
-	song_difficulty = val
+	game_info.difficulty = val
 func get_lobby_name():
 	return lobby_name
 func get_lobby_member_count():
@@ -116,10 +119,10 @@ func get_song_name():
 	return song_name
 	
 func get_song_id():
-	return song_id
+	return game_info.song_id
 
 func get_song_difficulty():
-	return song_difficulty
+	return game_info.difficulty
 
 func get_song() -> HBSong:
 	if get_song_id() in SongLoader.songs:
@@ -127,6 +130,8 @@ func get_song() -> HBSong:
 	else:
 		return null
 
+func send_game_info_update():
+	pass
 func _init(lobby_id):
 	self._lobby_id = lobby_id
 		
@@ -161,4 +166,7 @@ func start_game():
 
 # Lets everyone else know that our score (and last rating) has changed
 func send_note_hit_update(score, rating):
+	pass
+	
+func notify_game_finished(result: HBResult):
 	pass

@@ -134,6 +134,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/HBMenuChangeButton.gd"
 }, {
+"base": "Reference",
+"class": "HBModifier",
+"language": "GDScript",
+"path": "res://rythm_game/modifiers/HBModifier.gd"
+}, {
 "base": "Node",
 "class": "HBMultiplayerService",
 "language": "GDScript",
@@ -295,6 +300,7 @@ _global_script_class_icons={
 "HBLobby": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
+"HBModifier": "",
 "HBMultiplayerService": "",
 "HBNoteData": "",
 "HBNoteDrawer": "",
@@ -339,7 +345,6 @@ config/build_commit="cbf3cbe7222d360817acf0b55b40a38af348f0f2"
 
 [audio]
 
-driver="ALSA"
 output_latency=2
 
 [autoload]
@@ -369,6 +374,13 @@ window/size/width=1280
 window/size/height=720
 window/vsync/use_vsync=false
 window/stretch/aspect="expand"
+
+[importer_defaults]
+
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
 
 [input]
 

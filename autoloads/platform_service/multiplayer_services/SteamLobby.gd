@@ -9,9 +9,13 @@ func set_lobby_name(new_name):
 func set_song_name(val):
 	Steam.setLobbyData(_lobby_id, "song_name", val)
 func set_song_id(val):
-	Steam.setLobbyData(_lobby_id, "song_id", val)
+	game_info.song_id = val
 func set_song_difficulty(val):
-	Steam.setLobbyData(_lobby_id, "song_difficulty", val)
+	game_info.difficulty = val
+	
+func send_game_info_update():
+	Steam.setLobbyData(_lobby_id, "game_info", JSON.print(game_info.serialize()))
+	
 func get_lobby_name():
 	return Steam.getLobbyData(_lobby_id, "name")
 func get_lobby_member_count():
@@ -29,10 +33,10 @@ func get_song_name():
 		return Steam.getLobbyData(_lobby_id, "song_name")
 
 func get_song_id():
-	return Steam.getLobbyData(_lobby_id, "song_id")
+	return game_info.song_id
 
 func get_song_difficulty():
-	return Steam.getLobbyData(_lobby_id, "song_difficulty")
+	return game_info.difficulty
 
 func _init(lobby_id).(lobby_id):
 	self._lobby_id = lobby_id
@@ -43,6 +47,13 @@ func join_lobby():
 	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
 	Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
 	Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
+
+func obtain_game_info():
+	var json = JSON.parse(Steam.getLobbyData(_lobby_id, "game_info")) as JSONParseResult
+	if json.error == OK:
+		game_info = HBGameInfo.deserialize(json.result)
+	else:
+		Log.log(self, "Error obtaining game_info from lobby %d error on line %d: %s" % [_lobby_id, json.error_line, json.error_string])
 
 func update_lobby_members():
 	members.clear()
@@ -56,12 +67,16 @@ func update_lobby_members():
 func _on_lobby_joined(lobby_id, permissions, locked, response):
 	
 	Log.log(self, "Attempted to join lobby " + str(_lobby_id))
+	
 	if lobby_id == _lobby_id:
-		connected = true
-		Steam.connect("lobby_message", self, "_on_lobby_message")
-		Steam.connect("lobby_chat_update", self, "_on_lobby_chat_update")
-		Steam.connect("lobby_data_update", self, "_on_lobby_data_updated")
-		update_lobby_members()
+		if response == LOBBY_ENTER_RESPONSE.SUCCESS:
+			connected = true
+			Steam.connect("lobby_message", self, "_on_lobby_message")
+			Steam.connect("lobby_chat_update", self, "_on_lobby_chat_update")
+			Steam.connect("lobby_data_update", self, "_on_lobby_data_updated")
+			update_lobby_members()
+			if not is_owned_by_local_user():
+				obtain_game_info()
 		emit_signal("lobby_joined", response)
 		
 func _on_lobby_message(result, user, message, type):
@@ -80,6 +95,7 @@ func get_lobby_owner() -> HBServiceMember:
 func _on_lobby_data_updated(success, lobby_id, id, key):
 	if lobby_id == _lobby_id:
 		if id == lobby_id:
+			obtain_game_info()
 			emit_signal("lobby_data_updated")
 		else:
 			var found_member = get_member_by_id(id)
@@ -99,6 +115,7 @@ func _on_lobby_created(result, lobby_id):
 		set_song_difficulty(song.charts.keys()[0])
 		set_song_id(song.id)
 		set_song_name(song.title)
+		send_game_info_update()
 	emit_signal("lobby_created", result)
 
 func _on_lobby_chat_update(lobby_id, changed_id, making_change_id, chat_state):
@@ -113,6 +130,12 @@ func _on_lobby_chat_update(lobby_id, changed_id, making_change_id, chat_state):
 		making_change = members[making_change_id]
 	if members.has(changed_id):
 		changed = members[changed_id]
+		
+	if chat_state == LOBBY_CHAT_UPDATE_STATUS.LEFT or chat_state == LOBBY_CHAT_UPDATE_STATUS.DISCONNECTED:
+		if changed_id == making_change_id:
+			emit_signal("member_left", changed)
+			members.erase(changed)
+		
 	emit_signal("lobby_chat_update", changed, making_change, chat_state)
 func create_lobby():
 	Log.log(self, "Attempting to create lobby")
@@ -169,21 +192,30 @@ func _on_p2p_packet_received():
 		if is_owned_by_local_user():
 			match packet_type:
 				PACKET_TYPE.LOADED:
-					emit_signal("game_member_loading_finished", get_member_by_id(packet_id))
+					emit_signal("game_member_loading_finished", get_member_by_id(packet.steamIDRemote))
 		match packet_type:
 			PACKET_TYPE.HANDSHAKE:
 				emit_signal("lobby_loading_start")
 			PACKET_TYPE.NOTE_HIT:
 				emit_signal("game_note_hit", get_member_by_id(packet.steamIDRemote), packet_data.score, packet_data.rating)
 			PACKET_TYPE.START_GAME:
-				emit_signal("game_start")
+				obtain_game_info() # We should already have the latest but just to be sure...
+				emit_signal("game_start", game_info)
 			PACKET_TYPE.GAME_DONE:
-				emit_signal("game_done", packet_data)
+				var member = get_member_by_id(packet.steamIDRemote)
+				game_results[member] = HBResult.deserialize(packet_data)
+				for member in game_results:
+					if not member.member_id in members:
+						print("DELETING USER: ", member.get_member_name())
+						game_results.erase(member)
+				if game_results.size() == members.size():
+					emit_signal("game_done", game_results)
 func _on_p2p_session_request(remote_id):
 	var found_member = false
 	if members.has(remote_id):
 		found_member = true
 	if found_member:
+		print("Accepting p2p session with")
 		Steam.acceptP2PSessionWithUser(remote_id)
 	else:
 		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + _lobby_id)
@@ -222,3 +254,16 @@ func _on_p2p_session_connect_fail(lobby_id, session_error):
 		Log.log(self, "Session failure with "+str(lobby_id)+" [unused].")
 	else:
 		Log.log(self, "Session failure with "+str(lobby_id)+" [unknown error "+str(session_error)+"].")
+
+func notify_game_finished(result: HBResult):
+	var data = PoolByteArray()
+	data.append(PACKET_TYPE.GAME_DONE)
+	data.append_array(var2bytes(result.serialize()))
+	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
+	game_results[get_member_by_id(Steam.getSteamID())] = result
+
+	for member in game_results:
+		if not member.member_id in members:
+			game_results.erase(member)
+	if game_results.size() == members.size():
+		emit_signal("game_done", game_results)

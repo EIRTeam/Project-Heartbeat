@@ -18,3 +18,8 @@ func set_last_note_hit_for_member(member, score, last_rating):
 	var item = member_item_map[member]
 	item.score = score
 	item.last_rating = last_rating
+
+func remove_member(member: HBServiceMember):
+	member_item_map[member].queue_free()
+	member_item_map.erase(member)
+	members.erase(member)

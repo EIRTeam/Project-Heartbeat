@@ -40,8 +40,8 @@ func _on_get_lobby_list(lobbies):
 		item.connect("pressed", self, "_on_lobby_button_pressed", [lobby])
 		if not first_child:
 			first_child = item
-	if first_child:
-		scroll_list.select_child(first_child)
+#	if first_child:
+#		scroll_list.select_child(first_child)
 	var n_of_lobbies = lobbies.size()
 	if n_of_lobbies == 1:
 		lobbies_found_label.text = "%d lobby found!" % [n_of_lobbies]

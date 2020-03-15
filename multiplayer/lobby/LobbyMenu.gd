@@ -34,6 +34,7 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		lobby.song_name = song.get_visible_title()
 		lobby.song_id = song.id
 		lobby.song_difficulty = args.difficulty
+		lobby.send_game_info_update()
 	else:
 		select_song(lobby.get_song(), lobby.song_difficulty)
 func _check_ownership_changed():
@@ -86,7 +87,7 @@ func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMem
 	else:
 		msg = " has managed to break space-time."
 	
-	msg = str(making_change.member_name) + msg
+	msg = str(changed.member_name) + msg
 	append_service_message(msg)
 	update_member_list()
 	_check_ownership_changed()

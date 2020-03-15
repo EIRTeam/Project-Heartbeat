@@ -7,10 +7,13 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 const FADE_OUT_TIME = 1.0
 
 onready var fade_out_tween = get_node("FadeOutTween")
-onready var game = get_node("RhythmGame")
+onready var game : HBRhythmGame = get_node("RhythmGame")
 var pause_disabled = false
+var prevent_showing_results = false
 
 var current_game_info: HBGameInfo 
+
+signal fade_out_finished(game_info)
 
 func _ready():
 	set_game_size()
@@ -60,12 +63,13 @@ func _unhandled_input(event):
 		get_tree().set_input_as_handled()
 
 func _show_results(game_info: HBGameInfo):
-	var scene = MainMenu.instance()
-	get_tree().current_scene.queue_free()
-	scene.starting_menu = "results"
-	scene.starting_menu_args = {"game_info": game_info}
-	get_tree().root.add_child(scene)
-	get_tree().current_scene = scene
+	if not prevent_showing_results:
+		var scene = MainMenu.instance()
+		get_tree().current_scene.queue_free()
+		scene.starting_menu = "results"
+		scene.starting_menu_args = {"game_info": game_info}
+		get_tree().root.add_child(scene)
+		get_tree().current_scene = scene
 #	scene.set_result(results)
 
 func _on_RhythmGame_song_cleared(result: HBResult):
@@ -76,8 +80,8 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	current_game_info.result = result
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
+	fade_out_tween.connect("tween_all_completed", self, "emit_signal", ["fade_out_finished", current_game_info])
 	fade_out_tween.start()
-
 
 func _on_PauseMenu_quit():
 	var scene = MainMenu.instance()

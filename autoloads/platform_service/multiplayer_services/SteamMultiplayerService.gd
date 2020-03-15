@@ -30,7 +30,9 @@ func _on_lobby_list_returned(lobbies):
 	Log.log(self, "Received %s lobbies" % lobbies.size())
 	var lobby_list = []
 	for lobby_id in lobbies:
-		lobby_list.append(SteamLobby.new(lobby_id))
+		var lobby = SteamLobby.new(lobby_id)
+		lobby_list.append(lobby)
+		lobby.obtain_game_info()
 	emit_signal("lobby_match_list", lobby_list)
 
 func create_lobby():
