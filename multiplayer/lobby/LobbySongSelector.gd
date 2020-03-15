@@ -1,7 +1,6 @@
 extends HBSongListMenu
 
 onready var lobby_title_label = get_node("VBoxContainer/LobbyTitleLabel")
-
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("lobby"):

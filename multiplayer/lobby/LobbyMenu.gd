@@ -113,7 +113,7 @@ func _options_vertical_menu_from_bottom():
 	chat_line_edit.grab_focus()
 
 func _on_SelectSongButton_pressed():
-	change_to_menu("song_list_lobby", false, {"lobby": lobby})
+	change_to_menu("song_list_lobby", false, {"lobby": lobby, "song": lobby.get_song_id(), "song_difficulty": lobby.get_song_difficulty()})
 
 
 func _on_LineEdit_gui_input(event: InputEvent):
