@@ -25,7 +25,6 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("lobby"):
 		set_lobby(args.lobby)
-	options_vertical_menu.grab_focus()
 	_check_ownership_changed()
 	chat_line_edit.clear()
 	chat_box.clear()
@@ -37,6 +36,10 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		lobby.send_game_info_update()
 	else:
 		select_song(lobby.get_song(), lobby.song_difficulty)
+	# HACK! Else we select the wrong button when we don't do this
+	yield(get_tree(), "idle_frame")
+	options_vertical_menu.grab_focus()
+
 func _check_ownership_changed():
 	if lobby.is_owned_by_local_user():
 		get_tree().call_group("owner_only", "show")
