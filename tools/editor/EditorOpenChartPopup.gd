@@ -10,6 +10,9 @@ onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
 onready var create_song_dialog = get_node("CreateSongDialog")
 signal chart_selected(song, difficulty)
 
+# If we should show songs in res://
+var show_hidden = false
+
 func _ready():
 	connect("about_to_show", self, "_on_about_to_show")
 	tree.connect("item_selected", self, "_on_item_selected")
@@ -31,14 +34,15 @@ func populate_tree():
 	for song in SongLoader.songs.values():
 		# PPD charts cannot be edited...
 		if not song is HBPPDSong:
-			var item = tree.create_item()
-			item.set_text(0, song.title)
-			item.set_meta("song", song)
-			for difficulty in song.charts:
-				var diff_item = tree.create_item(item)
-				diff_item.set_text(0, difficulty.capitalize())
-				diff_item.set_meta("song", song)
-				diff_item.set_meta("difficulty", difficulty)
+			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
+				var item = tree.create_item()
+				item.set_text(0, song.title)
+				item.set_meta("song", song)
+				for difficulty in song.charts:
+					var diff_item = tree.create_item(item)
+					diff_item.set_text(0, difficulty.capitalize())
+					diff_item.set_meta("song", song)
+					diff_item.set_meta("difficulty", difficulty)
 	
 func _on_item_selected():
 	var item = tree.get_selected()
@@ -99,3 +103,8 @@ func _on_difficulty_created(difficulty: String, stars):
 		populate_tree()
 	else:
 		show_error("Invalid difficulty name!")
+
+func _unhandled_input(event):
+	if event.is_action_pressed("free_friends"):
+		show_hidden = true
+		populate_tree()

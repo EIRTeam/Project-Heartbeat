@@ -35,6 +35,9 @@ func start_session(game_info: HBGameInfo):
 	
 	set_song(song, game_info.difficulty, game_info.modifiers)
 
+func disable_restart():
+	$PauseMenu.disable_restart()
+
 func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
@@ -53,9 +56,10 @@ func _on_resumed():
 	$PauseMenu.hide()
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("pause") and not event.is_echo() and not pause_disabled:
+	if event.is_action_pressed("pause") and not event.is_echo():
 		if not get_tree().paused:
-			$RhythmGame.pause_game()
+			if not pause_disabled:
+				$RhythmGame.pause_game()
 			$PauseMenu.show_pause()
 		else:
 			_on_resumed()

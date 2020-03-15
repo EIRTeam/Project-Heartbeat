@@ -35,6 +35,7 @@ func _ready():
 	rhythm_game_controller.prevent_showing_results = true
 	rhythm_game_controller.game.connect("note_judged", self, "_on_note_judged")
 	rhythm_game_controller.connect("fade_out_finished", self, "_on_fade_out_finished")
+	rhythm_game_controller.disable_restart()
 	_on_resized()
 	connect("resized", self, "_on_resized")
 func _on_resized():

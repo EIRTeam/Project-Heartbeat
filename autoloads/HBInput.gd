@@ -12,9 +12,12 @@ func is_action_pressed(action: String):
 				return true
 	return false
 
-
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _input(event):
+	if event is InputEventMouse:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if not event is InputEventAction:
 		if event is InputEventJoypadButton or event is InputEventKey:
 			if not event.is_echo():

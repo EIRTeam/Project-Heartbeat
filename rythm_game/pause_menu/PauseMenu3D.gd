@@ -16,3 +16,4 @@ func _ready():
 	quit_button.connect("pressed", quit_popup, "popup_centered_ratio", [0.35])
 	quit_popup.connect("cancel", pause_menu_list, "grab_focus")
 	restart_popup.connect("cancel", pause_menu_list, "grab_focus")
+
