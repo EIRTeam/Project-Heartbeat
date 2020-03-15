@@ -362,13 +362,15 @@ func get_song_length():
 
 func get_chart():
 	var chart = HBChart.new()
-	var layers = timeline.get_layers()
+	var layer_items = timeline.get_layers()
 	chart.editor_settings = song_editor_settings
-	for layer in layers:
-		chart.layers.append({
+	var layers = []
+	for layer in layer_items:
+		layers.append({
 			"name": layer.layer_name,
 			"timing_points": layer.get_timing_points()
 		})
+	chart.layers = layers
 	return chart
 func serialize_chart():
 	return get_chart().serialize()
