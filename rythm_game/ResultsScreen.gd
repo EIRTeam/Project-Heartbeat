@@ -97,7 +97,7 @@ func _on_retry_button_pressed():
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	scene.set_song(SongLoader.songs[game_info.song_id], game_info.difficulty)
+	scene.start_session(game_info)
 	
 func _on_return_button_pressed():
 	if not mp_lobby:

@@ -20,7 +20,7 @@ func _on_leaderboard_score_uploaded(success, lb_name, score, score_changed, new_
 	for game_info in games_queued_for_upload:
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		if song.get_leaderboard_name(game_info.difficulty) == lb_name:
-			emit_signal("score_entered", game_info.id, game_info.difficulty)
+			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
 		games_queued_for_upload.erase(game_info)
 		break
 		
