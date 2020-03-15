@@ -20,7 +20,7 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 		if is_nan(time):
 
 			var count = file.get_32()
-			# TODO, make engine load 
+			# TODO, make engine load EVDs
 			var index = 0
 			
 			while file.get_position() < file_offset + file_len:
@@ -74,7 +74,6 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 			"type": type,
 			"end_time": end_time
 		}
-		# TODO: Use data sector in PPD file
 		if is_nan(time):
 			break
 
