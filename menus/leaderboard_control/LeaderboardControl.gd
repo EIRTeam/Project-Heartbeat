@@ -36,6 +36,7 @@ func set_song(song_id, difficulty):
 func _leaderboard_found(name, handle, found):
 	if not found:
 		not_found_label.show()
+		loading_texture_rect.hide()
 	else:
 		not_found_label.hide()
 		var provider = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
