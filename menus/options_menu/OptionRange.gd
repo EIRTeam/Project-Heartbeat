@@ -3,6 +3,7 @@ extends Control
 export(float) var minimum = 0.0
 export(float) var maximum = 10
 export(float) var step = 1
+export(String) var postfix = ""
 
 var value = 0 setget set_value
 signal changed(option)
@@ -29,7 +30,7 @@ func set_text(value):
 
 func set_value(val):
 	value = val
-	option_label.text = str(value)
+	option_label.text = str(value) + postfix
 
 func _ready():
 	focus_mode = Control.FOCUS_ALL

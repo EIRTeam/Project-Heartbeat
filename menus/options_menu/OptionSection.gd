@@ -10,6 +10,7 @@ signal changed(property_name, new_value)
 
 onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer/VBoxContainer")
 onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer")
+var postfix = ""
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	focus_mode = Control.FOCUS_ALL
@@ -32,6 +33,8 @@ func _ready():
 						option_scene.minimum = option.minimum
 					if option.has("step"):
 						option_scene.step = option.step
+					if option.has("postfix"):
+						option_scene.postfix = option.postfix
 		if option_scene:
 			options_container.add_child(option_scene)
 			option_scene.value = UserSettings.user_settings.get(option_name)

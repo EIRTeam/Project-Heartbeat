@@ -338,6 +338,10 @@ func _process(delta):
 		time = time * audio_stream_player.pitch_scale
 		# Compensate for latency.
 		time -= time_delay
+		
+		# User entered compensation
+		time -= UserSettings.user_settings.lag_compensation / 1000.0
+		
 		# May be below 0 (did not being yet).
 		time = max(0, time)
 	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))

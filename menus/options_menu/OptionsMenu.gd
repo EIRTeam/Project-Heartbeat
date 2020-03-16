@@ -4,14 +4,15 @@ var OPTIONS = {
 	"Game": {
 		"lag_compensation": {
 			"name": tr("Latency compensation"),
-			"description": "Delay applied to gameplay relative to audio, in miliseconds. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
-			"minimum": -30,
-			"maximum": 30,
-			"step": 1
+			"description": "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
+			"minimum": -300,
+			"maximum": 300,
+			"step": 1,
+			"postfix": " ms"
 		},
 		"show_latency": {
 			"name": tr("Show latency"),
-			"description": tr("Shows how late or how early you were when hitting notes.")
+			"description": tr("Shows how late or how early you were when hitting notes."),
 		},
 		"enable_voice_fade": {
 			"name": tr("Voice fade"),
