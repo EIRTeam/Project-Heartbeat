@@ -213,7 +213,7 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 			var time_interval = (7500 / float(bpm)) / note_scale
 			var initial_x_offset = 48
 			var interval_x_offset = 32
-			var notes_to_create = beats * (pieces_per_note/4.0)
+			var notes_to_create = round(beats * (pieces_per_note/4.0))
 			var starting_time = note_data.time
 			for i in range(notes_to_create):
 				var note_time = starting_time + ((i+1) * time_interval)
