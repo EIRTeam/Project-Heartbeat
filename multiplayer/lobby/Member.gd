@@ -10,6 +10,7 @@ onready var owner_crown = get_node("VBoxContainer/HBoxContainer/HBoxContainer/Te
 func set_member(val: HBServiceMember):
 	member = val
 	member_name_label.text = member.member_name
+	member.connect("persona_state_change", self, "_on_persona_state_changed")
 	avatar_texture_rect.texture = member.avatar
 	
 func set_is_owner(val):
@@ -19,6 +20,9 @@ func set_is_owner(val):
 	
 func _ready():
 	connect("resized", self, "_on_resized")
+	
+func _on_persona_state_changed(flags):
+	set_member(member)
 	
 func _on_resized():
 	var new_size = clamp(rect_size.y, 25, 50)

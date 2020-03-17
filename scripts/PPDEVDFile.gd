@@ -31,7 +31,6 @@ func from_file(file: File, file_length, file_offset):
 static func get_data_from_evd(file: File, file_size, file_offset):
 	var events = []
 	file.seek(file_offset)
-	var tb = 0
 	while file.get_position() < file_offset + file_size:
 		var time = file.get_float()
 		var mode = file.get_8()
