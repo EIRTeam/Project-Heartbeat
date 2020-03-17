@@ -5,9 +5,9 @@ const SIGNATURE = "PPD"
 static func _get_marks_from_ppd_pack(path: String):
 	var pack := PPDPack.new(path)
 	var index = pack.get_file_index("ppd")
-	var data = _get_data_from_ppd_file(pack.file, pack.file_sizes[index], pack.file_offsets[index])
+	var data = _get_data_from_ppd_file(pack.file, pack.file_sizes[index], pack.file_offsets[index], pack)
 	return data
-static func _get_data_from_ppd_file(file: File, file_len, file_offset):
+static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPDPack):
 	file.seek(file_offset)
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
 	var u = 0
@@ -79,9 +79,16 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset):
 
 		marks.append(note_data)
 		
+	# read EVD file
+
+
+	var index = pack.get_file_index("evd")
+	var evd_file = PPDEVDFile.new()
+	evd_file.from_file(pack.file, pack.file_sizes[index], pack.file_offsets[index])
 	return {
 		"marks": marks,
-		"params": params
+		"params": params,
+		"evd_file": evd_file
 	}
 
 enum PPDButtons {
@@ -117,6 +124,8 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 	var params = data.params
 	var prev_note
 	
+	var evd_file = data.evd_file as PPDEVDFile
+
 	# For when multiple notes are on screen, to count how many layers
 	# deep we are going to ensure they don't overlap
 	var same_position_note_count = 0
@@ -135,7 +144,6 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
 		note_data.time = int(note.time*1000.0)
-		note_data.time_out = (60.0  / 155.0 * (1.0 + 3.0) * 1000.0)
 		note_data.auto_time_out = true
 		
 		note_data.position.x = (note.position.x / 800.0) * 1920
@@ -193,10 +201,16 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 					chart.layers[note_data.note_type].timing_points.append(note_data)
 		# Chain slides
 		if note.has("end_time") and note_data.is_slide_note():
-			var beats = (base_bpm / 60) * (note.end_time - note.time)
-			var pieces_per_note = 32.0
+			var ppd_scale = evd_file.get_slide_scale_at_time(note.time)
+
+			# This thing right here was provided by Blizzin, all issues caused by it should be forwarded
+			# to him, he's available at Blizzin#4483
+			var note_scale = ppd_scale / (bpm / 180.0)
+
+			var beats = (bpm / 60.0) * (note.end_time - note.time)
+			var pieces_per_note = 32.0 * note_scale
 			# Asuming chain slide pieces are done to the 32th
-			var time_interval = (7500 / float(bpm)) * (1/float(pieces_per_note) / (1.0/32.0))
+			var time_interval = (7500 / float(bpm)) / note_scale
 			var initial_x_offset = 48
 			var interval_x_offset = 32
 			var notes_to_create = beats * (pieces_per_note/4.0)

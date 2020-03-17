@@ -1,4 +1,5 @@
-extends Control
+
+class_name PPDEVDFile
 
 enum PPDEventType {
 	ChangeVolume = 0,
@@ -13,21 +14,19 @@ enum PPDEventType {
 	ChangeSlideScale = 9
 }
 
-func _ready():
-	var pack := PPDPack.new("user://songs/HIP/Extreme.ppd")
-	var index = pack.get_file_index("evd")
-	for name in pack.file_names:
-		var name_str = name.get_string_from_utf8()
-		var f = File.new()
-		f.open("user://test/" + name_str, File.WRITE)
-		var buff = pack.file.seek(pack.file_offsets[pack.file_names.find(name)])
-		f.store_buffer(pack.file.get_buffer(pack.file_sizes[pack.file_names.find(name)]))
-	get_data_from_evd(pack.file, pack.file_sizes[index], pack.file_offsets[index])
-	# var chart = PPDLoader.PPD2HBChart("user://Easy.ppd", 100)
-	# var file := File.new()
-	# print(file.open("user://test.json", File.WRITE))
-	# file.store_string(JSON.print(chart.serialize(), "  "))
-#	extract_pack("user://resource.pak")
+var evd_events = []
+
+func get_slide_scale_at_time(time: float):
+	var slide_scale = 1.0
+	for event in evd_events:
+		if event.event_type == PPDEventType.ChangeSlideScale:
+			if event.time > time:
+				break
+			slide_scale = event.slide_scale
+	return slide_scale
+
+func from_file(file: File, file_length, file_offset):
+	evd_events = get_data_from_evd(file, file_length, file_offset)
 
 static func get_data_from_evd(file: File, file_size, file_offset):
 	var events = []
@@ -80,18 +79,3 @@ static func get_data_from_evd(file: File, file_size, file_offset):
 		print(event)
 		events.append(event)
 	return events
-
-func extract_pack(path: String):
-	var pack := PPDPack.new(path)
-	for file in pack.file_names:
-		var f_path = "user://" + file.get_string_from_utf8()
-		var dir = Directory.new()
-		dir.make_dir_recursive(f_path.get_base_dir())
-		var index = pack.get_file_index(file.get_string_from_utf8())
-		pack.file.seek(pack.file_offsets[index])
-		var buff = pack.file.get_buffer(pack.file_sizes[index])
-		
-		var f = File.new()
-		f.open(f_path, File.WRITE)
-		f.store_buffer(buff)
-		f.close()
