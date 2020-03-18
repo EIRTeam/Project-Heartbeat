@@ -222,7 +222,8 @@ func _on_p2p_session_request(remote_id):
 	if members.has(remote_id):
 		found_member = true
 	if found_member:
-		print("Accepting p2p session with")
+		var mem = members[remote_id] as HBServiceMember
+		Log.log(self, "Accepting p2p session with " + mem.get_member_name())
 		Steam.acceptP2PSessionWithUser(remote_id)
 	else:
 		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + str(_lobby_id))
