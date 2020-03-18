@@ -27,7 +27,7 @@ var mp_lobby: HBLobby
 var mp_entries = {}
 
 func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
-	return a.score < b.score
+	return a.score > b.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("game_info"):

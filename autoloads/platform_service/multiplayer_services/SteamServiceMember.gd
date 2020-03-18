@@ -7,6 +7,7 @@ var steam_avatar_cached = false
 func _init(id).(id):
 	# Do we actually need to do this or does steam cache getFriendPersonaName?
 	member_name = Steam.getFriendPersonaName(id)
+	Steam.connect("persona_state_change", self, "_persona_state_change")
 	cache_steam_avatar()
 
 func _persona_state_change(steam_id, flags):

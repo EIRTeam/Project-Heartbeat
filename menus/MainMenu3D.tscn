@@ -146,6 +146,7 @@ void fragment()
 
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=15]
 shader = SubResource( 14 )
