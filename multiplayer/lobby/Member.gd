@@ -10,7 +10,8 @@ onready var owner_crown = get_node("VBoxContainer/HBoxContainer/HBoxContainer/Te
 func set_member(val: HBServiceMember):
 	member = val
 	member_name_label.text = member.member_name
-	member.connect("persona_state_change", self, "_on_persona_state_changed")
+	if not member.is_connected("persona_state_change", self, "_on_persona_state_changed"):
+		member.connect("persona_state_change", self, "_on_persona_state_changed")
 	avatar_texture_rect.texture = member.avatar
 	
 func set_is_owner(val):
