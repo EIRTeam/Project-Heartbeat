@@ -21,7 +21,14 @@ const QUOTES = [
 	"International Turururru Association", # ???
 	"Into the Heartbeat", # WOWOWOWOO YOU BETTER TAKE YOUR CHANCES RIGHT NOW
 	"Stop being them", # Daniel Ricciardo reference
-	"One more time to escape from all this madness" # My spirit will go on by DF
+	"One more time to escape from all this madness", # My spirit will go on by DF
+	"When in doubt, blame blizzin", # Blizzin's math is weird
+	"Your beauty cures all the anxieties in my heart", # Let's see if you can guess who said this
+	"Project Heartbeat V-Spec Nur", # Nissan Skyline R34 reference
+	"The heart is a lie, she plans to burn you", # Portalish reference (also hi xna)
+	"If she saves you, it's likely her name starts with an E", # Sadnesswaifu yosi yosi
+	"Smooooooooth operatooooooor", # Reference to Carlos Sainz Junior
+	"Rolling around at the speed of tuturu" # ????
 ]
 
 func _ready():
