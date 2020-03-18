@@ -14,7 +14,7 @@ var prevent_showing_results = false
 var current_game_info: HBGameInfo 
 
 signal fade_out_finished(game_info)
-
+signal user_quit()
 func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
@@ -88,6 +88,7 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	fade_out_tween.start()
 
 func _on_PauseMenu_quit():
+	emit_signal("user_quit")
 	var scene = MainMenu.instance()
 	get_tree().current_scene.queue_free()
 	scene.starting_menu = "song_list"

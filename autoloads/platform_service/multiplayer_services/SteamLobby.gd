@@ -40,14 +40,11 @@ func get_song_difficulty():
 
 func _init(lobby_id).(lobby_id):
 	self._lobby_id = lobby_id
-	PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
 	connect("game_done", self, "_on_game_done")
 func join_lobby():
 	Log.log(self, "Attempting to join lobby " + str(_lobby_id))
 	Steam.joinLobby(_lobby_id)
 	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
-	Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
-	Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
 
 func obtain_game_info():
 	var json = JSON.parse(Steam.getLobbyData(_lobby_id, "game_info")) as JSONParseResult
@@ -75,6 +72,9 @@ func _on_lobby_joined(lobby_id, permissions, locked, response):
 			Steam.connect("lobby_message", self, "_on_lobby_message")
 			Steam.connect("lobby_chat_update", self, "_on_lobby_chat_update")
 			Steam.connect("lobby_data_update", self, "_on_lobby_data_updated")
+			Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
+			Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
+			PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
 			update_lobby_members()
 			if not is_owned_by_local_user():
 				obtain_game_info()
@@ -147,6 +147,12 @@ func create_lobby():
 func leave_lobby():
 	Log.log(self, "Leaving lobby")
 	Steam.leaveLobby(_lobby_id)
+	Steam.disconnect("lobby_message", self, "_on_lobby_message")
+	Steam.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
+	Steam.disconnect("lobby_data_update", self, "_on_lobby_data_updated")
+	Steam.disconnect("p2p_session_request", self, "_on_p2p_session_request")
+	Steam.disconnect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
+	PlatformService.service_provider.disconnect("run_mp_callbacks", self, "_on_p2p_packet_received")
 	emit_signal("lobby_left")
 
 func is_owned_by_local_user():
@@ -187,7 +193,7 @@ func _on_p2p_packet_received():
 		var packet_id = str(packet.steamIDRemote)
 		var packet_type = packet.data[0]
 		var packet_data: Dictionary
-		Log.log(self, "Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
+		Log.log(self, get_lobby_name() + " Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
 		if size > 1:
 			packet_data = bytes2var(packet.data.subarray(1, size - 1))
 		if is_owned_by_local_user():
@@ -219,7 +225,7 @@ func _on_p2p_session_request(remote_id):
 		print("Accepting p2p session with")
 		Steam.acceptP2PSessionWithUser(remote_id)
 	else:
-		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + _lobby_id)
+		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + str(_lobby_id))
 	_on_p2p_packet_received()
 func notify_game_loaded():
 	var data = PoolByteArray()

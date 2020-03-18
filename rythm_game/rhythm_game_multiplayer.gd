@@ -15,6 +15,8 @@ onready var mp_loading_label = get_node("MPLoadingLabel")
 onready var mp_scoreboard = get_node("Node2D/MultiplayerScoreboard")
 func set_lobby(val):
 	lobby = val
+	if not rhythm_game_controller.is_connected("user_quit", lobby, "leave_lobby"):
+		rhythm_game_controller.connect("user_quit", lobby, "leave_lobby")
 
 # Lets other peers know that the game is starting, this should only be called by
 # the authority

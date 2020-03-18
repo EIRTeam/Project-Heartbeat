@@ -19,10 +19,14 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	._on_menu_enter(force_hard_transition, args)
 	
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
-	if not mp_provider.is_connected("lobby_match_list", self, "_on_get_lobby_list"):
-		mp_provider.connect("lobby_match_list", self, "_on_get_lobby_list")
+	mp_provider.connect("lobby_match_list", self, "_on_get_lobby_list")
 	refresh_lobby_list()
 	create_lobby_menu.grab_focus()
+	
+func _on_menu_exit(force_hard_transition=false):
+	._on_menu_exit(force_hard_transition)
+	var mp_provider = PlatformService.service_provider.multiplayer_provider
+	mp_provider.disconnect("lobby_match_list", self, "_on_get_lobby_list")
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
@@ -84,6 +88,7 @@ func show_status(message: String):
 	
 func _on_lobby_joined(response, lobby: HBLobby):
 	status_prompt.hide()
+	print("Joined lobby ", lobby.lobby_name)
 	if response == HBLobby.LOBBY_ENTER_RESPONSE.SUCCESS:
 		change_to_menu("lobby", false, {"lobby": lobby})
 	else:
