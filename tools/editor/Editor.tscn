@@ -205,7 +205,7 @@ margin_right = 999.0
 margin_bottom = 25.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
-items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (3/4)", null, false, 2, null ]
+items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (2/4)", null, false, 2, null, "Whatever this is called (1/1)", null, false, 3, null ]
 selected = 0
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]

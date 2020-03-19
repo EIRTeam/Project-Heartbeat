@@ -453,6 +453,8 @@ func get_beats_per_bar():
 			return 3
 		2:
 			return 2
+		3:
+			return 1
 
 func get_note_resolution():
 	return 1/$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution.value
