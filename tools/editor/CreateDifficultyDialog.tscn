@@ -4,6 +4,7 @@
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog"]
+visible = true
 margin_left = 586.0
 margin_top = 343.0
 margin_right = 937.0
@@ -42,7 +43,7 @@ margin_right = 335.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 text = "Easy"
-items = [ "Easy", null, false, 0, null, "Hard", null, false, 1, null, "Extreme", null, false, 2, null ]
+items = [ "Easy", null, false, 0, null, "Normal", null, false, 1, null, "Hard", null, false, 2, null ]
 selected = 0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
