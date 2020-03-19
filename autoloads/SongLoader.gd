@@ -12,6 +12,7 @@ const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 
 const SONG_SCORES_PATH = "user://scores.json"
 const SCORES_KEY = "ScoresV1"
+const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme"]
 var scores = {}
 
 var available_difficulties = []
@@ -73,6 +74,11 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 		
 		return song
 	return null
+	
+func difficulty_sort(a: String, b: String):
+	var a_i = BASE_DIFFICULTY_ORDER.find(a.to_lower())
+	var b_i = BASE_DIFFICULTY_ORDER.find(b.to_lower())
+	return a_i < b_i
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}
@@ -98,6 +104,8 @@ func load_songs_from_path(path):
 				for difficulty in song_meta.charts:
 					if not difficulty in available_difficulties:
 						available_difficulties.append(difficulty)
+						available_difficulties.sort_custom(self, "difficulty_sort")
+						
 			dir_name = dir.get_next()
 	else:
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
