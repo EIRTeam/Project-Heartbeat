@@ -460,6 +460,9 @@ func _process(delta):
 			active_slide_hold_chains.remove(ii)
 		
 	if Diagnostics.enable_autoplay or previewing:
+		if not result.used_cheats:
+			result.used_cheats = true
+			Log.log(self, "Disabling leaderboard upload for cheated result")
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBNoteData and note.note_type in NOTE_TYPE_TO_ACTIONS_MAP:

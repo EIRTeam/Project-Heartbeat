@@ -57,8 +57,9 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 	
 func _on_menu_exit(force_hard_transition=false):
 	._on_menu_exit(force_hard_transition)
-	mp_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
-	mp_lobby = null
+	if mp_lobby:
+		mp_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+		mp_lobby = null
 # called when authority sends a game start packet, sets up mp and starts loading
 func _on_lobby_loading_start():
 	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
