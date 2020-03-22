@@ -41,7 +41,7 @@ func _ready():
 	_on_resized()
 
 func _on_assets_loaded(song, assets):
-	author_label.hide()
+#	author_label.hide()
 	circle_text_rect.show()
 	circle_text_rect.texture = assets.circle_logo
 	_on_resized()
