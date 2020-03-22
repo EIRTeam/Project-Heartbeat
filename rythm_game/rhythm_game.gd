@@ -147,7 +147,7 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 	current_song = song
 	heart_power_indicator.value = 0
 	heart_power = 0
-	clear_bar.value = 0
+	clear_bar.value = 0.0
 	score_counter.score = 0
 	rating_label.hide()
 	audio_stream_player.seek(0)
