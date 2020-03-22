@@ -165,7 +165,6 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()
 		if circle_logo_path:
-			author_label.hide()
 			circle_text_rect.show()
 			var image = HBUtils.image_from_fs(circle_logo_path)
 			var it = ImageTexture.new()
@@ -428,6 +427,7 @@ func _process(delta):
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + (MAX_HOLD/1000.0)
 		current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size()
+		
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			add_hold_score(MAX_HOLD)
@@ -588,20 +588,19 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		for n in notes:
 			avg_pos += n.position
 		avg_pos = avg_pos / float(notes.size())
-		
+		rating_label.show_rating()
 		rating_label.get_node("AnimationPlayer").play("rating_appear")
 		if not wrong:
 			rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
-			$RatingLabel.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
+			rating_label.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
 			rating_label.text = judge.JUDGE_RATINGS.keys()[judgement]
 		else:
 			rating_label.add_color_override("font_color", Color(WRONG_COLOR))
-			$RatingLabel.add_color_override("font_outline_modulate", WRONG_COLOR)
+			rating_label.add_color_override("font_outline_modulate", WRONG_COLOR)
 			rating_label.text = judge.RATING_TO_WRONG_TEXT_MAP[judgement]
 		if current_combo > 1:
 			rating_label.text += " " + str(current_combo)
-		rating_label.rect_size = rating_label.get_combined_minimum_size()
-		rating_label.rect_position = remap_coords(avg_pos) - rating_label.get_combined_minimum_size() / 2
+		rating_label.rect_position = remap_coords(avg_pos) - rating_label.rect_size / 2
 		rating_label.rect_position.y -= 64
 		if not previewing:
 			rating_label.show()

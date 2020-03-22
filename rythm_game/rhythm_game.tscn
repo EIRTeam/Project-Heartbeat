@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://graphics/heart.png" type="Texture" id=29]
 [ext_resource path="res://sounds/sfx/slide_hold_fail.wav" type="AudioStream" id=30]
 [ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=31]
+[ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=32]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -615,15 +616,18 @@ handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="RatingLabel" type="Label" parent="."]
-visible = false
 margin_left = 43.0
 margin_top = 66.0
 margin_right = 712.0
 margin_bottom = 344.0
 rect_scale = Vector2( 0.75, 0.75 )
+rect_pivot_offset = Vector2( 334, 139 )
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 9 )
-text = "(NT)WORST"
+text = "WORST"
+align = 1
+valign = 1
+script = ExtResource( 32 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
