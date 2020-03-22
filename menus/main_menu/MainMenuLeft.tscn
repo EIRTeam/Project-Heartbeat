@@ -47,9 +47,9 @@ fixed_scale_factor = true
 
 [node name="StartButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 330.0
+margin_top = 340.0
 margin_right = 430.0
-margin_bottom = 390.0
+margin_bottom = 400.0
 text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
@@ -58,36 +58,36 @@ next_menu = "song_list"
 "mponly",
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 400.0
+margin_top = 410.0
 margin_right = 430.0
-margin_bottom = 460.0
+margin_bottom = 470.0
 text = "Multiplayer"
 icon = ExtResource( 7 )
 next_menu = "lobby_list"
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 470.0
+margin_top = 480.0
 margin_right = 430.0
-margin_bottom = 530.0
+margin_bottom = 540.0
 text = "Options"
 icon = ExtResource( 3 )
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 540.0
+margin_top = 550.0
 margin_right = 430.0
-margin_bottom = 599.999
+margin_bottom = 610.0
 text = "Tools"
 icon = ExtResource( 6 )
 next_menu = "tools_menu"
 
 [node name="ExitButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 609.999
+margin_top = 620.0
 margin_right = 430.0
-margin_bottom = 669.999
+margin_bottom = 680.0
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )

@@ -25,7 +25,7 @@ func _ready():
 	move_sound_player.pause_mode = PAUSE_MODE_PROCESS
 	get_tree().root.call_deferred("add_child", move_sound_player)
 	focus_mode = FOCUS_ALL
-	get_viewport().connect("size_changed", self, "hard_arrange_all")
+	connect("resized", self, "hard_arrange_all")
 	if get_child_count() > 0:
 		selected_option = get_child(0)
 		emit_signal("selected_option_changed")
@@ -72,10 +72,7 @@ func _process(delta):
 			
 	if selected_option:
 		if disable_repositioning:
-			selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
-			selected_option.rect_scale = Vector2(1.0, 1.0)
-			selected_option.modulate.a = 1.0
-			arrange_options(1, get_child_count(), 1.0, get_child(0).rect_position, selected_option.rect_size.y, true)
+			arrange_options(0, get_child_count(), 1.0, menu_start * 0.75, get_child(0).rect_size.y, true)
 		else:
 			# Place select option:
 			var starting_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
@@ -120,11 +117,15 @@ func _gui_input(event):
 				right_neighbour.grab_focus()
 func hard_arrange_all():
 	var menu_start := Vector2(0, rect_size.y / 2)
-	selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
-	selected_option.rect_scale = Vector2(1.0, 1.0)
-	selected_option.modulate.a = 1.0
-	arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
-	arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
+	
+	if disable_repositioning:
+		arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
+	else:
+		selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
+		selected_option.rect_scale = Vector2(1.0, 1.0)
+		selected_option.modulate.a = 1.0
+		arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
+		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
 
 func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):
 	var lw = lerp_weight * get_process_delta_time()
