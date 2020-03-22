@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=2]
@@ -29,6 +29,8 @@
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=27]
 [ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=28]
 [ext_resource path="res://graphics/heart.png" type="Texture" id=29]
+[ext_resource path="res://sounds/sfx/slide_hold_fail.wav" type="AudioStream" id=30]
+[ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=31]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -575,7 +577,7 @@ bus = "Vocals"
 stream = ExtResource( 23 )
 bus = "SFX"
 
-[node name="HitEffect2" type="AudioStreamPlayer" parent="."]
+[node name="HitEffectSlide" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 bus = "SlideSFX"
 __meta__ = {
@@ -586,6 +588,22 @@ __meta__ = {
 stream = ExtResource( 25 )
 volume_db = 4.0
 bus = "SlideSFX"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SlideChainSuccessSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 31 )
+volume_db = 4.0
+bus = "SFX"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SlideChainFailSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 30 )
+volume_db = 4.0
+bus = "SFX"
 __meta__ = {
 "_editor_description_": ""
 }

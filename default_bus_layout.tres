@@ -6,6 +6,7 @@ resource_name = "SpectrumAnalyzer"
 [sub_resource type="AudioEffectReverb" id=2]
 resource_name = "Reverb"
 room_size = 0.6
+damping = 0.3
 hipass = 1.0
 
 [resource]

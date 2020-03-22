@@ -257,6 +257,7 @@ func _unhandled_input(event):
 							note_drawer.queue_free()
 						active_hold_chain.sfx_player.queue_free()
 						active_slide_hold_chains.remove(i)
+						play_sfx($SlideChainFailSFX)
 				
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
@@ -307,21 +308,17 @@ func remove_all_notes_from_screen():
 		notes_on_screen[i].get_meta("note_drawer").free()
 	notes_on_screen = []
 	
+func play_sfx(player: AudioStreamPlayer):
+	var new_player := player.duplicate() as AudioStreamPlayer
+	add_child(new_player)
+	new_player.play(0)
+	new_player.connect("finished", new_player, "queue_free")
+	_sfx_played_this_cycle = true
 func play_note_sfx(slide=false):
 	if not slide:
-		if not _sfx_played_this_cycle:
-			var dup = $HitEffect.duplicate()
-			add_child(dup)
-			dup.connect("finished", dup, "queue_free")
-			dup.play()
-			_sfx_played_this_cycle = true
+		play_sfx($HitEffect)
 	else:
-		if not _sfx_played_this_cycle:
-			var dup = $HitEffect2.duplicate()
-			add_child(dup)
-			dup.connect("finished", dup, "queue_free")
-			dup.play()
-			_sfx_played_this_cycle = true
+		play_sfx($HitEffectSlide)
 	
 func hookup_multi_notes(notes: Array):
 	for note in notes:
@@ -456,7 +453,7 @@ func _process(delta):
 		if chain.pieces.size() == 0:
 			show_max_slide_text = true
 			chain.sfx_player.queue_free()
-			play_note_sfx(true)
+			play_sfx($SlideChainSuccessSFX)
 			active_slide_hold_chains.remove(ii)
 		
 	if Diagnostics.enable_autoplay or previewing:
@@ -572,7 +569,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 					}
 					active_slide_hold_chains.append(active_hold_chain)
 				else:
-					# kill slide and younglings
+					# kill slide and younglings if we failed
 					for piece in slide_hold_chains[note]:
 						if piece in notes_on_screen:
 							var piece_drawer = piece.get_meta("note_drawer")
