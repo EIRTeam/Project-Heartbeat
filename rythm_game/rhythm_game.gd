@@ -111,6 +111,10 @@ func set_modifiers(modifiers: Array):
 
 func set_timing_points(points):
 	timing_points = points
+	slide_hold_chains = []
+	for chain in active_slide_hold_chains:
+		chain.sfx_player.queue_free()
+	active_slide_hold_chains = []
 	# When timing points change, we might introduce new BPM change events
 	if editing:
 		for point in points:
