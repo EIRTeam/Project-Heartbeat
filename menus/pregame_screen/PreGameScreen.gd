@@ -24,6 +24,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("song"):
 		current_song = args.song
+	button_container.select_button(0)
 	button_container.grab_focus()
 	current_difficulty = current_song.charts.keys()[0]
 	if args.has("difficulty"):
