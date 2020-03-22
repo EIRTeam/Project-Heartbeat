@@ -398,8 +398,6 @@ __meta__ = {
 }
 
 [node name="HoldIndicator" type="VBoxContainer" parent="UnderNotesUI/Control"]
-modulate = Color( 1, 1, 1, 0 )
-self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.25
 anchor_top = 0.75
 anchor_right = 0.75
@@ -505,7 +503,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 3 )
 text = "(NT)+1000"
-align = 2
 valign = 1
 
 [node name="Panel2" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]

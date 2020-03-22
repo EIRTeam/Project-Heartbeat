@@ -668,6 +668,7 @@ func hold_release():
 	if held_notes.size() > 0:
 		add_hold_score(round(current_hold_score))
 		print("END hold ", current_hold_score)
+		accumulated_hold_score = 0
 		held_notes = []
 		current_hold_score = 0
 		hold_indicator.disappear()

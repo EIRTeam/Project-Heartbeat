@@ -23,9 +23,10 @@ const BONUS_TEXTS = {
 }
 
 func _ready():
-	_on_resized()
+	
 	connect("resized", self, "_on_resized")
 	animation_player.play("start")
+	call_deferred("_on_resized")
 	
 func _on_resized():
 	for texture_rect in icon_nodes.values():
@@ -50,10 +51,14 @@ func set_current_score(val):
 func appear():
 	if modulate.a == 0:
 		animation_player.play("appear")
+	else:
+		animation_player.stop()
+		modulate.a = 1.0
 		
 func show_max_combo(combo):
 	animation_player.play("appear_max")
 	max_combo_label.text = "Max Hold Bonus! %d" % combo
 	
 func disappear():
-	animation_player.play("disappear")
+	if not animation_player.is_playing():
+		animation_player.play("disappear")
