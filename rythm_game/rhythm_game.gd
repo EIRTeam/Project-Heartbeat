@@ -313,11 +313,12 @@ func remove_all_notes_from_screen():
 	notes_on_screen = []
 	
 func play_sfx(player: AudioStreamPlayer):
-	var new_player := player.duplicate() as AudioStreamPlayer
-	add_child(new_player)
-	new_player.play(0)
-	new_player.connect("finished", new_player, "queue_free")
-	_sfx_played_this_cycle = true
+	if not _sfx_played_this_cycle:
+		var new_player := player.duplicate() as AudioStreamPlayer
+		add_child(new_player)
+		new_player.play(0)
+		new_player.connect("finished", new_player, "queue_free")
+		_sfx_played_this_cycle = true
 func play_note_sfx(slide=false):
 	if not slide:
 		play_sfx($HitEffect)
