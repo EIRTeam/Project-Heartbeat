@@ -370,9 +370,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Notes" type="Node2D" parent="."]
-show_behind_parent = true
-
 [node name="AboveNotesUI" type="Node2D" parent="."]
 
 [node name="Control" type="Control" parent="AboveNotesUI"]
@@ -389,7 +386,7 @@ margin_right = 591.697
 margin_bottom = 369.212
 
 [node name="UnderNotesUI" type="Node2D" parent="."]
-z_index = -1
+z_index = -2
 
 [node name="Control" type="Control" parent="UnderNotesUI"]
 anchor_right = 1.0
@@ -556,6 +553,9 @@ anims/appear_max = SubResource( 6 )
 anims/disappear = SubResource( 7 )
 anims/start = SubResource( 8 )
 next/appear_max = "disappear"
+
+[node name="Notes" type="Node2D" parent="."]
+show_behind_parent = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

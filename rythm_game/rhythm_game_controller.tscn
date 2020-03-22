@@ -19,7 +19,7 @@ __meta__ = {
 }
 
 [node name="Node2D" type="Node2D" parent="."]
-z_index = -1
+z_index = -2
 
 [node name="TextureRect" type="TextureRect" parent="Node2D"]
 anchor_right = 1.0
