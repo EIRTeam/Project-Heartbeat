@@ -1,0 +1,18 @@
+[general]
+
+singleton=true
+load_once=true
+symbol_prefix="godot_"
+reloadable=false
+
+[entry]
+
+OSX.64="res://addons/bin/osx/libgdnative_videodecoder.dylib"
+Windows.64="res://addons/bin/win64/libgdnative_videodecoder.dll"
+X11.64="res://addons/bin/x11/libgdnative_videodecoder.so"
+
+[dependencies]
+
+OSX.64=[ "res://addons/bin/osx/libavformat.dylib", "res://addons/bin/osx/libavutil.dylib", "res://addons/bin/osx/libavcodec.dylib", "res://addons/bin/osx/libswscale.dylib", "res://addons/bin/osx/libswresample.dylib" ]
+Windows.64=[ "res://addons/bin/win64/libavformat.dll", "res://addons/bin/win64/libavutil.dll", "res://addons/bin/win64/libavcodec.dll", "res://addons/bin/win64/libswscale.dll", "res://addons/bin/win64/libswresample.dll" ]
+X11.64=[ "res://addons/bin/x11/libavformat.so", "res://addons/bin/x11/libavutil.so", "res://addons/bin/x11/libavcodec.so", "res://addons/bin/x11/libswscale.so", "res://addons/bin/x11/libswresample.so" ]
