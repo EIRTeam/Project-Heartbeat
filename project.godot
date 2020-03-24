@@ -367,6 +367,7 @@ HBTapHandler="*res://autoloads/HBTapHandler.gd"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
+YoutubeDL="*res://autoloads/YoutubeDL.gd"
 
 [debug]
 
@@ -380,6 +381,10 @@ window/size/width=1280
 window/size/height=720
 window/vsync/use_vsync=false
 window/stretch/aspect="expand"
+
+[gdnative]
+
+singletons=[ "res://addons/videodecoder.gdnlib" ]
 
 [importer_defaults]
 
