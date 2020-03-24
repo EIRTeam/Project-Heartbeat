@@ -129,13 +129,16 @@ func is_cached():
 		
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
-	if youtube_url:
-		if use_youtube_for_audio:
-			if YoutubeDL.is_cached(youtube_url, false, true):
-				audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
-			else:
-				Log.log(self, "Tried to get audio stream from an uncached song!!")
-	return HBUtils.load_ogg(audio_path)
+	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
+		return load(audio_path)
+	else:
+		if youtube_url:
+			if use_youtube_for_audio:
+				if YoutubeDL.is_cached(youtube_url, false, true):
+					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
+				else:
+					Log.log(self, "Tried to get audio stream from an uncached song!!")
+		return HBUtils.load_ogg(audio_path)
 		
 func get_video_stream():
 	var video_path = get_song_video_res_path()
@@ -148,7 +151,10 @@ func get_video_stream():
 	stream.set_file(video_path)
 		
 func get_voice_stream():
-	return HBUtils.load_ogg(get_song_voice_res_path())
+	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
+		return load(get_song_voice_res_path())
+	else:
+		return HBUtils.load_ogg(get_song_voice_res_path())
 	
 func save_song():
 	# Ensure song directory exists
