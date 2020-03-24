@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://autoloads/MouseTrap.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=2]
 [ext_resource path="res://autoloads/CacheSongOverlay.gd" type="Script" id=3]
+[ext_resource path="res://autoloads/PPDDialog.gd" type="Script" id=4]
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=5]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -15,9 +17,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FileDialog" type="FileDialog" parent="MouseTrap"]
-margin_right = 307.0
-margin_bottom = 130.0
+[node name="PPDFileDialog" type="FileDialog" parent="MouseTrap"]
+visible = true
+margin_right = 628.0
+margin_bottom = 351.0
+theme = ExtResource( 5 )
 window_title = "Guardar un Archivo"
 
 [node name="CacheSongOverlay" type="Control" parent="MouseTrap"]
@@ -41,3 +45,76 @@ text = "Downloading..."
 has_cancel = false
 text = "ERR!"
 accept_text = "Ok"
+
+[node name="PPDDialog" type="WindowDialog" parent="MouseTrap"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -53.0
+margin_right = 237.0
+margin_bottom = 69.0
+theme = ExtResource( 5 )
+popup_exclusive = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MouseTrap/PPDDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 377.0
+margin_bottom = 113.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+margin_right = 367.0
+margin_bottom = 45.0
+text = "You can either input a YouTube URL or select a file from disk to use as audio."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+margin_top = 49.0
+margin_right = 367.0
+margin_bottom = 74.0
+
+[node name="LineEdit" type="LineEdit" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 232.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="UseYouTube" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 236.0
+margin_right = 367.0
+margin_bottom = 25.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Use YouTube Video"
+
+[node name="Button" type="Button" parent="MouseTrap/PPDDialog/MarginContainer/VBoxContainer"]
+margin_top = 78.0
+margin_right = 367.0
+margin_bottom = 103.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Select from disk"
+[connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]

@@ -43,11 +43,6 @@ func _process(delta):
 	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
 
 func _on_pressed():
-	if song is HBPPDSong:
-		if song.has_audio():
-			prev_focus = get_focus_owner()
-			$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
-			return
 	emit_signal("song_selected", song)
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
@@ -56,21 +51,3 @@ func _on_pressed():
 #	get_tree().current_scene = scene
 #	scene.set_song(song)
 
-func _on_ppd_audio_selected(path: String):
-	var directory = Directory.new()
-	song.audio = path.get_file()
-	var song_path = song.get_song_audio_res_path()
-	directory.copy(path, song_path)
-
-func _on_PPDAudioBrowseWindow_accept():
-	var dialog = MouseTrap.file_dialog as FileDialog
-	dialog.mode = FileDialog.MODE_OPEN_FILE
-	dialog.access = FileDialog.ACCESS_FILESYSTEM
-	dialog.filters = ["*.ogg ; OGG"]
-	dialog.popup_centered_ratio()
-	dialog.connect("popup_hide", self, "_on_PPDAudioBrowseWindow_cancel", [], CONNECT_ONESHOT)
-	dialog.connect("file_selected", self, "_on_ppd_audio_selected", [], CONNECT_ONESHOT)
-
-func _on_PPDAudioBrowseWindow_cancel():
-	if prev_focus:
-		prev_focus.grab_focus()

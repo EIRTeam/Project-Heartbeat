@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://menus/song_list/SongScrollList.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=4]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=7]
 
@@ -69,3 +70,10 @@ margin_right = 1280.0
 margin_bottom = 610.0
 script = ExtResource( 1 )
 maintain_selected_child = true
+
+[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
+visible = true
+margin_left = -314.0
+margin_right = 257.0
+margin_bottom = 162.0
+text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."

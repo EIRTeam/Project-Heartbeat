@@ -11,6 +11,8 @@ const SONGS_PATH = "res://songs"
 const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 
 const SONG_SCORES_PATH = "user://scores.json"
+const PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
+var ppd_youtube_url_list = {}
 const SCORES_KEY = "ScoresV1"
 const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme"]
 var scores = {}
@@ -22,7 +24,8 @@ func _ready():
 	
 	if not dir.file_exists("user://songs"):
 		dir.make_dir_recursive("user://songs")
-	
+	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
+		load_ppd_youtube_url_list()
 	load_all_songs_meta()
 func load_scores():
 	var dir := Directory.new()
@@ -59,7 +62,8 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 		var song = HBPPDSong.from_ini(txt, id)
 		song.id = id
 		song.path = path.get_base_dir()
-		
+		if id in ppd_youtube_url_list:
+			song.youtube_url = ppd_youtube_url_list[id]
 		# Audio file discovery
 		var dir := Directory.new()
 		if dir.open(song.path) == OK:
@@ -122,3 +126,22 @@ func get_songs_with_difficulty(difficulty: String):
 		if song.charts.has(difficulty):
 			result.append(song)
 	return result
+	
+func load_ppd_youtube_url_list():
+	var file = File.new()
+	if file.open(PPD_YOUTUBE_URL_LIST_PATH, File.READ) == OK:
+		var result = JSON.parse(file.get_as_text()) as JSONParseResult
+		if result.error == OK:
+			ppd_youtube_url_list = result.result
+		else:
+			Log.log(self, "Error loading PPD URL list " + str(result.error))
+
+func save_ppd_youtube_url_list():
+	var file = File.new()
+	if file.open(PPD_YOUTUBE_URL_LIST_PATH, File.WRITE) == OK:
+		file.store_string(JSON.print(ppd_youtube_url_list))
+
+func set_ppd_youtube_url(song: HBSong, url: String):
+	ppd_youtube_url_list[song.id] = url
+	song.youtube_url = url
+	save_ppd_youtube_url_list()

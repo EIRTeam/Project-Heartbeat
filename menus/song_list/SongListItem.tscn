@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menus/SongTitle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=4]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=8]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
@@ -39,13 +38,6 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 9 )]
-margin_left = -174.218
-margin_top = 217.0
-margin_right = 375.782
-margin_bottom = 453.0
-text = "The song you are trying to load is a song from PPD, which doesn't have an audio file, do you want to load one? This will require you to use the mouse."
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -110,5 +102,3 @@ margin_bottom = 80.0
 custom_fonts/font = ExtResource( 8 )
 text = "(NT)105.05%"
 [connection signal="pressed" from="." to="." method="_on_pressed"]
-[connection signal="accept" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_accept"]
-[connection signal="cancel" from="PPDAudioBrowseWindow" to="." method="_on_PPDAudioBrowseWindow_cancel"]

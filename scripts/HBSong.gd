@@ -28,7 +28,7 @@ var voice = ""
 var creator = ""
 var original_title = ""
 var bpm = 150
-var preview_start = 77000
+var preview_start = 0
 var charts = {}
 var preview_image = ""
 var background_image = ""
@@ -122,8 +122,10 @@ func get_meta_path():
 func is_cached():
 	if youtube_url:
 		return YoutubeDL.is_cached(youtube_url, use_youtube_for_video, use_youtube_for_audio)
-	else:
+	elif audio:
 		return true
+	else:
+		return false
 		
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
@@ -161,7 +163,7 @@ func cache_data():
 			return YoutubeDL.download_video(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 
 func has_audio():
-	if audio or (use_youtube_for_audio and is_cached()):
+	if audio != "" or (use_youtube_for_audio and is_cached()):
 		return true
 	else:
 		return false

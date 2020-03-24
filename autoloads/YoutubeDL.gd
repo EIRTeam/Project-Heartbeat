@@ -204,5 +204,4 @@ func is_cached(url: String, video=true, audio=true):
 	else:
 		cached = false
 	cache_meta_mutex.unlock()
-	print(cached)
 	return cached

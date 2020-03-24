@@ -25,12 +25,10 @@ func _set_leaderboard(value):
 		loading_texture_rect.hide()
 
 func set_entries(entries: Array):
-	print("ENTRIEES")
 	_on_leaderboard_entries_downloaded(0, entries)
 
 func set_song(song_id, difficulty):
 	current_leaderboard = song_id + "_%s" % difficulty
-	print("setsong ", current_leaderboard)
 	_set_leaderboard(current_leaderboard)
 
 func _leaderboard_found(name, handle, found):
