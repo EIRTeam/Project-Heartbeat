@@ -34,7 +34,7 @@ func play_random_song():
 	var song = current_song
 	var possible_songs = []
 	for song in SongLoader.songs.values():
-		if song.audio and not song == current_song:
+		if song.has_audio() and not song == current_song:
 			possible_songs.append(song)
 	if possible_songs.size() > 0:
 		randomize()
@@ -63,7 +63,7 @@ func _process(delta):
 			
 func _on_song_assets_loaded(song, assets):
 	waiting_for_song_assets = false
-	if song.audio != "":
+	if song.has_audio():
 		if not current_song:
 			player.stream = assets.audio
 			player.play()

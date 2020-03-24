@@ -23,6 +23,10 @@ func _ready():
 	connect("confirmed", self, "_on_confirmed")
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
 	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
+	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
+	
+func _on_video_downloaded(id, result, song):
+	_on_confirmed()
 	
 func populate_tree():
 	# Disable song-specific buttons
@@ -81,7 +85,10 @@ func show_error(error: String):
 func _on_confirmed():
 	var item = tree.get_selected()
 	var song = item.get_meta("song") as HBSong
-	if song.audio == "":
+	if not song.is_cached():
+		MouseTrap.cache_song_overlay.show_download_prompt(song)
+		return
+	if not song.has_audio():
 		show_error("You must add an audio track to your song before editing, you can do this from \"Edit song data\".")
 	else:
 		emit_signal("chart_selected", song, item.get_meta("difficulty"))

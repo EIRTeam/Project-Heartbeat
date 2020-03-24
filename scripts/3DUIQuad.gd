@@ -18,6 +18,16 @@ func _input(event):
 	# If it is, then pass the event to the viewport
 	if is_mouse_event == false:
 		viewport.input(event)
+		
+func _unhandled_input(event):
+	var is_mouse_event = false
+	var mouse_events = [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]
+	for mouse_event in mouse_events:
+		if event is mouse_event:
+			is_mouse_event = true
+			break
+	# If it is, then pass the event to the viewport
+	if is_mouse_event == false:
 		viewport.unhandled_input(event)
 
 

@@ -179,7 +179,6 @@ margin_right = 618.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -197,54 +196,55 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_right = 616.0
-margin_bottom = 25.0
+margin_right = 618.0
+margin_bottom = 14.0
 text = "BPM"
 
 [node name="BPMSpinBox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 29.0
-margin_right = 616.0
-margin_bottom = 54.0
+margin_top = 18.0
+margin_right = 618.0
+margin_bottom = 42.0
 max_value = 2.14748e+09
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label2" type="Label" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 58.0
-margin_right = 616.0
-margin_bottom = 83.0
+margin_top = 46.0
+margin_right = 618.0
+margin_bottom = 60.0
 text = "Audio file"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 87.0
-margin_right = 616.0
-margin_bottom = 112.0
+margin_top = 64.0
+margin_right = 618.0
+margin_bottom = 88.0
 
 [node name="SelectAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/VBoxContainer/HBoxContainer2"]
-margin_right = 542.0
-margin_bottom = 25.0
+margin_right = 539.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="SelectAudioFileButton" type="Button" parent="TabContainer/Technical Data/VBoxContainer/HBoxContainer2"]
-margin_left = 546.0
-margin_right = 616.0
-margin_bottom = 25.0
+margin_left = 543.0
+margin_right = 618.0
+margin_bottom = 24.0
 text = "Select file"
 
 [node name="Label10" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 116.0
-margin_right = 616.0
-margin_bottom = 141.0
+margin_top = 92.0
+margin_right = 618.0
+margin_bottom = 117.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label10"]
-margin_right = 101.0
-margin_bottom = 25.0
+margin_top = 5.0
+margin_right = 98.0
+margin_bottom = 19.0
 text = "Voice audio file"
 
 [node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/VBoxContainer/Label10"]
-margin_left = 105.0
-margin_right = 120.0
+margin_left = 102.0
+margin_right = 117.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 15, 25 )
 hint_tooltip = "(Optional) Audio for the voice, separated from the original instrumental, this makes the voice audio channel fade when the user fails a note.
@@ -255,37 +255,61 @@ expand = true
 stretch_mode = 6
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 145.0
-margin_right = 616.0
-margin_bottom = 170.0
+margin_top = 121.0
+margin_right = 618.0
+margin_bottom = 145.0
 
 [node name="SelectVoiceAudioFileLineEdit" type="LineEdit" parent="TabContainer/Technical Data/VBoxContainer/HBoxContainer3"]
-margin_right = 542.0
-margin_bottom = 25.0
+margin_right = 539.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="SelectVoiceAudioFileButton" type="Button" parent="TabContainer/Technical Data/VBoxContainer/HBoxContainer3"]
-margin_left = 546.0
-margin_right = 616.0
-margin_bottom = 25.0
+margin_left = 543.0
+margin_right = 618.0
+margin_bottom = 24.0
 text = "Select file"
 
 [node name="Label3" type="Label" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 174.0
-margin_right = 616.0
-margin_bottom = 199.0
+margin_top = 149.0
+margin_right = 618.0
+margin_bottom = 163.0
 text = "Song preview start (in miliseconds)"
 
 [node name="SongPreviewSpinBox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 203.0
-margin_right = 616.0
-margin_bottom = 228.0
+margin_top = 167.0
+margin_right = 618.0
+margin_bottom = 191.0
 max_value = 2.14748e+09
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label4" type="Label" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 195.0
+margin_right = 618.0
+margin_bottom = 209.0
+text = "YouTube URL (optional, leave empty to not use YouTube, can replace audio)"
+
+[node name="YoutubeURL" type="LineEdit" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 213.0
+margin_right = 618.0
+margin_bottom = 237.0
+
+[node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 241.0
+margin_right = 618.0
+margin_bottom = 265.0
+text = "Use YouTube for audio"
+
+[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 269.0
+margin_right = 618.0
+margin_bottom = 293.0
+text = "Use YouTube for video"
+
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0

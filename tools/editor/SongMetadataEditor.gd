@@ -26,6 +26,10 @@ onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBo
 
 onready var circle_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
 onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
+
+onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/VBoxContainer/YoutubeURL")
+onready var use_youtube_as_video = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsVideo")
+onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsAudio")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -46,6 +50,9 @@ func set_song_meta(value):
 	preview_start_edit.value = song_meta.preview_start
 	background_image_filename_edit.text = song_meta.background_image
 	preview_image_filename_edit.text = song_meta.preview_image
+	use_youtube_as_audio.pressed = song_meta.use_youtube_for_audio
+	use_youtube_as_video.pressed = song_meta.use_youtube_for_video
+	youtube_url_line_edit.text = song_meta.youtube_url
 	
 	# Uncheck all difficulties
 	for difficulty_checkbox in difficulties_container.get_children():
@@ -78,7 +85,9 @@ func save_meta():
 	song_meta.preview_start = preview_start_edit.value
 	song_meta.background_image = background_image_filename_edit.text
 	song_meta.preview_image = preview_image_filename_edit.text
-	
+	song_meta.youtube_url = youtube_url_line_edit.text
+	song_meta.use_youtube_for_audio = use_youtube_as_audio.pressed
+	song_meta.use_youtube_for_video = use_youtube_as_video.pressed
 	
 	for difficulty_checkbox in difficulties_container.get_children():
 		if difficulty_checkbox.pressed:

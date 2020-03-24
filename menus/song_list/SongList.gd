@@ -8,7 +8,7 @@ onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var scroll_container = get_node("VBoxContainer/MarginContainer/ScrollContainer")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
-	$VBoxContainer/MarginContainer/ScrollContainer.grab_focus()
+	scroll_container.grab_focus()
 	if args.has("song_difficulty"):
 #		_select_difficulty(args.song_difficulty)
 		for i in range(difficulty_list.get_child_count()):
@@ -19,6 +19,15 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		difficulty_list.select_button(0)
 	if args.has("song"):
 		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
+	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
+	MouseTrap.cache_song_overlay.connect("user_rejected", scroll_container, "grab_focus")
+	MouseTrap.cache_song_overlay.connect("download_error", scroll_container, "grab_focus")
+
+func _on_menu_exit(force_hard_transition = false):
+	._on_menu_exit(force_hard_transition)
+	MouseTrap.cache_song_overlay.disconnect("video_downloaded", self, "_on_video_downloaded")
+	MouseTrap.cache_song_overlay.disconnect("user_rejected", scroll_container, "grab_focus")
+	MouseTrap.cache_song_overlay.disconnect("download_error", scroll_container, "grab_focus")
 
 func _ready():
 	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
@@ -43,7 +52,13 @@ func _unhandled_input(event):
 		$VBoxContainer/DifficultyList._gui_input(event)
 
 func _on_song_selected(song: HBSong):
-	change_to_menu("pre_game", false, {"song": song, "difficulty": current_difficulty})
+	if song.is_cached():
+		change_to_menu("pre_game", false, {"song": song, "difficulty": current_difficulty})
+	else:
+		MouseTrap.cache_song_overlay.show_download_prompt(song)
+		
+func _on_video_downloaded(id, result, song):
+	_on_song_selected(song)
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()

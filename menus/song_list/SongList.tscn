@@ -68,3 +68,4 @@ margin_top = 35.0
 margin_right = 1280.0
 margin_bottom = 610.0
 script = ExtResource( 1 )
+maintain_selected_child = true

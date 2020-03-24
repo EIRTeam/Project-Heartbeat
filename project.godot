@@ -385,6 +385,7 @@ window/stretch/aspect="expand"
 [gdnative]
 
 singletons=[ "res://addons/videodecoder.gdnlib" ]
+singletons_disabled=[  ]
 
 [importer_defaults]
 

@@ -44,7 +44,7 @@ func _process(delta):
 
 func _on_pressed():
 	if song is HBPPDSong:
-		if song.audio == "":
+		if song.has_audio():
 			prev_focus = get_focus_owner()
 			$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 			return

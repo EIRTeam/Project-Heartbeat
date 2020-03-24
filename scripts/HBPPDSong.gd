@@ -2,8 +2,6 @@ extends HBSong
 
 class_name HBPPDSong
 
-const LOG_NAME = "HBPPDSong"
-
 func _ready():
 	pass
 

@@ -1,12 +1,30 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Theme_Game.tres" type="Theme" id=1]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=2]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBConfirmationWindow.gd" type="Script" id=4]
+[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=5]
+[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=6]
+[ext_resource path="res://Theme_Game.tres" type="Theme" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
 
 [node name="HBConfirmationWindow" type="Popup"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -15,7 +33,7 @@ margin_left = -314.218
 margin_top = -118.0
 margin_right = 235.782
 margin_bottom = 118.0
-theme = ExtResource( 1 )
+theme = ExtResource( 7 )
 popup_exclusive = true
 script = ExtResource( 4 )
 __meta__ = {
@@ -25,6 +43,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -72,6 +91,9 @@ margin_left = 210.0
 margin_right = 265.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 55, 0 )
+custom_styles/hover = ExtResource( 5 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/normal = ExtResource( 6 )
 text = "Yes"
 script = ExtResource( 2 )
 
@@ -80,6 +102,9 @@ margin_left = 285.0
 margin_right = 340.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 55, 0 )
+custom_styles/hover = ExtResource( 5 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/normal = ExtResource( 6 )
 text = "No"
 script = ExtResource( 2 )
 [connection signal="about_to_show" from="." to="." method="_on_Control_about_to_show"]

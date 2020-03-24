@@ -3,6 +3,8 @@ extends HBSerializable
 
 class_name HBSong
 
+const LOG_NAME = "HBSong"
+
 # Because user loaded songs don't have .import files we have to load stuff like songs
 # differently, seriously???
 enum SONG_FS_ORIGIN {
@@ -21,6 +23,7 @@ var composers = []
 var writers = []
 var vocals = []
 var audio = ""
+var video = ""
 var voice = ""
 var creator = ""
 var original_title = ""
@@ -31,6 +34,12 @@ var preview_image = ""
 var background_image = ""
 var circle_image = ""
 var circle_logo = ""
+var youtube_url = ""
+var use_youtube_for_audio = true
+var use_youtube_for_video = true
+
+signal song_caching_finished(success)
+
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty
 func get_serialized_type():
@@ -40,7 +49,8 @@ func _init():
 	serializable_fields += ["title", "romanized_title", "artist", "artist_alias", 
 	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
 	"preview_start", "charts", "preview_image", "background_image", "voice", 
-	"circle_image", "circle_logo"]
+	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
+	"video"]
 
 func get_meta_string():
 	var song_meta = []
@@ -95,6 +105,11 @@ func get_song_circle_image_res_path():
 	else:
 		return null
 		
+func get_song_video_res_path():
+	if circle_image != "":
+		return path.plus_file("/%s" % [video])
+	else:
+		return null
 func get_song_circle_logo_image_res_path():
 	if circle_logo != "":
 		return path.plus_file("/%s" % [circle_logo])
@@ -104,16 +119,34 @@ func get_song_circle_logo_image_res_path():
 func get_meta_path():
 	return path.plus_file("song.json")
 		
+func is_cached():
+	if youtube_url:
+		return YoutubeDL.is_cached(youtube_url, use_youtube_for_video, use_youtube_for_audio)
+	else:
+		return true
+		
 func get_audio_stream():
-	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(get_song_audio_res_path())
-	else:
-		return HBUtils.load_ogg(get_song_audio_res_path())
+	var audio_path = get_song_audio_res_path()
+	if youtube_url:
+		if use_youtube_for_audio:
+			if YoutubeDL.is_cached(youtube_url, false, true):
+				audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
+			else:
+				Log.log(self, "Tried to get audio stream from an uncached song!!")
+	return HBUtils.load_ogg(audio_path)
+		
+func get_video_stream():
+	var video_path = get_song_video_res_path()
+	if use_youtube_for_video:
+		if YoutubeDL.is_cached(youtube_url, false, true):
+			video_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
+		else:
+			Log.log(self, "Tried to get video stream from an uncached song!!")
+	var stream = VideoStreamGDNative.new()
+	stream.set_file(video_path)
+		
 func get_voice_stream():
-	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(get_song_voice_res_path())
-	else:
-		return HBUtils.load_ogg(get_song_voice_res_path())
+	return HBUtils.load_ogg(get_song_voice_res_path())
 	
 func save_song():
 	# Ensure song directory exists
@@ -121,6 +154,17 @@ func save_song():
 	dir.make_dir_recursive(path)
 	
 	save_to_file(get_meta_path())
+
+func cache_data():
+	if youtube_url:
+		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+			return YoutubeDL.download_video(youtube_url, use_youtube_for_video, use_youtube_for_audio)
+
+func has_audio():
+	if audio or (use_youtube_for_audio and is_cached()):
+		return true
+	else:
+		return false
 
 func get_visible_title() -> String:
 	if UserSettings.user_settings.romanized_titles_enabled and romanized_title:

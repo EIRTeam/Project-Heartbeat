@@ -18,6 +18,7 @@ var cache_meta_mutex = Mutex.new()
 var cache_meta: Dictionary = {}
 var status_mutex = Mutex.new()
 var status = YOUTUBE_DL_STATUS.COPYING
+var songs_being_cached = []
 
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
@@ -58,6 +59,14 @@ func _ready():
 		dir.make_dir(YOUTUBE_DL_DIR)
 	if not dir.dir_exists(CACHE_DIR):
 		dir.make_dir(CACHE_DIR)
+	if dir.file_exists(CACHE_FILE):
+		var file = File.new()
+		file.open(CACHE_FILE, File.READ)
+		var json = JSON.parse(file.get_as_text()) as JSONParseResult
+		if json.error == OK:
+			cache_meta = json.result
+		else:
+			Log.log(self, "Error loading cache meta: " + str(json.error))
 	if OS.get_name() == "X11":
 		# Ensure YTDL can be executed on linoox
 		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
@@ -76,12 +85,14 @@ func _ready():
 			update_youtube_dl()
 	else:
 		update_youtube_dl()
-	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
+#	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
 func ytdl_download():
 	pass
 
 func save_cache():
-	pass
+	var file = File.new()
+	file.open(CACHE_FILE, File.WRITE)
+	file.store_string(JSON.print(cache_meta, "  "))
 	
 func get_ytdl_executable():
 	var path
@@ -109,39 +120,53 @@ func _download_video(userdata):
 	var result = {"video_id": userdata.video_id}
 	if download_audio:
 		var out = []
-		OS.execute(get_ytdl_executable(), ["-f", "bestaudio[acodec=opus]", "-o", get_audio_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true)
+		var audio_path = get_audio_path(userdata.video_id, true).get_base_dir() + "/" + "%(id)s.%(ext)s"
+		OS.execute(get_ytdl_executable(), ["-f", "bestaudio[acodec=opus]", "--extract-audio", "--audio-format", "vorbis", "-o", audio_path, "https://youtu.be/" + userdata.video_id], true, out)
 		result["audio"] = true
+		result["audio_out"] = out[-1]
+		
 		if file.file_exists(get_audio_path(userdata.video_id)):
 			cache_meta_mutex.lock()
 			cache_meta[userdata.video_id]["audio"] = true
 			cache_meta_mutex.unlock()
 		else:
-			result["audio"] = true
-			Log.log(self, "Error downloading audio " + userdata.video_id + " " + out[-1])
+			result["audio"] = false
+			Log.log(self, "Error downloading audio " + userdata.video_id + " " + PoolStringArray(out).join("\n"))
 	if download_video:
-		OS.execute(get_ytdl_executable(), ["-f", "bestvideo[container=mp4,height<=1080]", "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true)
+		var out = []
+		
+		OS.execute(get_ytdl_executable(), ["-f", "bestvideo[container=mp4,height<=1080]", "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
 		result["video"] = true
+		result["video_out"] = out[-1]
 		if file.file_exists(get_video_path(userdata.video_id)):
 			cache_meta_mutex.lock()
 			cache_meta[userdata.video_id]["video"] = true
 			cache_meta_mutex.unlock()
 		else:
 			result["video"] = false
-			Log.log(self, "Error downloading video " + userdata.video_id)
+			Log.log(self, "Error downloading video " + userdata.video_id + " " + out[-1])
 	Log.log(self, "Video download finish!")
+	call_deferred("_video_downloaded", userdata.thread, result)
 	save_cache()
-	call_deferred("_video_downloaded", userdata.thread)
 	
 func _video_downloaded(thread: Thread, result):
 	thread.wait_to_finish()
+	songs_being_cached.erase(result.video_id)
 	emit_signal("video_downloaded", result.video_id, result)
 	
 func download_video(url: String, download_video = true, download_audio = true):
 	var thread = Thread.new()
 	var video_id = get_video_id(url)
+	if video_id in songs_being_cached:
+		Log.log(self, "We are already caching this: " + url)
+		return
 	if not video_id:
 		Log.log(self, "Error parsing youtube url: " + url)
-	
+		return ERR_FILE_NOT_FOUND
+		
+	songs_being_cached.append(video_id)
+
+		
 	if video_id in cache_meta:
 		var all_found = true
 		if download_audio:
@@ -153,6 +178,8 @@ func download_video(url: String, download_video = true, download_audio = true):
 		if all_found:
 			Log.log(self, "Already cached, no need to download again")
 			emit_signal("video_downloaded", video_id)
+			songs_being_cached.erase(video_id)
+			return
 	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio})
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
@@ -163,3 +190,19 @@ func get_video_id(url: String):
 	var result = regex.search(url)
 	if result:
 		return result.get_string(2)
+
+func is_cached(url: String, video=true, audio=true):
+	var cached = true
+	cache_meta_mutex.lock()
+	var yt_id = get_video_id(url)
+	
+	if yt_id in cache_meta:
+		if video and not cache_meta[yt_id].has("video"):
+			cached = false
+		if audio and not cache_meta[yt_id].has("audio"):
+			cached = false
+	else:
+		cached = false
+	cache_meta_mutex.unlock()
+	print(cached)
+	return cached

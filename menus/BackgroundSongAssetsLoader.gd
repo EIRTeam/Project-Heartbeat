@@ -25,7 +25,7 @@ func _load_song_assets_thread(userdata):
 				if song.background_image:
 					loaded_asset = HBUtils.image_from_fs_async(song.get_song_background_image_res_path())
 			"audio":
-				if song.audio:
+				if song.has_audio():
 					loaded_asset = song.get_audio_stream()
 			"voice":
 				if song.voice:

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://autoloads/MouseTrap.gd" type="Script" id=1]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://autoloads/CacheSongOverlay.gd" type="Script" id=3]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -17,3 +19,25 @@ __meta__ = {
 margin_right = 307.0
 margin_bottom = 130.0
 window_title = "Guardar un Archivo"
+
+[node name="CacheSongOverlay" type="Control" parent="MouseTrap"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
+text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
+
+[node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
+has_cancel = false
+has_accept = false
+text = "Downloading..."
+
+[node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
+has_cancel = false
+text = "ERR!"
+accept_text = "Ok"

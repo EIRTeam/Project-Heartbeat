@@ -27,7 +27,7 @@ func set_lobby_max_members(val):
 
 func set_lobby(lobby: HBLobby):
 	self.lobby = lobby
-	if lobby.get_song() == null:
+	if lobby.get_song() == null or not lobby.get_song().is_cached:
 		song_status_icon.texture = NOTE_ERR_ICON
 	else:
 		song_status_icon.texture = NOTE_OK_ICON
