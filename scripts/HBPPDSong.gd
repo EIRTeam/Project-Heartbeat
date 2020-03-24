@@ -14,7 +14,8 @@ static func from_ini(content: String, id: String):
 		song.creator = dict.setting.authorname
 	if dict.setting.has("bpm"):
 		song.bpm = float(dict.setting.bpm)
-		
+	if dict.setting.has("thumbtimestart"):
+		song.preview_start = int(dict.setting.thumbtimestart*1000.0)
 	var difficulties = ["easy", "normal", "hard", "extreme"]
 	
 	var song_settings = dict["setting"]
