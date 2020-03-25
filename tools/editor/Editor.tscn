@@ -186,6 +186,7 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
 min_value = 1.0
+max_value = 300.0
 value = 4.0
 suffix = "th of a note"
 
