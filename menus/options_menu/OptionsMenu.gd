@@ -27,6 +27,14 @@ var OPTIONS = {
 			"description": tr("Switches between available Icon-Sets."),
 			"type": "icon_type_selector"
 		},
+		"note_size": {
+			"name": tr("Note Size"),
+			"description": "How big the notes will appear in the game.",
+			"minimum": 0.1,
+			"maximum": 3.0,
+			"step": 0.1,
+			"postfix": " x"
+		},
 		"left_arrow_override_enabled": {
 			"name": tr("Use arrow instead of left icon"),
 			"description": tr("Replaces all instances of the left icon of the selected icon pack with a left arrow.")

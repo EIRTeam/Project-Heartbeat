@@ -202,7 +202,7 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 	current_difficulty = difficulty
 	play_song()
 func get_note_scale():
-	return (get_playing_field_size().length() / BASE_SIZE.length()) * 0.95
+	return UserSettings.user_settings.note_size * ((get_playing_field_size().length() / BASE_SIZE.length()) * 0.95)
 
 func get_playing_field_size():
 	var ratio = 16.0/9.0
