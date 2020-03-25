@@ -17,6 +17,7 @@ func _on_resized():
 	
 func _process(delta):
 	$Label.text = HBUtils.format_time(game.time * 1000.0)
+	$Label.text += "\n BPM: " + str(game.current_bpm)
 
 func _draw():
 	var origin = game.remap_coords(Vector2())

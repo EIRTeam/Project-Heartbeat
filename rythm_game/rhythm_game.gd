@@ -117,12 +117,14 @@ func set_timing_points(points):
 	active_slide_hold_chains = []
 	# When timing points change, we might introduce new BPM change events
 	if editing:
-		for point in points:
-			if point.time <= time:
-				if point is HBBPMChange:
-					current_bpm = point.bpm
-			else:
-				break
+		for point in timing_points:
+			if point is HBBPMChange:
+				print(point.time, " ", time*1000.0)
+				if point.time <= time*1000.0:
+						print("BPM: " + str(point.bpm))
+						current_bpm = point.bpm
+				else:
+					break
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 func _ready():
 	rating_label.hide()
@@ -362,7 +364,11 @@ func _process(delta):
 	var multi_notes = []
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
+		if timing_point is HBBPMChange:
+			if time * 1000.0 > timing_point.time:
+				current_bpm = timing_point.bpm
 		if timing_point is HBNoteData:
+#			print("Current BPM is: " + str(current_bpm))
 			if time * 1000.0 < (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
 				break
 			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):

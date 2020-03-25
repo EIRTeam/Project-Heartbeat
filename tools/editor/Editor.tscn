@@ -509,6 +509,8 @@ __meta__ = {
 }
 
 [node name="RythmGame" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
+margin_left = -2.0
+margin_right = -2.0
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
@@ -613,6 +615,7 @@ size_flags_stretch_ratio = 0.25
 tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
+visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -620,6 +623,29 @@ margin_bottom = -5.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
+
+[node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Events"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Events/VBoxContainer"]
+margin_right = 202.0
+margin_bottom = 25.0
+text = "Create BPM change"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -701,6 +727,7 @@ dialog_autowrap = true
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer" method="set_vertical"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Events/VBoxContainer/Button" to="." method="_create_bpm_change"]
 [connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]

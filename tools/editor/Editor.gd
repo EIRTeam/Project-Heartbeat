@@ -77,7 +77,7 @@ func _ready():
 	timeline.editor = self
 	
 	rhythm_game.set_process_unhandled_input(false)
-	seek(0)
+#	seek(0)
 	inspector.connect("user_changed_property", self, "_change_selected_property")
 	inspector.connect("user_commited_property", self, "_commit_selected_property_change")
 	
@@ -331,6 +331,8 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
 			
+func _create_bpm_change():
+	add_event_timing_point(HBBPMChange)
 func pause():
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80
@@ -355,6 +357,7 @@ func _on_StopButton_pressed():
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
 	rhythm_game.remove_all_notes_from_screen()
+	rhythm_game.current_bpm = current_song.bpm # We reset the BPM
 	rhythm_game.timing_points = get_timing_points()
 
 func get_song_length():
@@ -422,12 +425,12 @@ func load_song(song: HBSong, difficulty: String):
 			var result = chart_json.result
 			chart = HBChart.new()
 			chart.deserialize(result)
-	
+	current_song = song
 	from_chart(chart)
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm
-	current_song = song
+
 	current_difficulty = difficulty
 	save_button.disabled = false
 	save_as_button.disabled = false
