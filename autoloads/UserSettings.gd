@@ -65,9 +65,15 @@ const HIDE_KB_REMAPS_ACTIONS = [
 	"gui_cancel"
 ]
 
-const ANALOG_ACTIONS = [
-	"tap_right_analog",
-	"tap_left_analog"
+const DISABLE_ANALOG_FOR_ACTION = [
+	"gui_up",
+	"gui_down",
+	"gui_left",
+	"gui_right",
+	"gui_accept",
+	"gui_cancel",
+	"tap_right",
+	"tap_left"
 ]
 
 var device_id = 0
@@ -99,7 +105,6 @@ func _ready():
 					var n = 2 * event.axis;
 					if event.axis_value >= 0:
 						n += 1
-	
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;
 	if event.axis_value >= 0:

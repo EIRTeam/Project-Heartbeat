@@ -13,7 +13,7 @@ var action_being_bound = ""
 func _unhandled_input(event):
 	if visible:
 		if action_being_bound:
-			if event is InputEventJoypadMotion and not action_being_bound in UserSettings.ANALOG_ACTIONS:
+			if event is InputEventJoypadMotion and action_being_bound in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 				return
 			if InputMap.action_has_event(action_being_bound, event):
 				return
@@ -53,7 +53,7 @@ func populate():
 	reset_scene.connect("pressed", self, "_on_reset_bindings")
 	scroll_container.vbox_container.add_child(reset_scene)
 	var input_map = UserSettings.get_input_map()
-	for action_name in input_map:
+	for action_name in UserSettings.action_names:
 		var action_scene = ACTION_SCENE.instance()
 		action_scene.action = UserSettings.action_names[action_name]
 		scroll_container.vbox_container.add_child(action_scene)
@@ -77,6 +77,7 @@ func _on_event_delete(control, action, event):
 		var position = control.get_position_in_parent() -1
 		scroll_container.select_child(scroll_container.vbox_container.get_child(position))
 		control.queue_free()
+		UserSettings.save_user_settings()
 func _on_focus_entered():
 	if not action_being_bound:
 		scroll_container.grab_focus()
@@ -97,7 +98,7 @@ func add_event_user(action_name, event):
 				scroll_container.vbox_container.move_child(event_scene, control_i)
 				break
 	InputMap.action_add_event(action_name, event)
-
+	UserSettings.save_user_settings()
 func _on_reset_bindings():
 	reset_confirmation_window.popup_centered()
 
@@ -106,3 +107,4 @@ func _on_reset_bindings_confirmed():
 	populate()
 	scroll_container.select_child(scroll_container.vbox_container.get_child(0))
 	grab_focus()
+	UserSettings.save_user_settings()
