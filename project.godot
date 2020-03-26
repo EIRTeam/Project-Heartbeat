@@ -357,7 +357,7 @@ config/build_commit="654b9cf78b0480dbd6d729cb48b6979d7ba9c2a7"
 
 [audio]
 
-output_latency=2
+output_latency=5
 
 [autoload]
 

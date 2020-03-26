@@ -96,19 +96,24 @@ func load_songs_from_path(path):
 				var song_ppd_ini_path = path + "/%s/data.ini" % dir_name
 				var file = File.new()
 				var song_meta : HBSong
+				var song_found = false
 				if file.file_exists(song_json_path):
 					song_meta = load_song_meta(song_json_path, dir_name)
 					if song_meta:
 						value[dir_name] = song_meta
+					song_found = true
 				elif file.file_exists(song_ppd_ini_path):
 					song_meta = load_ppd_song_meta(song_ppd_ini_path, dir_name)
 					if song_meta:
 						value[dir_name] = song_meta
-						
-				for difficulty in song_meta.charts:
-					if not difficulty in available_difficulties:
-						available_difficulties.append(difficulty)
-						available_difficulties.sort_custom(self, "difficulty_sort")
+					song_found = true
+				if not song_found:
+					Log.log(self, "Invalid song found in directory " + dir_name, Log.LogLevel.ERROR)
+				else:
+					for difficulty in song_meta.charts:
+						if not difficulty in available_difficulties:
+							available_difficulties.append(difficulty)
+							available_difficulties.sort_custom(self, "difficulty_sort")
 						
 			dir_name = dir.get_next()
 	else:

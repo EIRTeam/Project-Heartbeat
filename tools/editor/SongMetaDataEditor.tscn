@@ -18,7 +18,6 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -179,6 +178,7 @@ margin_right = 618.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
