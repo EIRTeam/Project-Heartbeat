@@ -75,7 +75,7 @@ func _set_opacities(hard=false):
 
 func _gui_input(event):
 	if selected_child:
-		if event is InputEventKey or event is InputEventJoypadButton:
+		if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
 			var child_i = vbox_container.get_children().find(selected_child)
 			if child_i == 0 and event.is_action_pressed("gui_up") and not event.is_echo():
 				get_tree().set_input_as_handled()

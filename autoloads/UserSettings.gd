@@ -20,7 +20,8 @@ var action_names = {
 	"tap_left": "Slide left",
 	"tap_left_analog": "Slide left analog",
 	"tap_right": "Slide right",
-	"tap_right_analog": "Slide right analog"
+	"tap_right_analog": "Slide right analog",
+	"pause": "Pause"
 }
 
 var axis_names = [
@@ -66,10 +67,6 @@ const HIDE_KB_REMAPS_ACTIONS = [
 ]
 
 const DISABLE_ANALOG_FOR_ACTION = [
-	"gui_up",
-	"gui_down",
-	"gui_left",
-	"gui_right",
 	"gui_accept",
 	"gui_cancel",
 	"tap_right",
