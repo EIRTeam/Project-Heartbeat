@@ -1,6 +1,6 @@
 extends Node
 
-const ICON_PACKS_SEARCH_PATHS = ["res://graphics/icon_packs"]
+const ICON_PACKS_SEARCH_PATHS = ["res://graphics/icon_packs", "user://icon_packs"]
 
 var packs = {}
 

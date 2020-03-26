@@ -159,7 +159,6 @@ func save_user_settings():
 	user_settings.input_map = get_input_map()
 	if file.open(USER_SETTINGS_PATH, File.WRITE) == OK:
 		var contents = JSON.print(user_settings.serialize(), "  ")
-		print(user_settings.input_map.size())
 		file.store_string(contents)
 		PlatformService.service_provider.write_remote_file_async(USER_SETTINGS_PATH.get_file(), contents.to_utf8())
 
