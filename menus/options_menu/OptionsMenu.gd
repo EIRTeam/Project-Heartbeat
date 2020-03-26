@@ -2,6 +2,10 @@ extends HBMenu
 
 var OPTIONS = {
 	"Game": {
+		"input_poll_more_than_once_per_frame": {
+			"name": tr("Poll for input more than once per frame"),
+			"description": "If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage."
+		},
 		"lag_compensation": {
 			"name": tr("Latency compensation"),
 			"description": "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
@@ -128,6 +132,8 @@ func _on_SectionButton_press(section_name):
 
 func _on_value_changed(property_name, new_value):
 	UserSettings.user_settings.set(property_name, new_value)
+	if property_name == "input_poll_more_than_once_per_frame":
+		Input.set_use_accumulated_input(!new_value)
 	UserSettings.save_user_settings()
 
 func _on_back():

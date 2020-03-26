@@ -151,7 +151,7 @@ func load_user_settings():
 				Log.log(self, "Successfully loaded user settings from " + USER_SETTINGS_PATH)
 			else:
 				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
-
+	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 func save_user_settings():
 	var file := File.new()
 	user_settings.input_map = get_input_map()

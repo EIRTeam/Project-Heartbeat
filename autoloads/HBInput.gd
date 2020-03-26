@@ -14,7 +14,7 @@ func is_action_pressed(action: String):
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	Input.set_use_accumulated_input(false)
+	
 
 func _input(event):
 	if event is InputEventMouse:
