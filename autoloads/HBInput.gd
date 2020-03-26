@@ -2,7 +2,7 @@ extends Node
 
 var action_tracking = {}
 
-const TRACKED_ACTIONS = ["note_a", "note_b", "note_x", "note_y", "tap_left", "tap_right"]
+const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
 
 func is_action_pressed(action: String):
 	var action_inputs = action_tracking[action]
@@ -14,6 +14,7 @@ func is_action_pressed(action: String):
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_use_accumulated_input(false)
 
 func _input(event):
 	if event is InputEventMouse:

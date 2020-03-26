@@ -89,6 +89,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
+visible = false
 margin_left = 10.0
 margin_top = 209.0
 margin_right = 1210.0

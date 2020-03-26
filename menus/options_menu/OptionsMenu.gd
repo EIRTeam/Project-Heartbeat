@@ -20,6 +20,7 @@ var OPTIONS = {
 		}
 	},
 	"Controls": {
+		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
 	},
 	"Visual": {
 		"icon_pack": {
@@ -84,13 +85,20 @@ func _ready():
 		option_button.text = section_name
 		option_button.connect("pressed", self, "_on_SectionButton_press", [section_name])
 		buttons.add_child(option_button)
-		var section = OptionSection.instance()
-		section.connect("back", self, "_on_back")
-		section.section_data = OPTIONS[section_name]
-		section.connect("changed", self, "_on_value_changed")
-		sections.add_child(section)
-		
-		section_name_to_section_control[section_name] = section
+		if OPTIONS[section_name].has("__section_override"):
+			var section = OPTIONS[section_name].__section_override
+			# Some sections, such as controls remapping, use their own thing
+			sections.add_child(section)
+			section_name_to_section_control[section_name] = section
+			section.connect("back", self, "_on_back")
+		else:
+			var section = OptionSection.instance()
+			section.connect("back", self, "_on_back")
+			section.section_data = OPTIONS[section_name]
+			section.connect("changed", self, "_on_value_changed")
+			sections.add_child(section)
+			
+			section_name_to_section_control[section_name] = section
 		
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -100,7 +108,9 @@ func add_default_values():
 	for section_name in OPTIONS:
 		var section = OPTIONS[section_name]
 		for option_name in section:
-			OPTIONS[section_name][option_name]["default_value"] = UserSettings.user_settings.get(option_name)
+			# Section overrides manage all themselves
+			if not OPTIONS[section_name].has("__section_override"):
+				OPTIONS[section_name][option_name]["default_value"] = UserSettings.user_settings.get(option_name)
 			
 func _show_section(section_name):
 	for section_n in section_name_to_section_control:

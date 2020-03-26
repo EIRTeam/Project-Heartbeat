@@ -7,10 +7,10 @@ const NoteScene = preload("res://rythm_game/Note.tscn")
 const NoteDrawer = preload("res://rythm_game/SingleNoteDrawer.tscn")
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {
-	HBNoteData.NOTE_TYPE.RIGHT: ["note_b"],
-	HBNoteData.NOTE_TYPE.LEFT: ["note_x"],
-	HBNoteData.NOTE_TYPE.UP: ["note_y"],
-	HBNoteData.NOTE_TYPE.DOWN: ["note_a"],
+	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
+	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
+	HBNoteData.NOTE_TYPE.UP: ["note_up"],
+	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
 	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
 	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
 }

@@ -14,12 +14,33 @@ var up_arrow_override_enabled = false
 var down_arrow_override_enabled = false
 var show_latency = false
 var enable_voice_fade = true
+var last_controller_guid = ""
+var input_map = {}
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
 	"icon_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
-	"note_size"]
+	"note_size", "last_controller_guid", "input_map"]
 
+static func deserialize(data: Dictionary):
+	var result = .deserialize(data)
+	result.input_map = {}
+	if data.has("input_map"):
+		for action_name in data.input_map:
+			result.input_map[action_name] = []
+			for action in data.input_map[action_name]:
+				result.input_map[action_name].append(str2var(action))
+	return result
+	
+func serialize():
+	var base_data = .serialize()
+	var new_input_map = {}
+	for action_name in base_data.input_map:
+		new_input_map[action_name] = []
+		for action in base_data.input_map[action_name]:
+			new_input_map[action_name].append(var2str(action))
+	base_data.input_map = new_input_map
+	return base_data
 func get_serialized_type():
 	return "UserSettings"
