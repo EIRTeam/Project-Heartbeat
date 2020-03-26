@@ -117,7 +117,11 @@ func _unhandled_input(event):
 		if selected:
 			get_tree().set_input_as_handled()
 			delete_selected()
-
+	if event.is_action_pressed("editor_play"):
+		if not audio_stream_player.playing:
+			_on_PlayButton_pressed()
+		else:
+			_on_PauseButton_pressed()
 func _note_comparison(a, b):
 	return a.time > b.time
 
