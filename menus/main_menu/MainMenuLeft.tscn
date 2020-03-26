@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=6]
 [ext_resource path="res://graphics/icons/earth.svg" type="Texture" id=7]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/discord.svg" type="Texture" id=9]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=10]
+[ext_resource path="res://graphics/icons/twitter.svg" type="Texture" id=11]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -21,6 +24,11 @@ func _on_ExitButton_pressed():
 	get_tree().quit()
 "
 
+[sub_resource type="DynamicFont" id=2]
+size = 23
+use_filter = true
+font_data = ExtResource( 10 )
+
 [node name="StartMenu" type="Control"]
 margin_right = 1020.0
 margin_bottom = 720.0
@@ -31,7 +39,7 @@ __meta__ = {
 
 [node name="StartMenu" type="Control" parent="."]
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.8
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -47,9 +55,9 @@ fixed_scale_factor = true
 
 [node name="StartButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 340.0
+margin_top = 286.0
 margin_right = 430.0
-margin_bottom = 400.0
+margin_bottom = 346.0
 text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
@@ -58,44 +66,44 @@ next_menu = "song_list"
 "mponly",
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 410.0
+margin_top = 356.0
 margin_right = 430.0
-margin_bottom = 470.0
+margin_bottom = 415.999
 text = "Multiplayer"
 icon = ExtResource( 7 )
 next_menu = "lobby_list"
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 480.0
+margin_top = 425.999
 margin_right = 430.0
-margin_bottom = 540.0
+margin_bottom = 485.999
 text = "Options"
 icon = ExtResource( 3 )
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 550.0
+margin_top = 495.999
 margin_right = 430.0
-margin_bottom = 610.0
+margin_bottom = 555.999
 text = "Tools"
 icon = ExtResource( 6 )
 next_menu = "tools_menu"
 
 [node name="ExitButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 620.0
+margin_top = 565.999
 margin_right = 430.0
-margin_bottom = 680.0
+margin_bottom = 625.999
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
 next_menu = ""
 
 [node name="TextureRect" type="TextureRect" parent="."]
-anchor_top = 0.232
-anchor_bottom = 0.437
+anchor_top = 0.157
+anchor_bottom = 0.391
 margin_left = -1.0
 margin_top = -4.52
 margin_right = 499.0
@@ -106,5 +114,68 @@ stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1010.0
+margin_bottom = 710.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 648.0
+margin_right = 1000.0
+margin_bottom = 672.0
+custom_constants/separation = 12
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 0 )
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+margin_left = 36.0
+margin_right = 297.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 2 )
+text = "discord.gg/qGMdbez"
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 676.0
+margin_right = 1000.0
+margin_bottom = 700.0
+custom_constants/separation = 12
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 0 )
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+margin_left = 36.0
+margin_right = 276.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 2 )
+text = "@PHeartbeatGame"
 [connection signal="focus_entered" from="." to="StartMenu" method="grab_focus"]
 [connection signal="pressed" from="StartMenu/ExitButton" to="StartMenu" method="_on_ExitButton_pressed"]
