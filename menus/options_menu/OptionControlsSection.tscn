@@ -52,6 +52,7 @@ margin_top = 15.0
 margin_right = 1260.0
 margin_bottom = 690.0
 maintain_selected_child = true
+page_skip_enabled = true
 
 [node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
 margin_right = 1230.0

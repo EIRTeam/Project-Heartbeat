@@ -3,6 +3,7 @@ extends ScrollContainer
 class_name HBScrollList
 
 export(bool) var maintain_selected_child = false
+export(bool) var page_skip_enabled = false
 onready var vbox_container = get_node("VBoxContainer")
 
 const INTERP_SPEED = 5
@@ -90,10 +91,15 @@ func _gui_input(event):
 				select_child(vbox_container.get_child(child_i-1))
 				emit_signal("option_hovered", selected_child)
 				$AudioStreamPlayer.play()
-
+			if page_skip_enabled:
+				if event.is_action_pressed("gui_left"):
+					select_child(vbox_container.get_child(clamp(child_i-5, 0, vbox_container.get_child_count()-1)))
+				if event.is_action_pressed("gui_right"):
+					select_child(vbox_container.get_child(clamp(child_i+5, 0, vbox_container.get_child_count()-1)))
 			if event.is_action_pressed("gui_accept"):
 				get_tree().set_input_as_handled()
 				selected_child.emit_signal("pressed")
+				
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )
 	scroll_vertical = current_scroll
