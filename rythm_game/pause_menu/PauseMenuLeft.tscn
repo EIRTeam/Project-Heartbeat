@@ -8,9 +8,11 @@
 [ext_resource path="res://menus/options_menu/OptionMenuButton.gd" type="Script" id=6]
 
 [node name="MarginContainer" type="MarginContainer"]
-anchor_right = 0.367
-anchor_bottom = 1.0
-margin_right = -38.76
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -360.0
+margin_right = 431.0
+margin_bottom = 360.0
 custom_constants/margin_left = 15
 __meta__ = {
 "_edit_use_anchors_": false
@@ -21,13 +23,13 @@ margin_left = 15.0
 margin_right = 431.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
-custom_constants/separation = 10
+custom_constants/separation = -88
 alignment = 1
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-margin_top = 291.0
+margin_top = 340.0
 margin_right = 416.0
-margin_bottom = 355.0
+margin_bottom = 404.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 4 )
@@ -44,13 +46,14 @@ __meta__ = {
 }
 
 [node name="HBListContainer" type="Control" parent="VBoxContainer"]
-margin_top = 365.0
+margin_top = 316.0
 margin_right = 416.0
-margin_bottom = 429.0
+margin_bottom = 380.0
 rect_min_size = Vector2( 0, 64 )
 focus_mode = 2
 size_flags_horizontal = 3
 script = ExtResource( 3 )
+VISIBILITY_THRESHOLD = 3
 margin = 10
 scale_factor = 1.0
 disable_repositioning = true
@@ -59,9 +62,9 @@ fixed_scale_factor = true
 [node name="ResumeButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
 anchor_right = 1.0
 margin_left = 0.0
-margin_top = 0.0
-margin_right = 3.05176e-05
-margin_bottom = 64.0
+margin_top = 98.0
+margin_right = 0.0
+margin_bottom = 162.0
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
@@ -72,9 +75,9 @@ script = ExtResource( 6 )
 [node name="RestartButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
 anchor_right = 1.0
 margin_left = 0.0
-margin_top = 74.0
+margin_top = 172.0
 margin_right = 3.05176e-05
-margin_bottom = 138.0
+margin_bottom = 236.0
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
@@ -85,9 +88,9 @@ script = ExtResource( 6 )
 [node name="QuitButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
 anchor_right = 1.0
 margin_left = 0.0
-margin_top = 148.0
+margin_top = 246.0
 margin_right = 3.05176e-05
-margin_bottom = 212.0
+margin_bottom = 310.0
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
