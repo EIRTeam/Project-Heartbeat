@@ -277,11 +277,8 @@ func get_closest_notes_of_type(note_type: int) -> Array:
 		if note.note_type == note_type:
 			var time_diff = abs(note.time + note.get_duration() - time * 1000.0)
 			if closest_notes.size() > 0:
-				if time_diff < abs(closest_notes[0].time - time * 1000.0):
+				if closest_notes[0].time > note.time:
 					closest_notes = [note]
-				time_diff = abs(note.time + note.get_duration() - time * 1000.0)
-				if time_diff < abs(closest_notes[0].time - time * 1000.0):
-					closest_notes.append(note)
 				elif note.time == closest_notes[0].time:
 					closest_notes.append(note)
 			else:
@@ -292,13 +289,9 @@ func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:
 		var note = note_c.get_meta("note_drawer").note_data
-		var time_diff = abs(note.time + note.get_duration() - time * 1000.0)
 		if closest_notes.size() > 0:
-			if time_diff < abs(closest_notes[0].time - time * 1000.0):
+			if closest_notes[0].time > note.time:
 				closest_notes = [note]
-			time_diff = abs(note.time + note.get_duration() - time * 1000.0)
-			if time_diff < abs(closest_notes[0].time - time * 1000.0):
-				closest_notes.append(note)
 			elif note.time == closest_notes[0].time:
 				closest_notes.append(note)
 		else:
