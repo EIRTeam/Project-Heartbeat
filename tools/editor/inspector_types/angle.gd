@@ -20,7 +20,7 @@ func _on_angle_changed(angle):
 	emit_value_changed_signal()
 
 func _on_Spinbox_value_changed(value):
-	spinbox.angle = value
+	angle_edit.angle = value
 	emit_value_changed_signal()
 
 func _on_AngleEdit_angle_finished_changing():

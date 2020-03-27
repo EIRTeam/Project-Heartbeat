@@ -689,8 +689,10 @@ dialog_text = "Any unsaved progress will be lost."
 dialog_autowrap = true
 
 [node name="OpenChartPopupDialog" parent="." instance=ExtResource( 1 )]
-margin_right = 616.0
-margin_bottom = 275.0
+margin_left = 334.997
+margin_top = 141.999
+margin_right = 950.997
+margin_bottom = 417.999
 
 [node name="PluginErrorDialog" type="AcceptDialog" parent="."]
 margin_right = 300.0
