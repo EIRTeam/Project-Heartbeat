@@ -5,6 +5,11 @@ var user_settings: HBUserSettings = HBUserSettings.new()
 const USER_SETTINGS_PATH = "user://user_settings.json"
 const LOG_NAME = "UserSettings"
 var base_input_map = {}
+
+const SAVE_DEBOUNCE_TIME = 0.2
+var save_debounce_t = 0.0
+var debouncing = false
+
 var action_names = {
 	"note_up": "Note up",
 	"note_down": "Note down",
@@ -154,7 +159,18 @@ func load_user_settings():
 			else:
 				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
+
+func _process(delta):
+	if debouncing:
+		save_debounce_t += delta
+		if save_debounce_t >= SAVE_DEBOUNCE_TIME:
+			_save_user_settings()
+			debouncing = false
+
 func save_user_settings():
+	save_debounce_t = 0.0
+	debouncing = true
+func _save_user_settings():
 	var file := File.new()
 	user_settings.input_map = get_input_map()
 	if file.open(USER_SETTINGS_PATH, File.WRITE) == OK:
