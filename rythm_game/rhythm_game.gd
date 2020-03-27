@@ -641,6 +641,11 @@ func restart():
 	set_song(SongLoader.songs[current_song.id], current_difficulty)
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
+	for note in notes_on_screen:
+		if note.get_meta("note_drawer"):
+			note.get_meta("note_drawer").queue_free()
+	notes_on_screen = []
+	rating_label.hide()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 	
 func play_from_pos(position: float):
