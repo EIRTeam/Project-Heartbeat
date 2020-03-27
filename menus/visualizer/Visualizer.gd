@@ -5,6 +5,7 @@ const VU_COUNT = 64 # high VU_COUNTS break on windows
 var MIN_DB = 60 setget set_min_db
 var spectrum_image := Image.new()
 var spectrum_image_texture := ImageTexture.new()
+export(StyleBox) var fallback_stylebox: StyleBox
 
 func set_freq_max(value: float):
 	FREQ_MAX = value
@@ -22,9 +23,10 @@ func _ready():
 	set("z", -1000)
 	if not UserSettings.user_settings.visualizer_enabled:
 		set_physics_process(false)
-	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
-		queue_free()
-	
+		material = CanvasItemMaterial.new()
+		if fallback_stylebox:
+			add_stylebox_override("panel", fallback_stylebox)
+		
 func _physics_process(delta):
 	var prev_hz = 0
 	spectrum_image.lock()

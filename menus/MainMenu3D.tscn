@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=1]
 [ext_resource path="res://default_theme.tres" type="Theme" id=2]
@@ -150,6 +150,9 @@ void fragment()
 [sub_resource type="ShaderMaterial" id=15]
 shader = SubResource( 14 )
 shader_param/FREQ_RANGE = 64.0
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.075175, 0.0405, 0.15, 0.501961 )
 
 [sub_resource type="Animation" id=16]
 tracks/0/type = "value"
@@ -307,6 +310,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+fallback_stylebox = SubResource( 17 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 anims/1to2 = SubResource( 16 )

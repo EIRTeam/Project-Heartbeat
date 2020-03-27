@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=1]
 
@@ -98,11 +98,16 @@ shader = SubResource( 1 )
 shader_param/FREQ_RANGE = 16.0
 shader_param/size = Vector2( 1920, 1080 )
 
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
+
 [node name="Control" type="Panel"]
 material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_styles/panel = SubResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+fallback_stylebox = SubResource( 3 )
