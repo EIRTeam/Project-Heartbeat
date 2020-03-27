@@ -14,6 +14,7 @@ var hover_style
 var normal_style
 signal hover
 var text setget set_text
+var text_overrides = {}
 func _init():
 	normal_style = StyleBoxEmpty.new()
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
@@ -30,7 +31,10 @@ func set_text(value):
 
 func set_value(val):
 	value = val
-	option_label.text = str(value) + postfix
+	if int(value) in text_overrides:
+		option_label.text = text_overrides[int(value)]
+	else:
+		option_label.text = str(value) + postfix
 
 func _ready():
 	focus_mode = Control.FOCUS_ALL

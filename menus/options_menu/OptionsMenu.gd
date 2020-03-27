@@ -26,6 +26,28 @@ var OPTIONS = {
 	"Controls": {
 		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
 	},
+	"Video": {
+		"visualizer_enabled": {
+			"name": tr("Visualizer"),
+			"description": tr("Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems.")
+		},
+		"visualizer_resolution": {
+			"name": tr("Visualizer Resolution"),
+			"description": tr("How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."),
+			"minimum": -64,
+			"maximum": 64
+		},
+		"fps_limit":  {
+			"name": tr("FPS Limit"),
+			"description": "Limits the framerate, this might be useful to limit battery consumption on portable systems.",
+			"minimum": 0,
+			"maximum": 240,
+			"step": 60,
+			"text_overrides": {
+				0: "Unlimited"
+			}
+		}
+	},
 	"Visual": {
 		"icon_pack": {
 			"name": tr("Icons"),
@@ -55,16 +77,6 @@ var OPTIONS = {
 		"down_arrow_override_enabled": {
 			"name": tr("Use arrow instead of down icon"),
 			"description": tr("Replaces all instances of the down icon of the selected icon pack with a down arrow.")
-		},
-		"visualizer_enabled": {
-			"name": tr("Visualizer"),
-			"description": tr("Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems.")
-		},
-		"visualizer_resolution": {
-			"name": tr("Visualizer Resolution"),
-			"description": tr("How many points of data the audio visualization effects use, lowering this setting might yield a considerable performance boost on more modest systems."),
-			"minimum": -64,
-			"maximum": 64
 		},
 		"romanized_titles_enabled": {
 			"name": tr("Romanized titles"),
@@ -134,6 +146,8 @@ func _on_value_changed(property_name, new_value):
 	UserSettings.user_settings.set(property_name, new_value)
 	if property_name == "input_poll_more_than_once_per_frame":
 		Input.set_use_accumulated_input(!new_value)
+	if property_name == "fps_limit":
+		Engine.target_fps = int(new_value)
 	UserSettings.save_user_settings()
 
 func _on_back():

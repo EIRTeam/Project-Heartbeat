@@ -14,24 +14,4 @@ __meta__ = {
 [node name="OptionRange" parent="." instance=ExtResource( 1 )]
 script = null
 
-[node name="Label" parent="OptionRange/HBoxContainer" index="0"]
-margin_right = 316.0
-text = "(NT)Boolean Option"
-
-[node name="Control" parent="OptionRange/HBoxContainer" index="1"]
-margin_left = 320.0
-
-[node name="TextureRect" parent="OptionRange/HBoxContainer/Control" index="0"]
-margin_left = 750.0
-margin_right = 766.0
-
-[node name="OptionLabel" parent="OptionRange/HBoxContainer/Control" index="1"]
-margin_left = 770.0
-margin_right = 900.0
-text = "(NT)Yes"
-
-[node name="TextureRect2" parent="OptionRange/HBoxContainer/Control" index="2"]
-margin_left = 904.0
-margin_right = 920.0
-
 [editable path="OptionRange"]
