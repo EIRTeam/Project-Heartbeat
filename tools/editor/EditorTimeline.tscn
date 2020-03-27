@@ -1,9 +1,5 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://graphics/notes/xbox/X.png" type="Texture" id=2]
-[ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=3]
-[ext_resource path="res://graphics/notes/xbox/Y.png" type="Texture" id=4]
-[ext_resource path="res://graphics/notes/xbox/B.png" type="Texture" id=5]
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
 
@@ -28,46 +24,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
-visible = false
-margin_left = 93.8592
-margin_top = -173.278
-margin_right = 133.859
-margin_bottom = -133.278
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="Control"]
-margin_left = 70.0
-margin_right = 134.0
-margin_bottom = 64.0
-texture = ExtResource( 3 )
-
-[node name="TextureRect2" type="TextureRect" parent="Control"]
-margin_left = 128.521
-margin_right = 192.521
-margin_bottom = 64.0
-texture = ExtResource( 5 )
-
-[node name="TextureRect3" type="TextureRect" parent="Control"]
-margin_left = 191.661
-margin_right = 255.661
-margin_bottom = 64.0
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect4" type="TextureRect" parent="Control"]
-margin_left = 240.0
-margin_right = 304.0
-margin_bottom = 64.0
-texture = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 show_behind_parent = true
 anchor_right = 1.0
@@ -77,9 +33,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HScrollBar" type="HScrollBar" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 40.0
+margin_bottom = 12.0
+max_value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 12.0
+margin_right = 1280.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 0, 40 )
 custom_constants/separation = 0
 
@@ -110,7 +75,7 @@ custom_styles/panel = SubResource( 1 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 40.0
+margin_top = 52.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
@@ -118,7 +83,7 @@ size_flags_stretch_ratio = 3.3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
 margin_right = 1280.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -127,13 +92,13 @@ custom_constants/separation = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
 margin_right = 116.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="LayerNames" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 margin_right = 116.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -141,7 +106,7 @@ custom_constants/separation = 0
 [node name="Layers" type="Panel" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
 margin_left = 116.0
 margin_right = 1280.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -158,4 +123,5 @@ custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="scrolling" from="VBoxContainer/HScrollBar" to="." method="_on_HScrollBar_scrolling"]
 [connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]

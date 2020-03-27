@@ -7,6 +7,7 @@ onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/
 signal offset_changed(offset)
 const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
+onready var scroll_bar = get_node("VBoxContainer/HScrollBar")
 var _offset = 0
 var _prev_playhead_position = Vector2()
 signal layers_changed
@@ -132,7 +133,9 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		if get_global_rect().has_point(get_global_mouse_position()):
 			if Input.is_action_pressed("editor_pan"):
-				set_layers_offset(max(_offset - editor.scale_pixels(event.relative.x), 0))
+				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
+				set_layers_offset(new_offset)
+				scroll_bar.value = new_offset / float(editor.get_song_length() * 1000.0)
 func clear_layers():
 	for layer in layers.get_children():
 		layer.free()
@@ -150,3 +153,8 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 	for layer_n in layer_names.get_children():
 		if layer_n.layer_name == layer_name:
 			layer_n.visible = visibility
+
+
+func _on_HScrollBar_scrolling():
+	var new_position = (scroll_bar.value * editor.get_song_length()) * 1000.0
+	set_layers_offset(int(new_position))
