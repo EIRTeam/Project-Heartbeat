@@ -310,9 +310,9 @@ func seek(value: int):
 		play_from_pos(playhead_position)
 		
 	rhythm_game.time = playhead_position / 1000.0
-	
 	emit_signal("playhead_position_changed")
-	_on_timing_points_changed()
+	rhythm_game.remove_all_notes_from_screen()
+#	_on_timing_points_changed()
 			
 func delete_selected():
 	if selected.size() > 0:
@@ -347,7 +347,7 @@ func pause():
 	audio_stream_player_voice.stream_paused = true
 	audio_stream_player_voice.volume_db = -80
 	audio_stream_player_voice.stop()
-	_on_timing_points_changed()
+#	_on_timing_points_changed()
 	rhythm_game.previewing = false
 func _on_PauseButton_pressed():
 	pause()
