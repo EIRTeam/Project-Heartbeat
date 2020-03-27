@@ -65,10 +65,13 @@ func load_plugins():
 		while dir_name != "":
 			if dir.current_is_dir() and not dir_name.begins_with("."):
 				var plugin_script_path = EDITOR_PLUGINS_DIR + "/%s/%s.gd" % [dir_name, dir_name]
+				if not dir.file_exists(plugin_script_path):
+					plugin_script_path = EDITOR_PLUGINS_DIR + "/%s/%s.gdc" % [dir_name, dir_name]
 				if file.file_exists(plugin_script_path):
 					var plugin = load(plugin_script_path).new(self)
 					plugins.append(plugin)
-#				
+				else:
+					Log.log(self, "Error loading editor plugin %s: File not found" % [dir_name])
 			dir_name = dir.get_next()
 	
 func _ready():
