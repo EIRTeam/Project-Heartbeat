@@ -120,9 +120,9 @@ orientation = 1
 [node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
 ]]
-margin_top = 224.0
+margin_top = 268.0
 margin_right = 790.0
-margin_bottom = 264.0
+margin_bottom = 308.0
 focus_mode = 0
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 8 )
@@ -136,6 +136,7 @@ hover_style = SubResource( 2 )
 "owner_only",
 "steam_only",
 ]]
+visible = false
 margin_top = 268.0
 margin_right = 790.0
 margin_bottom = 308.0
