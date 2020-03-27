@@ -55,8 +55,8 @@ func _gui_input(event):
 	if event.is_action_pressed(prev_action):
 		if selected_button:
 			if selected_button_i == 0:
+				get_tree().set_input_as_handled()
 				if focus_neighbour_left:
-					get_tree().set_input_as_handled()
 					var neighbor_left = get_node(focus_neighbour_left) as Control
 					neighbor_left.grab_focus()
 			else:
@@ -72,6 +72,7 @@ func _gui_input(event):
 	elif event.is_action_pressed(next_action):
 		if selected_button:
 			if selected_button_i == get_child_count()-1:
+				get_tree().set_input_as_handled()
 				if focus_neighbour_right:
 					get_tree().set_input_as_handled()
 					var neighbour_right = get_node(focus_neighbour_right) as Control

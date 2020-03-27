@@ -53,12 +53,17 @@ func _ready():
 func _on_song_hovered(song: HBSong):
 	emit_signal("song_hovered", song)
 
-func _unhandled_input(event):
+func should_receive_input():
+	return scroll_container.has_focus()
+
+func _gui_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
 		change_to_menu("main_menu")
-	if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
-		$VBoxContainer/DifficultyList._gui_input(event)
+func _unhandled_input(event):
+	if should_receive_input():
+		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
+			$VBoxContainer/DifficultyList._gui_input(event)
 
 func _on_song_selected(song: HBSong):
 	current_song = song
