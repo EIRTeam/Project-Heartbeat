@@ -19,7 +19,7 @@ const BONUS_TEXTS = {
 	1: "SINGLE BONUS",
 	2: "DOUBLE BONUS",
 	3: "TRIPLE BONUS",
-	4: "QADRUPLE BONUS"
+	4: "QUADRUPLE BONUS"
 }
 
 func _ready():
