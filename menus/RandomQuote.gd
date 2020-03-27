@@ -28,7 +28,8 @@ const QUOTES = [
 	"The heart is a lie, she plans to burn you", # Portalish reference (also hi xna)
 	"If she saves you, it's likely her name starts with an E", # Sadnesswaifu yosi yosi
 	"Smooooooooth operatooooooor", # Reference to Carlos Sainz Junior
-	"Rolling around at the speed of tuturu" # ????
+	"Rolling around at the speed of tuturu", # ????
+	"Shoutouts to SimpleFlips"
 ]
 
 func _ready():
