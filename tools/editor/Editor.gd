@@ -81,8 +81,8 @@ func _ready():
 	
 	rhythm_game.set_process_unhandled_input(false)
 #	seek(0)
-	inspector.connect("user_changed_property", self, "_change_selected_property")
-	inspector.connect("user_commited_property", self, "_commit_selected_property_change")
+	inspector.connect("property_changed", self, "_change_selected_property")
+	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
 	
 	Diagnostics.hide_WIP_label()
 	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
@@ -177,7 +177,6 @@ var old_property_values = {}
 # Changes the selected property by an amount, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary
 func _change_selected_property_delta(property_name: String, new_value):
-	
 	for selected_item in selected:
 		if not selected_item in old_property_values:
 			old_property_values[selected_item] = {}
@@ -187,10 +186,10 @@ func _change_selected_property_delta(property_name: String, new_value):
 		selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
 		selected_item.update_widget_data()
 	_on_timing_points_changed()
-# Changes the selected property, but doesn't commit it to undo_redo, to
-# prevent creating more undo_redo actions than necessary
+# Changes the property of the selected item, but doesn't commit it to undo_redo, to
+# prevent creating more undo_redo actions than necessary, thus undoing constant 
+# actions like changing a note angle requires a single control+z
 func _change_selected_property(property_name: String, new_value):
-	
 	for selected_item in selected:
 		if not selected_item in old_property_values:
 			old_property_values[selected_item] = {}
@@ -200,8 +199,9 @@ func _change_selected_property(property_name: String, new_value):
 		selected_item.data.set(property_name, new_value)
 
 		selected_item.update_widget_data()
+		selected_item.sync_value(property_name)
 	_on_timing_points_changed()
-		
+	
 func _commit_selected_property_change(property_name: String):
 	var action_name = "Note " + property_name + " change commited"
 	
@@ -221,7 +221,7 @@ func _commit_selected_property_change(property_name: String):
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 	undo_redo.commit_action()
-	inspector.update_values()
+	inspector.sync_value(property_name)
 	old_property_values = {}
 # Handles when a user changes a timing point's property, this is used for properties
 # that won't constantly change

@@ -15,4 +15,3 @@ margin_right = 26.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 align = 3
-[connection signal="toggled" from="CheckBox" to="." method="_on_Spinbox_toggled"]

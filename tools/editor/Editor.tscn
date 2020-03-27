@@ -615,7 +615,6 @@ size_flags_stretch_ratio = 0.25
 tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer" instance=ExtResource( 12 )]
-visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -625,6 +624,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0

@@ -13,19 +13,11 @@ onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxC
 var inspecting_item: EditorTimelineItem
 var inspecting_properties = {}
 
-signal user_changed_property(property_name)
-signal user_commited_property(property_name)
+signal property_changed(property, value)
+signal property_change_committed(property)
 
 func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
-
-var ignore_next_value_update = false
-
-func _on_property_value_changed_by_user(value, property_editor):
-	emit_signal("user_changed_property", property_editor.property_name, value)
-
-func _on_property_value_commited_by_user(property_editor):
-	emit_signal("user_commited_property", property_editor.property_name)
 
 func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
@@ -33,28 +25,21 @@ func update_label():
 func stop_inspecting():
 	inspecting_item = null
 	for child in property_container.get_children():
-		child.free()
+		remove_child(child)
+		child.queue_free()
+	inspecting_properties = {}
 
-func update_value(name, old_value, new_value):
-	if ignore_next_value_update:
-		ignore_next_value_update = false
-		return
+func sync_visible_values_with_data():
+	for property_name in inspecting_properties:
+		sync_value(property_name)
+# Syncs a single value
+func sync_value(property_name: String):
+	inspecting_properties[property_name].sync_value(inspecting_item.data.get(property_name))
 	update_label()
-	for property_name in inspecting_item.get_inspector_properties():
-		if property_name == name:
-			ignore_next_value_update = true
-			inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
-		
-func update_values():
-	for property_name in inspecting_item.get_inspector_properties():
-		inspecting_properties[property_name].set_value(inspecting_item.data.get(property_name))
-
 func inspect(item: EditorTimelineItem):
 	print(item)
 	if item == inspecting_item:
 		return
-	if inspecting_item:
-		inspecting_item.disconnect("property_changed", self, "update_value")
 	inspecting_properties = {}
 	inspecting_item = item
 	
@@ -73,8 +58,13 @@ func inspect(item: EditorTimelineItem):
 		var label = Label.new()
 		label.text = property.capitalize()
 		property_container.add_child(label)
-		inspector_editor.connect("value_changed", self, "_on_property_value_changed_by_user", [inspector_editor])
-		inspector_editor.connect("value_committed", self, "_on_property_value_commited_by_user", [inspector_editor])
+		inspector_editor.connect("value_changed", self, "_on_property_value_changed_by_user", [property])
+		inspector_editor.connect("value_change_committed", self, "_on_property_value_commited_by_user", [property])
 		property_container.add_child(inspector_editor)
 		inspecting_properties[property] = inspector_editor
-	update_values()
+	sync_visible_values_with_data()
+
+func _on_property_value_changed_by_user(value, property_name):
+	emit_signal("property_changed", property_name, value)
+func _on_property_value_commited_by_user(property_name):
+	emit_signal("property_change_committed", property_name)

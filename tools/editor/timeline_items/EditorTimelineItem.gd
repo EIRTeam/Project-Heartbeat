@@ -114,3 +114,7 @@ func update_widget_data():
 	
 func get_duration():
 	return 1000
+
+func sync_value(property_name: String):
+	if property_name == "time":
+		set_start(data.time)

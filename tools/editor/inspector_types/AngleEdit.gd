@@ -16,6 +16,7 @@ func _gui_input(event):
 			get_tree().set_input_as_handled()
 			var center = rect_size / 2
 			set_angle(round(rad2deg(center.angle_to_point(get_local_mouse_position())) - 180))
+			emit_signal("angle_changed", angle)
 		if Input.is_action_just_released("editor_select"):
 			emit_signal("angle_finished_changing")
 func _draw():

@@ -32,4 +32,3 @@ max_value = 360.0
 align = 1
 [connection signal="angle_changed" from="AngleEdit" to="." method="_on_angle_changed"]
 [connection signal="angle_finished_changing" from="AngleEdit" to="." method="_on_AngleEdit_angle_finished_changing"]
-[connection signal="value_changed" from="Spinbox" to="." method="_on_Spinbox_value_changed"]

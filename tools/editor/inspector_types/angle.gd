@@ -1,25 +1,27 @@
 tool
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-
-func set_value(value):
-	if $Spinbox.is_connected("value_changed", self, "_on_Spinbox_value_changed"):
-#		$Spinbox.disconnect("value_changed", self, "_on_Spinbox_value_changed")
-		$Spinbox.value = value
-		$AngleEdit.angle = value
-#		$Spinbox.connect("value_changed", self, "_on_Spinbox_value_changed")
+onready var spinbox = get_node("Spinbox")
+onready var angle_edit = get_node("AngleEdit")
+func sync_value(value):
+	spinbox.disconnect("value_changed", self, "_on_Spinbox_value_changed")
+	spinbox.value = value
+	spinbox.connect("value_changed", self, "_on_Spinbox_value_changed")
+	angle_edit.angle = value
+	
+func _ready():
+	spinbox.connect("value_changed", self, "_on_Spinbox_value_changed")
 
 func emit_value_changed_signal():
-	emit_signal("value_changed", $AngleEdit.angle)
+	emit_signal("value_changed", angle_edit.angle)
 
 func _on_angle_changed(angle):
-	$Spinbox.value = angle
+	spinbox.value = angle
 	emit_value_changed_signal()
 
-
 func _on_Spinbox_value_changed(value):
-	$AngleEdit.angle = value
-
+	spinbox.angle = value
+	emit_value_changed_signal()
 
 func _on_AngleEdit_angle_finished_changing():
-	emit_signal("value_committed")
+	emit_signal("value_change_committed")

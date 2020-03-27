@@ -1,16 +1,17 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
-var ignore_next_value_change = false
-func set_value(value):
-	ignore_next_value_change = true
-	$Spinbox.value = value
 
+onready var spin_box = get_node("Spinbox")
+
+func sync_value(value):
+	spin_box.disconnect("value_changed", self, "_on_Spinbox_value_changed")
+	spin_box.value = value
+	spin_box.connect("value_changed", self, "_on_Spinbox_value_changed")
+func _ready():
+	spin_box.connect("value_changed", self, "_on_Spinbox_value_changed")
 
 func emit_value_changed_signal():
-	emit_signal("value_changed", float($Spinbox.value))
-	emit_signal("value_committed")
+	emit_signal("value_changed", float(spin_box.value))
+	emit_signal("value_change_committed")
 
 func _on_Spinbox_value_changed(value):
-	if ignore_next_value_change:
-		ignore_next_value_change = false
-		return
 	emit_value_changed_signal()
