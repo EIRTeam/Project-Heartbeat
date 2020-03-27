@@ -315,7 +315,6 @@ func seek(value: int):
 	rhythm_game.time = playhead_position / 1000.0
 	emit_signal("playhead_position_changed")
 	_on_timing_points_changed()
-	print("seek")
 			
 func delete_selected():
 	if selected.size() > 0:
