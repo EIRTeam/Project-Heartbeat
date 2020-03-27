@@ -46,7 +46,7 @@ func _gui_input(event):
 		option_change = step
 		get_tree().set_input_as_handled()
 	if option_change != 0:
-		set_value(clamp(value+option_change, minimum, maximum))
+		set_value(stepify(clamp(value+option_change, minimum, maximum), step))
 		emit_signal("changed", value)
 
 
