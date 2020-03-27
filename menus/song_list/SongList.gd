@@ -56,15 +56,13 @@ func _on_song_hovered(song: HBSong):
 func should_receive_input():
 	return scroll_container.has_focus()
 
-func _gui_input(event):
-	if event.is_action_pressed("gui_cancel"):
-		get_tree().set_input_as_handled()
-		change_to_menu("main_menu")
 func _unhandled_input(event):
 	if should_receive_input():
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
 			$VBoxContainer/DifficultyList._gui_input(event)
-
+		if event.is_action_pressed("gui_cancel"):
+			get_tree().set_input_as_handled()
+			change_to_menu("main_menu")
 func _on_song_selected(song: HBSong):
 	current_song = song
 	if song is HBPPDSong and not song.has_audio() and not song.youtube_url:
@@ -82,7 +80,6 @@ func _on_ppd_audio_file_selected(path: String):
 	directory.copy(path, song_path)
 func _on_PPDAudioBrowseWindow_accept():
 	MouseTrap.ppd_dialog.ask_for_file()
-		
 func _on_youtube_url_selected(url):
 	SongLoader.set_ppd_youtube_url(current_song, url)
 	scroll_container.grab_focus()
