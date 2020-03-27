@@ -15,7 +15,8 @@ func _on_create_notes(notes_per_note: float, beats: float):
 			var note_data = timeline_item.data as HBNoteData
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 				var starting_time = note_data.time
-				var time_interval = (7500 / float(_editor.current_song.bpm)) / ((1.0/32.0) / 1/float(notes_per_note))
+				var time_interval = (7500 / float(_editor.current_song.bpm)) * ((1.0/32.0) / 1/float(notes_per_note))
+				time_interval = time_interval * 1000.0
 				var notes_to_create = beats * (notes_per_note/4.0)
 				var initial_x_offset = 48
 				var interval_x_offset = 32
@@ -41,7 +42,7 @@ func _on_create_notes(notes_per_note: float, beats: float):
 					_editor.undo_redo.add_do_method(_editor, "add_item_to_layer", timeline_item._layer, note_timeline_item)
 					_editor.undo_redo.add_do_method(_editor, "_on_timing_points_changed")
 					_editor.undo_redo.add_undo_method(timeline_item._layer, "remove_item", note_timeline_item)
-					_editor.undo_redo.add_undo_method(timeline_item._layer, "deselect")
+					_editor.undo_redo.add_undo_method(timeline_item, "deselect")
 					_editor.undo_redo.add_undo_method(_editor, "_on_timing_points_changed")
 				_editor.undo_redo.commit_action()
 			else:
