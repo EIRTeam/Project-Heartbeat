@@ -97,6 +97,12 @@ func _ready():
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
+func change_scale(new_scale):
+	var prev_scale = scale
+	scale = new_scale
+	scale = max(new_scale, 0.1)
+	emit_signal("scale_changed", prev_scale, new_scale)
+	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_undo"):
 		get_tree().set_input_as_handled()
@@ -104,18 +110,14 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_redo"):
 		get_tree().set_input_as_handled()
 		undo_redo.redo()
-	var prev_scale = scale
+	
 	if timeline.get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_scale_down"):
 			get_tree().set_input_as_handled()
-			scale += 0.5
-			scale = max(scale, 0.1)
-			emit_signal("scale_changed", prev_scale, scale)
+			change_scale(scale+0.5)
 		if event.is_action_pressed("editor_scale_up"):
 			get_tree().set_input_as_handled()
-			scale -= 0.5
-			scale = max(scale, 0.1)
-			emit_signal("scale_changed", prev_scale, scale)
+			change_scale(scale-0.5)
 	if event.is_action_pressed("editor_delete"):
 		if selected:
 			get_tree().set_input_as_handled()

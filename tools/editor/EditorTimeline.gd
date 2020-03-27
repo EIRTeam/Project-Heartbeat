@@ -8,6 +8,7 @@ signal offset_changed(offset)
 const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
 onready var scroll_bar = get_node("VBoxContainer/HScrollBar")
+onready var scroll_container = get_node("VBoxContainer/ScrollContainer")
 var _offset = 0
 var _prev_playhead_position = Vector2()
 signal layers_changed
@@ -17,7 +18,13 @@ const TRIANGLE_HEIGHT = 15
 func _ready():
 	update()
 	connect("resized", self, "_on_viewport_size_changed")
-
+	scroll_container.connect("zoom_in", self, "_on_zoom_in")
+	scroll_container.connect("zoom_out", self, "_on_zoom_out")
+	
+func _on_zoom_in():
+	editor.change_scale(editor.scale-0.5)
+func _on_zoom_out():
+	editor.change_scale(editor.scale+0.5)
 	
 func _on_viewport_size_changed():
 	# HACK: On linux we wait one frame because the size transformation doesn't
@@ -114,11 +121,9 @@ func set_layers_offset(ms: int):
 	update()
 
 func scale_layers():
-	print("SCALING LAYER TO", editor.scale_msec(editor.get_song_length() * 1000.0))
 	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
 
 func _on_Editor_scale_changed(prev_scale, scale):
-	print("scale change", (scale/prev_scale))
 	var new_offset = _offset * (scale/prev_scale)
 	var diff = _prev_playhead_position.x - calculate_playhead_position().x
 	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))

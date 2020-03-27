@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
@@ -11,6 +11,30 @@ content_margin_bottom = 4.0
 bg_color = Color( 0.0941176, 0.109804, 0.14902, 1 )
 border_width_bottom = 1
 border_color = Color( 0.541176, 0.541176, 0.541176, 1 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends ScrollContainer
+
+# Hacky way to handle control+zoom
+var _scroll = 0.0
+var _prevent_next_scroll = false
+signal zoom_in
+signal zoom_out
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.control:
+			_prevent_next_scroll = true
+			if event.is_action_pressed(\"editor_scale_up\"):
+				emit_signal(\"zoom_in\")
+			elif event.is_action_pressed(\"editor_scale_down\"):
+				emit_signal(\"zoom_out\")
+func _process(delta):
+	if _prevent_next_scroll:
+		scroll_vertical = _scroll
+		_prevent_next_scroll = false
+	if scroll_vertical != _scroll:
+		_scroll = scroll_vertical
+"
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -80,6 +104,7 @@ margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.3
+script = SubResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
 margin_right = 1280.0
