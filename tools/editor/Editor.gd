@@ -75,6 +75,7 @@ func load_plugins():
 			dir_name = dir.get_next()
 	
 func _ready():
+	Input.set_use_accumulated_input(true)
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	get_viewport()
 	timeline.editor = self
@@ -313,8 +314,8 @@ func seek(value: int):
 		
 	rhythm_game.time = playhead_position / 1000.0
 	emit_signal("playhead_position_changed")
-	rhythm_game.remove_all_notes_from_screen()
-#	_on_timing_points_changed()
+	_on_timing_points_changed()
+	print("seek")
 			
 func delete_selected():
 	if selected.size() > 0:
@@ -454,8 +455,9 @@ func load_song(song: HBSong, difficulty: String):
 
 func _on_ExitDialog_confirmed():
 	Diagnostics.show_WIP_label()
+	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
-
+	
 func get_beats_per_bar():
 	match metre_option_button.selected:
 		0:
