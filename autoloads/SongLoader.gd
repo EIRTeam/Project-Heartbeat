@@ -13,7 +13,6 @@ const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
 const SONG_SCORES_PATH = "user://scores.json"
 const PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
 var ppd_youtube_url_list = {}
-const SCORES_KEY = "ScoresV1"
 const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme"]
 var scores = {}
 
@@ -27,15 +26,6 @@ func _ready():
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
 	load_all_songs_meta()
-func load_scores():
-	var dir := Directory.new()
-	if dir.file_exists(SONG_SCORES_PATH):
-		pass
-	
-func save_scores():
-	var file = File.new()
-	#file.get_buffer()
-	file.open_encrypted_with_pass(SONG_SCORES_PATH, File.COMPRESSION_ZSTD, SCORES_KEY)
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
