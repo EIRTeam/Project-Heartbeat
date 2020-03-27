@@ -82,7 +82,7 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 func difficulty_sort(a: String, b: String):
 	var a_i = BASE_DIFFICULTY_ORDER.find(a.to_lower())
 	var b_i = BASE_DIFFICULTY_ORDER.find(b.to_lower())
-	return a_i < b_i
+	return a_i > b_i
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}
