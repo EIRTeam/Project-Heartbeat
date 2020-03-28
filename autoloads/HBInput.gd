@@ -24,10 +24,9 @@ func _input(event):
 	if not event is InputEventAction:
 		if event is InputEventJoypadButton or event is InputEventKey or event or event is InputEventJoypadMotion:
 			if not event.is_echo():
-				var found_action
 				for action in TRACKED_ACTIONS:
 					if event.is_action(action):
-						found_action = action
+						var found_action = action
 						
 						var previous_state = false
 						
