@@ -65,7 +65,7 @@ func save_history():
 		
 func add_result_to_history(game_info: HBGameInfo):
 	var result = game_info.result as HBResult
-	if result.used_cheats:
+	if not result.used_cheats:
 		Log.log(self, "Can't enter a cheated result")
 		if PlatformService.service_provider.implements_leaderboards:
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
