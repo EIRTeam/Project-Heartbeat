@@ -19,6 +19,10 @@ func _on_focus_entered():
 func _on_song_selected(song: HBSong):
 	emit_signal("song_selected", song)
 func select_song_by_id(song_id: String):
+	# HACK HACK: If we don't wait to idle frame the song isn't reselected when it
+	# should be
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	for child in vbox_container.get_children():
 		if child.song.id == song_id:
 			select_child(child, true)
