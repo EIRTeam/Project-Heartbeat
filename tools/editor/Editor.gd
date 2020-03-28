@@ -29,6 +29,8 @@ onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
+onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
+onready var offset_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -52,6 +54,7 @@ var plugins = []
 	
 func set_bpm(value):
 	BPM_spinbox.value = value
+	song_editor_settings.bpm = value
 
 func get_bpm():
 	return BPM_spinbox.value
@@ -387,12 +390,30 @@ func get_chart():
 func serialize_chart():
 	return get_chart().serialize()
 
+func load_settings(settings: HBPerSongEditorSettings):
+	offset_box.disconnect("value_changed", self, "_on_timing_information_changed")
+	note_resolution_box.disconnect("value_changed", self, "_on_timing_information_changed")
+	BPM_spinbox.disconnect("value_changed", self, "_on_timing_information_changed")
+	metre_option_button.disconnect("item_selected", self, "_on_timing_information_changed")
+	song_editor_settings = settings
+	for layer in timeline.get_layers():
+		var layer_visible = not layer.name in settings.hidden_layers
+		timeline.change_layer_visibility(layer_visible, layer.name)
+	set_bpm(settings.bpm)
+	set_note_resolution(settings.note_resolution)
+	set_note_snap_offset(settings.offset)
+	set_beats_per_bar(settings.beats_per_bar)
+	emit_signal("timing_information_changed")
+	offset_box.connect("value_changed", self, "_on_timing_information_changed")
+	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
+	BPM_spinbox.connect("value_changed", self, "_on_timing_information_changed")
+	metre_option_button.connect("item_selected", self, "_on_timing_information_changed")
 func from_chart(chart: HBChart):
 	timeline.clear_layers()
 	undo_redo.clear_history()
-	song_editor_settings = HBPerSongEditorSettings.new()
 	selected = []
 	layer_manager.clear_layers()
+	load_settings(chart.editor_settings)
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name
@@ -402,10 +423,9 @@ func from_chart(chart: HBChart):
 			var item = item_d.get_timeline_item()
 			item.data = item_d
 			add_item(layer_n, item)
-			
-		var layer_visible = not layer.name in chart.editor_settings.hidden_layers
+		var layer_visible = not layer.name in song_editor_settings.hidden_layers
 		layer_manager.add_layer(layer.name, layer_visible)
-		timeline.change_layer_visibility(layer_visible, layer.name)
+
 	_on_timing_points_changed()
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
@@ -426,6 +446,7 @@ func load_song(song: HBSong, difficulty: String):
 	var file = File.new()
 	var dir = Directory.new()
 	var chart = HBChart.new()
+	chart.editor_settings.bpm = song.bpm
 	if dir.file_exists(chart_path):
 		file.open(chart_path, File.READ)
 		
@@ -457,24 +478,38 @@ func _on_ExitDialog_confirmed():
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	
+const OPTION_TO_BEATS_PER_BAR = {
+	0: 4,
+	1: 3,
+	2: 2,
+	3: 1
+}
+
 func get_beats_per_bar():
-	match metre_option_button.selected:
-		0:
-			return 4
-		1:
-			return 3
-		2:
-			return 2
-		3:
-			return 1
+	return OPTION_TO_BEATS_PER_BAR[metre_option_button.selected]
+
+func set_beats_per_bar(bpb):
+	var option = HBUtils.find_key(OPTION_TO_BEATS_PER_BAR, int(bpb))
+	metre_option_button.select(option)
 
 func get_note_resolution():
-	return 1/$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution.value
+	return 1/note_resolution_box.value
+
+func set_note_resolution(note_res):
+	note_resolution_box.value = note_res
 
 func get_note_snap_offset():
 	return $VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value
 
-func _on_timing_information_changed(ignoredarg=null):
+func set_note_snap_offset(offset):
+	print("SET OFFSET TO ", offset)
+	$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value = offset
+
+func _on_timing_information_changed(f=null):
+	song_editor_settings.offset = get_note_snap_offset()
+	song_editor_settings.bpm = get_bpm()
+	song_editor_settings.beats_per_bar = get_beats_per_bar()
+	song_editor_settings.note_resolution = note_resolution_box.value
 	emit_signal("timing_information_changed")
 
 

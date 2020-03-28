@@ -26,7 +26,8 @@ func _ready():
 
 func _on_resized():
 	yield(get_tree(), "idle_frame")
-	select_child(selected_child, true)
+	if selected_child:
+		select_child(selected_child, true)
 func is_child_off_the_bottom(child):
 	if child.rect_position.y + child.rect_size.y > scroll_target + rect_size.y:
 		return true

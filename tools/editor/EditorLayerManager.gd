@@ -16,6 +16,5 @@ func add_layer(layer_name: String, layer_visibility: bool):
 	layer.layer_visible = layer_visibility
 	layer.connect("layer_visibility_changed", self, "_on_layer_visibility_changed", [layer_name])
 	
-	
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	emit_signal("layer_visibility_changed", visibility, layer_name)

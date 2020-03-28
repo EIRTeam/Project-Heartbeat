@@ -3,12 +3,15 @@ extends HBSerializable
 class_name HBPerSongEditorSettings
 
 var hidden_layers = []
-
+var bpm = 0.0
+var offset = 0.0
+var note_resolution = 4
+var beats_per_bar = 0.0
 func get_serialized_type():
 	return "PerSongEditorSettings"
 
 func _init():
-	serializable_fields += ["hidden_layers"]
+	serializable_fields += ["hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution"]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")
 
