@@ -140,13 +140,7 @@ func set_game_info(val: HBGameInfo):
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
 
 	# add result to history
-	if ScoreHistory.has_result(game_info.song_id, game_info.difficulty):
-		var existing_result : HBResult = ScoreHistory.get_result(game_info.song_id, game_info.difficulty)
-		if existing_result.score < result.score:
-			return
-		ScoreHistory.add_result_to_history(game_info)
-	else:
-		ScoreHistory.add_result_to_history(game_info)
+	ScoreHistory.add_result_to_history(game_info)
 
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:

@@ -73,6 +73,14 @@ func add_result_to_history(game_info: HBGameInfo):
 		if not scores.has(game_info.song_id):
 			scores[game_info.song_id] = {}
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
+			
+		if scores[game_info.song_id].has(game_info.difficulty):
+			var existing_result = scores[game_info.song_id][game_info.difficulty].result as HBResult
+			if existing_result.score > result.score:
+				Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
+				return
+		scores[game_info.song_id][game_info.difficulty] = game_info
+
 		if PlatformService.service_provider.implements_leaderboards:
 			var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
 			var song = SongLoader.songs[game_info.song_id] as HBSong
@@ -80,13 +88,6 @@ func add_result_to_history(game_info: HBGameInfo):
 			leaderboard_service.upload_score(song.get_leaderboard_name(game_info.difficulty), result.score, result.get_percentage())
 		else:
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
-			
-		if scores[game_info.song_id].has(game_info.difficulty):
-			var current_result = scores[game_info.song_id][game_info.difficulty].result as HBResult
-			if current_result.score > result.score:
-				Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
-				return
-		scores[game_info.song_id][game_info.difficulty] = game_info
 		save_history()
 	
 
