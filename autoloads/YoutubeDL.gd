@@ -121,7 +121,7 @@ func _download_video(userdata):
 	if download_audio:
 		var out = []
 		var audio_path = get_audio_path(userdata.video_id, true).get_base_dir() + "/" + "%(id)s.%(ext)s"
-		OS.execute(get_ytdl_executable(), ["-f", "bestaudio[acodec=opus]", "--extract-audio", "--audio-format", "vorbis", "-o", audio_path, "https://youtu.be/" + userdata.video_id], true, out)
+		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestaudio[acodec=opus]", "--extract-audio", "--audio-format", "vorbis", "-o", audio_path, "https://youtu.be/" + userdata.video_id], true, out)
 		result["audio"] = true
 		result["audio_out"] = out[-1]
 		
@@ -135,7 +135,7 @@ func _download_video(userdata):
 	if download_video:
 		var out = []
 		
-		OS.execute(get_ytdl_executable(), ["-f", "bestvideo[container=mp4,height<=1080]", "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
+		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[container=mp4,height<=1080]", "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]
 		if file.file_exists(get_video_path(userdata.video_id)):
