@@ -92,6 +92,7 @@ func get_input_map():
 func _ready():
 	base_input_map = get_input_map()
 	load_user_settings()
+	apply_user_settings()
 	# Set the controller to be the first one if we have none
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.last_controller_guid:
@@ -159,8 +160,10 @@ func load_user_settings():
 				Log.log(self, "Successfully loaded user settings from " + USER_SETTINGS_PATH)
 			else:
 				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
+	
+func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
-
+	set_fullscreen(user_settings.fullscreen)
 func _process(delta):
 	if debouncing:
 		save_debounce_t += delta
@@ -191,6 +194,12 @@ func get_event_name(event: InputEvent):
 	elif event is InputEventKey:
 		ret = OS.get_scancode_string(event.scancode)
 	return ret
+	
+func set_fullscreen(fullscreen = false):
+	print("set full screen", fullscreen)
+	OS.window_borderless = fullscreen
+	OS.window_fullscreen = fullscreen
+	
 func reset_to_default_input_map():
 	user_settings.input_map = base_input_map
 	load_input_map()

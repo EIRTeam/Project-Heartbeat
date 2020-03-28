@@ -27,6 +27,10 @@ var OPTIONS = {
 		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
 	},
 	"Video": {
+		"fullscreen": {
+			"name": tr("Fullscreen"),
+			"description": tr("Whether or not the game should use all the available screen, this should have no difference in performance from windowed mode.")
+		},
 		"visualizer_enabled": {
 			"name": tr("Visualizer"),
 			"description": tr("Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems.")
@@ -144,10 +148,7 @@ func _on_SectionButton_press(section_name):
 
 func _on_value_changed(property_name, new_value):
 	UserSettings.user_settings.set(property_name, new_value)
-	if property_name == "input_poll_more_than_once_per_frame":
-		Input.set_use_accumulated_input(!new_value)
-	if property_name == "fps_limit":
-		Engine.target_fps = int(new_value)
+	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
 
 func _on_back():
