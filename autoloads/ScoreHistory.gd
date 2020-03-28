@@ -73,13 +73,14 @@ func add_result_to_history(game_info: HBGameInfo):
 		if not scores.has(game_info.song_id):
 			scores[game_info.song_id] = {}
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
-			
+		var found_higher_score = false
 		if scores[game_info.song_id].has(game_info.difficulty):
 			var existing_result = scores[game_info.song_id][game_info.difficulty].result as HBResult
 			if existing_result.score > result.score:
 				Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
-				return
-		scores[game_info.song_id][game_info.difficulty] = game_info
+				found_higher_score = true
+		if not found_higher_score:
+			scores[game_info.song_id][game_info.difficulty] = game_info
 
 		if PlatformService.service_provider.implements_leaderboards:
 			var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
