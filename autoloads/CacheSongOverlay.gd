@@ -32,6 +32,7 @@ func _on_video_downloaded(id, results):
 func show_error(error: String):
 	error_prompt.text = error
 	error_prompt.popup_centered_ratio(0.5)
+	downloading_prompt.hide()
 func _on_error_prompt_accepted():
 	emit_signal("download_error")
 	
