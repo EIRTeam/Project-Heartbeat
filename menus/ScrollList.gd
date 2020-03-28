@@ -22,7 +22,11 @@ func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_lost")
 	_set_opacities(true)
+	connect("resized", self, "_on_resized")
 
+func _on_resized():
+	yield(get_tree(), "idle_frame")
+	select_child(selected_child, true)
 func is_child_off_the_bottom(child):
 	if child.rect_position.y + child.rect_size.y > scroll_target + rect_size.y:
 		return true
@@ -47,7 +51,10 @@ func _on_focus_lost():
 	deselect_child()
 	
 func select_child(child, hard = false):
-	if is_child_off_the_bottom(child):
+	if not get_v_scrollbar().visible:
+		scroll_target = 0
+		current_scroll = scroll_target
+	elif is_child_off_the_bottom(child):
 		scroll_target = child.rect_position.y + child.rect_size.y - rect_size.y
 		if hard:
 			current_scroll = scroll_target
