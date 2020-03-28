@@ -131,7 +131,7 @@ func _on_note_judged(judgement):
 
 func _unhandled_input(event):
 	# Master notes handle all the input
-	if not event is InputEventAction and not event.is_action("tap_left") and not event.is_action("tap_right"):
+	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
 		return
 	if note_data.note_type in HBNoteData.NO_INPUT_LIST:
 		return
