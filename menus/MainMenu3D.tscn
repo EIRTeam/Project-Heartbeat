@@ -151,10 +151,10 @@ void fragment()
 shader = SubResource( 14 )
 shader_param/FREQ_RANGE = 64.0
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.075175, 0.0405, 0.15, 0.501961 )
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Background1:self_modulate")
 tracks/0/interp = 1
@@ -310,7 +310,7 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fallback_stylebox = SubResource( 17 )
+fallback_stylebox = SubResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
-anims/1to2 = SubResource( 16 )
+anims/1to2 = SubResource( 17 )

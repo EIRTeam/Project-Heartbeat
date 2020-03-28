@@ -25,7 +25,7 @@ func update_label():
 func stop_inspecting():
 	inspecting_item = null
 	for child in property_container.get_children():
-		remove_child(child)
+		property_container.remove_child(child)
 		child.queue_free()
 	inspecting_properties = {}
 
