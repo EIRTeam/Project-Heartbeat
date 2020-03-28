@@ -164,6 +164,7 @@ func load_user_settings():
 func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
+	Engine.target_fps = int(user_settings.fps_limit)
 func _process(delta):
 	if debouncing:
 		save_debounce_t += delta
