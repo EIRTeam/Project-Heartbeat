@@ -7,6 +7,8 @@ const DISCLAIMER_TEXT = """Before you import a PPD chart, please keep in mind:
 
 Are you entirely sure that you want to do this?"""
 
+var offset_spinbox
+
 func _init(_editor).(_editor):
 	var vbox_container = VBoxContainer.new()
 	vbox_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -24,6 +26,19 @@ func _init(_editor).(_editor):
 	ppd_disclaimer_dialog.connect("confirmed", ppd_file_select_dialog, "popup_centered_ratio", [0.75])
 	vbox_container.add_child(ppd_disclaimer_dialog)
 	
+	var  hbox_container = HBoxContainer.new()
+	var offset_label = Label.new()
+	offset_label.text = tr("Import offset (in milliseconds)")
+	offset_spinbox = SpinBox.new()
+	offset_spinbox.step = 1
+	offset_spinbox.max_value = 10000
+	offset_spinbox.min_value = -10000
+	
+	hbox_container.add_child(offset_label)
+	hbox_container.add_child(offset_spinbox)
+	
+	vbox_container.add_child(hbox_container)
+	
 	var import_button = Button.new()
 	import_button.text = "Import chart from PPD (FT)"
 	import_button.clip_text = true
@@ -33,5 +48,5 @@ func _init(_editor).(_editor):
 	
 	add_tool_to_tools_tab(vbox_container, "PPD Importer")
 func _on_file_selected(file_path: String):
-	var charter = PPDLoader.PPD2HBChart(file_path, _editor.get_bpm())
-	get_editor().from_chart(charter)
+	var charter = PPDLoader.PPD2HBChart(file_path, _editor.get_bpm(), offset_spinbox.value)
+	get_editor().from_chart(charter, true)

@@ -408,12 +408,13 @@ func load_settings(settings: HBPerSongEditorSettings):
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
 	BPM_spinbox.connect("value_changed", self, "_on_timing_information_changed")
 	metre_option_button.connect("item_selected", self, "_on_timing_information_changed")
-func from_chart(chart: HBChart):
+func from_chart(chart: HBChart, ignore_settings=false):
 	timeline.clear_layers()
 	undo_redo.clear_history()
 	selected = []
 	layer_manager.clear_layers()
-	load_settings(chart.editor_settings)
+	if not ignore_settings:
+		load_settings(chart.editor_settings)
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name

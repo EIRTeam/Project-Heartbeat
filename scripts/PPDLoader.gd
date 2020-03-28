@@ -104,7 +104,7 @@ enum PPDButtons {
 	L
 }
 
-static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
+static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	var bpm = base_bpm
 	var PPDButton2HBNoteType = {
 		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
@@ -143,7 +143,7 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 		
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
-		note_data.time = int(note.time*1000.0)
+		note_data.time = int(note.time*1000.0) + int(offset)
 		note_data.auto_time_out = true
 		
 		note_data.position.x = (note.position.x / 800.0) * 1920
@@ -226,7 +226,7 @@ static func PPD2HBChart(path: String, base_bpm: int) -> HBChart:
 				note_position.x += position_increment
 				var new_note = note_data.clone()
 				new_note.note_type = new_note_type
-				new_note.time = note_time
+				new_note.time = note_time + int(offset)
 				new_note.position = note_position
 				chart.layers[note_data.note_type].timing_points.append(new_note)
 		elif note.ex:

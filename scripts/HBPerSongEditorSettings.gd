@@ -6,7 +6,7 @@ var hidden_layers = []
 var bpm = 0.0
 var offset = 0.0
 var note_resolution = 4
-var beats_per_bar = 0.0
+var beats_per_bar = 4
 func get_serialized_type():
 	return "PerSongEditorSettings"
 
