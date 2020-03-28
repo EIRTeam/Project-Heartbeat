@@ -28,7 +28,7 @@ func _on_create_notes(notes_per_note: float, beats: float):
 					var position_increment = initial_x_offset + interval_x_offset * i
 					var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
 					if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-						position_increment += -1
+						position_increment *= -1
 						new_note_type = HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE
 					note_position.x += position_increment
 					var new_note = HBNoteData.new()
