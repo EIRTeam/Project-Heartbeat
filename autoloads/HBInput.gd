@@ -28,34 +28,31 @@ func _input(event):
 				for action in TRACKED_ACTIONS:
 					if event.is_action(action):
 						found_action = action
-						break
-				if not found_action:
-					return
-				
-				var previous_state = false
-				
-				var button = 0
-				var event_pressed = event.is_pressed()
-				if event is InputEventKey:
-					button = event.scancode
-				elif event is InputEventJoypadButton:
-					button = event.button_index
-				elif event is InputEventJoypadMotion:
-					button = "AXIS" + str(event.axis)
-					event_pressed = event.get_action_strength(found_action) >= (1.0 - ANALOG_DEADZONE)
-					
-				if not action_tracking.has(found_action):
-					action_tracking[found_action] = {}
-				if not action_tracking[found_action].has(event.device):
-					action_tracking[found_action][event.device] = {}
-				if not action_tracking[found_action][event.device].has(button):
-					action_tracking[found_action][event.device][button] = false
-	
-				previous_state = is_action_pressed(found_action)
-				action_tracking[found_action][event.device][button] = event.is_pressed()
-				get_tree().set_input_as_handled()
-				if not is_action_pressed(found_action) or event_pressed:
-					var ev = InputEventAction.new()
-					ev.action = found_action
-					ev.pressed = is_action_pressed(found_action)
-					Input.parse_input_event(ev)
+						
+						var previous_state = false
+						
+						var button = 0
+						var event_pressed = event.is_pressed()
+						if event is InputEventKey:
+							button = event.scancode
+						elif event is InputEventJoypadButton:
+							button = event.button_index
+						elif event is InputEventJoypadMotion:
+							button = "AXIS" + str(event.axis)
+							event_pressed = event.get_action_strength(found_action) >= (1.0 - ANALOG_DEADZONE)
+							
+						if not action_tracking.has(found_action):
+							action_tracking[found_action] = {}
+						if not action_tracking[found_action].has(event.device):
+							action_tracking[found_action][event.device] = {}
+						if not action_tracking[found_action][event.device].has(button):
+							action_tracking[found_action][event.device][button] = false
+			
+						previous_state = is_action_pressed(found_action)
+						action_tracking[found_action][event.device][button] = event.is_pressed()
+						get_tree().set_input_as_handled()
+						if not is_action_pressed(found_action) or event_pressed:
+							var ev = InputEventAction.new()
+							ev.action = found_action
+							ev.pressed = is_action_pressed(found_action)
+							Input.parse_input_event(ev)
