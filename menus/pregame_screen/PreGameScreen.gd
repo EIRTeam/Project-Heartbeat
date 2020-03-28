@@ -44,6 +44,9 @@ func _on_StartButton_pressed():
 	game_info.difficulty = current_difficulty
 	scene.start_session(game_info)
 
+func _unhandled_input(event):
+	if event.is_action_pressed("gui_cancel"):
+		_on_BackButton_pressed()
 
 func _on_BackButton_pressed():
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
