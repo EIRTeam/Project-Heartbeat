@@ -125,4 +125,4 @@ func _on_track_import_accepted(smf: SMFLoader.SMF, note_range=[0, 255], tracks=[
 					timing_point.time = event_time_ms
 					chart.layers[HBNoteData.NOTE_TYPE.RIGHT].timing_points.append(timing_point)
 					found_times.append(event_time_ms)
-	get_editor().from_chart(chart)
+	get_editor().from_chart(chart, true)
