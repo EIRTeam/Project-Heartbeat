@@ -20,7 +20,8 @@ func set_values():
 	username_label.text = entry.member.member_name
 	rank_label.text = str(entry.rank)
 	user_avatar_texture_rect.texture = entry.member.avatar
-	entry.member.connect("persona_state_change", self, "_persona_state_change")
+	if not entry.member.is_connected("persona_state_change", self, "_persona_state_change"):
+		entry.member.connect("persona_state_change", self, "_persona_state_change")
 	
 func _persona_state_change(flags):
 	set_values()
