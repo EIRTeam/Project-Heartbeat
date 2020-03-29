@@ -220,8 +220,8 @@ render_target_v_flip = true
 [node name="MenuRightContainer" type="Control" parent="ViewportRight"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 3.05176e-05
-margin_bottom = 40.0001
+margin_right = 6.10352e-05
+margin_bottom = 0.00012207
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
