@@ -117,7 +117,6 @@ func set_game_info(val: HBGameInfo):
 				# Add wrong notes
 				for r in result.wrong_note_ratings.values():
 					results += r
-					print(result.wrong_note_ratings)
 			rating_scene.percentage = results  / float(result.total_notes)
 			rating_scene.total_notes = results
 	var score_percentage = 0
