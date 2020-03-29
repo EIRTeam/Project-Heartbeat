@@ -20,6 +20,8 @@ func _set_leaderboard(value):
 		var provider = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
 		provider.connect("leaderboard_found", self, "_leaderboard_found", [], CONNECT_ONESHOT)
 		provider.find_leadeboard(value)
+		not_found_label.hide()
+		loading_texture_rect.show()
 	else:
 		not_found_label.show()
 		loading_texture_rect.hide()
