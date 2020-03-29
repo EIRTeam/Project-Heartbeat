@@ -13,8 +13,17 @@ onready var current_score_label = get_node("Panel/MarginContainer/HBoxContainer/
 onready var hold_count_label = get_node("Panel/MarginContainer/HBoxContainer/HoldCount")
 onready var panel = get_node("Panel")
 onready var animation_player = get_node("AnimationPlayer")
-onready var max_combo_label = get_node("Panel2/Control/MarginContainer/HBoxContainer/MaxComboLabel")
+onready var max_combo_label = get_node("MaxComboContainer/Control/MarginContainer/HBoxContainer/MaxComboLabel")
+onready var max_combo_container = get_node("MaxComboContainer")
 onready var bonus_label = get_node("Panel/MarginContainer/HBoxContainer/BonusLabel")
+
+const APPEAR_T = 0.1
+const DISAPPEAR_COOLDOWN = 1.5
+var disappear_cooldown_t = 0.0
+var appear_t = 0.0
+var appear_t_inc = 0.0
+var max_appear_t = 0.0
+var max_appear_t_inc = 0.0
 const BONUS_TEXTS = {
 	1: "SINGLE BONUS",
 	2: "DOUBLE BONUS",
@@ -23,7 +32,6 @@ const BONUS_TEXTS = {
 }
 
 func _ready():
-	
 	connect("resized", self, "_on_resized")
 	animation_player.play("start")
 	call_deferred("_on_resized")
@@ -47,18 +55,28 @@ func set_current_holds(val):
 func set_current_score(val):
 	current_score = val
 	current_score_label.text = "+" + ("%.0f" % val)
+	disappear_cooldown_t = DISAPPEAR_COOLDOWN
 
+func _process(delta):
+	disappear_cooldown_t -= delta
+	print(disappear_cooldown_t)
+	if disappear_cooldown_t <= 0.0:
+		disappear()
+	appear_t += appear_t_inc * delta
+	appear_t = clamp(appear_t, 0.0, APPEAR_T)
+	modulate.a = appear_t / APPEAR_T
+	
+	max_appear_t += max_appear_t_inc * delta
+	max_appear_t = clamp(max_appear_t, 0.0, APPEAR_T)
+	max_combo_container.modulate.a = max_appear_t / APPEAR_T
 func appear():
-	if modulate.a == 0:
-		animation_player.play("appear")
-	else:
-		animation_player.stop()
-		modulate.a = 1.0
-		
+	appear_t_inc = 1.0
+	disappear_cooldown_t = DISAPPEAR_COOLDOWN
 func show_max_combo(combo):
 	animation_player.play("appear_max")
 	max_combo_label.text = "Max Hold Bonus! %d" % combo
-	
+	max_appear_t_inc = 1.0
+	disappear_cooldown_t = DISAPPEAR_COOLDOWN
 func disappear():
-	if not animation_player.is_playing():
-		animation_player.play("disappear")
+	appear_t_inc = -1.0
+	max_appear_t_inc = -1.0

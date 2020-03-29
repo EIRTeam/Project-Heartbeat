@@ -675,7 +675,6 @@ func hold_release():
 		accumulated_hold_score = 0
 		held_notes = []
 		current_hold_score = 0
-		hold_indicator.disappear()
 
 func start_hold(note_type):
 	if note_type in held_notes:

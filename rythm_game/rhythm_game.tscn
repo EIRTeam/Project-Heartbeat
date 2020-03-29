@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=2]
@@ -76,110 +76,6 @@ corner_radius_bottom_left = 5
 corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
-
-[sub_resource type="Animation" id=5]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Panel2:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=6]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Panel2:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Panel2:self_modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=7]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.8, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=8]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
 
 [sub_resource type="Animation" id=9]
 length = 0.1
@@ -398,6 +294,7 @@ __meta__ = {
 }
 
 [node name="HoldIndicator" type="VBoxContainer" parent="UnderNotesUI/Control"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.25
 anchor_top = 0.75
 anchor_right = 0.75
@@ -506,7 +403,7 @@ text = "(NT)+1000"
 align = 2
 valign = 1
 
-[node name="Panel2" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
+[node name="MaxComboContainer" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
 visible = false
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 50.0
@@ -514,7 +411,7 @@ margin_right = 640.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 30 )
 
-[node name="Control" type="Panel" parent="UnderNotesUI/Control/HoldIndicator/Panel2"]
+[node name="Control" type="Panel" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer"]
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 1.0
@@ -523,7 +420,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel2/Control"]
+[node name="MarginContainer" type="MarginContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_left = 5
@@ -531,12 +428,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel2/Control/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer"]
 margin_left = 5.0
 margin_right = 320.0
 margin_bottom = 30.0
 
-[node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel2/Control/MarginContainer/HBoxContainer"]
+[node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer/HBoxContainer"]
 margin_top = 5.0
 margin_right = 315.0
 margin_bottom = 25.0
@@ -544,13 +441,6 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
 text = "(NT)Max Hold Bonus! +3300"
 align = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/HoldIndicator"]
-anims/appear = SubResource( 5 )
-anims/appear_max = SubResource( 6 )
-anims/disappear = SubResource( 7 )
-anims/start = SubResource( 8 )
-next/appear_max = "disappear"
 
 [node name="Notes" type="Node2D" parent="."]
 show_behind_parent = true
