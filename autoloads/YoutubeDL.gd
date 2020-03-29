@@ -131,7 +131,9 @@ func _download_video(userdata):
 			cache_meta_mutex.unlock()
 		else:
 			result["audio"] = false
-			Log.log(self, "Error downloading audio " + userdata.video_id + " " + PoolStringArray(out).join("\n"))
+			Log.log(self, "Error downloading audio " + userdata.video_id)
+			for line in out:
+				print(line)
 	if download_video:
 		var out = []
 		
@@ -144,7 +146,9 @@ func _download_video(userdata):
 			cache_meta_mutex.unlock()
 		else:
 			result["video"] = false
-			Log.log(self, "Error downloading video " + userdata.video_id + " " + out[-1])
+			Log.log(self, "Error downloading video " + userdata.video_id + " ")
+			for line in out:
+				print(line)
 	Log.log(self, "Video download finish!")
 	call_deferred("_video_downloaded", userdata.thread, result)
 	save_cache()
