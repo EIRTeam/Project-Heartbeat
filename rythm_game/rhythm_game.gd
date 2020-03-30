@@ -522,6 +522,11 @@ func update_heart_power_ui():
 	
 func _on_notes_judged(notes: Array, judgement, wrong):
 	var note = notes[0] as HBNoteData
+	
+	# Simultaneous slides are a special case...
+	for n in notes:
+		if n != note and n.is_slide_note():
+			_on_notes_judged([n], judgement, wrong)
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
 	var notes_hit = 1
 	if not editing or previewing:
@@ -583,7 +588,9 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 							piece_drawer.emit_signal("note_removed")
 							piece_drawer.queue_free()
 						else:
-							timing_points.remove(timing_points.find(piece))
+							var i = timing_points.find(piece)
+							if i != -1:
+								timing_points.remove(i)
 		
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
@@ -613,8 +620,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			"target_time": notes[0].time,
 			"time": int(time*1000)
 		}
+		
 		emit_signal("note_judged", judgement_info)
-
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
 	hold_player.seek(0)
@@ -633,6 +640,7 @@ func resume():
 	play_from_pos(audio_stream_player.get_playback_position())
 	
 func restart():
+	hold_release()
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty)
 	audio_stream_player_voice.volume_db = 0
