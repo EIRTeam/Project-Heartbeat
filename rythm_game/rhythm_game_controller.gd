@@ -60,11 +60,11 @@ func set_game_size():
 	$RhythmGame.size = rect_size
 	$Node2D/Control.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
-	$Node2D/VideoPlayer.rect_size = rect_size
+#	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()
-	$Node2D/VideoPlayer.paused = false
+#	$Node2D/VideoPlayer.paused = false
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause") and not event.is_echo():
@@ -90,7 +90,7 @@ func _show_results(game_info: HBGameInfo):
 #	scene.set_result(results)
 
 func _on_paused():
-	$Node2D/VideoPlayer.paused = true
+	pass
 
 func _on_RhythmGame_song_cleared(result: HBResult):
 	var original_color = Color.black
