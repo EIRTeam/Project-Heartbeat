@@ -257,9 +257,12 @@ func _unhandled_input(event):
 					var active_hold_chain = active_slide_hold_chains[i]
 					if active_hold_chain.slide_note.note_type == slide_type:
 						for piece in active_hold_chain.pieces:
-							var note_drawer = piece.get_meta("note_drawer")
-							note_drawer.emit_signal("note_removed")
-							note_drawer.queue_free()
+							
+							if piece.has_meta("note_drawer"):
+								var note_drawer = piece.get_meta("note_drawer")
+								note_drawer.emit_signal("note_removed")
+								note_drawer.queue_free()
+							timing_points.erase(piece)
 						active_hold_chain.sfx_player.queue_free()
 						active_slide_hold_chains.remove(i)
 						play_sfx($SlideChainFailSFX)
