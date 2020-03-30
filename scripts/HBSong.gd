@@ -132,7 +132,7 @@ func is_cached():
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return HBUtils.load_ogg(audio_path)
+		return load(audio_path)
 	else:
 		if youtube_url:
 			if use_youtube_for_audio:
@@ -153,7 +153,7 @@ func get_video_stream():
 	return load(video_path)
 func get_voice_stream():
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return HBUtils.load_ogg(get_song_voice_res_path())
+		return load(get_song_voice_res_path())
 	else:
 		return HBUtils.load_ogg(get_song_voice_res_path())
 	
