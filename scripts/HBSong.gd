@@ -37,6 +37,8 @@ var circle_logo = ""
 var youtube_url = ""
 var use_youtube_for_audio = true
 var use_youtube_for_video = true
+var ugc_service_name = ""
+var ugc_id = 0
 
 signal song_caching_finished(success)
 
@@ -50,7 +52,7 @@ func _init():
 	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
 	"preview_start", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
-	"video"]
+	"video", "ugc_service_name", "ugc_id"]
 
 func get_meta_string():
 	var song_meta = []
@@ -106,7 +108,7 @@ func get_song_circle_image_res_path():
 		return null
 		
 func get_song_video_res_path():
-	if circle_image != "":
+	if video != "":
 		return path.plus_file("/%s" % [video])
 	else:
 		return null
@@ -130,7 +132,7 @@ func is_cached():
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(audio_path)
+		return HBUtils.load_ogg(audio_path)
 	else:
 		if youtube_url:
 			if use_youtube_for_audio:
@@ -144,15 +146,14 @@ func get_video_stream():
 	var video_path = get_song_video_res_path()
 	if use_youtube_for_video:
 		if YoutubeDL.is_cached(youtube_url, false, true):
-			video_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
+			video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
 		else:
 			Log.log(self, "Tried to get video stream from an uncached song!!")
-	var stream = VideoStreamGDNative.new()
-	stream.set_file(video_path)
-		
+			return null
+	return load(video_path)
 func get_voice_stream():
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(get_song_voice_res_path())
+		return HBUtils.load_ogg(get_song_voice_res_path())
 	else:
 		return HBUtils.load_ogg(get_song_voice_res_path())
 	

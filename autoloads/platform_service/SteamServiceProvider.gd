@@ -5,7 +5,7 @@ const LOG_NAME = "SteamServiceProvider"
 func _init():
 	implements_lobby_list = true
 	implements_leaderboards = true
-
+	implements_ugc = true
 func init_platform() -> int:
 	if Engine.has_singleton("Steam"):
 
@@ -19,6 +19,7 @@ func init_platform() -> int:
 		user_id = Steam.getSteamID()
 		multiplayer_provider = SteamMultiplayerService.new()
 		leaderboard_provider = SteamLeaderboardService.new()
+		ugc_provider = SteamUGCService.new()
 		
 		.init_platform()
 		
