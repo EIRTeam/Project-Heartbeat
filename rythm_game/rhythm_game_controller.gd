@@ -19,7 +19,6 @@ func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
-
 func start_session(game_info: HBGameInfo):
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
@@ -37,7 +36,7 @@ func start_session(game_info: HBGameInfo):
 
 func disable_restart():
 	$PauseMenu.disable_restart()
-
+	
 func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
@@ -46,21 +45,35 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.set_modifiers(modifiers)
 	$RhythmGame.set_song(song, difficulty)
+#	if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
+#		var stream = song.get_video_stream()
+#		if stream:
+#			$Node2D/VideoPlayer.show()
+#			$Node2D/VideoPlayer.stream = stream
+#			$Node2D/VideoPlayer.play()
+#		else:
+#			print("stream failed to load")
+#	else:
+#		$Node2D/VideoPlayer.hide()
 
 func set_game_size():
 	$RhythmGame.size = rect_size
 	$Node2D/Control.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
+	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()
+	$Node2D/VideoPlayer.paused = false
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause") and not event.is_echo():
 		if not get_tree().paused:
 			if not pause_disabled:
+				_on_paused()
 				$RhythmGame.pause_game()
 			$PauseMenu.show_pause()
+
 		else:
 			_on_resumed()
 			$PauseMenu._on_resumed()
@@ -75,6 +88,9 @@ func _show_results(game_info: HBGameInfo):
 		get_tree().root.add_child(scene)
 		get_tree().current_scene = scene
 #	scene.set_result(results)
+
+func _on_paused():
+	$Node2D/VideoPlayer.paused = true
 
 func _on_RhythmGame_song_cleared(result: HBResult):
 	var original_color = Color.black
