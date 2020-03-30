@@ -72,6 +72,7 @@ margin_bottom = 83.0
 text = "Edit song data"
 
 [node name="UploadToWorkshopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong"]
+visible = false
 margin_top = 87.0
 margin_right = 102.0
 margin_bottom = 112.0
