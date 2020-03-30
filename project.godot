@@ -219,6 +219,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBTimingPoint.gd"
 }, {
+"base": "Reference",
+"class": "HBUGCService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/ugc_services/HBUGCService.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBUserSettings",
 "language": "GDScript",
@@ -283,6 +288,11 @@ _global_script_classes=[ {
 "class": "SteamServiceMember",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/SteamServiceMember.gd"
+}, {
+"base": "HBUGCService",
+"class": "SteamUGCService",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/ugc_services/SteamUGCService.gd"
 } ]
 _global_script_class_icons={
 "EditorTimelineItem": "",
@@ -327,6 +337,7 @@ _global_script_class_icons={
 "HBSong": "",
 "HBSongListMenu": "",
 "HBTimingPoint": "",
+"HBUGCService": "",
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
@@ -339,7 +350,8 @@ _global_script_class_icons={
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
-"SteamServiceMember": ""
+"SteamServiceMember": "",
+"SteamUGCService": ""
 }
 
 [application]
@@ -390,8 +402,8 @@ window/stretch/aspect="expand"
 
 [gdnative]
 
-singletons=[  ]
-singletons_disabled=[  ]
+singletons=[ "res://addons/video_decoder.tres" ]
+singletons_disabled=[ "res://addons/video_decoder.tres" ]
 
 [importer_defaults]
 
