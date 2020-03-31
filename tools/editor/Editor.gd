@@ -80,6 +80,9 @@ func load_plugins():
 func _ready():
 	Input.set_use_accumulated_input(true)
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	OS.window_borderless = false
+	OS.window_fullscreen = false
+	OS.window_maximized = true
 	get_viewport()
 	timeline.editor = self
 	
@@ -478,6 +481,8 @@ func _on_ExitDialog_confirmed():
 	Diagnostics.show_WIP_label()
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
+	OS.window_maximized = false
+	UserSettings.set_fullscreen(UserSettings.user_settings.fullscreen)
 	
 const OPTION_TO_BEATS_PER_BAR = {
 	0: 4,
