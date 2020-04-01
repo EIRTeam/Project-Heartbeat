@@ -13,6 +13,8 @@ var prevent_showing_results = false
 
 var current_game_info: HBGameInfo 
 
+onready var video_player = get_node("Node2D/Panel/VideoPlayer")
+
 signal fade_out_finished(game_info)
 signal user_quit()
 func _ready():
@@ -45,32 +47,51 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.set_modifiers(modifiers)
 	$RhythmGame.set_song(song, difficulty)
-#	if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
-#		var stream = song.get_video_stream()
-#		if stream:
-#			$Node2D/VideoPlayer.show()
-#			$Node2D/VideoPlayer.stream = stream
-#			$Node2D/VideoPlayer.play()
-#		else:
-#			print("stream failed to load")
-#	else:
-#		$Node2D/VideoPlayer.hide()
-
+	
+	if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
+		var stream = song.get_video_stream()
+		if stream:
+			video_player.show()
+			video_player.stream = stream
+			video_player.play()
+		else:
+			Log.log(self, "Video Stream failed to load")
+	else:
+		video_player.hide()
+	rescale_video_player()
+func rescale_video_player():
+	var video_texture = video_player.get_video_texture()
+	if video_texture:
+		var video_size = video_texture.get_size()
+		var video_ar = video_size.x / video_size.y
+		var new_size_x = rect_size.y * video_ar
+		if new_size_x <= rect_size.x:
+			# side black bars (or none)
+			video_player.rect_size = Vector2(new_size_x, rect_size.y)
+		else:
+			# bottom and top black bars
+			video_player.rect_size = Vector2(rect_size.x, rect_size.x / video_ar)
+		# Center that shit
+		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
+		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
 func set_game_size():
 	$RhythmGame.size = rect_size
 	$Node2D/Control.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
+	$Node2D/Panel.rect_size = rect_size
+	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()
-#	$Node2D/VideoPlayer.paused = false
+	video_player.paused = false
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause") and not event.is_echo():
 		if not get_tree().paused:
 			if not pause_disabled:
 				_on_paused()
+				video_player.paused = true
 				$RhythmGame.pause_game()
 			$PauseMenu.show_pause()
 
@@ -78,6 +99,7 @@ func _unhandled_input(event):
 			_on_resumed()
 			$PauseMenu._on_resumed()
 		get_tree().set_input_as_handled()
+
 
 func _show_results(game_info: HBGameInfo):
 	if not prevent_showing_results:

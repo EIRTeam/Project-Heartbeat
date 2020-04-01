@@ -402,7 +402,7 @@ window/stretch/aspect="expand"
 
 [gdnative]
 
-singletons=[  ]
+singletons=[ "res://addons/video_decoder.tres" ]
 singletons_disabled=[  ]
 
 [importer_defaults]

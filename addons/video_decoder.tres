@@ -1,0 +1,6 @@
+[gd_resource type="GDNativeLibrary" format=2]
+
+[resource]
+singleton = true
+entry/X11.64 = "res://addons/bin/libgdnative_videodecoder.so"
+dependency/X11.64 = [ "res://addons/bin/libavcodec.so.58", "res://addons/bin/libavdevice.so.58", "res://addons/bin/libavfilter.so.58", "res://addons/bin/libavformat.so.58", "res://addons/bin/libavutil.so.56", "res://addons/bin/libOpenCL.so.1", "res://addons/bin/libswresample.so.3", "res://addons/bin/libswscale.so.5", "res://addons/bin/libvpx.so.2" ]

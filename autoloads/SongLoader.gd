@@ -54,7 +54,6 @@ func load_ppd_song_meta(path: String, id: String) -> HBSong:
 		song.path = path.get_base_dir()
 		if id in ppd_youtube_url_list:
 			song.youtube_url = ppd_youtube_url_list[id]
-			song.use_youtube_for_video = false
 		# Audio file discovery
 		var dir := Directory.new()
 		if dir.open(song.path) == OK:

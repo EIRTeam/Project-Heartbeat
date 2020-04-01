@@ -150,6 +150,7 @@ func get_video_stream():
 		else:
 			Log.log(self, "Tried to get video stream from an uncached song!!")
 			return null
+	print("Loading video stream ", video_path)
 	return load(video_path)
 func get_voice_stream():
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:

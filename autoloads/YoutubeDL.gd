@@ -136,8 +136,9 @@ func _download_video(userdata):
 				print(line)
 	if download_video:
 		var out = []
-		
-		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[container=mp4,height<=1080]", "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
+		var video_height = UserSettings.user_settings.desired_video_resolution
+		var video_fps = UserSettings.user_settings.desired_video_fps
+		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[ext=mp4][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]
 		if file.file_exists(get_video_path(userdata.video_id)):
