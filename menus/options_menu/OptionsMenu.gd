@@ -39,6 +39,21 @@ var OPTIONS = {
 			"name": tr("Disable Video for PPD songs"),
 			"description": tr("Disables video playback and download for PPD songs, might yield more performance on some systems.")
 		},
+		"desired_video_fps": {
+			"name": tr("Desired Video FPS"),
+			"description": tr("The desired video framerate for downloaded videos."),
+			"minimum": 30,
+			"maximum": 60,
+			"step": 30,
+			"postfix": " FPS"
+		},
+		"desired_video_resolution": {
+			"name": tr("Desired Video Resolution"),
+			"description": tr("The desired video resolution for downloaded videos."),
+			"options": [720, 1080, 2160],
+			"options_pretty": ["720p", "1080p", "4K"],
+			"type": "options"
+		},
 		"use_visualizer_with_video": {
 			"name": tr("Use visualizer with video"),
 			"description": tr("Whether or not the game should display the visualizer on top of videos.")

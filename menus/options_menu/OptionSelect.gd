@@ -11,6 +11,12 @@ func set_text(value):
 	text = value
 	$HBoxContainer/Label.text = value
 
+func set_value(val):
+	value = val
+	var i = options.find(val)
+	if i != -1:
+		select(i)
+
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 	
