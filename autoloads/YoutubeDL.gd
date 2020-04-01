@@ -4,18 +4,30 @@ const LOG_NAME = "YoutubeDL"
 
 const YOUTUBE_DL_DIR = "user://youtube_dl"
 const CACHE_DIR = "user://youtube_dl/cache"
-const CACHE_FILE = "user://youtube_dl/cache/cache.json"
+const CACHE_FILE = "user://youtube_dl/yt_cache.json"
+const VIDEO_EXT = "mp4"
+const AUDIO_EXT = "ogg"
 enum YOUTUBE_DL_STATUS {
 	READY,
 	COPYING,
 	FAILED
 }
 
+enum CACHE_STATUS {
+	OK,
+	MISSING,
+	AUDIO_MISSING,
+	VIDEO_MISSING
+}
+
 signal youtube_dl_ready
 
 signal video_downloaded(id, result)
 var cache_meta_mutex = Mutex.new()
-var cache_meta: Dictionary = {}
+var cache_meta: Dictionary = {
+	"cache": {},
+	"__version": 1
+}
 var status_mutex = Mutex.new()
 var status = YOUTUBE_DL_STATUS.COPYING
 var songs_being_cached = []
@@ -115,19 +127,21 @@ func _download_video(userdata):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
 	var file := File.new()
-	if not userdata.video_id in cache_meta:
-		cache_meta[userdata.video_id] = {}
+	if not userdata.video_id in cache_meta.cache:
+		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id}
 	if download_audio:
 		var out = []
 		var audio_path = get_audio_path(userdata.video_id, true).get_base_dir() + "/" + "%(id)s.%(ext)s"
+		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
 		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", audio_path, "https://youtu.be/" + userdata.video_id], true, out)
 		result["audio"] = true
 		result["audio_out"] = out[-1]
 		
-		if file.file_exists(get_audio_path(userdata.video_id)):
+		if audio_exists(userdata.video_id):
 			cache_meta_mutex.lock()
-			cache_meta[userdata.video_id]["audio"] = true
+			cache_meta.cache[userdata.video_id]["audio"] = true
+			cache_meta.cache[userdata.video_id]["audio_ext"] = AUDIO_EXT
 			cache_meta_mutex.unlock()
 		else:
 			result["audio"] = false
@@ -138,12 +152,14 @@ func _download_video(userdata):
 		var out = []
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
+		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
 		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[ext=mp4][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]
-		if file.file_exists(get_video_path(userdata.video_id)):
+		if video_exists(userdata.video_id):
 			cache_meta_mutex.lock()
-			cache_meta[userdata.video_id]["video"] = true
+			cache_meta.cache[userdata.video_id]["video"] = true
+			cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
 			cache_meta_mutex.unlock()
 		else:
 			result["video"] = false
@@ -159,6 +175,12 @@ func _video_downloaded(thread: Thread, result):
 	songs_being_cached.erase(result.video_id)
 	emit_signal("video_downloaded", result.video_id, result)
 	
+func video_exists(video_id):
+	var file = File.new()
+	return file.file_exists(get_video_path(video_id))
+func audio_exists(video_id):
+	var file = File.new()
+	return file.file_exists(get_audio_path(video_id))
 func download_video(url: String, download_video = true, download_audio = true):
 	var thread = Thread.new()
 	var video_id = get_video_id(url)
@@ -170,16 +192,21 @@ func download_video(url: String, download_video = true, download_audio = true):
 		return ERR_FILE_NOT_FOUND
 		
 	songs_being_cached.append(video_id)
-
-		
-	if video_id in cache_meta:
+	# Videos may still be downloaded if they are not on disk
+	if video_id in cache_meta.cache:
 		var all_found = true
 		if download_audio:
-			if not cache_meta[video_id].has("audio"):
+			if not cache_meta.cache[video_id].has("audio") or not audio_exists(video_id):
 				all_found = false
+			elif download_audio:
+				# No need to download what we already have
+				download_audio = false
 		if download_video:
-			if not cache_meta[video_id].has("video"):
+			if not cache_meta.cache[video_id].has("video") or not video_exists(video_id):
 				all_found = false
+			elif download_video:
+				# No need to download what we already have
+				download_audio = false
 		if all_found:
 			Log.log(self, "Already cached, no need to download again")
 			emit_signal("video_downloaded", video_id)
@@ -196,17 +223,21 @@ func get_video_id(url: String):
 	if result:
 		return result.get_string(2)
 
-func is_cached(url: String, video=true, audio=true):
-	var cached = true
+func get_cache_status(url: String, video=true, audio=true):
+	var cache_status = CACHE_STATUS.OK
 	cache_meta_mutex.lock()
 	var yt_id = get_video_id(url)
 	
-	if yt_id in cache_meta:
-		if video and not cache_meta[yt_id].has("video"):
-			cached = false
-		if audio and not cache_meta[yt_id].has("audio"):
-			cached = false
+	if yt_id in cache_meta.cache:
+		var video_missing = false
+		if video and not cache_meta.cache[yt_id].has("video") or not video_exists(yt_id):
+			cache_status = CACHE_STATUS.VIDEO_MISSING
+		var audio_missing = false
+		if audio and not cache_meta.cache[yt_id].has("audio") or not audio_exists(yt_id):
+			cache_status = CACHE_STATUS.AUDIO_MISSING
+		if video_missing and audio_missing:
+			cache_status = CACHE_STATUS.MISSING
 	else:
-		cached = false
+		cache_status = CACHE_STATUS.MISSING
 	cache_meta_mutex.unlock()
-	return cached
+	return cache_status

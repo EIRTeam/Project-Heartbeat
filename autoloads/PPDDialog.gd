@@ -21,5 +21,4 @@ func ask_for_file():
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.ogg ; OGG"]
-	print("ASKING FOR FILE")
 	popup_centered()

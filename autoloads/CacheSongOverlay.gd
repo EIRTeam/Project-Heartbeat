@@ -13,20 +13,29 @@ func _ready():
 	download_confirm_popup.connect("cancel", self, "emit_signal", ["user_rejected"])
 	error_prompt.connect("accept", self, "_on_error_prompt_accepted")
 	YoutubeDL.connect("video_downloaded", self, "_on_video_downloaded")
+
 func show_download_prompt(song: HBSong):
 	current_song_downloading = song
+	var messages = {
+		YoutubeDL.CACHE_STATUS.MISSING: "This song requires downloading video/audio files from YouTube, would you like to download them?",
+		YoutubeDL.CACHE_STATUS.VIDEO_MISSING: "The video for this song appears to be missing, would you like to download it?",
+		YoutubeDL.CACHE_STATUS.AUDIO_MISSING: "The audio for this song appears to be missing, would you like to download it?"
+	}
+	download_confirm_popup.text = messages[song.get_cache_status()]
 	download_confirm_popup.popup_centered_ratio(0.5)
 func _on_video_downloaded(id, results):
 	if current_song_downloading:
 		if YoutubeDL.get_video_id(current_song_downloading.youtube_url) == id:
 			if current_song_downloading.use_youtube_for_audio:
-				if not results.audio:
-					show_error("Error downloading audio: " + results.audio_out)
-					return
+				if results.has("audio"):
+					if not results.audio:
+						show_error("Error downloading audio: " + results.audio_out)
+						return
 			if current_song_downloading.use_youtube_for_video:
-				if not results.audio:
-					show_error("Error downloading video: " + results.video_out)
-					return
+				if results.has("video"):
+					if not results.audio:
+						show_error("Error downloading video: " + results.video_out)
+						return
 			downloading_prompt.hide()
 			emit_signal("video_downloaded", id, results, current_song_downloading)
 func show_error(error: String):

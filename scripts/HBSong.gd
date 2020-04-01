@@ -123,12 +123,14 @@ func get_meta_path():
 		
 func is_cached():
 	if youtube_url:
-		return YoutubeDL.is_cached(youtube_url, use_youtube_for_video, use_youtube_for_audio)
+		return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK
 	elif audio:
 		return true
 	else:
 		return false
 		
+func get_cache_status():
+	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
@@ -136,7 +138,7 @@ func get_audio_stream():
 	else:
 		if youtube_url:
 			if use_youtube_for_audio:
-				if YoutubeDL.is_cached(youtube_url, false, true):
+				if YoutubeDL.get_cache_status(youtube_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
 					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
 				else:
 					Log.log(self, "Tried to get audio stream from an uncached song!!")
@@ -145,7 +147,7 @@ func get_audio_stream():
 func get_video_stream():
 	var video_path = get_song_video_res_path()
 	if use_youtube_for_video:
-		if YoutubeDL.is_cached(youtube_url, false, true):
+		if is_cached():
 			video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
 		else:
 			Log.log(self, "Tried to get video stream from an uncached song!!")
