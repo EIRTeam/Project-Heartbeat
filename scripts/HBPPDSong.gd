@@ -33,3 +33,7 @@ static func from_ini(content: String, id: String):
 	file.store_string(JSON.print(song.serialize(), "  "))
 	
 	return song
+# If video is enabled for this type of song
+func has_video_enabled():
+	if .has_video_enabled():
+		return not UserSettings.user_settings.disable_ppd_video

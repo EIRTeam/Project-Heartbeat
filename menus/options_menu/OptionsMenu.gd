@@ -31,6 +31,18 @@ var OPTIONS = {
 			"name": tr("Fullscreen"),
 			"description": tr("Whether or not the game should use all the available screen, this should have no difference in performance from windowed mode.")
 		},
+		"disable_video": {
+			"name": tr("Disable Video"),
+			"description": tr("Disables video playback and download, might yield more performance on some systems.")
+		},
+		"disable_ppd_video": {
+			"name": tr("Disable Video for PPD songs"),
+			"description": tr("Disables video playback and download for PPD songs, might yield more performance on some systems.")
+		},
+		"use_visualizer_with_video": {
+			"name": tr("Use visualizer with video"),
+			"description": tr("Whether or not the game should display the visualizer on top of videos.")
+		},
 		"visualizer_enabled": {
 			"name": tr("Visualizer"),
 			"description": tr("Built-in audio visualization effects, disabling this setting might yield a considerable performance boost on more modest systems.")

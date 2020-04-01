@@ -33,7 +33,7 @@ func _on_video_downloaded(id, results):
 						return
 			if current_song_downloading.use_youtube_for_video:
 				if results.has("video"):
-					if not results.audio:
+					if not results.video:
 						show_error("Error downloading video: " + results.video_out)
 						return
 			downloading_prompt.hide()
@@ -46,7 +46,7 @@ func _on_error_prompt_accepted():
 	emit_signal("download_error")
 	
 func _on_download_prompt_accepted():
-	var result = YoutubeDL.download_video(current_song_downloading.youtube_url)
+	var result = current_song_downloading.cache_data()
 	if result == ERR_FILE_NOT_FOUND:
 		show_error("Error downloading song, YouTube video not found")
 	else:

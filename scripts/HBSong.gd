@@ -120,10 +120,18 @@ func get_song_circle_logo_image_res_path():
 		
 func get_meta_path():
 	return path.plus_file("song.json")
+	
+		
+# If video is enabled for this type of song
+func has_video_enabled():
+	return not UserSettings.user_settings.disable_video
 		
 func is_cached():
+	var use_video = use_youtube_for_video
+	if not has_video_enabled():
+		use_video = false
 	if youtube_url:
-		return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK
+		return YoutubeDL.get_cache_status(youtube_url, use_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK
 	elif audio:
 		return true
 	else:
@@ -170,7 +178,7 @@ func save_song():
 func cache_data():
 	if youtube_url:
 		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-			return YoutubeDL.download_video(youtube_url, use_youtube_for_video, use_youtube_for_audio)
+			return YoutubeDL.download_video(youtube_url, use_youtube_for_video and has_video_enabled(), use_youtube_for_audio)
 
 func has_audio():
 	if audio != "" or (use_youtube_for_audio and is_cached()):

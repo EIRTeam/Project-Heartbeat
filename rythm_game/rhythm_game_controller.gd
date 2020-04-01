@@ -8,6 +8,7 @@ const FADE_OUT_TIME = 1.0
 
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var game : HBRhythmGame = get_node("RhythmGame")
+onready var visualizer = get_node("Node2D/Control")
 var pause_disabled = false
 var prevent_showing_results = false
 
@@ -47,18 +48,19 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.set_modifiers(modifiers)
 	$RhythmGame.set_song(song, difficulty)
-	
-	if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
-		var stream = song.get_video_stream()
-		if stream:
-			video_player.show()
-			video_player.stream = stream
-			video_player.play()
-		else:
-			Log.log(self, "Video Stream failed to load")
-	else:
-		video_player.hide()
-	rescale_video_player()
+	$Node2D/Panel.hide()
+		
+	if song.has_video_enabled():
+		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
+			var stream = song.get_video_stream()
+			if stream:
+				video_player.stream = stream
+				video_player.play()
+				$Node2D/Panel.show()
+				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
+			else:
+				Log.log(self, "Video Stream failed to load")
+		rescale_video_player()
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()
 	if video_texture:

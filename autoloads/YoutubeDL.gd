@@ -95,6 +95,8 @@ func _ready():
 		
 		if version > local_version:
 			update_youtube_dl()
+		else:
+			status = YOUTUBE_DL_STATUS.READY
 	else:
 		update_youtube_dl()
 #	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
@@ -230,11 +232,13 @@ func get_cache_status(url: String, video=true, audio=true):
 	
 	if yt_id in cache_meta.cache:
 		var video_missing = false
-		if video and not cache_meta.cache[yt_id].has("video") or not video_exists(yt_id):
+		if video and (not cache_meta.cache[yt_id].has("video") or not video_exists(yt_id)):
 			cache_status = CACHE_STATUS.VIDEO_MISSING
+			video_missing
 		var audio_missing = false
-		if audio and not cache_meta.cache[yt_id].has("audio") or not audio_exists(yt_id):
+		if audio and (not cache_meta.cache[yt_id].has("audio") or not audio_exists(yt_id)):
 			cache_status = CACHE_STATUS.AUDIO_MISSING
+			audio_missing = true
 		if video_missing and audio_missing:
 			cache_status = CACHE_STATUS.MISSING
 	else:
