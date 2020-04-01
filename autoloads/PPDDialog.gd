@@ -2,6 +2,8 @@ extends WindowDialog
 
 onready var use_youtube_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/UseYouTube")
 onready var file_dialog = get_node("../PPDFileDialog")
+onready var youtube_url_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+onready var error_dialog = get_node("AcceptDialog")
 signal youtube_url_selected(url)
 
 signal file_selected(file_path)
@@ -10,9 +12,13 @@ func _ready():
 	use_youtube_button.connect("pressed", self, "_on_use_youtube_button_pressed")
 	file_dialog.connect("file_selected", self, "_on_file_selected")
 	file_dialog.connect("popup_hide", self, "emit_signal", ["file_selector_hidden"])
+	connect("about_to_show", self, "_on_about_to_show")
 func _on_use_youtube_button_pressed():
-	emit_signal("youtube_url_selected", $MarginContainer/VBoxContainer/HBoxContainer/LineEdit.text)
-	hide()
+	if YoutubeDL.get_video_id(youtube_url_line_edit.text):
+		emit_signal("youtube_url_selected", youtube_url_line_edit.text)
+		hide()
+	else:
+		error_dialog.popup_centered()
 func _on_file_selected(file):
 	emit_signal("file_selected", file)
 	hide()
@@ -22,3 +28,5 @@ func ask_for_file():
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.ogg ; OGG"]
 	popup_centered()
+func _on_about_to_show():
+	youtube_url_line_edit.text = ""

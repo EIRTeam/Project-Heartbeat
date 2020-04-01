@@ -125,4 +125,16 @@ margin_bottom = 103.0
 focus_mode = 0
 enabled_focus_mode = 0
 text = "Select from disk"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="MouseTrap/PPDDialog"]
+visible = true
+margin_left = -133.0
+margin_top = 163.0
+margin_right = 309.0
+margin_bottom = 237.0
+window_title = ""
+dialog_text = "Invalid URL, ensure you are using a YouTube URL and that it is valid."
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]
