@@ -23,7 +23,6 @@ func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 	$WindowDialog.hide()
-	print(HBVersion.get_version_string())
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
