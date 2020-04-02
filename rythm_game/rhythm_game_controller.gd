@@ -136,3 +136,9 @@ func _on_PauseMenu_quit():
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	_on_resumed()
+
+
+func _on_PauseMenu_restarted():
+	video_player.stream_position = 0.0
+	video_player.paused = false
+	video_player.play()
