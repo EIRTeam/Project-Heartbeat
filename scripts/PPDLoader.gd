@@ -226,7 +226,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				note_position.x += position_increment
 				var new_note = note_data.clone()
 				new_note.note_type = new_note_type
-				new_note.time = note_time + int(offset)
+				new_note.time = note_time
 				new_note.position = note_position
 				chart.layers[note_data.note_type].timing_points.append(new_note)
 		elif note.ex:
