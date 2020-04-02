@@ -403,7 +403,6 @@ align = 2
 valign = 1
 
 [node name="MaxComboContainer" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
-visible = false
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 50.0
 margin_right = 640.0
