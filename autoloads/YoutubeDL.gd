@@ -162,6 +162,8 @@ func _download_video(userdata):
 			cache_meta_mutex.lock()
 			cache_meta.cache[userdata.video_id]["video"] = true
 			cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
+			cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
+			cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
 			cache_meta_mutex.unlock()
 		else:
 			result["video"] = false
