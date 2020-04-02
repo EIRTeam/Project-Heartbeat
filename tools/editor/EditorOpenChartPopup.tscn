@@ -6,6 +6,7 @@
 [ext_resource path="res://tools/editor/CreateDifficultyDialog.tscn" type="PackedScene" id=4]
 
 [node name="Control" type="ConfirmationDialog"]
+visible = true
 margin_top = -1.0
 margin_right = 500.0
 margin_bottom = 199.0
@@ -15,6 +16,9 @@ popup_exclusive = true
 window_title = "Select a song to edit"
 dialog_hide_on_ok = false
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0

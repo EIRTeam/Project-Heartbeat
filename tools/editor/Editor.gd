@@ -100,6 +100,7 @@ func _ready():
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
+	open_chart_popup_dialog.get_close_button().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
@@ -435,7 +436,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	# a chart loaded
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
-
+		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var song = SongLoader.songs[song_id]
