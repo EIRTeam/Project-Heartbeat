@@ -45,7 +45,7 @@ func _process(delta):
 		if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
 			_drag_moving = true
 			var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
-			new_time = editor.snap_time_to_timeline(new_time)
+			new_time = int(editor.snap_time_to_timeline(new_time))
 			var drag_delta = new_time -_drag_last
 			_drag_last = new_time
 			if abs(drag_delta) > 0:
