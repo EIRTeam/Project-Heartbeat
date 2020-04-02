@@ -21,15 +21,15 @@
       <stop style="stop-color:#f94723;stop-opacity:1" offset="0" id="stop844"/>
       <stop style="stop-color:#b10000;stop-opacity:1" offset="1" id="stop846"/>
     </linearGradient><radialGradient xmlns:xlink="http://www.w3.org/1999/xlink" inkscape:collect="always" xlink:href="#bgLinearGradient" id="bgRadialGradient" cx="49.999999" cy="50.000001" fx="49.999999" fy="50.000001" r="40.248082" gradientTransform="matrix(1,0,0,1.5050907,0,-25.254534)" gradientUnits="userSpaceOnUse"/></defs>
-  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1920" inkscape:window-height="1028" id="namedview817" showgrid="false" showguides="true" inkscape:guide-bbox="true" inkscape:zoom="8.3299999" inkscape:cx="31.628439" inkscape:cy="5.3303386" inkscape:window-x="0" inkscape:window-y="24" inkscape:window-maximized="1" inkscape:current-layer="svg815">
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="2560" inkscape:window-height="1080" id="namedview817" showgrid="false" showguides="true" inkscape:guide-bbox="true" inkscape:zoom="8.3299999" inkscape:cx="36.074022" inkscape:cy="35.145836" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="0" inkscape:current-layer="g840">
     <sodipodi:guide position="57.553229,67.060547" orientation="0,1" id="guide829" inkscape:locked="false"/>
     <sodipodi:guide position="39.37575,34.453782" orientation="0,1" id="guide831" inkscape:locked="false"/>
     <sodipodi:guide position="62.816209,79.793562" orientation="0,1" id="guide839" inkscape:locked="false"/>
     <sodipodi:guide position="55.68572,20.542598" orientation="0,1" id="guide841" inkscape:locked="false"/>
     <sodipodi:guide position="54.501802,33.013206" orientation="0,1" id="guide895" inkscape:locked="false"/>
   </sodipodi:namedview>
-  <g id="g1970">
-    <svg:path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="background_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);"/>
-  <path sodipodi:nodetypes="ccccc" inkscape:connector-curvature="0" id="main_path" d="M 50,14.826172 C 30.574086,14.826305 14.826305,30.574086 14.826172,50 14.826305,69.425914 30.574086,85.173695 50,85.173828 69.425914,85.173695 85.173695,69.425914 85.173828,50 85.173695,30.574086 69.425914,14.826305 50,14.826172 Z" style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"/>
+  <g id="g840">
+    <svg:path inkscape:connector-curvature="0" id="background_path" d="M 50,20.446534 C 33.678117,20.446645 20.446645,33.678117 20.446534,50 20.446645,66.321883 33.678117,79.553355 50,79.553466 66.321883,79.553355 79.553355,66.321883 79.553466,50 79.553355,33.678117 66.321883,20.446645 50,20.446534 Z" style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:4.0;stroke-opacity:1;filter:url(#backFilter);" sodipodi:nodetypes="ccccc"/>
+  <path inkscape:connector-curvature="0" id="main_path-0" d="M 50,20.446534 C 33.678117,20.446645 20.446645,33.678117 20.446534,50 20.446645,66.321883 33.678117,79.553355 50,79.553466 66.321883,79.553355 79.553355,66.321883 79.553466,50 79.553355,33.678117 66.321883,20.446645 50,20.446534 Z" style="fill:url(#bgRadialGradient);;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" sodipodi:nodetypes="ccccc"/>
   </g>
 </svg>
