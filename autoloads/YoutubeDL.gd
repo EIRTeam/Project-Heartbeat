@@ -155,7 +155,7 @@ func _download_video(userdata):
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
-		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[ext=mp4][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
+		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[ext=mp4][vcodec^=avc1][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]
 		if video_exists(userdata.video_id):
