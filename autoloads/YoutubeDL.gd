@@ -4,7 +4,7 @@ const LOG_NAME = "YoutubeDL"
 
 const YOUTUBE_DL_DIR = "user://youtube_dl"
 const CACHE_DIR = "user://youtube_dl/cache"
-const CACHE_FILE = "user://youtube_dl/yt_cache.json"
+const CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
 const VIDEO_EXT = "mp4"
 const AUDIO_EXT = "ogg"
 enum YOUTUBE_DL_STATUS {
