@@ -363,7 +363,7 @@ config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
-config/version="Early Access v0.1.1"
+config/version="Early Access v0.2.0"
 config/build_time=1585785754
 config/build_commit="f2e282bf73b9e053703b715cfd5abaf431f1220c"
 
