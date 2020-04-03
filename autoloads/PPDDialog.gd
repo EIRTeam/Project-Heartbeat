@@ -18,10 +18,21 @@ func _on_use_youtube_button_pressed():
 		emit_signal("youtube_url_selected", youtube_url_line_edit.text)
 		hide()
 	else:
+		error_dialog.dialog_text = "Invalid URL, ensure you are using a YouTube URL and that it is valid."
 		error_dialog.popup_centered()
 func _on_file_selected(file):
-	emit_signal("file_selected", file)
-	hide()
+	var err = HBUtils.verify_ogg(file)
+	if err == HBUtils.OGG_ERRORS.OK:
+		emit_signal("file_selected", file)
+		hide()
+	else:
+		if err == HBUtils.OGG_ERRORS.NOT_AN_OGG:
+			error_dialog.dialog_text = "The file you selected is not an OGG file."
+		else:
+			error_dialog.dialog_text = "The file you selected is an OGG file, but it doesn't use the vorbis codec."
+		error_dialog.popup_centered()
+	
+	
 
 func ask_for_file():
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
