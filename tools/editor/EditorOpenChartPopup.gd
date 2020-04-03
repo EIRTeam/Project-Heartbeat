@@ -8,7 +8,11 @@ onready var song_meta_editor_dialog = get_node("SongMetaEditorDialog")
 onready var song_meta_editor = get_node("SongMetaEditorDialog/SongMetaEditor")
 onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
 onready var create_song_dialog = get_node("CreateSongDialog")
+onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/DeleteChartButton")
+onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
 signal chart_selected(song, difficulty)
+
+const LOG_NAME = "EditorOpenChartPopup"
 
 # If we should show songs in res://
 var show_hidden = false
@@ -24,6 +28,8 @@ func _ready():
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
 	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
 	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
+	delete_chart_button.connect("pressed", delete_confirmation_dialog, "popup_centered")
+	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
 	
 func _on_video_downloaded(id, result, song):
 	_on_confirmed()
@@ -32,6 +38,7 @@ func populate_tree():
 	# Disable song-specific buttons
 	add_chart_button.disabled = true
 	edit_data_button.disabled = true
+	delete_chart_button.disabled = true
 	get_ok().disabled = true
 	tree.clear()
 	var root = tree.create_item()
@@ -52,8 +59,10 @@ func _on_item_selected():
 	var item = tree.get_selected()
 	if item.has_meta("difficulty"):
 		get_ok().disabled = false
+		delete_chart_button.disabled = false
 	else:
 		get_ok().disabled = true
+		delete_chart_button.disabled = true
 	add_chart_button.disabled = false
 	edit_data_button.disabled = false
 	
@@ -115,3 +124,16 @@ func _unhandled_input(event):
 	if event.is_action_pressed("free_friends"):
 		show_hidden = true
 		populate_tree()
+
+func _on_chart_deleted():
+	var song = tree.get_selected().get_meta("song") as HBSong
+	var difficulty = tree.get_selected().get_meta("difficulty")
+	var chart_path = song.get_chart_path(difficulty)
+	var dir = Directory.new()
+	if dir.file_exists(chart_path):
+		dir.remove(chart_path)
+	else:
+		Log.log(self, "Attempted to remove chart %s from song %s failed becuase the chart doesn't exist on disk" % [chart_path, song.id])
+	song.charts.erase(difficulty)
+	populate_tree()
+	
