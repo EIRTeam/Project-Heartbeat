@@ -1,0 +1,214 @@
+extends Node
+
+class_name HBSongVerification
+
+enum CHART_ERROR {
+	OK,
+	FILE_NOT_FOUND,
+	FILE_INVALID_JSON,
+	HOLD_CHAIN_PIECE_WITHOUT_PARENT
+}
+
+
+
+var CHART_ERROR_SEVERITY = {
+	"fatal": [ CHART_ERROR.FILE_NOT_FOUND, CHART_ERROR.FILE_INVALID_JSON ],
+	"warning": [ CHART_ERROR.HOLD_CHAIN_PIECE_WITHOUT_PARENT ]
+}
+
+enum META_ERROR {
+	YOUTUBE_URL_INVALID,
+	MANDATORY_FIELD_MISSING,
+	AUDIO_FIELD_MISSING,
+	AUDIO_NOT_FOUND,
+	VOICE_NOT_FOUND,
+	PREVIEW_MISSING,
+	PREVIEW_FILE_MISSING
+}
+
+var META_ERROR_SEVERITY = {
+	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.AUDIO_NOT_FOUND ],
+	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING ],
+	# Some things are only mandatory for UGC songs and will still allow the song to be played
+	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING ]
+}
+# Meta fields that MUST be set to something 
+const MANDATORY_META_FIELDS = [
+	"title", "author", "creator"
+]
+
+func verify_song(song: HBSong):
+	var errors = {
+		"meta": verify_meta(song),
+		"audio": verify_audio(song)
+	}
+	for chart in song.charts:
+		errors["chart_%s" % [chart]] = verify_chart(song, chart)
+	return errors
+func verify_meta(song: HBSong):
+	var errors = []
+	
+	for field in MANDATORY_META_FIELDS:
+		var field_c = song.get(field)
+		if not field_c or field_c.strip_edges() == "":
+			var error = {
+				"type": META_ERROR.MANDATORY_FIELD_MISSING,
+				"string": "The song is missing the %s field" % [field],
+			}
+			errors.append(error)
+	if song.youtube_url:
+		if not  YoutubeDL.validate_video_id(song.youtube_ur):
+			var error = {
+				"type": META_ERROR.YOUTUBE_URL_INVALID,
+				"string": "The song's YouTube URL is invalid",
+			}
+			errors.append(error)
+	if not song.audio:
+		var error = {
+			"type": META_ERROR.AUDIO_FIELD_MISSING,
+			"string": "The song doesn't have an audio file",
+		}
+		errors.append(error)
+	else:
+		var file = File.new()
+		if not file.file_exists(song.get_song_audio_res_path()):
+			var error = {
+				"type": META_ERROR.AUDIO_NOT_FOUND,
+				"string": "The song's audio file does not exist on disk",
+			}
+			errors.append(error)
+	if song.voice:
+		var file = File.new()
+		if not file.file_exists(song.get_song_voice_res_path()):
+			var error = {
+				"type": META_ERROR.AUDIO_NOT_FOUND,
+				"string": "The song's voice audio file does not exist on disk",
+			}
+			errors.append(error)
+	if not song.preview_image:
+		var error = {
+			"type": META_ERROR.PREVIEW_MISSING,
+			"string": "The song doesn't have a preview image",
+		}
+		errors.append(error)
+	else:
+		var file = File.new()
+		if not file.file_exists(song.get_song_preview_res_path()):
+			var error = {
+				"type": META_ERROR.PREVIEW_FILE_MISSING,
+				"string": "The song preview image file does not exist on disk",
+			}
+			errors.append(error)
+	for error in errors:
+		error["fatal"] = false
+		error["warning"] = false
+		error["fatal_ugc"] = false
+		if error.type in META_ERROR_SEVERITY.fatal_ugc:
+			error["fatal_ugc"] = true
+		if error.type in META_ERROR_SEVERITY.fatal:
+			error["fatal"] = true
+		elif error.type in META_ERROR_SEVERITY.warning:
+			error["warning"] = true
+
+	return errors
+func verify_audio(song: HBSong):
+	var errors = []
+	var file = File.new()
+	if song.audio:
+		if file.file_exists(song.get_song_audio_res_path()):
+			var err_audio = HBUtils.verify_ogg(song.get_song_audio_res_path())
+			if err_audio == HBUtils.OGG_ERRORS.NOT_AN_OGG:
+				var error = {
+					"type": HBUtils.OGG_ERRORS.NOT_AN_OGG,
+					"string": "The audio file is not an OGG",
+				}
+				errors.append(error)
+			elif err_audio == HBUtils.OGG_ERRORS.NOT_VORBIS:
+				var error = {
+					"type": HBUtils.OGG_ERRORS.NOT_AN_OGG,
+					"string": "The audio file is an OGG file, but it doesn't use the vorbis codec.",
+				}
+				errors.append(error)
+	if song.voice:
+		if file.file_exists(song.get_song_voice_res_path()):
+			var err_audio = HBUtils.verify_ogg(song.get_song_voice_res_path())
+			if err_audio == HBUtils.OGG_ERRORS.NOT_AN_OGG:
+				var error = {
+					"type": HBUtils.OGG_ERRORS.NOT_AN_OGG,
+					"string": "The voice audio file is not an OGG",
+				}
+				errors.append(error)
+			elif err_audio == HBUtils.OGG_ERRORS.NOT_VORBIS:
+				var error = {
+					"type": HBUtils.OGG_ERRORS.NOT_AN_OGG,
+					"string": "The voice audio file is an OGG file, but it doesn't use the vorbis codec.",
+				}
+				errors.append(error)
+	for error in errors:
+		error["fatal"] = true
+		error["warning"] = false
+		error["fatal_ugc"] = false
+	return errors
+func verify_chart(song: HBSong, difficulty: String):
+	var path = song.get_chart_path(difficulty)
+	var errors = []
+	var file = File.new()
+
+	if not file.file_exists(path):
+		var error = {
+			"type": CHART_ERROR.FILE_NOT_FOUND,
+			"string": "Couldn't find this chart's file",
+		}
+		errors.append(error)
+	else:
+		file.open(path, File.READ)
+		var result = JSON.parse(file.get_as_text()) as JSONParseResult
+		if result.error != OK:
+			var error = {
+				"type": CHART_ERROR.FILE_INVALID_JSON,
+				"string": "Chart JSON Invalid:\n " + result.error + " at line " + str(result.error_line)
+			}
+			result.error_line
+		else:
+			var chart = HBChart.new()
+			chart.deserialize(result.result)
+			var found_left_slide = false
+			var found_right_slide = false
+			var points = chart.get_timing_points()
+			points.invert()
+			for point in points:
+				if point is HBNoteData:
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+						found_left_slide = true
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+						found_right_slide = true
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE and not found_left_slide:
+						var error = {
+							"type": CHART_ERROR.HOLD_CHAIN_PIECE_WITHOUT_PARENT,
+							"string": "Found a left slide chain piece that didn't come after a slide of the same direction at time " + str(point.time)
+						}
+						errors.append(error)
+						break
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE and not found_right_slide:
+						var error = {
+							"type": CHART_ERROR.HOLD_CHAIN_PIECE_WITHOUT_PARENT,
+							"string": "Found a right slide chain piece that didn't come after a slide of the same direction at time " + str(point.time)
+						}
+						errors.append(error)
+						break
+	for error in errors:
+		error["fatal"] = false
+		error["warning"] = false
+		error["fatal_ugc"] = false
+		if error.type in CHART_ERROR_SEVERITY.fatal:
+			error["fatal"] = true
+		elif error.type in CHART_ERROR_SEVERITY.warning:
+			error["warning"] = true
+	return errors
+
+func has_fatal_error(errors):
+	for error_class in errors:
+		for error in errors[error_class]:
+			if error.fatal or error.fatal_ugc:
+				return true
+	return false

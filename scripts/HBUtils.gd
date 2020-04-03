@@ -84,6 +84,36 @@ static func load_ogg(path: String) -> AudioStreamOGGVorbis:
 	ogg_file.close()
 	return stream
 	
+enum OGG_ERRORS {
+	OK,
+	NOT_AN_OGG,
+	NOT_VORBIS
+}
+	
+static func verify_ogg(path: String):
+	var file = File.new()
+	file.open(path, File.READ)
+	var _sectors = {}
+	_sectors["header"] = file.get_buffer(4)
+
+	_sectors["version"] = file.get_buffer(1)
+	_sectors["flags"] = file.get_buffer(1)
+	_sectors["granule"] = file.get_buffer(8)
+	_sectors["serial"] = file.get_buffer(4)
+	_sectors["sequence"] = file.get_buffer(4)
+	_sectors["checksum"] = file.get_buffer(4)
+	_sectors["segment_count"] = file.get_8()
+	_sectors["segment_table"] = file.get_buffer(_sectors.segment_count)
+	_sectors["packet_type"] = file.get_buffer(1)
+	_sectors["vorbis_magic"] = file.get_buffer(7)
+	
+	var error = OGG_ERRORS.OK
+	
+	if not _sectors.header.get_string_from_utf8() == "OggS":
+		error = OGG_ERRORS.NOT_AN_OGG
+	elif not _sectors.vorbis_magic.get_string_from_utf8() == "vorbis":
+		error = OGG_ERRORS.NOT_VORBIS
+	return error
 static func find_key(dictionary, value):
 	var index = dictionary.values().find(value)
 	return dictionary.keys()[index]

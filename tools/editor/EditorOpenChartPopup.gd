@@ -10,6 +10,8 @@ onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
 onready var create_song_dialog = get_node("CreateSongDialog")
 onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/DeleteChartButton")
 onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
+onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/VerifySongButton")
+onready var verify_song_popup = get_node("SongVerificationPopup")
 signal chart_selected(song, difficulty)
 
 const LOG_NAME = "EditorOpenChartPopup"
@@ -30,15 +32,22 @@ func _ready():
 	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
 	delete_chart_button.connect("pressed", delete_confirmation_dialog, "popup_centered")
 	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
+	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
 	
 func _on_video_downloaded(id, result, song):
 	_on_confirmed()
 	
+func _on_verify_button_pressed():
+	var item = tree.get_selected()
+	var song = item.get_meta("song") as HBSong
+	var verification = HBSongVerification.new()
+	verify_song_popup.show_song_verification(verification.verify_song(song), false)
 func populate_tree():
 	# Disable song-specific buttons
 	add_chart_button.disabled = true
 	edit_data_button.disabled = true
 	delete_chart_button.disabled = true
+	verify_song_button.disabled = true
 	get_ok().disabled = true
 	tree.clear()
 	var root = tree.create_item()
@@ -65,6 +74,7 @@ func _on_item_selected():
 		delete_chart_button.disabled = true
 	add_chart_button.disabled = false
 	edit_data_button.disabled = false
+	verify_song_button.disabled = false
 	
 func _on_about_to_show():
 	populate_tree()
@@ -97,8 +107,11 @@ func _on_confirmed():
 	if not song.is_cached():
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 		return
-	if not song.has_audio():
-		show_error("You must add an audio track to your song before editing, you can do this from \"Edit song data\".")
+	var verification = HBSongVerification.new()
+	var errors = verification.verify_song(song)
+	if verification.has_fatal_error(errors):
+		var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
+		verify_song_popup.show_song_verification(verification.verify_song(song), false, err)
 	else:
 		emit_signal("chart_selected", song, item.get_meta("difficulty"))
 		hide()

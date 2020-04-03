@@ -227,6 +227,9 @@ func get_video_id(url: String):
 	if result:
 		return result.get_string(2)
 
+func validate_video_id(video_id):
+	return not not get_video_id(video_id)
+
 func get_cache_status(url: String, video=true, audio=true):
 	var cache_status = CACHE_STATUS.OK
 	cache_meta_mutex.lock()
