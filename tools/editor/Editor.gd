@@ -372,7 +372,7 @@ func _on_StopButton_pressed():
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
 	rhythm_game.remove_all_notes_from_screen()
-	rhythm_game.current_bpm = current_song.bpm # We reset the BPM
+	rhythm_game.base_bpm = current_song.bpm # We reset the BPM
 	rhythm_game.timing_points = get_timing_points()
 
 func get_song_length():
@@ -445,7 +445,7 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	file.store_string(JSON.print(serialize_chart(), "  "))
 
 func load_song(song: HBSong, difficulty: String):
-	rhythm_game.current_bpm = song.bpm
+	rhythm_game.base_bpm = song.bpm
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
 	var dir = Directory.new()

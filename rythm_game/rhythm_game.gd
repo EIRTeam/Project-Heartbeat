@@ -67,7 +67,7 @@ var editing = false
 var previewing = false
 
 
-var current_bpm = 180.0
+var base_bpm = 180.0
 
 var current_heart_power_duration = 0.0
 var current_heart_power_to_remove = 0.0
@@ -109,6 +109,17 @@ func set_modifiers(modifiers: Array):
 	# TODO
 	pass
 
+var bpm_changes = {}
+
+func get_bpm_at_time(time):
+	var current_time = null
+	for c_t in bpm_changes:
+		if (current_time == null and c_t <= time) or (c_t <= time and c_t > current_time):
+			current_time = c_t
+	if current_time == null:
+		return base_bpm
+	return bpm_changes[current_time]
+
 func set_timing_points(points):
 	timing_points = points
 	slide_hold_chains = []
@@ -116,15 +127,14 @@ func set_timing_points(points):
 		chain.sfx_player.queue_free()
 	active_slide_hold_chains = []
 	# When timing points change, we might introduce new BPM change events
+	bpm_changes = {}
 	if editing:
 		for point in timing_points:
 			if point is HBBPMChange:
-				print(point.time, " ", time*1000.0)
-				if point.time <= time*1000.0:
-						print("BPM: " + str(point.bpm))
-						current_bpm = point.bpm
-				else:
-					break
+					print("BPM: " + str(point.bpm))
+					bpm_changes[point.time] = point.bpm
+					
+					print(point.time, " UWU: ", point.bpm)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 func _ready():
 	rating_label.hide()
@@ -157,7 +167,7 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 	result = HBResult.new()
 	current_combo = 0
 	rating_label.hide()
-	current_bpm = song.bpm
+	base_bpm = song.bpm
 	if assets:
 		audio_stream_player.stream = assets.audio
 		if song.voice:
@@ -360,14 +370,11 @@ func _process(delta):
 	var multi_notes = []
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
-		if timing_point is HBBPMChange:
-			if time * 1000.0 > timing_point.time:
-				current_bpm = timing_point.bpm
 		if timing_point is HBNoteData:
 #			print("Current BPM is: " + str(current_bpm))
-			if time * 1000.0 < (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
+			if time * 1000.0 < (timing_point.time + input_lag_compensation-timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
 				break
-			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(current_bpm)):
+			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:

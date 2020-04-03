@@ -109,7 +109,7 @@ func get_initial_position():
 
 func get_time_out():
 	if note_data.auto_time_out:
-		return int((60.0  / game.current_bpm * (1 + 3) * 1000.0))
+		return int((60.0  / game.get_bpm_at_time(note_data.time) * (1 + 3) * 1000.0))
 	else:
 		return note_data.time_out
 
