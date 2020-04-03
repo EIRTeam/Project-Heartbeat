@@ -12,7 +12,7 @@ bg_color = Color( 0.0941176, 0.109804, 0.14902, 1 )
 border_width_bottom = 1
 border_color = Color( 0.541176, 0.541176, 0.541176, 1 )
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends ScrollContainer
 
 # Hacky way to handle control+zoom
@@ -36,7 +36,7 @@ func _process(delta):
 		_scroll = scroll_vertical
 "
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="EditorTimeline" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -52,6 +52,7 @@ __meta__ = {
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -102,14 +103,16 @@ script = ExtResource( 7 )
 margin_top = 52.0
 margin_right = 1280.0
 margin_bottom = 720.0
+mouse_filter = 1
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.3
-script = SubResource( 3 )
+script = SubResource( 2 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer"]
 margin_right = 1280.0
 margin_bottom = 668.0
 rect_min_size = Vector2( 100, 0 )
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
@@ -118,12 +121,14 @@ custom_constants/separation = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer"]
 margin_right = 116.0
 margin_bottom = 668.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="LayerNames" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 margin_right = 116.0
 margin_bottom = 668.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -133,14 +138,16 @@ margin_left = 116.0
 margin_right = 1280.0
 margin_bottom = 668.0
 rect_clip_content = true
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="LayerControl" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
 margin_right = 1160.0
 margin_bottom = 553.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0

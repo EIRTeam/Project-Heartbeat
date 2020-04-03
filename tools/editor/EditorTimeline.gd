@@ -13,7 +13,8 @@ var _offset = 0
 var _prev_playhead_position = Vector2()
 signal layers_changed
 const LOG_NAME = "Editor"
-
+var _area_select_start = Vector2()
+var _area_selecting = false
 const TRIANGLE_HEIGHT = 15
 func _ready():
 	update()
@@ -74,6 +75,7 @@ func _draw_timing_lines():
 func _draw():
 	_draw_playhead()
 	_draw_timing_lines()
+	_draw_area_select()
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 
@@ -141,6 +143,67 @@ func _input(event):
 				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
 				set_layers_offset(new_offset)
 				scroll_bar.value = new_offset / float(editor.get_song_length() * 1000.0)
+		if _area_selecting:
+			update()
+
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
+			if event.button_index == BUTTON_LEFT and event.pressed and not event.is_echo():
+				get_tree().set_input_as_handled()
+				_area_select_start = get_local_mouse_position()
+				_area_selecting = true
+		if event.button_index == BUTTON_LEFT and not event.pressed and not event.is_echo() and _area_selecting:
+				get_tree().set_input_as_handled()
+				_area_selecting = false
+				_do_area_select()
+				update()
+				
+				
+
+func get_selection_rect():
+	var origin = _area_select_start
+	var end_point = get_local_mouse_position()
+	if get_local_mouse_position().y > _area_select_start.y and get_local_mouse_position().x < _area_select_start.x:
+		# Bottom left
+		origin = Vector2(get_local_mouse_position().x, _area_select_start.y)
+		end_point = Vector2(_area_select_start.x, get_local_mouse_position().y)
+	if get_local_mouse_position().y < _area_select_start.y and get_local_mouse_position().x < _area_select_start.x:
+		# Top left
+		origin = get_local_mouse_position()
+		end_point = _area_select_start
+	if get_local_mouse_position().y < _area_select_start.y and get_local_mouse_position().x > _area_select_start.x:
+		# Top right
+		origin = Vector2(_area_select_start.x, get_local_mouse_position().y)
+		end_point = Vector2(get_local_mouse_position().x, _area_select_start.y)
+	var size = end_point - origin
+	size.y = clamp(size.y, scroll_container.rect_position.y - _area_select_start.y, rect_size.y - origin.y)
+	return Rect2(get_global_transform().xform(origin), size)
+
+func _do_area_select():
+	var rect = get_selection_rect()
+
+	var timeline_rect = Rect2(rect_global_position, rect_size)
+	var first = true
+	for layer in get_layers():
+		for item in layer.get_editor_items():
+			if timeline_rect.has_point(item.rect_global_position):
+				var item_rect = Rect2(item.rect_global_position, item.rect_size)
+				if rect.intersects(item_rect):
+					editor.select_item(item, !first)
+					first = false
+func _draw_area_select():
+	if _area_selecting:
+		var origin = _area_select_start
+		var size = get_local_mouse_position() - _area_select_start
+		size.y = clamp(size.y, scroll_container.rect_position.y - _area_select_start.y, rect_size.y - origin.y)
+		var rect = Rect2(_area_select_start, size)
+		var color = Color.turquoise
+		color.a = 0.25
+		draw_rect(rect, color, true, 1.0, false)
+		color.a = 0.5
+		draw_rect(rect, color, false, 1.0, false)
+
 func clear_layers():
 	for layer in layers.get_children():
 		layer.free()

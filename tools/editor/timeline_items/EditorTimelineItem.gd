@@ -61,8 +61,10 @@ func deselect():
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("editor_select"):
+		print("HANDLING")
 		if event is InputEventWithModifiers:
 			get_tree().set_input_as_handled()
+			
 			editor.select_item(self, event.shift)
 			
 			if not event.shift:

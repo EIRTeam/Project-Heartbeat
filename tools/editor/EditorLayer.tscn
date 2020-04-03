@@ -12,7 +12,7 @@ self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_right = 1.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 50, 35 )
-focus_mode = 2
+mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -22,4 +22,5 @@ __meta__ = {
 [node name="EditorTimelinePreview" parent="." instance=ExtResource( 2 )]
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
+mouse_filter = 2
 [connection signal="mouse_exited" from="." to="." method="_on_EditorLayer_mouse_exited"]

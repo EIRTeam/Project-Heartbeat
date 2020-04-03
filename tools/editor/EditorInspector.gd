@@ -23,11 +23,14 @@ func update_label():
 		title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
 func stop_inspecting():
+	if inspecting_item:
+		inspecting_item.disconnect("property_changed", self, "update_value")
 	inspecting_item = null
 	for child in property_container.get_children():
 		property_container.remove_child(child)
 		child.queue_free()
 	inspecting_properties = {}
+	
 
 func sync_visible_values_with_data():
 	for property_name in inspecting_properties:
@@ -48,7 +51,6 @@ func inspect(item: EditorTimelineItem):
 	for child in property_container.get_children():
 		child.free()
 	var properties = item.get_inspector_properties()
-	
 	item.connect("property_changed", self, "update_value")
 	
 	for property in properties:
