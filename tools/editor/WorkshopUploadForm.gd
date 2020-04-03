@@ -39,6 +39,7 @@ func upload_song():
 	ugc.set_item_metadata(update_id, JSON.print(current_song.serialize()))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
+	Steam.setItemTags(update_id, ["song"])
 	ugc.submit_item_update(update_id, "Test!")
 func _on_item_updated(result, tos):
 	Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_song.ugc_id])

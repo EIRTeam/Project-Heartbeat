@@ -29,6 +29,8 @@ func set_item_preview(update_id, preview_path: String):
 	Steam.setItemPreview(update_id, preview_path)
 func start_item_update(published_id):
 	return Steam.startItemUpdate(Steam.getAppID(), published_id)
+func set_item_tags(update_id, tags):
+	return Steam.setItemTags(update_id, tags)
 func get_ugc_service_name():
 	return "Steam Workshop"
 func submit_item_update(update_id, change_note: String):
