@@ -34,7 +34,7 @@ func set_start(value: int):
 
 
 func get_editor_size():
-	return Vector2(editor.scale_msec(get_duration()), rect_size.y)
+	return Vector2(0, rect_size.y)
 var a = false
 func _process(delta):
 	
