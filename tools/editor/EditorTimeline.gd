@@ -40,7 +40,7 @@ func _draw_bars(interval, offset=0):
 	for line in range(lines):
 		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
-		if abs(_offset) > (line*interval) * 1000.0:
+		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 1.0), 1.0, false)
 	
@@ -52,7 +52,7 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
 		
 		var pos_sec = line*interval
-		if abs(_offset) > (line*interval) * 1000.0:
+		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
 		if ignore_interval and ignore_interval > 0:
 			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
