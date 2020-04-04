@@ -7,14 +7,21 @@ enum WORKSHOP_FILE_TYPES {
 	MICROTRANSACTION = 1
 }
 
+const LOG_NAME = "SteamUGCService"
+
 func _init():
 	Steam.connect("item_created", self, "_on_item_created")
 	Steam.connect("item_updated", self, "_on_item_updated")
+	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
 func _on_item_created(result, file_id, tos):
 	emit_signal("item_created", result, file_id, tos)
 
 func _on_item_updated(result, tos):
 	emit_signal("item_update_result", result, tos)
+	
+func _on_ugc_query_completed(item_handle, result, number_of_results, number_of_matching_results, cached):
+	var details = Steam.getQueryUGCResult(item_handle, 0)
+	emit_signal("ugc_details_request_done", details.result, details)
 func create_item():
 	Steam.createItem(Steam.getAppID(), WORKSHOP_FILE_TYPES.COMMUNITY)
 func set_item_title(update_id, title: String):
@@ -35,3 +42,12 @@ func get_ugc_service_name():
 	return "Steam Workshop"
 func submit_item_update(update_id, change_note: String):
 	Steam.submitItemUpdate(update_id, change_note)
+func get_item_details(ugc_id):
+	print("getting details for %d" % [ugc_id])
+	var req_id = Steam.createQueryUGCDetailsRequest([ugc_id])
+	Steam.setReturnLongDescription(req_id, true)
+	Steam.sendQueryUGCRequest(req_id)
+func delete_item(item_id):
+	Steam.deleteItem(item_id)
+func get_update_progress(update_id):
+	return Steam.getItemUpdateProgress(update_id)

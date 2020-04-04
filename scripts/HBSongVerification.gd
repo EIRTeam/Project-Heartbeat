@@ -23,18 +23,19 @@ enum META_ERROR {
 	AUDIO_NOT_FOUND,
 	VOICE_NOT_FOUND,
 	PREVIEW_MISSING,
-	PREVIEW_FILE_MISSING
+	PREVIEW_FILE_MISSING,
+	PREVIEW_FILE_TOO_BIG
 }
 
 var META_ERROR_SEVERITY = {
-	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.AUDIO_NOT_FOUND ],
-	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING ],
+	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.PREVIEW_FILE_MISSING, META_ERROR.AUDIO_NOT_FOUND ],
+	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.PREVIEW_MISSING ],
 	# Some things are only mandatory for UGC songs and will still allow the song to be played
-	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING ]
+	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG ]
 }
 # Meta fields that MUST be set to something 
 const MANDATORY_META_FIELDS = [
-	"title", "author", "creator"
+	"title", "artist", "creator"
 ]
 
 func verify_song(song: HBSong):
@@ -63,15 +64,16 @@ func verify_meta(song: HBSong):
 				"string": "The song's YouTube URL is invalid",
 			}
 			errors.append(error)
-	if not song.audio:
+	if not song.audio and not (song.youtube_url and song.use_youtube_for_audio):
 		var error = {
 			"type": META_ERROR.AUDIO_FIELD_MISSING,
 			"string": "The song doesn't have an audio file",
 		}
 		errors.append(error)
-	else:
+	elif not (song.youtube_url and song.use_youtube_for_audio):
 		var file = File.new()
-		if not file.file_exists(song.get_song_audio_res_path()):
+		var audio_path = song.get_song_audio_res_path()
+		if not file.file_exists(audio_path):
 			var error = {
 				"type": META_ERROR.AUDIO_NOT_FOUND,
 				"string": "The song's audio file does not exist on disk",
@@ -99,6 +101,14 @@ func verify_meta(song: HBSong):
 				"string": "The song preview image file does not exist on disk",
 			}
 			errors.append(error)
+		else:
+			file.open(song.get_song_preview_res_path(), File.READ)
+			if file.get_len() > 1000000:
+				var error = {
+					"type": META_ERROR.PREVIEW_FILE_TOO_BIG,
+					"string": "The song preview image file is too big (should be under 1 MB!), it currently is %.2f MB" % [file.get_len() / 1000000.0],
+				}
+				errors.append(error)
 	for error in errors:
 		error["fatal"] = false
 		error["warning"] = false
@@ -206,9 +216,9 @@ func verify_chart(song: HBSong, difficulty: String):
 			error["warning"] = true
 	return errors
 
-func has_fatal_error(errors):
+func has_fatal_error(errors, count_ugc=false):
 	for error_class in errors:
 		for error in errors[error_class]:
-			if error.fatal or error.fatal_ugc:
+			if error.fatal or (error.fatal_ugc and count_ugc):
 				return true
 	return false

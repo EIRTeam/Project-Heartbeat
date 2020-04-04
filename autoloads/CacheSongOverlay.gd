@@ -8,7 +8,7 @@ var current_song_downloading: HBSong
 
 func _ready():
 	download_confirm_popup.connect("accept", self, "_on_download_prompt_accepted")
-	download_confirm_popup.connect("cancel", self, "emit_signal", ["user_rejected"])
+	download_confirm_popup.connect("cancel", self, "emit_signal", ["done"])
 
 func show_download_prompt(song: HBSong):
 	current_song_downloading = song

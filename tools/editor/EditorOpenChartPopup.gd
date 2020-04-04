@@ -12,6 +12,8 @@ onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxCo
 onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
 onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/VerifySongButton")
 onready var verify_song_popup = get_node("SongVerificationPopup")
+onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
+onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 signal chart_selected(song, difficulty)
 
 const LOG_NAME = "EditorOpenChartPopup"
@@ -29,13 +31,21 @@ func _ready():
 	connect("confirmed", self, "_on_confirmed")
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
 	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
-	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
 	delete_chart_button.connect("pressed", delete_confirmation_dialog, "popup_centered")
 	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
 	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
+	upload_button.connect("pressed", self, "_on_upload_to_workshop_pressed")
 	
-func _on_video_downloaded(id, result, song):
-	_on_confirmed()
+func _on_upload_to_workshop_pressed():
+	var item = tree.get_selected()
+	var song = item.get_meta("song") as HBSong
+	var verification = HBSongVerification.new()
+	var errors = verification.verify_song(song)
+	if verification.has_fatal_error(errors, true):
+		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
+	else:
+		workshop_upload_dialog.set_song(song)
+		workshop_upload_dialog.popup_centered()
 	
 func _on_verify_button_pressed():
 	var item = tree.get_selected()
@@ -109,6 +119,13 @@ func _on_confirmed():
 		return
 	var verification = HBSongVerification.new()
 	var errors = verification.verify_song(song)
+	# We ignore file not found errors for charts
+	for error_class in errors:
+		if error_class.begins_with("chart_"):
+			for i in range(errors[error_class].size()-1, -1, -1):
+				var error = errors[error_class][i]
+				if error.type == HBSongVerification.CHART_ERROR.FILE_NOT_FOUND:
+					errors[error_class].remove(i)
 	if verification.has_fatal_error(errors):
 		var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
 		verify_song_popup.show_song_verification(verification.verify_song(song), false, err)

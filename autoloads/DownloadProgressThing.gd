@@ -93,6 +93,12 @@ func set_text(val):
 func _ready():
 	set_type(TYPE.SUCCESS)
 	modulate.a = 0.0
+	get_viewport().connect("size_changed", self, "_on_vp_size_changed")
+
+func _on_vp_size_changed():
+	yield(get_tree(), "idle_frame")
+	move_to_offset(target_offset)
+	move_t = move_time
 
 func move_to_offset(to_offset, time=0.75):
 	var parent = get_parent()

@@ -8,6 +8,9 @@ func show_song_verification(errors, for_ugc=true, text=""):
 	var error_c = 0
 	for error_class in errors:
 		error_c += errors[error_class].size()
+	for child in tab_container.get_children():
+		tab_container.remove_child(child)
+		child.queue_free()
 	if error_c == 0:
 		tab_container.hide()
 		self.dialog_text = "No errors were found"

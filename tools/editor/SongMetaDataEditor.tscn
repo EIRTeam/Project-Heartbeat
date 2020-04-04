@@ -18,6 +18,7 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -178,7 +179,6 @@ margin_right = 618.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -296,13 +296,13 @@ margin_top = 213.0
 margin_right = 618.0
 margin_bottom = 237.0
 
-[node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
 margin_top = 241.0
 margin_right = 618.0
 margin_bottom = 265.0
 text = "Use YouTube for audio"
 
-[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+[node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
 margin_top = 269.0
 margin_right = 618.0
 margin_bottom = 293.0
@@ -492,8 +492,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -502,8 +502,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 
 [node name="PreviewFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -512,8 +512,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -522,8 +522,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -532,8 +532,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -542,8 +542,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "C:/Users/EIREXE/Project-Heartbeat"
+current_path = "C:/Users/EIREXE/Project-Heartbeat/"
 [connection signal="pressed" from="TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]

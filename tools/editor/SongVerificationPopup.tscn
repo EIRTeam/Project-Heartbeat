@@ -4,6 +4,7 @@
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
 
 [node name="SongVerificationPopup" type="AcceptDialog"]
+visible = true
 margin_left = 345.0
 margin_top = 225.0
 margin_right = 916.0

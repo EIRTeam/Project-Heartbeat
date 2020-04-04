@@ -41,10 +41,3 @@ func remove_notification(notification_scene, free=false):
 		else:
 			notification_scene.disappear()
 		set_offsets()
-func _input(event):
-	if event.is_action_pressed("activate_heart_power"):
-		remove_notification(notifications[notifications.size()-2])
-	if event.is_action_pressed("free_friends"):
-		var esc = PROGRESS_THING_SCENE.instance()
-		add_notification(esc)
-		esc.set_type(esc.TYPE.NORMAL)

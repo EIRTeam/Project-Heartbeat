@@ -2,6 +2,7 @@ class_name HBUGCService
 
 signal item_created(result, file_id, tos)
 signal item_update_result(result, tos)
+signal ugc_details_request_done(result, details)
 func get_ugc_service_name():
 	return null
 
@@ -21,3 +22,9 @@ func start_item_update(published_id):
 	return
 func submit_item_update(update_id, change_note: String):
 	return
+func get_item_details(item_id):
+	pass
+func delete_item(item_id):
+	pass
+func get_update_progress(update_id):
+	pass
