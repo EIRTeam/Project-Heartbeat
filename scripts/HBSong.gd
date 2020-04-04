@@ -178,7 +178,7 @@ func save_song():
 func cache_data():
 	if youtube_url:
 		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-			return YoutubeDL.download_video(youtube_url, use_youtube_for_video and has_video_enabled(), use_youtube_for_audio)
+			return YoutubeDL.cache_song(self)
 
 func has_audio():
 	if audio != "" or (use_youtube_for_audio and is_cached()):

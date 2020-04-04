@@ -57,7 +57,7 @@ func verify_meta(song: HBSong):
 			}
 			errors.append(error)
 	if song.youtube_url:
-		if not  YoutubeDL.validate_video_id(song.youtube_ur):
+		if not YoutubeDL.validate_video_url(song.youtube_url):
 			var error = {
 				"type": META_ERROR.YOUTUBE_URL_INVALID,
 				"string": "The song's YouTube URL is invalid",

@@ -1,0 +1,87 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://autoloads/DownloadProgressThing.gd" type="Script" id=1]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://graphics/check.svg" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 77.0
+bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
+border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+corner_radius_bottom_right = 1024
+corner_detail = 1
+expand_margin_right = 77.0
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=2]
+size = 15
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+resource_local_to_scene = true
+bg_color = Color( 0.0627451, 0.2, 0.0705882, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.207843, 0.380392, 0.105882, 1 )
+corner_radius_top_left = 1024
+corner_radius_top_right = 1024
+corner_radius_bottom_right = 1024
+corner_radius_bottom_left = 1024
+
+[node name="HBoxContainer" type="Control"]
+margin_right = 70.0
+margin_bottom = 70.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+easing = 0.392293
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 45.0
+margin_top = 18.0
+margin_right = 307.0
+margin_bottom = 52.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_right = -28.0
+custom_fonts/font = SubResource( 2 )
+text = "Downloading audio for %s"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Panel" parent="."]
+margin_right = 70.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 25, 25 )
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -22,6 +22,7 @@ func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
+	DownloadProgress.holding_back_notifications = true
 func start_session(game_info: HBGameInfo):
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])

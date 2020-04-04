@@ -20,9 +20,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		difficulty_list.select_button(0)
 	if args.has("song"):
 		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
-	MouseTrap.cache_song_overlay.connect("video_downloaded", self, "_on_video_downloaded")
-	MouseTrap.cache_song_overlay.connect("user_rejected", scroll_container, "grab_focus")
-	MouseTrap.cache_song_overlay.connect("download_error", scroll_container, "grab_focus")
+	MouseTrap.cache_song_overlay.connect("done", scroll_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", scroll_container, "grab_focus")
@@ -30,9 +28,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
-	MouseTrap.cache_song_overlay.disconnect("video_downloaded", self, "_on_video_downloaded")
-	MouseTrap.cache_song_overlay.disconnect("user_rejected", scroll_container, "grab_focus")
-	MouseTrap.cache_song_overlay.disconnect("download_error", scroll_container, "grab_focus")
+	MouseTrap.cache_song_overlay.disconnect("done", scroll_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", scroll_container, "grab_focus")
@@ -84,8 +80,7 @@ func _on_youtube_url_selected(url):
 	SongLoader.set_ppd_youtube_url(current_song, url)
 	scroll_container.grab_focus()
 		
-func _on_video_downloaded(id, result, song):
-	_on_song_hovered(song)
+func _on_video_downloading():
 	scroll_container.grab_focus()
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()

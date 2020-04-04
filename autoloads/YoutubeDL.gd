@@ -20,6 +20,9 @@ enum CACHE_STATUS {
 	VIDEO_MISSING
 }
 
+# Dictionary: song_id -> 
+var tracked_video_downloads = {}
+
 signal youtube_dl_ready
 
 signal video_downloaded(id, result)
@@ -31,7 +34,7 @@ var cache_meta: Dictionary = {
 var status_mutex = Mutex.new()
 var status = YOUTUBE_DL_STATUS.COPYING
 var songs_being_cached = []
-
+const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
 	emit_signal("youtube_dl_ready")
@@ -176,7 +179,30 @@ func _download_video(userdata):
 	
 func _video_downloaded(thread: Thread, result):
 	thread.wait_to_finish()
+
 	songs_being_cached.erase(result.video_id)
+	var has_error = false
+	if result.has("video"):
+		if not result.video:
+			has_error = true
+	if result.has("audio"):
+		if not result.audio:
+			has_error = true
+	if has_error:
+		var progress_thing = PROGRESS_THING.instance()
+		DownloadProgress.add_notification(progress_thing, true)
+		progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
+		progress_thing.text = "Error downloading media for %s." % [tracked_video_downloads[result.video.id].song.get_visible_title()]
+		progress_thing.life_timer = 2
+	else:
+		var progress_thing = PROGRESS_THING.instance()
+		DownloadProgress.add_notification(progress_thing, true)
+		progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
+		progress_thing.text = "Finished downloading media for %s." % [tracked_video_downloads[result.video_id].song.get_visible_title()]
+		progress_thing.life_timer = 2
+	if result.video_id in tracked_video_downloads:
+		DownloadProgress.remove_notification(tracked_video_downloads[result.video_id].progress_thing)
+		tracked_video_downloads.erase(result.video_id)
 	emit_signal("video_downloaded", result.video_id, result)
 	
 func video_exists(video_id):
@@ -214,7 +240,9 @@ func download_video(url: String, download_video = true, download_audio = true):
 		if all_found:
 			Log.log(self, "Already cached, no need to download again")
 			emit_signal("video_downloaded", video_id)
-			songs_being_cached.erase(video_id)
+			if video_id in tracked_video_downloads:
+				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
+				tracked_video_downloads.erase(video_id)
 			return
 	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio})
 	if result != OK:
@@ -227,8 +255,8 @@ func get_video_id(url: String):
 	if result:
 		return result.get_string(2)
 
-func validate_video_id(video_id):
-	return not not get_video_id(video_id)
+func validate_video_url(url):
+	return get_video_id(url) != null
 
 func get_cache_status(url: String, video=true, audio=true):
 	var cache_status = CACHE_STATUS.OK
@@ -250,3 +278,29 @@ func get_cache_status(url: String, video=true, audio=true):
 		cache_status = CACHE_STATUS.MISSING
 	cache_meta_mutex.unlock()
 	return cache_status
+
+func cache_song(song: HBSong):
+	if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+		var video_url_ok = validate_video_url(song.youtube_url)
+		if video_url_ok:
+			var video_id = get_video_id(song.youtube_url)
+			if not video_id in songs_being_cached:
+				var result = download_video(song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
+				if not video_id in tracked_video_downloads:
+					var progress_thing = PROGRESS_THING.instance()
+					DownloadProgress.add_notification(progress_thing)
+					progress_thing.spinning = true
+					progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
+					progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+					tracked_video_downloads[video_id] = {
+						"progress_thing": progress_thing,
+						"song": song
+					}
+				return result
+		else:
+			var progress_thing = PROGRESS_THING.instance()
+			DownloadProgress.add_notification(progress_thing)
+			progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
+			progress_thing.life_timer = 2.0
+			progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
+			
