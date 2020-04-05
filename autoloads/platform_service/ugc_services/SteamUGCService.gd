@@ -184,6 +184,8 @@ func delete_item(item_id):
 	Steam.deleteItem(item_id)
 func get_update_progress(update_id):
 	return Steam.getItemUpdateProgress(update_id)
+func add_item_preview_video(update_id, video_id):
+	Steam.addItemPreviewVideo(update_id, video_id)
 func get_user_item_vote(item_id):
 	if item_id in ugc_data.skipped_votes:
 		return USER_ITEM_VOTE.SKIP

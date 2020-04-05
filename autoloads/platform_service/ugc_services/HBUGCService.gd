@@ -70,5 +70,7 @@ func skip_vote(item_id):
 	save_ugc_data()
 func set_user_item_vote(item_id, vote):
 	pass
+func add_item_preview_video(update_id, video_id):
+	pass
 func get_user_item_vote(item_id):
 	pass
