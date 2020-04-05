@@ -251,7 +251,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 		undo_redo.add_undo_method(child, "update_widget_data")
 	
 	undo_redo.commit_action()
-	inspector.update_values()
+	inspector.sync_visible_values_with_data()
 	
 	var note = child.data
 	
@@ -575,7 +575,7 @@ func arrange_selected_by_angle(diff):
 		undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		mult += 1
-	inspector.update_values()
+	inspector.sync_visible_values_with_data()
 	undo_redo.commit_action()
 func _on_AngleArrangeButtonPlus_pressed():
 	arrange_selected_by_angle(angle_arrange_spinbox.value)
