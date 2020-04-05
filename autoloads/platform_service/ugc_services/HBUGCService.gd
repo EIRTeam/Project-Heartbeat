@@ -3,6 +3,7 @@ class_name HBUGCService
 signal item_created(result, file_id, tos)
 signal item_update_result(result, tos)
 signal ugc_details_request_done(result, details)
+signal ugc_item_installed(type, item)
 func get_ugc_service_name():
 	return null
 

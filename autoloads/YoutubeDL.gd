@@ -23,7 +23,7 @@ enum CACHE_STATUS {
 # Dictionary: song_id -> 
 var tracked_video_downloads = {}
 
-signal youtube_dl_ready
+signal youtube_dl_status_updated
 
 signal video_downloaded(id, result)
 var cache_meta_mutex = Mutex.new()
@@ -34,12 +34,14 @@ var cache_meta: Dictionary = {
 var status_mutex = Mutex.new()
 var status = YOUTUBE_DL_STATUS.COPYING
 var songs_being_cached = []
+var caching_queue = []
 const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
-	emit_signal("youtube_dl_ready")
+	
 	status_mutex.lock()
 	Log.log(self, "YTDL READY: " + HBUtils.find_key(YOUTUBE_DL_STATUS, status))
+	emit_signal("youtube_dl_status_updated")
 	status_mutex.unlock()
 func _update_youtube_dl(userdata):
 	Log.log(self, "Updating YTDL...")
@@ -100,6 +102,7 @@ func _ready():
 			update_youtube_dl()
 		else:
 			status = YOUTUBE_DL_STATUS.READY
+			emit_signal("youtube_dl_status_updated")
 	else:
 		update_youtube_dl()
 #	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
@@ -203,6 +206,12 @@ func _video_downloaded(thread: Thread, result):
 	if result.video_id in tracked_video_downloads:
 		DownloadProgress.remove_notification(tracked_video_downloads[result.video_id].progress_thing)
 		tracked_video_downloads.erase(result.video_id)
+	for song in caching_queue:
+		if get_video_id(song.youtube_url) == result.video_id:
+			caching_queue.erase(song)
+			break
+	if caching_queue.size() > 0:
+		cache_song(caching_queue[0])
 	emit_signal("video_downloaded", result.video_id, result)
 	
 func video_exists(video_id):
@@ -280,27 +289,36 @@ func get_cache_status(url: String, video=true, audio=true):
 	return cache_status
 
 func cache_song(song: HBSong):
-	if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-		var video_url_ok = validate_video_url(song.youtube_url)
-		if video_url_ok:
-			var video_id = get_video_id(song.youtube_url)
-			if not video_id in songs_being_cached:
-				var result = download_video(song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
-				if not video_id in tracked_video_downloads:
-					var progress_thing = PROGRESS_THING.instance()
-					DownloadProgress.add_notification(progress_thing)
-					progress_thing.spinning = true
-					progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
-					progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
-					tracked_video_downloads[video_id] = {
-						"progress_thing": progress_thing,
-						"song": song
-					}
-				return result
-		else:
-			var progress_thing = PROGRESS_THING.instance()
-			DownloadProgress.add_notification(progress_thing)
-			progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
-			progress_thing.life_timer = 2.0
-			progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
+	print("CACHING THE MIKU!")
+	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
+		yield(self, "youtube_dl_status_updated")
+	print("POST-YIELD")
+	if not song in caching_queue:
+		caching_queue.append(song)
+	if caching_queue[0] == song:
+		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+			var video_url_ok = validate_video_url(song.youtube_url)
+			if video_url_ok:
+				var video_id = get_video_id(song.youtube_url)
+				if not video_id in songs_being_cached:
+					var result = download_video(song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
+					if not video_id in tracked_video_downloads:
+						var progress_thing = PROGRESS_THING.instance()
+						DownloadProgress.add_notification(progress_thing)
+						progress_thing.spinning = true
+						progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
+						progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+						tracked_video_downloads[video_id] = {
+							"progress_thing": progress_thing,
+							"song": song
+						}
+					return result
+			else:
+				var progress_thing = PROGRESS_THING.instance()
+				DownloadProgress.add_notification(progress_thing)
+				progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
+				progress_thing.life_timer = 2.0
+				progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
 			
+func is_already_downloading(song):
+	return get_video_id(song.youtube_url) in songs_being_cached or song in caching_queue

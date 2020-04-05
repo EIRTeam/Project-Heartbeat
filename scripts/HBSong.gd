@@ -39,7 +39,7 @@ var use_youtube_for_audio = true
 var use_youtube_for_video = true
 var ugc_service_name = ""
 var ugc_id = 0
-
+var _comes_from_ugc = false
 signal song_caching_finished(success)
 
 func get_leaderboard_name(difficulty: String):
@@ -177,8 +177,7 @@ func save_song():
 
 func cache_data():
 	if youtube_url:
-		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-			return YoutubeDL.cache_song(self)
+		return YoutubeDL.cache_song(self)
 
 func has_audio():
 	if audio != "" or (use_youtube_for_audio and is_cached()):
@@ -191,3 +190,6 @@ func get_visible_title() -> String:
 		return romanized_title
 	else:
 		return title
+
+func comes_from_ugc():
+	return _comes_from_ugc

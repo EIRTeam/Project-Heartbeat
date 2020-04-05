@@ -41,6 +41,15 @@ func _on_upload_to_workshop_pressed():
 	var song = item.get_meta("song") as HBSong
 	var verification = HBSongVerification.new()
 	var errors = verification.verify_song(song)
+	if not (song.youtube_url and song.use_youtube_for_audio) or song.audio:
+		var error = {
+			"type": -1,
+			"string": "Workshop songs must not have an audio file, instead you should use a YouTube video.",
+			"fatal": false,
+			"warning": false,
+			"fatal_ugc": true
+		}
+		errors["meta"].append(error)
 	if verification.has_fatal_error(errors, true):
 		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
 	else:
@@ -63,7 +72,7 @@ func populate_tree():
 	var root = tree.create_item()
 	for song in SongLoader.songs.values():
 		# PPD charts cannot be edited...
-		if not song is HBPPDSong:
+		if not song is HBPPDSong and not song.comes_from_ugc():
 			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
 				var item = tree.create_item()
 				item.set_text(0, song.title)

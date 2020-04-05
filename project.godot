@@ -397,8 +397,8 @@ HBTapHandler="*res://autoloads/HBTapHandler.gd"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
-YoutubeDL="*res://autoloads/YoutubeDL.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
+YoutubeDL="*res://autoloads/YoutubeDL.gd"
 
 [debug]
 

@@ -25,6 +25,14 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", scroll_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("popup_hide", scroll_container, "grab_focus")
+	if PlatformService.service_provider.implements_ugc:
+		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
+		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
+
+func _on_ugc_item_installed(type, item):
+	if type == "song":
+		if current_difficulty:
+			scroll_container.set_songs(SongLoader.get_songs_with_difficulty(current_difficulty), current_difficulty)
 
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
@@ -33,6 +41,9 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", scroll_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("popup_hide", scroll_container, "grab_focus")
+	if PlatformService.service_provider.implements_ugc:
+		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
+		ugc.disconnect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _ready():
 	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
 	for difficulty in SongLoader.available_difficulties:

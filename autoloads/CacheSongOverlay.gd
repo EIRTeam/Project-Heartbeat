@@ -9,8 +9,11 @@ var current_song_downloading: HBSong
 func _ready():
 	download_confirm_popup.connect("accept", self, "_on_download_prompt_accepted")
 	download_confirm_popup.connect("cancel", self, "emit_signal", ["done"])
-
+	error_prompt.connect("accept", self, "_on_error_prompt_accepted")
 func show_download_prompt(song: HBSong):
+	if YoutubeDL.is_already_downloading(song):
+		error_prompt.popup_centered()
+		return
 	current_song_downloading = song
 	var messages = {
 		YoutubeDL.CACHE_STATUS.MISSING: "This song requires downloading video/audio files from YouTube, would you like to download them?",

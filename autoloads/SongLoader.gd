@@ -29,7 +29,8 @@ func _ready():
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
-	if file.open(path, File.READ) == OK:
+	var err = file.open(path, File.READ)
+	if err == OK:
 		var song_json = JSON.parse(file.get_as_text())
 		if song_json.error == OK:
 			
@@ -41,7 +42,7 @@ func load_song_meta(path: String, id: String) -> HBSong:
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])
 	else:
-		Log.log(self, "Error loading song: %s" % path, Log.LogLevel.ERROR)
+		Log.log(self, "Error loading song: %s with error %d" % [path, err], Log.LogLevel.ERROR)
 	file.close()
 	return null
 	
@@ -73,6 +74,8 @@ func difficulty_sort(a: String, b: String):
 	var a_i = BASE_DIFFICULTY_ORDER.find(a.to_lower())
 	var b_i = BASE_DIFFICULTY_ORDER.find(b.to_lower())
 	return a_i > b_i
+func add_song(song: HBSong):
+	songs[song.id] = song
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}

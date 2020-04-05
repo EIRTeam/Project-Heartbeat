@@ -103,8 +103,6 @@ func _ready():
 	for action in InputMap.get_actions():
 		if action in action_names:
 			for event in InputMap.get_action_list(action):
-				if event is InputEventKey:
-					print(OS.get_scancode_string(event.scancode))
 				if event is InputEventJoypadMotion:
 					var n = 2 * event.axis;
 					if event.axis_value >= 0:
@@ -197,7 +195,6 @@ func get_event_name(event: InputEvent):
 	return ret
 	
 func set_fullscreen(fullscreen = false):
-	print("set full screen", fullscreen)
 	OS.window_borderless = fullscreen
 	OS.window_fullscreen = fullscreen
 	

@@ -34,25 +34,17 @@ __meta__ = {
 }
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
-has_cancel = true
-has_accept = true
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
 has_accept = false
 text = "Downloading..."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
-has_accept = true
-text = "ERR!"
+text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
-cancel_text = "No"
 
 [node name="PPDDialog" type="WindowDialog" parent="MouseTrap"]
 visible = true
