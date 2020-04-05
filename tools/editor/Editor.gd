@@ -669,7 +669,7 @@ func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 func show_error(error: String):
 	$PluginErrorDialog.rect_size = Vector2.ZERO
 	$PluginErrorDialog.dialog_text = error
-	$PluginErrorDialog.popup_centered_minsize(300, 80)
+	$PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
 
 
 func _on_auto_multi_toggled(button_pressed):
