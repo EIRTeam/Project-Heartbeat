@@ -16,6 +16,11 @@ onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxCont
 onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
 onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
+onready var rating_popup = get_node("RatingPopup")
+onready var upvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/UpvoteButton")
+onready var downvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/DownvoteButton")
+onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
+onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 const BASE_HEIGHT = 720.0
@@ -25,11 +30,12 @@ signal show_song_results_mp(entries)
 
 var mp_lobby: HBLobby
 var mp_entries = {}
-
+var current_song: HBSong
 func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
 	return a.score > b.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
+	buttons.grab_focus()
 	if args.has("game_info"):
 		set_game_info(args.game_info)
 	if args.has("hide_retry"):
@@ -53,7 +59,7 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		mp_lobby = args.lobby
 		# To be able to handle a song starting while we look at results		
 		mp_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
-	buttons.grab_focus()
+	
 	
 func _on_menu_exit(force_hard_transition=false):
 	._on_menu_exit(force_hard_transition)
@@ -90,7 +96,20 @@ func _ready():
 		rating_scene.rating = rating
 	return_button.connect("pressed", self, "_on_return_button_pressed")
 	retry_button.connect("pressed", self, "_on_retry_button_pressed")
+	if PlatformService.service_provider.implements_ugc:
+		var rate_buttons = [upvote_button, downvote_button, skip_button]
+		for button in rate_buttons:
+			button.connect("pressed", rating_popup, "hide")
+			button.connect("pressed", buttons, "grab_focus")
+		upvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.UPVOTE])
+		downvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.DOWNVOTE])
+		skip_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.SKIP])
 	
+	
+func _on_vote_button_pressed(vote):
+	if PlatformService.service_provider.implements_ugc:
+		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
+		ugc.set_user_item_vote(current_song.ugc_id, vote)
 	
 func _on_retry_button_pressed():
 	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
@@ -127,6 +146,16 @@ func set_game_info(val: HBGameInfo):
 	heart_power_label.text = str(result.heart_power_bonus)
 	if SongLoader.songs.has(game_info.song_id):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
+		current_song = song
+		if PlatformService.service_provider.implements_ugc:
+
+			if song.comes_from_ugc():
+				var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
+				var vote = yield(ugc.get_user_item_vote(song.ugc_id), "completed")
+				if vote == HBUGCService.USER_ITEM_VOTE.NOT_VOTED:
+					# UGC songs can be rated at the end of the game
+					rating_popup.popup_centered()
+					rating_buttons_container.grab_focus()
 		title_label.text = song.title
 		if song.artist_alias != "":
 			artist_label.text = song.artist_alias.to_upper()
@@ -140,6 +169,8 @@ func set_game_info(val: HBGameInfo):
 
 	# add result to history
 	ScoreHistory.add_result_to_history(game_info)
+	
+	
 
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:

@@ -17,8 +17,6 @@ enum UGC_STATES {
 	PENDING = 32
 }
 
-const LOG_NAME = "SteamUGCService"
-
 var updating_items = []
 var update_items_notification_thing = {}
 var cached_items_data = {}
@@ -33,7 +31,8 @@ const FILE_TO_UGC_TYPE = {
 
 const DOWNLOAD_PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 
-func _init():
+func _init().():
+	LOG_NAME = "SteamUGCService"
 	Steam.connect("item_created", self, "_on_item_created")
 	Steam.connect("item_updated", self, "_on_item_updated")
 	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
@@ -84,6 +83,8 @@ func _add_downloaded_item(item_id, fire_signal=false):
 				Log.log(self, "Loading workshop song from %s" % folder)
 				var song = SongLoader.load_song_meta(folder + "/%s" % [file_name], "ugc_" + str(item_id))
 				song._comes_from_ugc = true
+				song.ugc_id = item_id
+				song.ugc_service_name = get_ugc_service_name()
 				SongLoader.add_song(song)
 				item = song
 #				if not song.is_cached():
@@ -183,3 +184,37 @@ func delete_item(item_id):
 	Steam.deleteItem(item_id)
 func get_update_progress(update_id):
 	return Steam.getItemUpdateProgress(update_id)
+func get_user_item_vote(item_id):
+	if item_id in ugc_data.skipped_votes:
+		return USER_ITEM_VOTE.SKIP
+	else:
+		Steam.getUserItemVote(item_id)
+		var r = yield(Steam, "get_item_vote_result")
+		var result = {
+			"result": r[0],
+			"file_id": r[1],
+			"vote_up": r[2],
+			"vote_down": r[3],
+			"vote_skipped": r[4]
+		}
+		if result.result == 1:
+			if result.vote_up:
+				return USER_ITEM_VOTE.UPVOTE
+			elif result.vote_down:
+				return USER_ITEM_VOTE.DOWNVOTE
+			else:
+				return USER_ITEM_VOTE.NOT_VOTED
+	#		else:
+				
+	#			pass
+			# TODO: Skip logic
+		else:
+			return USER_ITEM_VOTE.SKIP
+
+func set_user_item_vote(item_id, vote):
+	if vote == USER_ITEM_VOTE.UPVOTE:
+		Steam.setUserItemVote(item_id, true)
+	elif vote == USER_ITEM_VOTE.DOWNVOTE:
+		Steam.setUserItemVote(item_id, false)
+	else:
+		skip_vote(item_id)
