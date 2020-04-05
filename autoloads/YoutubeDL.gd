@@ -121,13 +121,23 @@ func get_ytdl_executable():
 	elif OS.get_name() == "X11":
 		path = YOUTUBE_DL_DIR + "/youtube-dl"
 	return ProjectSettings.globalize_path(path)
+func get_ffmpeg_executable():
+	var path
+	if OS.get_name() == "Windows":
+		path = YOUTUBE_DL_DIR + "/ffmpeg.exe"
+	elif OS.get_name() == "X11":
+		path = YOUTUBE_DL_DIR + "/ffmpeg"
+	return ProjectSettings.globalize_path(path)
 func get_video_path(video_id, global=false):
 	var path = CACHE_DIR + "/" + video_id + ".mp4"
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
-func get_audio_path(video_id, global=false):
-	var path = CACHE_DIR + "/" + video_id + ".ogg"
+func get_audio_path(video_id, global=false, temp=false):
+	var path = CACHE_DIR + "/" + video_id
+	if temp:
+		path += "_temp"
+	path += ".ogg"
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
@@ -140,9 +150,15 @@ func _download_video(userdata):
 	var result = {"video_id": userdata.video_id}
 	if download_audio:
 		var out = []
-		var audio_path = get_audio_path(userdata.video_id, true).get_base_dir() + "/" + "%(id)s.%(ext)s"
+		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
 		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
-		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", audio_path, "https://youtu.be/" + userdata.video_id], true, out)
+		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id], true, out)
+		# We bring the ogg down back to stereo
+		print(temp_audio_path)
+		OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out)
+		print("ffmpeg output", out)
+		var dir = Directory.new()
+		dir.remove(get_audio_path(userdata.video_id, true, true))
 		result["audio"] = true
 		result["audio_out"] = out[-1]
 		
@@ -245,7 +261,7 @@ func download_video(url: String, download_video = true, download_audio = true):
 				all_found = false
 			elif download_video:
 				# No need to download what we already have
-				download_audio = false
+				download_video = false
 		if all_found:
 			Log.log(self, "Already cached, no need to download again")
 			emit_signal("video_downloaded", video_id)
@@ -276,7 +292,7 @@ func get_cache_status(url: String, video=true, audio=true):
 		var video_missing = false
 		if video and (not cache_meta.cache[yt_id].has("video") or not video_exists(yt_id)):
 			cache_status = CACHE_STATUS.VIDEO_MISSING
-			video_missing
+			video_missing = true
 		var audio_missing = false
 		if audio and (not cache_meta.cache[yt_id].has("audio") or not audio_exists(yt_id)):
 			cache_status = CACHE_STATUS.AUDIO_MISSING
