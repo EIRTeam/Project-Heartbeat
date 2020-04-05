@@ -153,6 +153,18 @@ margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
+[node name="AutoMulticheckbox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 328.0
+margin_right = 421.0
+margin_bottom = 25.0
+hint_tooltip = "Automatically set canonical parameters for multi-notes"
+text = "Auto-multi"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 425.0
+margin_right = 429.0
+margin_bottom = 25.0
+
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 433.0
 margin_right = 461.0
@@ -430,6 +442,7 @@ margin_right = 161.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 max_value = 360.0
+value = 15.0
 align = 1
 suffix = "º"
 
@@ -707,6 +720,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="OpenChartPopupDialog" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
+[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox" to="." method="_on_auto_multi_toggled"]
 [connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]

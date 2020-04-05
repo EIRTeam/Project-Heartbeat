@@ -31,6 +31,7 @@ onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContaine
 onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
 onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
 onready var offset_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset")
+onready var auto_multi_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -337,8 +338,30 @@ func delete_selected():
 	selected = []
 	undo_redo.commit_action()
 
+func get_notes_at_time(time: int):
+	var notes = []
+	for note in get_timing_points():
+		if note is HBTimingPoint:
+			if note.time == time:
+				notes.append(note)
+	return notes
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
+	
+	if song_editor_settings.auto_multi:
+		if item.data is HBNoteData:
+			var found_multi = false
+			var notes = get_notes_at_time(item.data.time)
+#			note_data.oscillation_amplitude = 0
+#			note_data.distance = note_data.distance * (2.2/3.0)
+			if notes.size() > 0:
+				for note in notes:
+					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
+					undo_redo.add_do_property(note, "distance", 880)
+					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+					undo_redo.add_undo_property(note, "distance", note.distance)
+				item.data.oscillation_amplitude = 0
+				item.data.distance = 880
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(layer, "remove_item", item)
@@ -398,6 +421,7 @@ func load_settings(settings: HBPerSongEditorSettings):
 	note_resolution_box.disconnect("value_changed", self, "_on_timing_information_changed")
 	BPM_spinbox.disconnect("value_changed", self, "_on_timing_information_changed")
 	metre_option_button.disconnect("item_selected", self, "_on_timing_information_changed")
+	auto_multi_checkbox.disconnect("toggled", self, "_on_auto_multi_toggled")
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
 		var layer_visible = not layer.layer_name in settings.hidden_layers
@@ -406,11 +430,13 @@ func load_settings(settings: HBPerSongEditorSettings):
 	set_note_resolution(settings.note_resolution)
 	set_note_snap_offset(settings.offset)
 	set_beats_per_bar(settings.beats_per_bar)
+	auto_multi_checkbox.pressed = settings.auto_multi
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
 	BPM_spinbox.connect("value_changed", self, "_on_timing_information_changed")
 	metre_option_button.connect("item_selected", self, "_on_timing_information_changed")
+	auto_multi_checkbox.connect("toggled", self, "_on_auto_multi_toggled")
 func from_chart(chart: HBChart, ignore_settings=false):
 	timeline.clear_layers()
 	undo_redo.clear_history()
@@ -644,3 +670,7 @@ func show_error(error: String):
 	$PluginErrorDialog.rect_size = Vector2.ZERO
 	$PluginErrorDialog.dialog_text = error
 	$PluginErrorDialog.popup_centered_minsize(300, 80)
+
+
+func _on_auto_multi_toggled(button_pressed):
+	song_editor_settings.auto_multi = button_pressed
