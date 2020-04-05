@@ -392,12 +392,14 @@ func _process(delta):
 					notes_on_screen.append(timing_point)
 					connect("time_changed", note_drawer, "_on_game_time_changed")
 					if multi_notes.size() > 0:
+						print(multi_notes[0].time, " ", timing_point.time)
 						if multi_notes[0].time == timing_point.time:
 							if not timing_point is HBHoldNoteData:
 								if timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
 									multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
+							multi_notes = [timing_point]
 						else:
 							multi_notes = [timing_point]
 					elif timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
@@ -423,11 +425,6 @@ func _process(delta):
 								note_drawer.queue_free()
 				if not editing or previewing:
 					timing_points.remove(i)
-
-	if timing_points.size() == 0:
-		var file = File.new()
-		file.open("user://testresult.json", File.WRITE)
-		file.store_string(JSON.print(result.serialize(), "  "))
 	emit_signal("time_changed", time+input_lag_compensation)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
