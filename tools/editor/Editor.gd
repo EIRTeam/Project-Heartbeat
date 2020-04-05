@@ -400,8 +400,8 @@ func load_settings(settings: HBPerSongEditorSettings):
 	metre_option_button.disconnect("item_selected", self, "_on_timing_information_changed")
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
-		var layer_visible = not layer.name in settings.hidden_layers
-		timeline.change_layer_visibility(layer_visible, layer.name)
+		var layer_visible = not layer.layer_name in settings.hidden_layers
+		timeline.change_layer_visibility(layer_visible, layer.layer_name)
 	set_bpm(settings.bpm)
 	set_note_resolution(settings.note_resolution)
 	set_note_snap_offset(settings.offset)
@@ -416,8 +416,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	undo_redo.clear_history()
 	selected = []
 	layer_manager.clear_layers()
-	if not ignore_settings:
-		load_settings(chart.editor_settings)
+
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name
@@ -429,7 +428,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 			add_item(layer_n, item)
 		var layer_visible = not layer.name in song_editor_settings.hidden_layers
 		layer_manager.add_layer(layer.name, layer_visible)
-
+	if not ignore_settings:
+		load_settings(chart.editor_settings)
 	_on_timing_points_changed()
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
