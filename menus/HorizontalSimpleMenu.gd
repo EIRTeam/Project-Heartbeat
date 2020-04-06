@@ -14,12 +14,13 @@ signal bottom
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
-func select_button(i: int):
+func select_button(i: int, fire_event=true):
 	var child = get_child(i)
 	if selected_button:
 		selected_button.stop_hover()
 	child.hover()
-	emit_signal("hover", child)
+	if fire_event:
+		emit_signal("hover", child)
 	selected_button = child
 	selected_button_i = i
 

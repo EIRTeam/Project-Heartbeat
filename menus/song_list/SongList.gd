@@ -9,6 +9,7 @@ onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var scroll_container = get_node("VBoxContainer/MarginContainer/ScrollContainer")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
+	populate_difficulties()
 	scroll_container.grab_focus()
 	if args.has("song_difficulty"):
 #		_select_difficulty(args.song_difficulty)
@@ -33,7 +34,7 @@ func _on_ugc_item_installed(type, item):
 	if type == "song":
 		if current_difficulty:
 			scroll_container.set_songs(SongLoader.get_songs_with_difficulty(current_difficulty), current_difficulty)
-
+	populate_difficulties(false)
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
 	MouseTrap.cache_song_overlay.disconnect("done", scroll_container, "grab_focus")
@@ -46,6 +47,14 @@ func _on_menu_exit(force_hard_transition = false):
 		ugc.disconnect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _ready():
 	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
+	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
+	$PPDAudioBrowseWindow.connect("cancel", scroll_container, "grab_focus")
+	scroll_container.connect("song_selected", self, "_on_song_selected")
+	
+func populate_difficulties(fire_event=true):
+	for child in difficulty_list.get_children():
+		difficulty_list.remove_child(child)
+		child.queue_free()
 	for difficulty in SongLoader.available_difficulties:
 		var button = HBHovereableButton.new()
 		button.focus_mode = FOCUS_NONE
@@ -53,10 +62,11 @@ func _ready():
 		button.connect("hovered", self, "_select_difficulty", [difficulty])
 		button.set_meta("difficulty", difficulty)
 		difficulty_list.add_child(button)
-	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
-	$PPDAudioBrowseWindow.connect("cancel", scroll_container, "grab_focus")
-	scroll_container.connect("song_selected", self, "_on_song_selected")
-	
+	if current_difficulty:
+		for i in range(difficulty_list.get_child_count()):
+			var button = difficulty_list.get_child(i)
+			if button.get_meta("difficulty") == current_difficulty:
+				difficulty_list.select_button(i, fire_event)
 func _on_song_hovered(song: HBSong):
 	emit_signal("song_hovered", song)
 
