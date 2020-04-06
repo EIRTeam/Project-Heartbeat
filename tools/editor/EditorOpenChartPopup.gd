@@ -67,6 +67,7 @@ func populate_tree():
 	edit_data_button.disabled = true
 	delete_chart_button.disabled = true
 	verify_song_button.disabled = true
+	upload_button.disabled = true
 	get_ok().disabled = true
 	tree.clear()
 	var root = tree.create_item()
@@ -94,6 +95,7 @@ func _on_item_selected():
 	add_chart_button.disabled = false
 	edit_data_button.disabled = false
 	verify_song_button.disabled = false
+	upload_button.disabled = false
 	
 func _on_about_to_show():
 	populate_tree()
