@@ -87,6 +87,7 @@ func _ready():
 	if OS.get_name() == "X11":
 		# Ensure YTDL can be executed on linoox
 		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
+		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
 	if dir.file_exists(YOUTUBE_DL_DIR + "/VERSION"):
 		
 		var file = File.new()
