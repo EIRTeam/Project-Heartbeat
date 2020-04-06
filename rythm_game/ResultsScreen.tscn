@@ -441,25 +441,33 @@ alignment = 1
 script = ExtResource( 3 )
 
 [node name="UpvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 164.0
-margin_right = 202.0
+margin_left = 54.0
+margin_right = 92.0
 margin_bottom = 38.0
 icon = ExtResource( 10 )
 align = 0
 script = ExtResource( 5 )
 
 [node name="DownvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 222.0
-margin_right = 260.0
+margin_left = 112.0
+margin_right = 150.0
 margin_bottom = 38.0
 icon = ExtResource( 9 )
 align = 0
 script = ExtResource( 5 )
 
-[node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 280.0
-margin_right = 415.0
+[node name="NoOpinionButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 170.0
+margin_right = 292.0
 margin_bottom = 38.0
-text = "No opinions"
+text = "No opinion"
+align = 0
+script = ExtResource( 5 )
+
+[node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 312.0
+margin_right = 524.0
+margin_bottom = 38.0
+text = "Don't ask me again"
 align = 0
 script = ExtResource( 5 )

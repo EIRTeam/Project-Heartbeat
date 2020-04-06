@@ -20,6 +20,7 @@ onready var rating_popup = get_node("RatingPopup")
 onready var upvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/UpvoteButton")
 onready var downvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/DownvoteButton")
 onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
+onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
 onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
@@ -97,14 +98,13 @@ func _ready():
 	return_button.connect("pressed", self, "_on_return_button_pressed")
 	retry_button.connect("pressed", self, "_on_retry_button_pressed")
 	if PlatformService.service_provider.implements_ugc:
-		var rate_buttons = [upvote_button, downvote_button, skip_button]
+		var rate_buttons = [upvote_button, downvote_button, skip_button, no_opinion_button]
 		for button in rate_buttons:
 			button.connect("pressed", rating_popup, "hide")
 			button.connect("pressed", buttons, "grab_focus")
 		upvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.UPVOTE])
 		downvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.DOWNVOTE])
 		skip_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.SKIP])
-	
 	
 func _on_vote_button_pressed(vote):
 	if PlatformService.service_provider.implements_ugc:
