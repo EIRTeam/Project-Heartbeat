@@ -76,6 +76,10 @@ func difficulty_sort(a: String, b: String):
 	return a_i > b_i
 func add_song(song: HBSong):
 	songs[song.id] = song
+	for difficulty in song.charts:
+		if not difficulty in available_difficulties:
+			available_difficulties.append(difficulty)
+			available_difficulties.sort_custom(self, "difficulty_sort")
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}
@@ -102,11 +106,6 @@ func load_songs_from_path(path):
 					song_found = true
 				if not song_found:
 					Log.log(self, "Invalid song found in directory " + dir_name, Log.LogLevel.ERROR)
-				else:
-					for difficulty in song_meta.charts:
-						if not difficulty in available_difficulties:
-							available_difficulties.append(difficulty)
-							available_difficulties.sort_custom(self, "difficulty_sort")
 						
 			dir_name = dir.get_next()
 	else:
@@ -114,7 +113,9 @@ func load_songs_from_path(path):
 	return value
 func load_all_songs_meta():
 	for path in SONG_SEARCH_PATHS:
-		songs = HBUtils.merge_dict(songs, load_songs_from_path(path))
+		var loaded_songs = load_songs_from_path(path)
+		for song_id in loaded_songs:
+			add_song(loaded_songs[song_id])
 	emit_signal("all_songs_loaded")
 
 func get_songs_with_difficulty(difficulty: String):
