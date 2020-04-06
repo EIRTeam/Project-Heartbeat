@@ -13,7 +13,7 @@ var leaderboard_provider: HBLeaderboardService
 var ugc_provider: HBUGCService
 var implements_lobby_list = false
 var implements_leaderboards = false
-var implements_ugc = true
+var implements_ugc = false
 
 signal run_mp_callbacks
 
