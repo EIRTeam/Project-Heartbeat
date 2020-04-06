@@ -1,27 +1,41 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
-[ext_resource path="res://graphics/credits/credits_image.png" type="Texture" id=2]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://menus/HBMenu.gd" type="Script" id=4]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://menus/StaffRoll.tscn" type="PackedScene" id=2]
 
-[sub_resource type="DynamicFont" id=1]
-size = 25
-use_filter = true
-font_data = ExtResource( 3 )
+[sub_resource type="GDScript" id=5]
+script/source = "extends HBMenu
 
-[sub_resource type="DynamicFont" id=2]
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 5 )
+func _unhandled_input(event):
+	if event.is_action_pressed(\"gui_cancel\"):
+		change_to_menu(\"main_menu\")
+"
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Panel
+
+const SCROLL_SPEED = 50
+const LEAD_IN_TIME = 3
+var lead_in_t = 0.0
+
+onready var container = get_node(\"Control/VBoxContainer\")
+
+func _ready():
+	container.rect_position += Vector2(0, rect_size.y)
+
+func _process(delta):
+	container.rect_position -= Vector2(0, SCROLL_SPEED*delta)
+	if container.rect_position.y <= -(container.rect_size.y):
+		container.rect_position = Vector2(0, rect_size.y)
+"
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+script = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -43,7 +57,7 @@ margin_top = 30.0
 margin_right = 1250.0
 margin_bottom = 690.0
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 1 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
 anchor_right = 1.0
@@ -60,64 +74,94 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1210.0
-margin_bottom = 653.0
+margin_bottom = 650.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
-margin_right = 393.0
-margin_bottom = 643.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
-texture = ExtResource( 2 )
-expand = true
-stretch_mode = 6
-
 [node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
-margin_left = 413.0
 margin_right = 1200.0
-margin_bottom = 643.0
+margin_bottom = 640.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 787.0
-margin_bottom = 26.0
-custom_fonts/font = SubResource( 1 )
-text = "Thank you"
-align = 1
-valign = 1
-
-[node name="RichTextLabel" type="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_top = 30.0
-margin_right = 787.0
-margin_bottom = 643.0
-size_flags_horizontal = 3
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 1200.0
+margin_bottom = 640.0
+rect_clip_content = true
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
-text = "Thank you to everyone that made this possible. In particular I'd like to thank my best friends, Emmilly and Estrella for putting up with me and helping me when I was feeling down.
+custom_styles/panel = SubResource( 2 )
+script = SubResource( 3 )
 
-Thank you Blizzin and Twoncity for making the charts for the game and Blizzin in particular for helping with his technical knowledge.
+[node name="Control" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel" instance=ExtResource( 2 )]
 
-Thank you Emmilly for your great art, you are the best, I couldn't wish for a better friend.
+[node name="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="0"]
+margin_right = 1200.0
 
-Thank you to the following groups of people: my new mates from Castellbisbal, Xenoteckers, my long-time friends the R... commando, the HobbyFiguras people, the Knockout community, the Godot community, the PonySomnio people and the Eurobeat-prime community.
+[node name="TextureRect2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="1"]
+margin_right = 1200.0
 
-And to the following people in particular: the 2 Adrians, Lorena, Sergi-kun, Pity, Willy, Gerard, Tokyo Ghetto, Pere, Pol, Edu (vendido), the 2 Angelas, the soft Marina, Júlia, Helena, Paula, Tudor, the great Brian, Ivanex, Jordi, Dano, Marwan S, Joel H, David SK, my art teacher Ana, Eris and bigm8gte thank you for putting up with me day to day.
+[node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="2"]
+margin_right = 1200.0
 
-If you feel like you are missing from this list, you probably are.
+[node name="HBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="3"]
+margin_right = 1200.0
 
-(Xénia, I hope you are okay.)
+[node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 397.0
 
-Very big thank you to Mr. Sugano for letting me license his songs, they are great.
+[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+margin_right = 397.0
 
-I'd also like to thank the rhythm game community for being so supportive of this title, and I hope it met your expectations.
+[node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+margin_right = 397.0
 
-You all made this possible, even by a little bit, thank you for being supportive."
-align = 1
-valign = 1
-autowrap = true
+[node name="VBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 401.0
+margin_right = 798.0
+
+[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
+margin_right = 397.0
+
+[node name="Label3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
+margin_right = 397.0
+
+[node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="2"]
+margin_left = 802.0
+margin_right = 1200.0
+
+[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="0"]
+margin_right = 398.0
+
+[node name="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="1"]
+margin_right = 398.0
+
+[node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="4"]
+margin_right = 1200.0
+
+[node name="HBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="5"]
+margin_right = 1200.0
+
+[node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="0"]
+margin_right = 390.0
+
+[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer3" index="0"]
+margin_right = 390.0
+
+[node name="VBoxContainer4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="1"]
+margin_left = 394.0
+margin_right = 784.0
+
+[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer4" index="0"]
+margin_right = 390.0
+
+[node name="VBoxContainer5" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="2"]
+margin_left = 788.0
+margin_right = 1200.0
+
+[node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer5" index="0"]
+margin_right = 412.0
+
+[editable path="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control"]

@@ -8,7 +8,6 @@
 [ext_resource path="res://tools/editor/WorkshopUploadForm.tscn" type="PackedScene" id=6]
 
 [node name="Control" type="ConfirmationDialog"]
-visible = true
 margin_top = -1.0
 margin_right = 587.0
 margin_bottom = 244.0
@@ -107,10 +106,10 @@ text = "Upload to workshop"
 
 [node name="CreateSongDialog" type="ConfirmationDialog" parent="."]
 visible = true
-margin_left = 748.0
-margin_top = -44.0
-margin_right = 1046.0
-margin_bottom = 30.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 579.0
+margin_bottom = 410.0
 rect_min_size = Vector2( 150, 70 )
 popup_exclusive = true
 window_title = "Create a new song..."
@@ -174,10 +173,10 @@ margin_bottom = -41.0
 
 [node name="CreateDifficultyDialog" parent="." instance=ExtResource( 4 )]
 visible = true
-margin_left = -485.0
-margin_top = 25.0
-margin_right = -189.0
-margin_bottom = 157.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 579.0
+margin_bottom = 410.0
 
 [node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="."]
 margin_left = 8.0

@@ -59,6 +59,9 @@ func _init():
 		"results": {
 			"left": preload("res://rythm_game/ResultsScreen.tscn").instance(),
 			"right": "leaderboard"
+		},
+		"staff_roll": {
+			"left": preload("res://menus/credits/Credits.tscn").instance()
 		}
 	}
 

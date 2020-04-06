@@ -185,3 +185,14 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
 		change_to_menu("main_menu")
+
+const CODE = ["gui_up", "gui_up", "gui_down", "gui_down", "gui_left", "gui_right", "gui_left", "gui_right", "note_down", "note_right", "pause"]
+var code_p = 0
+func _input(event):
+	var next_code = CODE[code_p]
+	if event.is_action_pressed(next_code):
+		code_p += 1
+		if code_p == CODE.size():
+			code_p = 0
+			get_tree().set_input_as_handled()	
+			change_to_menu("staff_roll")
