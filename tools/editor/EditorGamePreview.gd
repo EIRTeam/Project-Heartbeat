@@ -21,7 +21,7 @@ func _process(delta):
 
 func _draw():
 	var origin = game.remap_coords(Vector2())
-	var size = game.get_playing_field_size()
+	var size = game.playing_field_size
 	_draw_game_area(origin, size)
 	_draw_safe_area(origin, size)
 

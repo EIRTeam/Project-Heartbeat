@@ -84,10 +84,10 @@ func draw_trail(time: float):
 	# How much margin we leave for the trail from the note center, this prevents
 	# the trail from leaking into notes with holes in the middl
 	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 	for i in range(TRAIL_RESOLUTION, -1, -1):
 		var t_trail_time = trail_time * (i / float(TRAIL_RESOLUTION))
 		var t = ((time_out_distance - trail_time) + t_trail_time) / trail_time
-		var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 
 		t = t-trail_margin
 		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
@@ -96,7 +96,6 @@ func draw_trail(time: float):
 		points2.append(point2)
 		points.append(point1)
 		if not trail_bounding_box.has_point(point1_internal):
-#			$Line2D.gradient.set_offset(0, i / float(TRAIL_RESOLUTION))
 			break
 
 	$Line2D2.width = 6 * game.get_note_scale()

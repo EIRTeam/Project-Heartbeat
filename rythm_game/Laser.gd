@@ -37,6 +37,7 @@ static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequen
 		return to
 	
 func _process(delta):
+	t += delta
 	var new_points = PoolVector2Array()
 	for i in range(positions.size()):
 		if i < positions.size()-1:
@@ -46,4 +47,4 @@ func _process(delta):
 				new_points.append(sin_pos_interp(current_position, target_position, 5, frequency, laser_i/float(LASER_RES), phase_shift + t*360 * timescale))
 	$LineGlow.points = new_points
 	$Line2D.points = new_points
-	t += delta
+	

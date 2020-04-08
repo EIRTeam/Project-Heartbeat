@@ -100,8 +100,15 @@ var slide_hold_chains = []
 # as slide_note
 var active_slide_hold_chains = []
 
+# cached values for speed
+var playing_field_size
+var playing_field_size_length
+func cache_playing_field_size():
+	playing_field_size = Vector2(size.y*16.0/9.0, size.y)
+	playing_field_size_length = playing_field_size.length()
 func set_size(value):
 	size = value
+	cache_playing_field_size()
 	$UnderNotesUI/Control.rect_size = value
 	$AboveNotesUI/Control.rect_size = value
 
@@ -136,6 +143,7 @@ func set_timing_points(points):
 					
 					print(point.time, " UWU: ", point.bpm)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
+	
 func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -214,24 +222,18 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 	current_difficulty = difficulty
 	play_song()
 func get_note_scale():
-	return UserSettings.user_settings.note_size * ((get_playing_field_size().length() / BASE_SIZE.length()) * 0.95)
-
-func get_playing_field_size():
-	var ratio = 16.0/9.0
-	return Vector2(size.y*ratio, size.y)
+	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
 
 func remap_coords(coords: Vector2):
-	var field_size = get_playing_field_size()
 	coords = coords / BASE_SIZE
-	var pos = coords * field_size
-	coords.x = (size.x - field_size.x) / 2.0 + pos.x
+	var pos = coords * playing_field_size
+	coords.x = (size.x - playing_field_size.x) * 0.5 + pos.x
 	coords.y = pos.y
 	return coords
 	
 func inv_map_coords(coords: Vector2):
-	var field_size = get_playing_field_size()
-	var x = (coords.x - ((size.x - field_size.x) / 2.0)) / get_playing_field_size().x * BASE_SIZE.x
-	var y = (coords.y - ((size.y - field_size.y) / 2.0)) / get_playing_field_size().y * BASE_SIZE.y
+	var x = (coords.x - ((size.x - playing_field_size.x) / 2.0)) / playing_field_size.x * BASE_SIZE.x
+	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
 func play_song():
 	play_from_pos(0)

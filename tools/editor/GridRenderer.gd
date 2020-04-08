@@ -7,7 +7,7 @@ onready var game = get_node("../RythmGame")
 
 func _draw():
 	var origin = game.remap_coords(Vector2())
-	var size = game.get_playing_field_size()
+	var size = game.playing_field_size
 	for i in range(horizontal):
 		var first_point = Vector2(origin.x, size.y * (i/float(horizontal)))
 		var second_point = first_point + Vector2(size.x, 0)
