@@ -61,7 +61,8 @@ func update_graphic_positions_and_scale(time: float):
 		if connected_notes.size() > 1:
 			var points = PoolVector2Array()
 			for note in connected_notes:
-				points.append(note.get_meta("note_drawer").get_note_graphic().position)
+				
+				points.append(game.get_note_drawer(note).get_note_graphic().position)
 			points.append(get_note_graphic().position)
 			points = Geometry.convex_hull_2d(points)
 			if connected_notes.size() <= 2:
@@ -136,9 +137,9 @@ func judge_note_input(event: InputEvent, time: float, released = false):
 func _on_game_time_changed(time: float):
 	if note_master:
 		for note in connected_notes:
-			if note.get_meta("note_drawer") != self:
-				if not note.get_meta("note_drawer").is_queued_for_deletion():
-					note.get_meta("note_drawer")._on_game_time_changed(time)
+			if game.get_note_drawer(note) != self:
+				if not game.get_note_drawer(note).is_queued_for_deletion():
+					game.get_note_drawer(note)._on_game_time_changed(time)
 
 func _on_NoteTarget_note_selected():
 	emit_signal("target_selected")

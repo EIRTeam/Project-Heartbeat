@@ -82,6 +82,9 @@ signal heart_power_activate
 signal heart_power_end
 signal note_judged(judgement)
 
+# Contains a dictionary that maps HBTimingPoint -> its drawer (if it has one)
+var timing_point_to_drawer_map = {}
+
 var held_notes = []
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
@@ -153,6 +156,7 @@ func _ready():
 	update_heart_power_ui()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 	slide_hold_score_text._game = self
+
 func _on_viewport_size_changed():
 	$Viewport.size = self.rect_size
 		
@@ -163,8 +167,8 @@ func _on_viewport_size_changed():
 		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect.rect_min_size = new_size
-func set_song(song: HBSong, difficulty: String, assets = null):
-	current_song = song
+	cache_playing_field_size()
+func set_chart(chart: HBChart):
 	heart_power_indicator.value = 0
 	heart_power = 0
 	clear_bar.value = 0.0
@@ -175,6 +179,14 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 	result = HBResult.new()
 	current_combo = 0
 	rating_label.hide()
+	set_timing_points(chart.get_timing_points())
+	# Find slide hold chains
+	active_slide_hold_chains = []
+	var max_score = chart.get_max_score()
+	clear_bar.max_value = max_score
+	result.max_score = max_score
+func set_song(song: HBSong, difficulty: String, assets = null, chart_override=null):
+	current_song = song
 	base_bpm = song.bpm
 	if assets:
 		audio_stream_player.stream = assets.audio
@@ -210,17 +222,11 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 		chart = HBChart.new()
 
 		chart.deserialize(result)
-	
-	timing_points = chart.get_timing_points()
-	
-	# Find slide hold chains
-	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
-	active_slide_hold_chains = []
-	var max_score = chart.get_max_score()
-	clear_bar.max_value = max_score
-	result.max_score = max_score
 	current_difficulty = difficulty
+	set_chart(chart)
 	play_song()
+	
+
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
 
@@ -269,12 +275,10 @@ func _unhandled_input(event):
 					var active_hold_chain = active_slide_hold_chains[i]
 					if active_hold_chain.slide_note.note_type == slide_type:
 						for piece in active_hold_chain.pieces:
-							
-							if piece.has_meta("note_drawer"):
-								var note_drawer = piece.get_meta("note_drawer")
-								note_drawer.emit_signal("note_removed")
-								note_drawer.queue_free()
-							timing_points.erase(piece)
+							var drawer = get_note_drawer(piece)
+							if piece:
+								drawer.emit_signal("note_removed")
+								drawer.queue_free()
 						active_hold_chain.sfx_player.queue_free()
 						active_slide_hold_chains.remove(i)
 						play_sfx($SlideChainFailSFX)
@@ -288,7 +292,7 @@ func _unhandled_input(event):
 func get_closest_notes_of_type(note_type: int) -> Array:
 	var closest_notes = []
 	for note_c in notes_on_screen:
-		var note = note_c.get_meta("note_drawer").note_data
+		var note = get_note_drawer(note_c).note_data
 		if note.note_type == note_type:
 			var time_diff = abs(note.time + note.get_duration() - time * 1000.0)
 			if closest_notes.size() > 0:
@@ -303,7 +307,7 @@ func get_closest_notes_of_type(note_type: int) -> Array:
 func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:
-		var note = note_c.get_meta("note_drawer").note_data
+		var note = get_note_drawer(note_c).note_data
 		if closest_notes.size() > 0:
 			if closest_notes[0].time > note.time:
 				closest_notes = [note]
@@ -314,11 +318,14 @@ func get_closest_notes():
 	return closest_notes
 
 func remove_note_from_screen(i):
+	if not editing or previewing:
+		timing_points.erase(notes_on_screen[i])
+	notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
 	notes_on_screen.remove(i)
-	
+
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
-		notes_on_screen[i].get_meta("note_drawer").free()
+		get_note_drawer(notes_on_screen[i]).free()
 	notes_on_screen = []
 	
 func play_sfx(player: AudioStreamPlayer):
@@ -336,11 +343,31 @@ func play_note_sfx(slide=false):
 	
 func hookup_multi_notes(notes: Array):
 	for note in notes:
-		var note_drawer = note.get_meta("note_drawer")
+		var note_drawer = get_note_drawer(note)
 		note_drawer.connected_notes = notes
 		note_drawer.note_master = false
-	notes[0].get_meta("note_drawer").note_master = true
-	
+	get_note_drawer(notes[0]).note_master = true
+
+func get_note_drawer(timing_point):
+	var drawer = null
+	if timing_point_to_drawer_map.has(timing_point):
+		drawer = timing_point_to_drawer_map[timing_point]
+	return drawer
+
+func create_note_drawer(timing_point: HBNoteData):
+	var note_drawer
+	note_drawer = timing_point.get_drawer().instance()
+	note_drawer.note_data = timing_point
+	note_drawer.game = self
+	notes_node.add_child(note_drawer)
+	note_drawer.connect("notes_judged", self, "_on_notes_judged")
+	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
+	connect("heart_power_activate", note_drawer, "_on_heart_power_activated")
+	connect("heart_power_end", note_drawer, "_on_heart_power_end")
+	timing_point_to_drawer_map[timing_point] = note_drawer
+	notes_on_screen.append(timing_point)
+	connect("time_changed", note_drawer, "_on_game_time_changed")
+
 func _process(delta):
 	_sfx_played_this_cycle = false
 	if audio_stream_player.playing:
@@ -381,18 +408,7 @@ func _process(delta):
 					# Prevent older notes from being re-created
 					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
-					var note_drawer
-					note_drawer = timing_point.get_drawer().instance()
-					note_drawer.note_data = timing_point
-					note_drawer.game = self
-					notes_node.add_child(note_drawer)
-					note_drawer.connect("notes_judged", self, "_on_notes_judged")
-					note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
-					connect("heart_power_activate", note_drawer, "_on_heart_power_activated")
-					connect("heart_power_end", note_drawer, "_on_heart_power_end")
-					timing_point.set_meta("note_drawer", note_drawer)
-					notes_on_screen.append(timing_point)
-					connect("time_changed", note_drawer, "_on_game_time_changed")
+					create_note_drawer(timing_point)
 					if multi_notes.size() > 0:
 						print(multi_notes[0].time, " ", timing_point.time)
 						if multi_notes[0].time == timing_point.time:
@@ -422,7 +438,7 @@ func _process(delta):
 									else:
 										parent_found = true
 							if not parent_found:
-								var note_drawer = timing_point.get_meta("note_drawer")
+								var note_drawer = get_note_drawer(timing_point)
 								note_drawer.emit_signal("note_removed")
 								note_drawer.queue_free()
 				if not editing or previewing:
@@ -454,7 +470,7 @@ func _process(delta):
 			if time * 1000.0 >= piece.time:
 				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
 				chain.accumulated_score += SLIDE_HOLD_PIECE_SCORE
-				var piece_drawer = piece.get_meta("note_drawer") as HBNoteDrawer
+				var piece_drawer = get_note_drawer(piece) as HBNoteDrawer
 				piece_drawer.show_note_hit_effect()
 				piece_drawer.emit_signal("note_removed")
 				piece_drawer.queue_free()
@@ -589,7 +605,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 					# kill slide and younglings if we failed
 					for piece in slide_hold_chains[note]:
 						if piece in notes_on_screen:
-							var piece_drawer = piece.get_meta("note_drawer")
+							var piece_drawer = get_note_drawer(piece)
 							piece_drawer.emit_signal("note_removed")
 							piece_drawer.queue_free()
 						else:
@@ -634,7 +650,7 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.play()
 
 func _on_note_removed(note):
-	remove_note_from_screen(notes_on_screen.	find(note))
+	remove_note_from_screen(notes_on_screen.find(note))
 				
 func pause_game():
 	audio_stream_player.stream_paused = true
@@ -651,8 +667,10 @@ func restart():
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
 	for note in notes_on_screen:
-		if note.get_meta("note_drawer"):
-			note.get_meta("note_drawer").queue_free()
+		var drawer = get_note_drawer(note)
+		if drawer:
+			drawer.queue_free()
+			remove_child(drawer)
 	notes_on_screen = []
 	rating_label.hide()
 	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
@@ -664,6 +682,7 @@ func play_from_pos(position: float):
 	audio_stream_player_voice.play()
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
+	notes_on_screen = []
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 func add_score(score_to_add):

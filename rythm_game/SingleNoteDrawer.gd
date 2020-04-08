@@ -127,6 +127,7 @@ func _on_note_judged(judgement):
 	set_process_unhandled_input(false)
 
 func _unhandled_input(event):
+	print(is_processing_unhandled_input())
 	# Master notes handle all the input
 	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
 		return
@@ -166,14 +167,14 @@ func _unhandled_input(event):
 						a.action = game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
 						a.pressed = true
 						
-						var input_judgement = note.get_meta("note_drawer").judge_note_input(a, game.time)
+						var input_judgement = game.get_note_drawer(note).judge_note_input(a, game.time)
 						if input_judgement != -1:
 							wrong_rating = input_judgement
 							wrong = true
 							get_tree().set_input_as_handled()
 							break
 					# Non-wrong note checks
-					var input_judgement = note.get_meta("note_drawer").judge_note_input(event, game.time)
+					var input_judgement = game.get_note_drawer(note).judge_note_input(event, game.time)
 					
 					if input_judgement != -1:
 						if not note in connected_note_judgements:
@@ -216,8 +217,9 @@ func _unhandled_input(event):
 				game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
 			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
 			for note in conn_notes:
-				note.get_meta("note_drawer")._on_note_judged(result_judgement)
-				note.get_meta("note_drawer").emit_signal("note_removed")
+				var drawer = game.get_note_drawer(note)
+				drawer._on_note_judged(result_judgement)
+				drawer.emit_signal("note_removed")
 #		if not event is InputEventJoypadMotion:
 #			var actions = []
 #			var input_judgement = judge_note_input(event, game.time)
@@ -236,6 +238,7 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
+				
 func get_note_graphic():
 	return note_graphic
 	
