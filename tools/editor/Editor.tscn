@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
@@ -9,10 +9,12 @@
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=7]
 [ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
+[ext_resource path="res://tools/icons/gamepad-variant.svg" type="Texture" id=10]
 [ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=11]
 [ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=12]
 [ext_resource path="res://tools/editor/SongSelectorDialog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=14]
+[ext_resource path="res://tools/editor/EditorRhythmGamePopup.tscn" type="PackedScene" id=15]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=16]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=17]
 [ext_resource path="res://tools/icons/icon_snap_grid.svg" type="Texture" id=18]
@@ -154,20 +156,20 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="AutoMulticheckbox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 328.0
-margin_right = 421.0
+margin_left = 193.0
+margin_right = 286.0
 margin_bottom = 25.0
 hint_tooltip = "Automatically set canonical parameters for multi-notes"
 text = "Auto-multi"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 425.0
-margin_right = 429.0
+margin_left = 290.0
+margin_right = 294.0
 margin_bottom = 25.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 433.0
-margin_right = 461.0
+margin_left = 298.0
+margin_right = 326.0
 margin_bottom = 25.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
@@ -176,8 +178,8 @@ icon = ExtResource( 18 )
 flat = true
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 465.0
-margin_right = 529.0
+margin_left = 330.0
+margin_right = 394.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
@@ -186,14 +188,14 @@ align = 1
 suffix = "s"
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 533.0
-margin_right = 555.0
+margin_left = 398.0
+margin_right = 420.0
 margin_bottom = 25.0
 text = "1/"
 
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 559.0
-margin_right = 714.42
+margin_left = 424.0
+margin_right = 579.42
 margin_bottom = 25.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
@@ -203,8 +205,8 @@ value = 4.0
 suffix = "th of a note"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 718.0
-margin_right = 828.0
+margin_left = 583.0
+margin_right = 693.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
@@ -213,13 +215,42 @@ value = 160.0
 suffix = "bpm"
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 832.0
-margin_right = 999.0
+margin_left = 697.0
+margin_right = 864.0
 margin_bottom = 25.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
 items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (2/4)", null, false, 2, null, "Whatever this is called (1/1)", null, false, 3, null ]
 selected = 0
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 868.0
+margin_right = 872.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 876.0
+margin_right = 904.0
+margin_bottom = 25.0
+icon = ExtResource( 10 )
+
+[node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 908.0
+margin_right = 991.0
+margin_bottom = 25.0
+text = "(at time)"
+icon = ExtResource( 10 )
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 995.0
+margin_right = 999.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1003.0
@@ -713,6 +744,9 @@ margin_bottom = 80.0
 window_title = "Plugin Error"
 dialog_text = "Plugin ERROR!"
 dialog_autowrap = true
+
+[node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource( 15 )]
+visible = false
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
@@ -726,6 +760,8 @@ dialog_autowrap = true
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
 [connection signal="item_selected" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton" to="." method="_on_timing_information_changed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestButton" to="." method="_on_PlaytestButton_pressed" binds= [ false ]]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestAtTimeButton" to="." method="_on_PlaytestButton_pressed" binds= [ true ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton" to="." method="_on_StopButton_pressed"]

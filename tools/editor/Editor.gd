@@ -32,6 +32,8 @@ onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
 onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
 onready var offset_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset")
 onready var auto_multi_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox")
+onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
+
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -52,7 +54,7 @@ var undo_redo = UndoRedo.new()
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 	
 var plugins = []
-	
+
 func set_bpm(value):
 	BPM_spinbox.value = value
 	song_editor_settings.bpm = value
@@ -103,6 +105,7 @@ func _ready():
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.get_close_button().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
+	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -674,3 +677,18 @@ func show_error(error: String):
 
 func _on_auto_multi_toggled(button_pressed):
 	song_editor_settings.auto_multi = button_pressed
+
+# PLAYTEST SHIT
+func _on_PlaytestButton_pressed(at_time):
+	print("PRESSED")
+	add_child(rhythm_game_playtest_popup)
+	$VBoxContainer.hide()
+	var play_time = 0.0
+	if at_time:
+		play_time = playhead_position
+	rhythm_game_playtest_popup.set_audio(audio_stream_player.stream, audio_stream_player_voice.stream)
+	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
+
+func _on_playtest_quit():
+	$VBoxContainer.show()
+	remove_child(rhythm_game_playtest_popup)

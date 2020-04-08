@@ -10,7 +10,9 @@ onready var fade_out_tween = get_node("FadeOutTween")
 onready var game : HBRhythmGame = get_node("RhythmGame")
 onready var visualizer = get_node("Node2D/Control")
 var pause_disabled = false
+var pause_menu_disabled = false
 var prevent_showing_results = false
+var prevent_scene_changes = false
 
 var current_game_info: HBGameInfo 
 
@@ -90,28 +92,30 @@ func _on_resumed():
 	video_player.paused = false
 	
 func _unhandled_input(event):
-	if event.is_action_pressed("pause") and not event.is_echo():
-		if not get_tree().paused:
-			if not pause_disabled:
-				_on_paused()
-				video_player.paused = true
-				$RhythmGame.pause_game()
-			$PauseMenu.show_pause()
-
-		else:
-			_on_resumed()
-			$PauseMenu._on_resumed()
-		get_tree().set_input_as_handled()
+	if not pause_menu_disabled:
+		if event.is_action_pressed("pause") and not event.is_echo():
+			if not get_tree().paused:
+				if not pause_disabled:
+					_on_paused()
+					video_player.paused = true
+					$RhythmGame.pause_game()
+				$PauseMenu.show_pause()
+	
+			else:
+				_on_resumed()
+				$PauseMenu._on_resumed()
+			get_tree().set_input_as_handled()
 
 
 func _show_results(game_info: HBGameInfo):
-	if not prevent_showing_results:
-		var scene = MainMenu.instance()
-		get_tree().current_scene.queue_free()
-		scene.starting_menu = "results"
-		scene.starting_menu_args = {"game_info": game_info}
-		get_tree().root.add_child(scene)
-		get_tree().current_scene = scene
+	if not prevent_scene_changes:
+		if not prevent_showing_results:
+			var scene = MainMenu.instance()
+			get_tree().current_scene.queue_free()
+			scene.starting_menu = "results"
+			scene.starting_menu_args = {"game_info": game_info}
+			get_tree().root.add_child(scene)
+			get_tree().current_scene = scene
 #	scene.set_result(results)
 
 func _on_paused():
