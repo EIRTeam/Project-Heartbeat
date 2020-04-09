@@ -148,6 +148,8 @@ func _input(event):
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
+		if event.is_action_pressed("editor_select") and not event.shift:
+			editor.deselect_all()
 		if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
 			if event.button_index == BUTTON_LEFT and event.pressed and not event.is_echo():
 				get_tree().set_input_as_handled()
