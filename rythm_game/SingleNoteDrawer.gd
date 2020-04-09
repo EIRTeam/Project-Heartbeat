@@ -57,20 +57,19 @@ func update_graphic_positions_and_scale(time: float):
 	
 func set_trail_color():
 	var gradient = Gradient.new()
-#	if not game.heart_power_enabled:
-#		var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-#		var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-#		color1.a = 0.0
-#		color2.a = 0.5
-#		gradient.set_offset(0, 0)
-#		gradient.set_color(0, color2)
-#		gradient.set_color(1, color1.contrasted())
-#
+	var color1 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var color2 = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	color1.a = 0.0
+	color2.a = 0.5
+	gradient.set_offset(0, 0)
+	gradient.set_color(0, color2)
+	gradient.set_color(1, color1.contrasted())
+
 #	else:
-	for point in range(TRAIL_RESOLUTION):
-		var hue = point/float(TRAIL_RESOLUTION-1)
-		var col = Color.from_hsv(hue, 0.75, 1.0, hue * 0.75)
-		gradient.add_point(1.0-hue, col)
+#	for point in range(TRAIL_RESOLUTION):
+#		var hue = point/float(TRAIL_RESOLUTION-1)
+#		var col = Color.from_hsv(hue, 0.75, 1.0, hue * 0.75)
+#		gradient.add_point(1.0-hue, col)
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
 
