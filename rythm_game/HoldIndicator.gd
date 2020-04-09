@@ -2,12 +2,7 @@ extends Control
 
 var current_holds = [] setget set_current_holds
 var current_score = 0 setget set_current_score
-onready var icon_nodes = {
-	HBNoteData.NOTE_TYPE.LEFT: get_node("Panel/MarginContainer/HBoxContainer/Left"),
-	HBNoteData.NOTE_TYPE.RIGHT: get_node("Panel/MarginContainer/HBoxContainer/Right"),
-	HBNoteData.NOTE_TYPE.UP: get_node("Panel/MarginContainer/HBoxContainer/Up"),
-	HBNoteData.NOTE_TYPE.DOWN: get_node("Panel/MarginContainer/HBoxContainer/Down")
-}
+var icon_nodes = {}
 
 onready var current_score_label = get_node("Panel/MarginContainer/HBoxContainer/HBoxContainer/ScoreLabel")
 onready var hold_count_label = get_node("Panel/MarginContainer/HBoxContainer/HoldCount")
@@ -15,7 +10,7 @@ onready var panel = get_node("Panel")
 onready var max_combo_label = get_node("MaxComboContainer/Control/MarginContainer/HBoxContainer/MaxComboLabel")
 onready var max_combo_container = get_node("MaxComboContainer")
 onready var bonus_label = get_node("Panel/MarginContainer/HBoxContainer/BonusLabel")
-
+onready var hold_note_icons_container = get_node("Panel/MarginContainer/HBoxContainer/HoldNoteIcons")
 const APPEAR_T = 0.1
 const DISAPPEAR_COOLDOWN = 1.5
 var disappear_cooldown_t = 0.0
@@ -31,6 +26,14 @@ const BONUS_TEXTS = {
 }
 
 func _ready():
+	for type_name in HBNoteData.NOTE_TYPE:
+		var texture_rect = TextureRect.new()
+		texture_rect.expand = true
+		texture_rect.texture = IconPackLoader.get_variations(type_name).note
+		texture_rect.rect_min_size = Vector2(46, 46)
+		texture_rect.show()
+		hold_note_icons_container.add_child(texture_rect)
+		icon_nodes[type_name] = texture_rect
 	connect("resized", self, "_on_resized")
 	call_deferred("_on_resized")
 	
@@ -43,7 +46,7 @@ func _on_resized():
 func set_current_holds(val):
 	current_holds = val
 	for note_type in icon_nodes:
-		if note_type in current_holds:
+		if HBNoteData.NOTE_TYPE[note_type] in current_holds:
 			icon_nodes[note_type].show()
 		else:
 			icon_nodes[note_type].hide()

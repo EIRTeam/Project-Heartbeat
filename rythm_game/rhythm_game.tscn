@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=2]
@@ -15,15 +15,11 @@
 [ext_resource path="res://graphics/heart_outside.png" type="Texture" id=13]
 [ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=14]
 [ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=15]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Cross.png" type="Texture" id=16]
 [ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=17]
 [ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=18]
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=19]
 [ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=20]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Square.png" type="Texture" id=21]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=22]
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=23]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Circle.png" type="Texture" id=24]
 [ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=25]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=26]
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=27]
@@ -349,51 +345,21 @@ text = "QUADRUPLE BONUS"
 align = 1
 valign = 1
 
-[node name="Up" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
+[node name="HoldNoteIcons" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
 margin_left = 331.0
-margin_right = 377.0
+margin_right = 331.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 46, 0 )
-texture = ExtResource( 22 )
-expand = true
-stretch_mode = 6
-
-[node name="Left" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 381.0
-margin_right = 427.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 46, 0 )
-texture = ExtResource( 21 )
-expand = true
-stretch_mode = 6
-
-[node name="Down" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 431.0
-margin_right = 477.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 46, 0 )
-texture = ExtResource( 16 )
-expand = true
-stretch_mode = 6
-
-[node name="Right" type="TextureRect" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 481.0
-margin_right = 527.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 46, 0 )
-texture = ExtResource( 24 )
-expand = true
-stretch_mode = 6
+size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 531.0
+margin_left = 335.0
 margin_right = 626.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 95.0
+margin_right = 291.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

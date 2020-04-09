@@ -454,11 +454,11 @@ func _process(delta):
 		
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
+			hold_indicator.show_max_combo(current_hold_score+MAX_HOLD)
+			hold_indicator.current_score = current_hold_score + MAX_HOLD
 			add_hold_score(MAX_HOLD)
 			hold_release()
 			
-			hold_indicator.show_max_combo(MAX_HOLD)
-			hold_indicator.current_score = MAX_HOLD
 			
 		else:
 			hold_indicator.current_score = current_hold_score + accumulated_hold_score
