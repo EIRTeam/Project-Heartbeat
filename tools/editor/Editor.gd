@@ -297,6 +297,7 @@ func play_from_pos(position: float):
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	_audio_play_offset = position / 1000.0
 	playhead_position = max(position, 0.0)
+	rhythm_game.delete_rogue_slide_chain_pieces(position / 1000.0)
 	emit_signal("playhead_position_changed")
 
 func _process(delta):
@@ -325,7 +326,8 @@ func seek(value: int):
 	rhythm_game.time = playhead_position / 1000.0
 	emit_signal("playhead_position_changed")
 	_on_timing_points_changed()
-			
+	if audio_stream_player.playing:
+		rhythm_game.delete_rogue_slide_chain_pieces(playhead_position / 1000.0)
 func delete_selected():
 	if selected.size() > 0:
 		if inspector.inspecting_item in selected:

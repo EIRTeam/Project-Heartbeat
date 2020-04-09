@@ -229,6 +229,7 @@ func inv_map_coords(coords: Vector2):
 	return Vector2(x, y)
 func play_song():
 	play_from_pos(0)
+	
 #	time_begin = OS.get_ticks_usec()
 #	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 #	audio_stream_player.play()
@@ -368,6 +369,7 @@ func _process(delta):
 	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
 	var multi_notes = []
+	var offset = 0
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
@@ -393,25 +395,6 @@ func _process(delta):
 							multi_notes = [timing_point]
 					elif timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
 						multi_notes.append(timing_point)
-				
-				# Ensure that we delete any hold piece that doesn't have parent when previewing
-				if previewing:
-					for timing_point in notes_on_screen:
-						if timing_point is HBNoteData and timing_point.is_slide_hold_piece():
-							var parent_found = false
-							for chain_starter in slide_hold_chains:
-								if timing_point in slide_hold_chains[chain_starter]:
-									if not chain_starter in notes_on_screen:
-										for i in range(active_slide_hold_chains.size() - 1, -1, -1):
-											var active_chain = active_slide_hold_chains[i]
-											if timing_point in active_chain.pieces:
-												parent_found = true
-									else:
-										parent_found = true
-							if not parent_found:
-								var note_drawer = get_note_drawer(timing_point)
-								note_drawer.emit_signal("note_removed")
-								note_drawer.queue_free()
 				if not editing or previewing:
 					timing_points.remove(i)
 	emit_signal("time_changed", time+input_lag_compensation)
@@ -586,6 +569,7 @@ func pause_game():
 func resume():
 	get_tree().paused = false
 	play_from_pos(audio_stream_player.get_playback_position())
+
 	
 func restart():
 	hold_release()
@@ -611,6 +595,25 @@ func play_from_pos(position: float):
 	notes_on_screen = []
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
+
+func delete_rogue_slide_chain_pieces(pos_override=null):
+	var pos = time
+	if pos_override:
+		pos = pos_override
+	var notes_to_remove = []
+	for i in range(timing_points.size() - 1, -1, -1):
+		var chain_starter = timing_points[i]
+		if chain_starter.time < pos_override * 1000.0:
+			if chain_starter.is_slide_note():
+				if chain_starter in slide_hold_chains:
+					var pieces = slide_hold_chains[chain_starter]
+					notes_to_remove += pieces
+	for note in notes_to_remove:
+		if note in notes_on_screen:
+			remove_note_from_screen(notes_on_screen.find(note))
+		else:
+			timing_points.erase(note)
+
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
