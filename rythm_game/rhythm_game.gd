@@ -33,7 +33,6 @@ onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label"
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
 onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
-onready var heart_power_prompt_animation_player = get_node("Prompts/HeartPowerPromptAnimationPlayer")
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
 onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
@@ -69,17 +68,8 @@ var previewing = false
 
 var base_bpm = 180.0
 
-var current_heart_power_duration = 0.0
-var current_heart_power_to_remove = 0.0
-var current_starting_heart_power = 0.0
-var heart_power_enabled = false
-var heart_power = 0.0
-var current_heart_power_start_time = 0.0
-const MAX_HEART_POWER = 100.0
 signal time_changed(time)
 signal song_cleared(results)
-signal heart_power_activate
-signal heart_power_end
 signal note_judged(judgement)
 
 # Contains a dictionary that maps HBTimingPoint -> its drawer (if it has one)
@@ -153,8 +143,6 @@ func _ready():
 	_on_viewport_size_changed()
 	connect("note_judged", latency_display, "_on_note_judged")
 	set_current_combo(0)
-	update_heart_power_ui()
-	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 	slide_hold_score_text._game = self
 
 func _on_viewport_size_changed():
@@ -169,8 +157,6 @@ func _on_viewport_size_changed():
 		circle_text_rect.rect_min_size = new_size
 	cache_playing_field_size()
 func set_chart(chart: HBChart):
-	heart_power_indicator.value = 0
-	heart_power = 0
 	clear_bar.value = 0.0
 	score_counter.score = 0
 	rating_label.hide()
@@ -264,8 +250,6 @@ func _input(event):
 
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
-	if event.is_action_pressed("activate_heart_power") and not event.is_echo():
-		activate_heart_power()
 	# Slide hold release shenanigans
 	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
 	for slide_type in slide_types:
@@ -362,8 +346,6 @@ func create_note_drawer(timing_point: HBNoteData):
 	notes_node.add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
-	connect("heart_power_activate", note_drawer, "_on_heart_power_activated")
-	connect("heart_power_end", note_drawer, "_on_heart_power_end")
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
@@ -384,17 +366,6 @@ func _process(delta):
 		time = max(0, time)
 	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
 	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
-	# Heart power stuff
-	if heart_power_enabled:
-		if time - current_heart_power_start_time >= current_heart_power_duration:
-			heart_power_enabled = false
-			heart_power = current_starting_heart_power - current_heart_power_to_remove
-			emit_signal("heart_power_end")
-			update_heart_power_ui()
-		else:
-			var hp_progress = (time - current_heart_power_start_time) / current_heart_power_duration
-			heart_power = current_starting_heart_power - (current_heart_power_to_remove * hp_progress)
-			update_heart_power_ui()
 	# Adding visible notes
 	var multi_notes = []
 	for i in range(timing_points.size() - 1, -1, -1):
@@ -501,46 +472,6 @@ func _process(delta):
 func set_current_combo(combo: int):
 	current_combo = combo
 	
-func activate_heart_power():
-	if not heart_power_enabled:
-		if heart_power >= MAX_HEART_POWER / 2.0:
-			var activation_duration = get_heart_power_duration()
-			var hp_points_to_use = MAX_HEART_POWER
-			if heart_power < MAX_HEART_POWER:
-				activation_duration = activation_duration / 2.0
-				hp_points_to_use = hp_points_to_use / 2.0
-			current_heart_power_start_time = time
-			current_heart_power_duration = activation_duration
-			current_heart_power_to_remove = hp_points_to_use
-			current_starting_heart_power = heart_power
-			heart_power_enabled = true
-			emit_signal("heart_power_activate")
-			heart_power_prompt_animation_player.play("HeartPowerEnabled")
-		
-
-func get_heart_power_points_per_note():
-	return 100.0 / current_song.bpm
-
-# Heart power activation for half phase is minimum 4 seconds, otherwise it's 1/8th of the max power points
-func get_heart_power_duration():
-	return max(round(50000/(pow(current_song.bpm, 2.0))), 4)
-
-func increase_heart_power():
-	var old_heart_power = heart_power
-	heart_power += get_heart_power_points_per_note()
-	heart_power = clamp(heart_power, 0, MAX_HEART_POWER)
-	if old_heart_power < MAX_HEART_POWER/2.0 and heart_power > MAX_HEART_POWER/2.0:
-		heart_power_prompt_animation_player.play("HeartPowerAvailable")
-	update_heart_power_ui()
-	
-	
-func update_heart_power_ui():
-	heart_power_indicator.value = heart_power / MAX_HEART_POWER
-	if heart_power_enabled:
-		heart_power_indicator.tint_progress = HEART_INDICATOR_DECREASING
-	else:
-		heart_power_indicator.tint_progress = HEART_POWER_PROGRESS_TINT
-	
 func _on_notes_judged(notes: Array, judgement, wrong):
 	var note = notes[0] as HBNoteData
 	
@@ -559,12 +490,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if UserSettings.user_settings.enable_voice_fade:
 				audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
-			# make the heart power indicator darker to indicate that a perfect
-			# is not possible anymore
-			heart_power_indicator.tint_over = HEART_INDICATOR_MISSED
 			hold_release()
 		else:
-			increase_heart_power()
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = 0
 			result.notes_hit += notes_hit
@@ -673,7 +600,6 @@ func restart():
 			remove_child(drawer)
 	notes_on_screen = []
 	rating_label.hide()
-	heart_power_indicator.tint_over = HEART_POWER_OVER_TINT
 	
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
@@ -690,8 +616,6 @@ func add_score(score_to_add):
 		result.score += score_to_add
 		score_counter.score = result.score
 		clear_bar.value = result.get_capped_score()
-		if heart_power_enabled:
-			result.heart_power_bonus += score_to_add * 0.5
 
 func add_hold_score(score_to_add):
 	result.hold_bonus += score_to_add

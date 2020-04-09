@@ -12,7 +12,6 @@ var slide_bonus = 0
 var max_combo = 0
 var total_notes = 0
 var notes_hit = 0
-var heart_power_bonus = 0
 var max_score = 1
 var failed = false
 var used_cheats = false
@@ -34,7 +33,7 @@ var wrong_note_ratings = {
 
 func _init():
 	serializable_fields += ["score", "max_combo", "total_notes", "notes_hit", "note_ratings",
-	"wrong_note_ratings", "failed", "heart_power_bonus", "max_score",
+	"wrong_note_ratings", "failed", "max_score",
 	"hold_bonus", "slide_bonus", "used_cheats"]
 
 func get_serialized_type():

@@ -213,9 +213,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 13.0
+margin_top = 32.0
 margin_right = 1170.0
-margin_bottom = 46.0
+margin_bottom = 65.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -243,9 +243,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 50.0
+margin_top = 69.0
 margin_right = 1170.0
-margin_bottom = 83.0
+margin_bottom = 102.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -272,40 +272,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 1170.0
-margin_bottom = 120.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
-margin_right = 1060.0
-margin_bottom = 33.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
-text = "HEART POWER BONUS"
-
-[node name="HeartPowerLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
-margin_left = 1064.0
-margin_right = 1170.0
-margin_bottom = 33.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 1 )
-text = "(NT)0"
-align = 2
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 124.0
+margin_top = 106.0
 margin_right = 1170.0
-margin_bottom = 157.0
+margin_bottom = 139.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false

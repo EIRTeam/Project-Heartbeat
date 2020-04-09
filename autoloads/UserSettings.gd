@@ -21,7 +21,6 @@ var action_names = {
 	"gui_right": "Menu right",
 	"gui_accept": "Menu accept",
 	"gui_cancel": "Menu cancel",
-	"activate_heart_power": "Activate heart power",
 	"tap_left": "Slide left",
 	"tap_left_analog": "Slide left analog",
 	"tap_right": "Slide right",

@@ -12,7 +12,6 @@ onready var total_notes_label = get_node("MarginContainer/VBoxContainer/VBoxCont
 onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
 onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
-onready var heart_power_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer4/HeartPowerLabel")
 onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
 onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
 onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
@@ -143,7 +142,6 @@ func set_game_info(val: HBGameInfo):
 		score_percentage = result.get_percentage()
 	percentage_label.text = "%.2f" % (score_percentage * 100.0)
 	percentage_label.text += " %"
-	heart_power_label.text = str(result.heart_power_bonus)
 	if SongLoader.songs.has(game_info.song_id):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		current_song = song
