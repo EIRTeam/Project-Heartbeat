@@ -37,20 +37,16 @@ func get_editor_size():
 	return Vector2(0, rect_size.y)
 var a = false
 func _process(delta):
-	
-	if abs(get_viewport().get_mouse_position().y - _drag_start_position.y) > DND_START_MARGIN:
-		force_drag(self, Control.new())
-		set_process(false)
-	else:
-		if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
-			_drag_moving = true
-			var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
-			new_time = int(editor.snap_time_to_timeline(new_time))
-			var drag_delta = new_time -_drag_last
-			_drag_last = new_time
-			if abs(drag_delta) > 0:
-				editor._change_selected_property_delta("time",  int(drag_delta))
-			emit_signal("time_changed")
+	if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
+		_drag_moving = true
+		var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
+		new_time = int(editor.snap_time_to_timeline(new_time))
+		var drag_delta = new_time -_drag_last
+		_drag_last = new_time
+		if abs(drag_delta) > 0:
+			editor._change_selected_property_delta("time",  int(drag_delta), self)
+			for item in editor.selected:
+				item.emit_signal("time_changed")
 #		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
@@ -60,20 +56,19 @@ func deselect():
 		widget = null
 
 func _gui_input(event: InputEvent):
-	if event.is_action_pressed("editor_select"):
-		print("HANDLING")
-		if event is InputEventWithModifiers:
-			get_tree().set_input_as_handled()
-			
-			editor.select_item(self, event.shift)
-			
-			if not event.shift:
-				_drag_moving = false
-				_drag_start_position = get_viewport().get_mouse_position()
-				_drag_start_time = data.time
-				_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
-				_drag_last = data.time
-				set_process(true)
+	if event.is_action_pressed("editor_select"): 
+			if event is InputEventWithModifiers:
+				get_tree().set_input_as_handled()
+				if not self in editor.selected:
+					editor.select_item(self, event.shift)
+				
+				if not event.shift:
+					_drag_moving = false
+					_drag_start_position = get_viewport().get_mouse_position()
+					_drag_start_time = data.time
+					_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+					_drag_last = data.time
+					set_process(true)
 	elif event.is_action_released("editor_select") and not event.is_echo():
 		_drag_moving = false
 		if is_processing():

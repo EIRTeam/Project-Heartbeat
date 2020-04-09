@@ -189,7 +189,8 @@ var old_property_values = {}
 	
 # Changes the selected property by an amount, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary
-func _change_selected_property_delta(property_name: String, new_value):
+func _change_selected_property_delta(property_name: String, new_value, making_change=null):
+	print("SETTING ", property_name, " ", new_value)
 	for selected_item in selected:
 		if not selected_item in old_property_values:
 			old_property_values[selected_item] = {}
@@ -343,6 +344,10 @@ func delete_selected():
 	selected = []
 	undo_redo.commit_action()
 
+func deselect_all():
+	for item in selected:
+		item.deselect()
+	inspector.stop_inspecting()
 func get_notes_at_time(time: int):
 	var notes = []
 	for note in get_timing_points():
