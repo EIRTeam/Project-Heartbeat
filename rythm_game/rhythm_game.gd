@@ -2,83 +2,59 @@ extends Node
 
 class_name HBRhythmGame
 
+signal time_changed(time)
+signal song_cleared(results)
+signal note_judged(judgement)
+
 const NoteTargetScene = preload("res://rythm_game/NoteTarget.tscn")
 const NoteScene = preload("res://rythm_game/Note.tscn")
 const NoteDrawer = preload("res://rythm_game/SingleNoteDrawer.tscn")
-
-var NOTE_TYPE_TO_ACTIONS_MAP = {
-	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
-	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
-	HBNoteData.NOTE_TYPE.UP: ["note_up"],
-	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
-	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
-	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]
-}
-
 const HEART_POWER_UNDER_TINT = Color("2d1b61")
 const HEART_POWER_OVER_TINT = Color("4f30ae")
 const HEART_POWER_PROGRESS_TINT = Color("a877f0")
 const HEART_INDICATOR_MISSED = Color("4f30ae")
 const HEART_INDICATOR_DECREASING = Color("77c3f0")
 
-var input_lag_compensation = 0
-
-var result = HBResult.new()
-
-onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var audio_stream_player_voice = get_node("AudioStreamPlayerVocals")
-onready var rating_label : Label = get_node("RatingLabel")
-onready var notes_node = get_node("Notes")
-onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
-onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
-onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
-onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
-onready var clear_bar = get_node("Control/ClearBar")
-onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
-onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
-onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
-onready var latency_display = get_node("Control/LatencyDisplay")
-onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
-var judge = preload("res://rythm_game/judge.gd").new()
-
-var time_begin: int
-var time_delay: float
-var time: float
-var current_combo = 0
-var timing_points = [] setget set_timing_points
-
-var _sfx_played_this_cycle = false
-
-var notes_on_screen = []
-var current_song: HBSong = HBSong.new()
-var current_difficulty: String = ""
 const LOG_NAME = "RhythmGame"
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
-const MAX_HOLD = 3300 # miliseconds
+const MAX_HOLD = 3300  # miliseconds
 const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
 
+var NOTE_TYPE_TO_ACTIONS_MAP = {HBNoteData.NOTE_TYPE.RIGHT: ["note_right"], HBNoteData.NOTE_TYPE.LEFT: ["note_left"], HBNoteData.NOTE_TYPE.UP: ["note_up"], HBNoteData.NOTE_TYPE.DOWN: ["note_down"], HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"], HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]}
+var timing_points = [] setget _set_timing_points
+var result = HBResult.new()
+var judge = preload("res://rythm_game/judge.gd").new()
+var time_begin: int
+var time_delay: float
+var time: float
+var current_combo = 0
 
+# Notes currently being shown to the user
+var notes_on_screen = []
+var current_song: HBSong = HBSong.new()
+var current_difficulty: String = ""
+
+# size for scaling
 var size = Vector2(1280, 720) setget set_size
+
+# editor stuff
 var editing = false
 var previewing = false
-
-
-var base_bpm = 180.0
-
-signal time_changed(time)
-signal song_cleared(results)
-signal note_judged(judgement)
 
 # Contains a dictionary that maps HBTimingPoint -> its drawer (if it has one)
 var timing_point_to_drawer_map = {}
 
+# Notes currently being held (modern style)
 var held_notes = []
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
-var accumulated_hold_score = 0.0 # for when you hit another hold note after holding one
+var accumulated_hold_score = 0.0  # for when you hit another hold note after already holding
+
+# Initial BPM
+var base_bpm = 180.0
 
 # List of slide hold note chains
 # It's a list key, contains an array of slide notes
@@ -96,20 +72,45 @@ var active_slide_hold_chains = []
 # cached values for speed
 var playing_field_size
 var playing_field_size_length
+
+# If we've played an sfx in this cycle
+var _sfx_played_this_cycle = false
+
+onready var audio_stream_player = get_node("AudioStreamPlayer")
+onready var audio_stream_player_voice = get_node("AudioStreamPlayerVocals")
+onready var rating_label: Label = get_node("RatingLabel")
+onready var notes_node = get_node("Notes")
+onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
+onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
+onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
+onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
+onready var clear_bar = get_node("Control/ClearBar")
+onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
+onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
+onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
+onready var latency_display = get_node("Control/LatencyDisplay")
+onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
+
+
 func cache_playing_field_size():
-	playing_field_size = Vector2(size.y*16.0/9.0, size.y)
+	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
 	playing_field_size_length = playing_field_size.length()
+
+
 func set_size(value):
 	size = value
 	cache_playing_field_size()
 	$UnderNotesUI/Control.rect_size = value
 	$AboveNotesUI/Control.rect_size = value
 
+
 func set_modifiers(modifiers: Array):
 	# TODO
 	pass
 
+
 var bpm_changes = {}
+
 
 func get_bpm_at_time(time):
 	var current_time = null
@@ -120,7 +121,8 @@ func get_bpm_at_time(time):
 		return base_bpm
 	return bpm_changes[current_time]
 
-func set_timing_points(points):
+
+func _set_timing_points(points):
 	timing_points = points
 	slide_hold_chains = []
 	for chain in active_slide_hold_chains:
@@ -131,12 +133,13 @@ func set_timing_points(points):
 	if editing:
 		for point in timing_points:
 			if point is HBBPMChange:
-					print("BPM: " + str(point.bpm))
-					bpm_changes[point.time] = point.bpm
-					
-					print(point.time, " UWU: ", point.bpm)
+				print("BPM: " + str(point.bpm))
+				bpm_changes[point.time] = point.bpm
+
+				print(point.time, " UWU: ", point.bpm)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
-	
+
+
 func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -145,9 +148,10 @@ func _ready():
 	set_current_combo(0)
 	slide_hold_score_text._game = self
 
+
 func _on_viewport_size_changed():
 	$Viewport.size = self.rect_size
-		
+
 	var hbox_container2 = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 	if circle_text_rect.texture:
 		var image = circle_text_rect.texture.get_data() as Image
@@ -156,6 +160,8 @@ func _on_viewport_size_changed():
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect.rect_min_size = new_size
 	cache_playing_field_size()
+
+
 func set_chart(chart: HBChart):
 	clear_bar.value = 0.0
 	score_counter.score = 0
@@ -165,13 +171,15 @@ func set_chart(chart: HBChart):
 	result = HBResult.new()
 	current_combo = 0
 	rating_label.hide()
-	set_timing_points(chart.get_timing_points())
+	_set_timing_points(chart.get_timing_points())
 	# Find slide hold chains
 	active_slide_hold_chains = []
 	var max_score = chart.get_max_score()
 	clear_bar.max_value = max_score
 	result.max_score = max_score
-func set_song(song: HBSong, difficulty: String, assets = null, chart_override=null):
+
+
+func set_song(song: HBSong, difficulty: String, assets = null):
 	current_song = song
 	base_bpm = song.bpm
 	if assets:
@@ -198,7 +206,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, chart_override=nu
 		author_label.text = song.artist
 	difficulty_label.text = "[%s]" % difficulty
 	var chart_path = song.get_chart_path(difficulty)
-	var chart : HBChart
+	var chart: HBChart
 	if song is HBPPDSong:
 		chart = PPDLoader.PPD2HBChart(chart_path, song.bpm)
 	else:
@@ -211,10 +219,11 @@ func set_song(song: HBSong, difficulty: String, assets = null, chart_override=nu
 	current_difficulty = difficulty
 	set_chart(chart)
 	play_song()
-	
+
 
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
+
 
 func remap_coords(coords: Vector2):
 	coords = coords / BASE_SIZE
@@ -222,18 +231,23 @@ func remap_coords(coords: Vector2):
 	coords.x = (size.x - playing_field_size.x) * 0.5 + pos.x
 	coords.y = pos.y
 	return coords
-	
+
+
 func inv_map_coords(coords: Vector2):
 	var x = (coords.x - ((size.x - playing_field_size.x) / 2.0)) / playing_field_size.x * BASE_SIZE.x
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
+
+
 func play_song():
 	play_from_pos(0)
-	
+
+
 #	time_begin = OS.get_ticks_usec()
 #	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 #	audio_stream_player.play()
 #	audio_stream_player_voice.play()
+
 
 func _input(event):
 	if event is InputEventAction:
@@ -248,6 +262,7 @@ func _input(event):
 					break
 			if action_pressed:
 				break
+
 
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
@@ -267,13 +282,15 @@ func _unhandled_input(event):
 						active_hold_chain.sfx_player.queue_free()
 						active_slide_hold_chains.remove(i)
 						play_sfx($SlideChainFailSFX)
-				
+
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
 			for note_type in held_notes:
 				if event.action in NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 					hold_release()
 					break
+
+
 func get_closest_notes_of_type(note_type: int) -> Array:
 	var closest_notes = []
 	for note_c in notes_on_screen:
@@ -289,6 +306,7 @@ func get_closest_notes_of_type(note_type: int) -> Array:
 				closest_notes = [note]
 	return closest_notes
 
+
 func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:
@@ -302,17 +320,14 @@ func get_closest_notes():
 			closest_notes = [note]
 	return closest_notes
 
-func remove_note_from_screen(i):
-	if not editing or previewing:
-		timing_points.erase(notes_on_screen[i])
-	notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
-	notes_on_screen.remove(i)
 
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		get_note_drawer(notes_on_screen[i]).free()
 	notes_on_screen = []
-	
+
+# Plays the provided sfx creating a clone of an audio player (maybe we should
+# use the AudioServer for this...
 func play_sfx(player: AudioStreamPlayer):
 	if not _sfx_played_this_cycle:
 		var new_player := player.duplicate() as AudioStreamPlayer
@@ -320,12 +335,15 @@ func play_sfx(player: AudioStreamPlayer):
 		new_player.play(0)
 		new_player.connect("finished", new_player, "queue_free")
 		_sfx_played_this_cycle = true
-func play_note_sfx(slide=false):
+
+# plays note SFX automatically
+func play_note_sfx(slide = false):
 	if not slide:
 		play_sfx($HitEffect)
 	else:
 		play_sfx($HitEffectSlide)
-	
+
+# Connects multi notes to their respective master notes
 func hookup_multi_notes(notes: Array):
 	for note in notes:
 		var note_drawer = get_note_drawer(note)
@@ -333,12 +351,14 @@ func hookup_multi_notes(notes: Array):
 		note_drawer.note_master = false
 	get_note_drawer(notes[0]).note_master = true
 
+# returns the note drawer for the given timing point
 func get_note_drawer(timing_point):
 	var drawer = null
 	if timing_point_to_drawer_map.has(timing_point):
 		drawer = timing_point_to_drawer_map[timing_point]
 	return drawer
 
+# creates and connects a new note drawer
 func create_note_drawer(timing_point: HBNoteData):
 	var note_drawer
 	note_drawer = timing_point.get_drawer().instance()
@@ -351,7 +371,8 @@ func create_note_drawer(timing_point: HBNoteData):
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
 
-func _process(delta):
+
+func _process(_delta):
 	_sfx_played_this_cycle = false
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
@@ -359,10 +380,10 @@ func _process(delta):
 		time = time * audio_stream_player.pitch_scale
 		# Compensate for latency.
 		time -= time_delay
-		
+
 		# User entered compensation
 		time -= UserSettings.user_settings.lag_compensation / 1000.0
-		
+
 		# May be below 0 (did not being yet).
 		time = max(0, time)
 	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
@@ -373,17 +394,17 @@ func _process(delta):
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
-#			print("Current BPM is: " + str(current_bpm))
-			if time * 1000.0 < (timing_point.time + input_lag_compensation-timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
-				break
-			if time * 1000.0 >= (timing_point.time + input_lag_compensation-timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
+			# Ignore timing points that are not happening now
+			if time * 1000.0 < (timing_point.time - timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
+				continue
+			if time * 1000.0 >= (timing_point.time - timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
 				if not timing_point in notes_on_screen:
-					# Prevent older notes from being re-created
-					if judge.judge_note(time + input_lag_compensation, (timing_point.time + timing_point.get_duration())/1000.0) == judge.JUDGE_RATINGS.WORST:
+					# Prevent older notes from being re-created, although this shouldn't happen...
+					if judge.judge_note(time, (timing_point.time + timing_point.get_duration()) / 1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					create_note_drawer(timing_point)
+					# multi-note detection
 					if multi_notes.size() > 0:
-						print(multi_notes[0].time, " ", timing_point.time)
 						if multi_notes[0].time == timing_point.time:
 							if not timing_point is HBHoldNoteData:
 								if timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
@@ -397,23 +418,22 @@ func _process(delta):
 						multi_notes.append(timing_point)
 				if not editing or previewing:
 					timing_points.remove(i)
-	emit_signal("time_changed", time+input_lag_compensation)
+	emit_signal("time_changed", time)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
-		
-	# Hold combo
+
+	# Hold combo increasing and shit
 	if held_notes.size() > 0:
-		var max_time = current_hold_start_time + (MAX_HOLD/1000.0)
+		var max_time = current_hold_start_time + (MAX_HOLD / 1000.0)
 		current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size()
-		
+
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
-			hold_indicator.show_max_combo(current_hold_score+MAX_HOLD)
+			hold_indicator.show_max_combo(current_hold_score + MAX_HOLD)
 			hold_indicator.current_score = current_hold_score + MAX_HOLD
 			add_hold_score(MAX_HOLD)
 			hold_release()
-			
-			
+
 		else:
 			hold_indicator.current_score = current_hold_score + accumulated_hold_score
 	# handles held slide hold chains
@@ -429,7 +449,7 @@ func _process(delta):
 				piece_drawer.emit_signal("note_removed")
 				piece_drawer.queue_free()
 				slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
-				
+
 				chain.pieces.remove(i)
 		var show_max_slide_text = false
 		if chain.pieces.size() == 0:
@@ -437,7 +457,7 @@ func _process(delta):
 			chain.sfx_player.queue_free()
 			play_sfx($SlideChainSuccessSFX)
 			active_slide_hold_chains.remove(ii)
-		
+	# autoplay code
 	if Diagnostics.enable_autoplay or previewing:
 		if not result.used_cheats:
 			result.used_cheats = true
@@ -445,20 +465,24 @@ func _process(delta):
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBNoteData and note.note_type in NOTE_TYPE_TO_ACTIONS_MAP:
-				if time*1000 > note.time:
+				if time * 1000 > note.time:
 					var a = InputEventAction.new()
 					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
 					a.pressed = true
 					play_note_sfx(note.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
 					Input.parse_input_event(a)
 
+
 func set_current_combo(combo: int):
 	current_combo = combo
-	
+
+# called when a note or group of notes is judged
+# this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong):
 	var note = notes[0] as HBNoteData
-	
+
 	# Simultaneous slides are a special case...
+	# we have to process each note individually
 	for n in notes:
 		if n != note and n.is_slide_note():
 			_on_notes_judged([n], judgement, wrong)
@@ -478,19 +502,19 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = 0
 			result.notes_hit += notes_hit
-			
+
 			for note in notes:
 				note = note as HBNoteData
 				if note.hold:
 					start_hold(note.note_type)
-			
+
 		if not wrong:
 			result.note_ratings[judgement] += notes_hit
 		else:
 			result.wrong_note_ratings[judgement] += notes_hit
-			
+
 		result.total_notes += notes_hit
-		
+
 		if current_combo > result.max_combo:
 			result.max_combo = current_combo
 
@@ -502,14 +526,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 					add_child(hold_player)
 					hold_player.play()
 					hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
-					
-					var active_hold_chain = {
-						"pieces": slide_hold_chains[note],
-						"slide_note": note,
-						"sfx_player": hold_player,
-						"is_playing_loop": false,
-						"accumulated_score": 0
-					}
+
+					var active_hold_chain = {"pieces": slide_hold_chains[note], "slide_note": note, "sfx_player": hold_player, "is_playing_loop": false, "accumulated_score": 0}
 					active_slide_hold_chains.append(active_hold_chain)
 				else:
 					# kill slide and younglings if we failed
@@ -522,7 +540,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 							var i = timing_points.find(piece)
 							if i != -1:
 								timing_points.remove(i)
-		
+
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
 		for n in notes:
@@ -546,31 +564,39 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			rating_label.show()
 		else:
 			rating_label.hide()
-		var judgement_info = {
-			"judgement": judgement,
-			"target_time": notes[0].time,
-			"time": int(time*1000)
-		}
-		
+		var judgement_info = {"judgement": judgement, "target_time": notes[0].time, "time": int(time * 1000)}
+
 		emit_signal("note_judged", judgement_info)
+
+# called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
 	hold_player.seek(0)
 	hold_player.volume_db = 4
 	hold_player.play()
 
+# removes a note from screen (and from the timing points list if not in the editor)
+func remove_note_from_screen(i):
+	if not editing or previewing:
+		timing_points.erase(notes_on_screen[i])
+	notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
+	notes_on_screen.remove(i)
+
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
-				
+
+
 func pause_game():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	get_tree().paused = true
+
+
 func resume():
 	get_tree().paused = false
 	play_from_pos(audio_stream_player.get_playback_position())
 
-	
+
 func restart():
 	hold_release()
 	get_tree().paused = false
@@ -584,7 +610,8 @@ func restart():
 			remove_child(drawer)
 	notes_on_screen = []
 	rating_label.hide()
-	
+
+
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
 	audio_stream_player_voice.stream_paused = false
@@ -596,7 +623,9 @@ func play_from_pos(position: float):
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 
-func delete_rogue_slide_chain_pieces(pos_override=null):
+# used by the editor and practice mode to delete slide chain pieces that have no
+# parent
+func delete_rogue_slide_chain_pieces(pos_override = null):
 	var pos = time
 	if pos_override:
 		pos = pos_override
@@ -614,29 +643,35 @@ func delete_rogue_slide_chain_pieces(pos_override=null):
 		else:
 			timing_points.erase(note)
 
+
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
 		score_counter.score = result.score
 		clear_bar.value = result.get_capped_score()
 
+
 func add_hold_score(score_to_add):
 	result.hold_bonus += score_to_add
 	add_score(score_to_add)
-	
+
+
 func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add
 	add_score(score_to_add)
+
+
 func _on_AudioStreamPlayer_finished():
 	emit_signal("song_cleared", result)
+
 
 func hold_release():
 	if held_notes.size() > 0:
 		add_hold_score(round(current_hold_score))
-		print("END hold ", current_hold_score)
 		accumulated_hold_score = 0
 		held_notes = []
 		current_hold_score = 0
+
 
 func start_hold(note_type):
 	if note_type in held_notes:

@@ -75,32 +75,8 @@ func _on_note_type_changed():
 	pass
 
 func get_initial_position():
-#	var x1 = 0
-#	var y1 = 0
-#	var x2 = 1.0
-#	var y2 = 1.0
-	
 	var px = note_data.position.x
 	var py = note_data.position.y
-	
-#	var ts = []
-#	if angle_cos != 0:
-#		ts.append((x1-px)/angle_cos)
-#		ts.append((x2-px)/angle_cos)
-#	if angle_sin != 0:
-#		ts.append((y1-py)/angle_sin)
-#		ts.append((y2-py)/angle_sin)
-#	var length = 0
-#	for distance in ts:
-#		if not length and distance > 0:
-#			length = distance
-#			continue
-#		if distance > 0 and distance < length:
-#			length = distance
-	
-	# We used to make the notes come from the corner, but we realised we are idiots and we don't need this anymore
-	
-#	length = clamp(length, note_data.distance, note_data.distance)
 	var angle_cos = -cos(deg2rad(note_data.entry_angle))
 	var angle_sin = -sin(deg2rad(note_data.entry_angle))
 	var length = note_data.distance
@@ -109,10 +85,7 @@ func get_initial_position():
 	return point
 
 func get_time_out():
-	if note_data.auto_time_out:
-		return int((60.0  / game.get_bpm_at_time(note_data.time) * (1 + 3) * 1000.0))
-	else:
-		return note_data.time_out
+	return note_data.get_time_out(game.get_bpm_at_time(note_data.time))
 
 func judge_note_input(event: InputEvent, time: float, released = false):
 	# Judging tapped keys
@@ -120,7 +93,6 @@ func judge_note_input(event: InputEvent, time: float, released = false):
 	for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		var event_result = event.is_action_pressed(action) and not event.is_echo()
 		if released:
-#			print("CHECK RELEASED FOR " + action + " RESULT: " + str(event.is_action_released(action)))
 			event_result = event.is_action_released(action)
 		if event_result:
 			var closest_notes = game.get_closest_notes_of_type(note_data.note_type)

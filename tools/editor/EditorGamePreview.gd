@@ -8,7 +8,6 @@ const SAFE_AREA_SIZE = Vector2(192, 108)
 func _ready():
 	game.size = rect_size
 	game.editing = true
-	game.input_lag_compensation = 0.0
 	connect("resized", self, "_on_resized")
 	
 func _on_resized():
