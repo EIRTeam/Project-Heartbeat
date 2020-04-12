@@ -9,6 +9,14 @@ func get_editor_size():
 	return Vector2(50, rect_size.y)
 func get_inspector_properties():
 	return {
-		"time": "int",
-		"bpm": "int"
+		"time": {
+			"type": "int"
+		},
+		"bpm": {
+			"type": "int",
+			"params": {
+				"min": 1
+			}
+		}
+		
 	}

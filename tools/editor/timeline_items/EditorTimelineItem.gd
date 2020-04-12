@@ -85,8 +85,12 @@ func select():
 		
 func get_inspector_properties():
 	return {
-		"time": "int",
-		"position": "Vector2"
+		"time": {
+			"type": "int"
+		},
+		"position": {
+			"type": "Vector2"
+		}
 	}
 	
 func get_editor_widget() -> PackedScene:

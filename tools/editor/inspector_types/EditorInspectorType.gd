@@ -8,3 +8,6 @@ var property_name: String
 # Sets the value without setting off any signal
 func sync_value(value):
 	pass
+
+func set_params(params):
+	pass

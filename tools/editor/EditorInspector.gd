@@ -54,7 +54,9 @@ func inspect(item: EditorTimelineItem):
 	item.connect("property_changed", self, "update_value")
 	
 	for property in properties:
-		var inspector_editor = get_inspector_type(properties[property]).instance()
+		var inspector_editor = get_inspector_type(properties[property].type).instance()
+		if properties[property].has("params"):
+			inspector_editor.call_deferred("set_params", properties[property].params)
 		inspector_editor.property_name = property
 		
 		var label = Label.new()

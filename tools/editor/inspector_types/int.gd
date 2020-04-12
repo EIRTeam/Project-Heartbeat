@@ -16,3 +16,11 @@ func emit_value_changed_signal():
 
 func _on_Spinbox_value_changed(value):
 	emit_value_changed_signal()
+
+func set_params(params):
+	if params.has("min"):
+		spinbox.min_value = params.min
+	if params.has("max"):
+		spinbox.max_value = params.max
+	if params.has("step"):
+		spinbox.step = params.step
