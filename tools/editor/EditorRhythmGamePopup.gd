@@ -11,13 +11,13 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	rhythm_game.set_process_input(true)
 	rhythm_game.play_from_pos(time)
 	show()
-	connect("resized", self, "set_game_size")
+	set_game_size()
 func set_audio(audio, voice = null):
 	rhythm_game.audio_stream_player.stream = audio
-	if voice:
-		rhythm_game.audio_stream_player_voice.stream = voice
+	rhythm_game.audio_stream_player_voice.stream = voice
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
+	connect("resized", self, "set_game_size")
 	rhythm_game.set_process_input(false)
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)
