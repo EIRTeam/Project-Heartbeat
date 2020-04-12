@@ -130,9 +130,8 @@
             }
         },
         "SLIDE_LEFT": {
-            "color": "#f6b977",
-            "shadow_color": "#ffe598",
-            "uses_custom_shadow": true,
+            "color": "#ed8a2e",
+            "uses_custom_shadow": false,
             "src": {
                 "note": {
                     "style": "normal",
@@ -157,9 +156,8 @@
             }
         },
         "SLIDE_LEFT_HOLD_PIECE": {
-            "color": "#f6b977",
-            "shadow_color": "#ffe598",
-            "uses_custom_shadow": true,
+            "color": "#ed8a2e",
+            "uses_custom_shadow": false,
             "src": {
                 "note": {
                     "style": "normal",
@@ -175,7 +173,7 @@
             }
         },
         "SLIDE_RIGHT_HOLD_PIECE": {
-            "color": "#f6b977",
+            "color": "#ed8a2e",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
@@ -193,7 +191,7 @@
             }
         },
         "SLIDE_RIGHT": {
-            "color": "#f6b977",
+            "color": "#ed8a2e",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
