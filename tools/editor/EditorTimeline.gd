@@ -182,6 +182,13 @@ func get_selection_rect():
 	size.y = clamp(size.y, scroll_container.rect_position.y - _area_select_start.y, rect_size.y - origin.y)
 	return Rect2(get_global_transform().xform(origin), size)
 
+func is_playhead_visible():
+	var x = calculate_playhead_position().x
+	return x >= playhead_area.rect_position.x and x <= playhead_area.rect_position.x + playhead_area.rect_size.x
+func ensure_playhead_is_visible():
+	if not is_playhead_visible():
+		set_layers_offset(editor.playhead_position)
+
 func _do_area_select():
 	var rect = get_selection_rect()
 

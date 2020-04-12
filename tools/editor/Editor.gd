@@ -315,6 +315,7 @@ func _process(delta):
 	
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		playhead_position = max(time * 1000.0, 0.0)
+		timeline.ensure_playhead_is_visible()
 		emit_signal("playhead_position_changed")
 
 func seek(value: int):
