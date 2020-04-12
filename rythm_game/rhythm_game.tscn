@@ -73,7 +73,7 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=7]
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
@@ -89,7 +89,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=8]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
@@ -99,10 +99,10 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 size = 20
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -111,14 +111,14 @@ use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=11]
 size = 15
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=12]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -126,7 +126,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=13]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -134,7 +134,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=14]
 length = 5.0
 step = 0.05
 tracks/0/type = "value"
@@ -188,7 +188,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=15]
 length = 3.0
 step = 0.05
 tracks/0/type = "value"
@@ -476,6 +476,9 @@ rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 334, 139 )
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.5 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
 text = "WORST"
 align = 1
 valign = 1
@@ -485,7 +488,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-anims/rating_appear = SubResource( 5 )
+anims/rating_appear = SubResource( 7 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -541,7 +544,7 @@ margin_bottom = -39.0705
 rect_min_size = Vector2( 0, 65 )
 size_flags_horizontal = 3
 theme = ExtResource( 7 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -672,7 +675,7 @@ anchor_top = 0.924
 anchor_right = 1.0
 anchor_bottom = 0.924
 rect_min_size = Vector2( 0, 32 )
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 9 )
 script = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -683,7 +686,7 @@ CLEAR_COLOR = Color( 0.662745, 0.0509804, 0.364706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 1.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 text = "(NT)0.00 %"
 align = 1
 valign = 1
@@ -696,7 +699,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -20.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 11 )
 text = "Too Late! +100ms"
 align = 1
 script = ExtResource( 28 )
@@ -727,7 +730,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -123.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER AVAILABLE!"
@@ -747,7 +750,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -124.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER!!!"
@@ -757,8 +760,8 @@ __meta__ = {
 }
 
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 12 )
-anims/HeartPowerEnabled = SubResource( 13 )
+anims/HeartPowerAvailable = SubResource( 14 )
+anims/HeartPowerEnabled = SubResource( 15 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 14 )
