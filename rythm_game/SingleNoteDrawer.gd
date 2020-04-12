@@ -126,7 +126,6 @@ func _on_note_judged(judgement):
 	set_process_unhandled_input(false)
 
 func _unhandled_input(event):
-	print(is_processing_unhandled_input())
 	# Master notes handle all the input
 	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
 		return
