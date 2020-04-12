@@ -603,11 +603,6 @@ func restart():
 	set_song(SongLoader.songs[current_song.id], current_difficulty)
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
-	for note in notes_on_screen:
-		var drawer = get_note_drawer(note)
-		if drawer:
-			drawer.queue_free()
-			remove_child(drawer)
 	notes_on_screen = []
 	rating_label.hide()
 
@@ -619,7 +614,6 @@ func play_from_pos(position: float):
 	audio_stream_player_voice.play()
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
-	notes_on_screen = []
 	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 
