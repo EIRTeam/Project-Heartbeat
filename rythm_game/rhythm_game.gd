@@ -133,10 +133,7 @@ func _set_timing_points(points):
 	if editing:
 		for point in timing_points:
 			if point is HBBPMChange:
-				print("BPM: " + str(point.bpm))
 				bpm_changes[point.time] = point.bpm
-
-				print(point.time, " UWU: ", point.bpm)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 
 
