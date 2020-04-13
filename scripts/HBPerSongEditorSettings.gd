@@ -7,7 +7,7 @@ var bpm = 0.0
 var offset = 0.0
 var note_resolution = 4
 var beats_per_bar = 4
-var auto_multi = true
+var auto_multi = false
 func get_serialized_type():
 	return "PerSongEditorSettings"
 
