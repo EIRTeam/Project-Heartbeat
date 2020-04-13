@@ -112,7 +112,7 @@ func upload_song(song: HBSong, ugc_id):
 		ugc.add_item_preview_video(update_id, YoutubeDL.get_video_id(song.youtube_url))
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
 
-#	Steam.setItemTags(update_id, ["song"])
+	Steam.setItemTags(update_id, ["song"])
 	if uploading_new:
 		ugc.submit_item_update(update_id, "Initial upload")
 	else:
