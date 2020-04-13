@@ -348,6 +348,7 @@ func delete_selected():
 func deselect_all():
 	for item in selected:
 		item.deselect()
+	selected = []
 	inspector.stop_inspecting()
 func get_notes_at_time(time: int):
 	var notes = []
@@ -361,10 +362,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	
 	if song_editor_settings.auto_multi:
 		if item.data is HBNoteData:
-			var found_multi = false
 			var notes = get_notes_at_time(item.data.time)
-#			note_data.oscillation_amplitude = 0
-#			note_data.distance = note_data.distance * (2.2/3.0)
 			if notes.size() > 0:
 				for note in notes:
 					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
