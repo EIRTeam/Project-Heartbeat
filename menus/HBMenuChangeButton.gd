@@ -8,6 +8,8 @@ export (String) var next_menu
 var normal_style = preload("res://styles/NewButtonStyle.tres")
 var hover_style = preload("res://styles/NewButtonStyleHover.tres")
 
+var target_opacity = 1.0
+
 func _ready():
 	focus_mode = Control.FOCUS_NONE
 	flat = false

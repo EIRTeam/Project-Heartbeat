@@ -8,11 +8,16 @@ signal navigate_to_menu(menu)
 signal navigated
 
 var selected_option : Control
-export(int) var VISIBILITY_THRESHOLD = 3 # How many items should be visible
+var VISIBILITY_THRESHOLD_TOP = 3 # How many items should be visible
+var VISIBILITY_THRESHOLD_BOTTOM = 3 # How many items should be visible
 var lerp_weight = 8.0
 export(int) var margin
 export (float) var scale_factor = 0.75
+var menu_start_percentage = 0.5
+export(int)var items_visible_top = 2 # How many items should be visible on top
 export (bool) var disable_repositioning = false
+export(bool) var instant_scale_change = false
+var f = true
 const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
@@ -26,14 +31,15 @@ func _ready():
 	get_tree().root.call_deferred("add_child", move_sound_player)
 	focus_mode = FOCUS_ALL
 	connect("resized", self, "hard_arrange_all")
+	connect("resized", self, "calculate_visibility_threshholds")
 	if get_child_count() > 0:
 		selected_option = get_child(0)
 		emit_signal("selected_option_changed")
 		hard_arrange_all()
+		calculate_visibility_threshholds()
 	for child in get_children():
 		if child is BaseButton:
 			child.connect("pressed", self, "_on_button_pressed", [child])
-	hard_arrange_all()
 
 func _on_button_pressed(option: BaseButton):
 	if has_focus():
@@ -59,11 +65,7 @@ func _on_focus_exited():
 		selected_option.stop_hover()
 			
 func _process(delta):
-	
-
-	
-	var menu_start := Vector2(0, rect_size.y / 2)
-	
+	var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 	if not selected_option:
 		if get_child_count() > 0:
 			selected_option = get_children()[0]
@@ -77,7 +79,10 @@ func _process(delta):
 			# Place select option:
 			var starting_position = lerp(selected_option.rect_position, Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2), lerp_weight * delta)
 			selected_option.rect_position = starting_position
-			selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
+			if instant_scale_change:
+				selected_option.rect_scale = Vector2(1.0, 1.0)
+			else:
+				selected_option.rect_scale = lerp(selected_option.rect_scale, Vector2(1.0, 1.0), lerp_weight * delta)
 			#selected_option.rect_scale = Vector2(1.0, 1.0)
 			selected_option.self_modulate = lerp(selected_option.self_modulate, Color(1.0, 1.0, 1.0, 1.0), lerp_weight * delta)
 			var prev_child_pos = selected_option.rect_position
@@ -85,25 +90,26 @@ func _process(delta):
 			arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y)
 			arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, false, selected_option.rect_scale.y)
 
+func select_option(option_i: int):
+	get_tree().set_input_as_handled()
+	if selected_option:
+		selected_option.stop_hover()
+	selected_option = get_child(option_i)
+	selected_option.hover()
+	emit_signal("selected_option_changed")
+	
+
 func _gui_input(event):
 	if selected_option:
 		if event.is_action_pressed("gui_down"):
 			var current_pos = selected_option.get_position_in_parent()
 			if current_pos < get_child_count()-1:
-				get_tree().set_input_as_handled()
-				selected_option.stop_hover()
-				selected_option = get_child(current_pos + 1)
-				selected_option.hover()
-				emit_signal("selected_option_changed")
+				select_option(current_pos+1)
 				move_sound_player.play()
 		if event.is_action_pressed("gui_up"):
 			var current_pos = selected_option.get_position_in_parent()
 			if current_pos > 0:
-				get_tree().set_input_as_handled()
-				selected_option.stop_hover()
-				selected_option = get_child(current_pos - 1)
-				selected_option.hover()
-				emit_signal("selected_option_changed")
+				select_option(current_pos-1)
 				move_sound_player.play()
 		if event.is_action_pressed("gui_accept"):
 			if selected_option is BaseButton:
@@ -116,16 +122,50 @@ func _gui_input(event):
 				var right_neighbour = get_node(focus_neighbour_right) as Control
 				right_neighbour.grab_focus()
 func hard_arrange_all():
-	var menu_start := Vector2(0, rect_size.y / 2)
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 	
 	if disable_repositioning:
 		arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
 	else:
 		selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
 		selected_option.rect_scale = Vector2(1.0, 1.0)
+		selected_option.target_opacity = 1.0
 		selected_option.modulate.a = 1.0
 		arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
 		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
+
+func is_child_visible(child_i):
+	var child = get_child(child_i)
+	if child_i < selected_option.get_position_in_parent():
+		return abs(selected_option.get_position_in_parent() - child.get_position_in_parent()) > VISIBILITY_THRESHOLD_TOP
+	else:
+		return abs(child.get_position_in_parent() - selected_option.get_position_in_parent()) > VISIBILITY_THRESHOLD_BOTTOM
+	return true
+
+func _draw():
+	pass
+#	var rect_first = Rect2(Vector2.ZERO, Vector2(rect_size.x, rect_size.y * menu_start_percentage))
+#	var color_first = Color.green
+#	color_first.a = 0.25
+#
+#	var rect_second = Rect2(Vector2(0, rect_size.y * menu_start_percentage), Vector2(rect_size.x, rect_size.y * (1.0- menu_start_percentage)))
+#	var color_second = Color.blue
+#	color_second.a = 0.25
+#	draw_rect(rect_first, color_first, true, 1.0, true)
+#	draw_rect(rect_second, color_second, true, 1.0, true)
+
+func calculate_visibility_threshholds():
+	var child_size_y = get_child(0).rect_size.y
+	menu_start_percentage = ((child_size_y*scale_factor) * items_visible_top  + child_size_y / 2.0) / rect_size.y
+	var total_space = rect_size.y
+	var top_space = (rect_size.y * menu_start_percentage) - child_size_y / 2.0 # we compensate for the selected one
+	var bottom_space = (rect_size.y - top_space) - child_size_y / 2.0 - child_size_y * scale_factor # we compensate for the selected one
+	VISIBILITY_THRESHOLD_TOP = floor(top_space / (child_size_y * scale_factor))
+	VISIBILITY_THRESHOLD_BOTTOM = floor( bottom_space / (child_size_y * scale_factor))
+	print(VISIBILITY_THRESHOLD_BOTTOM, " cs:", child_size_y, " sf:", scale_factor, " bs:", float(bottom_space))
+	update()
 
 func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):
 	var lw = lerp_weight * get_process_delta_time()
@@ -139,18 +179,24 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 		
 		# Opacity interpolation
 		var target_op = 0.0
-		if (abs(selected_option.get_position_in_parent() - label.get_position_in_parent()) > VISIBILITY_THRESHOLD):
-			label.modulate.a = lerp(label.modulate.a, 0.0, lw)
+		if is_child_visible(label.get_position_in_parent()):
+			label.target_opacity = target_op
 		else:
-			label.modulate.a = lerp(label.modulate.a, 1.0, lw)
 			target_op = 1.0
+			label.target_opacity = target_op
 		
 		# Scale interpolation
 		
 		var target_scale = prev_child_scale * scale_factor
-		if fixed_scale_factor:
-			target_scale = scale_factor
-		label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), lw)
+		if not label == selected_option:
+			if fixed_scale_factor:
+				target_scale = scale_factor
+		else:
+			target_scale = 1.0
+		if instant_scale_change:
+			label.rect_scale = Vector2(target_scale, target_scale)
+		else:
+			label.rect_scale = lerp(label.rect_scale, Vector2(target_scale, target_scale), lw)
 		
 		# Calculate the difference between where our label is and wher eit should be
 		
@@ -165,6 +211,7 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 		#label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
 		label.rect_position = prev_child_pos + sign(end-start) * pos_diff # Looks much better if we don't interpolate position...
 		if hard:
+			label.target_opacity = target_op
 			label.modulate.a = target_op
 			label.rect_scale = Vector2(target_scale, target_scale)
 		prev_child_pos = label.rect_position

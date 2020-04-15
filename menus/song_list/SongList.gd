@@ -6,11 +6,11 @@ signal song_hovered(song)
 var current_difficulty
 var current_song: HBSong
 onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
-onready var scroll_container = get_node("VBoxContainer/MarginContainer/ScrollContainer")
+onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	populate_difficulties()
-	scroll_container.grab_focus()
+	song_container.grab_focus()
 	if args.has("song_difficulty"):
 #		_select_difficulty(args.song_difficulty)
 		for i in range(difficulty_list.get_child_count()):
@@ -20,36 +20,37 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	else:
 		difficulty_list.select_button(0)
 	if args.has("song"):
-		$VBoxContainer/MarginContainer/ScrollContainer.select_song_by_id(args.song)
-	MouseTrap.cache_song_overlay.connect("done", scroll_container, "grab_focus")
+		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song)
+	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
-	MouseTrap.ppd_dialog.connect("file_selector_hidden", scroll_container, "grab_focus")
-	MouseTrap.ppd_dialog.connect("popup_hide", scroll_container, "grab_focus")
+	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus")
+	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus")
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
+	song_container.hard_arrange_all()
 
 func _on_ugc_item_installed(type, item):
 	if type == "song":
 		if current_difficulty:
-			scroll_container.set_songs(SongLoader.get_songs_with_difficulty(current_difficulty), current_difficulty)
+			song_container.set_songs(SongLoader.get_songs_with_difficulty(current_difficulty), current_difficulty)
 	populate_difficulties(false)
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
-	MouseTrap.cache_song_overlay.disconnect("done", scroll_container, "grab_focus")
+	MouseTrap.cache_song_overlay.disconnect("done", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
-	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", scroll_container, "grab_focus")
-	MouseTrap.ppd_dialog.disconnect("popup_hide", scroll_container, "grab_focus")
+	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", song_container, "grab_focus")
+	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.disconnect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _ready():
-	$VBoxContainer/MarginContainer/ScrollContainer.connect("song_hovered", self, "_on_song_hovered")
+	$VBoxContainer/MarginContainer/VBoxContainer.connect("song_hovered", self, "_on_song_hovered")
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
-	$PPDAudioBrowseWindow.connect("cancel", scroll_container, "grab_focus")
-	scroll_container.connect("song_selected", self, "_on_song_selected")
+	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
+	song_container.connect("song_selected", self, "_on_song_selected")
 	
 func populate_difficulties(fire_event=true):
 	for child in difficulty_list.get_children():
@@ -71,7 +72,7 @@ func _on_song_hovered(song: HBSong):
 	emit_signal("song_hovered", song)
 
 func should_receive_input():
-	return scroll_container.has_focus()
+	return song_container.has_focus()
 
 func _unhandled_input(event):
 	if should_receive_input():
@@ -99,10 +100,10 @@ func _on_PPDAudioBrowseWindow_accept():
 	MouseTrap.ppd_dialog.ask_for_file()
 func _on_youtube_url_selected(url):
 	SongLoader.set_ppd_youtube_url(current_song, url)
-	scroll_container.grab_focus()
+	song_container.grab_focus()
 		
 func _on_video_downloading():
-	scroll_container.grab_focus()
+	song_container.grab_focus()
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()
@@ -114,4 +115,4 @@ func _on_video_downloading():
 
 func _select_difficulty(difficulty: String):
 	current_difficulty = difficulty
-	$VBoxContainer/MarginContainer/ScrollContainer.set_songs(SongLoader.get_songs_with_difficulty(difficulty), difficulty)
+	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.get_songs_with_difficulty(difficulty), difficulty)

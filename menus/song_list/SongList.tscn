@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://menus/song_list/SongScrollList.gd" type="Script" id=1]
+[ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
 [ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
-[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=7]
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -37,7 +36,6 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 25.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -57,19 +55,21 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 50.0
 margin_right = 1280.0
-margin_bottom = 695.0
+margin_bottom = 720.0
 size_flags_vertical = 3
 custom_constants/margin_top = 35
-custom_constants/margin_bottom = 35
+custom_constants/margin_bottom = 0
 
-[node name="ScrollContainer" parent="VBoxContainer/MarginContainer" instance=ExtResource( 7 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
 margin_top = 35.0
 margin_right = 1280.0
-margin_bottom = 610.0
+margin_bottom = 670.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
-maintain_selected_child = true
+margin = 10
+scale_factor = 0.85
+fixed_scale_factor = true
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
 visible = true

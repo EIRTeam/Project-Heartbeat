@@ -1,5 +1,7 @@
 extends BoxContainer
 
+class_name HBSimpleMenu
+
 var selected_button
 var selected_button_i
 enum ORIENTATION {
