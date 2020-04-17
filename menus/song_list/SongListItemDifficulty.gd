@@ -1,10 +1,9 @@
 extends Control
 
-class_name HBSongListItem
+class_name HBSongListItemDifficulty
 
 var song : HBSong
-
-
+var difficulty: String
 var hover_style = preload("res://styles/SongListItemHover.tres")
 var normal_style = preload("res://styles/SongListItemNormal.tres")
 
@@ -15,36 +14,30 @@ const LERP_SPEED = 3.0
 signal pressed
 
 var prev_focus
-onready var stars_label = get_node("Control/TextureRect/StarsLabel")
 onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
-onready var stars_texture_rect = get_node("Control/TextureRect")
+onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StarTextureRect")
+onready var score_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/ScoreLabel")
 onready var button = get_node("Control")
+onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
+onready var stars_container = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer")
 #onready var star_texture_rect = get_node("TextureRect")
-signal song_selected(song)
 
-func set_song(value: HBSong):
+func set_song(value: HBSong, difficulty: String):
 	song = value
-
 	song_title.song = song
 	var max_stars = 0
-	for chart in value.charts:
-		if value.charts[chart].has("stars"):
-			var stars = value.charts[chart].stars
-			if stars > max_stars:
-				max_stars = stars
-	var stars_string = "-"
-	if max_stars != 0:
-		stars_string = "%d" % [max_stars]
-	stars_label.text = stars_string
-		
-#	if ScoreHistory.has_result(value.id, difficulty):
-#		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
-#		var pass_percentage = result.get_percentage()
-#		var score_text = "%s - %.2f" % [HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating()), pass_percentage * 100.0]
-#		score_text += " %"
-#		score_label.text = score_text
-#	else:
-#		score_label.hide()
+	for _i in range(song.charts[difficulty].stars-1):
+		stars_container.add_child_below_node(stars_texture_rect, stars_texture_rect.duplicate())
+	difficulty_label.text = " " + difficulty.to_upper() + " "
+	self.difficulty = difficulty
+	if ScoreHistory.has_result(value.id, difficulty):
+		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
+		var pass_percentage = result.get_percentage()
+		var score_text = "%s - %.2f" % [HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating()), pass_percentage * 100.0]
+		score_text += " %"
+		score_label.text = score_text
+	else:
+		score_label.hide()
 
 func _on_resize():
 	pass
@@ -63,10 +56,6 @@ func stop_hover():
 	
 func _process(delta):
 	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
-
-func _gui_input(event):
-	if event.is_action_pressed("gui_accept") and not event.is_echo():
-		emit_signal("song_selected", song)
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()

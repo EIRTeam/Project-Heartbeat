@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
-[ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
 
@@ -41,34 +40,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DifficultyList" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1280.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_constants/separation = 10
-alignment = 2
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 50.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_vertical = 3
-custom_constants/margin_top = 35
+custom_constants/margin_top = 50
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
-margin_top = 35.0
+margin_top = 50.0
 margin_right = 1280.0
-margin_bottom = 670.0
+margin_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
 margin = 10
 scale_factor = 0.85
+items_visible_top = 3
 fixed_scale_factor = true
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
@@ -76,4 +64,8 @@ visible = true
 margin_left = -314.0
 margin_right = 257.0
 margin_bottom = 162.0
+has_cancel = true
+has_accept = true
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
+accept_text = "Yes"
+cancel_text = "No"

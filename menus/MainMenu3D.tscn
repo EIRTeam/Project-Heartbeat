@@ -191,6 +191,7 @@ size = 0.9
 [node name="ViewportLeft" type="Viewport" parent="."]
 size = Vector2( 1920, 1080 )
 own_world = true
+transparent_bg = true
 disable_3d = true
 usage = 0
 render_target_v_flip = true
@@ -198,8 +199,8 @@ render_target_v_flip = true
 [node name="MenuLeftContainer" type="MarginContainer" parent="ViewportLeft"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 200.0
-margin_right = -60.0
+margin_left = 100.0
+margin_right = -59.9999
 rect_min_size = Vector2( 1000, 0 )
 size_flags_horizontal = 3
 theme = ExtResource( 2 )

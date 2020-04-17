@@ -22,7 +22,7 @@ const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
 export(bool) var fixed_scale_factor = false
-
+var prevent_hard_arrange = false
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
@@ -38,8 +38,12 @@ func _ready():
 		hard_arrange_all()
 		calculate_visibility_threshholds()
 	for child in get_children():
-		if child is BaseButton:
-			child.connect("pressed", self, "_on_button_pressed", [child])
+		for _signal in child.get_signal_list():
+			print(_signal.name)
+			if _signal.name == "pressed":
+				print("CONNEC")
+				child.connect("pressed", self, "_on_button_pressed", [child])
+				break
 
 func _on_button_pressed(option: BaseButton):
 	if has_focus():
@@ -97,6 +101,7 @@ func select_option(option_i: int):
 	selected_option = get_child(option_i)
 	selected_option.hover()
 	emit_signal("selected_option_changed")
+	print("CALLED FOR ", option_i)
 	
 
 func _gui_input(event):
@@ -112,29 +117,30 @@ func _gui_input(event):
 				select_option(current_pos-1)
 				move_sound_player.play()
 		if event.is_action_pressed("gui_accept"):
-			if selected_option is BaseButton:
-				get_tree().set_input_as_handled()
-				selected_option.emit_signal("pressed")
-				emit_signal("selected_option_changed")
+			get_tree().set_input_as_handled()
+			selected_option.emit_signal("pressed")
+			emit_signal("selected_option_changed")
 		if event.is_action_pressed("gui_right"):
 			if focus_neighbour_right:
 				get_tree().set_input_as_handled()
 				var right_neighbour = get_node(focus_neighbour_right) as Control
 				right_neighbour.grab_focus()
 func hard_arrange_all():
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
-	
-	if disable_repositioning:
-		arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
-	else:
-		selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
-		selected_option.rect_scale = Vector2(1.0, 1.0)
-		selected_option.target_opacity = 1.0
-		selected_option.modulate.a = 1.0
-		arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
-		arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
+#	yield(get_tree(), "idle_frame")
+#	yield(get_tree(), "idle_frame")
+	print("HARD ARRANGE")
+	if not prevent_hard_arrange:
+		var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
+		
+		if disable_repositioning:
+			arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
+		else:
+			selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
+			selected_option.rect_scale = Vector2(1.0, 1.0)
+			selected_option.target_opacity = 1.0
+			selected_option.modulate.a = 1.0
+			arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
+			arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
 
 func is_child_visible(child_i):
 	var child = get_child(child_i)
@@ -158,13 +164,19 @@ func _draw():
 
 func calculate_visibility_threshholds():
 	var child_size_y = get_child(0).rect_size.y
-	menu_start_percentage = ((child_size_y*scale_factor) * items_visible_top  + child_size_y / 2.0) / rect_size.y
-	var total_space = rect_size.y
-	var top_space = (rect_size.y * menu_start_percentage) - child_size_y / 2.0 # we compensate for the selected one
-	var bottom_space = (rect_size.y - top_space) - child_size_y / 2.0 - child_size_y * scale_factor # we compensate for the selected one
-	VISIBILITY_THRESHOLD_TOP = floor(top_space / (child_size_y * scale_factor))
-	VISIBILITY_THRESHOLD_BOTTOM = floor( bottom_space / (child_size_y * scale_factor))
-	print(VISIBILITY_THRESHOLD_BOTTOM, " cs:", child_size_y, " sf:", scale_factor, " bs:", float(bottom_space))
+	menu_start_percentage = (((child_size_y*scale_factor)+margin) * (items_visible_top)  + child_size_y / 2.0) / rect_size.y
+	var total_space = rect_size.y - child_size_y
+	var first = true
+#	for child in get_children():
+#		if child != selected_option:
+#			if not first:
+#				total_space -= margin
+#			else:
+#				first = false
+	var child_size = (child_size_y  * scale_factor) - margin
+	var visible_item_count = floor(total_space / (child_size)) - 1
+	VISIBILITY_THRESHOLD_TOP = items_visible_top
+	VISIBILITY_THRESHOLD_BOTTOM = visible_item_count - items_visible_top
 	update()
 
 func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):
@@ -208,7 +220,7 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 			# Over the selected one, only care about our own size
 			pos_diff.y += (label.rect_size.y + margin) * label.rect_scale.y
 			
-		#label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
+#		label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
 		label.rect_position = prev_child_pos + sign(end-start) * pos_diff # Looks much better if we don't interpolate position...
 		if hard:
 			label.target_opacity = target_op

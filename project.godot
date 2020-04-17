@@ -219,6 +219,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSong.gd"
 }, {
+"base": "Control",
+"class": "HBSongListItem",
+"language": "GDScript",
+"path": "res://menus/song_list/SongListItem.gd"
+}, {
+"base": "Control",
+"class": "HBSongListItemDifficulty",
+"language": "GDScript",
+"path": "res://menus/song_list/SongListItemDifficulty.gd"
+}, {
 "base": "HBMenu",
 "class": "HBSongListMenu",
 "language": "GDScript",
@@ -352,6 +362,8 @@ _global_script_class_icons={
 "HBServiceMember": "",
 "HBSimpleMenu": "",
 "HBSong": "",
+"HBSongListItem": "",
+"HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
 "HBSongVerification": "",
 "HBTimingPoint": "",

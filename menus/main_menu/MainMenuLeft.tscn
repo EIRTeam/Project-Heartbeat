@@ -47,17 +47,18 @@ script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-VISIBILITY_THRESHOLD = 4
 margin = 10
 scale_factor = 1.0
+items_visible_top = 2
 disable_repositioning = true
+instant_scale_change = false
 fixed_scale_factor = true
 
 [node name="StartButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 286.0
+margin_top = 182.5
 margin_right = 430.0
-margin_bottom = 346.0
+margin_bottom = 242.5
 text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
@@ -66,40 +67,39 @@ next_menu = "song_list"
 "mponly",
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 356.0
+margin_top = 252.5
 margin_right = 430.0
-margin_bottom = 415.999
+margin_bottom = 312.499
 text = "Multiplayer"
 icon = ExtResource( 7 )
 next_menu = "lobby_list"
 
 [node name="OptionsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 425.999
+margin_top = 322.499
 margin_right = 430.0
-margin_bottom = 485.999
+margin_bottom = 382.499
 text = "Options"
 icon = ExtResource( 3 )
 next_menu = "options_menu"
 
 [node name="ToolsButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 495.999
+margin_top = 392.499
 margin_right = 430.0
-margin_bottom = 555.999
+margin_bottom = 452.499
 text = "Tools"
 icon = ExtResource( 6 )
 next_menu = "tools_menu"
 
 [node name="ExitButton" parent="StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 565.999
+margin_top = 462.499
 margin_right = 430.0
-margin_bottom = 625.999
+margin_bottom = 522.499
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
-next_menu = ""
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_top = 0.157
