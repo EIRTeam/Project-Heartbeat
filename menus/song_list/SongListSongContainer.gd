@@ -45,7 +45,6 @@ func _on_song_selected(song: HBSong):
 			item.set_song(song, difficulty)
 			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
 			song_items_map[song][difficulty] = item
-			print("APPENDING ", item)
 		prevent_hard_arrange = false
 #	emit_signal("song_selected", song)
 
@@ -68,7 +67,6 @@ func set_songs(songs: Array):
 	if selected_option:
 		previously_selected_song_id = selected_option.song.id
 		if selected_option is HBSongListItemDifficulty:
-			print("DIFF")
 			previously_selected_difficulty = selected_option.difficulty
 			
 	song_items_map = {}
@@ -92,7 +90,7 @@ func set_songs(songs: Array):
 		select_option(0)
 
 func _on_difficulty_selected(song, difficulty):
-	print("DARK AND CRUEL")
+
 	emit_signal("difficulty_selected", song, difficulty)
 
 func _input(event):
