@@ -6,7 +6,8 @@
 [ext_resource path="res://menus/pregame_screen/PreGameScreen.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=5]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=8]
-[ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=9]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=9]
+
 
 [sub_resource type="StyleBoxEmpty" id=1]
 content_margin_left = 10.0

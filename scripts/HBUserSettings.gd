@@ -25,6 +25,7 @@ var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
 var use_visualizer_with_video = true
+var current_filter_type = "all"
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
@@ -32,7 +33,7 @@ func _init():
 	"icon_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"note_size", "last_controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
-	"disable_ppd_video", "use_visualizer_with_video"]
+	"disable_ppd_video", "use_visualizer_with_video", "current_filter_type"]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)

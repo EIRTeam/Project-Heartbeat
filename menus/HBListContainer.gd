@@ -32,6 +32,7 @@ func _ready():
 	focus_mode = FOCUS_ALL
 	connect("resized", self, "hard_arrange_all")
 	connect("resized", self, "calculate_visibility_threshholds")
+	connect("resized", self, "resize_children")
 	if get_child_count() > 0:
 		selected_option = get_child(0)
 		emit_signal("selected_option_changed")
@@ -44,7 +45,9 @@ func _ready():
 				print("CONNEC")
 				child.connect("pressed", self, "_on_button_pressed", [child])
 				break
-
+func resize_children():
+	for child in get_children():
+		child.rect_size.x = rect_size.x
 func _on_button_pressed(option: BaseButton):
 	if has_focus():
 		if option != selected_option:
@@ -101,7 +104,6 @@ func select_option(option_i: int):
 	selected_option = get_child(option_i)
 	selected_option.hover()
 	emit_signal("selected_option_changed")
-	print("CALLED FOR ", option_i)
 	
 
 func _gui_input(event):
@@ -128,7 +130,6 @@ func _gui_input(event):
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
-	print("HARD ARRANGE")
 	if not prevent_hard_arrange:
 		var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 		
@@ -165,7 +166,7 @@ func _draw():
 func calculate_visibility_threshholds():
 	var child_size_y = get_child(0).rect_size.y
 	menu_start_percentage = (((child_size_y*scale_factor)+margin) * (items_visible_top)  + child_size_y / 2.0) / rect_size.y
-	var total_space = rect_size.y - child_size_y
+	var total_space = rect_size.y - child_size_y - margin
 	var first = true
 #	for child in get_children():
 #		if child != selected_option:
@@ -173,10 +174,10 @@ func calculate_visibility_threshholds():
 #				total_space -= margin
 #			else:
 #				first = false
-	var child_size = (child_size_y  * scale_factor) - margin
-	var visible_item_count = floor(total_space / (child_size)) - 1
+	var child_size = (child_size_y  * scale_factor) +  margin
+	var visible_item_count = floor(total_space / child_size) - 1
 	VISIBILITY_THRESHOLD_TOP = items_visible_top
-	VISIBILITY_THRESHOLD_BOTTOM = visible_item_count - items_visible_top
+	VISIBILITY_THRESHOLD_BOTTOM = visible_item_count - items_visible_top + 1
 	update()
 
 func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):

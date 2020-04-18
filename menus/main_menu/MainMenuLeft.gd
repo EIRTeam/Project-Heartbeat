@@ -1,6 +1,6 @@
 extends HBMenu
 
-onready var start_menu = get_node("StartMenu")
+onready var start_menu = get_node("VBoxContainer/StartMenu")
 
 func _ready():
 	start_menu.connect("navigate_to_menu", self, "change_to_menu")

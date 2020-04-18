@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://menus/HBListContainer.gd" type="Script" id=1]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/tools_menu/ToolsMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/icons/folder-music.svg" type="Texture" id=4]
@@ -16,40 +16,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ToolsList" type="Control" parent="."]
-anchor_right = 1.0
+[node name="ToolsList" type="VBoxContainer" parent="."]
 anchor_bottom = 1.0
+margin_top = 170.053
+margin_right = 545.0
+margin_bottom = 1.05261
 focus_mode = 2
+custom_constants/separation = 10
+alignment = 1
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-VISIBILITY_THRESHOLD = 3
-margin = 10
-scale_factor = 1.0
-disable_repositioning = true
-fixed_scale_factor = true
+orientation = 1
 
 [node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 330.0
-margin_right = 536.0
-margin_bottom = 390.0
+margin_top = 175.0
+margin_right = 545.0
+margin_bottom = 235.0
+rect_min_size = Vector2( 0, 60 )
 text = "Open Logs Directory"
 icon = ExtResource( 5 )
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 400.0
+margin_top = 245.0
 margin_right = 545.0
-margin_bottom = 460.0
+margin_bottom = 305.0
+rect_min_size = Vector2( 0, 60 )
 text = "Open Songs Directory"
 icon = ExtResource( 4 )
 
 [node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 470.0
-margin_right = 536.0
-margin_bottom = 530.0
+margin_top = 315.0
+margin_right = 545.0
+margin_bottom = 375.0
+rect_min_size = Vector2( 0, 60 )
 text = "Song Editor"
 icon = ExtResource( 6 )

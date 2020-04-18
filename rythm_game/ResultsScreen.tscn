@@ -2,7 +2,7 @@
 
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
-[ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=3]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://Theme_Game.tres" type="Theme" id=4]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=5]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=6]
@@ -13,6 +13,7 @@
 [ext_resource path="res://rythm_game/ResultsScreen.gd" type="Script" id=12]
 [ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=13]
 [ext_resource path="res://fonts/ResultsAuthorFont.tres" type="DynamicFont" id=14]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 25

@@ -7,6 +7,7 @@ var current_difficulty
 var current_song: HBSong
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
+onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/VBoxContainer")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -19,6 +20,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #				difficulty_list.select_button(i)
 #	else:
 #		difficulty_list.select_button(0)
+		
+	
 	update_songs()
 	if args.has("song_difficulty"):
 		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)
@@ -54,7 +57,28 @@ func _ready():
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
 	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
 	song_container.connect("song_selected", self, "_on_song_selected")
-	
+	var filter_types = {
+		"all": "All",
+		"official": "Official",
+
+	}
+	for song_id in SongLoader.songs:
+		var song = SongLoader.songs[song_id]
+		if song is HBPPDSong:
+			filter_types["ppd"] = "PPD"
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
+			filter_types["community"] = "Community"
+	for filter_type in filter_types:
+		var button = HBHovereableButton.new()
+		button.text = filter_types[filter_type]
+		filter_type_container.add_child(button)
+		if filter_type == UserSettings.user_settings.current_filter_type:
+			filter_type_container.select_button(button.get_position_in_parent(), false)
+		button.connect("hovered", self, "set_filter", [filter_type])
+		
+func set_filter(filter_name):
+	song_container.set_filter(filter_name)
+	UserSettings.user_settings.current_filter_type
 #func populate_difficulties(fire_event=true):
 #	for child in difficulty_list.get_children():
 #		difficulty_list.remove_child(child)
@@ -80,6 +104,8 @@ func should_receive_input():
 
 func _unhandled_input(event):
 	if should_receive_input():
+		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
+			filter_type_container._gui_input(event)
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")

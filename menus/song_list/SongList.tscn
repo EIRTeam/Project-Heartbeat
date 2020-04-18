@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -35,26 +36,38 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 10.0
+size_flags_horizontal = 3
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+margin_right = 1280.0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+margin_right = 1280.0
+custom_constants/separation = 10
+alignment = 2
+script = ExtResource( 7 )
+stop_hover_on_focus_exit = false
+
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 720.0
+margin_bottom = 710.0
 size_flags_vertical = 3
-custom_constants/margin_top = 50
+custom_constants/margin_right = 100
+custom_constants/margin_top = 0
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
-margin_top = 50.0
-margin_right = 1280.0
-margin_bottom = 720.0
+margin_right = 1180.0
+margin_bottom = 710.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
-margin = 10
+margin = 5
 scale_factor = 0.85
 items_visible_top = 3
 fixed_scale_factor = true

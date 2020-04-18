@@ -6,8 +6,9 @@
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=5]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=6]
-[ext_resource path="res://menus/HorizontalSimpleMenu.gd" type="Script" id=7]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
+
 
 [sub_resource type="Animation" id=1]
 loop = true
