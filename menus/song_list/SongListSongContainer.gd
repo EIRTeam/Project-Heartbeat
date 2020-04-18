@@ -50,8 +50,6 @@ func _on_song_selected(song: HBSong):
 #	emit_signal("song_selected", song)
 
 func select_song_by_id(song_id: String, difficulty=null):
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
 	for child_i in range(get_child_count()):
 		var child = get_child(child_i)
 		if child.song.id == song_id:
