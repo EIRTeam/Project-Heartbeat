@@ -16,6 +16,7 @@ signal pressed
 var prev_focus
 onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
 onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StarTextureRect")
+onready var stars_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StarsLabel")
 onready var score_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/ScoreLabel")
 onready var button = get_node("Control")
 onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
@@ -26,8 +27,7 @@ func set_song(value: HBSong, difficulty: String):
 	song = value
 	song_title.song = song
 	var max_stars = 0
-	for _i in range(song.charts[difficulty].stars-1):
-		stars_container.add_child_below_node(stars_texture_rect, stars_texture_rect.duplicate())
+	stars_label.text = "x%d " % [song.charts[difficulty].stars]
 	difficulty_label.text = " " + difficulty.to_upper() + " "
 	self.difficulty = difficulty
 	if ScoreHistory.has_result(value.id, difficulty):
