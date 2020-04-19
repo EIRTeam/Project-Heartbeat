@@ -7,8 +7,9 @@
 [ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=5]
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://menus/song_list/SongListItemDifficulty.gd" type="Script" id=7]
+[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=8]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
 border_width_left = 211
 border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
@@ -17,18 +18,7 @@ corner_radius_top_right = 1024
 corner_radius_bottom_right = 5
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
-border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
-corner_radius_top_left = 5
-corner_radius_top_right = 1024
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color( 0, 0, 0, 0.25 )
-shadow_size = 10
-
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=2]
 size = 30
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_mipmaps = true
@@ -37,7 +27,7 @@ extra_spacing_top = 7
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 30
 use_mipmaps = true
 use_filter = true
@@ -64,8 +54,8 @@ margin_left = 25.0
 margin_right = 1280.0
 margin_bottom = 100.0
 focus_mode = 0
-custom_styles/hover = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = ExtResource( 8 )
 custom_constants/hseparation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -132,7 +122,7 @@ margin_left = 39.0
 margin_right = 289.0
 margin_bottom = 38.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 text = "CHEAP - 100%"
 valign = 1
 
@@ -141,6 +131,6 @@ margin_left = 293.0
 margin_right = 539.0
 margin_bottom = 38.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "CHEAP - 100%"
 valign = 1

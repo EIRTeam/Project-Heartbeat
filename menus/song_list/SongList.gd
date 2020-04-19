@@ -7,7 +7,10 @@ var current_difficulty
 var current_song: HBSong
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
-onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/VBoxContainer")
+onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
+onready var sort_by_list = get_node("Panel")
+onready var sort_by_list_container = get_node("Panel/MarginContainer/VBoxContainer")
+onready var sort_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButton")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -36,6 +39,34 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
 	song_container.hard_arrange_all()
+	
+	var allowed_sort_by = {
+		"title": "Title",
+		"artist": "Artist",
+		"creator": "Chart Creator"
+	}
+	
+	for button in sort_by_list_container.get_children():
+		sort_by_list_container.remove_child(button)
+		button.queue_free()
+	
+	for sort_by in allowed_sort_by:
+		var button = HBHovereableButton.new()
+		button.text = allowed_sort_by[sort_by]
+		button.connect("pressed", self, "set_sort", [sort_by])
+		sort_by_list_container.add_child(button)
+		# We ensure the current sort mode is selected by default
+		if sort_by == UserSettings.user_settings.sort_mode:
+			sort_by_list_container.select_button(button.get_position_in_parent())
+#			sort_by_list_container.selected_button
+	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+func set_sort(sort_by):
+	UserSettings.user_settings.sort_mode = sort_by
+	UserSettings.save_user_settings()
+	song_container.sort_by_prop = sort_by
+	song_container.set_songs(SongLoader.songs.values())
+	song_container.grab_focus()
+	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
 		song_container.set_songs(SongLoader.songs, true)
@@ -72,13 +103,14 @@ func _ready():
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
 		filter_type_container.add_child(button)
-		if filter_type == UserSettings.user_settings.current_filter_type:
+		if filter_type == UserSettings.user_settings.filter_mode:
 			filter_type_container.select_button(button.get_position_in_parent(), false)
 		button.connect("hovered", self, "set_filter", [filter_type])
-		
+
 func set_filter(filter_name):
 	song_container.set_filter(filter_name)
-	UserSettings.user_settings.current_filter_type
+	UserSettings.user_settings.filter_mode = filter_name
+	UserSettings.save_user_settings()
 #func populate_difficulties(fire_event=true):
 #	for child in difficulty_list.get_children():
 #		difficulty_list.remove_child(child)
@@ -101,6 +133,7 @@ func _on_song_hovered(song: HBSong):
 
 func should_receive_input():
 	return song_container.has_focus()
+	
 
 func _unhandled_input(event):
 	if should_receive_input():
@@ -109,6 +142,11 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
+		if event.is_action_pressed("note_left"):
+			show_order_by_list()
+func show_order_by_list():
+	sort_by_list.show()
+	sort_by_list_container.grab_focus()
 func _on_difficulty_selected(song: HBSong, difficulty):
 	print("select ", song.title, " with diff ", difficulty)
 	if song is HBPPDSong and not song.has_audio() and not song.youtube_url:

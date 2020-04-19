@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
+[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=3]
+[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
-[ext_resource path="res://styles/PanelStyleOpaque.tres" type="StyleBox" id=6]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -15,45 +17,75 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
-margin_right = 1280.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_styles/panel = ExtResource( 6 )
-
-[node name="Label" type="Label" parent="Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 3 )
-text = "2 Songs"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 10.0
 size_flags_horizontal = 3
-custom_constants/separation = 0
+custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 margin_right = 1280.0
+margin_bottom = 45.0
 
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
 margin_right = 1280.0
+margin_bottom = 45.0
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 1276.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer"]
+margin_right = 115.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 115, 45 )
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SortButton" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
+margin_right = 45.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 45, 45 )
+texture = ExtResource( 4 )
+expand = true
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
+margin_left = 49.0
+margin_right = 96.0
+margin_bottom = 45.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 6 )
+text = "Sort"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 1280.0
+margin_right = 1280.0
+margin_bottom = 45.0
 custom_constants/separation = 10
 alignment = 2
 script = ExtResource( 7 )
 stop_hover_on_focus_exit = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+show_behind_parent = true
+margin_top = 55.0
 margin_right = 1280.0
 margin_bottom = 710.0
 size_flags_vertical = 3
@@ -63,7 +95,7 @@ custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
 margin_right = 1180.0
-margin_bottom = 710.0
+margin_bottom = 655.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -73,12 +105,43 @@ items_visible_top = 3
 fixed_scale_factor = true
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
-visible = true
 margin_left = -314.0
 margin_right = 257.0
 margin_bottom = 162.0
-has_cancel = true
-has_accept = true
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
-accept_text = "Yes"
-cancel_text = "No"
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -115.0
+margin_top = -53.0
+margin_right = 189.0
+margin_bottom = 68.0
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 294.0
+margin_bottom = 111.0
+focus_mode = 2
+custom_constants/separation = 10
+script = ExtResource( 7 )
+orientation = 1

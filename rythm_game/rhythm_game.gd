@@ -383,8 +383,8 @@ func _process(_delta):
 
 		# May be below 0 (did not being yet).
 		time = max(0, time)
-	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
-	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
+#	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
+#	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
 	var multi_notes = []
 	var offset = 0
@@ -574,10 +574,11 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 
 # removes a note from screen (and from the timing points list if not in the editor)
 func remove_note_from_screen(i):
-	if not editing or previewing:
-		timing_points.erase(notes_on_screen[i])
-	notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
-	notes_on_screen.remove(i)
+	if i != -1:
+		if not editing or previewing:
+			timing_points.erase(notes_on_screen[i])
+		notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
+		notes_on_screen.remove(i)
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))

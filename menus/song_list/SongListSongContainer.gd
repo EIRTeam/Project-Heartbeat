@@ -9,9 +9,10 @@ var song_items_map = {}
 
 var songs
 
-var order_by_prop = "title"
+var sort_by_prop = "title" # title, chart creator, difficulty
 var filter_by = "all" # choices are: all, official, community and ppd
 func _ready():
+	sort_by_prop = UserSettings.user_settings.sort_mode
 	connect("selected_option_changed", self, "_on_selected_option_changed")
 	
 func _on_selected_option_changed():
@@ -65,14 +66,16 @@ func select_song_by_id(song_id: String, difficulty=null):
 			break
 
 func sort_array(a: HBSong, b: HBSong):
-	var prop = order_by_prop
-
+	var prop = sort_by_prop
 	var a_prop = a.get(prop)
 	var b_prop = b.get(prop)
 	if prop == "title" and a.romanized_title:
 		a_prop = a.romanized_title
 	elif prop == "title" and b.romanized_title:
 		b_prop = b.romanized_title
+	elif prop == "artist":
+		a_prop = a.get_artist_sort_text()
+		b_prop = b.get_artist_sort_text()
 	return a_prop < b_prop
 
 func sort_and_filter_songs():

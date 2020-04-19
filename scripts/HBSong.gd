@@ -1,4 +1,4 @@
-
+	
 extends HBSerializable
 
 class_name HBSong
@@ -151,7 +151,19 @@ func get_audio_stream():
 				else:
 					Log.log(self, "Tried to get audio stream from an uncached song!!")
 		return HBUtils.load_ogg(audio_path)
-		
+	
+# Return the canonical text to use for sorting
+# It goes in this order:
+# Circle name (if a circle logo is present) -> Artist alias -> artist
+func get_artist_sort_text():
+	if circle_logo and artist:
+		return artist
+	elif artist_alias:
+		return artist_alias
+	elif artist:
+		return artist
+	else:
+		return ""
 func get_video_stream():
 	var video_path = get_song_video_res_path()
 	if use_youtube_for_video:
