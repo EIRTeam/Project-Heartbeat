@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=2]
-[ext_resource path="res://menus/HBListContainer.gd" type="Script" id=3]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=4]
 [ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=5]
 [ext_resource path="res://menus/options_menu/OptionMenuButton.gd" type="Script" id=6]
@@ -23,13 +23,13 @@ margin_left = 15.0
 margin_right = 431.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
-custom_constants/separation = -88
+custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-margin_top = 340.0
+margin_top = 223.0
 margin_right = 416.0
-margin_bottom = 404.0
+margin_bottom = 287.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 4 )
@@ -45,26 +45,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBListContainer" type="Control" parent="VBoxContainer"]
-margin_top = 316.0
+[node name="HBListContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 297.0
 margin_right = 416.0
-margin_bottom = 380.0
+margin_bottom = 497.0
 rect_min_size = Vector2( 0, 64 )
 focus_mode = 2
 size_flags_horizontal = 3
+custom_constants/separation = 10
 script = ExtResource( 3 )
-VISIBILITY_THRESHOLD = 3
-margin = 10
-scale_factor = 1.0
-disable_repositioning = true
-fixed_scale_factor = true
+orientation = 1
 
 [node name="ResumeButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-anchor_right = 1.0
 margin_left = 0.0
-margin_top = 98.0
-margin_right = 0.0
-margin_bottom = 162.0
+margin_top = 0.0
+margin_right = 416.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
@@ -73,11 +70,11 @@ text = "Resume"
 script = ExtResource( 6 )
 
 [node name="RestartButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-anchor_right = 1.0
 margin_left = 0.0
-margin_top = 172.0
-margin_right = 3.05176e-05
-margin_bottom = 236.0
+margin_top = 70.0
+margin_right = 416.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 0, 60 )
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
@@ -86,11 +83,11 @@ text = "Restart"
 script = ExtResource( 6 )
 
 [node name="QuitButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-anchor_right = 1.0
 margin_left = 0.0
-margin_top = 246.0
-margin_right = 3.05176e-05
-margin_bottom = 310.0
+margin_top = 140.0
+margin_right = 416.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 60 )
 rect_pivot_offset = Vector2( 0, 0 )
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
