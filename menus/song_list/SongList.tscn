@@ -108,7 +108,11 @@ fixed_scale_factor = true
 margin_left = -314.0
 margin_right = 257.0
 margin_bottom = 162.0
+has_cancel = true
+has_accept = true
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
+accept_text = "Yes"
+cancel_text = "No"
 
 [node name="Panel" type="Panel" parent="."]
 visible = false

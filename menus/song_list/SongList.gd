@@ -24,7 +24,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #	else:
 #		difficulty_list.select_button(0)
 		
-	
+	song_container.set_filter(UserSettings.user_settings.filter_mode)
 	update_songs()
 	if args.has("song_difficulty"):
 		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)

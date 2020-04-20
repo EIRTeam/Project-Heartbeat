@@ -7,7 +7,7 @@ signal difficulty_selected(song, difficulty)
 
 var song_items_map = {}
 
-var songs
+var songs = []
 
 var sort_by_prop = "title" # title, chart creator, difficulty
 var filter_by = "all" # choices are: all, official, community and ppd
@@ -99,8 +99,9 @@ func sort_and_filter_songs():
 func set_filter(filter_name: String):
 	if filter_by != filter_name:
 		filter_by = filter_name
-		set_songs(songs)
-		hard_arrange_all()
+		if songs.size() > 0:
+			set_songs(songs)
+			hard_arrange_all()
 	
 		
 func set_songs(songs: Array):
@@ -136,9 +137,9 @@ func set_songs(songs: Array):
 				break
 		if not found_child:
 			select_option(0)
-		
 	else:
-		select_option(0)
+		var initial_item = clamp(items_visible_top, 0, get_child_count())
+		select_option(initial_item)
 
 func _on_difficulty_selected(song, difficulty):
 
