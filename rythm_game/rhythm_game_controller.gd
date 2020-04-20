@@ -108,6 +108,7 @@ func _unhandled_input(event):
 
 
 func _show_results(game_info: HBGameInfo):
+	get_tree().paused = false
 	if not prevent_scene_changes:
 		if not prevent_showing_results:
 			var scene = MainMenu.instance()
@@ -126,6 +127,7 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	original_color.a = 0
 	var target_color = Color.black
 	$FadeToBlack.show()
+	pause_menu_disabled = true
 	current_game_info.result = result
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
