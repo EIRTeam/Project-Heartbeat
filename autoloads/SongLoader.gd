@@ -16,8 +16,6 @@ var ppd_youtube_url_list = {}
 const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme"]
 var scores = {}
 
-var available_difficulties = []
-
 func _ready():
 	var dir := Directory.new()
 	
@@ -76,10 +74,15 @@ func difficulty_sort(a: String, b: String):
 	return a_i > b_i
 func add_song(song: HBSong):
 	songs[song.id] = song
-	for difficulty in song.charts:
-		if not difficulty in available_difficulties:
-			available_difficulties.append(difficulty)
-			available_difficulties.sort_custom(self, "difficulty_sort")
+	var keys = song.charts.keys()
+	keys.sort_custom(self, "difficulty_sort")
+	
+	var charts = {}
+	
+	for key in keys:
+		charts[key] = song.charts[key]
+	
+	song.charts = charts
 func load_songs_from_path(path):
 	var dir := Directory.new()
 	var value = {}
