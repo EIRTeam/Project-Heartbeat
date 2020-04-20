@@ -33,7 +33,9 @@ onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer
 onready var offset_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset")
 onready var auto_multi_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox")
 onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
-
+onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
+onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
+onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -391,15 +393,19 @@ func pause():
 	rhythm_game.previewing = false
 func _on_PauseButton_pressed():
 	pause()
-
+	play_button.show()
+	pause_button.hide()
 
 func _on_PlayButton_pressed():
 	play_from_pos(playhead_position)
-
+	play_button.hide()
+	pause_button.show()
 
 func _on_StopButton_pressed():
 	play_from_pos(0)
 	pause()
+	play_button.show()
+	pause_button.hide()
 	
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
