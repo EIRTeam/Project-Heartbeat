@@ -10,7 +10,8 @@ onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContain
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
 onready var sort_by_list = get_node("Panel")
 onready var sort_by_list_container = get_node("Panel/MarginContainer/VBoxContainer")
-onready var sort_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButton")
+onready var sort_button_left_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonLeft")
+onready var sort_button_up_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonUp")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -60,13 +61,15 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		if sort_by == UserSettings.user_settings.sort_mode:
 			sort_by_list_container.select_button(button.get_position_in_parent())
 #			sort_by_list_container.selected_button
-	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+	sort_button_left_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+	sort_button_up_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
 	song_container.sort_by_prop = sort_by
 	song_container.set_songs(SongLoader.songs.values())
 	song_container.grab_focus()
+	song_container.hard_arrange_all()
 	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
@@ -147,11 +150,17 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
-		if event.is_action_pressed("note_left"):
-			show_order_by_list()
+		if event.is_action_pressed("note_left") or event.is_action_pressed("note_up"):
+			if Input.is_action_pressed("note_left") and Input.is_action_pressed("note_up"):
+				show_order_by_list()
+	else:
+		if event.is_action_pressed("gui_cancel") and sort_by_list.visible:
+			sort_by_list.hide()
+			song_container.grab_focus()
 func show_order_by_list():
 	sort_by_list.show()
 	sort_by_list_container.grab_focus()
+	
 func _on_difficulty_selected(song: HBSong, difficulty):
 	print("select ", song.title, " with diff ", difficulty)
 	if song is HBPPDSong and not song.has_audio() and not song.youtube_url:
