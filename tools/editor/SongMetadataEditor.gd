@@ -72,6 +72,7 @@ func _ready():
 
 func save_meta():
 	song_meta.title = title_edit.text
+	song_meta.original_title = original_title_edit.text
 	song_meta.romanized_title = romanized_title_edit.text
 	song_meta.artist = artist_edit.text
 	song_meta.artist_alias = artist_alias_edit.text
