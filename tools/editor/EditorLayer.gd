@@ -73,7 +73,7 @@ func _gui_input(event):
 			if new_val in HBNoteData.NOTE_TYPE.keys():
 				ln = new_val
 		if ln in HBNoteData.NOTE_TYPE.keys():
-			if event.doubleclick:
+			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				var new_note = HBNoteData.new()
 				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
 				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
