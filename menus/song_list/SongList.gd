@@ -43,6 +43,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	var allowed_sort_by = {
 		"title": "Title",
 		"artist": "Artist",
+		"score": "Difficulty",
 		"creator": "Chart Creator"
 	}
 	

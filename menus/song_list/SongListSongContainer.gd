@@ -76,6 +76,9 @@ func sort_array(a: HBSong, b: HBSong):
 	elif prop == "artist":
 		a_prop = a.get_artist_sort_text()
 		b_prop = b.get_artist_sort_text()
+	elif prop == "score":
+		a_prop = b.get_max_score()
+		b_prop = a.get_max_score()
 	return a_prop < b_prop
 
 func sort_and_filter_songs():
@@ -138,7 +141,7 @@ func set_songs(songs: Array):
 		if not found_child:
 			select_option(0)
 	else:
-		if items_visible_top <= filtered_songs.size():
+		if filtered_songs.size() <= items_visible_top:
 			select_option(ceil(filtered_songs.size()/2.0))
 		else:
 			var initial_item = clamp(items_visible_top, 0, get_child_count())

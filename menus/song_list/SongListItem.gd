@@ -26,7 +26,7 @@ func set_song(value: HBSong):
 	song = value
 
 	song_title.song = song
-	var max_stars = 0
+	var max_stars = value.get_max_score()
 	for chart in value.charts:
 		if value.charts[chart].has("stars"):
 			var stars = value.charts[chart].stars

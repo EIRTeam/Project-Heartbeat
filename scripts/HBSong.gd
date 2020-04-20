@@ -205,3 +205,9 @@ func get_visible_title() -> String:
 
 func comes_from_ugc():
 	return _comes_from_ugc
+
+func get_max_score():
+	var stars = 0
+	for chart in charts:
+		stars = max(stars, charts[chart].stars)
+	return stars
