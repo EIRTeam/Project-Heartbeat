@@ -18,6 +18,7 @@ func set_song(value):
 		author_label.text = song.artist
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
 	if circle_logo_path:
+		author_label.hide()
 		background_song_assets_loader.load_song_assets(song, ["circle_logo"])
 func set_difficulty(value):
 	if not value:
