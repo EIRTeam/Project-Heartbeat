@@ -4,7 +4,7 @@
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
 
 [resource]
-size = 30
+size = 27
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
