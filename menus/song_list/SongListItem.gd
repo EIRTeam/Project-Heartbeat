@@ -34,7 +34,10 @@ func set_song(value: HBSong):
 				max_stars = stars
 	var stars_string = "-"
 	if max_stars != 0:
-		stars_string = "%d" % [max_stars]
+		if fmod(max_stars, floor(max_stars)) != 0:
+			stars_string = "%.1f" % [max_stars]
+		else:
+			stars_string = "%d" % [max_stars]
 	stars_label.text = stars_string
 		
 #	if ScoreHistory.has_result(value.id, difficulty):

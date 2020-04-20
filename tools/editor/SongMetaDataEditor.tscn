@@ -9,6 +9,9 @@ margin_right = 1260.0
 margin_bottom = 700.0
 size_flags_horizontal = 3
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
@@ -18,7 +21,6 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -179,6 +181,7 @@ margin_right = 618.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -358,6 +361,7 @@ margin_right = 74.0
 margin_bottom = 24.0
 min_value = 1.0
 max_value = 10.0
+step = 0.0
 value = 1.0
 
 [node name="Normal" type="SpinBox" parent="TabContainer/Charts/HBoxContainer/VBoxContainer2"]
@@ -366,6 +370,7 @@ margin_right = 74.0
 margin_bottom = 52.0
 min_value = 1.0
 max_value = 10.0
+step = 0.0
 value = 1.0
 
 [node name="Hard" type="SpinBox" parent="TabContainer/Charts/HBoxContainer/VBoxContainer2"]
@@ -374,6 +379,7 @@ margin_right = 74.0
 margin_bottom = 80.0
 min_value = 1.0
 max_value = 10.0
+step = 0.0
 value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="TabContainer"]
@@ -492,8 +498,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -502,8 +508,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="PreviewFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -512,8 +518,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -522,8 +528,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -532,8 +538,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -542,8 +548,8 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
-current_dir = "C:/Users/EIREXE/Project-Heartbeat"
-current_path = "C:/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="pressed" from="TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
