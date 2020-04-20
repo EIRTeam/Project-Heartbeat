@@ -95,10 +95,14 @@ func _ready():
 	}
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		if song is HBPPDSong:
-			filter_types["ppd"] = "PPD"
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
 			filter_types["community"] = "Community"
+			break
+	for song_id in SongLoader.songs:
+		var song = SongLoader.songs[song_id]
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
+			filter_types["ppd"] = "PPD"
+			break
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
