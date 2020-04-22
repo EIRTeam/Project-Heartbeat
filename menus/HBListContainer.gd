@@ -42,7 +42,6 @@ func _ready():
 		for _signal in child.get_signal_list():
 			print(_signal.name)
 			if _signal.name == "pressed":
-				print("CONNEC")
 				child.connect("pressed", self, "_on_button_pressed", [child])
 				break
 func resize_children():

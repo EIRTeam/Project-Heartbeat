@@ -73,7 +73,7 @@ func set_sort(sort_by):
 	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
-		song_container.set_songs(SongLoader.songs, true)
+		song_container.set_songs(SongLoader.songs.values())
 		song_container.hard_arrange_all()
 #	populate_difficulties(false)
 func _on_menu_exit(force_hard_transition = false):

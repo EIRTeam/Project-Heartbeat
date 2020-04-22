@@ -140,6 +140,9 @@ func set_songs(songs: Array):
 				break
 		if not found_child:
 			select_option(0)
+		else:
+			if previously_selected_difficulty:
+				select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
 	else:
 		if filtered_songs.size() <= items_visible_top:
 			select_option(ceil(filtered_songs.size()/2.0))
