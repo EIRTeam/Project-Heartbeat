@@ -596,6 +596,7 @@ func resume():
 
 
 func restart():
+	remove_all_notes_from_screen()
 	hold_release()
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty)
