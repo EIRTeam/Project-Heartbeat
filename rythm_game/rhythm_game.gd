@@ -273,7 +273,8 @@ func _unhandled_input(event):
 					if active_hold_chain.slide_note.note_type == slide_type:
 						for piece in active_hold_chain.pieces:
 							var drawer = get_note_drawer(piece)
-							if piece:
+							timing_points.erase(piece)
+							if drawer:
 								drawer.emit_signal("note_removed")
 								drawer.queue_free()
 						active_hold_chain.sfx_player.queue_free()
