@@ -77,6 +77,6 @@ __meta__ = {
 [node name="FadeOutTween" type="Tween" parent="."]
 [connection signal="song_cleared" from="RhythmGame" to="." method="_on_RhythmGame_song_cleared"]
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]
-[connection signal="restarted" from="PauseMenu" to="." method="_on_PauseMenu_restarted"]
 [connection signal="restarted" from="PauseMenu" to="RhythmGame" method="restart"]
+[connection signal="restarted" from="PauseMenu" to="." method="_on_PauseMenu_restarted"]
 [connection signal="resumed" from="PauseMenu" to="." method="_on_resumed"]

@@ -93,6 +93,14 @@ var OPTIONS = {
 			"step": 0.1,
 			"postfix": " x"
 		},
+		"use_timing_arm": {
+			"name": tr("Show clock arms"),
+			"description": tr("Enables using clock arms instead of circles to show you when it's time to press a note.")
+		},
+		"leading_trail_enabled": {
+			"name": tr("Enable leading lines"),
+			"description": tr("Enables lines that show where the notes are going to go.")
+		},
 		"left_arrow_override_enabled": {
 			"name": tr("Use arrow instead of left icon"),
 			"description": tr("Replaces all instances of the left icon of the selected icon pack with a left arrow.")

@@ -15,9 +15,11 @@ func set_connected_notes(val):
 		_on_note_type_changed()
 		$Line2D.hide()
 		$Line2D2.hide()
+		$LineLeading.hide()
 	else:
 		$Line2D.show()
 		$Line2D2.show()
+		$LineLeading.show()
 		
 
 func set_pickable(value):
@@ -31,7 +33,7 @@ func _ready():
 	var trail_bounding_box_offset = game.BASE_SIZE / TRAIL_RESOLUTION
 	var trail_bounding_box_size = game.BASE_SIZE + trail_bounding_box_offset * 4
 	trail_bounding_box = Rect2(-trail_bounding_box_offset * 2, trail_bounding_box_size)
-	
+	$LineLeading.width = 6 * game.get_note_scale()
 
 	
 func update_graphic_positions_and_scale(time: float):
@@ -72,6 +74,18 @@ func set_trail_color():
 #		gradient.add_point(1.0-hue, col)
 	$Line2D.gradient = gradient
 	$Line2D2.gradient = gradient
+	# Sets the base color for the leading trail
+	if UserSettings.user_settings.leading_trail_enabled:
+		var color_lead = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+		color_lead.a = 0.2
+		var gradient_lead = Gradient.new()
+		gradient_lead.set_color(0, color_lead.lightened(0.25))
+		gradient_lead.set_color(1, color_lead.lightened(0.5))
+		
+		$LineLeading.gradient = gradient_lead
+		$LineLeading.show()
+	else:
+		$LineLeading.hide()
 
 func draw_trail(time: float):
 	
@@ -96,16 +110,48 @@ func draw_trail(time: float):
 		points.append(point1)
 		if not trail_bounding_box.has_point(point1_internal):
 			break
-
+	# draws leading trail
+	if UserSettings.user_settings.leading_trail_enabled:
+		var points_leading = PoolVector2Array()
+#		color_lead.a = clamp()
+		var gradient_lead = $LineLeading.gradient
+		var color1 = gradient_lead.get_color(0)
+		var color2 = gradient_lead.get_color(1)
+		var a = clamp((time_out_distance*0.5) / trail_time, 0, 0.5)
+		color1.a = a
+		color2.a = a
+		gradient_lead.set_color(0, color1)
+		gradient_lead.set_color(1, color2)
+		
+		$LineLeading.gradient = gradient_lead
+		for i in range(TRAIL_RESOLUTION, -1, -1):
+			var dist = trail_time - time_out_distance
+			var t_trail_time = (dist) * (i / float(TRAIL_RESOLUTION))
+			var base_t = trail_time - dist - trail_margin
+			var t = (base_t + t_trail_time) / trail_time
+#			var t2 =   / trail_time
+#			t = t2
+			t = clamp(t + trail_margin, 0, 1.0)
+			var point_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+			points_leading.append(game.remap_coords(point_internal))
+			if not trail_bounding_box.has_point(point_internal):
+				break
+		$LineLeading.points = points_leading
 	$Line2D2.width = 6 * game.get_note_scale()
 	$Line2D.width = 6 * game.get_note_scale()
 	$Line2D.points = points
 	$Line2D2.points = points2
+	
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
+	var leading_trail_disabled_types = [
+		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+		HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	]
+	if note_data.note_type in leading_trail_disabled_types:
+		$LineLeading.hide()
 	set_trail_color()
-		
 
 func _on_note_judged(judgement):
 	

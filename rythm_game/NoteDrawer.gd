@@ -1,6 +1,6 @@
 extends Node2D
 class_name HBNoteDrawer
-var note_data: HBNoteData = HBNoteData.new()
+var note_data: HBNoteData = HBNoteData.new() setget set_note_data
 var game
 
 signal target_selected
@@ -15,6 +15,11 @@ var next_note = null
 var note_master = true setget set_note_master # Master notes take care of multi-note stuff...
 
 const Laser = preload("res://rythm_game/Laser.tscn")
+
+func set_note_data(val):
+	note_data = val
+	$NoteTarget.note_data = note_data
+
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()

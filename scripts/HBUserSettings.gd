@@ -27,6 +27,8 @@ var disable_ppd_video = false
 var use_visualizer_with_video = true
 var filter_mode = "all"
 var sort_mode = "title"
+var leading_trail_enabled = true
+var use_timing_arm = false
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
@@ -34,7 +36,8 @@ func _init():
 	"icon_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"note_size", "last_controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
-	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode"]
+	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
+	"use_timing_arm"]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
