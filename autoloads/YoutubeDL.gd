@@ -212,7 +212,7 @@ func _video_downloaded(thread: Thread, result):
 		var progress_thing = PROGRESS_THING.instance()
 		DownloadProgress.add_notification(progress_thing, true)
 		progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
-		progress_thing.text = "Error downloading media for %s." % [tracked_video_downloads[result.video.id].song.get_visible_title()]
+		progress_thing.text = "Error downloading media for %s." % [tracked_video_downloads[result.video_id].song.get_visible_title()]
 		progress_thing.life_timer = 2
 	else:
 		var progress_thing = PROGRESS_THING.instance()
