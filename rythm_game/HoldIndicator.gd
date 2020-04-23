@@ -42,6 +42,7 @@ func _on_resized():
 		texture_rect = texture_rect as TextureRect
 		texture_rect.rect_min_size.x = panel.rect_size.y
 		texture_rect.rect_size.x = panel.rect_size.y
+	$Panel/MarginContainer.rect_size = $Panel.rect_size
 
 func set_current_holds(val):
 	current_holds = val
@@ -72,6 +73,7 @@ func _process(delta):
 func appear():
 	appear_t_inc = 1.0
 	disappear_cooldown_t = DISAPPEAR_COOLDOWN
+	_on_resized()
 func show_max_combo(combo):
 	max_combo_label.text = "Max Hold Bonus! %d" % combo
 	max_appear_t_inc = 1.0
