@@ -13,6 +13,7 @@ var pause_disabled = false
 var pause_menu_disabled = false
 var prevent_showing_results = false
 var prevent_scene_changes = false
+var allow_modifiers = true
 
 var current_game_info: HBGameInfo 
 
@@ -50,8 +51,11 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.set_modifiers(modifiers)
-	$RhythmGame.set_song(song, difficulty)
+	$RhythmGame.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
+		
+#	if allow_modifiers:
+#		for 
 		
 	if song.has_video_enabled():
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):

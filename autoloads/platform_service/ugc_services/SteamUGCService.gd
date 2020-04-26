@@ -80,7 +80,7 @@ func _add_downloaded_item(item_id, fire_signal=false):
 		if file.file_exists(folder + "/%s" % [file_name]):
 			var type = FILE_TO_UGC_TYPE[file_name]
 			if type == "song":
-				Log.log(self, "Loading workshop song from %s" % folder)
+#				Log.log(self, "Loading workshop song from %s" % folder)
 				var song = SongLoader.load_song_meta(folder + "/%s" % [file_name], "ugc_" + str(item_id))
 				song._comes_from_ugc = true
 				song.ugc_id = item_id

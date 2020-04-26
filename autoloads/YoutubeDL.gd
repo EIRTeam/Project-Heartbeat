@@ -88,6 +88,7 @@ func _ready():
 		# Ensure YTDL can be executed on linoox
 		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
 		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
+		OS.execute("chmod", ["+x", get_ffprobe_executable()], true)
 	if dir.file_exists(YOUTUBE_DL_DIR + "/VERSION"):
 		
 		var file = File.new()
@@ -129,6 +130,13 @@ func get_ffmpeg_executable():
 	elif OS.get_name() == "X11":
 		path = YOUTUBE_DL_DIR + "/ffmpeg"
 	return ProjectSettings.globalize_path(path)
+func get_ffprobe_executable():
+	var path
+	if OS.get_name() == "Windows":
+		path = YOUTUBE_DL_DIR + "/ffprobe.exe"
+	elif OS.get_name() == "X11":
+		path = YOUTUBE_DL_DIR + "/ffprobe"
+	return ProjectSettings.globalize_path(path)
 func get_video_path(video_id, global=false):
 	var path = CACHE_DIR + "/" + video_id + ".mp4"
 	if global:
@@ -149,11 +157,13 @@ func _download_video(userdata):
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id}
+	var shared_params = ["--ignore-config", "--ffmpeg-location", get_ffmpeg_executable(), ]
 	if download_audio:
 		var out = []
 		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
 		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
-		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id], true, out)
+		var audio_params = ["-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id]
+		OS.execute(get_ytdl_executable(), shared_params + audio_params, true, out)
 		# We bring the ogg down back to stereo
 		print(temp_audio_path)
 		OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out)
@@ -178,7 +188,8 @@ func _download_video(userdata):
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
-		OS.execute(get_ytdl_executable(), ["--ignore-config", "-f", "bestvideo[ext=mp4][vcodec^=avc1][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id], true, out)
+		var video_params = ["-f", "bestvideo[ext=mp4][vcodec^=avc1][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id]
+		OS.execute(get_ytdl_executable(), shared_params + video_params, true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]
 		if video_exists(userdata.video_id):
@@ -306,10 +317,8 @@ func get_cache_status(url: String, video=true, audio=true):
 	return cache_status
 
 func cache_song(song: HBSong):
-	print("CACHING THE MIKU!")
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
 		yield(self, "youtube_dl_status_updated")
-	print("POST-YIELD")
 	if not song in caching_queue:
 		caching_queue.append(song)
 	if caching_queue[0] == song:

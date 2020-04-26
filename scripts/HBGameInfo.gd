@@ -19,6 +19,14 @@ var difficulty = ""
 func _init():
 	._init()
 	time = OS.get_unix_time()
+	var test_modifier = {
+		"modifier_type": "nightcore"
+	}
+	var options = preload("res://rythm_game/modifiers/nightcore/nightcore_settings.gd").new()
+	options.speed = 125.0
+	test_modifier["modifier_options"] = options
+	modifiers.append(test_modifier)
+	
 	serializable_fields += ["game_session_type", "time", "result", "modifiers",
 	"used_autoplay", "song_id", "difficulty"]
 func is_valid():

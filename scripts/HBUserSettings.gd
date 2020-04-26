@@ -30,6 +30,7 @@ var sort_mode = "title"
 var leading_trail_enabled = true
 var use_timing_arm = false
 func _init():
+
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 

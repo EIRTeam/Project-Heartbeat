@@ -76,8 +76,10 @@ var playing_field_size_length
 # If we've played an sfx in this cycle
 var _sfx_played_this_cycle = false
 
-onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var audio_stream_player_voice = get_node("AudioStreamPlayerVocals")
+var modifiers = []
+
+onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
+onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
 onready var rating_label: Label = get_node("RatingLabel")
 onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
@@ -105,12 +107,10 @@ func set_size(value):
 
 
 func set_modifiers(modifiers: Array):
-	# TODO
-	pass
+	modifiers = modifiers
 
 
 var bpm_changes = {}
-
 
 func get_bpm_at_time(time):
 	var current_time = null
@@ -176,7 +176,7 @@ func set_chart(chart: HBChart):
 	result.max_score = max_score
 
 
-func set_song(song: HBSong, difficulty: String, assets = null):
+func set_song(song: HBSong, difficulty: String, assets = null, modifier_infos = []):
 	current_song = song
 	base_bpm = song.bpm
 	if assets:
@@ -214,6 +214,15 @@ func set_song(song: HBSong, difficulty: String, assets = null):
 
 		chart.deserialize(result)
 	current_difficulty = difficulty
+	
+	for modifier_info in modifier_infos:
+		var modifier_instance = ModifierLoader.get_modifier_by_name(modifier_info.modifier_type).new()
+		modifier_instance._init_plugin()
+		modifier_instance.modifier_settings = modifier_info.modifier_options
+		modifier_instance._pre_game(song, self)
+		chart = modifier_instance._chart_preprocess(chart)
+		modifiers.append(modifier_instance)
+	
 	set_chart(chart)
 	play_song()
 
@@ -626,11 +635,12 @@ func delete_rogue_slide_chain_pieces(pos_override = null):
 	var notes_to_remove = []
 	for i in range(timing_points.size() - 1, -1, -1):
 		var chain_starter = timing_points[i]
-		if chain_starter.time < pos_override * 1000.0:
-			if chain_starter.is_slide_note():
-				if chain_starter in slide_hold_chains:
-					var pieces = slide_hold_chains[chain_starter]
-					notes_to_remove += pieces
+		if chain_starter is HBNoteData:
+			if chain_starter.time < pos_override * 1000.0:
+				if chain_starter.is_slide_note():
+					if chain_starter in slide_hold_chains:
+						var pieces = slide_hold_chains[chain_starter]
+						notes_to_remove += pieces
 	for note in notes_to_remove:
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note))
@@ -656,6 +666,8 @@ func add_slide_chain_score(score_to_add):
 
 
 func _on_AudioStreamPlayer_finished():
+	for modifier in modifiers:
+		modifier._post_game(current_song, self)
 	emit_signal("song_cleared", result)
 
 

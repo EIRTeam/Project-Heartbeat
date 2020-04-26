@@ -423,6 +423,7 @@ IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
+ModifierLoader="*res://autoloads/ModifierLoader.gd"
 
 [debug]
 
