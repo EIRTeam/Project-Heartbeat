@@ -24,6 +24,7 @@ func _on_song_selected(song: HBSong):
 			var item = song_items_map[song][difficulty]
 			remove_child(item)
 			item.queue_free()
+			
 		song_items_map.erase(song)
 	else:
 		var vals = song_items_map.values()
@@ -57,11 +58,13 @@ func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(get_child_count()):
 		var child = get_child(child_i)
 		if child.song.id == song_id:
-			select_option(child_i)
 			if difficulty:
 				var song = SongLoader.songs[song_id]
-				_on_song_selected(song)
+				if not song in song_items_map:
+					_on_song_selected(song)
 				select_option(song_items_map[song][difficulty].get_position_in_parent())
+			else:
+				select_option(child_i)
 			hard_arrange_all()
 			break
 
