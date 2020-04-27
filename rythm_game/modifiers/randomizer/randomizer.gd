@@ -27,6 +27,10 @@ func _preprocess_timing_points(points: Array) -> Array:
 static func get_modifier_name():
 	return "Randomizer"
 
+# Some modifiers might use a different name based on settings
+func get_modifier_list_name():
+	return "Randomizer"
+
 static func get_modifier_description():
 	return "Randomizes the notes."
 static func get_modifier_settings_class() -> Script:

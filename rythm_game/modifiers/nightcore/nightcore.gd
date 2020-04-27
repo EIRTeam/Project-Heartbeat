@@ -15,8 +15,13 @@ func _pre_game(song: HBSong, game: HBRhythmGame):
 func _post_game(song: HBSong, game: HBRhythmGame):
 	game.audio_stream_player.pitch_scale = 1.0
 	game.audio_stream_player_voice.pitch_scale = 1.0
+	
 static func get_modifier_name():
 	return "Nightcore"
+	
+# Some modifiers might use a different name based on settings
+func get_modifier_list_name():
+	return "Nightcore %d %%" % [modifier_settings.speed]
 
 static func get_modifier_description():
 	return "Turns your manly voices into anime girls."

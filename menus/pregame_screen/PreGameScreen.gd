@@ -14,6 +14,9 @@ const BASE_HEIGHT = 720.0
 
 signal song_selected(song_id, difficulty)
 var game_info = HBGameInfo.new()
+
+var modifier_buttons = {}
+
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
@@ -36,6 +39,10 @@ func _modifier_settings_editor_back():
 	
 func _on_modifier_setting_changed(property_name, new_value):
 	game_info.modifiers[current_editing_modifier].set(property_name, new_value)
+	var modifier_class = ModifierLoader.get_modifier_by_id(current_editing_modifier)
+	var modifier = modifier_class.new() as HBModifier
+	modifier.modifier_settings = game_info.modifiers[current_editing_modifier]
+	modifier_buttons[current_editing_modifier].text = modifier.get_modifier_list_name()
 	UserSettings.save_user_settings()
 	
 func _modifier_loader_back():
@@ -85,11 +92,15 @@ func add_modifier_control(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
 	var button = preload("res://menus/pregame_screen/ModifierButton.tscn").instance()
 	modifier_button_container.add_child(button)
-	button.text = modifier_class.get_modifier_name()
+	
+	var modifier = modifier_class.new() as HBModifier
+	modifier.modifier_settings = game_info.modifiers[modifier_id]
+	button.text = modifier.get_modifier_list_name()
 	button.connect("edit_modifier", self, "_on_open_modifier_settings_selected", [modifier_id])
 	button.connect("remove_modifier", self, "_on_remove_modifier_selected", [modifier_id, button])
 	if modifier_class.get_option_settings().empty():
 		button.remove_settings_button()
+	modifier_buttons[modifier_id] = button
 	return button
 func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.show()
@@ -107,10 +118,12 @@ func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	modifier_scroll_container.select_child(modifier_button_container.get_child(new_button_i))
 	
 	modifier_button_container.remove_child(modifier_button)
+	modifier_buttons.erase(modifier_id)
 	modifier_button.queue_free()
 	game_info.modifiers.erase(modifier_id)
 	
 func update_modifiers():
+	modifier_buttons = {}
 	modifier_scroll_container.selected_child = null
 	for button in modifier_button_container.get_children():
 		modifier_button_container.remove_child(button)

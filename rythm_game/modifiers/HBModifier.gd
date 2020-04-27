@@ -24,6 +24,10 @@ func reset_defaults():
 static func get_modifier_name():
 	return "Modifier"
 
+# Some modifiers might use a different name based on settings
+func get_modifier_list_name():
+	return "Modifier"
+
 static func get_modifier_description():
 	return "Default modifier description, please replace me by overriding static get_modifier_description"
 
