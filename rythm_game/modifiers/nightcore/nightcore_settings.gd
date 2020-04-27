@@ -6,4 +6,4 @@ func _init():
 	serializable_fields += ["speed"]
 
 func get_serialized_type():
-	return "GameInfo"
+	return "NightcoreSettings"

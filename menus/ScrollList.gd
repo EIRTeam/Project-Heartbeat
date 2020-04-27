@@ -16,7 +16,7 @@ const BOTTOM_MARGIN = 50
 const TOP_MARGIN = 50
 
 signal out_from_top
-
+signal out_from_bottom
 signal option_hovered(option)
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
@@ -89,6 +89,9 @@ func _gui_input(event):
 			if child_i == 0 and event.is_action_pressed("gui_up") and not event.is_echo():
 				get_tree().set_input_as_handled()
 				emit_signal("out_from_top")
+			if child_i == vbox_container.get_child_count()-1 and event.is_action_pressed("gui_down") and not event.is_echo():
+				get_tree().set_input_as_handled()
+				emit_signal("out_from_bottom")
 			if event.is_action_pressed("gui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
 				get_tree().set_input_as_handled()
 				select_child(vbox_container.get_child(child_i+1))
@@ -107,6 +110,8 @@ func _gui_input(event):
 			if event.is_action_pressed("gui_accept"):
 				get_tree().set_input_as_handled()
 				selected_child.emit_signal("pressed")
+		if not get_tree().is_input_handled():
+			selected_child._gui_input(event)
 				
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )

@@ -34,5 +34,5 @@ func load_modifiers_from_path(path: String):
 	else:
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 
-func get_modifier_by_name(name) -> HBModifier:
+func get_modifier_by_id(name) -> HBModifier:
 	return modifiers[name]

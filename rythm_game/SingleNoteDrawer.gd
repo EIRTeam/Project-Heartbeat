@@ -19,7 +19,6 @@ func set_connected_notes(val):
 	else:
 		$Line2D.show()
 		$Line2D2.show()
-		$LineLeading.show()
 		
 
 func set_pickable(value):
@@ -83,7 +82,14 @@ func set_trail_color():
 		gradient_lead.set_color(1, color_lead.lightened(0.5))
 		
 		$LineLeading.gradient = gradient_lead
-		$LineLeading.show()
+		var leading_trail_disabled_types = [
+			HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+			HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+		]
+		if note_data.note_type in leading_trail_disabled_types:
+			$LineLeading.hide()
+		else:
+			$LineLeading.show()
 	else:
 		$LineLeading.hide()
 
@@ -145,12 +151,6 @@ func draw_trail(time: float):
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
-	var leading_trail_disabled_types = [
-		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-		HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
-	]
-	if note_data.note_type in leading_trail_disabled_types:
-		$LineLeading.hide()
 	set_trail_color()
 
 func _on_note_judged(judgement):

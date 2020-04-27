@@ -10,7 +10,7 @@ const LERP_SPEED = 3.0
 
 export(StyleBox) var normal_style = preload("res://styles/PanelStyleTransparentIcon.tres")
 export(StyleBox) var hover_style = preload("res://styles/PanelStyleTransparentIconHover.tres")
-
+export (bool) var _test
 func _process(delta):
 	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
 

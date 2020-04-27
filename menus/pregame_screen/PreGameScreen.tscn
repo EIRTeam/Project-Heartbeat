@@ -1,13 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menus/SongTitle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/pregame_screen/PreGameScreen.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=5]
+[ext_resource path="res://menus/ModifierSelector.tscn" type="PackedScene" id=6]
+[ext_resource path="res://menus/options_menu/OptionSection.tscn" type="PackedScene" id=7]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=8]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=9]
-
 
 [sub_resource type="StyleBoxEmpty" id=1]
 content_margin_left = 10.0
@@ -73,6 +74,7 @@ size_flags_vertical = 3
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 1220.0
 margin_bottom = 515.0
+rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.87
@@ -89,20 +91,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
-visible = false
+[node name="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 10.0
-margin_top = 209.0
+margin_top = 10.0
 margin_right = 1210.0
-margin_bottom = 306.0
-custom_fonts/font = ExtResource( 2 )
-text = "This is where you would be able to set your modifiers, if I HAD ANY!"
-align = 1
-valign = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 505.0
+maintain_selected_child = true
+
+[node name="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" index="1"]
+margin_right = 1200.0
+margin_bottom = 495.0
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 519.0
@@ -167,5 +167,21 @@ __meta__ = {
 }
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
+
+[node name="ModifierLoader" parent="." instance=ExtResource( 6 )]
+visible = false
+
+[node name="ModifierSettingsOptionSection" parent="." instance=ExtResource( 7 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -506.5
+margin_top = -285.0
+margin_right = 506.5
+margin_bottom = 285.0
+[connection signal="out_from_bottom" from="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" to="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
+
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]

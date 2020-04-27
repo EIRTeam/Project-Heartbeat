@@ -105,11 +105,6 @@ func set_size(value):
 	$UnderNotesUI/Control.rect_size = value
 	$AboveNotesUI/Control.rect_size = value
 
-
-func set_modifiers(modifiers: Array):
-	modifiers = modifiers
-
-
 var bpm_changes = {}
 
 func get_bpm_at_time(time):
@@ -168,7 +163,10 @@ func set_chart(chart: HBChart):
 	result = HBResult.new()
 	current_combo = 0
 	rating_label.hide()
-	_set_timing_points(chart.get_timing_points())
+	var tp = chart.get_timing_points()
+	for modifier in modifiers:
+		modifier._preprocess_timing_points(tp)
+	_set_timing_points(tp)
 	# Find slide hold chains
 	active_slide_hold_chains = []
 	var max_score = chart.get_max_score()
@@ -176,7 +174,8 @@ func set_chart(chart: HBChart):
 	result.max_score = max_score
 
 
-func set_song(song: HBSong, difficulty: String, assets = null, modifier_infos = []):
+func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
+	self.modifiers = modifiers
 	current_song = song
 	base_bpm = song.bpm
 	if assets:
@@ -215,13 +214,10 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifier_infos = 
 		chart.deserialize(result)
 	current_difficulty = difficulty
 	
-	for modifier_info in modifier_infos:
-		var modifier_instance = ModifierLoader.get_modifier_by_name(modifier_info.modifier_type).new()
+	for modifier in modifiers:
+		var modifier_instance = modifier
 		modifier_instance._init_plugin()
-		modifier_instance.modifier_settings = modifier_info.modifier_options
 		modifier_instance._pre_game(song, self)
-		chart = modifier_instance._chart_preprocess(chart)
-		modifiers.append(modifier_instance)
 	
 	set_chart(chart)
 	play_song()
@@ -381,6 +377,7 @@ func create_note_drawer(timing_point: HBNoteData):
 
 func _process(_delta):
 	_sfx_played_this_cycle = false
+
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
@@ -609,7 +606,7 @@ func restart():
 	remove_all_notes_from_screen()
 	hold_release()
 	get_tree().paused = false
-	set_song(SongLoader.songs[current_song.id], current_difficulty)
+	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
 	audio_stream_player_voice.volume_db = 0
 	set_current_combo(0)
 	notes_on_screen = []

@@ -38,8 +38,12 @@ func start_session(game_info: HBGameInfo):
 		return
 	
 	current_game_info = game_info
-	
-	set_song(song, game_info.difficulty, game_info.modifiers)
+	var modifiers = []
+	for modifier_id in game_info.modifiers:
+		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
+		modifier.modifier_settings = game_info.modifiers[modifier_id]
+		modifiers.append(modifier)
+	set_song(song, game_info.difficulty, modifiers)
 
 func disable_restart():
 	$PauseMenu.disable_restart()
@@ -50,11 +54,13 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var image_texture = ImageTexture.new()
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
-	$RhythmGame.set_modifiers(modifiers)
+#	$RhythmGame.set_modifiers(modifiers)
+#	$RhythmGame.set_song(song, difficulty, null, modifiers)
+	
 	$RhythmGame.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
 		
-#	if allow_modifiers:
+#	if allow_modifiers:3
 #		for 
 		
 	if song.has_video_enabled():
@@ -137,6 +143,11 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
 	fade_out_tween.connect("tween_all_completed", self, "emit_signal", ["fade_out_finished", current_game_info])
 	fade_out_tween.start()
+
+var _last_time = 0.0
+
+func _process(delta):
+	pass
 
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")

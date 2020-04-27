@@ -2,22 +2,23 @@ class_name HBSerializable
 
 var serializable_fields := []
 func serialize():
-	var defaults = get_serializable_types()[get_serialized_type()].new()
-	var serialized_data = {}
-	for field in serializable_fields:
-		var _field = get(field)
-		# Ensures that we don't write defaults to disk, in case we change them
-		if _field == defaults.get(field):
-			continue
-		if _field is Object and _field.has_method("serialize"):
-			serialized_data[field] = _field.serialize()
-		elif _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
-			serialized_data[field] = get(field)
-		else:
-			serialized_data[field] = var2str(get(field))
-	return HBUtils.merge_dict(serialized_data, {
-		"type": get_serialized_type()
-	})
+	if get_serialized_type():
+		var defaults = get_serializable_types()[get_serialized_type()].new()
+		var serialized_data = {}
+		for field in serializable_fields:
+			var _field = get(field)
+			# Ensures that we don't write defaults to disk, in case we change them
+			if _field == defaults.get(field):
+				continue
+			if _field is Object and _field.has_method("serialize"):
+				serialized_data[field] = _field.serialize()
+			elif _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
+				serialized_data[field] = get(field)
+			else:
+				serialized_data[field] = var2str(get(field))
+		return HBUtils.merge_dict(serialized_data, {
+			"type": get_serialized_type()
+		})
 	
 static func deserialize(data: Dictionary):
 	if not data.type in get_serializable_types():
@@ -62,7 +63,8 @@ static func get_serializable_types():
 		"BpmChange": load("res://scripts/HBBPMChange.gd"),
 		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
 		"GameInfo": load("res://scripts/HBGameInfo.gd"),
-		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd")
+		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
+		"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd")
 	}
 func get_serialized_type():
 	pass

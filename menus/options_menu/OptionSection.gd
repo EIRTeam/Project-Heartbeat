@@ -1,6 +1,6 @@
 extends Control
 
-var section_data = {}
+onready var section_data = {} setget _set_section_data
 
 const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
@@ -11,10 +11,17 @@ signal changed(property_name, new_value)
 
 onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer/VBoxContainer")
 onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer")
+var settings_source
 var postfix = ""
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	focus_mode = Control.FOCUS_ALL
+
+func _set_section_data(val):
+	section_data = val
+	for child in options_container.get_children():
+		options_container.remove_child(child)
+		child.queue_free()
 	for option_name in section_data:
 		var option = section_data[option_name]
 		var option_scene
@@ -45,7 +52,7 @@ func _ready():
 						option_scene.text_overrides = option.text_overrides
 		if option_scene:
 			options_container.add_child(option_scene)
-			option_scene.value = UserSettings.user_settings.get(option_name)
+			option_scene.value = settings_source.get(option_name)
 			option_scene.text = section_data[option_name].name
 			option_scene.connect("changed", self, "_on_value_changed", [option_name])
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
@@ -53,6 +60,7 @@ func _ready():
 			# We force a hover on the first section data to make sure the description
 			# text is completely filled
 			_on_option_hovered(section_data.keys()[0])
+
 func _unhandled_input(event):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):

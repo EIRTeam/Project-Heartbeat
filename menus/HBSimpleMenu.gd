@@ -13,6 +13,7 @@ export(ORIENTATION) var orientation = ORIENTATION.HORIZONTAL
 signal hover(hovered_button)
 signal back
 signal bottom
+signal out_from_top
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
@@ -62,6 +63,7 @@ func _gui_input(event):
 				if focus_neighbour_left:
 					var neighbor_left = get_node(focus_neighbour_left) as Control
 					neighbor_left.grab_focus()
+				emit_signal("out_from_top")
 			else:
 				get_tree().set_input_as_handled()
 				var i = selected_button_i-1
@@ -92,6 +94,9 @@ func _gui_input(event):
 		if selected_button:
 			get_tree().set_input_as_handled()
 			selected_button.emit_signal("pressed")
+#	elif event.is_action_pressed("gui_cancel"):
+#		get_tree().set_input_as_handled()
+#		emit_signal("back")
 func _on_focus_exited():
 	if selected_button:
 		if stop_hover_on_focus_exit:

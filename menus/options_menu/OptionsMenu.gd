@@ -149,9 +149,10 @@ func _ready():
 		else:
 			var section = OptionSection.instance()
 			section.connect("back", self, "_on_back")
-			section.section_data = OPTIONS[section_name]
 			section.connect("changed", self, "_on_value_changed")
+			section.settings_source = UserSettings.user_settings
 			sections.add_child(section)
+			section.section_data = OPTIONS[section_name]
 			
 			section_name_to_section_control[section_name] = section
 		
