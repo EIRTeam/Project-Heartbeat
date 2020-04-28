@@ -3,6 +3,7 @@ class_name HBModifier
 # Uses same format as OptionsMenu
 var options = {}
 var modifier_settings: HBSerializable
+var disables_video = false
 
 func _pre_game(song: HBSong, game: HBRhythmGame):
 	pass

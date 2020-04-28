@@ -3,6 +3,7 @@ extends HBModifier
 const NightcoreSettings = preload("res://rythm_game/modifiers/nightcore/nightcore_settings.gd")
 
 func _init():
+	disables_video = true
 	modifier_settings = get_modifier_settings_class().new()
 
 func _init_plugin():

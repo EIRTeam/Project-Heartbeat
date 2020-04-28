@@ -63,7 +63,13 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 #	if allow_modifiers:3
 #		for 
 		
-	if song.has_video_enabled():
+	var modifier_disables_video = false
+	for modifier in modifiers:
+		if modifier.disables_video:
+			modifier_disables_video = true
+			Log.log(self, "One of the modifiers disables video playback")
+			break
+	if song.has_video_enabled() and not modifier_disables_video:
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
 			var stream = song.get_video_stream()
 			if stream:
