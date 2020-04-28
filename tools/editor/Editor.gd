@@ -36,6 +36,7 @@ onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhyth
 onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
 onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton")
+onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -107,7 +108,10 @@ func _ready():
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.get_close_button().connect("pressed", self, "_on_ExitDialog_confirmed")
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
+	
 	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
+	
+	editor_help_button.connect("pressed", OS, "shell_open", ["https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718"])
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
