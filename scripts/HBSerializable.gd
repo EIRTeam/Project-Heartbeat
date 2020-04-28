@@ -1,3 +1,4 @@
+# Base for any serializable object
 class_name HBSerializable
 
 var serializable_fields := []

@@ -1,4 +1,4 @@
-	
+# Song metadata and info file
 extends HBSerializable
 
 class_name HBSong

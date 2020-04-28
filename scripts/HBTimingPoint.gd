@@ -1,4 +1,4 @@
-
+# Base class for any game entity that has a "time"
 extends HBSerializable
 var time: int
 

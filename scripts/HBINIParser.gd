@@ -1,3 +1,4 @@
+# PPD-style ini parser
 class_name HBINIParser
 
 static func parse(contents: String) -> Dictionary:

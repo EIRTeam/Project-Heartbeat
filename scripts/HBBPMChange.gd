@@ -1,3 +1,4 @@
+# Timing point that denotes a change in BPM (bpm is used for calculating automatic time_out)
 extends HBTimingPoint
 
 class_name HBBPMChange

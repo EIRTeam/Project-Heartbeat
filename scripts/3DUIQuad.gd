@@ -1,3 +1,4 @@
+# Hack to allow the user to interact with the 3D UI
 extends Spatial
 
 # Member variables

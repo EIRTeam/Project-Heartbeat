@@ -1,3 +1,4 @@
+# Utlity PPD loader class
 class_name PPDLoader
 
 const SIGNATURE = "PPD"

@@ -1,3 +1,4 @@
+# Basic user settings file
 extends HBSerializable
 
 class_name HBUserSettings

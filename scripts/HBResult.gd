@@ -1,3 +1,4 @@
+# A score result for a played song (usually comes inside a HBGameInfo)
 extends HBSerializable
 
 class_name HBResult

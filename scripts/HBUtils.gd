@@ -1,3 +1,4 @@
+# Utility methods
 class_name HBUtils
 
 enum TimeFormat {

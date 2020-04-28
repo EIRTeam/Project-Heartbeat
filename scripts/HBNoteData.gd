@@ -1,3 +1,4 @@
+# Base timing point for all notes
 extends HBTimingPoint
 
 class_name HBNoteData

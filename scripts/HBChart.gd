@@ -1,3 +1,4 @@
+# Chart class, contains timing points for an individual difficulty
 class_name HBChart
 
 var layers = []

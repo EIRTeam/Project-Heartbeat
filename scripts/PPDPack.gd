@@ -1,3 +1,4 @@
+# PPD pack file reader
 extends Node
 
 class_name PPDPack

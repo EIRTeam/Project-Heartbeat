@@ -1,3 +1,4 @@
+# Class used for editor settings per song, included int the HBChart file.
 extends HBSerializable
 
 class_name HBPerSongEditorSettings

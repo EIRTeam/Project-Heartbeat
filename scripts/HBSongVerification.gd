@@ -1,3 +1,4 @@
+# Class that verifies if a song is playable
 extends Node
 
 class_name HBSongVerification
