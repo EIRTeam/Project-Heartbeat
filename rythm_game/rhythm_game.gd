@@ -599,6 +599,7 @@ func pause_game():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	get_tree().paused = true
+	print("PAUSE TIME", time, " ", audio_stream_player.get_playback_position())
 
 
 func resume():
@@ -624,7 +625,7 @@ func play_from_pos(position: float):
 	audio_stream_player_voice.play()
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
-	time_begin = OS.get_ticks_usec() - int(position * 1000000.0)
+	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 
 # used by the editor and practice mode to delete slide chain pieces that have no
