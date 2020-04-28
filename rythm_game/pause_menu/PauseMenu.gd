@@ -8,6 +8,7 @@ signal quit
 
 onready var song_settings_editor = get_node("PerSongSettingsEditor")
 onready var list_container = get_node("ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer")
+onready var song_preview = get_node("ViewportContainer/Viewport/Spatial/ViewportRight/Panel")
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
@@ -29,6 +30,7 @@ func _on_viewport_size_changed():
 func show_pause(song_id):
 	current_song = SongLoader.songs[song_id]
 	show()
+	song_preview.select_song(current_song)
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.show()
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.grab_focus()
 

@@ -16,7 +16,7 @@ void fragment() {
 shader = SubResource( 1 )
 shader_param/amount = 3.0
 
-[sub_resource type="ViewportTexture" id=3]
+[sub_resource type="ViewportTexture" id=7]
 flags = 5
 viewport_path = NodePath("ViewportContainer/Viewport")
 
@@ -48,7 +48,7 @@ render_target_update_mode = 3
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 3 )
+texture = SubResource( 7 )
 expand = true
 flip_v = true
 __meta__ = {
