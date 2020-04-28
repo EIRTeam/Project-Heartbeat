@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://menus/options_menu/OptionSection.tscn" type="PackedScene" id=7]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=8]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=9]
+[ext_resource path="res://menus/PerSongSettingsEditor.tscn" type="PackedScene" id=10]
+[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 content_margin_left = 10.0
@@ -79,14 +81,22 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.87
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer"]
+margin_right = 1220.0
+margin_bottom = 515.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer"]
 margin_right = 1220.0
 margin_bottom = 408.0
 size_flags_vertical = 3
@@ -95,7 +105,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/VBoxContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -106,7 +116,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/VBoxContainer/Panel/MarginContainer" instance=ExtResource( 2 )]
+[node name="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 10.0
@@ -115,13 +125,40 @@ margin_right = 1210.0
 margin_bottom = 398.0
 maintain_selected_child = true
 
-[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer"]
 margin_top = 412.0
 margin_right = 1220.0
 margin_bottom = 515.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 10
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
+margin_left = 351.0
+margin_right = 391.0
+margin_bottom = 103.0
+texture = ExtResource( 11 )
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
+margin_left = 401.0
+margin_top = 41.0
+margin_right = 868.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 5 )
+text = "Modifiers are not allowed in the leaderboard"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -194,6 +231,7 @@ hover_style = SubResource( 2 )
 visible = false
 
 [node name="ModifierSettingsOptionSection" parent="." instance=ExtResource( 7 )]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -202,6 +240,11 @@ margin_left = -506.5
 margin_top = -285.0
 margin_right = 506.5
 margin_bottom = 285.0
-[connection signal="out_from_bottom" from="MarginContainer/VBoxContainer/HBoxContainer/Panel/VBoxContainer/Panel/MarginContainer/ScrollContainer" to="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
+
+[node name="PerSongSettingsEditor" parent="." instance=ExtResource( 10 )]
+focus_mode = 2
+[connection signal="out_from_bottom" from="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer" to="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
+
+[editable path="PerSongSettingsEditor"]

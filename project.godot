@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBPerSongEditorSettings.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBPerSongSettings",
+"language": "GDScript",
+"path": "res://scripts/HBPerSongSettings.gd"
+}, {
 "base": "Reference",
 "class": "HBPlatformAchievment",
 "language": "GDScript",
@@ -359,6 +364,7 @@ _global_script_class_icons={
 "HBOptionControlsSectionAction": "",
 "HBPPDSong": "",
 "HBPerSongEditorSettings": "",
+"HBPerSongSettings": "",
 "HBPlatformAchievment": "",
 "HBResourceQueue": "",
 "HBResult": "",

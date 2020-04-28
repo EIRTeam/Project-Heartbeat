@@ -2,11 +2,13 @@ extends HBMenu
 
 onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
 onready var button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer")
-onready var modifier_button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer")
-onready var modifier_scroll_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer")
+onready var modifier_button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer")
+onready var modifier_scroll_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
 onready var button_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2")
 onready var modifier_selector = get_node("ModifierLoader")
 onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
+onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
+onready var leaderboard_legal_text = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/Label")
 var current_song: HBSong
 var current_difficulty: String
 var current_editing_modifier: String
@@ -25,6 +27,7 @@ func _ready():
 	modifier_selector.connect("modifier_selected", self, "_on_user_added_modifier")
 	modifier_settings_editor.connect("back", self, "_modifier_settings_editor_back")
 	modifier_settings_editor.connect("changed", self, "_on_modifier_setting_changed")
+	per_song_settings_editor.connect("back", self, "_modifier_loader_back")
 func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
 		game_info.add_new_modifier(modifier_id)
@@ -111,6 +114,11 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.show()
 	modifier_settings_editor.grab_focus()
 	
+func _on_modify_song_settings_pressed():
+	per_song_settings_editor.current_song = current_song
+	per_song_settings_editor.show_editor()
+	
+
 func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	var current_button_i = modifier_button.get_position_in_parent()
 	var new_button_i = current_button_i-1
@@ -121,24 +129,41 @@ func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	modifier_buttons.erase(modifier_id)
 	modifier_button.queue_free()
 	game_info.modifiers.erase(modifier_id)
+	UserSettings.save_user_settings()
 	
+func draw_leaderboard_legality():
+	if game_info.is_leaderboard_legal():
+		leaderboard_legal_text.text = "The current song will count towards leaderboard scores"
+	else:
+		leaderboard_legal_text.text = "Modifiers are not allowed in the leaderboards, thus this score won't count"
+	
+func add_buttons():
+	var modify_song_settings_option = HBHovereableButton.new()
+	modify_song_settings_option.text = "Song settings"
+	modify_song_settings_option.expand_icon = true
+	modify_song_settings_option.icon = preload("res://graphics/icons/settings.svg")
+	modify_song_settings_option.connect("pressed", self, "_on_modify_song_settings_pressed")
+	modifier_button_container.add_child(modify_song_settings_option)
+	var add_modifier_button = HBHovereableButton.new()
+	add_modifier_button.text = "Add modifier"
+	add_modifier_button.expand_icon = true
+	add_modifier_button.icon = preload("res://graphics/icons/icon_add.svg")
+	add_modifier_button.connect("pressed", self, "_on_add_modifier_pressed")
+	modifier_button_container.add_child(add_modifier_button)
 func update_modifiers():
 	modifier_buttons = {}
 	modifier_scroll_container.selected_child = null
 	for button in modifier_button_container.get_children():
 		modifier_button_container.remove_child(button)
 		button.queue_free()
-	var add_modifier_button = HBHovereableButton.new()
-	add_modifier_button.text = "Add modifier"
-	add_modifier_button.connect("pressed", self, "_on_add_modifier_pressed")
-	modifier_button_container.add_child(add_modifier_button)
+	add_buttons()
+
 	var last_modifier
 	for modifier_id in game_info.modifiers:
 		last_modifier = add_modifier_control(modifier_id)
 
 func _on_add_modifier_pressed():
 	modifier_selector.popup()
-
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()

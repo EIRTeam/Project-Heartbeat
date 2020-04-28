@@ -378,6 +378,10 @@ func create_note_drawer(timing_point: HBNoteData):
 func _process(_delta):
 	_sfx_played_this_cycle = false
 
+	var latency_compensation = UserSettings.user_settings.lag_compensation
+	if current_song.id in UserSettings.user_settings.per_song_settings:
+		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
+
 	if audio_stream_player.playing:
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
@@ -386,7 +390,7 @@ func _process(_delta):
 		time -= time_delay
 
 		# User entered compensation
-		time -= UserSettings.user_settings.lag_compensation / 1000.0
+		time -= latency_compensation / 1000.0
 
 		# May be below 0 (did not being yet).
 		time = max(0, time)

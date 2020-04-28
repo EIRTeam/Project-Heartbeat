@@ -31,6 +31,7 @@ var sort_mode = "title"
 var leading_trail_enabled = true
 var use_timing_arm = false
 var last_game_info: HBGameInfo = HBGameInfo.new()
+var per_song_settings = {}
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -40,7 +41,7 @@ func _init():
 	"note_size", "last_controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
-	"use_timing_arm", "last_game_info"]
+	"use_timing_arm", "last_game_info", "per_song_settings"]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
@@ -52,6 +53,11 @@ static func deserialize(data: Dictionary):
 				result.input_map[action_name].append(str2var(action))
 	if data.has("last_game_info"):
 		result.last_game_info = HBGameInfo.deserialize(data.last_game_info)
+	var pss = {}
+	if data.has("per_song_settings"):
+		for song in data.per_song_settings:
+			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
+	result.per_song_settings = pss
 	return result
 	
 func serialize():
@@ -62,6 +68,12 @@ func serialize():
 		for action in base_data.input_map[action_name]:
 			new_input_map[action_name].append(var2str(action))
 	base_data.input_map = new_input_map
+	
+	var pss = {}
+	
+	for song in per_song_settings:
+		pss[song] = per_song_settings[song].serialize()
+	base_data.per_song_settings = pss
 	return base_data
 func get_serialized_type():
 	return "UserSettings"

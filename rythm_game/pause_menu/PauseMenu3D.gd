@@ -3,9 +3,10 @@ extends Spatial
 signal resumed
 signal quit
 signal restart
-
+signal song_settings
 onready var resume_button = get_node("ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/ResumeButton")
 onready var restart_button = get_node("ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton")
+onready var song_settings_button = get_node("ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/SongSettingsButton")
 onready var quit_button = get_node("ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/QuitButton")
 onready var restart_popup = get_node("RestartPopup")
 onready var quit_popup = get_node("QuitPopup")
@@ -16,4 +17,4 @@ func _ready():
 	quit_button.connect("pressed", quit_popup, "popup_centered_ratio", [0.35])
 	quit_popup.connect("cancel", pause_menu_list, "grab_focus")
 	restart_popup.connect("cancel", pause_menu_list, "grab_focus")
-
+	song_settings_button.connect("pressed", self, "emit_signal", ["song_settings"])

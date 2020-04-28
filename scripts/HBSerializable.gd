@@ -22,35 +22,37 @@ func serialize():
 		})
 	
 static func deserialize(data: Dictionary):
-	if not data.type in get_serializable_types():
-		print("Error deserializing unknown type " + data.type)
-		return null
-	var object = get_serializable_types()[data.type].new()
-	for field in object.serializable_fields:
-		var _field = object.get(field)
-		if data.has(field):
-			if _field is Object and _field.has_method("serialize"):
-				if data[field].has("type"):
-					object.set(field, deserialize(data[field]))
-			elif _field is Dictionary:
-				if _field.size() > 0:
-					# Support for enums
-					var dict := data[field] as Dictionary
-					if _field.keys()[0] is int:
-						# we found an enum
-						var result_field = {}
-						for key in dict:
-							result_field[int(key)] = dict[key]
-						object.set(field, result_field)
-				else:
+	
+	if "type" in data:
+		if not data.type in get_serializable_types():
+			print("Error deserializing unknown type " + data.type)
+			return null
+		var object = get_serializable_types()[data.type].new()
+		for field in object.serializable_fields:
+			var _field = object.get(field)
+			if data.has(field):
+				if _field is Object and _field.has_method("serialize"):
+					if data[field].has("type"):
+						object.set(field, deserialize(data[field]))
+				elif _field is Dictionary:
+					if _field.size() > 0:
+						# Support for enums
+						var dict := data[field] as Dictionary
+						if _field.keys()[0] is int:
+							# we found an enum
+							var result_field = {}
+							for key in dict:
+								result_field[int(key)] = dict[key]
+							object.set(field, result_field)
+					else:
+						object.set(field, data[field])
+				elif _field is Array or _field is float or _field is String or _field is bool:
 					object.set(field, data[field])
-			elif _field is Array or _field is float or _field is String or _field is bool:
-				object.set(field, data[field])
-			elif _field is int:
-				object.set(field, int(data[field]))
-			else:
-				object.set(field, str2var(data[field]))
-	return object
+				elif _field is int:
+					object.set(field, int(data[field]))
+				else:
+					object.set(field, str2var(data[field]))
+		return object
 	
 static func get_serializable_types():
 	return {
@@ -65,7 +67,8 @@ static func get_serializable_types():
 		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
 		"GameInfo": load("res://scripts/HBGameInfo.gd"),
 		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
-		"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd")
+		"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
+		"PerSongSettings": load("res://scripts/HBPerSongSettings.gd")
 	}
 func get_serialized_type():
 	pass

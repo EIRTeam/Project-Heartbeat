@@ -109,7 +109,7 @@ func _unhandled_input(event):
 					_on_paused()
 					video_player.paused = true
 					$RhythmGame.pause_game()
-				$PauseMenu.show_pause()
+				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
 				_on_resumed()

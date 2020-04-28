@@ -43,7 +43,8 @@ func add_new_modifier(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
 	if modifier_class:
 		modifiers[modifier_id] = modifier_class.get_modifier_settings_class().new()
-
+func is_leaderboard_legal():
+	return modifiers.size() == 0
 	
 func get_serialized_type():
 	return "GameInfo"
