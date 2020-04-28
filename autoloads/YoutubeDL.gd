@@ -157,7 +157,8 @@ func _download_video(userdata):
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id}
-	var shared_params = ["--ignore-config", "--ffmpeg-location", get_ffmpeg_executable(), ]
+	# we have to ignroe the cache dir because youtube-dl is stupid
+	var shared_params = ["--ignore-config", "--no-cache-dir", "--ffmpeg-location", get_ffmpeg_executable(), ]
 	if download_audio:
 		var out = []
 		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
