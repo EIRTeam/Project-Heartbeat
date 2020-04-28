@@ -35,6 +35,7 @@ func _on_user_added_modifier(modifier_id: String):
 		modifier_scroll_container.select_child(button)
 	modifier_scroll_container.grab_focus()
 	UserSettings.save_user_settings()
+	draw_leaderboard_legality()
 	
 func _modifier_settings_editor_back():
 	modifier_settings_editor.hide()
@@ -130,6 +131,7 @@ func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	modifier_button.queue_free()
 	game_info.modifiers.erase(modifier_id)
 	UserSettings.save_user_settings()
+	draw_leaderboard_legality()
 	
 func draw_leaderboard_legality():
 	if game_info.is_leaderboard_legal():
@@ -161,7 +163,7 @@ func update_modifiers():
 	var last_modifier
 	for modifier_id in game_info.modifiers:
 		last_modifier = add_modifier_control(modifier_id)
-
+	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
 	modifier_selector.popup()
 func _unhandled_input(event):
