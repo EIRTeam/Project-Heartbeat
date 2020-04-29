@@ -4,8 +4,6 @@ var action_tracking = {}
 
 const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
 
-const ANALOG_DEADZONE = 0.0
-
 func is_action_pressed(action: String):
 	var action_inputs = action_tracking[action]
 	for device in action_inputs:
@@ -38,7 +36,7 @@ func _input(event):
 							button = event.button_index
 						elif event is InputEventJoypadMotion:
 							button = "AXIS" + str(event.axis)
-							event_pressed = event.get_action_strength(found_action) >= (1.0 - ANALOG_DEADZONE)
+							event_pressed = event.get_action_strength(found_action) >= (1.0 - UserSettings.user_settings.analog_translation_deadzone)
 							
 						if not action_tracking.has(found_action):
 							action_tracking[found_action] = {}
@@ -46,6 +44,9 @@ func _input(event):
 							action_tracking[found_action][event.device] = {}
 						if not action_tracking[found_action][event.device].has(button):
 							action_tracking[found_action][event.device][button] = false
+						else:
+							if action_tracking[found_action][event.device][button] == event_pressed:
+								return
 			
 						previous_state = is_action_pressed(found_action)
 						action_tracking[found_action][event.device][button] = event.is_pressed()
