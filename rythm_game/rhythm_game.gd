@@ -453,10 +453,11 @@ func _process(_delta):
 				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
 				chain.accumulated_score += SLIDE_HOLD_PIECE_SCORE
 				var piece_drawer = get_note_drawer(piece) as HBNoteDrawer
-				piece_drawer.show_note_hit_effect()
-				piece_drawer.emit_signal("note_removed")
-				piece_drawer.queue_free()
-				slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
+				if piece_drawer:
+					piece_drawer.show_note_hit_effect()
+					piece_drawer.emit_signal("note_removed")
+					piece_drawer.queue_free()
+					slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
 
 				chain.pieces.remove(i)
 		var show_max_slide_text = false
