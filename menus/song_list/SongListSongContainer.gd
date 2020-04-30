@@ -148,7 +148,7 @@ func set_songs(songs: Array):
 				select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
 	else:
 		if filtered_songs.size() <= items_visible_top:
-			select_option(ceil(filtered_songs.size()/2.0))
+			select_option(ceil((filtered_songs.size()-1)/2.0))
 		else:
 			var initial_item = clamp(items_visible_top, 0, get_child_count())
 			select_option(initial_item)
