@@ -164,9 +164,12 @@ func set_game_info(val: HBGameInfo):
 	total_notes_label.text = str(result.total_notes)
 
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
-
-	# add result to history
-	ScoreHistory.add_result_to_history(game_info)
+	if game_info.is_leaderboard_legal():
+		# add result to history
+		ScoreHistory.add_result_to_history(game_info)
+	else:
+		_on_score_entered(game_info.song_id, game_info.difficulty)
+		
 	
 	
 
