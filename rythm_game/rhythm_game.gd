@@ -85,14 +85,14 @@ onready var notes_node = get_node("Notes")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
-onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
+onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DifficultyLabel")
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
 onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
 onready var latency_display = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
-
+onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
 
 func cache_playing_field_size():
 	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
@@ -214,10 +214,14 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		chart.deserialize(result)
 	current_difficulty = difficulty
 	
+	var modifiers_string = PoolStringArray()
+
 	for modifier in modifiers:
 		var modifier_instance = modifier
 		modifier_instance._init_plugin()
 		modifier_instance._pre_game(song, self)
+		modifiers_string.append(modifier_instance.get_modifier_list_name())
+	modifiers_label.text = " - " + modifiers_string.join(" + ")
 	
 	set_chart(chart)
 	play_song()
