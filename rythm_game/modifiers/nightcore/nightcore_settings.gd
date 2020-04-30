@@ -1,6 +1,6 @@
 extends HBSerializable
 
-var speed = 100
+var speed = 110
 
 func _init():
 	serializable_fields += ["speed"]
