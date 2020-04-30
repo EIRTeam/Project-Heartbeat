@@ -291,6 +291,8 @@ func _unhandled_input(event):
 			for note_type in held_notes:
 				if event.action in NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 					hold_release()
+					# When you release a hold it disappears instantly
+					hold_indicator.disappear()
 					break
 
 
@@ -437,11 +439,10 @@ func _process(_delta):
 
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
-			hold_indicator.show_max_combo(current_hold_score + MAX_HOLD)
+			hold_indicator.show_max_combo(MAX_HOLD)
 			hold_indicator.current_score = current_hold_score + MAX_HOLD
 			add_hold_score(MAX_HOLD)
 			hold_release()
-
 		else:
 			hold_indicator.current_score = current_hold_score + accumulated_hold_score
 	# handles held slide hold chains
@@ -501,12 +502,14 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		# Rating graphic
 		if note.note_type in held_notes:
 			hold_release()
+			hold_indicator.disappear()
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
 			if UserSettings.user_settings.enable_voice_fade:
 				audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
 			hold_release()
+			hold_indicator.disappear()
 		else:
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = 0
