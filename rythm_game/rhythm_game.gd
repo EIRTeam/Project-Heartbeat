@@ -499,14 +499,15 @@ func _process(_delta):
 			else:
 				new_closest_multi_notes = [note]
 			last_note_time = note.time
-	if new_closest_multi_notes.size() > 1:
-		if not new_closest_multi_notes[0] in closest_multi_notes:
-			closest_multi_notes = new_closest_multi_notes
-			hold_hint.show_notes(new_closest_multi_notes)
-			hold_hint.show()
-	
-	if new_closest_multi_notes.size() < 2:
-		hold_hint.hide()
+	if UserSettings.user_settings.enable_hold_hint:
+		if new_closest_multi_notes.size() > 1:
+			if not new_closest_multi_notes[0] in closest_multi_notes:
+				closest_multi_notes = new_closest_multi_notes
+				hold_hint.show_notes(new_closest_multi_notes)
+				hold_hint.show()
+		
+		if new_closest_multi_notes.size() < 2:
+			hold_hint.hide()
 		
 	closest_multi_notes = new_closest_multi_notes
 

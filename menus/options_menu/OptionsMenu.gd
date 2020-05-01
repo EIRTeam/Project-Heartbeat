@@ -107,6 +107,10 @@ var OPTIONS = {
 			"step": 0.1,
 			"postfix": " x"
 		},
+		"enable_hold_hint": {
+			"name": tr("Enable hold indicator"),
+			"description": "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
+		},
 		"use_timing_arm": {
 			"name": tr("Show clock arms"),
 			"description": tr("Enables using clock arms instead of circles to show you when it's time to press a note.")
