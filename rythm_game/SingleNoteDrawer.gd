@@ -109,9 +109,9 @@ func draw_trail(time: float):
 		var t = ((time_out_distance - trail_time) + t_trail_time) / trail_time
 
 		t = t-trail_margin
-		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle - deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
 		var point1 = game.remap_coords(point1_internal)
-		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle + deg2rad(15), note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.8, note_data.distance))
+		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.7, note_data.distance))
 		points2.append(point2)
 		points.append(point1)
 		if not trail_bounding_box.has_point(point1_internal):
