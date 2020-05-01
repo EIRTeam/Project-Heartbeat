@@ -3,7 +3,7 @@ extends Control
 signal start_pressed
 
 func _unhandled_input(event):
-	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventMouseButton:
+	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventMouseButton or event is InputEventAction:
 		if event is InputEventKey or event is InputEventJoypadButton:
 			if not event.pressed:
 				return

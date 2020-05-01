@@ -1,0 +1,200 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=1]
+[ext_resource path="res://autoloads/MobileControls.gd" type="Script" id=2]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+layer = 128
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+visible = false
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Control/HBoxContainer"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 1280.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 144, 0 )
+focus_mode = 0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 144, 0 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control/HBoxContainer/Button/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+anchor_bottom = 0.841
+rect_min_size = Vector2( 250, 0 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+margin_top = 178.0
+margin_right = 250.0
+margin_bottom = 258.0
+
+[node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer"]
+margin_right = 80.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="ColorRect2" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer"]
+margin_left = 168.0
+margin_right = 250.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer"]
+margin_top = 262.0
+margin_right = 250.0
+margin_bottom = 342.0
+
+[node name="ColorRect5" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+margin_right = 80.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer2"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="ColorRect4" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+margin_left = 168.0
+margin_right = 250.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/VBoxContainer"]
+margin_top = 346.0
+margin_right = 250.0
+margin_bottom = 426.0
+
+[node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer3"]
+margin_right = 80.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="ColorRect2" type="Button" parent="Control/VBoxContainer/HBoxContainer3"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer3"]
+margin_left = 168.0
+margin_right = 250.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control"]
+anchor_left = 0.789
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0799561
+rect_min_size = Vector2( 250, 0 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer2"]
+margin_top = 320.0
+margin_right = 270.0
+margin_bottom = 400.0
+
+[node name="ColorRect5" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
+margin_right = 87.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 91.0
+margin_right = 178.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="ColorRect4" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 182.0
+margin_right = 270.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+focus_mode = 0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -80.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+focus_mode = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="simulate_action" binds= [ "gui_up" ]]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer2/ColorRect5" to="Control" method="simulate_action" binds= [ "gui_left" ]]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer2/ColorRect4" to="Control" method="simulate_action" binds= [ "gui_right" ]]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer3/ColorRect2" to="Control" method="simulate_action" binds= [ "gui_down" ]]
+[connection signal="pressed" from="Control/VBoxContainer2/HBoxContainer2/ColorRect5" to="Control" method="simulate_action" binds= [ "gui_cancel" ]]
+[connection signal="pressed" from="Control/VBoxContainer2/HBoxContainer2/ColorRect4" to="Control" method="simulate_action" binds= [ "gui_accept" ]]
+[connection signal="pressed" from="Control/Button" to="Control" method="_switch_modes"]
