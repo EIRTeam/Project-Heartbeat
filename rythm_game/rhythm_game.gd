@@ -22,6 +22,7 @@ const MAX_NOTE_SFX = 4
 const MAX_HOLD = 3300  # miliseconds
 const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
+const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {HBNoteData.NOTE_TYPE.RIGHT: ["note_right"], HBNoteData.NOTE_TYPE.LEFT: ["note_left"], HBNoteData.NOTE_TYPE.UP: ["note_up"], HBNoteData.NOTE_TYPE.DOWN: ["note_down"], HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"], HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]}
 var timing_points = [] setget _set_timing_points
@@ -73,13 +74,15 @@ var modifiers = []
 
 var closest_multi_notes = []
 
+var earliest_note_time = 0
+
 # cached values for speed
 var playing_field_size
 var playing_field_size_length
 
 # If we've played an sfx in this cycle
 var _sfx_played_this_cycle = false
-
+var _intro_skip_enabled = false
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
 onready var rating_label: Label = get_node("RatingLabel")
@@ -96,7 +99,8 @@ onready var latency_display = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
 onready var hold_hint = get_node("UnderNotesUI/Control/HoldHint")
-
+onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
+onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 func cache_playing_field_size():
 	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
 	playing_field_size_length = playing_field_size.length()
@@ -224,9 +228,22 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		modifier_instance._init_plugin()
 		modifier_instance._pre_game(song, self)
 		modifiers_string.append(modifier_instance.get_modifier_list_name())
-	modifiers_label.text = " - " + modifiers_string.join(" + ")
-	
+	if modifiers.size() > 0:
+		modifiers_label.text = " - " + modifiers_string.join(" + ")
+	else:
+		modifiers_label.text = ""
+
 	set_chart(chart)
+	earliest_note_time = -1
+	for i in range(timing_points.size() - 1, -1, -1):
+		var point = timing_points[i]
+		if point is HBNoteData:
+			earliest_note_time = point.time
+			break
+	if current_song.allows_intro_skip:
+		if earliest_note_time > current_song.intro_skip_min_time:
+			intro_skip_info_animation_player.play("appear")
+			_intro_skip_enabled = true
 	play_song()
 
 
@@ -249,6 +266,7 @@ func inv_map_coords(coords: Vector2):
 
 
 func play_song():
+
 	play_from_pos(0)
 
 
@@ -259,6 +277,14 @@ func play_song():
 
 
 func _input(event):
+	if event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+		if Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]:
+			if current_song.allows_intro_skip:
+				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
+					_intro_skip_enabled = false
+					intro_skip_info_animation_player.play("disappear")
+					intro_skip_ff_animation_player.play("animate")
+					play_from_pos((earliest_note_time - INTRO_SKIP_MARGIN) / 1000.0)
 	if event is InputEventAction:
 		# Note SFX
 		for type in NOTE_TYPE_TO_ACTIONS_MAP:
@@ -302,6 +328,7 @@ func _unhandled_input(event):
 					hold_indicator.disappear()
 					break
 
+			
 
 func get_closest_notes_of_type(note_type: int) -> Array:
 	var closest_notes = []
@@ -510,7 +537,10 @@ func _process(_delta):
 			hold_hint.hide()
 		
 	closest_multi_notes = new_closest_multi_notes
-
+	if _intro_skip_enabled:
+		if time*1000.0 >= earliest_note_time - INTRO_SKIP_MARGIN:
+			intro_skip_info_animation_player.play("disappear")
+			_intro_skip_enabled = false
 func set_current_combo(combo: int):
 	current_combo = combo
 

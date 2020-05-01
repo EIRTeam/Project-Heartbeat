@@ -30,6 +30,9 @@ onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/VBoxCo
 onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/VBoxContainer/YoutubeURL")
 onready var use_youtube_as_video = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsVideo")
 onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsAudio")
+
+onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/VBoxContainer/Label11/IntroSkipCheckbox")
+onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/IntroSkipTimeSpinbox")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -53,7 +56,8 @@ func set_song_meta(value):
 	use_youtube_as_audio.pressed = song_meta.use_youtube_for_audio
 	use_youtube_as_video.pressed = song_meta.use_youtube_for_video
 	youtube_url_line_edit.text = song_meta.youtube_url
-	
+	intro_skip_checkbox.pressed = song_meta.allows_intro_skip
+	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
 	# Uncheck all difficulties
 	for difficulty_checkbox in difficulties_container.get_children():
 		difficulty_checkbox.pressed = false
@@ -89,6 +93,9 @@ func save_meta():
 	song_meta.youtube_url = youtube_url_line_edit.text
 	song_meta.use_youtube_for_audio = use_youtube_as_audio.pressed
 	song_meta.use_youtube_for_video = use_youtube_as_video.pressed
+	
+	song_meta.allows_intro_skip = intro_skip_checkbox.pressed
+	song_meta.intro_skip_min_time = intro_skip_min_time_spinbox.value
 	
 	for difficulty_checkbox in difficulties_container.get_children():
 		if difficulty_checkbox.pressed:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=19]
 [ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=20]
 [ext_resource path="res://rythm_game/HoldHint.gd" type="Script" id=21]
+[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=22]
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=23]
 [ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=25]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=26]
@@ -74,6 +75,92 @@ corner_radius_bottom_left = 5
 corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id=14]
+content_margin_left = 77.0
+bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
+border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+corner_radius_bottom_right = 1024
+corner_detail = 1
+expand_margin_right = 77.0
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=15]
+size = 15
+use_filter = true
+font_data = ExtResource( 6 )
+fallback/0 = ExtResource( 3 )
+
+[sub_resource type="Animation" id=16]
+resource_name = "appear"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( -340, 475.48 ), Vector2( 0, 475.48 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "disappear"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 475.48 ), Vector2( -340, 475.48 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "animate"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.1
@@ -429,6 +516,109 @@ script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SkipContainer" type="Control" parent="UnderNotesUI/Control"]
+visible = false
+anchor_top = 0.684
+anchor_bottom = 0.684
+margin_left = -340.0
+margin_top = -17.0
+margin_right = -91.0
+margin_bottom = 17.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="UnderNotesUI/Control/SkipContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/SkipContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 11.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
+margin_top = 9.0
+margin_right = 54.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 15 )
+text = "Press "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
+margin_left = 58.0
+margin_right = 92.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 34, 0 )
+texture = ExtResource( 22 )
+expand = true
+
+[node name="Label3" type="Label" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
+margin_left = 96.0
+margin_top = 9.0
+margin_right = 103.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 15 )
+text = "+"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
+margin_left = 107.0
+margin_right = 141.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 34, 0 )
+texture = ExtResource( 22 )
+expand = true
+stretch_mode = 6
+
+[node name="Label2" type="Label" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
+margin_left = 145.0
+margin_top = 9.0
+margin_right = 269.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 15 )
+text = "to skip the intro"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/SkipContainer"]
+anims/appear = SubResource( 16 )
+anims/disappear = SubResource( 17 )
+
+[node name="Label" type="Label" parent="UnderNotesUI/Control"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.5
+margin_top = -23.5
+margin_right = 154.5
+margin_bottom = 23.5
+custom_fonts/font = ExtResource( 9 )
+text = "Fast forward!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
+anims/animate = SubResource( 18 )
 
 [node name="Notes" type="Node2D" parent="."]
 show_behind_parent = true

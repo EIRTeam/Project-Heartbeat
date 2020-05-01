@@ -21,6 +21,7 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -181,7 +182,6 @@ margin_right = 618.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -299,16 +299,68 @@ margin_top = 213.0
 margin_right = 618.0
 margin_bottom = 237.0
 
-[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+[node name="Label11" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
 margin_top = 241.0
 margin_right = 618.0
-margin_bottom = 265.0
+margin_bottom = 266.0
+
+[node name="IntroSkipCheckbox" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer/Label11"]
+margin_right = 134.0
+margin_bottom = 25.0
+text = "Allows intro skip"
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/VBoxContainer/Label11"]
+margin_left = 138.0
+margin_right = 153.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 25 )
+hint_tooltip = "Allows the user to skip the song's intro, see also intro skip time"
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 270.0
+margin_right = 618.0
+margin_bottom = 295.0
+
+[node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label12"]
+margin_top = 5.0
+margin_right = 162.0
+margin_bottom = 19.0
+text = "Intro skip minimum time"
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Technical Data/VBoxContainer/Label12"]
+margin_left = 166.0
+margin_right = 181.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 25 )
+hint_tooltip = "Minimum time in miliseconds to the first timing point where the intro skip option will appear"
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 299.0
+margin_right = 618.0
+margin_bottom = 323.0
+min_value = 10.0
+max_value = 2.14748e+09
+value = 10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 327.0
+margin_right = 618.0
+margin_bottom = 351.0
 text = "Use YouTube for audio"
 
 [node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 269.0
+margin_top = 355.0
 margin_right = 618.0
-margin_bottom = 293.0
+margin_bottom = 379.0
 text = "Use YouTube for video"
 
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]

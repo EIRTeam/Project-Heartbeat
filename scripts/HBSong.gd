@@ -40,6 +40,8 @@ var use_youtube_for_video = true
 var ugc_service_name = ""
 var ugc_id = 0
 var _comes_from_ugc = false
+var allows_intro_skip = false
+var intro_skip_min_time = 30.0
 signal song_caching_finished(success)
 
 func get_leaderboard_name(difficulty: String):
@@ -52,7 +54,7 @@ func _init():
 	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
 	"preview_start", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
-	"video", "ugc_service_name", "ugc_id"]
+	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time"]
 
 func get_meta_string():
 	var song_meta = []

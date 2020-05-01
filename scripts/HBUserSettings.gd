@@ -34,6 +34,7 @@ var last_game_info: HBGameInfo = HBGameInfo.new()
 var per_song_settings = {}
 var tap_threshold = 0.5
 var analog_translation_deadzone = 0.1
+var enable_hold_hint = true
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -43,7 +44,8 @@ func _init():
 	"note_size", "last_controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
-	"use_timing_arm", "last_game_info", "per_song_settings", "tap_threshold", "analog_translation_deadzone" ]
+	"use_timing_arm", "last_game_info", "per_song_settings", "tap_threshold", "analog_translation_deadzone",
+	"enable_hold_hint" ]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
