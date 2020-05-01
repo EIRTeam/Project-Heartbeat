@@ -32,6 +32,7 @@ var time_begin: int
 var time_delay: float
 var time: float
 var current_combo = 0
+var disable_intro_skip = false
 
 # Notes currently being shown to the user
 var notes_on_screen = []
@@ -94,7 +95,8 @@ onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Pan
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
 onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
-onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/CircleImage")
+onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/CircleImage")
+onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
 onready var latency_display = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
@@ -146,6 +148,8 @@ func _ready():
 	connect("note_judged", latency_display, "_on_note_judged")
 	set_current_combo(0)
 	slide_hold_score_text._game = self
+	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
 
 
 func _on_viewport_size_changed():
@@ -157,7 +161,7 @@ func _on_viewport_size_changed():
 		var ratio = image.get_width() / image.get_height()
 		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
 		new_size.x = clamp(new_size.x, 0, 250)
-		circle_text_rect.rect_min_size = new_size
+		circle_text_rect_margin_container.rect_min_size = new_size
 	cache_playing_field_size()
 
 
@@ -199,7 +203,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 			var it = ImageTexture.new()
 			it.create_from_image(image, Texture.FLAGS_DEFAULT)
 			circle_text_rect.texture = it
-			_on_viewport_size_changed()
+			_on_viewport_size_changed() 
 		if song.voice:
 			audio_stream_player_voice.stream = song.get_voice_stream()
 	song_name_label.text = song.get_visible_title()
@@ -240,7 +244,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		if point is HBNoteData:
 			earliest_note_time = point.time
 			break
-	if current_song.allows_intro_skip:
+	if current_song.allows_intro_skip and not disable_intro_skip:
 		if earliest_note_time > current_song.intro_skip_min_time:
 			intro_skip_info_animation_player.play("appear")
 			_intro_skip_enabled = true
@@ -278,7 +282,7 @@ func play_song():
 
 func _input(event):
 	if event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-		if Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]:
+		if Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip:
 				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
 					_intro_skip_enabled = false
@@ -661,7 +665,6 @@ func pause_game():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	get_tree().paused = true
-	print("PAUSE TIME", time, " ", audio_stream_player.get_playback_position())
 
 
 func resume():

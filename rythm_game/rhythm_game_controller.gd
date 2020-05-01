@@ -14,6 +14,7 @@ var pause_menu_disabled = false
 var prevent_showing_results = false
 var prevent_scene_changes = false
 var allow_modifiers = true
+var disable_intro_skip = false
 
 var current_game_info: HBGameInfo 
 
@@ -54,9 +55,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var image_texture = ImageTexture.new()
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
-#	$RhythmGame.set_modifiers(modifiers)
-#	$RhythmGame.set_song(song, difficulty, null, modifiers)
-	
+	$RhythmGame.disable_intro_skip = disable_intro_skip
 	$RhythmGame.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
 		

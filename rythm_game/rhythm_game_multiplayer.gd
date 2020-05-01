@@ -39,6 +39,7 @@ func _ready():
 	rhythm_game_controller.connect("fade_out_finished", self, "_on_fade_out_finished")
 	rhythm_game_controller.disable_restart()
 	rhythm_game_controller.allow_modifiers = false
+	rhythm_game_controller.disable_intro_skip = false
 	_on_resized()
 	connect("resized", self, "_on_resized")
 func _on_resized():
