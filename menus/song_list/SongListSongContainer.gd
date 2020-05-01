@@ -60,6 +60,7 @@ func select_song_by_id(song_id: String, difficulty=null):
 		if child.song.id == song_id:
 			if difficulty:
 				var song = SongLoader.songs[song_id]
+				select_option(child_i)
 				if not song in song_items_map:
 					_on_song_selected(song)
 				select_option(song_items_map[song][difficulty].get_position_in_parent())
