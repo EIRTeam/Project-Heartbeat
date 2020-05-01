@@ -69,14 +69,16 @@ var slide_hold_chains = []
 # as slide_note
 var active_slide_hold_chains = []
 
+var modifiers = []
+
+var closest_multi_notes = []
+
 # cached values for speed
 var playing_field_size
 var playing_field_size_length
 
 # If we've played an sfx in this cycle
 var _sfx_played_this_cycle = false
-
-var modifiers = []
 
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
@@ -93,6 +95,7 @@ onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Pan
 onready var latency_display = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
+onready var hold_hint = get_node("UnderNotesUI/Control/HoldHint")
 
 func cache_playing_field_size():
 	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
@@ -485,7 +488,27 @@ func _process(_delta):
 					a.pressed = true
 					play_note_sfx(note.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
 					Input.parse_input_event(a)
-
+	var new_closest_multi_notes = []
+	var last_note_time = 0
+	for note in notes_on_screen:
+		if note is HBNoteData:
+			if note.time == last_note_time:
+				new_closest_multi_notes.append(note)
+			elif new_closest_multi_notes.size() > 1:
+				break
+			else:
+				new_closest_multi_notes = [note]
+			last_note_time = note.time
+	if new_closest_multi_notes.size() > 1:
+		if not new_closest_multi_notes[0] in closest_multi_notes:
+			closest_multi_notes = new_closest_multi_notes
+			hold_hint.show_notes(new_closest_multi_notes)
+			hold_hint.show()
+	
+	if new_closest_multi_notes.size() < 2:
+		hold_hint.hide()
+		
+	closest_multi_notes = new_closest_multi_notes
 
 func set_current_combo(combo: int):
 	current_combo = combo
