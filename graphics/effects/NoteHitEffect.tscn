@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://graphics/effects/flare.png" type="Texture" id=1]
 [ext_resource path="res://graphics/effects/bubble.png" type="Texture" id=2]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/effects/NoteHitEffect.gd" type="Script" id=4]
 [ext_resource path="res://graphics/effects/loop.png" type="Texture" id=5]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+render_mode blend_add;"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "COOL"
@@ -89,35 +96,39 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.25, 0.35, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.35, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="NoteHitEffect" type="Node2D"]
+material = SubResource( 3 )
 scale = Vector2( 0.85, 0.85 )
 script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 1.25
 anims/COOL = SubResource( 1 )
 
 [node name="Note" parent="." instance_placeholder="res://rythm_game/Note.tscn"]
+use_parent_material = true
 position = Vector2( 0, 0 )
 
 [node name="NoteIcon" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 0.5, 0.5 )
+self_modulate = Color( 1, 1, 1, 0.25 )
+use_parent_material = true
+scale = Vector2( 0.234985, 0.234985 )
 texture = ExtResource( 2 )
 
 [node name="Flare" parent="." instance=ExtResource( 3 )]
 self_modulate = Color( 1, 1, 1, 0 )
+use_parent_material = true
 position = Vector2( 0, 0 )
-scale = Vector2( 1.75, 1.75 )
+scale = Vector2( 1.1108, 1.1108 )
 texture = ExtResource( 1 )
 
 [node name="Loop" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 1.75, 1.75 )
+self_modulate = Color( 1, 1, 1, 0.214286 )
+use_parent_material = true
+scale = Vector2( 1.07, 1.07 )
 texture = ExtResource( 5 )
