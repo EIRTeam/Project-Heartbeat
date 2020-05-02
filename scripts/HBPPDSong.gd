@@ -29,6 +29,11 @@ static func from_ini(content: String, id: String):
 						"file": difficulty.capitalize() + ".ppd",
 						"stars": float(song_settings[key].substr(1, song_settings[key].length()-1))
 					}
+
+	if dict.setting.has("start"):
+		start_time = max(int(float(dict.setting.start) * 1000.0), 0)
+	if dict.setting.has("end"):
+		end_time = int(float(dict.setting.end_time) * 1000.0)
 	var file = File.new()
 	file.open("user://ppdtest.json", File.WRITE)
 	file.store_string(JSON.print(song.serialize(), "  "))

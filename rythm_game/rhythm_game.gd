@@ -84,6 +84,9 @@ var playing_field_size_length
 # If we've played an sfx in this cycle
 var _sfx_played_this_cycle = false
 var _intro_skip_enabled = false
+# Prevents the song from finishing once
+var _prevent_finishing = false
+var _finished = false
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
 onready var rating_label: Label = get_node("RatingLabel")
@@ -248,8 +251,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		if earliest_note_time > current_song.intro_skip_min_time:
 			intro_skip_info_animation_player.play("appear")
 			_intro_skip_enabled = true
-	play_song()
-
+	audio_stream_player.stream_paused = true
+	audio_stream_player_voice.stream_paused = true
 
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
@@ -271,7 +274,7 @@ func inv_map_coords(coords: Vector2):
 
 func play_song():
 
-	play_from_pos(0)
+	play_from_pos(max(current_song.start_time/1000.0, 0.0))
 
 
 #	time_begin = OS.get_ticks_usec()
@@ -434,6 +437,12 @@ func _process(_delta):
 
 		# May be below 0 (did not being yet).
 		time = max(0, time)
+		var end_time = audio_stream_player.stream.get_length() * 1000.0
+		if current_song.end_time > 0:
+			end_time = float(current_song.end_time) 
+		if time*1000.0 >= end_time and not _finished:
+			_finished = true
+			_on_game_finished()
 #	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
 #	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
@@ -660,12 +669,10 @@ func remove_note_from_screen(i):
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 
-
 func pause_game():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	get_tree().paused = true
-
 
 func resume():
 	get_tree().paused = false
@@ -673,6 +680,7 @@ func resume():
 
 
 func restart():
+	_prevent_finishing = true
 	remove_all_notes_from_screen()
 	hold_release()
 	get_tree().paused = false
@@ -681,7 +689,8 @@ func restart():
 	set_current_combo(0)
 	notes_on_screen = []
 	rating_label.hide()
-
+	audio_stream_player.stream_paused = true
+	audio_stream_player_voice.stream_paused = true
 
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
@@ -731,11 +740,14 @@ func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add
 	add_score(score_to_add)
 
-
-func _on_AudioStreamPlayer_finished():
-	for modifier in modifiers:
-		modifier._post_game(current_song, self)
-	emit_signal("song_cleared", result)
+func _on_game_finished():
+	_finished = true
+	if not _prevent_finishing:
+		for modifier in modifiers:
+			modifier._post_game(current_song, self)
+		emit_signal("song_cleared", result)
+	else:
+		_prevent_finishing = false
 
 
 func hold_release():

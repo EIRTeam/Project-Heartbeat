@@ -972,4 +972,3 @@ stream = ExtResource( 14 )
 
 [node name="HeartPowerEnabledSFX" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 18 )
-[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

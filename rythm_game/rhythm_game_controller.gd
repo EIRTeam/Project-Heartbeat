@@ -7,6 +7,7 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 const FADE_OUT_TIME = 1.0
 
 onready var fade_out_tween = get_node("FadeOutTween")
+onready var fade_in_tween = get_node("FadeInTween")
 onready var game : HBRhythmGame = get_node("RhythmGame")
 onready var visualizer = get_node("Node2D/Control")
 var pause_disabled = false
@@ -27,6 +28,29 @@ func _ready():
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 	DownloadProgress.holding_back_notifications = true
+
+	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
+
+func _fade_in_done():
+	var song = SongLoader.songs[current_game_info.song_id]
+	$RhythmGame.play_song()
+	$FadeIn.hide()
+	video_player.stream_position = 0.0
+	video_player.paused = false
+	video_player.play()
+	pause_menu_disabled = false
+
+func start_fade_in():
+	$FadeIn.modulate.a = 1.0
+	$FadeIn.show()
+	var original_color = Color.white
+	var target_color = Color.white
+	target_color.a = 0.0
+	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)	
+	fade_in_tween.start()
+	pause_menu_disabled = true
+	
+
 func start_session(game_info: HBGameInfo):
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
@@ -56,11 +80,13 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.disable_intro_skip = disable_intro_skip
+	$RhythmGame.time = song.start_time / 1000.0
 	$RhythmGame.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
 		
 #	if allow_modifiers:3
 #		for 
+		
 		
 	var modifier_disables_video = false
 	for modifier in modifiers:
@@ -73,12 +99,14 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 			var stream = song.get_video_stream()
 			if stream:
 				video_player.stream = stream
-				video_player.play()
+				video_player.stop()
 				$Node2D/Panel.show()
 				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
 		rescale_video_player()
+	start_fade_in()
+	
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()
 	if video_texture:
@@ -166,6 +194,12 @@ func _on_PauseMenu_quit():
 
 
 func _on_PauseMenu_restarted():
-	video_player.stream_position = 0.0
-	video_player.paused = false
-	video_player.play()
+	var modifiers = []
+	for modifier_id in current_game_info.modifiers:
+		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
+		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
+		modifiers.append(modifier)
+	start_fade_in()
+	var song = SongLoader.songs[current_game_info.song_id]
+	set_song(song, current_game_info.difficulty, modifiers)
+	

@@ -33,6 +33,10 @@ onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/VBoxCon
 
 onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/VBoxContainer/Label11/IntroSkipCheckbox")
 onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/IntroSkipTimeSpinbox")
+
+onready var start_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/StartTimeSpinbox")
+onready var end_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/EndTimeSpinbox")
+
 func set_song_meta(value):
 	song_meta = value
 	
@@ -58,6 +62,9 @@ func set_song_meta(value):
 	youtube_url_line_edit.text = song_meta.youtube_url
 	intro_skip_checkbox.pressed = song_meta.allows_intro_skip
 	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
+
+	start_time_spinbox.value = song_meta.start_time
+	end_time_spinbox.value = song_meta.end_time
 	# Uncheck all difficulties
 	for difficulty_checkbox in difficulties_container.get_children():
 		difficulty_checkbox.pressed = false
@@ -97,6 +104,8 @@ func save_meta():
 	song_meta.allows_intro_skip = intro_skip_checkbox.pressed
 	song_meta.intro_skip_min_time = intro_skip_min_time_spinbox.value
 	
+	song_meta.start_time = start_time_spinbox.value
+	song_meta.end_time = end_time_spinbox.value
 	for difficulty_checkbox in difficulties_container.get_children():
 		if difficulty_checkbox.pressed:
 			var difficulty = difficulty_checkbox.text.to_lower()
