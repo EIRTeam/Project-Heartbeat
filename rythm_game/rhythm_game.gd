@@ -252,6 +252,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		if earliest_note_time > current_song.intro_skip_min_time:
 			intro_skip_info_animation_player.play("appear")
 			_intro_skip_enabled = true
+		else:
+			Log.log(self, "Disabling intro skip")
+			_intro_skip_enabled = false
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	
@@ -294,7 +297,7 @@ func play_song():
 func _input(event):
 	if event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-			if current_song.allows_intro_skip:
+			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
 				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
 					_intro_skip_enabled = false
 					intro_skip_info_animation_player.play("disappear")
