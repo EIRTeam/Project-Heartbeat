@@ -44,6 +44,8 @@ var allows_intro_skip = false
 var intro_skip_min_time = 30.0
 var start_time = 0
 var end_time = -1
+var volume = 1.0
+
 signal song_caching_finished(success)
 
 func get_leaderboard_name(difficulty: String):
@@ -57,7 +59,7 @@ func _init():
 	"preview_start", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
-	"end_time"]
+	"end_time", "volume"]
 
 func get_meta_string():
 	var song_meta = []

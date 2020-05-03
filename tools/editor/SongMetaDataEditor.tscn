@@ -299,10 +299,31 @@ margin_top = 213.0
 margin_right = 618.0
 margin_bottom = 237.0
 
-[node name="Label13" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
+[node name="Label15" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
 margin_top = 241.0
 margin_right = 618.0
 margin_bottom = 255.0
+
+[node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label15"]
+margin_right = 229.0
+margin_bottom = 14.0
+text = "Volume (0 is mute, 1 is full volume)"
+
+[node name="VolumeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 259.0
+margin_right = 618.0
+margin_bottom = 283.0
+max_value = 2.14748e+09
+step = 0.0
+value = 10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label13" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
+margin_top = 287.0
+margin_right = 618.0
+margin_bottom = 301.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label13"]
 margin_right = 169.0
@@ -310,9 +331,9 @@ margin_bottom = 14.0
 text = "Start time (in miliseconds)"
 
 [node name="StartTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 259.0
+margin_top = 305.0
 margin_right = 618.0
-margin_bottom = 283.0
+margin_bottom = 329.0
 max_value = 2.14748e+09
 value = 10.0
 __meta__ = {
@@ -320,9 +341,9 @@ __meta__ = {
 }
 
 [node name="Label14" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 287.0
+margin_top = 333.0
 margin_right = 618.0
-margin_bottom = 301.0
+margin_bottom = 347.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label14"]
 margin_right = 353.0
@@ -330,9 +351,9 @@ margin_bottom = 14.0
 text = "End time (-1 to use audio file end time, in miliseconds)"
 
 [node name="EndTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 305.0
+margin_top = 351.0
 margin_right = 618.0
-margin_bottom = 329.0
+margin_bottom = 375.0
 min_value = -1.0
 max_value = 2.14748e+09
 value = 10.0
@@ -341,9 +362,9 @@ __meta__ = {
 }
 
 [node name="Label11" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 333.0
+margin_top = 379.0
 margin_right = 618.0
-margin_bottom = 358.0
+margin_bottom = 404.0
 
 [node name="IntroSkipCheckbox" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer/Label11"]
 margin_right = 134.0
@@ -361,9 +382,9 @@ expand = true
 stretch_mode = 6
 
 [node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 362.0
+margin_top = 408.0
 margin_right = 618.0
-margin_bottom = 387.0
+margin_bottom = 433.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/VBoxContainer/Label12"]
 margin_top = 5.0
@@ -382,9 +403,9 @@ expand = true
 stretch_mode = 6
 
 [node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 391.0
+margin_top = 437.0
 margin_right = 618.0
-margin_bottom = 415.0
+margin_bottom = 461.0
 min_value = 10.0
 max_value = 2.14748e+09
 value = 10.0
@@ -393,15 +414,15 @@ __meta__ = {
 }
 
 [node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 419.0
+margin_top = 465.0
 margin_right = 618.0
-margin_bottom = 443.0
+margin_bottom = 489.0
 text = "Use YouTube for audio"
 
 [node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/VBoxContainer"]
-margin_top = 447.0
+margin_top = 493.0
 margin_right = 618.0
-margin_bottom = 471.0
+margin_bottom = 517.0
 text = "Use YouTube for video"
 
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]

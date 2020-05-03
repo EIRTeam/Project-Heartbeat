@@ -37,6 +37,8 @@ onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/
 onready var start_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/StartTimeSpinbox")
 onready var end_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/EndTimeSpinbox")
 
+onready var volume_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/VolumeSpinbox")
+
 func set_song_meta(value):
 	song_meta = value
 	
@@ -65,6 +67,9 @@ func set_song_meta(value):
 
 	start_time_spinbox.value = song_meta.start_time
 	end_time_spinbox.value = song_meta.end_time
+	
+	volume_spinbox.value = song_meta.volume
+	
 	# Uncheck all difficulties
 	for difficulty_checkbox in difficulties_container.get_children():
 		difficulty_checkbox.pressed = false
@@ -106,6 +111,8 @@ func save_meta():
 	
 	song_meta.start_time = start_time_spinbox.value
 	song_meta.end_time = end_time_spinbox.value
+	
+	song_meta.volume = volume_spinbox.value
 	for difficulty_checkbox in difficulties_container.get_children():
 		if difficulty_checkbox.pressed:
 			var difficulty = difficulty_checkbox.text.to_lower()

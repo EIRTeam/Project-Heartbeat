@@ -87,6 +87,7 @@ var _intro_skip_enabled = false
 # Prevents the song from finishing once
 var _prevent_finishing = false
 var _finished = false
+var _song_volume = 0.0
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
 onready var rating_label: Label = get_node("RatingLabel")
@@ -253,7 +254,14 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 			_intro_skip_enabled = true
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
-
+	
+	if current_song.id in UserSettings.user_settings.per_song_settings:
+		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
+		_song_volume = linear2db(song.volume * user_song_settings.volume)
+	else:
+		_song_volume = linear2db(song.volume)
+	audio_stream_player.volume_db = _song_volume
+	audio_stream_player_voice.volume_db = _song_volume
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
 
@@ -583,7 +591,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			hold_indicator.disappear()
 		else:
 			set_current_combo(current_combo + notes_hit)
-			audio_stream_player_voice.volume_db = 0
+			audio_stream_player_voice.volume_db = _song_volume
 			result.notes_hit += notes_hit
 
 			for note in notes:
@@ -685,10 +693,11 @@ func restart():
 	hold_release()
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
-	audio_stream_player_voice.volume_db = 0
+	audio_stream_player_voice.volume_db = _song_volume
 	set_current_combo(0)
 	notes_on_screen = []
 	rating_label.hide()
+	
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 

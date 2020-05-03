@@ -14,6 +14,16 @@ var section_data = {
 		"step": 1,
 		"postfix": " ms",
 		"default_value": 0
+	},
+	"volume": {
+		"name": tr("Song volume"),
+		"description": "Volume of the song, relative.",
+		"minimum": 0.1,
+		"maximum": 1.5,
+		"step": 0.05,
+		"percentage": true,
+		"postfix": " %",
+		"default_value": 0
 	}
 }
 
