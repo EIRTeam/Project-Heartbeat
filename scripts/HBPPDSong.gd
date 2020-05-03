@@ -31,9 +31,9 @@ static func from_ini(content: String, id: String):
 					}
 
 	if dict.setting.has("start"):
-		start_time = max(int(float(dict.setting.start) * 1000.0), 0)
+		song.start_time = max(int(float(dict.setting.start) * 1000.0), 0)
 	if dict.setting.has("end"):
-		end_time = int(float(dict.setting.end_time) * 1000.0)
+		song.end_time = int(float(dict.setting.end) * 1000.0)
 	var file = File.new()
 	file.open("user://ppdtest.json", File.WRITE)
 	file.store_string(JSON.print(song.serialize(), "  "))
