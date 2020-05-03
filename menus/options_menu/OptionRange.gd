@@ -15,6 +15,7 @@ var normal_style
 signal hover
 var text setget set_text
 var text_overrides = {}
+var percentage = false
 func _init():
 	normal_style = StyleBoxEmpty.new()
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
@@ -34,7 +35,10 @@ func set_value(val):
 	if int(value) in text_overrides:
 		option_label.text = text_overrides[int(value)]
 	else:
-		option_label.text = str(value) + postfix
+		if percentage:
+			option_label.text = ("%.1f" % (val*100.0)) + postfix
+		else:
+			option_label.text = str(value) + postfix
 
 func _ready():
 	focus_mode = Control.FOCUS_ALL

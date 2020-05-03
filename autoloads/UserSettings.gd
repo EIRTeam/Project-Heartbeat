@@ -162,6 +162,7 @@ func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
 	Engine.target_fps = int(user_settings.fps_limit)
+	set_volumes()
 func _process(delta):
 	if debouncing:
 		save_debounce_t += delta
@@ -196,6 +197,11 @@ func get_event_name(event: InputEvent):
 func set_fullscreen(fullscreen = false):
 	OS.window_borderless = fullscreen
 	OS.window_fullscreen = fullscreen
+	
+func set_volumes():
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(user_settings.master_volume * 0.186209))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(user_settings.music_volume))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear2db(user_settings.sfx_volume))
 	
 func reset_to_default_input_map():
 	user_settings.input_map = base_input_map

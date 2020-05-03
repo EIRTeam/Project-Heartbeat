@@ -40,6 +40,35 @@ var OPTIONS = {
 	"Controls": {
 		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
 	},
+	"Audio": {
+		"master_volume": {
+			"name": tr("Master volume"),
+			"description": tr("Global game volume"),
+			"minimum": 0.1,
+			"maximum": 1.5,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		},
+		"sfx_volume": {
+			"name": tr("Sound effects volume"),
+			"description": tr("Volume for the sound effects"),
+			"minimum": 0.1,
+			"maximum": 1.5,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		},
+		"music_volume": {
+			"name": tr("Music volume"),
+			"description": tr("Volume for the music"),
+			"minimum": 0.1,
+			"maximum": 1.5,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		}
+	},
 	"Video": {
 		"fullscreen": {
 			"name": tr("Fullscreen"),

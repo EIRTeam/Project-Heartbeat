@@ -50,6 +50,8 @@ func _set_section_data(val):
 						option_scene.postfix = option.postfix
 					if option.has("text_overrides"):
 						option_scene.text_overrides = option.text_overrides
+					if option.has("percentage"):
+						option_scene.percentage = option.percentage
 		if option_scene:
 			options_container.add_child(option_scene)
 			option_scene.value = settings_source.get(option_name)

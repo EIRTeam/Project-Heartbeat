@@ -38,4 +38,4 @@ bus/4/solo = false
 bus/4/mute = false
 bus/4/bypass_fx = false
 bus/4/volume_db = 0.0
-bus/4/send = "Master"
+bus/4/send = "Music"
