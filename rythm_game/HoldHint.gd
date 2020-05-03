@@ -28,6 +28,7 @@ func _ready():
 		directions_map[direction]["on"] = on_texture_rect
 		
 func show_notes(notes):
+	show()
 	for direction in directions_map.values():
 		direction.off.show()
 		direction.on.hide()
@@ -37,3 +38,4 @@ func show_notes(notes):
 			directions_map[note.note_type].off.hide()
 		else:
 			hide()
+			break

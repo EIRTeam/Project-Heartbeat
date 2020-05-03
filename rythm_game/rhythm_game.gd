@@ -555,7 +555,7 @@ func _process(_delta):
 			if not new_closest_multi_notes[0] in closest_multi_notes:
 				closest_multi_notes = new_closest_multi_notes
 				hold_hint.show_notes(new_closest_multi_notes)
-				hold_hint.show()
+#				hold_hint.show()
 		
 		if new_closest_multi_notes.size() < 2:
 			hold_hint.hide()
