@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/editor/EditorInspector.gd" type="Script" id=1]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
+[ext_resource path="res://tools/icons/icon_action_paste.svg" type="Texture" id=3]
+[ext_resource path="res://tools/icons/icon_action_copy.svg" type="Texture" id=4]
 
 [node name="EditorInspector" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -36,12 +38,32 @@ margin_bottom = 700.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 1260.0
 margin_bottom = 25.0
+
+[node name="CopyIcon" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_right = 28.0
+margin_bottom = 25.0
+hint_tooltip = "Copies the selected note's properties (except time)"
+icon = ExtResource( 4 )
+flat = true
+
+[node name="PasteIcon" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_left = 32.0
+margin_right = 60.0
+margin_bottom = 25.0
+hint_tooltip = "Pastes the selected item's properties (except time)"
+icon = ExtResource( 3 )
+flat = true
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 1260.0
+margin_bottom = 54.0
 text = "Note selected at time"
 
 [node name="PropertyContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 29.0
+margin_top = 58.0
 margin_right = 1260.0
-margin_bottom = 29.0
+margin_bottom = 58.0

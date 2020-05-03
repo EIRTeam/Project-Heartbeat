@@ -112,6 +112,8 @@ func _ready():
 	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
 	
 	editor_help_button.connect("pressed", OS, "shell_open", ["https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718"])
+
+	inspector.connect("note_pasted", self, "paste_note_data")
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -481,6 +483,20 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
+
+func paste_note_data(note_data: HBNoteData):
+	undo_redo.create_action("Paste note data")
+	for selected_item in selected:
+		if selected_item.data is HBNoteData:
+			var new_data = note_data.clone() as HBNoteData
+			new_data.note_type = selected_item.data.note_type
+			new_data.time = selected_item.data.time
+			undo_redo.add_do_property(selected_item, "data", new_data)
+			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_undo_property(selected_item, "data", selected_item.data)
+			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.commit_action()
+	inspector.sync_visible_values_with_data()
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var song = SongLoader.songs[song_id]
