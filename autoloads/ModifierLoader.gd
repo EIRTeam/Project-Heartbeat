@@ -21,7 +21,10 @@ func load_modifiers_from_path(path: String):
 		while dir_name != "":
 			if dir.current_is_dir() and not dir_name.begins_with("."):
 				var modifier_script_path = path + "/%s/%s.gd" % [dir_name, dir_name]
+				var modifier_script_path_compiled = path + "/%s/%s.gdc" % [dir_name, dir_name]
 				var file = File.new()
+				if file.file_exists(modifier_script_path_compiled):
+					modifier_script_path = modifier_script_path_compiled
 				if file.file_exists(modifier_script_path):
 					var modifier = load(modifier_script_path)
 					if modifier.new() is HBModifier:
