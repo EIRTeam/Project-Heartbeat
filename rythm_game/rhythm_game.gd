@@ -436,7 +436,7 @@ func _process(_delta):
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
-	if audio_stream_player.playing:
+	if audio_stream_player.playing or time > 0:
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		time = time * audio_stream_player.pitch_scale
@@ -450,9 +450,8 @@ func _process(_delta):
 		time = max(0, time)
 		var end_time = audio_stream_player.stream.get_length() * 1000.0
 		if current_song.end_time > 0:
-			end_time = float(current_song.end_time) 
+			end_time = float(current_song.end_time)
 		if time*1000.0 >= end_time and not _finished:
-			_finished = true
 			_on_game_finished()
 #	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
 #	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
