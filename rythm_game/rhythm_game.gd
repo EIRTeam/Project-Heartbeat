@@ -154,7 +154,10 @@ func _ready():
 	slide_hold_score_text._game = self
 	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
 	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
-
+	
+	# Despite using end time audio stream player's finished signal is used as fallback just in case
+	
+	audio_stream_player.connect("finished", self, "_on_game_finished")
 
 func _on_viewport_size_changed():
 	$Viewport.size = self.rect_size
@@ -752,13 +755,14 @@ func add_slide_chain_score(score_to_add):
 	add_score(score_to_add)
 
 func _on_game_finished():
-	_finished = true
-	if not _prevent_finishing:
-		for modifier in modifiers:
-			modifier._post_game(current_song, self)
-		emit_signal("song_cleared", result)
-	else:
-		_prevent_finishing = false
+	if not _finished:
+		if not _prevent_finishing:
+			for modifier in modifiers:
+				modifier._post_game(current_song, self)
+			emit_signal("song_cleared", result)
+			_finished = true
+		else:
+			_prevent_finishing = false
 
 
 func hold_release():

@@ -172,6 +172,7 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	$FadeToBlack.show()
 	pause_menu_disabled = true
 	current_game_info.result = result
+	print("SONG CLEARED!")
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
 	fade_out_tween.connect("tween_all_completed", self, "emit_signal", ["fade_out_finished", current_game_info])
