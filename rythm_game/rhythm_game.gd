@@ -104,7 +104,7 @@ onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/
 onready var latency_display = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
-onready var hold_hint = get_node("UnderNotesUI/Control/HoldHint")
+onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 func cache_playing_field_size():
@@ -549,15 +549,15 @@ func _process(_delta):
 			else:
 				new_closest_multi_notes = [note]
 			last_note_time = note.time
-	if UserSettings.user_settings.enable_hold_hint:
+	if UserSettings.user_settings.enable_multi_hint:
 		if new_closest_multi_notes.size() > 1:
 			if not new_closest_multi_notes[0] in closest_multi_notes:
 				closest_multi_notes = new_closest_multi_notes
-				hold_hint.show_notes(new_closest_multi_notes)
+				multi_hint.show_notes(new_closest_multi_notes)
 #				hold_hint.show()
 		
-		if new_closest_multi_notes.size() < 2:
-			hold_hint.hide()
+	if new_closest_multi_notes.size() < 2:
+		multi_hint.hide()
 		
 	closest_multi_notes = new_closest_multi_notes
 	if _intro_skip_enabled:

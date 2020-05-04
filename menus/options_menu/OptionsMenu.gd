@@ -136,8 +136,8 @@ var OPTIONS = {
 			"step": 0.1,
 			"postfix": " x"
 		},
-		"enable_hold_hint": {
-			"name": tr("Enable hold indicator"),
+		"enable_multi_hint": {
+			"name": tr("Enable multi note indicator"),
 			"description": "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
 		},
 		"use_timing_arm": {

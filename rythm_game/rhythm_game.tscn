@@ -20,7 +20,7 @@
 [ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=18]
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=19]
 [ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=20]
-[ext_resource path="res://rythm_game/HoldHint.gd" type="Script" id=21]
+[ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=21]
 [ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=22]
 [ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=23]
 [ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=25]
@@ -500,7 +500,7 @@ custom_fonts/font = ExtResource( 5 )
 text = "(NT)Max Hold Bonus! +3300"
 align = 1
 
-[node name="HoldHint" type="TextureRect" parent="UnderNotesUI/Control"]
+[node name="MultiHint" type="TextureRect" parent="UnderNotesUI/Control"]
 anchor_left = 0.5
 anchor_top = 0.636
 anchor_right = 0.5
