@@ -160,9 +160,6 @@ func _download_video(userdata):
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = ["--ignore-config", "--no-cache-dir", ]
 	
-	if OS.get_name() == "X11":
-		shared_params = ["--ffmpeg-location", YOUTUBE_DL_DIR]
-	
 	if download_audio:
 		var out = []
 		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
