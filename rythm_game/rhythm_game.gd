@@ -439,7 +439,7 @@ func _process(_delta):
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
-	if audio_stream_player.playing or time > 0:
+	if (audio_stream_player.playing or time > 0) and (not editing or previewing):
 		# Obtain current time from ticks, offset by the time we began playing music.
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		time = time * audio_stream_player.pitch_scale
@@ -708,6 +708,7 @@ func restart():
 	audio_stream_player_voice.stream_paused = true
 
 func play_from_pos(position: float):
+	print("PLAYING FROM", position)
 	audio_stream_player.stream_paused = false
 	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()
