@@ -308,6 +308,7 @@ func play_from_pos(position: float):
 	playhead_position = max(position, 0.0)
 	rhythm_game.play_from_pos(position / 1000.0)
 	rhythm_game.delete_rogue_slide_chain_pieces(position / 1000.0)
+	rhythm_game.hold_release()
 	emit_signal("playhead_position_changed")
 
 func _process(delta):
