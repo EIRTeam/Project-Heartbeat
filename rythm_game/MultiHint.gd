@@ -7,8 +7,7 @@ var directions_map = {}
 const CENTER_OFFSET = 70
 func _ready():
 	var directions = [HBNoteData.NOTE_TYPE.RIGHT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.UP]
-	if UserSettings.user_settings.enable_multi_hint:
-		hide()
+	hide()
 	for i in range(directions.size()):
 		var direction = directions[i]
 		var off_texture_rect = TextureRect.new()
