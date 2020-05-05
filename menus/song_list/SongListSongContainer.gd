@@ -83,6 +83,10 @@ func sort_array(a: HBSong, b: HBSong):
 	elif prop == "score":
 		a_prop = b.get_max_score()
 		b_prop = a.get_max_score()
+	if a_prop is String:
+		a_prop = a_prop.to_lower()
+	if b_prop is String:
+		b_prop = b_prop.to_lower()
 	return a_prop < b_prop
 
 func sort_and_filter_songs():
