@@ -451,11 +451,12 @@ func _process(_delta):
 
 		# May be below 0 (did not being yet).
 		time = max(0, time)
-		var end_time = audio_stream_player.stream.get_length() * 1000.0
-		if current_song.end_time > 0:
-			end_time = float(current_song.end_time)
-		if time*1000.0 >= end_time and not _finished:
-			_on_game_finished()
+		if not editing:
+			var end_time = audio_stream_player.stream.get_length() * 1000.0
+			if current_song.end_time > 0:
+				end_time = float(current_song.end_time)
+			if time*1000.0 >= end_time and not _finished:
+				_on_game_finished()
 #	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
 #	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
