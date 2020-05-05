@@ -32,10 +32,8 @@ func _ready():
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
 
 func _fade_in_done():
-	var song = SongLoader.songs[current_game_info.song_id]
 	$RhythmGame.play_song()
 	$FadeIn.hide()
-	video_player.stream_position = 0.0
 	video_player.paused = false
 	video_player.play()
 	pause_menu_disabled = false
@@ -46,6 +44,8 @@ func start_fade_in():
 	var original_color = Color.white
 	var target_color = Color.white
 	target_color.a = 0.0
+	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	video_player.stream_position = song.start_time  / 1000.0
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)	
 	fade_in_tween.start()
 	pause_menu_disabled = true
@@ -80,10 +80,9 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.disable_intro_skip = disable_intro_skip
-	$RhythmGame.time = song.start_time / 1000.0
 	$RhythmGame.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
-		
+	
 #	if allow_modifiers:3
 #		for 
 		
@@ -200,7 +199,6 @@ func _on_PauseMenu_restarted():
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
 		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
-	start_fade_in()
 	var song = SongLoader.songs[current_game_info.song_id]
 	set_song(song, current_game_info.difficulty, modifiers)
-	
+	start_fade_in()
