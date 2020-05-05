@@ -19,7 +19,7 @@ var section_data = {
 		"name": tr("Song volume"),
 		"description": "Volume of the song, relative.",
 		"minimum": 0.1,
-		"maximum": 1.5,
+		"maximum": 2.0,
 		"step": 0.05,
 		"percentage": true,
 		"postfix": " %",
