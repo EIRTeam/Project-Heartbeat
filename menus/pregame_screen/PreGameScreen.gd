@@ -70,7 +70,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		current_difficulty = args.difficulty
 	song_title.difficulty = current_difficulty
 	song_title.set_song(current_song)
-	game_info = UserSettings.user_settings.last_game_info
+	game_info = UserSettings.user_settings.last_game_info.clone()
+	game_info.song_id = current_song.id
+	
 	emit_signal("song_selected", current_song.id, current_difficulty)
 	update_modifiers()
 	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
@@ -86,8 +88,8 @@ func _on_StartButton_pressed():
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	
 	game_info.song_id = current_song.id
+	print("SANG", current_song.id)
 	game_info.difficulty = current_difficulty
 	scene.start_session(game_info)
 

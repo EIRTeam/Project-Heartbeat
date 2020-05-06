@@ -33,7 +33,8 @@ static func deserialize(data: Dictionary):
 			if data.has(field):
 				if _field is Object and _field.has_method("serialize"):
 					if data[field].has("type"):
-						object.set(field, deserialize(data[field]))
+						# Fixes cloning...
+						object.set(field, load("res://scripts/HBSerializable.gd").deserialize(data[field]))
 				elif _field is Dictionary:
 					if _field.size() > 0:
 						# Support for enums
