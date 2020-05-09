@@ -138,10 +138,10 @@ func _set_timing_points(points):
 	active_slide_hold_chains = []
 	# When timing points change, we might introduce new BPM change events
 	bpm_changes = {}
-	if editing:
-		for point in timing_points:
-			if point is HBBPMChange:
-				bpm_changes[point.time] = point.bpm
+	for point in timing_points:
+		if point is HBBPMChange:
+			bpm_changes[point.time] = point.bpm
+			print("FOUND BPM CHANGE at ", point.time)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 
 
