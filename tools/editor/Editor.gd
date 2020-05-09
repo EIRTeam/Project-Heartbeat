@@ -60,6 +60,7 @@ var plugins = []
 
 func set_bpm(value):
 	BPM_spinbox.value = value
+	print("SET BPM", value)
 	song_editor_settings.bpm = value
 
 func get_bpm():
@@ -523,11 +524,11 @@ func load_song(song: HBSong, difficulty: String):
 			chart = HBChart.new()
 			chart.deserialize(result)
 	current_song = song
-	from_chart(chart)
+
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm
-
+	from_chart(chart)
 	current_difficulty = difficulty
 	save_button.disabled = false
 	save_as_button.disabled = false
