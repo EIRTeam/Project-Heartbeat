@@ -24,6 +24,7 @@ func _ready():
 	for action in ACTIONS_TO_TRACK_FOR_TAPS:
 		pressed_inputs[action] = false
 		debounce_polls[action] = 0
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	
 func get_action_status_in_device_axis(action: String, device: int, axis: int):

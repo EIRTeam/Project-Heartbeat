@@ -14,6 +14,7 @@ func is_action_pressed(action: String):
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 
 func _input(event):
