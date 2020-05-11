@@ -1,3 +1,4 @@
+# Unused
 extends HBDurationNoteData
 
 class_name HBHoldNoteData

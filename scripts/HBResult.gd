@@ -14,8 +14,9 @@ var max_combo = 0
 var total_notes = 0
 var notes_hit = 0
 var max_score = 1
-var failed = false
-var used_cheats = false
+var failed = false # if user failed, currently unused
+var used_cheats = false # if user used autoplay
+
 var note_ratings = {
 	HBJudge.JUDGE_RATINGS.WORST: 0,
 	HBJudge.JUDGE_RATINGS.SAD: 0,
@@ -60,7 +61,6 @@ func get_capped_score():
 	return base_score + capped_hold_bonus + capped_slide_bonus
 func get_result_rating():
 	# All ratings except perfect are score based
-	
 	
 	var failure = note_ratings[HBJudge.JUDGE_RATINGS.SAD]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.SAFE]

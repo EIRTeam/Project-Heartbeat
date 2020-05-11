@@ -15,10 +15,8 @@ func _init():
 func get_serialized_type():
 	return "TimingPoint"
 
-func get_simplified():
-	return self
-
 func get_timeline_item():
 	Log.log(self, "Unimplemented timeline item", Log.LogLevel.ERROR)
+
 func get_duration():
 	return 0

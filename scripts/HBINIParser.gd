@@ -1,4 +1,4 @@
-# PPD-style ini parser
+# PPD-style ini parser, it supports spaces where ConfigFile doesn't
 class_name HBINIParser
 
 static func parse(contents: String) -> Dictionary:

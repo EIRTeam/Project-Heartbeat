@@ -34,16 +34,16 @@ func _populate_layers():
 		"timing_points": []
 	})
 	
-# Notes are sorted by appearance time
 func _note_comparison(a, b):
 	return a.time > b.time
-	
-func get_timing_points():
+# returns all the timing points in the chart, optionally ordered by end time
+func get_timing_points(ordered=true):
 	var points = []
 	for layer in layers:
 		var items = layer.timing_points
 		points += items
-	points.sort_custom(self, "_note_comparison")
+	if ordered:
+		points.sort_custom(self, "_note_comparison")
 	return points
 	
 func get_serialized_type():
@@ -86,6 +86,7 @@ func deserialize(data: Dictionary):
 	if data.has("editor_settings"):
 		editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)
 
+# Returns the max score, not including the extra hold score.
 func get_max_score():
 	var tp = get_timing_points()
 	var max_score = 0.0
@@ -108,6 +109,7 @@ func get_max_score():
 	
 	return max_score
 	
+# returns all slide hold chains it can find in array[slide] = [items] format
 static func get_slide_hold_chains(timing_points):
 	var last_right_slide
 	var last_left_slide
@@ -137,6 +139,7 @@ static func get_slide_hold_chains(timing_points):
 		if slide_hold_chains[slide].size() == 0:
 			slide_hold_chains.erase(slide)
 	return slide_hold_chains
+# gets layer by position
 func get_layer_i(layer_name: String):
 	for i in range(layers.size()):
 		if layers[i].name == layer_name:

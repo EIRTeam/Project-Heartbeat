@@ -1,5 +1,5 @@
 # This class holds information regarding a game session that was played, and also
-# doubles as a configuration class
+# doubles as a configuration class for the session
 extends HBSerializable
 
 class_name HBGameInfo
@@ -22,8 +22,7 @@ func _init():
 	
 	serializable_fields += ["game_session_type", "time", "result", "modifiers",
 	"used_autoplay", "song_id", "difficulty"]
-#func is_valid():
-#	return used_autoplay or modifiers.size() > 0
+
 static func deserialize(data: Dictionary):
 	var res = .deserialize(data)
 	res.modifiers = {}
@@ -43,6 +42,10 @@ func add_new_modifier(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
 	if modifier_class:
 		modifiers[modifier_id] = modifier_class.get_modifier_settings_class().new()
+		
+# Returns if the song is legal for uploading to leaderboards
+# keep in mind this doedsn't take into account if cheats were used
+# that should be checked separatedly
 func is_leaderboard_legal():
 	return modifiers.size() == 0
 	

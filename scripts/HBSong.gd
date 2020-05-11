@@ -1,4 +1,4 @@
-# Song metadata and info file
+# Base class for all song meta types
 extends HBSerializable
 
 class_name HBSong
@@ -143,9 +143,11 @@ func is_cached():
 		return true
 	else:
 		return false
-		
+
+# returns YTDL cache status (use is_cached instead of this)
 func get_cache_status():
 	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
+
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:

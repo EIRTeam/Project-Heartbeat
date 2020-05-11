@@ -1,4 +1,4 @@
-# A song that comes from PPD
+# Class for a song that comes from PPD
 extends HBSong
 
 class_name HBPPDSong
@@ -6,7 +6,8 @@ class_name HBPPDSong
 func _ready():
 	pass
 
-static func from_ini(content: String, id: String):
+# Returns a HBPPDSong meta from an ini file
+static func from_ini(content: String, id: String) -> HBSong:
 	var dict = HBINIParser.parse(content)
 	var song := load("res://scripts/HBPPDSong.gd").new() as HBSong
 	song.title = id

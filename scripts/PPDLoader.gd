@@ -8,6 +8,8 @@ static func _get_marks_from_ppd_pack(path: String):
 	var index = pack.get_file_index("ppd")
 	var data = _get_data_from_ppd_file(pack.file, pack.file_sizes[index], pack.file_offsets[index], pack)
 	return data
+	
+# obtains notes and parameters from a ppd file
 static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPDPack):
 	file.seek(file_offset)
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
@@ -107,6 +109,7 @@ enum PPDButtons {
 
 static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	var bpm = base_bpm
+	# PPD button map to PH buttons
 	var PPDButton2HBNoteType = {
 		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
 		PPDButtons.Cross: HBNoteData.NOTE_TYPE.DOWN,

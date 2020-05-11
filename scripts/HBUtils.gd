@@ -9,6 +9,7 @@ enum TimeFormat {
 	FORMAT_DEFAULT = 1 << 1 | 1 << 2 | 1 << 3
 }
 
+# for lap-time style time formatting
 static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_format = "%02d"):
 	var digits = []
 	var s = time / 1000.0
@@ -39,6 +40,7 @@ static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_f
 		formatted += ".%03d" % [miliseconds]
 	return formatted
 
+# Merges two dicts, similar to JS's spread operator
 static func merge_dict(target, patch):
 	for key in patch:
 		if target.has(key):
@@ -76,6 +78,7 @@ static func get_valid_filename(value: String):
 	regex.compile("[^a-zA-Z0-9_]")
 	return regex.sub(value, "", true).to_lower()
 	
+# ogg loader from file, this is stupid
 static func load_ogg(path: String) -> AudioStreamOGGVorbis:
 	var ogg_file = File.new()
 	ogg_file.open(path, File.READ)
@@ -91,6 +94,7 @@ enum OGG_ERRORS {
 	NOT_VORBIS
 }
 	
+# Verifies if an OGG
 static func verify_ogg(path: String):
 	var file = File.new()
 	file.open(path, File.READ)
@@ -115,10 +119,13 @@ static func verify_ogg(path: String):
 	elif not _sectors.vorbis_magic.get_string_from_utf8() == "vorbis":
 		error = OGG_ERRORS.NOT_VORBIS
 	return error
+
+# finds a key by its value
 static func find_key(dictionary, value):
 	var index = dictionary.values().find(value)
 	return dictionary.keys()[index]
 
+# New note curve calculation function, it's fast
 static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequency: float, amplitude: float, distance: float):
 	if distance == 0:
 		return pos
@@ -130,6 +137,7 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	var point = Vector2(point_x, point_y).rotated(deg2rad(angle)) + pos
 	return point
 	
+# Loads images from FS properly (although it breaks in single-threaded render mode...)
 static func image_from_fs(path: String):
 	if path.begins_with("res://"):
 		var src = load(path)
@@ -141,6 +149,8 @@ static func image_from_fs(path: String):
 		var image = Image.new()
 		image.load(path)
 		return image
+
+# same as image_from_fs but async?
 static func image_from_fs_async(path: String):
 	if path.begins_with("res://"):
 		var ril = ResourceLoader.load_interactive(path)
@@ -154,6 +164,7 @@ static func image_from_fs_async(path: String):
 		image_texture.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
 		return image_texture
 		
+# Adds a thousands separator to the number given
 static func thousands_sep(number, prefix=''):
 	number = int(number)
 	var neg = false

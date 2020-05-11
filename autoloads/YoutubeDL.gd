@@ -166,8 +166,7 @@ func _download_video(userdata):
 		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
 		var audio_params = ["-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id]
 		OS.execute(get_ytdl_executable(), shared_params + audio_params, true, out)
-		# We bring the ogg down back to stereo
-		print(temp_audio_path)
+		# We bring the ogg down back to stereo because godot is stupid and can't do selective channel playback
 		OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out)
 		print("ffmpeg output", out)
 		var dir = Directory.new()

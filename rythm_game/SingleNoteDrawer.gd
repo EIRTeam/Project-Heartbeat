@@ -84,7 +84,7 @@ func set_trail_color():
 	gradient.add_point(1.0, color_late.contrasted())
 
 	# I am not sure why but this fuckign piece of shit breaks in the editor if we don't
-	# set all values to 1.0, what the fuck
+	# set all higher values to 1.0, what the fuck
 	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY1, 0.0)
 	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY2, 1.0)
 	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EARLY, 1.0)

@@ -1,3 +1,4 @@
+# game version class
 extends Node
 
 class_name HBVersion

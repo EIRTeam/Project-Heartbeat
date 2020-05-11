@@ -1,7 +1,7 @@
-# Hack to allow the user to interact with the 3D UI
+# Control to allow the user and their mouse to interact with the 3D UI
+# currently howoever the game doesn't support mouse input
 extends Spatial
 
-# Member variables
 var prev_pos = null
 var last_click_pos = null
 var viewport : Viewport = null
@@ -76,7 +76,7 @@ func _on_area_input_event(_camera, event, click_pos, _click_normal, _shape_idx):
 	viewport.input(event)
 	viewport.unhandled_input(event)
 
-
+# Scales viewport size to get higher res on higher res windows (duh)
 func set_viewport_size():
 	var base_width = base_viewport_size.x
 	var base_height = base_viewport_size.y
@@ -92,6 +92,3 @@ func _ready():
 	set_viewport_size()
 	connect("input_event", self, "_on_area_input_event")
 	get_viewport().connect("size_changed", self, "set_viewport_size")
-#	var shape = $CollisionShape.shape as BoxShape
-#	var mesh = $MeshInstance.mesh as QuadMesh
-#	shape.extents = Vector3(mesh.size.x / 2, mesh.size.y / 2, 0.01)
