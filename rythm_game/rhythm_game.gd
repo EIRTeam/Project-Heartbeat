@@ -5,6 +5,7 @@ class_name HBRhythmGame
 signal time_changed(time)
 signal song_cleared(results)
 signal note_judged(judgement)
+signal size_changed
 
 const NoteTargetScene = preload("res://rythm_game/NoteTarget.tscn")
 const NoteScene = preload("res://rythm_game/Note.tscn")
@@ -128,10 +129,22 @@ func get_bpm_at_time(time):
 	if current_time == null:
 		return base_bpm
 	return bpm_changes[current_time]
-
-
+	
+func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
+	var ta = 0
+	var tb = 0
+	
+	if a is HBNoteData:
+		ta = a.get_time_out(get_bpm_at_time(a.time))
+	if b is HBNoteData:
+		tb = b.get_time_out(get_bpm_at_time(b.time))
+	
+	return (a.time - ta) > (b.time - tb)
+	
 func _set_timing_points(points):
 	timing_points = points
+	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
+	
 	slide_hold_chains = []
 	for chain in active_slide_hold_chains:
 		chain.sfx_player.queue_free()
@@ -170,6 +183,7 @@ func _on_viewport_size_changed():
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect_margin_container.rect_min_size = new_size
 	cache_playing_field_size()
+	emit_signal("size_changed")
 
 
 func set_chart(chart: HBChart):
@@ -466,9 +480,10 @@ func _process(_delta):
 		var timing_point = timing_points[i]
 		if timing_point is HBNoteData:
 			# Ignore timing points that are not happening now
-			if time * 1000.0 < (timing_point.time - timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
-				continue
-			if time * 1000.0 >= (timing_point.time - timing_point.get_time_out(get_bpm_at_time(timing_point.time))):
+			var time_out = timing_point.get_time_out(get_bpm_at_time(timing_point.time))
+			if time * 1000.0 < (timing_point.time - time_out):
+				break
+			if time * 1000.0 >= (timing_point.time - time_out):
 				if not timing_point in notes_on_screen:
 					# Prevent older notes from being re-created, although this shouldn't happen...
 					if judge.judge_note(time, (timing_point.time + timing_point.get_duration()) / 1000.0) == judge.JUDGE_RATINGS.WORST:
@@ -487,8 +502,8 @@ func _process(_delta):
 							multi_notes = [timing_point]
 					elif timing_point is HBNoteData and not timing_point.note_type in HBNoteData.NO_MULTI_LIST:
 						multi_notes.append(timing_point)
-				if not editing or previewing:
-					timing_points.remove(i)
+#				if not editing or previewing:
+#					timing_points.remove(i)
 	emit_signal("time_changed", time)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)

@@ -12,6 +12,7 @@ func _ready():
 	
 func _on_resized():
 	game.size = rect_size
+	game._on_viewport_size_changed()
 	update()
 	
 func _process(delta):

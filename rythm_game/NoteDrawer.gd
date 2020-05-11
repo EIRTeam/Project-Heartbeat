@@ -56,10 +56,14 @@ func set_connected_notes(val):
 func _ready():
 #	z_index = 0
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
-	# HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
+	game.connect("size_changed", self, "_on_game_size_changed")
+	# (Not used anymore) HACKISH way to handle proper z ordering of notes, PD puts newer notes in front
 	# VisualServer has a hard limit on how far you can take the Z, hence the hackish, should... work right?
 	#z_index = 8 - (note_data.time % 8)
 	# not used anymore, was causing issues
+
+func _on_game_size_changed():
+	pass
 
 func update_graphic_positions_and_scale(time: float):
 	if note_master:
@@ -89,8 +93,12 @@ func get_initial_position():
 
 	return point
 
+var _cached_time_out = null
+
 func get_time_out():
-	return note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	if not _cached_time_out:
+		_cached_time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	return _cached_time_out 
 
 func judge_note_input(event: InputEvent, time: float, released = false):
 	# Judging tapped keys

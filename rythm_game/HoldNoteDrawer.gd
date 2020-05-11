@@ -47,9 +47,10 @@ func update_graphic_positions_and_scale(time: float):
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		trailing_note_graphic.scale = Vector2(new_scale, new_scale)
 	else:
-		trailing_note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
+		pass
+#		trailing_note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 		
-	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
+#	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / note_data.time_out)
 	target_graphic.arm_position_2 = 1.0 - (((note_data.time+note_data.duration) - time*1000) / note_data.time_out)
 	draw_trail(time)
