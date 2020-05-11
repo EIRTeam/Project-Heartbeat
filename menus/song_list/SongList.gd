@@ -5,6 +5,7 @@ class_name HBSongListMenu
 signal song_hovered(song)
 var current_difficulty
 var current_song: HBSong
+var pevent_pregame_screen = false
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
@@ -91,7 +92,6 @@ func _ready():
 	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
 	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
-	song_container.connect("song_selected", self, "_on_song_selected")
 	var filter_types = {
 		"all": "All",
 		"official": "Official",

@@ -13,12 +13,12 @@ margin_bottom = 31.0
 custom_fonts/font = ExtResource( 3 )
 text = "Selecting song for"
 
-[node name="DifficultyList" parent="VBoxContainer" index="1"]
-margin_top = 31.0
-margin_bottom = 81.0
+[node name="VBoxContainer2" parent="VBoxContainer" index="1"]
+margin_top = 41.0
+margin_bottom = 86.0
 
 [node name="MarginContainer" parent="VBoxContainer" index="2"]
-margin_top = 81.0
+margin_top = 96.0
 
-[node name="ScrollContainer" parent="VBoxContainer/MarginContainer" index="0"]
-margin_bottom = 579.0
+[node name="VBoxContainer" parent="VBoxContainer/MarginContainer" index="0"]
+margin_bottom = 614.0

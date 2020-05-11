@@ -7,8 +7,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		var lobby = args.lobby as HBLobby
 		lobby_title_label.text = "Selecting song for %s" % [lobby.lobby_name]
 
-func _on_song_selected(song: HBSong):
-	change_to_menu("lobby", false, {"song": song, "difficulty": current_difficulty})
+func _on_difficulty_selected(song: HBSong, difficulty: String):
+	change_to_menu("lobby", false, {"song": song, "difficulty": difficulty})
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):

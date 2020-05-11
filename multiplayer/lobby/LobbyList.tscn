@@ -9,7 +9,6 @@
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
 
-
 [sub_resource type="Animation" id=1]
 loop = true
 tracks/0/type = "value"
@@ -111,8 +110,14 @@ playback_speed = -1.0
 [node name="StatusPrompt" parent="." instance=ExtResource( 8 )]
 has_cancel = false
 has_accept = false
+text = "Are you sure you want to do this?"
+accept_text = "Yes"
+cancel_text = "No"
 
 [node name="ErrorPrompt" parent="." instance=ExtResource( 8 )]
 has_cancel = false
+has_accept = true
+text = "Are you sure you want to do this?"
 accept_text = "Okay"
+cancel_text = "No"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CreateLobbyMenu/CreateLobbyButton" to="." method="_on_CreateLobbyButton_pressed"]

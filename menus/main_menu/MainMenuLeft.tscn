@@ -189,5 +189,6 @@ rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
+next_menu = ""
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]
 [connection signal="pressed" from="VBoxContainer/StartMenu/ExitButton" to="VBoxContainer/StartMenu" method="_on_ExitButton_pressed"]
