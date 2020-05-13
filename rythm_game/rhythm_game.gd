@@ -600,9 +600,11 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 	var notes_hit = 1
 	if not editing or previewing:
 		# Rating graphic
-		if note.note_type in held_notes:
-			hold_release()
-			hold_indicator.disappear()
+		for n in notes:
+			if n.note_type in held_notes:
+				hold_release()
+				hold_indicator.disappear()
+				break
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
 			if UserSettings.user_settings.enable_voice_fade:
@@ -615,10 +617,10 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			audio_stream_player_voice.volume_db = _song_volume
 			result.notes_hit += notes_hit
 
-			for note in notes:
-				note = note as HBNoteData
-				if note.hold:
-					start_hold(note.note_type)
+			for n in notes:
+				n = n as HBNoteData
+				if n.hold:
+					start_hold(n.note_type)
 
 		if not wrong:
 			result.note_ratings[judgement] += notes_hit
