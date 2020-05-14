@@ -25,18 +25,15 @@ func get_scaled_thickness():
 	return thick_scale*thickness
 func update_shader_values():
 	var mat = material as ShaderMaterial
-	if amplitude == 0 or frequency == 0:
-		hide()
-	else:
-		mat.set_shader_param("thickness", thickness)
-		mat.set_shader_param("amplitude", amplitude)
-		mat.set_shader_param("size", Vector2(distance, height))
-		mat.set_shader_param("color_start", color_start)
-		mat.set_shader_param("color_end", color_end)
-		mat.set_shader_param("time", time)
-		mat.set_shader_param("frequency", frequency)
-		mat.set_shader_param("margin", margin)
-		mat.set_shader_param("leading_enabled", leading_enabled)
+	mat.set_shader_param("thickness", thickness)
+	mat.set_shader_param("amplitude", amplitude)
+	mat.set_shader_param("size", Vector2(distance, height))
+	mat.set_shader_param("color_start", color_start)
+	mat.set_shader_param("color_end", color_end)
+	mat.set_shader_param("time", time)
+	mat.set_shader_param("frequency", frequency)
+	mat.set_shader_param("margin", margin)
+	mat.set_shader_param("leading_enabled", leading_enabled)
 func reconstruct_mesh():
 	var m = mesh as ArrayMesh
 	var arrays = mesh.surface_get_arrays(0)

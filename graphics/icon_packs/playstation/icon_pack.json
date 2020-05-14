@@ -68,7 +68,7 @@
         },
         "RIGHT": {
             "color": "#ff0c5c",
-            "trail_margin": 0.02,
+            "trail_margin": 0.01,
             "shadow_color": "#fd73b9",
             "uses_custom_shadow": true,
             "src": {
