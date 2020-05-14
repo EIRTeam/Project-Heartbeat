@@ -18,6 +18,7 @@ uniform float thickness;
 uniform float frequency;
 uniform float amplitude;
 uniform float margin;
+uniform vec2 size;
 uniform bool leading_enabled;
 vec4 get_color(float t) {
 	return mix(color_start, color_end, clamp(t, 0.0, 1.0));
@@ -73,7 +74,9 @@ void fragment() {
 	vec4 lineBCol = (1.0 - lineBShape) * get_color(color_x);
 	float t = 0.5 + time / 2.0;
 	COLOR = lineACol;
-	if (UV.x <= t - margin) {
+
+	float scaled_margin = (margin * (880.0/(size.x)));
+	if (UV.x <= t - scaled_margin) {
 		if (leading_enabled) {
 			vec4 c = get_color(0.0);
 			c.a = 0.5 * (1.0 - time);
@@ -88,7 +91,7 @@ void fragment() {
 	if (UV.x >= t) {
 		COLOR += lineBCol * (1.0 - COLOR.a);
 	}
-	if (UV.x >= t - margin && UV.x <= t + margin) {
+	if (UV.x >= t - scaled_margin && UV.x <= t + scaled_margin) {
 		discard;
 	}
 }"
@@ -102,7 +105,8 @@ shader_param/time = 0.72
 shader_param/thickness = 0.003
 shader_param/frequency = 5.0
 shader_param/amplitude = 393.519
-shader_param/margin = 0.05
+shader_param/margin = 0.1
+shader_param/size = Vector2( 880, 0 )
 shader_param/leading_enabled = true
 
 [sub_resource type="ArrayMesh" id=3]
