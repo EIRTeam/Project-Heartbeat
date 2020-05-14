@@ -204,6 +204,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 selection_enabled = true
+
+[node name="FPSLabel" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 14.0
+text = "FPS: 15"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

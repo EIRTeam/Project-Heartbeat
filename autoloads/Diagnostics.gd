@@ -19,16 +19,21 @@ onready var autoplay_checkbox = get_node("WindowDialog/TabContainer/Game/VBoxCon
 onready var log_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton")
 onready var log_rich_text_label = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer/RichTextLabel")
 onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
+onready var fps_label = get_node("FPSLabel")
+
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 	$WindowDialog.hide()
+	fps_label.hide()
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
 		$WindowDialog.rect_size = window_size
 		$WindowDialog.rect_position = get_viewport().size / 8.0
 		$WindowDialog.visible = !$WindowDialog.visible
+	if event.is_action_pressed("toggle_fps"):
+		fps_label.show()
 	if event.is_action_pressed("take_screenshot"):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
@@ -37,6 +42,7 @@ func _input(event):
 func _process(delta):
 	_seconds_since_startup += delta
 	frame_rate_label.text = "FPS: %f" % Engine.get_frames_per_second()
+	fps_label.text = "FPS: %.0f" % Engine.get_frames_per_second()
 	if Engine.get_frames_drawn() - _frames_drawn_offset > 0:
 		average_frame_rate_label.text = "Avg: %f" % (float(Engine.get_frames_drawn() - _frames_drawn_offset) / (_seconds_since_startup))
 	if Engine.get_frames_per_second() > _max_fps:
