@@ -9,7 +9,8 @@ var color_start: Color = Color.green
 var color_end: Color = Color.yellow
 var time: float = 0.5 setget set_time
 var height = 1080
-
+var margin = 0.0
+var leading_enabled: bool = false
 func set_time(val):
 	time = val
 	var mat = material as ShaderMaterial
@@ -30,12 +31,12 @@ func update_shader_values():
 		mat.set_shader_param("thickness", thickness)
 		mat.set_shader_param("amplitude", amplitude)
 		mat.set_shader_param("size", Vector2(distance, height))
-		print(Vector2(distance, height))
 		mat.set_shader_param("color_start", color_start)
 		mat.set_shader_param("color_end", color_end)
 		mat.set_shader_param("time", time)
 		mat.set_shader_param("frequency", frequency)
-		print(thickness)
+		mat.set_shader_param("margin", margin)
+		mat.set_shader_param("leading_enabled", leading_enabled)
 func reconstruct_mesh():
 	var m = mesh as ArrayMesh
 	var arrays = mesh.surface_get_arrays(0)

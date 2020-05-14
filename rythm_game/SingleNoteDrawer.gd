@@ -39,7 +39,7 @@ func _on_game_size_changed():
 	if game.time * 1000.0 < note_data.time:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	
-	generate_trail_points()
+	setup_trail()
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
@@ -55,7 +55,6 @@ func update_graphic_positions_and_scale(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	draw_trail(time)
 	.update_graphic_positions_and_scale(time)
-	$SineDrawer.position = target_graphic.position
 	
 enum GRADIENT_OFFSETS {
 	COLOR_EMPTY1,
@@ -73,28 +72,9 @@ func set_trail_color():
 	
 	$SineDrawer.color_start = color_early
 	$SineDrawer.color_end = color_late.contrasted()
-func generate_trail_points():
-	var points = PoolVector2Array()
-	var points2 = PoolVector2Array()
+
 	
-	points.resize(TRAIL_RESOLUTION)
-	points2.resize(TRAIL_RESOLUTION)
-	
-	var time_out = get_time_out()
-	var note_duration = time_out
-	for i in range(TRAIL_RESOLUTION):
-		var t_trail_time = note_duration * (i / float(TRAIL_RESOLUTION-1))
-		var t = (note_duration - t_trail_time) / time_out
-		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
-		var point1 = game.remap_coords(point1_internal)
-		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.7, note_data.distance))
-		
-		points.set(TRAIL_RESOLUTION - i - 1, point1)
-		points2.set(TRAIL_RESOLUTION - i - 1, point2)
-		
-	$LineLeading.width = 6 * game.get_note_scale()
-	$LineLeading.points = points
-	
+func setup_trail():
 	$SineDrawer.rotation_degrees = note_data.entry_angle
 	var dist_v = Vector2(note_data.distance, 0.0).rotated(note_data.entry_angle)
 	var zero = game.remap_coords(Vector2.ZERO)
@@ -103,14 +83,18 @@ func generate_trail_points():
 	$SineDrawer.amplitude = note_data.oscillation_amplitude
 	$SineDrawer.frequency = note_data.oscillation_frequency
 	$SineDrawer.height = (game.remap_coords(Vector2(0, 1080)) - zero).y
+	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)	
+	$SineDrawer.margin = trail_margin
+	$SineDrawer.leading_enabled = UserSettings.user_settings.leading_trail_enabled
 	$SineDrawer.reconstruct_mesh()
 	$SineDrawer.update_shader_values()
+
 func draw_trail(time: float):
-	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
 	
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	var time_out = get_time_out()
-	$SineDrawer.time = 1.0 - (time_out_distance / (time_out) - trail_margin)
+	$SineDrawer.time = 1.0 - (time_out_distance / (time_out))
+
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
