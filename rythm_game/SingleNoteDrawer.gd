@@ -16,13 +16,9 @@ func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
 		_on_note_type_changed()
-		$Line2D.hide()
-		$Line2D2.hide()
-		$LineLeading.hide()
+		$SineDrawer.hide()
 	else:
-		$Line2D.show()
-		$Line2D2.show()
-		
+		$SineDrawer.show()
 
 func set_pickable(value):
 	pickable = value
@@ -42,6 +38,7 @@ func _on_game_size_changed():
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	if game.time * 1000.0 < note_data.time:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
+	
 	generate_trail_points()
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
@@ -51,15 +48,14 @@ func update_graphic_positions_and_scale(time: float):
 	var starting_pos = cached_starting_pos
 
 	note_graphic.position = game.remap_coords(HBUtils.calculate_note_sine(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
-#	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		note_graphic.scale = Vector2(new_scale, new_scale)
-#	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	draw_trail(time)
 	.update_graphic_positions_and_scale(time)
+	$SineDrawer.position = target_graphic.position
 	
 enum GRADIENT_OFFSETS {
 	COLOR_EMPTY1,
@@ -69,67 +65,14 @@ enum GRADIENT_OFFSETS {
 }
 	
 func set_trail_color():
-	gradient = Gradient.new()
+#	gradient = Gradient.new()
 	var color_late = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	var color_early = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	color_late.a = 0.0
-	color_early.a = 0.5
+	color_early.a = 0.7
 	
-	var color_empty = color_early
-	color_empty.a = 0.0
-	
-	gradient.set_color(GRADIENT_OFFSETS.COLOR_EMPTY1, color_empty)
-	gradient.set_color(GRADIENT_OFFSETS.COLOR_EMPTY2, color_early)
-	gradient.add_point(1.0, color_early)
-	gradient.add_point(1.0, color_late.contrasted())
-
-	# I am not sure why but this fuckign piece of shit breaks in the editor if we don't
-	# set all higher values to 1.0, what the fuck
-	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY1, 0.0)
-	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY2, 1.0)
-	gradient.set_offset(GRADIENT_OFFSETS.COLOR_EARLY, 1.0)
-	gradient.set_offset(GRADIENT_OFFSETS.COLOR_LATE, 1.0)
-
-	$Line2D.texture = grad_texture
-	$Line2D2.texture = grad_texture
-	grad_texture.gradient = gradient
-	grad_texture.width = 1024
-
-	# Lead line gradient
-	if UserSettings.user_settings.leading_trail_enabled:
-		var gradient_lead = Gradient.new()
-	
-		var color_lead = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-		color_lead.a = 0.2
-		gradient_lead.set_color(0, color_lead.lightened(0.25))
-		gradient_lead.set_color(1, color_lead.lightened(0.5))
-		gradient_lead.add_point(2, color_empty)
-		gradient_lead.add_point(3, color_empty)
-		
-		gradient_lead.set_offset(0, 0.0)
-		gradient_lead.set_offset(1, 1.0)
-		gradient_lead.set_offset(2, 1.0)
-		gradient_lead.set_offset(3, 1.0)
-		
-	
-		leading_grad_texture.gradient = gradient_lead
-	
-		var leading_trail_disabled_types = [
-			HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-			HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
-		]
-		if note_data.note_type in leading_trail_disabled_types:
-			$LineLeading.hide()
-		else:
-			$LineLeading.show()
-			$LineLeading.texture = leading_grad_texture
-			leading_grad_texture.width = 512
-
-#	else:
-#	for point in range(TRAIL_RESOLUTION):
-#		var hue = point/float(TRAIL_RESOLUTION-1)
-#		var col = Color.from_hsv(hue, 0.75, 1.0, hue * 0.75)
-#		gradient.add_point(1.0-hue, col)
+	$SineDrawer.color_start = color_early
+	$SineDrawer.color_end = color_late.contrasted()
 func generate_trail_points():
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
@@ -137,12 +80,11 @@ func generate_trail_points():
 	points.resize(TRAIL_RESOLUTION)
 	points2.resize(TRAIL_RESOLUTION)
 	
-	#var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
 	var time_out = get_time_out()
+	var note_duration = time_out
 	for i in range(TRAIL_RESOLUTION):
-		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
-		var t = t_trail_time / time_out
-
+		var t_trail_time = note_duration * (i / float(TRAIL_RESOLUTION-1))
+		var t = (note_duration - t_trail_time) / time_out
 		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
 		var point1 = game.remap_coords(point1_internal)
 		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.7, note_data.distance))
@@ -150,37 +92,25 @@ func generate_trail_points():
 		points.set(TRAIL_RESOLUTION - i - 1, point1)
 		points2.set(TRAIL_RESOLUTION - i - 1, point2)
 		
-	$Line2D2.width = 6 * game.get_note_scale()
-	$Line2D.width = 6 * game.get_note_scale()
 	$LineLeading.width = 6 * game.get_note_scale()
-	$Line2D.points = points
-	$Line2D2.points = points2
 	$LineLeading.points = points
+	
+	$SineDrawer.rotation_degrees = note_data.entry_angle
+	var dist_v = Vector2(note_data.distance, 0.0).rotated(note_data.entry_angle)
+	var zero = game.remap_coords(Vector2.ZERO)
+	var real_dist = (game.remap_coords(dist_v) - zero).rotated(-note_data.entry_angle)
+	$SineDrawer.distance = real_dist.x
+	$SineDrawer.amplitude = note_data.oscillation_amplitude
+	$SineDrawer.frequency = note_data.oscillation_frequency
+	$SineDrawer.height = (game.remap_coords(Vector2(0, 1080)) - zero).y
+	$SineDrawer.reconstruct_mesh()
+	$SineDrawer.update_shader_values()
 func draw_trail(time: float):
-	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
-	# Trail will be time_out / 2 behind
-	var time_out = get_time_out()
-	var points = PoolVector2Array()
-	var points2 = PoolVector2Array()
-	# How much margin we leave for the trail from the note center, this prevents
-	# the trail from leaking into notes with holes in the middl
 	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
-	var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 	
-	var t = clamp((time_out_distance / time_out) - trail_margin, 0.0, 1.0)
-	t = 1.0 - t
-	var grad = grad_texture.gradient
-	
-	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY1, t)
-	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY2, t)
-	grad.set_offset(GRADIENT_OFFSETS.COLOR_EARLY, t)
-
-	if UserSettings.user_settings.leading_trail_enabled:
-		var leading_grad = leading_grad_texture.gradient
-		var leading_t = clamp(t-trail_margin-trail_margin, 0.0, 1.0)
-		leading_grad.set_offset(0, leading_t)
-		leading_grad.set_offset(1, leading_t)
-		leading_grad.set_offset(2, leading_t)
+	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
+	var time_out = get_time_out()
+	$SineDrawer.time = 1.0 - (time_out_distance / (time_out) - trail_margin)
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
