@@ -7,7 +7,7 @@
 [ext_resource path="res://graphics/default_avatar.png" type="Texture" id=5]
 [ext_resource path="res://rythm_game/SineDrawer.gd" type="Script" id=6]
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 const float PI = 3.14159265358979323846264;
 
@@ -35,7 +35,7 @@ float udCos( in vec2 p, in float a, in float b, in float c, in float d )
 
     // find zero of derivative (minimize distance)
     float xa = 0.0, xb = TPI;
-    for( int i=0; i<24; i++ ) // 24 bit precision
+    for( int i=0; i<12; i++ ) // 12 bit precision
     {
         float x = 0.5*(xa+xb);
         float y = x-p.x+b*c*sin(x)*(p.y-b*c*cos(x));
@@ -83,9 +83,11 @@ void fragment() {
 			COLOR = (1.0 - lineAShape) * c;
 			if (UV.x < 0.5) {
 				discard;
+				return;
 			}
 		} else {
 			discard;
+			return;
 		}
 	} 
 	if (UV.x >= t) {
@@ -96,9 +98,9 @@ void fragment() {
 	}
 }"
 
-[sub_resource type="ShaderMaterial" id=12]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
-shader = SubResource( 11 )
+shader = SubResource( 1 )
 shader_param/color_start = Color( 1, 0, 0, 1 )
 shader_param/color_end = Color( 0, 0, 1, 1 )
 shader_param/time = 0.72
@@ -123,31 +125,31 @@ surfaces/0 = {
 "vertex_count": 4
 }
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.941077, 1 )
 colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=6]
-gradient = SubResource( 5 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=6]
 max_value = 6.0
 _data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=8]
-curve = SubResource( 7 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=9]
+[sub_resource type="ParticlesMaterial" id=8]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 50.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 6 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -167,7 +169,7 @@ tracks/0/keys = {
 script = ExtResource( 3 )
 
 [node name="SineDrawer" type="MeshInstance2D" parent="."]
-material = SubResource( 12 )
+material = SubResource( 2 )
 z_index = -1
 mesh = SubResource( 3 )
 texture = ExtResource( 5 )
@@ -183,7 +185,7 @@ emitting = false
 amount = 1
 one_shot = true
 speed_scale = 4.0
-process_material = SubResource( 9 )
+process_material = SubResource( 8 )
 texture = ExtResource( 4 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="NoteTarget"]
@@ -194,4 +196,4 @@ update_scale = false
 [node name="Note" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 10 )
+anims/note_appear = SubResource( 9 )
