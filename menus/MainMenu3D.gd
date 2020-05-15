@@ -1,6 +1,8 @@
 extends "res://menus/MainMenu.gd"
 func _ready():
-	pass
+	# We have to do this to force a shader compile beforehand because godot is
+	# stupid
+	$SlideParticleCache.emitting = true
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
