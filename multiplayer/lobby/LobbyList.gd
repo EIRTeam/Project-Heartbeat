@@ -68,8 +68,11 @@ func _on_create_lobby_menu_down():
 		scroll_list.grab_focus()
 
 func _on_lobby_button_pressed(lobby: HBLobby):
-	lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
-	lobby.join_lobby()
+	if lobby.song_id in SongLoader.songs:
+		lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
+		lobby.join_lobby()
+	else:
+		show_error("You do not have this song")
 
 func _input(event):
 	if event.is_action("free_friends"):
