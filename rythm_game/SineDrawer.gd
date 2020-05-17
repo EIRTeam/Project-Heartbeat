@@ -31,7 +31,10 @@ func update_shader_values():
 	var amp = amplitude
 	if frequency == 0:
 		amp = 0.0
-	mat.set_shader_param("amplitude", -((amp / 12.0) / 1080.0))
+	amp = -((amp / 12.0) / 1080.0)
+	mat.set_shader_param("amplitude1", amp*1.15)
+	mat.set_shader_param("amplitude", amp)
+	mat.set_shader_param("amplitude2", amp*0.85)
 	mat.set_shader_param("distance", distance)
 	mat.set_shader_param("color_start", color_start)
 	mat.set_shader_param("color_end", color_end)
@@ -44,10 +47,9 @@ func update_shader_values():
 	mat.set_shader_param("frequency", ((abs(dfreq) * PI)))
 	# ???
 	mat.set_shader_param("x_offset", (((1.0/dfreq) / PI) * (PI / 2.0)))
-	mat.set_shader_param("margin", margin)
-	mat.set_shader_param("leading_enabled", leading_enabled)
-	var scaled_margin = (margin * (880.0/(distance)))
-	print(scaled_margin)
+	mat.set_shader_param("scaled_margin", (margin * (800.0/(distance))))
+	
+	mat.set_shader_param("leading_enabled", int(leading_enabled))
 func reconstruct_mesh():
 	var m = mesh as ArrayMesh
 	var arrays = mesh.surface_get_arrays(0)
