@@ -79,10 +79,10 @@ func setup_trail():
 	var dist_v = Vector2(note_data.distance, 0.0).rotated(note_data.entry_angle)
 	var zero = game.remap_coords(Vector2.ZERO)
 	var real_dist = (game.remap_coords(dist_v) - zero).rotated(-note_data.entry_angle)
-	$SineDrawer.distance = real_dist.x
+	$SineDrawer.distance = note_data.distance
+	$SineDrawer.size = Vector2(real_dist.x, (game.remap_coords(Vector2(0, 1080)) - zero).y)
 	$SineDrawer.amplitude = note_data.oscillation_amplitude
 	$SineDrawer.frequency = note_data.oscillation_frequency
-	$SineDrawer.height = (game.remap_coords(Vector2(0, 1080)) - zero).y
 	$SineDrawer.margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	$SineDrawer.leading_enabled = UserSettings.user_settings.leading_trail_enabled
 	$SineDrawer.reconstruct_mesh()

@@ -20,6 +20,7 @@ uniform float amplitude;
 uniform float margin;
 uniform vec2 size;
 uniform bool leading_enabled;
+uniform float x_offset;
 vec4 get_color(float t) {
 	return mix(color_start, color_end, clamp(t, 0.0, 1.0));
 }
@@ -28,69 +29,77 @@ float udCos( in vec2 p, in float a, in float b, in float c, in float d )
 {
     // convert all data to a primitive cosine wave
     p = c*(p-vec2(d,a));
-
+    
     // reduce to principal half cycle
     const float TPI = 6.28318530718;
     p.x = mod( p.x, TPI); if( p.x>(0.5*TPI) ) p.x = TPI - p.x;
 
     // find zero of derivative (minimize distance)
     float xa = 0.0, xb = TPI;
-    for( int i=0; i<12; i++ ) // 12 bit precision
+    for( int i=0; i<4; i++ ) // bisection, 7 bits more or less
     {
         float x = 0.5*(xa+xb);
-        float y = x-p.x+b*c*sin(x)*(p.y-b*c*cos(x));
+        float si = sin(x);
+        float co = cos(x);
+        float y = x-p.x+b*c*si*(p.y-b*c*co);
         if( y<0.0 ) xa = x; else xb = x;
     }
     float x = 0.5*(xa+xb);
+    for( int i=0; i<2; i++ ) // newtown-raphson, 28 bits more or less
+    {
+        float si = sin(x);
+        float co = cos(x);
+        float  f = x - p.x + b*c*(p.y*si - b*c*si*co);
+        float df = 1.0     + b*c*(p.y*co - b*c*(2.0*co*co-1.0));
+        x = x - f/df;
+    }
     
     // compute distance    
     vec2 q = vec2(x,b*c*cos(x));
     return length(p-q)/c;
 }
-const vec3 P1ColorIn = vec3(1.0, 0.5, 0.0);
-const vec3 P1ColorOut = vec3(1.0, 0.0, 0.0);
-void fragment() {
-	vec2 uv = UV - vec2(0.0, 0.5);
-	
-	vec2 p = UV;
-	
-	float scaled_amplitude = (amplitude / 12.0) / 1080.0;
-	float ca = 0.5; // offset    (y position)
-    float cb = -scaled_amplitude; // amplitude (y scale)
-	
-	float freq = frequency * 2.0;
-	
-    float cc = ((abs(freq) * 6.28318530718) / 2.0); // frequency (x scale)
-    float cd = 0.0; // phase     (x position)
-	p.x += (((1.0/freq) / PI) * (PI / 2.0));
-	float d = udCos( p, ca, cb, cc, cd);
-	float d2 = udCos( p, ca, cb*0.7, cc, cd);
-	float lineAShape = smoothstep(1.0 - clamp(d, 0.0, 1.0), 1.0, 1.0 - thickness);
-	float lineBShape = smoothstep(1.0 - clamp(d2, 0.0, 1.0), 1.0, 1.0 - thickness);
-	
-	float color_x = clamp((UV.x - 0.5) / 0.5, 0.0, 1.0);
-	
-	vec4 lineACol = (1.0 - lineAShape) * get_color(color_x);
-	vec4 lineBCol = (1.0 - lineBShape) * get_color(color_x);
-	float t = 0.5 + time / 2.0;
-	COLOR = lineACol;
 
+float get_sine_shape(vec2 point, float t, float freq, float ampl, float phase_shift) {
+	float ca = 0.5; // offset    (y position)
+    float cb = ampl; // amplitude (y scale)
+	
+	
+	
+    float cc = frequency;
+    float cd = 0.0; // phase     (x position)
+	point.x += x_offset;
+	float d = udCos( point, ca, cb, cc, phase_shift);
+	float lineAShape = smoothstep(1.0 - clamp(d, 0.0, 1.0), 1.0, 1.0 - thickness);
+	return lineAShape;
+}
+
+void fragment() {
+	float t = 0.5 + time / 2.0;
 	float scaled_margin = (margin * (880.0/(size.x)));
 	if (UV.x <= t - scaled_margin) {
 		if (leading_enabled) {
-			vec4 c = get_color(0.0);
+			float lineAShape = get_sine_shape(UV, time, frequency, amplitude, 0.0);
+			
+			vec4 c = color_start;
 			c.a = 0.5 * (1.0 - time);
 			COLOR = (1.0 - lineAShape) * c;
 			if (UV.x < 0.5) {
 				discard;
-				return;
 			}
 		} else {
 			discard;
-			return;
 		}
 	} 
 	if (UV.x >= t) {
+		float lineAShape = get_sine_shape(UV, time, frequency, amplitude*1.2, 0.0);
+		float lineBShape = get_sine_shape(UV, time, frequency, amplitude*0.8, 0.0);
+		
+		float color_x = clamp((UV.x - 0.5) / 0.5, 0.0, 1.0);
+		vec4 col = get_color(color_x);
+		vec4 lineACol = (1.0 - lineAShape) * col;
+		vec4 lineBCol = (1.0 - lineBShape) * col;
+		
+		COLOR = lineACol;
 		COLOR += lineBCol * (1.0 - COLOR.a);
 	}
 	if (UV.x >= t - scaled_margin && UV.x <= t + scaled_margin) {
@@ -103,13 +112,14 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/color_start = Color( 1, 0, 0, 1 )
 shader_param/color_end = Color( 0, 0, 1, 1 )
-shader_param/time = 0.72
+shader_param/time = 0.733
 shader_param/thickness = 0.003
 shader_param/frequency = 5.0
-shader_param/amplitude = 393.519
-shader_param/margin = 0.1
+shader_param/amplitude = 1000.0
+shader_param/margin = 0.05
 shader_param/size = Vector2( 880, 0 )
 shader_param/leading_enabled = true
+shader_param/x_offset = null
 
 [sub_resource type="ArrayMesh" id=3]
 resource_local_to_scene = true
