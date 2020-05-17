@@ -21,7 +21,7 @@ uniform float amplitude1;
 uniform float amplitude2;
 uniform float scaled_margin;
 uniform vec2 size;
-uniform int leading_enabled;
+uniform float leading_enabled;
 uniform float x_offset;
 vec4 get_color(float t) {
 	return mix(color_start, color_end, clamp(t, 0.0, 1.0));
@@ -90,7 +90,8 @@ void fragment() {
 
 	vec4 c = color_start;
 	c.a = 0.5 * (1.0 - time);
-	COLOR += mix(vec4(0.0), (1.0 - lineLeadingShape) * c, step(UV.x, t - scaled_margin)) * (1.0 - COLOR.a);
+	vec4 leading = mix(vec4(0.0), (1.0 - lineLeadingShape) * c, step(UV.x, t - scaled_margin)) * (1.0 - COLOR.a);
+	COLOR += mix(vec4(0.0), leading, step(1.0, leading_enabled));
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
@@ -106,7 +107,7 @@ shader_param/amplitude1 = null
 shader_param/amplitude2 = null
 shader_param/scaled_margin = 0.148
 shader_param/size = Vector2( 880, 880 )
-shader_param/leading_enabled = false
+shader_param/leading_enabled = 1.0
 shader_param/x_offset = 0.0
 
 [sub_resource type="ArrayMesh" id=3]
