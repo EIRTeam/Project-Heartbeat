@@ -28,13 +28,19 @@ func update_shader_values():
 	var mat = material as ShaderMaterial
 	mat.set_shader_param("thickness", thickness)
 	# amplitude is scaled to 0.0 - 1.0
-	mat.set_shader_param("amplitude", -((amplitude / 12.0) / 1080.0))
+	var amp = amplitude
+	if frequency == 0:
+		amp = 0.0
+	mat.set_shader_param("amplitude", -((amp / 12.0) / 1080.0))
 	mat.set_shader_param("distance", distance)
 	mat.set_shader_param("color_start", color_start)
 	mat.set_shader_param("color_end", color_end)
 	mat.set_shader_param("time", time)
 	# Frequency is sacled to god knows what range
 	var dfreq = frequency * 2.0
+	
+	if frequency == 0.0:
+		dfreq = 1.0
 	mat.set_shader_param("frequency", ((abs(dfreq) * PI)))
 	# ???
 	mat.set_shader_param("x_offset", (((1.0/dfreq) / PI) * (PI / 2.0)))
