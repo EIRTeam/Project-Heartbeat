@@ -18,9 +18,11 @@ var scores = {}
 
 func _ready():
 	var dir := Directory.new()
-	
+	dir.open("user://")
 	if not dir.file_exists("user://songs"):
-		dir.make_dir_recursive("user://songs")
+		var err = dir.make_dir_recursive("user://songs")
+		if err != OK:
+			Log.log(self, "Error creating songs directory", err)
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
 	load_all_songs_meta()

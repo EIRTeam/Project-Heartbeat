@@ -11,6 +11,9 @@ var songs = []
 
 var sort_by_prop = "title" # title, chart creator, difficulty
 var filter_by = "all" # choices are: all, official, community and ppd
+
+const LOG_NAME = "SongListSongContainer"
+
 func _ready():
 	sort_by_prop = UserSettings.user_settings.sort_mode
 	connect("selected_option_changed", self, "_on_selected_option_changed")
@@ -91,6 +94,7 @@ func sort_array(a: HBSong, b: HBSong):
 
 func sort_and_filter_songs():
 	songs.sort_custom(self, "sort_array")
+	Log.log(self, "Filtering by " + filter_by)
 	if filter_by != "all":
 		var filtered_songs = []
 		for song in songs:
