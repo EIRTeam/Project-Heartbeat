@@ -5,7 +5,7 @@
             "color": "#f971d3",
             "shadow_color": "#f5a0de",
             "uses_custom_shadow": true,
-            "trail_margin": 0.01,
+            "trail_margin": 0.02,
             "src": {
                 "note": {
                     "style": "normal",
@@ -68,7 +68,7 @@
         },
         "RIGHT": {
             "color": "#ff0c5c",
-            "trail_margin": 0.01,
+            "trail_margin": 0.02,
             "shadow_color": "#fd73b9",
             "uses_custom_shadow": true,
             "src": {
@@ -102,7 +102,7 @@
         "UP": {
             "color": "#09e2a6",
             "shadow_color": "#64e9c4",
-            "trail_margin": 0.005,
+            "trail_margin": 0.01,
             "uses_custom_shadow": true,
             "src": {
                 "note": {

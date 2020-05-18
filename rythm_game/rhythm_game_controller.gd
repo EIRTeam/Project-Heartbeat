@@ -30,6 +30,7 @@ func _ready():
 	DownloadProgress.holding_back_notifications = true
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
+	
 
 func _fade_in_done():
 	$RhythmGame.play_song()
@@ -80,7 +81,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	$RhythmGame.disable_intro_skip = disable_intro_skip
-	$RhythmGame.set_song(song, difficulty, null, modifiers)
+	$RhythmGame.set_song(song, difficulty, null, modifiers, true)
 	$Node2D/Panel.hide()
 	
 #	if allow_modifiers:3

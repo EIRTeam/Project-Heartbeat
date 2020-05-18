@@ -12,13 +12,22 @@ var gradient = Gradient.new()
 var grad_texture = GradientTexture.new()
 var leading_grad_texture = GradientTexture.new()
 
+var sine_drawer = SineDrawerCPU.new()
+
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
 		_on_note_type_changed()
-		$SineDrawer.hide()
+		sine_drawer.hide()
 	else:
-		$SineDrawer.show()
+		sine_drawer.show()
+##		$Line2D.hide()
+##		$Line2D2.hide()
+##		$LineLeading.hide()
+#	else:
+#		$Line2D.show()
+#		$Line2D2.show()
+		
 
 func set_pickable(value):
 	pickable = value
@@ -28,8 +37,12 @@ func _ready():
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
 	$NoteTarget/Particles2D.emitting = true
+	sine_drawer.note_data = note_data
+	sine_drawer.time_out = get_time_out()
+	sine_drawer.game = game
+	add_child(sine_drawer)
+	move_child(sine_drawer, 0)
 	_on_game_size_changed()
-	
 var cached_amplitude
 var cached_starting_pos
 func _on_game_size_changed():
@@ -38,8 +51,7 @@ func _on_game_size_changed():
 	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	if game.time * 1000.0 < note_data.time:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
-	
-	setup_trail()
+	sine_drawer._on_resized()
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
@@ -48,10 +60,12 @@ func update_graphic_positions_and_scale(time: float):
 	var starting_pos = cached_starting_pos
 
 	note_graphic.position = game.remap_coords(HBUtils.calculate_note_sine(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
+#	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		note_graphic.scale = Vector2(new_scale, new_scale)
+#	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	draw_trail(time)
 	.update_graphic_positions_and_scale(time)
@@ -62,42 +76,64 @@ enum GRADIENT_OFFSETS {
 	COLOR_EARLY,
 	COLOR_LATE
 }
-	
-func set_trail_color():
-#	gradient = Gradient.new()
-	var color_late = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	var color_early = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	color_late.a = 0.0
-	color_early.a = 0.7
-	
-	$SineDrawer.color_start = color_early
-	$SineDrawer.color_end = color_late.contrasted()
-
-	
-func setup_trail():
-	$SineDrawer.rotation_degrees = note_data.entry_angle
-	var dist_v = Vector2(note_data.distance, 0.0).rotated(note_data.entry_angle)
-	var zero = game.remap_coords(Vector2.ZERO)
-	var real_dist = (game.remap_coords(dist_v) - zero).rotated(-note_data.entry_angle)
-	$SineDrawer.distance = note_data.distance
-	$SineDrawer.size = Vector2(real_dist.x, (game.remap_coords(Vector2(0, 1080)) - zero).y)
-	$SineDrawer.amplitude = note_data.oscillation_amplitude
-	$SineDrawer.frequency = note_data.oscillation_frequency
-	$SineDrawer.margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	$SineDrawer.leading_enabled = UserSettings.user_settings.leading_trail_enabled
-	$SineDrawer.reconstruct_mesh()
-	$SineDrawer.update_shader_values()
-
+func generate_trail_points():
+	sine_drawer.generate_trail_points()
+#	var points = PoolVector2Array()
+#	var points2 = PoolVector2Array()
+#
+#	points.resize(TRAIL_RESOLUTION)
+#	points2.resize(TRAIL_RESOLUTION)
+#
+#	#var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
+#	var time_out = get_time_out()
+#	for i in range(TRAIL_RESOLUTION):
+#		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
+#		var t = t_trail_time / time_out
+#
+#		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+#		var point1 = game.remap_coords(point1_internal)
+#		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.7, note_data.distance))
+#
+#		points.set(TRAIL_RESOLUTION - i - 1, point1)
+#		points2.set(TRAIL_RESOLUTION - i - 1, point2)
+		
+#	$Line2D2.width = 6 * game.get_note_scale()
+#	$Line2D.width = 6 * game.get_note_scale()
+#	$LineLeading.width = 6 * game.get_note_scale()
+#	$Line2D.points = points
+#	$Line2D2.points = points2
+#	$LineLeading.points = points
 func draw_trail(time: float):
-	
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
+	# Trail will be time_out / 2 behind
 	var time_out = get_time_out()
-	$SineDrawer.time = 1.0 - (time_out_distance / (time_out))
+	var points = PoolVector2Array()
+	var points2 = PoolVector2Array()
+	# How much margin we leave for the trail from the note center, this prevents
+	# the trail from leaking into notes with holes in the middl
+	
+	var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 
+	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
+#	t = 1.0 - t
+	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
+	sine_drawer.time = t-trail_margin
+	sine_drawer.trail_margin = trail_margin
+#	var grad = grad_texture.gradient
+#
+#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY1, t)
+#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY2, t)
+#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EARLY, t)
+#
+#	if UserSettings.user_settings.leading_trail_enabled:
+#		var leading_grad = leading_grad_texture.gradient
+#		var leading_t = clamp(t-trail_margin-trail_margin, 0.0, 1.0)
+#		leading_grad.set_offset(0, leading_t)
+#		leading_grad.set_offset(1, leading_t)
+#		leading_grad.set_offset(2, leading_t)
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
-	set_trail_color()
 
 func _on_note_judged(judgement):
 	if note_data.is_slide_note():
@@ -237,9 +273,4 @@ func get_note_graphic():
 
 func get_notes():
 	return [note_data]
-	
-func _on_heart_power_activated():
-	set_trail_color()
-	
-func _on_heart_power_end():
-	set_trail_color()
+

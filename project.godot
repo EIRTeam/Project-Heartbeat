@@ -304,6 +304,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/SMFLoader.gd"
 }, {
+"base": "Node2D",
+"class": "SineDrawerCPU",
+"language": "GDScript",
+"path": "res://rythm_game/SineDrawerCPU.gd"
+}, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
 "language": "GDScript",
@@ -389,6 +394,7 @@ _global_script_class_icons={
 "PPDPack": "",
 "PlatformServiceProvider": "",
 "SMFLoader": "",
+"SineDrawerCPU": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
@@ -406,8 +412,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.8"
-config/build_time=1588654438
-config/build_commit="39e83f23597735559edbfeeb3d08f33ce0f601aa"
+config/build_time=1589597914
+config/build_commit="73036fac7580bbdc93889ab9cf18734af394a549"
 
 [audio]
 

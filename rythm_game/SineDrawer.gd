@@ -49,7 +49,7 @@ func update_shader_values():
 	mat.set_shader_param("x_offset", (((1.0/dfreq) / PI) * (PI / 2.0)))
 	mat.set_shader_param("scaled_margin", (margin * (800.0/(distance))))
 	
-	mat.set_shader_param("leading_enabled", float(int(leading_enabled)))
+	mat.set_shader_param("leading_enabled", int(leading_enabled))
 func reconstruct_mesh():
 	var m = mesh as ArrayMesh
 	var arrays = mesh.surface_get_arrays(0)

@@ -181,3 +181,6 @@ static func thousands_sep(number, prefix=''):
 	if neg: res = '-'+prefix+res
 	else: res = prefix+res
 	return res
+	
+static func remap(value, low1, low2, high1, high2):
+	return low2 + (value - low1) * (high2 - low2) / (high1 - low1)

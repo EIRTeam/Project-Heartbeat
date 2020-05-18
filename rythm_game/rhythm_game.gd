@@ -24,6 +24,7 @@ const MAX_HOLD = 3300  # miliseconds
 const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
+const TRAIL_RESOLUTION = 80
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {HBNoteData.NOTE_TYPE.RIGHT: ["note_right"], HBNoteData.NOTE_TYPE.LEFT: ["note_left"], HBNoteData.NOTE_TYPE.UP: ["note_up"], HBNoteData.NOTE_TYPE.DOWN: ["note_down"], HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"], HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]}
 var timing_points = [] setget _set_timing_points
@@ -89,6 +90,9 @@ var _intro_skip_enabled = false
 var _prevent_finishing = false
 var _finished = false
 var _song_volume = 0.0
+
+var precalculated_note_trails = {}
+
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
 onready var rating_label: Label = get_node("RatingLabel")
@@ -108,6 +112,60 @@ onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Pane
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
+
+func precalculate_note_trails(points):
+	precalculated_note_trails = {}
+	var prev_point: HBNoteData = null
+	for point in points:
+		if point is HBNoteData:
+			if prev_point:
+				var comparison_properties = ["oscillation_amplitude", "oscillation_frequency",
+				"entry_angle"]
+				var equal_so_far = true
+				for property in comparison_properties:
+					if point.get(property) != prev_point.get(property):
+						equal_so_far = false
+						break
+				if equal_so_far and point.get_time_out(get_bpm_at_time(point.time)) == prev_point.get_time_out(get_bpm_at_time(prev_point.time)):
+					precalculated_note_trails[point] = precalculated_note_trails[prev_point]
+				else:
+					precalculated_note_trails[point] = _precalculate_note_trail(point)
+			else:
+				precalculated_note_trails[point] = _precalculate_note_trail(point)
+			prev_point = point
+	
+func _precalculate_note_trail(note_data: HBNoteData):
+	var points = PoolVector2Array()
+	var points2 = PoolVector2Array()
+	
+	points.resize(TRAIL_RESOLUTION)
+	points2.resize(TRAIL_RESOLUTION)
+	
+	#var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
+	var offset = -note_data.position
+	
+	var time_out = note_data.get_time_out(get_bpm_at_time(note_data.time))
+	
+	for i in range(TRAIL_RESOLUTION):
+		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
+		var t = (t_trail_time / time_out) * 2.25
+		t = t - 0.25
+
+		var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 1.25, note_data.distance)
+		var point1 = point1_internal + offset
+		var point2 = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.75, note_data.distance) + offset
+		
+		points.set(TRAIL_RESOLUTION - i - 1, point1)
+		points2.set(TRAIL_RESOLUTION - i - 1, point2)
+	return {"points1": points, "points2": points2 }
+
+func get_note_trail_points(note_data: HBNoteData):
+	if note_data in precalculated_note_trails:
+		print("USING CACHED!")
+		return precalculated_note_trails[note_data]
+	else:
+		return _precalculate_note_trail(note_data)
+
 func cache_playing_field_size():
 	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
 	playing_field_size_length = playing_field_size.length()
@@ -206,7 +264,7 @@ func set_chart(chart: HBChart):
 	result.max_score = max_score
 
 
-func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
+func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], precalculate_trails=false):
 	self.modifiers = modifiers
 	current_song = song
 	base_bpm = song.bpm
@@ -259,6 +317,12 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		modifiers_label.text = ""
 
 	set_chart(chart)
+	
+	if precalculate_trails:
+		precalculate_note_trails(timing_points)
+	else:
+		precalculated_note_trails = {}
+	
 	earliest_note_time = -1
 	for i in range(timing_points.size() - 1, -1, -1):
 		var point = timing_points[i]

@@ -1,154 +1,35 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
-[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=5]
-[ext_resource path="res://rythm_game/SineDrawer.gd" type="Script" id=6]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-const float PI = 3.14159265358979323846264;
-
-uniform vec4 color_start : hint_color;
-uniform vec4 color_end : hint_color;
-uniform float time;
-uniform float thickness;
-uniform float frequency;
-uniform float amplitude;
-uniform float amplitude1;
-uniform float amplitude2;
-uniform float scaled_margin;
-uniform vec2 size;
-uniform float leading_enabled;
-uniform float x_offset;
-vec4 get_color(float t) {
-	return mix(color_start, color_end, clamp(t, 0.0, 1.0));
-}
-
-float udCos( in vec2 p, in float a, in float b, in float c, in float d )
-{
-    // convert all data to a primitive cosine wave
-    p = c*(p-vec2(d,a));
-    
-    // reduce to principal half cycle
-	const float TAU = 6.28318530717959;
-    p.x = mod( p.x, TAU); if( p.x>(0.5*TAU) ) p.x = TAU - p.x;
-
-    // find zero of derivative (minimize distance)
-    float xa = 0.0, xb = TAU;
-    for( int i=0; i<4; i++ ) // bisection, 7 bits more or less
-    {
-        float x = 0.5*(xa+xb);
-        float si = sin(x);
-        float co = cos(x);
-        float y = x-p.x+b*c*si*(p.y-b*c*co);
-        if( y<0.0 ) xa = x; else xb = x;
-    }
-    float x = 0.5*(xa+xb);
-    for( int i=0; i<2; i++ ) // newtown-raphson, 28 bits more or less
-    {
-        float si = sin(x);
-        float co = cos(x);
-        float  f = x - p.x + b*c*(p.y*si - b*c*si*co);
-        float df = 1.0     + b*c*(p.y*co - b*c*(2.0*co*co-1.0));
-        x = x - f/df;
-    }
-    
-    // compute distance    
-    vec2 q = vec2(x,b*c*cos(x));
-    return length(p-q)/c;
-}
-
-float get_sine_shape(vec2 point, float t, float freq, float ampl, float phase_shift) {
-	float ca = 0.5; // offset    (y position)
-    float cb = ampl; // amplitude (y scale)
-    float cc = frequency;
-    float cd = 0.0; // phase     (x position)
-	point.x += x_offset;
-	float d = udCos( point, ca, cb, cc, phase_shift);
-	float lineAShape = smoothstep(1.0 - clamp(d, 0.0, 1.0), 1.0, 1.0 - thickness);
-	return lineAShape;
-}
-
-void fragment() {
-	float t = 0.5 + time / 2.0;
-
-	float lineAShape = get_sine_shape(UV, time, frequency, amplitude1, 0.0);
-	float lineBShape = get_sine_shape(UV, time, frequency, amplitude2, 0.0);
-	
-	float color_x = (UV.x - 0.5) / 0.5;
-	vec4 col = get_color(color_x);
-	vec4 lineACol = (1.0 - lineAShape) * col;
-	vec4 lineBCol = (1.0 - lineBShape) * col;
-	
-	COLOR = mix(vec4(0.0), lineACol, step(t + scaled_margin, UV.x));
-	COLOR += mix(vec4(0.0), lineBCol, step(t + scaled_margin, UV.x)) * (1.0 - COLOR.a);
-	
-	float lineLeadingShape = get_sine_shape(UV, time, frequency, amplitude, 0.0);
-
-	vec4 c = color_start;
-	c.a = 0.5 * (1.0 - time);
-	vec4 leading = mix(vec4(0.0), (1.0 - lineLeadingShape) * c, step(UV.x, t - scaled_margin)) * (1.0 - COLOR.a);
-	COLOR += mix(vec4(0.0), leading, step(1.0, leading_enabled));
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = SubResource( 1 )
-shader_param/color_start = Color( 1, 0, 0, 1 )
-shader_param/color_end = Color( 0, 0, 1, 1 )
-shader_param/time = 0.292
-shader_param/thickness = 0.005
-shader_param/frequency = 1.985
-shader_param/amplitude = 0.1
-shader_param/amplitude1 = null
-shader_param/amplitude2 = null
-shader_param/scaled_margin = 0.148
-shader_param/size = Vector2( 880, 880 )
-shader_param/leading_enabled = 1.0
-shader_param/x_offset = 0.0
-
-[sub_resource type="ArrayMesh" id=3]
-resource_local_to_scene = true
-surfaces/0 = {
-"aabb": AABB( -128, -128, 0, 256, 256, 0 ),
-"array_data": PoolByteArray( 0, 0, 0, 67, 0, 0, 0, 67, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 195, 0, 0, 0, 67, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 195, 0, 0, 0, 195, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 195, 0, 0, 128, 63, 0, 0, 0, 0 ),
-"array_index_data": PoolByteArray( 3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0 ),
-"blend_shape_data": [  ],
-"format": 262417,
-"index_count": 6,
-"primitive": 4,
-"skeleton_aabb": [  ],
-"vertex_count": 4
-}
-
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.941077, 1 )
 colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=3]
 max_value = 6.0
 _data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 6 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 50.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 5 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -167,14 +48,8 @@ tracks/0/keys = {
 [node name="SingleNoteDrawer" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="SineDrawer" type="MeshInstance2D" parent="."]
-material = SubResource( 2 )
-z_index = -1
-mesh = SubResource( 3 )
-texture = ExtResource( 5 )
-script = ExtResource( 6 )
-
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
+position = Vector2( 2.21606, 1.10802 )
 z_index = -1
 z_as_relative = false
 
@@ -184,15 +59,17 @@ emitting = false
 amount = 1
 one_shot = true
 speed_scale = 4.0
-process_material = SubResource( 8 )
+process_material = SubResource( 5 )
 texture = ExtResource( 4 )
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="NoteTarget"]
-remote_path = NodePath("../../SineDrawer")
-update_rotation = false
-update_scale = false
 
 [node name="Note" parent="." instance=ExtResource( 2 )]
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note"]
+position = Vector2( -1176.91, -109.704 )
+scale = Vector2( 2, 2 )
+remote_path = NodePath("../../Node2D")
+update_rotation = false
+update_scale = false
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 9 )
+anims/note_appear = SubResource( 6 )
