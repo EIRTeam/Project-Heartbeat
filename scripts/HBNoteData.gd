@@ -1,4 +1,4 @@
-# Base timing point class for all notes
+# Base class for modern-style notes
 extends HBTimingPoint
 
 class_name HBNoteData
@@ -13,6 +13,7 @@ enum NOTE_TYPE {
 	SLIDE_LEFT_HOLD_PIECE,
 	SLIDE_RIGHT_HOLD_PIECE
 }
+
 # List of notes that should NEVER EVER be considered multinotes
 const NO_MULTI_LIST = [
 	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
@@ -26,11 +27,13 @@ const NO_INPUT_LIST = [
 	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
 ]
 
+# List of notes that should not be automatically judged
 const NO_JUDGE_LIST = [
 	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
 	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
 ]
 
+# Judge ratings mapped to their scores
 const NOTE_SCORES = {
 	HBJudge.JUDGE_RATINGS.COOL: 1000,
 	HBJudge.JUDGE_RATINGS.FINE: 800,
@@ -97,14 +100,14 @@ const NOTE_COLORS = {
 		"color": "f39e42"
 	}
 }
-var position: Vector2 = Vector2(960, 540) # Position goes from 0 to 1, in a 16:9 play area
-var time_out: int = 1400 # time where the note target starts being visible
-var auto_time_out: bool = true # If we should get the time out value from BPM change events
-var entry_angle: float = 0.0
+var position: Vector2 = Vector2(960, 540) # Position is in a 1920x1080 area
+var time_out: int = 1400 # time from the hit point where the note target starts being visible
+var auto_time_out: bool = true # If we should get the time out value from the current BPM
+var entry_angle: float = 0.0 # The angle at which the ntoe comes in
 var oscillation_amplitude = 500.0
 var oscillation_frequency = 2.0
-var distance = 1200.0
-var hold = false
+var distance = 1200.0 # The distance the note travels from spawn point to target
+var hold = false # If this is a modern-style hold note
 
 func _init():
 	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency", "hold"]
