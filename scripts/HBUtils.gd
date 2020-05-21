@@ -153,10 +153,8 @@ static func image_from_fs(path: String):
 # same as image_from_fs but async?
 static func image_from_fs_async(path: String):
 	if path.begins_with("res://"):
-		var ril = ResourceLoader.load_interactive(path)
-		while true:
-			if ril.poll() == ERR_FILE_EOF:
-				return ril.get_resource()
+		var res = load(path)
+		return load(path)
 	else:
 		var image = Image.new()
 		image.load(path)

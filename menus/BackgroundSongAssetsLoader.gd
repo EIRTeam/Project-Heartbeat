@@ -9,6 +9,11 @@ var current_song: HBSong
 var _current_song_mutex = Mutex.new()
 var enable_abort = true # Aborts loading of one song when another request comes
 
+# VisualServer requires references to images be kept alive, so we keep them alive.
+var loaded_images = []
+
+var load_mutex = Mutex.new()
+
 const LOG_NAME = "BackgroundSongAssetsLoader.gd"
 
 func _load_song_assets_thread(userdata):
@@ -17,6 +22,7 @@ func _load_song_assets_thread(userdata):
 	var loaded_assets = {}
 	for asset in userdata.requested_assets:
 		var loaded_asset
+		load_mutex.lock()
 		match asset:
 			"preview":
 				if song.preview_image:
@@ -36,6 +42,7 @@ func _load_song_assets_thread(userdata):
 			"circle_logo":
 				if song.circle_logo:
 					loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_logo_image_res_path())
+		load_mutex.unlock()
 		loaded_assets[asset] = loaded_asset
 		if enable_abort:
 			# Current song changed, abort
@@ -54,12 +61,17 @@ func _song_asset_loading_aborted(thread: Thread):
 	
 func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 	thread.wait_to_finish() # Windows breaks if you don't do this
+	var images = []
 	for asset_name in assets:
 		if assets[asset_name] is Image:
 			var image = assets[asset_name] as Image
 			var tex = ImageTexture.new()
 			tex.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
+			# Keep the bloody reference or else this breaks
+			images.append(image)
 			assets[asset_name] = tex
+	
+	loaded_images.append(images)
 	emit_signal("song_assets_loaded", song, assets)
 	
 func load_song_assets(song, requested_assets=["preview", "background", "audio", "voice"]):

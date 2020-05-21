@@ -9,10 +9,10 @@ const ANALOG_TO_DIGITAL_MAP = {
 }
 
 # device -> action -> axis -> pressed
-
 var device_map = {
 	
 }
+
 # device -> axis -> action
 var last_axis_values = {
 	
