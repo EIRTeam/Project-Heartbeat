@@ -23,7 +23,7 @@ void fragment() {
 	// tail then it's 0.8.....
 	float t = remap(time / 2.0, 0.0, 0.0, 1.0, 0.888) + (0.888 / 2.0);
 	float t_m = remap((time + (trail_margin * 2.0)) / 2.0, 0.0, 0.0, 1.0, 0.888) + (0.888 / 2.0);
-	float tail_length = 0.444;
+	float tail_length = 0.444 * 0.5;
 	vec4 color = get_color(remap(UV.x, t, 0.0, t-tail_length, 1.0));
 	vec4 col = color;
 	col.a = smoothstep(1.0, 1.0 - antialias_amount, 1.0 - UV.y) * step(UV.y, 0.5) * color.a;
