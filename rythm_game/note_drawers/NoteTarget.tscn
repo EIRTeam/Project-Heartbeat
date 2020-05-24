@@ -1,18 +1,18 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://graphics/notes/xbox/A_target.png" type="Texture" id=1]
-[ext_resource path="res://rythm_game/NoteTarget.gd" type="Script" id=2]
-[ext_resource path="res://graphics/arm.png" type="Texture" id=3]
+[ext_resource path="res://graphics/arm.png" type="Texture" id=2]
+[ext_resource path="res://rythm_game/note_drawers/NoteTarget.gd" type="Script" id=3]
 [ext_resource path="res://graphics/hold_text.png" type="Texture" id=4]
-[ext_resource path="res://graphics/hold_text_multi_note_target.png" type="Texture" id=5]
-[ext_resource path="res://graphics/progress_circle.png" type="Texture" id=6]
+[ext_resource path="res://graphics/progress_circle.png" type="Texture" id=5]
+[ext_resource path="res://graphics/hold_text_multi_note_target.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 64 )
 
 [node name="NoteTarget" type="StaticBody2D"]
 input_pickable = true
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -23,7 +23,7 @@ margin_right = 128.0
 margin_bottom = 128.0
 max_value = 1.0
 step = 0.0
-texture_progress = ExtResource( 6 )
+texture_progress = ExtResource( 5 )
 fill_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
@@ -38,12 +38,12 @@ texture = ExtResource( 4 )
 
 [node name="HoldTextSpriteMulti" type="Sprite" parent="Sprite"]
 visible = false
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource( 1 )
 
 [node name="TimingArm" type="Sprite" parent="."]
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 offset = Vector2( 0, -30 )

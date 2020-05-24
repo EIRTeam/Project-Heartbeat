@@ -1,9 +1,10 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://rythm_game/NoteTarget.tscn" type="PackedScene" id=1]
-[ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rythm_game/note_drawers/NoteTarget.tscn" type="PackedScene" id=1]
+[ext_resource path="res://rythm_game/note_drawers/NoteGraphic.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/SingleNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
+
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.941077, 1 )

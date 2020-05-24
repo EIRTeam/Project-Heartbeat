@@ -3,6 +3,7 @@ func _ready():
 	# We have to do this to force a shader compile beforehand because godot is
 	# stupid
 	$SlideParticleCache.emitting = true
+	$SlideParticleCache.hide()
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")

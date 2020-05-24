@@ -1,11 +1,13 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://rythm_game/HoldNoteTarget.tscn" type="PackedScene" id=1]
-[ext_resource path="res://rythm_game/Note.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rythm_game/note_drawers/NoteGraphic.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rythm_game/HoldNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
 [ext_resource path="res://graphics/notes/xbox/A_target_hold.png" type="Texture" id=5]
 [ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=6]
+
+
 
 [sub_resource type="Animation" id=1]
 length = 0.34

@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "HBTimingPoint",
 "class": "HBBPMChange",
 "language": "GDScript",
-"path": "res://scripts/HBBPMChange.gd"
+"path": "res://scripts/timing_points/HBBPMChange.gd"
 }, {
 "base": "Node",
 "class": "HBBackgroundMusicPlayer",
@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "HBBackgroundSongAssetsLoader",
 "language": "GDScript",
 "path": "res://menus/BackgroundSongAssetsLoader.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBBaseNote",
+"language": "GDScript",
+"path": "res://scripts/timing_points/HBBaseNote.gd"
 }, {
 "base": "Reference",
 "class": "HBChart",
@@ -52,7 +57,7 @@ _global_script_classes=[ {
 "base": "HBNoteData",
 "class": "HBDurationNoteData",
 "language": "GDScript",
-"path": "res://scripts/HBDurationNoteData.gd"
+"path": "res://scripts/timing_points/HBDurationNoteData.gd"
 }, {
 "base": "Control",
 "class": "HBEditor",
@@ -87,7 +92,7 @@ _global_script_classes=[ {
 "base": "HBDurationNoteData",
 "class": "HBHoldNoteData",
 "language": "GDScript",
-"path": "res://scripts/HBHoldNoteData.gd"
+"path": "res://scripts/timing_points/HBHoldNoteData.gd"
 }, {
 "base": "Button",
 "class": "HBHovereableButton",
@@ -154,15 +159,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/MultiplayerService.gd"
 }, {
-"base": "HBTimingPoint",
+"base": "HBBaseNote",
 "class": "HBNoteData",
 "language": "GDScript",
-"path": "res://scripts/HBNoteData.gd"
+"path": "res://scripts/timing_points/HBNoteData.gd"
 }, {
 "base": "Node2D",
 "class": "HBNoteDrawer",
 "language": "GDScript",
-"path": "res://rythm_game/NoteDrawer.gd"
+"path": "res://rythm_game/note_drawers/NoteDrawer.gd"
 }, {
 "base": "Panel",
 "class": "HBOptionControlsSectionAction",
@@ -252,7 +257,7 @@ _global_script_classes=[ {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
-"path": "res://scripts/HBTimingPoint.gd"
+"path": "res://scripts/timing_points/HBTimingPoint.gd"
 }, {
 "base": "Reference",
 "class": "HBUGCService",
@@ -341,6 +346,7 @@ _global_script_class_icons={
 "HBBPMChange": "",
 "HBBackgroundMusicPlayer": "",
 "HBBackgroundSongAssetsLoader": "",
+"HBBaseNote": "",
 "HBChart": "",
 "HBDownloadProgressThing": "",
 "HBDurationNoteData": "",
@@ -453,7 +459,7 @@ window/stretch/aspect="expand"
 [gdnative]
 
 singletons=[ "res://addons/video_decoder.tres" ]
-singletons_disabled=[  ]
+singletons_disabled=[ "res://addons/video_decoder.tres" ]
 
 [importer_defaults]
 
@@ -730,6 +736,6 @@ file_logging/enable_file_logging=true
 
 [rendering]
 
-threads/thread_model=2
+vram_compression/import_etc=true
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"

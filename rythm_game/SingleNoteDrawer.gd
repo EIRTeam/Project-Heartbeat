@@ -1,4 +1,4 @@
-extends "res://rythm_game/NoteDrawer.gd"
+extends "res://rythm_game/note_drawers/NoteDrawer.gd"
 
 onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
@@ -21,13 +21,6 @@ func set_connected_notes(val):
 		sine_drawer.hide()
 	else:
 		sine_drawer.show()
-##		$Line2D.hide()
-##		$Line2D2.hide()
-##		$LineLeading.hide()
-#	else:
-#		$Line2D.show()
-#		$Line2D2.show()
-		
 
 func set_pickable(value):
 	pickable = value
@@ -60,7 +53,6 @@ func update_graphic_positions_and_scale(time: float):
 	var starting_pos = cached_starting_pos
 
 	note_graphic.position = game.remap_coords(HBUtils.calculate_note_sine(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
-#	note_graphic.position = HBUtils.sin_pos_interp(starting_pos, target_graphic.position, oscillation_amplitude, note_data.oscillation_frequency, time_out_distance/get_time_out())
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
@@ -78,31 +70,6 @@ enum GRADIENT_OFFSETS {
 }
 func generate_trail_points():
 	sine_drawer.generate_trail_points()
-#	var points = PoolVector2Array()
-#	var points2 = PoolVector2Array()
-#
-#	points.resize(TRAIL_RESOLUTION)
-#	points2.resize(TRAIL_RESOLUTION)
-#
-#	#var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
-#	var time_out = get_time_out()
-#	for i in range(TRAIL_RESOLUTION):
-#		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
-#		var t = t_trail_time / time_out
-#
-#		var point1_internal = HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
-#		var point1 = game.remap_coords(point1_internal)
-#		var point2 = game.remap_coords(HBUtils.calculate_note_sine(t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.7, note_data.distance))
-#
-#		points.set(TRAIL_RESOLUTION - i - 1, point1)
-#		points2.set(TRAIL_RESOLUTION - i - 1, point2)
-		
-#	$Line2D2.width = 6 * game.get_note_scale()
-#	$Line2D.width = 6 * game.get_note_scale()
-#	$LineLeading.width = 6 * game.get_note_scale()
-#	$Line2D.points = points
-#	$Line2D2.points = points2
-#	$LineLeading.points = points
 func draw_trail(time: float):
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Trail will be time_out / 2 behind
@@ -110,27 +77,14 @@ func draw_trail(time: float):
 	var points = PoolVector2Array()
 	var points2 = PoolVector2Array()
 	# How much margin we leave for the trail from the note center, this prevents
-	# the trail from leaking into notes with holes in the middl
+	# the trail from leaking into notes with holes in the middle
 	
 	var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 
 	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
-#	t = 1.0 - t
 	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
 	sine_drawer.time = t-trail_margin
 	sine_drawer.trail_margin = trail_margin
-#	var grad = grad_texture.gradient
-#
-#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY1, t)
-#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EMPTY2, t)
-#	grad.set_offset(GRADIENT_OFFSETS.COLOR_EARLY, t)
-#
-#	if UserSettings.user_settings.leading_trail_enabled:
-#		var leading_grad = leading_grad_texture.gradient
-#		var leading_t = clamp(t-trail_margin-trail_margin, 0.0, 1.0)
-#		leading_grad.set_offset(0, leading_t)
-#		leading_grad.set_offset(1, leading_t)
-#		leading_grad.set_offset(2, leading_t)
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)

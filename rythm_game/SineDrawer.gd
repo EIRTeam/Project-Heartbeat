@@ -1,3 +1,4 @@
+# Unused shader-based trail drawing code
 extends MeshInstance2D
 
 const BASE_SIZE = 128

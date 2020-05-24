@@ -7,9 +7,8 @@ signal song_cleared(results)
 signal note_judged(judgement)
 signal size_changed
 
-const NoteTargetScene = preload("res://rythm_game/NoteTarget.tscn")
-const NoteScene = preload("res://rythm_game/Note.tscn")
-const NoteDrawer = preload("res://rythm_game/SingleNoteDrawer.tscn")
+const NoteTargetScene = preload("res://rythm_game/note_drawers/NoteTarget.tscn")
+const NoteDrawer = preload("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
 const HEART_POWER_UNDER_TINT = Color("2d1b61")
 const HEART_POWER_OVER_TINT = Color("4f30ae")
 const HEART_POWER_PROGRESS_TINT = Color("a877f0")

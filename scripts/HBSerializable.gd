@@ -57,14 +57,13 @@ static func deserialize(data: Dictionary):
 	
 static func get_serializable_types():
 	return {
-		"Note": load("res://scripts/HBNoteData.gd"),
-		"TimingPoint": load("res://scripts/HBTimingPoint.gd"),
-		"HoldNote": load("res://scripts/HBHoldNoteData.gd"),
-		"SlideNote": load("res://scripts/HBTimingPoint.gd"),
+		"Note": load("res://scripts/timing_points/HBNoteData.gd"),
+		"TimingPoint": load("res://scripts/timing_points/HBTimingPoint.gd"),
+		"HoldNote": load("res://scripts/timing_points/HBHoldNoteData.gd"),
+		"BpmChange": load("res://scripts/timing_points/HBBPMChange.gd"),
 		"Song": load("res://scripts/HBSong.gd"),
 		"Result": load("res://scripts/HBResult.gd"),
 		"UserSettings": load("res://scripts/HBUserSettings.gd"),
-		"BpmChange": load("res://scripts/HBBPMChange.gd"),
 		"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
 		"GameInfo": load("res://scripts/HBGameInfo.gd"),
 		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),

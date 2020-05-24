@@ -13,7 +13,7 @@ func get_timeline_item():
 	return timeline_item
 
 func get_drawer():
-	return load("res://rythm_game/HoldNoteDrawer.tscn")
+	return load("res://rythm_game/note_drawers/HoldNoteDrawer.tscn")
 
 func get_serialized_type():
 	return "HoldNote"
