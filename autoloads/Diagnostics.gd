@@ -34,6 +34,8 @@ func _input(event):
 		$WindowDialog.visible = !$WindowDialog.visible
 	if event.is_action_pressed("toggle_fps"):
 		fps_label.show()
+		var vp = get_viewport()
+		vp.debug_draw = (vp.debug_draw + 1 ) % 4
 	if event.is_action_pressed("take_screenshot"):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).

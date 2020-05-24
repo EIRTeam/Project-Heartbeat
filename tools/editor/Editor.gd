@@ -37,14 +37,13 @@ onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
 onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton")
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
+onready var game_playback = EditorPlayback.new(rhythm_game)
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
 var scale = 1.5 # Seconds per 500 pixels
 var selected: Array
-var time_begin
-var time_delay
-var _audio_play_offset
+
 var bpm = 150 setget set_bpm, get_bpm
 var current_song: HBSong
 var current_difficulty: String
@@ -85,6 +84,8 @@ func load_plugins():
 			dir_name = dir.get_next()
 	
 func _ready():
+	add_child(game_playback)
+	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")
 	Input.set_use_accumulated_input(true)
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	OS.window_borderless = false
@@ -208,7 +209,7 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 			old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
 		selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
 		selected_item.update_widget_data()
-	_on_timing_points_changed()
+	_on_timing_points_params_changed()
 # Changes the property of the selected item, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary, thus undoing constant 
 # actions like changing a note angle requires a single control+z
@@ -223,7 +224,7 @@ func _change_selected_property(property_name: String, new_value):
 
 		selected_item.update_widget_data()
 		selected_item.sync_value(property_name)
-	_on_timing_points_changed()
+	_on_timing_points_params_changed()
 	
 func _commit_selected_property_change(property_name: String):
 	var action_name = "Note " + property_name + " change commited"
@@ -292,55 +293,15 @@ func add_event_timing_point(timing_point_class: GDScript):
 	timing_point.time = playhead_position
 	# Event layer is the last one
 	user_create_timing_point(timeline.get_layers()[-1], timing_point.get_timeline_item())
-func play_from_pos(position: float):
-	rhythm_game.previewing = true
-	audio_stream_player.stream_paused = false
-	audio_stream_player.volume_db = 0
-	audio_stream_player.play()
-	audio_stream_player.seek(position / 1000.0)
-	audio_stream_player_voice.stream_paused = false
-	if current_song.voice:
-		audio_stream_player_voice.volume_db = 0
-	audio_stream_player_voice.play()
-	audio_stream_player_voice.seek(position / 1000.0)
-	time_begin = OS.get_ticks_usec()
-	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-	_audio_play_offset = position / 1000.0
-	playhead_position = max(position, 0.0)
-	rhythm_game.play_from_pos(position / 1000.0)
-	rhythm_game.delete_rogue_slide_chain_pieces(position / 1000.0)
-	rhythm_game.hold_release()
-	emit_signal("playhead_position_changed")
 
-func _process(delta):
-	var time = 0.0
-	if audio_stream_player.playing:
-		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
-		# Compensate for latency.
-		time -= time_delay
-		# May be below 0 (did not being yet).
-		time = max(0, time)
-		
-		time = time + _audio_play_offset
-		rhythm_game.time = time
-	
-	if audio_stream_player.playing and not audio_stream_player.stream_paused:
-		playhead_position = max(time * 1000.0, 0.0)
-		timeline.ensure_playhead_is_visible()
-		emit_signal("playhead_position_changed")
+func _on_game_playback_time_changed(time: float):
+	playhead_position = max(time * 1000.0, 0.0)
+	timeline.update()
+	timeline.ensure_playhead_is_visible()
+	emit_signal("playhead_position_changed")
 
 func seek(value: int):
-	playhead_position = clamp(max(value, 0.0), timeline._offset, 1010000000)
-	if not audio_stream_player.playing:
-		pause()
-	else:
-		play_from_pos(playhead_position)
-		
-	rhythm_game.time = playhead_position / 1000.0
-	emit_signal("playhead_position_changed")
-	_on_timing_points_changed()
-	if audio_stream_player.playing:
-		rhythm_game.delete_rogue_slide_chain_pieces(playhead_position / 1000.0)
+	game_playback.seek(value)
 func delete_selected():
 	if selected.size() > 0:
 		if inspector.inspecting_item in selected:
@@ -392,35 +353,29 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 func pause():
-	audio_stream_player.stream_paused = true
-	audio_stream_player.volume_db = -80
-	audio_stream_player.stop()
-	audio_stream_player_voice.stream_paused = true
-	audio_stream_player_voice.volume_db = -80
-	audio_stream_player_voice.stop()
-#	_on_timing_points_changed()
-	rhythm_game.previewing = false
+	game_playback.pause()
 func _on_PauseButton_pressed():
 	pause()
 	play_button.show()
 	pause_button.hide()
 
 func _on_PlayButton_pressed():
-	play_from_pos(playhead_position)
+	game_playback.play_from_pos(playhead_position)
 	play_button.hide()
 	pause_button.show()
 
 func _on_StopButton_pressed():
-	play_from_pos(0)
+	game_playback.play_from_pos(0)
 	pause()
 	play_button.show()
 	pause_button.hide()
 	
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
-	rhythm_game.remove_all_notes_from_screen()
-	rhythm_game.base_bpm = current_song.bpm # We reset the BPM
-	rhythm_game.timing_points = get_timing_points()
+	game_playback.timing_points = get_timing_points()
+
+func _on_timing_points_params_changed():
+	game_playback._on_timing_points_changed()
 
 func get_song_length():
 	return audio_stream_player.stream.get_length()
@@ -524,6 +479,7 @@ func load_song(song: HBSong, difficulty: String):
 			chart = HBChart.new()
 			chart.deserialize(result)
 	current_song = song
+	game_playback.set_song(current_song)
 
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
@@ -532,12 +488,6 @@ func load_song(song: HBSong, difficulty: String):
 	current_difficulty = difficulty
 	save_button.disabled = false
 	save_as_button.disabled = false
-	audio_stream_player.stream = song.get_audio_stream()
-	if song.voice:
-		audio_stream_player_voice.volume_db = 0
-		audio_stream_player_voice.stream = song.get_voice_stream()
-	else:
-		audio_stream_player_voice.volume_db = -100
 	emit_signal("load_song", song)
 
 

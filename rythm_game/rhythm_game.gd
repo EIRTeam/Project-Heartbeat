@@ -27,6 +27,8 @@ const TRAIL_RESOLUTION = 80
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {HBNoteData.NOTE_TYPE.RIGHT: ["note_right"], HBNoteData.NOTE_TYPE.LEFT: ["note_left"], HBNoteData.NOTE_TYPE.UP: ["note_up"], HBNoteData.NOTE_TYPE.DOWN: ["note_down"], HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"], HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]}
 var timing_points = [] setget _set_timing_points
+# TPs that were previously hit
+var hit_timing_points = []
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
 var time_begin: int
@@ -160,7 +162,6 @@ func _precalculate_note_trail(note_data: HBNoteData):
 
 func get_note_trail_points(note_data: HBNoteData):
 	if note_data in precalculated_note_trails:
-		print("USING CACHED!")
 		return precalculated_note_trails[note_data]
 	else:
 		return _precalculate_note_trail(note_data)
@@ -200,6 +201,7 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 	
 func _set_timing_points(points):
 	timing_points = points
+	hit_timing_points = []
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
 	slide_hold_chains = []
@@ -213,7 +215,6 @@ func _set_timing_points(points):
 			bpm_changes[point.time] = point.bpm
 			print("FOUND BPM CHANGE at ", point.time)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
-
 
 func _ready():
 	rating_label.hide()
@@ -548,6 +549,8 @@ func _process(_delta):
 				break
 			if time * 1000.0 >= (timing_point.time - time_out):
 				if not timing_point in notes_on_screen:
+					if timing_point in hit_timing_points:
+						continue
 					# Prevent older notes from being re-created, although this shouldn't happen...
 					if judge.judge_note(time, (timing_point.time + timing_point.get_duration()) / 1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
@@ -714,9 +717,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 							piece_drawer.emit_signal("note_removed")
 							piece_drawer.queue_free()
 						else:
-							var i = timing_points.find(piece)
-							if i != -1:
-								timing_points.remove(i)
+							hit_timing_points.append(piece)
 
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
@@ -756,9 +757,13 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 func remove_note_from_screen(i):
 	if i != -1:
 		if not editing or previewing:
-			timing_points.erase(notes_on_screen[i])
+			hit_timing_points.append(notes_on_screen[i])
 		notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
 		notes_on_screen.remove(i)
+
+# Used by editor to reset hit notes and allow them to appear again
+func reset_hit_notes():
+	hit_timing_points = []
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
@@ -817,7 +822,7 @@ func delete_rogue_slide_chain_pieces(pos_override = null):
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note))
 		else:
-			timing_points.erase(note)
+			hit_timing_points.append(note)
 
 
 func add_score(score_to_add):

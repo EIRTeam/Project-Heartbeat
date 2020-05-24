@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "EditorPlayback",
+"language": "GDScript",
+"path": "res://tools/editor/EditorPlayback.gd"
+}, {
 "base": "Control",
 "class": "EditorTimelineItem",
 "language": "GDScript",
@@ -340,6 +345,7 @@ _global_script_classes=[ {
 "path": "res://autoloads/platform_service/ugc_services/SteamUGCService.gd"
 } ]
 _global_script_class_icons={
+"EditorPlayback": "",
 "EditorTimelineItem": "",
 "EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
