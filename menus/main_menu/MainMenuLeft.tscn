@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -17,6 +17,22 @@
 size = 23
 use_filter = true
 font_data = ExtResource( 10 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "tool
+extends HBMenuChangecontainer
+
+signal navigate_to_menu(menu)
+
+func _ready():
+	for child in get_children():
+		if child is HBMenuChangeButton:
+			child.connect(\"pressed\", self, \"emit_signal\", [\"navigate_to_menu\", child.next_menu])
+
+
+func _on_ExitButton_pressed():
+	get_tree().quit()
+"
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
@@ -48,14 +64,14 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 668.0
+margin_top = 648.0
 margin_right = 1260.0
-margin_bottom = 682.0
+margin_bottom = 672.0
 custom_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 margin_right = 24.0
-margin_bottom = 14.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 24, 0 )
 texture = ExtResource( 9 )
 expand = true
@@ -63,19 +79,20 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 margin_left = 36.0
-margin_right = 167.0
-margin_bottom = 14.0
+margin_right = 297.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
 text = "discord.gg/qGMdbez"
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 686.0
+margin_top = 676.0
 margin_right = 1260.0
 margin_bottom = 700.0
 custom_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
 margin_right = 24.0
-margin_bottom = 14.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 24, 0 )
 texture = ExtResource( 11 )
 expand = true
@@ -83,8 +100,9 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
 margin_left = 36.0
-margin_right = 157.0
-margin_bottom = 14.0
+margin_right = 276.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
 text = "@PHeartbeatGame"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -114,10 +132,12 @@ margin_bottom = 667.0
 focus_mode = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
-script = SubResource( 1 )
+script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+stop_hover_on_focus_exit = true
+orientation = 1
 
 [node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -141,9 +161,7 @@ text = "Multiplayer"
 icon = ExtResource( 7 )
 next_menu = "lobby_list"
 
-[node name="HowToPlay" parent="VBoxContainer/StartMenu" groups=[
-"mponly",
-] instance=ExtResource( 4 )]
+[node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 140.0
 margin_right = 430.0
