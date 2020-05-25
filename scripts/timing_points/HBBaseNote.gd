@@ -13,7 +13,7 @@ enum NOTE_TYPE {
 	SLIDE_RIGHT,
 	SLIDE_LEFT_HOLD_PIECE,
 	SLIDE_RIGHT_HOLD_PIECE,
-#	HEART
+	HEART
 }
 
 # List of notes that should NEVER EVER be considered multinotes

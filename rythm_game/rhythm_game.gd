@@ -25,7 +25,15 @@ const SLIDE_HOLD_PIECE_SCORE = 10
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 const TRAIL_RESOLUTION = 80
 
-var NOTE_TYPE_TO_ACTIONS_MAP = {HBNoteData.NOTE_TYPE.RIGHT: ["note_right"], HBNoteData.NOTE_TYPE.LEFT: ["note_left"], HBNoteData.NOTE_TYPE.UP: ["note_up"], HBNoteData.NOTE_TYPE.DOWN: ["note_down"], HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"], HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"]}
+var NOTE_TYPE_TO_ACTIONS_MAP = {
+	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
+	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
+	HBNoteData.NOTE_TYPE.UP: ["note_up"],
+	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
+	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
+	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"],
+	HBNoteData.NOTE_TYPE.HEART: ["tap_up", "tap_down", "tap_left", "tap_right"]
+}
 var timing_points = [] setget _set_timing_points
 # TPs that were previously hit
 var hit_timing_points = []

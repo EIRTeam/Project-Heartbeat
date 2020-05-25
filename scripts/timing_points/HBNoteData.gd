@@ -3,57 +3,6 @@ extends HBBaseNote
 
 class_name HBNoteData
 
-const NOTE_GRAPHICS = {
-	NOTE_TYPE.UP: {
-		"note": preload("res://graphics/notes/xbox/Y.png"),
-		"target": preload("res://graphics/notes/xbox/Y_target.png"),
-		"hold_target": preload("res://graphics/notes/xbox/Y_target_hold.png")
-	},
-	NOTE_TYPE.DOWN: {
-		"note": preload("res://graphics/notes/xbox/A.png"),
-		"target": preload("res://graphics/notes/xbox/A_target.png"),
-		"hold_target": preload("res://graphics/notes/xbox/A_target_hold.png")
-	},
-	NOTE_TYPE.LEFT: {
-		"note": preload("res://graphics/notes/xbox/X.png"),
-		"target": preload("res://graphics/notes/xbox/X_target.png"),
-		"hold_target": preload("res://graphics/notes/xbox/X_target_hold.png")
-	},
-	NOTE_TYPE.RIGHT: {
-		"note": preload("res://graphics/notes/xbox/B.png"),
-		"target": preload("res://graphics/notes/xbox/B_target.png"),
-		"hold_target": preload("res://graphics/notes/xbox/B_target_hold.png")
-	},
-	NOTE_TYPE.SLIDE_RIGHT: {
-		"note": preload("res://graphics/notes/Slide_Right.png"),
-		"target": preload("res://graphics/notes/Slide_Right_Target.png")
-	},
-	NOTE_TYPE.SLIDE_LEFT: {
-		"note": preload("res://graphics/notes/Slide_Left.png"),
-		"target": preload("res://graphics/notes/Slide_Left_Target.png")
-	}
-}
-
-const NOTE_COLORS = {
-	NOTE_TYPE.UP: {
-		"color": "eeb136"
-	},
-	NOTE_TYPE.DOWN: {
-		"color": "87d639"
-	},
-	NOTE_TYPE.LEFT: {
-		"color": "4296f3"
-	},
-	NOTE_TYPE.RIGHT: {
-		"color": "e02828"
-	},
-	NOTE_TYPE.SLIDE_LEFT: {
-		"color": "f39e42"
-	},
-	NOTE_TYPE.SLIDE_RIGHT: {
-		"color": "f39e42"
-	}
-}
 var hold = false # If this is a modern-style hold note
 
 func _init():
@@ -76,8 +25,6 @@ func get_drawer():
 # returns the list of graphics for this note
 static func get_note_graphics(type):
 	var graphics = IconPackLoader.get_variations(HBUtils.find_key(NOTE_TYPE, type))
-	if graphics == null:
-		graphics = NOTE_GRAPHICS[type]
 	return graphics
 	
 # unused...

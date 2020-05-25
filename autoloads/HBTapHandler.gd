@@ -1,11 +1,13 @@
 extends Node
 
 var pressed_inputs = {}
-const ACTIONS_TO_TRACK_FOR_TAPS = ["tap_right_analog", "tap_left_analog"]
+const ACTIONS_TO_TRACK_FOR_TAPS = ["tap_right_analog", "tap_left_analog", "tap_up_analog", "tap_down_analog"]
 
 const ANALOG_TO_DIGITAL_MAP = {
 	"tap_right_analog": "tap_right",
-	"tap_left_analog": "tap_left"
+	"tap_left_analog": "tap_left",
+	"tap_up_analog": "tap_up",
+	"tap_down_analog": "tap_down"
 }
 
 # device -> action -> axis -> pressed

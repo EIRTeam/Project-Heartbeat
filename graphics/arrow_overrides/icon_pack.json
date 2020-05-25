@@ -216,6 +216,34 @@
                     "target_path": "notes/Slide_Right_multi_note_target"
                 }
             }
+        },
+        "HEART": {
+            "color": "#4f30ae",
+            "shadow_color": "#624ac3",
+            "uses_custom_shadow": true,
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/Heart"
+                },
+                "target": {
+                    "style": "target_with_multi_outline",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/Heart_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/Heart_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/Heart_multi_note_target"
+                }
+            }
         }
     }
+
 }
