@@ -62,6 +62,9 @@ func _init():
 		},
 		"staff_roll": {
 			"left": preload("res://menus/credits/Credits.tscn").instance()
+		},
+		"tutorial": {
+			"fullscreen": preload("res://menus/tutorial/TutorialScreen.tscn").instance()
 		}
 	}
 
@@ -110,7 +113,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 	if left_menu:
 		left_menu._on_menu_exit(force_hard_transition)
 		left_menu.connect("transition_finished", left_menu_container, "remove_child", [left_menu], CONNECT_ONESHOT)
-	if right_menu and menu_data.has("right") and not right_menu == MENUS[menu_data.right].right:
+	if right_menu and (menu_data.has("right") or menu_data.has("fullscreen")) and (menu_data.has("fullscreen") or not right_menu == MENUS[menu_data.right].right):
 		right_menu._on_menu_exit(force_hard_transition)
 		right_menu.connect("transition_finished", right_menu_container, "remove_child", [right_menu], CONNECT_ONESHOT)
 	

@@ -1,0 +1,40 @@
+ extends HBMenu
+
+onready var page_label: Label = get_node("Panel/MarginContainer/VBoxContainer/Label")
+onready var page_container = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer")
+onready var previous_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/PreviousArrow")
+onready var next_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/NextArrow")
+
+var page = -1
+
+func _on_menu_enter(force_hard_transition=false, args = {}):
+	._on_menu_enter(force_hard_transition, args)
+	go_to_page(0)
+	
+func go_to_page(page: int):
+	if not page == self.page:
+		self.page = page
+		for child in page_container.get_children():
+			child.hide()
+		page_container.get_child(page).show()
+		
+		if page == 0:
+			previous_arrow.hide()
+		else:
+			previous_arrow.show()
+		if page == page_container.get_child_count()-1:
+			next_arrow.hide()
+		else:
+			next_arrow.show()
+		
+		update_page_label()
+func update_page_label():
+	page_label.text = "%d/%d" % [page+1, page_container.get_child_count()]
+
+func _unhandled_input(event):
+	if event.is_action_pressed("gui_left"):
+		go_to_page(clamp((page-1), 0, page_container.get_child_count()-1))
+	if event.is_action_pressed("gui_right"):
+		go_to_page(clamp((page+1), 0, page_container.get_child_count()-1))
+	if event.is_action_pressed("gui_cancel"):
+		change_to_menu("main_menu")
