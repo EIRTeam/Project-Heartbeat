@@ -19,13 +19,13 @@ func go_to_page(page: int):
 		page_container.get_child(page).show()
 		
 		if page == 0:
-			previous_arrow.hide()
+			previous_arrow.modulate.a = 0.0
 		else:
-			previous_arrow.show()
+			previous_arrow.modulate.a = 1.0
 		if page == page_container.get_child_count()-1:
-			next_arrow.hide()
+			next_arrow.modulate.a = 0.0
 		else:
-			next_arrow.show()
+			next_arrow.modulate.a = 1.0
 		
 		update_page_label()
 func update_page_label():
