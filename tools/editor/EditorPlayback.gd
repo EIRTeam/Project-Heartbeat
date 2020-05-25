@@ -1,4 +1,4 @@
-# This takes care of the gameplay playback inside the editor.
+# This takes care of all things related to playing back in the editor.
 extends Node
 
 class_name EditorPlayback
@@ -56,6 +56,9 @@ func pause():
 	voice_audio_stream_player.stop()
 #	_on_timing_points_changed()
 	game.previewing = false
+
+func is_playing():
+	return audio_stream_player.playing
 
 func seek(value: int):
 	if not audio_stream_player.playing:

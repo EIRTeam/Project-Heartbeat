@@ -145,7 +145,7 @@ func _unhandled_input(event):
 			get_tree().set_input_as_handled()
 			delete_selected()
 	if event.is_action_pressed("editor_play"):
-		if not audio_stream_player.playing:
+		if not game_playback.is_playing():
 			_on_PlayButton_pressed()
 		else:
 			_on_PauseButton_pressed()
