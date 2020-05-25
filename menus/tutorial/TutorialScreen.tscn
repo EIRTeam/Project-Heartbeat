@@ -92,8 +92,13 @@ size_flags_vertical = 3
 visible = false
 size_flags_vertical = 3
 
-[node name="Page5" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 7 )]
+[node name="PageFinal" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 7 )]
 visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 295.0
+margin_right = 1076.0
+margin_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="NextArrow" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]

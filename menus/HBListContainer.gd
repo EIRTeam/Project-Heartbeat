@@ -23,6 +23,12 @@ const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
 var move_sound_player = AudioStreamPlayer.new()
 export(bool) var fixed_scale_factor = false
 var prevent_hard_arrange = false
+
+const MOVE_DEBOUNCE_T = 0.1
+const INITIAL_MOVE_DEBOUNCE_T = 0.3
+var move_debounce = MOVE_DEBOUNCE_T
+var initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
+
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
@@ -71,6 +77,25 @@ func _on_focus_exited():
 		selected_option.stop_hover()
 			
 func _process(delta):
+	move_debounce += delta
+	initial_move_debounce += delta
+	var can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T
+	if Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up"):
+		move_debounce = MOVE_DEBOUNCE_T
+		initial_move_debounce = 0.0
+		can_press = true
+	if Input.is_action_pressed("gui_down") and can_press:
+		move_debounce = 0.0
+		var current_pos = selected_option.get_position_in_parent()
+		if current_pos < get_child_count()-1:
+			select_option(current_pos+1)
+			move_sound_player.play()
+	if Input.is_action_pressed("gui_up") and can_press:
+		move_debounce = 0.0
+		var current_pos = selected_option.get_position_in_parent()
+		if current_pos > 0:
+			select_option(current_pos-1)
+			move_sound_player.play()
 	var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 	if not selected_option:
 		if get_child_count() > 0:
@@ -103,20 +128,12 @@ func select_option(option_i: int):
 	selected_option = get_child(option_i)
 	selected_option.hover()
 	emit_signal("selected_option_changed")
-	
 
 func _gui_input(event):
 	if selected_option:
-		if event.is_action_pressed("gui_down"):
-			var current_pos = selected_option.get_position_in_parent()
-			if current_pos < get_child_count()-1:
-				select_option(current_pos+1)
-				move_sound_player.play()
-		if event.is_action_pressed("gui_up"):
-			var current_pos = selected_option.get_position_in_parent()
-			if current_pos > 0:
-				select_option(current_pos-1)
-				move_sound_player.play()
+		if event.is_action_released("gui_up") or event.is_action_released("gui_down"):
+			move_debounce = MOVE_DEBOUNCE_T
+			initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
 		if event.is_action_pressed("gui_accept"):
 			get_tree().set_input_as_handled()
 			selected_option.emit_signal("pressed")
