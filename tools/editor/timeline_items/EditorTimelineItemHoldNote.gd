@@ -37,13 +37,14 @@ func connect_widget(widget: HBEditorWidget):
 	.connect_widget(widget)
 	
 func _draw():
-	var line_color = Color(HBNoteData.NOTE_COLORS[data.note_type].color)
-	line_color.a = 1.0
-	draw_line(Vector2(0, rect_size.y/2), Vector2(rect_size.x, rect_size.y/2), Color.white, rect_size.y / 2)
-	draw_line(Vector2(0, rect_size.y/2), Vector2(rect_size.x, rect_size.y/2), line_color, rect_size.y / 4)
-	var note_pos = Vector2(rect_size.x - get_size().y / 2.0, 0)
-	var rect = Rect2(note_pos, Vector2(get_size().y, get_size().y))
-	draw_texture_rect(HBNoteData.NOTE_GRAPHICS[data.note_type].note, rect, false)
+	pass
+#	var line_color = Color(HBNoteData.NOTE_COLORS[data.note_type].color)
+#	line_color.a = 1.0
+#	draw_line(Vector2(0, rect_size.y/2), Vector2(rect_size.x, rect_size.y/2), Color.white, rect_size.y / 2)
+#	draw_line(Vector2(0, rect_size.y/2), Vector2(rect_size.x, rect_size.y/2), line_color, rect_size.y / 4)
+#	var note_pos = Vector2(rect_size.x - get_size().y / 2.0, 0)
+#	var rect = Rect2(note_pos, Vector2(get_size().y, get_size().y))
+#	draw_texture_rect(HBNoteData.NOTE_GRAPHICS[data.note_type].note, rect, false)
 
 func get_editor_widget():
 	return preload("res://tools/editor/widgets/NoteMovementWidget.tscn")

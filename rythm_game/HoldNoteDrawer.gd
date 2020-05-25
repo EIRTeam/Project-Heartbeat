@@ -57,22 +57,23 @@ func update_graphic_positions_and_scale(time: float):
 	.update_graphic_positions_and_scale(time)
 	
 func set_trail_color():
-	var gradient = Gradient.new()
-	var gradient_back = Gradient.new()
+	pass
+#	var gradient = Gradient.new()
+#	var gradient_back = Gradient.new()
+##	var back_color = Color(note_data.NOTE_COLORS[note_data.note_type].color)
 #	var back_color = Color(note_data.NOTE_COLORS[note_data.note_type].color)
-	var back_color = Color(note_data.NOTE_COLORS[note_data.note_type].color)
-	back_color.a = 1.0
-	gradient_back.set_color(0, back_color)
-	gradient_back.set_color(1, back_color)
-	var color1 = Color("#272646")
-	var color2 = Color("#272646")
-	color1.a = 1.0
-	color2.a = 1.0
-	gradient.set_color(0, color1)
-	gradient.set_color(1, color2)
-	$Line2D.gradient = gradient_back
-	$Line2D2.gradient = gradient
-	$Line2D3.default_color = Color.white
+#	back_color.a = 1.0
+#	gradient_back.set_color(0, back_color)
+#	gradient_back.set_color(1, back_color)
+#	var color1 = Color("#272646")
+#	var color2 = Color("#272646")
+#	color1.a = 1.0
+#	color2.a = 1.0
+#	gradient.set_color(0, color1)
+#	gradient.set_color(1, color2)
+#	$Line2D.gradient = gradient_back
+#	$Line2D2.gradient = gradient
+#	$Line2D3.default_color = Color.white
 	
 func get_note_graphic():
 	return note_graphic
