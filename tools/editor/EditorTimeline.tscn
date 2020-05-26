@@ -155,5 +155,10 @@ custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+margin_right = 20.0
+margin_bottom = 20.0
+items = [ "Elemento 0", null, 0, false, false, 0, 0, null, "", false, "Elemento 1", null, 0, false, false, 1, 0, null, "", false, "Elemento 2", null, 0, false, false, 2, 0, null, "", false ]
 [connection signal="scrolling" from="VBoxContainer/HScrollBar" to="." method="_on_HScrollBar_scrolling"]
 [connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]

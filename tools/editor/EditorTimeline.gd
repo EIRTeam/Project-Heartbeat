@@ -156,7 +156,9 @@ func _input(event):
 				scroll_bar.value = new_offset / float(editor.get_song_length() * 1000.0)
 		if _area_selecting:
 			update()
-
+	if get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_contextual_menu"):
+			editor.show_contextual_menu()
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("editor_select") and not event.shift:
@@ -173,6 +175,9 @@ func _gui_input(event):
 				update()
 				
 				
+
+func get_time_being_hovered():
+	return editor.snap_time_to_timeline(editor.scale_pixels(get_layers()[0].get_local_mouse_position().x))
 
 func get_selection_rect():
 	var origin = _area_select_start

@@ -801,7 +801,6 @@ func restart():
 	audio_stream_player_voice.stream_paused = true
 
 func play_from_pos(position: float):
-	print("PLAYING FROM", position)
 	audio_stream_player.stream_paused = false
 	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()

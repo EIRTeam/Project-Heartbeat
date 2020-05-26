@@ -21,3 +21,9 @@ func get_editor() -> HBEditor:
 
 func show_error(error: String):
 	_editor.show_error(error)
+
+func get_selected_items():
+	return _editor.selected
+
+func get_contextual_menu() -> HBEditorContextualMenuControl:
+	return _editor.contextual_menu

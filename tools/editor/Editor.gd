@@ -42,7 +42,8 @@ const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
 var scale = 1.5 # Seconds per 500 pixels
-var selected: Array
+var selected: Array = []
+var copied_points: Array = []
 
 var bpm = 150 setget set_bpm, get_bpm
 var current_song: HBSong
@@ -56,6 +57,8 @@ var undo_redo = UndoRedo.new()
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 	
 var plugins = []
+
+var contextual_menu = HBEditorContextualMenuControl.new()
 
 func set_bpm(value):
 	BPM_spinbox.value = value
@@ -85,6 +88,7 @@ func load_plugins():
 	
 func _ready():
 	add_child(game_playback)
+	add_child(contextual_menu)
 	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")
 	Input.set_use_accumulated_input(true)
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
@@ -141,7 +145,7 @@ func _unhandled_input(event):
 			get_tree().set_input_as_handled()
 			change_scale(scale-0.5)
 	if event.is_action_pressed("editor_delete"):
-		if selected:
+		if selected.size() != 0:
 			get_tree().set_input_as_handled()
 			delete_selected()
 	if event.is_action_pressed("editor_play"):
@@ -149,6 +153,14 @@ func _unhandled_input(event):
 			_on_PlayButton_pressed()
 		else:
 			_on_PauseButton_pressed()
+	if event.is_action_pressed("editor_paste"):
+		var time = timeline.get_time_being_hovered()
+		paste(time)
+	if event.is_action_pressed("editor_copy"):
+		copy_selected()
+	if event.is_action_pressed("editor_cut"):
+		copy_selected()
+		delete_selected()
 func _note_comparison(a, b):
 	return a.time > b.time
 
@@ -210,6 +222,14 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 		selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
 		selected_item.update_widget_data()
 	_on_timing_points_params_changed()
+	
+func show_contextual_menu():
+	contextual_menu.popup()
+	var popup_offset = get_global_mouse_position() + contextual_menu.rect_size - get_viewport_rect().size
+	popup_offset.x = max(popup_offset.x, 0)
+	popup_offset.y = max(popup_offset.y, 0)
+	contextual_menu.set_global_position(get_global_mouse_position() - popup_offset)
+	
 # Changes the property of the selected item, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary, thus undoing constant 
 # actions like changing a note angle requires a single control+z
@@ -302,6 +322,39 @@ func _on_game_playback_time_changed(time: float):
 
 func seek(value: int):
 	game_playback.seek(value)
+	
+func copy_selected():
+	if selected.size() > 0:
+		copied_points = []
+		for item in selected:
+			var timing_point_timeline_item = item as EditorTimelineItem
+			var cloned_item = timing_point_timeline_item.data.clone().get_timeline_item()
+			cloned_item._layer = timing_point_timeline_item._layer
+			copied_points.append(cloned_item)
+			
+	
+func paste(time: int):
+	if copied_points.size() > 0:
+		undo_redo.create_action("Paste timing points")
+		var min_point = copied_points[0].data as HBTimingPoint
+		for item in copied_points:
+			var timeline_item := item as EditorTimelineItem
+			var timing_point := item.data as HBTimingPoint
+			if timing_point.time < min_point.time:
+				min_point = timing_point
+		for item in copied_points:
+			var timeline_item := item as EditorTimelineItem
+			var timing_point := item.data.clone() as HBTimingPoint
+			
+			timing_point.time = time + timing_point.time - min_point.time
+			
+			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
+			
+			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
+			undo_redo.add_undo_method(timeline_item._layer, "remove_item", new_item)
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.commit_action()
 func delete_selected():
 	if selected.size() > 0:
 		if inspector.inspecting_item in selected:
@@ -465,6 +518,7 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 
 func load_song(song: HBSong, difficulty: String):
 	rhythm_game.base_bpm = song.bpm
+	copied_points = []
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
 	var dir = Directory.new()
@@ -658,7 +712,6 @@ func show_error(error: String):
 	$PluginErrorDialog.rect_size = Vector2.ZERO
 	$PluginErrorDialog.dialog_text = error
 	$PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
-
 
 func _on_auto_multi_toggled(button_pressed):
 	song_editor_settings.auto_multi = button_pressed
