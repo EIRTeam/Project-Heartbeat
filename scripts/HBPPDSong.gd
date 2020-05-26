@@ -3,6 +3,8 @@ extends HBSong
 
 class_name HBPPDSong
 
+const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
+const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image"]
 func _ready():
 	pass
 
@@ -35,9 +37,14 @@ static func from_ini(content: String, id: String) -> HBSong:
 		song.start_time = max(int(float(dict.setting.start) * 1000.0), 0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
-	var file = File.new()
-	file.open("user://ppdtest.json", File.WRITE)
-	file.store_string(JSON.print(song.serialize(), "  "))
+		
+	# This allows PPD songs to take advantage of PH specific features
+	for setting in dict.setting:
+		if setting.begins_with(EXTENDED_PROPERTY_PREFIX):
+			var property_name = setting.substr(EXTENDED_PROPERTY_PREFIX.length(), setting.length() - EXTENDED_PROPERTY_PREFIX.length())
+			print("FOUND PROP!", property_name)
+			if property_name in ALLOWED_EXTENDED_PROPERTIES:
+				song.set(property_name, dict.setting[setting])
 	
 	return song
 # If video is enabled for this type of song
