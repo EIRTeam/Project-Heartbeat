@@ -16,6 +16,7 @@ func _init():
 	serializable_fields += ["hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "auto_multi"]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")
+	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.HEART))
 
 func set_layer_visibility(visibility: bool, layer_name: String):
 	if visibility:

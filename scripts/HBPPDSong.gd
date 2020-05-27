@@ -4,7 +4,7 @@ extends HBSong
 class_name HBPPDSong
 
 const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
-const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image"]
+const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url"]
 func _ready():
 	pass
 
