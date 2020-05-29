@@ -18,7 +18,7 @@ func get_lobby_members(lobby_id):
 func get_lobby_max_members(lobby_id):
 	pass
 
-func join_lobby(lobby: HBLobby):
+func join_lobby(new_lobby: HBLobby):
 	pass
 
 func create_lobby():

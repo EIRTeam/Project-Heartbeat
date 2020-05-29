@@ -9,8 +9,8 @@ const LOG_NAME = "IconPackLoader"
 var preloaded_graphics = {}
 var current_pack
 # Arrows pack also acts as fallback when other graphics are not available
-var arrow_overrides_graphics
-var arrow_overrides_pack
+var fallback_graphics
+var fallback_pack
 
 const DIRECTIONAL_TYPES_PROPERTY_MAP = {
 	"LEFT": "left_arrow_override_enabled",
@@ -23,8 +23,8 @@ func _ready():
 	load_all_icon_packs()
 	# Todo use default if pack doesn't exist
 	set_current_pack(UserSettings.user_settings.icon_pack)
-	arrow_overrides_pack = load_icon_pack("res://graphics/arrow_overrides")
-	arrow_overrides_graphics = preload_graphics(arrow_overrides_pack)
+	fallback_pack = load_icon_pack("res://graphics/fallback_icon_pack")
+	fallback_graphics = preload_graphics(fallback_pack)
 	
 func set_current_pack(pack_name):
 	preloaded_graphics = preload_graphics(packs[pack_name])
@@ -80,9 +80,9 @@ func get_icon(type, variation):
 	if preloaded_graphics.has(type):
 		if preloaded_graphics[type].has(variation):
 			return preloaded_graphics[type][variation]
-	elif arrow_overrides_graphics.has(type):
-		if arrow_overrides_graphics[type].has(variation):
-			return arrow_overrides_graphics[type][variation]
+	elif fallback_graphics.has(type):
+		if fallback_graphics[type].has(variation):
+			return fallback_graphics[type][variation]
 			
 # For overrides (like arrows)
 func get_graphics_for_type(type):
@@ -92,15 +92,15 @@ func get_graphics_for_type(type):
 	
 	if type in DIRECTIONAL_TYPES_PROPERTY_MAP.keys():
 		if UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[type]):
-			graphics = arrow_overrides_graphics
+			graphics = fallback_graphics
 	var final_graphs
 	if graphics.has(type):
 		
 		# This ensures that we take care of any missing graphics, even if the current
 		# icon pack has the type defined it might still be missing some graphics
-		final_graphs = HBUtils.merge_dict(arrow_overrides_graphics[type], graphics[type])
+		final_graphs = HBUtils.merge_dict(fallback_graphics[type], graphics[type])
 	else:
-		final_graphs = arrow_overrides_graphics[type]
+		final_graphs = fallback_graphics[type]
 		
 	return final_graphs
 		
@@ -110,8 +110,8 @@ func get_pack_for_type(type):
 	
 	if type in DIRECTIONAL_TYPES_PROPERTY_MAP.keys():
 		if UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[type]):
-			if arrow_overrides_pack.has(type):
-				pack = arrow_overrides_pack
+			if fallback_pack.has(type):
+				pack = fallback_pack
 	return pack
 		
 func get_variations(type):
@@ -125,8 +125,8 @@ func get_color(type) -> Color:
 	if pack.graphics.has(type):
 		color = pack.graphics[type].color
 	else:
-		if pack != arrow_overrides_pack:
-			color = arrow_overrides_pack.graphics[type].color
+		if pack != fallback_pack:
+			color = fallback_pack.graphics[type].color
 	return Color(color)
 
 func get_trail_margin(type) -> float:
@@ -136,9 +136,9 @@ func get_trail_margin(type) -> float:
 		if pack.graphics[type].has("trail_margin"):
 			margin = pack.graphics[type].trail_margin
 	else:
-		if pack != arrow_overrides_pack:
-			if arrow_overrides_pack.graphics[type].has("trail_margin"):
-				margin = arrow_overrides_pack.graphics[type].trail_margin
+		if pack != fallback_pack:
+			if fallback_pack.graphics[type].has("trail_margin"):
+				margin = fallback_pack.graphics[type].trail_margin
 	return margin
 
 

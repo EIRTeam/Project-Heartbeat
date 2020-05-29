@@ -15,4 +15,4 @@ func get_avatar():
 	return avatar
 
 func is_local_user():
-	true
+	return true

@@ -123,6 +123,7 @@ func _unhandled_input(event):
 				for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
 					allowed_actions.append(action)
 		for note in conn_notes:
+			if event.is_pressed():
 				if note in game.get_closest_notes():
 					# Non-wrong note checks
 					game.get_note_drawer(note).handle_input(event, game.time)

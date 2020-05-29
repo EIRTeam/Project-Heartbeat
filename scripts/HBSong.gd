@@ -98,7 +98,7 @@ func get_song_preview_res_path():
 	if preview_image != "":
 		return path.plus_file("/%s" % [preview_image])
 	else:
-		null
+		return null
 		
 func get_song_background_image_res_path():
 	if background_image != "":

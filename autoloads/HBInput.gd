@@ -27,8 +27,6 @@ func _input(event):
 					if event.is_action(action):
 						var found_action = action
 						
-						var previous_state = false
-						
 						var button = 0
 						var event_pressed = event.is_pressed()
 						if event is InputEventKey:
@@ -48,8 +46,6 @@ func _input(event):
 						else:
 							if action_tracking[found_action][event.device][button] == event_pressed:
 								return
-			
-						previous_state = is_action_pressed(found_action)
 						action_tracking[found_action][event.device][button] = event.is_pressed()
 						get_tree().set_input_as_handled()
 						if not is_action_pressed(found_action) or event_pressed:

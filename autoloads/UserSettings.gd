@@ -99,13 +99,6 @@ func _ready():
 	load_input_map()
 	save_user_settings()
 	user_settings.last_controller_guid = ""
-	for action in InputMap.get_actions():
-		if action in action_names:
-			for event in InputMap.get_action_list(action):
-				if event is InputEventJoypadMotion:
-					var n = 2 * event.axis;
-					if event.axis_value >= 0:
-						n += 1
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;
 	if event.axis_value >= 0:
@@ -184,9 +177,9 @@ func _save_user_settings():
 func get_event_name(event: InputEvent):
 	var ret = ""
 	if event is InputEventJoypadMotion:
-		var axis_sign = "+"
+		var _axis_sign = "+"
 		if event.axis_value < 0:
-			axis_sign = "-"
+			_axis_sign = "-"
 		ret = get_axis_name(event)
 	elif event is InputEventJoypadButton:
 		ret = get_button_name(event)

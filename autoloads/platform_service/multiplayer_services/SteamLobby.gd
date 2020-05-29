@@ -190,7 +190,6 @@ func _on_p2p_packet_received():
 		var packet = Steam.readP2PPacket(size, 0)
 		if packet.empty():
 			Log.log(self, "Empty P2P packet received with non-zero size")
-		var packet_id = str(packet.steamIDRemote)
 		var packet_type = packet.data[0]
 		var packet_data: Dictionary
 		Log.log(self, get_lobby_name() + " Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))

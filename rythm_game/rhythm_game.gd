@@ -547,7 +547,6 @@ func _process(_delta):
 #	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
 	var multi_notes = []
-	var offset = 0
 	for i in range(timing_points.size() - 1, -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBBaseNote:
@@ -611,9 +610,7 @@ func _process(_delta):
 					slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
 
 				chain.pieces.remove(i)
-		var show_max_slide_text = false
 		if chain.pieces.size() == 0:
-			show_max_slide_text = true
 			chain.sfx_player.queue_free()
 			play_sfx($SlideChainSuccessSFX)
 			active_slide_hold_chains.remove(ii)

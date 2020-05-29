@@ -153,7 +153,6 @@ func get_audio_path(video_id, global=false, temp=false):
 func _download_video(userdata):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
-	var file := File.new()
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id}

@@ -56,7 +56,7 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="IconPackPreview" parent="HBoxContainer/Control" instance=ExtResource( 3 )]
-margin_left = 483.0
+margin_left = 419.0
 margin_top = 0.0
 margin_right = 920.0
 margin_bottom = 64.0

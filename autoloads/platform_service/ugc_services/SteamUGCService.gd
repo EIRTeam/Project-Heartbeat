@@ -59,7 +59,6 @@ func _track_item_download(item_id):
 func _process(delta):
 	for item_id in updating_items:
 		if item_id in update_items_notification_thing:
-			var notification_thing = update_items_notification_thing[item_id]
 			var p = Steam.getItemDownloadInfo(item_id)
 			var progress = p.downloaded / float(p.total)
 			var text = "Downloading %s: %.2f (%.2f MB / %.2f MB )"
@@ -109,7 +108,7 @@ func _on_item_installed(app_id, item_id):
 
 func _on_item_downloaded(result, item_id, app_id):
 	if app_id == Steam.getAppID():
-		var item_name = str(item_id)
+		
 		if item_id in update_items_notification_thing:
 			var notification_thing = update_items_notification_thing[item_id]
 			DownloadProgress.remove_notification(notification_thing)
@@ -117,6 +116,7 @@ func _on_item_downloaded(result, item_id, app_id):
 
 		if result != 1:
 			if item_id in cached_items_data:
+				var item_name = str(item_id)
 				item_name = cached_items_data[item_id]
 			
 			var result_notification = DOWNLOAD_PROGRESS_THING.instance()

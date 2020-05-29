@@ -21,7 +21,6 @@ func set_time(val):
 	time = val
 	var shad_mat = material as ShaderMaterial
 	shad_mat.set_shader_param("time", time)
-	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
 func set_trail_margin(val):
 	trail_margin = val
 	var shad_mat = material as ShaderMaterial

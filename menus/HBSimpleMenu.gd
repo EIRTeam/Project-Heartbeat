@@ -41,20 +41,10 @@ func _on_focus_entered():
 func _gui_input(event):
 	var next_action = "gui_right"
 	var prev_action = "gui_left"
-	var down_action = "gui_down"
-	var up_action = "up_action"
+
 	if orientation == ORIENTATION.VERTICAL:
 		next_action = "gui_down"
 		prev_action = "gui_up"
-
-	if event.is_action_pressed(down_action):
-		if orientation == ORIENTATION.VERTICAL:
-			if selected_button_i == get_child_count()-1:
-				get_tree().set_input_as_handled()
-				emit_signal("bottom")
-		else:
-			get_tree().set_input_as_handled()
-			emit_signal("bottom")
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:

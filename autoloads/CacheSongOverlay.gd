@@ -26,6 +26,6 @@ func _on_error_prompt_accepted():
 	emit_signal("done")
 	
 func _on_download_prompt_accepted():
-	var result = current_song_downloading.cache_data()
+	current_song_downloading.cache_data()
 	download_confirm_popup.hide()
 	emit_signal("done")

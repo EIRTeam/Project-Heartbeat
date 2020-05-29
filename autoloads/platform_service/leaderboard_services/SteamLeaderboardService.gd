@@ -41,7 +41,6 @@ func download_leaderboard_entries(start, end, type):
 	
 func _on_leaderboard_entries_downloaded():
 	if Steam.getLeaderboardName() in queued_leaderboard_entry_loads:
-		var entry = queued_leaderboard_entry_loads[Steam.getLeaderboardName()]
 		var entries = Steam.getLeaderboardEntries()
 		var leaderboard_entries = []
 		for entry in entries:

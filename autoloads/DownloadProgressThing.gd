@@ -119,7 +119,6 @@ func _quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float):
 	var r = q0.linear_interpolate(q1, t)
 	return r
 func disappear():
-	var parent = get_parent()
 	move_time = 1.5
 	move_to_offset(target_offset+50)
 	opacity_t_sign = -1.0
