@@ -5,7 +5,7 @@ signal all_songs_loaded
 const LOG_NAME = "SongLoader"
 
 var songs := {}
-
+var initial_load_done = false
 const SONGS_PATH = "res://songs"
 
 const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
@@ -25,7 +25,7 @@ func _ready():
 			Log.log(self, "Error creating songs directory", err)
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
-	load_all_songs_meta()
+	load_all_songs_async()
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
@@ -121,6 +121,22 @@ func load_all_songs_meta():
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:
 			add_song(loaded_songs[song_id])
+	emit_signal("all_songs_loaded")
+
+func load_all_songs_async():
+	var thread = Thread.new()
+	var result = thread.start(self, "_load_all_songs_async", {"thread": thread})
+	if result != OK:
+		Log.log(self, "Error starting thread for song loader: " + str(result), Log.LogLevel.ERROR)
+
+func _load_all_songs_async(userdata):
+	load_all_songs_meta()
+	call_deferred("_songs_loaded", userdata.thread)
+
+func _songs_loaded(thread: Thread):
+	thread.wait_to_finish() # Windows breaks if you don't do this
+	initial_load_done = true
+	print("LOADED SHIT")
 	emit_signal("all_songs_loaded")
 
 func get_songs_with_difficulty(difficulty: String):

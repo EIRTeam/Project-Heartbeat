@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+const float MATH_PI	= float( 3.14159265359 );
+uniform float FREQ_RANGE = 64.0;
+uniform sampler2D audio : hint_white;
+uniform sampler2D background;
+float getfrequency(float x) {
+	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
+}
+float getfrequency_smooth(float x) {
+	float index = floor(x * FREQ_RANGE) / FREQ_RANGE;
+    float next = floor(x * FREQ_RANGE + 1.0) / FREQ_RANGE;
+	return mix(getfrequency(index), getfrequency(next), smoothstep(0.0, 1.0, fract(x * FREQ_RANGE)));
+}
+void Rotate( inout vec2 p, float a ) 
+{
+	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
+}
+
+float Circle( vec2 p, float r )
+{
+    return ( length( p / r ) - 1.0 ) * r;
+}
+
+float Rand( vec2 c )
+{
+	return fract( sin( dot( c.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );
+}
+
+float saturate( float x )
+{
+	return clamp( x, 0.0, 1.0 );
+}
+
+void BokehLayer( inout vec4 color, vec2 p, vec3 c )   
+{
+    float wrap = 450.0;    
+    if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
+    {
+        p.x += wrap * 0.5;
+    }    
+    
+    vec2 p2 = mod( p + 0.5 * wrap, wrap ) - 0.5 * wrap;
+    vec2 cell = floor( p / wrap + 0.5 );
+    float cellR = Rand( cell );
+        
+    c *= fract( cellR * 3.33 + 3.33 );    
+    float radius = mix( 30.0, 70.0, fract( cellR * 7.77 + 7.77 ) );
+    p2.x *= mix( 0.9, 1.1, fract( cellR * 11.13 + 11.13 ) );
+    p2.y *= mix( 0.9, 1.1, fract( cellR * 17.17 + 17.17 ) );
+    
+    float sdf = Circle( p2, radius );
+    float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
+    float glow = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
+    color.rgb += c * ( circle + glow );
+}
+
+void fragment()
+{    
+	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 uv = FRAGCOORD.xy / iResolution.xy;
+	vec2 p = ( 1.0 * FRAGCOORD.xy - iResolution.xy ) / iResolution.x * 1000.0;
+    
+    // background
+	vec3 bg = vec3(0.13, 0.07, 0.26);
+	vec4 color;
+	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
+	color.a = 0.5;
+    float time = TIME - 15.0;
+    
+	float intensity = 1.0;
+	
+    Rotate( p, 0.2 + time * 0.03 );
+    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), (intensity + getfrequency_smooth(0.0) * 1.0) * vec3( 0.31, 0.19, 0.68 ) );
+	Rotate( p, 0.3 - time * 0.05 );
+//    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
+	Rotate( p, 0.5 + time * 0.07 );
+//    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
+    Rotate( p, 0.9 - time * 0.03 );
+    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), (intensity + getfrequency_smooth(0.5) * 1.0) * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
+    Rotate( p, 0.0 + time * 0.05 );
+	
+    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), (intensity + getfrequency_smooth(1.0) * 1.0) * vec3( 0.5, 0.4, 0.4 ) );     
+
+	COLOR = vec4( color.rgb * vec3(0.7), color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/FREQ_RANGE = 64.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.075175, 0.0405, 0.15, 0.501961 )
+
+[node name="MainMenuVisualizer2" type="Panel"]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+fallback_stylebox = SubResource( 3 )

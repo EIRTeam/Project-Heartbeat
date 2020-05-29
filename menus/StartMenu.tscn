@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://menus/StartMenu.gd" type="Script" id=4]
 [ext_resource path="res://default_theme.tres" type="Theme" id=5]
 [ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=6]
+[ext_resource path="res://fonts/RatingFontSmaller.tres" type="DynamicFont" id=7]
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
@@ -36,15 +37,16 @@ anchor_bottom = 1.0
 margin_left = -0.568787
 margin_right = -0.568848
 mouse_filter = 2
+custom_constants/separation = 32
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect3" type="TextureRect" parent="PressStart/VBoxContainer"]
-margin_top = 228.0
+margin_top = 202.0
 margin_right = 1280.0
-margin_bottom = 378.0
+margin_bottom = 352.0
 rect_min_size = Vector2( 0, 150 )
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -56,24 +58,25 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
-margin_top = 382.0
+margin_top = 384.0
 margin_right = 1280.0
-margin_bottom = 492.0
+margin_bottom = 517.0
 mouse_filter = 2
 custom_constants/separation = 70
 
 [node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 20.0
+margin_bottom = 38.0
+custom_fonts/font = ExtResource( 7 )
 text = "(NT)On the wings of a dream"
 align = 1
 valign = 1
 script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
-margin_top = 90.0
+margin_top = 108.0
 margin_right = 1280.0
-margin_bottom = 110.0
+margin_bottom = 133.0
 custom_fonts/font = ExtResource( 1 )
 text = "Press any key"
 align = 1
