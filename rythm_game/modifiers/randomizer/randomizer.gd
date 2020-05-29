@@ -20,7 +20,7 @@ func _preprocess_timing_points(points: Array) -> Array:
 	}
 	
 	for point in points:
-		if point is HBNoteData:
+		if point is HBBaseNote:
 			if point.note_type in note_remap_dict:
 				point.note_type = note_remap_dict[point.note_type]
 	return points

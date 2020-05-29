@@ -18,5 +18,18 @@ func get_serialized_type():
 func get_timeline_item():
 	Log.log(self, "Unimplemented timeline item", Log.LogLevel.ERROR)
 
+func get_inspector_properties():
+	return {
+		"time": {
+			"type": "int"
+		},
+		"bpm": {
+			"type": "int",
+			"params": {
+				"min": 1
+			}
+		}
+	}
+
 func get_duration():
 	return 0

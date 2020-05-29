@@ -3,7 +3,6 @@
 [ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=1]
 [ext_resource path="res://rythm_game/note_drawers/NoteGraphic.gd" type="Script" id=2]
 
-
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 render_mode blend_mix;

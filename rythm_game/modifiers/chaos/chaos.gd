@@ -15,20 +15,20 @@ func _preprocess_timing_points(points: Array) -> Array:
 	for i in anime_seed.to_ascii():
 		gen_seed += i
 	rand_seed(gen_seed)
-	var notes = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.RIGHT]
+	var notes = [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]
 	notes.shuffle()
 	var note_types_to_randomize = [
-		HBNoteData.NOTE_TYPE.UP,
-		HBNoteData.NOTE_TYPE.DOWN,
-		HBNoteData.NOTE_TYPE.LEFT,
-		HBNoteData.NOTE_TYPE.RIGHT,
+		HBBaseNote.NOTE_TYPE.UP,
+		HBBaseNote.NOTE_TYPE.DOWN,
+		HBBaseNote.NOTE_TYPE.LEFT,
+		HBBaseNote.NOTE_TYPE.RIGHT,
 	]
 	var generator = RandomNumberGenerator.new()
 	generator.seed = gen_seed
 	var last_types = []
 	var last_type_time = 0.0
 	for point in points:
-		if point is HBNoteData and not point.is_slide_note():
+		if point is HBBaseNote and not point.is_slide_note():
 			if point.note_type in note_types_to_randomize:
 				note_types_to_randomize.shuffle()
 				var new_type = note_types_to_randomize[0]

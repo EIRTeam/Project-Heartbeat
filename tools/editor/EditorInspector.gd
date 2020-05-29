@@ -20,7 +20,7 @@ signal property_changed(property, value)
 signal property_change_committed(property)
 signal note_pasted(note_data)
 
-var copied_note: HBNoteData
+var copied_note: HBBaseNote
 
 func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
@@ -60,13 +60,13 @@ func sync_value(property_name: String):
 	inspecting_properties[property_name].sync_value(inspecting_item.data.get(property_name))
 	update_label()
 func inspect(item: EditorTimelineItem):
-	if item.data is HBNoteData:
+	if item.data is HBBaseNote:
 		paste_icon.disabled = false
 		
 	if not copied_note:
 		paste_icon.disabled = true
 		 
-	if item.data is HBNoteData:
+	if item.data is HBBaseNote:
 		copy_icon.disabled = false
 	else:
 		copy_icon.disabled = true
@@ -80,7 +80,7 @@ func inspect(item: EditorTimelineItem):
 	
 	for child in property_container.get_children():
 		child.free()
-	var properties = item.get_inspector_properties()
+	var properties = item.data.get_inspector_properties()
 	item.connect("property_changed", self, "update_value")
 	
 	for property in properties:

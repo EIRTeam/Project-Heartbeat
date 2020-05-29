@@ -34,7 +34,7 @@ func show_notes(notes):
 		direction.off.show()
 		direction.on.hide()
 	for note in notes:
-		if note is HBNoteData and note.note_type in directions_map:
+		if note is HBBaseNote and note.note_type in directions_map:
 			directions_map[note.note_type].on.show()
 			directions_map[note.note_type].off.hide()
 		else:

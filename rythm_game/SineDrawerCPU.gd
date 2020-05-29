@@ -2,7 +2,7 @@ extends Node2D
 
 class_name SineDrawerCPU
 
-var note_data: HBNoteData
+var note_data: HBBaseNote
 
 var points: PoolVector2Array
 var points2: PoolVector2Array

@@ -188,7 +188,7 @@ func verify_chart(song: HBSong, difficulty: String):
 			var points = chart.get_timing_points()
 			points.invert()
 			for point in points:
-				if point is HBNoteData:
+				if point is HBBaseNote:
 					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 						found_left_slide = true
 					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:

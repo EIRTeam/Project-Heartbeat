@@ -7,19 +7,17 @@ func _ready():
 	data.connect("note_type_changed", self, "set_texture")
 	get_viewport().connect("size_changed", self, "_on_view_port_size_changed")
 func set_texture():
-	if data.is_slide_hold_piece():
-		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).target
+	if data is HBDoubleNote:
+		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).double_note
 	else:
-		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).note
+		if data.is_slide_hold_piece():
+			$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).target
+		else:
+			$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).note
 	$TextureRect.rect_size = Vector2(get_size().y, get_size().y)
 	$TextureRect.rect_position = Vector2(-get_size().y / 2, 0)
 func get_size():
 	return Vector2(WIDTH, rect_size.y)
-
-func get_inspector_properties():
-	var props = HBUtils.merge_dict(.get_inspector_properties(),  {
-	})
-	return props
 
 func get_duration():
 	return 100

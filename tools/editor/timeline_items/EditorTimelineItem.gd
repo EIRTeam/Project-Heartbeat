@@ -84,14 +84,7 @@ func select():
 	modulate = Color(0.5, 0.5, 0.5, 1.0)
 		
 func get_inspector_properties():
-	return {
-		"time": {
-			"type": "int"
-		},
-		"position": {
-			"type": "Vector2"
-		}
-	}
+	pass
 	
 func get_editor_widget() -> PackedScene:
 	return null

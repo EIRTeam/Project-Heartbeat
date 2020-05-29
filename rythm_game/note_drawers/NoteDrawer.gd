@@ -1,9 +1,8 @@
 extends Node2D
 class_name HBNoteDrawer
-var note_data: HBNoteData = HBNoteData.new() setget set_note_data
+var note_data: HBBaseNote = HBNoteData.new() setget set_note_data
 var game
 
-signal target_selected
 signal notes_judged(notes, judgement, wrong)
 signal note_removed
 
@@ -15,6 +14,13 @@ var next_note = null
 var note_master = true setget set_note_master # Master notes take care of multi-note stuff...
 
 const Laser = preload("res://rythm_game/Laser.tscn")
+
+const TRAIL_RESOLUTION = 19
+
+class JudgeInputResult:
+	var wrong = false
+	var has_rating = false
+	var resulting_rating = -1
 
 func set_note_data(val):
 	note_data = val
@@ -100,9 +106,14 @@ func get_time_out():
 		_cached_time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
 	return _cached_time_out 
 
-func judge_note_input(event: InputEvent, time: float, released = false):
+# Used for notes that specially handle multiple inputs (like doubles), only called
+# once per input event
+func handle_input(event: InputEvent, time: float):
+	pass
+
+func judge_note_input(event: InputEvent, time: float, released = false) -> JudgeInputResult:
 	# Judging tapped keys
-	var out_judgement = -1
+	var result = JudgeInputResult.new()
 	for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		var event_result = event.is_action_pressed(action) and not event.is_echo()
 		if released:
@@ -115,9 +126,10 @@ func judge_note_input(event: InputEvent, time: float, released = false):
 					judgement = game.judge.judge_note(time, note_data.time+note_data.get_duration()/1000.0)
 				if judgement:
 					print("JUDGED!", judgement," ", time, " ", note_data.time/1000.0)
-					out_judgement = judgement
+					result.resulting_rating = judgement
+					result.has_rating = true
 			break
-	return out_judgement
+	return result
 
 func _on_game_time_changed(time: float):
 	if note_master:
@@ -126,16 +138,5 @@ func _on_game_time_changed(time: float):
 				if not game.get_note_drawer(note).is_queued_for_deletion():
 					game.get_note_drawer(note)._on_game_time_changed(time)
 
-func _on_NoteTarget_note_selected():
-	emit_signal("target_selected")
-
 func get_note_graphic():
-	pass
-
-func get_notes():
-	return [note_data]
-
-func _on_heart_power_activated():
-	pass
-func _on_heart_power_end():
 	pass

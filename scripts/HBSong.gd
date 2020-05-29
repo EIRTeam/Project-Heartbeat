@@ -46,8 +46,6 @@ var start_time = 0
 var end_time = -1
 var volume = 1.0
 
-signal song_caching_finished(success)
-
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty
 func get_serialized_type():

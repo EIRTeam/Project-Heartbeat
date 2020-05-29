@@ -3,7 +3,7 @@ extends StaticBody2D
 var distance = 1400
 var time_out = 1400
 
-var note_data: HBNoteData = HBNoteData.new()
+var note_data: HBBaseNote = HBNoteData.new()
 var arm_position = 0 setget set_arm_position
 
 onready var progress_circle_rect = get_node("Node2D/TextureRect")
@@ -34,13 +34,18 @@ func draw_circle_arc( center, radius, angleFrom, angleTo, color ):
 
 func _ready():
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
-func set_note_type(type, multi = false, hold = true):
-	if multi:
-		$Sprite.texture = HBNoteData.get_note_graphics(type).multi_note_target
-		$Sprite/HoldTextSpriteMulti.visible = hold
+func set_note_type(type, multi = false, hold = true, double = false):
+	# set the texture to the correct one
+	if double:
+		$Sprite.texture = HBNoteData.get_note_graphics(type).double_target
 	else:
-		$Sprite/HoldTextSprite.visible = hold
-		$Sprite.texture = HBNoteData.get_note_graphics(type).target
+		if multi:
+			$Sprite.texture = HBNoteData.get_note_graphics(type).multi_note_target
+			$Sprite/HoldTextSpriteMulti.visible = hold
+		else:
+			$Sprite/HoldTextSprite.visible = hold
+			$Sprite.texture = HBNoteData.get_note_graphics(type).target
+			
 	var arm_disabled_types = [
 		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
 		HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE

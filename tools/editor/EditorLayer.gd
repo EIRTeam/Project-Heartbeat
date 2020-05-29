@@ -87,30 +87,30 @@ func _gui_input(event):
 					item.data = new_note
 					editor.user_create_timing_point(self, item)
 
-func drop_data(position, data: EditorTimelineItem):
-	data._layer.remove_child(data)
-#	data.disconnect("item_changed", data._layer, "place_child")
-
-	for i in get_timing_points():
-		if i.time == data.data.time:
-			return
-
-	if not position == null:
-		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
-		
-	var ln = layer_name
-	if ln.ends_with("2"):
-	# For second layers of the same type, this ensures we don't
-	# just do any layer with 2 at the end
-		var new_val = ln.substr(0, ln.length()-1)
-		if new_val in HBNoteData.NOTE_TYPE.keys():
-			ln = new_val
-		
-	if ln in HBNoteData.NOTE_TYPE.keys():
-		if data.data is HBNoteData:
-			data.data.note_type = HBNoteData.NOTE_TYPE[ln]
-		
-	add_item(data)
+#func drop_data(position, data: EditorTimelineItem):
+#	data._layer.remove_child(data)
+##	data.disconnect("item_changed", data._layer, "place_child")
+#
+#	for i in get_timing_points():
+#		if i.time == data.data.time:
+#			return
+#
+#	if not position == null:
+#		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
+#
+#	var ln = layer_name
+#	if ln.ends_with("2"):
+#	# For second layers of the same type, this ensures we don't
+#	# just do any layer with 2 at the end
+#		var new_val = ln.substr(0, ln.length()-1)
+#		if new_val in HBNoteData.NOTE_TYPE.keys():
+#			ln = new_val
+#
+#	if ln in HBNoteData.NOTE_TYPE.keys():
+#		if data.data is HBBaseNote:
+#			data.data.note_type = HBNoteData.NOTE_TYPE[ln]
+#
+#	add_item(data)
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()

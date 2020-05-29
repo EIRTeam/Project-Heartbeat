@@ -91,21 +91,21 @@ func get_max_score():
 	var tp = get_timing_points()
 	var max_score = 0.0
 	
-	var last_point: HBNoteData
+	var last_point: HBBaseNote
 	
 	var notes = 0
 	
 	for point in tp:
-		if point is HBNoteData:
+		if point is HBBaseNote:
 			if last_point:
 				if last_point.time == point.time:
 					continue
-			if point.is_slide_hold_piece():
+			if point is HBNoteData and point.is_slide_hold_piece():
 				continue
 			else:
 				notes += 1
 				last_point = point
-	max_score += notes * HBNoteData.NOTE_SCORES[HBJudge.JUDGE_RATINGS.COOL]
+				max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
 	
 	return max_score
 	

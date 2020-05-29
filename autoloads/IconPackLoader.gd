@@ -93,10 +93,16 @@ func get_graphics_for_type(type):
 	if type in DIRECTIONAL_TYPES_PROPERTY_MAP.keys():
 		if UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[type]):
 			graphics = arrow_overrides_graphics
+	var final_graphs
 	if graphics.has(type):
-		return graphics[type]
+		
+		# This ensures that we take care of any missing graphics, even if the current
+		# icon pack has the type defined it might still be missing some graphics
+		final_graphs = HBUtils.merge_dict(arrow_overrides_graphics[type], graphics[type])
 	else:
-		return arrow_overrides_graphics[type]
+		final_graphs = arrow_overrides_graphics[type]
+		
+	return final_graphs
 		
 		
 func get_pack_for_type(type):

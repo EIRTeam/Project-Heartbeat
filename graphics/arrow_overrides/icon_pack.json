@@ -30,6 +30,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Left",
                     "target_path": "notes/Left_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_left",
+                    "target_path": "notes/Double_left_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_left",
+                    "target_path": "notes/Double_letf"
                 }
             }
         },
@@ -62,6 +72,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Down",
                     "target_path": "notes/Down_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_down",
+                    "target_path": "notes/Double_down_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_down",
+                    "target_path": "notes/Double_down"
                 }
             }
         },
@@ -94,6 +114,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Right",
                     "target_path": "notes/Right_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_right",
+                    "target_path": "notes/Double_right_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_right",
+                    "target_path": "notes/Double_right"
                 }
             }
         },
@@ -126,6 +156,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Up",
                     "target_path": "notes/Up_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_up",
+                    "target_path": "notes/Double_up_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_up",
+                    "target_path": "notes/Double_up"
                 }
             }
         },

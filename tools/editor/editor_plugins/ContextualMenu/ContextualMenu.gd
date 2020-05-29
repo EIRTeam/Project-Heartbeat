@@ -43,6 +43,10 @@ func _init(_editor).(_editor):
 	
 	contextual_menu.add_contextual_item("Interpolate notes", "interpolate")
 	contextual_menu.set_contextual_item_icon("interpolate", interp_icon)
+	
+	contextual_menu.add_separator()	
+	
+	contextual_menu.add_contextual_item("Make double", "make_double")
 func interpolate_selected():
 	var selected_items := get_editor().selected as Array
 	if selected_items.size() > 2:
@@ -96,6 +100,36 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			get_editor().delete_selected()
 		"interpolate":
 			interpolate_selected()
+		"make_double":
+			change_note_type("DoubleNote")
+func change_note_type(new_type: String):
+	
+	var editor = get_editor()
+	var undo_redo = get_editor().undo_redo as UndoRedo
+	
+	if get_editor().selected.size() > 0:
+		undo_redo.create_action("Convert note to " + new_type)
+
+		for item in get_editor().selected:
+			var data = item.data as HBBaseNote
+			var new_data_ser = data.serialize()
+			new_data_ser["type"] = new_type
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			
+			var new_item = new_data.get_timeline_item()
+			
+			undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+			undo_redo.add_do_method(item, "deselect")
+			undo_redo.add_undo_method(item._layer, "remove_item", new_item)
+			
+			undo_redo.add_do_method(item._layer, "remove_item", item)
+			undo_redo.add_undo_method(new_item, "deselect")
+			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+		undo_redo.add_do_method(editor, "_on_timing_points_changed")
+		undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+		undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
+		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+		undo_redo.commit_action()
 func _on_contextual_menu_about_to_show():
 	hovered_time = get_editor().timeline.get_time_being_hovered()
 	var contextual_menu := get_contextual_menu()

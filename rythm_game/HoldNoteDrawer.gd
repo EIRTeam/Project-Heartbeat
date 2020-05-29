@@ -194,9 +194,3 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", [note_data], game.judge.JUDGE_RATINGS.WORST)
 				emit_signal("note_removed")
 				queue_free()
-
-func _on_NoteTarget_note_selected():
-	emit_signal("target_selected")
-
-func get_notes():
-	return [note_data]

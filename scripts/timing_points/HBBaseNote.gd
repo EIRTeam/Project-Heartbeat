@@ -1,8 +1,9 @@
 # Base to all other notes
-
 extends HBTimingPoint
 
 class_name HBBaseNote
+
+signal note_type_changed
 
 enum NOTE_TYPE {
 	UP,
@@ -58,9 +59,53 @@ func set_note_type(value):
 	note_type = value
 	emit_signal("note_type_changed")
 
-signal note_type_changed
+# gets the time out or returns automatically generated time_out
+func get_time_out(bpm):
+	if auto_time_out:
+		return int((60.0  / bpm * (1 + 3) * 1000.0))
+	else:
+		return time_out
+
+# returns the list of graphics for this note
+static func get_note_graphics(type):
+	var graphics = IconPackLoader.get_variations(HBUtils.find_key(NOTE_TYPE, type))
+	return graphics
+
+func get_inspector_properties():
+	return {
+		"time": {
+			"type": "int"
+		},
+		"position": {
+			"type": "Vector2"
+		},
+		"distance": {
+			"type": "float"
+		},
+		"auto_time_out": {
+			"type": "bool"
+		},
+		"time_out": {
+			"type": "int"
+		},
+		"oscillation_amplitude": {
+			"type": "float"
+		},
+		"oscillation_frequency": {
+			"type": "int"
+		},
+		"entry_angle": {
+			"type": "Angle"
+		}
+	}
 
 func _init():
-	serializable_fields += ["position", "distance", "auto_time_out", "time_out", "note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
+	serializable_fields += ["position", "distance", "auto_time_out", "time_out",
+	"note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
 
+func get_score(rating):
+	return NOTE_SCORES[rating]
 
+# returns true if this is a note that can be automatically judged
+func can_be_judged():
+	return not note_type in NO_JUDGE_LIST

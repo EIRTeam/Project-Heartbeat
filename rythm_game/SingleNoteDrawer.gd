@@ -2,9 +2,8 @@ extends "res://rythm_game/note_drawers/NoteDrawer.gd"
 
 onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
-var pickable = true setget set_pickable
+onready var shadow
 export(float) var target_scale_modifier = 1.0
-const TRAIL_RESOLUTION = 19
 
 var connected_note_judgements = {}
 
@@ -21,10 +20,6 @@ func set_connected_notes(val):
 		sine_drawer.hide()
 	else:
 		sine_drawer.show()
-
-func set_pickable(value):
-	pickable = value
-	$NoteTarget.input_pickable = value
 
 func _ready():
 	_on_note_type_changed()
@@ -53,6 +48,7 @@ func update_graphic_positions_and_scale(time: float):
 	var starting_pos = cached_starting_pos
 
 	note_graphic.position = game.remap_coords(HBUtils.calculate_note_sine(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
+	
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
@@ -90,7 +86,7 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
 
 func _on_note_judged(judgement):
-	if note_data.is_slide_note():
+	if note_data is HBNoteData and note_data.is_slide_note():
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			
 			var particles = preload("res://graphics/effects/SlideParticles.tscn").instance()
@@ -127,37 +123,37 @@ func _unhandled_input(event):
 				for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
 					allowed_actions.append(action)
 		for note in conn_notes:
-			if event.is_pressed():
 				if note in game.get_closest_notes():
-					# Check for wrongs
-					var found_input = false
-					for action in allowed_actions:
-						if event.is_action_pressed(action):
-							found_input = true
-							break
-					# If the action was not amongs the allowed action of the connected
-					# notes and our note is amongst the closest notes it means we got
-					# a wrong
-					if not found_input:
-						# janky way of emulating the correct input and figuring out
-						# what the rating would be, if we would get a rating it means
-						# we got a wrong note
-						var a = InputEventAction.new()
-						a.action = game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
-						a.pressed = true
-						
-						var input_judgement = game.get_note_drawer(note).judge_note_input(a, game.time)
-						if input_judgement != -1:
-							wrong_rating = input_judgement
-							wrong = true
-							get_tree().set_input_as_handled()
-							break
 					# Non-wrong note checks
-					var input_judgement = game.get_note_drawer(note).judge_note_input(event, game.time)
+					game.get_note_drawer(note).handle_input(event, game.time)
+					var input_judgement = game.get_note_drawer(note).judge_note_input(event, game.time) as JudgeInputResult
+					if not input_judgement.has_rating:
+						# Check for wrongs
+						var found_input = false
+						for action in allowed_actions:
+							if event.is_action_pressed(action):
+								found_input = true
+								break
+						# If the action was not amongs the allowed action of the connected
+						# notes and our note is amongst the closest notes it means we got
+						# a wrong
+						if not found_input:
+							# janky way of emulating the correct input and figuring out
+							# what the rating would be, if we would get a rating it means
+							# we got a wrong note
+							var a = InputEventAction.new()
+							a.action = game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
+							a.pressed = true
+							var wrong_input_judgement = game.get_note_drawer(note).judge_note_input(a, game.time)
+							if wrong_input_judgement.has_rating:
+								wrong_rating = wrong_input_judgement.resulting_rating
+								wrong = true
+								get_tree().set_input_as_handled()
+								break
 					
-					if input_judgement != -1:
+					else:
 						if not note in connected_note_judgements:
-							connected_note_judgements[note] = input_judgement
+							connected_note_judgements[note] = input_judgement.resulting_rating
 							get_tree().set_input_as_handled()
 							break
 		# Note priority is the following:
@@ -220,11 +216,4 @@ func _on_game_time_changed(time: float):
 				
 func get_note_graphic():
 	return note_graphic
-	
-	
-#func _draw():
-#	draw_line(game.remap_coords(get_initial_position()), game.remap_coords(note_data.position), Color.blue, 2.0, true)
-
-func get_notes():
-	return [note_data]
 

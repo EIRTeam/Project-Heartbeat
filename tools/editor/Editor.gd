@@ -386,7 +386,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
 	if song_editor_settings.auto_multi:
-		if item.data is HBNoteData:
+		if item.data is HBBaseNote:
 			var notes = get_notes_at_time(item.data.time)
 			if notes.size() > 0:
 				for note in notes:
@@ -495,11 +495,11 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 
-func paste_note_data(note_data: HBNoteData):
+func paste_note_data(note_data: HBBaseNote):
 	undo_redo.create_action("Paste note data")
 	for selected_item in selected:
-		if selected_item.data is HBNoteData:
-			var new_data = note_data.clone() as HBNoteData
+		if selected_item.data is HBBaseNote:
+			var new_data = note_data.clone() as HBBaseNote
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
 			undo_redo.add_do_property(selected_item, "data", new_data)
@@ -681,7 +681,7 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var ordered_items = []
 	
 	for selected_item in selected:
-		if selected_item.data is HBNoteData:
+		if selected_item.data is HBBaseNote:
 			if not first_note_position:
 				first_note_position = selected_item.data.position
 				first_note_time = selected_item.data.time
