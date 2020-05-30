@@ -71,6 +71,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	song_title.difficulty = current_difficulty
 	song_title.set_song(current_song)
 	game_info = UserSettings.user_settings.last_game_info.clone()
+	UserSettings.user_settings.last_game_info = game_info
 	game_info.song_id = current_song.id
 	
 	emit_signal("song_selected", current_song.id, current_difficulty)
