@@ -8,8 +8,6 @@ var songs := {}
 var initial_load_done = false
 const SONGS_PATH = "res://songs"
 
-const SONG_SEARCH_PATHS = ["res://songs", "user://songs"]
-
 const SONG_SCORES_PATH = "user://scores.json"
 const PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
 var ppd_youtube_url_list = {}
@@ -18,11 +16,16 @@ var scores = {}
 
 func _ready():
 	var dir := Directory.new()
-	dir.open("user://")
-	if not dir.file_exists("user://songs"):
-		var err = dir.make_dir_recursive("user://songs")
-		if err != OK:
-			Log.log(self, "Error creating songs directory", err)
+	for dir_name in UserSettings.get_content_directories():
+		var o_err = dir.open(dir_name)
+		if o_err == OK:
+			var songs_path = HBUtils.join_path(dir_name, "songs")
+			if not dir.file_exists(songs_path):
+				var err = dir.make_dir_recursive(songs_path)
+				if err != OK:
+					Log.log(self, "Error creating songs directory with error %s at %s" % [str(err), songs_path])
+		else:
+			Log.log(self, "Error opening folder to create songs folder with error %s at %s" %  [str(o_err), dir_name])
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
 	load_all_songs_async()
@@ -117,17 +120,30 @@ func load_songs_from_path(path):
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 	return value
 func load_all_songs_meta():
-	for path in SONG_SEARCH_PATHS:
+	
+	var song_paths = [] as Array
+	
+	var dir := Directory.new()
+	for content_dir in UserSettings.get_content_directories():
+		var songs_dir = HBUtils.join_path(content_dir, "songs")
+		song_paths.append(songs_dir)
+	
+	for path in song_paths:
+		print("LOADING SONGS FROM ", path)
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:
 			add_song(loaded_songs[song_id])
 	emit_signal("all_songs_loaded")
 
 func load_all_songs_async():
-	var thread = Thread.new()
-	var result = thread.start(self, "_load_all_songs_async", {"thread": thread})
-	if result != OK:
-		Log.log(self, "Error starting thread for song loader: " + str(result), Log.LogLevel.ERROR)
+	songs = {}
+	load_all_songs_meta()
+	initial_load_done = true
+	
+#	var thread = Thread.new()
+#	var result = thread.start(self, "_load_all_songs_async", {"thread": thread})
+#	if result != OK:
+#		Log.log(self, "Error starting thread for song loader: " + str(result), Log.LogLevel.ERROR)
 
 func _load_all_songs_async(userdata):
 	load_all_songs_meta()

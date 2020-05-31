@@ -38,6 +38,7 @@ var enable_multi_hint = true
 var master_volume = 1.0
 var music_volume = 1.0
 var sfx_volume = 1.0
+var content_path = "user://"
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -48,7 +49,7 @@ func _init():
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "tap_deadzone", "analog_translation_deadzone",
-	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume" ]
+	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path" ]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)

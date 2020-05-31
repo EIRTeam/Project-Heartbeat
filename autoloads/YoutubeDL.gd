@@ -3,7 +3,6 @@ extends Node
 const LOG_NAME = "YoutubeDL"
 
 const YOUTUBE_DL_DIR = "user://youtube_dl"
-const CACHE_DIR = "user://youtube_dl/cache"
 const CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
 const VIDEO_EXT = "mp4"
 const AUDIO_EXT = "ogg"
@@ -70,12 +69,16 @@ func update_youtube_dl():
 	var result = thread.start(self, "_update_youtube_dl", {"thread": thread})
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl copy: " + str(result), Log.LogLevel.ERROR)
+		
+func get_cache_dir():
+	return HBUtils.join_path(UserSettings.user_settings.content_path, "youtube_dl/cache")
+		
 func _ready():
 	var dir = Directory.new()
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)
-	if not dir.dir_exists(CACHE_DIR):
-		dir.make_dir(CACHE_DIR)
+	if not dir.dir_exists(get_cache_dir()):
+		dir.make_dir(get_cache_dir())
 	if dir.file_exists(CACHE_FILE):
 		var file = File.new()
 		file.open(CACHE_FILE, File.READ)
@@ -138,12 +141,12 @@ func get_ffprobe_executable():
 		path = YOUTUBE_DL_DIR + "/ffprobe"
 	return ProjectSettings.globalize_path(path)
 func get_video_path(video_id, global=false):
-	var path = CACHE_DIR + "/" + video_id + ".mp4"
+	var path = get_cache_dir() + "/" + video_id + ".mp4"
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
 func get_audio_path(video_id, global=false, temp=false):
-	var path = CACHE_DIR + "/" + video_id
+	var path = get_cache_dir() + "/" + video_id
 	if temp:
 		path += "_temp"
 	path += ".ogg"

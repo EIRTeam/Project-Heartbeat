@@ -200,3 +200,9 @@ func reset_to_default_input_map():
 	user_settings.input_map = base_input_map
 	load_input_map()
 	save_user_settings()
+
+func get_content_directories(only_editable=false):
+	if only_editable:
+		return [user_settings.content_path]
+	else:
+		return ["res://"] + [user_settings.content_path]

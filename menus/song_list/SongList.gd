@@ -64,6 +64,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #			sort_by_list_container.selected_button
 	sort_button_left_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
 	sort_button_up_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
+	populate_buttons()
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
@@ -92,21 +93,28 @@ func _ready():
 	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
 	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
+
+
+func populate_buttons():
 	var filter_types = {
 		"all": "All",
 		"official": "Official",
 
 	}
+	
+	for child in filter_type_container.get_children():
+		child.queue_free()
+		filter_type_container.remove_child(child)
+	
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER:
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
 			filter_types["community"] = "Community"
 			break
 	for song_id in SongLoader.songs:
-		var song = SongLoader.songs[song_id]
+		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:
 			filter_types["ppd"] = "PPD"
-			break
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]

@@ -29,7 +29,7 @@ func set_difficulty(value):
 		difficulty_label.text = "[%s]" % value
 		
 func _on_resized():
-	if circle_text_rect.texture:
+	if circle_text_rect.texture and circle_text_rect.texture.get_data():
 		var image = circle_text_rect.texture.get_data() as Image
 		var ratio = image.get_width() / image.get_height()
 		var new_size = Vector2(rect_size.y * ratio, rect_size.y)

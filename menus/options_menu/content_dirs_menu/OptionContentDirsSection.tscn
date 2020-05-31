@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Theme_Game.tres" type="Theme" id=1]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=4]
+[ext_resource path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" type="Script" id=5]
+
+[node name="OptionContentDirsSection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_clip_content = true
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 1.0
+rect_clip_content = true
+custom_constants/margin_right = 20
+custom_constants/margin_top = 15
+custom_constants/margin_left = 30
+custom_constants/margin_bottom = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 30.0
+margin_top = 15.0
+margin_right = 1260.0
+margin_bottom = 690.0
+maintain_selected_child = true
+page_skip_enabled = true
+
+[node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
+margin_right = 1230.0
+margin_bottom = 675.0
+
+[node name="Popup" type="PopupDialog" parent="."]
+margin_left = 444.0
+margin_top = 242.0
+margin_right = 933.0
+margin_bottom = 483.0
+custom_styles/panel = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Press the Key/Button/Axis to bind"
+align = 1
+valign = 1
+
+[node name="ReloadingContentPopup" type="PopupDialog" parent="."]
+visible = true
+margin_left = 444.0
+margin_top = 242.0
+margin_right = 933.0
+margin_bottom = 483.0
+focus_mode = 2
+custom_styles/panel = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ReloadingContentPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Reloading content..."
+align = 1
+valign = 1
+
+[node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
+margin_top = -119.36
+margin_bottom = 116.64
+text = "Selecting a new content directory requires using the mouse, would you like to continue?"
+
+[node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
+margin_top = -119.36
+margin_bottom = 116.64
+text = "Are you sure you want to reset the content directory to the default?"
+
+[node name="ContentReloadSuccessPopup" parent="." instance=ExtResource( 3 )]
+visible = true
+margin_top = -119.36
+margin_bottom = 116.64
+has_cancel = false
+text = "Songs reloaded succesfully"
+accept_text = "Alright"
+
+[editable path="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]

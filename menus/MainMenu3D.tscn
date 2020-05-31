@@ -61,7 +61,7 @@ background_color = Color( 0, 0, 0, 0 )
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.129412, 0.0705882, 0.258824, 1 )
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=14]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Background1:self_modulate")
 tracks/0/interp = 1
@@ -213,7 +213,7 @@ __meta__ = {
 [node name="MainMenuVisualizer2" parent="CanvasLayer" instance=ExtResource( 5 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
-anims/1to2 = SubResource( 17 )
+anims/1to2 = SubResource( 14 )
 
 [node name="SlideParticleCache" parent="." instance=ExtResource( 8 )]
 self_modulate = Color( 1, 1, 1, 0 )

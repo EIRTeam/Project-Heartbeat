@@ -36,6 +36,9 @@ var OPTIONS = {
 	"Controls": {
 		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
 	},
+	"Content": {
+		"__section_override": preload("res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn").instance()
+	},
 	"Audio": {
 		"master_volume": {
 			"name": tr("Master volume"),
@@ -238,9 +241,10 @@ func _on_back():
 	$VBoxContainer.grab_focus()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("gui_cancel"):
-		get_tree().set_input_as_handled()
-		change_to_menu("main_menu")
+	if $VBoxContainer.has_focus():
+		if event.is_action_pressed("gui_cancel"):
+			get_tree().set_input_as_handled()
+			change_to_menu("main_menu")
 
 const CODE = ["gui_up", "gui_up", "gui_down", "gui_down", "gui_left", "gui_right", "gui_left", "gui_right", "note_down", "note_right", "pause"]
 var code_p = 0

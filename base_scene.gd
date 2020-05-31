@@ -4,7 +4,7 @@ onready var status_label = get_node("VBoxContainer/StatusLabel")
 const MAIN_MENU_PATH = "res://menus/MainMenu3D.tscn"
 
 const LOADINGU_SPEED = 0.5
-var loadingu_t = 1.0
+var loadingu_t = 0
 func _ready():
 	SongLoader.connect("all_songs_loaded", self, "_on_songs_finished_loading")
 	if SongLoader.initial_load_done:
