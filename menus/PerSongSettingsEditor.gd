@@ -24,7 +24,12 @@ var section_data = {
 		"percentage": true,
 		"postfix": " %",
 		"default_value": 0
-	}
+	},
+	"video_enabled": {
+		"name": tr("Video enabled"),
+		"description": "Enables or disables video for this song.",
+		"default_value": true
+	},
 }
 
 func set_current_song(val):
@@ -46,6 +51,5 @@ func show_editor():
 	editor.grab_focus()
 	
 func _on_per_song_setting_changed(property_name, new_value):
-	print("CHANGED!!")
 	UserSettings.user_settings.per_song_settings[current_song.id].set(property_name, new_value)
 	UserSettings.save_user_settings()
