@@ -4,7 +4,7 @@ const LOG_NAME = "YoutubeDL"
 
 const YOUTUBE_DL_DIR = "user://youtube_dl"
 const CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
-const VIDEO_EXT = "mp4"
+const VIDEO_EXT = "webm"
 const AUDIO_EXT = "ogg"
 enum YOUTUBE_DL_STATUS {
 	READY,
@@ -141,7 +141,7 @@ func get_ffprobe_executable():
 		path = YOUTUBE_DL_DIR + "/ffprobe"
 	return ProjectSettings.globalize_path(path)
 func get_video_path(video_id, global=false):
-	var path = get_cache_dir() + "/" + video_id + ".mp4"
+	var path = get_cache_dir() + "/" + video_id + ".webm"
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
@@ -191,7 +191,7 @@ func _download_video(userdata):
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
-		var video_params = ["-f", "bestvideo[ext=mp4][vcodec^=avc1][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id]
+		var video_params = ["-f", "bestvideo[ext=webm][vcodec^=vp9][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id]
 		OS.execute(get_ytdl_executable(), shared_params + video_params, true, out)
 		result["video"] = true
 		result["video_out"] = out[-1]

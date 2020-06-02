@@ -180,7 +180,11 @@ func get_video_stream():
 			Log.log(self, "Tried to get video stream from an uncached song!!")
 			return null
 	print("Loading video stream ", video_path)
-	return load(video_path)
+	
+	var video_stream = VideoStreamGDNative.new()
+	video_stream.set_file(video_path)
+	
+	return video_stream
 func get_voice_stream():
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
 		return load(get_song_voice_res_path())

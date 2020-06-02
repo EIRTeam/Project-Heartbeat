@@ -89,6 +89,10 @@ __meta__ = {
 }
 
 [node name="FadeOutTween" type="Tween" parent="."]
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
 [connection signal="song_cleared" from="RhythmGame" to="." method="_on_RhythmGame_song_cleared"]
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]
 [connection signal="restarted" from="PauseMenu" to="RhythmGame" method="restart"]

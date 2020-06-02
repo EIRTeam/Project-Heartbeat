@@ -33,21 +33,28 @@ func _ready():
 	
 
 func _fade_in_done():
+	video_player.paused = false
+	video_player.show()
 	$RhythmGame.play_song()
 	$FadeIn.hide()
-	video_player.paused = false
-	video_player.play()
+	# HACK HACK: This makes sync very good and makes it effectively target 0
+	# this is why we do a single game cycle, to get the timing right
+	game._process(0.0)
+	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	video_player.stream_position = game.time
+	rescale_video_player()
+	
 	pause_menu_disabled = false
 
 func start_fade_in():
+#	video_player.hide()
 	$FadeIn.modulate.a = 1.0
 	$FadeIn.show()
 	var original_color = Color.white
 	var target_color = Color.white
 	target_color.a = 0.0
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	video_player.stream_position = song.start_time  / 1000.0
-	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)	
+	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
 	
@@ -98,18 +105,31 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	if UserSettings.user_settings.per_song_settings.has(song.id):
 		var pss = UserSettings.user_settings.per_song_settings[song.id] as HBPerSongSettings
 		video_enabled_for_song = pss.video_enabled
+		rescale_video_player()
+	start_fade_in()
 	if song.has_video_enabled() and not modifier_disables_video and video_enabled_for_song:
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
 			var stream = song.get_video_stream()
 			if stream:
-				video_player.stream = stream
-				video_player.stop()
+				video_player.hide()
+				# HACK HACK HACK: vp9 decoder requires us to set the stream position
+				# to -1, then set it to 0 wait 5 frames, set our target start time
+				# wait another 5 frames and only then can we pause the player
+				# yeah I don't know why I bother either
+				if not video_player.stream:
+					video_player.stream = stream
+					video_player.play()
+					video_player.stream_position = -1
+					video_player.stream_position = 0
+				video_player.paused = false # VideoPlayer only pulls frames when it's unpaused
+				for i in range(5):
+					yield(get_tree(), 'idle_frame')
+				video_player.stream_position = song.start_time  / 1000.0
+				video_player.paused = true
 				$Node2D/Panel.show()
 				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
-		rescale_video_player()
-	start_fade_in()
 	
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()
@@ -126,6 +146,7 @@ func rescale_video_player():
 		# Center that shit
 		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
 		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
+
 func set_game_size():
 	$RhythmGame.size = rect_size
 	$Node2D/Control.rect_size = rect_size
@@ -137,6 +158,8 @@ func _on_resumed():
 	$RhythmGame.resume()
 	$PauseMenu.hide()
 	video_player.paused = false
+	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	video_player.stream_position = game.time
 	
 func _unhandled_input(event):
 	if not pause_menu_disabled:
@@ -185,7 +208,8 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 var _last_time = 0.0
 
 func _process(delta):
-	pass
+	$Label.visible = Diagnostics.fps_label.visible
+	$Label.text = "pos %f \n audiopos %f \n diff %f \n" % [video_player.stream_position, game.time, game.time - video_player.stream_position]
 
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
