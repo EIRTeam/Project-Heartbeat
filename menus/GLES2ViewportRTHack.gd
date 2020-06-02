@@ -11,3 +11,4 @@ func _ready():
 		material.flags_albedo_tex_force_srgb = false
 		var texture = material.albedo_texture as ViewportTexture
 		texture.flags = ViewportTexture.FLAG_FILTER
+		VisualServer.viewport_set_hdr(get_viewport().get_viewport_rid(), false)
