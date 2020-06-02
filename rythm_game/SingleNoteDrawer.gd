@@ -24,7 +24,11 @@ func set_connected_notes(val):
 func _ready():
 	_on_note_type_changed()
 	$AnimationPlayer.play("note_appear")
-	$NoteTarget/Particles2D.emitting = true
+	
+	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+		$NoteTarget/Particles2DCPU.emitting = true
+	else:
+		$NoteTarget/Particles2D.emitting = true
 	sine_drawer.note_data = note_data
 	sine_drawer.time_out = get_time_out()
 	sine_drawer.game = game
@@ -89,8 +93,13 @@ func _on_note_judged(judgement):
 	if note_data is HBNoteData and note_data.is_slide_note():
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			
-			var particles = preload("res://graphics/effects/SlideParticles.tscn").instance()
-			
+			var particles_scene = preload("res://graphics/effects/SlideParticles.tscn")
+			var particles_cpu_scene = preload("res://graphics/effects/SlideParticlesCPU.tscn")
+			var particles
+			if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+				particles = particles_cpu_scene.instance()
+			else:
+				particles = particles_scene.instance()
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
 			game.add_child(particles)
