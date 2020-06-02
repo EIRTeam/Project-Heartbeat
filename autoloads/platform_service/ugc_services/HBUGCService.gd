@@ -32,7 +32,8 @@ func _init():
 		else:
 			Log.log(self, "Error loading UGC data, with error: %d" % [err])
 	
-
+func reload_ugc_songs():
+	pass
 func get_ugc_service_name():
 	return null
 

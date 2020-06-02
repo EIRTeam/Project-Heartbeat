@@ -40,6 +40,9 @@ func _init().():
 	Steam.connect("item_installed", self, "_on_item_installed")
 	_init_ugc()
 func _init_ugc():
+	pass
+
+func reload_ugc_songs():
 	for item_id in Steam.getSubscribedItems():
 		var state = Steam.getItemState(item_id)
 		if state & UGC_STATES.DOWNLOADING:

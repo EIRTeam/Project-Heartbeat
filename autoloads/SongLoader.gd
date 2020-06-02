@@ -121,6 +121,9 @@ func load_songs_from_path(path):
 	return value
 func load_all_songs_meta():
 	
+	if PlatformService.service_provider.implements_ugc:
+		PlatformService.service_provider.ugc_provider.reload_ugc_songs()
+	
 	var song_paths = [] as Array
 	
 	var dir := Directory.new()
@@ -133,17 +136,16 @@ func load_all_songs_meta():
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:
 			add_song(loaded_songs[song_id])
-	emit_signal("all_songs_loaded")
 
 func load_all_songs_async():
 	songs = {}
-	load_all_songs_meta()
+#	load_all_songs_meta()
 	initial_load_done = true
 	
-#	var thread = Thread.new()
-#	var result = thread.start(self, "_load_all_songs_async", {"thread": thread})
-#	if result != OK:
-#		Log.log(self, "Error starting thread for song loader: " + str(result), Log.LogLevel.ERROR)
+	var thread = Thread.new()
+	var result = thread.start(self, "_load_all_songs_async", {"thread": thread})
+	if result != OK:
+		Log.log(self, "Error starting thread for song loader: " + str(result), Log.LogLevel.ERROR)
 
 func _load_all_songs_async(userdata):
 	load_all_songs_meta()
