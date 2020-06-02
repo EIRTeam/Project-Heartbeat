@@ -137,7 +137,6 @@ script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-stop_hover_on_focus_exit = true
 orientation = 1
 
 [node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]

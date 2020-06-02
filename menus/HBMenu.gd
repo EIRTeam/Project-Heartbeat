@@ -12,6 +12,7 @@ export(bool) var transitions_enabled = true
 
 func _ready():
 	add_child(tween)
+
 	if transitions_enabled:
 		tween.connect("tween_all_completed", self, "emit_signal", ["transition_finished"])
 func change_to_menu(menu_name: String, force_hard_transition=false, args = {}):

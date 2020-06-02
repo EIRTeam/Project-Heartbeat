@@ -14,9 +14,21 @@ signal hover(hovered_button)
 signal back
 signal bottom
 signal out_from_top
+var plays_sfx = true
+
+var sfx_player = AudioStreamPlayer.new()
+
+
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
+	sfx_player.stream = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
+	
+func _notification(what):
+	if what == NOTIFICATION_EXIT_TREE:
+		get_tree().get_root().remove_child(sfx_player)
+	elif what == NOTIFICATION_ENTER_TREE:
+		get_tree().get_root().add_child(sfx_player)
 func select_button(i: int, fire_event=true):
 	var child = get_child(i)
 	if selected_button:
@@ -60,6 +72,7 @@ func _gui_input(event):
 				while i >= 0:
 					if get_child(i).visible:
 						select_button(i)
+						sfx_player.play()
 						break
 					i -= 1
 				
@@ -76,8 +89,9 @@ func _gui_input(event):
 				get_tree().set_input_as_handled()
 				var i = selected_button_i+1
 				while i <= get_child_count()-1:
-					if get_child(i).visible:
+					if get_child(i) != sfx_player and get_child(i).visible:
 						select_button(i)
+						sfx_player.play()
 						break
 					i += 1
 	elif event.is_action_pressed("gui_accept"):
