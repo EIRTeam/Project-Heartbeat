@@ -727,8 +727,8 @@ func _on_PlaytestButton_pressed(at_time):
 		play_time = playhead_position
 	var voice_stream = null
 	if current_song.voice:
-		voice_stream = audio_stream_player_voice.stream
-	rhythm_game_playtest_popup.set_audio(audio_stream_player.stream, voice_stream)
+		voice_stream = game_playback.voice_audio_stream_player.stream
+	rhythm_game_playtest_popup.set_audio(game_playback.audio_stream_player.stream, voice_stream)
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
 func _on_playtest_quit():
