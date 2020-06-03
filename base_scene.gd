@@ -7,6 +7,8 @@ const LOADINGU_SPEED = 0.5
 var loadingu_t = 0
 func _ready():
 	SongLoader.connect("all_songs_loaded", self, "_on_songs_finished_loading")
+	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+		VisualServer.viewport_set_hdr(get_viewport().get_viewport_rid(), false)
 func set_status(status: String):
 	status_label.text = status
 
