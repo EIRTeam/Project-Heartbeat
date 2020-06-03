@@ -1,12 +1,12 @@
-extends Node2D
+extends Particles2D
 
 var d = 0
 
 func _ready():
-	self.emitting = true
+	emitting = true
 	$Node2D2.emitting = true
 	
 func _process(delta):
 	d += delta
-	if d >= self.lifetime:
+	if d >= lifetime:
 		queue_free()
