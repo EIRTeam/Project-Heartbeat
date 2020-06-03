@@ -1,9 +1,15 @@
 extends "res://menus/MainMenu.gd"
+
+const SLIDE_PARTICLES = preload("res://graphics/effects/SlideParticles.tscn")
+
 func _ready():
 	# We have to do this to force a shader compile beforehand because godot is
 	# stupid
-	$SlideParticleCache.emitting = true
-	$SlideParticleCache.hide()
+	yield(get_tree(), "idle_frame")
+	var particles = SLIDE_PARTICLES.instance()
+	add_child(particles)
+	particles.emitting = true
+	particles.hide()
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
