@@ -28,7 +28,7 @@ func _notification(what):
 	if what == NOTIFICATION_EXIT_TREE:
 		get_tree().get_root().remove_child(sfx_player)
 	elif what == NOTIFICATION_ENTER_TREE:
-		get_tree().get_root().add_child(sfx_player)
+		get_tree().get_root().call_deferred("add_child", sfx_player)
 func select_button(i: int, fire_event=true):
 	var child = get_child(i)
 	if selected_button:

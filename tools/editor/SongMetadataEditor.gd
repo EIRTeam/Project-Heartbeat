@@ -3,41 +3,41 @@ extends Panel
 var song_meta: HBSong setget set_song_meta
 signal song_meta_saved
 
-onready var title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongTitle")
-onready var romanized_title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongRomanizedTitle")
-onready var artist_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtist")
-onready var artist_alias_edit = get_node("TabContainer/Metadata/VBoxContainer/SongArtistAlias")
-onready var vocals_edit = get_node("TabContainer/Metadata/VBoxContainer/SongVocals")
-onready var writers_edit = get_node("TabContainer/Metadata/VBoxContainer/SongWriters")
-onready var creator_edit = get_node("TabContainer/Metadata/VBoxContainer/SongCreator")
-onready var original_title_edit = get_node("TabContainer/Metadata/VBoxContainer/SongOriginalTitle")
-onready var composers_edit = get_node("TabContainer/Metadata/VBoxContainer/SongComposers")
+onready var title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongTitle")
+onready var romanized_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongRomanizedTitle")
+onready var artist_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtist")
+onready var artist_alias_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtistAlias")
+onready var vocals_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongVocals")
+onready var writers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongWriters")
+onready var creator_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongCreator")
+onready var original_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongOriginalTitle")
+onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongComposers")
 
-onready var bpm_edit = get_node("TabContainer/Technical Data/VBoxContainer/BPMSpinBox")
-onready var audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
-onready var preview_start_edit = get_node("TabContainer/Technical Data/VBoxContainer/SongPreviewSpinBox")
-onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
+onready var bpm_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/BPMSpinBox")
+onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
+onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
+onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
-onready var difficulties_container = get_node("TabContainer/Charts/HBoxContainer/VBoxContainer")
-onready var stars_container = get_node("TabContainer/Charts/HBoxContainer/VBoxContainer2")
+onready var difficulties_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer")
+onready var stars_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer2")
 
-onready var preview_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
-onready var background_image_filename_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
+onready var preview_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
+onready var background_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
 
-onready var circle_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
-onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
+onready var circle_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
+onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
 
-onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/VBoxContainer/YoutubeURL")
-onready var use_youtube_as_video = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsVideo")
-onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/VBoxContainer/UseYoutubeAsAudio")
+onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/YoutubeURL")
+onready var use_youtube_as_video = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsVideo")
+onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsAudio")
 
-onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/VBoxContainer/Label11/IntroSkipCheckbox")
-onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/IntroSkipTimeSpinbox")
+onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11/IntroSkipCheckbox")
+onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/IntroSkipTimeSpinbox")
 
-onready var start_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/StartTimeSpinbox")
-onready var end_time_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/EndTimeSpinbox")
+onready var start_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/StartTimeSpinbox")
+onready var end_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/EndTimeSpinbox")
 
-onready var volume_spinbox = get_node("TabContainer/Technical Data/VBoxContainer/VolumeSpinbox")
+onready var volume_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/VolumeSpinbox")
 
 func set_song_meta(value):
 	song_meta = value

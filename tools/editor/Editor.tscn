@@ -474,7 +474,7 @@ value = 54.0
 margin_top = 331.0
 margin_right = 188.0
 margin_bottom = 356.0
-text = "Arrangle angles"
+text = "Arrange angles"
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 360.0
