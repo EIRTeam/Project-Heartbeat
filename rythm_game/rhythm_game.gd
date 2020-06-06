@@ -25,15 +25,6 @@ const SLIDE_HOLD_PIECE_SCORE = 10
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 const TRAIL_RESOLUTION = 80
 
-var NOTE_TYPE_TO_ACTIONS_MAP = {
-	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
-	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
-	HBNoteData.NOTE_TYPE.UP: ["note_up"],
-	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
-	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
-	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"],
-	HBNoteData.NOTE_TYPE.HEART: ["tap_up", "tap_down", "tap_left", "tap_right"]
-}
 var timing_points = [] setget _set_timing_points
 # TPs that were previously hit
 var hit_timing_points = []
@@ -154,18 +145,28 @@ func _precalculate_note_trail(note_data: HBBaseNote):
 	var offset = -note_data.position
 	
 	var time_out = note_data.get_time_out(get_bpm_at_time(note_data.time))
+	if note_data is HBSustainNote:
+		for i in range(TRAIL_RESOLUTION):
+			var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
+			var t = (t_trail_time / time_out) * 2.25
+			t = t - 0.25
 	
-	for i in range(TRAIL_RESOLUTION):
-		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
-		var t = (t_trail_time / time_out) * 2.25
-		t = t - 0.25
-
-		var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 1.25, note_data.distance)
-		var point1 = point1_internal + offset
-		var point2 = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.75, note_data.distance) + offset
-		
-		points.set(TRAIL_RESOLUTION - i - 1, point1)
-		points2.set(TRAIL_RESOLUTION - i - 1, point2)
+			var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+			var point1 = point1_internal + offset
+			
+			points.set(TRAIL_RESOLUTION - i - 1, point1)
+	else:
+		for i in range(TRAIL_RESOLUTION):
+			var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
+			var t = (t_trail_time / time_out) * 2.25
+			t = t - 0.25
+	
+			var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 1.25, note_data.distance)
+			var point1 = point1_internal + offset
+			var point2 = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.75, note_data.distance) + offset
+			
+			points.set(TRAIL_RESOLUTION - i - 1, point1)
+			points2.set(TRAIL_RESOLUTION - i - 1, point2)
 	return {"points1": points, "points2": points2 }
 
 func get_note_trail_points(note_data: HBBaseNote):
@@ -208,6 +209,7 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 	return (a.time - ta) > (b.time - tb)
 	
 func _set_timing_points(points):
+#	print("SETT")
 	timing_points = points
 	hit_timing_points = []
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
@@ -216,6 +218,7 @@ func _set_timing_points(points):
 	for chain in active_slide_hold_chains:
 		chain.sfx_player.queue_free()
 	active_slide_hold_chains = []
+	timing_point_to_drawer_map = {}
 	# When timing points change, we might introduce new BPM change events
 	bpm_changes = {}
 	for point in timing_points:
@@ -384,8 +387,8 @@ func play_song():
 
 
 func _input(event):
-	if event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-		if Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+	if event.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+		if Input.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
 				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
 					_intro_skip_enabled = false
@@ -394,9 +397,9 @@ func _input(event):
 					play_from_pos((earliest_note_time - INTRO_SKIP_MARGIN) / 1000.0)
 	if event is InputEventAction:
 		# Note SFX
-		for type in NOTE_TYPE_TO_ACTIONS_MAP:
+		for type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
 			var action_pressed = false
-			var actions = NOTE_TYPE_TO_ACTIONS_MAP[type]
+			var actions = HBInput.NOTE_TYPE_TO_ACTIONS_MAP[type]
 			for action in actions:
 				if event.action == action and event.pressed and not event.is_echo():
 					play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
@@ -411,7 +414,7 @@ func _unhandled_input(event):
 	# Slide hold release shenanigans
 	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
 	for slide_type in slide_types:
-		for action in NOTE_TYPE_TO_ACTIONS_MAP[slide_type]:
+		for action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[slide_type]:
 			if event.is_action_released(action) and not event.is_echo():
 				for i in range(active_slide_hold_chains.size() - 1, -1, -1):
 					var active_hold_chain = active_slide_hold_chains[i]
@@ -429,7 +432,7 @@ func _unhandled_input(event):
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
 			for note_type in held_notes:
-				if event.action in NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
+				if event.action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 					hold_release()
 					# When you release a hold it disappears instantly
 					hold_indicator.disappear()
@@ -471,6 +474,7 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		get_note_drawer(notes_on_screen[i]).free()
 	notes_on_screen = []
+	timing_point_to_drawer_map = {}
 
 # Plays the provided sfx creating a clone of an audio player (maybe we should
 # use the AudioServer for this...
@@ -503,6 +507,7 @@ func get_note_drawer(timing_point):
 	if timing_point_to_drawer_map.has(timing_point):
 		drawer = timing_point_to_drawer_map[timing_point]
 	return drawer
+
 
 # creates and connects a new note drawer
 func create_note_drawer(timing_point: HBBaseNote):
@@ -565,15 +570,15 @@ func _process(_delta):
 					# multi-note detection
 					if multi_notes.size() > 0:
 						if multi_notes[0].time == timing_point.time:
-							if not timing_point is HBHoldNoteData:
-								if timing_point is HBBaseNote and not timing_point.note_type in HBBaseNote.NO_MULTI_LIST:
-									multi_notes.append(timing_point)
+							if timing_point is HBBaseNote and timing_point.is_multi_allowed():
+								print("HOOKING UP BOIS")
+								multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
 							multi_notes = [timing_point]
 						else:
 							multi_notes = [timing_point]
-					elif timing_point is HBBaseNote and not timing_point.note_type in HBBaseNote.NO_MULTI_LIST:
+					elif timing_point is HBBaseNote and timing_point.is_multi_allowed():
 						multi_notes.append(timing_point)
 #				if not editing or previewing:
 #					timing_points.remove(i)
@@ -621,10 +626,18 @@ func _process(_delta):
 			Log.log(self, "Disabling leaderboard upload for cheated result")
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
-			if note is HBBaseNote and note.note_type in NOTE_TYPE_TO_ACTIONS_MAP:
-				if time * 1000 > note.time:
+			if note is HBBaseNote and note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
+				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
+					if time * 1000.0 > note.end_time:
+						var a = InputEventAction.new()
+						a.action = note.get_input_actions()[0]
+						a.pressed = false
+						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+						Input.parse_input_event(a)
+				
+				elif time * 1000 > note.time:
 					var a = InputEventAction.new()
-					a.action = NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
+					a.action = note.get_input_actions()[0]
 					a.pressed = true
 					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
 					Input.parse_input_event(a)
@@ -660,8 +673,8 @@ func set_current_combo(combo: int):
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong):
-	var note = notes[0] as HBNoteData
-
+	var note = notes[0] as HBBaseNote
+	print("JUDGED NOTES! ", judgement)
 	# Simultaneous slides are a special case...
 	# we have to process each note individually
 	for n in notes:
@@ -811,15 +824,18 @@ func play_from_pos(position: float):
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 
 # used by the editor and practice mode to delete slide chain pieces that have no
-# parent
-func delete_rogue_slide_chain_pieces(pos_override = null):
+# parent and sustain notes
+func delete_rogue_notes(pos_override = null):
 	var pos = time
 	if pos_override:
 		pos = pos_override
 	var notes_to_remove = []
 	for i in range(timing_points.size() - 1, -1, -1):
 		var chain_starter = timing_points[i]
-		if chain_starter is HBNoteData:
+		if chain_starter is HBSustainNote:
+			if chain_starter.time < pos_override * 1000.0:
+				notes_to_remove.append(chain_starter)
+		elif chain_starter is HBNoteData:
 			if chain_starter.time < pos_override * 1000.0:
 				if chain_starter.is_slide_note():
 					if chain_starter in slide_hold_chains:

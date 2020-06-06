@@ -17,11 +17,7 @@ func _process(delta):
 	
 	status_label.percent_visible = fmod(loadingu_t, 1.5)
 func _load_main_menu_thread(userdata):
-	while (true):
-		var err = userdata.loader.poll()
-		if(err == ERR_FILE_EOF):
-			call_deferred("_main_menu_loaded", userdata.thread, userdata.loader.get_resource().instance())
-			break
+	call_deferred("_main_menu_loaded", userdata.thread, load(MAIN_MENU_PATH).instance())
 
 func _input(event):
 	if event.is_action_pressed("free_friends"):
@@ -39,6 +35,6 @@ func _on_songs_finished_loading():
 	print("LOADED")
 	set_status("Loadingu...")
 	var thread = Thread.new()
-	var result = thread.start(self, "_load_main_menu_thread", { "thread": thread, "loader": ResourceLoader.load_interactive(MAIN_MENU_PATH) })
+	var result = thread.start(self, "_load_main_menu_thread", { "thread": thread })
 	if result != OK:
 		Log.log(self, "Error starting thread for main menu loader: " + str(result), Log.LogLevel.ERROR)

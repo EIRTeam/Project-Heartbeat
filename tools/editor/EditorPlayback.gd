@@ -70,14 +70,14 @@ func seek(value: int):
 	emit_signal("time_changed", game.time)
 	_on_timing_points_changed()
 	if audio_stream_player.playing:
-		game.delete_rogue_slide_chain_pieces(value / 1000.0)
+		game.delete_rogue_notes(value / 1000.0)
 
 func _on_timing_points_changed():
 	game.remove_all_notes_from_screen()
 	game.reset_hit_notes()
 	game.base_bpm = current_song.bpm # We reset the BPM
 	game.timing_points = timing_points
-	game.delete_rogue_slide_chain_pieces(game.time)
+	game.delete_rogue_notes(game.time)
 
 func play_from_pos(position: float):
 	if current_song:
@@ -95,6 +95,6 @@ func play_from_pos(position: float):
 		time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		_audio_play_offset = position / 1000.0
 		game.play_from_pos(position / 1000.0)
-		game.delete_rogue_slide_chain_pieces(position / 1000.0)
+		game.delete_rogue_notes(position / 1000.0)
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)

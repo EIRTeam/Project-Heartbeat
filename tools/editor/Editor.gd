@@ -214,13 +214,14 @@ var old_property_values = {}
 func _change_selected_property_delta(property_name: String, new_value, making_change=null):
 	print("SETTING ", property_name, " ", new_value)
 	for selected_item in selected:
-		if not selected_item in old_property_values:
-			old_property_values[selected_item] = {}
-		
-		if not property_name in old_property_values[selected_item]:
-			old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
-		selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
-		selected_item.update_widget_data()
+		if property_name in selected_item.data:
+			if not selected_item in old_property_values:
+				old_property_values[selected_item] = {}
+			
+			if not property_name in old_property_values[selected_item]:
+				old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
+			selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
+			selected_item.update_widget_data()
 	_on_timing_points_params_changed()
 	
 func show_contextual_menu():
@@ -253,7 +254,7 @@ func _commit_selected_property_change(property_name: String):
 	undo_redo.create_action(action_name)
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
-			if old_property_values[selected_item].has(property_name):
+			if property_name in selected_item.data:
 				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(self, "_on_timing_points_changed")

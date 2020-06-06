@@ -106,6 +106,16 @@ func _init():
 func get_score(rating):
 	return NOTE_SCORES[rating]
 
+func get_input_actions():
+	return HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]
+
 # returns true if this is a note that can be automatically judged
 func can_be_judged():
 	return not note_type in NO_JUDGE_LIST
+	
+# If the note is automatically freed upon first judgement
+func is_auto_freed():
+	return true
+	
+func is_multi_allowed():
+	return not note_type == NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE and not note_type == NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE

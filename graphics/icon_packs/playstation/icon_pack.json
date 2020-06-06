@@ -17,11 +17,6 @@
                     "src_path": "notes/Square_target",
                     "target_path": "notes/Square_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/Square_target",
-                    "target_path": "notes/Square_hold_target"
-                },
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/Square",
@@ -31,6 +26,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Square_target",
                     "target_path": "notes/Square_multi_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Square_sustain",
+                    "target_path": "notes/Square_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Square_target",
+                    "target_path": "notes/Square_sustain_target"
                 }
             }
         },
@@ -49,11 +54,6 @@
                     "src_path": "notes/Cross",
                     "target_path": "notes/Cross_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/Cross",
-                    "target_path": "notes/Cross_hold_target"
-                },
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/Cross",
@@ -63,6 +63,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Cross",
                     "target_path": "notes/Cross_multi_note_target"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Cross",
+                    "target_path": "notes/Cross_sustain_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Cross_sustain",
+                    "target_path": "notes/Cross_sustain"
                 }
             }
         },
@@ -82,11 +92,6 @@
                     "src_path": "notes/Circle_target",
                     "target_path": "notes/Circle_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/Circle_target",
-                    "target_path": "notes/Circle_hold_target"
-                },
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/Circle",
@@ -96,6 +101,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Circle_target",
                     "target_path": "notes/Circle_multi_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Circle_sustain",
+                    "target_path": "notes/Circle_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Circle_target",
+                    "target_path": "notes/Circle_sustain_target"
                 }
             }
         },
@@ -115,11 +130,6 @@
                     "src_path": "notes/Triangle_target",
                     "target_path": "notes/Triangle_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/Triangle",
-                    "target_path": "notes/Triangle_hold_target"
-                },
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/Triangle",
@@ -129,6 +139,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Triangle_target",
                     "target_path": "notes/Triangle_multi_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Triangle_sustain",
+                    "target_path": "notes/Triangle_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Triangle",
+                    "target_path": "notes/Triangle_sustain_target"
                 }
             }
         }

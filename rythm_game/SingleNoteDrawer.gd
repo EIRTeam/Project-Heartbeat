@@ -18,6 +18,7 @@ func set_connected_notes(val):
 	if connected_notes.size() > 1:
 		_on_note_type_changed()
 		sine_drawer.hide()
+		print("HIDING SINE DRAWER")
 	else:
 		sine_drawer.show()
 
@@ -52,6 +53,7 @@ func update_graphic_positions_and_scale(time: float):
 	if time * 1000.0 > note_data.time:
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
+		new_scale = max(new_scale, 0.0)
 		note_graphic.scale = Vector2(new_scale, new_scale)
 #	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
@@ -85,7 +87,7 @@ func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
 
-func _on_note_judged(judgement):
+func _on_note_judged(judgement, prevent_freeing = false):
 	if note_data is HBNoteData and note_data.is_slide_note():
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			
@@ -98,11 +100,15 @@ func _on_note_judged(judgement):
 	else:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			show_note_hit_effect()
-	queue_free()
-	get_tree().set_input_as_handled()
-	set_process_unhandled_input(false)
+	if not prevent_freeing:
+		queue_free()
+		set_process_unhandled_input(false)
 
 func _unhandled_input(event):
+	# HACK: Because godot is dumb, it seems to treat built in node methods differently
+	# and calls them on parent classes too
+	_handle_unhandled_input(event)
+func _handle_unhandled_input(event):
 	# Master notes handle all the input
 	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
 		return
@@ -119,8 +125,8 @@ func _unhandled_input(event):
 		# is used for wrong note detection
 		var allowed_actions = []
 		for note in conn_notes:
-			if note.note_type in game.NOTE_TYPE_TO_ACTIONS_MAP:
-				for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
+			if note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
+				for action in note.get_input_actions():
 					allowed_actions.append(action)
 		for note in conn_notes:
 			if event.is_pressed():
@@ -143,7 +149,7 @@ func _unhandled_input(event):
 							# what the rating would be, if we would get a rating it means
 							# we got a wrong note
 							var a = InputEventAction.new()
-							a.action = game.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0]
+							a.action = note.get_input_actions()[0]
 							a.pressed = true
 							var wrong_input_judgement = game.get_note_drawer(note).judge_note_input(a, game.time)
 							if wrong_input_judgement.has_rating:
@@ -194,8 +200,15 @@ func _unhandled_input(event):
 			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
 			for note in conn_notes:
 				var drawer = game.get_note_drawer(note)
-				drawer._on_note_judged(result_judgement)
-				drawer.emit_signal("note_removed")
+				
+				# Some notes shouldn't be automatically killed
+				if drawer.note_data.is_auto_freed():
+					drawer._on_note_judged(result_judgement)
+					drawer.emit_signal("note_removed")
+				else:
+					# The note is now on it's own
+					game.connect("time_changed", drawer, "_on_game_time_changed")
+					drawer._on_note_judged(result_judgement, true)
 #		if not event is InputEventJoypadMotion:
 #			var actions = []
 #			var input_judgement = judge_note_input(event, game.time)

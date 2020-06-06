@@ -51,8 +51,7 @@ func _on_resized():
 	var aa_size = line1.width / 40.0
 	shad_mat.set_shader_param("antialias_amount", aa_size)
 
-	
-func _ready():
+func setup():
 	material = ShaderMaterial.new()
 	material.shader = preload("res://rythm_game/CPUTrailShader.shader")
 	line1.use_parent_material = true
@@ -71,4 +70,7 @@ func _ready():
 	generate_trail_points()
 	material.set_shader_param("leading", float(int(UserSettings.user_settings.leading_trail_enabled)))
 	z_index = -1
+func _ready():
+	setup()
+
 #	scale = Vector2(game.get_note_scale(), game.get_note_scale())

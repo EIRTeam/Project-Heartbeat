@@ -106,6 +106,9 @@ func get_max_score():
 				notes += 1
 				last_point = point
 				max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
+				if point is HBSustainNote:
+					max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
+					notes += 1
 	
 	return max_score
 	

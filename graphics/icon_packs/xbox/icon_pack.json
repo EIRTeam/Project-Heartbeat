@@ -16,11 +16,7 @@
                     "src_path": "notes/X",
                     "target_path": "notes/X_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/X",
-                    "target_path": "notes/X_hold_target"
-                },
+
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/X",
@@ -40,6 +36,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_left",
                     "target_path": "notes/Double_letf"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/X_sustain_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/X_sustain",
+                    "target_path": "notes/X_sustain"
                 }
             }
         },
@@ -57,11 +63,6 @@
                     "style": "target",
                     "src_path": "notes/A_target",
                     "target_path": "notes/A_target"
-                },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/A",
-                    "target_path": "notes/A_hold_target"
                 },
                 "multi_note": {
                     "style": "multi_note",
@@ -82,6 +83,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_down",
                     "target_path": "notes/Double_down"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/A",
+                    "target_path": "notes/A_sustain_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/A_sustain",
+                    "target_path": "notes/A_sustain"
                 }
             }
         },
@@ -100,15 +111,15 @@
                     "src_path": "notes/B_target",
                     "target_path": "notes/B_target"
                 },
-                "hold_target": {
-                    "style": "hold_target",
-                    "src_path": "notes/B",
-                    "target_path": "notes/B_hold_target"
-                },
                 "multi_note": {
                     "style": "multi_note",
                     "src_path": "notes/B",
                     "target_path": "notes/B_multi_note"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/B_sustain",
+                    "target_path": "notes/B_sustain"
                 },
                 "multi_note_target": {
                     "style": "multi_note_target",
@@ -119,6 +130,11 @@
                     "style": "target_with_fill_color",
                     "src_path": "notes/Double_right",
                     "target_path": "notes/Double_right_target"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/B",
+                    "target_path": "notes/B_sustain_target"
                 },
                 "double_note": {
                     "style": "normal",
@@ -161,6 +177,16 @@
                     "style": "target_with_fill_color",
                     "src_path": "notes/Double_up",
                     "target_path": "notes/Double_up_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Y_sustain",
+                    "target_path": "notes/Y_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/Y_sustain_target"
                 },
                 "double_note": {
                     "style": "normal",

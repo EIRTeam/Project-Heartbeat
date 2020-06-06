@@ -47,6 +47,7 @@ func _init(_editor).(_editor):
 	contextual_menu.add_separator()	
 	
 	contextual_menu.add_contextual_item("Make double", "make_double")
+	contextual_menu.add_contextual_item("Make sustain", "make_sustain")
 func interpolate_selected():
 	var selected_items := get_editor().selected as Array
 	if selected_items.size() > 2:
@@ -102,6 +103,8 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			interpolate_selected()
 		"make_double":
 			change_note_type("DoubleNote")
+		"make_sustain":
+			change_note_type("SustainNote")
 func change_note_type(new_type: String):
 	
 	var editor = get_editor()
@@ -114,6 +117,8 @@ func change_note_type(new_type: String):
 			var data = item.data as HBBaseNote
 			var new_data_ser = data.serialize()
 			new_data_ser["type"] = new_type
+			if new_type == "SustainNote":
+				new_data_ser["end_time"] = data.time + 1000
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 			
 			var new_item = new_data.get_timeline_item()

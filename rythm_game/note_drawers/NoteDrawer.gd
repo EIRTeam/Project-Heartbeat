@@ -111,19 +111,15 @@ func get_time_out():
 func handle_input(event: InputEvent, time: float):
 	pass
 
-func judge_note_input(event: InputEvent, time: float, released = false) -> JudgeInputResult:
+func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
 	# Judging tapped keys
 	var result = JudgeInputResult.new()
-	for action in game.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
-		var event_result = event.is_action_pressed(action) and not event.is_echo()
-		if released:
-			event_result = event.is_action_released(action)
+	for action in note_data.get_input_actions():
+		var event_result = event.is_action(action) and not event.is_echo()
 		if event_result:
 			var closest_notes = game.get_closest_notes_of_type(note_data.note_type)
 			if note_data in closest_notes:
 				var judgement = game.judge.judge_note(time, note_data.time/1000.0)
-				if not judgement:
-					judgement = game.judge.judge_note(time, note_data.time+note_data.get_duration()/1000.0)
 				if judgement:
 					print("JUDGED!", judgement," ", time, " ", note_data.time/1000.0)
 					result.resulting_rating = judgement
@@ -139,4 +135,7 @@ func _on_game_time_changed(time: float):
 					game.get_note_drawer(note)._on_game_time_changed(time)
 
 func get_note_graphic():
+	pass
+
+func reset_note_state():
 	pass

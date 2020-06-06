@@ -104,11 +104,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBGameInfo.gd"
 }, {
-"base": "HBDurationNoteData",
-"class": "HBHoldNoteData",
-"language": "GDScript",
-"path": "res://scripts/timing_points/HBHoldNoteData.gd"
-}, {
 "base": "Button",
 "class": "HBHovereableButton",
 "language": "GDScript",
@@ -269,6 +264,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSongVerification.gd"
 }, {
+"base": "HBBaseNote",
+"class": "HBSustainNote",
+"language": "GDScript",
+"path": "res://scripts/timing_points/HBSustainNote.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -374,7 +374,6 @@ _global_script_class_icons={
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
 "HBGameInfo": "",
-"HBHoldNoteData": "",
 "HBHovereableButton": "",
 "HBINIParser": "",
 "HBJudge": "",
@@ -407,6 +406,7 @@ _global_script_class_icons={
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
 "HBSongVerification": "",
+"HBSustainNote": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
 "HBUserSettings": "",
@@ -435,9 +435,9 @@ config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
-config/version="Early Access v0.2.8"
-config/build_time=1589597914
-config/build_commit="73036fac7580bbdc93889ab9cf18734af394a549"
+config/version="Early Access v0.2.9"
+config/build_time=1591065209
+config/build_commit="552c597b82b7648ef06c1210ce27a47310019f57"
 
 [audio]
 

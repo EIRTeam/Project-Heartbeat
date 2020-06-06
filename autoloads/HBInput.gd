@@ -4,6 +4,16 @@ var action_tracking = {}
 
 const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
 
+var NOTE_TYPE_TO_ACTIONS_MAP = {
+	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
+	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
+	HBNoteData.NOTE_TYPE.UP: ["note_up"],
+	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
+	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
+	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"],
+	HBNoteData.NOTE_TYPE.HEART: ["tap_up", "tap_down", "tap_left", "tap_right"]
+}
+
 func is_action_pressed(action: String):
 	var action_inputs = action_tracking[action]
 	for device in action_inputs:

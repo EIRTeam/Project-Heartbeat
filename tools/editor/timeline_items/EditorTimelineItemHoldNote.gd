@@ -8,7 +8,7 @@ func _ready():
 	
 func get_inspector_properties():
 	var props = HBUtils.merge_dict(.get_inspector_properties(),  {
-		"duration": {
+		"end_time": {
 			"type": "int"
 		}
 	})
