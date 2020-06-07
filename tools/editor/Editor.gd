@@ -508,6 +508,8 @@ func paste_note_data(note_data: HBBaseNote):
 			undo_redo.add_undo_property(selected_item, "data", selected_item.data)
 			undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
+	inspector.stop_inspecting()
+	inspector.inspect(selected[0])
 	inspector.sync_visible_values_with_data()
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):

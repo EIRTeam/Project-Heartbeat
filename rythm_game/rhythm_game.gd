@@ -564,14 +564,13 @@ func _process(_delta):
 					if timing_point in hit_timing_points:
 						continue
 					# Prevent older notes from being re-created, although this shouldn't happen...
-					if judge.judge_note(time, (timing_point.time + timing_point.get_duration()) / 1000.0) == judge.JUDGE_RATINGS.WORST:
+					if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
 						continue
 					create_note_drawer(timing_point)
 					# multi-note detection
 					if multi_notes.size() > 0:
 						if multi_notes[0].time == timing_point.time:
 							if timing_point is HBBaseNote and timing_point.is_multi_allowed():
-								print("HOOKING UP BOIS")
 								multi_notes.append(timing_point)
 						elif multi_notes.size() > 1:
 							hookup_multi_notes(multi_notes)
@@ -785,6 +784,7 @@ func remove_note_from_screen(i):
 # Used by editor to reset hit notes and allow them to appear again
 func reset_hit_notes():
 	hit_timing_points = []
+	
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))

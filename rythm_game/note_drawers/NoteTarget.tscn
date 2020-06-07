@@ -14,6 +14,10 @@ extents = Vector2( 64, 64 )
 input_pickable = true
 script = ExtResource( 3 )
 
+[node name="TimingArm2" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+offset = Vector2( 0, -31 )
+
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="TextureRect" type="TextureProgress" parent="Node2D"]
@@ -46,4 +50,4 @@ shape = SubResource( 1 )
 
 [node name="TimingArm" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-offset = Vector2( 0, -30 )
+offset = Vector2( 0, -31 )

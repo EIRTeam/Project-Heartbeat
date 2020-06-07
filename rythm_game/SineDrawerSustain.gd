@@ -7,13 +7,10 @@ func set_trail_position(val):
 	shad_mat.set_shader_param("trail_position", val)
 
 func _on_resized():
-	line1.width = (game.get_note_scale() / 0.85) * 150.0
+	line1.width = 100.0
 	position = game.remap_coords(note_data.position)
 	scale = game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)
-	var time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
-	var factor = 15
-	
-
+#	line1.width = (scale.length() / 1.0) * 80.0
 func setup():
 	.setup()
 	line1.texture = preload("res://graphics/Sustain_trail.png")

@@ -12,7 +12,7 @@
    width="100"
    height="100"
    viewBox="0 0 100 100"
-   sodipodi:docname="Heart.svg"
+   sodipodi:docname="Heart_target.svg"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
   <metadata
      id="metadata821">
@@ -28,28 +28,6 @@
   </metadata>
   <defs
      id="defs819">
-    <inkscape:path-effect
-       update_on_knot_move="true"
-       attempt_force_join="true"
-       miter_limit="4"
-       offset="-0.9"
-       unit="mm"
-       linejoin_type="miter"
-       lpeversion="1"
-       is_visible="true"
-       id="path-effect932"
-       effect="offset" />
-    <inkscape:path-effect
-       update_on_knot_move="true"
-       attempt_force_join="true"
-       miter_limit="4"
-       offset="0"
-       unit="mm"
-       linejoin_type="miter"
-       lpeversion="1"
-       is_visible="true"
-       id="path-effect915"
-       effect="offset" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath4597">
@@ -84,16 +62,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1080"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="5.8901995"
-     inkscape:cx="-13.119765"
-     inkscape:cy="41.106869"
-     inkscape:window-x="0"
+     inkscape:cx="64.485994"
+     inkscape:cy="54.207699"
+     inkscape:window-x="2560"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="g832"

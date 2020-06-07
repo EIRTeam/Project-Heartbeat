@@ -147,7 +147,7 @@
                 },
                 "sustain_target": {
                     "style": "hold_target",
-                    "src_path": "notes/Triangle",
+                    "src_path": "notes/Triangle_target",
                     "target_path": "notes/Triangle_sustain_target"
                 }
             }

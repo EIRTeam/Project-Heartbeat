@@ -3,6 +3,7 @@ extends "res://rythm_game/note_drawers/NoteDrawer.gd"
 onready var target_graphic = get_node("NoteTarget")
 onready var note_graphic = get_node("Note")
 onready var shadow
+var disable_trail_margin = false
 export(float) var target_scale_modifier = 1.0
 
 var connected_note_judgements = {}
@@ -18,7 +19,6 @@ func set_connected_notes(val):
 	if connected_notes.size() > 1:
 		_on_note_type_changed()
 		sine_drawer.hide()
-		print("HIDING SINE DRAWER")
 	else:
 		sine_drawer.show()
 
@@ -41,6 +41,10 @@ func _on_game_size_changed():
 	if game.time * 1000.0 < note_data.time:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	sine_drawer._on_resized()
+	
+func update_arm_position(time: float):
+	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
+	
 func update_graphic_positions_and_scale(time: float):
 	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
@@ -56,7 +60,7 @@ func update_graphic_positions_and_scale(time: float):
 		new_scale = max(new_scale, 0.0)
 		note_graphic.scale = Vector2(new_scale, new_scale)
 #	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
-	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
+	update_arm_position(time)
 	draw_trail(time)
 	.update_graphic_positions_and_scale(time)
 	
@@ -81,11 +85,13 @@ func draw_trail(time: float):
 
 	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
 	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
+	if disable_trail_margin:
+		trail_margin = 0.0
 	sine_drawer.time = t-trail_margin
 	sine_drawer.trail_margin = trail_margin
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
-	target_graphic.set_note_type(note_data.note_type, connected_notes.size() > 0, note_data.hold)
+	target_graphic.set_note_type(note_data, connected_notes.size() > 0)
 
 func _on_note_judged(judgement, prevent_freeing = false):
 	if note_data is HBNoteData and note_data.is_slide_note():
@@ -102,6 +108,10 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			show_note_hit_effect()
 	if not prevent_freeing:
 		queue_free()
+		emit_signal("note_removed")
+		
+		if game.is_connected("time_changed", self, "_on_game_time_changed"):
+			game.disconnect("time_changed", self, "_on_game_time_changed")
 		set_process_unhandled_input(false)
 
 func _unhandled_input(event):
@@ -190,8 +200,6 @@ func _handle_unhandled_input(event):
 					
 			if wrong:
 				result_judgement = wrong_rating
-					
-			game.disconnect("time_changed", self, "_on_game_time_changed")
 
 			
 			# Make multinotes count
@@ -202,12 +210,12 @@ func _handle_unhandled_input(event):
 				var drawer = game.get_note_drawer(note)
 				
 				# Some notes shouldn't be automatically killed
-				if drawer.note_data.is_auto_freed():
-					drawer._on_note_judged(result_judgement)
-					drawer.emit_signal("note_removed")
+				if drawer.note_data.is_auto_freed() or wrong:
+					drawer._on_note_judged(HBJudge.JUDGE_RATINGS.WORST)
 				else:
 					# The note is now on it's own
-					game.connect("time_changed", drawer, "_on_game_time_changed")
+					if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
+						game.connect("time_changed", drawer, "_on_game_time_changed")
 					drawer._on_note_judged(result_judgement, true)
 #		if not event is InputEventJoypadMotion:
 #			var actions = []

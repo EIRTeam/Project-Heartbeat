@@ -24,7 +24,7 @@ class JudgeInputResult:
 
 func set_note_data(val):
 	note_data = val
-	$NoteTarget.note_data = note_data
+#	$NoteTarget.note_data = note_data
 
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
@@ -59,6 +59,8 @@ func set_connected_notes(val):
 			laser2.timescale += 1
 			laser2.frequency = 5
 			laser2.phase_shift = 90
+			laser1.z_index = -1
+			laser2.z_index = -1
 func _ready():
 #	z_index = 0
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")

@@ -261,6 +261,7 @@
             "color": "#4f30ae",
             "shadow_color": "#624ac3",
             "uses_custom_shadow": true,
+            "trail_margin": 0.02,
             "src": {
                 "note": {
                     "style": "normal",
@@ -269,7 +270,7 @@
                 },
                 "target": {
                     "style": "target_with_multi_outline",
-                    "src_path": "notes/Heart",
+                    "src_path": "notes/Heart_target",
                     "target_path": "notes/Heart_target"
                 },
                 "multi_note": {
