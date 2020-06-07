@@ -77,7 +77,7 @@ func get_result_rating():
 		return RESULT_RATING.EXCELLENT
 	elif final_score_ratio >= 0.94:
 		return RESULT_RATING.GREAT
-	elif final_score_ratio >= 0.85:
+	elif final_score_ratio >= 0.75:
 		return RESULT_RATING.STANDARD
 	else:
 		return RESULT_RATING.CHEAP
