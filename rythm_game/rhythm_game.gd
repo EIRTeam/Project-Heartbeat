@@ -27,7 +27,7 @@ const TRAIL_RESOLUTION = 80
 
 var timing_points = [] setget _set_timing_points
 # TPs that were previously hit
-var hit_timing_points = []
+var last_hit_index = 0
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
 var time_begin: int
@@ -91,6 +91,10 @@ var _prevent_finishing = false
 var _finished = false
 var _song_volume = 0.0
 
+const SFX_DEBOUNCE_TIME = 0.016*2.0
+
+var _sfx_debounce_t = SFX_DEBOUNCE_TIME
+
 var precalculated_note_trails = {}
 
 onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
@@ -112,7 +116,6 @@ onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Pane
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
-
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
 	var prev_point: HBBaseNote = null
@@ -211,7 +214,7 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 func _set_timing_points(points):
 #	print("SETT")
 	timing_points = points
-	hit_timing_points = []
+	last_hit_index = timing_points.size()
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
 	slide_hold_chains = []
@@ -472,19 +475,21 @@ func get_closest_notes():
 
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
-		get_note_drawer(notes_on_screen[i]).free()
+		var drawer = get_note_drawer(notes_on_screen[i])
+		if drawer:
+			get_note_drawer(notes_on_screen[i]).free()
 	notes_on_screen = []
 	timing_point_to_drawer_map = {}
 
 # Plays the provided sfx creating a clone of an audio player (maybe we should
 # use the AudioServer for this...
 func play_sfx(player: AudioStreamPlayer):
-	if not _sfx_played_this_cycle:
+	if _sfx_debounce_t > SFX_DEBOUNCE_TIME:
 		var new_player := player.duplicate() as AudioStreamPlayer
 		add_child(new_player)
 		new_player.play(0)
 		new_player.connect("finished", new_player, "queue_free")
-		_sfx_played_this_cycle = true
+		_sfx_debounce_t = 0.0
 
 # plays note SFX automatically
 func play_note_sfx(slide = false):
@@ -524,8 +529,7 @@ func create_note_drawer(timing_point: HBBaseNote):
 
 
 func _process(_delta):
-	_sfx_played_this_cycle = false
-
+	_sfx_debounce_t += _delta
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
@@ -552,7 +556,7 @@ func _process(_delta):
 #	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
 	# Adding visible notes
 	var multi_notes = []
-	for i in range(timing_points.size() - 1, -1, -1):
+	for i in range(timing_points.size() - 1 - (timing_points.size() - last_hit_index), -1, -1):
 		var timing_point = timing_points[i]
 		if timing_point is HBBaseNote:
 			# Ignore timing points that are not happening now
@@ -561,11 +565,11 @@ func _process(_delta):
 				break
 			if time * 1000.0 >= (timing_point.time - time_out):
 				if not timing_point in notes_on_screen:
-					if timing_point in hit_timing_points:
+					if i >= last_hit_index:
 						continue
 					# Prevent older notes from being re-created, although this shouldn't happen...
 					if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
-						continue
+						break
 					create_note_drawer(timing_point)
 					# multi-note detection
 					if multi_notes.size() > 0:
@@ -737,7 +741,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 								piece_drawer.emit_signal("note_removed")
 								piece_drawer.queue_free()
 							else:
-								hit_timing_points.append(piece)
+								last_hit_index = timing_points.find(piece)
 
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
@@ -777,13 +781,13 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 func remove_note_from_screen(i):
 	if i != -1:
 		if not editing or previewing:
-			hit_timing_points.append(notes_on_screen[i])
+			last_hit_index = timing_points.find(notes_on_screen[i])
 		notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
 		notes_on_screen.remove(i)
 
 # Used by editor to reset hit notes and allow them to appear again
 func reset_hit_notes():
-	hit_timing_points = []
+	last_hit_index = timing_points.size()
 	
 
 func _on_note_removed(note):
@@ -845,7 +849,7 @@ func delete_rogue_notes(pos_override = null):
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note))
 		else:
-			hit_timing_points.append(note)
+			last_hit_index = timing_points.find(note)
 
 
 func add_score(score_to_add):
