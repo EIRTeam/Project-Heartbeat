@@ -63,7 +63,7 @@ var base_bpm = 180.0
 # List of slide hold note chains
 # It's a list key, contains an array of slide notes
 # hold pieces.
-var slide_hold_chains = []
+var slide_hold_chains = {}
 
 # List of slide hold note chains that are active
 # It is an array of dictionaris, each dictionary contains a slide hold piece array
@@ -217,7 +217,7 @@ func _set_timing_points(points):
 	last_hit_index = timing_points.size()
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
-	slide_hold_chains = []
+	slide_hold_chains = {}
 	for chain in active_slide_hold_chains:
 		chain.sfx_player.queue_free()
 	active_slide_hold_chains = []
@@ -570,6 +570,9 @@ func _process(_delta):
 					# Prevent older notes from being re-created, although this shouldn't happen...
 					if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
 						break
+					if timing_point.has_meta("ignored"):
+						if timing_point.get_meta("ignored"):
+							continue
 					create_note_drawer(timing_point)
 					# multi-note detection
 					if multi_notes.size() > 0:
@@ -753,9 +756,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 								var piece_drawer = get_note_drawer(piece)
 								piece_drawer.emit_signal("note_removed")
 								piece_drawer.queue_free()
-							else:
-								last_hit_index = timing_points.find(piece)
-
+								# It's not shitty if it works
+								piece.set_meta("ignored", true)
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
 		for n in notes:
@@ -801,7 +803,9 @@ func remove_note_from_screen(i):
 # Used by editor to reset hit notes and allow them to appear again
 func reset_hit_notes():
 	last_hit_index = timing_points.size()
-	
+	for chain_m in slide_hold_chains:
+		for piece in slide_hold_chains[chain_m]:
+			piece.set_meta("ignored", false)
 
 func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
