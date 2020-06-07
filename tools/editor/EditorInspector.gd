@@ -57,7 +57,8 @@ func sync_visible_values_with_data():
 		sync_value(property_name)
 # Syncs a single value
 func sync_value(property_name: String):
-	inspecting_properties[property_name].sync_value(inspecting_item.data.get(property_name))
+	if property_name in inspecting_item.data:
+		inspecting_properties[property_name].sync_value(inspecting_item.data.get(property_name))
 	update_label()
 func inspect(item: EditorTimelineItem):
 	if item.data is HBBaseNote:
