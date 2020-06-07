@@ -41,12 +41,12 @@ func _on_game_size_changed():
 	if game.time * 1000.0 < note_data.time:
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	sine_drawer._on_resized()
+	target_graphic.position = game.remap_coords(note_data.position)
 	
 func update_arm_position(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	
 func update_graphic_positions_and_scale(time: float):
-	target_graphic.position = game.remap_coords(note_data.position)
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Movement along wave
 	var oscillation_amplitude = cached_amplitude
@@ -80,8 +80,6 @@ func draw_trail(time: float):
 	var points2 = PoolVector2Array()
 	# How much margin we leave for the trail from the note center, this prevents
 	# the trail from leaking into notes with holes in the middle
-	
-	var oscillation_amplitude = game.remap_coords(Vector2.ONE).x * note_data.oscillation_amplitude
 
 	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
 	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
@@ -104,7 +102,6 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			game.add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
 	else:
-		print("JUDGEE!!!!", judgement)
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			show_note_hit_effect()
 	if not prevent_freeing:

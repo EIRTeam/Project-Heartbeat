@@ -632,6 +632,7 @@ func _process(_delta):
 			if note is HBBaseNote and note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
 				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
 					if time * 1000.0 > note.end_time:
+
 						var a = InputEventAction.new()
 						a.action = note.get_input_actions()[0]
 						a.pressed = false
@@ -639,11 +640,23 @@ func _process(_delta):
 						Input.parse_input_event(a)
 				
 				elif time * 1000 > note.time:
-					var a = InputEventAction.new()
-					a.action = note.get_input_actions()[0]
-					a.pressed = true
-					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-					Input.parse_input_event(a)
+					var press_count = 1
+					for _i in range(press_count):
+						var a = InputEventAction.new()
+						var action = note.get_input_actions()[0]
+						
+						# Double note device emulation
+						HBInput.action_tracking[action] = {}
+						HBInput.action_tracking[action][-1] = {}
+						HBInput.action_tracking[action][-1][0] = true
+						HBInput.action_tracking[action][-1][1] = true
+						a.action = action
+						
+						a.pressed = true
+						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+						Input.parse_input_event(a)
+						
+						HBInput.action_tracking[action] = {}
 	var new_closest_multi_notes = []
 	var last_note_time = 0
 	for note in notes_on_screen:
