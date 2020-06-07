@@ -68,6 +68,7 @@ static func get_data_from_evd(file: File, file_size, file_offset):
 			PPDEventType.ChangeNoteType:
 				# Ignored
 				var _note_type = file.get_8()
+				event["note_type"] = _note_type
 			PPDEventType.ChangeInitializeOrder:
 				# Ignored
 				var _table = file.get_buffer(10)

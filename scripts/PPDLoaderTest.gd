@@ -14,85 +14,26 @@ enum PPDEventType {
 	ChangeSlideScale = 9
 }
 
+onready var window_dialog = get_node("WindowDialog")
+onready var browse_button = get_node("WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/BrowseButton")
+onready var file_dialog = get_node("FileDialog")
+
+onready var marks_text_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/MarksTextEdit")
+onready var params_text_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer2/ParamsTextEdit")
+onready var evd_text_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer3/EVDTextEdit")
 func _ready():
-	var pack := PPDPack.new("user://songs/HIP/Extreme.ppd")
-	var index = pack.get_file_index("evd")
-	for name in pack.file_names:
-		var name_str = name.get_string_from_utf8()
-		var f = File.new()
-		f.open("user://test/" + name_str, File.WRITE)
-		var buff = pack.file.seek(pack.file_offsets[pack.file_names.find(name)])
-		f.store_buffer(pack.file.get_buffer(pack.file_sizes[pack.file_names.find(name)]))
-	get_data_from_evd(pack.file, pack.file_sizes[index], pack.file_offsets[index])
+	window_dialog.popup_centered_ratio(0.75)
+	browse_button.connect("pressed", file_dialog, "popup_centered_ratio", [0.75])
+	file_dialog.connect("file_selected", self, "_on_file_selected")
 	# var chart = PPDLoader.PPD2HBChart("user://Easy.ppd", 100)
 	# var file := File.new()
 	# print(file.open("user://test.json", File.WRITE))
 	# file.store_string(JSON.print(chart.serialize(), "  "))
 #	extract_pack("user://resource.pak")
 
-static func get_data_from_evd(file: File, file_size, file_offset):
-	var events = []
-	file.seek(file_offset)
-	var tb = 0
-	while file.get_position() < file_offset + file_size:
-		var time = file.get_float()
-		var mode = file.get_8()
-		var event = {
-			"time": time,
-			"event_type": mode
-		}
-		match mode:
-			PPDEventType.ChangeVolume:
-				# Ignored
-				var _channel = file.get_8()
-				var _volpercent = file.get_8()
-			PPDEventType.ChangeBPM:
-				var target_bpm = file.get_float()
-				event["target_bpm"] = target_bpm
-			PPDEventType.RapidChangeBPM:
-				var target_bpm = file.get_float()
-				var rapid = file.get_8()
-				event["target_bpm"] = target_bpm
-				event["rapid"] = rapid
-			PPDEventType.ChangeSoundPlayMode:
-				# Ignored
-				var _channel = file.get_8()
-				var _keep_playing = file.get_8()
-			PPDEventType.ChangeDisplayState:
-				# Ignored
-				var _dstate = file.get_8()
-			PPDEventType.ChangeMoveState:
-				# Ignored
-				var _mstate = file.get_8()
-			PPDEventType.ChangeReleaseSound:
-				# Ignored	
-				var _channel = file.get_8()
-				var _release_sound = file.get_8()
-			PPDEventType.ChangeNoteType:
-				# Ignored
-				var _note_type = file.get_8()
-			PPDEventType.ChangeInitializeOrder:
-				# Ignored
-				var _table = file.get_buffer(10)
-			PPDEventType.ChangeSlideScale:
-				var slide_scale = file.get_float()
-				event["slide_scale"] = slide_scale
-		print("Found event of type " + HBUtils.find_key(PPDEventType, mode))
-		print(event)
-		events.append(event)
-	return events
-
-func extract_pack(path: String):
-	var pack := PPDPack.new(path)
-	for file in pack.file_names:
-		var f_path = "user://" + file.get_string_from_utf8()
-		var dir = Directory.new()
-		dir.make_dir_recursive(f_path.get_base_dir())
-		var index = pack.get_file_index(file.get_string_from_utf8())
-		pack.file.seek(pack.file_offsets[index])
-		var buff = pack.file.get_buffer(pack.file_sizes[index])
-		
-		var f = File.new()
-		f.open(f_path, File.WRITE)
-		f.store_buffer(buff)
-		f.close()
+func _on_file_selected(path: String):
+	var marks = PPDLoader._get_marks_from_ppd_pack(path)
+	
+	marks_text_edit.text = JSON.print(marks.marks, "	")
+	params_text_edit.text = JSON.print(marks.params, "	")
+	evd_text_edit.text = JSON.print(marks.evd_file.evd_events, "	")

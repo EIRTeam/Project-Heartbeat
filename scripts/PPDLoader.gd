@@ -107,21 +107,45 @@ enum PPDButtons {
 	L
 }
 
-static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
-	var bpm = base_bpm
-	# PPD button map to PH buttons
-	var PPDButton2HBNoteType = {
+enum PPDNoteType {
+	NORMAL,
+	AC,
+	ACFT
+}
+
+const PPDButtonsMapACFT = {
 		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
 		PPDButtons.Cross: HBNoteData.NOTE_TYPE.DOWN,
 		PPDButtons.Circle: HBNoteData.NOTE_TYPE.RIGHT,
 		PPDButtons.Triangle: HBNoteData.NOTE_TYPE.UP,
-		PPDButtons.Left: HBNoteData.NOTE_TYPE.SLIDE_LEFT,
+		PPDButtons.Left: HBNoteData.NOTE_TYPE.LEFT,
 		PPDButtons.Down: HBNoteData.NOTE_TYPE.DOWN,
-		PPDButtons.Right: HBNoteData.NOTE_TYPE.SLIDE_RIGHT,
+		PPDButtons.Right: HBNoteData.NOTE_TYPE.RIGHT,
 		PPDButtons.Up: HBNoteData.NOTE_TYPE.UP,
 		PPDButtons.R: HBNoteData.NOTE_TYPE.SLIDE_RIGHT,
 		PPDButtons.L: HBNoteData.NOTE_TYPE.SLIDE_LEFT
 	}
+
+const PPDButtonsMapDefault = {
+		PPDButtons.Square: HBNoteData.NOTE_TYPE.LEFT,
+		PPDButtons.Cross: HBNoteData.NOTE_TYPE.DOWN,
+		PPDButtons.Circle: HBNoteData.NOTE_TYPE.RIGHT,
+		PPDButtons.Triangle: HBNoteData.NOTE_TYPE.UP,
+		PPDButtons.Left: HBNoteData.NOTE_TYPE.LEFT,
+		PPDButtons.Down: HBNoteData.NOTE_TYPE.DOWN,
+		PPDButtons.Right: HBNoteData.NOTE_TYPE.RIGHT,
+		PPDButtons.Up: HBNoteData.NOTE_TYPE.UP,
+		PPDButtons.R: HBNoteData.NOTE_TYPE.HEART,
+		PPDButtons.L: HBNoteData.NOTE_TYPE.HEART
+	}
+
+static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
+	var bpm = base_bpm
+	# PPD button map to PH buttons
+	var PPDButton2HBNoteType = PPDButtonsMapDefault
+	
+	
+	
 	var chart = HBChart.new()
 	var data = _get_marks_from_ppd_pack(path)
 	var marks = data.marks
@@ -130,13 +154,21 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	
 	var evd_file = data.evd_file as PPDEVDFile
 
+	var note_type = PPDNoteType.NORMAL
+
+	for event in evd_file.evd_events:
+		if event.event_type == PPDEVDFile.PPDEventType.ChangeNoteType:
+			if event.note_type == PPDNoteType.ACFT:
+				PPDButton2HBNoteType = PPDButtonsMapACFT
+				note_type = PPDNoteType.ACFT
+
 	# For when multiple notes are on screen, to count how many layers
 	# deep we are going to ensure they don't overlap
 	var same_position_note_count = 0
 
 	for i in range(marks.size()):
 		var note = marks[i]
-		var note_data : HBNoteData
+		var note_data : HBBaseNote
 		
 #		if note.ex:
 #			note_data = HBHoldNoteData.new() as HBHoldNoteData
@@ -144,6 +176,12 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 #		else:
 #			note_data = HBNoteData.new()
 		note_data = HBNoteData.new()
+		if note.type > PPDButtons.Triangle and note.type < PPDButtons.R:
+			note_data = HBDoubleNote.new()
+		elif note_type != PPDNoteType.ACFT and note.end_time != 0.0 and not note.type == PPDButtons.L and not note.type == PPDButtons.R:
+			note_data = HBSustainNote.new()
+			print("MAKE SUSTAIN")
+			note_data.end_time = int(note.end_time*1000.0) + int(offset)
 		
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
@@ -204,7 +242,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				else:
 					chart.layers[note_data.note_type].timing_points.append(note_data)
 		# Chain slides
-		if note.has("end_time") and note_data.is_slide_note():
+		if note_type == PPDNoteType.ACFT and note.has("end_time") and note_data.is_slide_note():
 			var ppd_scale = evd_file.get_slide_scale_at_time(note.time)
 
 			# This thing right here was provided by Blizzin, all issues caused by it should be forwarded
@@ -233,7 +271,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				new_note.time = note_time
 				new_note.position = note_position
 				chart.layers[note_data.note_type].timing_points.append(new_note)
-		elif note.ex:
+		elif note.ex and note_type == PPDNoteType.ACFT and not note_data.is_slide_note():
 			note_data.hold = true
 		prev_note = note_data
 	return chart
