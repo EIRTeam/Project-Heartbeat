@@ -45,7 +45,8 @@ func _process(delta):
 		_drag_last = new_time
 		if abs(drag_delta) > 0:
 			editor._change_selected_property_delta("time",  int(drag_delta), self)
-			editor._change_selected_property_delta("end_time",  int(drag_delta), self)
+			if data is HBSustainNote:
+				editor._change_selected_property_delta("end_time",  int(drag_delta), self)
 			for item in editor.selected:
 				item.emit_signal("time_changed")
 #		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
@@ -77,7 +78,8 @@ func _gui_input(event: InputEvent):
 			set_process(false)
 			if _drag_start_time != data.time:
 				editor._commit_selected_property_change("time")
-				editor._commit_selected_property_change("end_time")
+				if data is HBSustainNote:
+					editor._commit_selected_property_change("end_time")
 #		if _drag_start_time != data.time:
 #			emit_signal("property_changed", "time", _drag_start_time, data.time)
 			

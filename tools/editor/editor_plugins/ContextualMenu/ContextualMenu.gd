@@ -44,10 +44,11 @@ func _init(_editor).(_editor):
 	contextual_menu.add_contextual_item("Interpolate notes", "interpolate")
 	contextual_menu.set_contextual_item_icon("interpolate", interp_icon)
 	
-	contextual_menu.add_separator()	
+	contextual_menu.add_separator()
 	
-	contextual_menu.add_contextual_item("Make double", "make_double")
-	contextual_menu.add_contextual_item("Make sustain", "make_sustain")
+	contextual_menu.add_contextual_item("Convert to normal", "make_normal")
+	contextual_menu.add_contextual_item("Convert to double", "make_double")
+	contextual_menu.add_contextual_item("Convert to sustain", "make_sustain")
 func interpolate_selected():
 	var selected_items := get_editor().selected as Array
 	if selected_items.size() > 2:
@@ -101,6 +102,8 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			get_editor().delete_selected()
 		"interpolate":
 			interpolate_selected()
+		"make_normal":
+			change_note_type("Note")
 		"make_double":
 			change_note_type("DoubleNote")
 		"make_sustain":
@@ -139,6 +142,16 @@ func _on_contextual_menu_about_to_show():
 	hovered_time = get_editor().timeline.get_time_being_hovered()
 	var contextual_menu := get_contextual_menu()
 	var items_disabled = get_editor().selected.size() == 0
-	for item in ["delete", "cut", "copy", "interpolate"]:
+	for item in ["delete", "cut", "copy", "interpolate", "make_sustain", "make_double"]:
 		contextual_menu.set_contextual_item_disabled(item, items_disabled)
+	for selected in get_editor().selected:
+		if selected.data is HBNoteData and selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+			contextual_menu.set_contextual_item_disabled("make_sustain", true)
+	for selected in get_editor().selected:
+		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()) \
+				or selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+			contextual_menu.set_contextual_item_disabled("make_double", true)
+			contextual_menu.set_contextual_item_disabled("make_normal", true)
+			contextual_menu.set_contextual_item_disabled("make_sustain", true)
+			break
 	contextual_menu.set_contextual_item_disabled("paste", get_editor().copied_points.size() == 0)
