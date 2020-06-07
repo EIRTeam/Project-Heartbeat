@@ -282,6 +282,16 @@
                     "style": "multi_note_target",
                     "src_path": "notes/Heart",
                     "target_path": "notes/Heart_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_heart",
+                    "target_path": "notes/Double_heart_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_heart",
+                    "target_path": "notes/Double_heart"
                 }
             }
         }
