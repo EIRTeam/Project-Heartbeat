@@ -21,6 +21,16 @@ func is_action_pressed(action: String):
 			if action_inputs[device][button] == true:
 				return true
 	return false
+	
+func get_action_press_count(action: String) -> int:
+	var action_inputs = action_tracking[action]
+	var presses = 0
+	for device in action_inputs:
+		for button in action_inputs[device]:
+			if action_inputs[device][button] == true:
+				presses += 1
+	print(action_inputs)
+	return presses
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

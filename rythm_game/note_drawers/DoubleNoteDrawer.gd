@@ -1,25 +1,17 @@
 extends "res://rythm_game/SingleNoteDrawer.gd"
 
-var press_count = 0
-
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0, true)
 	target_graphic.set_note_type(note_data)
 
 func judge_note_input(event: InputEvent, time: float):
-	if press_count > 1:
-		return .judge_note_input(event, time)
-	else:
+	var handled = false
+	for action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
+		if event.is_action_pressed(action) and HBInput.get_action_press_count(action) >= 2:
+			return .judge_note_input(event, time)
+			handled = true
+	if not handled:
 		return JudgeInputResult.new()
 
 func handle_input(event: InputEvent, time: float):
-	var result = .judge_note_input(event, time)
-	
-	for action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
-		if event.is_action_released(action):
-			press_count = 0
-#			print("RELEASED", HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	if result.has_rating:
-#		print("ADD PRESS")
-		press_count += 1
-		
+	pass
