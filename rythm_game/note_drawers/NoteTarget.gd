@@ -10,16 +10,18 @@ func set_arm_position(value):
 	if UserSettings.user_settings.use_timing_arm:
 		$TimingArm.rotation_degrees = 360 * value
 	else:
-		progress_circle_rect.value = arm_position
-		progress_circle_rect.self_modulate.a = arm_position
+		if arm2_position == 0.0:
+			progress_circle_rect.value = arm_position
+			progress_circle_rect.self_modulate.a = arm_position
 			
 func set_arm2_position(value):
-	arm_position = value
+	arm2_position = value
 	if UserSettings.user_settings.use_timing_arm:
 		$TimingArm2.rotation_degrees = 360 * value
 	else:
-		progress_circle_rect.value = arm_position
-		progress_circle_rect.self_modulate.a = arm_position
+		if arm2_position != 0.0:
+			progress_circle_rect.value = arm2_position
+			progress_circle_rect.self_modulate.a = arm2_position
 
 
 
@@ -43,6 +45,7 @@ func set_note_type(note_data: HBBaseNote, multi = false):
 	]
 	if note_data.note_type in arm_disabled_types:
 		$TimingArm.hide()
+		$TimingArm2.hide()
 		progress_circle_rect.hide()
 	else:
 		if UserSettings.user_settings.use_timing_arm:

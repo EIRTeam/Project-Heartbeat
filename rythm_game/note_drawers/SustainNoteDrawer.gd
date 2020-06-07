@@ -18,6 +18,9 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data, connected_notes.size() > 0)
 	$Note2.set_note_type(note_data.note_type, connected_notes.size() > 0, true)
 func _on_note_judged(judgement, prevent_free = false):
+	if not prevent_free:
+		._on_note_judged(judgement, false)
+		return
 	if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 		pressed = true
 		connected_notes = [note_data]
@@ -26,7 +29,6 @@ func _on_note_judged(judgement, prevent_free = false):
 		set_process_unhandled_input(true)
 	else:
 		._on_note_judged(judgement, false)
-	
 func draw_trail(time: float):
 	.draw_trail(time)
 	if pressed:
@@ -68,8 +70,8 @@ func handle_input(event: InputEvent, time: float):
 				rating = result.resulting_rating
 			emit_signal("notes_judged", [note_data], rating, false)
 			._on_note_judged(rating)
+			game.add_score(HBNoteData.NOTE_SCORES[rating])
 			if rating >= game.judge.JUDGE_RATINGS.FINE:
-				show_note_hit_effect()
 				game.play_note_sfx()
 			set_process_unhandled_input(false)
 		

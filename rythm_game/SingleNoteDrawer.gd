@@ -104,6 +104,7 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			game.add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
 	else:
+		print("JUDGEE!!!!", judgement)
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			show_note_hit_effect()
 	if not prevent_freeing:
@@ -210,8 +211,10 @@ func _handle_unhandled_input(event):
 				var drawer = game.get_note_drawer(note)
 				
 				# Some notes shouldn't be automatically killed
-				if drawer.note_data.is_auto_freed() or wrong:
+				if wrong:
 					drawer._on_note_judged(HBJudge.JUDGE_RATINGS.WORST)
+				elif drawer.note_data.is_auto_freed():
+					drawer._on_note_judged(result_judgement)
 				else:
 					# The note is now on it's own
 					if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
