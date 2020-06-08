@@ -209,7 +209,7 @@ var _last_time = 0.0
 
 func _process(delta):
 	$Label.visible = Diagnostics.fps_label.visible
-	$Label.text = "pos %f \n audiopos %f \n diff %f \n" % [video_player.stream_position, game.time, game.time - video_player.stream_position]
+	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index]
 
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")

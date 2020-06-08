@@ -26,6 +26,7 @@ const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when 
 const TRAIL_RESOLUTION = 80
 
 var timing_points = [] setget _set_timing_points
+var events = []
 # TPs that were previously hit
 var last_hit_index = 0
 var result = HBResult.new()
@@ -116,6 +117,13 @@ onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Pane
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
+
+# Used for performance reasons, we treat a slide chain as a group
+class NoteGroup:
+	var time: int = 0
+	var precalculated_timeout: int = 0
+	var notes: Array
+	var hit_notes: PoolByteArray
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
 	var prev_point: HBBaseNote = null
@@ -211,10 +219,31 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 	
 	return (a.time - ta) > (b.time - tb)
 	
+func make_group(notes: Array, extra_notes: Array, group_position, time):
+	var group = NoteGroup.new()
+	group.notes = notes + extra_notes
+	group.time = time
+	var highest_time_out = 0
+
+	for point in group.notes:
+		point.set_meta("group_position", group_position)
+		point.set_meta("group", group)
+	group.hit_notes.resize(group.notes.size())
+	var array = PoolByteArray()
+	array.resize(group.notes.size())
+	group.hit_notes = array
+	if group.hit_notes.size() == 0:
+		breakpoint
+	for i in range(group.hit_notes.size()):
+		group.hit_notes[i] = 0
+	for note in group.notes:
+		highest_time_out = max(highest_time_out, note.get_time_out(get_bpm_at_time(note.time)))
+	group.precalculated_timeout = highest_time_out
+	return group
+	
 func _set_timing_points(points):
 #	print("SETT")
 	timing_points = points
-	last_hit_index = timing_points.size()
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
 	slide_hold_chains = {}
@@ -229,7 +258,38 @@ func _set_timing_points(points):
 			bpm_changes[point.time] = point.bpm
 			print("FOUND BPM CHANGE at ", point.time)
 	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
+	# Group related notes for performance reasons, so we can precompute stuff
+	var timing_points_grouped = []
+	var last_notes = []
+	events = []
+	var group_position = 0
+	var extra_notes = []
+	for i in range(timing_points.size()):
+		var own_extra_notes = []
+		var point = timing_points[i]
+		if point is HBBaseNote:
+			if point is HBNoteData:
+				if point.is_slide_hold_piece():
+					continue
+				if point.is_slide_note():
+					if point in slide_hold_chains:
+						own_extra_notes = slide_hold_chains[point]
+			var should_make_group = i == timing_points.size()-1 \
+					or timing_points[i+1].time != point.time
 
+			if should_make_group:
+				var group = make_group(last_notes + [point], own_extra_notes + extra_notes, group_position, point.time)
+				group_position += 1
+				last_notes = []
+				own_extra_notes = []
+				extra_notes = []
+				timing_points_grouped.append(group)
+			if not should_make_group:
+				extra_notes += own_extra_notes
+				last_notes.append(point)
+
+	timing_points = timing_points_grouped
+	last_hit_index = timing_points.size()
 func _ready():
 	rating_label.hide()
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -527,7 +587,37 @@ func create_note_drawer(timing_point: HBBaseNote):
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
 
-
+func _process_note_group(group: NoteGroup):
+	var multi_notes = []
+	for i in range(group.notes.size()):
+		if group.hit_notes[i] == 1:
+			continue
+		var timing_point = group.notes[i] as HBBaseNote
+		if not timing_point in notes_on_screen:
+			# Prevent older notes from being re-created, although this shouldn't happen...
+			var time_out = timing_point.get_time_out(get_bpm_at_time(timing_point.time))
+			if time * 1000.0 < (timing_point.time - time_out):
+				break
+			if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
+				break
+			if timing_point.has_meta("ignored"):
+				if timing_point.get_meta("ignored"):
+					continue
+			create_note_drawer(timing_point)
+			# multi-note detection
+			if multi_notes.size() > 0:
+				if multi_notes[0].time == timing_point.time:
+					if timing_point is HBBaseNote and timing_point.is_multi_allowed():
+						multi_notes.append(timing_point)
+				elif multi_notes.size() > 1:
+					hookup_multi_notes(multi_notes)
+					multi_notes = [timing_point]
+				else:
+					multi_notes = [timing_point]
+			elif timing_point is HBBaseNote and timing_point.is_multi_allowed():
+				multi_notes.append(timing_point)
+	if multi_notes.size() > 1:
+		hookup_multi_notes(multi_notes)
 func _process(_delta):
 	_sfx_debounce_t += _delta
 	var latency_compensation = UserSettings.user_settings.lag_compensation
@@ -552,45 +642,18 @@ func _process(_delta):
 				end_time = float(current_song.end_time)
 			if time*1000.0 >= end_time and not _finished:
 				_on_game_finished()
-#	$CanvasLayer/DebugLabel.text = HBUtils.format_time(int(time * 1000))
-#	$CanvasLayer/DebugLabel.text += "\nNotes on screen: " + str(notes_on_screen.size())
-	# Adding visible notes
-	var multi_notes = []
 	for i in range(timing_points.size() - 1 - (timing_points.size() - last_hit_index), -1, -1):
-		var timing_point = timing_points[i]
-		if timing_point is HBBaseNote:
+		var group = timing_points[i]
+		if group is NoteGroup:
 			# Ignore timing points that are not happening now
-			var time_out = timing_point.get_time_out(get_bpm_at_time(timing_point.time))
-			if time * 1000.0 < (timing_point.time - time_out):
+			var time_out = group.precalculated_timeout
+			if time * 1000.0 < (group.time - time_out):
 				break
-			if time * 1000.0 >= (timing_point.time - time_out):
-				if not timing_point in notes_on_screen:
-					if i >= last_hit_index:
-						continue
-					# Prevent older notes from being re-created, although this shouldn't happen...
-					if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
-						break
-					if timing_point.has_meta("ignored"):
-						if timing_point.get_meta("ignored"):
-							continue
-					create_note_drawer(timing_point)
-					# multi-note detection
-					if multi_notes.size() > 0:
-						if multi_notes[0].time == timing_point.time:
-							if timing_point is HBBaseNote and timing_point.is_multi_allowed():
-								multi_notes.append(timing_point)
-						elif multi_notes.size() > 1:
-							hookup_multi_notes(multi_notes)
-							multi_notes = [timing_point]
-						else:
-							multi_notes = [timing_point]
-					elif timing_point is HBBaseNote and timing_point.is_multi_allowed():
-						multi_notes.append(timing_point)
+			if time * 1000.0 >= (group.time - time_out):
+				_process_note_group(group)
 #				if not editing or previewing:
 #					timing_points.remove(i)
 	emit_signal("time_changed", time)
-	if multi_notes.size() > 1:
-		hookup_multi_notes(multi_notes)
 
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
@@ -630,36 +693,41 @@ func _process(_delta):
 		if not result.used_cheats:
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
+		var actions_to_press = []
+		var double_actions_to_press = []
+		var actions_to_release = []
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBBaseNote and note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
 				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
 					if time * 1000.0 > note.end_time:
-
-						var a = InputEventAction.new()
-						a.action = note.get_input_actions()[0]
-						a.pressed = false
+						actions_to_release.append(note.get_input_actions()[0])
 						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-						Input.parse_input_event(a)
-				
 				elif time * 1000 > note.time:
-					var press_count = 1
-					for _i in range(press_count):
-						var a = InputEventAction.new()
-						var action = note.get_input_actions()[0]
-						
-						# Double note device emulation
-						HBInput.action_tracking[action] = {}
-						HBInput.action_tracking[action][-1] = {}
-						HBInput.action_tracking[action][-1][0] = true
-						HBInput.action_tracking[action][-1][1] = true
-						a.action = action
-						
-						a.pressed = true
-						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-						Input.parse_input_event(a)
-						
-						HBInput.action_tracking[action] = {}
+					actions_to_press.append(note.get_input_actions()[0])
+					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+		for action in actions_to_release:
+			var a = InputEventAction.new()
+			a.action = action
+			a.pressed = false
+			
+			Input.parse_input_event(a)
+		for action in actions_to_press:
+			var a = InputEventAction.new()
+			
+			
+			# Double note device emulation
+			HBInput.action_tracking[action] = {}
+			HBInput.action_tracking[action][-1] = {}
+			HBInput.action_tracking[action][-1][0] = true
+			HBInput.action_tracking[action][-1][1] = true
+			a.action = action
+			
+			a.pressed = true
+			
+			Input.parse_input_event(a)
+			
+			HBInput.action_tracking[action] = {}
 	var new_closest_multi_notes = []
 	var last_note_time = 0
 	for note in notes_on_screen:
@@ -693,7 +761,6 @@ func set_current_combo(combo: int):
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong):
 	var note = notes[0] as HBBaseNote
-	print("JUDGED NOTES! ", judgement)
 	# Simultaneous slides are a special case...
 	# we have to process each note individually
 	for n in notes:
@@ -793,10 +860,17 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.play()
 
 # removes a note from screen (and from the timing points list if not in the editor)
-func remove_note_from_screen(i):
+func remove_note_from_screen(i, update_last_hit = true):
 	if i != -1:
 		if not editing or previewing:
-			last_hit_index = timing_points.find(notes_on_screen[i])
+			if update_last_hit:
+				if notes_on_screen[i].has_meta("group_position"):
+					if not active_slide_hold_chains.size() > 0:
+						var nhi = notes_on_screen[i].get_meta("group_position")
+						if nhi < last_hit_index:
+							last_hit_index = nhi
+					var group = notes_on_screen[i].get_meta("group")
+					group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
 		notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
 		notes_on_screen.remove(i)
 
@@ -804,6 +878,7 @@ func remove_note_from_screen(i):
 func reset_hit_notes():
 	last_hit_index = timing_points.size()
 	for chain_m in slide_hold_chains:
+		chain_m.set_meta("ignored", false)
 		for piece in slide_hold_chains[chain_m]:
 			piece.set_meta("ignored", false)
 
@@ -860,13 +935,13 @@ func delete_rogue_notes(pos_override = null):
 			if chain_starter.time < pos_override * 1000.0:
 				if chain_starter.is_slide_note():
 					if chain_starter in slide_hold_chains:
+						notes_to_remove.append(chain_starter)
 						var pieces = slide_hold_chains[chain_starter]
 						notes_to_remove += pieces
 	for note in notes_to_remove:
+		note.set_meta("ignored", true)
 		if note in notes_on_screen:
-			remove_note_from_screen(notes_on_screen.find(note))
-		else:
-			last_hit_index = timing_points.find(note)
+			remove_note_from_screen(notes_on_screen.find(note), false)
 
 
 func add_score(score_to_add):

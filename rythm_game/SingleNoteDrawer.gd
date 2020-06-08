@@ -230,8 +230,9 @@ func _on_game_time_changed(time: float):
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
+		var time_out = get_time_out()
 		if note_data.can_be_judged():
-			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
+			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - time_out):
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
