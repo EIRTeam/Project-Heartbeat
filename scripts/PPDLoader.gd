@@ -158,14 +158,12 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 
 	for event in evd_file.evd_events:
 		if event.event_type == PPDEVDFile.PPDEventType.ChangeNoteType:
-			if event.note_type == PPDNoteType.ACFT:
+			if event.note_type >= PPDNoteType.AC:
 				PPDButton2HBNoteType = PPDButtonsMapACFT
 				note_type = PPDNoteType.ACFT
-
 	# For when multiple notes are on screen, to count how many layers
 	# deep we are going to ensure they don't overlap
 	var same_position_note_count = 0
-
 	for i in range(marks.size()):
 		var note = marks[i]
 		var note_data : HBBaseNote
@@ -178,9 +176,8 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 		note_data = HBNoteData.new()
 		if note.type > PPDButtons.Triangle and note.type < PPDButtons.R:
 			note_data = HBDoubleNote.new()
-		elif note_type != PPDNoteType.ACFT and note.end_time != 0.0 and not note.type == PPDButtons.L and not note.type == PPDButtons.R:
+		elif note_type == PPDNoteType.NORMAL and note.end_time != 0.0 and not note.type == PPDButtons.L and not note.type == PPDButtons.R:
 			note_data = HBSustainNote.new()
-			print("MAKE SUSTAIN")
 			note_data.end_time = int(note.end_time*1000.0) + int(offset)
 		
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
