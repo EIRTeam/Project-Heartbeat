@@ -8,6 +8,7 @@ const SAFE_AREA_SIZE = Vector2(192, 108)
 func _ready():
 	game.size = rect_size
 	game.editing = true
+	game.hide_ui()
 	connect("resized", self, "_on_resized")
 	
 func _on_resized():
@@ -18,13 +19,13 @@ func _on_resized():
 func _process(delta):
 	$Label.text = HBUtils.format_time(game.time * 1000.0)
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
+	
 
 func _draw():
 	var origin = game.remap_coords(Vector2())
 	var size = game.playing_field_size
 	_draw_game_area(origin, size)
 	_draw_safe_area(origin, size)
-
 func _draw_game_area(origin, size):
 	draw_rect(Rect2(origin, size), Color(1.0, 1.0, 1.0), false, 1.0, true)
 

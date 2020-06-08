@@ -618,6 +618,16 @@ func _process_note_group(group: NoteGroup):
 				multi_notes.append(timing_point)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
+func hide_ui():
+	$UnderNotesUI/Control.hide()
+	$AboveNotesUI/Control.hide()
+	$Control.hide()
+	
+func show_ui():
+	$AboveNotesUI/Control.show()
+	$UnderNotesUI/Control.show()
+	$Control.show()
+	
 func _process(_delta):
 	_sfx_debounce_t += _delta
 	var latency_compensation = UserSettings.user_settings.lag_compensation
