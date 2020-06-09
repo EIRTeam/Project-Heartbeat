@@ -215,12 +215,29 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
 					is_second_slider = true
-			
+		if note_type <= PPDNoteType.AC:
+			is_second_slider = false
 		if is_second_slider:
 			chart.editor_settings.set_layer_visibility(true, HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")
+		
+		# We make double hearts
+		if prev_note and note_type == PPDNoteType.NORMAL and prev_note.note_type == HBBaseNote.NOTE_TYPE.HEART \
+				and note_data.note_type == HBBaseNote.NOTE_TYPE.HEART and is_multi_note:
+			var middle_point = (note_data.position + prev_note.position) / 2.0
+			var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)
+			chart.layers[chart.get_layer_i(type)].timing_points.erase(prev_note)
+			var new_data_ser = prev_note.serialize()
+			new_data_ser["type"] = "DoubleNote"
+			var new_note = HBSerializable.deserialize(new_data_ser)
+			new_note.position = middle_point
+			chart.layers[chart.get_layer_i(type)].timing_points.append(new_note)
+			prev_note = new_note
+			continue
+			
 		if is_multi_note:
 			note_data.oscillation_amplitude = 0
 			note_data.distance = note_data.distance * (2.2/3.0)
+				
 		if params.has(note.id):
 			var note_params = params[note.id]
 			if note_params.has("Distance"):
@@ -237,7 +254,8 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				if is_second_slider:
 					chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")].timing_points.append(note_data)
 				else:
-					chart.layers[note_data.note_type].timing_points.append(note_data)
+					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)
+					chart.layers[chart.get_layer_i(type)].timing_points.append(note_data)
 		# Chain slides
 		if note_type == PPDNoteType.ACFT and note.has("end_time") and note_data.is_slide_note():
 			var ppd_scale = evd_file.get_slide_scale_at_time(note.time)
