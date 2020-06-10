@@ -110,6 +110,7 @@ onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Pan
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
 onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
+onready var circle_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/CircleImage")
 onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
 onready var latency_display = get_node("Control/LatencyDisplay")
@@ -357,7 +358,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 			var it = ImageTexture.new()
 			it.create_from_image(image, Texture.FLAGS_DEFAULT)
 			circle_text_rect.texture = it
-			_on_viewport_size_changed() 
+			_on_viewport_size_changed()
+		else:
+			circle_margin_container.hide()
 		if song.voice:
 			audio_stream_player_voice.stream = song.get_voice_stream()
 	song_name_label.text = song.get_visible_title()
