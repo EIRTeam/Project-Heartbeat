@@ -6,11 +6,14 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 
 const FADE_OUT_TIME = 1.0
 
+const ROLLBACK_TIME = 1.3 # Rollback time after pausing and unpausing
+var rollback_on_resume = false
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var fade_in_tween = get_node("FadeInTween")
 onready var game : HBRhythmGame = get_node("RhythmGame")
 onready var visualizer = get_node("Node2D/Control")
 var pause_disabled = false
+var last_pause_time = 0.0
 var pause_menu_disabled = false
 var prevent_showing_results = false
 var prevent_scene_changes = false
@@ -23,6 +26,7 @@ onready var video_player = get_node("Node2D/Panel/VideoPlayer")
 
 signal fade_out_finished(game_info)
 signal user_quit()
+
 func _ready():
 	set_game_size()
 	connect("resized", self, "set_game_size")
@@ -155,11 +159,17 @@ func set_game_size():
 	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
-	$RhythmGame.resume()
+	get_tree().paused = false
 	$PauseMenu.hide()
-	video_player.paused = false
-	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	video_player.stream_position = game.time
+	set_process(true)
+	if not rollback_on_resume:
+		$RhythmGame.play_from_pos(game.time)
+		game.set_process(true)
+		video_player.paused = false
+		var song = SongLoader.songs[current_game_info.song_id] as HBSong
+		video_player.stream_position = game.time
+	else:
+		$RollbackAudioStreamPlayer.play()
 	
 func _unhandled_input(event):
 	if not pause_menu_disabled:
@@ -190,8 +200,13 @@ func _show_results(game_info: HBGameInfo):
 #	scene.set_result(results)
 
 func _on_paused():
-	pass
-
+	get_tree().paused = true
+	set_process(false)
+	if game.time - last_pause_time >= ROLLBACK_TIME:
+		last_pause_time = game.time
+		rollback_on_resume = true
+		game.set_process(false)
+		game.editing = true
 func _on_RhythmGame_song_cleared(result: HBResult):
 	var original_color = Color.black
 	original_color.a = 0
@@ -210,7 +225,21 @@ var _last_time = 0.0
 func _process(delta):
 	$Label.visible = Diagnostics.fps_label.visible
 	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index]
-
+	var latency_compensation = UserSettings.user_settings.lag_compensation
+	if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
+		latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
+	if rollback_on_resume:
+		game.time -= delta
+		game.audio_stream_player.stream_paused = true
+		game.audio_stream_player_voice.stream_paused = true
+		game.audio_stream_player.seek(game.time + latency_compensation)
+		game._process(0)
+		$Label.text += "%f" % [last_pause_time]
+		if game.time <= last_pause_time - ROLLBACK_TIME:
+			game.time = last_pause_time - ROLLBACK_TIME
+			rollback_on_resume = false
+			game.editing = false
+			_on_resumed()
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
 	var scene = MainMenu.instance()
@@ -229,5 +258,6 @@ func _on_PauseMenu_restarted():
 		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
 	var song = SongLoader.songs[current_game_info.song_id]
+	rollback_on_resume = false
 	set_song(song, current_game_info.difficulty, modifiers)
 	start_fade_in()

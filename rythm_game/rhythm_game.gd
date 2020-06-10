@@ -465,7 +465,8 @@ func _input(event):
 			var actions = HBInput.NOTE_TYPE_TO_ACTIONS_MAP[type]
 			for action in actions:
 				if event.action == action and event.pressed and not event.is_echo():
-					play_note_sfx(type == HBNoteData.NOTE_TYPE.SLIDE_LEFT or type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT)
+					var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
+					play_note_sfx(type in slide_types)
 					action_pressed = true
 					break
 			if action_pressed:
@@ -906,10 +907,8 @@ func _on_note_removed(note):
 func pause_game():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
-	get_tree().paused = true
 
 func resume():
-	get_tree().paused = false
 	play_from_pos(audio_stream_player.get_playback_position())
 
 
@@ -928,6 +927,7 @@ func restart():
 	reset_hit_notes()
 
 func play_from_pos(position: float):
+	print("PLAY FROM POS")
 	audio_stream_player.stream_paused = false
 	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()

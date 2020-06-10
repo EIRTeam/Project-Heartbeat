@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/flashback.wav-35dd290ea6b4f5755d1728151096a12f.sample"
+
+[deps]
+
+source_file="res://sounds/sfx/flashback.wav"
+dest_files=[ "res://.import/flashback.wav-35dd290ea6b4f5755d1728151096a12f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
