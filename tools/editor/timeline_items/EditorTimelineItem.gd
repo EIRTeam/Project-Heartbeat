@@ -60,7 +60,11 @@ func deselect():
 		widget = null
 
 func _gui_input(event: InputEvent):
-	if $TextureRect.get_global_rect().has_point(get_global_mouse_position()):
+	var global_rect = get_global_rect()
+	if has_node("TextureRect"):
+		global_rect = $TextureRect.get_global_rect()
+		
+	if global_rect.has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_select"): 
 				if event is InputEventWithModifiers:
 					get_tree().set_input_as_handled()
