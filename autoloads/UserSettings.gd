@@ -89,6 +89,7 @@ func get_input_map():
 					map[action_name].append(event)
 	return map
 func _ready():
+	
 	base_input_map = get_input_map()
 	load_user_settings()
 	apply_user_settings()
@@ -96,6 +97,7 @@ func _ready():
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.last_controller_guid:
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
+	HBInput.action_tracking = {}
 	load_input_map()
 	save_user_settings()
 	user_settings.last_controller_guid = ""
