@@ -54,14 +54,13 @@ func _input(event):
 			_end_time_drag_last = data.end_time
 			print("Dragging")
 			set_process(true)
-		elif event.is_action_released("editor_select") and _end_time_dragging:
-			editor.select_item(self)
-			_end_time_dragging = false
-			if is_processing():
-				get_tree().set_input_as_handled()
-				set_process(false)
-				if _drag_start_time != data.end_time:
-					editor._commit_selected_property_change("end_time")
+	if event.is_action_released("editor_select") and _end_time_dragging:
+		editor.select_item(self)
+		_end_time_dragging = false
+		if is_processing():
+			set_process(false)
+			if _drag_start_time != data.end_time:
+				editor._commit_selected_property_change("end_time")
 func sync_value(property_name: String):
 	.sync_value(property_name)
 	if property_name == "end_time":
