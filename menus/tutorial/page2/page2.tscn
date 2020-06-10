@@ -28,6 +28,8 @@ custom_fonts/font = ExtResource( 1 )
 text = "Default keyboard controls"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+anchor_top = 0.00289855
+anchor_bottom = 0.00289855
 margin_top = 62.0
 margin_right = 1250.0
 margin_bottom = 690.0

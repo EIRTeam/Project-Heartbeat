@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://menus/tutorial/TutorialScreen.gd" type="Script" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://menus/tutorial/page3/page3.tscn" type="PackedScene" id=8]
 [ext_resource path="res://graphics/icons/menu-left.svg" type="Texture" id=9]
 [ext_resource path="res://graphics/icons/menu-right.svg" type="Texture" id=10]
+[ext_resource path="res://menus/tutorial/page5/Page5.tscn" type="PackedScene" id=11]
+[ext_resource path="res://menus/tutorial/page6/Page6.tscn" type="PackedScene" id=12]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
@@ -69,6 +71,7 @@ __meta__ = {
 }
 
 [node name="Page1" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 6 )]
+visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1076.0
@@ -79,24 +82,48 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 295.0
 margin_right = 1076.0
 margin_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="Page3" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 8 )]
 visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1076.0
+margin_bottom = 291.0
 size_flags_vertical = 3
 
 [node name="Page4" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 5 )]
 visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1076.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+
+[node name="Page5" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 11 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1076.0
+margin_bottom = 424.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Page6" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 12 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1076.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PageFinal" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 7 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 295.0
 margin_right = 1076.0
 margin_bottom = 586.0
 size_flags_vertical = 3

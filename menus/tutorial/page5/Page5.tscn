@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=2]
-[ext_resource path="res://menus/tutorial/page1/notes_example.png" type="Texture" id=3]
-[ext_resource path="res://menus/tutorial/page1/slides_example.png" type="Texture" id=4]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://menus/tutorial/page5/sustain.png" type="Texture" id=3]
+[ext_resource path="res://menus/tutorial/page5/double.png" type="Texture" id=4]
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="Page4" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 15
@@ -26,8 +26,8 @@ custom_constants/separation = 15
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 1250.0
 margin_bottom = 47.0
-custom_fonts/font = ExtResource( 1 )
-text = "How to play: Normal notes"
+custom_fonts/font = ExtResource( 2 )
+text = "Double and sustain notes"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 62.0
@@ -44,7 +44,7 @@ size_flags_horizontal = 3
 margin_right = 623.0
 margin_bottom = 312.0
 size_flags_vertical = 3
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -53,7 +53,7 @@ margin_top = 316.0
 margin_right = 623.0
 margin_bottom = 628.0
 size_flags_vertical = 3
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
@@ -63,29 +63,23 @@ margin_right = 1250.0
 margin_bottom = 628.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 623.0
 margin_bottom = 312.0
-size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 2 )
-text = "Hit normal notes by pressing the corresponding face button or d-pad direction when they go over their target
-
-The d-pad and the face buttons are interchangeable!
-
-(All key bindings can be changed in the options)"
+custom_fonts/font = ExtResource( 1 )
+text = "Double notes are notes that require you to press the same direction on two different buttons, for example by pressing the B/Circle button and right on the d-pad at the same time."
 align = 1
 valign = 1
 autowrap = true
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 316.0
 margin_right = 623.0
 margin_bottom = 628.0
-size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 2 )
-text = "You can hit slide notes using the analog sticks on your controler."
+custom_fonts/font = ExtResource( 1 )
+text = "In order to hit sustain notes press the note when the first mark hits the target and release when the second one does."
 align = 1
 valign = 1
 autowrap = true
