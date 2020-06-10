@@ -27,7 +27,7 @@ const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when 
 const TRAIL_RESOLUTION = 80
 
 # Number of slide hold pieces that are turned blue per second on slide chains
-const BLUE_SLIDE_PIECES_PER_SECOND = 93.75 / 4.0
+const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 
 var timing_points = [] setget _set_timing_points
 var events = []
