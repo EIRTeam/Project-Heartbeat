@@ -600,7 +600,6 @@ func create_note_drawer(timing_point: HBBaseNote):
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 	if timing_point is HBNoteData:
 		if timing_point.is_slide_note():
-			print(slide_hold_chains)
 			note_drawer.slide_chain_master = timing_point in slide_hold_chains
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	notes_on_screen.append(timing_point)

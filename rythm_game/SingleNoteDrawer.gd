@@ -124,10 +124,11 @@ func _unhandled_input(event):
 	
 func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
 	var result = .judge_note_input(event, time)
-	if result.has_rating and slide_chain_master:
-		result.resulting_rating = HBJudge.JUDGE_RATINGS.COOL
-	elif result.has_rating and result.resulting_rating < HBJudge.JUDGE_RATINGS.FINE:
-		result.resulting_rating = HBJudge.JUDGE_RATINGS.FINE
+	if note_data is HBNoteData and note_data.is_slide_note():
+		if result.has_rating and slide_chain_master:
+			result.resulting_rating = HBJudge.JUDGE_RATINGS.COOL
+		if result.has_rating and result.resulting_rating < HBJudge.JUDGE_RATINGS.FINE:
+			result.resulting_rating = HBJudge.JUDGE_RATINGS.FINE
 	return result
 	
 func _handle_unhandled_input(event):
