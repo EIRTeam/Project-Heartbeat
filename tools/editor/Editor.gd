@@ -64,7 +64,6 @@ func set_bpm(value):
 	BPM_spinbox.value = value
 	print("SET BPM", value)
 	song_editor_settings.bpm = value
-
 func get_bpm():
 	return BPM_spinbox.value
 	
@@ -188,8 +187,7 @@ func select_item(item: EditorTimelineItem, add = false):
 		selected.append(item)
 	else:
 		selected = [item]
-	if get_focus_owner():
-		get_focus_owner().release_focus()
+	release_owned_focus()
 	item.select()
 	var widget := item.get_editor_widget()
 	if widget:
@@ -269,6 +267,7 @@ func _commit_selected_property_change(property_name: String):
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
 	undo_redo.commit_action()
 	inspector.sync_value(property_name)
+	release_owned_focus()
 	old_property_values = {}
 # Handles when a user changes a timing point's property, this is used for properties
 # that won't constantly change
@@ -574,21 +573,25 @@ func set_beats_per_bar(bpb):
 func get_note_resolution():
 	return 1/note_resolution_box.value
 
+func release_owned_focus():
+	$FocusTrap.grab_focus()
+
 func set_note_resolution(note_res):
 	note_resolution_box.value = note_res
-
+	
 func get_note_snap_offset():
 	return $VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value
 
 func set_note_snap_offset(offset):
 	print("SET OFFSET TO ", offset)
 	$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value = offset
-
+	release_owned_focus()
 func _on_timing_information_changed(f=null):
 	song_editor_settings.offset = get_note_snap_offset()
 	song_editor_settings.bpm = get_bpm()
 	song_editor_settings.beats_per_bar = get_beats_per_bar()
 	song_editor_settings.note_resolution = note_resolution_box.value
+	release_owned_focus()
 	emit_signal("timing_information_changed")
 
 

@@ -766,6 +766,10 @@ dialog_autowrap = true
 
 [node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource( 15 )]
 visible = false
+
+[node name="FocusTrap" type="Control" parent="."]
+focus_mode = 2
+mouse_filter = 2
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
