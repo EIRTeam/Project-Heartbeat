@@ -9,7 +9,6 @@ func _ready():
 func set_texture():
 	if data is HBSustainNote:
 		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).sustain_note
-		update()
 	elif data is HBDoubleNote or data is HBSustainNote:
 		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).double_note
 	else:
@@ -43,13 +42,6 @@ func _on_view_port_size_changed():
 		yield(get_tree(), "idle_frame")
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
 		self.widget.rect_position = new_pos - self.widget.rect_size / 2
-		update()
-
-func _draw():
-	if data is HBSustainNote:
-		var y = $TextureRect.rect_size.y/2.0
-		var target = Vector2(editor.scale_msec(data.get_duration()), y)
-		draw_line(Vector2(0.0, y), target, IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, data.note_type)))
 
 func connect_widget(widget: HBEditorWidget):
 	.connect_widget(widget)

@@ -16,6 +16,7 @@ var _drag_start_time : float
 var _drag_x_offset : float
 var _drag_new_time : float
 var _drag_moving = false
+var _dragging = false
 var _layer
 var _drag_last
 
@@ -37,18 +38,19 @@ func set_start(value: int):
 func get_editor_size():
 	return Vector2(0, rect_size.y)
 func _process(delta):
-	if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
-		_drag_moving = true
-		var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
-		new_time = int(editor.snap_time_to_timeline(new_time))
-		var drag_delta = new_time -_drag_last
-		_drag_last = new_time
-		if abs(drag_delta) > 0:
-			editor._change_selected_property_delta("time",  int(drag_delta), self)
-			if data is HBSustainNote:
-				editor._change_selected_property_delta("end_time",  int(drag_delta), self)
-			for item in editor.selected:
-				item.emit_signal("time_changed")
+	if _dragging:
+		if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
+			_drag_moving = true
+			var new_time = _drag_start_time + editor.scale_pixels(get_viewport().get_mouse_position().x - _drag_start_position.x)
+			new_time = int(editor.snap_time_to_timeline(new_time))
+			var drag_delta = new_time -_drag_last
+			_drag_last = new_time
+			if abs(drag_delta) > 0:
+				editor._change_selected_property_delta("time",  int(drag_delta), self)
+				if data is HBSustainNote:
+					editor._change_selected_property_delta("end_time",  int(drag_delta), self)
+				for item in editor.selected:
+					item.emit_signal("time_changed")
 #		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
@@ -58,24 +60,27 @@ func deselect():
 		widget = null
 
 func _gui_input(event: InputEvent):
-	if event.is_action_pressed("editor_select"): 
-			if event is InputEventWithModifiers:
-				get_tree().set_input_as_handled()
-				if not self in editor.selected:
-					editor.select_item(self, event.shift)
-				
-				if not event.shift:
-					_drag_moving = false
-					_drag_start_position = get_viewport().get_mouse_position()
-					_drag_start_time = data.time
-					_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
-					_drag_last = data.time
-					set_process(true)
-	elif event.is_action_released("editor_select") and not event.is_echo():
+	if $TextureRect.get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_select"): 
+				if event is InputEventWithModifiers:
+					get_tree().set_input_as_handled()
+					if not self in editor.selected:
+						editor.select_item(self, event.shift)
+					
+					if not event.shift:
+						_drag_moving = false
+						_drag_start_position = get_viewport().get_mouse_position()
+						_drag_start_time = data.time
+						_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+						_drag_last = data.time
+						set_process(true)
+						_dragging = true
+	if event.is_action_released("editor_select") and not event.is_echo() and _dragging:
 		_drag_moving = false
 		if is_processing():
 			get_tree().set_input_as_handled()
 			set_process(false)
+			_dragging = false
 			if _drag_start_time != data.time:
 				editor._commit_selected_property_change("time")
 				if data is HBSustainNote:
@@ -116,8 +121,6 @@ func get_duration():
 func sync_value(property_name: String):
 	if property_name == "time":
 		set_start(data.time)
-	if property_name == "end_time":
-		update()
 	if property_name == "position":
 		if widget:
 			widget.arrange_gizmo()
