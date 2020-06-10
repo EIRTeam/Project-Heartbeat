@@ -43,6 +43,7 @@ func _on_view_port_size_changed():
 		yield(get_tree(), "idle_frame")
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
 		self.widget.rect_position = new_pos - self.widget.rect_size / 2
+		update()
 
 func _draw():
 	if data is HBSustainNote:

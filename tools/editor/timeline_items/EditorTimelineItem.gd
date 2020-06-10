@@ -26,6 +26,7 @@ signal time_changed
 func _ready():
 	deselect()
 	set_process(false)
+	update()
 
 func set_start(value: int):
 	if data.time != value:
@@ -35,7 +36,6 @@ func set_start(value: int):
 
 func get_editor_size():
 	return Vector2(0, rect_size.y)
-var a = false
 func _process(delta):
 	if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
 		_drag_moving = true
@@ -116,6 +116,8 @@ func get_duration():
 func sync_value(property_name: String):
 	if property_name == "time":
 		set_start(data.time)
+	if property_name == "end_time":
+		update()
 	if property_name == "position":
 		if widget:
 			widget.arrange_gizmo()
