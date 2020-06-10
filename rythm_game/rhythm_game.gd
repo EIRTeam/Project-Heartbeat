@@ -537,7 +537,10 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var drawer = get_note_drawer(notes_on_screen[i])
 		if drawer:
-			get_note_drawer(notes_on_screen[i]).free()
+			notes_node.remove_child(get_note_drawer(notes_on_screen[i]).free())
+	for note in notes_node.get_children():
+		notes_node.remove_child(note)
+		note.queue_free()
 	notes_on_screen = []
 	timing_point_to_drawer_map = {}
 
@@ -887,6 +890,11 @@ func remove_note_from_screen(i, update_last_hit = true):
 # Used by editor to reset hit notes and allow them to appear again
 func reset_hit_notes():
 	last_hit_index = timing_points.size()
+	for group in timing_points:
+		var g = group as NoteGroup
+		var array = PoolByteArray()
+		array.resize(group.notes.size())
+		group.hit_notes = array
 	for chain_m in slide_hold_chains:
 		chain_m.set_meta("ignored", false)
 		for piece in slide_hold_chains[chain_m]:
@@ -906,18 +914,18 @@ func resume():
 
 
 func restart():
-	_prevent_finishing = true
 	remove_all_notes_from_screen()
+	_prevent_finishing = true
 	hold_release()
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
 	audio_stream_player_voice.volume_db = _song_volume
 	set_current_combo(0)
-	notes_on_screen = []
 	rating_label.hide()
 	time = current_song.start_time / 1000.0
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
+	reset_hit_notes()
 
 func play_from_pos(position: float):
 	audio_stream_player.stream_paused = false
