@@ -13,7 +13,8 @@ var grad_texture = GradientTexture.new()
 var leading_grad_texture = GradientTexture.new()
 
 var sine_drawer = SineDrawerCPU.new()
-
+var blue = false
+var slide_chain_master = false
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -21,6 +22,10 @@ func set_connected_notes(val):
 		sine_drawer.hide()
 	else:
 		sine_drawer.show()
+
+func make_blue():
+	blue = true
+	target_graphic.set_note_type(note_data, connected_notes.size() > 0, true)
 
 func _ready():
 	_on_note_type_changed()
@@ -116,6 +121,15 @@ func _unhandled_input(event):
 	# HACK: Because godot is dumb, it seems to treat built in node methods differently
 	# and calls them on parent classes too
 	_handle_unhandled_input(event)
+	
+func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
+	var result = .judge_note_input(event, time)
+	if result.has_rating and slide_chain_master:
+		result.resulting_rating = HBJudge.JUDGE_RATINGS.COOL
+	elif result.has_rating and result.resulting_rating < HBJudge.JUDGE_RATINGS.FINE:
+		result.resulting_rating = HBJudge.JUDGE_RATINGS.FINE
+	return result
+	
 func _handle_unhandled_input(event):
 	# Master notes handle all the input
 	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
@@ -232,6 +246,14 @@ func _on_game_time_changed(time: float):
 			conn_notes = [note_data]
 		var time_out = get_time_out()
 		if note_data.can_be_judged():
+			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master:
+				for action in note_data.get_input_actions():
+					if HBInput.is_action_pressed(action):
+						if time >= note_data.time / 1000.0:
+							emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.COOL, false)
+							emit_signal("note_removed")
+							queue_free()
+							break
 			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - time_out):
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")

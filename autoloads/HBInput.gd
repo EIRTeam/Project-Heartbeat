@@ -15,11 +15,12 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 }
 
 func is_action_pressed(action: String):
-	var action_inputs = action_tracking[action]
-	for device in action_inputs:
-		for button in action_inputs[device]:
-			if action_inputs[device][button] == true:
-				return true
+	if action in action_tracking:
+		var action_inputs = action_tracking[action]
+		for device in action_inputs:
+			for button in action_inputs[device]:
+				if action_inputs[device][button] == true:
+					return true
 	return false
 	
 func get_action_press_count(action: String) -> int:

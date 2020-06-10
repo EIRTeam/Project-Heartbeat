@@ -22,7 +22,8 @@ func _draw():
 		draw_line(Vector2(0.0, y), target, IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, data.note_type)))
 		
 func _on_view_port_size_changed():
-	_on_end_time_changed()
+	if get_viewport():
+		_on_end_time_changed()
 		
 func _on_end_time_changed():
 	update()

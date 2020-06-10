@@ -26,6 +26,9 @@ const SLIDE_HOLD_PIECE_SCORE = 10
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 const TRAIL_RESOLUTION = 80
 
+# Number of slide hold pieces that are turned blue per second on slide chains
+const BLUE_SLIDE_PIECES_PER_SECOND = 93.75 / 4.0
+
 var timing_points = [] setget _set_timing_points
 var events = []
 # TPs that were previously hit
@@ -126,6 +129,7 @@ class NoteGroup:
 	var precalculated_timeout: int = 0
 	var notes: Array
 	var hit_notes: PoolByteArray
+
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
 	var prev_point: HBBaseNote = null
@@ -275,7 +279,7 @@ func _set_timing_points(points):
 					continue
 				if point.is_slide_note():
 					if point in slide_hold_chains:
-						own_extra_notes = slide_hold_chains[point]
+						own_extra_notes = slide_hold_chains[point].pieces
 			var should_make_group = i == timing_points.size()-1 \
 					or timing_points[i+1].time != point.time
 
@@ -482,22 +486,23 @@ func _input(event):
 func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 	# Slide hold release shenanigans
-	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
-	for slide_type in slide_types:
-		for action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[slide_type]:
-			if event.is_action_released(action) and not event.is_echo():
-				for i in range(active_slide_hold_chains.size() - 1, -1, -1):
-					var active_hold_chain = active_slide_hold_chains[i]
-					if active_hold_chain.slide_note.note_type == slide_type:
-						for piece in active_hold_chain.pieces:
-							var drawer = get_note_drawer(piece)
-							timing_points.erase(piece)
-							if drawer:
-								drawer.emit_signal("note_removed")
-								drawer.queue_free()
-						active_hold_chain.sfx_player.queue_free()
-						active_slide_hold_chains.remove(i)
-						play_sfx($SlideChainFailSFX)
+	pass
+#	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
+#	for slide_type in slide_types:
+#		for action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[slide_type]:
+#			if event.is_action_released(action) and not event.is_echo():
+#				for i in range(active_slide_hold_chains.size() - 1, -1, -1):
+#					var active_hold_chain = active_slide_hold_chains[i]
+#					if active_hold_chain.slide.note_type == slide_type:
+#						for piece in active_hold_chain.pieces:
+#							var drawer = get_note_drawer(piece)
+#							timing_points.erase(piece)
+#							if drawer:
+#								drawer.emit_signal("note_removed")
+#								drawer.queue_free()
+#						active_hold_chain.sfx_player.queue_free()
+#						active_slide_hold_chains.remove(i)
+#						play_sfx($SlideChainFailSFX)
 
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
@@ -593,6 +598,10 @@ func create_note_drawer(timing_point: HBBaseNote):
 	notes_node.add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
+	if timing_point is HBNoteData:
+		if timing_point.is_slide_note():
+			print(slide_hold_chains)
+			note_drawer.slide_chain_master = timing_point in slide_hold_chains
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
@@ -691,12 +700,27 @@ func _process(_delta):
 	# handles held slide hold chains
 	for ii in range(active_slide_hold_chains.size() - 1, -1, -1):
 		var chain = active_slide_hold_chains[ii]
+		var slide = chain.slide as HBNoteData
+		var blue_notes = max(1, float(time - (chain.slide.time / 1000.0)) * BLUE_SLIDE_PIECES_PER_SECOND)
+		var direction_pressed = false
+		for action in slide.get_input_actions():
+			if HBInput.is_action_pressed(action):
+				direction_pressed = true
+				break
+		var chain_failed = false
 		for i in range(chain.pieces.size() - 1, -1, -1):
 			var piece = chain.pieces[i]
+			var piece_drawer = get_note_drawer(piece) as HBNoteDrawer
+			if i <= blue_notes and piece_drawer:
+				if direction_pressed:
+					piece_drawer.make_blue()
+			
 			if time * 1000.0 >= piece.time:
+				if not piece_drawer.blue and not direction_pressed:
+					chain_failed = true
+					break
 				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
 				chain.accumulated_score += SLIDE_HOLD_PIECE_SCORE
-				var piece_drawer = get_note_drawer(piece) as HBNoteDrawer
 				if piece_drawer:
 					piece_drawer.show_note_hit_effect()
 					piece_drawer.emit_signal("note_removed")
@@ -704,6 +728,16 @@ func _process(_delta):
 					slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
 
 				chain.pieces.remove(i)
+		if chain_failed:
+			for piece in chain.pieces:
+				var drawer = get_note_drawer(piece)
+				timing_points.erase(piece)
+				if drawer:
+					drawer.emit_signal("note_removed")
+					drawer.queue_free()
+				chain.sfx_player.queue_free()
+				active_slide_hold_chains.remove(ii)
+				play_sfx($SlideChainFailSFX)
 		if chain.pieces.size() == 0:
 			chain.sfx_player.queue_free()
 			play_sfx($SlideChainSuccessSFX)
@@ -833,12 +867,13 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 						add_child(hold_player)
 						hold_player.play()
 						hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
-	
-						var active_hold_chain = {"pieces": slide_hold_chains[note], "slide_note": note, "sfx_player": hold_player, "is_playing_loop": false, "accumulated_score": 0}
+
+						var active_hold_chain = slide_hold_chains[note] as HBChart.SlideChain
+						active_hold_chain.sfx_player = hold_player
 						active_slide_hold_chains.append(active_hold_chain)
 					else:
 						# kill slide and younglings if we failed
-						for piece in slide_hold_chains[note]:
+						for piece in slide_hold_chains[note].pieces:
 							if piece in notes_on_screen:
 								var piece_drawer = get_note_drawer(piece)
 								piece_drawer.emit_signal("note_removed")
@@ -904,7 +939,7 @@ func reset_hit_notes():
 		group.hit_notes = array
 	for chain_m in slide_hold_chains:
 		chain_m.set_meta("ignored", false)
-		for piece in slide_hold_chains[chain_m]:
+		for piece in slide_hold_chains[chain_m].pieces:
 			piece.set_meta("ignored", false)
 
 func _on_note_removed(note):
@@ -960,7 +995,7 @@ func delete_rogue_notes(pos_override = null):
 				if chain_starter.is_slide_note():
 					if chain_starter in slide_hold_chains:
 						notes_to_remove.append(chain_starter)
-						var pieces = slide_hold_chains[chain_starter]
+						var pieces = slide_hold_chains[chain_starter].pieces
 						notes_to_remove += pieces
 	for note in notes_to_remove:
 		note.set_meta("ignored", true)

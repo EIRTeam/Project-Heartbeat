@@ -6,6 +6,15 @@ var editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 func _init():
 	_populate_layers()
 
+class SlideChain:
+	var time: int = 0
+	var pieces: Array = []
+	var sfx_player: AudioStreamPlayer
+	var slide: HBNoteData
+	var is_playing_loop: bool = false
+	var accumulated_score: float = 0.0
+	var blues: float = 0.0
+
 func _populate_layers():
 	var disabled_types = [
 		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE),
@@ -123,23 +132,25 @@ static func get_slide_hold_chains(timing_points):
 		if point is HBNoteData:
 			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				last_left_slide = point
-				slide_hold_chains[point] = []
+				slide_hold_chains[point] = SlideChain.new()
+				slide_hold_chains[point].slide = point
 			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 				last_right_slide = point
-				slide_hold_chains[point] = []
+				slide_hold_chains[point] = SlideChain.new()
+				slide_hold_chains[point].slide = point
 				
 			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE:
 				if last_left_slide:
-					slide_hold_chains[last_left_slide].append(point)
+					slide_hold_chains[last_left_slide].pieces.append(point)
 				else:
 					print("Left slide hold piece found before left slide, this shouldn't happen")
 			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
 				if last_right_slide:
-					slide_hold_chains[last_right_slide].append(point)
+					slide_hold_chains[last_right_slide].pieces.append(point)
 				else:
 					print( "Right slide hold piece found before right slide, this shouldn't happen")
 	for slide in slide_hold_chains.keys():
-		if slide_hold_chains[slide].size() == 0:
+		if slide_hold_chains[slide].pieces.size() == 0:
 			slide_hold_chains.erase(slide)
 	return slide_hold_chains
 # gets layer by position

@@ -209,6 +209,11 @@
                     "style": "target_with_multi_outline",
                     "src_path": "notes/Slide_Left_Hold_Piece",
                     "target_path": "notes/Slide_Left_Hold_Piece_target"
+                },
+                "target_blue": {
+                    "style": "ignore",
+                    "src_path": "notes/Slide_Left_Hold_Piece",
+                    "target_path": "notes/Slide_Left_Hold_Piece_target_blue"
                 }
             }
         },
@@ -227,6 +232,11 @@
                     "style": "target_with_multi_outline",
                     "src_path": "notes/Slide_Right_Hold_Piece",
                     "target_path": "notes/Slide_Right_Hold_Piece_target"
+                },
+                "target_blue": {
+                    "style": "ignore",
+                    "src_path": "notes/Slide_Right_Hold_Piece",
+                    "target_path": "notes/Slide_Right_Hold_Piece_target_blue"
                 }
             }
         },
