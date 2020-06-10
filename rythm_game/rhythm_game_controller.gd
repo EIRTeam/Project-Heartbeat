@@ -34,7 +34,10 @@ func _ready():
 	DownloadProgress.holding_back_notifications = true
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
-	
+	game.connect("intro_skipped", self, "_on_intro_skipped")
+
+func _on_intro_skipped(new_time):
+	video_player.stream_position = new_time
 
 func _fade_in_done():
 	video_player.paused = false
@@ -165,12 +168,14 @@ func _on_resumed():
 	if not rollback_on_resume:
 		$RhythmGame.play_from_pos(game.time)
 		game.set_process(true)
+		game._process(0)
 		video_player.paused = false
 		var song = SongLoader.songs[current_game_info.song_id] as HBSong
 		video_player.stream_position = game.time
 	else:
 		$RollbackAudioStreamPlayer.play()
-	
+		game.editing = true
+		game.time = last_pause_time
 func _unhandled_input(event):
 	if not pause_menu_disabled:
 		if event.is_action_pressed("pause") and not event.is_echo():
@@ -214,7 +219,6 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	$FadeToBlack.show()
 	pause_menu_disabled = true
 	current_game_info.result = result
-	print("SONG CLEARED!")
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
 	fade_out_tween.connect("tween_all_completed", self, "emit_signal", ["fade_out_finished", current_game_info])
@@ -260,4 +264,7 @@ func _on_PauseMenu_restarted():
 	var song = SongLoader.songs[current_game_info.song_id]
 	rollback_on_resume = false
 	set_song(song, current_game_info.difficulty, modifiers)
+	set_process(true)
+	game.set_process(true)
+	game.editing = false
 	start_fade_in()

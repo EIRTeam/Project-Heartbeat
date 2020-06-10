@@ -5,6 +5,7 @@ class_name HBRhythmGame
 signal time_changed(time)
 signal song_cleared(results)
 signal note_judged(judgement)
+signal intro_skipped(new_time)
 signal size_changed
 
 const NoteTargetScene = preload("res://rythm_game/note_drawers/NoteTarget.tscn")
@@ -374,7 +375,6 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 		file.open(chart_path, File.READ)
 		var result = JSON.parse(file.get_as_text()).result
 		chart = HBChart.new()
-
 		chart.deserialize(result)
 	current_difficulty = difficulty
 	
@@ -399,12 +399,12 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 	
 	earliest_note_time = -1
 	for i in range(timing_points.size() - 1, -1, -1):
-		var point = timing_points[i]
-		if point is HBBaseNote:
-			earliest_note_time = point.time
+		var group = timing_points[i]
+		if group is NoteGroup:
+			earliest_note_time = group.time
 			break
 	if current_song.allows_intro_skip and not disable_intro_skip:
-		if earliest_note_time > current_song.intro_skip_min_time:
+		if earliest_note_time / 1000.0 > current_song.intro_skip_min_time:
 			intro_skip_info_animation_player.play("appear")
 			_intro_skip_enabled = true
 		else:
@@ -458,6 +458,9 @@ func _input(event):
 					intro_skip_info_animation_player.play("disappear")
 					intro_skip_ff_animation_player.play("animate")
 					play_from_pos((earliest_note_time - INTRO_SKIP_MARGIN) / 1000.0)
+					# HACK: For note time precision
+					_process(0)
+					emit_signal("intro_skipped", time)
 	if event is InputEventAction:
 		# Note SFX
 		for type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
