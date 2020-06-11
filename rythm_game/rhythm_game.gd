@@ -715,7 +715,7 @@ func _process(_delta):
 					piece_drawer.make_blue()
 			
 			if time * 1000.0 >= piece.time:
-				if not piece_drawer.blue and not direction_pressed:
+				if not piece_drawer.blue and not direction_pressed and not previewing:
 					chain_failed = true
 					break
 				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
