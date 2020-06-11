@@ -11,7 +11,10 @@ var rollback_on_resume = false
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var fade_in_tween = get_node("FadeInTween")
 onready var game : HBRhythmGame = get_node("RhythmGame")
-onready var visualizer = get_node("Node2D/Control")
+onready var visualizer = get_node("Node2D/Visualizer")
+onready var vhs_panel = get_node("VHS")
+onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
+
 var pause_disabled = false
 var last_pause_time = 0.0
 var pause_menu_disabled = false
@@ -156,7 +159,8 @@ func rescale_video_player():
 
 func set_game_size():
 	$RhythmGame.size = rect_size
-	$Node2D/Control.rect_size = rect_size
+	$Node2D/Visualizer.rect_size = rect_size
+	#$Node2D/VHS.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
 	rescale_video_player()
@@ -173,9 +177,13 @@ func _on_resumed():
 		var song = SongLoader.songs[current_game_info.song_id] as HBSong
 		video_player.stream_position = game.time
 	else:
+		# Called when resuming with rollback
 		$RollbackAudioStreamPlayer.play()
 		game.editing = true
 		game.time = last_pause_time
+		rollback_label_animation_player.play("appear")
+		pause_menu_disabled = true
+		vhs_panel.show()
 func _unhandled_input(event):
 	if not pause_menu_disabled:
 		if event.is_action_pressed("pause") and not event.is_echo():
@@ -217,7 +225,6 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	original_color.a = 0
 	var target_color = Color.black
 	$FadeToBlack.show()
-	pause_menu_disabled = true
 	current_game_info.result = result
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
@@ -242,6 +249,9 @@ func _process(delta):
 		if game.time <= last_pause_time - ROLLBACK_TIME:
 			game.time = last_pause_time - ROLLBACK_TIME
 			rollback_on_resume = false
+			vhs_panel.hide()
+			pause_menu_disabled = false
+			rollback_label_animation_player.play("disappear")
 			game.editing = false
 			_on_resumed()
 func _on_PauseMenu_quit():
