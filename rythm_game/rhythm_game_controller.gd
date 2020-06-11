@@ -261,6 +261,7 @@ func _on_PauseMenu_restarted():
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
 		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
+	last_pause_time = 0.0
 	var song = SongLoader.songs[current_game_info.song_id]
 	rollback_on_resume = false
 	set_song(song, current_game_info.difficulty, modifiers)
