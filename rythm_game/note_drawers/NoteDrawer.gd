@@ -132,9 +132,11 @@ func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
 func _on_game_time_changed(time: float):
 	if note_master:
 		for note in connected_notes:
-			if game.get_note_drawer(note) != self:
-				if not game.get_note_drawer(note).is_queued_for_deletion():
-					game.get_note_drawer(note)._on_game_time_changed(time)
+			var drawer = game.get_note_drawer(note)
+			if drawer:
+				if drawer != self:
+					if not drawer.is_queued_for_deletion():
+						drawer._on_game_time_changed(time)
 
 func get_note_graphic():
 	pass
