@@ -81,7 +81,7 @@ func _on_game_time_changed(time: float):
 			._on_game_time_changed(time)
 		else:
 			update_graphic_positions_and_scale(time)
-			if time >= (note_data.end_time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - get_time_out()):
+			if time >= (note_data.end_time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", [note_data], HBJudge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()

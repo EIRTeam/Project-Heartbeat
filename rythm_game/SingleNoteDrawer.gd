@@ -255,7 +255,7 @@ func _on_game_time_changed(time: float):
 							emit_signal("note_removed")
 							queue_free()
 							break
-			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0 or time * 1000.0 < (note_data.time - time_out):
+			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
