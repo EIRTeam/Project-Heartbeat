@@ -349,7 +349,8 @@ func paste(time: int):
 			var timing_point := item.data.clone() as HBTimingPoint
 			
 			timing_point.time = time + timing_point.time - min_point.time
-			
+			if timing_point is HBSustainNote:
+				timing_point.end_time = timing_point.time + item.data.get_duration()
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
@@ -486,6 +487,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 			var item = item_d.get_timeline_item()
 			item.data = item_d
 			add_item(layer_n, item)
+			if item_d is HBSustainNote:
+				item.sync_value("end_time")
 		var layer_visible = not layer.name in song_editor_settings.hidden_layers
 		layer_manager.add_layer(layer.name, layer_visible)
 	if not ignore_settings:
