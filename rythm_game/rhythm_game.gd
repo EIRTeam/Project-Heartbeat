@@ -703,7 +703,7 @@ func _process(_delta):
 		var blue_notes = max(1, float(time - (chain.slide.time / 1000.0)) * BLUE_SLIDE_PIECES_PER_SECOND)
 		var direction_pressed = false
 		for action in slide.get_input_actions():
-			if HBInput.is_action_pressed(action):
+			if HBInput.is_action_pressed(action) or HBTapHandler.is_action_held(action):
 				direction_pressed = true
 				break
 		var chain_failed = false
