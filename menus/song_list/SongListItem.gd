@@ -19,6 +19,7 @@ onready var stars_label = get_node("Control/TextureRect/StarsLabel")
 onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
 onready var stars_texture_rect = get_node("Control/TextureRect")
 onready var button = get_node("Control")
+onready var favorite_texture_rect = get_node("Control/MarginContainer/HBoxContainer/FavoriteTextureRect")
 #onready var star_texture_rect = get_node("TextureRect")
 signal song_selected(song)
 
@@ -39,7 +40,7 @@ func set_song(value: HBSong):
 		else:
 			stars_string = "%d" % [max_stars]
 	stars_label.text = stars_string
-		
+	set_favorite(UserSettings.is_song_favorited(song))
 #	if ScoreHistory.has_result(value.id, difficulty):
 #		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
 #		var pass_percentage = result.get_percentage()
@@ -66,6 +67,9 @@ func stop_hover():
 	
 func _process(delta):
 	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
+
+func set_favorite(favorite: bool):
+	favorite_texture_rect.visible = favorite
 
 func _gui_input(event):
 	if event.is_action_pressed("gui_accept") and not event.is_echo():

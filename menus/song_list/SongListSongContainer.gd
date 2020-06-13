@@ -95,6 +95,7 @@ func sort_array(a: HBSong, b: HBSong):
 func sort_and_filter_songs():
 	songs.sort_custom(self, "sort_array")
 	Log.log(self, "Filtering by " + filter_by)
+
 	if filter_by != "all":
 		var filtered_songs = []
 		for song in songs:
@@ -106,6 +107,8 @@ func sort_and_filter_songs():
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
 				"community":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong
+				"favorites":
+					should_add_song = UserSettings.is_song_favorited(song)
 			if should_add_song:
 				filtered_songs.append(song)
 		return filtered_songs

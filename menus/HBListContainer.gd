@@ -79,8 +79,8 @@ func _on_focus_exited():
 func _process(delta):
 	move_debounce += delta
 	initial_move_debounce += delta
-	var can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T
-	if Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up"):
+	var can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T and has_focus()
+	if (Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up")) and can_press:
 		move_debounce = MOVE_DEBOUNCE_T
 		initial_move_debounce = 0.0
 		can_press = true

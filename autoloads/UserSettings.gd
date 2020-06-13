@@ -208,3 +208,13 @@ func get_content_directories(only_editable=false):
 		return [user_settings.content_path]
 	else:
 		return ["res://"] + [user_settings.content_path]
+
+func is_song_favorited(song: HBSong):
+	return song.id in user_settings.favorite_songs
+func add_song_to_favorites(song: HBSong):
+	if not is_song_favorited(song):
+		user_settings.favorite_songs.append(song.id)
+		
+func remove_song_from_favorites(song: HBSong):
+	if is_song_favorited(song):
+		user_settings.favorite_songs.erase(song.id)

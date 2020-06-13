@@ -11,8 +11,8 @@ onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContain
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
 onready var sort_by_list = get_node("Panel")
 onready var sort_by_list_container = get_node("Panel/MarginContainer/VBoxContainer")
-onready var sort_button_left_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonLeft")
-onready var sort_button_up_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonUp")
+onready var sort_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonLeft")
+onready var fav_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel2/HBoxContainer2/FavButton")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -25,7 +25,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #				difficulty_list.select_button(i)
 #	else:
 #		difficulty_list.select_button(0)
-		
+	if UserSettings.user_settings.filter_mode == "favorites" \
+			and UserSettings.user_settings.favorite_songs.empty():
+		UserSettings.user_settings.filter_mode = "all"
 	song_container.set_filter(UserSettings.user_settings.filter_mode)
 	update_songs()
 	if args.has("song_difficulty"):
@@ -61,9 +63,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		# We ensure the current sort mode is selected by default
 		if sort_by == UserSettings.user_settings.sort_mode:
 			sort_by_list_container.select_button(button.get_position_in_parent())
-#			sort_by_list_container.selected_button
-	sort_button_left_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
-	sort_button_up_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
+	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
+	fav_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
 	populate_buttons()
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
@@ -77,7 +78,7 @@ func _on_ugc_item_installed(type, item):
 	if type == "song":
 		song_container.set_songs(SongLoader.songs.values())
 		song_container.hard_arrange_all()
-#	populate_difficulties(false)
+
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
 	MouseTrap.cache_song_overlay.disconnect("done", song_container, "grab_focus")
@@ -111,10 +112,13 @@ func populate_buttons():
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
 			filter_types["community"] = "Community"
 			break
+	if UserSettings.user_settings.favorite_songs.size() > 0:
+		filter_types["favorites"] = "Favorites"
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:
 			filter_types["ppd"] = "PPD"
+
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
@@ -127,22 +131,7 @@ func set_filter(filter_name):
 	song_container.set_filter(filter_name)
 	UserSettings.user_settings.filter_mode = filter_name
 	UserSettings.save_user_settings()
-#func populate_difficulties(fire_event=true):
-#	for child in difficulty_list.get_children():
-#		difficulty_list.remove_child(child)
-#		child.queue_free()
-#	for difficulty in SongLoader.available_difficulties:
-#		var button = HBHovereableButton.new()
-#		button.focus_mode = FOCUS_NONE
-#		button.text = difficulty.capitalize()
-#		button.connect("hovered", self, "_select_difficulty", [difficulty])
-#		button.set_meta("difficulty", difficulty)
-#		difficulty_list.add_child(button)
-#	if current_difficulty:
-#		for i in range(difficulty_list.get_child_count()):
-#			var button = difficulty_list.get_child(i)
-#			if button.get_meta("difficulty") == current_difficulty:
-#				difficulty_list.select_button(i, fire_event)
+
 func _on_song_hovered(song: HBSong):
 	current_song = song
 	emit_signal("song_hovered", song)
@@ -151,6 +140,20 @@ func should_receive_input():
 	return song_container.has_focus()
 	
 
+func is_gui_directional_press(event: InputEvent, action: String):
+	var gui_press = false
+	# This is so the d-pad doesn't trigger the order by list
+	for mapped_event in InputMap.get_action_list(action):
+		if mapped_event.device == event.device:
+			if mapped_event is InputEventKey and event is InputEventKey:
+				if mapped_event.scancode == event.scancode:
+					gui_press = true
+					break
+			if mapped_event is InputEventJoypadButton and event is InputEventJoypadButton:
+				if mapped_event.button_index == event.button_index:
+					gui_press = true
+					break
+	return gui_press
 func _unhandled_input(event):
 	if should_receive_input():
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
@@ -158,13 +161,39 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
-		if event.is_action_pressed("note_left") or event.is_action_pressed("note_up"):
-			if Input.is_action_pressed("note_left") and Input.is_action_pressed("note_up"):
+		if event.is_action_pressed("note_up"):
+			if not is_gui_directional_press(event, "gui_up"):
+				get_tree().set_input_as_handled()
 				show_order_by_list()
+		if event.is_action_pressed("note_left"):
+			if not is_gui_directional_press(event, "gui_left"):
+				get_tree().set_input_as_handled()
+				toggle_current_song_favorite()
 	else:
 		if event.is_action_pressed("gui_cancel") and sort_by_list.visible:
 			sort_by_list.hide()
 			song_container.grab_focus()
+			
+func toggle_current_song_favorite():
+	var list_item = song_container.selected_option as HBSongListItem
+	if UserSettings.is_song_favorited(current_song):
+		UserSettings.remove_song_from_favorites(current_song)
+		list_item.set_favorite(false)
+		if UserSettings.user_settings.filter_mode == "favorites":
+			if UserSettings.user_settings.favorite_songs.size() == 0:
+				UserSettings.user_settings.filter_mode = "all"
+				song_container.set_filter("all")
+			else:
+				var old_option = song_container.selected_option
+				var pos = song_container.selected_option.get_position_in_parent()-1
+				song_container.remove_child(old_option)
+				old_option.queue_free()
+				song_container.select_option(max(pos, 0))
+	else:
+		UserSettings.add_song_to_favorites(current_song)
+		list_item.set_favorite(true)
+	populate_buttons()
+	UserSettings.save_user_settings()
 func show_order_by_list():
 	sort_by_list.show()
 	sort_by_list_container.grab_focus()
@@ -192,12 +221,6 @@ func _on_youtube_url_selected(url):
 		
 func _on_video_downloading():
 	song_container.grab_focus()
-#	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
-#	var scene = new_scene.instance()
-#	get_tree().current_scene.queue_free()
-#	get_tree().root.add_child(scene)
-#	get_tree().current_scene = scene
-#	scene.set_song(song, current_difficulty)
 
 
 

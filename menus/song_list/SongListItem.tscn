@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menus/SongTitle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/song_list/SongListItem.gd" type="Script" id=3]
 [ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=4]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://graphics/favorite_icon.svg" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
@@ -56,22 +57,31 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_top = 0
-custom_constants/margin_left = 67
+custom_constants/margin_left = 62
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-margin_left = 67.0
+margin_left = 62.0
 margin_right = 1255.0
 margin_bottom = 50.0
-custom_constants/separation = -15
+custom_constants/separation = 7
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="FavoriteTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer"]
+margin_right = 30.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 30, 0 )
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-margin_right = 524.0
+margin_left = 37.0
+margin_right = 561.0
 margin_bottom = 50.0
 custom_constants/margin_top = 7
 custom_constants/margin_left = 0
