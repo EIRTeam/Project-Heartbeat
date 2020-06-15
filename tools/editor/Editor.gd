@@ -367,9 +367,10 @@ func delete_selected():
 	for selected_item in selected:
 		selected_item.deselect()
 		undo_redo.add_do_method(selected_item._layer, "remove_item", selected_item)
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	selected = []
 	undo_redo.commit_action()
 

@@ -549,7 +549,8 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var drawer = get_note_drawer(notes_on_screen[i])
 		if drawer:
-			notes_node.remove_child(get_note_drawer(notes_on_screen[i]).free())
+			notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
+			get_note_drawer(notes_on_screen[i]).free()
 	for note in notes_node.get_children():
 		notes_node.remove_child(note)
 		note.queue_free()
