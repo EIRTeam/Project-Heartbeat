@@ -14,6 +14,7 @@ func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
 	child.rect_size = child.get_editor_size()
+	child.sync_value("end_time")
 	
 func place_all_children():
 	for child in get_children():

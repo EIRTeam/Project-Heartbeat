@@ -1,5 +1,7 @@
 extends "EditorTimelineItemSingleNote.gd"
 
+class_name EditorTimelineItemSustainNote
+
 var _end_time_drag_start_position : Vector2
 var _end_time_drag_start_time : float
 var _end_time_drag_x_offset : float
