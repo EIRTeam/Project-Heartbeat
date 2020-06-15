@@ -140,8 +140,9 @@ func should_receive_input():
 	return song_container.has_focus()
 	
 
-func is_gui_directional_press(event: InputEvent, action: String):
+func is_gui_directional_press(action: String):
 	var gui_press = false
+	var event = HBInput.current_event
 	# This is so the d-pad doesn't trigger the order by list
 	for mapped_event in InputMap.get_action_list(action):
 		if mapped_event.device == event.device:
@@ -162,11 +163,11 @@ func _unhandled_input(event):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
 		if event.is_action_pressed("note_up"):
-			if not is_gui_directional_press(event, "gui_up"):
+			if not is_gui_directional_press("gui_up"):
 				get_tree().set_input_as_handled()
 				show_order_by_list()
 		if event.is_action_pressed("note_left"):
-			if not is_gui_directional_press(event, "gui_left"):
+			if not is_gui_directional_press("gui_left"):
 				get_tree().set_input_as_handled()
 				toggle_current_song_favorite()
 	else:

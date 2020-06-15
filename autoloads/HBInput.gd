@@ -4,6 +4,8 @@ var action_tracking = {}
 
 const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
 
+var current_event: InputEvent # Current event being converted to action
+
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
 	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
@@ -70,6 +72,7 @@ func _input(event):
 								return
 						action_tracking[found_action][event.device][button] = event.is_pressed()
 						get_tree().set_input_as_handled()
+						current_event = event
 						if not is_action_pressed(found_action) or event_pressed:
 							var ev = InputEventAction.new()
 							ev.action = found_action
