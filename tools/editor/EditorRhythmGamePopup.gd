@@ -5,6 +5,8 @@ onready var quit_button = get_node("QuitButton")
 signal quit
 func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 #	rhythm_game.set_song(song, )
+	rhythm_game.remove_all_notes_from_screen()
+	rhythm_game.reset_hit_notes()
 	rhythm_game.resume()
 	rhythm_game.base_bpm = song.bpm
 	rhythm_game.set_chart(chart)
