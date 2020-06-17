@@ -535,6 +535,8 @@ func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:
 		var note = get_note_drawer(note_c).note_data
+		if note is HBSustainNote and get_note_drawer(note_c).pressed:
+			continue
 		if closest_notes.size() > 0:
 			if closest_notes[0].time > note.time:
 				closest_notes = [note]
