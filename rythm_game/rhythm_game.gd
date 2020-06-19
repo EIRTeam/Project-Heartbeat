@@ -717,7 +717,7 @@ func _process(_delta):
 				if direction_pressed:
 					piece_drawer.make_blue()
 			
-			if time * 1000.0 >= piece.time:
+			if time * 1000.0 >= piece.time and piece_drawer:
 				if not piece_drawer.blue and not direction_pressed and not previewing:
 					chain_failed = true
 					break
