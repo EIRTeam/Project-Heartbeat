@@ -17,6 +17,10 @@ func _ready():
 	connect("resumed", self, "_on_resumed")
 	song_settings_editor.connect("back", list_container, "grab_focus")
 	
+	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+		var tex = $TextureRect.texture as ViewportTexture
+		tex.flags = tex.FLAG_FILTER
+	
 func _on_resumed():
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()
 	$ViewportContainer/Viewport/Spatial/RestartPopup.hide()

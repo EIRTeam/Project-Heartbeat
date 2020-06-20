@@ -25,20 +25,20 @@ albedo_texture = SubResource( 2 )
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.8, 0.45, 0.01 )
 
+[sub_resource type="PlaneMesh" id=7]
+size = Vector2( 0.45, 0.9 )
+
 [sub_resource type="ViewportTexture" id=5]
 flags = 5
 viewport_path = NodePath("ViewportRight")
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=9]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 flags_albedo_tex_force_srgb = true
 params_diffuse_mode = 1
 albedo_texture = SubResource( 5 )
-
-[sub_resource type="PlaneMesh" id=7]
-size = Vector2( 0.45, 0.9 )
 
 [sub_resource type="BoxShape" id=8]
 extents = Vector3( 0.225, 0.45, 0.01 )
@@ -85,9 +85,8 @@ viewport_path = NodePath("../ViewportRight")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.19209e-07, -1.53967e-09, 0.00945042 )
-material_override = SubResource( 6 )
 mesh = SubResource( 7 )
-material/0 = null
+material/0 = SubResource( 9 )
 script = ExtResource( 6 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
@@ -96,8 +95,6 @@ shape = SubResource( 8 )
 [node name="RestartPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
@@ -105,8 +102,6 @@ cancel_text = "Cancel"
 [node name="QuitPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"
