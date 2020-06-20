@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/StaffRoll.tscn" type="PackedScene" id=2]
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=1]
 script/source = "extends HBMenu
 
 func _unhandled_input(event):
@@ -10,11 +10,11 @@ func _unhandled_input(event):
 		change_to_menu(\"main_menu\")
 "
 
-[sub_resource type="StyleBoxEmpty" id=4]
-
 [sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="GDScript" id=4]
 script/source = "extends Panel
 
 const SCROLL_SPEED = 50
@@ -35,7 +35,7 @@ func _process(delta):
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 5 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,7 +57,7 @@ margin_top = 30.0
 margin_right = 1250.0
 margin_bottom = 690.0
 size_flags_horizontal = 3
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
 anchor_right = 1.0
@@ -92,8 +92,8 @@ margin_right = 1200.0
 margin_bottom = 640.0
 rect_clip_content = true
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 2 )
-script = SubResource( 3 )
+custom_styles/panel = SubResource( 3 )
+script = SubResource( 4 )
 
 [node name="Control" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel" instance=ExtResource( 2 )]
 
@@ -105,63 +105,88 @@ margin_right = 1200.0
 
 [node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="2"]
 margin_right = 1200.0
+margin_bottom = 681.0
 
 [node name="HBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="3"]
+margin_top = 731.0
 margin_right = 1200.0
+margin_bottom = 869.0
 
 [node name="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="0"]
 margin_right = 397.0
+margin_bottom = 138.0
 
 [node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 margin_right = 397.0
+margin_bottom = 25.0
 
 [node name="Label2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+margin_top = 29.0
 margin_right = 397.0
+margin_bottom = 138.0
 
 [node name="VBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="1"]
 margin_left = 401.0
 margin_right = 798.0
+margin_bottom = 138.0
 
 [node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
 margin_right = 397.0
+margin_bottom = 25.0
 
 [node name="Label3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
+margin_top = 29.0
 margin_right = 397.0
+margin_bottom = 82.0
 
 [node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer" index="2"]
 margin_left = 802.0
 margin_right = 1200.0
+margin_bottom = 138.0
 
 [node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="0"]
 margin_right = 398.0
+margin_bottom = 25.0
 
 [node name="TextureRect" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer/VBoxContainer3" index="1"]
+margin_top = 29.0
 margin_right = 398.0
+margin_bottom = 79.0
 
 [node name="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="4"]
+margin_top = 919.0
 margin_right = 1200.0
+margin_bottom = 944.0
 
 [node name="HBoxContainer2" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer" index="5"]
+margin_top = 994.0
 margin_right = 1200.0
+margin_bottom = 1523.0
 
 [node name="VBoxContainer3" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="0"]
 margin_right = 390.0
+margin_bottom = 529.0
 
 [node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer3" index="0"]
 margin_right = 390.0
+margin_bottom = 529.0
 
 [node name="VBoxContainer4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="1"]
 margin_left = 394.0
 margin_right = 784.0
+margin_bottom = 529.0
 
 [node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer4" index="0"]
 margin_right = 390.0
+margin_bottom = 501.0
 
 [node name="VBoxContainer5" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2" index="2"]
 margin_left = 788.0
 margin_right = 1200.0
+margin_bottom = 529.0
 
 [node name="Label4" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control/VBoxContainer/HBoxContainer2/VBoxContainer5" index="0"]
 margin_right = 412.0
+margin_bottom = 193.0
 
 [editable path="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Panel/Control"]

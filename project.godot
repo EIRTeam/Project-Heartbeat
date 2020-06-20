@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemNote.gd"
 }, {
+"base": "",
+"class": "EditorTimelineItemSustainNote",
+"language": "GDScript",
+"path": "res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd"
+}, {
 "base": "HBTimingPoint",
 "class": "HBBPMChange",
 "language": "GDScript",
@@ -359,6 +364,7 @@ _global_script_class_icons={
 "EditorTimelineItem": "",
 "EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
+"EditorTimelineItemSustainNote": "",
 "HBBPMChange": "",
 "HBBackgroundMusicPlayer": "",
 "HBBackgroundSongAssetsLoader": "",
@@ -429,15 +435,15 @@ _global_script_class_icons={
 [application]
 
 config/name="Project Heartbeat"
-run/main_scene="res://base_scene.tscn"
+run/main_scene="res://menus/MainMenu3D.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1591065209
-config/build_commit="552c597b82b7648ef06c1210ce27a47310019f57"
+config/build_time=1592543895
+config/build_commit="26b6bfaca348bb69da77288af3980b5c3374d3f8"
 
 [audio]
 

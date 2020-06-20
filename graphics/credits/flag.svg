@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270">
+<rect fill="#46DCEA" width="80" height="270"/>
+<rect fill="#D317FE" width="80" height="270" x="80"/>
+<rect fill="#45D809" width="80" height="270" x="160"/>
+<rect fill="#23EB97" width="80" height="270" x="240"/>
+<rect fill="#E49564" width="80" height="270" x="320"/>
+<rect fill="#10D4CD" width="80" height="270" x="400"/>
+<text font-size="50" fill="black" font-family="monospace" x="305" y="255">+</text>
+<text font-size="50" fill="black" font-family="monospace" x="346.5" y="255">B2</text>
+<text font-size="50" fill="black" font-family="monospace" x="419" y="255">C2</text>
+</svg>
