@@ -51,17 +51,16 @@ func _unhandled_input(event):
 					last_axis_values[event.device][action][event.axis] = 0.0
 				var last_value = last_axis_values[event.device][action][event.axis]
 				if last_value < UserSettings.user_settings.tap_deadzone and event.get_action_strength(action) >= UserSettings.user_settings.tap_deadzone:
-					if pressed_inputs[action] == false:
-						var a = InputEventAction.new()
-						pressed_inputs[action] = true
-						a.action = ANALOG_TO_DIGITAL_MAP[action]
-						a.pressed = true
-						Input.parse_input_event(a)
+					var a = InputEventAction.new()
+					pressed_inputs[action] = true
+					a.action = ANALOG_TO_DIGITAL_MAP[action]
+					a.pressed = true
+					Input.parse_input_event(a)
 
 				elif last_value >= UserSettings.user_settings.tap_deadzone and event.get_action_strength(action) < UserSettings.user_settings.tap_deadzone:
-						var a = InputEventAction.new()
-						a.action = ANALOG_TO_DIGITAL_MAP[action]
-						pressed_inputs[action] = false
-						a.pressed = false
-						Input.parse_input_event(a)
+					var a = InputEventAction.new()
+					a.action = ANALOG_TO_DIGITAL_MAP[action]
+					pressed_inputs[action] = false
+					a.pressed = false
+					Input.parse_input_event(a)
 				last_axis_values[event.device][action][event.axis] = event.get_action_strength(action)

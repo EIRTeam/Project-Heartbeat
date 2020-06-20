@@ -25,6 +25,10 @@ var action_names = {
 	"tap_left_analog": "Slide left analog",
 	"tap_right": "Slide right",
 	"tap_right_analog": "Slide right analog",
+	"tap_up": "Slide up",
+	"tap_up_analog": "Slide right analog",
+	"tap_down": "Slide down",
+	"tap_down_analog": "Slide down analog",
 	"pause": "Pause"
 }
 
