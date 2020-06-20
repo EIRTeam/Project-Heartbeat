@@ -121,12 +121,10 @@ func get_max_score():
 	
 	return max_score
 	
-# returns all slide hold chains it can find in array[slide] = [items] format
-static func get_slide_hold_chains(timing_points):
+static func get_slide_hold_chains_for_points(timing_points):
 	var last_right_slide
 	var last_left_slide
 	var slide_hold_chains = {}
-	
 	for i in range(timing_points.size() - 1, -1, -1):
 		var point = timing_points[i]
 		if point is HBNoteData:
@@ -153,8 +151,22 @@ static func get_slide_hold_chains(timing_points):
 		if slide_hold_chains[slide].pieces.size() == 0:
 			slide_hold_chains.erase(slide)
 	return slide_hold_chains
+# returns all slide hold chains it can find in array[slide] = [items] format
+func get_slide_hold_chains():
+	var target_layers = ["SLIDE_LEFT", "SLIDE_LEFT2", "SLIDE_RIGHT", "SLIDE_RIGHT2"]
+	var slide_hold_chains = {}
+	for layer_name in target_layers:
+		var layer_i = get_layer_i(layer_name)
+		if layer_i != -1:
+			var points = layers[layer_i].timing_points
+			points.sort_custom(self, "_note_comparison")
+			var r = get_slide_hold_chains_for_points(points)
+			slide_hold_chains = HBUtils.merge_dict(slide_hold_chains, r)
+	return slide_hold_chains
 # gets layer by position
 func get_layer_i(layer_name: String):
+	var result = -1
 	for i in range(layers.size()):
 		if layers[i].name == layer_name:
-			return i
+			result = i
+	return result

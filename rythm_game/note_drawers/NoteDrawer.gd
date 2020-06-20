@@ -123,7 +123,6 @@ func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
 			if note_data in closest_notes:
 				var judgement = game.judge.judge_note(time, note_data.time/1000.0)
 				if judgement:
-					print("JUDGED!", judgement," ", time, " ", note_data.time/1000.0)
 					result.resulting_rating = judgement
 					result.has_rating = true
 			break
@@ -134,7 +133,7 @@ func _on_game_time_changed(time: float):
 		for note in connected_notes:
 			var drawer = game.get_note_drawer(note)
 			if drawer:
-				if drawer != self:
+				if not drawer.note_master:
 					if not drawer.is_queued_for_deletion():
 						drawer._on_game_time_changed(time)
 

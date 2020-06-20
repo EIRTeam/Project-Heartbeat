@@ -429,7 +429,7 @@ func _on_StopButton_pressed():
 	
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
-	game_playback.timing_points = get_timing_points()
+	game_playback.chart = get_chart()
 
 func _on_timing_points_params_changed():
 	game_playback._on_timing_points_changed()

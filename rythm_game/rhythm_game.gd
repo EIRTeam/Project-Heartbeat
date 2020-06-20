@@ -252,7 +252,6 @@ func _set_timing_points(points):
 	timing_points = points
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
-	slide_hold_chains = {}
 	for chain in active_slide_hold_chains:
 		chain.sfx_player.queue_free()
 	active_slide_hold_chains = []
@@ -263,7 +262,6 @@ func _set_timing_points(points):
 		if point is HBBPMChange:
 			bpm_changes[point.time] = point.bpm
 			print("FOUND BPM CHANGE at ", point.time)
-	slide_hold_chains = HBChart.get_slide_hold_chains(timing_points)
 	# Group related notes for performance reasons, so we can precompute stuff
 	var timing_points_grouped = []
 	var last_notes = []
@@ -336,6 +334,7 @@ func set_chart(chart: HBChart):
 	var tp = chart.get_timing_points()
 	for modifier in modifiers:
 		modifier._preprocess_timing_points(tp)
+	slide_hold_chains = chart.get_slide_hold_chains()
 	_set_timing_points(tp)
 	# Find slide hold chains
 	active_slide_hold_chains = []
@@ -816,13 +815,15 @@ func set_current_combo(combo: int):
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong):
+	print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
 	var note = notes[0] as HBBaseNote
+	
 	# Simultaneous slides are a special case...
 	# we have to process each note individually
-	for n in notes:
-		if n is HBNoteData:
-			if n != note and n.is_slide_note():
-				_on_notes_judged([n], judgement, wrong)
+#	for n in notes:
+#		if n is HBNoteData:
+#			if n != note and n.is_slide_note():
+#				_on_notes_judged([n], judgement, wrong)
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
 	var notes_hit = 1
 	if not editing or previewing:
@@ -861,27 +862,29 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			result.max_combo = current_combo
 
 		# Slide chain starting shenanigans
-		if note is HBNoteData:
-			if note.is_slide_note():
-				if note in slide_hold_chains:
-					if not wrong and judgement >= judge.JUDGE_RATINGS.FINE:
-						var hold_player = $SlideChainLoopSFX.duplicate()
-						add_child(hold_player)
-						hold_player.play()
-						hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
-
-						var active_hold_chain = slide_hold_chains[note] as HBChart.SlideChain
-						active_hold_chain.sfx_player = hold_player
-						active_slide_hold_chains.append(active_hold_chain)
-					else:
-						# kill slide and younglings if we failed
-						for piece in slide_hold_chains[note].pieces:
-							if piece in notes_on_screen:
-								var piece_drawer = get_note_drawer(piece)
-								piece_drawer.emit_signal("note_removed")
-								piece_drawer.queue_free()
-								# It's not shitty if it works
-								piece.set_meta("ignored", true)
+		for n in notes:
+			if n is HBNoteData:
+				if n.is_slide_note():
+					if n in slide_hold_chains:
+						if not wrong and judgement >= judge.JUDGE_RATINGS.FINE:
+							var hold_player = $SlideChainLoopSFX.duplicate()
+							add_child(hold_player)
+							hold_player.play()
+							hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
+	
+							var active_hold_chain = slide_hold_chains[n] as HBChart.SlideChain
+							active_hold_chain.sfx_player = hold_player
+							active_slide_hold_chains.append(active_hold_chain)
+							print("ACTIVATING SLIDE CHAIN")
+						else:
+							# kill slide and younglings if we failed
+							for piece in slide_hold_chains[n].pieces:
+								if piece in notes_on_screen:
+									var piece_drawer = get_note_drawer(piece)
+									piece_drawer.emit_signal("note_removed")
+									piece_drawer.queue_free()
+									# It's not shitty if it works
+									piece.set_meta("ignored", true)
 		# We average the notes position so that multinote ratings are centered
 		var avg_pos = Vector2()
 		for n in notes:

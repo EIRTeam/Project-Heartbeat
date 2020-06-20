@@ -9,12 +9,12 @@ var game: HBRhythmGame
 var time_begin
 var time_delay
 var _audio_play_offset
-var timing_points = [] setget set_timing_points
+var chart: HBChart setget set_chart
 var current_song: HBSong
 signal time_changed
 
-func set_timing_points(val):
-	timing_points = val
+func set_chart(val):
+	chart = val
 	_on_timing_points_changed()
 
 func _init(game: HBRhythmGame):
@@ -76,7 +76,7 @@ func _on_timing_points_changed():
 	game.remove_all_notes_from_screen()
 	game.reset_hit_notes()
 	game.base_bpm = current_song.bpm # We reset the BPM
-	game.timing_points = timing_points
+	game.set_chart(chart)
 	game.delete_rogue_notes(game.time)
 
 func play_from_pos(position: float):

@@ -247,13 +247,20 @@ func _on_game_time_changed(time: float):
 			conn_notes = [note_data]
 		var time_out = get_time_out()
 		if note_data.can_be_judged():
-			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master:
+			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master and note_master:
 				for action in note_data.get_input_actions():
-					if HBInput.is_action_pressed(action) or HBTapHandler.is_action_held(action):
+					if (HBInput.is_action_pressed(action) or HBTapHandler.is_action_held(action)) and HBInput.get_action_press_count(action) >= conn_notes.size():
 						if time >= note_data.time / 1000.0:
 							emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.COOL, false)
-							emit_signal("note_removed")
-							queue_free()
+							for note in conn_notes:
+								var drawer = game.get_note_drawer(note)
+								if drawer.note_data.is_auto_freed():
+									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL)
+								else:
+									# The note is now on it's own
+									if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
+										game.connect("time_changed", drawer, "_on_game_time_changed")
+									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL, true)
 							break
 			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
