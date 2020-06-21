@@ -15,8 +15,9 @@ func _on_resized():
 func set_value(val):
 	value = val
 	update()
-	$PercentageLabel.text = "%.2f " % ((value / max_value) * 100.0)
-	$PercentageLabel.text += "%"
+	if max_value > 0:
+		$PercentageLabel.text = "%.2f " % ((value / max_value) * 100.0)
+		$PercentageLabel.text += "%"
 func set_max_value(val):
 	max_value = val
 	update()
