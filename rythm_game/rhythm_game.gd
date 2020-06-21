@@ -229,6 +229,25 @@ func make_group(notes: Array, extra_notes: Array, group_position, time):
 	var group = NoteGroup.new()
 	group.notes = notes + extra_notes
 	group.time = time
+	
+	var slide_count = 0
+	var has_chain = false
+	for note in group.notes:
+		if note is HBNoteData:
+			if note.is_slide_hold_piece():
+				has_chain = true
+				if slide_count > 1:
+					break
+			if note.is_slide_note():
+				slide_count += 1
+				if has_chain and slide_count > 1:
+					break
+	
+	# Game disables some optimizations when simultaneous slide chains exist.
+	
+	if slide_count > 1 and has_chain:
+		group.notes.sort_custom(self, "_sort_notes_by_appear_time")
+	
 	var highest_time_out = 0
 
 	for point in group.notes:
