@@ -192,7 +192,6 @@ margin_right = 588.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -420,7 +419,7 @@ margin_left = 166.0
 margin_right = 181.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 15, 25 )
-hint_tooltip = "Minimum time in miliseconds to the first timing point where the intro skip option will appear"
+hint_tooltip = "Minimum time in seconds  to the first timing point where the intro skip option will appear"
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
@@ -529,6 +528,7 @@ step = 0.0
 value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -654,6 +654,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
@@ -664,6 +665,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
@@ -674,6 +676,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
@@ -684,6 +687,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
@@ -694,6 +698,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
@@ -704,6 +709,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
