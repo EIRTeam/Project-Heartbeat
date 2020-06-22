@@ -103,7 +103,6 @@ func _ready():
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
 	HBInput.action_tracking = {}
 	load_input_map()
-	save_user_settings()
 	user_settings.last_controller_guid = ""
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;
