@@ -139,6 +139,13 @@ const PPDButtonsMapDefault = {
 		PPDButtons.L: HBNoteData.NOTE_TYPE.HEART
 	}
 
+const PHButtonToPPDDirection = {
+	HBNoteData.NOTE_TYPE.LEFT: PPDButtons.Left,
+	HBNoteData.NOTE_TYPE.UP: PPDButtons.Up,
+	HBNoteData.NOTE_TYPE.DOWN: PPDButtons.Down,
+	HBNoteData.NOTE_TYPE.RIGHT: PPDButtons.Right,
+}
+
 static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	var bpm = base_bpm
 	# PPD button map to PH buttons
@@ -166,6 +173,21 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	var same_position_note_count = 0
 	for i in range(marks.size()):
 		var note = marks[i]
+		
+		# PPD is stupid and in some chart double notes are marked by Triangle+Up for example.
+		if prev_note and prev_note.note_type < 4:
+				var prev_type = prev_note.note_type
+				var current_type = PPDButton2HBNoteType[note.type]
+				var current_time = int(note.time*1000.0) + int(offset)
+				if current_type == prev_type and current_time == prev_note.time:
+					var new_data_ser = prev_note.serialize()
+					new_data_ser["type"] = "DoubleNote"
+					var new_note = HBSerializable.deserialize(new_data_ser)
+					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, prev_note.note_type)
+					chart.layers[chart.get_layer_i(type)].timing_points.pop_back()
+					chart.layers[chart.get_layer_i(type)].timing_points.append(new_note)
+					prev_note = new_note
+					continue
 		var note_data : HBBaseNote
 		
 #		if note.ex:
@@ -174,7 +196,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 #		else:
 #			note_data = HBNoteData.new()
 		note_data = HBNoteData.new()
-		if note.type > PPDButtons.Triangle and note.type < PPDButtons.R:
+		if note.type > PPDButtons.Triangle and note.type < PPDButtons.R and note_type == PPDNoteType.NORMAL:
 			note_data = HBDoubleNote.new()
 		elif note_type == PPDNoteType.NORMAL and note.end_time != 0.0 and not note.type == PPDButtons.L and not note.type == PPDButtons.R:
 			note_data = HBSustainNote.new()
@@ -249,6 +271,8 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 			
 			if note_params.has("#RightRotation"):
 				note_data.oscillation_frequency = -note_data.oscillation_frequency
+				
+				
 		for l in chart.layers:
 			if l.name == HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type):
 				if is_second_slider:
