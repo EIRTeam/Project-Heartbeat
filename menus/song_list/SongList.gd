@@ -28,8 +28,10 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if UserSettings.user_settings.filter_mode == "favorites" \
 			and UserSettings.user_settings.favorite_songs.empty():
 		UserSettings.user_settings.filter_mode = "all"
+	populate_buttons()
 	song_container.set_filter(UserSettings.user_settings.filter_mode)
 	update_songs()
+
 	if args.has("song_difficulty"):
 		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)
 	elif args.has("song"):
@@ -65,7 +67,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 			sort_by_list_container.select_button(button.get_position_in_parent())
 	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
 	fav_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
-	populate_buttons()
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
@@ -118,7 +119,8 @@ func populate_buttons():
 		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:
 			filter_types["ppd"] = "PPD"
-
+	if not UserSettings.user_settings.filter_mode in filter_types:
+		UserSettings.user_settings.filter_mode = "all"
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
@@ -126,7 +128,7 @@ func populate_buttons():
 		if filter_type == UserSettings.user_settings.filter_mode:
 			filter_type_container.select_button(button.get_position_in_parent(), false)
 		button.connect("hovered", self, "set_filter", [filter_type])
-
+		
 func set_filter(filter_name):
 	song_container.set_filter(filter_name)
 	UserSettings.user_settings.filter_mode = filter_name
