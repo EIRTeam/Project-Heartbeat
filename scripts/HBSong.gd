@@ -64,7 +64,7 @@ func get_meta_string():
 	if writers.size() > 0:
 		var writer_text = tr("Written by: ")
 		song_meta.append(writer_text + PoolStringArray(writers).join(", "))
-	if vocals.size() > 0:
+	if vocals.size() > 0 and vocals[0] != "":
 		var vocals_text = tr("Vocals by: ")
 		song_meta.append(vocals_text + PoolStringArray(vocals).join(", "))
 	if composers.size() > 0:

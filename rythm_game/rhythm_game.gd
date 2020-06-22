@@ -800,8 +800,6 @@ func _process(_delta):
 			a.pressed = true
 			
 			Input.parse_input_event(a)
-			
-			HBInput.action_tracking[action] = {}
 	var new_closest_multi_notes = []
 	var last_note_time = 0
 	for note in notes_on_screen:
