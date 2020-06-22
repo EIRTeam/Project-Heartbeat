@@ -18,6 +18,13 @@ const TOP_MARGIN = 50
 signal out_from_top
 signal out_from_bottom
 signal option_hovered(option)
+
+const MOVE_DEBOUNCE_T = 0.1
+const INITIAL_MOVE_DEBOUNCE_T = 0.3
+var move_debounce = MOVE_DEBOUNCE_T
+var initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
+var can_press = false
+
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_lost")
@@ -83,39 +90,54 @@ func _set_opacities(hard=false):
 					child.modulate.a = 1.0
 
 func _gui_input(event):
+	if event.is_action_released("gui_up") or event.is_action_released("gui_down"):
+		move_debounce = MOVE_DEBOUNCE_T
+		initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
 	if selected_child:
-		if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
-			var child_i = vbox_container.get_children().find(selected_child)
-			if child_i == 0 and event.is_action_pressed("gui_up") and not event.is_echo():
-				get_tree().set_input_as_handled()
-				emit_signal("out_from_top")
-			if child_i == vbox_container.get_child_count()-1 and event.is_action_pressed("gui_down") and not event.is_echo():
-				get_tree().set_input_as_handled()
-				emit_signal("out_from_bottom")
-			if event.is_action_pressed("gui_down") and not event.is_echo() and child_i < vbox_container.get_child_count()-1:
-				get_tree().set_input_as_handled()
-				select_child(vbox_container.get_child(child_i+1))
-				emit_signal("option_hovered", selected_child)
-				$AudioStreamPlayer.play()
-			if event.is_action_pressed("gui_up") and not event.is_echo() and child_i > 0:
-				get_tree().set_input_as_handled()
-				select_child(vbox_container.get_child(child_i-1))
-				emit_signal("option_hovered", selected_child)
-				$AudioStreamPlayer.play()
-			if page_skip_enabled:
-				if event.is_action_pressed("gui_left"):
-					select_child(vbox_container.get_child(clamp(child_i-5, 0, vbox_container.get_child_count()-1)))
-				if event.is_action_pressed("gui_right"):
-					select_child(vbox_container.get_child(clamp(child_i+5, 0, vbox_container.get_child_count()-1)))
-			if event.is_action_pressed("gui_accept"):
-				get_tree().set_input_as_handled()
-				selected_child.emit_signal("pressed")
+		var child_i = vbox_container.get_children().find(selected_child)
+		if event.is_action_pressed("gui_accept"):
+			get_tree().set_input_as_handled()
+			selected_child.emit_signal("pressed")
 		if not get_tree().is_input_handled():
 			selected_child._gui_input(event)
-				
+		if page_skip_enabled:
+			if event.is_action_pressed("gui_left"):
+				select_child(vbox_container.get_child(clamp(child_i-5, 0, vbox_container.get_child_count()-1)))
+			if event.is_action_pressed("gui_right"):
+				select_child(vbox_container.get_child(clamp(child_i+5, 0, vbox_container.get_child_count()-1)))
 func _process(delta):
 	current_scroll = lerp(current_scroll, scroll_target, delta * INTERP_SPEED )
 	scroll_vertical = current_scroll
+	
+	move_debounce += delta
+	initial_move_debounce += delta
+	can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T and has_focus()
+	if (Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up")) and can_press:
+		move_debounce = MOVE_DEBOUNCE_T
+		initial_move_debounce = 0.0
+		can_press = true
+
+	if selected_child and has_focus():
+		var child_i = vbox_container.get_children().find(selected_child)
+		if child_i == 0 and Input.is_action_pressed("gui_up"):
+			get_tree().set_input_as_handled()
+			emit_signal("out_from_top")
+		if child_i == vbox_container.get_child_count()-1 and Input.is_action_pressed("gui_down"):
+			get_tree().set_input_as_handled()
+			emit_signal("out_from_bottom")
+		if Input.is_action_pressed("gui_down") and child_i < vbox_container.get_child_count()-1 and can_press:
+			move_debounce = 0.0
+			get_tree().set_input_as_handled()
+			select_child(vbox_container.get_child(child_i+1))
+			emit_signal("option_hovered", selected_child)
+			$AudioStreamPlayer.play()
+		if Input.is_action_pressed("gui_up") and child_i > 0 and can_press:
+			move_debounce = 0.0
+			get_tree().set_input_as_handled()
+			select_child(vbox_container.get_child(child_i-1))
+			emit_signal("option_hovered", selected_child)
+			$AudioStreamPlayer.play()
+
 
 func _on_focus_entered():
 	if maintain_selected_child and selected_child:
