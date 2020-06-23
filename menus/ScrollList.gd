@@ -119,10 +119,10 @@ func _process(delta):
 
 	if selected_child and has_focus():
 		var child_i = vbox_container.get_children().find(selected_child)
-		if child_i == 0 and Input.is_action_pressed("gui_up"):
+		if child_i == 0 and Input.is_action_pressed("gui_up") and can_press:
 			get_tree().set_input_as_handled()
 			emit_signal("out_from_top")
-		if child_i == vbox_container.get_child_count()-1 and Input.is_action_pressed("gui_down"):
+		if child_i == vbox_container.get_child_count()-1 and Input.is_action_pressed("gui_down") and can_press:
 			get_tree().set_input_as_handled()
 			emit_signal("out_from_bottom")
 		if Input.is_action_pressed("gui_down") and child_i < vbox_container.get_child_count()-1 and can_press:
@@ -140,6 +140,8 @@ func _process(delta):
 
 
 func _on_focus_entered():
+	move_debounce = 0.0
+	initial_move_debounce = 0.0
 	if maintain_selected_child and selected_child:
 		select_child(selected_child)
 	else:
