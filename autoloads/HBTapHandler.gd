@@ -29,10 +29,23 @@ func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 func is_action_held(action: String):
-	var actual_action = HBUtils.find_key(ANALOG_TO_DIGITAL_MAP, action)
-	if actual_action in pressed_inputs:
-		return pressed_inputs[actual_action]
+	if action in ANALOG_TO_DIGITAL_MAP.values():
+		var actual_action = HBUtils.find_key(ANALOG_TO_DIGITAL_MAP, action)
+		if actual_action in pressed_inputs:
+			return pressed_inputs[actual_action]
 	return false
+	
+func get_action_held_count(action: String):
+	var count = 0
+	if action in ANALOG_TO_DIGITAL_MAP.values():
+		var tap_action = HBUtils.find_key(ANALOG_TO_DIGITAL_MAP, action)
+		for device in last_axis_values:
+			for _action in last_axis_values[device]:
+				if _action == tap_action:
+					for axis in last_axis_values[device][tap_action]:
+						if last_axis_values[device][tap_action][axis] >= UserSettings.user_settings.tap_deadzone:
+							count += 1
+	return count
 	
 func _unhandled_input(event):
 	if event is InputEventJoypadMotion:
@@ -50,6 +63,7 @@ func _unhandled_input(event):
 				if not last_axis_values[event.device][action].has(event.axis):
 					last_axis_values[event.device][action][event.axis] = 0.0
 				var last_value = last_axis_values[event.device][action][event.axis]
+				last_axis_values[event.device][action][event.axis] = event.get_action_strength(action)
 				if last_value < UserSettings.user_settings.tap_deadzone and event.get_action_strength(action) >= UserSettings.user_settings.tap_deadzone:
 					var a = InputEventAction.new()
 					pressed_inputs[action] = true
@@ -63,4 +77,3 @@ func _unhandled_input(event):
 					pressed_inputs[action] = false
 					a.pressed = false
 					Input.parse_input_event(a)
-				last_axis_values[event.device][action][event.axis] = event.get_action_strength(action)
