@@ -38,6 +38,7 @@ func _ready():
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
 	game.connect("intro_skipped", self, "_on_intro_skipped")
+	set_process(false)
 
 func _on_intro_skipped(new_time):
 	video_player.stream_position = new_time
@@ -87,6 +88,7 @@ func start_session(game_info: HBGameInfo):
 		modifier.modifier_settings = game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
 	set_song(song, game_info.difficulty, modifiers)
+	set_process(true)
 
 func disable_restart():
 	$PauseMenu.disable_restart()
