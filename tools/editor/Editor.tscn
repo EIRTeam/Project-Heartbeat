@@ -572,8 +572,6 @@ __meta__ = {
 }
 
 [node name="RythmGame" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
-margin_left = -2.0
-margin_right = -2.0
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
@@ -585,8 +583,6 @@ __meta__ = {
 [node name="WidgetArea" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -0.735077
-margin_bottom = -0.735077
 script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
