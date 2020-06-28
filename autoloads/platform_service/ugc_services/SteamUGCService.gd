@@ -142,7 +142,6 @@ func _on_show_success(item_id):
 	thing.text = "Succesfully installed %s!" % [data.title]
 	success_install_things.erase(item_id)
 	DownloadProgress.add_notification(thing, true)
-	print("HSOWING SUCC")
 	
 func _on_ugc_query_completed(update_handle, result, number_of_results, number_of_matching_results, cached):
 	var details = Steam.getQueryUGCResult(update_handle, 0)
