@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Theme_Game.tres" type="Theme" id=1]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/options_menu/OptionControlsSection.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=6]
 
 [node name="OptionSection" type="Control"]
 anchor_right = 1.0
@@ -44,19 +45,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer" instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
 margin_left = 30.0
 margin_top = 15.0
 margin_right = 1260.0
 margin_bottom = 690.0
-maintain_selected_child = true
-page_skip_enabled = true
+custom_constants/separation = 20
 
-[node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
+[node name="CategoryContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+margin_right = 1230.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 45 )
+alignment = 1
+script = ExtResource( 6 )
+
+[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 65.0
 margin_right = 1230.0
 margin_bottom = 675.0
+rect_clip_content = true
+maintain_selected_child = true
 
 [node name="Popup" type="PopupDialog" parent="."]
 margin_left = 444.0
@@ -78,5 +88,3 @@ valign = 1
 [node name="ResetConfirmationWindow" parent="." instance=ExtResource( 5 )]
 visible = true
 text = "Are you sure you want to reset all controls to default?"
-
-[editable path="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]

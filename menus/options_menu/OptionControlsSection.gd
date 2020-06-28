@@ -2,12 +2,13 @@ extends Control
 
 signal back
 
-onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer")
+onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer")
 const ACTION_SCENE = preload("res://menus/options_menu/OptionControlsSectionAction.tscn")
 const EVENT_SCENE = preload("res://menus/options_menu/OptionControlsSectionEvent.tscn")
 const RESET_SCENE = preload("res://menus/options_menu/OptionControlsSectionReset.tscn")
 onready var bind_popup = get_node("Popup")
 onready var reset_confirmation_window = get_node("ResetConfirmationWindow")
+onready var category_container = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/CategoryContainer")
 var action_being_bound = ""
 
 func _unhandled_input(event):
@@ -32,17 +33,33 @@ func _unhandled_input(event):
 				emit_signal("back")
 				if scroll_container.selected_child:
 					scroll_container.selected_child.stop_hover()
+				populate()
+				show_category(UserSettings.ACTION_CATEGORIES.keys()[0], true)
+		elif (event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right")) and scroll_container.has_focus():
+			get_tree().set_input_as_handled()
+			category_container._gui_input(event)
 		else:
 			if scroll_container.selected_child:
 				scroll_container.selected_child._gui_input(event)
 
 func _ready():
 	populate()
+	show_category(UserSettings.ACTION_CATEGORIES.keys()[0], true)
 	connect("focus_entered", self, "_on_focus_entered")
 	focus_mode = Control.FOCUS_ALL
 	reset_confirmation_window.connect("accept", self, "_on_reset_bindings_confirmed")
 	reset_confirmation_window.connect("cancel", self, "grab_focus")
 func populate():
+	for child in category_container.get_children():
+		category_container.remove_child(child)
+		child.queue_free()
+		
+	for category in UserSettings.ACTION_CATEGORIES:
+		var button = HBHovereableButton.new()
+		button.text = category
+		category_container.add_child(button)
+		button.connect("hovered", self, "show_category", [category])
+func show_category(category: String, prevent_selection=false):
 	scroll_container.selected_child = null
 	var children = scroll_container.vbox_container.get_children()
 	for child in children:
@@ -53,7 +70,7 @@ func populate():
 	reset_scene.connect("pressed", self, "_on_reset_bindings")
 	scroll_container.vbox_container.add_child(reset_scene)
 	var input_map = UserSettings.get_input_map()
-	for action_name in UserSettings.action_names:
+	for action_name in UserSettings.ACTION_CATEGORIES[category]:
 		var action_scene = ACTION_SCENE.instance()
 		action_scene.action = UserSettings.action_names[action_name]
 		scroll_container.vbox_container.add_child(action_scene)
@@ -65,6 +82,8 @@ func populate():
 			scroll_container.vbox_container.add_child(event_scene)
 			event_scene.event = event
 			event_scene.connect("pressed", self, "_on_event_delete", [event_scene, action_name, event])
+	if not prevent_selection:
+		scroll_container.select_child(scroll_container.vbox_container.get_child(0))
 func _on_action_add_press(action_name):
 	
 	bind_popup.popup_centered()
@@ -80,6 +99,9 @@ func _on_event_delete(control, action, event):
 		UserSettings.save_user_settings()
 func _on_focus_entered():
 	if not action_being_bound:
+		category_container.selected_button = null
+		category_container.selected_button_i = null
+		category_container.select_button(0, false)
 		scroll_container.grab_focus()
 
 func add_event_user(action_name, event):

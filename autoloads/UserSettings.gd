@@ -10,6 +10,13 @@ const SAVE_DEBOUNCE_TIME = 0.2
 var save_debounce_t = 0.0
 var debouncing = false
 
+const ACTION_CATEGORIES = {
+	"Notes": ["note_up", "note_down", "note_left", "note_right"],
+	"Slide Notes": ["tap_left", "tap_left_analog", "tap_right", "tap_right_analog", "tap_up", "tap_up_analog", "tap_down", "tap_down_analog"],
+	"Game": ["pause"],
+	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_accept", "gui_cancel"]
+}
+
 var action_names = {
 	"note_up": "Note up",
 	"note_down": "Note down",
