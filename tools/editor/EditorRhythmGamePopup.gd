@@ -1,7 +1,8 @@
 extends Control
 
-onready var rhythm_game = get_node("RhythmGame")
+onready var rhythm_game = HBRhythmGame.new()
 onready var quit_button = get_node("QuitButton")
+onready var rhythm_game_ui = get_node("RhythmGame")
 signal quit
 func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 #	rhythm_game.set_song(song, )
@@ -20,6 +21,8 @@ func set_audio(audio, voice = null):
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	connect("resized", self, "set_game_size")
+	add_child(rhythm_game)
+	rhythm_game.set_game_ui(rhythm_game_ui)
 	rhythm_game.set_process_input(false)
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)

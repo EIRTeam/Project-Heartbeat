@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rythm_game/rhythm_game_ui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/editor/EditorRhythmGamePopup.gd" type="Script" id=3]
 
 [node name="Control" type="Control"]
@@ -9,6 +9,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RhythmGame" parent="." instance=ExtResource( 2 )]
 

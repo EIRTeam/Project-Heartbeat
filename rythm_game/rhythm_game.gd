@@ -6,6 +6,17 @@ signal time_changed(time)
 signal song_cleared(results)
 signal note_judged(judgement)
 signal intro_skipped(new_time)
+signal max_hold
+signal hold_score_changed
+signal show_slide_hold_score
+signal show_multi_hint(new_closest_multi_notes)
+signal hide_multi_hint
+signal end_intro_skip_period
+signal score_added(added_score)
+signal hold_released
+signal hold_started(held_notes)
+signal toggle_ui
+
 signal size_changed
 
 const NoteTargetScene = preload("res://rythm_game/note_drawers/NoteTarget.tscn")
@@ -102,26 +113,10 @@ var _sfx_debounce_t = SFX_DEBOUNCE_TIME
 
 var precalculated_note_trails = {}
 
-onready var audio_stream_player: AudioStreamPlayer = get_node("AudioStreamPlayer")
-onready var audio_stream_player_voice: AudioStreamPlayer = get_node("AudioStreamPlayerVocals")
-onready var rating_label: Label = get_node("RatingLabel")
-onready var notes_node = get_node("Notes")
-onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
-onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
-onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
-onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DifficultyLabel")
-onready var clear_bar = get_node("Control/ClearBar")
-onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
-onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
-onready var circle_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
-onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/CircleImage")
-onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
-onready var latency_display = get_node("Control/LatencyDisplay")
-onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
-onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
-onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
-onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
-onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
+var audio_stream_player: AudioStreamPlayer
+var audio_stream_player_voice: AudioStreamPlayer
+
+var game_ui: HBRhythmGameUIBase
 
 # Used for performance reasons, we treat a slide chain as a group
 class NoteGroup:
@@ -129,6 +124,13 @@ class NoteGroup:
 	var precalculated_timeout: int = 0
 	var notes: Array
 	var hit_notes: PoolByteArray
+
+func _create_sfx_player(sample, volume):
+	var player = AudioStreamPlayer.new()
+	player.bus = "SFX"
+	player.stream = sample
+	player.volume_db = volume
+	return player
 
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
@@ -200,8 +202,7 @@ func cache_playing_field_size():
 func set_size(value):
 	size = value
 	cache_playing_field_size()
-	$UnderNotesUI/Control.rect_size = value
-	$AboveNotesUI/Control.rect_size = value
+	
 
 var bpm_changes = {}
 
@@ -313,43 +314,51 @@ func _set_timing_points(points):
 
 	timing_points = timing_points_grouped
 	last_hit_index = timing_points.size()
+	
+var hit_effect_sfx_player: AudioStreamPlayer
+var hit_effect_slide_sfx_player: AudioStreamPlayer
+var slide_chain_loop_sfx_player: AudioStreamPlayer
+var slide_chain_success_sfx_player: AudioStreamPlayer
+var slide_chain_fail_sfx_player: AudioStreamPlayer
+	
 func _ready():
-	rating_label.hide()
+	
+	hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
+	hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
+	slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4)
+	slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4)
+	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4)
+	
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
-	connect("note_judged", latency_display, "_on_note_judged")
 	set_current_combo(0)
-	slide_hold_score_text._game = self
-	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
-	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
 	
 	# Despite using end time audio stream player's finished signal is used as fallback just in case
 	
+	audio_stream_player = AudioStreamPlayer.new()
+	audio_stream_player.bus = "Music"
+	
+	audio_stream_player_voice = AudioStreamPlayer.new()
+	audio_stream_player_voice.bus = "Vocals"
+	
+	add_child(audio_stream_player)
+	add_child(audio_stream_player_voice)
+	
 	audio_stream_player.connect("finished", self, "_on_game_finished")
 
-func _on_viewport_size_changed():
-	$Viewport.size = self.rect_size
 
-	var hbox_container2 = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer")
-	if circle_text_rect.texture:
-		var image = circle_text_rect.texture.get_data() as Image
-		var ratio = image.get_width() / image.get_height()
-		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
-		new_size.x = clamp(new_size.x, 0, 250)
-		circle_text_rect_margin_container.rect_min_size = new_size
+
+func _on_viewport_size_changed():
 	cache_playing_field_size()
 	emit_signal("size_changed")
 
 
 func set_chart(chart: HBChart):
-	clear_bar.value = 0.0
-	score_counter.score = 0
-	rating_label.hide()
+	game_ui._on_reset()
 	audio_stream_player.seek(0)
 	audio_stream_player_voice.seek(0)
 	result = HBResult.new()
 	current_combo = 0
-	rating_label.hide()
 	var tp = chart.get_timing_points()
 	for modifier in modifiers:
 		modifier._preprocess_timing_points(tp)
@@ -357,9 +366,7 @@ func set_chart(chart: HBChart):
 	_set_timing_points(tp)
 	# Find slide hold chains
 	active_slide_hold_chains = []
-	var max_score = chart.get_max_score()
-	clear_bar.max_value = max_score
-	result.max_score = max_score
+	game_ui._on_chart_set(chart)
 
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], precalculate_trails=false):
@@ -372,25 +379,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 			audio_stream_player_voice.stream = assets.voice
 	else:
 		audio_stream_player.stream = song.get_audio_stream()
-
-		var circle_logo_path = song.get_song_circle_logo_image_res_path()
-		if circle_logo_path:
-			circle_text_rect.show()
-			var image = HBUtils.image_from_fs(circle_logo_path)
-			var it = ImageTexture.new()
-			it.create_from_image(image, Texture.FLAGS_DEFAULT)
-			circle_text_rect.texture = it
-			_on_viewport_size_changed()
-		else:
-			circle_margin_container.hide()
 		if song.voice:
 			audio_stream_player_voice.stream = song.get_voice_stream()
-	song_name_label.text = song.get_visible_title()
-	if song.artist_alias != "":
-		author_label.text = song.artist_alias
-	else:
-		author_label.text = song.artist
-	difficulty_label.text = "[%s]" % difficulty
+
 	var chart_path = song.get_chart_path(difficulty)
 	var chart: HBChart
 	if song is HBPPDSong:
@@ -402,18 +393,6 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 		chart = HBChart.new()
 		chart.deserialize(result)
 	current_difficulty = difficulty
-	
-	var modifiers_string = PoolStringArray()
-
-	for modifier in modifiers:
-		var modifier_instance = modifier
-		modifier_instance._init_plugin()
-		modifier_instance._pre_game(song, self)
-		modifiers_string.append(modifier_instance.get_modifier_list_name())
-	if modifiers.size() > 0:
-		modifiers_label.text = " - " + modifiers_string.join(" + ")
-	else:
-		modifiers_label.text = ""
 
 	set_chart(chart)
 	
@@ -428,9 +407,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 		if group is NoteGroup:
 			earliest_note_time = group.time
 			break
-	if current_song.allows_intro_skip and not disable_intro_skip:
-		if earliest_note_time / 1000.0 > current_song.intro_skip_min_time:
-			intro_skip_info_animation_player.play("appear")
+	if song.allows_intro_skip and not disable_intro_skip:
+		if earliest_note_time / 1000.0 > song.intro_skip_min_time:
 			_intro_skip_enabled = true
 		else:
 			Log.log(self, "Disabling intro skip")
@@ -445,6 +423,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = [], p
 		_song_volume = linear2db(song.volume)
 	audio_stream_player.volume_db = _song_volume
 	audio_stream_player_voice.volume_db = _song_volume
+	# todo: call ui on set song
+	game_ui._on_song_set(song, difficulty, assets, modifiers)
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
 
@@ -480,11 +460,11 @@ func _input(event):
 			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
 				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
 					_intro_skip_enabled = false
-					intro_skip_info_animation_player.play("disappear")
-					intro_skip_ff_animation_player.play("animate")
+
 					play_from_pos((earliest_note_time - INTRO_SKIP_MARGIN) / 1000.0)
 					# HACK: For note time precision
 					_process(0)
+					# call ui on intro skip
 					emit_signal("intro_skipped", time)
 	if event is InputEventAction:
 		# Note SFX
@@ -502,7 +482,7 @@ func _input(event):
 
 
 func _unhandled_input(event):
-	$Viewport.unhandled_input(event)
+	#$Viewport.unhandled_input(event)
 	# Slide hold release shenanigans
 	pass
 #	var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT]
@@ -527,8 +507,6 @@ func _unhandled_input(event):
 			for note_type in held_notes:
 				if event.action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 					hold_release()
-					# When you release a hold it disappears instantly
-					hold_indicator.disappear()
 					break
 
 			
@@ -569,10 +547,10 @@ func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		var drawer = get_note_drawer(notes_on_screen[i])
 		if drawer:
-			notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
+			game_ui.get_notes_node().remove_child(get_note_drawer(notes_on_screen[i]))
 			get_note_drawer(notes_on_screen[i]).free()
-	for note in notes_node.get_children():
-		notes_node.remove_child(note)
+	for note in game_ui.get_notes_node().get_children():
+		game_ui.get_notes_node().remove_child(note)
 		note.queue_free()
 	notes_on_screen = []
 	timing_point_to_drawer_map = {}
@@ -590,9 +568,9 @@ func play_sfx(player: AudioStreamPlayer):
 # plays note SFX automatically
 func play_note_sfx(slide = false):
 	if not slide:
-		play_sfx($HitEffect)
+		play_sfx(hit_effect_sfx_player)
 	else:
-		play_sfx($HitEffectSlide)
+		play_sfx(hit_effect_slide_sfx_player)
 
 # Connects multi notes to their respective master notes
 func hookup_multi_notes(notes: Array):
@@ -616,7 +594,7 @@ func create_note_drawer(timing_point: HBBaseNote):
 	note_drawer = timing_point.get_drawer().instance()
 	note_drawer.note_data = timing_point
 	note_drawer.game = self
-	notes_node.add_child(note_drawer)
+	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 	if timing_point is HBNoteData:
@@ -625,6 +603,22 @@ func create_note_drawer(timing_point: HBBaseNote):
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
+
+func set_game_ui(ui: HBRhythmGameUIBase):
+	game_ui = ui
+	ui.game = self
+	connect("note_judged", ui, "_on_note_judged")
+	connect("intro_skipped", ui, "_on_intro_skipped")
+	connect("max_hold", ui, "_on_max_hold")
+	connect("hold_score_changed", ui, "_on_hold_score_changed")
+	connect("show_slide_hold_score", ui, "_on_show_slide_hold_score")
+	connect("show_multi_hint", ui, "_on_show_multi_hint")
+	connect("hide_multi_hint", ui, "_on_hide_multi_hint")
+	connect("end_intro_skip_period", ui, "_on_end_intro_skip_period")
+	connect("score_added", ui, "_on_score_added")
+	connect("hold_released", ui, "_on_hold_released")
+	connect("hold_started", ui, "_on_hold_started")
+	connect("toggle_ui", ui, "_on_toggle_ui")
 
 func _process_note_group(group: NoteGroup):
 	var multi_notes = []
@@ -657,15 +651,8 @@ func _process_note_group(group: NoteGroup):
 				multi_notes.append(timing_point)
 	if multi_notes.size() > 1:
 		hookup_multi_notes(multi_notes)
-func hide_ui():
-	$UnderNotesUI/Control.hide()
-	$AboveNotesUI/Control.hide()
-	$Control.hide()
-	
-func show_ui():
-	$AboveNotesUI/Control.show()
-	$UnderNotesUI/Control.show()
-	$Control.show()
+func toggle_ui():
+	emit_signal("toggle_ui")
 	
 func _process(_delta):
 	_sfx_debounce_t += _delta
@@ -711,12 +698,12 @@ func _process(_delta):
 
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
-			hold_indicator.show_max_combo(MAX_HOLD)
-			hold_indicator.current_score = current_hold_score + MAX_HOLD
+			emit_signal("max_hold")
+			emit_signal("hold_score_changed", current_hold_score + MAX_HOLD)
 			add_hold_score(MAX_HOLD)
 			hold_release()
 		else:
-			hold_indicator.current_score = current_hold_score + accumulated_hold_score
+			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
 	# handles held slide hold chains
 	for ii in range(active_slide_hold_chains.size() - 1, -1, -1):
 		var chain = active_slide_hold_chains[ii]
@@ -745,7 +732,7 @@ func _process(_delta):
 					piece_drawer.show_note_hit_effect()
 					piece_drawer.emit_signal("note_removed")
 					piece_drawer.queue_free()
-					slide_hold_score_text.show_at_point(piece.position, chain.accumulated_score, chain.pieces.size() == 1)
+					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces.size() == 1)
 
 				chain.pieces.remove(i)
 		if chain_failed:
@@ -757,10 +744,10 @@ func _process(_delta):
 					drawer.queue_free()
 				chain.sfx_player.queue_free()
 				active_slide_hold_chains.remove(ii)
-				play_sfx($SlideChainFailSFX)
+				play_sfx(slide_chain_fail_sfx_player)
 		if chain.pieces.size() == 0:
 			chain.sfx_player.queue_free()
-			play_sfx($SlideChainSuccessSFX)
+			play_sfx(slide_chain_success_sfx_player)
 			active_slide_hold_chains.remove(ii)
 	# autoplay code
 	if Diagnostics.enable_autoplay or previewing:
@@ -817,16 +804,16 @@ func _process(_delta):
 		if new_closest_multi_notes.size() > 1:
 			if not new_closest_multi_notes[0] in closest_multi_notes:
 				closest_multi_notes = new_closest_multi_notes
-				multi_hint.show_notes(new_closest_multi_notes)
+				emit_signal("show_multi_hint", new_closest_multi_notes)
 #				hold_hint.show()
 		
 	if new_closest_multi_notes.size() < 2:
-		multi_hint.hide()
+		emit_signal("hide_multi_hint")
 		
 	closest_multi_notes = new_closest_multi_notes
 	if _intro_skip_enabled:
 		if time*1000.0 >= earliest_note_time - INTRO_SKIP_MARGIN:
-			intro_skip_info_animation_player.play("disappear")
+			emit_signal("end_intro_skip_period")
 			_intro_skip_enabled = false
 func set_current_combo(combo: int):
 	current_combo = combo
@@ -850,7 +837,6 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		for n in notes:
 			if n.note_type in held_notes:
 				hold_release()
-				hold_indicator.disappear()
 				break
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
@@ -858,7 +844,6 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 				audio_stream_player_voice.volume_db = -90
 			set_current_combo(0)
 			hold_release()
-			hold_indicator.disappear()
 		else:
 			set_current_combo(current_combo + notes_hit)
 			audio_stream_player_voice.volume_db = _song_volume
@@ -909,25 +894,8 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		for n in notes:
 			avg_pos += n.position
 		avg_pos = avg_pos / float(notes.size())
-		rating_label.show_rating()
-		rating_label.get_node("AnimationPlayer").play("rating_appear")
-		if not wrong:
-			rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement]))
-			rating_label.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement])
-			rating_label.text = judge.JUDGE_RATINGS.keys()[judgement]
-		else:
-			rating_label.add_color_override("font_color", Color(WRONG_COLOR))
-			rating_label.add_color_override("font_outline_modulate", WRONG_COLOR)
-			rating_label.text = judge.RATING_TO_WRONG_TEXT_MAP[judgement]
-		if current_combo > 1:
-			rating_label.text += " " + str(current_combo)
-		rating_label.rect_position = remap_coords(avg_pos) - rating_label.rect_size / 2
-		rating_label.rect_position.y -= 64
-		if not previewing:
-			rating_label.show()
-		else:
-			rating_label.hide()
-		var judgement_info = {"judgement": judgement, "target_time": notes[0].time, "time": int(time * 1000)}
+
+		var judgement_info = {"judgement": judgement, "target_time": notes[0].time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
 
 		emit_signal("note_judged", judgement_info)
 
@@ -950,7 +918,7 @@ func remove_note_from_screen(i, update_last_hit = true):
 							last_hit_index = nhi
 					var group = notes_on_screen[i].get_meta("group")
 					group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
-		notes_node.remove_child(get_note_drawer(notes_on_screen[i]))
+		game_ui.get_notes_node().remove_child(get_note_drawer(notes_on_screen[i]))
 		notes_on_screen.remove(i)
 
 # Used by editor to reset hit notes and allow them to appear again
@@ -985,14 +953,13 @@ func restart():
 	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
 	audio_stream_player_voice.volume_db = _song_volume
 	set_current_combo(0)
-	rating_label.hide()
 	time = current_song.start_time / 1000.0
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	reset_hit_notes()
+	# on game restart
 
 func play_from_pos(position: float):
-	print("PLAY FROM POS")
 	audio_stream_player.stream_paused = false
 	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()
@@ -1030,8 +997,7 @@ func delete_rogue_notes(pos_override = null):
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
-		score_counter.score = result.score
-		clear_bar.value = result.get_capped_score()
+		emit_signal("score_added", score_to_add)
 
 
 func add_hold_score(score_to_add):
@@ -1060,6 +1026,7 @@ func hold_release():
 		accumulated_hold_score = 0
 		held_notes = []
 		current_hold_score = 0
+	emit_signal("hold_released")
 
 
 func start_hold(note_type):
@@ -1070,5 +1037,5 @@ func start_hold(note_type):
 	current_hold_score = 0
 	current_hold_start_time = time
 	held_notes.append(note_type)
-	hold_indicator.current_holds = held_notes
-	hold_indicator.appear()
+	emit_signal("hold_started", held_notes)
+	

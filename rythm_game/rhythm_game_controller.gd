@@ -10,7 +10,7 @@ const ROLLBACK_TIME = 1.3 # Rollback time after pausing and unpausing
 var rollback_on_resume = false
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var fade_in_tween = get_node("FadeInTween")
-onready var game : HBRhythmGame = get_node("RhythmGame")
+onready var game : HBRhythmGame
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
@@ -31,14 +31,22 @@ signal fade_out_finished(game_info)
 signal user_quit()
 
 func _ready():
-	set_game_size()
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
+	
+	game = HBRhythmGame.new()
+	add_child(game)
+	
+	game.set_game_ui($RhythmGame)
+	
 	DownloadProgress.holding_back_notifications = true
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
 	game.connect("intro_skipped", self, "_on_intro_skipped")
 	set_process(false)
+	set_game_size()
+	
+	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 
 func _on_intro_skipped(new_time):
 	video_player.stream_position = new_time
@@ -46,7 +54,7 @@ func _on_intro_skipped(new_time):
 func _fade_in_done():
 	video_player.paused = false
 	video_player.show()
-	$RhythmGame.play_song()
+	game.play_song()
 	$FadeIn.hide()
 	# HACK HACK: This makes sync very good and makes it effectively target 0
 	# this is why we do a single game cycle, to get the timing right
@@ -99,8 +107,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var image_texture = ImageTexture.new()
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
-	$RhythmGame.disable_intro_skip = disable_intro_skip
-	$RhythmGame.set_song(song, difficulty, null, modifiers, true)
+	game.disable_intro_skip = disable_intro_skip
+	game.set_song(song, difficulty, null, modifiers, true)
 	$Node2D/Panel.hide()
 	
 #	if allow_modifiers:3
@@ -160,11 +168,13 @@ func rescale_video_player():
 		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
 
 func set_game_size():
-	$RhythmGame.size = rect_size
+	game.size = rect_size
 	$Node2D/Visualizer.rect_size = rect_size
 	#$Node2D/VHS.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
+	print("RECT SIZE", rect_size)
+	$RhythmGame.rect_size = rect_size
 	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
@@ -172,7 +182,7 @@ func _on_resumed():
 	$PauseMenu.hide()
 	set_process(true)
 	if not rollback_on_resume:
-		$RhythmGame.play_from_pos(game.time)
+		game.play_from_pos(game.time)
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
@@ -193,7 +203,7 @@ func _unhandled_input(event):
 				if not pause_disabled:
 					_on_paused()
 					video_player.paused = true
-					$RhythmGame.pause_game()
+					game.pause_game()
 				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
@@ -265,8 +275,7 @@ func _on_PauseMenu_quit():
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	_on_resumed()
-
-
+	
 func _on_PauseMenu_restarted():
 	var modifiers = []
 	for modifier_id in current_game_info.modifiers:
