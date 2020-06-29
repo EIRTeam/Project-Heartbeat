@@ -366,6 +366,7 @@ func set_chart(chart: HBChart):
 	_set_timing_points(tp)
 	# Find slide hold chains
 	active_slide_hold_chains = []
+	result.max_score = chart.get_max_score()
 	game_ui._on_chart_set(chart)
 
 
