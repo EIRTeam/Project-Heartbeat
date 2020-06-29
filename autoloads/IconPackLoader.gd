@@ -20,6 +20,9 @@ const DIRECTIONAL_TYPES_PROPERTY_MAP = {
 }
 
 func _ready():
+	pass
+	
+func _init_icon_pack_loader():
 	load_all_icon_packs()
 	# Todo use default if pack doesn't exist
 	set_current_pack(UserSettings.user_settings.icon_pack)

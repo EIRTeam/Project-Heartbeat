@@ -9,10 +9,12 @@ var initial_load_done = false
 const SONGS_PATH = "res://songs"
 
 const SONG_SCORES_PATH = "user://scores.json"
-const PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
-var ppd_youtube_url_list = {}
+
 const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme"]
 var scores = {}
+
+# Contains song loaders in a dict key:loader
+var song_loaders = {}
 
 func _ready():
 	var dir := Directory.new()
@@ -26,9 +28,8 @@ func _ready():
 					Log.log(self, "Error creating songs directory with error %s at %s" % [str(err), songs_path])
 		else:
 			Log.log(self, "Error opening folder to create songs folder with error %s at %s" %  [str(o_err), dir_name])
-	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
-		load_ppd_youtube_url_list()
-	load_all_songs_async()
+
+#	load_all_songs_async()
 	
 func load_song_meta(path: String, id: String) -> HBSong:
 	var file = File.new()
@@ -47,30 +48,6 @@ func load_song_meta(path: String, id: String) -> HBSong:
 	else:
 		Log.log(self, "Error loading song: %s with error %d" % [path, err], Log.LogLevel.ERROR)
 	file.close()
-	return null
-	
-func load_ppd_song_meta(path: String, id: String) -> HBSong:
-	var file = File.new()
-	if file.open(path, File.READ) == OK:
-		var txt = file.get_as_text()
-		var song = HBPPDSong.from_ini(txt, id)
-		song.id = id
-		song.path = path.get_base_dir()
-		if id in ppd_youtube_url_list:
-			song.youtube_url = ppd_youtube_url_list[id]
-		# Audio file discovery
-		var dir := Directory.new()
-		if dir.open(song.path) == OK:
-			dir.list_dir_begin()
-			var dir_name = dir.get_next()
-			while dir_name != "":
-				if not dir.current_is_dir():
-					if dir_name.ends_with(".ogg"):
-						song.audio = dir_name
-						break
-				dir_name = dir.get_next()
-		
-		return song
 	return null
 	
 func difficulty_sort(a: String, b: String):
@@ -97,21 +74,16 @@ func load_songs_from_path(path):
 
 		while dir_name != "":
 			if dir.current_is_dir() and not dir_name.begins_with("."):
-				var song_json_path = path + "/%s/song.json" % dir_name
-				var song_ppd_ini_path = path + "/%s/data.ini" % dir_name
 				var file = File.new()
 				var song_meta : HBSong
 				var song_found = false
-				if file.file_exists(song_json_path):
-					song_meta = load_song_meta(song_json_path, dir_name)
-					if song_meta:
-						value[dir_name] = song_meta
-					song_found = true
-				elif file.file_exists(song_ppd_ini_path):
-					song_meta = load_ppd_song_meta(song_ppd_ini_path, dir_name)
-					if song_meta:
-						value[dir_name] = song_meta
-					song_found = true
+				for loader in song_loaders.values():
+					var song_meta_path = path + "/%s/%s" % [dir_name, loader.get_meta_file_name()]
+					if file.file_exists(song_meta_path):
+						song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
+						if song_meta:
+							value[dir_name] = song_meta
+						song_found = true
 				if not song_found:
 					Log.log(self, "Invalid song found in directory " + dir_name, Log.LogLevel.ERROR)
 						
@@ -164,22 +136,14 @@ func get_songs_with_difficulty(difficulty: String):
 		if song.charts.has(difficulty):
 			result.append(song)
 	return result
-	
-func load_ppd_youtube_url_list():
-	var file = File.new()
-	if file.open(PPD_YOUTUBE_URL_LIST_PATH, File.READ) == OK:
-		var result = JSON.parse(file.get_as_text()) as JSONParseResult
-		if result.error == OK:
-			ppd_youtube_url_list = result.result
-		else:
-			Log.log(self, "Error loading PPD URL list " + str(result.error))
 
-func save_ppd_youtube_url_list():
-	var file = File.new()
-	if file.open(PPD_YOUTUBE_URL_LIST_PATH, File.WRITE) == OK:
-		file.store_string(JSON.print(ppd_youtube_url_list))
+func add_song_loader(id: String, loader: SongLoaderImpl):
+	song_loaders[id] = loader
+	loader._init_loader()
 
-func set_ppd_youtube_url(song: HBSong, url: String):
-	ppd_youtube_url_list[song.id] = url
-	song.youtube_url = url
-	save_ppd_youtube_url_list()
+func get_song_loader(loader_name: String) -> SongLoaderImpl:
+	if song_loaders.has(loader_name):
+		return song_loaders[loader_name]
+	else:
+		Log.log(self, "Error finding song loader: %s" % [loader_name])
+		return null

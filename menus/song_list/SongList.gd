@@ -219,7 +219,9 @@ func _on_ppd_audio_file_selected(path: String):
 func _on_PPDAudioBrowseWindow_accept():
 	MouseTrap.ppd_dialog.ask_for_file()
 func _on_youtube_url_selected(url):
-	SongLoader.set_ppd_youtube_url(current_song, url)
+	var loader = SongLoader.get_song_loader("ppd") as SongLoaderPPD
+	if loader:
+		loader.set_ppd_youtube_url(current_song, url)
 	song_container.grab_focus()
 		
 func _on_video_downloading():
