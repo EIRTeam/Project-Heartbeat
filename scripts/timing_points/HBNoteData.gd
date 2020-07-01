@@ -1,6 +1,8 @@
 # Base class for modern-style notes
 extends HBBaseNote
 
+var drawer = load("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
+
 class_name HBNoteData
 
 var hold = false # If this is a modern-style hold note
@@ -13,7 +15,7 @@ func get_serialized_type():
 	
 # Gets the scene that takes care of drawing this note
 func get_drawer():
-	return load("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
+	return drawer
 
 static func can_show_in_editor():
 	return false
