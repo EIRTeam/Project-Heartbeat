@@ -108,7 +108,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
-	game.set_song(song, difficulty, null, modifiers, true)
+	game.set_song(song, difficulty, null, modifiers)
 	$Node2D/Panel.hide()
 	
 #	if allow_modifiers:3

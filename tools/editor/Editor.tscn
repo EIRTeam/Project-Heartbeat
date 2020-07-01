@@ -32,7 +32,8 @@
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
 [ext_resource path="res://songs/imademo_2012/imademo_2012.ogg" type="AudioStream" id=31]
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
-[ext_resource path="res://rythm_game/rhythm_game.gd" type="Script" id=33]
+[ext_resource path="res://rythm_game/RhythmGameHeartbeat.gd" type="Script" id=33]
+
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"

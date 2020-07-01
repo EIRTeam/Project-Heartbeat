@@ -219,10 +219,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBResult.gd"
 }, {
-"base": "Node",
+"base": "HBRhythmGameBase",
 "class": "HBRhythmGame",
 "language": "GDScript",
-"path": "res://rythm_game/rhythm_game.gd"
+"path": "res://rythm_game/RhythmGameHeartbeat.gd"
+}, {
+"base": "Node",
+"class": "HBRhythmGameBase",
+"language": "GDScript",
+"path": "res://rythm_game/RhythmGameBase.gd"
 }, {
 "base": "Control",
 "class": "HBRhythmGameUIBase",
@@ -308,6 +313,11 @@ _global_script_classes=[ {
 "class": "MPPlayer",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/MPPlayer.gd"
+}, {
+"base": "Reference",
+"class": "NoteGroup",
+"language": "GDScript",
+"path": "res://rythm_game/NoteGroup.gd"
 }, {
 "base": "Reference",
 "class": "PPDEVDFile",
@@ -423,6 +433,7 @@ _global_script_class_icons={
 "HBResourceQueue": "",
 "HBResult": "",
 "HBRhythmGame": "",
+"HBRhythmGameBase": "",
 "HBRhythmGameUIBase": "",
 "HBScrollList": "",
 "HBSerializable": "",
@@ -440,6 +451,7 @@ _global_script_class_icons={
 "HBUtils": "",
 "HBVersion": "",
 "MPPlayer": "",
+"NoteGroup": "",
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
