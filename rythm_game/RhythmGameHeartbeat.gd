@@ -166,9 +166,9 @@ func _game_ready():
 	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "SlideSFX")
 	double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "SlideSFX")
 func set_chart(chart: HBChart):
-	.set_chart(chart)
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
+	.set_chart(chart)
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	.set_song(song, difficulty, assets, modifiers)
