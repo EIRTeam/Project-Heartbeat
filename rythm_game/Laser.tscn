@@ -1,20 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://rythm_game/Laser.gd" type="Script" id=1]
-[ext_resource path="res://graphics/laser_back.png" type="Texture" id=2]
 
 [node name="Laser" type="Node2D"]
 script = ExtResource( 1 )
 frequency = 3.0
 timescale = 2.0
-
-[node name="LineGlow" type="Line2D" parent="."]
-width = 20.0
-default_color = Color( 0.0196078, 0.403922, 1, 1 )
-texture = ExtResource( 2 )
-texture_mode = 2
-
-[node name="Line2D" type="Line2D" parent="."]
-width = 3.0
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true

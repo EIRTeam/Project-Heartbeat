@@ -2,49 +2,47 @@ extends Node2D
 
 const LASER_RES = 16
 
-var positions = []
+var positions = [] setget set_positions
+var line_2ds = []
 
 export(float) var phase_shift = 0.0
 export(float) var frequency = 5.0
 export(float) var timescale = 1.0
-
+var width_scale = 1.0 setget set_width_scale
 var t = 0.0
 
 export(Color) var color = Color("#0567ff") setget set_color
 
 func set_color(val):
 	color = val
-	$LineGlow.default_color = val
 	
 func _ready():
 	set_color(color)
 
-
-# Interpolates from a to b along a sine wave
-static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequency: float, value: float, phase_shift_angle: float = 0.0) -> Vector2:
-	var dist = (from - to).length()
-	var period = 1/frequency
-	var phase_shift = (phase_shift_angle/180.0)*(period)
-	if dist != 0:
-		var t = value * dist
-		var x = t
-		var angle = from.angle_to_point(to)
-		var y = amplitude * sin((((t/dist) + phase_shift)*(PI*frequency)))
-		var xp = (x * cos(angle)) - (y * sin(angle))
-		var yp = (x * sin(angle)) + (y * cos(angle))
-		return from-Vector2(xp, yp)
-	else:
-		return to
+func set_positions(val):
+	positions = val
+	while line_2ds.size() < positions.size():
+		var line_2d = Line2D.new()
+		line_2d.texture = preload("res://graphics/multi_line.png")
+		line_2d.points = PoolVector2Array([Vector2.ZERO, Vector2.ZERO])
+		line_2d.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+		
+		line_2d.default_color = Color.white
+		line_2d.material = preload("res://rythm_game/Laser_material.tres")
+		add_child(line_2d)
+		line_2ds.append(line_2d)
+		
+func set_width_scale(val):
+	for line in line_2ds:
+		line.width = 30 * val
 	
 func _process(delta):
 	t += delta
-	var new_points = PoolVector2Array()
 	for i in range(positions.size()):
 		if i < positions.size()-1:
 			var current_position = positions[i]
 			var target_position = positions[i+1]
-			for laser_i in range(LASER_RES+1):
-				new_points.append(sin_pos_interp(current_position, target_position, 5, frequency, laser_i/float(LASER_RES), phase_shift + t*360 * timescale))
-	$LineGlow.points = new_points
-	$Line2D.points = new_points
-	
+			var line_2d = line_2ds[i] as Line2D
+			line_2d.set_point_position(0, current_position)
+			line_2d.set_point_position(1, target_position)
+

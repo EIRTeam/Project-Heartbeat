@@ -241,7 +241,6 @@ func _handle_unhandled_input(event):
 func _on_game_time_changed(time: float):
 	if not is_queued_for_deletion():
 		._on_game_time_changed(time)
-		update_graphic_positions_and_scale(time)
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
@@ -266,6 +265,7 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
+		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():
 	return note_graphic
