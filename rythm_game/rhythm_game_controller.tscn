@@ -246,6 +246,5 @@ margin_bottom = 409.0
 texture = ExtResource( 8 )
 stretch_mode = 6
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]
-[connection signal="restarted" from="PauseMenu" to="RhythmGame" method="restart"]
 [connection signal="restarted" from="PauseMenu" to="." method="_on_PauseMenu_restarted"]
 [connection signal="resumed" from="PauseMenu" to="." method="_on_resumed"]

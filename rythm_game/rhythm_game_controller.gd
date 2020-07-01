@@ -14,7 +14,7 @@ onready var game : HBRhythmGame
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
-
+onready var pause_menu = get_node("PauseMenu")
 var pause_disabled = false
 var last_pause_time = 0.0
 var pause_menu_disabled = false
@@ -43,6 +43,8 @@ func _ready():
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
 	game.connect("intro_skipped", self, "_on_intro_skipped")
+	pause_menu.connect("restarted", game, "restart")
+	
 	set_process(false)
 	set_game_size()
 	
