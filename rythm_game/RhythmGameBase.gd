@@ -538,8 +538,6 @@ func remap_coords(coords: Vector2):
 	coords.x = (size.x - playing_field_size.x) * 0.5 + pos.x
 	coords.y = pos.y
 	return coords
-
-
 func inv_map_coords(coords: Vector2):
 	var x = (coords.x - ((size.x - playing_field_size.x) / 2.0)) / playing_field_size.x * BASE_SIZE.x
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y

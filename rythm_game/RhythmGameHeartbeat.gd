@@ -79,29 +79,16 @@ func _precalculate_note_trail(note_data: HBBaseNote):
 	var offset = -note_data.position
 	
 	var time_out = note_data.get_time_out(get_bpm_at_time(note_data.time))
-	if note_data is HBSustainNote:
-		for i in range(TRAIL_RESOLUTION):
-			var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
-			var t = (t_trail_time / time_out) * 2.25
-			t = t - 0.25
-	
-			var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
-			var point1 = point1_internal + offset
-			
-			points.set(TRAIL_RESOLUTION - i - 1, point1)
-	else:
-		for i in range(TRAIL_RESOLUTION):
-			var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
-			var t = (t_trail_time / time_out) * 2.25
-			t = t - 0.25
-	
-			var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude * 1.25, note_data.distance)
-			var point1 = point1_internal + offset
-			var point2 = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle , note_data.oscillation_frequency, note_data.oscillation_amplitude * 0.75, note_data.distance) + offset
-			
-			points.set(TRAIL_RESOLUTION - i - 1, point1)
-			points2.set(TRAIL_RESOLUTION - i - 1, point2)
-	return {"points1": points, "points2": points2 }
+	for i in range(TRAIL_RESOLUTION):
+		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
+		var t = (t_trail_time / time_out) * 2.25
+		t = t - 0.25
+
+		var point1_internal = HBUtils.calculate_note_sine(1.0 - t, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+		var point1 = point1_internal + offset
+		
+		points.set(TRAIL_RESOLUTION - i - 1, point1)
+	return {"points1": points}
 
 func get_note_trail_points(note_data: HBBaseNote):
 	if note_data in precalculated_note_trails:
@@ -386,7 +373,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if n.is_slide_note():
 				if n in slide_hold_chains:
 					if not wrong and judgement >= judge.JUDGE_RATINGS.FINE:
-						var hold_player = $SlideChainLoopSFX.duplicate()
+						var hold_player = slide_chain_loop_sfx_player.duplicate()
 						add_child(hold_player)
 						hold_player.play()
 						hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
@@ -394,7 +381,6 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 						var active_hold_chain = slide_hold_chains[n] as HBChart.SlideChain
 						active_hold_chain.sfx_player = hold_player
 						active_slide_hold_chains.append(active_hold_chain)
-						print("ACTIVATING SLIDE CHAIN")
 					else:
 						# kill slide and younglings if we failed
 						for piece in slide_hold_chains[n].pieces:

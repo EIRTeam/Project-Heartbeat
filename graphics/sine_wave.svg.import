@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/sine_wave.svg-49ad6a3170066763aa67a56a13f550d2.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://graphics/sine_wave.svg"
+dest_files=[ "res://.import/sine_wave.svg-49ad6a3170066763aa67a56a13f550d2.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=1
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=0.265

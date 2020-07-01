@@ -104,7 +104,7 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
-			game.add_child(particles)
+			game.game_ui.get_notes_node().add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
 	else:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
