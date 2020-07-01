@@ -475,13 +475,14 @@ func get_note_drawer(timing_point):
 	
 # Plays the provided sfx creating a clone of an audio player (maybe we should
 # use the AudioServer for this...
-func play_sfx(player: AudioStreamPlayer):
-	if _sfx_debounce_t > SFX_DEBOUNCE_TIME:
+func play_sfx(player: AudioStreamPlayer, debounce_enabled = true):
+	if _sfx_debounce_t > SFX_DEBOUNCE_TIME or not debounce_enabled:
 		var new_player := player.duplicate() as AudioStreamPlayer
 		add_child(new_player)
 		new_player.play(0)
 		new_player.connect("finished", new_player, "queue_free")
 		_sfx_debounce_t = 0.0
+		sfx_player_queue.append(new_player)
 		
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):

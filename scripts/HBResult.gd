@@ -51,7 +51,6 @@ enum RESULT_RATING {
 }
 
 func get_percentage():
-	print("CAPPED", max_score)
 	return get_capped_score()/max_score
 # Capped score is the score with the capped hold and slide bonuses
 # used for computing percentage

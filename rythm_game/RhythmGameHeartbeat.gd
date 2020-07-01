@@ -45,6 +45,7 @@ var hit_effect_slide_sfx_player: AudioStreamPlayer
 var slide_chain_loop_sfx_player: AudioStreamPlayer
 var slide_chain_success_sfx_player: AudioStreamPlayer
 var slide_chain_fail_sfx_player: AudioStreamPlayer
+var double_note_sfx_player: AudioStreamPlayer
 
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
@@ -176,7 +177,7 @@ func _game_ready():
 	slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "SlideSFX")
 	slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "SlideSFX")
 	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "SlideSFX")
-
+	double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "SlideSFX")
 func set_chart(chart: HBChart):
 	.set_chart(chart)
 	slide_hold_chains = chart.get_slide_hold_chains()
@@ -403,6 +404,11 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 								piece_drawer.queue_free()
 								# It's not shitty if it works
 								piece.set_meta("ignored", true)
+	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
+		var old_player = sfx_player_queue.pop_back()
+		old_player.queue_free()
+		remove_child(old_player)
+		play_sfx(double_note_sfx_player, false)
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
