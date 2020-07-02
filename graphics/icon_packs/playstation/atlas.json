@@ -1,0 +1,300 @@
+{
+  "frames": {
+    "Triangle_target.png": {
+      "frame": { "x": 3, "y": 1, "w": 128, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 3, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_sustain.png": {
+      "frame": { "x": 1, "y": 129, "w": 128, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 3, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_multi_note_target.png": {
+      "frame": { "x": 1, "y": 257, "w": 128, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 3, "w": 128, "h": 128 },
+      "sourceSize": { "w": 128, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_target.png": {
+      "frame": { "x": 1, "y": 385, "w": 116, "h": 126 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 1, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 126 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_sustain.png": {
+      "frame": { "x": 121, "y": 385, "w": 116, "h": 126 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 1, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 126 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_multi_note_target.png": {
+      "frame": { "x": 133, "y": 129, "w": 116, "h": 126 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 1, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 126 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_target.png": {
+      "frame": { "x": 135, "y": 1, "w": 116, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_sustain.png": {
+      "frame": { "x": 241, "y": 259, "w": 116, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_target.png": {
+      "frame": { "x": 241, "y": 387, "w": 122, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 122, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_sustain.png": {
+      "frame": { "x": 253, "y": 129, "w": 122, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 122, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_multi_note_target.png": {
+      "frame": { "x": 255, "y": 1, "w": 116, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 6, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 116, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_multi_note_target.png": {
+      "frame": { "x": 375, "y": 1, "w": 122, "h": 124 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 3, "y": 2, "w": 128, "h": 128 },
+      "sourceSize": { "w": 122, "h": 124 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_hold_target.png": {
+      "frame": { "x": 379, "y": 129, "w": 108, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 10, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 108, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_sustain_target.png": {
+      "frame": { "x": 379, "y": 225, "w": 108, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 10, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 108, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_sustain_target.png": {
+      "frame": { "x": 133, "y": 259, "w": 98, "h": 96 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 15, "y": 16, "w": 128, "h": 128 },
+      "sourceSize": { "w": 98, "h": 96 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_hold_target.png": {
+      "frame": { "x": 367, "y": 321, "w": 98, "h": 96 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 15, "y": 16, "w": 128, "h": 128 },
+      "sourceSize": { "w": 98, "h": 96 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_multi_note.png": {
+      "frame": { "x": 367, "y": 421, "w": 98, "h": 84 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 15, "y": 21, "w": 128, "h": 128 },
+      "sourceSize": { "w": 98, "h": 84 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_sustain_target.png": {
+      "frame": { "x": 1, "y": 515, "w": 96, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 16, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 96, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_hold_target.png": {
+      "frame": { "x": 1, "y": 611, "w": 96, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 16, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 96, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_sustain_target.png": {
+      "frame": { "x": 1, "y": 707, "w": 96, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 16, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 96, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_hold_target.png": {
+      "frame": { "x": 1, "y": 803, "w": 96, "h": 92 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 16, "y": 18, "w": 128, "h": 128 },
+      "sourceSize": { "w": 96, "h": 92 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle.png": {
+      "frame": { "x": 1, "y": 899, "w": 96, "h": 82 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 16, "y": 22, "w": 128, "h": 128 },
+      "sourceSize": { "w": 96, "h": 82 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross_multi_note.png": {
+      "frame": { "x": 101, "y": 515, "w": 88, "h": 88 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 20, "y": 20, "w": 128, "h": 128 },
+      "sourceSize": { "w": 88, "h": 88 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Cross.png": {
+      "frame": { "x": 101, "y": 607, "w": 86, "h": 86 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 21, "y": 21, "w": 128, "h": 128 },
+      "sourceSize": { "w": 86, "h": 86 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle_multi_note.png": {
+      "frame": { "x": 101, "y": 697, "w": 82, "h": 82 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 23, "y": 23, "w": 128, "h": 128 },
+      "sourceSize": { "w": 82, "h": 82 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square_multi_note.png": {
+      "frame": { "x": 101, "y": 783, "w": 82, "h": 82 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 23, "y": 23, "w": 128, "h": 128 },
+      "sourceSize": { "w": 82, "h": 82 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Square.png": {
+      "frame": { "x": 101, "y": 869, "w": 80, "h": 80 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 24, "y": 24, "w": 128, "h": 128 },
+      "sourceSize": { "w": 80, "h": 80 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Circle.png": {
+      "frame": { "x": 185, "y": 869, "w": 80, "h": 80 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 24, "y": 24, "w": 128, "h": 128 },
+      "sourceSize": { "w": 80, "h": 80 },
+      "pivot": { "x": 64, "y": 64 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 128, "h": 128 }
+    },
+    "Triangle_small.png": {
+      "frame": { "x": 101, "y": 953, "w": 46, "h": 41 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 9, "y": 11, "w": 64, "h": 64 },
+      "sourceSize": { "w": 46, "h": 41 },
+      "pivot": { "x": 32, "y": 32 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 64, "h": 64 }
+    },
+    "Cross_small.png": {
+      "frame": { "x": 151, "y": 953, "w": 42, "h": 42 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 11, "y": 11, "w": 64, "h": 64 },
+      "sourceSize": { "w": 42, "h": 42 },
+      "pivot": { "x": 32, "y": 32 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 64, "h": 64 }
+    },
+    "Square_small.png": {
+      "frame": { "x": 197, "y": 953, "w": 40, "h": 40 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 12, "y": 12, "w": 64, "h": 64 },
+      "sourceSize": { "w": 40, "h": 40 },
+      "pivot": { "x": 32, "y": 32 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 64, "h": 64 }
+    },
+    "Circle_small.png": {
+      "frame": { "x": 241, "y": 953, "w": 40, "h": 40 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 12, "y": 12, "w": 64, "h": 64 },
+      "sourceSize": { "w": 40, "h": 40 },
+      "pivot": { "x": 32, "y": 32 },
+      "9slicedFrame": { "x": 0, "y": 0, "w": 64, "h": 64 }
+    }
+  },
+  "meta": {
+    "app": "atlasify https://github.com/soimy/atlasify#readme",
+    "version": "0.3.0",
+    "image": "atlas.png",
+    "format": "RGBA8888",
+    "size": { "w": 1024, "h": 1024 },
+    "scale": 1
+  }
+}

@@ -8,14 +8,14 @@ func _ready():
 	get_viewport().connect("size_changed", self, "_on_view_port_size_changed")
 func set_texture():
 	if data is HBSustainNote:
-		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).sustain_note
+		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
 	elif data is HBDoubleNote or data is HBSustainNote:
-		$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).double_note
+		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "double_note")
 	else:
 		if data.is_slide_hold_piece():
-			$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).target
+			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "target")
 		else:
-			$TextureRect.texture = HBNoteData.get_note_graphics(data.note_type).note
+			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "note")
 	$TextureRect.rect_size = Vector2(get_size().y, get_size().y)
 	$TextureRect.rect_position = Vector2(-get_size().y / 2, 0)
 func get_size():

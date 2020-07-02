@@ -99,7 +99,7 @@ func get_input_map():
 				if event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey:
 					map[action_name].append(event)
 	return map
-func _ready():
+func _init_user_settings():
 	
 	base_input_map = get_input_map()
 	load_user_settings()
@@ -167,6 +167,7 @@ func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
 	Engine.target_fps = int(user_settings.fps_limit)
+	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	set_volumes()
 func _process(delta):
 	if debouncing:

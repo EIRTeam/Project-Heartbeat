@@ -33,7 +33,7 @@ func _ready():
 	for type_name in HBNoteData.NOTE_TYPE:
 		var texture_rect = TextureRect.new()
 		texture_rect.expand = true
-		texture_rect.texture = IconPackLoader.get_variations(type_name).note
+		texture_rect.texture = IconPackLoader.get_graphic(type_name, "note")
 		texture_rect.rect_min_size = Vector2(35, 35)
 		texture_rect.show()
 		hold_note_icons_container.add_child(texture_rect)

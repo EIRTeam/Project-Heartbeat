@@ -18,3 +18,4 @@ func _game_init():
 	YoutubeDL._init_ytdl()
 
 	IconPackLoader._init_icon_pack_loader()
+	UserSettings._init_user_settings()

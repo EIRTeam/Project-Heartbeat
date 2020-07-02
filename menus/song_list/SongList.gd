@@ -65,8 +65,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		# We ensure the current sort mode is selected by default
 		if sort_by == UserSettings.user_settings.sort_mode:
 			sort_by_list_container.select_button(button.get_position_in_parent())
-	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
-	fav_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+	sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
+	fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()

@@ -29,8 +29,8 @@ func set_game(new_game):
 
 func _ready():
 	rating_label.hide()
-	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
-	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
+	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_graphic("LEFT", "note")
+	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_graphic("UP", "note")
 	connect("resized", self, "_on_size_changed")
 func _on_note_judged(judgement_info):
 	latency_display._on_note_judged(judgement_info)
