@@ -93,6 +93,9 @@ func _game_ready():
 	add_child(audio_stream_player_voice)
 	
 	audio_stream_player.connect("finished", self, "_on_game_finished")
+	
+	pause_mode = Node.PAUSE_MODE_STOP
+
 func _ready():
 	_game_ready()
 
