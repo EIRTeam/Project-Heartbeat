@@ -32,6 +32,7 @@ func _ready():
 	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	$UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer/TextureRect2.texture = IconPackLoader.get_graphic("UP", "note")
 	connect("resized", self, "_on_size_changed")
+	call_deferred("_on_size_changed")
 func _on_note_judged(judgement_info):
 	latency_display._on_note_judged(judgement_info)
 	rating_label.show_rating()
