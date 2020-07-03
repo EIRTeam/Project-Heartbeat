@@ -47,6 +47,7 @@ func set_song(song: HBSong):
 		voice_audio_stream_player.volume_db = -100
 
 func pause():
+	game.kill_active_slide_chains()
 	game.reset_hit_notes()
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80

@@ -150,21 +150,24 @@ func _process_timing_points_into_groups(points):
 				last_notes.append(point)
 	return timing_points_grouped
 	
-func _set_timing_points(points):
-	
+func kill_active_slide_chains():
 	for chain in active_slide_hold_chains:
 		chain.sfx_player.queue_free()
 	active_slide_hold_chains = []
+	delete_rogue_notes()
+func _set_timing_points(points):
+	kill_active_slide_chains()
+
 	._set_timing_points(points)
 	
 func _game_ready():
 	._game_ready()
 	hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
 	hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
-	slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "SlideSFX")
-	slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "SlideSFX")
-	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "SlideSFX")
-	double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "SlideSFX")
+	slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
+	slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
+	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
+	double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
@@ -414,18 +417,20 @@ func delete_rogue_notes(pos_override = null):
 	if pos_override:
 		pos = pos_override
 	var notes_to_remove = []
-	for i in range(timing_points.size() - 1, -1, -1):
-		var chain_starter = timing_points[i]
-		if chain_starter is HBSustainNote:
-			if chain_starter.time < pos_override * 1000.0:
-				notes_to_remove.append(chain_starter)
-		elif chain_starter is HBNoteData:
-			if chain_starter.time < pos_override * 1000.0:
-				if chain_starter.is_slide_note():
-					if chain_starter in slide_hold_chains:
+	for i in range(notes_on_screen.size() - 1, -1, -1):
+		if notes_on_screen[i] is HBBaseNote:
+			var group = notes_on_screen[i].get_meta("group") as NoteGroup
+			for chain_starter in group.notes:
+				if chain_starter is HBSustainNote:
+					if chain_starter.time < pos * 1000.0:
 						notes_to_remove.append(chain_starter)
-						var pieces = slide_hold_chains[chain_starter].pieces
-						notes_to_remove += pieces
+				elif chain_starter is HBNoteData:
+					if chain_starter.time < pos * 1000.0:
+						if chain_starter.is_slide_note():
+							if chain_starter in slide_hold_chains:
+								notes_to_remove.append(chain_starter)
+								var pieces = slide_hold_chains[chain_starter].pieces
+								notes_to_remove += pieces
 	for note in notes_to_remove:
 		note.set_meta("ignored", true)
 		if note in notes_on_screen:
