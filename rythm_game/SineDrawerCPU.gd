@@ -8,7 +8,6 @@ var points: PoolVector2Array
 var points2: PoolVector2Array
 var points_leading: PoolVector2Array
 
-const TRAIL_RESOLUTION = 50
 var time_out
 var game
 

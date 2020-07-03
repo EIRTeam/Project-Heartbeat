@@ -15,8 +15,6 @@ var note_master = true setget set_note_master # Master notes take care of multi-
 
 const Laser = preload("res://rythm_game/Laser.tscn")
 
-const TRAIL_RESOLUTION = 19
-
 class JudgeInputResult:
 	var wrong = false
 	var has_rating = false

@@ -14,7 +14,7 @@ const LOG_NAME = "RhythmGameHeartbeat"
 const MAX_HOLD = 3300  # miliseconds
 const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
-const TRAIL_RESOLUTION = 80
+const TRAIL_RESOLUTION = 60
 
 # Number of slide hold pieces that are turned blue per second on slide chains
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
