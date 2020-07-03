@@ -42,6 +42,14 @@ func _on_apply_button_pressed():
 				var new_time = max(data.time + offset_value, 0)
 				undo_redo.add_do_property(data, "time", new_time)
 				undo_redo.add_undo_property(data, "time", data.time)
+				
+				if data is HBSustainNote:
+					var new_end_time = max(data.end_time + offset_value, 0)
+					undo_redo.add_do_property(data, "end_time", new_end_time)
+					undo_redo.add_undo_property(data, "end_time", data.end_time)
+					undo_redo.add_do_method(item, "sync_value", "end_time")
+					undo_redo.add_undo_method(item, "sync_value", "end_time")
+					
 			undo_redo.add_do_method(layer, "place_all_children")
 			undo_redo.add_undo_method(layer, "place_all_children")
 		undo_redo.add_do_method(_editor.inspector, "sync_visible_values_with_data")
