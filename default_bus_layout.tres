@@ -5,9 +5,11 @@ resource_name = "SpectrumAnalyzer"
 
 [sub_resource type="AudioEffectReverb" id=2]
 resource_name = "Reverb"
+predelay_msec = 100.0
 room_size = 0.6
-damping = 0.3
 hipass = 1.0
+dry = 0.25
+wet = 0.8
 
 [resource]
 bus/0/volume_db = -14.6228
