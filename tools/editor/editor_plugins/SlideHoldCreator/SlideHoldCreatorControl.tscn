@@ -57,5 +57,7 @@ suffix = "beats"
 margin_top = 92.0
 margin_right = 1280.0
 margin_bottom = 112.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Create Slide Hold Pieces"
 [connection signal="pressed" from="CreateButton" to="." method="_on_CreateButton_pressed"]
