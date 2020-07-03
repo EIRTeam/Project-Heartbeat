@@ -11,6 +11,11 @@ var rollback_on_resume = false
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var fade_in_tween = get_node("FadeInTween")
 onready var game : HBRhythmGame
+
+onready var game_ui_container = get_node("GameUIContainer")
+
+var game_ui: HBRhythmGameUIBase
+
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
@@ -37,8 +42,6 @@ func _ready():
 	game = HBRhythmGame.new()
 	add_child(game)
 	
-	game.set_game_ui($RhythmGame)
-	
 	DownloadProgress.holding_back_notifications = true
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
@@ -46,7 +49,6 @@ func _ready():
 	pause_menu.connect("restarted", game, "restart")
 	
 	set_process(false)
-	set_game_size()
 	
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 
@@ -87,6 +89,15 @@ func start_session(game_info: HBGameInfo):
 	
 	var song = SongLoader.songs[game_info.song_id] as HBSong
 	
+	var game_mode = HBGame.get_game_mode_for_song(song)
+	
+	if game_mode is HBGameMode:
+		game_ui = game_mode.get_ui().instance()
+		game_ui_container.add_child(game_ui)
+		game.set_game_ui(game_ui)
+	else:
+		Log.log(self, "Can't find game mode for song: %s" % [game_info.song_id], Log.LogLevel.ERROR)
+	
 	if not song.charts.has(game_info.difficulty):
 		Log.log(self, "Error starting session: Chart not found %s %s" % [game_info.song_id, game_info.difficulty])
 		return
@@ -99,6 +110,7 @@ func start_session(game_info: HBGameInfo):
 		modifiers.append(modifier)
 	set_song(song, game_info.difficulty, modifiers)
 	set_process(true)
+	set_game_size()
 
 func disable_restart():
 	$PauseMenu.disable_restart()
@@ -176,7 +188,7 @@ func set_game_size():
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
 	print("RECT SIZE", rect_size)
-	$RhythmGame.rect_size = rect_size
+	#game_.rect_size = rect_size
 	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():

@@ -109,6 +109,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBGameInfo.gd"
 }, {
+"base": "Reference",
+"class": "HBGameMode",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/HBGameMode.gd"
+}, {
+"base": "HBGameMode",
+"class": "HBHeartbeatGameMode",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/heartbeat/HBHeartbeatGameMode.gd"
+}, {
 "base": "Button",
 "class": "HBHovereableButton",
 "language": "GDScript",
@@ -410,6 +420,8 @@ _global_script_class_icons={
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
 "HBGameInfo": "",
+"HBGameMode": "",
+"HBHeartbeatGameMode": "",
 "HBHovereableButton": "",
 "HBINIParser": "",
 "HBJudge": "",
