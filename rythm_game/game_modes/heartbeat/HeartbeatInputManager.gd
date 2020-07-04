@@ -46,12 +46,11 @@ func _get_action_deadzone(action: String):
 	return deadzone
 func _get_analog_action_held_count(action):
 	var count = 0
-	if action in ANALOG_TO_DIGITAL_MAP.keys():
-			for device in last_axis_values:
-				if action in last_axis_values[device]:
-					for axis in last_axis_values[device][action]:
-						if last_axis_values[device][action][axis] >= _get_action_deadzone(action):
-							count += 1
+	for device in last_axis_values:
+		if action in last_axis_values[device]:
+			for axis in last_axis_values[device][action]:
+				if last_axis_values[device][action][axis] >= _get_action_deadzone(action):
+					count += 1
 	return count
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
@@ -72,26 +71,33 @@ func _input_received(event):
 			var event_pressed = false
 			
 			if event is InputEventJoypadMotion:
+				var analog_action = action
+				var digital_action = action
+				
+				if analog_action in ANALOG_TO_DIGITAL_MAP.keys():
+					digital_action = ANALOG_TO_DIGITAL_MAP[analog_action]
+				
 				if not last_axis_values.has(event.device):
 					last_axis_values[event.device] = {}
-				if not last_axis_values[event.device].has(action):
-					last_axis_values[event.device][action] = {}
-				if not last_axis_values[event.device][action].has(event.axis):
-					last_axis_values[event.device][action][event.axis] = 0.0
-				var last_value = last_axis_values[event.device][action][event.axis]
+				if not last_axis_values[event.device].has(digital_action):
+					last_axis_values[event.device][digital_action] = {}
+				if not last_axis_values[event.device][digital_action].has(event.axis):
+					last_axis_values[event.device][digital_action][event.axis] = 0.0
+				var last_value = last_axis_values[event.device][digital_action][event.axis]
 				
-				var was_axis_held_last_time = _is_axis_held(event.device, action, event.axis)
-				var was_action_held_last_time = is_action_held(ANALOG_TO_DIGITAL_MAP[action])
+				var was_axis_held_last_time = _is_axis_held(event.device, digital_action, event.axis)
+				var was_action_held_last_time = is_action_held(digital_action)
 
-				last_axis_values[event.device][action][event.axis] = event.get_action_strength(action)
-				var is_axis_held_now = _is_axis_held(event.device, action, event.axis)
+				last_axis_values[event.device][digital_action][event.axis] = event.get_action_strength(analog_action)
+				
+				var is_axis_held_now = _is_axis_held(event.device, digital_action, event.axis)
 				
 				if not was_axis_held_last_time and is_axis_held_now:
 					current_event = event
-					send_input(ANALOG_TO_DIGITAL_MAP[action], true)
-				if was_axis_held_last_time and not is_action_held(action):
+					send_input(digital_action, true)
+				if was_axis_held_last_time and not is_action_held(digital_action):
 					current_event = event
-					send_input(ANALOG_TO_DIGITAL_MAP[action], false)
+					send_input(digital_action, false)
 			else:
 				var button_i = -1
 				if event is InputEventKey:
