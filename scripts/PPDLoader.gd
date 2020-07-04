@@ -281,7 +281,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)
 					chart.layers[chart.get_layer_i(type)].timing_points.append(note_data)
 		# Chain slides
-		if note_type == PPDNoteType.ACFT and note is HBNoteData and note.has("end_time") and note_data.is_slide_note():
+		if note_type == PPDNoteType.ACFT and note_data is HBNoteData and note.has("end_time") and note_data.is_slide_note():
 			var ppd_scale = evd_file.get_slide_scale_at_time(note.time)
 
 			# This thing right here was provided by Blizzin, all issues caused by it should be forwarded
