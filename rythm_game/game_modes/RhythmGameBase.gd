@@ -428,7 +428,6 @@ func restart():
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	reset_hit_notes()
-	# on game restart
 
 			
 func _on_note_removed(note):

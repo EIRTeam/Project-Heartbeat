@@ -46,7 +46,6 @@ func _ready():
 
 	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
 	game.connect("intro_skipped", self, "_on_intro_skipped")
-	pause_menu.connect("restarted", game, "restart")
 	
 	set_process(false)
 	
@@ -300,7 +299,8 @@ func _on_PauseMenu_restarted():
 	last_pause_time = 0.0
 	var song = SongLoader.songs[current_game_info.song_id]
 	rollback_on_resume = false
-	set_song(song, current_game_info.difficulty, modifiers)
+	game.restart()
+	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)
 	game.editing = false

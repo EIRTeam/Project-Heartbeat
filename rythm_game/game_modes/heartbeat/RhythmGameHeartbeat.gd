@@ -406,6 +406,7 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.play()
 
 func restart():
+	kill_active_slide_chains()
 	.restart()
 	hold_release()
 
