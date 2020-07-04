@@ -305,8 +305,8 @@ func _process_game(_delta):
 					drawer.emit_signal("note_removed")
 					drawer.queue_free()
 				chain.sfx_player.queue_free()
-				active_slide_hold_chains.remove(ii)
 				play_sfx(slide_chain_fail_sfx_player)
+			active_slide_hold_chains.remove(ii)
 		if chain.pieces.size() == 0:
 			chain.sfx_player.queue_free()
 			play_sfx(slide_chain_success_sfx_player)

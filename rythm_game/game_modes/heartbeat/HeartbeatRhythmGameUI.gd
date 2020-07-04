@@ -96,7 +96,7 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 	for modifier in modifiers:
 		var modifier_instance = modifier
 		modifier_instance._init_plugin()
-		modifier_instance._pre_game(song, self)
+		modifier_instance._pre_game(song, game)
 		modifiers_string.append(modifier_instance.get_modifier_list_name())
 	if modifiers.size() > 0:
 		modifiers_label.text = " - " + modifiers_string.join(" + ")
