@@ -262,7 +262,7 @@ func _on_game_time_changed(time: float):
 		if note_data.can_be_judged():
 			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master and note_master:
 				for action in note_data.get_input_actions():
-					if (game.game_input_manager.is_action_pressed(action)) and game.game_input_manager.get_action_press_count(action) >= conn_notes.size():
+					if (game.game_input_manager.is_action_held(action)) and game.game_input_manager.get_action_press_count(action) >= conn_notes.size():
 						if time >= note_data.time / 1000.0:
 							emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.COOL, false)
 							for note in conn_notes:

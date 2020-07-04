@@ -10,6 +10,9 @@ func _ready():
 	game.size = rect_size
 	game.editing = true
 	game.set_game_ui(game_ui)
+	var input_manager = HeartbeatInputManager.new()
+	game.set_game_input_manager(input_manager)
+	input_manager.set_process_input(false)
 	game.toggle_ui()
 	connect("resized", self, "_on_resized")
 	

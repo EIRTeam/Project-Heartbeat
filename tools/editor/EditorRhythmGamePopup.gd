@@ -12,6 +12,7 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	rhythm_game.base_bpm = song.bpm
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
+	rhythm_game.game_input_manager.set_process_input(true)
 	rhythm_game.play_from_pos(time)
 	show()
 	set_game_size()
@@ -23,10 +24,12 @@ func _ready():
 	connect("resized", self, "set_game_size")
 	add_child(rhythm_game)
 	rhythm_game.set_game_ui(rhythm_game_ui)
-	rhythm_game.game_input_manager = HeartbeatInputManager.new()
+	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
+	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)
+	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.resume()
 	hide()
 	emit_signal("quit")
