@@ -171,6 +171,9 @@ func _game_ready():
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
+	_potential_result = HBResult.new()
+	_potential_result.max_score = chart.get_max_score()
+	print("MAX SCORE", chart.get_max_score())
 	.set_chart(chart)
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
@@ -358,10 +361,16 @@ func _process_game(_delta):
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong):
 	._on_notes_judged(notes, judgement, wrong)
+	
+	if not notes[0] is HBNoteData or (notes[0] is HBNoteData and not notes[0].is_slide_hold_piece()):
+		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
+			add_score(0)
+	
 	for n in notes:
 		if n.note_type in held_notes:
 			hold_release()
 			break
+
 	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 		hold_release()
 	else:
@@ -455,13 +464,28 @@ func reset_hit_notes():
 		chain_m.set_meta("ignored", false)
 		for piece in slide_hold_chains[chain_m].pieces:
 			piece.set_meta("ignored", false)
+			
+var _potential_result = HBResult.new()
+func get_potential_result():
+	return _potential_result
+
+func add_score(score_to_add):
+	if not previewing:
+		_potential_result.score += 1000.0
+	.add_score(score_to_add)
 func add_hold_score(score_to_add):
 	result.hold_bonus += score_to_add
+	_potential_result.hold_bonus += score_to_add
+	_potential_result.score -= 1000.0
+	_potential_result.score += score_to_add
 	add_score(score_to_add)
 
 
 func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add
+	_potential_result.slide_bonus += score_to_add
+	_potential_result.score += score_to_add
+	_potential_result.score -= 1000.0
 	add_score(score_to_add)
 
 func hold_release():

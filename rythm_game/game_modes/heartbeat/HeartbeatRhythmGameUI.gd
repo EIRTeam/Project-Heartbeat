@@ -67,6 +67,7 @@ func _on_size_changed():
 		$AboveNotesUI/Control.rect_size = game.size
 func _on_reset():
 	clear_bar.value = 0.0
+	clear_bar.potential_score = 0.0
 	score_counter.score = 0
 	rating_label.hide()
 func _on_chart_set(chart: HBChart):
@@ -124,6 +125,7 @@ func _on_max_hold():
 
 func _on_hold_score_changed(new_score: float):
 	hold_indicator.current_score = new_score
+	_update_clear_bar_value()
 	
 func _on_show_slide_hold_score(point: Vector2, score: float, show_max: bool):
 	slide_hold_score_text.show_at_point(point, score, show_max)
@@ -137,9 +139,23 @@ func _on_hide_multi_hint():
 func _on_end_intro_skip_period():
 	intro_skip_info_animation_player.play("disappear")
 
+func _update_clear_bar_value():
+	# HACK HACK HACHKs everyhwere
+	var res = game.result.clone()
+	var res_potential = game.get_potential_result().clone()
+	
+	res.hold_bonus += game.accumulated_hold_score + game.current_hold_score
+	res.score += game.accumulated_hold_score + game.current_hold_score
+	
+	res_potential.hold_bonus += game.accumulated_hold_score + game.current_hold_score
+	res_potential.score += game.accumulated_hold_score + game.current_hold_score
+	
+	clear_bar.value = res.get_capped_score()
+	clear_bar.potential_score = res_potential.get_capped_score()
+
 func _on_score_added(score):
 	score_counter.score = game.result.score
-	clear_bar.value = game.result.get_capped_score()
+	_update_clear_bar_value()
 	
 func _on_hold_started(holds):
 	hold_indicator.current_holds = holds

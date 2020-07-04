@@ -2,8 +2,8 @@
 extends HBSerializable
 
 class_name HBResult
-const MAX_SCORE_FROM_HOLD_BONUS = 0.075
-const MAX_SCORE_FROM_SLIDE_BONUS = 0.075
+const MAX_SCORE_FROM_HOLD_BONUS = 0.015
+const MAX_SCORE_FROM_SLIDE_BONUS = 0.015
 # Total score (includes hold_bonus and slide_bonus)
 var score = 0
 # Score from holds
