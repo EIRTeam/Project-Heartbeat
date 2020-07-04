@@ -11,7 +11,6 @@ func get_action_press_count(action):
 func is_action_held(action):
 	return false
 func send_input(action, pressed):
-	print("SENT AN INNPUT!! ", action, " ", pressed)
 	var a = InputEventAction.new()
 	a.action = action
 	a.pressed = pressed
