@@ -269,11 +269,13 @@ func _on_game_time_changed(time: float):
 								var drawer = game.get_note_drawer(note)
 								if drawer.note_data.is_auto_freed():
 									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL)
+									game.add_score(HBNoteData.NOTE_SCORES[game.judge.JUDGE_RATINGS.COOL])
 								else:
 									# The note is now on it's own
 									if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
 										game.connect("time_changed", drawer, "_on_game_time_changed")
 									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL, true)
+									game.add_score(HBNoteData.NOTE_SCORES[game.judge.JUDGE_RATINGS.COOL])
 							break
 			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
