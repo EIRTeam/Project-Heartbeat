@@ -43,7 +43,6 @@ func _draw():
 	$PercentageLabel.rect_size = Vector2(rect_size.x * (1.0-0.85), rect_size.y)
 func draw_rating_line(val, color=Color.white, height=10):
 	var val_r = round(potential_score) / max_value
-	print(potential_score)
 	var origin = Vector2(rect_size.x * (val_r * val), -height)
 	var end = Vector2(origin.x, rect_size.y)
 	draw_line(origin, end, color, 3)

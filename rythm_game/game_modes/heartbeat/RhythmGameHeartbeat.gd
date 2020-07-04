@@ -173,7 +173,6 @@ func set_chart(chart: HBChart):
 	active_slide_hold_chains = []
 	_potential_result = HBResult.new()
 	_potential_result.max_score = chart.get_max_score()
-	print("MAX SCORE", chart.get_max_score())
 	.set_chart(chart)
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):

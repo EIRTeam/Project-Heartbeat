@@ -168,8 +168,6 @@ func _handle_unhandled_input(event):
 								
 						var heart_bypass_hack = false
 							
-						print("ACT: ", found_input_action)
-							
 						# HACK: We ignore slide up and down to prevent the user
 						# from getting a wrong on slides accidentally, unless they have a heart note
 						if not note.note_type == HBBaseNote.NOTE_TYPE.HEART:
