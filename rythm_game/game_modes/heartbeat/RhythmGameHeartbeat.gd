@@ -190,9 +190,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 func _input(event):
 	if event is InputEventAction:
 		# Note SFX
-		for type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
+		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			var action_pressed = false
-			var actions = HBInput.NOTE_TYPE_TO_ACTIONS_MAP[type]
+			var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
 			for action in actions:
 				if event.action == action and event.pressed and not event.is_echo():
 					var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
@@ -207,7 +207,7 @@ func _unhandled_input(event):
 	if event is InputEventAction:
 		if not event.is_pressed() and not event.is_echo():
 			for note_type in held_notes:
-				if event.action in HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
+				if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
 					hold_release()
 					break
 
@@ -273,7 +273,7 @@ func _process_game(_delta):
 		var blue_notes = max(1, float(time - (chain.slide.time / 1000.0)) * BLUE_SLIDE_PIECES_PER_SECOND)
 		var direction_pressed = false
 		for action in slide.get_input_actions():
-			if HBInput.is_action_pressed(action) or HBTapHandler.is_action_held(action):
+			if game_input_manager.is_action_held(action):
 				direction_pressed = true
 				break
 		var chain_failed = false
@@ -321,7 +321,7 @@ func _process_game(_delta):
 		var actions_to_release = []
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
-			if note is HBBaseNote and note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
+			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
 					if time * 1000.0 > note.end_time:
 						actions_to_release.append(note.get_input_actions()[0])
@@ -340,17 +340,17 @@ func _process_game(_delta):
 			
 			
 			# Double note device emulation
-			HBInput.action_tracking[action] = {}
-			HBInput.action_tracking[action][-1] = {}
-			HBInput.action_tracking[action][-1][0] = true
-			HBInput.action_tracking[action][-1][1] = true
+			game_input_manager.digital_action_tracking[action] = {}
+			game_input_manager.digital_action_tracking[action][-1] = {}
+			game_input_manager.digital_action_tracking[action][-1][0] = true
+			game_input_manager.digital_action_tracking[action][-1][1] = true
 			a.action = action
 			
 			a.pressed = true
 			
 			Input.parse_input_event(a)
 			
-			HBInput.action_tracking[action] = {}
+			game_input_manager.digital_action_tracking[action] = {}
 
 
 

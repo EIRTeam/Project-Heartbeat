@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBGameInfo.gd"
 }, {
+"base": "Node",
+"class": "HBGameInputManager",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/HBGameInputManager.gd"
+}, {
 "base": "Reference",
 "class": "HBGameMode",
 "language": "GDScript",
@@ -117,7 +122,7 @@ _global_script_classes=[ {
 "base": "HBGameMode",
 "class": "HBHeartbeatGameMode",
 "language": "GDScript",
-"path": "res://rythm_game/game_modes/heartbeat/HBHeartbeatGameMode.gd"
+"path": "res://rythm_game/game_modes/heartbeat/HeartbeatGameMode.gd"
 }, {
 "base": "Button",
 "class": "HBHovereableButton",
@@ -232,17 +237,17 @@ _global_script_classes=[ {
 "base": "HBRhythmGameBase",
 "class": "HBRhythmGame",
 "language": "GDScript",
-"path": "res://rythm_game/RhythmGameHeartbeat.gd"
+"path": "res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd"
 }, {
 "base": "Node",
 "class": "HBRhythmGameBase",
 "language": "GDScript",
-"path": "res://rythm_game/RhythmGameBase.gd"
+"path": "res://rythm_game/game_modes/RhythmGameBase.gd"
 }, {
 "base": "Control",
 "class": "HBRhythmGameUIBase",
 "language": "GDScript",
-"path": "res://rythm_game/HBRhythmGameUIBase.gd"
+"path": "res://rythm_game/game_modes/HBRhythmGameUIBase.gd"
 }, {
 "base": "ScrollContainer",
 "class": "HBScrollList",
@@ -318,6 +323,11 @@ _global_script_classes=[ {
 "class": "HBVersion",
 "language": "GDScript",
 "path": "res://scripts/HBVersion.gd"
+}, {
+"base": "HBGameInputManager",
+"class": "HeartbeatInputManager",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/heartbeat/HeartbeatInputManager.gd"
 }, {
 "base": "Reference",
 "class": "MPPlayer",
@@ -420,6 +430,7 @@ _global_script_class_icons={
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
 "HBGameInfo": "",
+"HBGameInputManager": "",
 "HBGameMode": "",
 "HBHeartbeatGameMode": "",
 "HBHovereableButton": "",
@@ -462,6 +473,7 @@ _global_script_class_icons={
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
+"HeartbeatInputManager": "",
 "MPPlayer": "",
 "NoteGroup": "",
 "PPDEVDFile": "",
@@ -507,8 +519,6 @@ UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
-HBInput="*res://autoloads/HBInput.gd"
-HBTapHandler="*res://autoloads/HBTapHandler.gd"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"

@@ -1,35 +1,35 @@
 [gd_scene load_steps=50 format=2]
 
-[ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=1]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://rythm_game/rhythm_game_ui.gd" type="Script" id=6]
-[ext_resource path="res://default_theme.tres" type="Theme" id=7]
-[ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=8]
-[ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=9]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=10]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=11]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=12]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=7]
+[ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
+[ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
+[ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=11]
+[ext_resource path="res://default_theme.tres" type="Theme" id=12]
 [ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=13]
 [ext_resource path="res://graphics/heart_outside.png" type="Texture" id=14]
-[ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=15]
-[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=16]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=15]
+[ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=16]
 [ext_resource path="res://graphics/hold_hint.png" type="Texture" id=17]
-[ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=18]
-[ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=19]
-[ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=20]
-[ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=21]
-[ext_resource path="res://graphics/heart.png" type="Texture" id=22]
-[ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=23]
-[ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=24]
-[ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=25]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=26]
+[ext_resource path="res://graphics/heart.png" type="Texture" id=18]
+[ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=19]
+[ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=20]
+[ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=21]
+[ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=22]
+[ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=23]
+[ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=24]
+[ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=25]
+[ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
 [ext_resource path="res://sounds/sfx/slide_hold_fail.wav" type="AudioStream" id=27]
-[ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=28]
-[ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=29]
-[ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=30]
+[ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=28]
+[ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=29]
+[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=30]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
 
 [sub_resource type="DynamicFont" id=1]
@@ -37,8 +37,8 @@ size = 25
 outline_color = Color( 0.964706, 0.756863, 0.203922, 1 )
 use_filter = true
 extra_spacing_top = 7
-font_data = ExtResource( 2 )
-fallback/0 = ExtResource( 3 )
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 24
@@ -47,7 +47,7 @@ use_filter = true
 extra_spacing_top = 7
 extra_spacing_char = 2
 font_data = ExtResource( 13 )
-fallback/0 = ExtResource( 4 )
+fallback/0 = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 60
@@ -56,8 +56,8 @@ outline_color = Color( 0.490196, 0.219608, 0.505882, 1 )
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 7
-font_data = ExtResource( 2 )
-fallback/0 = ExtResource( 3 )
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 4 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 25.0
@@ -89,8 +89,8 @@ shadow_size = 10
 [sub_resource type="DynamicFont" id=6]
 size = 15
 use_filter = true
-font_data = ExtResource( 5 )
-fallback/0 = ExtResource( 4 )
+font_data = ExtResource( 6 )
+fallback/0 = ExtResource( 2 )
 
 [sub_resource type="Animation" id=7]
 resource_name = "appear"
@@ -198,14 +198,14 @@ outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 4
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=14]
 size = 15
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 5 )
-fallback/0 = ExtResource( 4 )
+font_data = ExtResource( 6 )
+fallback/0 = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=15]
 size = 25
@@ -213,7 +213,7 @@ outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=16]
 size = 40
@@ -221,7 +221,7 @@ outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=17]
 length = 5.0
@@ -346,7 +346,7 @@ tracks/4/keys = {
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 6 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -385,7 +385,7 @@ anchor_top = 0.75
 anchor_right = 0.75
 anchor_bottom = 0.85
 margin_bottom = 8.0
-script = ExtResource( 15 )
+script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -394,7 +394,7 @@ __meta__ = {
 margin_right = 639.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -496,7 +496,7 @@ margin_top = 5.0
 margin_right = 314.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 7 )
 text = "(NT)Max Hold Bonus! +3300"
 align = 1
 
@@ -512,7 +512,7 @@ margin_bottom = 128.0
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 128, 128 )
 texture = ExtResource( 17 )
-script = ExtResource( 23 )
+script = ExtResource( 28 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -561,7 +561,7 @@ margin_left = 58.0
 margin_right = 92.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 34, 0 )
-texture = ExtResource( 26 )
+texture = ExtResource( 30 )
 expand = true
 
 [node name="Label3" type="Label" parent="UnderNotesUI/Control/SkipContainer/Panel/HBoxContainer"]
@@ -581,7 +581,7 @@ margin_left = 107.0
 margin_right = 141.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 34, 0 )
-texture = ExtResource( 26 )
+texture = ExtResource( 30 )
 expand = true
 stretch_mode = 6
 
@@ -611,7 +611,7 @@ margin_left = -154.5
 margin_top = -23.5
 margin_right = 154.5
 margin_bottom = 23.5
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 5 )
 text = "Fast forward!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -641,18 +641,18 @@ bus = "Music"
 bus = "Vocals"
 
 [node name="HitEffect" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 21 )
+stream = ExtResource( 23 )
 bus = "SFX"
 
 [node name="HitEffectSlide" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 20 )
+stream = ExtResource( 22 )
 bus = "SlideSFX"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="SlideChainLoopSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 24 )
+stream = ExtResource( 19 )
 volume_db = 4.0
 bus = "SlideSFX"
 __meta__ = {
@@ -660,7 +660,7 @@ __meta__ = {
 }
 
 [node name="SlideChainSuccessSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 30 )
+stream = ExtResource( 29 )
 volume_db = 4.0
 bus = "SFX"
 __meta__ = {
@@ -689,14 +689,14 @@ margin_bottom = 344.0
 rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 334, 139 )
 size_flags_vertical = 0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.5 )
 custom_constants/shadow_offset_x = 4
 custom_constants/shadow_offset_y = 4
 text = "WORST"
 align = 1
 valign = 1
-script = ExtResource( 28 )
+script = ExtResource( 26 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -734,7 +734,7 @@ max_value = 1.0
 step = 0.0
 value = 0.5
 texture_under = ExtResource( 14 )
-texture_over = ExtResource( 22 )
+texture_over = ExtResource( 18 )
 texture_progress = ExtResource( 14 )
 fill_mode = 4
 tint_under = Color( 0.176471, 0.105882, 0.380392, 1 )
@@ -757,7 +757,7 @@ margin_top = -0.902496
 margin_bottom = -39.0705
 rect_min_size = Vector2( 0, 65 )
 size_flags_horizontal = 3
-theme = ExtResource( 7 )
+theme = ExtResource( 12 )
 custom_styles/panel = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -815,7 +815,7 @@ margin_left = 15.0
 margin_right = 160.0
 margin_bottom = 25.0
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 11 )
 text = "(NT)NOSONG"
 valign = 1
 uppercase = true
@@ -825,7 +825,7 @@ margin_left = 175.0
 margin_right = 318.0
 margin_bottom = 25.0
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 16 )
+custom_fonts/font = ExtResource( 3 )
 text = "(NT)LOADED"
 valign = 1
 
@@ -840,7 +840,7 @@ size_flags_vertical = 3
 margin_right = 189.0
 margin_bottom = 25.0
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 11 )
 text = "(NT)[DIFFICULTY]"
 valign = 1
 uppercase = true
@@ -868,11 +868,11 @@ margin_right = 380.0
 margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 8 )
 text = "(NT)0000000"
 align = 1
 valign = 1
-script = ExtResource( 1 )
+script = ExtResource( 9 )
 
 [node name="ClearBar" type="Panel" parent="Control"]
 anchor_top = 0.924
@@ -880,7 +880,7 @@ anchor_right = 1.0
 anchor_bottom = 0.924
 rect_min_size = Vector2( 0, 32 )
 custom_styles/panel = SubResource( 12 )
-script = ExtResource( 25 )
+script = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -906,7 +906,7 @@ margin_top = -20.0
 custom_fonts/font = SubResource( 14 )
 text = "Too Late! +100ms"
 align = 1
-script = ExtResource( 29 )
+script = ExtResource( 25 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -968,7 +968,7 @@ anims/HeartPowerAvailable = SubResource( 17 )
 anims/HeartPowerEnabled = SubResource( 18 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
-stream = ExtResource( 18 )
+stream = ExtResource( 20 )
 
 [node name="HeartPowerEnabledSFX" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
-stream = ExtResource( 19 )
+stream = ExtResource( 21 )

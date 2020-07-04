@@ -95,6 +95,7 @@ func start_session(game_info: HBGameInfo):
 		game_ui = game_mode.get_ui().instance()
 		game_ui_container.add_child(game_ui)
 		game.set_game_ui(game_ui)
+		game.set_game_input_manager(game_mode.get_input_manager())
 	else:
 		Log.log(self, "Can't find game mode for song: %s" % [game_info.song_id], Log.LogLevel.ERROR)
 	

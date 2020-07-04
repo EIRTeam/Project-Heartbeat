@@ -108,7 +108,6 @@ func _init_user_settings():
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.last_controller_guid:
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
-	HBInput.action_tracking = {}
 	load_input_map()
 	user_settings.last_controller_guid = ""
 func get_axis_name(event: InputEventJoypadMotion):

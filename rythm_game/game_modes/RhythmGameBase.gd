@@ -68,6 +68,7 @@ var audio_stream_player: AudioStreamPlayer
 var audio_stream_player_voice: AudioStreamPlayer
 
 var game_ui: HBRhythmGameUIBase
+var game_input_manager: HBGameInputManager = HBGameInputManager.new()
 
 var bpm_changes = {}
 
@@ -98,6 +99,10 @@ func _game_ready():
 
 func _ready():
 	_game_ready()
+
+func set_game_input_manager(manager: HBGameInputManager):
+	game_input_manager = manager
+	add_child(game_input_manager)
 
 # TODO: generalize this
 func set_chart(chart: HBChart):
@@ -272,8 +277,8 @@ func _on_viewport_size_changed():
 	emit_signal("size_changed")
 
 func _input(event):
-	if event.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-		if Input.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBInput.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
+		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
 				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
 					_intro_skip_enabled = false
@@ -583,6 +588,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 #			if n != note and n.is_slide_note():
 #				_on_notes_judged([n], judgement, wrong)
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
+
 	var notes_hit = 1
 	if not editing or previewing:
 		# Rating graphic

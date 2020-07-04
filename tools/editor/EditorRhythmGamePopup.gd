@@ -23,6 +23,7 @@ func _ready():
 	connect("resized", self, "set_game_size")
 	add_child(rhythm_game)
 	rhythm_game.set_game_ui(rhythm_game_ui)
+	rhythm_game.game_input_manager = HeartbeatInputManager.new()
 	rhythm_game.set_process_input(false)
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)

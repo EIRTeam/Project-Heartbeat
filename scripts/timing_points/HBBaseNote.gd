@@ -107,7 +107,7 @@ func get_score(rating):
 	return NOTE_SCORES[rating]
 
 func get_input_actions():
-	return HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]
+	return HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]
 
 # returns true if this is a note that can be automatically judged
 func can_be_judged():
