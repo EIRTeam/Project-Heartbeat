@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
+[ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=1]
 [ext_resource path="res://rythm_game/rhythm_game_controller.gd" type="Script" id=2]
 [ext_resource path="res://rythm_game/pause_menu/PauseMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=4]
@@ -77,6 +78,7 @@ void fragment()
     vec4 tex = vec4(desaturate(vec3(r, g, b), 0.25), 1.0);
     COLOR = tex;
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 3 )
@@ -131,6 +133,7 @@ margin_bottom = 720.0
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 7
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -147,6 +150,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 autoplay = true
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -139,6 +139,15 @@ var OPTIONS = {
 			"step": 0.1,
 			"postfix": " x"
 		},
+		"background_dim": {
+			"name": tr("Background dim"),
+			"description": tr("Dims the background, a higher percentage will make it darker, note this also includes video background."),
+			"minimum": 0.0,
+			"maximum": 1.0,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		},
 		"enable_multi_hint": {
 			"name": tr("Enable multi note indicator"),
 			"description": "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
@@ -234,6 +243,10 @@ func _on_SectionButton_press(section_name):
 
 func _on_value_changed(property_name, new_value):
 	UserSettings.user_settings.set(property_name, new_value)
+	
+	if property_name == "background_dim":
+		get_tree().call_group("song_backgrounds", "_background_dim_changed", new_value)
+	
 	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
 
