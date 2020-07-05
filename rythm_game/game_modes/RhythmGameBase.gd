@@ -414,6 +414,8 @@ func reset_hit_notes():
 		var array = PoolByteArray()
 		array.resize(group.notes.size())
 		group.hit_notes = array
+		for note in group.notes:
+			note.set_meta("ignored", false)
 func delete_rogue_notes(pos_override = null):
 	pass
 		
