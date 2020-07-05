@@ -12,6 +12,7 @@ var OPTIONS = {
 			"minimum": -300,
 			"maximum": 300,
 			"step": 1,
+			"debounce_step": 10,
 			"postfix": " ms"
 		},
 		"tap_deadzone": {
