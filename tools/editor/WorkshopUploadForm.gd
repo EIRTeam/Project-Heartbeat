@@ -102,22 +102,21 @@ func _process(delta):
 			upload_progress_bar.value = progress.processed/float(progress.total)
 func upload_song(song: HBSong, ugc_id):
 	var ugc = PlatformService.service_provider.ugc_provider
-	Steam.setPublishedFileID(str(ugc_id))
-	ugc.start_item_update()
-	ugc.set_item_title(title_line_edit.text)
-	ugc.set_item_description(description_line_edit.text)
-	ugc.set_item_metadata(JSON.print(current_song.serialize()))
-	ugc.set_item_content_path(ProjectSettings.globalize_path(current_song.path))
+	var update_id = ugc.start_item_update(ugc_id)
+	uploading_id = update_id
+	ugc.set_item_title(update_id, title_line_edit.text)
+	ugc.set_item_description(update_id, description_line_edit.text)
+	ugc.set_item_metadata(update_id, JSON.print(current_song.serialize()))
+	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	if uploading_new:
-		ugc.add_item_preview_video(YoutubeDL.get_video_id(song.youtube_url))
-	ugc.set_item_preview(ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
+		ugc.add_item_preview_video(update_id, YoutubeDL.get_video_id(song.youtube_url))
+	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
 
-	Steam.setItemTags(["Charts"])
-	Steam.setPublishedFileID(str(ugc_id))
+	Steam.setItemTags(update_id, ["Charts"])
 	if uploading_new:
-		ugc.submit_item_update("Initial upload")
+		ugc.submit_item_update(update_id, "Initial upload")
 	else:
-		ugc.submit_item_update(changelog_line_edit.text)
+		ugc.submit_item_update(update_id, changelog_line_edit.text)
 	upload_dialog.popup_centered()
 func _on_item_updated(result, tos):
 	upload_dialog.hide()
