@@ -2,6 +2,8 @@ extends HBGameInputManager
 
 class_name HeartbeatInputManager
 
+signal unhandled_release(event)
+
 var digital_action_tracking = {}
 
 const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
@@ -122,3 +124,5 @@ func _input_received(event):
 					if was_action_pressed and not is_action_held(action):
 						current_event = event
 						send_input(action, false)
+					if not event.is_pressed():
+						emit_signal("unhandled_release", action)

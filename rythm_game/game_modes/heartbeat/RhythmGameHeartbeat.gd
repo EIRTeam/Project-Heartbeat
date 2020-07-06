@@ -21,6 +21,7 @@ const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 
 # Notes currently being held (modern style)
 var held_notes = []
+var juggled_notes = []
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
 var accumulated_hold_score = 0.0  # for when you hit another hold note after already holding
@@ -191,6 +192,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 
 func _input(event):
 	if event is InputEventAction:
+		
 		# Note SFX
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			var action_pressed = false
@@ -203,15 +205,17 @@ func _input(event):
 					break
 			if action_pressed:
 				break
+		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
+				if game_input_manager.get_action_press_count(event.action) > 1:
+					juggled_notes.append(type)
 
 
-func _unhandled_input(event):
-	if event is InputEventAction:
-		if not event.is_pressed() and not event.is_echo():
-			for note_type in held_notes:
-				if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
-					hold_release()
-					break
+func _on_unhandled_action_release(action):
+	for note_type in held_notes:
+		if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type] and (not note_type in juggled_notes or game_input_manager.get_action_press_count(action) < 1):
+			hold_release()
+			break
 
 
 func get_closest_notes():
@@ -242,6 +246,10 @@ func create_note_drawer(timing_point: HBBaseNote):
 		if timing_point.is_slide_note():
 			note_drawer.slide_chain_master = timing_point in slide_hold_chains
 	return note_drawer
+
+func set_game_input_manager(manager: HBGameInputManager):
+	.set_game_input_manager(manager)
+	manager.connect("unhandled_release", self, "_on_unhandled_action_release")
 
 func set_game_ui(ui: HBRhythmGameUIBase):
 	.set_game_ui(ui)
@@ -492,6 +500,7 @@ func hold_release():
 		add_hold_score(round(current_hold_score))
 		accumulated_hold_score = 0
 		held_notes = []
+		juggled_notes = []
 		current_hold_score = 0
 	emit_signal("hold_released")
 
@@ -504,5 +513,7 @@ func start_hold(note_type):
 	current_hold_score = 0
 	current_hold_start_time = time
 	held_notes.append(note_type)
+	if note_type in juggled_notes:
+		juggled_notes.erase(note_type)
 	emit_signal("hold_started", held_notes)
 	
