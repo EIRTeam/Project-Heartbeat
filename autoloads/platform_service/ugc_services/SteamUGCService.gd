@@ -44,11 +44,12 @@ func _init_ugc():
 
 func reload_ugc_songs():
 	for item_id in Steam.getSubscribedItems():
-		var state = Steam.getItemState(item_id)
+		Steam.setPublishedFileID(item_id)
+		var state = Steam.getItemState()
 		if state & UGC_STATES.DOWNLOADING:
 			updating_items.append(item_id)
 		elif state & UGC_STATES.NEEDS_UPDATE:
-			var r = Steam.downloadItem(item_id, false)
+			var r = Steam.downloadItem(false)
 			if r:
 				updating_items.append(item_id)
 		elif state & UGC_STATES.INSTALLED:
@@ -72,7 +73,8 @@ func _process(delta):
 			text += "%"
 
 func _add_downloaded_item(item_id, fire_signal=false):
-	var install_info = Steam.getItemInstallInfo(item_id)
+	Steam.setPublishedFileID(str(item_id))
+	var install_info = Steam.getItemInstallInfo()
 	var folder = install_info.folder
 	var file = File.new()
 	var item
@@ -104,6 +106,7 @@ func _on_item_installed(app_id, item_id):
 		if item_id in cached_items_data:
 			_on_show_success(item_id)
 		else:
+			Steam.setPublishedFileID(item_id)
 			get_item_details(item_id)
 		print("DOWNLOADED ITEM!")
 		
@@ -159,40 +162,41 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 	emit_signal("ugc_details_request_done", details.result, details)
 func create_item():
 	Steam.createItem(Steam.getAppID(), WORKSHOP_FILE_TYPES.COMMUNITY)
-func set_item_title(update_id, title: String):
-	Steam.setItemTitle(update_id, title)
-func set_item_description(update_id, description: String):
-	Steam.setItemDescription(update_id, description)
-func set_item_metadata(update_id, metadata: String):
-	Steam.setItemMetadata(update_id, metadata)
-func set_item_content_path(update_id, content_path: String):
-	Steam.setItemContent(update_id, content_path)
-func set_item_preview(update_id, preview_path: String):
-	Steam.setItemPreview(update_id, preview_path)
-func start_item_update(published_id):
-	return Steam.startItemUpdate(Steam.getAppID(), published_id)
-func set_item_tags(update_id, tags):
-	return Steam.setItemTags(update_id, tags)
+func set_item_title(title: String):
+	Steam.setItemTitle(title)
+func set_item_description(description: String):
+	Steam.setItemDescription(description)
+func set_item_metadata(metadata: String):
+	Steam.setItemMetadata(metadata)
+func set_item_content_path(content_path: String):
+	Steam.setItemContent(content_path)
+func set_item_preview(preview_path: String):
+	Steam.setItemPreview(preview_path)
+func start_item_update():
+	return Steam.startItemUpdate(Steam.getAppID())
+func set_item_tags(tags):
+	return Steam.setItemTags(tags)
 func get_ugc_service_name():
 	return "Steam Workshop"
-func submit_item_update(update_id, change_note: String):
-	Steam.submitItemUpdate(update_id, change_note)
+func submit_item_update(change_note: String):
+	Steam.submitItemUpdate(change_note)
 func get_item_details(ugc_id):
 	var req_id = Steam.createQueryUGCDetailsRequest([ugc_id])
 	query_id_to_item[req_id] = ugc_id
 	Steam.setReturnLongDescription(req_id, true)
 	Steam.sendQueryUGCRequest(req_id)
-func delete_item(item_id):
-	Steam.deleteItem(item_id)
-func get_update_progress(update_id):
-	return Steam.getItemUpdateProgress(update_id)
-func add_item_preview_video(update_id, video_id):
-	Steam.addItemPreviewVideo(update_id, video_id)
+func delete_item():
+	Steam.deleteItem()
+func get_update_progress():
+	return Steam.getItemUpdateProgress()
+func add_item_preview_video(video_id):
+	Steam.addItemPreviewVideo(video_id)
 func get_user_item_vote(item_id):
 	if item_id in ugc_data.skipped_votes:
 		return USER_ITEM_VOTE.SKIP
 	else:
-		Steam.getUserItemVote(item_id)
+		Steam.setPublishedFileID(item_id)
+		Steam.getUserItemVote()
 		var r = yield(Steam, "get_item_vote_result")
 		var result = {
 			"result": r[0],
@@ -217,8 +221,10 @@ func get_user_item_vote(item_id):
 
 func set_user_item_vote(item_id, vote):
 	if vote == USER_ITEM_VOTE.UPVOTE:
-		Steam.setUserItemVote(item_id, true)
+		Steam.setPublishedFileID(item_id)
+		Steam.setUserItemVote(true)
 	elif vote == USER_ITEM_VOTE.DOWNVOTE:
-		Steam.setUserItemVote(item_id, false)
+		Steam.setPublishedFileID(item_id)
+		Steam.setUserItemVote(false)
 	else:
 		skip_vote(item_id)

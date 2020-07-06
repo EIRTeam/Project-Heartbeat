@@ -39,25 +39,25 @@ func get_ugc_service_name():
 
 func create_item():
 	return
-func set_item_title(update_id, title: String):
+func set_item_title(title: String):
 	return
-func set_item_description(update_id, description: String):
+func set_item_description(description: String):
 	return
-func set_item_metadata(update_id, metadata: String):
+func set_item_metadata(metadata: String):
 	return
-func set_item_content_path(update_id, content_path: String):
+func set_item_content_path(content_path: String):
 	return
-func set_item_preview(update_id, preview_path: String):
+func set_item_preview(preview_path: String):
 	return
-func start_item_update(published_id):
+func start_item_update():
 	return
-func submit_item_update(update_id, change_note: String):
+func submit_item_update(change_note: String):
 	return
-func get_item_details(item_id):
+func get_item_details(ugc_id):
 	pass
-func delete_item(item_id):
+func delete_item():
 	pass
-func get_update_progress(update_id):
+func get_update_progress():
 	pass
 	
 func save_ugc_data():
@@ -71,7 +71,7 @@ func skip_vote(item_id):
 	save_ugc_data()
 func set_user_item_vote(item_id, vote):
 	pass
-func add_item_preview_video(update_id, video_id):
+func add_item_preview_video(video_id):
 	pass
 func get_user_item_vote(item_id):
 	pass
