@@ -109,6 +109,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBGameInfo.gd"
 }, {
+"base": "Node",
+"class": "HBGameInputManager",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/HBGameInputManager.gd"
+}, {
+"base": "Reference",
+"class": "HBGameMode",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/HBGameMode.gd"
+}, {
+"base": "HBGameMode",
+"class": "HBHeartbeatGameMode",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/heartbeat/HeartbeatGameMode.gd"
+}, {
 "base": "Button",
 "class": "HBHovereableButton",
 "language": "GDScript",
@@ -219,10 +234,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBResult.gd"
 }, {
-"base": "Node",
+"base": "HBRhythmGameBase",
 "class": "HBRhythmGame",
 "language": "GDScript",
-"path": "res://rythm_game/rhythm_game.gd"
+"path": "res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd"
+}, {
+"base": "Node",
+"class": "HBRhythmGameBase",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/RhythmGameBase.gd"
+}, {
+"base": "Control",
+"class": "HBRhythmGameUIBase",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/HBRhythmGameUIBase.gd"
 }, {
 "base": "ScrollContainer",
 "class": "HBScrollList",
@@ -299,10 +324,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBVersion.gd"
 }, {
+"base": "HBGameInputManager",
+"class": "HeartbeatInputManager",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/heartbeat/HeartbeatInputManager.gd"
+}, {
 "base": "Reference",
 "class": "MPPlayer",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/MPPlayer.gd"
+}, {
+"base": "Reference",
+"class": "NoteGroup",
+"language": "GDScript",
+"path": "res://rythm_game/NoteGroup.gd"
 }, {
 "base": "Reference",
 "class": "PPDEVDFile",
@@ -333,6 +368,21 @@ _global_script_classes=[ {
 "class": "SineDrawerCPU",
 "language": "GDScript",
 "path": "res://rythm_game/SineDrawerCPU.gd"
+}, {
+"base": "SongLoaderImpl",
+"class": "SongLoaderHB",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderHB.gd"
+}, {
+"base": "Reference",
+"class": "SongLoaderImpl",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderImpl.gd"
+}, {
+"base": "SongLoaderImpl",
+"class": "SongLoaderPPD",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderPPD.gd"
 }, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
@@ -380,6 +430,9 @@ _global_script_class_icons={
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
 "HBGameInfo": "",
+"HBGameInputManager": "",
+"HBGameMode": "",
+"HBHeartbeatGameMode": "",
 "HBHovereableButton": "",
 "HBINIParser": "",
 "HBJudge": "",
@@ -403,6 +456,8 @@ _global_script_class_icons={
 "HBResourceQueue": "",
 "HBResult": "",
 "HBRhythmGame": "",
+"HBRhythmGameBase": "",
+"HBRhythmGameUIBase": "",
 "HBScrollList": "",
 "HBSerializable": "",
 "HBServiceMember": "",
@@ -418,13 +473,18 @@ _global_script_class_icons={
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
+"HeartbeatInputManager": "",
 "MPPlayer": "",
+"NoteGroup": "",
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
 "PlatformServiceProvider": "",
 "SMFLoader": "",
 "SineDrawerCPU": "",
+"SongLoaderHB": "",
+"SongLoaderImpl": "",
+"SongLoaderPPD": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
@@ -442,8 +502,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1592543895
-config/build_commit="26b6bfaca348bb69da77288af3980b5c3374d3f8"
+config/build_time=1594066505
+config/build_commit="9d6d9e09eb52e2f28841562ae891b92a9cd46802"
 
 [audio]
 
@@ -455,11 +515,10 @@ Diagnostics="*res://autoloads/Diagnostics.tscn"
 Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
-DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
-HBInput="*res://autoloads/HBInput.gd"
-HBTapHandler="*res://autoloads/HBTapHandler.gd"
+HBGame="*res://autoloads/HBGame.gd"
+DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"

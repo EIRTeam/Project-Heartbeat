@@ -28,18 +28,18 @@ func set_arm2_position(value):
 func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 	# set the texture to the correct one
 	if note_data.get_serialized_type() == "SustainNote":
-		$Sprite.texture = HBNoteData.get_note_graphics(note_data.note_type).sustain_target
+		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "sustain_target")
 	elif note_data.get_serialized_type() == "DoubleNote":
-		$Sprite.texture = HBNoteData.get_note_graphics(note_data.note_type).double_target
+		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_target")
 	else:
 		if blue:
-			$Sprite.texture = HBNoteData.get_note_graphics(note_data.note_type).target_blue
+			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
-			$Sprite.texture = HBNoteData.get_note_graphics(note_data.note_type).multi_note_target
+			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
 			$Sprite/HoldTextSpriteMulti.visible = note_data.hold
 		else:
 			$Sprite/HoldTextSprite.visible = note_data.hold
-			$Sprite.texture = HBNoteData.get_note_graphics(note_data.note_type).target
+			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [
 		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,

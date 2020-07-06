@@ -13,6 +13,9 @@ var service_provider : PlatformServiceProvider
 
 
 func _ready():
+	pass
+	
+func _initialize_platform():
 	# Try to load steam first, if not fallback to Offline
 	var service_init_result = set_service_provider(SteamPlatformServicePovider.new())
 	if service_init_result != OK:

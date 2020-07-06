@@ -15,7 +15,7 @@ func set_layer_name(value: String):
 	if value in HBNoteData.NOTE_TYPE.keys():
 		$Label.hide()
 		$LayerNoteType.show()
-		$LayerNoteType.texture = IconPackLoader.get_variations(value).note
+		$LayerNoteType.texture = IconPackLoader.get_graphic(value, "note")
 	else:
 		$Label.show()
 		$LayerNoteType.hide()

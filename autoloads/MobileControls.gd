@@ -8,7 +8,7 @@ func _ready():
 	var buttons = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
 	for button in buttons:
 		var temp = button_template.duplicate()
-		temp.get_node("ColorRect/TextureRect").texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, button), "note")
+		temp.get_node("ColorRect/TextureRect").texture = IconPackLoader.get_graphic(HBUtils.find_key(HBNoteData.NOTE_TYPE, button), "note")
 		var col = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, button))
 		col.a = 0.1
 		temp.get_node("ColorRect").color = col

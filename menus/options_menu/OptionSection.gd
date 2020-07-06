@@ -46,6 +46,8 @@ func _set_section_data(val):
 						option_scene.minimum = option.minimum
 					if option.has("step"):
 						option_scene.step = option.step
+					if option.has("debounce_step"):
+						option_scene.debounce_step = option.debounce_step
 					if option.has("postfix"):
 						option_scene.postfix = option.postfix
 					if option.has("text_overrides"):

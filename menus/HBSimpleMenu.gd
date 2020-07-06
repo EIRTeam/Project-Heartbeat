@@ -80,7 +80,6 @@ func _gui_input(event):
 						sfx_player.play()
 						break
 					i -= 1
-				
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
@@ -103,6 +102,9 @@ func _gui_input(event):
 		if selected_button:
 			get_tree().set_input_as_handled()
 			selected_button.emit_signal("pressed")
+	elif event.is_action_pressed("gui_down"):
+		get_tree().set_input_as_handled()
+		emit_signal("bottom")
 #	elif event.is_action_pressed("gui_cancel"):
 #		get_tree().set_input_as_handled()
 #		emit_signal("back")

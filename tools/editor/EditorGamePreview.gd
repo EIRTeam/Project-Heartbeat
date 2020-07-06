@@ -1,14 +1,19 @@
 extends Control
 
 onready var widget_area = get_node("WidgetArea")
-onready var game = get_node("RythmGame")
+onready var game = get_node("RhythmGame")
+onready var game_ui = get_node("RythmGameUI")
 const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
 
 func _ready():
 	game.size = rect_size
 	game.editing = true
-	game.hide_ui()
+	game.set_game_ui(game_ui)
+	var input_manager = HeartbeatInputManager.new()
+	game.set_game_input_manager(input_manager)
+	input_manager.set_process_input(false)
+	game.toggle_ui()
 	connect("resized", self, "_on_resized")
 	
 func _on_resized():
@@ -19,7 +24,6 @@ func _on_resized():
 func _process(delta):
 	$Label.text = HBUtils.format_time(game.time * 1000.0)
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
-	
 
 func _draw():
 	var origin = game.remap_coords(Vector2())

@@ -9,7 +9,7 @@ func _ready():
 	var particles = SLIDE_PARTICLES.instance()
 	add_child(particles)
 	particles.emitting = true
-	particles.hide()
+	particles.position = Vector2(10000, 10000)
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")

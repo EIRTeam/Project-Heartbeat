@@ -13,7 +13,7 @@ const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
-onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RythmGame")
+onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RhythmGame")
 
 onready var audio_stream_player = get_node("AudioStreamPlayer")
 onready var audio_stream_player_voice = get_node("AudioStreamPlayerVoice")
@@ -255,16 +255,18 @@ func _commit_selected_property_change(property_name: String):
 			if property_name in selected_item.data:
 				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
-				undo_redo.add_do_method(self, "_on_timing_points_changed")
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_do_method(selected_item, "sync_value", property_name)
 
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
-				undo_redo.add_undo_method(self, "_on_timing_points_changed")
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
+	
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
 	undo_redo.commit_action()
 	inspector.sync_value(property_name)
 	release_owned_focus()

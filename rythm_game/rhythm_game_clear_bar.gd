@@ -1,7 +1,7 @@
 extends Panel
 var value = 90.0 setget set_value
 var max_value = 100.0 setget set_max_value
-
+var potential_score = 0.0
 const PROGRESS_COLOR = Color("a877f0")
 
 export(Color) var CLEAR_COLOR = Color("000")
@@ -37,12 +37,12 @@ func _draw():
 		draw_rect(past_completion_progress_rect, PROGRESS_COLOR.darkened(0.5))
 	draw_rating_line(0.97)
 	draw_rating_line(0.94)
-	draw_rating_line(0.85)
+	draw_rating_line(0.75)
 	draw_line(origin+Vector2(rect_size.x * 0.85, -12), origin+Vector2(rect_size.x * 0.85, rect_size.y), Color.red, 3)
 	$PercentageLabel.rect_position = Vector2(rect_size.x * 0.85, 0)
 	$PercentageLabel.rect_size = Vector2(rect_size.x * (1.0-0.85), rect_size.y)
 func draw_rating_line(val, color=Color.white, height=10):
-	var val_r = round(value) / max_value
+	var val_r = round(potential_score) / max_value
 	var origin = Vector2(rect_size.x * (val_r * val), -height)
 	var end = Vector2(origin.x, rect_size.y)
 	draw_line(origin, end, color, 3)

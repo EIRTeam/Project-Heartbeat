@@ -87,7 +87,7 @@ func draw_trail(time: float):
 	# the trail from leaking into notes with holes in the middle
 
 	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
-	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
+	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	if disable_trail_margin:
 		trail_margin = 0.0
 	sine_drawer.time = t-trail_margin
@@ -104,7 +104,7 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
-			game.add_child(particles)
+			game.game_ui.get_notes_node().add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
 	else:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
@@ -133,7 +133,7 @@ func judge_note_input(event: InputEvent, time: float) -> JudgeInputResult:
 	
 func _handle_unhandled_input(event):
 	# Master notes handle all the input
-	if not event is InputEventAction and not event.is_action_pressed("tap_left") and not event.is_action_pressed("tap_right"):
+	if not event is InputEventAction:
 		return
 	if note_data.note_type in HBNoteData.NO_INPUT_LIST:
 		return
@@ -148,7 +148,7 @@ func _handle_unhandled_input(event):
 		# is used for wrong note detection
 		var allowed_actions = []
 		for note in conn_notes:
-			if note.note_type in HBInput.NOTE_TYPE_TO_ACTIONS_MAP:
+			if note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				for action in note.get_input_actions():
 					allowed_actions.append(action)
 		for note in conn_notes:
@@ -160,17 +160,29 @@ func _handle_unhandled_input(event):
 					if not input_judgement.has_rating:
 						# Check for wrongs
 						var found_input = false
+						var found_input_action = ""
 						for action in allowed_actions:
 							if event.is_action_pressed(action):
 								found_input = true
 								break
+								
+						var heart_bypass_hack = false
+							
+						# HACK: We ignore slide up and down to prevent the user
+						# from getting a wrong on slides accidentally, unless they have a heart note
+						if not note.note_type == HBBaseNote.NOTE_TYPE.HEART:
+							if (event.is_action_pressed("tap_down") or event.is_action_pressed("tap_up")):
+								heart_bypass_hack = true
+								
 						# If the action was not amongs the allowed action of the connected
 						# notes and our note is amongst the closest notes it means we got
 						# a wrong
-						if not found_input:
+						if not found_input and not heart_bypass_hack:
 							# janky way of emulating the correct input and figuring out
 							# what the rating would be, if we would get a rating it means
 							# we got a wrong note
+							
+							
 							var a = InputEventAction.new()
 							a.action = note.get_input_actions()[0]
 							a.pressed = true
@@ -241,7 +253,6 @@ func _handle_unhandled_input(event):
 func _on_game_time_changed(time: float):
 	if not is_queued_for_deletion():
 		._on_game_time_changed(time)
-		update_graphic_positions_and_scale(time)
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
@@ -249,23 +260,26 @@ func _on_game_time_changed(time: float):
 		if note_data.can_be_judged():
 			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master and note_master:
 				for action in note_data.get_input_actions():
-					if (HBInput.is_action_pressed(action) or HBTapHandler.is_action_held(action)) and HBInput.get_action_press_count(action) >= conn_notes.size():
+					if (game.game_input_manager.is_action_held(action)) and game.game_input_manager.get_action_press_count(action) >= conn_notes.size():
 						if time >= note_data.time / 1000.0:
 							emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.COOL, false)
 							for note in conn_notes:
 								var drawer = game.get_note_drawer(note)
 								if drawer.note_data.is_auto_freed():
 									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL)
+									game.add_score(HBNoteData.NOTE_SCORES[game.judge.JUDGE_RATINGS.COOL])
 								else:
 									# The note is now on it's own
 									if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
 										game.connect("time_changed", drawer, "_on_game_time_changed")
 									drawer._on_note_judged(game.judge.JUDGE_RATINGS.COOL, true)
+									game.add_score(HBNoteData.NOTE_SCORES[game.judge.JUDGE_RATINGS.COOL])
 							break
 			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
+		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():
 	return note_graphic

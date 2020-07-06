@@ -74,6 +74,8 @@ func get_cache_dir():
 	return HBUtils.join_path(UserSettings.user_settings.content_path, "youtube_dl/cache")
 		
 func _ready():
+	pass
+func _init_ytdl():
 	var dir = Directory.new()
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)
@@ -110,6 +112,7 @@ func _ready():
 			emit_signal("youtube_dl_status_updated")
 	else:
 		update_youtube_dl()
+	
 #	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
 func ytdl_download():
 	pass

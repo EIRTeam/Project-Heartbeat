@@ -51,3 +51,7 @@ static func from_ini(content: String, id: String) -> HBSong:
 func has_video_enabled():
 	if .has_video_enabled():
 		return not UserSettings.user_settings.disable_ppd_video
+
+func get_chart_for_difficulty(difficulty) -> HBChart:
+	var chart_path = get_chart_path(difficulty)
+	return PPDLoader.PPD2HBChart(chart_path, bpm)

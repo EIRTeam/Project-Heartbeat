@@ -118,7 +118,6 @@ func get_max_score():
 				if point is HBSustainNote:
 					max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
 					notes += 1
-	
 	return max_score
 	
 static func get_slide_hold_chains_for_points(timing_points):

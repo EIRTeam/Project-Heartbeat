@@ -15,8 +15,6 @@ var note_master = true setget set_note_master # Master notes take care of multi-
 
 const Laser = preload("res://rythm_game/Laser.tscn")
 
-const TRAIL_RESOLUTION = 19
-
 class JudgeInputResult:
 	var wrong = false
 	var has_rating = false
@@ -29,7 +27,7 @@ func set_note_data(val):
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()
-	game.add_child(effect)
+	game.game_ui.get_notes_node().add_child(effect)
 	effect.position = game.remap_coords(note_data.position)
 func set_note_master(val):
 	note_master = val
@@ -46,21 +44,11 @@ func set_connected_notes(val):
 	connected_notes = val
 	if connected_notes.size() > 1:
 		if multi_note_line_renderers.size() == 0:
-			var laser1 = Laser.instance()
-			multi_note_line_renderers.append(laser1)
-			add_child(laser1)
-			move_child(laser1, 0)
-			
-			var laser2 = Laser.instance()
-			multi_note_line_renderers.append(laser2)
-			add_child(laser2)
-			move_child(laser2, 1)
-			
-			laser2.timescale += 1
-			laser2.frequency = 5
-			laser2.phase_shift = 90
-			laser1.z_index = -1
-			laser2.z_index = -1
+			var laser = Laser.instance()
+			multi_note_line_renderers.append(laser)
+			add_child(laser)
+			move_child(laser, 0)
+		update_multi_note_renderers()
 func _ready():
 #	z_index = 0
 	note_data.connect("note_type_changed", self, "_on_note_type_changed")
@@ -73,20 +61,24 @@ func _ready():
 func _on_game_size_changed():
 	pass
 
+func update_multi_note_renderers():
+	var scale_x = (game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)).x
+	if connected_notes.size() > 1:
+		var points = PoolVector2Array()
+		for note in connected_notes:
+			points.append(game.get_note_drawer(note).get_note_graphic().position)
+		points.append(get_note_graphic().position)
+		points = Geometry.convex_hull_2d(points)
+		if connected_notes.size() <= 2:
+			points.remove(points.size()-1)
+		for renderer in multi_note_line_renderers:
+			renderer.positions = points
+			renderer.width_scale = scale_x
+			renderer.show()
+
 func update_graphic_positions_and_scale(time: float):
 	if note_master:
-		if connected_notes.size() > 1:
-			var points = PoolVector2Array()
-			for note in connected_notes:
-				
-				points.append(game.get_note_drawer(note).get_note_graphic().position)
-			points.append(get_note_graphic().position)
-			points = Geometry.convex_hull_2d(points)
-			if connected_notes.size() <= 2:
-				points.remove(points.size()-1)
-			for renderer in multi_note_line_renderers:
-				renderer.positions = points
-				renderer.show()
+		update_multi_note_renderers()
 
 func _on_note_type_changed():
 	pass

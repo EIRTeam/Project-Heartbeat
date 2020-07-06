@@ -3,7 +3,7 @@ extends Control
 var horizontal := 20 setget set_horizontal
 var vertical := 40 setget set_vertical
 
-onready var game = get_node("../RythmGame")
+onready var game = get_node("../RhythmGame")
 
 const MULTI_TARGETS = [Vector2(240, 528), Vector2(720, 528), Vector2(1200, 528), Vector2(1680, 528)]
 

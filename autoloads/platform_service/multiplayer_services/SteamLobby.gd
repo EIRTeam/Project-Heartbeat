@@ -210,10 +210,10 @@ func _on_p2p_packet_received():
 			PACKET_TYPE.GAME_DONE:
 				var member = get_member_by_id(packet.steamIDRemote)
 				game_results[member] = HBResult.deserialize(packet_data)
-				for member in game_results:
-					if not member.member_id in members:
-						print("DELETING USER: ", member.get_member_name())
-						game_results.erase(member)
+				for _member in game_results:
+					if not _member.member_id in members:
+						print("DELETING USER: ", _member.get_member_name())
+						game_results.erase(_member)
 				if game_results.size() == members.size():
 					emit_signal("game_done", game_results, game_info)
 func _on_p2p_session_request(remote_id):

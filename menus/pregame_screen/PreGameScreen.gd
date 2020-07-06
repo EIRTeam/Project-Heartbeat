@@ -90,7 +90,6 @@ func _on_StartButton_pressed():
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	game_info.song_id = current_song.id
-	print("SANG", current_song.id)
 	game_info.difficulty = current_difficulty
 	scene.start_session(game_info)
 

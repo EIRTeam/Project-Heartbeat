@@ -12,21 +12,22 @@ var OPTIONS = {
 			"minimum": -300,
 			"maximum": 300,
 			"step": 1,
+			"debounce_step": 10,
 			"postfix": " ms"
 		},
 		"tap_deadzone": {
 			"name": tr("Slide analog deadzone"),
 			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off when being used for slides.",
 			"minimum": 0.1,
-			"maximum": 0.9,
-			"step": 0.1,
+			"maximum": 1.0,
+			"step": 0.05,
 		},
 		"analog_translation_deadzone": {
 			"name": tr("Analog deadzone"),
 			"description": "From 0 to 1, how much travel is required for the analogic triggers (and other analog inputs) to be considered on/off when being used normal notes.",
 			"minimum": 0.1,
-			"maximum": 0.9,
-			"step": 0.1,
+			"maximum": 1.0,
+			"step": 0.05,
 		},
 		"show_latency": {
 			"name": tr("Show latency"),
@@ -139,6 +140,15 @@ var OPTIONS = {
 			"step": 0.1,
 			"postfix": " x"
 		},
+		"background_dim": {
+			"name": tr("Background dim"),
+			"description": tr("Dims the background, a higher percentage will make it darker, note this also includes video background."),
+			"minimum": 0.0,
+			"maximum": 1.0,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		},
 		"enable_multi_hint": {
 			"name": tr("Enable multi note indicator"),
 			"description": "Enables showing an indicator in the middle of the screen for what buttons should be pressed for a multi-note."
@@ -234,6 +244,10 @@ func _on_SectionButton_press(section_name):
 
 func _on_value_changed(property_name, new_value):
 	UserSettings.user_settings.set(property_name, new_value)
+	
+	if property_name == "background_dim":
+		get_tree().call_group("song_backgrounds", "_background_dim_changed", new_value)
+	
 	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
 

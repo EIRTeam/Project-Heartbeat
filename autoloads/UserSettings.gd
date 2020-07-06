@@ -10,6 +10,13 @@ const SAVE_DEBOUNCE_TIME = 0.2
 var save_debounce_t = 0.0
 var debouncing = false
 
+const ACTION_CATEGORIES = {
+	"Notes": ["note_up", "note_down", "note_left", "note_right"],
+	"Slide Notes": ["tap_left", "tap_left_analog", "tap_right", "tap_right_analog", "tap_up", "tap_up_analog", "tap_down", "tap_down_analog"],
+	"Game": ["pause"],
+	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_accept", "gui_cancel"]
+}
+
 var action_names = {
 	"note_up": "Note up",
 	"note_down": "Note down",
@@ -26,7 +33,7 @@ var action_names = {
 	"tap_right": "Slide right",
 	"tap_right_analog": "Slide right analog",
 	"tap_up": "Slide up",
-	"tap_up_analog": "Slide right analog",
+	"tap_up_analog": "Slide up analog",
 	"tap_down": "Slide down",
 	"tap_down_analog": "Slide down analog",
 	"pause": "Pause"
@@ -92,7 +99,7 @@ func get_input_map():
 				if event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey:
 					map[action_name].append(event)
 	return map
-func _ready():
+func _init_user_settings():
 	
 	base_input_map = get_input_map()
 	load_user_settings()
@@ -101,7 +108,6 @@ func _ready():
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.last_controller_guid:
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
-	HBInput.action_tracking = {}
 	load_input_map()
 	user_settings.last_controller_guid = ""
 func get_axis_name(event: InputEventJoypadMotion):
@@ -160,6 +166,7 @@ func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
 	Engine.target_fps = int(user_settings.fps_limit)
+	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	set_volumes()
 func _process(delta):
 	if debouncing:

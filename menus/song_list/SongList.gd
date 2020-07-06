@@ -65,8 +65,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		# We ensure the current sort mode is selected by default
 		if sort_by == UserSettings.user_settings.sort_mode:
 			sort_by_list_container.select_button(button.get_position_in_parent())
-	sort_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.UP), "note")
-	fav_button_texture_rect.texture = IconPackLoader.get_icon(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.LEFT), "note")
+	sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
+	fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
@@ -142,9 +142,9 @@ func should_receive_input():
 	return song_container.has_focus()
 	
 
-func is_gui_directional_press(action: String):
+func is_gui_directional_press(action: String, event):
 	var gui_press = false
-	var event = HBInput.current_event
+	
 	# This is so the d-pad doesn't trigger the order by list
 	for mapped_event in InputMap.get_action_list(action):
 		if mapped_event.device == event.device:
@@ -165,11 +165,11 @@ func _unhandled_input(event):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
 		if event.is_action_pressed("note_up"):
-			if not is_gui_directional_press("gui_up"):
+			if not is_gui_directional_press("gui_up", event):
 				get_tree().set_input_as_handled()
 				show_order_by_list()
 		if event.is_action_pressed("note_left"):
-			if not is_gui_directional_press("gui_left"):
+			if not is_gui_directional_press("gui_left", event):
 				get_tree().set_input_as_handled()
 				toggle_current_song_favorite()
 	else:
@@ -219,7 +219,9 @@ func _on_ppd_audio_file_selected(path: String):
 func _on_PPDAudioBrowseWindow_accept():
 	MouseTrap.ppd_dialog.ask_for_file()
 func _on_youtube_url_selected(url):
-	SongLoader.set_ppd_youtube_url(current_song, url)
+	var loader = SongLoader.get_song_loader("ppd") as SongLoaderPPD
+	if loader:
+		loader.set_ppd_youtube_url(current_song, url)
 	song_container.grab_focus()
 		
 func _on_video_downloading():

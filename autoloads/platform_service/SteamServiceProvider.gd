@@ -12,7 +12,7 @@ func init_platform() -> int:
 		var init = Steam.steamInit()
 		
 		Log.log(self, init.verbal)
-		if init.status != OK:
+		if init.status != 1:
 			return init.status
 		
 		friendly_username = Steam.getPersonaName()

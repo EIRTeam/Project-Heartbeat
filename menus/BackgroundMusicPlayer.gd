@@ -33,9 +33,9 @@ func play_random_song():
 	# Ensure random song will always be different from current
 	var song = current_song
 	var possible_songs = []
-	for song in SongLoader.songs.values():
-		if song.has_audio() and not song == current_song:
-			possible_songs.append(song)
+	for possible_song in SongLoader.songs.values():
+		if possible_song.has_audio() and not possible_song == current_song:
+			possible_songs.append(possible_song)
 	if possible_songs.size() > 0:
 		randomize()
 		song = possible_songs[randi() % possible_songs.size()]

@@ -67,8 +67,8 @@ func get_time_out(bpm):
 		return time_out
 
 # returns the list of graphics for this note
-static func get_note_graphics(type):
-	var graphics = IconPackLoader.get_variations(HBUtils.find_key(NOTE_TYPE, type))
+static func get_note_graphic(type, variation):
+	var graphics = IconPackLoader.get_graphic(HBUtils.find_key(NOTE_TYPE, type), variation)
 	return graphics
 
 func get_inspector_properties():
@@ -107,7 +107,7 @@ func get_score(rating):
 	return NOTE_SCORES[rating]
 
 func get_input_actions():
-	return HBInput.NOTE_TYPE_TO_ACTIONS_MAP[note_type]
+	return HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]
 
 # returns true if this is a note that can be automatically judged
 func can_be_judged():

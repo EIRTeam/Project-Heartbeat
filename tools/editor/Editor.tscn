@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
 [ext_resource path="res://tools/icons/icon_stop.svg" type="Texture" id=6]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=7]
-[ext_resource path="res://rythm_game/rhythm_game.tscn" type="PackedScene" id=8]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
 [ext_resource path="res://tools/icons/gamepad-variant.svg" type="Texture" id=10]
 [ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=11]
@@ -32,6 +32,13 @@
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
 [ext_resource path="res://songs/imademo_2012/imademo_2012.ogg" type="AudioStream" id=31]
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
+
+
+
+
+
+
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"
@@ -571,7 +578,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RythmGame" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
+[node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
 margin_right = 8.0
@@ -663,6 +670,9 @@ script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RhythmGame" type="Node" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
+script = ExtResource( 33 )
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )

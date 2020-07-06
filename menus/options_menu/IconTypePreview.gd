@@ -12,15 +12,15 @@ onready var note_texture_rects = {
 }
 
 func _preload_graphics_thread(userdata):
-	var graphics = IconPackLoader.preload_graphics(IconPackLoader.packs[userdata.icon_pack])
+	var graphics = IconPackLoader.preload_atlas(IconPackLoader.packs[userdata.icon_pack])
 	call_deferred("_on_graphics_preloaded", graphics)
 	
 func _on_graphics_preloaded(graphics):
 	loading_thread.wait_to_finish()
-	note_texture_rects.UP.texture = graphics.UP.note
-	note_texture_rects.DOWN.texture = graphics.DOWN.note
-	note_texture_rects.LEFT.texture = graphics.LEFT.note
-	note_texture_rects.RIGHT.texture = graphics.RIGHT.note
+	note_texture_rects.UP.texture = graphics.atlas_textures.UP.note
+	note_texture_rects.DOWN.texture = graphics.atlas_textures.DOWN.note
+	note_texture_rects.LEFT.texture = graphics.atlas_textures.LEFT.note
+	note_texture_rects.RIGHT.texture = graphics.atlas_textures.RIGHT.note
 
 func set_icon_pack(val):
 	if val != icon_pack:

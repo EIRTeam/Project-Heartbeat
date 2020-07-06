@@ -222,3 +222,12 @@ func get_max_score():
 	for chart in charts:
 		stars = max(stars, charts[chart].stars)
 	return stars
+
+func get_chart_for_difficulty(difficulty) -> HBChart:
+	var chart_path = get_chart_path(difficulty)
+	var file = File.new()
+	file.open(chart_path, File.READ)
+	var result = JSON.parse(file.get_as_text()).result
+	var chart = HBChart.new()
+	chart.deserialize(result)
+	return chart
