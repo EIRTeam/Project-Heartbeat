@@ -69,6 +69,11 @@ func _on_apply_button_pressed():
 			
 			var result = expression.execute([note_data])
 			
+			if ALLOWED_OUTPUTS[output_selector.get_selected_metadata()] == TYPE_REAL and typeof(result) == TYPE_INT:
+				result = float(result)
+			elif ALLOWED_OUTPUTS[output_selector.get_selected_metadata()] == TYPE_INT and typeof(result) == TYPE_REAL:
+				result = int(result)
+			
 			if expression.has_execute_failed():
 				show_error("Error executing expression: %s" % [expression.get_error_text()])
 				outputs = {}
