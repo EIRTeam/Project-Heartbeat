@@ -39,9 +39,8 @@ func get_leaderboard_entries_for_leaderboard(song_id: String, start, end, type):
 func download_leaderboard_entries(start, end, type):
 	Steam.downloadLeaderboardEntries(start, end, type)
 	
-func _on_leaderboard_entries_downloaded():
+func _on_leaderboard_entries_downloaded(handle, entries):
 	if Steam.getLeaderboardName() in queued_leaderboard_entry_loads:
-		var entries = Steam.getLeaderboardEntries()
 		var leaderboard_entries = []
 		for entry in entries:
 			var member = SteamServiceMember.new(entry.steamID)
@@ -50,7 +49,7 @@ func _on_leaderboard_entries_downloaded():
 			leaderboard_entry.score = entry.score
 			leaderboard_entry.percentage = entry.details[0]/10000.0
 			leaderboard_entries.append(leaderboard_entry)
-		emit_signal("leaderboard_entries_downloaded", Steam.getLeaderboardHandle(), leaderboard_entries)
+		emit_signal("leaderboard_entries_downloaded", handle, leaderboard_entries)
 
 func upload_score(leaderboard_name, score, percentage):
 	queued_leaderboard_uploads[leaderboard_name] = [score, int(percentage*10000)]

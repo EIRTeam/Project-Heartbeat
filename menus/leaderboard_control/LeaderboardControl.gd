@@ -1,7 +1,7 @@
 extends Control
 
 export(int) var minimum_position := 0
-export(int) var max_position := 10
+export(int) var max_position := 30
 export(bool) var show_user_position := true
 const LeaderboardItem = preload("res://menus/leaderboard_control/LeaderboardItem.tscn")
 onready var not_found_label = get_node("CenterContainer/Label")

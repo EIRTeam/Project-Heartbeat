@@ -31,6 +31,7 @@ __meta__ = {
 [node name="Entries" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_clip_content = true
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -45,6 +46,9 @@ custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="CenterContainer"]
 margin_left = 10.0
