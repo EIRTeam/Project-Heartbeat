@@ -132,5 +132,8 @@ func _on_game_time_changed(time: float):
 func get_note_graphic():
 	pass
 
+func _on_unhandled_action_released(event):
+	pass
+
 func reset_note_state():
 	pass

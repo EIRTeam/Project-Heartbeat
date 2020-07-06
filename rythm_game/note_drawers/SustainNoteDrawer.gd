@@ -86,6 +86,10 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", [note_data], HBJudge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
+				
+func _on_unhandled_action_released(event):
+	handle_input(event, game.time)
+				
 func _handle_unhandled_input(event: InputEvent):
 	if not pressed:
 		._handle_unhandled_input(event)

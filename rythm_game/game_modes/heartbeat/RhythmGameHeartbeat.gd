@@ -245,6 +245,7 @@ func create_note_drawer(timing_point: HBBaseNote):
 	if timing_point is HBNoteData:
 		if timing_point.is_slide_note():
 			note_drawer.slide_chain_master = timing_point in slide_hold_chains
+	game_input_manager.connect("unhandled_release", note_drawer, "_on_unhandled_action_released")
 	return note_drawer
 
 func set_game_input_manager(manager: HBGameInputManager):
