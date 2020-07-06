@@ -113,7 +113,7 @@ func _on_intro_skipped(time):
 	intro_skip_info_animation_player.play("disappear")
 	intro_skip_ff_animation_player.play("animate")
 
-func _on_hold_released():
+func _on_hold_released_early():
 	# When you release a hold it disappears instantly
 	hold_indicator.disappear()
 

@@ -8,6 +8,7 @@ signal show_slide_hold_score
 signal end_intro_skip_period
 signal score_added(added_score)
 signal hold_released
+signal hold_released_early
 signal hold_started(held_notes)
 
 const LOG_NAME = "RhythmGameHeartbeat"
@@ -215,6 +216,7 @@ func _on_unhandled_action_release(action):
 	for note_type in held_notes:
 		if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type] and (not note_type in juggled_notes or game_input_manager.get_action_press_count(action) < 1):
 			hold_release()
+			emit_signal("hold_released_early")
 			break
 
 
@@ -255,7 +257,7 @@ func set_game_input_manager(manager: HBGameInputManager):
 func set_game_ui(ui: HBRhythmGameUIBase):
 	.set_game_ui(ui)
 	connect("hold_started", ui, "_on_hold_started")
-	connect("hold_released", ui, "_on_hold_released")
+	connect("hold_released_early", ui, "_on_hold_released_early")
 	connect("max_hold", ui, "_on_max_hold")
 	connect("hold_score_changed", ui, "_on_hold_score_changed")
 	connect("show_slide_hold_score", ui, "_on_show_slide_hold_score")
