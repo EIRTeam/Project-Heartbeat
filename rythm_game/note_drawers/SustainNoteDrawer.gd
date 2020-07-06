@@ -61,19 +61,20 @@ func update_graphic_positions_and_scale(time: float):
 		note_graphic2.scale = Vector2(new_scale, new_scale)
 
 func handle_input(event: InputEvent, time: float):
-	for action in note_data.get_input_actions():
-		if pressed and event.is_action_released(action):
-			var result = .judge_note_input(event, time-(note_data.get_duration()/1000.0))
-			var rating = HBJudge.JUDGE_RATINGS.WORST
-			get_tree().set_input_as_handled()
-			if result.has_rating:
-				rating = result.resulting_rating
-			emit_signal("notes_judged", [note_data], rating, false)
-			._on_note_judged(rating)
-			game.add_score(HBNoteData.NOTE_SCORES[rating])
-			if rating >= game.judge.JUDGE_RATINGS.FINE:
-				game.play_note_sfx()
-			set_process_unhandled_input(false)
+	if event is InputEventAction:
+		for action in note_data.get_input_actions():
+			if pressed and event.is_action_released(action):
+				var result = .judge_note_input(event, time-(note_data.get_duration()/1000.0))
+				var rating = HBJudge.JUDGE_RATINGS.WORST
+				get_tree().set_input_as_handled()
+				if result.has_rating:
+					rating = result.resulting_rating
+				emit_signal("notes_judged", [note_data], rating, false)
+				._on_note_judged(rating)
+				game.add_score(HBNoteData.NOTE_SCORES[rating])
+				if rating >= game.judge.JUDGE_RATINGS.FINE:
+					game.play_note_sfx()
+				set_process_unhandled_input(false)
 		
 func _on_game_time_changed(time: float):
 	if not is_queued_for_deletion():
