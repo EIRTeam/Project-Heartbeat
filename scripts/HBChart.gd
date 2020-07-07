@@ -105,6 +105,9 @@ func get_max_score():
 	var notes = 0
 	
 	for point in tp:
+		if point is HBSustainNote:
+			max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
+			notes += 1
 		if point is HBBaseNote:
 			if last_point:
 				if last_point.time == point.time:
@@ -115,9 +118,6 @@ func get_max_score():
 				notes += 1
 				last_point = point
 				max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
-				if point is HBSustainNote:
-					max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
-					notes += 1
 	return max_score
 	
 static func get_slide_hold_chains_for_points(timing_points):
