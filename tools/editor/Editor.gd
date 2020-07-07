@@ -253,11 +253,16 @@ func _commit_selected_property_change(property_name: String):
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data:
-				
+				if property_name == "time":
+					if selected_item.data is HBSustainNote:
+						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
+						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_do_method(selected_item, "sync_value", property_name)
+				
+
 
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
