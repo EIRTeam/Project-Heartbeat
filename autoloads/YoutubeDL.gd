@@ -52,11 +52,14 @@ func _update_youtube_dl(userdata):
 		var dir_name = dir.get_next()
 		while dir_name != "":
 			if not dir.current_is_dir():
-				var result = dir.copy("res://third_party/youtube_dl/" + dir_name, YOUTUBE_DL_DIR + "/%s" % [dir_name])
-				if result != OK:
-					failed = true
-					Log.log(self, "Error copying youtube-dl: " + str(result))
+				# We copy the version file last to prevent corrupted installs
+				if dir_name != "VERSION":
+					var result = dir.copy("res://third_party/youtube_dl/" + dir_name, YOUTUBE_DL_DIR + "/%s" % [dir_name])
+					if result != OK:
+						failed = true
+						Log.log(self, "Error copying youtube-dl: " + str(result))
 			dir_name = dir.get_next()
+	var result = dir.copy("res://third_party/youtube_dl/" + "VERSION", YOUTUBE_DL_DIR + "/%s" % ["VERSION"])
 	status_mutex.lock()
 	if not failed:
 		status = YOUTUBE_DL_STATUS.READY
