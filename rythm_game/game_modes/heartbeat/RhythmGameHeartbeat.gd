@@ -305,9 +305,9 @@ func _process_game(_delta):
 					piece_drawer.show_note_hit_effect()
 					piece_drawer.emit_signal("note_removed")
 					piece_drawer.queue_free()
-					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces.size() == 1)
+					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces_hit >= chain.pieces.size())
 
-				chain.pieces.remove(i)
+				chain.pieces_hit += 1
 		if chain_failed:
 			for piece in chain.pieces:
 				var drawer = get_note_drawer(piece)
@@ -318,7 +318,7 @@ func _process_game(_delta):
 				chain.sfx_player.queue_free()
 				play_sfx(slide_chain_fail_sfx_player)
 			active_slide_hold_chains.remove(ii)
-		if chain.pieces.size() == 0:
+		if chain.pieces_hit >= chain.pieces.size():
 			chain.sfx_player.queue_free()
 			play_sfx(slide_chain_success_sfx_player)
 			active_slide_hold_chains.remove(ii)
@@ -470,6 +470,7 @@ func reset_hit_notes():
 	.reset_hit_notes()
 	for chain_m in slide_hold_chains:
 		chain_m.set_meta("ignored", false)
+		slide_hold_chains[chain_m].pieces_hit = 0
 		for piece in slide_hold_chains[chain_m].pieces:
 			piece.set_meta("ignored", false)
 			
