@@ -288,6 +288,12 @@ func _input(event):
 					_process(0)
 					# call ui on intro skip
 					emit_signal("intro_skipped", time)
+	if event.is_action_pressed("free_friends"):
+		for group in timing_points:
+			var res = ""
+			for note in group.hit_notes:
+				res += str(note)
+			print(res)
 
 func _process_note_group(group: NoteGroup):
 	var multi_notes = []
@@ -413,7 +419,10 @@ func reset_hit_notes():
 		var g = group as NoteGroup
 		var array = PoolByteArray()
 		array.resize(group.notes.size())
+		for i in range(array.size()):
+			array.set(i, 0)
 		group.hit_notes = array
+
 		for note in group.notes:
 			note.set_meta("ignored", false)
 func delete_rogue_notes(pos_override = null):

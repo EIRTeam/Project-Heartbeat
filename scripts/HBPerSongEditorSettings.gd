@@ -4,7 +4,7 @@ extends HBSerializable
 class_name HBPerSongEditorSettings
 
 var hidden_layers = []
-var bpm = 0.0
+var bpm = 180.0
 var offset = 0.0
 var note_resolution = 4
 var beats_per_bar = 4

@@ -307,9 +307,9 @@ func _process_game(_delta):
 					piece_drawer.show_note_hit_effect()
 					piece_drawer.emit_signal("note_removed")
 					piece_drawer.queue_free()
-					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces.size() == 1)
+					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces_hit >= chain.pieces.size())
 
-				chain.pieces.remove(i)
+				chain.pieces_hit += 1
 		if chain_failed:
 			for piece in chain.pieces:
 				var drawer = get_note_drawer(piece)
@@ -320,7 +320,7 @@ func _process_game(_delta):
 				chain.sfx_player.queue_free()
 				play_sfx(slide_chain_fail_sfx_player)
 			active_slide_hold_chains.remove(ii)
-		if chain.pieces.size() == 0:
+		if chain.pieces_hit >= chain.pieces.size():
 			chain.sfx_player.queue_free()
 			play_sfx(slide_chain_success_sfx_player)
 			active_slide_hold_chains.remove(ii)
@@ -388,7 +388,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if n is HBNoteData:
 				n = n as HBNoteData
 				if n.hold:
-					start_hold(n.note_type)
+					start_hold(n.note_type, game_input_manager.current_sending_actions_count <= 1)
 	# Slide chain starting shenanigans
 	for n in notes:
 		if n is HBNoteData:
@@ -472,6 +472,7 @@ func reset_hit_notes():
 	.reset_hit_notes()
 	for chain_m in slide_hold_chains:
 		chain_m.set_meta("ignored", false)
+		slide_hold_chains[chain_m].pieces_hit = 0
 		for piece in slide_hold_chains[chain_m].pieces:
 			piece.set_meta("ignored", false)
 			
@@ -508,7 +509,7 @@ func hold_release():
 	emit_signal("hold_released")
 
 
-func start_hold(note_type):
+func start_hold(note_type, auto_juggle=false):
 	if note_type in held_notes:
 		hold_release()
 	if held_notes.size() > 0:
@@ -518,5 +519,7 @@ func start_hold(note_type):
 	held_notes.append(note_type)
 	if note_type in juggled_notes:
 		juggled_notes.erase(note_type)
+	if auto_juggle:
+		juggled_notes.append(note_type)
 	emit_signal("hold_started", held_notes)
 	

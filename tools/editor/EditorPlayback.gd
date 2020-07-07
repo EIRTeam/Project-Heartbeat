@@ -69,7 +69,10 @@ func seek(value: int):
 		
 	game.time = value / 1000.0
 	emit_signal("time_changed", game.time)
-	_on_timing_points_changed()
+	game.kill_active_slide_chains()
+#	game.remove_all_notes_from_screen()
+	#_on_timing_points_changed()
+	game.reset_hit_notes()
 	if audio_stream_player.playing:
 		game.delete_rogue_notes(value / 1000.0)
 

@@ -14,7 +14,7 @@ class SlideChain:
 	var is_playing_loop: bool = false
 	var accumulated_score: float = 0.0
 	var blues: float = 0.0
-
+	var pieces_hit: int = 0
 func _populate_layers():
 	var disabled_types = [
 		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE),

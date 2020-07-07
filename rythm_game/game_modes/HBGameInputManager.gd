@@ -10,9 +10,10 @@ func get_action_press_count(action):
 	
 func is_action_held(action):
 	return false
-func send_input(action, pressed):
-	var a = InputEventAction.new()
+func send_input(action, pressed, count = 1):
+	var a = InputEventHB.new()
 	a.action = action
+	a.triggered_actions_count = count
 	a.pressed = pressed
 	Input.parse_input_event(a)
 

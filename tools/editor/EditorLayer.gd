@@ -19,7 +19,11 @@ func place_child(child: EditorTimelineItem):
 func place_all_children():
 	for child in get_children():
 		if child != preview:
-			place_child(child)
+			if child.data.time < editor.timeline.get_max_time() and child.data.time > editor.timeline.get_min_time():
+				child.show()
+				place_child(child)
+			else:
+				child.hide()
 	
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)
@@ -33,7 +37,21 @@ func add_item(item: EditorTimelineItem):
 	place_child(item)
 	if not item.is_connected("time_changed", self, "_on_time_changed"):
 		item.connect("time_changed", self, "_on_time_changed", [item])
-	add_child(item)
+		
+	if get_child_count() > 1:
+		var closest_child = get_child(1)
+			
+		for child in get_children():
+			if child != preview:
+				if child.data.time < item.data.time:
+					closest_child = child
+				else:
+					break
+		add_child_below_node(closest_child, item)
+			
+	else:
+		add_child(item)
+		
 
 func _on_time_changed(child):
 	place_child(child)
@@ -116,3 +134,15 @@ func _gui_input(event):
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
 
+func show_children():
+	for child in get_children():
+		if child != preview:
+			if child.data.time < editor.timeline.get_min_time():
+				child.hide()
+				continue
+			elif child.data.time > editor.timeline.get_min_time() and child.data.time < editor.timeline.get_max_time():
+				child.show()
+				place_child(child)
+			else:
+				child.hide()
+				break
