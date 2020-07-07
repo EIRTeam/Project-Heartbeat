@@ -386,7 +386,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if n is HBNoteData:
 				n = n as HBNoteData
 				if n.hold:
-					start_hold(n.note_type)
+					start_hold(n.note_type, game_input_manager.current_sending_actions_count <= 1)
 	# Slide chain starting shenanigans
 	for n in notes:
 		if n is HBNoteData:
@@ -506,7 +506,7 @@ func hold_release():
 	emit_signal("hold_released")
 
 
-func start_hold(note_type):
+func start_hold(note_type, auto_juggle=false):
 	if note_type in held_notes:
 		hold_release()
 	if held_notes.size() > 0:
@@ -516,5 +516,7 @@ func start_hold(note_type):
 	held_notes.append(note_type)
 	if note_type in juggled_notes:
 		juggled_notes.erase(note_type)
+	if auto_juggle:
+		juggled_notes.append(note_type)
 	emit_signal("hold_started", held_notes)
 	

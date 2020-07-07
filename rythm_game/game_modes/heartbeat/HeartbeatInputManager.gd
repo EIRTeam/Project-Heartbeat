@@ -20,6 +20,8 @@ var current_event: InputEvent # Current event being converted to action
 
 var last_axis_values = {}
 
+var current_sending_actions_count = 0
+
 func get_action_press_count(action):
 	return _get_analog_action_held_count(action) + _get_digital_action_held_count(action)
 
@@ -58,6 +60,8 @@ func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
 
 func _input_received(event):
+	var actions_to_send = []
+	var releases_to_send = []
 	if not event is InputEventAction and not event is InputEventMouseMotion:
 		var found_actions = []
 		
@@ -95,11 +99,11 @@ func _input_received(event):
 				var is_axis_held_now = _is_axis_held(event.device, digital_action, event.axis)
 				
 				if not was_axis_held_last_time and is_axis_held_now:
-					current_event = event
-					send_input(digital_action, true)
+					actions_to_send.append({"action": digital_action, "pressed": true, "event": event})
+#					send_input(digital_action, true)
 				if was_axis_held_last_time and not is_action_held(digital_action):
-					current_event = event
-					send_input(digital_action, false)
+					actions_to_send.append({"action": digital_action, "pressed": false, "event": event})
+#					send_input(digital_action, false)
 			else:
 				var button_i = -1
 				if event is InputEventKey:
@@ -118,11 +122,15 @@ func _input_received(event):
 					was_button_held_last_time = digital_action_tracking[action][event.device][button_i]
 					digital_action_tracking[action][event.device][button_i] = event.is_pressed()
 					if not was_button_held_last_time and is_action_held(action):
-						current_event = event
-						send_input(action, true)
+						actions_to_send.append({"action": action, "pressed": true, "event": event})
 					
 					if was_action_pressed and not is_action_held(action):
-						current_event = event
-						send_input(action, false)
+						actions_to_send.append({"action": action, "pressed": false, "event": event})
 					if not event.is_pressed():
-						emit_signal("unhandled_release", action)
+						releases_to_send.append(action)
+		for action_data in actions_to_send:
+			current_event = action_data.event
+			current_sending_actions_count = actions_to_send.size()
+			send_input(action_data.action, action_data.pressed, actions_to_send.size())
+		for action in releases_to_send:
+			emit_signal("unhandled_release", action)
