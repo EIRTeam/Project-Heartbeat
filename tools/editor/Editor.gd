@@ -753,3 +753,4 @@ func _on_PlaytestButton_pressed(at_time):
 func _on_playtest_quit():
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
+	game_playback._on_timing_points_changed()
