@@ -128,8 +128,6 @@ var _prev_layers_rect_position
 func set_layers_offset(ms: int):
 	_offset = max(ms, 0)
 	layers.rect_position.x = -editor.scale_msec(ms)
-	for layer in layers.get_children():
-		layer.show_children()
 	#print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
@@ -148,12 +146,6 @@ func _on_Editor_scale_changed(prev_scale, scale):
 	scale_layers()
 		
 	update()
-	
-func get_max_time():
-	return _offset + editor.scale_pixels(rect_size.x)
-	
-func get_min_time():
-	return _offset
 	
 func _input(event):
 	if event is InputEventMouseMotion:
