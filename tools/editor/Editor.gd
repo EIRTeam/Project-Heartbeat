@@ -486,6 +486,9 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	selected = []
 	layer_manager.clear_layers()
 
+	if not ignore_settings:
+		load_settings(chart.editor_settings)
+
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name
@@ -498,9 +501,9 @@ func from_chart(chart: HBChart, ignore_settings=false):
 			if item_d is HBSustainNote:
 				item.sync_value("end_time")
 		var layer_visible = not layer.name in song_editor_settings.hidden_layers
+		
 		layer_manager.add_layer(layer.name, layer_visible)
-	if not ignore_settings:
-		load_settings(chart.editor_settings)
+
 	_on_timing_points_changed()
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded

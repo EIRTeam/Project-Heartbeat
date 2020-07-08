@@ -73,8 +73,7 @@ func seek(value: int):
 	game.remove_all_notes_from_screen()
 	#_on_timing_points_changed()
 	game.reset_hit_notes()
-	if audio_stream_player.playing:
-		game.delete_rogue_notes(value / 1000.0)
+	game.delete_rogue_notes(value / 1000.0)
 
 func _on_timing_points_changed():
 	game.remove_all_notes_from_screen()
