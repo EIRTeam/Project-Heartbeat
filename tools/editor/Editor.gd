@@ -129,6 +129,8 @@ func change_scale(new_scale):
 	emit_signal("scale_changed", prev_scale, new_scale)
 	
 func _unhandled_input(event):
+	if rhythm_game_playtest_popup in get_children():
+		return
 	if event.is_action_pressed("gui_undo"):
 		get_tree().set_input_as_handled()
 		undo_redo.undo()
