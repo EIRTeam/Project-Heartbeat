@@ -72,6 +72,7 @@ func _on_reset():
 	rating_label.hide()
 func _on_chart_set(chart: HBChart):
 	clear_bar.max_value = chart.get_max_score()
+	_update_clear_bar_value()
 func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	if not assets:
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()
@@ -113,9 +114,14 @@ func _on_intro_skipped(time):
 	intro_skip_info_animation_player.play("disappear")
 	intro_skip_ff_animation_player.play("animate")
 
+func _on_hold_released():
+	# When you release a hold it disappears instantly
+	_update_clear_bar_value()
+
 func _on_hold_released_early():
 	# When you release a hold it disappears instantly
 	hold_indicator.disappear()
+	_update_clear_bar_value()
 
 func get_notes_node() -> Node2D:
 	return notes_node
@@ -144,11 +150,12 @@ func _update_clear_bar_value():
 	var res = game.result.clone()
 	var res_potential = game.get_potential_result().clone()
 	
-	res.hold_bonus += game.accumulated_hold_score + game.current_hold_score
-	res.score += game.accumulated_hold_score + game.current_hold_score
-	
-	res_potential.hold_bonus += game.accumulated_hold_score + game.current_hold_score
-	res_potential.score += game.accumulated_hold_score + game.current_hold_score
+	if game.held_notes.size() > 0:
+		res.hold_bonus += game.accumulated_hold_score + game.current_hold_score
+		res.score += game.accumulated_hold_score + game.current_hold_score
+		
+		res_potential.hold_bonus += game.accumulated_hold_score + game.current_hold_score
+		res_potential.score += game.accumulated_hold_score + game.current_hold_score
 	
 	clear_bar.value = res.get_capped_score()
 	clear_bar.potential_score = res_potential.get_capped_score()

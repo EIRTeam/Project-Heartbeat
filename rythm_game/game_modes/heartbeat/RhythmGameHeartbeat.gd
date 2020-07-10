@@ -258,6 +258,7 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 	.set_game_ui(ui)
 	connect("hold_started", ui, "_on_hold_started")
 	connect("hold_released_early", ui, "_on_hold_released_early")
+	connect("hold_released", ui, "_on_hold_released")
 	connect("max_hold", ui, "_on_max_hold")
 	connect("hold_score_changed", ui, "_on_hold_score_changed")
 	connect("show_slide_hold_score", ui, "_on_show_slide_hold_score")
@@ -275,8 +276,8 @@ func _process_game(_delta):
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			emit_signal("max_hold")
 			emit_signal("hold_score_changed", current_hold_score + MAX_HOLD)
-			add_hold_score(MAX_HOLD)
 			hold_release()
+			add_hold_score(MAX_HOLD)
 		else:
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
 	# handles held slide hold chains
@@ -426,8 +427,9 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 
 func restart():
 	kill_active_slide_chains()
-	.restart()
 	hold_release()
+	_potential_result = HBResult.new()
+	.restart()
 
 # used by the editor and practice mode to delete slide chain pieces that have no
 # parent and sustain notes
