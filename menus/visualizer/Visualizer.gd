@@ -14,6 +14,7 @@ func set_min_db(value):
 	MIN_DB = value
 
 func _ready():
+	add_to_group("song_backgrounds")
 	spectrum = AudioServer.get_bus_effect_instance(1,0)
 	spectrum_image_texture.flags = 0 # disable filter to avoid bugs
 	spectrum_image.create(VU_COUNT,1,false,Image.FORMAT_R8)
@@ -26,6 +27,14 @@ func _ready():
 		material = CanvasItemMaterial.new()
 		if fallback_stylebox:
 			add_stylebox_override("panel", fallback_stylebox)
+	else:
+		_background_dim_changed(UserSettings.user_settings.background_dim)
+		
+func _background_dim_changed(new_dim: float):
+	if not UserSettings.user_settings.visualizer_enabled:
+		var box = fallback_stylebox as StyleBoxFlat
+		box.bg_color.a = 0.5 + (new_dim * 0.5)
+
 		
 func _physics_process(delta):
 	var prev_hz = 0
