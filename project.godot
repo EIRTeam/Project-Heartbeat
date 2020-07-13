@@ -511,10 +511,6 @@ config/version="Early Access v0.2.9"
 config/build_time=1594078695
 config/build_commit="2c7ccad4e45b7700b858baa02c8df01039dd1c99"
 
-[audio]
-
-output_latency=5
-
 [autoload]
 
 Diagnostics="*res://autoloads/Diagnostics.tscn"
@@ -827,6 +823,7 @@ editor_play={
 toggle_fps={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 tap_up={
@@ -881,7 +878,6 @@ file_logging/enable_file_logging=true
 
 [rendering]
 
-threads/thread_model=2
 vram_compression/import_etc=true
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"

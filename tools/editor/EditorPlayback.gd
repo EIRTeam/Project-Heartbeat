@@ -62,6 +62,7 @@ func is_playing():
 	return audio_stream_player.playing
 
 func seek(value: int):
+	game.kill_active_slide_chains()
 	if not audio_stream_player.playing:
 		pause()
 	else:
