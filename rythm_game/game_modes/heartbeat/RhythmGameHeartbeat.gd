@@ -377,10 +377,13 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
 			add_score(0)
 	
+	var prev_juggled_notes = juggled_notes.duplicate()
+	
 	for n in notes:
 		if n.note_type in held_notes:
 			hold_release()
 			break
+
 
 	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 		hold_release()
@@ -389,7 +392,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if n is HBNoteData:
 				n = n as HBNoteData
 				if n.hold:
-					start_hold(n.note_type, game_input_manager.current_sending_actions_count <= 1)
+					start_hold(n.note_type, game_input_manager.current_sending_actions_count <= 1 or n.note_type in prev_juggled_notes)
 	# Slide chain starting shenanigans
 	for n in notes:
 		if n is HBNoteData:
