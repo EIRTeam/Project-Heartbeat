@@ -22,7 +22,7 @@ const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 
 # Notes currently being held (modern style)
 var held_notes = []
-var juggled_notes = []
+var held_note_event_map = {}
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
 var accumulated_hold_score = 0.0  # for when you hit another hold note after already holding
@@ -192,7 +192,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 
 
 func _input(event):
-	if event is InputEventAction:
+	if event is InputEventHB:
 		
 		# Note SFX
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
@@ -208,16 +208,18 @@ func _input(event):
 				break
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
-				if game_input_manager.get_action_press_count(event.action) > 1:
-					juggled_notes.append(type)
+				if not event.event_uid in held_note_event_map[type]:
+					held_note_event_map[type].append(event.event_uid)
 
 
-func _on_unhandled_action_release(action):
+func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
-		if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type] and (not note_type in juggled_notes or game_input_manager.get_action_press_count(action) < 1):
-			hold_release()
-			emit_signal("hold_released_early")
-			break
+		if event_uid in held_note_event_map[note_type]:
+			held_note_event_map[note_type].erase(event_uid)
+			if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type] and held_note_event_map[note_type].size() <= 0:
+				hold_release()
+				emit_signal("hold_released_early")
+				break
 
 
 func get_closest_notes():
@@ -344,13 +346,13 @@ func _process_game(_delta):
 					actions_to_press.append(note.get_input_actions()[0])
 					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
 		for action in actions_to_release:
-			var a = InputEventAction.new()
+			var a = InputEventHB.new()
 			a.action = action
 			a.pressed = false
 			
 			Input.parse_input_event(a)
 		for action in actions_to_press:
-			var a = InputEventAction.new()
+			var a = InputEventHB.new()
 			
 			
 			# Double note device emulation
@@ -364,26 +366,23 @@ func _process_game(_delta):
 			
 			Input.parse_input_event(a)
 			
-			game_input_manager.digital_action_tracking[action] = {}
+#			game_input_manager.digital_action_tracking[action] = {}
 
 
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
-func _on_notes_judged(notes: Array, judgement, wrong):
+func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 	._on_notes_judged(notes, judgement, wrong)
 	
 	if not notes[0] is HBNoteData or (notes[0] is HBNoteData and not notes[0].is_slide_hold_piece()):
 		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
 			add_score(0)
 	
-	var prev_juggled_notes = juggled_notes.duplicate()
-	
 	for n in notes:
 		if n.note_type in held_notes:
 			hold_release()
 			break
-
 
 	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 		hold_release()
@@ -392,7 +391,9 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			if n is HBNoteData:
 				n = n as HBNoteData
 				if n.hold:
-					start_hold(n.note_type, game_input_manager.current_sending_actions_count <= 1 or n.note_type in prev_juggled_notes)
+					var event: InputEventHB = judge_events[n]
+					held_note_event_map[n.note_type] = [event.event_uid]
+					start_hold(n.note_type)
 	# Slide chain starting shenanigans
 	for n in notes:
 		if n is HBNoteData:
@@ -509,7 +510,6 @@ func hold_release():
 		add_hold_score(round(current_hold_score))
 		accumulated_hold_score = 0
 		held_notes = []
-		juggled_notes = []
 		current_hold_score = 0
 	emit_signal("hold_released")
 
@@ -522,9 +522,5 @@ func start_hold(note_type, auto_juggle=false):
 	current_hold_score = 0
 	current_hold_start_time = time
 	held_notes.append(note_type)
-	if note_type in juggled_notes:
-		juggled_notes.erase(note_type)
-	if auto_juggle:
-		juggled_notes.append(note_type)
 	emit_signal("hold_started", held_notes)
 	

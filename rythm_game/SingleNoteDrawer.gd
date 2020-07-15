@@ -7,7 +7,7 @@ var disable_trail_margin = false
 export(float) var target_scale_modifier = 1.0
 
 var connected_note_judgements = {}
-
+var connected_note_events = {}
 var gradient = Gradient.new()
 var grad_texture = GradientTexture.new()
 var leading_grad_texture = GradientTexture.new()
@@ -183,7 +183,7 @@ func _handle_unhandled_input(event):
 							# we got a wrong note
 							
 							
-							var a = InputEventAction.new()
+							var a = InputEventHB.new()
 							a.action = note.get_input_actions()[0]
 							a.pressed = true
 							var wrong_input_judgement = game.get_note_drawer(note).judge_note_input(a, game.time)
@@ -196,6 +196,7 @@ func _handle_unhandled_input(event):
 					else:
 						if not note in connected_note_judgements:
 							connected_note_judgements[note] = input_judgement.resulting_rating
+							connected_note_events[note] = event
 							get_tree().set_input_as_handled()
 							break
 		# Note priority is the following:
@@ -230,7 +231,7 @@ func _handle_unhandled_input(event):
 			# Make multinotes count
 			if not wrong:
 				game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
-			emit_signal("notes_judged", conn_notes, result_judgement, wrong)
+			emit_signal("notes_judged", conn_notes, result_judgement, wrong, connected_note_events)
 			for note in conn_notes:
 				var drawer = game.get_note_drawer(note)
 				
