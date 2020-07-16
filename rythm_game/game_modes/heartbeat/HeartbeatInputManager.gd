@@ -2,7 +2,7 @@ extends HBGameInputManager
 
 class_name HeartbeatInputManager
 
-signal unhandled_release(event)
+signal unhandled_release(event, event_uid)
 
 var digital_action_tracking = {}
 
@@ -103,6 +103,7 @@ func _input_received(event):
 #					send_input(digital_action, true)
 				if was_axis_held_last_time and not is_action_held(digital_action):
 					actions_to_send.append({"action": digital_action, "pressed": false, "event": event})
+					releases_to_send.append(action)
 #					send_input(digital_action, false)
 			else:
 				var button_i = -1
@@ -128,9 +129,12 @@ func _input_received(event):
 						actions_to_send.append({"action": action, "pressed": false, "event": event})
 					if not event.is_pressed():
 						releases_to_send.append(action)
+		var release_uids_to_send = []
+		var event_uid = get_event_uid(event)
 		for action_data in actions_to_send:
 			current_event = action_data.event
 			current_sending_actions_count = actions_to_send.size()
-			send_input(action_data.action, action_data.pressed, actions_to_send.size())
+			
+			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid)
 		for action in releases_to_send:
-			emit_signal("unhandled_release", action)
+			emit_signal("unhandled_release", action, event_uid)

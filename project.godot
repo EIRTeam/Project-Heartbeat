@@ -508,8 +508,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1594078695
-config/build_commit="2c7ccad4e45b7700b858baa02c8df01039dd1c99"
+config/build_time=1594857477
+config/build_commit="660f7fc0e1608132942fe089ec22c6285f56b24c"
 
 [autoload]
 
