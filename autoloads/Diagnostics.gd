@@ -86,7 +86,7 @@ func show_log_messages():
 			messages += "[color=%s][%s][/color] %s: %s\n" % [color, HBUtils.find_key(Log.LogLevel, message.log_level), message.caller, message.message]
 	var text_label_text = "[code]%s[/code]" % messages
 	log_rich_text_label.bbcode_text = text_label_text
-func _on_message_logged(logger_name, message, log_level):
+func _on_message_logged(logger_name, message, log_level, caller_data):
 	if not logger_name in known_log_names:
 		known_log_names.append(logger_name)
 		log_filter_option_button.add_item(logger_name)

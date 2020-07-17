@@ -2,7 +2,7 @@
 class_name HBUtils
 
 enum TimeFormat {
-	FORMAT_HOURS   = 1 << 0,
+	FORMAT_HOURS   = 1 << 0, # broken, do not use
 	FORMAT_MINUTES = 1 << 1,
 	FORMAT_SECONDS = 1 << 2,
 	FORMAT_MILISECONDS = 1 << 3,
@@ -31,8 +31,6 @@ static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_f
 	for digit in digits:
 		formatted += digit + colon
 
-
-
 	if not formatted.empty():
 		formatted = formatted.rstrip(colon)
 	if format & TimeFormat.FORMAT_MILISECONDS:
@@ -52,23 +50,6 @@ static func merge_dict(target, patch):
 		else:
 			target[key] = patch[key]
 	return target
-
-
-# Interpolates from a to b along a sine wave
-static func sin_pos_interp(from: Vector2, to: Vector2, amplitude: float, frequency: float, value: float, phase_shift_angle: float = 0.0) -> Vector2:
-	var dist = (from - to).length()
-	var period = 1/frequency
-	var phase_shift = (phase_shift_angle/180.0)*(period)
-	if dist != 0:
-		var t = value * dist
-		var x = t
-		var angle = from.angle_to_point(to)
-		var y = amplitude * sin((((t/dist) + phase_shift)*(PI*frequency)))
-		var xp = (x * cos(angle)) - (y * sin(angle))
-		var yp = (x * sin(angle)) + (y * cos(angle))
-		return from-Vector2(xp, yp)
-	else:
-		return to
 
 # Converts a string from being complex to snake case
 static func get_valid_filename(value: String):

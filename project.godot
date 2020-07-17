@@ -541,6 +541,10 @@ window/size/height=720
 window/vsync/use_vsync=false
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "gut" )
+
 [gdnative]
 
 singletons=[ "res://addons/video_decoder.tres" ]
