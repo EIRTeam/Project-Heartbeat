@@ -40,7 +40,7 @@ func _init(_editor).(_editor):
 	vbox_container.add_child(hbox_container)
 	
 	var import_button = Button.new()
-	import_button.text = "Import chart from PPD (FT)"
+	import_button.text = "Import chart from PPD"
 	import_button.clip_text = true
 	import_button.connect("pressed", ppd_disclaimer_dialog, "popup_centered")
 	
