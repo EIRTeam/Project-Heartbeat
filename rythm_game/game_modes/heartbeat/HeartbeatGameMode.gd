@@ -6,7 +6,7 @@ static func get_ui():
 	return preload("res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn")
 	
 static func get_game():
-	preload("res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd")
+	return preload("res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd")
 
 static func get_game_mode_name() -> String:
 	return "Base Game Mode"

@@ -10,6 +10,9 @@ func _ready():
 	add_child(particles)
 	particles.emitting = true
 	particles.position = Vector2(10000, 10000)
+	HBGame.rich_presence.update_activity({
+		"state": "On main menu"
+	})
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")

@@ -2,6 +2,7 @@
 extends Node
 
 var game_modes: Array
+var rich_presence: HBRichPresence
 
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
@@ -19,9 +20,6 @@ func _ready():
 func _game_init():
 	PlatformService._initialize_platform()
 
-	print("Project Heartbeat is on startup...")
-	print(HBVersion.get_version_string())
-
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	
@@ -33,6 +31,13 @@ func _game_init():
 	UserSettings._init_user_settings()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
+	
+	rich_presence = HBRichPresenceDiscord.new()
+	var res = rich_presence.init_presence()
+	if res != OK:
+		rich_presence = HBRichPresence.new()
+	add_child(rich_presence)
+	
 
 func register_game_mode(game_mode: HBGameMode):
 	game_modes.append(game_mode)
@@ -42,3 +47,4 @@ func get_game_mode_for_song(song: HBSong):
 		if song.get_serialized_type() in game_mode.get_serializable_song_types():
 			return game_mode
 	return ERR_FILE_NOT_FOUND
+

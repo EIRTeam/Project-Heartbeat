@@ -115,6 +115,14 @@ func start_session(game_info: HBGameInfo):
 func disable_restart():
 	$PauseMenu.disable_restart()
 	
+const SONGS_WITH_IMAGE = [
+	"imademo_2012",
+	"cloud_sky_2019",
+	"hyperspeed_out_of_control",
+	"music_play_in_the_floor",
+	"connected"
+]
+	
 func set_song(song: HBSong, difficulty: String, modifiers = []):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
@@ -128,6 +136,18 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 #	if allow_modifiers:3
 #		for 
 		
+	var large_image_name = "default"
+		
+	if song.id in SONGS_WITH_IMAGE:
+		large_image_name = song.id
+		
+	HBGame.rich_presence.update_activity({
+		"state": "Playing a song",
+		"large_image_key": large_image_name,
+		"details": song.title,
+		"start_timestamp": OS.get_unix_time(),
+		"large_image_tooltip": song.title
+	})
 		
 	var modifier_disables_video = false
 	for modifier in modifiers:

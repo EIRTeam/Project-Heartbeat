@@ -249,6 +249,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/game_modes/HBRhythmGameUIBase.gd"
 }, {
+"base": "Node",
+"class": "HBRichPresence",
+"language": "GDScript",
+"path": "res://autoloads/rich_presence/HBRichPresence.gd"
+}, {
+"base": "HBRichPresence",
+"class": "HBRichPresenceDiscord",
+"language": "GDScript",
+"path": "res://autoloads/rich_presence/HBRichPresenceDiscord.gd"
+}, {
 "base": "ScrollContainer",
 "class": "HBScrollList",
 "language": "GDScript",
@@ -463,6 +473,8 @@ _global_script_class_icons={
 "HBRhythmGame": "",
 "HBRhythmGameBase": "",
 "HBRhythmGameUIBase": "",
+"HBRichPresence": "",
+"HBRichPresenceDiscord": "",
 "HBScrollList": "",
 "HBSerializable": "",
 "HBServiceMember": "",

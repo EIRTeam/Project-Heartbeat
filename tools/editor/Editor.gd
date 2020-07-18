@@ -119,6 +119,7 @@ func _ready():
 	editor_help_button.connect("pressed", OS, "shell_open", ["https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718"])
 
 	inspector.connect("note_pasted", self, "paste_note_data")
+	
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -553,6 +554,13 @@ func load_song(song: HBSong, difficulty: String):
 			chart = HBChart.new()
 			chart.deserialize(result)
 	current_song = song
+	
+	HBGame.rich_presence.update_activity({
+		"state": "In editor",
+		"details": current_song.title,
+		"start_timestamp": OS.get_unix_time()
+	})
+	
 	game_playback.set_song(current_song)
 
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
