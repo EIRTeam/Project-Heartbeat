@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=9]
 [ext_resource path="res://menus/PerSongSettingsEditor.tscn" type="PackedScene" id=10]
 [ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=11]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=12]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 content_margin_left = 10.0
@@ -243,6 +244,14 @@ margin_bottom = 285.0
 
 [node name="PerSongSettingsEditor" parent="." instance=ExtResource( 10 )]
 focus_mode = 2
+
+[node name="VideoURLChangePopup" parent="." instance=ExtResource( 12 )]
+visible = true
+has_cancel = true
+has_accept = true
+text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
+accept_text = "Yes"
+cancel_text = "No"
 [connection signal="out_from_bottom" from="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer" to="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]

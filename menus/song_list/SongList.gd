@@ -67,6 +67,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 			sort_by_list_container.select_button(button.get_position_in_parent())
 	sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
 	fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
+	if "force_url_request" in args:
+		_on_PPDAudioBrowseWindow_accept()
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()

@@ -54,7 +54,29 @@ func save_ppd_youtube_url_list():
 	if file.open(PPD_YOUTUBE_URL_LIST_PATH, File.WRITE) == OK:
 		file.store_string(JSON.print(ppd_youtube_url_list))
 
+# We attempt to purge a youtube URL's on disk data, if it's not being used by another song
+func _try_purge_youtube_video_file(song: HBSong):
+	var vid = YoutubeDL.get_video_id(song.youtube_url)
+	for f_song in SongLoader.songs.values():
+		if f_song != song:
+			var id = YoutubeDL.get_video_id(f_song.youtube_url)
+			if id == vid:
+				return
+	var vp = YoutubeDL.get_video_path(vid)
+	var ap = YoutubeDL.get_audio_path(vid)
+	var dir = Directory.new()
+	Log.log(self, "Removing existing on disk data for %s" % [song.title])
+	if dir.file_exists(vp):
+		var err = dir.remove(vp)
+		if err != OK:
+			Log.log(self, "Error removing video file: %s for song %s %d" % [vp, song.title, err])
+	if dir.file_exists(ap):
+		var err = dir.remove(ap)
+		if err != OK:
+			Log.log(self, "Error removing audio file: %s for song %s %d" % [ap, song.title, err])
 func set_ppd_youtube_url(song: HBSong, url: String):
-	ppd_youtube_url_list[song.id] = url
-	song.youtube_url = url
-	save_ppd_youtube_url_list()
+	if YoutubeDL.get_video_id(song.youtube_url) != YoutubeDL.get_video_id(url):
+		_try_purge_youtube_video_file(song)
+		ppd_youtube_url_list[song.id] = url
+		song.youtube_url = url
+		save_ppd_youtube_url_list()

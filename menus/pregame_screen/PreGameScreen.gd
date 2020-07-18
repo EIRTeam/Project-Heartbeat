@@ -9,6 +9,7 @@ onready var modifier_selector = get_node("ModifierLoader")
 onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
 onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
 onready var leaderboard_legal_text = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/Label")
+onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
 var current_song: HBSong
 var current_difficulty: String
 var current_editing_modifier: String
@@ -28,6 +29,8 @@ func _ready():
 	modifier_settings_editor.connect("back", self, "_modifier_settings_editor_back")
 	modifier_settings_editor.connect("changed", self, "_on_modifier_setting_changed")
 	per_song_settings_editor.connect("back", self, "_modifier_loader_back")
+	ppd_video_url_change_confirmation_prompt.connect("cancel", modifier_scroll_container, "grab_focus")
+	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
 func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
 		game_info.add_new_modifier(modifier_id)
@@ -148,6 +151,13 @@ func add_buttons():
 	modify_song_settings_option.icon = preload("res://graphics/icons/settings.svg")
 	modify_song_settings_option.connect("pressed", self, "_on_modify_song_settings_pressed")
 	modifier_button_container.add_child(modify_song_settings_option)
+	
+	if current_song is HBPPDSong:
+		var change_video_link_button = HBHovereableButton.new()
+		change_video_link_button.text = "Change PPD video URL"
+		change_video_link_button.connect("pressed", self, "_on_ppd_video_change_button_pressed")
+		modifier_button_container.add_child(change_video_link_button)
+	
 	var add_modifier_button = HBHovereableButton.new()
 	add_modifier_button.text = "Add modifier"
 	add_modifier_button.expand_icon = true
@@ -175,3 +185,14 @@ func _unhandled_input(event):
 
 func _on_BackButton_pressed():
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
+
+func _on_ppd_video_change_button_pressed():
+	$VideoURLChangePopup.popup_centered_ratio(0.5)
+func _on_ppd_video_url_confirmed():
+	var args = {
+		"song": current_song.id,
+		"song_difficulty": current_difficulty,
+		"force_url_request": true
+		}
+	change_to_menu("song_list", false, args)
+	
