@@ -387,6 +387,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 			break
 
 	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
+		emit_signal("hold_released_early")
 		hold_release()
 	else:
 		for n in notes:
