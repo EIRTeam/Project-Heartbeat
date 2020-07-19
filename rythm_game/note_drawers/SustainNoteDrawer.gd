@@ -87,7 +87,7 @@ func _on_game_time_changed(time: float):
 				emit_signal("note_removed")
 				queue_free()
 				
-func _on_unhandled_action_released(event):
+func _on_unhandled_action_released(event, event_uid):
 	handle_input(event, game.time)
 				
 func _handle_unhandled_input(event: InputEvent):

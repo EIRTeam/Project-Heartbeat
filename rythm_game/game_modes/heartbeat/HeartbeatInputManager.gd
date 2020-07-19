@@ -2,7 +2,7 @@ extends HBGameInputManager
 
 class_name HeartbeatInputManager
 
-signal unhandled_release(event)
+signal unhandled_release(event, event_uid)
 
 var digital_action_tracking = {}
 
