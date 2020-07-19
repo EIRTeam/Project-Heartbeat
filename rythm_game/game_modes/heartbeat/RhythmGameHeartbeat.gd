@@ -434,6 +434,7 @@ func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 func restart():
 	kill_active_slide_chains()
 	hold_release()
+	held_note_event_map = {}
 	_potential_result = HBResult.new()
 	.restart()
 
