@@ -22,6 +22,7 @@ const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 
 # Notes currently being held (modern style)
 var held_notes = []
+# Map of notes currently being held, mapped as note_tpye -> event uid
 var held_note_event_map = {}
 var current_hold_score = 0.0
 var current_hold_start_time = 0.0
@@ -381,6 +382,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 	
 	for n in notes:
 		if n.note_type in held_notes:
+			emit_signal("hold_released_early")
 			hold_release()
 			break
 
