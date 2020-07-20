@@ -181,22 +181,23 @@ func _unhandled_input(event):
 			
 func toggle_current_song_favorite():
 	var list_item = song_container.selected_option as HBSongListItem
-	if UserSettings.is_song_favorited(current_song):
-		UserSettings.remove_song_from_favorites(current_song)
-		list_item.set_favorite(false)
-		if UserSettings.user_settings.filter_mode == "favorites":
-			if UserSettings.user_settings.favorite_songs.size() == 0:
-				UserSettings.user_settings.filter_mode = "all"
-				song_container.set_filter("all")
-			else:
-				var old_option = song_container.selected_option
-				var pos = song_container.selected_option.get_position_in_parent()-1
-				song_container.remove_child(old_option)
-				old_option.queue_free()
-				song_container.select_option(max(pos, 0))
-	else:
-		UserSettings.add_song_to_favorites(current_song)
-		list_item.set_favorite(true)
+	if list_item:
+		if UserSettings.is_song_favorited(current_song):
+			UserSettings.remove_song_from_favorites(current_song)
+			list_item.set_favorite(false)
+			if UserSettings.user_settings.filter_mode == "favorites":
+				if UserSettings.user_settings.favorite_songs.size() == 0:
+					UserSettings.user_settings.filter_mode = "all"
+					song_container.set_filter("all")
+				else:
+					var old_option = song_container.selected_option
+					var pos = song_container.selected_option.get_position_in_parent()-1
+					song_container.remove_child(old_option)
+					old_option.queue_free()
+					song_container.select_option(max(pos, 0))
+		else:
+			UserSettings.add_song_to_favorites(current_song)
+			list_item.set_favorite(true)
 	populate_buttons()
 	UserSettings.save_user_settings()
 func show_order_by_list():
