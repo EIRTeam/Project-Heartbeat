@@ -22,25 +22,27 @@ func set_max_value(val):
 	max_value = val
 	update()
 	
+const CLEAR_POINT = 0.75
+	
 func _draw():
 	var origin = Vector2(0,0)
 	var size = rect_size
 	size.x = size.x * (value / max_value)
-	var rect_clear = Rect2(Vector2(rect_size.x * 0.85, 0), Vector2(rect_size.x * (1 - 0.85), rect_size.y))
+	var rect_clear = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), Vector2(rect_size.x * (1 - CLEAR_POINT), rect_size.y))
 	draw_rect(rect_clear, CLEAR_COLOR)
 	var progress_rect = Rect2(origin, size)
 	draw_rect(progress_rect, PROGRESS_COLOR)
 	var past_completion_size = rect_size
-	past_completion_size.x = past_completion_size.x * ((value-(max_value*0.85)) / max_value)
+	past_completion_size.x = past_completion_size.x * ((value-(max_value*CLEAR_POINT)) / max_value)
 	if past_completion_size.x > 0:
-		var past_completion_progress_rect = Rect2(Vector2(rect_size.x * 0.85, 0), past_completion_size)
+		var past_completion_progress_rect = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), past_completion_size)
 		draw_rect(past_completion_progress_rect, PROGRESS_COLOR.darkened(0.5))
 	draw_rating_line(0.97)
 	draw_rating_line(0.94)
 	draw_rating_line(0.75)
-	draw_line(origin+Vector2(rect_size.x * 0.85, -12), origin+Vector2(rect_size.x * 0.85, rect_size.y), Color.red, 3)
-	$PercentageLabel.rect_position = Vector2(rect_size.x * 0.85, 0)
-	$PercentageLabel.rect_size = Vector2(rect_size.x * (1.0-0.85), rect_size.y)
+	draw_line(origin+Vector2(rect_size.x * CLEAR_POINT, -12), origin+Vector2(rect_size.x * CLEAR_POINT, rect_size.y), Color.red, 3)
+	$PercentageLabel.rect_position = Vector2(rect_size.x * CLEAR_POINT, 0)
+	$PercentageLabel.rect_size = Vector2(rect_size.x * (1.0-CLEAR_POINT), rect_size.y)
 func draw_rating_line(val, color=Color.white, height=10):
 	var val_r = round(potential_score) / max_value
 	var origin = Vector2(rect_size.x * (val_r * val), -height)
