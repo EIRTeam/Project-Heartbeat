@@ -99,6 +99,12 @@ func save_to_file(path: String):
 static func can_show_in_editor():
 	return false
 
+func convert_to_type(target_type: String) -> HBSerializable:
+	var new_data_ser = serialize()
+	new_data_ser["type"] = target_type
+	var new_note = deserialize(new_data_ser)
+	return new_note
+
 # Returns a clone of itself
 func clone() -> HBSerializable:
 	return deserialize(serialize())
