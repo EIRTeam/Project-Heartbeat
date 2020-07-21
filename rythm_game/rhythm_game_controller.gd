@@ -226,6 +226,7 @@ func _on_resumed():
 		# Called when resuming with rollback
 		$RollbackAudioStreamPlayer.play()
 		game.editing = true
+		game.kill_active_slide_chains()
 		game.time = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true

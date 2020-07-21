@@ -5,8 +5,6 @@ class_name HBRhythmGame
 signal max_hold
 signal hold_score_changed
 signal show_slide_hold_score
-signal end_intro_skip_period
-signal score_added(added_score)
 signal hold_released
 signal hold_released_early
 signal hold_started(held_notes)
@@ -135,9 +133,6 @@ func _process_timing_points_into_groups(points):
 			if point is HBNoteData:
 				if point.is_slide_hold_piece():
 					continue
-				if point.is_slide_note():
-					if point in slide_hold_chains:
-						own_extra_notes = slide_hold_chains[point].pieces
 			var should_make_group = i == timing_points.size()-1 \
 					or timing_points[i+1].time != point.time
 
@@ -154,23 +149,31 @@ func _process_timing_points_into_groups(points):
 	return timing_points_grouped
 	
 func kill_active_slide_chains():
-	for chain in active_slide_hold_chains:
-		chain.sfx_player.queue_free()
-	active_slide_hold_chains = []
+	for note in notes_on_screen:
+		if note in slide_hold_chains:
+			var drawer = get_note_drawer(note)
+			if drawer:
+				if drawer.is_slide_chain_active():
+					drawer.kill_note()
 	delete_rogue_notes()
 func _set_timing_points(points):
-	kill_active_slide_chains()
-
 	._set_timing_points(points)
 	
 func _game_ready():
 	._game_ready()
-	hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
-	hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
-	slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
-	slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
-	slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
-	double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
+	sfx_pool.add_sfx("note_hit", preload("res://sounds/sfx/tmb3.wav"), 0)
+	sfx_pool.add_sfx("slide_hit", preload("res://sounds/sfx/slide_note.wav"), 0)
+	sfx_pool.add_looping_sfx("slide_chain_loop", preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
+	sfx_pool.add_sfx("slide_chain_ok", preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
+	sfx_pool.add_sfx("slide_chain_fail", preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
+	sfx_pool.add_sfx("double_note_hit", preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
+	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
+	# hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
+	# hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
+	# slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
+	# slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
+	# slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
+	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
@@ -241,10 +244,9 @@ func get_closest_notes():
 # plays note SFX automatically
 func play_note_sfx(slide = false):
 	if not slide:
-		play_sfx(hit_effect_sfx_player)
+		sfx_pool.play_sfx("note_hit")
 	else:
-		play_sfx(hit_effect_slide_sfx_player)
-
+		sfx_pool.play_sfx("slide_hit")
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer = .create_note_drawer(timing_point)
 	if timing_point is HBNoteData:
@@ -266,6 +268,10 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 	connect("hold_score_changed", ui, "_on_hold_score_changed")
 	connect("show_slide_hold_score", ui, "_on_show_slide_hold_score")
 
+func show_slide_hold_score(piece_position, accumulated_score, is_end):
+	emit_signal("show_slide_hold_score", piece_position, accumulated_score, is_end)
+
+
 func _process_game(_delta):
 
 	._process_game(_delta)
@@ -283,62 +289,18 @@ func _process_game(_delta):
 			add_hold_score(MAX_HOLD)
 		else:
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
-	# handles held slide hold chains
-	for ii in range(active_slide_hold_chains.size() - 1, -1, -1):
-		var chain = active_slide_hold_chains[ii]
-		var slide = chain.slide as HBNoteData
-		var blue_notes = max(1, float(time - (chain.slide.time / 1000.0)) * BLUE_SLIDE_PIECES_PER_SECOND)
-		var direction_pressed = false
-		for action in slide.get_input_actions():
-			if game_input_manager.is_action_held(action):
-				direction_pressed = true
-				break
-		var chain_failed = false
-		for i in range(chain.pieces.size() - 1, -1, -1):
-			var piece = chain.pieces[i]
-			var piece_drawer = get_note_drawer(piece) as HBNoteDrawer
-			if i <= blue_notes and piece_drawer:
-				if direction_pressed:
-					piece_drawer.make_blue()
-			
-			if time * 1000.0 >= piece.time and piece_drawer:
-				if not piece_drawer.blue and not direction_pressed and not previewing:
-					chain_failed = true
-					break
-				add_slide_chain_score(SLIDE_HOLD_PIECE_SCORE)
-				chain.accumulated_score += SLIDE_HOLD_PIECE_SCORE
-				if piece_drawer:
-					piece_drawer.show_note_hit_effect()
-					piece_drawer.emit_signal("note_removed")
-					piece_drawer.queue_free()
-					emit_signal("show_slide_hold_score", piece.position, chain.accumulated_score, chain.pieces_hit >= chain.pieces.size())
-
-				chain.pieces_hit += 1
-		if chain_failed:
-			for piece in chain.pieces:
-				var drawer = get_note_drawer(piece)
-				timing_points.erase(piece)
-				if drawer:
-					drawer.emit_signal("note_removed")
-					drawer.queue_free()
-				chain.sfx_player.queue_free()
-				play_sfx(slide_chain_fail_sfx_player)
-			active_slide_hold_chains.remove(ii)
-		if chain.pieces_hit >= chain.pieces.size():
-			chain.sfx_player.queue_free()
-			play_sfx(slide_chain_success_sfx_player)
-			active_slide_hold_chains.remove(ii)
 	# autoplay code
 	if Diagnostics.enable_autoplay or previewing:
 		if not result.used_cheats:
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
 		var actions_to_press = []
-		var double_actions_to_press = []
 		var actions_to_release = []
 		for i in range(notes_on_screen.size() - 1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
+					continue
 				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
 					if time * 1000.0 > note.end_time:
 						actions_to_release.append(note.get_input_actions()[0])
@@ -366,8 +328,7 @@ func _process_game(_delta):
 			a.pressed = true
 			
 			Input.parse_input_event(a)
-			
-#			game_input_manager.digital_action_tracking[action] = {}
+	return
 
 
 
@@ -400,34 +361,10 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					held_note_event_map[n.note_type].clear()
 					held_note_event_map[n.note_type].append(event.event_uid)
 					start_hold(n.note_type)
-	# Slide chain starting shenanigans
-	for n in notes:
-		if n is HBNoteData:
-			if n.is_slide_note():
-				if n in slide_hold_chains:
-					if not wrong and judgement >= judge.JUDGE_RATINGS.FINE:
-						var hold_player = slide_chain_loop_sfx_player.duplicate()
-						add_child(hold_player)
-						hold_player.play()
-						hold_player.connect("finished", self, "_on_slide_hold_player_finished", [hold_player])
-
-						var active_hold_chain = slide_hold_chains[n] as HBChart.SlideChain
-						active_hold_chain.sfx_player = hold_player
-						active_slide_hold_chains.append(active_hold_chain)
-					else:
-						# kill slide and younglings if we failed
-						for piece in slide_hold_chains[n].pieces:
-							if piece in notes_on_screen:
-								var piece_drawer = get_note_drawer(piece)
-								piece_drawer.emit_signal("note_removed")
-								piece_drawer.queue_free()
-								# It's not shitty if it works
-								piece.set_meta("ignored", true)
 	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
-		var old_player = sfx_player_queue.pop_back()
-		old_player.queue_free()
-		remove_child(old_player)
-		play_sfx(double_note_sfx_player, false)
+		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stream_paused = true
+		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stop()
+		sfx_pool.play_sfx("double_note_hit")
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
@@ -457,13 +394,6 @@ func delete_rogue_notes(pos_override = null):
 				if chain_starter is HBSustainNote:
 					if chain_starter.time < pos * 1000.0:
 						notes_to_remove.append(chain_starter)
-				elif chain_starter is HBNoteData:
-					if chain_starter.time < pos * 1000.0:
-						if chain_starter.is_slide_note():
-							if chain_starter in slide_hold_chains:
-								notes_to_remove.append(chain_starter)
-								var pieces = slide_hold_chains[chain_starter].pieces
-								notes_to_remove += pieces
 	for note in notes_to_remove:
 		note.set_meta("ignored", true)
 		if note in notes_on_screen:

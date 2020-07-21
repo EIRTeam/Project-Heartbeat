@@ -27,10 +27,16 @@ func make_blue():
 	blue = true
 	target_graphic.set_note_type(note_data, connected_notes.size() > 0, true)
 
-func _ready():
-	_on_note_type_changed()
+func undo_blue():
+	blue = false
+	target_graphic.set_note_type(note_data, connected_notes.size() > 0, false)
+func play_appear_animation():
 	$AnimationPlayer.play("note_appear")
 	$NoteTarget/Particles2D.emitting = true
+
+func _ready():
+	_on_note_type_changed()
+	play_appear_animation()
 	sine_drawer.note_data = note_data
 	sine_drawer.time_out = get_time_out()
 	sine_drawer.game = game
@@ -47,7 +53,7 @@ func _on_game_size_changed():
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	sine_drawer._on_resized()
 	target_graphic.position = game.remap_coords(note_data.position)
-	
+
 func update_arm_position(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	

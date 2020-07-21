@@ -15,12 +15,12 @@ signal time_changed
 
 func set_chart(val):
 	chart = val
-	_on_timing_points_changed()
-
-func _init(game: HBRhythmGame):
+	game.set_chart(chart)
+	game.remove_all_notes_from_screen()
+func _init(_game: HBRhythmGame):
 	add_child(audio_stream_player)
 	add_child(voice_audio_stream_player)
-	self.game = game
+	self.game = _game
 
 func _process(delta):
 	var time = 0.0
@@ -33,7 +33,6 @@ func _process(delta):
 		
 		time = time + _audio_play_offset
 		game.time = time
-	
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		emit_signal("time_changed", time)
 
@@ -47,7 +46,6 @@ func set_song(song: HBSong):
 		voice_audio_stream_player.volume_db = -100
 
 func pause():
-	game.kill_active_slide_chains()
 	game.reset_hit_notes()
 	audio_stream_player.stream_paused = true
 	audio_stream_player.volume_db = -80
@@ -62,7 +60,7 @@ func is_playing():
 	return audio_stream_player.playing
 
 func seek(value: int):
-	game.kill_active_slide_chains()
+	#game.remove_all_notes_from_screen()
 	if not audio_stream_player.playing:
 		pause()
 	else:
@@ -70,16 +68,18 @@ func seek(value: int):
 		
 	game.time = value / 1000.0
 	emit_signal("time_changed", game.time)
-	_on_timing_points_changed()
+	game.reset_hit_notes()
+	#_on_timing_points_changed()
 	if audio_stream_player.playing:
 		game.delete_rogue_notes(value / 1000.0)
 
-func _on_timing_points_changed():
-	game.remove_all_notes_from_screen()
-	game.reset_hit_notes()
-	game.base_bpm = current_song.bpm # We reset the BPM
-	game.set_chart(chart)
-	game.delete_rogue_notes(game.time)
+func _on_timing_params_changed():
+	game._on_viewport_size_changed()
+#	game.remove_all_notes_from_screen()
+#	game.reset_hit_notes()
+#	game.base_bpm = current_song.bpm # We reset the BPM
+#	game.set_chart(chart)
+#	game.delete_rogue_notes(game.time)
 
 func play_from_pos(position: float):
 	if current_song:

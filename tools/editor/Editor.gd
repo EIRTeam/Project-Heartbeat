@@ -442,7 +442,8 @@ func _on_timing_points_changed():
 	game_playback.chart = get_chart()
 
 func _on_timing_points_params_changed():
-	game_playback._on_timing_points_changed()
+	game_playback._on_timing_params_changed()
+	game_playback.seek(playhead_position)
 
 func get_song_length():
 	return audio_stream_player.stream.get_length()
@@ -766,4 +767,4 @@ func _on_PlaytestButton_pressed(at_time):
 func _on_playtest_quit():
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
-	game_playback._on_timing_points_changed()
+	game_playback._on_timing_params_changed()

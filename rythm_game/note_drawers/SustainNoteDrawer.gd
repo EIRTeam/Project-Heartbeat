@@ -1,4 +1,4 @@
-extends "res://rythm_game/SingleNoteDrawer.gd"
+extends "res://rythm_game/note_drawers/SingleNoteDrawer.gd"
 
 var press_count = 0
 

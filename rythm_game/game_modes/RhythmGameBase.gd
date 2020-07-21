@@ -6,6 +6,8 @@ signal time_changed(time)
 signal song_cleared(results)
 signal note_judged(judgement)
 signal intro_skipped(new_time)
+signal end_intro_skip_period
+signal score_added(added_score)
 signal show_multi_hint(new_closest_multi_notes)
 signal hide_multi_hint
 signal toggle_ui
@@ -72,6 +74,8 @@ var game_input_manager: HBGameInputManager = HBGameInputManager.new()
 
 var bpm_changes = {}
 
+var sfx_pool := HBSoundEffectPool.new()
+
 # Initial BPM
 var base_bpm = 180.0
 
@@ -92,6 +96,7 @@ func _game_ready():
 	
 	add_child(audio_stream_player)
 	add_child(audio_stream_player_voice)
+	add_child(sfx_pool)
 	
 	audio_stream_player.connect("finished", self, "_on_game_finished")
 	
@@ -311,6 +316,7 @@ func _process_note_group(group: NoteGroup):
 			if timing_point.has_meta("ignored"):
 				if timing_point.get_meta("ignored"):
 					continue
+			print("Create notee drawer")
 			create_note_drawer(timing_point)
 			# multi-note detection
 			if multi_notes.size() > 0:
@@ -404,11 +410,10 @@ func set_current_combo(combo: int):
 # removes a note from screen (and from the timing points list if not in the editor)
 func remove_note_from_screen(i, update_last_hit = true):
 	if i != -1:
-		if not editing or previewing:
-			if update_last_hit:
-				if notes_on_screen[i].has_meta("group_position"):
-					var group = notes_on_screen[i].get_meta("group")
-					group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
+		if update_last_hit:
+			if notes_on_screen[i].has_meta("group_position"):
+				var group = notes_on_screen[i].get_meta("group")
+				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
 		game_ui.get_notes_node().remove_child(get_note_drawer(notes_on_screen[i]))
 		notes_on_screen.remove(i)
 
@@ -564,8 +569,8 @@ func inv_map_coords(coords: Vector2):
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer
 	note_drawer = timing_point.get_drawer().instance()
-	note_drawer.note_data = timing_point
 	note_drawer.game = self
+	note_drawer.note_data = timing_point
 	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])

@@ -304,6 +304,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSongVerification.gd"
 }, {
+"base": "Node",
+"class": "HBSoundEffectPool",
+"language": "GDScript",
+"path": "res://rythm_game/SoundEffectPool.gd"
+}, {
 "base": "HBBaseNote",
 "class": "HBSustainNote",
 "language": "GDScript",
@@ -484,6 +489,7 @@ _global_script_class_icons={
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
 "HBSongVerification": "",
+"HBSoundEffectPool": "",
 "HBSustainNote": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
@@ -520,8 +526,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1594857477
-config/build_commit="660f7fc0e1608132942fe089ec22c6285f56b24c"
+config/build_time=1595118235
+config/build_commit="4c6413d436eadc58f2499ce7abddc452dad5a9e9"
 
 [autoload]
 

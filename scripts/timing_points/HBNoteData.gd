@@ -2,7 +2,7 @@
 extends HBBaseNote
 
 var drawer = load("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
-
+var slide_drawer = load("res://rythm_game/note_drawers/SlideNoteDrawer.tscn")
 class_name HBNoteData
 
 var hold = false # If this is a modern-style hold note
@@ -15,7 +15,10 @@ func get_serialized_type():
 	
 # Gets the scene that takes care of drawing this note
 func get_drawer():
-	return drawer
+	if not is_slide_note():
+		return drawer
+	else:
+		return slide_drawer
 
 static func can_show_in_editor():
 	return false
@@ -35,6 +38,10 @@ func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), 	{"hold": {
 			"type": "bool" 
 		}})
+
+# If the note is automatically freed upon first judgement
+func is_auto_freed():
+	return not is_slide_note()
 
 # if true this note is a slide note hold piece
 func is_slide_hold_piece():
