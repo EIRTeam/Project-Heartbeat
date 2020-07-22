@@ -168,10 +168,14 @@ func _handle_unhandled_input(event):
 					# Non-wrong note checks
 					game.get_note_drawer(note).handle_input(event, game.time)
 					var input_judgement = game.get_note_drawer(note).judge_note_input(event, game.time) as JudgeInputResult
-					if not input_judgement.has_rating:
+					# This ensures macro can't be bound to many buttons and still be used to hit multi notes
+					var event_had_too_many_actions = false
+					if event is InputEventHB:
+						if event.triggered_actions_count > connected_notes.size()+1:
+							event_had_too_many_actions = true
+					if not input_judgement.has_rating or event_had_too_many_actions:
 						# Check for wrongs
 						var found_input = false
-						var found_input_action = ""
 						for action in allowed_actions:
 							if event.is_action_pressed(action):
 								found_input = true
@@ -185,10 +189,12 @@ func _handle_unhandled_input(event):
 							if (event.is_action_pressed("tap_down") or event.is_action_pressed("tap_up")):
 								heart_bypass_hack = true
 								
+
+
 						# If the action was not amongs the allowed action of the connected
 						# notes and our note is amongst the closest notes it means we got
 						# a wrong
-						if not found_input and not heart_bypass_hack:
+						if (not found_input and not heart_bypass_hack) or event_had_too_many_actions:
 							# janky way of emulating the correct input and figuring out
 							# what the rating would be, if we would get a rating it means
 							# we got a wrong note

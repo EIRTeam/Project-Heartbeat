@@ -70,7 +70,6 @@ func seek(value: int):
 	emit_signal("time_changed", game.time)
 	game.reset_hit_notes()
 	#_on_timing_points_changed()
-	print("SEEKING TO ", value)
 	game.delete_rogue_notes(value / 1000.0)
 		
 
