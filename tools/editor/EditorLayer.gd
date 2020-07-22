@@ -6,10 +6,17 @@ var layer_name : String = "New Layer"
 
 onready var preview = get_node("EditorTimelinePreview")
 
+var timing_points = []
+var _cull_start_time = 0
+var _cull_end_time = 0
+var _cull_start_note_i = 0
+var _cull_end_note_i = 0
 func _ready():
 	preview.hide()
-	
-	
+
+func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
+	return (a.data.time) > (b.data.time)
+
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
@@ -17,9 +24,14 @@ func place_child(child: EditorTimelineItem):
 	child.sync_value("end_time")
 	
 func place_all_children():
-	for child in get_children():
-		if child != preview:
-			place_child(child)
+	#timing_points.sort_custom(self, "_sort_timing_points")
+	if timing_points.size() > 0:
+		for i in range(_cull_start_note_i, _cull_end_note_i+1):
+			var child = timing_points[i]
+			if not child.visible:
+				break
+			if child != preview:
+				place_child(child)
 	
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)
@@ -28,17 +40,27 @@ func place_preview(start: float, duration: float):
 	
 	
 func add_item(item: EditorTimelineItem):
+	var insert_pos = timing_points.bsearch_custom(item.data.time, self, "bsearch_time")
 	item._layer = self
 	item.editor = editor
 	place_child(item)
 	if not item.is_connected("time_changed", self, "_on_time_changed"):
 		item.connect("time_changed", self, "_on_time_changed", [item])
 	add_child(item)
+	timing_points.insert(insert_pos, item)
+	if item.data.time > _cull_start_time and item.data.time < _cull_end_time:
+		item.set_process_input(true)
+		item.show()
+	else:
+		item.set_process_input(false)
+		item.hide()
 
 func _on_time_changed(child):
+	timing_points.sort_custom(self, "_sort_timing_points")
 	place_child(child)
 
 func remove_item(item: EditorTimelineItem):
+	timing_points.erase(item)
 	remove_child(item)
 
 func can_drop_data(position, data):
@@ -49,6 +71,45 @@ func can_drop_data(position, data):
 			return true
 	else:
 		return false
+
+func bsearch_time(a, b):
+	var a_t = a
+	var b_t = b
+	if a is EditorTimelineItem:
+		a_t = a.data.time
+	if b is EditorTimelineItem:
+		b_t = b.data.time
+	return a_t < b_t
+
+func _on_time_cull_changed(start_time, end_time):
+	_cull_start_time = start_time
+	_cull_end_time = end_time
+	var found_first = false
+	var found_last = false
+
+
+	if timing_points.size() > 1:
+		var early_note_i = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
+		_cull_start_note_i = early_note_i
+		for i in range(early_note_i, timing_points.size()):
+			var item = timing_points[i]
+			_cull_end_note_i = i
+			if item.data.time < end_time:
+				if item.visible:
+					continue
+				item.set_process_input(true)
+				item.show()
+			elif not item.visible:
+				break
+			else:
+				item.hide()
+		for i in range(early_note_i-1, -1, -1):
+			var item = timing_points[i]
+			if not item.visible:
+				break
+			item.hide()
+
+			
 
 func get_timing_points():
 	var points = []

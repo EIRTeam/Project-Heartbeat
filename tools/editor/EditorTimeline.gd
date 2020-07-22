@@ -16,23 +16,33 @@ const LOG_NAME = "Editor"
 var _area_select_start = Vector2()
 var _area_selecting = false
 const TRIANGLE_HEIGHT = 15
+
+var _cull_start_time = 0
+var _cull_end_time = 0
+
+signal time_cull_changed(start_time, end_time)
+
 func _ready():
 	update()
 	connect("resized", self, "_on_viewport_size_changed")
 	scroll_container.connect("zoom_in", self, "_on_zoom_in")
 	scroll_container.connect("zoom_out", self, "_on_zoom_out")
-	
 func _on_zoom_in():
 	editor.change_scale(editor.scale-0.5)
 func _on_zoom_out():
 	editor.change_scale(editor.scale+0.5)
+	
+func send_time_cull_changed_signal():
+	_cull_start_time = _offset
+	_cull_end_time = _offset + editor.scale_pixels(rect_size.x - layer_names.rect_size.x)
+	emit_signal("time_cull_changed", _cull_start_time, _cull_end_time)
 	
 func _on_viewport_size_changed():
 	# HACK: On linux we wait one frame because the size transformation doesn't
 	# get applied on time, user should not notice this
 	yield(get_tree(), "idle_frame")
 	update()
-	
+	send_time_cull_changed_signal()
 	
 func _draw_bars(interval, offset=0):
 	var lines = int(editor.get_song_length() / interval)
@@ -111,7 +121,9 @@ func add_layer(layer):
 	lns.layer_name = layer.layer_name
 	layer_names.add_child(lns)
 	scale_layers()
+	connect("time_cull_changed", layer, "_on_time_cull_changed")
 	emit_signal("layers_changed")
+	layer._on_time_cull_changed(_cull_start_time, _cull_end_time)
 
 
 func get_layers():
@@ -132,6 +144,7 @@ func set_layers_offset(ms: int):
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
 	update()
+	send_time_cull_changed_signal()
 
 func scale_layers():
 	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
@@ -139,12 +152,14 @@ func scale_layers():
 func _on_Editor_scale_changed(prev_scale, scale):
 	var new_offset = _offset * (scale/prev_scale)
 	var diff = _prev_playhead_position.x - calculate_playhead_position().x
-	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))
 	
+	scale_layers()
+	
+	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))
+
 	for layer in layers.get_children():
 		layer.place_all_children()
-	scale_layers()
-		
+	
 	update()
 	
 func _input(event):

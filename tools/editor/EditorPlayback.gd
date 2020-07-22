@@ -70,8 +70,9 @@ func seek(value: int):
 	emit_signal("time_changed", game.time)
 	game.reset_hit_notes()
 	#_on_timing_points_changed()
-	if audio_stream_player.playing:
-		game.delete_rogue_notes(value / 1000.0)
+	print("SEEKING TO ", value)
+	game.delete_rogue_notes(value / 1000.0)
+		
 
 func _on_timing_params_changed():
 	game._on_viewport_size_changed()

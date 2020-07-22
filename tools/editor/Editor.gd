@@ -96,6 +96,7 @@ func _ready():
 	OS.window_maximized = true
 	get_viewport()
 	timeline.editor = self
+	timeline.set_layers_offset(0)
 	
 	rhythm_game.set_process_unhandled_input(false)
 #	seek(0)
