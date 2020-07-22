@@ -57,7 +57,11 @@ func _on_game_size_changed():
 func update_arm_position(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	
+var last_graphic_update_time = 0
+
 func update_graphic_positions_and_scale(time: float):
+	if last_graphic_update_time > time:
+		_on_game_size_changed()
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 	# Movement along wave
 	var oscillation_amplitude = cached_amplitude
@@ -74,6 +78,7 @@ func update_graphic_positions_and_scale(time: float):
 	update_arm_position(time)
 	draw_trail(time)
 	.update_graphic_positions_and_scale(time)
+	last_graphic_update_time = time
 	
 enum GRADIENT_OFFSETS {
 	COLOR_EMPTY1,

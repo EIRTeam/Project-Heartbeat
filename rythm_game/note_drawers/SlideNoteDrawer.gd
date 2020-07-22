@@ -138,6 +138,8 @@ func _on_game_time_changed(time: float):
 			if chain_failed:
 				kill_note()
 				game.sfx_pool.play_sfx("slide_chain_fail")
+		else:
+			._on_game_time_changed(time)
 func kill_note():
 	for drawer in slide_chain_drawers.values():
 		drawer.queue_free()
