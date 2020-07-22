@@ -53,6 +53,8 @@ func _on_game_size_changed():
 		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	sine_drawer._on_resized()
 	target_graphic.position = game.remap_coords(note_data.position)
+	if game.editing:
+		sine_drawer.setup()
 
 func update_arm_position(time: float):
 	target_graphic.arm_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
@@ -63,9 +65,6 @@ func update_graphic_positions_and_scale(time: float):
 	if last_graphic_update_time > time:
 		_on_game_size_changed()
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
-	# Movement along wave
-	var oscillation_amplitude = cached_amplitude
-	var starting_pos = cached_starting_pos
 
 	note_graphic.position = game.remap_coords(HBUtils.calculate_note_sine(time_out_distance/get_time_out(), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance))
 	

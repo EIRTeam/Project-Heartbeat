@@ -214,7 +214,6 @@ var old_property_values = {}
 # Changes the selected property by an amount, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary
 func _change_selected_property_delta(property_name: String, new_value, making_change=null):
-	print("SETTING ", property_name, " ", new_value)
 	for selected_item in selected:
 		if property_name in selected_item.data:
 			if not selected_item in old_property_values:
