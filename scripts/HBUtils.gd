@@ -133,7 +133,8 @@ static func image_from_fs(path: String):
 
 static func _wrap_image_texture(img: Image):
 	var text = ImageTexture.new()
-	text.set_data(img)
+	text.create_from_image(img, ImageTexture.FLAGS_DEFAULT)
+	return text
 
 static func texture_from_fs(path: String):
 	if path.begins_with("res://"):
