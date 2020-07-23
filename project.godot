@@ -299,6 +299,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/song_list/SongList.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBSongStats",
+"language": "GDScript",
+"path": "res://scripts/HBSongStats.gd"
+}, {
+"base": "Reference",
+"class": "HBSongStatsLoader",
+"language": "GDScript",
+"path": "res://autoloads/SongStatsLoader.gd"
+}, {
 "base": "Node",
 "class": "HBSongVerification",
 "language": "GDScript",
@@ -488,6 +498,8 @@ _global_script_class_icons={
 "HBSongListItem": "",
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
+"HBSongStats": "",
+"HBSongStatsLoader": "",
 "HBSongVerification": "",
 "HBSoundEffectPool": "",
 "HBSustainNote": "",

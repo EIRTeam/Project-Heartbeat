@@ -90,8 +90,6 @@ func add_result_to_history(game_info: HBGameInfo):
 		else:
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
 		save_history()
-	
-
 
 func has_result(song_id: String, difficulty: String):
 	var r = false

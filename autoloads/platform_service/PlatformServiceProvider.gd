@@ -4,7 +4,7 @@ class_name PlatformServiceProvider
 
 const DEFAULT_AVATAR = preload("res://graphics/default_avatar.png")
 # relative to user://
-const FILES_TO_SYNC_ON_STARTUP = ["user_settings.json", "history.json"]
+const FILES_TO_SYNC_ON_STARTUP = ["user_settings.json", "history.json", "song_stats.hbdict"]
 
 var friendly_username = "Player"
 var user_id = "Player" # unique user id, can be a number

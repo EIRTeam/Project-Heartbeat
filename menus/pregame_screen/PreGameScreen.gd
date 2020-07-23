@@ -2,14 +2,15 @@ extends HBMenu
 
 onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
 onready var button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer")
-onready var modifier_button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer")
-onready var modifier_scroll_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
+onready var modifier_button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer")
+onready var modifier_scroll_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer")
 onready var button_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2")
 onready var modifier_selector = get_node("ModifierLoader")
 onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
 onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
 onready var leaderboard_legal_text = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/Label")
 onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
+onready var stats_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/StatsLabel")
 var current_song: HBSong
 var current_difficulty: String
 var current_editing_modifier: String
@@ -31,6 +32,9 @@ func _ready():
 	per_song_settings_editor.connect("back", self, "_modifier_loader_back")
 	ppd_video_url_change_confirmation_prompt.connect("cancel", modifier_scroll_container, "grab_focus")
 	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
+	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
+	#per_song_settings_editor.show_editor()
+
 func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
 		game_info.add_new_modifier(modifier_id)
@@ -79,7 +83,18 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	
 	emit_signal("song_selected", current_song.id, current_difficulty)
 	update_modifiers()
-	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
+	
+	update_song_stats_label()
+func update_song_stats_label():
+	var stats = HBGame.song_stats.get_song_stats(current_song.id)
+	var highest_score_string = "Never played"
+	if ScoreHistory.has_result(current_song.id, current_difficulty):
+		var result := ScoreHistory.get_result(current_song.id, current_difficulty) as HBResult
+		var pass_percentage = result.get_percentage()
+		var thousands_sep_score = HBUtils.thousands_sep(result.score)
+		highest_score_string = "%s (%.2f %%)" % [thousands_sep_score, pass_percentage*100]
+	var text = "Times Played: %d\n\nHighest score:\n%s" % [stats.times_played, highest_score_string]
+	stats_label.text = text
 	
 func _on_button_list_out_from_top():
 	modifier_scroll_container.grab_focus()

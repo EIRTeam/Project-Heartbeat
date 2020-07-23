@@ -3,7 +3,7 @@ extends Node
 
 var game_modes: Array
 var rich_presence: HBRichPresence
-
+var song_stats: HBSongStatsLoader
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
 	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
@@ -37,6 +37,9 @@ func _game_init():
 	if res != OK:
 		rich_presence = HBRichPresence.new()
 	add_child(rich_presence)
+
+	song_stats = HBSongStatsLoader.new()
+	song_stats._init_song_stats()
 	
 
 func register_game_mode(game_mode: HBGameMode):

@@ -79,7 +79,8 @@ func start_fade_in():
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
-	
+	HBGame.song_stats.song_played(song.id)
+	HBGame.song_stats.save_song_stats()
 
 func start_session(game_info: HBGameInfo):
 	if not SongLoader.songs.has(game_info.song_id):

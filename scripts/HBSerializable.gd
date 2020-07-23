@@ -69,7 +69,8 @@ static func get_serializable_types():
 		"GameInfo": load("res://scripts/HBGameInfo.gd"),
 		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
 		"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
-		"PerSongSettings": load("res://scripts/HBPerSongSettings.gd")
+		"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
+		"SongStats": load("res://scripts/HBSongStats.gd")
 	}
 func get_serialized_type():
 	pass
