@@ -299,7 +299,6 @@ func _input(event):
 			for note in group.hit_notes:
 				res += str(note)
 			print(res)
-
 func _process_note_group(group: NoteGroup):
 	var multi_notes = []
 	for i in range(group.notes.size()):
@@ -553,12 +552,33 @@ func inv_map_coords(coords: Vector2):
 	var x = (coords.x - ((size.x - playing_field_size.x) / 2.0)) / playing_field_size.x * BASE_SIZE.x
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
-# creates and connects a new note drawer
-func create_note_drawer(timing_point: HBBaseNote):
+
+var cached_note_drawers = {}
+
+func cache_note_drawers():
+	for drawer in cached_note_drawers.values():
+		drawer.free()
+	cached_note_drawers = {}
+	for group in timing_points:
+		for note in group.notes:
+			var drawer = _create_note_drawer_impl(note)
+			cached_note_drawers[note] = drawer
+
+func _create_note_drawer_impl(timing_point: HBBaseNote):
 	var note_drawer
 	note_drawer = timing_point.get_drawer().instance()
 	note_drawer.game = self
 	note_drawer.note_data = timing_point
+	game_ui.get_notes_node().add_child(note_drawer)
+	game_ui.get_notes_node().remove_child(note_drawer)
+	return note_drawer
+# creates and connects a new note drawer
+func create_note_drawer(timing_point: HBBaseNote):
+	var note_drawer
+	if cached_note_drawers.size() > 0:
+		note_drawer = cached_note_drawers[timing_point]
+	else:
+		note_drawer = _create_note_drawer_impl(timing_point)
 	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
