@@ -274,7 +274,7 @@ func _on_game_time_changed(time: float):
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
 		var time_out = get_time_out()
-		if note_data.can_be_judged():
+		if note_data.can_be_judged() and note_master:
 			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master and note_master:
 				for action in note_data.get_input_actions():
 					if (game.game_input_manager.is_action_held(action)) and game.game_input_manager.get_action_press_count(action) >= conn_notes.size():
@@ -294,8 +294,10 @@ func _on_game_time_changed(time: float):
 							break
 			if time >= (note_data.time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
-				emit_signal("note_removed")
-				queue_free()
+				for note in conn_notes:
+					var drawer = game.get_note_drawer(note)
+					drawer.emit_signal("note_removed")
+					drawer.queue_free()
 		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():

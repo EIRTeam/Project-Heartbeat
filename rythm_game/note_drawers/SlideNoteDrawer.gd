@@ -26,9 +26,6 @@ func set_note_data(data):
 			accumulated_score = 0
 			note_drawer.hide()
 
-func _ready():
-	print("SLIDE READY ALRIGHT")
-
 func _on_note_judged(judgement, prevent_free = false):
 	if not prevent_free:
 		._on_note_judged(judgement, false)

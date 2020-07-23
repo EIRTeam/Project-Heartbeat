@@ -316,7 +316,6 @@ func _process_note_group(group: NoteGroup):
 			if timing_point.has_meta("ignored"):
 				if timing_point.get_meta("ignored"):
 					continue
-			print("Create notee drawer")
 			create_note_drawer(timing_point)
 			# multi-note detection
 			if multi_notes.size() > 0:
@@ -495,17 +494,6 @@ func get_note_drawer(timing_point):
 	if timing_point_to_drawer_map.has(timing_point):
 		drawer = timing_point_to_drawer_map[timing_point]
 	return drawer
-	
-# Plays the provided sfx creating a clone of an audio player (maybe we should
-# use the AudioServer for this...
-func play_sfx(player: AudioStreamPlayer, debounce_enabled = true):
-	if _sfx_debounce_t > SFX_DEBOUNCE_TIME or not debounce_enabled:
-		var new_player := player.duplicate() as AudioStreamPlayer
-		add_child(new_player)
-		new_player.play(0)
-		new_player.connect("finished", new_player, "queue_free")
-		_sfx_debounce_t = 0.0
-		sfx_player_queue.append(new_player)
 		
 func remove_all_notes_from_screen():
 	for i in range(notes_on_screen.size() - 1, -1, -1):
@@ -594,7 +582,7 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 # todo: generalize this
 func _on_notes_judged(notes: Array, judgement, wrong):
 	print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
-	var note = notes[0] as HBBaseNote
+	var note = notes[0] as HBBaseNote 
 	
 	# Simultaneous slides are a special case...
 	# we have to process each note individually
