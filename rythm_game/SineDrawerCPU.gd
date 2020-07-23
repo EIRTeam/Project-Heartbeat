@@ -55,8 +55,8 @@ func setup():
 	line.texture = preload("res://graphics/sine_wave.svg")
 	
 	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
-	
-	add_child(line)
+	if not line in get_children():
+		add_child(line)
 
 	generate_trail_points()
 	line.material.set_shader_param("leading", float(int(UserSettings.user_settings.leading_trail_enabled)))
