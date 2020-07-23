@@ -80,7 +80,7 @@ func preload_atlas(icon_pack):
 	file.open(icon_pack.__origin + "/" + "atlas.json", File.READ)
 	var atlas_json := JSON.parse(file.get_as_text()) as JSONParseResult
 	if atlas_json.error == OK:
-		var texture = load(icon_pack.__origin + "/" + "atlas.png")
+		var texture = HBUtils.texture_from_fs(icon_pack.__origin + "/" + "atlas.png")
 		return {
 			"texture": texture,
 			"config": atlas_json.result,

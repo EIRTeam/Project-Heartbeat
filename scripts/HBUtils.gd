@@ -131,6 +131,22 @@ static func image_from_fs(path: String):
 		image.load(path)
 		return image
 
+static func _wrap_image_texture(img: Image):
+	var text = ImageTexture.new()
+	text.set_data(img)
+
+static func texture_from_fs(path: String):
+	if path.begins_with("res://"):
+		var src = load(path)
+		if src is Texture:
+			return src
+		else:
+			return _wrap_image_texture(src)
+	else:
+		var image = Image.new()
+		image.load(path)
+		return _wrap_image_texture(image)
+
 # same as image_from_fs but async?
 static func image_from_fs_async(path: String):
 	if path.begins_with("res://"):
