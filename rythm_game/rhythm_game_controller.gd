@@ -111,7 +111,6 @@ func start_session(game_info: HBGameInfo):
 		modifiers.append(modifier)
 	set_song(song, game_info.difficulty, modifiers)
 	set_process(true)
-	set_game_size()
 
 func disable_restart():
 	$PauseMenu.disable_restart()
@@ -132,6 +131,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	$Node2D/TextureRect.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, null, modifiers)
+	set_game_size()
 	game.cache_note_drawers()
 	$Node2D/Panel.hide()
 	
