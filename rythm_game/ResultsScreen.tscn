@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=8]
 [ext_resource path="res://graphics/icons/thumb-down.svg" type="Texture" id=9]
 [ext_resource path="res://graphics/icons/thumb-up.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/twitter.svg" type="Texture" id=11]
 [ext_resource path="res://rythm_game/ResultsScreen.gd" type="Script" id=12]
 [ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=13]
 [ext_resource path="res://fonts/ResultsAuthorFont.tres" type="DynamicFont" id=14]
@@ -326,8 +327,8 @@ alignment = 1
 script = ExtResource( 3 )
 
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 521.0
-margin_right = 601.0
+margin_left = 464.0
+margin_right = 544.0
 margin_bottom = 50.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
@@ -340,9 +341,25 @@ __meta__ = {
 normal_style = ExtResource( 8 )
 hover_style = SubResource( 2 )
 
+[node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+margin_left = 548.0
+margin_right = 659.0
+margin_bottom = 50.0
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 1 )
+text = "Share"
+icon = ExtResource( 11 )
+align = 0
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+normal_style = ExtResource( 8 )
+hover_style = SubResource( 2 )
+
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 605.0
-margin_right = 698.0
+margin_left = 663.0
+margin_right = 756.0
 margin_bottom = 50.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )

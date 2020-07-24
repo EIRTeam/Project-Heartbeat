@@ -21,6 +21,8 @@ onready var downvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxCo
 onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
 onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
 onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
+onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
+
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 const BASE_HEIGHT = 720.0
@@ -96,6 +98,7 @@ func _ready():
 		rating_scene.rating = rating
 	return_button.connect("pressed", self, "_on_return_button_pressed")
 	retry_button.connect("pressed", self, "_on_retry_button_pressed")
+	share_on_twitter_button.connect("pressed", self, "_on_share_on_twitter_pressed")
 	if PlatformService.service_provider.implements_ugc:
 		var rate_buttons = [upvote_button, downvote_button, skip_button, no_opinion_button]
 		for button in rate_buttons:
@@ -105,6 +108,12 @@ func _ready():
 		downvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.DOWNVOTE])
 		skip_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.SKIP])
 	
+func _on_share_on_twitter_pressed():
+	var song = SongLoader.songs[game_info.song_id] as HBSong
+	var result_pretty = HBUtils.thousands_sep(game_info.result.score)
+	var tweet_message = "I just obtained %s (%.2f %%25) points in %s in @PHeartbeatGame" % [result_pretty, game_info.result.get_percentage() * 100.0, song.get_visible_title()]
+	OS.shell_open("https://twitter.com/intent/tweet?text=%s&hashtags=ProjectHeartbeat" % [tweet_message])
+
 func _on_vote_button_pressed(vote):
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
