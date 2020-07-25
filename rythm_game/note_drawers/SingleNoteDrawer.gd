@@ -296,8 +296,9 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", conn_notes, game.judge.JUDGE_RATINGS.WORST, false)
 				for note in conn_notes:
 					var drawer = game.get_note_drawer(note)
-					drawer.emit_signal("note_removed")
-					drawer.queue_free()
+					if drawer:
+						drawer.emit_signal("note_removed")
+						drawer.queue_free()
 		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():
