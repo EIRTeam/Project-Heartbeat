@@ -20,6 +20,5 @@ func set_last_rating(val):
 	rating_label.text = HBJudge.JUDGE_RATINGS.keys()[last_rating]
 
 func set_score(val):
-	print("SET SCORE TO ", val)
 	score = val
 	score_counter.score = score

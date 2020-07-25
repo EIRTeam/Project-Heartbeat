@@ -57,17 +57,17 @@ func _on_intro_skipped(new_time):
 func _fade_in_done():
 	video_player.paused = false
 	video_player.show()
-	game.play_song()
 	$FadeIn.hide()
 	# HACK HACK: This makes sync very good and makes it effectively target 0
 	# this is why we do a single game cycle, to get the timing right
+	game.play_song()
 	game._process(0.0)
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	video_player.stream_position = game.time
 	rescale_video_player()
 	
 	pause_menu_disabled = false
-
+	game.play_song()
 func start_fade_in():
 #	video_player.hide()
 	$FadeIn.modulate.a = 1.0

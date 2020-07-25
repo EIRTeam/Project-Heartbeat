@@ -7,15 +7,17 @@ const LOG_NAME = "SteamLobby"
 func set_lobby_name(new_name):
 	Steam.setLobbyData(_lobby_id, "name", new_name)
 func set_song_name(val):
-	Steam.setLobbyData(_lobby_id, "song_name", val)
+	Steam.setLobbyData(_lobby_id, "song_name_base_64", Marshalls.utf8_to_base64(val))
 func set_song_id(val):
 	game_info.song_id = val
+	Steam.setLobbyData(_lobby_id, "song_id_base64", Marshalls.utf8_to_base64(val))
 func set_song_difficulty(val):
 	game_info.difficulty = val
 	
 func send_game_info_update():
 	Steam.setLobbyData(_lobby_id, "game_info", JSON.print(game_info.serialize()))
-	
+	set_song_id(game_info.song_id)
+	set_song_name(SongLoader.songs[game_info.song_id].title)
 func get_lobby_name():
 	return Steam.getLobbyData(_lobby_id, "name")
 func get_lobby_member_count():
@@ -30,7 +32,9 @@ func get_song_name():
 	if song:
 		return song.get_visible_title()
 	else:
-		return Steam.getLobbyData(_lobby_id, "song_name")
+		var song_name_b64 = Steam.getLobbyData(_lobby_id, "song_name_base_64")
+		print("H ", song_name_b64)
+		return Marshalls.base64_to_utf8(Steam.getLobbyData(_lobby_id, song_name_b64))
 
 func get_song_id():
 	return game_info.song_id
@@ -47,9 +51,11 @@ func join_lobby():
 	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
 
 func obtain_game_info():
-	var json = JSON.parse(Steam.getLobbyData(_lobby_id, "game_info")) as JSONParseResult
+	var gif = Steam.getLobbyData(_lobby_id, "game_info")
+	var json = JSON.parse(gif) as JSONParseResult
 	if json.error == OK:
 		game_info = HBGameInfo.deserialize(json.result)
+		game_info.song_id = Marshalls.base64_to_utf8(Steam.getLobbyData(_lobby_id, "song_id_base64"))
 	else:
 		Log.log(self, "Error obtaining game_info from lobby %d error on line %d: %s" % [_lobby_id, json.error_line, json.error_string])
 
@@ -80,12 +86,43 @@ func _on_lobby_joined(lobby_id, permissions, locked, response):
 				obtain_game_info()
 		emit_signal("lobby_joined", response)
 		
-func _on_lobby_message(result, user, message, type):
+func execute_command_message(user: HBServiceMember, message: String):
+	var command = message.substr(1, -1).split(" ")[0]
+	if is_owned_by_local_user():
+		print(message)
+		if command == "song_available_update":
+			var data = JSON.parse(message.split(" ", true, 1)[1]).result
+			var song_id = Marshalls.base64_to_utf8(data.song_id)
+			var song_available = data.available
+
+			if song_id == get_song_id():
+				emit_signal("user_song_availability_update", user, song_id, song_available)
+	elif user == get_lobby_owner():
+		if command == "check_songs_request":
+			var song_id_b64 = message.split(" ", true, 1)[1]
+			var song_id = Marshalls.base64_to_utf8(song_id_b64)
+			var dict = {
+				"song_id": song_id_b64,
+				"available": song_id in SongLoader.songs
+			}
+			send_chat_message("/song_available_update %s" % [JSON.print(dict)])
+
+func check_if_lobby_members_have_song():
+	if is_owned_by_local_user():
+		print("SENDING SONG REQUEST")
+		send_chat_message("/check_songs_request %s" % [Marshalls.utf8_to_base64(get_song_id())])
+
+func _on_lobby_message(result, user, message: String, type):
 	var found_member = get_member_by_id(user)
 	if found_member:
+		if type == CHAT_MESSAGE_TYPE.MESSAGE:
+			if message.begins_with("/"):
+				# Command message
+				execute_command_message(found_member, message)
+				return
 		emit_signal("lobby_chat_message", found_member, message, type)
 		
-func get_member_by_id(id):
+func get_member_by_id(id) -> HBServiceMember:
 	if members.has(id):
 		return members[id]
 	return null
@@ -117,6 +154,8 @@ func _on_lobby_created(result, lobby_id):
 		set_song_id(song.id)
 		set_song_name(song.title)
 		send_game_info_update()
+	else:
+		Log.log(self, "Got error %d when attempting to connect to the lobby" %  [result])
 	emit_signal("lobby_created", result)
 
 func _on_lobby_chat_update(lobby_id, changed_id, making_change_id, chat_state):
@@ -165,7 +204,7 @@ func invite_friend_to_lobby():
 # P2P specific shit
 
 func send_packet(data, send_type, channel, to_owner = false):
-	Log.log(self, "Sending packet " + HBUtils.find_key(PACKET_TYPE, data[0]))
+#	Log.log(self, "Sending packet " + HBUtils.find_key(PACKET_TYPE, data[0]))
 	if to_owner:
 		Steam.sendP2PPacket(get_lobby_owner().member_id, data, send_type, channel)
 	elif get_lobby_member_count() > 1:

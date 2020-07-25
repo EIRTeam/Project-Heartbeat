@@ -75,7 +75,6 @@ func _on_game_member_loading_finished(member: HBServiceMember):
 			_on_game_started(lobby.game_info)
 
 func _on_game_note_hit(member, score, rating):
-	print("NOTE HIT BY ", member.get_member_name())
 	mp_scoreboard.set_last_note_hit_for_member(member, score, rating)
 
 func _on_note_judged(judgement_info):
