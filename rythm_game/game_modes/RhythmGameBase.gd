@@ -62,6 +62,8 @@ var _prevent_finishing = false
 var _finished = false
 var _song_volume = 0.0
 
+var cached_note_drawers = {}
+
 const SFX_DEBOUNCE_TIME = 0.016*2.0
 
 var _sfx_debounce_t = SFX_DEBOUNCE_TIME
@@ -504,6 +506,10 @@ func remove_all_notes_from_screen():
 		game_ui.get_notes_node().remove_child(note)
 		note.queue_free()
 	notes_on_screen = []
+	for point in timing_point_to_drawer_map:
+		if timing_point_to_drawer_map[point]:
+			if not timing_point_to_drawer_map[point].is_queued_for_deletion():
+				timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
 	
 func play_song():
@@ -553,8 +559,6 @@ func inv_map_coords(coords: Vector2):
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
 
-var cached_note_drawers = {}
-
 func cache_note_drawers():
 	for drawer in cached_note_drawers.values():
 		drawer.free()
@@ -582,6 +586,10 @@ func create_note_drawer(timing_point: HBBaseNote):
 	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
+	if timing_point in timing_point_to_drawer_map:
+		if timing_point_to_drawer_map[timing_point]:
+			if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
+				timing_point_to_drawer_map[timing_point].free()
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	notes_on_screen.append(timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
