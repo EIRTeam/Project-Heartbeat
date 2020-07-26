@@ -9,6 +9,8 @@ var paste_icon = preload("res://tools/icons/icon_action_paste.svg")
 var interp_icon = preload("res://tools/icons/InterpLinear.svg")
 var hovered_time = 0
 
+const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_RIGHT", "SLIDE_LEFT", "HEART"]
+
 func get_shortcut(keycode:int,modifier:=[]) -> int:
 	var i := InputEventKey.new()
 	i.control = modifier.has("ctrl")
@@ -40,6 +42,17 @@ func _init(_editor).(_editor):
 	contextual_menu.set_contextual_item_accelerator("delete", get_shortcut(KEY_DELETE))
 	
 	contextual_menu.add_separator()
+	
+	var button_change_submenu = PopupMenu.new()
+	button_change_submenu.name = "ChangeButtonSubmenu"
+	button_change_submenu.connect("index_pressed", self, "_on_button_change_submenu_index_pressed")
+	
+	contextual_menu.add_child(button_change_submenu)
+	contextual_menu.add_submenu_item("Change type", "ChangeButtonSubmenu")
+	
+	for type in BUTTON_CHANGE_ALLOWED_TYPES:
+		var pretty_name = type.capitalize()
+		button_change_submenu.add_item(pretty_name)
 	
 	contextual_menu.add_contextual_item("Interpolate notes", "interpolate")
 	contextual_menu.set_contextual_item_icon("interpolate", interp_icon)
@@ -108,6 +121,54 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			change_note_type("DoubleNote")
 		"make_sustain":
 			change_note_type("SustainNote")
+
+		
+func _on_button_change_submenu_index_pressed(index: int):
+	var new_button = BUTTON_CHANGE_ALLOWED_TYPES[index]
+	change_note_button(new_button)
+		
+func change_note_button(new_button_name):
+	var editor = get_editor()
+	var undo_redo = get_editor().undo_redo as UndoRedo
+	var new_button = HBBaseNote.NOTE_TYPE[new_button_name]
+	
+	if get_editor().selected.size() > 0:
+		undo_redo.create_action("Change note button to " + new_button_name)
+
+		var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_button)
+
+		var new_layer = get_editor().timeline.find_layer_by_name(layer_name)
+
+		for item in get_editor().selected:
+			var data = item.data as HBBaseNote
+			var new_data_ser = data.serialize()
+			
+			new_data_ser["note_type"] = new_button
+			
+			# Fallbacks when converting illegal note types
+			if new_button == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or new_button == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+				new_data_ser["type"] = "Note"
+			
+			if new_button == HBBaseNote.NOTE_TYPE.HEART:
+				if new_data_ser["type"] == "SustainNote":
+					new_data_ser["type"] = "Note"
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			
+			var new_item = new_data.get_timeline_item()
+			
+			undo_redo.add_do_method(editor, "add_item_to_layer", new_layer, new_item)
+			undo_redo.add_do_method(item, "deselect")
+			undo_redo.add_undo_method(new_layer, "remove_item", new_item)
+			
+			undo_redo.add_do_method(item._layer, "remove_item", item)
+			undo_redo.add_undo_method(new_item, "deselect")
+			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+		undo_redo.add_do_method(editor, "_on_timing_points_changed")
+		undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+		undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
+		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+		undo_redo.commit_action()
+		
 func change_note_type(new_type: String):
 	
 	var editor = get_editor()

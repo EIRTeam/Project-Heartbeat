@@ -266,3 +266,11 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 func _on_HScrollBar_scrolling():
 	var new_position = (scroll_bar.value * editor.get_song_length()) * 1000.0
 	set_layers_offset(int(new_position))
+
+func find_layer_by_name(name):
+	var r = null
+	for layer in layers.get_children():
+		if layer.layer_name == name:
+			r = layer
+			break
+	return r
