@@ -35,6 +35,7 @@ var per_song_settings = {}
 var tap_deadzone = 0.5
 var analog_translation_deadzone = 0.5
 var enable_multi_hint = true
+var disable_menu_music = false
 
 var master_volume = 1.0
 var music_volume = 1.0
@@ -56,7 +57,7 @@ func _init():
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "tap_deadzone", "analog_translation_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path", "favorite_songs",
-	"background_dim" ]
+	"background_dim", "disable_menu_music" ]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)

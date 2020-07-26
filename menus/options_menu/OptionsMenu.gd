@@ -71,6 +71,10 @@ var OPTIONS = {
 		"enable_voice_fade": {
 			"name": tr("Voice fade"),
 			"description": tr("Make the voice fade when missing a note (only on supported charts).")
+		},
+		"disable_menu_music": {
+			"name": tr("Disable menu music"),
+			"description": "Disables all music in menus (requires restart)"
 		}
 	},
 	"Video": {

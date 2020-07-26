@@ -158,7 +158,8 @@ func _on_music_player_ready():
 
 var iflag = true # Flag that tells it to ignore the first background change
 func _on_song_started(song, assets):
-	MENUS.music_player.right.set_song(song, assets.audio.get_length())
+	if assets.audio:
+		MENUS.music_player.right.set_song(song, assets.audio.get_length())
 	if not iflag:
 		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
 			change_to_background(assets.background)

@@ -28,6 +28,9 @@ func _ready():
 	add_child(voice_player)
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	player.connect("finished", self, "play_random_song")
+	
+	if UserSettings.user_settings.disable_menu_music:
+		set_process(false)
 
 func play_random_song():
 	# Ensure random song will always be different from current
@@ -63,28 +66,31 @@ func _process(delta):
 			
 func _on_song_assets_loaded(song, assets):
 	waiting_for_song_assets = false
-	if song.has_audio():
-		if not current_song:
-			player.stream = assets.audio
-			player.play()
-			player.seek(song.preview_start/1000.0)
-			if song.voice:
-				voice_player.stream = assets.voice
-				voice_player.play()
-				voice_player.seek(song.preview_start/1000.0)
-			player.volume_db = FADE_OUT_VOLUME
-			voice_player.volume_db = FADE_OUT_VOLUME
-			target_volume = 0
-		else:
-			next_audio = assets.audio
-			if song.voice:
-				next_voice = assets.voice
-			else:
-				next_voice = null
-			target_volume = FADE_OUT_VOLUME
-			song_queued = true
-		current_song = song
+	if UserSettings.user_settings.disable_menu_music:
 		emit_signal("song_started", song, assets)
+	else:
+		if song.has_audio():
+			if not current_song:
+				player.stream = assets.audio
+				player.play()
+				player.seek(song.preview_start/1000.0)
+				if song.voice:
+					voice_player.stream = assets.voice
+					voice_player.play()
+					voice_player.seek(song.preview_start/1000.0)
+				player.volume_db = FADE_OUT_VOLUME
+				voice_player.volume_db = FADE_OUT_VOLUME
+				target_volume = 0
+			else:
+				next_audio = assets.audio
+				if song.voice:
+					next_voice = assets.voice
+				else:
+					next_voice = null
+				target_volume = FADE_OUT_VOLUME
+				song_queued = true
+			current_song = song
+			emit_signal("song_started", song, assets)
 			
 func play_song(song: HBSong, force = false):
 	waiting_for_song_assets = true
