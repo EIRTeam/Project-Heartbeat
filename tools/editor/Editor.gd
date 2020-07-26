@@ -490,8 +490,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	selected = []
 	layer_manager.clear_layers()
 
-
-
+	timeline.send_time_cull_changed_signal()
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
 		layer_scene.layer_name = layer.name

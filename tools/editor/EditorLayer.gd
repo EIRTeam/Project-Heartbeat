@@ -48,13 +48,13 @@ func add_item(item: EditorTimelineItem):
 		item.connect("time_changed", self, "_on_time_changed", [item])
 	add_child(item)
 	timing_points.insert(insert_pos, item)
-	if item.data.time > _cull_start_time and item.data.time < _cull_end_time:
-		item.set_process_input(true)
-		item.show()
-	else:
-		item.set_process_input(false)
-		item.hide()
-
+	if timing_points.size() > 1:
+		if item.data.time > _cull_start_time and item.data.time < _cull_end_time:
+			item.set_process_input(true)
+			item.show()
+		else:
+			item.set_process_input(false)
+			item.hide()
 func _on_time_changed(child):
 	timing_points.sort_custom(self, "_sort_timing_points")
 	place_child(child)
@@ -84,13 +84,11 @@ func bsearch_time(a, b):
 func _on_time_cull_changed(start_time, end_time):
 	_cull_start_time = start_time
 	_cull_end_time = end_time
-	var found_first = false
-	var found_last = false
-
 
 	if timing_points.size() > 1:
 		var early_note_i = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
 		_cull_start_note_i = early_note_i
+		# From the earlierst note forward
 		for i in range(early_note_i, timing_points.size()):
 			var item = timing_points[i]
 			_cull_end_note_i = i
@@ -99,15 +97,17 @@ func _on_time_cull_changed(start_time, end_time):
 					continue
 				item.set_process_input(true)
 				item.show()
+				place_child(item)
 			elif not item.visible:
 				break
 			else:
 				item.hide()
-		for i in range(early_note_i-1, -1, -1):
-			var item = timing_points[i]
-			if not item.visible:
-				break
-			item.hide()
+		if early_note_i > 0:
+			for i in range(early_note_i-1, -1, -1):
+				var item = timing_points[i]
+				if not item.visible:
+					break
+				item.hide()
 
 			
 
