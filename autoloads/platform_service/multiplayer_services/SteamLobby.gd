@@ -33,8 +33,7 @@ func get_song_name():
 		return song.get_visible_title()
 	else:
 		var song_name_b64 = Steam.getLobbyData(_lobby_id, "song_name_base_64")
-		print("H ", song_name_b64)
-		return Marshalls.base64_to_utf8(Steam.getLobbyData(_lobby_id, song_name_b64))
+		return Marshalls.base64_to_utf8(song_name_b64)
 
 func get_song_id():
 	return game_info.song_id
@@ -231,7 +230,7 @@ func _on_p2p_packet_received():
 			Log.log(self, "Empty P2P packet received with non-zero size")
 		var packet_type = packet.data[0]
 		var packet_data: Dictionary
-		Log.log(self, get_lobby_name() + " Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
+		#Log.log(self, get_lobby_name() + " Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
 		if size > 1:
 			packet_data = bytes2var(packet.data.subarray(1, size - 1))
 		if is_owned_by_local_user():

@@ -58,10 +58,11 @@ func _gui_input(event):
 		next_action = "gui_down"
 		prev_action = "gui_up"
 
-	if orientation == ORIENTATION.HORIZONTAL:
-		if event.is_action_pressed("gui_down"):
-			get_tree().set_input_as_handled()
-			emit_signal("bottom")
+	if orientation == ORIENTATION.VERTICAL:
+		if selected_button_i == get_child_count() - 1:
+			if event.is_action_pressed("gui_down"):
+				get_tree().set_input_as_handled()
+				emit_signal("bottom")
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:
