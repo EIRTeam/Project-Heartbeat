@@ -66,7 +66,8 @@ func update_multi_note_renderers():
 	if connected_notes.size() > 1:
 		var points = PoolVector2Array()
 		for note in connected_notes:
-			points.append(game.get_note_drawer(note).get_note_graphic().position)
+			if game.get_note_drawer(note):
+				points.append(game.get_note_drawer(note).get_note_graphic().position)
 		points.append(get_note_graphic().position)
 		points = Geometry.convex_hull_2d(points)
 		if connected_notes.size() <= 2:
