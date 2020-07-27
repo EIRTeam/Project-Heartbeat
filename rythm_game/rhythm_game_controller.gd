@@ -324,6 +324,7 @@ func _on_PauseMenu_restarted():
 	var song = SongLoader.songs[current_game_info.song_id]
 	rollback_on_resume = false
 	game.restart()
+	game.cache_note_drawers()
 	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)

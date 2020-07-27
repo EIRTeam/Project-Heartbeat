@@ -561,7 +561,8 @@ func inv_map_coords(coords: Vector2):
 
 func cache_note_drawers():
 	for drawer in cached_note_drawers.values():
-		drawer.free()
+		if drawer and not drawer.is_queued_for_deletion():
+			drawer.free()
 	cached_note_drawers = {}
 	for group in timing_points:
 		for note in group.notes:
