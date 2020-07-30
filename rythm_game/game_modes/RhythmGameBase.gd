@@ -248,7 +248,7 @@ func _set_timing_points(points):
 			print("FOUND BPM CHANGE at ", point.time)
 	timing_points = _process_timing_points_into_groups(points)
 	last_hit_index = timing_points.size()
-	timing_point_to_drawer_map = {}
+	remove_all_notes_from_screen()
 func get_bpm_at_time(time):
 	var current_time = null
 	for c_t in bpm_changes:
@@ -314,9 +314,6 @@ func _process_note_group(group: NoteGroup):
 				break
 			if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
 				break
-			if timing_point.has_meta("ignored"):
-				if timing_point.get_meta("ignored"):
-					continue
 			create_note_drawer(timing_point)
 			# multi-note detection
 			if multi_notes.size() > 0:
@@ -411,6 +408,8 @@ func set_current_combo(combo: int):
 func remove_note_from_screen(i, update_last_hit = true):
 	if i != -1:
 		if update_last_hit:
+			var note = notes_on_screen[i]
+			print("REMOVING NOTE ", note.note_type)
 			if notes_on_screen[i].has_meta("group_position"):
 				var group = notes_on_screen[i].get_meta("group")
 				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
@@ -427,9 +426,6 @@ func reset_hit_notes():
 		for i in range(array.size()):
 			array.set(i, 0)
 		group.hit_notes = array
-
-		for note in group.notes:
-			note.set_meta("ignored", false)
 func delete_rogue_notes(pos_override = null):
 	pass
 		
@@ -507,9 +503,10 @@ func remove_all_notes_from_screen():
 		note.queue_free()
 	notes_on_screen = []
 	for point in timing_point_to_drawer_map:
-		if timing_point_to_drawer_map[point]:
-			if not timing_point_to_drawer_map[point].is_queued_for_deletion():
-				timing_point_to_drawer_map[point].free()
+		if point in timing_point_to_drawer_map:
+			if timing_point_to_drawer_map[point]:
+				if not timing_point_to_drawer_map[point].is_queued_for_deletion():
+					timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
 	
 func play_song():

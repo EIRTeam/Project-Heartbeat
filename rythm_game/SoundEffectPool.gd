@@ -63,6 +63,11 @@ func stop_looping_sfx(player: AudioStreamPlayer):
 	player.stream_paused = true
 	player.stop()
 
+func stop_all_looping_sfx():
+	for effect in loaded_looping_effects:
+		for player in loaded_looping_effects[effect]:
+			stop_looping_sfx(player)
+
 func _process(delta):
 	for effect_name in effects_debounce_times:
 		effects_debounce_times[effect_name] += delta

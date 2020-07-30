@@ -16,7 +16,6 @@ signal time_changed
 func set_chart(val):
 	chart = val
 	game.set_chart(chart)
-	game.remove_all_notes_from_screen()
 func _init(_game: HBRhythmGame):
 	add_child(audio_stream_player)
 	add_child(voice_audio_stream_player)
@@ -55,6 +54,7 @@ func pause():
 	voice_audio_stream_player.stop()
 #	_on_timing_points_changed()
 	game.previewing = false
+	game.sfx_pool.stop_all_looping_sfx()
 
 func is_playing():
 	return audio_stream_player.playing

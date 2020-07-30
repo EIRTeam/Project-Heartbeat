@@ -15,7 +15,7 @@ func _ready():
 	preview.hide()
 
 func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
-	return (a.data.time) > (b.data.time)
+	return (a.data.time) < (b.data.time)
 
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
@@ -23,6 +23,8 @@ func place_child(child: EditorTimelineItem):
 	child.rect_size = child.get_editor_size()
 	child.sync_value("end_time")
 	
+
+
 func place_all_children():
 	#timing_points.sort_custom(self, "_sort_timing_points")
 	if timing_points.size() > 0:

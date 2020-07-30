@@ -329,8 +329,9 @@ func add_event_timing_point(timing_point_class: GDScript):
 func _on_game_playback_time_changed(time: float):
 	playhead_position = max(time * 1000.0, 0.0)
 	timeline.update()
-	timeline.ensure_playhead_is_visible()
-	emit_signal("playhead_position_changed")
+	if game_playback.is_playing():
+		timeline.ensure_playhead_is_visible()
+		emit_signal("playhead_position_changed")
 
 func seek(value: int):
 	game_playback.seek(value)
@@ -432,7 +433,7 @@ func _on_PlayButton_pressed():
 	pause_button.show()
 
 func _on_StopButton_pressed():
-	game_playback.play_from_pos(0)
+	game_playback.seek(0)
 	pause()
 	play_button.show()
 	pause_button.hide()

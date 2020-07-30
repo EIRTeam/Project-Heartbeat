@@ -391,11 +391,12 @@ func delete_rogue_notes(pos_override = null):
 	for i in range(notes_on_screen.size() - 1, -1, -1):
 		if notes_on_screen[i] is HBBaseNote:
 			var group = notes_on_screen[i].get_meta("group") as NoteGroup
-			
 			if group.time - group.precalculated_timeout > pos * 1000.0:
 				notes_to_remove.append(notes_on_screen[i])
 	for note in notes_to_remove:
-		note.set_meta("ignored", true)
+		var dr = get_note_drawer(note)
+		if dr and not dr.is_queued_for_deletion():
+			dr.queue_free()
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note), false)
 
@@ -413,11 +414,6 @@ func remove_note_from_screen(i, update_last_hit = true):
 # Used by editor to reset hit notes and allow them to appear again
 func reset_hit_notes():
 	.reset_hit_notes()
-	for chain_m in slide_hold_chains:
-		chain_m.set_meta("ignored", false)
-		slide_hold_chains[chain_m].pieces_hit = 0
-		for piece in slide_hold_chains[chain_m].pieces:
-			piece.set_meta("ignored", false)
 			
 var _potential_result = HBResult.new()
 func get_potential_result():

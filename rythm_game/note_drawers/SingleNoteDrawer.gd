@@ -273,7 +273,6 @@ func _on_game_time_changed(time: float):
 		var conn_notes = connected_notes
 		if conn_notes.size() == 0:
 			conn_notes = [note_data]
-		var time_out = get_time_out()
 		if note_data.can_be_judged() and note_master:
 			if note_data is HBNoteData and note_data.is_slide_note() and slide_chain_master and note_master:
 				for action in note_data.get_input_actions():
@@ -297,8 +296,9 @@ func _on_game_time_changed(time: float):
 				for note in conn_notes:
 					var drawer = game.get_note_drawer(note)
 					if drawer:
-						drawer.emit_signal("note_removed")
-						drawer.queue_free()
+						if not drawer.is_queued_for_deletion():
+							drawer.emit_signal("note_removed")
+							drawer.queue_free()
 		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():
