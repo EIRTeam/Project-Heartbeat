@@ -85,9 +85,10 @@ func load_songs_from_path(path):
 							value[dir_name] = song_meta
 						song_found = true
 				if not song_found:
-					Log.log(self, "Invalid song found in directory " + dir_name, Log.LogLevel.ERROR)
+					Log.log(self, "No loader foudn for song in directory " + dir_name, Log.LogLevel.ERROR)
 						
 			dir_name = dir.get_next()
+		Log.log(self, "Loaded %d songs from %s" % [value.size(), path])
 	else:
 		Log.log(self, "An error occurred when trying to load songs from %s" % [path], Log.LogLevel.ERROR)
 	return value
@@ -126,7 +127,6 @@ func _load_all_songs_async(userdata):
 func _songs_loaded(thread: Thread):
 	thread.wait_to_finish() # Windows breaks if you don't do this
 	initial_load_done = true
-	print("LOADED SHIT")
 	emit_signal("all_songs_loaded")
 
 func get_songs_with_difficulty(difficulty: String):

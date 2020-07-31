@@ -17,7 +17,7 @@ func _process(delta):
 	
 	status_label.percent_visible = fmod(loadingu_t, 1.5)
 func _load_main_menu_thread(userdata):
-	call_deferred("_main_menu_loaded", userdata.thread, load(MAIN_MENU_PATH).instance())
+	call_deferred("_main_menu_loaded", userdata.thread, load(MAIN_MENU_PATH))
 
 func _input(event):
 	if event.is_action_pressed("free_friends"):
@@ -25,14 +25,13 @@ func _input(event):
 
 func _main_menu_loaded(thread: Thread, scene):
 	thread.wait_to_finish()
-	var new_scene = scene
+	var new_scene = scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(new_scene)
 	get_tree().current_scene = new_scene
 
 func _on_songs_finished_loading():
 	yield(get_tree(), "idle_frame")
-	print("LOADED")
 	set_status("Loadingu...")
 	var thread = Thread.new()
 	var result = thread.start(self, "_load_main_menu_thread", { "thread": thread })

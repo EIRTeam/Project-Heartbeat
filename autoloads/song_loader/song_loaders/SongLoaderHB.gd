@@ -18,7 +18,6 @@ func load_song_meta_from_folder(path: String, id: String):
 			var song_instance = HBSerializable.deserialize(song_json.result) as HBSong
 			song_instance.id = id
 			song_instance.path = path.get_base_dir()
-			Log.log(self, "Loaded song %s succesfully from %s" % [song_instance.get_visible_title(), path.get_base_dir()])
 			return song_instance
 		else:
 			Log.log(self, "Error loading song config file on line %d: %s" % [song_json.error_line, song_json.error_string])

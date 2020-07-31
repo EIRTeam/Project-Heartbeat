@@ -63,6 +63,7 @@ var _finished = false
 var _song_volume = 0.0
 
 var cached_note_drawers = {}
+var restart_cached_note_drawers = {}
 
 const SFX_DEBOUNCE_TIME = 0.016*2.0
 
@@ -409,7 +410,6 @@ func remove_note_from_screen(i, update_last_hit = true):
 	if i != -1:
 		if update_last_hit:
 			var note = notes_on_screen[i]
-			print("REMOVING NOTE ", note.note_type)
 			if notes_on_screen[i].has_meta("group_position"):
 				var group = notes_on_screen[i].get_meta("group")
 				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
@@ -557,14 +557,15 @@ func inv_map_coords(coords: Vector2):
 	return Vector2(x, y)
 
 func cache_note_drawers():
-	for drawer in cached_note_drawers.values():
-		if drawer and not drawer.is_queued_for_deletion():
-			drawer.free()
-	cached_note_drawers = {}
-	for group in timing_points:
-		for note in group.notes:
-			var drawer = _create_note_drawer_impl(note)
-			cached_note_drawers[note] = drawer
+	if UserSettings.user_settings.cache_chart_loading:
+		for drawer in cached_note_drawers.values():
+			if drawer and not drawer.is_queued_for_deletion():
+				drawer.free()
+		cached_note_drawers = {}
+		for group in timing_points:
+			for note in group.notes:
+				var drawer = _create_note_drawer_impl(note)
+				cached_note_drawers[note] = drawer
 
 func _create_note_drawer_impl(timing_point: HBBaseNote):
 	var note_drawer

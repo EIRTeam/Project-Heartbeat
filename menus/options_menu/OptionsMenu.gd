@@ -32,6 +32,10 @@ var OPTIONS = {
 		"show_latency": {
 			"name": tr("Show latency"),
 			"description": tr("Shows how late or how early you were when hitting notes."),
+		},
+		"load_all_notes_on_song_start": {
+			"name": tr("Load all notes when song starts"),
+			"description": tr("Makes the game pre-generate all notes before the song starts playing, this increases loadtimes but will increase performance once loaded."),
 		}
 	},
 	"Controls": {

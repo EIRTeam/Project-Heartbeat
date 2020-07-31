@@ -23,7 +23,7 @@ func _game_init():
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	
-	SongLoader.load_all_songs_meta()
+	SongLoader.load_all_songs_async()
 	
 	YoutubeDL._init_ytdl()
 
