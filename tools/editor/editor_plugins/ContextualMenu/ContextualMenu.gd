@@ -202,17 +202,21 @@ func change_note_type(new_type: String):
 func _on_contextual_menu_about_to_show():
 	hovered_time = get_editor().timeline.get_time_being_hovered()
 	var contextual_menu := get_contextual_menu()
-	var items_disabled = get_editor().selected.size() == 0
-	for item in ["delete", "cut", "copy", "interpolate", "make_sustain", "make_double"]:
-		contextual_menu.set_contextual_item_disabled(item, items_disabled)
-	for selected in get_editor().selected:
-		if selected.data is HBNoteData and selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
-			contextual_menu.set_contextual_item_disabled("make_sustain", true)
+	contextual_menu.set_contextual_item_disabled("paste", get_editor().copied_points.size() == 0)
+	
+	var disable_all =  get_editor().selected.size() <= 0
+	
+	for item in ["delete", "cut", "copy", "interpolate", "make_sustain", "make_double", "make_normal"]:
+		contextual_menu.set_contextual_item_disabled(item, disable_all)
+	
+	if disable_all:
+		return
+	
 	for selected in get_editor().selected:
 		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
 			contextual_menu.set_contextual_item_disabled("make_double", true)
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
-			if selected.data.note_type != HBBaseNote.NOTE_TYPE.HEART:
-				contextual_menu.set_contextual_item_disabled("make_sustain", true)
+			contextual_menu.set_contextual_item_disabled("make_sustain", true)
 			break
-	contextual_menu.set_contextual_item_disabled("paste", get_editor().copied_points.size() == 0)
+		if selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+			contextual_menu.set_contextual_item_disabled("make_sustain", true)
