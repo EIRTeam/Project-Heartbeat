@@ -15,8 +15,6 @@ onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBox
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RhythmGame")
 
-onready var audio_stream_player = get_node("AudioStreamPlayer")
-onready var audio_stream_player_voice = get_node("AudioStreamPlayerVoice")
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
@@ -200,8 +198,6 @@ func select_item(item: EditorTimelineItem, add = false):
 		item.connect_widget(widget_instance)
 		game_preview.widget_area.add_child(widget_instance)
 	inspector.inspect(item)
-func get_song_duration():
-	return int(audio_stream_player.stream.get_length() * 1000.0)
 func add_item(layer_n: int, item: EditorTimelineItem):
 
 	var layers = timeline.get_layers()
@@ -447,8 +443,10 @@ func _on_timing_points_params_changed():
 	game_playback.seek(playhead_position)
 
 func get_song_length():
-	return audio_stream_player.stream.get_length()
-
+	if game_playback.audio_stream_player.stream:
+		return game_playback.audio_stream_player.stream.get_length()
+	else:
+		return 0.0
 func get_chart():
 	var chart = HBChart.new()
 	var layer_items = timeline.get_layers()
