@@ -129,7 +129,6 @@ func _input_received(event):
 						actions_to_send.append({"action": action, "pressed": false, "event": event})
 					if not event.is_pressed():
 						releases_to_send.append(action)
-		var release_uids_to_send = []
 		var event_uid = get_event_uid(event)
 		for action_data in actions_to_send:
 			current_event = action_data.event

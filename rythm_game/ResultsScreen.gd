@@ -59,6 +59,7 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		emit_signal("show_song_results_mp", lb_entries)
 	if args.has("lobby"):
 		mp_lobby = args.lobby
+		buttons.select_button(return_button.get_position_in_parent())
 		# To be able to handle a song starting while we look at results		
 		mp_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 	

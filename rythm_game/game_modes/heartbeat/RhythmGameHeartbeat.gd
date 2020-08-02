@@ -196,7 +196,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 
 
 func _input(event):
-	if event is InputEventAction:
+	if event is InputEventHB:
 		
 		# Note SFX
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
@@ -328,8 +328,6 @@ func _process_game(_delta):
 			a.pressed = true
 			
 			Input.parse_input_event(a)
-	return
-
 
 
 # called when a note or group of notes is judged

@@ -35,12 +35,12 @@ enum LOBBY_TYPE {
 }
 
 enum LOBBY_CREATION_RESULT {
-	OK = 0,
-	NO_CONNECTION = 1,
-	TIMEOUT = 2,
-	FAIL = 3,
-	ACCESS_DENIED = 4,
-	LIMIT_EXCEEDED = 5
+	OK = 1,
+	NO_CONNECTION = 3,
+	TIMEOUT = 16,
+	FAIL = 2,
+	ACCESS_DENIED = 16,
+	LIMIT_EXCEEDED = 25
 }
 
 enum LOBBY_CHAT_UPDATE_STATUS {
@@ -84,15 +84,15 @@ signal game_member_loading_finished(member)
 signal game_start # sent by authority
 signal game_note_hit(member, score, rating)
 signal game_done(results, game_info) # sent when we realise that all other members have finished
-
+signal user_song_availability_update(user, song_id, available)
 var _lobby_id
 
 var lobby_name := "How can my little lobby can be this cute" setget set_lobby_name, get_lobby_name
 var connected := false
 var member_count: int = 1 setget ,get_lobby_member_count
 var max_members: int = 10 setget ,get_max_lobby_members
-var song_name: String = "melody" setget set_song_name,get_song_name
-var song_id: String = "melody" setget set_song_id,get_song_id
+var song_name: String = "imademo_2012" setget set_song_name,get_song_name
+var song_id: String = "imademo_2012" setget set_song_id,get_song_id
 var song_difficulty: String = "extreme" setget set_song_difficulty,get_song_difficulty
 var members: Dictionary = {}
 var lobby_owner: HBServiceMember setget ,get_lobby_owner
@@ -125,8 +125,9 @@ func get_song_difficulty():
 	return game_info.difficulty
 
 func get_song() -> HBSong:
-	if get_song_id() in SongLoader.songs:
-		return SongLoader.songs[get_song_id()]
+	var sid = get_song_id()
+	if sid in SongLoader.songs:
+		return SongLoader.songs[sid]
 	else:
 		return null
 
@@ -134,6 +135,8 @@ func send_game_info_update():
 	pass
 func _init(lobby_id):
 	self._lobby_id = lobby_id
+	game_info.song_id = "imademo_2012"
+	game_info.difficulty = "extreme"
 		
 func get_lobby_owner() -> HBServiceMember:
 	return members.values()[0]
@@ -169,4 +172,7 @@ func send_note_hit_update(score, rating):
 	pass
 	
 func notify_game_finished(result: HBResult):
+	pass
+
+func check_if_lobby_members_have_song():
 	pass
