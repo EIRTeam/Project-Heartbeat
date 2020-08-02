@@ -557,7 +557,7 @@ func inv_map_coords(coords: Vector2):
 	return Vector2(x, y)
 
 func cache_note_drawers():
-	if UserSettings.user_settings.cache_chart_loading:
+	if UserSettings.user_settings.load_all_notes_on_song_start:
 		for drawer in cached_note_drawers.values():
 			if drawer and not drawer.is_queued_for_deletion():
 				drawer.free()
