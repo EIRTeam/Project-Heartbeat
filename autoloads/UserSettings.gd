@@ -167,6 +167,7 @@ func apply_user_settings():
 	set_fullscreen(user_settings.fullscreen)
 	Engine.target_fps = int(user_settings.fps_limit)
 	IconPackLoader.set_current_pack(user_settings.icon_pack)
+	OS.vsync_enabled = user_settings.vsync_enabled
 	set_volumes()
 func _process(delta):
 	if debouncing:

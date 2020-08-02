@@ -86,6 +86,10 @@ var OPTIONS = {
 			"name": tr("Fullscreen"),
 			"description": tr("Whether or not the game should use all the available screen, this should have no difference in performance from windowed mode.")
 		},
+		"vsync_enabled": {
+			"name": tr("Enable VSync"),
+			"description": tr("Waits for vertical synchronization to render frame, can reduce screen tearing but will introduce extra input lag.")
+		},
 		"disable_video": {
 			"name": tr("Disable Video"),
 			"description": tr("Disables video playback and download, might yield more performance on some systems.")

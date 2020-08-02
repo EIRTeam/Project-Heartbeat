@@ -48,6 +48,8 @@ var background_dim = 0.0
 
 var load_all_notes_on_song_start = true
 
+var vsync_enabled = false
+
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -59,7 +61,7 @@ func _init():
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "tap_deadzone", "analog_translation_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path", "favorite_songs",
-	"background_dim", "disable_menu_music", "load_all_notes_on_song_start" ]
+	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled" ]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
