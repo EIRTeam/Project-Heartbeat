@@ -57,7 +57,7 @@ var OPTIONS = {
 		"sfx_volume": {
 			"name": tr("Sound effects volume"),
 			"description": tr("Volume for the sound effects"),
-			"minimum": 0.1,
+			"minimum": 0.0,
 			"maximum": 1.5,
 			"step": 0.05,
 			"percentage": true,
