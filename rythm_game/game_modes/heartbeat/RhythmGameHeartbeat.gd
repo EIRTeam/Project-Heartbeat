@@ -338,16 +338,15 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 	if not notes[0] is HBNoteData or (notes[0] is HBNoteData and not notes[0].is_slide_hold_piece()):
 		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
 			add_score(0)
-	
 	for n in notes:
 		if n.note_type in held_notes:
-			emit_signal("hold_released_early")
 			hold_release()
+			emit_signal("hold_released_early")
 			break
 
 	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
-		emit_signal("hold_released_early")
 		hold_release()
+		emit_signal("hold_released_early")
 	else:
 		for n in notes:
 			if n is HBNoteData:
@@ -363,6 +362,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stream_paused = true
 		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stop()
 		sfx_pool.play_sfx("double_note_hit")
+	
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
@@ -418,27 +418,24 @@ func get_potential_result():
 	return _potential_result
 
 func add_score(score_to_add):
-	if not previewing:
-		_potential_result.score += 1000.0
+	_potential_result.score += 1000.0
 	.add_score(score_to_add)
 func add_hold_score(score_to_add):
 	result.hold_bonus += score_to_add
 	_potential_result.hold_bonus += score_to_add
-	_potential_result.score -= 1000.0
 	_potential_result.score += score_to_add
-	add_score(score_to_add)
+	.add_score(score_to_add)
 
 
 func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add
 	_potential_result.slide_bonus += score_to_add
 	_potential_result.score += score_to_add
-	_potential_result.score -= 1000.0
-	add_score(score_to_add)
+	.add_score(score_to_add)
 
 func hold_release():
 	if held_notes.size() > 0:
-		add_hold_score(round(current_hold_score))
+		add_hold_score(round(current_hold_score + accumulated_hold_score))
 		accumulated_hold_score = 0
 		held_notes = []
 		current_hold_score = 0
