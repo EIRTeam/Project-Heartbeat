@@ -170,7 +170,7 @@ func _handle_unhandled_input(event):
 					# This ensures macro can't be bound to many buttons and still be used to hit multi notes
 					var event_had_too_many_actions = false
 					if event is InputEventHB:
-						if event.triggered_actions_count > connected_notes.size():
+						if event.triggered_actions_count > conn_notes.size():
 							event_had_too_many_actions = true
 					if not input_judgement.has_rating or event_had_too_many_actions:
 						# Check for wrongs
