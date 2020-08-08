@@ -228,10 +228,11 @@ func _do_area_select():
 	for layer in get_layers():
 		for item in layer.get_editor_items():
 			if timeline_rect.has_point(item.rect_global_position):
-				var item_rect = Rect2(item.rect_global_position, item.rect_size)
-				if rect.intersects(item_rect):
-					editor.select_item(item, !first)
-					first = false
+				if item.visible:
+					var item_rect = Rect2(item.rect_global_position, item.rect_size)
+					if rect.intersects(item_rect):
+						editor.select_item(item, !first)
+						first = false
 func _draw_area_select():
 	if _area_selecting:
 		var origin = _area_select_start
