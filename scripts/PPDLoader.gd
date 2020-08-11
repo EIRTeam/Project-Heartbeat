@@ -201,6 +201,23 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 			note_data = HBSustainNote.new()
 			note_data.end_time = int(note.end_time*1000.0) + int(offset)
 		
+		var is_multi_note = false
+		var had_double_note = false
+		
+		# PPD is stupid and in some chart double notes are marked by Triangle+Up for example.
+		if note_type == PPDNoteType.NORMAL:
+			if prev_note and (prev_note.note_type < 4 or prev_note.note_type == HBBaseNote.NOTE_TYPE.HEART):
+				var prev_type = prev_note.note_type
+				var current_type = PPDButton2HBNoteType[note.type]
+				var current_time = int(note.time*1000.0) + int(offset)
+				if current_type == prev_type and current_time == prev_note.time:
+					note_data = note_data.convert_to_type("DoubleNote")
+					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, prev_note.note_type)
+					chart.layers[chart.get_layer_i(type)].timing_points.pop_back()
+					is_multi_note = false
+					had_double_note = true
+
+		
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
 		note_data.time = int(note.time*1000.0) + int(offset)
@@ -210,12 +227,13 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 		note_data.position.y = (note.position.y / 450.0) * 1080
 		note_data.entry_angle = 360 - rad2deg(note.rotation)
 		# Simulataneous notes have no amplitude
-		var is_multi_note = false
+		
 		var is_second_slider = false
+		
 		
 		note_data.note_type = PPDButton2HBNoteType[note.type]
 		
-		if i > 0 and note.time == marks[i-1].time:
+		if not had_double_note and i > 0 and note.time == marks[i-1].time:
 			is_multi_note = true
 			# Checking for two sliders of the same direction
 			if note_data.note_type == HBNoteData.NOTE_TYPE.UP:
@@ -226,7 +244,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				if PPDButton2HBNoteType[marks[i-1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
 					is_second_slider = true
-		if i < marks.size()-1 and note.time == marks[i+1].time:
+		if not had_double_note and i < marks.size()-1 and note.time == marks[i+1].time:
 			is_multi_note = true
 			if note_data.note_type == HBNoteData.NOTE_TYPE.UP:
 				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
@@ -236,9 +254,11 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
 					is_second_slider = true
+
 		if is_multi_note:
 			note_data.oscillation_amplitude = 0
 			note_data.distance = note_data.distance * (2.2/3.0)
+
 		if params.has(note.id):
 			var note_params = params[note.id]
 			_apply_note_params(note_data, note_params)
@@ -248,18 +268,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 			is_second_slider = false
 		if is_second_slider:
 			chart.editor_settings.set_layer_visibility(true, HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type) + "2")
-		
-		# PPD is stupid and in some chart double notes are marked by Triangle+Up for example.
-		if note_type == PPDNoteType.NORMAL:
-			if prev_note and (prev_note.note_type < 4 or prev_note.note_type == HBBaseNote.NOTE_TYPE.HEART):
-				var prev_type = prev_note.note_type
-				var current_type = PPDButton2HBNoteType[note.type]
-				var current_time = int(note.time*1000.0) + int(offset)
-				if current_type == prev_type and current_time == prev_note.time:
-					note_data = prev_note.convert_to_type("DoubleNote")
-					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, prev_note.note_type)
-					chart.layers[chart.get_layer_i(type)].timing_points.pop_back()
-					is_multi_note = false
 		
 		# We add the note to the layer
 		for l in chart.layers:
