@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://autoloads/Diagnostics.gd" type="Script" id=1]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=2]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=3]
+[ext_resource path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" type="PackedScene" id=4]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -213,6 +214,8 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GamepadVisualizer" parent="." instance=ExtResource( 4 )]
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

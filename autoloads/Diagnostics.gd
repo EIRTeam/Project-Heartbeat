@@ -20,12 +20,13 @@ onready var log_filter_option_button = get_node("WindowDialog/TabContainer/Logs/
 onready var log_rich_text_label = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer/RichTextLabel")
 onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
 onready var fps_label = get_node("FPSLabel")
-
+onready var gamepad_visualizer = get_node("GamepadVisualizer")
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 	$WindowDialog.hide()
 	fps_label.hide()
+	gamepad_visualizer.hide()
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
@@ -39,6 +40,8 @@ func _input(event):
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
 		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
+	if event.is_action_pressed("toggle_gamepad_view"):
+		gamepad_visualizer.visible = !gamepad_visualizer.visible 
 func _process(delta):
 	_seconds_since_startup += delta
 	frame_rate_label.text = "FPS: %f" % Engine.get_frames_per_second()

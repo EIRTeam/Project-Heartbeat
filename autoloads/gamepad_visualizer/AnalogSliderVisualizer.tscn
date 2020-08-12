@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://autoloads/gamepad_visualizer/AnalogSliderVisualizer.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.5 )
+
+[node name="Panel" type="Panel"]
+margin_right = 80.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 80, 10 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )

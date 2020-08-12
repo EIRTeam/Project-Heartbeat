@@ -10,6 +10,8 @@ const SAVE_DEBOUNCE_TIME = 0.2
 var save_debounce_t = 0.0
 var debouncing = false
 
+signal controller_swapped(to_device)
+
 const ACTION_CATEGORIES = {
 	"Notes": ["note_up", "note_down", "note_left", "note_right"],
 	"Slide Notes": ["tap_left", "tap_left_analog", "tap_right", "tap_right_analog", "tap_up", "tap_up_analog", "tap_down", "tap_down_analog"],
@@ -142,6 +144,7 @@ func map_actions_to_controller():
 				InputMap.action_erase_event(action_name, event)
 				event.device = device_id
 				InputMap.action_add_event(action_name, event)
+	emit_signal("controller_swapped", device_id)
 func _input(event):
 	if event is InputEventJoypadButton:
 		# If we receive an input from a controller that isn't the one we have
