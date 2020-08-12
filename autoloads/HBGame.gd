@@ -9,11 +9,10 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
 	HBNoteData.NOTE_TYPE.UP: ["note_up"],
 	HBNoteData.NOTE_TYPE.DOWN: ["note_down"],
-	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["tap_left"],
-	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["tap_right"],
-	HBNoteData.NOTE_TYPE.HEART: ["tap_up", "tap_down", "tap_left", "tap_right"]
+	HBNoteData.NOTE_TYPE.SLIDE_LEFT: ["slide_left"],
+	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["slide_right"],
+	HBNoteData.NOTE_TYPE.HEART: ["heart_note"]
 }
-
 func _ready():
 	_game_init()
 	

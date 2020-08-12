@@ -17,7 +17,7 @@ func _input(event):
 func _draw():
 	var col = Color.white
 	col.a = 0.5
-	var deadzone = UserSettings.user_settings.tap_deadzone
+	var deadzone = UserSettings.user_settings.analog_deadzone
 	var starting_pos = (1.0 - deadzone) * rect_size / 2.0
 	var size = deadzone * rect_size
 	draw_rect(Rect2(starting_pos, size), col)

@@ -15,16 +15,9 @@ var OPTIONS = {
 			"debounce_step": 10,
 			"postfix": " ms"
 		},
-		"tap_deadzone": {
-			"name": tr("Slide analog deadzone"),
-			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off when being used for slides.",
-			"minimum": 0.1,
-			"maximum": 1.0,
-			"step": 0.05,
-		},
-		"analog_translation_deadzone": {
+		"analog_deadzone": {
 			"name": tr("Analog deadzone"),
-			"description": "From 0 to 1, how much travel is required for the analogic triggers (and other analog inputs) to be considered on/off when being used normal notes.",
+			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off.",
 			"minimum": 0.1,
 			"maximum": 1.0,
 			"step": 0.05,
