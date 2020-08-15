@@ -733,9 +733,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 #	inspector.update_value()
 
 func add_button_to_tools_tab(button: BaseButton):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(button)
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
 func add_tool_to_tools_tab(tool_control: Control):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(tool_control)
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 
