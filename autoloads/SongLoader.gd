@@ -100,9 +100,12 @@ func load_all_songs_meta():
 	var song_paths = [] as Array
 	
 	var dir := Directory.new()
-	for content_dir in UserSettings.get_content_directories():
-		var songs_dir = HBUtils.join_path(content_dir, "songs")
-		song_paths.append(songs_dir)
+	if not HBGame.demo_mode:
+		for content_dir in UserSettings.get_content_directories():
+			var songs_dir = HBUtils.join_path(content_dir, "songs")
+			song_paths.append(songs_dir)
+	else:
+		song_paths = ["res://songs"]
 	
 	for path in song_paths:
 		print("LOADING SONGS FROM ", path)

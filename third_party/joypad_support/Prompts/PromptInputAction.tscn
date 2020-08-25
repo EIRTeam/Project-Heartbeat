@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.gd" type="Script" id=1]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_A.png" type="Texture" id=2]
+
+[node name="PromptInputAction" type="MarginContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Prompt" type="TextureRect" parent="."]
+margin_right = 100.0
+margin_bottom = 100.0
+mouse_filter = 2
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Fallback" type="Label" parent="."]
+margin_top = 43.0
+margin_right = 100.0
+margin_bottom = 57.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

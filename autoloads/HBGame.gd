@@ -1,6 +1,8 @@
 # Main Game class
 extends Node
 
+var demo_mode = false
+
 var game_modes: Array
 var rich_presence: HBRichPresence
 var song_stats: HBSongStatsLoader
@@ -16,6 +18,8 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 
 func _ready():
 	_game_init()
+	if "--demo-mode" in OS.get_cmdline_args():
+		demo_mode = true
 	
 func _game_init():
 	PlatformService._initialize_platform()

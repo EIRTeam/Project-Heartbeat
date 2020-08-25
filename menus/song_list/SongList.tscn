@@ -1,13 +1,26 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=1]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
-[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=3]
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=4]
+[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=3]
+[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
+[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=8]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
+[ext_resource path="res://menus/song_list/SongListFolderSongContainer.gd" type="Script" id=10]
+[ext_resource path="res://menus/FolderManager.tscn" type="PackedScene" id=11]
+[ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+outline_size = 2
+outline_color = Color( 1, 1, 1, 0.2 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 7
+font_data = ExtResource( 1 )
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -19,98 +32,35 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.995
 margin_top = 10.0
 size_flags_horizontal = 3
-custom_constants/separation = 10
+custom_constants/separation = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 margin_right = 1280.0
-margin_bottom = 45.0
+margin_bottom = 40.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
 margin_right = 1280.0
-margin_bottom = 45.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
 alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_right = 1276.0
-margin_bottom = 45.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer"]
-margin_right = 110.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 110, 45 )
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SortButtonLeft" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
-margin_right = 45.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 45, 45 )
-texture = ExtResource( 4 )
-expand = true
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2"]
-margin_left = 49.0
-margin_right = 96.0
-margin_bottom = 45.0
-size_flags_vertical = 7
-custom_fonts/font = ExtResource( 6 )
-text = "Sort"
-align = 1
-valign = 1
-
-[node name="Panel2" type="Panel" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer"]
-margin_left = 114.0
-margin_right = 304.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 190, 45 )
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="FavButton" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel2/HBoxContainer2"]
-margin_right = 45.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 45, 45 )
-texture = ExtResource( 4 )
-expand = true
-
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel2/HBoxContainer2"]
-margin_left = 49.0
-margin_right = 181.0
-margin_bottom = 45.0
-size_flags_vertical = 7
-custom_fonts/font = ExtResource( 6 )
-text = "Add favorite"
-align = 1
-valign = 1
+script = ExtResource( 12 )
+font = SubResource( 1 )
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_left = 1280.0
 margin_right = 1280.0
-margin_bottom = 45.0
+margin_bottom = 40.0
 custom_constants/separation = 10
 alignment = 2
 script = ExtResource( 7 )
@@ -118,9 +68,9 @@ stop_hover_on_focus_exit = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 show_behind_parent = true
-margin_top = 55.0
+margin_top = 45.0
 margin_right = 1280.0
-margin_bottom = 710.0
+margin_bottom = 661.0
 size_flags_vertical = 3
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
@@ -128,24 +78,165 @@ custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
 margin_right = 1280.0
-margin_bottom = 655.0
+margin_bottom = 616.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
-margin = 5
+script = ExtResource( 10 )
 scale_factor = 0.85
 items_visible_top = 3
 fixed_scale_factor = true
+
+[node name="Prompts" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 666.0
+margin_right = 1280.0
+margin_bottom = 706.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_stretch_ratio = 1.25
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts"]
+margin_right = 1280.0
+margin_bottom = 40.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+alignment = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
+margin_left = 312.0
+margin_right = 412.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 0 )
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel/HBoxContainer" instance=ExtResource( 8 )]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+input_action = "note_up"
+
+[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel/HBoxContainer"]
+margin_left = 44.0
+margin_right = 91.0
+margin_bottom = 40.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 6 )
+text = "Sort"
+align = 1
+valign = 1
+
+[node name="Panel2" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
+margin_left = 422.0
+margin_right = 562.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 140, 0 )
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2/HBoxContainer" instance=ExtResource( 8 )]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+input_action = "contextual_option"
+
+[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2/HBoxContainer"]
+margin_left = 44.0
+margin_right = 125.0
+margin_bottom = 40.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 6 )
+text = "Add to..."
+align = 1
+valign = 1
+
+[node name="Panel5" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
+margin_left = 572.0
+margin_right = 712.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 140, 0 )
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5/HBoxContainer" instance=ExtResource( 8 )]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+input_action = "contextual_option"
+
+[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5/HBoxContainer"]
+margin_left = 44.0
+margin_right = 127.0
+margin_bottom = 40.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 6 )
+text = "Manage"
+align = 1
+valign = 1
+
+[node name="Panel3" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
+margin_left = 722.0
+margin_right = 847.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 125, 0 )
+custom_styles/panel = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3/HBoxContainer" instance=ExtResource( 8 )]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+input_action = "gui_accept"
+
+[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3/HBoxContainer"]
+margin_left = 44.0
+margin_right = 113.0
+margin_bottom = 40.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 6 )
+text = "Select"
+align = 1
+valign = 1
+
+[node name="Panel4" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 857.0
+margin_right = 967.0
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
 margin_left = -314.0
 margin_right = 257.0
 margin_bottom = 162.0
-has_cancel = true
-has_accept = true
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="Panel" type="Panel" parent="."]
 visible = false
@@ -182,3 +273,6 @@ focus_mode = 2
 custom_constants/separation = 10
 script = ExtResource( 7 )
 orientation = 1
+
+[node name="FolderManager" parent="." instance=ExtResource( 11 )]
+visible = false

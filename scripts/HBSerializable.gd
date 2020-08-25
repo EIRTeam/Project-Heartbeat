@@ -13,7 +13,15 @@ func serialize():
 				continue
 			if _field is Object and _field.has_method("serialize"):
 				serialized_data[field] = _field.serialize()
-			elif _field is Array or _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
+			elif _field is Array:
+				var r = []
+				for item in _field:
+					if item is Object and item.has_method("serialize"):
+						r.append(item.serialize())
+					else:
+						r.append(item)
+				serialized_data[field] = r
+			elif _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
 				serialized_data[field] = get(field)
 			else:
 				serialized_data[field] = var2str(get(field))
@@ -34,7 +42,7 @@ static func deserialize(data: Dictionary):
 				if _field is Object and _field.has_method("serialize"):
 					if data[field].has("type"):
 						# Fixes cloning...
-						object.set(field, load("res://scripts/HBSerializable.gd").deserialize(data[field]))
+						object.set(field, deserialize(data[field]))
 				elif _field is Dictionary:
 					if _field.size() > 0:
 						# Support for enums
@@ -47,7 +55,15 @@ static func deserialize(data: Dictionary):
 							object.set(field, result_field)
 					else:
 						object.set(field, data[field])
-				elif _field is Array or _field is float or _field is String or _field is bool:
+				elif _field is Array:
+					var r = []
+					for item in data[field]:
+						if item is Dictionary and item.has("type"):
+							r.append(deserialize(item))
+						else:
+							r.append(item)
+					object.set(field, r)
+				elif _field is float or _field is String or _field is bool:
 					object.set(field, data[field])
 				elif _field is int:
 					object.set(field, int(data[field]))
@@ -70,7 +86,8 @@ static func get_serializable_types():
 		"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
 		"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
 		"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
-		"SongStats": load("res://scripts/HBSongStats.gd")
+		"SongStats": load("res://scripts/HBSongStats.gd"),
+		"Folder": load("res://scripts/HBFolder.gd")
 	}
 func get_serialized_type():
 	pass

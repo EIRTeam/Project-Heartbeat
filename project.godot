@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd"
 }, {
+"base": "HBHovereableButton",
+"class": "FolderManagerFolderButton",
+"language": "GDScript",
+"path": "res://menus/FolderManagerFolderButton.gd"
+}, {
 "base": "HBTimingPoint",
 "class": "HBBPMChange",
 "language": "GDScript",
@@ -103,6 +108,16 @@ _global_script_classes=[ {
 "class": "HBEditorWidget",
 "language": "GDScript",
 "path": "res://tools/editor/widgets/EditorWidget.gd"
+}, {
+"base": "Reference",
+"class": "HBError",
+"language": "GDScript",
+"path": "res://scripts/extended_gdscript/Error.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBFolder",
+"language": "GDScript",
+"path": "res://scripts/HBFolder.gd"
 }, {
 "base": "HBSerializable",
 "class": "HBGameInfo",
@@ -285,6 +300,16 @@ _global_script_classes=[ {
 "path": "res://scripts/HBSong.gd"
 }, {
 "base": "Control",
+"class": "HBSongListFolder",
+"language": "GDScript",
+"path": "res://menus/song_list/SongListFolder.gd"
+}, {
+"base": "Control",
+"class": "HBSongListFolderBack",
+"language": "GDScript",
+"path": "res://menus/song_list/SongListFolderBack.gd"
+}, {
+"base": "Control",
 "class": "HBSongListItem",
 "language": "GDScript",
 "path": "res://menus/song_list/SongListItem.gd"
@@ -359,6 +384,31 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/InputEventHB.gd"
 }, {
+"base": "Node",
+"class": "JS_Config",
+"language": "GDScript",
+"path": "res://third_party/joypad_support/ComponentScripts/JS_Config.gd"
+}, {
+"base": "Resource",
+"class": "JS_InputMapAction",
+"language": "GDScript",
+"path": "res://third_party/joypad_support/Resources/JS_InputMapAction.gd"
+}, {
+"base": "Node",
+"class": "JS_InputMapProfiles",
+"language": "GDScript",
+"path": "res://third_party/joypad_support/ComponentScripts/JS_InputMapProfiles.gd"
+}, {
+"base": "Node",
+"class": "JS_JoypadIdentifier",
+"language": "GDScript",
+"path": "res://third_party/joypad_support/ComponentScripts/JS_JoypadIdentifier.gd"
+}, {
+"base": "Node",
+"class": "JS_JoypadMapButton",
+"language": "GDScript",
+"path": "res://third_party/joypad_support/ComponentScripts/JS_JoypadMapButton.gd"
+}, {
 "base": "Reference",
 "class": "MPPlayer",
 "language": "GDScript",
@@ -368,6 +418,11 @@ _global_script_classes=[ {
 "class": "NoteGroup",
 "language": "GDScript",
 "path": "res://rythm_game/NoteGroup.gd"
+}, {
+"base": "Reference",
+"class": "Ok",
+"language": "GDScript",
+"path": "res://scripts/extended_gdscript/Ok.gd"
 }, {
 "base": "Reference",
 "class": "PPDEVDFile",
@@ -388,6 +443,16 @@ _global_script_classes=[ {
 "class": "PlatformServiceProvider",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
+}, {
+"base": "Reference",
+"class": "Result",
+"language": "GDScript",
+"path": "res://scripts/extended_gdscript/Result.gd"
+}, {
+"base": "Reference",
+"class": "ResultF",
+"language": "GDScript",
+"path": "res://scripts/extended_gdscript/ResultFactory.gd"
 }, {
 "base": "Reference",
 "class": "SMFLoader",
@@ -445,6 +510,7 @@ _global_script_class_icons={
 "EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
 "EditorTimelineItemSustainNote": "",
+"FolderManagerFolderButton": "",
 "HBBPMChange": "",
 "HBBackgroundMusicPlayer": "",
 "HBBackgroundSongAssetsLoader": "",
@@ -459,6 +525,8 @@ _global_script_class_icons={
 "HBEditorMovementGizmo": "",
 "HBEditorPlugin": "",
 "HBEditorWidget": "",
+"HBError": "",
+"HBFolder": "",
 "HBGameInfo": "",
 "HBGameInputManager": "",
 "HBGameMode": "",
@@ -495,6 +563,8 @@ _global_script_class_icons={
 "HBServiceMember": "",
 "HBSimpleMenu": "",
 "HBSong": "",
+"HBSongListFolder": "",
+"HBSongListFolderBack": "",
 "HBSongListItem": "",
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
@@ -510,12 +580,20 @@ _global_script_class_icons={
 "HBVersion": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
+"JS_Config": "",
+"JS_InputMapAction": "",
+"JS_InputMapProfiles": "",
+"JS_JoypadIdentifier": "",
+"JS_JoypadMapButton": "",
 "MPPlayer": "",
 "NoteGroup": "",
+"Ok": "",
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
 "PlatformServiceProvider": "",
+"Result": "",
+"ResultF": "",
 "SMFLoader": "",
 "SineDrawerCPU": "",
 "SongLoaderHB": "",
@@ -538,8 +616,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1595118235
-config/build_commit="4c6413d436eadc58f2499ce7abddc452dad5a9e9"
+config/build_time=1596553414
+config/build_commit="ed47410ce790505026e71a909d2e311cb14f6230"
 
 [autoload]
 
@@ -557,6 +635,7 @@ ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 ModifierLoader="*res://autoloads/ModifierLoader.gd"
+JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 
 [debug]
 
@@ -898,6 +977,12 @@ editor_paste={
 editor_cut={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":88,"unicode":0,"echo":false,"script":null)
+ ]
+}
+contextual_option={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 

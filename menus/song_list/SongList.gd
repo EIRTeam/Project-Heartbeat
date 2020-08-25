@@ -11,8 +11,10 @@ onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContain
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
 onready var sort_by_list = get_node("Panel")
 onready var sort_by_list_container = get_node("Panel/MarginContainer/VBoxContainer")
-onready var sort_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel/HBoxContainer2/SortButtonLeft")
-onready var fav_button_texture_rect = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/HBoxContainer/Panel2/HBoxContainer2/FavButton")
+onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/FolderPath")
+onready var folder_manager = get_node("FolderManager")
+onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2")
+onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -25,12 +27,12 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #				difficulty_list.select_button(i)
 #	else:
 #		difficulty_list.select_button(0)
-	if UserSettings.user_settings.filter_mode == "favorites" \
-			and UserSettings.user_settings.favorite_songs.empty():
-		UserSettings.user_settings.filter_mode = "all"
 	populate_buttons()
-	song_container.set_filter(UserSettings.user_settings.filter_mode)
+	set_filter(UserSettings.user_settings.filter_mode, false)
 	update_songs()
+
+	folder_manager.connect("closed", self, "_on_folder_manager_closed")
+	folder_manager.connect("folder_selected", self, "_on_folder_selected")
 
 	if args.has("song_difficulty"):
 		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)
@@ -65,8 +67,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		# We ensure the current sort mode is selected by default
 		if sort_by == UserSettings.user_settings.sort_mode:
 			sort_by_list_container.select_button(button.get_position_in_parent())
-	sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
-	fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
+	#sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
+	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
 func set_sort(sort_by):
@@ -95,9 +97,20 @@ func _on_menu_exit(force_hard_transition = false):
 func _ready():
 	song_container.connect("song_hovered", self, "_on_song_hovered")
 	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
+	song_container.connect("updated_folders", self, "_on_folder_path_updated")
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
 	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
 
+func _on_folder_path_updated(folders):
+	var folder_str := "/"
+	var ignore = true # we ignore the root
+	for folder in folders:
+		if ignore:
+			ignore = false
+			continue
+		folder_str += "%s/" % [folder.folder_name]
+	folder_str = folder_str.substr(0, folder_str.length()-1)
+	folder_path.text = folder_str
 
 func populate_buttons():
 	var filter_types = {
@@ -105,7 +118,7 @@ func populate_buttons():
 		"official": "Official",
 
 	}
-	
+
 	for child in filter_type_container.get_children():
 		child.queue_free()
 		filter_type_container.remove_child(child)
@@ -115,14 +128,13 @@ func populate_buttons():
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
 			filter_types["community"] = "Community"
 			break
-	if UserSettings.user_settings.favorite_songs.size() > 0:
-		filter_types["favorites"] = "Favorites"
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:
 			filter_types["ppd"] = "PPD"
 	if not UserSettings.user_settings.filter_mode in filter_types:
 		UserSettings.user_settings.filter_mode = "all"
+	filter_types["folders"] = "Folders"
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
@@ -131,10 +143,19 @@ func populate_buttons():
 			filter_type_container.select_button(button.get_position_in_parent(), false)
 		button.connect("hovered", self, "set_filter", [filter_type])
 		
-func set_filter(filter_name):
+func set_filter(filter_name, save=true):
 	song_container.set_filter(filter_name)
 	UserSettings.user_settings.filter_mode = filter_name
-	UserSettings.save_user_settings()
+	if save:
+		UserSettings.save_user_settings()
+	if filter_name == "folders":
+		add_to_prompt.hide()
+		manage_folders_prompt.show()
+		folder_path.show()
+	else:
+		add_to_prompt.show()
+		manage_folders_prompt.hide()
+		folder_path.hide()
 
 func _on_song_hovered(song: HBSong):
 	current_song = song
@@ -170,36 +191,16 @@ func _unhandled_input(event):
 			if not is_gui_directional_press("gui_up", event):
 				get_tree().set_input_as_handled()
 				show_order_by_list()
-		if event.is_action_pressed("note_left"):
-			if not is_gui_directional_press("gui_left", event):
-				get_tree().set_input_as_handled()
-				toggle_current_song_favorite()
+		if event.is_action_pressed("contextual_option"):
+			if UserSettings.user_settings.filter_mode == "folders":
+				folder_manager.show_manager(folder_manager.MODE.MANAGE)
+			else:
+				folder_manager.show_manager(folder_manager.MODE.SELECT)
 	else:
 		if event.is_action_pressed("gui_cancel") and sort_by_list.visible:
 			sort_by_list.hide()
 			song_container.grab_focus()
-			
-func toggle_current_song_favorite():
-	var list_item = song_container.selected_option as HBSongListItem
-	if list_item:
-		if UserSettings.is_song_favorited(current_song):
-			UserSettings.remove_song_from_favorites(current_song)
-			list_item.set_favorite(false)
-			if UserSettings.user_settings.filter_mode == "favorites":
-				if UserSettings.user_settings.favorite_songs.size() == 0:
-					UserSettings.user_settings.filter_mode = "all"
-					song_container.set_filter("all")
-				else:
-					var old_option = song_container.selected_option
-					var pos = song_container.selected_option.get_position_in_parent()-1
-					song_container.remove_child(old_option)
-					old_option.queue_free()
-					song_container.select_option(max(pos, 0))
-		else:
-			UserSettings.add_song_to_favorites(current_song)
-			list_item.set_favorite(true)
-	populate_buttons()
-	UserSettings.save_user_settings()
+
 func show_order_by_list():
 	sort_by_list.show()
 	sort_by_list_container.grab_focus()
@@ -230,7 +231,16 @@ func _on_youtube_url_selected(url):
 func _on_video_downloading():
 	song_container.grab_focus()
 
-
+func _on_folder_manager_closed():
+	if folder_manager.mode == folder_manager.MODE.MANAGE:
+		song_container.go_to_root()
+	song_container.grab_focus()
 
 func update_songs():
 	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values())
+
+func _on_folder_selected(folder: HBFolder):
+	if not current_song.id in folder.songs:
+		folder.songs.append(current_song.id)
+		UserSettings.save_user_settings()
+	song_container.grab_focus()

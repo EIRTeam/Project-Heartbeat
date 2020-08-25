@@ -42,13 +42,14 @@ var music_volume = 1.0
 var sfx_volume = 1.0
 
 var content_path = "user://"
-var favorite_songs = []
 
 var background_dim = 0.0
 
 var load_all_notes_on_song_start = true
 
 var vsync_enabled = false
+
+var root_folder = HBFolder.new()
 
 func _init():
 
@@ -60,8 +61,8 @@ func _init():
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "tap_deadzone", "analog_translation_deadzone",
-	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path", "favorite_songs",
-	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled" ]
+	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
+	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder" ]
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
@@ -78,6 +79,17 @@ static func deserialize(data: Dictionary):
 		for song in data.per_song_settings:
 			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
 	result.per_song_settings = pss
+	
+	result.root_folder.folder_name = "Root"
+	
+	# Legacy favorite migration
+	if data.has("favorite_songs"):
+		if data.favorite_songs.size() > 0:
+			var favorites_folder = HBFolder.new()
+			favorites_folder.folder_name = "Legacy Favourites"
+			favorites_folder.songs = data.favorite_songs
+			result.root_folder.subfolders.append(favorites_folder)
+	
 	return result
 	
 func serialize():

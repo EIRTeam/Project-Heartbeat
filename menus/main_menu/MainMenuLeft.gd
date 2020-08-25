@@ -4,8 +4,16 @@ onready var start_menu = get_node("VBoxContainer/StartMenu")
 
 func _ready():
 	start_menu.connect("navigate_to_menu", self, "change_to_menu")
-	if not PlatformService.service_provider.implements_lobby_list:
-		get_tree().call_group("mponly", "queue_free")
+	if not PlatformService.service_provider.implements_lobby_list or HBGame.demo_mode:
+		get_tree().call_group("mponly", "free")
+	if HBGame.demo_mode:
+		get_tree().call_group("nodemo", "free")
+	else:
+		get_tree().call_group("demo_only", "free")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	start_menu.grab_focus()
+
+
+func _on_discord_server_pressed():
+	OS.shell_open("https://discord.com/invite/qGMdbez")

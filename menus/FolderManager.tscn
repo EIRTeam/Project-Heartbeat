@@ -1,0 +1,189 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=2]
+[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://menus/ScrollList.gd" type="Script" id=4]
+[ext_resource path="res://Theme_Game.tres" type="Theme" id=5]
+[ext_resource path="res://menus/FolderManager.gd" type="Script" id=6]
+[ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=7]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
+[ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=9]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[node name="Panel" type="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -372.0
+margin_top = -258.0
+margin_right = 372.0
+margin_bottom = 258.0
+focus_mode = 2
+theme = ExtResource( 5 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 734.0
+margin_bottom = 501.0
+focus_mode = 2
+custom_constants/separation = 10
+
+[node name="HBScrollList" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 724.0
+margin_bottom = 441.0
+focus_mode = 2
+size_flags_vertical = 3
+script = ExtResource( 4 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBScrollList"]
+margin_right = 724.0
+margin_bottom = 441.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MarginContainer/VBoxContainer/HBScrollList"]
+stream = ExtResource( 7 )
+bus = "SFX"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 451.0
+margin_right = 724.0
+margin_bottom = 491.0
+rect_min_size = Vector2( 0, 40 )
+custom_constants/separation = 10
+alignment = 1
+
+[node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 122.0
+margin_right = 232.0
+
+[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+input_action = "gui_left"
+
+[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 105.0
+text = "Close"
+
+[node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 242.0
+margin_right = 352.0
+
+[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+input_action = "gui_right"
+
+[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
+margin_right = 99.0
+text = "Open"
+
+[node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 362.0
+margin_right = 482.0
+rect_min_size = Vector2( 120, 0 )
+
+[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
+input_action = "gui_accept"
+
+[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
+margin_right = 113.0
+text = "Select"
+
+[node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 492.0
+margin_right = 602.0
+
+[node name="DeleteConfirmationWindow" parent="." instance=ExtResource( 8 )]
+visible = true
+margin_left = -275.0
+margin_right = 275.0
+text = "Do you want to delete this folder?"
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.0
+margin_top = -105.5
+margin_right = 152.0
+margin_bottom = 105.5
+custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 294.0
+margin_bottom = 201.0
+focus_mode = 2
+custom_constants/separation = 10
+script = ExtResource( 2 )
+orientation = 1
+
+[node name="TextInputCreate" parent="." instance=ExtResource( 9 )]
+visible = true
+margin_left = -275.0
+margin_right = 275.0
+
+[node name="TextInputRename" parent="." instance=ExtResource( 9 )]
+visible = true
+margin_left = -275.0
+margin_right = 275.0
+[connection signal="back" from="Panel/MarginContainer/VBoxContainer" to="." method="_on_folder_options_back"]
+
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
+
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
+
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]
+
+[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel7"]

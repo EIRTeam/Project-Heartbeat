@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://menus/FolderManagerFolderButton.gd" type="Script" id=1]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=2]
+[ext_resource path="res://graphics/icons/folder-music.svg" type="Texture" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="HBHovereableButton" type="Button"]
+margin_top = 1.0
+margin_right = 1200.0
+margin_bottom = 41.0
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "Start"
+icon = ExtResource( 3 )
+align = 0
+expand_icon = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+normal_style = SubResource( 1 )
+hover_style = SubResource( 2 )

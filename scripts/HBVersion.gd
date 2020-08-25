@@ -20,8 +20,13 @@ static func get_version_string():
 	
 	var version = "%d.%d.%d" % [MAJOR, MINOR, PATCH]
 	
+	var demo_string = ""
+	
+	if HBGame.demo_mode:
+		demo_string = " [DEMO]"
+	
 	result = result.format({
-		"ver_name": ver_name,
+		"ver_name": ver_name + demo_string,
 		"status": status,
 		"video_driver": video_driver,
 		"os_name": OS.get_name(),

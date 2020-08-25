@@ -24,7 +24,7 @@ func _init():
 	"used_autoplay", "song_id", "difficulty"]
 
 static func deserialize(data: Dictionary):
-	var res = .deserialize(data)
+	var res = HBSerializable.deserialize(data)
 	res.modifiers = {}
 	if data.has("modifiers"):
 		for modifier_id in data.modifiers:

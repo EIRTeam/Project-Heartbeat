@@ -17,10 +17,13 @@ func _ready():
 	
 func _initialize_platform():
 	# Try to load steam first, if not fallback to Offline
-	var service_init_result = set_service_provider(SteamPlatformServicePovider.new())
-	if service_init_result != OK:
+	if not HBGame.demo_mode:
+		var service_init_result = set_service_provider(SteamPlatformServicePovider.new())
+		if service_init_result != OK:
+			set_service_provider(OfflinePlatformServicePovider.new())
+			Log.log(self, "Loading Steamworks failed, falling back to offline service provider", Log.LogLevel.INFO)
+	else:
 		set_service_provider(OfflinePlatformServicePovider.new())
-		Log.log(self, "Loading Steamworks failed, falling back to offline service provider", Log.LogLevel.INFO)
 func set_service_provider(provider: PlatformServiceProvider):
 	var init_result = provider.init_platform()
 	if init_result != OK:

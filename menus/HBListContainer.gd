@@ -84,6 +84,8 @@ func _process(delta):
 		move_debounce = MOVE_DEBOUNCE_T
 		initial_move_debounce = 0.0
 		can_press = true
+	if get_child_count() == 0:
+		can_press = false
 	if Input.is_action_pressed("gui_down") and can_press:
 		move_debounce = 0.0
 		var current_pos = selected_option.get_position_in_parent()
@@ -146,18 +148,19 @@ func _gui_input(event):
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
-	if not prevent_hard_arrange:
-		var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
-		
-		if disable_repositioning:
-			arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
-		else:
-			selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
-			selected_option.rect_scale = Vector2(1.0, 1.0)
-			selected_option.target_opacity = 1.0
-			selected_option.modulate.a = 1.0
-			arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
-			arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
+	if selected_option:
+		if not prevent_hard_arrange:
+			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
+			
+			if disable_repositioning:
+				arrange_options(0, get_child_count(), 1.0, get_child(0).rect_position, get_child(0).rect_size.y, true)
+			else:
+				selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
+				selected_option.rect_scale = Vector2(1.0, 1.0)
+				selected_option.target_opacity = 1.0
+				selected_option.modulate.a = 1.0
+				arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
+				arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
 
 func is_child_visible(child_i):
 	var child = get_child(child_i)
@@ -180,21 +183,22 @@ func _draw():
 #	draw_rect(rect_second, color_second, true, 1.0, true)
 
 func calculate_visibility_threshholds():
-	var child_size_y = get_child(0).rect_size.y
-	menu_start_percentage = (((child_size_y*scale_factor)+margin) * (items_visible_top)  + child_size_y / 2.0) / rect_size.y
-	var total_space = rect_size.y - child_size_y - margin
-	var first = true
-#	for child in get_children():
-#		if child != selected_option:
-#			if not first:
-#				total_space -= margin
-#			else:
-#				first = false
-	var child_size = (child_size_y  * scale_factor) +  margin
-	var visible_item_count = floor(total_space / child_size) - 1
-	VISIBILITY_THRESHOLD_TOP = items_visible_top
-	VISIBILITY_THRESHOLD_BOTTOM = visible_item_count - items_visible_top + 1
-	update()
+	if get_child_count() > 0:
+		var child_size_y = get_child(0).rect_size.y
+		menu_start_percentage = (((child_size_y*scale_factor)+margin) * (items_visible_top)  + child_size_y / 2.0) / rect_size.y
+		var total_space = rect_size.y - child_size_y - margin
+		var first = true
+	#	for child in get_children():
+	#		if child != selected_option:
+	#			if not first:
+	#				total_space -= margin
+	#			else:
+	#				first = false
+		var child_size = (child_size_y  * scale_factor) +  margin
+		var visible_item_count = floor(total_space / child_size) - 1
+		VISIBILITY_THRESHOLD_TOP = items_visible_top
+		VISIBILITY_THRESHOLD_BOTTOM = visible_item_count - items_visible_top + 1
+		update()
 
 func arrange_options(start, end, step, start_position, start_size, hard = false, start_scale=1.0):
 	var lw = lerp_weight * get_process_delta_time()
