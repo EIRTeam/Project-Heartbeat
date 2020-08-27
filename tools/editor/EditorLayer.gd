@@ -28,7 +28,7 @@ func place_child(child: EditorTimelineItem):
 func place_all_children():
 	#timing_points.sort_custom(self, "_sort_timing_points")
 	if timing_points.size() > 0:
-		for i in range(_cull_start_note_i, _cull_end_note_i):
+		for i in range(_cull_start_note_i, _cull_end_note_i+1):
 			var child = timing_points[i]
 			if not child.visible:
 				break

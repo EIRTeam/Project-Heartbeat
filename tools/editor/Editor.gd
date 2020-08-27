@@ -664,24 +664,33 @@ func snap_time_to_timeline(time):
 
 func arrange_selected_by_angle(diff):
 	undo_redo.create_action("Arrange selected notes by angle")
-	var mult = 0
-	var first_angle = null
-	for selected_item in selected:
-		if not first_angle:
-			first_angle = selected_item.data.entry_angle
-		undo_redo.add_do_property(selected_item.data, "entry_angle", int(first_angle + diff * mult))
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-		mult += 1
-	inspector.sync_visible_values_with_data()
-	undo_redo.commit_action()
+	var notes = []
+	for item in selected:
+		if item.data is HBBaseNote:
+			notes.append(item.data)
+	if notes.size() > 1:
+		notes.sort_custom(self, "_note_comparison")
+		
+		var first_angle = notes[notes.size()-1].entry_angle
+		var mult = 0
+		for i in range(notes.size()-1, -1, -1):
+			var note = notes[i] as HBBaseNote
+			undo_redo.add_do_property(note, "entry_angle", int(first_angle + diff * mult))
+			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
+			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+			mult += 1
+		inspector.sync_visible_values_with_data()
+		undo_redo.commit_action()
 func _on_AngleArrangeButtonPlus_pressed():
 	arrange_selected_by_angle(angle_arrange_spinbox.value)
 
 
 func _on_AngleArrangeButtonMinus_pressed():
 	arrange_selected_by_angle(-angle_arrange_spinbox.value)
+
+func _order_items(a, b):
+	return a.data.time < b.data.time
 
 # Arranges the selected notes in the playarea by a certain distances
 func arrange_selected_notes_by_time(direction: Vector2):
@@ -709,7 +718,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
 
 	undo_redo.create_action("Arrange selected notes by time")
-	var ordered_items = []
+	selected.sort_custom(self, "_order_items")
+	
+	
 	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
@@ -733,9 +744,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 #	inspector.update_value()
 
 func add_button_to_tools_tab(button: BaseButton):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(button)
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
 func add_tool_to_tools_tab(tool_control: Control):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/PluginButtonsVBox.add_child(tool_control)
+	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 

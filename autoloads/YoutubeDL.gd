@@ -166,7 +166,10 @@ func _download_video(userdata):
 		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id}
 	# we have to ignroe the cache dir because youtube-dl is stupid
-	var shared_params = ["--ignore-config", "--no-cache-dir", ]
+	var shared_params = ["--ignore-config", "--no-cache-dir"]
+	
+	if OS.get_name() == "X11":
+		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
 	
 	if download_audio:
 		var out = []

@@ -32,8 +32,7 @@ var leading_trail_enabled = false
 var use_timing_arm = true
 var last_game_info: HBGameInfo = HBGameInfo.new()
 var per_song_settings = {}
-var tap_deadzone = 0.5
-var analog_translation_deadzone = 0.5
+var analog_deadzone = 0.75
 var enable_multi_hint = true
 var disable_menu_music = false
 
@@ -60,8 +59,8 @@ func _init():
 	"note_size", "last_controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
-	"use_timing_arm", "last_game_info", "per_song_settings", "tap_deadzone", "analog_translation_deadzone",
-	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
+	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
+	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path", "favorite_songs",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder" ]
 
 static func deserialize(data: Dictionary):

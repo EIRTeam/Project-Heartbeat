@@ -172,6 +172,9 @@ func _handle_unhandled_input(event):
 					if event is InputEventHB:
 						if event.triggered_actions_count > conn_notes.size():
 							event_had_too_many_actions = true
+					if (note is HBNoteData and note.is_slide_note()) or \
+						note.note_type == HBBaseNote.NOTE_TYPE.HEART:
+							event_had_too_many_actions = false
 					if not input_judgement.has_rating or event_had_too_many_actions:
 						# Check for wrongs
 						var found_input = false
@@ -183,13 +186,17 @@ func _handle_unhandled_input(event):
 						var heart_bypass_hack = false
 							
 						# HACK: We ignore slide up and down to prevent the user
-						# from getting a wrong on slides accidentally, unless they have a heart note
+						# from getting a wrong on slides when using the heart action
 						if not note.note_type == HBBaseNote.NOTE_TYPE.HEART:
-							if (event.is_action_pressed("tap_down") or event.is_action_pressed("tap_up")):
+							if (event.is_action_pressed("heart_note")):
 								heart_bypass_hack = true
 								
-
-
+						# Same but the other way around for hearts
+						if note.note_type == HBBaseNote.NOTE_TYPE.HEART:
+							event_had_too_many_actions = false
+							if (event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right")):
+								heart_bypass_hack = true
+								
 						# If the action was not amongs the allowed action of the connected
 						# notes and our note is amongst the closest notes it means we got
 						# a wrong
@@ -197,7 +204,6 @@ func _handle_unhandled_input(event):
 							# janky way of emulating the correct input and figuring out
 							# what the rating would be, if we would get a rating it means
 							# we got a wrong note
-							
 							
 							var a = InputEventHB.new()
 							a.action = note.get_input_actions()[0]

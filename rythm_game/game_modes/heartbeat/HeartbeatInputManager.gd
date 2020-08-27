@@ -6,15 +6,11 @@ signal unhandled_release(event, event_uid)
 
 var digital_action_tracking = {}
 
-const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "tap_left", "tap_right"]
-const ANALOG_ACTIONS = ["tap_left_analog", "tap_right_analog", "tap_up_analog", "tap_down_analog"]
+const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"]
 
-const ANALOG_TO_DIGITAL_MAP = {
-	"tap_right_analog": "tap_right",
-	"tap_left_analog": "tap_left",
-	"tap_up_analog": "tap_up",
-	"tap_down_analog": "tap_down"
-}
+const BIDIRECTIONAL_ACTIONS = [
+	"heart_note"
+]
 
 var current_event: InputEvent # Current event being converted to action
 
@@ -26,7 +22,7 @@ func get_action_press_count(action):
 	return _get_analog_action_held_count(action) + _get_digital_action_held_count(action)
 
 func _is_axis_held(device, action, axis):
-	if last_axis_values[device][action][axis] >= _get_action_deadzone(action):
+	if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
 		return true
 	else:
 		return false
@@ -44,16 +40,14 @@ func _get_digital_action_held_count(action):
 	return count
 
 func _get_action_deadzone(action: String):
-	var deadzone = UserSettings.user_settings.tap_deadzone
-	if not action in ANALOG_ACTIONS:
-		deadzone = UserSettings.user_settings.analog_translation_deadzone
+	var deadzone = UserSettings.user_settings.analog_deadzone
 	return deadzone
 func _get_analog_action_held_count(action):
 	var count = 0
 	for device in last_axis_values:
 		if action in last_axis_values[device]:
 			for axis in last_axis_values[device][action]:
-				if last_axis_values[device][action][axis] >= _get_action_deadzone(action):
+				if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
 					count += 1
 	return count
 func _is_action_held_analog(action):
@@ -68,20 +62,11 @@ func _input_received(event):
 		for action in TRACKED_ACTIONS:
 			if event.is_action(action):
 				found_actions.append(action)
-
-		if event is InputEventJoypadMotion:
-			for action in ANALOG_ACTIONS:
-				if event.is_action(action):
-					found_actions.append(action)
 		for action in found_actions:
 			var event_pressed = false
 			
 			if event is InputEventJoypadMotion:
-				var analog_action = action
 				var digital_action = action
-				
-				if analog_action in ANALOG_TO_DIGITAL_MAP.keys():
-					digital_action = ANALOG_TO_DIGITAL_MAP[analog_action]
 				
 				if not last_axis_values.has(event.device):
 					last_axis_values[event.device] = {}
@@ -91,13 +76,19 @@ func _input_received(event):
 					last_axis_values[event.device][digital_action][event.axis] = 0.0
 				var last_value = last_axis_values[event.device][digital_action][event.axis]
 				
+
+				
 				var was_axis_held_last_time = _is_axis_held(event.device, digital_action, event.axis)
 				var was_action_held_last_time = is_action_held(digital_action)
 
-				last_axis_values[event.device][digital_action][event.axis] = event.get_action_strength(analog_action)
+				var is_bidirectional = digital_action in BIDIRECTIONAL_ACTIONS
 				
+				if is_bidirectional:
+					last_axis_values[event.device][digital_action][event.axis] = event.axis_value
+				else:
+					last_axis_values[event.device][digital_action][event.axis] = event.get_action_strength(digital_action)
 				var is_axis_held_now = _is_axis_held(event.device, digital_action, event.axis)
-				
+
 				if not was_axis_held_last_time and is_axis_held_now:
 					actions_to_send.append({"action": digital_action, "pressed": true, "event": event})
 #					send_input(digital_action, true)

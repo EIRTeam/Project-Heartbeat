@@ -34,12 +34,6 @@
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
 
-
-
-
-
-
-
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"
 
@@ -321,6 +315,7 @@ size_flags_stretch_ratio = 0.25
 tab_align = 0
 
 [node name="Arrange" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -537,7 +532,6 @@ margin_right = 192.0
 margin_bottom = 393.0
 
 [node name="Tools" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -548,7 +542,7 @@ margin_bottom = -5.0
 [node name="PluginButtons" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
+custom_constants/margin_right = 5
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
@@ -556,11 +550,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 192.0
+margin_right = 197.0
 margin_bottom = 393.0
+scroll_horizontal_enabled = false
+
+[node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer"]
+margin_right = 187.0
+margin_bottom = 383.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_left = 216.0

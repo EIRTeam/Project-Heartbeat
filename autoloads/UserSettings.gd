@@ -10,9 +10,10 @@ const SAVE_DEBOUNCE_TIME = 0.2
 var save_debounce_t = 0.0
 var debouncing = false
 
+signal controller_swapped(to_device)
+
 const ACTION_CATEGORIES = {
-	"Notes": ["note_up", "note_down", "note_left", "note_right"],
-	"Slide Notes": ["tap_left", "tap_left_analog", "tap_right", "tap_right_analog", "tap_up", "tap_up_analog", "tap_down", "tap_down_analog"],
+	"Notes": ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
 	"Game": ["pause"],
 	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_accept", "gui_cancel"]
 }
@@ -28,14 +29,9 @@ var action_names = {
 	"gui_right": "Menu right",
 	"gui_accept": "Menu accept",
 	"gui_cancel": "Menu cancel",
-	"tap_left": "Slide left",
-	"tap_left_analog": "Slide left analog",
-	"tap_right": "Slide right",
-	"tap_right_analog": "Slide right analog",
-	"tap_up": "Slide up",
-	"tap_up_analog": "Slide up analog",
-	"tap_down": "Slide down",
-	"tap_down_analog": "Slide down analog",
+	"slide_left": "Slide left",
+	"slide_right": "Slide right",
+	"heart_note": "Heart note",
 	"pause": "Pause"
 }
 
@@ -84,8 +80,6 @@ const HIDE_KB_REMAPS_ACTIONS = [
 const DISABLE_ANALOG_FOR_ACTION = [
 	"gui_accept",
 	"gui_cancel",
-	"tap_right",
-	"tap_left"
 ]
 
 var device_id = 0
@@ -125,9 +119,10 @@ func get_button_name(event: InputEventJoypadButton):
 func load_input_map():
 	# Loads input map from the user's settings
 	for action_name in user_settings.input_map:
-		InputMap.action_erase_events(action_name)
-		for action in user_settings.input_map[action_name]:
-			InputMap.action_add_event(action_name, action)
+		if InputMap.has_action(action_name):
+			InputMap.action_erase_events(action_name)
+			for action in user_settings.input_map[action_name]:
+				InputMap.action_add_event(action_name, action)
 	map_actions_to_controller()
 func map_actions_to_controller():
 	for _device_id in Input.get_connected_joypads():
@@ -142,6 +137,7 @@ func map_actions_to_controller():
 				InputMap.action_erase_event(action_name, event)
 				event.device = device_id
 				InputMap.action_add_event(action_name, event)
+	emit_signal("controller_swapped", device_id)
 func _input(event):
 	if event is InputEventJoypadButton:
 		# If we receive an input from a controller that isn't the one we have
