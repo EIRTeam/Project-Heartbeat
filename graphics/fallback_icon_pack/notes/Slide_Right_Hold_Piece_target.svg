@@ -1,101 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="Slide_Right_Hold_Piece_target.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   id="svg45"
-   version="1.1"
-   width="100"
-   height="100"
-   viewBox="0 0 100 100">
-  <metadata
-     id="metadata14">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <path
-     sodipodi:nodetypes="ccccc"
-     id="background_path"
-     d="m 68.60575,68.529297 h -15.0005 l -22.211,-27.105469 h 15.0005 z"
-     style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:3;stroke-opacity:1;filter:url(#filter1715)"
-     inkscape:connector-curvature="0" />
-  <path
-     sodipodi:nodetypes="ccccc"
-     id="main_path"
-     d="m 68.60575,68.529297 h -15.0005 l -22.211,-27.105469 h 15.0005 z"
-     style="fill:#272646;fill-opacity:1;stroke:#E9BA00;stroke-width:4;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-     inkscape:connector-curvature="0" />
-  <defs
-     id="defs9">
-    <linearGradient
-       id="bgLinearGradient"
-       inkscape:collect="always">
-      <stop
-         id="stop844"
-         offset="0"
-         style="stop-color:#f94723;stop-opacity:1" />
-      <stop
-         id="stop846"
-         offset="1"
-         style="stop-color:#b10000;stop-opacity:1" />
-    </linearGradient>
-    <radialGradient
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,1.5050907,0,-25.254534)"
-       r="40.248082"
-       fy="50.000001"
-       fx="49.999999"
-       cy="50.000001"
-       cx="49.999999"
-       id="bgRadialGradient"
-       xlink:href="#bgLinearGradient"
-       inkscape:collect="always" />
-    <filter
-       height="1.8892401"
-       y="-0.44462006"
-       width="1.6477371"
-       x="-0.32386857"
-       id="filter1715"
-       style="color-interpolation-filters:sRGB"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur1717"
-         stdDeviation="5.0215147"
-         inkscape:collect="always" />
-    </filter>
-  </defs>
-  <sodipodi:namedview
-     inkscape:document-rotation="0"
-     inkscape:current-layer="svg45"
-     inkscape:window-maximized="0"
-     inkscape:window-y="0"
-     inkscape:window-x="0"
-     inkscape:cy="45.206543"
-     inkscape:cx="35.506028"
-     inkscape:zoom="7.9013824"
-     showgrid="false"
-     id="namedview47"
-     inkscape:window-height="1080"
-     inkscape:window-width="2560"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0"
-     guidetolerance="10"
-     gridtolerance="10"
-     objecttolerance="10"
-     borderopacity="1"
-     bordercolor="#666666"
-     pagecolor="#ffffff" />
-</svg>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 100 100" height="100" width="100" version="1.1" id="svg45" inkscape:version="0.92.4 5da689c313, 2019-01-14">
+   <svg:path inkscape:connector-curvature="0" style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:6.0;stroke-opacity:1;filter:url(#backFilter);" d="m 68.60575,68.529297 h -15.0005 l -22.211,-27.105469 h 15.0005 z" id="background_path" sodipodi:nodetypes="ccccc"/>
+  <defs><filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+      <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
+    </filter><linearGradient inkscape:collect="always" id="bgLinearGradient">
+      <stop style="stop-color:#f94723;stop-opacity:1" offset="0" id="stop844"/>
+      <stop style="stop-color:#b10000;stop-opacity:1" offset="1" id="stop846"/>
+    </linearGradient><radialGradient xmlns:xlink="http://www.w3.org/1999/xlink" inkscape:collect="always" xlink:href="#bgLinearGradient" id="bgRadialGradient" cx="49.999999" cy="50.000001" fx="49.999999" fy="50.000001" r="40.248082" gradientTransform="matrix(1,0,0,1.5050907,0,-25.254534)" gradientUnits="userSpaceOnUse"/></defs>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="2560" inkscape:window-height="1080" id="namedview47" showgrid="false" inkscape:zoom="3.9506912" inkscape:cx="72.194105" inkscape:cy="20.670582" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="0" inkscape:current-layer="svg45"/>
+<svg:path inkscape:connector-curvature="0" style="fill:#272646;fill-opacity:1;stroke:#E9BA00;stroke-width:6;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" d="m 68.60575,68.529297 h -15.0005 l -22.211,-27.105469 h 15.0005 z" id="main_path" sodipodi:nodetypes="ccccc"/>
+  </svg>

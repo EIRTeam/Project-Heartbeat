@@ -24,7 +24,7 @@ for directory in DIRECTORIES:
 	for _file in os.listdir("notes"):
 		if _file.endswith(".png"):
 			if not "target" in _file and not "small" in _file:
-				subprocess.call(["magick", "convert", "notes/"+_file, "(", "+clone", "-background", "black", "-shadow", "80x0+10+10", ")", "+swap", "-background", "none", "-layers", "merge", "+repage", "-crop", "128x128+0+0", "notes_temp/" + _file])
+				subprocess.call(["magick", "convert", "notes/"+_file, "(", "+clone", "-background", "black", "-shadow", "80x0+6+6", ")", "+swap", "-background", "none", "-layers", "merge", "+repage", "-crop", "128x128+0+0", "notes_temp/" + _file])
 			else:
 				shutil.copy("notes/"+_file, "notes_temp/"+_file)
 	subprocess.call(["atlasify", "-ast", "-o", "atlas.png", "-p", "2", "--trim", "--extrude", "1", "-m 1024,1024", "--save", "./notes_temp"])

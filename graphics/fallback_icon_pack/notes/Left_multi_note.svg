@@ -20,8 +20,8 @@
     </rdf:RDF>
   </metadata>
   <g inkscape:label="Capa 1" inkscape:groupmode="layer" id="layer1">
-    <path style="fill:#f971d3;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 79.688476,40.352558 -22.498046,0 V 23.264667 L 39.243164,36.74123 21.293945,50.217792 39.243164,63.694355 57.19043,77.17287 V 60.799824 l 22.498046,0 z" id="main_path" inkscape:connector-curvature="0"/>
-    <circle style="fill:#f5a0dd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="shadow" cx="9.4642859" cy="-3.5714271" r="77.321426" clip-path="url(#clipPathShadow)"/>
+    <path style="fill:#f971d3;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 79.688476,40.352558 -22.498046,0 V 23.264667 L 39.243164,36.74123 21.293945,50.217792 39.243164,63.694355 57.19043,77.17287 V 60.799824 l 22.498046,0 z" id="main_path" inkscape:connector-curvature="0"/>
+    <circle style="fill:#f5a0dd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="shadow" cx="9.4642859" cy="-3.5714271" r="77.321426" clip-path="url(#clipPathShadow)"/>
   </g>
 <svg:path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#E9BA00;stroke-width:4.0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 79.688476,40.352558 -22.498046,0 V 23.264667 L 39.243164,36.74123 21.293945,50.217792 39.243164,63.694355 57.19043,77.17287 V 60.799824 l 22.498046,0 z" id="outline" inkscape:connector-curvature="0"/>
     </svg>
