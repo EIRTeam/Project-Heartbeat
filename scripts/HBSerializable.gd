@@ -64,7 +64,12 @@ static func deserialize(data: Dictionary):
 							r.append(item)
 					object.set(field, r)
 				elif _field is float or _field is String or _field is bool:
-					object.set(field, data[field])
+					var r = data[field]
+					if object.get(field + "__possibilities") is Array:
+						var possibilities = object.get(field + "__possibilities")
+						if not data[field] in possibilities:
+							r = possibilities[0]
+					object.set(field, r)
 				elif _field is int:
 					object.set(field, int(data[field]))
 				else:

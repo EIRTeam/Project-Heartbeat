@@ -27,6 +27,12 @@ var disable_video = false
 var disable_ppd_video = false
 var use_visualizer_with_video = true
 var filter_mode = "all"
+var filter_mode__possibilities = [
+	"all",
+	"community",
+	"ppd",
+	"folders"
+]
 var sort_mode = "title"
 var leading_trail_enabled = false
 var use_timing_arm = true
