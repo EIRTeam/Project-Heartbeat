@@ -119,6 +119,7 @@ func _ready():
 
 	inspector.connect("note_pasted", self, "paste_note_data")
 	
+	MouseTrap.disable_mouse_trap()
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -576,6 +577,7 @@ func _on_ExitDialog_confirmed():
 	Diagnostics.show_WIP_label()
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
+	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
 	UserSettings.set_fullscreen(UserSettings.user_settings.fullscreen)
 	

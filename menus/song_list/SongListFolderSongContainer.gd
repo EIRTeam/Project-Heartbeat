@@ -100,6 +100,7 @@ func _on_song_selected(song: HBSong):
 			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
 			song_items_map[song][difficulty] = item
 		prevent_hard_arrange = false
+		hard_arrange_all()
 #	emit_signal("song_selected", song)
 
 func _create_song_item(song: HBSong):

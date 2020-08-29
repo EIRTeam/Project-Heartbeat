@@ -134,9 +134,9 @@ __meta__ = {
 margin_right = 628.0
 margin_bottom = 351.0
 theme = ExtResource( 5 )
-window_title = "Select content directory"
+window_title = "Abrir un Directorio"
 mode = 2
 access = 2
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 [connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]

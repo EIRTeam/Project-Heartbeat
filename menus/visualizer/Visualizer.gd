@@ -6,7 +6,7 @@ var MIN_DB = 60 setget set_min_db
 var spectrum_image := Image.new()
 var spectrum_image_texture := ImageTexture.new()
 export(StyleBox) var fallback_stylebox: StyleBox
-
+export(bool) var ingame = false
 func set_freq_max(value: float):
 	FREQ_MAX = value
 
@@ -23,10 +23,13 @@ func _ready():
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
 	set("z", -1000)
 	if not UserSettings.user_settings.visualizer_enabled:
-		set_physics_process(false)
-		material = CanvasItemMaterial.new()
-		if fallback_stylebox:
-			add_stylebox_override("panel", fallback_stylebox)
+		if ingame:
+			queue_free()
+		else:
+			set_physics_process(false)
+			material = CanvasItemMaterial.new()
+			if fallback_stylebox:
+				add_stylebox_override("panel", fallback_stylebox)
 	else:
 		_background_dim_changed(UserSettings.user_settings.background_dim)
 		
