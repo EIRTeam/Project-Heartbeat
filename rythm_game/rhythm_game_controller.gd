@@ -123,7 +123,7 @@ const SONGS_WITH_IMAGE = [
 	"connected"
 ]
 	
-func set_song(song: HBSong, difficulty: String, modifiers = []):
+func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
 	var image_texture = ImageTexture.new()
@@ -132,7 +132,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, null, modifiers)
 	set_game_size()
-	game.cache_note_drawers()
+	if not force_caching_off:
+		game.cache_note_drawers()
 	$Node2D/Panel.hide()
 	
 #	if allow_modifiers:3
@@ -183,7 +184,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = []):
 				video_player.stream_position = song.start_time  / 1000.0
 				video_player.paused = true
 				$Node2D/Panel.show()
-				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
+				if visualizer:
+					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
 	
@@ -216,6 +218,7 @@ func set_game_size():
 func _on_resumed():
 	get_tree().paused = false
 	$PauseMenu.hide()
+	
 	set_process(true)
 	if not rollback_on_resume:
 		game.play_from_pos(game.time)
@@ -304,6 +307,16 @@ func _process(delta):
 			rollback_label_animation_player.play("disappear")
 			game.editing = false
 			_on_resumed()
+			
+func seek(pos: float):
+	var latency_compensation = UserSettings.user_settings.lag_compensation
+	if current_game_info:
+		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
+			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
+	game.time = pos
+	game.audio_stream_player.stream_paused = true
+	game.audio_stream_player_voice.stream_paused = true
+	game.audio_stream_player.seek(game.time + latency_compensation)
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
 	var scene = MainMenu.instance()

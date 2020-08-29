@@ -95,8 +95,6 @@ shape = SubResource( 8 )
 [node name="RestartPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
@@ -104,8 +102,6 @@ cancel_text = "Cancel"
 [node name="QuitPopup" parent="." instance=ExtResource( 7 )]
 margin_left = -275.0
 margin_right = 275.0
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"

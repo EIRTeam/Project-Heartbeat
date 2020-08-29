@@ -211,3 +211,15 @@ func _on_ppd_video_url_confirmed():
 		}
 	change_to_menu("song_list", false, args)
 	
+
+
+func _on_StartPractice_pressed():
+	var new_scene = preload("res://rythm_game/practice_mode.tscn")
+	game_info.time = OS.get_unix_time()
+	var scene = new_scene.instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	game_info.song_id = current_song.id
+	game_info.difficulty = current_difficulty
+	scene.start_session(game_info)

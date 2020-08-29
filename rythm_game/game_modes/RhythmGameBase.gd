@@ -62,6 +62,8 @@ var _prevent_finishing = false
 var _finished = false
 var _song_volume = 0.0
 
+var disable_ending = false
+
 var cached_note_drawers = {}
 var restart_cached_note_drawers = {}
 
@@ -469,13 +471,14 @@ func add_score(score_to_add):
 		
 func _on_game_finished():
 	if not _finished:
-		if not _prevent_finishing:
-			for modifier in modifiers:
-				modifier._post_game(current_song, self)
-			emit_signal("song_cleared", result)
-			_finished = true
-		else:
-			_prevent_finishing = false
+		if not disable_ending:
+			if not _prevent_finishing:
+				for modifier in modifiers:
+					modifier._post_game(current_song, self)
+				emit_signal("song_cleared", result)
+				_finished = true
+			else:
+				_prevent_finishing = false
 
 # Connects multi notes to their respective master notes
 func hookup_multi_notes(notes: Array):
@@ -648,6 +651,11 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			avg_pos += n.position
 		avg_pos = avg_pos / float(notes.size())
 
-		var judgement_info = {"judgement": judgement, "target_time": notes[0].time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
+		var target_time = notes[0].time
+		var drawer = get_note_drawer(notes[0])
+		if notes[0] is HBSustainNote and drawer.pressed:
+			target_time = notes[0].end_time
+
+		var judgement_info = {"judgement": judgement, "target_time": target_time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
 
 		emit_signal("note_judged", judgement_info)

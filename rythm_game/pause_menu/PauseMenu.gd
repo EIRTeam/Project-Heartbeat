@@ -9,6 +9,7 @@ signal quit
 onready var song_settings_editor = get_node("PerSongSettingsEditor")
 onready var list_container = get_node("ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer")
 onready var song_preview = get_node("ViewportContainer/Viewport/Spatial/ViewportRight/Panel")
+onready var quit_popup = get_node("ViewportContainer/Viewport/Spatial/QuitPopup")
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()

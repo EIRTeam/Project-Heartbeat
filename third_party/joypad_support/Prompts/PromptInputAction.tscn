@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.gd" type="Script" id=1]
 [ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_A.png" type="Texture" id=2]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=2]
+size = 17
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 5
+font_data = ExtResource( 4 )
+fallback/0 = ExtResource( 3 )
 
 [node name="PromptInputAction" type="MarginContainer"]
 margin_right = 100.0
@@ -21,9 +31,10 @@ expand = true
 stretch_mode = 6
 
 [node name="Fallback" type="Label" parent="."]
-margin_top = 43.0
+margin_top = 38.0
 margin_right = 100.0
-margin_bottom = 57.0
+margin_bottom = 61.0
+custom_fonts/font = SubResource( 2 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

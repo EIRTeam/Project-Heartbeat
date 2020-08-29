@@ -14,8 +14,8 @@ signal controller_swapped(to_device)
 
 const ACTION_CATEGORIES = {
 	"Notes": ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
-	"Game": ["pause"],
-	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_accept", "gui_cancel"]
+	"Game": ["pause", "practice_set_waypoint", "practice_go_to_waypoint"],
+	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_accept", "gui_cancel", "contextual_option"]
 }
 
 var action_names = {
@@ -29,6 +29,9 @@ var action_names = {
 	"gui_right": "Menu right",
 	"gui_accept": "Menu accept",
 	"gui_cancel": "Menu cancel",
+	"contextual_option": "Contextual option",
+	"practice_set_waypoint": "Practice mode: Set waypoint",
+	"practice_go_to_waypoint": "Practice mode: Go to waypoint",
 	"slide_left": "Slide left",
 	"slide_right": "Slide right",
 	"heart_note": "Heart note",

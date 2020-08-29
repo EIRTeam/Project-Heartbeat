@@ -11,6 +11,7 @@ void fragment() {
     COLOR.rgb = textureLod(SCREEN_TEXTURE,SCREEN_UV,amount).rgb;
 //	COLOR.rgb = COLOR.rgb * 0.5;
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )

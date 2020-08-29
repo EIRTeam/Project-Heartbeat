@@ -146,6 +146,8 @@ func _on_end_intro_skip_period():
 	intro_skip_info_animation_player.play("disappear")
 
 func _update_clear_bar_value():
+	if disable_score_processing:
+		return
 	# HACK HACK HACHKs everyhwere
 	var res = game.result.clone()
 	var res_potential = game.get_potential_result().clone()
@@ -161,8 +163,9 @@ func _update_clear_bar_value():
 	clear_bar.potential_score = res_potential.get_capped_score()
 
 func _on_score_added(score):
-	score_counter.score = game.result.score
-	_update_clear_bar_value()
+	if not disable_score_processing:
+		score_counter.score = game.result.score
+		_update_clear_bar_value()
 	
 func _on_hold_started(holds):
 	hold_indicator.current_holds = holds
@@ -172,6 +175,6 @@ func _unhandled_input(event):
 	$Viewport.unhandled_input(event)
 
 func _on_toggle_ui():
-	$UnderNotesUI/Control.hide()
-	$AboveNotesUI/Control.hide()
-	$Control.hide()
+	$UnderNotesUI/Control.visible = !$UnderNotesUI/Control.visible
+	$AboveNotesUI/Control.visible = !$UnderNotesUI/Control.visible
+	$Control.visible = !$Control.visible

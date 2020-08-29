@@ -1,6 +1,6 @@
 extends Control
 class_name HBRhythmGameUIBase
-
+var disable_score_processing = false
 func get_notes_node() -> Node2D:
 	return Node2D.new()
 func _on_reset():
