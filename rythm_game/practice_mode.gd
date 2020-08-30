@@ -34,6 +34,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	pause_menu_disabled = true
 	disable_restart()
 	add_child(video_pause_timer)
+	video_player.play()
 	for i in range(6):
 		yield(get_tree(), 'idle_frame')
 	video_player.paused = false
@@ -42,7 +43,8 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	practice_gui.hide()
 	game.game_ui.disable_score_processing = true
 func _unhandled_input(event: InputEvent):
-
+	if event.is_action_pressed("free_friends"):
+		video_player.play()
 	if event.is_action_pressed("pause"):
 		get_tree().set_input_as_handled()
 		get_tree().paused = !get_tree().paused
@@ -76,7 +78,6 @@ func _on_video_pause():
 		
 func _process(delta):
 	game.result.used_cheats = true
-	
 	if Input.is_action_just_pressed("practice_set_waypoint"):
 		waypoint = game.time
 		progess_bar_waypoint.show()
@@ -108,8 +109,8 @@ func go_to_time(time: float):
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	var end_time = game.audio_stream_player.stream.get_length()
 	if song.end_time > 0:
-		end_time = song.end_time
-	time = clamp(time, song.start_time, end_time)
+		end_time = song.end_time / 1000.0
+	time = clamp(time, song.start_time / 1000.0, end_time)
 	video_player.play()
 	if not get_tree().paused:
 		game.reset_hit_notes()
@@ -150,6 +151,7 @@ func update_progress_bar():
 	current_duration -= game.audio_stream_player.stream.get_length() - end_time
 	
 	var progress = clamp(game.time, start_time, end_time)
+	print("ST: %s ET: %s" % [start_time, end_time])
 	progress = progress / current_duration
 	
 	progress_bar.value = progress
