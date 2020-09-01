@@ -38,7 +38,7 @@ onready var start_time_spinbox = get_node("TabContainer/Technical Data/MarginCon
 onready var end_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/EndTimeSpinbox")
 
 onready var volume_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/VolumeSpinbox")
-
+onready var chart_ed = get_node("TabContainer/Charts")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -70,17 +70,7 @@ func set_song_meta(value):
 	
 	volume_spinbox.value = song_meta.volume
 	
-	# Uncheck all difficulties
-	for difficulty_checkbox in difficulties_container.get_children():
-		difficulty_checkbox.pressed = false
-	for difficulty in song_meta.charts:
-		for difficulty_checkbox in difficulties_container.get_children():
-			if difficulty_checkbox.text.to_lower() == difficulty.to_lower():
-				difficulty_checkbox.pressed = true
-				break
-		for star_spinbox in stars_container.get_children():
-			if star_spinbox.name.to_lower() == difficulty.to_lower():
-				star_spinbox.value = song_meta.charts[difficulty].stars
+	chart_ed.populate(value)
 	
 func _ready():
 	pass
@@ -113,17 +103,7 @@ func save_meta():
 	song_meta.end_time = end_time_spinbox.value
 	
 	song_meta.volume = volume_spinbox.value
-	for difficulty_checkbox in difficulties_container.get_children():
-		if difficulty_checkbox.pressed:
-			var difficulty = difficulty_checkbox.text.to_lower()
-			if not difficulty in song_meta.charts:
-				song_meta.charts[difficulty] = {
-					"file": difficulty + ".json"
-				}
-				
-	for star_spinbox in stars_container.get_children():
-		if star_spinbox.name.to_lower() in song_meta.charts:
-			song_meta.charts[star_spinbox.name.to_lower()].stars = star_spinbox.value
+	chart_ed.apply_to(song_meta)
 	song_meta.save_song()
 	
 	emit_signal("song_meta_saved")

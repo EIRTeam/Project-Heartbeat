@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://tools/editor/ChartDiffEditor.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/SongMetadataEditor.gd" type="Script" id=2]
 [ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=3]
 
@@ -192,6 +193,7 @@ margin_right = 588.0
 margin_bottom = 663.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -227,6 +229,7 @@ margin_top = 18.0
 margin_right = 588.0
 margin_bottom = 42.0
 max_value = 2.14748e+09
+step = 0.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -448,13 +451,13 @@ margin_bottom = 517.0
 text = "Use YouTube for video"
 
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Charts"]
 margin_right = 618.0
@@ -472,60 +475,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Charts/MarginContainer/HBoxContainer"]
-margin_right = 75.0
 margin_bottom = 664.0
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Easy" type="CheckBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 75.0
-margin_bottom = 24.0
-text = "Easy"
-
-[node name="Normal" type="CheckBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 28.0
-margin_right = 75.0
-margin_bottom = 52.0
-text = "Normal"
-
-[node name="Hard" type="CheckBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 56.0
-margin_right = 75.0
-margin_bottom = 80.0
-text = "Hard"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Charts/MarginContainer/HBoxContainer"]
-margin_left = 79.0
-margin_right = 153.0
-margin_bottom = 664.0
-
-[node name="Easy" type="SpinBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 74.0
-margin_bottom = 24.0
-min_value = 1.0
-max_value = 10.0
-step = 0.0
-value = 1.0
-
-[node name="Normal" type="SpinBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 28.0
-margin_right = 74.0
-margin_bottom = 52.0
-min_value = 1.0
-max_value = 10.0
-step = 0.0
-value = 1.0
-
-[node name="Hard" type="SpinBox" parent="TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 56.0
-margin_right = 74.0
-margin_bottom = 80.0
-min_value = 1.0
-max_value = 10.0
-step = 0.0
-value = 1.0
 
 [node name="Graphics" type="ScrollContainer" parent="TabContainer"]
 visible = false

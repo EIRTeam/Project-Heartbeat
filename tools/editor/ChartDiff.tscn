@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/editor/ChartDiff.gd" type="Script" id=1]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 78.0
+margin_bottom = 24.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="SpinBox" type="SpinBox" parent="."]
+margin_left = 4.0
+margin_right = 78.0
+margin_bottom = 24.0

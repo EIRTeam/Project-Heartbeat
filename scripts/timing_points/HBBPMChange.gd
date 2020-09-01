@@ -6,7 +6,7 @@ extends HBTimingPoint
 
 class_name HBBPMChange
 
-var bpm = 180
+var bpm = 180.0
 
 func _init():
 	serializable_fields += ["bpm"]
