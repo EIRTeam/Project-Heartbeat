@@ -63,20 +63,21 @@ func _on_game_size_changed():
 func update_multi_note_renderers():
 	if not is_queued_for_deletion():
 		var scale_x = (game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)).x
-		if connected_notes.size() > 1:
-			var points = PoolVector2Array()
-			for note in connected_notes:
-				var dr = game.get_note_drawer(note)
-				if dr and not dr.is_queued_for_deletion():
-					points.append(game.get_note_drawer(note).get_note_graphic().position)
-			points.append(get_note_graphic().position)
-			points = Geometry.convex_hull_2d(points)
-			if connected_notes.size() <= 2:
-				points.remove(points.size()-1)
-			for renderer in multi_note_line_renderers:
-				renderer.positions = points
-				renderer.width_scale = scale_x
-				renderer.show()
+		if note_master:
+			if connected_notes.size() > 1:
+				var points = PoolVector2Array()
+				for note in connected_notes:
+					var dr = game.get_note_drawer(note)
+					if dr and not dr.is_queued_for_deletion():
+						points.append(game.get_note_drawer(note).get_note_graphic().position)
+				points.append(get_note_graphic().position)
+#				points = Geometry.convex_hull_2d(points)
+				if connected_notes.size() <= 2:
+					points.remove(points.size()-1)
+				for renderer in multi_note_line_renderers:
+					renderer.positions = points
+					renderer.width_scale = scale_x
+					renderer.show()
 
 func update_graphic_positions_and_scale(time: float):
 	if note_master:
