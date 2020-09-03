@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=1]
 [ext_resource path="res://rythm_game/note_drawers/NoteGraphic.gd" type="Script" id=2]
 
 [node name="Note" type="Sprite"]
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 1 )
 script = ExtResource( 2 )

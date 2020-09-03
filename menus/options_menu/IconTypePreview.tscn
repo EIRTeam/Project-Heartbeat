@@ -1,11 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://graphics/fallback_icon_pack/notes/Down.png" type="Texture" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://graphics/fallback_icon_pack/notes/Right.png" type="Texture" id=4]
-[ext_resource path="res://graphics/fallback_icon_pack/notes/Left.png" type="Texture" id=5]
-[ext_resource path="res://graphics/fallback_icon_pack/notes/Up.png" type="Texture" id=6]
 [ext_resource path="res://menus/options_menu/IconTypePreview.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
@@ -40,7 +36,6 @@ margin_left = 365.0
 margin_right = 429.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 0 )
-texture = ExtResource( 6 )
 expand = true
 stretch_mode = 5
 
@@ -49,7 +44,6 @@ margin_left = 433.0
 margin_right = 497.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 0 )
-texture = ExtResource( 5 )
 expand = true
 stretch_mode = 5
 
@@ -58,7 +52,6 @@ margin_left = 501.0
 margin_right = 565.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 0 )
-texture = ExtResource( 1 )
 expand = true
 stretch_mode = 5
 
@@ -67,7 +60,6 @@ margin_left = 569.0
 margin_right = 633.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 0 )
-texture = ExtResource( 4 )
 expand = true
 stretch_mode = 5
 

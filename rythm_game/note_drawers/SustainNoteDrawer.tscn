@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://rythm_game/note_drawers/NoteTarget.tscn" type="PackedScene" id=1]
-[ext_resource path="res://graphics/notes/xbox/A.png" type="Texture" id=2]
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteGraphic.gd" type="Script" id=8]
@@ -45,6 +44,7 @@ void fragment() {
 
 	COLOR = mix(shadow, col, col.a);
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=7]
 shader = SubResource( 6 )
@@ -88,7 +88,6 @@ __meta__ = {
 material = SubResource( 7 )
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
 script = ExtResource( 8 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note"]
@@ -102,7 +101,6 @@ update_scale = false
 material = SubResource( 7 )
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
 script = ExtResource( 8 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note2"]
