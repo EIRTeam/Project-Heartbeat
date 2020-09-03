@@ -40,6 +40,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_left",
                     "target_path": "notes/Double_letf"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Left_sustain",
+                    "target_path": "notes/Left_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Left",
+                    "target_path": "notes/Left_sustain_target"
                 }
             }
         },
@@ -82,6 +92,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_down",
                     "target_path": "notes/Double_down"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Down_sustain",
+                    "target_path": "notes/Down_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Down",
+                    "target_path": "notes/Down_sustain_target"
                 }
             }
         },
@@ -124,6 +144,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_right",
                     "target_path": "notes/Double_right"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Right_sustain",
+                    "target_path": "notes/Right_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Right",
+                    "target_path": "notes/Right_sustain_target"
                 }
             }
         },
@@ -134,8 +164,8 @@
             "src": {
                 "note": {
                     "style": "normal",
-                    "src_path": "notes/Up"
-                    ,"target_path": "notes/Up"
+                    "src_path": "notes/Up",
+                    "target_path": "notes/Up"
                 },
                 "target": {
                     "style": "target",
@@ -166,6 +196,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_up",
                     "target_path": "notes/Double_up"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Up_sustain",
+                    "target_path": "notes/Up_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Up",
+                    "target_path": "notes/Up_sustain_target"
                 }
             }
         },
@@ -306,5 +346,4 @@
             }
         }
     }
-
 }
