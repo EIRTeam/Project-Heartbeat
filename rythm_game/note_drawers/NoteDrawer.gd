@@ -60,6 +60,31 @@ func _ready():
 func _on_game_size_changed():
 	pass
 
+var center = Vector2.ZERO
+
+func _point_sort(a, b):
+	if (a.x - center.x >= 0 && b.x - center.x < 0):
+		return true;
+	if (a.x - center.x < 0 && b.x - center.x >= 0):
+		return false;
+	if (a.x - center.x == 0 && b.x - center.x == 0):
+		if (a.y - center.y >= 0 || b.y - center.y >= 0):
+			return a.y > b.y
+		return b.y > a.y
+
+	# compute the cross product of vectors (center -> a) x (center -> b)
+	var det = (a.x - center.x) * (b.y - center.y) - (b.x - center.x) * (a.y - center.y)
+	if (det < 0):
+		return true
+	if (det > 0):
+		return false
+
+	# points a and b are on the same line from the center
+	# check which point is closer to the center
+	var d1 = (a.x - center.x) * (a.x - center.x) + (a.y - center.y) * (a.y - center.y)
+	var d2 = (b.x - center.x) * (b.x - center.x) + (b.y - center.y) * (b.y - center.y)
+	return d1 > d2
+
 func update_multi_note_renderers():
 	if not is_queued_for_deletion():
 		var scale_x = (game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)).x
@@ -70,10 +95,15 @@ func update_multi_note_renderers():
 					var dr = game.get_note_drawer(note)
 					if dr and not dr.is_queued_for_deletion():
 						points.append(game.get_note_drawer(note).get_note_graphic().position)
-				points.append(get_note_graphic().position)
-#				points = Geometry.convex_hull_2d(points)
-				if connected_notes.size() <= 2:
-					points.remove(points.size()-1)
+#				points.append(get_note_graphic().position)
+				center = Vector2.ZERO
+				for point in points:
+					center += point
+				center /= float(points.size())
+				points = Array(points)
+				points.sort_custom(self, "_point_sort")
+				if connected_notes.size() > 2:
+					points.append(points[0])
 				for renderer in multi_note_line_renderers:
 					renderer.positions = points
 					renderer.width_scale = scale_x
