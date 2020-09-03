@@ -1,6 +1,6 @@
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 100 100" height="100" width="100" version="1.1" id="svg45" inkscape:version="0.92.4 5da689c313, 2019-01-14">
    <svg:path sodipodi:nodetypes="ccccccccccccc" id="background_path" style="fill:#E9BA00;fill-opacity:1;stroke:#E9BA00;stroke-width:6.0;stroke-opacity:1;filter:url(#backFilter);" d="M 78.915692,19.390075 60.345981,49.089667 79.711536,80.609924 H 60.611262 L 49.999999,60.582613 39.388735,80.609924 H 20.288461 L 39.654017,49.089667 21.084306,19.390075 H 40.18458 l 9.815419,18.43423 9.815419,-18.43423 z"/>
-  <defs><filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-0.26338398" width="1.526768" y="-0.3420333" height="1.6840666">
+  <defs><filter inkscape:collect="always" style="color-interpolation-filters:sRGB" id="backFilter" x="-1" width="40" y="-1" height="40">
       <feGaussianBlur inkscape:collect="always" stdDeviation="7.0858655" id="gaussianBlurBack"/>
     </filter><linearGradient inkscape:collect="always" id="bgLinearGradient">
       <stop style="stop-color:#f94723;stop-opacity:1" offset="0" id="stop844"/>
