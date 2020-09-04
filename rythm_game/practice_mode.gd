@@ -20,6 +20,7 @@ func _ready():
 	video_pause_timer.connect("timeout", self, "_on_video_pause")
 	video_pause_timer.wait_time = 0.050
 	game.connect("note_judged", self, "_on_note_judged")
+	quit_confirmation.connect("accept", Diagnostics.gamepad_visualizer, "hide")
 	quit_confirmation.connect("accept", self, "_on_PauseMenu_quit")
 	update_stats_label()
 	practice_gui.hide()
