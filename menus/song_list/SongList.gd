@@ -15,6 +15,7 @@ onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/F
 onready var folder_manager = get_node("FolderManager")
 onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2")
 onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5")
+onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -96,6 +97,7 @@ func _on_menu_exit(force_hard_transition = false):
 		ugc.disconnect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _ready():
 	song_container.connect("song_hovered", self, "_on_song_hovered")
+	song_container.connect("hover_nonsong", self, "_on_non_song_hovered")
 	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
 	song_container.connect("updated_folders", self, "_on_folder_path_updated")
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
@@ -111,6 +113,11 @@ func _on_folder_path_updated(folders):
 		folder_str += "%s/" % [folder.folder_name]
 	folder_str = folder_str.substr(0, folder_str.length()-1)
 	folder_path.text = folder_str
+
+func _on_non_song_hovered():
+	if UserSettings.user_settings.filter_mode == "folders":
+		remove_item_prompt.hide()
+		manage_folders_prompt.show()
 
 func populate_buttons():
 	var filter_types = {
@@ -151,15 +158,20 @@ func set_filter(filter_name, save=true):
 	if filter_name == "folders":
 		add_to_prompt.hide()
 		manage_folders_prompt.show()
+		remove_item_prompt.hide()
 		folder_path.show()
 	else:
 		add_to_prompt.show()
 		manage_folders_prompt.hide()
+		remove_item_prompt.hide()
 		folder_path.hide()
 
 func _on_song_hovered(song: HBSong):
 	current_song = song
 	emit_signal("song_hovered", song)
+	if UserSettings.user_settings.filter_mode == "folders":
+		manage_folders_prompt.hide()
+		remove_item_prompt.show()
 
 func should_receive_input():
 	return song_container.has_focus()
@@ -193,7 +205,16 @@ func _unhandled_input(event):
 				show_order_by_list()
 		if event.is_action_pressed("contextual_option"):
 			if UserSettings.user_settings.filter_mode == "folders":
-				folder_manager.show_manager(folder_manager.MODE.MANAGE)
+				if song_container.selected_option is HBSongListItem:
+					var folder = song_container.folder_stack[song_container.folder_stack.size()-1] as HBFolder
+					folder.songs.erase(song_container.selected_option.song.id)
+					if folder.songs.size() == 0:
+						song_container.navigate_back()
+					else:
+						song_container.update_items()
+					
+				else:
+					folder_manager.show_manager(folder_manager.MODE.MANAGE)
 			else:
 				folder_manager.show_manager(folder_manager.MODE.SELECT)
 	else:

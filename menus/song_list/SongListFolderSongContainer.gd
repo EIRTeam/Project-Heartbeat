@@ -7,12 +7,15 @@ var folder_stack = []
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
+signal hover_nonsong
 
 func _ready():
 	navigate_folder(UserSettings.user_settings.root_folder)
 func _on_selected_option_changed():
 	if selected_option is HBSongListItem:
 		emit_signal("song_hovered", selected_option.song)
+	else:
+		emit_signal("hover_nonsong")
 func navigate_folder(folder: HBFolder):
 	if folder.songs.size() > 0 or folder.subfolders.size() > 0:
 		folder_stack.append(folder)
