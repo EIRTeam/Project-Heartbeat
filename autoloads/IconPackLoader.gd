@@ -39,8 +39,8 @@ func set_current_pack(pack_name):
 	rebuild_final_atlas()
 
 func rebuild_final_atlas():
-	var final_atlas_textures = HBUtils.merge_dict(current_atlas.atlas_textures.duplicate(true), fallback_atlas.atlas_textures)
-	var final_pack_config = {"graphics": HBUtils.merge_dict(current_pack.graphics.duplicate(true), fallback_pack.graphics)}
+	var final_atlas_textures = HBUtils.merge_dict(fallback_atlas.atlas_textures, current_atlas.atlas_textures.duplicate(true))
+	var final_pack_config = {"graphics": HBUtils.merge_dict(fallback_pack.graphics, current_pack.graphics.duplicate(true))}
 	
 	var overriden_directions = []
 	for note_type in DIRECTIONAL_TYPES_PROPERTY_MAP:
@@ -113,6 +113,8 @@ func load_icon_pack(path: String):
 		file.open(pack_json_path, File.READ)
 		var result = JSON.parse(file.get_as_text())
 		if result.error == OK:
+			print(result.result.name)
+			print(result.result.graphics.keys())
 			value = result.result
 			value["__origin"] = path
 		else:
