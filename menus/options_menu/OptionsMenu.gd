@@ -252,6 +252,8 @@ func _on_value_changed(property_name, new_value):
 	
 	if property_name == "background_dim":
 		get_tree().call_group("song_backgrounds", "_background_dim_changed", new_value)
+	if property_name == "icon_pack":
+		IconPackLoader.set_current_pack(new_value)
 	
 	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
