@@ -56,6 +56,17 @@ var vsync_enabled = false
 
 var root_folder = HBFolder.new()
 
+const DEFAULT_SOUNDS = {
+	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
+	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
+	"slide_chain_loop": preload("res://sounds/sfx/slide_note.wav"),
+	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_start.wav"),
+	"slide_chain_fail": preload("res://sounds/sfx/slide_hold_fail.wav"),
+	"double_note_hit": preload("res://sounds/sfx/double_note.wav")
+}
+
+var custom_sounds = {}
+
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -67,7 +78,15 @@ func _init():
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
-	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder" ]
+	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
+	"custom_sounds" ]
+	
+	merge_dict_fields += [
+		"custom_sounds"
+	]
+
+	for sound_name in DEFAULT_SOUNDS:
+		custom_sounds[sound_name] = "default"
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)
@@ -111,6 +130,15 @@ func serialize():
 	for song in per_song_settings:
 		pss[song] = per_song_settings[song].serialize()
 	base_data.per_song_settings = pss
+
+	var sounds = {}
+
+	for sound_name in custom_sounds:
+		if custom_sounds[sound_name] != "default":
+			sounds[sound_name] = custom_sounds[sound_name]
+
+	base_data["custom_sounds"] = sounds
+
 	return base_data
 func get_serialized_type():
 	return "UserSettings"

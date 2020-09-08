@@ -161,12 +161,12 @@ func _set_timing_points(points):
 	
 func _game_ready():
 	._game_ready()
-	sfx_pool.add_sfx("note_hit", preload("res://sounds/sfx/tmb3.wav"), 0)
-	sfx_pool.add_sfx("slide_hit", preload("res://sounds/sfx/slide_note.wav"), 0)
-	sfx_pool.add_looping_sfx("slide_chain_loop", preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
-	sfx_pool.add_sfx("slide_chain_ok", preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
-	sfx_pool.add_sfx("slide_chain_fail", preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
-	sfx_pool.add_sfx("double_note_hit", preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
+	sfx_pool.add_sfx("note_hit", UserSettings.get_sound_by_name("note_hit"), 0)
+	sfx_pool.add_sfx("slide_hit", UserSettings.get_sound_by_name("slide_hit"), 0)
+	sfx_pool.add_looping_sfx("slide_chain_loop", UserSettings.get_sound_by_name("slide_chain_loop"), 4, "EchoSFX")
+	sfx_pool.add_sfx("slide_chain_ok", UserSettings.get_sound_by_name("slide_chain_ok"), 4, "EchoSFX")
+	sfx_pool.add_sfx("slide_chain_fail", UserSettings.get_sound_by_name("slide_chain_fail"), 4, "EchoSFX")
+	sfx_pool.add_sfx("double_note_hit", UserSettings.get_sound_by_name("double_note_hit"), 2.0, "EchoSFX")
 	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
 	# hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
 	# hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)

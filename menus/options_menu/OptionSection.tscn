@@ -49,6 +49,7 @@ margin_left = 30.0
 margin_top = 15.0
 margin_right = 1260.0
 margin_bottom = 542.0
+maintain_selected_child = true
 
 [node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
 margin_right = 1230.0
@@ -84,9 +85,9 @@ stretch_mode = 4
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 394.0
-margin_top = 62.0
+margin_top = 59.0
 margin_right = 994.0
-margin_bottom = 82.0
+margin_bottom = 84.0
 rect_min_size = Vector2( 600, 0 )
 custom_fonts/font = ExtResource( 5 )
 text = "(NT)description uwu"

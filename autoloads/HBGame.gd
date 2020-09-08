@@ -43,6 +43,9 @@ func _game_init():
 
 	song_stats = HBSongStatsLoader.new()
 	song_stats._init_song_stats()
+	var dir := Directory.new()
+	if not dir.dir_exists(UserSettings.CUSTOM_SOUND_PATH):
+		dir.make_dir_recursive(UserSettings.CUSTOM_SOUND_PATH)
 	
 
 func register_game_mode(game_mode: HBGameMode):

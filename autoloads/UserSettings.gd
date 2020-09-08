@@ -7,6 +7,7 @@ const LOG_NAME = "UserSettings"
 var base_input_map = {}
 
 const SAVE_DEBOUNCE_TIME = 0.2
+const CUSTOM_SOUND_PATH = "user://custom_sounds"
 var save_debounce_t = 0.0
 var debouncing = false
 
@@ -219,3 +220,13 @@ func get_content_directories(only_editable=false):
 	else:
 		return ["res://"] + [user_settings.content_path]
 
+func get_sound_by_name(sound_name: String) -> AudioStream:
+	var file := File.new()
+	if user_settings.custom_sounds[sound_name] != "default":
+		var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, user_settings.custom_sounds[sound_name]]
+		var f = HBUtils.load_wav(file_path)
+		print("FINDING FILE ", file_path)
+		if file.file_exists(file_path):
+			if f:
+				return f
+	return HBUserSettings.DEFAULT_SOUNDS[sound_name]

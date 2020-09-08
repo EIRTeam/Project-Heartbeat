@@ -72,7 +72,7 @@ var OPTIONS = {
 		"disable_menu_music": {
 			"name": tr("Disable menu music"),
 			"description": "Disables all music in menus (requires restart)"
-		}
+		},
 	},
 	"Video": {
 		"fullscreen": {
@@ -198,6 +198,15 @@ const OptionSection = preload("res://menus/options_menu/OptionSection.tscn")
 var section_name_to_section_control = {}
 
 func _ready():
+	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
+		var sound_pretty_name = sound_type.capitalize().to_lower()
+		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)
+		OPTIONS.Audio[sound_type + "_custom"] = {
+			"name": tr(sound_pretty_name + " sound"),
+			"description": "Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)",
+			"sound_name": sound_type,
+			"type": "sound_type_selector"
+		}
 	add_default_values()
 	buttons.connect("hover", self, "_on_button_hover")
 	for section_name in OPTIONS:

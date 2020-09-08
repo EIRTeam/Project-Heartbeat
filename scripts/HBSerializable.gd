@@ -1,6 +1,8 @@
 # Base for any serializable object
 class_name HBSerializable
 
+var merge_dict_fields := []
+
 var serializable_fields := []
 func serialize():
 	if get_serialized_type():
@@ -53,8 +55,10 @@ static func deserialize(data: Dictionary):
 							for key in dict:
 								result_field[int(key)] = dict[key]
 							object.set(field, result_field)
-					else:
-						object.set(field, data[field])
+							continue
+					if field in object.merge_dict_fields:
+						data[field] = HBUtils.merge_dict(_field, data[field])
+					object.set(field, data[field])
 				elif _field is Array:
 					var r = []
 					for item in data[field]:

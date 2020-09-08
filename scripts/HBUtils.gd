@@ -69,6 +69,17 @@ static func load_ogg(path: String) -> AudioStreamOGGVorbis:
 	ogg_file.close()
 	return stream
 	
+static func load_wav(path: String):
+	var file = File.new()
+	file.open(path, file.READ)
+	var buffer = file.get_buffer(file.get_len())
+	var stream = AudioStreamSample.new()
+	stream.format = AudioStreamSample.FORMAT_16_BITS      
+	stream.data = buffer
+	stream.stereo = true
+	file.close()
+	return stream
+	
 enum OGG_ERRORS {
 	OK,
 	NOT_AN_OGG,

@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
+[ext_resource path="res://menus/options_menu/OptionSoundSelectDropdown.tscn" type="PackedScene" id=2]
+[ext_resource path="res://menus/options_menu/OptionCustomSoundSelect.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[node name="OptionSelect" type="Panel"]
+anchor_right = 1.0
+rect_min_size = Vector2( 0, 64 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_right = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 316.0
+margin_bottom = 64.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 1 )
+text = "(NT)Boolean Option"
+align = 1
+valign = 1
+
+[node name="Control" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 320.0
+margin_right = 1240.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/Control"]
+margin_left = 604.0
+margin_right = 920.0
+margin_bottom = 64.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 1 )
+text = "(NT)Boolean Option"
+align = 1
+valign = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DropDown" parent="CanvasLayer" instance=ExtResource( 2 )]
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+custom_styles/panel = SubResource( 1 )
