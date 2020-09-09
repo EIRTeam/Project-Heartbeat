@@ -65,9 +65,10 @@ func get_result_rating():
 	var failure = note_ratings[HBJudge.JUDGE_RATINGS.SAD]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.SAFE]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.WORST]
+	for r in wrong_note_ratings:
+		failure += wrong_note_ratings[r]
 	if failure <= 0:
 		return RESULT_RATING.PERFECT
-
 
 	var final_score_ratio = get_percentage()
 	
