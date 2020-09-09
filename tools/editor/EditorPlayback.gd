@@ -19,6 +19,8 @@ func set_chart(val):
 func _init(_game: HBRhythmGame):
 	add_child(audio_stream_player)
 	add_child(voice_audio_stream_player)
+	audio_stream_player.bus = "Music"
+	voice_audio_stream_player.bus = "Music"
 	self.game = _game
 
 func _process(delta):

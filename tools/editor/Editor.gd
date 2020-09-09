@@ -332,6 +332,10 @@ func _on_game_playback_time_changed(time: float):
 
 func seek(value: int):
 	game_playback.seek(value)
+	if game_playback.audio_stream_player.stream_paused:
+		game_preview.set_time(value / 1000.0)
+	else:
+		game_preview.play_at_pos(value / 1000.0)
 	
 func copy_selected():
 	if selected.size() > 0:
@@ -419,15 +423,19 @@ func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 func pause():
 	game_playback.pause()
+	game_preview.set_visualizer_processing_enabled(false)
 func _on_PauseButton_pressed():
 	pause()
+	game_preview.set_time(playhead_position/1000.0)
 	play_button.show()
 	pause_button.hide()
 
 func _on_PlayButton_pressed():
+	game_preview.play_at_pos(playhead_position/1000.0)
 	game_playback.play_from_pos(playhead_position)
 	play_button.hide()
 	pause_button.show()
+	game_preview.set_visualizer_processing_enabled(true)
 
 func _on_StopButton_pressed():
 	game_playback.seek(0)
@@ -544,6 +552,7 @@ func load_song(song: HBSong, difficulty: String):
 	var file = File.new()
 	var dir = Directory.new()
 	var chart = HBChart.new()
+	game_preview.set_song(song)
 	chart.editor_settings.bpm = song.bpm
 	if dir.file_exists(chart_path):
 		file.open(chart_path, File.READ)

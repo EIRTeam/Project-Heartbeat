@@ -91,6 +91,7 @@ void fragment() {
     
 	COLOR = vec4(color*0.5, 0.75);
 }"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=2]
 render_priority = -128
