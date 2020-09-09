@@ -5,7 +5,8 @@ var slide_chain_drawers = {}
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 var accumulated_score = 0
 var hit_first = false
-var loop_sfx_player
+var current_sfx_player: AudioStreamPlayer
+var is_audio_looping = false
 
 func set_note_data(data):
 	.set_note_data(data)
@@ -40,8 +41,9 @@ func _on_note_judged(judgement, prevent_free = false):
 			sine_drawer.hide()
 			set_process_unhandled_input(false)
 			if not game.editing or game.previewing:
-				if not loop_sfx_player:
-					loop_sfx_player = game.sfx_pool.play_looping_sfx("slide_chain_loop")
+				if not current_sfx_player:
+					current_sfx_player = game.sfx_pool.play_sfx("slide_chain_start", true)
+					current_sfx_player.connect("finished", self, "_on_start_sound_finished")
 			._on_note_judged(judgement, true)
 		else:
 			._on_note_judged(judgement, false)
@@ -61,6 +63,10 @@ func is_slide_direction_pressed():
 			direction_pressed = true
 			break
 	return direction_pressed
+
+func _on_start_sound_finished():
+	is_audio_looping = true
+	current_sfx_player = game.sfx_pool.play_looping_sfx("slide_chain_loop")
 
 func _on_game_time_changed(time: float):
 	if game.editing or game.previewing:
@@ -128,6 +134,7 @@ func _on_game_time_changed(time: float):
 						game.show_slide_hold_score(piece.position, accumulated_score, i >= slide_chain.pieces.size() - 1)
 						piece_drawer.hide()
 						if i >= slide_chain.pieces.size() - 1:
+							print("OK!")
 							kill_note()
 							game.sfx_pool.play_sfx("slide_chain_ok")
 				if piece_drawer.visible:
@@ -145,9 +152,13 @@ func kill_note():
 	kill_loop_sfx_player()
 
 func kill_loop_sfx_player():
-	if loop_sfx_player:
-		game.sfx_pool.stop_looping_sfx(loop_sfx_player)
-		loop_sfx_player = null
+	if current_sfx_player:
+		if is_audio_looping:
+			game.sfx_pool.stop_looping_sfx(current_sfx_player)
+		else:
+			game.sfx_pool.stop_sfx(current_sfx_player)
+		is_audio_looping = false
+		current_sfx_player = null
 
 func reset_note_state():
 	hit_first = false

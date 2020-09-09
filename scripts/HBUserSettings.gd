@@ -59,8 +59,9 @@ var root_folder = HBFolder.new()
 const DEFAULT_SOUNDS = {
 	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
 	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
-	"slide_chain_loop": preload("res://sounds/sfx/slide_note.wav"),
-	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_start.wav"),
+	"slide_chain_start": preload("res://sounds/sfx/slide_hold_start.wav"),
+	"slide_chain_loop": preload("res://sounds/sfx/slide_hold_loop.wav"),
+	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_ok.wav"),
 	"slide_chain_fail": preload("res://sounds/sfx/slide_hold_fail.wav"),
 	"double_note_hit": preload("res://sounds/sfx/double_note.wav")
 }
