@@ -47,6 +47,9 @@ func rebuild_final_atlas():
 		if not UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[note_type]):
 			final_atlas_textures[note_type] = HBUtils.merge_dict(final_atlas_textures[note_type], current_atlas.atlas_textures[note_type])
 			final_pack_config.graphics[note_type] = HBUtils.merge_dict(final_pack_config.graphics[note_type], current_pack.graphics[note_type])
+		else:
+			final_atlas_textures[note_type] = HBUtils.merge_dict(final_atlas_textures[note_type], fallback_atlas.atlas_textures[note_type])
+			final_pack_config.graphics[note_type] = HBUtils.merge_dict(final_pack_config.graphics[note_type], fallback_pack.graphics[note_type])
 	final_pack = final_pack_config
 	final_atlas = {"atlas_textures": final_atlas_textures}
 	
