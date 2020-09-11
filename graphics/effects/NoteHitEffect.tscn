@@ -6,11 +6,10 @@
 [ext_resource path="res://graphics/effects/NoteHitEffect.gd" type="Script" id=4]
 [ext_resource path="res://graphics/effects/loop.png" type="Texture" id=5]
 
-
-
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 render_mode blend_add;"
+custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
@@ -64,7 +63,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.15, 0.35, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0.5 ), Color( 1, 1, 1, 0.5 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("NoteIcon:visible")
@@ -104,7 +103,6 @@ tracks/6/keys = {
 }
 
 [node name="NoteHitEffect" type="Node2D"]
-modulate = Color( 1, 1, 1, 0.7 )
 material = SubResource( 2 )
 scale = Vector2( 0.85, 0.85 )
 script = ExtResource( 4 )
@@ -112,13 +110,13 @@ script = ExtResource( 4 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/COOL = SubResource( 3 )
 
-[node name="Note" parent="." instance_placeholder="res://rythm_game/Note.tscn"]
+[node name="Note" parent="." instance_placeholder="res://rythm_game/note_drawers/NoteGraphic.tscn"]
 use_parent_material = true
 position = Vector2( 0, 0 )
 
 [node name="NoteIcon" type="Sprite" parent="."]
 visible = false
-self_modulate = Color( 1, 1, 1, 0.25 )
+self_modulate = Color( 1, 1, 1, 0.5 )
 use_parent_material = true
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 2 )
