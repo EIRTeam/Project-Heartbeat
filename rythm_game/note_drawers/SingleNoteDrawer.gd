@@ -15,6 +15,7 @@ var leading_grad_texture = GradientTexture.new()
 var sine_drawer = SineDrawerCPU.new()
 var blue = false
 var slide_chain_master = false
+var note_scale = 1.0
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -48,9 +49,9 @@ var cached_starting_pos
 func _on_game_size_changed():
 	cached_amplitude = game.remap_coords(Vector2(1, 1)).x * note_data.oscillation_amplitude
 	cached_starting_pos = game.remap_coords(get_initial_position())
-	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
+	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * note_scale
 	if game.time * 1000.0 < note_data.time:
-		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
+		note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * note_scale
 	sine_drawer._on_resized()
 	target_graphic.position = game.remap_coords(note_data.position)
 	if game.editing:
@@ -72,7 +73,7 @@ func update_graphic_positions_and_scale(time: float):
 		var disappereance_time = note_data.time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		new_scale = max(new_scale, 0.0)
-		note_graphic.scale = Vector2(new_scale, new_scale)
+		note_graphic.scale = Vector2(new_scale, new_scale) * note_scale
 #	target_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale()) * target_scale_modifier
 	update_arm_position(time)
 	draw_trail(time)

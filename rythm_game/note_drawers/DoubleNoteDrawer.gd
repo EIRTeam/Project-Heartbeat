@@ -1,5 +1,8 @@
 extends "res://rythm_game/note_drawers/SingleNoteDrawer.gd"
 
+func _init():
+	note_scale = 1.1
+
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0, true)
 	target_graphic.set_note_type(note_data)
