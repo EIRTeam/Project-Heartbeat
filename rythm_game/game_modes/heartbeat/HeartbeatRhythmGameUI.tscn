@@ -11,7 +11,7 @@
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
 [ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=11]
-[ext_resource path="res://default_theme.tres" type="Theme" id=12]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=12]
 [ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=13]
 [ext_resource path="res://graphics/heart_outside.png" type="Texture" id=14]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=15]
@@ -968,3 +968,8 @@ stream = ExtResource( 20 )
 
 [node name="HeartPowerEnabledSFX" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 21 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0

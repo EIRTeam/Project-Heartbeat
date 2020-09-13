@@ -5,7 +5,7 @@
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=3]
 [ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=4]
 [ext_resource path="res://menus/ModifierSelector.gd" type="Script" id=5]
-[ext_resource path="res://Theme_Game.tres" type="Theme" id=6]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
 
 [node name="ModifierSelector" type="Control"]
 anchor_left = 0.5

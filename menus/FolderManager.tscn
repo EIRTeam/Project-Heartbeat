@@ -4,7 +4,7 @@
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/ScrollList.gd" type="Script" id=4]
-[ext_resource path="res://Theme_Game.tres" type="Theme" id=5]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
 [ext_resource path="res://menus/FolderManager.gd" type="Script" id=6]
 [ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=7]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
@@ -127,6 +127,9 @@ text = "Select"
 margin_left = 492.0
 margin_right = 602.0
 
+[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
+margin_right = 98.0
+
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource( 8 )]
 visible = true
 margin_left = -275.0
@@ -170,12 +173,10 @@ script = ExtResource( 2 )
 orientation = 1
 
 [node name="TextInputCreate" parent="." instance=ExtResource( 9 )]
-visible = true
 margin_left = -275.0
 margin_right = 275.0
 
 [node name="TextInputRename" parent="." instance=ExtResource( 9 )]
-visible = true
 margin_left = -275.0
 margin_right = 275.0
 [connection signal="back" from="Panel/MarginContainer/VBoxContainer" to="." method="_on_folder_options_back"]

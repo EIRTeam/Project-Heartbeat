@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Theme_Game.tres" type="Theme" id=1]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
 [ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/options_menu/OptionControlsSection.gd" type="Script" id=4]

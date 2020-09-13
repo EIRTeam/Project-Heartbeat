@@ -43,18 +43,18 @@ margin_bottom = 173.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
 margin_right = 351.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 4.0
 margin_right = 122.0
-margin_bottom = 24.0
+margin_bottom = 29.0
 text = "Cutoff Freq"
 
 [node name="FreqHSLider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 126.0
 margin_right = 247.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 size_flags_stretch_ratio = 1.5
@@ -67,27 +67,27 @@ __meta__ = {
 [node name="FreqSpinbox" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 251.0
 margin_right = 351.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 max_value = 44100.0
 value = 14700.0
 align = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 32.0
+margin_top = 37.0
 margin_right = 351.0
-margin_bottom = 60.0
+margin_bottom = 70.0
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 4.0
 margin_right = 70.0
-margin_bottom = 24.0
+margin_bottom = 29.0
 text = "Min dB"
 
 [node name="MindBHSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 74.0
 margin_right = 247.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 value = 60.0
@@ -98,40 +98,40 @@ __meta__ = {
 [node name="MindBSpinbox" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 251.0
 margin_right = 351.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 64.0
+margin_top = 74.0
 margin_right = 351.0
-margin_bottom = 92.0
+margin_bottom = 107.0
 
 [node name="LoadSongButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_right = 139.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 text = "Load Song..."
 
 [node name="PlayButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 143.0
 margin_right = 202.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 text = "Play"
 
 [node name="PauseButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 206.0
 margin_right = 285.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 text = "Pause"
 
 [node name="StopButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 289.0
 margin_right = 351.0
-margin_bottom = 28.0
+margin_bottom = 33.0
 text = "Stop"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 96.0
+margin_top = 111.0
 margin_right = 351.0
-margin_bottom = 112.0
+margin_bottom = 127.0
 
 [node name="SeekSlider" type="HSlider" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_right = 351.0
@@ -139,9 +139,9 @@ margin_bottom = 16.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 116.0
+margin_top = 131.0
 margin_right = 351.0
-margin_bottom = 136.0
+margin_bottom = 156.0
 text = "press h to hide me"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -157,6 +157,7 @@ window_title = "Abrir un Archivo"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.wav; Waveform Audio Format", "*.ogg ; Ogg" )
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 [connection signal="value_changed" from="Panel/MarginContainer/VBoxContainer/HBoxContainer/FreqSpinbox" to="Visualizer" method="set_freq_max"]

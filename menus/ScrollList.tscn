@@ -2,7 +2,7 @@
 
 [ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=1]
 [ext_resource path="res://menus/ScrollList.gd" type="Script" id=2]
-[ext_resource path="res://Theme_Game.tres" type="Theme" id=3]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
