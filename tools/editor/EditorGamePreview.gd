@@ -41,7 +41,8 @@ func _process(delta):
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
 	$Label.text += "\nVP:%s" % [video_player.stream_position]
 func set_visualizer_processing_enabled(enabled):
-	visualizer.set_physics_process(enabled)
+	if UserSettings.user_settings.visualizer_enabled:
+		visualizer.set_physics_process(enabled)
 	
 func _video_player_debounce():
 	play_video_from_pos(video_time, true)
