@@ -9,8 +9,23 @@ signal updated_folders(folder_stack)
 signal create_new_folder(parent)
 signal hover_nonsong
 
+func get_starting_folder(starting_folders: Array, path: Array) -> Array:
+	if path.size() == 0:
+		return starting_folders
+	for folder in starting_folders.back().subfolders:
+		print(folder.folder_name, " ", path[0])
+		if folder.folder_name == path[0]:
+			print("FOUND FOLDER ", path[0])
+			path.pop_front()
+			starting_folders = get_starting_folder(starting_folders + [folder], path)
+			break
+	return starting_folders
 func _ready():
-	navigate_folder(UserSettings.user_settings.root_folder)
+	var path = UserSettings.user_settings.last_folder_path.duplicate()
+	path.pop_front()
+	var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
+	for folder in starting_folders:
+		navigate_folder(folder)
 func _on_selected_option_changed():
 	if selected_option is HBSongListItem:
 		emit_signal("song_hovered", selected_option.song)
@@ -67,6 +82,10 @@ func update_items():
 		
 	select_option(0)
 	hard_arrange_all()
+	UserSettings.user_settings.last_folder_path = []
+	for f in folder_stack:
+		UserSettings.user_settings.last_folder_path.append(f.folder_name)
+	UserSettings.save_user_settings()
 	emit_signal("updated_folders", folder_stack)
 
 func _on_song_selected(song: HBSong):
@@ -116,17 +135,18 @@ func _create_song_item(song: HBSong):
 func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(get_child_count()):
 		var child = get_child(child_i)
-		if child.song.id == song_id:
-			if difficulty:
-				var song = SongLoader.songs[song_id]
-				select_option(child_i)
-				if not song in song_items_map:
-					_on_song_selected(song)
-				select_option(song_items_map[song][difficulty].get_position_in_parent())
-			else:
-				select_option(child_i)
-			hard_arrange_all()
-			break
+		if "song" in child:
+			if child.song.id == song_id:
+				if difficulty:
+					var song = SongLoader.songs[song_id]
+					select_option(child_i)
+					if not song in song_items_map:
+						_on_song_selected(song)
+					select_option(song_items_map[song][difficulty].get_position_in_parent())
+				else:
+					select_option(child_i)
+				hard_arrange_all()
+				break
 
 func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop

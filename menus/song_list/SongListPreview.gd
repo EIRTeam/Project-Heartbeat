@@ -7,6 +7,7 @@ var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 func _ready():
 	connect("resized", self, "_on_resized")
+	hide()
 	_on_resized()
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 func _on_song_assets_loaded(song, assets):
@@ -22,6 +23,7 @@ func _on_song_assets_loaded(song, assets):
 	else:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
 func select_song(song: HBSong):
+	show()
 	var bpm = "UNK"
 	bpm = song.bpm
 	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/BPMLabel.text = "%s BPM" % bpm

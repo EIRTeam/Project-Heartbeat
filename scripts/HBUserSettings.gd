@@ -56,6 +56,8 @@ var vsync_enabled = false
 
 var root_folder = HBFolder.new()
 
+var last_folder_path = []
+
 const DEFAULT_SOUNDS = {
 	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
 	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
@@ -80,7 +82,7 @@ func _init():
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
-	"custom_sounds" ]
+	"custom_sounds", "last_folder_path" ]
 	
 	merge_dict_fields += [
 		"custom_sounds"

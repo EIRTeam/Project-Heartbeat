@@ -139,7 +139,7 @@ func populate_buttons():
 		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:
 			filter_types["ppd"] = "PPD"
-	if not UserSettings.user_settings.filter_mode in filter_types:
+	if not UserSettings.user_settings.filter_mode in filter_types and not UserSettings.user_settings.filter_mode == "folders":
 		UserSettings.user_settings.filter_mode = "all"
 	filter_types["folders"] = "Folders"
 	for filter_type in filter_types:
