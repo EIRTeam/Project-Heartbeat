@@ -32,9 +32,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	set_filter(UserSettings.user_settings.filter_mode, false)
 	update_songs()
 
-	folder_manager.connect("closed", self, "_on_folder_manager_closed")
-	folder_manager.connect("folder_selected", self, "_on_folder_selected")
-
 	if args.has("song_difficulty"):
 		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)
 	elif args.has("song"):
@@ -103,6 +100,8 @@ func _ready():
 	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
 	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
 
+	folder_manager.connect("closed", self, "_on_folder_manager_closed")
+	folder_manager.connect("folder_selected", self, "_on_folder_selected")
 func _on_folder_path_updated(folders):
 	var folder_str := "/"
 	var ignore = true # we ignore the root
