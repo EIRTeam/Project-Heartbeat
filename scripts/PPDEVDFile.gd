@@ -16,6 +16,15 @@ enum PPDEventType {
 
 var evd_events = []
 
+func get_note_type_at_time(time: float):
+	var note_type = 0
+	for event in evd_events:
+		if event.event_type == PPDEventType.ChangeNoteType:
+			if event.time > time:
+				break
+			note_type = event.note_type
+	return note_type
+
 func get_slide_scale_at_time(time: float):
 	var slide_scale = 1.0
 	for event in evd_events:

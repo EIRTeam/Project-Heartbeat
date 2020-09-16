@@ -174,13 +174,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	
 	var evd_file = data.evd_file as PPDEVDFile
 
-	var note_type = PPDNoteType.NORMAL
-
-	for event in evd_file.evd_events:
-		if event.event_type == PPDEVDFile.PPDEventType.ChangeNoteType:
-			if event.note_type >= PPDNoteType.AC:
-				PPDButton2HBNoteType = PPDButtonsMapACFT
-				note_type = PPDNoteType.ACFT
 	# For when multiple notes are on screen, to count how many layers
 	# deep we are going to ensure they don't overlap
 	var same_position_note_count = 0
@@ -188,6 +181,13 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	while i < marks.size():
 		var note = marks[i]
 		var note_data : HBBaseNote
+		
+		var note_type = PPDNoteType.NORMAL
+		if evd_file.get_note_type_at_time(note.time) >= PPDNoteType.AC:
+			PPDButton2HBNoteType = PPDButtonsMapACFT
+			note_type = PPDNoteType.ACFT
+		else:
+			PPDButton2HBNoteType = PPDButtonsMapDefault
 		
 #		if note.ex:
 #			note_data = HBHoldNoteData.new() as HBHoldNoteData
