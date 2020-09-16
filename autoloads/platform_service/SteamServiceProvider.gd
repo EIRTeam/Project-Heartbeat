@@ -23,8 +23,7 @@ func init_platform() -> int:
 		
 		.init_platform()
 		
-		HBBackend.login_steam(Steam.getAuthSessionTicket().buffer)
-		
+		#HBBackend.login_steam(Steam.getAuthSessionTicket().buffer)
 		return OK
 	else:
 		Log.log(self, "Engine was not built with Steam support, aborting...")

@@ -5,6 +5,7 @@ class_name HBPPDSong
 
 const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
 const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url"]
+var guid = ""
 func _ready():
 	pass
 
@@ -37,7 +38,8 @@ static func from_ini(content: String, id: String) -> HBSong:
 		song.start_time = max(int(float(dict.setting.start) * 1000.0), 0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
-		
+	if dict.setting.has("guid"):
+		song.guid = dict.setting.guid
 	# This allows PPD songs to take advantage of PH specific features
 	for setting in dict.setting:
 		if setting.begins_with(EXTENDED_PROPERTY_PREFIX):

@@ -616,8 +616,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1596553414
-config/build_commit="ed47410ce790505026e71a909d2e311cb14f6230"
+config/build_time=1600183436
+config/build_commit="68d5ef33081bc85b48b8bb1c546fa1b07bf4efc3"
 
 [autoload]
 
@@ -626,6 +626,7 @@ HBBackend="*res://autoloads/HBBackend.gd"
 Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
+JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
@@ -636,7 +637,6 @@ ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 ModifierLoader="*res://autoloads/ModifierLoader.gd"
-JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 
 [debug]
 
