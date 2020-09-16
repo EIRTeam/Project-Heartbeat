@@ -195,7 +195,8 @@ func is_gui_directional_press(action: String, event):
 func _unhandled_input(event):
 	if should_receive_input():
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
-			filter_type_container._gui_input(event)
+			if not event is InputEventJoypadMotion:
+				filter_type_container._gui_input(event)
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
