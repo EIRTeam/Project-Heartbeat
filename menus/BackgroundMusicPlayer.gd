@@ -48,8 +48,9 @@ func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 
+
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
-		target_volume = 0
+		target_volume = current_song.get_volume_db()
 		if next_audio:
 			player.stream = next_audio
 			player.play()
@@ -64,7 +65,7 @@ func _process(delta):
 	if player.stream and not waiting_for_song_assets:
 		emit_signal("stream_time_changed", player.get_playback_position())
 			
-func _on_song_assets_loaded(song, assets):
+func _on_song_assets_loaded(song: HBSong, assets):
 	waiting_for_song_assets = false
 	if UserSettings.user_settings.disable_menu_music:
 		emit_signal("song_started", song, assets)
@@ -80,7 +81,7 @@ func _on_song_assets_loaded(song, assets):
 					voice_player.seek(song.preview_start/1000.0)
 				player.volume_db = FADE_OUT_VOLUME
 				voice_player.volume_db = FADE_OUT_VOLUME
-				target_volume = 0
+				target_volume = song.get_volume_db()
 			else:
 				next_audio = assets.audio
 				if song.voice:

@@ -40,8 +40,11 @@ func _process(delta):
 func set_song(song: HBSong):
 	current_song = song
 	audio_stream_player.stream = song.get_audio_stream()
+	var volume_db = song.get_volume_db()
+	audio_stream_player.volume_db = volume_db
+	print("setting volume to ", song.volume)
 	if song.voice:
-		voice_audio_stream_player.volume_db = 0
+		voice_audio_stream_player.volume_db = volume_db
 		voice_audio_stream_player.stream = song.get_voice_stream()
 	else:
 		voice_audio_stream_player.volume_db = -100
@@ -49,10 +52,10 @@ func set_song(song: HBSong):
 func pause():
 	game.reset_hit_notes()
 	audio_stream_player.stream_paused = true
-	audio_stream_player.volume_db = -80
+	audio_stream_player.volume_db = -100
 	audio_stream_player.stop()
 	voice_audio_stream_player.stream_paused = true
-	voice_audio_stream_player.volume_db = -80
+	voice_audio_stream_player.volume_db = -100
 	voice_audio_stream_player.stop()
 #	_on_timing_points_changed()
 	game.previewing = false
@@ -87,12 +90,15 @@ func play_from_pos(position: float):
 	if current_song:
 		game.previewing = true
 		audio_stream_player.stream_paused = false
-		audio_stream_player.volume_db = 0
 		audio_stream_player.play()
 		audio_stream_player.seek(position / 1000.0)
 		voice_audio_stream_player.stream_paused = false
+		
+		var song_volume = current_song.get_volume_db()
+		audio_stream_player.volume_db = song_volume
 		if current_song.voice:
-			voice_audio_stream_player.volume_db = 0
+			voice_audio_stream_player.volume_db = song_volume
+		
 		voice_audio_stream_player.play()
 		voice_audio_stream_player.seek(position / 1000.0)
 		time_begin = OS.get_ticks_usec()

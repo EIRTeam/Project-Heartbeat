@@ -74,6 +74,8 @@ func get_meta_string():
 		song_meta.append(tr("Chart by: %s") % creator)
 	return song_meta
 	
+func get_volume_db() -> float:
+	return linear2db(volume)
 	
 func get_fs_origin():
 	if path.begins_with("res://"):

@@ -172,9 +172,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
-		_song_volume = linear2db(song.volume * user_song_settings.volume)
+		_song_volume = song.get_volume_db() * user_song_settings.volume
 	else:
-		_song_volume = linear2db(song.volume)
+		_song_volume = song.get_volume_db()
 	audio_stream_player.volume_db = _song_volume
 	audio_stream_player_voice.volume_db = _song_volume
 	# todo: call ui on set song
