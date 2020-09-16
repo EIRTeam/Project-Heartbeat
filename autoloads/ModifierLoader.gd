@@ -14,7 +14,6 @@ func load_all_modifiers():
 
 func load_modifiers_from_path(path: String):
 	var dir := Directory.new()
-	var value = {}
 	if dir.open(path) == OK:
 		dir.list_dir_begin()
 		var dir_name = dir.get_next()

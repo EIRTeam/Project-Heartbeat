@@ -61,7 +61,7 @@ func _update_youtube_dl(userdata):
 			dir_name = dir.get_next()
 	var result = dir.copy("res://third_party/youtube_dl/" + "VERSION", YOUTUBE_DL_DIR + "/%s" % ["VERSION"])
 	status_mutex.lock()
-	if not failed:
+	if not failed and result == OK:
 		status = YOUTUBE_DL_STATUS.READY
 	else:
 		status = YOUTUBE_DL_STATUS.FAILED

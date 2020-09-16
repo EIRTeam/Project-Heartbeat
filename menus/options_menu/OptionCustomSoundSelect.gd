@@ -21,10 +21,7 @@ func _gui_input(event: InputEvent):
 	pass
 	
 func show_current():
-	print("SHOWING CURRENT!!", UserSettings.user_settings.custom_sounds[sound_name])
-	
 	if UserSettings.user_settings.custom_sounds[sound_name] == "default":
-		print("DEFAULT!!")
 		selected_text.text = "Default"
 	else:
 		selected_text.text = UserSettings.user_settings.custom_sounds[sound_name]

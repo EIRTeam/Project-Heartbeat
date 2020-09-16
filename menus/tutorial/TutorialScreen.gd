@@ -11,9 +11,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	go_to_page(0)
 	
-func go_to_page(page: int):
-	if not page == self.page:
-		self.page = page
+func go_to_page(next_page: int):
+	if not next_page == self.page:
+		self.page = next_page
 		for child in page_container.get_children():
 			child.hide()
 		page_container.get_child(page).show()
