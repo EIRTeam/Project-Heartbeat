@@ -137,6 +137,13 @@ var OPTIONS = {
 			"description": tr("Switches between available Icon-Sets."),
 			"type": "icon_type_selector"
 		},
+		"button_prompt_override": {
+			"name": tr("Button prompts"),
+			"description": tr("Overrides the button prompts shown for your controller to the specified type."),
+			"options": ["default", "xbox", "playstation", "nintendo"],
+			"options_pretty": ["Auto-detect", "Xbox™", "PlayStation™", "Nintendo™"],
+			"type": "options"
+		},
 		"note_size": {
 			"name": tr("Note Size"),
 			"description": "How big the notes will appear in the game.",

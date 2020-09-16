@@ -165,8 +165,7 @@ func _set_prompt_for(string_index: String) -> bool:
 
 
 func _get_prompt_texture_for(string_index: String) -> Texture:
-	var prompt_texture: = StreamTexture.new()
-	
+	var prompt_texture
 	match string_index:
 		_event_keyboard:
 			prompt_texture = JoypadSupport.get_keyboard_prompt_for(_event_keyboard)

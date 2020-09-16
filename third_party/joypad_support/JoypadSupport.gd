@@ -73,6 +73,12 @@ func _ready() -> void:
 		_set_joypad(input_devices[0], true)
 
 
+func force_keyboard_prompts():
+	if _joypad_identifier.joypad_type != JS_JoypadIdentifier.JoyPads.NO_JOYPAD:
+		_joypad_identifier.reset_joypad_type()
+		current_joypad = null
+		emit_signal("joypad_disconnected")
+
 func _input(event) -> void:
 	if _listen_mode == Modes.NONE:
 		set_process_input(false)
@@ -236,20 +242,24 @@ func _listen_input() -> Dictionary:
 	_animator.play("base")
 	return input_dictionary
 
+var current_joypad = null
 
 func _set_joypad(device: int, is_connected: bool) -> void:
 	if is_connected:
-		_joypad_identifier.set_joypad_type_for(device)
-		_handle_swap_ui_accept_cancel()
-		prompts_joypad = _joypad_identifier.get_joypad_prompts()
-		emit_signal("joypad_connected")
+		if device != current_joypad:
+			current_joypad = device
+			_joypad_identifier.set_joypad_type_for(device)
+			_handle_swap_ui_accept_cancel()
+			prompts_joypad = _joypad_identifier.get_joypad_prompts()
+			emit_signal("joypad_connected")
 	else:
+		current_joypad = null
 		_joypad_identifier.reset_joypad_type()
 		emit_signal("joypad_disconnected")
 
 
 func _get_prompt_for(loader: ResourcePreloader, index: String) -> Texture:
-	var texture: Texture = StreamTexture.new()
+	var texture: Texture
 	if loader.has_resource(index):
 		texture = loader.get_resource(index)
 		return texture

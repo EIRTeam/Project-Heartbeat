@@ -151,6 +151,9 @@ func _input(event):
 			user_settings.last_controller_guid = new_guid
 			map_actions_to_controller()
 			Input.parse_input_event(event)
+		JoypadSupport._set_joypad(event.device, true)
+	elif event is InputEventKey:
+		JoypadSupport.force_keyboard_prompts()
 func load_user_settings():
 	var file := File.new()
 	if file.file_exists(USER_SETTINGS_PATH):
@@ -168,6 +171,22 @@ func apply_user_settings():
 	Engine.target_fps = int(user_settings.fps_limit)
 	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
+	
+#	match user_settings.button_prompt_override:
+#		"default":
+#			JoypadSupport.set_autodetect_to(true)
+#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
+#		"xbox":
+#			JoypadSupport.set_autodetect_to(false)
+#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.XBOX)
+#		"playstation":
+#			JoypadSupport.set_autodetect_to(false)
+#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.PLAYSTATION)
+#		"nintendo":
+#			JoypadSupport.set_autodetect_to(false)
+#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
+	
+	
 	set_volumes()
 func _process(delta):
 	if debouncing:
