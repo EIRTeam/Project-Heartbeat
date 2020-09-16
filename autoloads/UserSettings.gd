@@ -152,7 +152,10 @@ func _input(event):
 			map_actions_to_controller()
 			Input.parse_input_event(event)
 		JoypadSupport._set_joypad(event.device, true)
+		set_joypad_prompts()
 	elif event is InputEventKey:
+		JoypadSupport.set_autodetect_to(true)
+		JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
 		JoypadSupport.force_keyboard_prompts()
 func load_user_settings():
 	var file := File.new()
@@ -165,6 +168,20 @@ func load_user_settings():
 			else:
 				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
 	
+func set_joypad_prompts():
+	match user_settings.button_prompt_override:
+		"default":
+			JoypadSupport.set_autodetect_to(true)
+			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
+		"xbox":
+			JoypadSupport.set_autodetect_to(false)
+			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.XBOX)
+		"playstation":
+			JoypadSupport.set_autodetect_to(false)
+			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.PLAYSTATION)
+		"nintendo":
+			JoypadSupport.set_autodetect_to(false)
+			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
 func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
@@ -172,19 +189,7 @@ func apply_user_settings():
 	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
 	
-#	match user_settings.button_prompt_override:
-#		"default":
-#			JoypadSupport.set_autodetect_to(true)
-#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
-#		"xbox":
-#			JoypadSupport.set_autodetect_to(false)
-#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.XBOX)
-#		"playstation":
-#			JoypadSupport.set_autodetect_to(false)
-#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.PLAYSTATION)
-#		"nintendo":
-#			JoypadSupport.set_autodetect_to(false)
-#			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
+
 	
 	
 	set_volumes()
