@@ -50,8 +50,8 @@ func _on_apply_button_pressed():
 					undo_redo.add_do_method(item, "sync_value", "end_time")
 					undo_redo.add_undo_method(item, "sync_value", "end_time")
 					
-			undo_redo.add_do_method(layer, "place_all_children")
-			undo_redo.add_undo_method(layer, "place_all_children")
+				undo_redo.add_do_method(layer, "place_child", item)
+				undo_redo.add_undo_method(layer, "place_child", item)
 		undo_redo.add_do_method(_editor.inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(_editor.inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(_editor, "_on_timing_points_changed")
