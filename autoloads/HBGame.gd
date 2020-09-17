@@ -39,7 +39,7 @@ func _game_init():
 	if OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresence.new()
 	else:
-		rich_presence = HBRichPresence.new()
+		rich_presence = HBRichPresenceDiscord.new()
 	var res = rich_presence.init_presence()
 	if res != OK:
 		rich_presence = HBRichPresence.new()
