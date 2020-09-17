@@ -34,6 +34,7 @@ func _unhandled_input(event):
 
 # Mouse events for Area
 func _on_area_input_event(_camera, event, click_pos, _click_normal, _shape_idx):
+
 	# Use click pos (click in 3d space, convert to area space)
 	var pos = get_global_transform().affine_inverse()
 	# the click pos is not zero, then use it to convert from 3D space to area space
@@ -65,7 +66,9 @@ func _on_area_input_event(_camera, event, click_pos, _click_normal, _shape_idx):
 	
 	# Set the position in event
 	event.position = pos
-	event.global_position = pos
+	if not event is InputEventScreenTouch:
+		
+		event.global_position = pos
 	if not prev_pos:
 		prev_pos = pos
 	if event is InputEventMouseMotion:

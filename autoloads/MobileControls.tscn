@@ -1,10 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://graphics/icon_packs/playstation/notes/Triangle.png" type="Texture" id=1]
+[ext_resource path="res://autoloads/SwipeDetector.tscn" type="PackedScene" id=1]
 [ext_resource path="res://autoloads/MobileControls.gd" type="Script" id=2]
+[ext_resource path="res://autoloads/NoteDetector.gd" type="Script" id=3]
+[ext_resource path="res://autoloads/GUIActionButton.gd" type="Script" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends CanvasLayer
+
+func set_input_mode(mode: int):
+	$Control/NoteDetector.input_mode = mode
+"
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 128
+script = SubResource( 1 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -49,12 +59,14 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="NoteDetector" parent="Control" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 anchor_bottom = 0.841
@@ -82,6 +94,9 @@ margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_up"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer"]
 margin_left = 168.0
@@ -95,12 +110,15 @@ margin_top = 262.0
 margin_right = 250.0
 margin_bottom = 342.0
 
-[node name="ColorRect5" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+[node name="ColorRect6" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
 margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_left"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer2"]
 margin_left = 84.0
@@ -109,13 +127,16 @@ margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
-[node name="ColorRect4" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
+[node name="ColorRect7" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
 margin_left = 168.0
 margin_right = 250.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_right"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Control/VBoxContainer"]
 margin_top = 346.0
@@ -128,13 +149,16 @@ margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
-[node name="ColorRect2" type="Button" parent="Control/VBoxContainer/HBoxContainer3"]
+[node name="ColorRect8" type="Button" parent="Control/VBoxContainer/HBoxContainer3"]
 margin_left = 84.0
 margin_right = 164.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_down"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer3"]
 margin_left = 168.0
@@ -159,12 +183,15 @@ margin_top = 320.0
 margin_right = 270.0
 margin_bottom = 400.0
 
-[node name="ColorRect5" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
+[node name="ColorRect9" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
 margin_right = 87.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_cancel"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer2/HBoxContainer2"]
 margin_left = 91.0
@@ -173,13 +200,16 @@ margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
-[node name="ColorRect4" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
+[node name="ColorRect10" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
 margin_left = 182.0
 margin_right = 270.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
 size_flags_horizontal = 3
+enabled_focus_mode = 0
+script = ExtResource( 4 )
+action = "gui_accept"
 
 [node name="Button" type="Button" parent="Control"]
 anchor_left = 1.0
@@ -191,10 +221,16 @@ focus_mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="simulate_action" binds= [ "gui_up" ]]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer2/ColorRect5" to="Control" method="simulate_action" binds= [ "gui_left" ]]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer2/ColorRect4" to="Control" method="simulate_action" binds= [ "gui_right" ]]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer3/ColorRect2" to="Control" method="simulate_action" binds= [ "gui_down" ]]
-[connection signal="pressed" from="Control/VBoxContainer2/HBoxContainer2/ColorRect5" to="Control" method="simulate_action" binds= [ "gui_cancel" ]]
-[connection signal="pressed" from="Control/VBoxContainer2/HBoxContainer2/ColorRect4" to="Control" method="simulate_action" binds= [ "gui_accept" ]]
+[connection signal="action_down" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="_on_gui_action_up"]
+[connection signal="action_down" from="Control/VBoxContainer/HBoxContainer2/ColorRect6" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer/HBoxContainer2/ColorRect6" to="Control" method="_on_gui_action_up"]
+[connection signal="action_down" from="Control/VBoxContainer/HBoxContainer2/ColorRect7" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer/HBoxContainer2/ColorRect7" to="Control" method="_on_gui_action_up"]
+[connection signal="action_down" from="Control/VBoxContainer/HBoxContainer3/ColorRect8" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer/HBoxContainer3/ColorRect8" to="Control" method="_on_gui_action_up"]
+[connection signal="action_down" from="Control/VBoxContainer2/HBoxContainer2/ColorRect9" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer2/HBoxContainer2/ColorRect9" to="Control" method="_on_gui_action_up"]
+[connection signal="action_down" from="Control/VBoxContainer2/HBoxContainer2/ColorRect10" to="Control" method="_on_gui_action_down"]
+[connection signal="action_up" from="Control/VBoxContainer2/HBoxContainer2/ColorRect10" to="Control" method="_on_gui_action_up"]
 [connection signal="pressed" from="Control/Button" to="Control" method="_switch_modes"]

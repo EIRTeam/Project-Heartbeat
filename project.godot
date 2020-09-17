@@ -384,6 +384,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/InputEventHB.gd"
 }, {
+"base": "InputEvent",
+"class": "InputEventSwipe",
+"language": "GDScript",
+"path": "res://autoloads/InputEventSwipe.gd"
+}, {
 "base": "Node",
 "class": "JS_Config",
 "language": "GDScript",
@@ -580,6 +585,7 @@ _global_script_class_icons={
 "HBVersion": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
+"InputEventSwipe": "",
 "JS_Config": "",
 "JS_InputMapAction": "",
 "JS_InputMapProfiles": "",
@@ -637,6 +643,7 @@ ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 ModifierLoader="*res://autoloads/ModifierLoader.gd"
+MobileControls="*res://autoloads/MobileControls.tscn"
 
 [debug]
 
@@ -981,6 +988,10 @@ practice_go_to_waypoint={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [locale]
 

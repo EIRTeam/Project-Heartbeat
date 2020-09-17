@@ -296,6 +296,12 @@ func _process_game(_delta):
 			add_hold_score(MAX_HOLD)
 		else:
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
+	var closest_notes = get_closest_notes()
+	if closest_notes.size() > 0:
+		if closest_notes[0].is_slide_note():
+			MobileControls.set_input_mode(1)
+		else:
+			MobileControls.set_input_mode(0)
 	# autoplay code
 	if Diagnostics.enable_autoplay or previewing:
 		if not result.used_cheats:

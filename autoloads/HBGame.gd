@@ -34,8 +34,12 @@ func _game_init():
 	UserSettings._init_user_settings()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
-	
-	rich_presence = HBRichPresenceDiscord.new()
+	if not OS.has_feature("mobile"):
+		MobileControls.get_child(0).hide()
+	if OS.has_feature("no_rich_presence"):
+		rich_presence = HBRichPresence.new()
+	else:
+		rich_presence = HBRichPresence.new()
 	var res = rich_presence.init_presence()
 	if res != OK:
 		rich_presence = HBRichPresence.new()
