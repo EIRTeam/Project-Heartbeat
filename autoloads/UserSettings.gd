@@ -142,6 +142,13 @@ func map_actions_to_controller():
 				event.device = device_id
 				InputMap.action_add_event(action_name, event)
 	emit_signal("controller_swapped", device_id)
+	
+enum PROMPT_MODE {
+	KEYBOARD,
+	JOYPAD
+}
+	
+var current_mode = PROMPT_MODE.KEYBOARD
 func _input(event):
 	if event is InputEventJoypadButton:
 		# If we receive an input from a controller that isn't the one we have
@@ -151,12 +158,16 @@ func _input(event):
 			user_settings.last_controller_guid = new_guid
 			map_actions_to_controller()
 			Input.parse_input_event(event)
-		JoypadSupport._set_joypad(event.device, true)
-		set_joypad_prompts()
+		if current_mode != PROMPT_MODE.JOYPAD:
+			current_mode = PROMPT_MODE.JOYPAD
+			JoypadSupport._set_joypad(event.device, true)
+			set_joypad_prompts()
 	elif event is InputEventKey:
-		JoypadSupport.set_autodetect_to(true)
-		JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
-		JoypadSupport.force_keyboard_prompts()
+		if current_mode != PROMPT_MODE.KEYBOARD:
+			current_mode = PROMPT_MODE.KEYBOARD
+			JoypadSupport.set_autodetect_to(true)
+			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
+			JoypadSupport.force_keyboard_prompts()
 func load_user_settings():
 	var file := File.new()
 	if file.file_exists(USER_SETTINGS_PATH):
