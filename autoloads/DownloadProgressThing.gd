@@ -87,19 +87,33 @@ func move_to(position: Vector2):
 
 func set_text(val):
 	text = val
-	$Panel/Label.text = val
-	$Panel.rect_size.x = $Panel/Label.get_minimum_size().x + 10
-
+	$Panel/Label.text = text
+	recalculate_label_size()
+	var minimum_size = $Panel/Label.get_minimum_size().x
+	if label.autowrap == true:
+		minimum_size = get_parent().rect_size.x / 2.0
+	$Panel.rect_size.x = minimum_size
+	label.rect_size.y = 0
+	
 func _ready():
 	set_type(TYPE.SUCCESS)
 	modulate.a = 0.0
 	get_viewport().connect("size_changed", self, "_on_vp_size_changed")
-
+	
 func _on_vp_size_changed():
 	yield(get_tree(), "idle_frame")
 	move_to_offset(target_offset)
 	move_t = move_time
-
+	
+func recalculate_label_size():
+	label.autowrap = false
+	var size = label.get_combined_minimum_size()
+	print("MINIMUM", size.x, " ", get_parent().rect_size.x / 2.0)
+	if size.x > (get_parent().rect_size.x / 2.0):
+		label.autowrap = true
+		print("RECT AUTOSIZE")
+		label.rect_size.x = get_parent().rect_size.x / 2.0
+	
 func move_to_offset(to_offset, time=0.75):
 	var parent = get_parent()
 	move_target_position = Vector2(0, parent.rect_size.y - to_offset) + MARGIN

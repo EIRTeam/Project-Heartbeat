@@ -170,79 +170,117 @@ func _download_video(userdata):
 	
 	if OS.get_name() == "X11":
 		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
-	
+	var audio_download_ok = true
 	if download_audio:
-		var out = []
+		# Step 1: Download audio
+		var out_ytdl = []
+		var out_ffmpeg = []
 		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
 		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
 		var audio_params = ["-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id]
-		OS.execute(get_ytdl_executable(), shared_params + audio_params, true, out)
-		# We bring the ogg down back to stereo because godot is stupid and can't do selective channel playback
-		OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out)
-		print("ffmpeg output", out)
-		var dir = Directory.new()
-		dir.remove(get_audio_path(userdata.video_id, true, true))
-		result["audio"] = true
-		result["audio_out"] = out[-1]
+		var ytdl_error_code = OS.execute(get_ytdl_executable(), shared_params + audio_params, true, out_ytdl, true)
 		
-		if audio_exists(userdata.video_id):
-			cache_meta_mutex.lock()
-			cache_meta.cache[userdata.video_id]["audio"] = true
-			cache_meta.cache[userdata.video_id]["audio_ext"] = AUDIO_EXT
-			cache_meta_mutex.unlock()
-		else:
+		# Audio download error checking
+		if ytdl_error_code != OK:
+			audio_download_ok = false
 			result["audio"] = false
-			Log.log(self, "Error downloading audio " + userdata.video_id)
-			for line in out:
-				print(line)
-	if download_video:
+			result["audio_out"] = out_ytdl[0]
+		else:
+			# Step 2: Audio conversion
+			# We bring the ogg down back to stereo because godot is stupid and can't do selective channel playback
+			var ffmpeg_error_code = OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out_ffmpeg, true)
+			var dir = Directory.new()
+			dir.remove(get_audio_path(userdata.video_id, true, true))
+			# Audio conversion error handling
+			if ffmpeg_error_code != OK:
+				result["audio_out"] = "Stereoification: %s" % [out_ffmpeg[0]]
+				result["audio"] = false
+				audio_download_ok = false
+			else:
+				# Final step: Checking if hte file that should exist actually exists
+				if audio_exists(userdata.video_id):
+					cache_meta_mutex.lock()
+					cache_meta.cache[userdata.video_id]["audio"] = true
+					cache_meta.cache[userdata.video_id]["audio_ext"] = AUDIO_EXT
+					cache_meta_mutex.unlock()
+				else:
+					result["audio"] = false
+					result["audio_out"] = "Unknown error"
+					audio_download_ok = false
+					
+	if download_video and audio_download_ok:
 		var out = []
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
 		var video_params = ["-f", "bestvideo[ext=webm][vcodec^=vp9][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id]
-		OS.execute(get_ytdl_executable(), shared_params + video_params, true, out)
-		result["video"] = true
-		result["video_out"] = out[-1]
-		if video_exists(userdata.video_id):
-			cache_meta_mutex.lock()
-			cache_meta.cache[userdata.video_id]["video"] = true
-			cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
-			cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
-			cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
-			cache_meta_mutex.unlock()
-		else:
+		
+		var exit_code = OS.execute(get_ytdl_executable(), shared_params + video_params, true, out, true)
+		
+		if exit_code != OK:
 			result["video"] = false
-			Log.log(self, "Error downloading video " + userdata.video_id + " ")
-			for line in out:
-				print(line)
+			result["video_out"] = out[0]
+		else:
+			result["video"] = true
+			result["video_out"] = out[0]
+			if video_exists(userdata.video_id):
+				cache_meta_mutex.lock()
+				cache_meta.cache[userdata.video_id]["video"] = true
+				cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
+				cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
+				cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
+				cache_meta_mutex.unlock()
+			else:
+				result["video"] = false
+				Log.log(self, "Error downloading video " + userdata.video_id + " ")
+				result["video_out"] = "Unknown error"
+				for line in out:
+					print(line)
 	Log.log(self, "Video download finish!")
 	call_deferred("_video_downloaded", userdata.thread, result)
 	save_cache()
+	
+func show_error(output: String, message: String, song: HBSong):
+	var progress_thing = PROGRESS_THING.instance()
+	DownloadProgress.add_notification(progress_thing, true)
+	progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
+	var error_message = output.split("\n")
+	if error_message.size() > 1:
+		# "error\n" <- potential trailing newline
+		if error_message[-1] == "":
+			error_message = error_message[-2]
+		else:
+			error_message = error_message[-1]
+	else:
+		error_message = output
+	
+	progress_thing.text = message.format({"song_title": song.get_visible_title(), "error_message": error_message})
+	progress_thing.life_timer = 10.0
+	
+	# We log the whole output to disk just in case
+	Log.log(self, message.format({"song_title": song.get_visible_title(), "error_message": output}), Log.LogLevel.ERROR)
 	
 func _video_downloaded(thread: Thread, result):
 	thread.wait_to_finish()
 
 	songs_being_cached.erase(result.video_id)
 	var has_error = false
+	var out = ""
+	var current_song := tracked_video_downloads[result.video_id].song as HBSong
 	if result.has("video"):
 		if not result.video:
 			has_error = true
+			show_error(result.video_out, "Error downloading video for {song_title}. ({error_message})", current_song)
 	if result.has("audio"):
 		if not result.audio:
 			has_error = true
-	if has_error:
-		var progress_thing = PROGRESS_THING.instance()
-		DownloadProgress.add_notification(progress_thing, true)
-		progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
-		progress_thing.text = "Error downloading media for %s." % [tracked_video_downloads[result.video_id].song.get_visible_title()]
-		progress_thing.life_timer = 2
-	else:
+			show_error(result.audio_out, "Error downloading audio for {song_title}. ({error_message})", current_song)
+	if not has_error:
 		var progress_thing = PROGRESS_THING.instance()
 		DownloadProgress.add_notification(progress_thing, true)
 		progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
 		progress_thing.text = "Finished downloading media for %s." % [tracked_video_downloads[result.video_id].song.get_visible_title()]
-		progress_thing.life_timer = 2
+		progress_thing.life_timer = 5.0
 	if result.video_id in tracked_video_downloads:
 		DownloadProgress.remove_notification(tracked_video_downloads[result.video_id].progress_thing)
 		tracked_video_downloads.erase(result.video_id)
