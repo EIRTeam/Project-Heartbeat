@@ -298,10 +298,13 @@ func _process_game(_delta):
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
 	var closest_notes = get_closest_notes()
 	if closest_notes.size() > 0:
-		if closest_notes[0].is_slide_note():
-			MobileControls.set_input_mode(1)
-		else:
+		if not closest_notes[0] is HBNoteData:
 			MobileControls.set_input_mode(0)
+		else:
+			if closest_notes[0].is_slide_note():
+				MobileControls.set_input_mode(1)
+			else:
+				MobileControls.set_input_mode(0)
 	# autoplay code
 	if Diagnostics.enable_autoplay or previewing:
 		if not result.used_cheats:
