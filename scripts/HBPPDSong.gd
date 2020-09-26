@@ -57,3 +57,7 @@ func has_video_enabled():
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
 	return PPDLoader.PPD2HBChart(chart_path, bpm)
+func get_meta_path():
+	return path.plus_file("data.ini")
+func get_serialized_type():
+	return "PPDSong"

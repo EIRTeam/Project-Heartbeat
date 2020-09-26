@@ -51,3 +51,6 @@ func is_leaderboard_legal():
 	
 func get_serialized_type():
 	return "GameInfo"
+
+func get_song():
+	return SongLoader.songs[song_id]

@@ -61,11 +61,6 @@ func _on_ResetButton_pressed():
 	_min_fps = 10000000
 	_max_fps = 0.0
 
-func hide_WIP_label():
-	$"WIP Label".hide()
-func show_WIP_label():
-	$"WIP Label".show()
-	
 func show_log_messages():
 	yield(get_tree(), "idle_frame")
 	var messages_to_show = []

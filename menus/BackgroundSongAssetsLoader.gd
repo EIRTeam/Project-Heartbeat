@@ -16,13 +16,16 @@ var load_mutex = Mutex.new()
 
 const LOG_NAME = "BackgroundSongAssetsLoader.gd"
 
+
+
 func _load_song_assets_thread(userdata):
 	var song := SongLoader.songs[userdata.song_id] as HBSong
-	
+	var audio_normalizer := HBAudioNormalizer.new()
 	var loaded_assets = {}
 	for asset in userdata.requested_assets:
 		var loaded_asset
-		load_mutex.lock()
+		if asset == "audio_loudness":
+			continue
 		match asset:
 			"preview":
 				if song.preview_image:
@@ -42,7 +45,6 @@ func _load_song_assets_thread(userdata):
 			"circle_logo":
 				if song.circle_logo:
 					loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_logo_image_res_path())
-		load_mutex.unlock()
 		loaded_assets[asset] = loaded_asset
 		if enable_abort:
 			# Current song changed, abort
@@ -53,7 +55,18 @@ func _load_song_assets_thread(userdata):
 				return
 			_current_song_mutex.unlock()
 #	OS.delay_msec(int(1 * 1000.0)) # Delay simulation
-	
+	if "audio_loudness" in userdata.requested_assets:
+		if "audio" in loaded_assets:
+			if loaded_assets.audio:
+				loaded_assets["audio_loudness"] = audio_normalizer.get_loudness_for_stream(loaded_assets["audio"])
+	if enable_abort:
+		# Current song changed, abort
+		_current_song_mutex.lock()
+		if current_song.id != userdata.song_id:
+			call_deferred("_song_asset_loading_aborted", userdata.thread)
+			_current_song_mutex.unlock()
+			return
+		_current_song_mutex.unlock()
 	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
 	
 func _song_asset_loading_aborted(thread: Thread):
@@ -72,6 +85,10 @@ func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 			assets[asset_name] = tex
 	
 	loaded_images.append(images)
+	
+	if "audio_loudness" in assets:
+		SongDataCache.update_loudness_for_song(song, assets.audio_loudness)
+	
 	emit_signal("song_assets_loaded", song, assets)
 	
 func load_song_assets(song, requested_assets=["preview", "background", "audio", "voice"]):

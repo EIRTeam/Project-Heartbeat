@@ -29,6 +29,9 @@ var time: float
 var current_combo = 0
 var disable_intro_skip = false
 
+# Used for normalization
+var _volume_offset = 0.0
+
 # Notes currently being shown to the user
 var notes_on_screen = []
 var current_song: HBSong = HBSong.new()
@@ -138,7 +141,11 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	self.modifiers = modifiers
 	current_song = song
 	base_bpm = song.bpm
+	_volume_offset = 0.0
 	if assets:
+		if "audio_vol_offset" in assets:
+			print("OFFSET")
+			_volume_offset = assets.audio_vol_offset
 		audio_stream_player.stream = assets.audio
 		if song.voice:
 			audio_stream_player_voice.stream = assets.voice
@@ -175,8 +182,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		_song_volume = song.get_volume_db() * user_song_settings.volume
 	else:
 		_song_volume = song.get_volume_db()
-	audio_stream_player.volume_db = _song_volume
-	audio_stream_player_voice.volume_db = _song_volume
+	audio_stream_player.volume_db = _song_volume + _volume_offset
+	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
 	# todo: call ui on set song
 	game_ui._on_song_set(song, difficulty, assets, modifiers)
 
@@ -436,7 +443,7 @@ func restart():
 	_prevent_finishing = true
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
-	audio_stream_player_voice.volume_db = _song_volume
+	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
 	set_current_combo(0)
 	time = current_song.start_time / 1000.0
 	audio_stream_player.stream_paused = true
@@ -632,7 +639,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 			set_current_combo(0)
 		else:
 			set_current_combo(current_combo + notes_hit)
-			audio_stream_player_voice.volume_db = _song_volume
+			audio_stream_player_voice.volume_db = _song_volume + _volume_offset
 			result.notes_hit += notes_hit
 
 		if not wrong:

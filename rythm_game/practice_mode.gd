@@ -26,7 +26,7 @@ func _ready():
 	practice_gui.hide()
 	game.disable_ending = true
 	Diagnostics.gamepad_visualizer.show()
-func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false):
+func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	.set_song(song, difficulty, modifiers, true)
 	fade_in_tween.stop_all()
 	_fade_in_done()

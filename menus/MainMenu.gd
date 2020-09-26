@@ -1,7 +1,5 @@
 extends "res://menus/MenuTransitionProvider.gd"
 
-
-
 var starting_menu = "start_menu"
 var starting_menu_args = []
 var background_transition_animation_player: AnimationPlayer
@@ -103,8 +101,9 @@ func _ready():
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	player.play_random_song()
-	
+	player.connect("assets_loaded", MENUS["pre_game"].left, "set_current_assets")
 	menu_setup()
+#	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
 
 func menu_setup():
@@ -162,15 +161,17 @@ func _on_music_player_ready():
 
 var iflag = true # Flag that tells it to ignore the first background change
 func _on_song_started(song, assets):
-	if assets.audio:
-		MENUS.music_player.right.set_song(song, assets.audio.get_length())
-	if not iflag:
-		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
-			change_to_background(assets.background)
-		else:
-			change_to_background(null, true)
+	if "audio" in assets:
+		if assets.audio:
+			MENUS.music_player.right.set_song(song, assets.audio.get_length())
 	else:
-		iflag = false
+		if not iflag:
+			if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
+				change_to_background(assets.background)
+			else:
+				change_to_background(null, true)
+		else:
+			iflag = false
 	
 func change_to_background(background: Texture, use_default = false):
 	if use_default:

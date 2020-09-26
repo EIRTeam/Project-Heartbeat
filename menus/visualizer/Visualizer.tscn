@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=1]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=2]
 code = "// credit: https://www.shadertoy.com/view/4tGXzt
 shader_type canvas_item;
 
@@ -93,22 +93,22 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=3]
 render_priority = -128
-shader = SubResource( 1 )
+shader = SubResource( 2 )
 shader_param/FREQ_RANGE = 16.0
 shader_param/size = Vector2( 1920, 1080 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
 [node name="Control" type="Panel"]
-material = SubResource( 2 )
+material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fallback_stylebox = SubResource( 3 )
+fallback_stylebox = SubResource( 1 )

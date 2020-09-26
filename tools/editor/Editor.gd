@@ -101,7 +101,6 @@ func _ready():
 	inspector.connect("property_changed", self, "_change_selected_property")
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
 	
-	Diagnostics.hide_WIP_label()
 	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
 	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
@@ -585,7 +584,6 @@ func load_song(song: HBSong, difficulty: String):
 
 
 func _on_ExitDialog_confirmed():
-	Diagnostics.show_WIP_label()
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	MouseTrap.enable_mouse_trap()

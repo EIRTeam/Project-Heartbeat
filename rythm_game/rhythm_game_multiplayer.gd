@@ -47,7 +47,7 @@ func _on_resized():
 	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-	background_song_assets_loader.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice"])
+	background_song_assets_loader.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice", "audio_loudness"])
 	lobby.connect("game_start", self, "_on_game_started")
 	lobby.connect("game_done", self, "_on_game_done")
 	lobby.connect("member_left", mp_scoreboard, "remove_member")

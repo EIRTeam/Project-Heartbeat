@@ -22,7 +22,7 @@ func _ready():
 	
 func _game_init():
 	PlatformService._initialize_platform()
-
+	SongDataCache.load_cache()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	

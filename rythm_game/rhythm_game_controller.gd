@@ -82,7 +82,7 @@ func start_fade_in():
 	HBGame.song_stats.song_played(song.id)
 	HBGame.song_stats.save_song_stats()
 
-func start_session(game_info: HBGameInfo):
+func start_session(game_info: HBGameInfo, assets=null):
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
 		return
@@ -109,7 +109,7 @@ func start_session(game_info: HBGameInfo):
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
 		modifier.modifier_settings = game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
-	set_song(song, game_info.difficulty, modifiers)
+	set_song(song, game_info.difficulty, modifiers, false, assets)
 	set_process(true)
 
 func disable_restart():
@@ -123,14 +123,14 @@ const SONGS_WITH_IMAGE = [
 	"connected"
 ]
 	
-func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false):
+func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
 	var image_texture = ImageTexture.new()
 	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
 	$Node2D/TextureRect.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
-	game.set_song(song, difficulty, null, modifiers)
+	game.set_song(song, difficulty, assets, modifiers)
 	set_game_size()
 	if not force_caching_off:
 		game.cache_note_drawers()
@@ -287,7 +287,7 @@ var _last_time = 0.0
 
 func _process(delta):
 	$Label.visible = Diagnostics.fps_label.visible
-	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index]
+	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_game_info:
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:

@@ -39,6 +39,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/FolderManagerFolderButton.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBAudioLoudnessCacheEntry",
+"language": "GDScript",
+"path": "res://autoloads/HBAudioLoudnessCacheEntry.gd"
+}, {
+"base": "Reference",
+"class": "HBAudioNormalizer",
+"language": "GDScript",
+"path": "res://addons/ebur128/AudioNormalizer.gd"
+}, {
 "base": "HBTimingPoint",
 "class": "HBBPMChange",
 "language": "GDScript",
@@ -325,6 +335,11 @@ _global_script_classes=[ {
 "path": "res://menus/song_list/SongList.gd"
 }, {
 "base": "HBSerializable",
+"class": "HBSongMetaCacheEntry",
+"language": "GDScript",
+"path": "res://autoloads/HBSongMetaCacheEntry.gd"
+}, {
+"base": "HBSerializable",
 "class": "HBSongStats",
 "language": "GDScript",
 "path": "res://scripts/HBSongStats.gd"
@@ -516,6 +531,8 @@ _global_script_class_icons={
 "EditorTimelineItemNote": "",
 "EditorTimelineItemSustainNote": "",
 "FolderManagerFolderButton": "",
+"HBAudioLoudnessCacheEntry": "",
+"HBAudioNormalizer": "",
 "HBBPMChange": "",
 "HBBackgroundMusicPlayer": "",
 "HBBackgroundSongAssetsLoader": "",
@@ -573,6 +590,7 @@ _global_script_class_icons={
 "HBSongListItem": "",
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
+"HBSongMetaCacheEntry": "",
 "HBSongStats": "",
 "HBSongStatsLoader": "",
 "HBSongVerification": "",
@@ -634,6 +652,7 @@ Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
 JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
+SongDataCache="*res://autoloads/SongDataCache.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"

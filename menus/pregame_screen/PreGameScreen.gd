@@ -20,7 +20,7 @@ signal song_selected(song_id, difficulty)
 var game_info = HBGameInfo.new()
 
 var modifier_buttons = {}
-
+var background_image
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
@@ -34,6 +34,13 @@ func _ready():
 	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
 	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
 	#per_song_settings_editor.show_editor()
+
+var current_assets
+var current_song_assets
+
+func set_current_assets(song, assets):
+	current_song_assets = song
+	current_assets = assets
 
 func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
@@ -101,15 +108,16 @@ func _on_button_list_out_from_top():
 	modifier_scroll_container.select_child(modifier_button_container.get_child(modifier_button_container.get_child_count()-1))
 	
 func _on_StartButton_pressed():
-	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
-	game_info.time = OS.get_unix_time()
-	var scene = new_scene.instance()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(scene)
-	get_tree().current_scene = scene
-	game_info.song_id = current_song.id
-	game_info.difficulty = current_difficulty
-	scene.start_session(game_info)
+	if current_song_assets == current_song:
+		var new_scene = preload("res://menus/LoadingScreen.tscn")
+		game_info.time = OS.get_unix_time()
+		var scene = new_scene.instance()
+		get_tree().current_scene.queue_free()
+		get_tree().root.add_child(scene)
+		get_tree().current_scene = scene
+		game_info.song_id = current_song.id
+		game_info.difficulty = current_difficulty
+		scene.load_song(game_info, false, current_assets)
 
 func add_modifier_control(modifier_id: String):
 	
@@ -214,12 +222,13 @@ func _on_ppd_video_url_confirmed():
 
 
 func _on_StartPractice_pressed():
-	var new_scene = preload("res://rythm_game/practice_mode.tscn")
-	game_info.time = OS.get_unix_time()
-	var scene = new_scene.instance()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(scene)
-	get_tree().current_scene = scene
-	game_info.song_id = current_song.id
-	game_info.difficulty = current_difficulty
-	scene.start_session(game_info)
+	if current_song_assets == current_song:
+		var new_scene = preload("res://menus/LoadingScreen.tscn")
+		game_info.time = OS.get_unix_time()
+		var scene = new_scene.instance()
+		get_tree().current_scene.queue_free()
+		get_tree().root.add_child(scene)
+		get_tree().current_scene = scene
+		game_info.song_id = current_song.id
+		game_info.difficulty = current_difficulty
+		scene.load_song(game_info, true, current_assets)

@@ -13,6 +13,8 @@ func _ready():
 		hide()
 
 func _on_song_assets_loaded(song, assets):
+	if "preview" in assets:
+		pass
 	var song_artist_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ArtistLabel")
 	var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 	var circle_logo_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CircleLogo")
