@@ -25,6 +25,7 @@ func _game_init():
 	SongDataCache.load_cache()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
+	#SongLoader.add_song_loader("aft", preload("res://autoloads/song_loader/song_loaders/SongLoaderDIVA.gd").new())
 	
 	SongLoader.load_all_songs_async()
 	

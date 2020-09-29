@@ -25,3 +25,6 @@ func load_song_meta_from_folder(path: String, id: String):
 		Log.log(self, "Error loading song: %s with error %d" % [path, err], Log.LogLevel.ERROR)
 	file.close()
 	return null
+	
+func caching_enabled():
+	return true

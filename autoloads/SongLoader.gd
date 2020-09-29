@@ -78,20 +78,22 @@ func load_songs_from_path(path):
 				var song_meta : HBSong
 				var song_found = false
 				for loader in song_loaders.values():
-					var song_meta_path = path + "/%s/%s" % [dir_name, loader.get_meta_file_name()]
-					if file.file_exists(song_meta_path):
-						if SongDataCache.is_song_meta_cached(dir_name, song_meta_path):
-							song_meta = SongDataCache.get_cached_meta(dir_name)
-							song_meta.id = dir_name
-							song_meta.path = song_meta_path.get_base_dir()
-						else:
-							song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
-							SongDataCache.update_cache_for_song(song_meta)
-						if song_meta:
-							value[dir_name] = song_meta
-						song_found = true
+					if not loader.uses_custom_load_paths():
+						var song_meta_path = path + "/%s/%s" % [dir_name, loader.get_meta_file_name()]
+						if file.file_exists(song_meta_path):
+							if loader.caching_enabled():
+								if SongDataCache.is_song_meta_cached(dir_name, song_meta_path):
+									song_meta = SongDataCache.get_cached_meta(dir_name)
+									song_meta.id = dir_name
+									song_meta.path = song_meta_path.get_base_dir()
+								else:
+									song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
+									SongDataCache.update_cache_for_song(song_meta)
+							if song_meta:
+								value[dir_name] = song_meta
+							song_found = true
 				if not song_found:
-					Log.log(self, "No loader foudn for song in directory " + dir_name, Log.LogLevel.ERROR)
+					Log.log(self, "No loader found for song in directory " + dir_name, Log.LogLevel.ERROR)
 						
 			dir_name = dir.get_next()
 		Log.log(self, "Loaded %d songs from %s" % [value.size(), path])
@@ -118,6 +120,11 @@ func load_all_songs_meta():
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:
 			add_song(loaded_songs[song_id])
+	for loader in song_loaders.values():
+		if loader.uses_custom_load_paths():
+			var s = loader.load_songs()
+			for song in s:
+				add_song(song)
 
 func load_all_songs_async():
 	songs = {}

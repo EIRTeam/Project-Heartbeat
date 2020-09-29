@@ -89,6 +89,8 @@ var base_bpm = 180.0
 
 var sfx_player_queue = []
 
+var current_assets
+
 func _game_ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
@@ -143,9 +145,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	base_bpm = song.bpm
 	_volume_offset = 0.0
 	if assets:
-		if "audio_vol_offset" in assets:
-			print("OFFSET")
-			_volume_offset = assets.audio_vol_offset
+		current_assets = assets
+		if "audio_loudness" in assets:
+			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 		audio_stream_player.stream = assets.audio
 		if song.voice:
 			audio_stream_player_voice.stream = assets.voice
@@ -442,7 +444,7 @@ func restart():
 	remove_all_notes_from_screen()
 	_prevent_finishing = true
 	get_tree().paused = false
-	set_song(SongLoader.songs[current_song.id], current_difficulty, null, modifiers)
+	set_song(SongLoader.songs[current_song.id], current_difficulty, current_assets, modifiers)
 	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
 	set_current_combo(0)
 	time = current_song.start_time / 1000.0

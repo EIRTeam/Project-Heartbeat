@@ -80,3 +80,6 @@ func set_ppd_youtube_url(song: HBSong, url: String):
 		ppd_youtube_url_list[song.id] = url
 		song.youtube_url = url
 		save_ppd_youtube_url_list()
+
+func caching_enabled():
+	return true

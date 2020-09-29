@@ -203,6 +203,6 @@ static func remap(value, low1, low2, high1, high2):
 	return low2 + (value - low1) * (high2 - low2) / (high1 - low1)
 
 static func join_path(path1: String, path2: String) -> String:
-	if not path1.ends_with("/"):
+	if not path1.ends_with("/") and not path2.begins_with("/"):
 		path1 += "/"
 	return path1 + path2

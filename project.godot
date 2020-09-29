@@ -485,6 +485,11 @@ _global_script_classes=[ {
 "path": "res://rythm_game/SineDrawerCPU.gd"
 }, {
 "base": "SongLoaderImpl",
+"class": "SongLoaderDIVA",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderDIVA.gd"
+}, {
+"base": "SongLoaderImpl",
 "class": "SongLoaderHB",
 "language": "GDScript",
 "path": "res://autoloads/song_loader/song_loaders/SongLoaderHB.gd"
@@ -620,6 +625,7 @@ _global_script_class_icons={
 "ResultF": "",
 "SMFLoader": "",
 "SineDrawerCPU": "",
+"SongLoaderDIVA": "",
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
 "SongLoaderPPD": "",

@@ -12,8 +12,6 @@ enum SONG_FS_ORIGIN {
 	USER
 }
 
-var path: String
-var id: String
 
 var title := ""
 var romanized_title := ""
@@ -39,12 +37,17 @@ var use_youtube_for_audio = true
 var use_youtube_for_video = true
 var ugc_service_name = ""
 var ugc_id = 0
-var _comes_from_ugc = false
 var allows_intro_skip = false
 var intro_skip_min_time = 30.0
 var start_time = 0
 var end_time = -1
 var volume = 1.0
+
+# not serialized
+var loader = ""
+var _comes_from_ugc = false
+var id: String
+var path: String
 
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty
@@ -150,6 +153,7 @@ func get_cache_status():
 
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
+	print("LOADGIN FROM ", audio_path)
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
 		return load(audio_path)
 	else:
