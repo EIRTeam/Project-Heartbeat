@@ -22,7 +22,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	current_diff = game_info.difficulty
 	var song: HBSong = new_game_info.get_song()
 	is_loading_practice_mode = practice
-	background_song_assets_loader.load_song_assets(song, ["audio", "audio_loudness"])
+	background_song_assets_loader.load_song_assets(song, ["audio", "voice", "audio_loudness"])
 	$TextureRect.texture = assets.background
 	album_cover.texture = assets.preview
 	title_label.text = song.title

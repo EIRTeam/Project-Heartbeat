@@ -17,7 +17,7 @@ var voice_player = AudioStreamPlayer.new()
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 
 var _volume_offset = 0.0
-
+var queued_song: HBSong
 signal stream_time_changed
 signal song_started(song, assets)
 signal assets_loaded(song, assets)
@@ -71,9 +71,11 @@ func _process(delta):
 		emit_signal("stream_time_changed", player.get_playback_position())
 			
 func _on_song_assets_loaded(song: HBSong, assets):
+	if song != queued_song:
+		return
 	if "preview" in assets:
 		emit_signal("assets_loaded", song, assets)
-	else:
+	if "audio" in assets:
 		waiting_for_song_assets = false
 		_volume_offset = SongDataCache.get_song_volume_offset(song)
 		if UserSettings.user_settings.disable_menu_music:
@@ -113,6 +115,7 @@ func play_song(song: HBSong, force = false):
 		
 	_volume_offset = 0.0
 	target_volume = FADE_OUT_VOLUME
+	queued_song = song
 	background_song_assets_loader.load_song_assets(song, ["background", "preview", "background", "circle_logo"])
 	if SongDataCache.is_song_audio_loudness_cached(song):
 		background_song_assets_loader.load_song_assets(song, ["audio", "voice"])
