@@ -24,19 +24,31 @@ func set_max_value(val):
 	
 const CLEAR_POINT = 0.75
 	
+func apply_margin(rect: Rect2) -> Rect2:
+	rect.position.y += 2
+	rect.size.y -= 4
+	return rect
+	
 func _draw():
 	var origin = Vector2(0,0)
 	var size = rect_size
 	size.x = size.x * (value / max_value)
 	var rect_clear = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), Vector2(rect_size.x * (1 - CLEAR_POINT), rect_size.y))
+	
+	rect_clear = apply_margin(rect_clear)
 	draw_rect(rect_clear, CLEAR_COLOR)
 	var progress_rect = Rect2(origin, size)
-	draw_rect(progress_rect, PROGRESS_COLOR)
+	#draw_rect(progress_rect, PROGRESS_COLOR)
+	progress_rect = apply_margin(progress_rect)
+	draw_style_box(preload("res://rythm_game/game_modes/heartbeat/ClearBar.tres"), progress_rect)
+	
 	var past_completion_size = rect_size
 	past_completion_size.x = past_completion_size.x * ((value-(max_value*CLEAR_POINT)) / max_value)
 	if past_completion_size.x > 0:
 		var past_completion_progress_rect = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), past_completion_size)
-		draw_rect(past_completion_progress_rect, PROGRESS_COLOR.darkened(0.5))
+		past_completion_progress_rect = apply_margin(past_completion_progress_rect)
+		
+		draw_style_box(preload("res://rythm_game/game_modes/heartbeat/ClearBarPost.tres"), past_completion_progress_rect)
 	draw_rating_line(0.97)
 	draw_rating_line(0.94)
 	draw_rating_line(0.75)

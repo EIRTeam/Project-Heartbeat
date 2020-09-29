@@ -8,7 +8,7 @@ onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Pane
 onready var difficulty_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DifficultyLabel")
 onready var clear_bar = get_node("Control/ClearBar")
 onready var hold_indicator = get_node("UnderNotesUI/Control/HoldIndicator")
-onready var heart_power_indicator = get_node("Control/HBoxContainer/HeartPowerTextureProgress")
+onready var progress_indicator = get_node("Control/HBoxContainer/TimeTextureProgress")
 onready var circle_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/CircleImage")
 onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
@@ -21,12 +21,18 @@ onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Labe
 
 const LOG_NAME = "HeartbeatRhythmGameUI"
 
+var start_time = 0.0
+var end_time = 0.0
+
 var game setget set_game
 
 func set_game(new_game):
 	game = new_game
 	slide_hold_score_text._game = game
-
+	game.connect("time_changed", self, "_on_game_time_changed")
+	
+func _on_game_time_changed(time: float):
+	progress_indicator.value = time
 func _ready():
 	rating_label.hide()
 	connect("resized", self, "_on_size_changed")
@@ -72,6 +78,11 @@ func _on_chart_set(chart: HBChart):
 	clear_bar.max_value = chart.get_max_score()
 	_update_clear_bar_value()
 func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = []):
+	progress_indicator.min_value = song.start_time / 1000.0
+	if song.end_time > 0:
+		progress_indicator.max_value = song.start_time / 1000.0
+	else:
+		progress_indicator.max_value = game.audio_stream_player.stream.get_length()
 	if not assets:
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()
 		if circle_logo_path:

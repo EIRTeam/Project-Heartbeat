@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -31,6 +31,8 @@
 [ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=29]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=30]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/Panel.gd" type="Script" id=32]
+[ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -178,18 +180,73 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
+[sub_resource type="Shader" id=22]
+code = "shader_type canvas_item;
+
+uniform sampler2D bg: hint_albedo;
+
+void fragment() {
+	vec2 siz = 1.0 / TEXTURE_PIXEL_SIZE;
+	vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 scale = vec2(textureSize(bg, 0)) / res;
+	COLOR = texture(bg, SCREEN_UV/scale);
+	COLOR.a = COLOR.a * UV.x;
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=23]
+shader = SubResource( 22 )
+shader_param/bg = ExtResource( 33 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+content_margin_left = 77.0
+bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
+corner_radius_bottom_right = 1024
+corner_detail = 1
+expand_margin_right = 77.0
+shadow_color = Color( 0, 0, 0, 0.25 )
+anti_aliasing = false
+
 [sub_resource type="StyleBoxFlat" id=11]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
-border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 3
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 corner_radius_bottom_right = 1024
 corner_detail = 1
 expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
+anti_aliasing = false
+
+[sub_resource type="Shader" id=19]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR.a = texture(TEXTURE, UV).a * UV.y;
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=20]
+shader = SubResource( 19 )
+
+[sub_resource type="StyleBoxTexture" id=21]
+texture = ExtResource( 33 )
+region_rect = Rect2( 0, 0, 128, 128 )
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color( 1, 0, 0.772549, 1 )
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 10
 
 [sub_resource type="DynamicFont" id=13]
 size = 20
@@ -722,13 +779,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HeartPowerTextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
+[node name="TimeTextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
 margin_right = 128.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 120, 100 )
 max_value = 1.0
 step = 0.0
-value = 0.5
 texture_under = ExtResource( 14 )
 texture_over = ExtResource( 18 )
 texture_progress = ExtResource( 14 )
@@ -744,6 +800,24 @@ margin_right = 890.0
 margin_bottom = 128.0
 size_flags_horizontal = 3
 
+[node name="Panel2" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
+modulate = Color( 0.592157, 0.239216, 0.94902, 1 )
+material = SubResource( 23 )
+anchor_left = -0.055
+anchor_top = 0.194
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_right = -3.0
+margin_bottom = -41.0
+size_flags_horizontal = 3
+theme = ExtResource( 12 )
+custom_styles/panel = SubResource( 24 )
+script = ExtResource( 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Panel" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
 anchor_left = -0.055
 anchor_top = 0.194
@@ -755,6 +829,7 @@ rect_min_size = Vector2( 0, 65 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
 custom_styles/panel = SubResource( 11 )
+script = ExtResource( 32 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -763,6 +838,8 @@ __meta__ = {
 anchor_left = 0.07
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -0.89093
+margin_right = -0.89093
 rect_scale = Vector2( 1, 0.996064 )
 custom_constants/margin_top = 7
 custom_constants/margin_left = 0
@@ -869,6 +946,16 @@ text = "(NT)0000000"
 align = 1
 valign = 1
 script = ExtResource( 9 )
+
+[node name="Panel" type="Panel" parent="Control"]
+material = SubResource( 20 )
+anchor_top = 0.842
+anchor_right = 1.0
+anchor_bottom = 0.928
+custom_styles/panel = SubResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ClearBar" type="Panel" parent="Control"]
 anchor_top = 0.924
