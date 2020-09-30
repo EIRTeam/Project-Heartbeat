@@ -12,6 +12,7 @@ var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
 func set_song(value):
 	song = value
 	title_label.text = song.get_visible_title()
+	circle_text_rect.hide()
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
 	else:
@@ -20,6 +21,9 @@ func set_song(value):
 	if circle_logo_path:
 #		author_label.hide()
 		background_song_assets_loader.load_song_assets(song, ["circle_logo"])
+	else:
+		circle_text_rect.texture = null
+		_on_resized()
 func set_difficulty(value):
 	if not value:
 		difficulty_label.hide()
@@ -29,12 +33,16 @@ func set_difficulty(value):
 		difficulty_label.text = "[%s]" % value
 		
 func _on_resized():
-	if circle_text_rect.texture and circle_text_rect.texture.get_data():
-		var image = circle_text_rect.texture.get_data() as Image
-		var ratio = image.get_width() / image.get_height()
-		var new_size = Vector2(rect_size.y * ratio, rect_size.y)
-		new_size.x = clamp(new_size.x, 0, 250)
-		circle_text_rect.rect_min_size = new_size
+	if circle_text_rect:
+		if circle_text_rect.texture and circle_text_rect.texture.get_data():
+			var image = circle_text_rect.texture.get_data() as Image
+			var ratio = image.get_width() / image.get_height()
+			var new_size = Vector2(rect_size.y * ratio, rect_size.y)
+			new_size.x = clamp(new_size.x, 0, 250)
+			circle_text_rect.rect_min_size = new_size
+		else:
+			circle_text_rect.rect_min_size = Vector2.ZERO
+			circle_text_rect.rect_size = Vector2.ZERO
 
 func _ready():
 	connect("resized", self, "_on_resized")
@@ -43,6 +51,9 @@ func _ready():
 
 func _on_assets_loaded(song, assets):
 #	author_label.hide()
-	circle_text_rect.show()
-	circle_text_rect.texture = assets.circle_logo
+	if assets.circle_logo:
+		circle_text_rect.show()
+		circle_text_rect.texture = assets.circle_logo
+	else:
+		circle_text_rect = null
 	_on_resized()

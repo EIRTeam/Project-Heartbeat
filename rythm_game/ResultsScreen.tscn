@@ -80,17 +80,17 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 30.0
 margin_top = 30.0
-margin_right = 1250.0
-margin_bottom = 690.0
+margin_right = 1890.0
+margin_bottom = 1050.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_right = 1220.0
-margin_bottom = 660.0
+margin_right = 1860.0
+margin_bottom = 1020.0
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_right = 1220.0
+margin_right = 1860.0
 margin_bottom = 36.0
 custom_constants/separation = 19
 
@@ -113,7 +113,7 @@ valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
 margin_top = 46.0
-margin_right = 1220.0
+margin_right = 1860.0
 margin_bottom = 93.0
 
 [node name="ResultRatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
@@ -124,7 +124,7 @@ text = "(NT)PERFECT"
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
 margin_left = 310.0
-margin_right = 1220.0
+margin_right = 1860.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 6 )
@@ -133,32 +133,32 @@ align = 2
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
 margin_top = 103.0
-margin_right = 1220.0
-margin_bottom = 660.0
+margin_right = 1860.0
+margin_bottom = 1020.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
-margin_right = 1220.0
-margin_bottom = 557.0
+margin_right = 1860.0
+margin_bottom = 917.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_right = 1220.0
-margin_bottom = 492.0
+margin_right = 1860.0
+margin_bottom = 820.0
 size_flags_vertical = 3
 custom_constants/separation = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_right = 1220.0
-margin_bottom = 492.0
+margin_right = 1860.0
+margin_bottom = 820.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
-margin_right = 1220.0
-margin_bottom = 306.0
+margin_right = 1860.0
+margin_bottom = 517.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.35
 custom_styles/panel = ExtResource( 2 )
@@ -173,9 +173,9 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
-margin_top = 321.0
-margin_right = 1220.0
-margin_bottom = 492.0
+margin_top = 532.0
+margin_right = 1860.0
+margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
@@ -194,8 +194,8 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
 margin_left = 10.0
-margin_right = 1210.0
-margin_bottom = 171.0
+margin_right = 1850.0
+margin_bottom = 288.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 0
 custom_constants/margin_left = 15
@@ -206,32 +206,32 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer"]
 margin_left = 15.0
-margin_right = 1185.0
-margin_bottom = 171.0
+margin_right = 1825.0
+margin_bottom = 288.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 32.0
-margin_right = 1170.0
-margin_bottom = 65.0
+margin_top = 90.0
+margin_right = 1810.0
+margin_bottom = 123.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_right = 1053.0
+margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 1057.0
-margin_right = 1170.0
+margin_left = 1645.0
+margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
@@ -244,24 +244,24 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 69.0
-margin_right = 1170.0
-margin_bottom = 102.0
+margin_top = 127.0
+margin_right = 1810.0
+margin_bottom = 160.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1053.0
+margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1057.0
-margin_right = 1170.0
+margin_left = 1645.0
+margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
@@ -274,24 +274,24 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 106.0
-margin_right = 1170.0
-margin_bottom = 139.0
+margin_top = 164.0
+margin_right = 1810.0
+margin_bottom = 197.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 970.0
+margin_right = 1610.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "SCORE"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 974.0
-margin_right = 1170.0
+margin_left = 1614.0
+margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
@@ -304,9 +304,9 @@ __meta__ = {
 }
 
 [node name="Panel3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_top = 507.0
-margin_right = 1220.0
-margin_bottom = 557.0
+margin_top = 835.0
+margin_right = 1860.0
+margin_bottom = 917.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
@@ -320,16 +320,16 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer"]
-margin_right = 1220.0
-margin_bottom = 50.0
+margin_right = 1860.0
+margin_bottom = 82.0
 focus_mode = 2
 alignment = 1
 script = ExtResource( 3 )
 
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 464.0
-margin_right = 544.0
-margin_bottom = 50.0
+margin_left = 758.0
+margin_right = 853.0
+margin_bottom = 82.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
 text = "Retry"
@@ -342,9 +342,9 @@ normal_style = ExtResource( 8 )
 hover_style = SubResource( 2 )
 
 [node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 548.0
-margin_right = 659.0
-margin_bottom = 50.0
+margin_left = 857.0
+margin_right = 985.0
+margin_bottom = 82.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
 text = "Share"
@@ -358,9 +358,9 @@ normal_style = ExtResource( 8 )
 hover_style = SubResource( 2 )
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 663.0
-margin_right = 756.0
-margin_bottom = 50.0
+margin_left = 989.0
+margin_right = 1102.0
+margin_bottom = 82.0
 custom_styles/normal = ExtResource( 8 )
 custom_fonts/font = ExtResource( 1 )
 text = "Return"
@@ -374,10 +374,10 @@ hover_style = SubResource( 2 )
 
 [node name="RatingPopup" type="Popup" parent="."]
 visible = true
-margin_left = 318.921
-margin_top = 234.828
-margin_right = 917.921
-margin_bottom = 410.828
+margin_left = 319.0
+margin_top = 235.0
+margin_right = 1069.0
+margin_bottom = 411.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -404,7 +404,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="RatingPopup/Panel/MarginContainer"]
 margin_left = 10.0
 margin_top = 40.0
-margin_right = 589.0
+margin_right = 740.0
 margin_bottom = 166.0
 custom_constants/separation = 40
 __meta__ = {
@@ -412,49 +412,49 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
-margin_right = 579.0
-margin_bottom = 25.0
+margin_right = 730.0
+margin_bottom = 31.0
 text = "What did you think of the song you just played?"
 align = 1
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
-margin_top = 65.0
-margin_right = 579.0
-margin_bottom = 104.0
+margin_top = 71.0
+margin_right = 730.0
+margin_bottom = 116.0
 focus_mode = 2
 custom_constants/separation = 20
 alignment = 1
 script = ExtResource( 3 )
 
 [node name="UpvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 54.0
-margin_right = 92.0
-margin_bottom = 39.0
+margin_left = 81.0
+margin_right = 119.0
+margin_bottom = 45.0
 icon = ExtResource( 10 )
 align = 0
 script = ExtResource( 5 )
 
 [node name="DownvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 112.0
-margin_right = 150.0
-margin_bottom = 39.0
+margin_left = 139.0
+margin_right = 177.0
+margin_bottom = 45.0
 icon = ExtResource( 9 )
 align = 0
 script = ExtResource( 5 )
 
 [node name="NoOpinionButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 170.0
-margin_right = 292.0
-margin_bottom = 39.0
+margin_left = 197.0
+margin_right = 354.0
+margin_bottom = 45.0
 text = "No opinion"
 align = 0
 script = ExtResource( 5 )
 
 [node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 312.0
-margin_right = 524.0
-margin_bottom = 39.0
+margin_left = 374.0
+margin_right = 649.0
+margin_bottom = 45.0
 text = "Don't ask me again"
 align = 0
 script = ExtResource( 5 )

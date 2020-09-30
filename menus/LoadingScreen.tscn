@@ -58,7 +58,7 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="."]
-anchor_top = 0.714
+anchor_top = 0.674
 anchor_right = 1.0
 anchor_bottom = 0.714
 margin_bottom = 150.0
@@ -85,7 +85,7 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Panel2/Panel3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
+custom_constants/margin_right = 40
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
@@ -96,27 +96,27 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel2/Panel3/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 1260.0
-margin_bottom = 130.0
+margin_right = 1880.0
+margin_bottom = 173.0
 custom_constants/separation = 21
 
 [node name="TextureRect" type="TextureRect" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
-margin_right = 110.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 110, 0 )
+margin_right = 153.0
+margin_bottom = 153.0
+rect_min_size = Vector2( 153, 0 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
-margin_left = 131.0
-margin_right = 171.0
-margin_bottom = 110.0
+margin_left = 174.0
+margin_right = 225.0
+margin_bottom = 153.0
 custom_constants/separation = 0
 
 [node name="TitleLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 40.0
-margin_bottom = 21.0
+margin_right = 51.0
+margin_bottom = 27.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Title"
@@ -125,22 +125,22 @@ __meta__ = {
 }
 
 [node name="HSeparator" type="HSeparator" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 21.0
-margin_right = 40.0
-margin_bottom = 25.0
+margin_top = 27.0
+margin_right = 51.0
+margin_bottom = 31.0
 
 [node name="MetaLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 25.0
-margin_right = 40.0
-margin_bottom = 110.0
+margin_top = 31.0
+margin_right = 51.0
+margin_bottom = 153.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 2 )
 valign = 2
 
 [node name="LoadinguLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
-margin_left = 192.0
-margin_right = 1240.0
-margin_bottom = 110.0
+margin_left = 246.0
+margin_right = 1860.0
+margin_bottom = 153.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 2 )

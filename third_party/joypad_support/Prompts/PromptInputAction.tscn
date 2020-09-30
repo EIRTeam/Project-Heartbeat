@@ -5,7 +5,7 @@
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=4]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 17
 use_mipmaps = true
 use_filter = true
@@ -34,7 +34,7 @@ stretch_mode = 6
 margin_top = 38.0
 margin_right = 100.0
 margin_bottom = 61.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

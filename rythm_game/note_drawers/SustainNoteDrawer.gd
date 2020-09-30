@@ -59,6 +59,7 @@ func update_graphic_positions_and_scale(time: float):
 		var disappereance_time = note_data.end_time + (game.judge.get_target_window_msec())
 		var new_scale = (disappereance_time - time * 1000.0) / (game.judge.get_target_window_msec()) * game.get_note_scale()
 		note_graphic2.scale = Vector2(new_scale, new_scale)
+	
 
 func handle_input(event: InputEvent, time: float):
 	if event is InputEventAction:

@@ -10,6 +10,8 @@ const TRANSITION_DURATION = 0.25
 
 export(bool) var transitions_enabled = true
 
+const TRANSITION_TYPE = Tween.TRANS_QUAD
+
 func _ready():
 	add_child(tween)
 
@@ -31,9 +33,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	var target_position = Vector2(0.0, 0.0)
 	
 	if transitions_enabled and not force_hard_transition:
-		tween.interpolate_property(self, "modulate", starting_color, target_color, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.interpolate_property(self, "rect_scale", starting_scale, target_scale, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.interpolate_property(self, "rect_position", starting_position, target_position, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "modulate", starting_color, target_color, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "rect_scale", starting_scale, target_scale, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "rect_position", starting_position, target_position, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
 		tween.start()
 	else:
 		hide()
@@ -51,9 +53,9 @@ func _on_menu_exit(force_hard_transition = false):
 	
 	
 	if transitions_enabled and not force_hard_transition:
-		tween.interpolate_property(self, "modulate", starting_color, target_color, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.interpolate_property(self, "rect_scale", starting_scale, target_scale, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.interpolate_property(self, "rect_position", starting_position, target_position, TRANSITION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "modulate", starting_color, target_color, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "rect_scale", starting_scale, target_scale, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "rect_position", starting_position, target_position, TRANSITION_DURATION, TRANSITION_TYPE, Tween.EASE_IN_OUT)
 		tween.start()
 	else:
 		hide()

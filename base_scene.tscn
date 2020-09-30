@@ -33,18 +33,18 @@ __meta__ = {
 }
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer"]
-margin_top = 229.0
-margin_right = 1280.0
-margin_bottom = 429.0
+margin_top = 409.0
+margin_right = 1920.0
+margin_bottom = 609.0
 rect_min_size = Vector2( 0, 200 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
 [node name="StatusLabel" type="Label" parent="VBoxContainer"]
-margin_top = 444.0
-margin_right = 1280.0
-margin_bottom = 491.0
+margin_top = 624.0
+margin_right = 1920.0
+margin_bottom = 671.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Loadingu..."

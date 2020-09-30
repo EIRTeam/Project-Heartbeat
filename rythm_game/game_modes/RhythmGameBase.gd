@@ -351,17 +351,27 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if audio_stream_player.playing and (not editing or previewing):
-		# Obtain current time from ticks, offset by the time we began playing music.
-		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
-		time = time * audio_stream_player.pitch_scale
-		# Compensate for latency.
-		time -= time_delay
+		if OS.has_feature("naive_timing"):
+			var t = audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
+			t *= audio_stream_player.pitch_scale
+			if t > time:
+				time = t
+				time -= latency_compensation / 1000.0
+		else:
+			# Obtain current time from ticks, offset by the time we began playing music.
+			time = (OS.get_ticks_usec() - time_begin) / 1000000.0
+			time = time * audio_stream_player.pitch_scale
+			# Compensate for latency.
+			time -= time_delay
+	
+			# User entered compensation
+			time -= latency_compensation / 1000.0
+	
+			# May be below 0 (did not being yet).
+			time = max(0, time)
+		
 
-		# User entered compensation
-		time -= latency_compensation / 1000.0
-
-		# May be below 0 (did not being yet).
-		time = max(0, time)
+		
 		if not editing:
 			var end_time = audio_stream_player.stream.get_length() * 1000.0
 			if current_song.end_time > 0:

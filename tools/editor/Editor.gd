@@ -60,7 +60,6 @@ var contextual_menu = HBEditorContextualMenuControl.new()
 
 func set_bpm(value):
 	BPM_spinbox.value = value
-	print("SET BPM", value)
 	song_editor_settings.bpm = value
 func get_bpm():
 	return BPM_spinbox.value
@@ -92,7 +91,6 @@ func _ready():
 	OS.window_borderless = false
 	OS.window_fullscreen = false
 	OS.window_maximized = true
-	get_viewport()
 	timeline.editor = self
 	timeline.set_layers_offset(0)
 	

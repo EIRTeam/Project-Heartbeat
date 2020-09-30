@@ -1,10 +1,10 @@
 [gd_resource type="DynamicFont" load_steps=3 format=2]
 
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/orbitron-bold.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
 
 [resource]
-size = 19
+size = 25
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 5

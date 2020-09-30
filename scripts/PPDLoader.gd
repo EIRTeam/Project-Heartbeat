@@ -77,11 +77,10 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 			"type": type,
 			"end_time": end_time
 		}
-		if is_nan(time):
+		if is_nan(time) or note_data.end_time > 7587993123566621:
 			break
 
 		marks.append(note_data)
-		
 	# read EVD file
 
 
@@ -181,7 +180,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	while i < marks.size():
 		var note = marks[i]
 		var note_data : HBBaseNote
-		
 		var note_type = PPDNoteType.NORMAL
 		if evd_file.get_note_type_at_time(note.time) >= PPDNoteType.AC:
 			PPDButton2HBNoteType = PPDButtonsMapACFT

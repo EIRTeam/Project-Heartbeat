@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -31,7 +31,7 @@
 [ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=29]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=30]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
-[ext_resource path="res://rythm_game/game_modes/heartbeat/Panel.gd" type="Script" id=32]
+[ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=32]
 [ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
 
 [sub_resource type="DynamicFont" id=1]
@@ -180,7 +180,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="Shader" id=22]
+[sub_resource type="Shader" id=11]
 code = "shader_type canvas_item;
 
 uniform sampler2D bg: hint_albedo;
@@ -194,11 +194,11 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=23]
-shader = SubResource( 22 )
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
 shader_param/bg = ExtResource( 33 )
 
-[sub_resource type="StyleBoxFlat" id=24]
+[sub_resource type="StyleBoxFlat" id=13]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 corner_radius_bottom_right = 1024
@@ -207,7 +207,7 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=14]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 border_width_left = 2
@@ -222,7 +222,15 @@ shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="Shader" id=19]
+[sub_resource type="DynamicFont" id=15]
+size = 25
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 5
+font_data = ExtResource( 32 )
+fallback/0 = ExtResource( 2 )
+
+[sub_resource type="Shader" id=16]
 code = "shader_type canvas_item;
 
 void fragment() {
@@ -230,17 +238,17 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=20]
-shader = SubResource( 19 )
+[sub_resource type="ShaderMaterial" id=17]
+shader = SubResource( 16 )
 
-[sub_resource type="StyleBoxTexture" id=21]
+[sub_resource type="StyleBoxTexture" id=18]
 texture = ExtResource( 33 )
 region_rect = Rect2( 0, 0, 128, 128 )
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 modulate_color = Color( 1, 0, 0.772549, 1 )
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
 border_width_top = 2
 border_width_bottom = 2
@@ -248,7 +256,7 @@ border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=20]
 size = 20
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -257,14 +265,14 @@ use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=21]
 size = 15
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=22]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -272,7 +280,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=23]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -280,7 +288,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=24]
 length = 5.0
 step = 0.05
 tracks/0/type = "value"
@@ -334,7 +342,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=25]
 length = 3.0
 step = 0.05
 tracks/0/type = "value"
@@ -405,6 +413,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 10 )
 __meta__ = {
+"_edit_horizontal_guides_": [ 67.9876 ],
 "_edit_use_anchors_": false
 }
 
@@ -545,13 +554,13 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer"]
 margin_left = 5.0
-margin_right = 319.0
+margin_right = 376.0
 margin_bottom = 30.0
 
 [node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer/HBoxContainer"]
-margin_top = 5.0
-margin_right = 314.0
-margin_bottom = 25.0
+margin_top = 3.0
+margin_right = 371.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
 text = "(NT)Max Hold Bonus! +3300"
@@ -781,7 +790,7 @@ __meta__ = {
 
 [node name="TimeTextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
 margin_right = 128.0
-margin_bottom = 128.0
+margin_bottom = 151.0
 rect_min_size = Vector2( 120, 100 )
 max_value = 1.0
 step = 0.0
@@ -796,13 +805,13 @@ tint_progress = Color( 0.658824, 0.466667, 0.941176, 1 )
 [node name="VBoxContainer" type="Control" parent="Control/HBoxContainer"]
 show_behind_parent = true
 margin_left = 132.0
-margin_right = 890.0
-margin_bottom = 128.0
+margin_right = 1314.0
+margin_bottom = 151.0
 size_flags_horizontal = 3
 
 [node name="Panel2" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
 modulate = Color( 0.592157, 0.239216, 0.94902, 1 )
-material = SubResource( 23 )
+material = SubResource( 12 )
 anchor_left = -0.055
 anchor_top = 0.194
 anchor_right = 1.0
@@ -810,10 +819,10 @@ anchor_bottom = 1.0
 margin_top = 1.0
 margin_right = -3.0
 margin_bottom = -41.0
+rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 24 )
-script = ExtResource( 32 )
+custom_styles/panel = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -825,11 +834,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.902496
 margin_bottom = -39.0705
-rect_min_size = Vector2( 0, 65 )
+rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 11 )
-script = ExtResource( 32 )
+custom_styles/panel = SubResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -838,8 +846,9 @@ __meta__ = {
 anchor_left = 0.07
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.89093
-margin_right = -0.89093
+margin_left = -1.2907
+margin_right = -1.01001
+margin_bottom = 2.462
 rect_scale = Vector2( 1, 0.996064 )
 custom_constants/margin_top = 7
 custom_constants/margin_left = 0
@@ -850,8 +859,8 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
 margin_top = 7.0
-margin_right = 743.0
-margin_bottom = 58.0
+margin_right = 1160.0
+margin_bottom = 79.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
 alignment = 1
@@ -860,8 +869,8 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_right = 743.0
-margin_bottom = 25.0
+margin_right = 1160.0
+margin_bottom = 38.0
 size_flags_vertical = 3
 custom_constants/separation = 15
 __meta__ = {
@@ -869,12 +878,12 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_bottom = 25.0
+margin_bottom = 38.0
 custom_constants/margin_top = 3
 
 [node name="CircleImage" type="TextureRect" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
 margin_top = 3.0
-margin_bottom = 25.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
@@ -885,8 +894,8 @@ __meta__ = {
 
 [node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 15.0
-margin_right = 160.0
-margin_bottom = 25.0
+margin_right = 229.0
+margin_bottom = 38.0
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 11 )
 text = "(NT)NOSONG"
@@ -894,26 +903,28 @@ valign = 1
 uppercase = true
 
 [node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 175.0
-margin_right = 318.0
-margin_bottom = 25.0
+margin_left = 244.0
+margin_top = 1.0
+margin_right = 456.0
+margin_bottom = 37.0
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 3 )
 text = "(NT)LOADED"
 valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_top = 25.0
-margin_right = 743.0
-margin_bottom = 51.0
+margin_top = 38.0
+margin_right = 1160.0
+margin_bottom = 72.0
 rect_clip_content = true
 size_flags_vertical = 3
 
 [node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 189.0
-margin_bottom = 25.0
+margin_top = 1.0
+margin_right = 237.0
+margin_bottom = 32.0
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = SubResource( 15 )
 text = "(NT)[DIFFICULTY]"
 valign = 1
 uppercase = true
@@ -922,23 +933,24 @@ __meta__ = {
 }
 
 [node name="ModifierLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 193.0
-margin_right = 296.0
-margin_bottom = 25.0
+margin_left = 241.0
+margin_top = 1.0
+margin_right = 377.0
+margin_bottom = 32.0
 text = "Nightcore"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer"]
-margin_left = 894.0
-margin_right = 1274.0
-margin_bottom = 128.0
+margin_left = 1318.0
+margin_right = 1910.0
+margin_bottom = 151.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 alignment = 2
 
 [node name="Label" type="Label" parent="Control/HBoxContainer/HBoxContainer"]
-margin_right = 380.0
-margin_bottom = 128.0
+margin_right = 592.0
+margin_bottom = 151.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 8 )
@@ -948,11 +960,11 @@ valign = 1
 script = ExtResource( 9 )
 
 [node name="Panel" type="Panel" parent="Control"]
-material = SubResource( 20 )
+material = SubResource( 17 )
 anchor_top = 0.842
 anchor_right = 1.0
 anchor_bottom = 0.928
-custom_styles/panel = SubResource( 21 )
+custom_styles/panel = SubResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -962,7 +974,7 @@ anchor_top = 0.924
 anchor_right = 1.0
 anchor_bottom = 0.924
 rect_min_size = Vector2( 0, 32 )
-custom_styles/panel = SubResource( 12 )
+custom_styles/panel = SubResource( 19 )
 script = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -973,7 +985,7 @@ CLEAR_COLOR = Color( 0.662745, 0.0509804, 0.364706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 1.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 20 )
 text = "(NT)0.00 %"
 align = 1
 valign = 1
@@ -986,7 +998,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -20.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 21 )
 text = "Too Late! +100ms"
 align = 1
 script = ExtResource( 25 )
@@ -1017,7 +1029,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -123.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 22 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER AVAILABLE!"
@@ -1037,7 +1049,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -124.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER!!!"
@@ -1047,8 +1059,8 @@ __meta__ = {
 }
 
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 17 )
-anims/HeartPowerEnabled = SubResource( 18 )
+anims/HeartPowerAvailable = SubResource( 24 )
+anims/HeartPowerEnabled = SubResource( 25 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 20 )

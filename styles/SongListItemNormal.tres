@@ -2,10 +2,10 @@
 
 [resource]
 bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 5
-border_width_bottom = 3
+border_width_left = 6
+border_width_top = 6
+border_width_right = 8
+border_width_bottom = 6
 border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
 corner_radius_top_left = 5
 corner_radius_top_right = 1024

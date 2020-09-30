@@ -24,7 +24,7 @@ extra_spacing_top = 7
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 17
+size = 25
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 5
@@ -50,25 +50,25 @@ __meta__ = {
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 40.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
 alignment = 2
 
 [node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 1276.0
+margin_right = 1916.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 script = ExtResource( 12 )
 font = SubResource( 1 )
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 1280.0
-margin_right = 1280.0
+margin_left = 1920.0
+margin_right = 1920.0
 margin_bottom = 40.0
 custom_constants/separation = 10
 alignment = 2
@@ -78,16 +78,16 @@ stop_hover_on_focus_exit = false
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 show_behind_parent = true
 margin_top = 45.0
-margin_right = 1280.0
-margin_bottom = 661.0
+margin_right = 1920.0
+margin_bottom = 1019.0
 size_flags_vertical = 3
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
-margin_right = 1280.0
-margin_bottom = 616.0
+margin_right = 1920.0
+margin_bottom = 974.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 10 )
@@ -96,21 +96,21 @@ items_visible_top = 3
 fixed_scale_factor = true
 
 [node name="Prompts" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 666.0
-margin_right = 1280.0
-margin_bottom = 706.0
+margin_top = 1024.0
+margin_right = 1920.0
+margin_bottom = 1064.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_stretch_ratio = 1.25
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -118,10 +118,10 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 237.0
-margin_right = 337.0
+margin_left = 500.0
+margin_right = 615.017
 margin_bottom = 40.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 115.017, 0 )
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel"]
@@ -139,7 +139,7 @@ input_action = "note_up"
 
 [node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel/HBoxContainer"]
 margin_left = 44.0
-margin_right = 86.0
+margin_right = 105.0
 margin_bottom = 40.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -148,10 +148,10 @@ align = 1
 valign = 1
 
 [node name="Panel2" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 347.0
-margin_right = 487.0
+margin_left = 625.0
+margin_right = 782.255
 margin_bottom = 40.0
-rect_min_size = Vector2( 140, 0 )
+rect_min_size = Vector2( 157.255, 0 )
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2"]
@@ -169,7 +169,7 @@ input_action = "contextual_option"
 
 [node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2/HBoxContainer"]
 margin_left = 44.0
-margin_right = 116.0
+margin_right = 148.0
 margin_bottom = 40.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -178,10 +178,10 @@ align = 1
 valign = 1
 
 [node name="Panel5" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 497.0
-margin_right = 637.0
+margin_left = 792.0
+margin_right = 954.701
 margin_bottom = 40.0
-rect_min_size = Vector2( 140, 0 )
+rect_min_size = Vector2( 162.701, 0 )
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5"]
@@ -199,7 +199,7 @@ input_action = "contextual_option"
 
 [node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5/HBoxContainer"]
 margin_left = 44.0
-margin_right = 120.0
+margin_right = 152.0
 margin_bottom = 40.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -208,10 +208,10 @@ align = 1
 valign = 1
 
 [node name="Panel6" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 647.0
-margin_right = 787.0
+margin_left = 964.0
+margin_right = 1132.6
 margin_bottom = 40.0
-rect_min_size = Vector2( 140, 0 )
+rect_min_size = Vector2( 168.6, 0 )
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6"]
@@ -229,7 +229,7 @@ input_action = "contextual_option"
 
 [node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6/HBoxContainer"]
 margin_left = 44.0
-margin_right = 124.0
+margin_right = 160.0
 margin_bottom = 40.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -238,10 +238,10 @@ align = 1
 valign = 1
 
 [node name="Panel3" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 797.0
-margin_right = 922.0
+margin_left = 1142.0
+margin_right = 1286.56
 margin_bottom = 40.0
-rect_min_size = Vector2( 125, 0 )
+rect_min_size = Vector2( 144.563, 0 )
 custom_styles/panel = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3"]
@@ -259,7 +259,7 @@ input_action = "gui_accept"
 
 [node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3/HBoxContainer"]
 margin_left = 44.0
-margin_right = 106.0
+margin_right = 134.0
 margin_bottom = 40.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -268,10 +268,12 @@ align = 1
 valign = 1
 
 [node name="Panel4" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 932.0
-margin_right = 1042.0
+margin_left = 1296.0
+margin_right = 1419.71
+rect_min_size = Vector2( 123.711, 0 )
 
 [node name="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 115.0
 custom_fonts/font = SubResource( 2 )
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]

@@ -83,6 +83,7 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 		progress_indicator.max_value = song.start_time / 1000.0
 	else:
 		progress_indicator.max_value = game.audio_stream_player.stream.get_length()
+	circle_margin_container.hide()
 	if not assets:
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()
 		if circle_logo_path:
@@ -94,7 +95,12 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 			_on_size_changed()
 		else:
 			circle_margin_container.hide()
-			
+	else:
+		if "circle_logo" in assets:
+			if assets.circle_logo:
+				circle_margin_container.show()
+				circle_text_rect.texture = assets.circle_logo
+				_on_size_changed()
 	song_name_label.text = song.get_visible_title()
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias

@@ -57,6 +57,10 @@ __meta__ = {
 }
 
 [node name="PerSongSettingsEditor" parent="." instance=ExtResource( 3 )]
+margin_left = -636.5
+margin_top = -358.0
+margin_right = 636.5
+margin_bottom = 358.0
 [connection signal="quit" from="ViewportContainer/Viewport/Spatial" to="." method="_on_quit"]
 [connection signal="restart" from="ViewportContainer/Viewport/Spatial" to="." method="_on_restart"]
 [connection signal="resumed" from="ViewportContainer/Viewport/Spatial" to="." method="emit_signal" binds= [ "resumed" ]]

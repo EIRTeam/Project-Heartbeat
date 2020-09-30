@@ -51,7 +51,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.399 )
 fov = 47.0
 
 [node name="ViewportLeft" type="Viewport" parent="."]
-size = Vector2( 1280, 720 )
+size = Vector2( 1920, 1080 )
 transparent_bg = true
 render_target_v_flip = true
 
@@ -65,7 +65,7 @@ render_target_v_flip = true
 [node name="Panel" parent="ViewportRight" instance=ExtResource( 2 )]
 
 [node name="AreaLeft" type="Area" parent="."]
-transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.344894, 0, -0.051738 )
+transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.410275, -0.0357335, -0.0632664 )
 script = ExtResource( 1 )
 viewport_path = NodePath("../ViewportLeft")
 
@@ -79,7 +79,7 @@ script = ExtResource( 6 )
 shape = SubResource( 4 )
 
 [node name="AreaRight" type="Area" parent="."]
-transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.345379, 0, 0.235593 )
+transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.218914, -0.0753061, 0.201707 )
 script = ExtResource( 1 )
 viewport_path = NodePath("../ViewportRight")
 

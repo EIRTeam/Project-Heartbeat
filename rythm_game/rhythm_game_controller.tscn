@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=1]
 [ext_resource path="res://rythm_game/rhythm_game_controller.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://sounds/sfx/flashback.wav" type="AudioStream" id=6]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://graphics/icons/fast-forward.svg" type="Texture" id=8]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -200,6 +201,8 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0
+custom_fonts/font = ExtResource( 9 )
+text = "asdsadsad"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -240,18 +243,18 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="RollbackLabel/VBoxContainer"]
-margin_top = 310.0
-margin_right = 1280.0
-margin_bottom = 357.0
+margin_top = 490.0
+margin_right = 1920.0
+margin_bottom = 537.0
 custom_fonts/font = ExtResource( 7 )
 text = "Rolling back!"
 align = 1
 valign = 1
 
 [node name="TextureRect" type="TextureRect" parent="RollbackLabel/VBoxContainer"]
-margin_top = 361.0
-margin_right = 1280.0
-margin_bottom = 409.0
+margin_top = 541.0
+margin_right = 1920.0
+margin_bottom = 589.0
 texture = ExtResource( 8 )
 stretch_mode = 6
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]

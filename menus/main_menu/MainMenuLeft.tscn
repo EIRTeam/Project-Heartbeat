@@ -31,7 +31,7 @@ func _on_ExitButton_pressed():
 "
 
 [sub_resource type="DynamicFont" id=2]
-size = 23
+size = 35
 use_filter = true
 font_data = ExtResource( 10 )
 
@@ -58,20 +58,20 @@ __meta__ = {
 anchor_bottom = 1.0
 margin_right = 435.0
 margin_bottom = 15.0
-custom_constants/separation = 15
+custom_constants/separation = 25
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 21.0
-margin_right = 435.0
-margin_bottom = 221.0
+margin_top = 179.0
+margin_right = 484.0
+margin_bottom = 379.0
 rect_min_size = Vector2( 0, 200 )
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/TextureRect"]
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 175.0
 rect_min_size = Vector2( 0, 175 )
 texture = ExtResource( 8 )
@@ -82,9 +82,9 @@ __meta__ = {
 }
 
 [node name="StartMenu" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 236.0
-margin_right = 435.0
-margin_bottom = 646.0
+margin_top = 404.0
+margin_right = 484.0
+margin_bottom = 814.0
 focus_mode = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -98,7 +98,7 @@ orientation = 1
 [node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 430, 60 )
 text = "Free Play"
@@ -110,7 +110,7 @@ next_menu = "song_list"
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 70.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 430, 60 )
 text = "Multiplayer"
@@ -120,7 +120,7 @@ next_menu = "lobby_list"
 [node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 140.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 430, 60 )
 text = "How to play"
@@ -139,12 +139,11 @@ rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Discord Server"
 icon = ExtResource( 14 )
-next_menu = ""
 
 [node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 210.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 270.0
 rect_min_size = Vector2( 430, 60 )
 text = "Options"
@@ -156,7 +155,7 @@ next_menu = "options_menu"
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 280.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 340.0
 rect_min_size = Vector2( 430, 60 )
 text = "Tools"
@@ -166,24 +165,23 @@ next_menu = "tools_menu"
 [node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 350.0
-margin_right = 435.0
+margin_right = 484.0
 margin_bottom = 410.0
 rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
-next_menu = ""
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 661.0
-margin_right = 435.0
-margin_bottom = 713.0
+margin_top = 839.0
+margin_right = 484.0
+margin_bottom = 915.0
 custom_constants/margin_left = 28
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
 margin_left = 28.0
-margin_right = 435.0
-margin_bottom = 52.0
+margin_right = 484.0
+margin_bottom = 76.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -192,43 +190,43 @@ __meta__ = {
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" groups=[
 "nodemo",
 ]]
-margin_right = 407.0
-margin_bottom = 24.0
+margin_right = 456.0
+margin_bottom = 36.0
 custom_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 0 )
+margin_right = 50.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 50, 0 )
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 36.0
-margin_right = 297.0
-margin_bottom = 24.0
+margin_left = 62.0
+margin_right = 456.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 2 )
 text = "discord.gg/qGMdbez"
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 28.0
-margin_right = 407.0
-margin_bottom = 52.0
+margin_top = 40.0
+margin_right = 456.0
+margin_bottom = 76.0
 custom_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 0 )
+margin_right = 50.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 50, 0 )
 texture = ExtResource( 11 )
 expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_left = 36.0
-margin_right = 276.0
-margin_bottom = 24.0
+margin_left = 62.0
+margin_right = 425.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 2 )
 text = "@PHeartbeatGame"
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]

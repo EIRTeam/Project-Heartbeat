@@ -120,18 +120,18 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 margin_left = 100.0
 margin_top = 100.0
-margin_right = 1180.0
-margin_bottom = 620.0
+margin_right = 1820.0
+margin_bottom = 980.0
 custom_constants/separation = 100
 
 [node name="ContainerLeft" type="Control" parent="MarginContainer/HBoxContainer"]
-margin_right = 725.0
-margin_bottom = 520.0
+margin_right = 1200.0
+margin_bottom = 880.0
 size_flags_horizontal = 3
 
 [node name="ContainerRight" type="Control" parent="MarginContainer/HBoxContainer"]
-margin_left = 825.0
-margin_right = 1080.0
-margin_bottom = 520.0
+margin_left = 1300.0
+margin_right = 1720.0
+margin_bottom = 880.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35

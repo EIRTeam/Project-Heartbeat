@@ -26,6 +26,7 @@ func set_note_data(val):
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()
+	effect.scale = get_note_graphic().scale
 	game.game_ui.get_notes_node().add_child(effect)
 	effect.position = game.remap_coords(note_data.position)
 func set_note_master(val):

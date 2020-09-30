@@ -79,7 +79,11 @@ func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 		if assets[asset_name] is Image:
 			var image = assets[asset_name] as Image
 			var tex = ImageTexture.new()
-			tex.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
+			if OS.has_feature("switch"):
+				tex.create_from_image(image, 0)
+			else:
+				tex.create_from_image(image, ImageTexture.FLAGS_DEFAULT)
+				
 			# Keep the bloody reference or else this breaks
 			images.append(image)
 			assets[asset_name] = tex

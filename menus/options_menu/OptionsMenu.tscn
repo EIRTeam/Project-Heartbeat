@@ -13,7 +13,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_bottom = 720.0
+margin_bottom = 1080.0
 focus_mode = 2
 script = ExtResource( 1 )
 stop_hover_on_focus_exit = false
@@ -21,8 +21,8 @@ orientation = 1
 
 [node name="Panel" type="Control" parent="."]
 margin_left = 4.0
-margin_right = 1280.0
-margin_bottom = 720.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 size_flags_horizontal = 3
 
 [node name="Content" type="MarginContainer" parent="Panel"]
