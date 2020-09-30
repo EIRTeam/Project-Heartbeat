@@ -27,4 +27,7 @@ func load_song_meta_from_folder(path: String, id: String):
 	return null
 	
 func caching_enabled():
-	return true
+	if OS.has_feature("switch"):
+		return false
+	else:
+		return true

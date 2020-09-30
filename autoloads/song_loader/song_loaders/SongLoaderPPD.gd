@@ -4,12 +4,16 @@ extends SongLoaderImpl
 class_name SongLoaderPPD
 
 const LOG_NAME = "SongLoaderPPD"
-const PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
+var PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
 
 var ppd_youtube_url_list = {}
 
 func _init_loader():
 	var dir := Directory.new()
+	
+	if OS.has_feature("switch"):
+		PPD_YOUTUBE_URL_LIST_PATH = "sdmc:/switch/ppd_youtube.json"
+		
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
 
@@ -82,4 +86,7 @@ func set_ppd_youtube_url(song: HBSong, url: String):
 		save_ppd_youtube_url_list()
 
 func caching_enabled():
-	return true
+	if OS.has_feature("switch"):
+		return false
+	else:
+		return true

@@ -89,6 +89,8 @@ func load_songs_from_path(path):
 								else:
 									song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
 									SongDataCache.update_cache_for_song(song_meta)
+							else:
+								song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
 							if song_meta:
 								value[dir_name] = song_meta
 							song_found = true

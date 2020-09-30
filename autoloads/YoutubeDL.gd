@@ -2,8 +2,8 @@ extends Node
 
 const LOG_NAME = "YoutubeDL"
 
-const YOUTUBE_DL_DIR = "user://youtube_dl"
-const CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
+var YOUTUBE_DL_DIR = "user://youtube_dl"
+var CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
 const VIDEO_EXT = "webm"
 const AUDIO_EXT = "ogg"
 enum YOUTUBE_DL_STATUS {
@@ -79,6 +79,9 @@ func get_cache_dir():
 func _ready():
 	pass
 func _init_ytdl():
+	if OS.has_feature("switch"):
+		YOUTUBE_DL_DIR = "sdmc:/switch/youtube_dl"
+		CACHE_FILE = "sdmc:/switch/youtube_dl/cache/yt_cache.json"
 	var dir = Directory.new()
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)
@@ -90,6 +93,7 @@ func _init_ytdl():
 		var json = JSON.parse(file.get_as_text()) as JSONParseResult
 		if json.error == OK:
 			cache_meta = json.result
+			print("CACH", cache_meta)
 		else:
 			Log.log(self, "Error loading cache meta: " + str(json.error))
 	if OS.get_name() == "X11":

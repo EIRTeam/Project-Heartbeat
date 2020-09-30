@@ -27,6 +27,12 @@ func _game_init():
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	#SongLoader.add_song_loader("aft", preload("res://autoloads/song_loader/song_loaders/SongLoaderDIVA.gd").new())
 	
+	if OS.has_feature("switch"):
+		UserSettings.user_settings.button_prompt_override = "nintendo"
+		UserSettings.set_joypad_prompts()
+		Input.set_use_accumulated_input(false)
+		UserSettings.user_settings.content_path = "sdmc:/switch"
+	
 	SongLoader.load_all_songs_async()
 	
 	YoutubeDL._init_ytdl()
@@ -35,8 +41,9 @@ func _game_init():
 	UserSettings._init_user_settings()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
-	if not OS.has_feature("mobile"):
+	if not OS.has_feature("mobile") or OS.has_feature("switch"):
 		MobileControls.get_child(0).hide()
+
 	if OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresence.new()
 	else:

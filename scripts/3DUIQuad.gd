@@ -81,17 +81,12 @@ func _on_area_input_event(_camera, event, click_pos, _click_normal, _shape_idx):
 
 # Scales viewport size to get higher res on higher res windows (duh)
 func set_viewport_size():
-	var base_width = base_viewport_size.x
-	var base_height = base_viewport_size.y
-	var aspect_ratio = float(base_width)/float(base_height)
-	var size = Vector2(OS.window_size.y * aspect_ratio, OS.window_size.y)
-	viewport.size = size
-	viewport.size = size
-
+	pass
 
 func _ready():
 	viewport = get_node(viewport_path)
 	base_viewport_size = viewport.size
+	
 	set_viewport_size()
 	connect("input_event", self, "_on_area_input_event")
 	get_viewport().connect("size_changed", self, "set_viewport_size")
