@@ -16,7 +16,7 @@ var load_mutex = Mutex.new()
 
 const LOG_NAME = "BackgroundSongAssetsLoader.gd"
 
-
+var force_abort = false
 
 func _load_song_assets_thread(userdata):
 	var song := SongLoader.songs[userdata.song_id] as HBSong
@@ -61,6 +61,7 @@ func _load_song_assets_thread(userdata):
 			# Current song changed, abort
 			_current_song_mutex.lock()
 			if current_song.id != userdata.song_id:
+				_current_song_mutex.lock()
 				call_deferred("_song_asset_loading_aborted", userdata.thread)
 				_current_song_mutex.unlock()
 				return
@@ -73,16 +74,39 @@ func _load_song_assets_thread(userdata):
 				var audio_to_normalize = loaded_assets["audio"]
 				if original_audio:
 					audio_to_normalize = original_audio
-					loaded_assets["audio_loudness"] = audio_normalizer.get_loudness_for_stream(audio_to_normalize)
+					audio_normalizer.set_target_ogg(audio_to_normalize)
+					var prev = OS.get_ticks_msec()
+					while not audio_normalizer.work_on_normalization():
+						if enable_abort:
+							_current_song_mutex.lock()
+							if current_song.id != userdata.song_id or force_abort:
+								print("ABORTED!" , force_abort)
+								force_abort = false
+								_current_song_mutex.unlock()
+								return
+							_current_song_mutex.unlock()
+					print("TOOK %d msec" % [OS.get_ticks_msec() - prev])
+					loaded_assets["audio_loudness"] = audio_normalizer.get_normalization_result()
 	if enable_abort:
 		# Current song changed, abort
 		_current_song_mutex.lock()
-		if current_song.id != userdata.song_id:
+		if current_song.id != userdata.song_id or force_abort:
+			force_abort = false
 			call_deferred("_song_asset_loading_aborted", userdata.thread)
 			_current_song_mutex.unlock()
 			return
 		_current_song_mutex.unlock()
 	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
+	
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		force_abort_current_loading()
+		print("ABORTING DUE TO TREE EXIT")
+	
+func force_abort_current_loading():
+	_current_song_mutex.lock()
+	current_song = HBSong.new()
+	_current_song_mutex.unlock()
 	
 func _song_asset_loading_aborted(thread: Thread):
 	thread.wait_to_finish()

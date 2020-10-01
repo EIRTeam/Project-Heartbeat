@@ -12,9 +12,17 @@ func _init():
 static func get_offset_from_loudness(loudness: float) -> float:
 	return TARGET_VOLUME - loudness
 
-func get_loudness_for_stream(stream: AudioStreamOGGVorbis) -> float:
+func set_target_ogg(stream: AudioStreamOGGVorbis):
 	if normalizer:
-		var loudness = normalizer.get_loudness_gobal(stream.data)
-		return loudness
+		normalizer.set_target_ogg(stream.data)
+
+func work_on_normalization() -> bool:
+	if normalizer:
+		return normalizer.work_on_normalization()
+	else:
+		return true
+func get_normalization_result():
+	if normalizer:
+		return normalizer.get_normalization_result()
 	else:
 		return TARGET_VOLUME

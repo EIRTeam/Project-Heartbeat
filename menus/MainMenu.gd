@@ -98,6 +98,7 @@ func _ready():
 	MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
 	MENUS["results"].left.connect("show_song_results_mp", MENUS["leaderboard"].right.get_leadearboard_control(), "set_entries")
 	MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
+	MENUS["pre_game"].left.connect("begin_loading", self, "_on_loading_begun")
 	player.connect("song_started", self, "_on_song_started")
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
@@ -106,6 +107,9 @@ func _ready():
 	menu_setup()
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
+func _on_loading_begun():
+	print("ATTEMPTING ABORT...")
+	MENUS.music_player.right.background_song_assets_loader.force_abort_current_loading()
 
 func menu_setup():
 	pass

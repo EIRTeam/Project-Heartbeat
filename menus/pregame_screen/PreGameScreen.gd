@@ -17,6 +17,7 @@ var current_editing_modifier: String
 const BASE_HEIGHT = 720.0
 
 signal song_selected(song_id, difficulty)
+signal begin_loading
 var game_info = HBGameInfo.new()
 
 var modifier_buttons = {}
@@ -117,6 +118,7 @@ func _on_StartButton_pressed():
 		get_tree().current_scene = scene
 		game_info.song_id = current_song.id
 		game_info.difficulty = current_difficulty
+		emit_signal("begin_loading")
 		scene.load_song(game_info, false, current_assets)
 
 func add_modifier_control(modifier_id: String):
@@ -231,4 +233,5 @@ func _on_StartPractice_pressed():
 		get_tree().current_scene = scene
 		game_info.song_id = current_song.id
 		game_info.difficulty = current_difficulty
+		emit_signal("begin_loading")
 		scene.load_song(game_info, true, current_assets)
