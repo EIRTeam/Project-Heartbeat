@@ -1,9 +1,6 @@
 [submodule "addons/native/ProjectHeartbeatDiscord"]
 	path = addons/native/ProjectHeartbeatDiscord
 	url = https://github.com/EIRTeam/ProjectHeartbeatDiscord.git
-[submodule "addons/native/godot_ebur128"]
-	path = addons/native/godot_ebur128
-	url = https://github.com/EIRTeam/godot_ebur128.git
-[submodule "addons/native/--force"]
-	path = addons/native/--force
+[submodule "addons/native/audio_utils"]
+	path = addons/native/audio_utils
 	url = https://github.com/EIRTeam/godot_ebur128.git
