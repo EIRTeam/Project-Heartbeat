@@ -1,7 +1,0 @@
-[gd_resource type="GDNativeLibrary" format=2]
-
-[resource]
-entry/Windows.64 = "res://addons/ebur128/bin/godot_ebur128.dll"
-entry/X11.64 = "res://addons/ebur128/bin/libgodot_ebur128.so"
-dependency/Windows.64 = [  ]
-dependency/X11.64 = [  ]

@@ -8,7 +8,7 @@ const MINOR = 7
 const PATCH = 0
 
 const status = "Early Access"
-const ver_name = "Project Heartbeat: Sands of Time"
+const ver_name = "Project Heartbeat: Lovely Gothic Girl Rehab"
 
 static func get_version_string():
 	var result = "{ver_name} - {status} ({video_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - ({user_id}, {friendly_username})"

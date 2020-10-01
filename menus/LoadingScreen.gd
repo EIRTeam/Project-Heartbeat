@@ -10,6 +10,8 @@ onready var loadingu_label = get_node("Panel2/Panel3/MarginContainer/HBoxContain
 onready var album_cover = get_node("Panel2/Panel3/MarginContainer/HBoxContainer/TextureRect")
 var appear_tween := Tween.new()
 var base_assets
+const DEFAULT_PREVIEW_TEXTURE = preload("res://graphics/no_preview_texture.png")
+const DEFAULT_BG = preload("res://graphics/predarkenedbg.png")
 func _ready():
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	add_child(appear_tween)
@@ -22,10 +24,16 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	current_diff = game_info.difficulty
 	var song: HBSong = new_game_info.get_song()
 	is_loading_practice_mode = practice
-	background_song_assets_loader.load_song_assets(song, ["audio", "voice", "audio_loudness"])
-	$TextureRect.texture = assets.background
-	album_cover.texture = assets.preview
-	title_label.text = song.title
+	background_song_assets_loader.load_song_assets(song, ["audio", "voice", "audio_loudness", "__game_request"])
+	if "background" in assets:
+		$TextureRect.texture = assets.background
+	else:
+		$TextureRect.texture = DEFAULT_BG
+	if "preview" in assets:
+		album_cover.texture = assets.preview
+	else:
+		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
+	title_label.text = song.get_visible_title()
 	meta_label.text = PoolStringArray(song.get_meta_string()).join('\n')
 func _on_song_assets_loaded(song, assets):
 	var new_scene

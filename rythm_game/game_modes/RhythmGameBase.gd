@@ -149,8 +149,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		if "audio_loudness" in assets:
 			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 		audio_stream_player.stream = assets.audio
-		if song.voice:
-			audio_stream_player_voice.stream = assets.voice
+		if "voice" in assets:
+			if assets.voice is AudioStream:
+				audio_stream_player_voice.stream = assets.voice
 	else:
 		audio_stream_player.stream = song.get_audio_stream()
 		if song.voice:

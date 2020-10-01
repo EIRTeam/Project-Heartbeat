@@ -25,7 +25,19 @@ func _game_init():
 	SongDataCache.load_cache()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
-	#SongLoader.add_song_loader("aft", preload("res://autoloads/song_loader/song_loaders/SongLoaderDIVA.gd").new())
+	var args = OS.get_cmdline_args()
+	# --phplugin:dscloader:game_location=""
+	for i in range(args.size()):
+		if args[i].begins_with("--phplugin:dscloader:game_location"):
+			if args.size() > i+1:
+				var aft_location := args[i+1] as String
+				if aft_location.begins_with("\"") and aft_location.ends_with("\""):
+					aft_location = aft_location.substr(1, aft_location.length()-2)
+				var dsc_loader = preload("res://autoloads/song_loader/song_loaders/SongLoaderDSC.gd").new() as SongLoaderDSC
+				dsc_loader.GAME_LOCATION = aft_location
+				SongLoader.add_song_loader("dsc", dsc_loader)
+			else:
+				push_error("Argument game_location requires an input")
 	
 	if OS.has_feature("switch"):
 		UserSettings.user_settings.button_prompt_override = "nintendo"

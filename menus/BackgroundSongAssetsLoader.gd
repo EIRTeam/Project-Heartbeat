@@ -22,6 +22,7 @@ func _load_song_assets_thread(userdata):
 	var song := SongLoader.songs[userdata.song_id] as HBSong
 	var audio_normalizer := HBAudioNormalizer.new()
 	var loaded_assets = {}
+	var original_audio = null
 	for asset in userdata.requested_assets:
 		var loaded_asset
 		if asset == "audio_loudness":
@@ -36,6 +37,15 @@ func _load_song_assets_thread(userdata):
 			"audio":
 				if song.has_audio():
 					loaded_asset = song.get_audio_stream()
+					original_audio = loaded_asset
+					if "__game_request" in userdata.requested_assets:
+						if loaded_asset is AudioStreamOGGVorbis:
+							var channel_count = HBUtils.get_ogg_channel_count(song.get_song_audio_res_path())
+							if channel_count >= 4:
+								var audio_utils = HBAudioUtils.new()
+								audio_utils.split_audio(loaded_asset)
+								loaded_asset = audio_utils.get_split_instrumental()
+								loaded_assets["voice"] = audio_utils.get_split_voice()
 			"voice":
 				if song.voice:
 					loaded_asset = song.get_voice_stream()
@@ -45,7 +55,8 @@ func _load_song_assets_thread(userdata):
 			"circle_logo":
 				if song.circle_logo:
 					loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_logo_image_res_path())
-		loaded_assets[asset] = loaded_asset
+		if loaded_asset:
+			loaded_assets[asset] = loaded_asset
 		if enable_abort:
 			# Current song changed, abort
 			_current_song_mutex.lock()
@@ -56,9 +67,13 @@ func _load_song_assets_thread(userdata):
 			_current_song_mutex.unlock()
 #	OS.delay_msec(int(1 * 1000.0)) # Delay simulation
 	if "audio_loudness" in userdata.requested_assets:
+		loaded_assets["audio_loudness"] = 0.0
 		if "audio" in loaded_assets:
 			if loaded_assets.audio:
-				loaded_assets["audio_loudness"] = audio_normalizer.get_loudness_for_stream(loaded_assets["audio"])
+				var audio_to_normalize = loaded_assets["audio"]
+				if original_audio:
+					audio_to_normalize = original_audio
+					loaded_assets["audio_loudness"] = audio_normalizer.get_loudness_for_stream(audio_to_normalize)
 	if enable_abort:
 		# Current song changed, abort
 		_current_song_mutex.lock()

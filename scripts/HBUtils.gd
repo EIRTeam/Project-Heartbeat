@@ -86,6 +86,27 @@ enum OGG_ERRORS {
 	NOT_VORBIS
 }
 	
+static func get_ogg_channel_count(path: String) -> int:
+	var file = File.new()
+	var r = file.open(path, File.READ)
+	print("OPENING", path, r)
+	var _sectors = {}
+	_sectors["header"] = file.get_buffer(4)
+
+	_sectors["version"] = file.get_buffer(1)
+	_sectors["flags"] = file.get_buffer(1)
+	_sectors["granule"] = file.get_buffer(8)
+	_sectors["serial"] = file.get_buffer(4)
+	_sectors["sequence"] = file.get_buffer(4)
+	_sectors["checksum"] = file.get_buffer(4)
+	_sectors["segment_count"] = file.get_8()
+	_sectors["segment_table"] = file.get_buffer(_sectors.segment_count)
+	_sectors["packet_type"] = file.get_buffer(1)
+	_sectors["vorbis_magic"] = file.get_buffer(6)
+	_sectors["vorbis_version"] = file.get_buffer(4)
+	_sectors["audio_channels"] = file.get_8()
+	print("CHANNELS! ", _sectors["audio_channels"])
+	return _sectors["audio_channels"]
 # Verifies if an OGG
 static func verify_ogg(path: String):
 	var file = File.new()
@@ -102,7 +123,9 @@ static func verify_ogg(path: String):
 	_sectors["segment_count"] = file.get_8()
 	_sectors["segment_table"] = file.get_buffer(_sectors.segment_count)
 	_sectors["packet_type"] = file.get_buffer(1)
-	_sectors["vorbis_magic"] = file.get_buffer(7)
+	_sectors["vorbis_magic"] = file.get_buffer(6)
+	_sectors["vorbis_version"] = file.get_buffer(32)
+	_sectors["audio_channels"] = file.get_8()
 	
 	var error = OGG_ERRORS.OK
 	

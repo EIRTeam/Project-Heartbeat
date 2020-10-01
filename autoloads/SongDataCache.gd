@@ -2,7 +2,7 @@ extends Node
 
 const CACHE_PATH = "user://cache.hbdict"
 var timer = Timer.new()
-
+const LOG_NAME = "SongDataCache"
 func _ready():
 	timer.wait_time = 0.5
 	timer.connect("timeout", self, "_on_save_cache_timed_out")

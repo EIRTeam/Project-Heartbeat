@@ -1,0 +1,1078 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-09-30 14:49+0200\n"
+"PO-Revision-Date: 2020-09-30 14:55+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: menus\n"
+"X-Poedit-SearchPath-1: scripts\n"
+"X-Poedit-SearchPath-2: rythm_game\n"
+
+#: HBMenuChangeButton.tscn:20
+msgid "(NT)Rhythm Game"
+msgstr ""
+
+#: FolderManager.gd:36
+msgid "Add subfolder"
+msgstr "Afegir Subcarpeta"
+
+#: HBConfirmationWindow.tscn:72
+msgid "Are you sure you want to do this?"
+msgstr "Estàs segur de voler fer això?"
+
+#: FolderManager.tscn:102
+msgid "Close"
+msgstr "Tancar"
+
+#: FolderManager.gd:47
+msgid "Delete folder"
+msgstr "Eliminar Carpeta"
+
+#: FolderManager.tscn:139
+msgid "Do you want to delete this folder?"
+msgstr "Vols eliminar aquesta carpeta?"
+
+#: HBConfirmationWindow.tscn:109
+msgid "No"
+msgstr ""
+
+#: FolderManager.tscn:114
+msgid "Open"
+msgstr "Obrir"
+
+#: FolderManager.gd:41
+msgid "Rename folder"
+msgstr "Eliminar Carpeta"
+
+#: FolderManager.tscn:126 SongList.tscn:266
+msgid "Select"
+msgstr "Seleccionar"
+
+#: FolderManagerFolderButton.tscn:19 ModifierButton.tscn:52
+#: PreGameScreen.tscn:231
+msgid "Start"
+msgstr "Iniciar"
+
+#: HBConfirmationWindow.tscn:98
+msgid "Yes"
+msgstr "Si"
+
+#: HBTextInput.tscn:129
+msgid "Accept"
+msgstr "Acceptar"
+
+#: LoadingScreen.tscn:147
+msgid "Loadingu..."
+msgstr "Carregant..."
+
+#: ModifierSelector.tscn:107
+msgid "Makes everyone sound like anime girls, who would have thought?"
+msgstr "Fa que tothom soni com una noia d'anime, qui ho hauria pensat?"
+
+#: HBTextInput.tscn:94
+msgid "Please enter the folder's name:"
+msgstr "Per favor introdueix el nom de la carpeta:"
+
+#: LoadingScreen.tscn:122
+msgid "Title"
+msgstr "Títol"
+
+#: StartMenu.tscn:71
+msgid "(NT)On the wings of a dream"
+msgstr ""
+
+#: PromptPanel.tscn:36 PreGameScreen.tscn:261
+msgid "Back"
+msgstr "Enrere"
+
+#: StaffRoll.tscn:98
+msgid "Background Artists"
+msgstr ""
+
+#: StaffRoll.tscn:73
+msgid "Charting Team"
+msgstr ""
+
+#: PerSongSettingsEditor.gd:10 OptionsMenu.gd:10
+msgid "Latency compensation"
+msgstr ""
+
+#: StaffRoll.tscn:121
+msgid "Music provided by"
+msgstr ""
+
+#: StartMenu.tscn:81
+msgid "Press any key"
+msgstr "Prem qualsevol botó"
+
+#: PerSongSettingsEditor.gd:20
+msgid "Song volume"
+msgstr ""
+
+#: StaffRoll.tscn:139
+msgid "Thank you to the following people for keeping me alive:"
+msgstr ""
+
+#: PerSongSettingsEditor.gd:30
+msgid "Video enabled"
+msgstr ""
+
+#: SongTitle.gd:33 HeartbeatRhythmGameUI.gd:109
+msgid "[%s]"
+msgstr ""
+
+#: LeaderboardItem.gd:18
+msgid "%s (%.2f"
+msgstr ""
+
+#: IconTypePreview.tscn:73
+msgid "(NT)XBOX(TM)"
+msgstr ""
+
+#: DemoScreen.tscn:86 TutorialScreen.tscn:143
+msgid "1/6"
+msgstr ""
+
+#: MainMenuLeft.tscn:231
+msgid "@PHeartbeatGame"
+msgstr ""
+
+#: MainMenuLeft.tscn:140
+msgid "Discord Server"
+msgstr ""
+
+#: MainMenuLeft.tscn:172
+msgid "Exit"
+msgstr "Sortir"
+
+#: MainMenuLeft.tscn:104
+msgid "Free Play"
+msgstr "Joc Lliure"
+
+#: MainMenuLeft.tscn:126
+msgid "How to play"
+msgstr "Com Jugar"
+
+#: LeaderboardControl.tscn:61
+msgid "Leaderboard not available for this song"
+msgstr ""
+
+#: MainMenuLeft.tscn:116
+msgid "Multiplayer"
+msgstr "Multijugador"
+
+#: MainMenuLeft.tscn:149
+msgid "Options"
+msgstr "Opcions"
+
+#: MainMenuLeft.tscn:161
+msgid "Tools"
+msgstr "Eines"
+
+#: page1.tscn:29
+msgid "Welcome to Project Heartbeat"
+msgstr ""
+
+#: MainMenuLeft.tscn:210
+msgid "discord.gg/qGMdbez"
+msgstr ""
+
+#: OptionControlsSectionAction.tscn:33 OptionControlsSectionEvent.tscn:29
+msgid "(NT)Action Name"
+msgstr ""
+
+#: OptionBool.tscn:30 OptionCustomSoundSelect.tscn:46
+#: OptionCustomSoundSelect.tscn:63 OptionIconTypeSelect.tscn:47
+#: OptionSelect.tscn:33
+msgid "(NT)Boolean Option"
+msgstr ""
+
+#: OptionBool.tscn:54 OptionSelect.tscn:57
+msgid "(NT)Yes"
+msgstr ""
+
+#: OptionControlsSection.tscn:90
+msgid "Are you sure you want to reset all controls to default?"
+msgstr ""
+
+#: OptionCustomSoundSelect.gd:25 OptionSoundSelectDropdown.gd:19
+msgid "Default"
+msgstr ""
+
+#: OptionControlsSection.tscn:84 OptionContentDirsSection.tscn:74
+msgid "Press the Key/Button/Axis to bind"
+msgstr ""
+
+#: OptionControlsSectionReset.tscn:28
+msgid "Reset default settings"
+msgstr ""
+
+#: OptionMenuButton.tscn:15
+msgid "(NT)Controls"
+msgstr ""
+
+#: OptionSection.tscn:93
+msgid "(NT)description uwu"
+msgstr ""
+
+#: OptionContentDirsSection.tscn:113
+msgid "Alright"
+msgstr ""
+
+#: OptionsMenu.gd:19
+msgid "Analog deadzone"
+msgstr ""
+
+#: OptionContentDirsSection.tscn:105
+msgid "Are you sure you want to reset the content directory to the default?"
+msgstr ""
+
+#: OptionsMenu.gd:156
+msgid "Background dim"
+msgstr ""
+
+#: OptionsMenu.gd:115
+msgid ""
+"Built-in audio visualization effects, disabling this setting might yield a "
+"considerable performance boost on more modest systems."
+msgstr ""
+
+#: OptionsMenu.gd:141
+msgid "Button prompts"
+msgstr ""
+
+#: ContentDirControl.tscn:70
+msgid "Change"
+msgstr ""
+
+#: ContentDirControl.tscn:50
+msgid "Content "
+msgstr ""
+
+#: ContentDirControl.tscn:40
+msgid "Content directory"
+msgstr ""
+
+#: OptionsMenu.gd:95
+msgid "Desired Video FPS"
+msgstr ""
+
+#: OptionsMenu.gd:103
+msgid "Desired Video Resolution"
+msgstr ""
+
+#: OptionsMenu.gd:157
+msgid ""
+"Dims the background, a higher percentage will make it darker, note this also "
+"includes video background."
+msgstr ""
+
+#: OptionsMenu.gd:87
+msgid "Disable Video"
+msgstr ""
+
+#: OptionsMenu.gd:91
+msgid "Disable Video for PPD songs"
+msgstr ""
+
+#: OptionsMenu.gd:73
+msgid "Disable menu music"
+msgstr ""
+
+#: OptionsMenu.gd:92
+msgid ""
+"Disables video playback and download for PPD songs, might yield more "
+"performance on some systems."
+msgstr ""
+
+#: OptionsMenu.gd:88
+msgid ""
+"Disables video playback and download, might yield more performance on some "
+"systems."
+msgstr ""
+
+#: OptionsMenu.gd:83
+msgid "Enable VSync"
+msgstr ""
+
+#: OptionsMenu.gd:173
+msgid "Enable leading lines"
+msgstr ""
+
+#: OptionsMenu.gd:165
+msgid "Enable multi note indicator"
+msgstr ""
+
+#: OptionsMenu.gd:174
+msgid "Enables lines that show where the notes are going to go."
+msgstr ""
+
+#: OptionsMenu.gd:170
+msgid ""
+"Enables using clock arms instead of circles to show you when it's time to "
+"press a note."
+msgstr ""
+
+#: OptionsMenu.gd:124
+msgid "FPS Limit"
+msgstr ""
+
+#: OptionsMenu.gd:79
+msgid "Fullscreen"
+msgstr ""
+
+#: OptionsMenu.gd:43
+msgid "Global game volume"
+msgstr ""
+
+#: OptionsMenu.gd:119
+msgid ""
+"How many points of data the audio visualization effects use, lowering this "
+"setting might yield a considerable performance boost on more modest systems."
+msgstr ""
+
+#: OptionsMenu.gd:136
+msgid "Icons"
+msgstr ""
+
+#: OptionsMenu.gd:30
+msgid "Load all notes when song starts"
+msgstr ""
+
+#: OptionsMenu.gd:70
+msgid "Make the voice fade when missing a note (only on supported charts)."
+msgstr ""
+
+#: OptionsMenu.gd:31
+msgid ""
+"Makes the game pre-generate all notes before the song starts playing, this "
+"increases loadtimes but will increase performance once loaded."
+msgstr ""
+
+#: OptionsMenu.gd:42
+msgid "Master volume"
+msgstr ""
+
+#: OptionsMenu.gd:60
+msgid "Music volume"
+msgstr ""
+
+#: OptionsMenu.gd:148
+msgid "Note Size"
+msgstr ""
+
+#: OptionsMenu.gd:142
+msgid ""
+"Overrides the button prompts shown for your controller to the specified type."
+msgstr ""
+
+#: OptionsMenu.gd:6
+msgid "Poll for input more than once per frame"
+msgstr ""
+
+#: OptionContentDirsSection.gd:55
+msgid "Reload all songs"
+msgstr ""
+
+#: OptionContentDirsSection.tscn:93
+msgid "Reloading content..."
+msgstr ""
+
+#: OptionsMenu.gd:190
+msgid ""
+"Replaces all instances of the down icon of the selected icon pack with a "
+"down arrow."
+msgstr ""
+
+#: OptionsMenu.gd:178
+msgid ""
+"Replaces all instances of the left icon of the selected icon pack with a "
+"left arrow."
+msgstr ""
+
+#: OptionsMenu.gd:182
+msgid ""
+"Replaces all instances of the right icon of the selected icon pack with a "
+"right arrow."
+msgstr ""
+
+#: OptionsMenu.gd:186
+msgid ""
+"Replaces all instances of the up icon of the selected icon pack with a up "
+"arrow."
+msgstr ""
+
+#: OptionContentDirsSection.gd:50
+msgid "Reset content directory to default"
+msgstr ""
+
+#: OptionsMenu.gd:193
+msgid "Romanized titles"
+msgstr ""
+
+#: OptionContentDirsSection.tscn:100
+msgid ""
+"Selecting a new content directory requires using the mouse, would you like "
+"to continue?"
+msgstr ""
+
+#: OptionsMenu.gd:169
+msgid "Show clock arms"
+msgstr ""
+
+#: OptionsMenu.gd:26
+msgid "Show latency"
+msgstr ""
+
+#: OptionsMenu.gd:27
+msgid "Shows how late or how early you were when hitting notes."
+msgstr ""
+
+#: OptionsMenu.gd:194
+msgid "Shows romanized versions of foreign titles when available."
+msgstr ""
+
+#: OptionContentDirsSection.tscn:112
+msgid "Songs reloaded succesfully"
+msgstr ""
+
+#: OptionsMenu.gd:51
+msgid "Sound effects volume"
+msgstr ""
+
+#: OptionsMenu.gd:137
+msgid "Switches between available Icon-Sets."
+msgstr ""
+
+#: OptionsMenu.gd:96
+msgid "The desired video framerate for downloaded videos."
+msgstr ""
+
+#: OptionsMenu.gd:104
+msgid "The desired video resolution for downloaded videos."
+msgstr ""
+
+#: OptionsMenu.gd:189
+msgid "Use arrow instead of down icon"
+msgstr ""
+
+#: OptionsMenu.gd:177
+msgid "Use arrow instead of left icon"
+msgstr ""
+
+#: OptionsMenu.gd:181
+msgid "Use arrow instead of right icon"
+msgstr ""
+
+#: OptionsMenu.gd:185
+msgid "Use arrow instead of up icon"
+msgstr ""
+
+#: OptionsMenu.gd:110
+msgid "Use visualizer with video"
+msgstr ""
+
+#: OptionsMenu.gd:114
+msgid "Visualizer"
+msgstr ""
+
+#: OptionsMenu.gd:118
+msgid "Visualizer Resolution"
+msgstr ""
+
+#: OptionsMenu.gd:69
+msgid "Voice fade"
+msgstr ""
+
+#: OptionsMenu.gd:61
+msgid "Volume for the music"
+msgstr ""
+
+#: OptionsMenu.gd:52
+msgid "Volume for the sound effects"
+msgstr ""
+
+#: OptionsMenu.gd:84
+msgid ""
+"Waits for vertical synchronization to render frame, can reduce screen "
+"tearing but will introduce extra input lag."
+msgstr ""
+
+#: OptionsMenu.gd:111
+msgid "Whether or not the game should display the visualizer on top of videos."
+msgstr ""
+
+#: OptionsMenu.gd:80
+msgid ""
+"Whether or not the game should use all the available screen, this should "
+"have no difference in performance from windowed mode."
+msgstr ""
+
+#: OptionSoundSelectDropdown.tscn:56
+msgid "asdsadsadsad"
+msgstr ""
+
+#: SongListItemDifficulty.gd:34
+msgid " "
+msgstr ""
+
+#: SongListFolder.gd:27 SongListFolderBack.gd:27
+msgid "%d Song(s)"
+msgstr ""
+
+#: SongListItem.gd:45
+msgid "%s - %.2f"
+msgstr ""
+
+#: SongListItemDifficulty.gd:40
+msgid "%s - %.2f %% - %s"
+msgstr ""
+
+#: SongListPreview.gd:29
+msgid "%s BPM"
+msgstr ""
+
+#: SongListItem.tscn:112
+msgid "(NT)1"
+msgstr ""
+
+#: SongListFolder.tscn:96 SongListFolder.tscn:107
+msgid "(NT)Song Title"
+msgstr ""
+
+#: PreGameScreen.gd:185
+msgid "Add modifier"
+msgstr ""
+
+#: SongList.tscn:176
+msgid "Add to..."
+msgstr ""
+
+#: PreGameScreen.tscn:296
+msgid ""
+"Are you sure you want to change this song's video URL? this requires you use "
+"the mouse."
+msgstr ""
+
+#: SongListItemDifficulty.tscn:135 SongListItemDifficulty.tscn:144
+msgid "CHEAP - 100%"
+msgstr ""
+
+#: PreGameScreen.gd:180
+msgid "Change PPD video URL"
+msgstr ""
+
+#: SongListNewFolder.tscn:95
+msgid "Create new folder"
+msgstr ""
+
+#: SongListFolderBack.tscn:95
+msgid "Go back"
+msgstr ""
+
+#: SongList.tscn:206
+msgid "Manage"
+msgstr ""
+
+#: PreGameScreen.tscn:188
+msgid "Modifiers are not allowed in the leaderboard"
+msgstr ""
+
+#: PreGameScreen.gd:168
+msgid ""
+"Modifiers are not allowed in the leaderboards, thus this score won't count"
+msgstr ""
+
+#: SongList.tscn:236
+msgid "Remove"
+msgstr ""
+
+#: PreGameScreen.gd:172
+msgid "Song settings"
+msgstr ""
+
+#: SongList.tscn:146
+msgid "Sort"
+msgstr ""
+
+#: PreGameScreen.tscn:246
+msgid "Start Practice"
+msgstr ""
+
+#: PreGameScreen.gd:166
+msgid "The current song will count towards leaderboard scores"
+msgstr ""
+
+#: SongList.tscn:283
+msgid ""
+"The song you selected is a PPD song without an existing audio file, would "
+"you like to select one (from disk or YouTube)? This will require yo to use "
+"the mouse."
+msgstr ""
+
+#: PreGameScreen.gd:103
+msgid ""
+"Times Played: %d\n"
+"\n"
+"Highest score:\n"
+"%s"
+msgstr ""
+
+#: SongListItemDifficulty.gd:31
+msgid "x%.1f "
+msgstr ""
+
+#: SongListItemDifficulty.gd:33
+msgid "x%d "
+msgstr ""
+
+#: SongListItemDifficulty.tscn:126
+msgid "x10 "
+msgstr ""
+
+#: TutorialScreen.gd:32
+msgid "%d/%d"
+msgstr ""
+
+#: page2.tscn:28
+msgid "Default keyboard controls"
+msgstr ""
+
+#: Page5.tscn:30
+msgid "Double and sustain notes"
+msgstr ""
+
+#: Page5.tscn:71
+msgid ""
+"Double notes are notes that require you to press the same direction on two "
+"different buttons, for example by pressing the B/Circle button and right on "
+"the d-pad at the same time."
+msgstr ""
+
+#: Page6.tscn:29
+msgid "Heart notes"
+msgstr ""
+
+#: Page6.tscn:61
+msgid ""
+"Heart notes are notes that can be hit by tapping any direction on the "
+"joystick or hitting any slide button, double hearts also exist."
+msgstr ""
+
+#: Page4.tscn:82
+msgid ""
+"Hold notes are notes that give you extra points by holding them after you "
+"hit them,, if you manage to hold them for long enough you'll get a nice "
+"bonus!"
+msgstr ""
+
+#: page1.tscn:30
+msgid "How to play: Normal notes"
+msgstr ""
+
+#: Page5.tscn:82
+msgid ""
+"In order to hit sustain notes press the note when the first mark hits the "
+"target and release when the second one does."
+msgstr ""
+
+#: page3.tscn:30
+msgid "Multi notes"
+msgstr ""
+
+#: page3.tscn:84
+msgid ""
+"Multi slides also exist and might require you press the same direction on "
+"the two analog sticks."
+msgstr ""
+
+#: ToolsMenu.tscn:40
+msgid "Open Logs Directory"
+msgstr ""
+
+#: ToolsMenu.tscn:50
+msgid "Open Songs Directory"
+msgstr ""
+
+#: ToolsMenu.tscn:60
+msgid "Open User Directory"
+msgstr ""
+
+#: Page4.tscn:30
+msgid "Slide chains and hold notes"
+msgstr ""
+
+#: Page4.tscn:71
+msgid ""
+"Slide chains are slides that you can hold for extra points. Slide chains "
+"will progressively become blue, if the slide is fully blue you can let go of "
+"it."
+msgstr ""
+
+#: ToolsMenu.tscn:70
+msgid "Song Editor"
+msgstr ""
+
+#: page_final.tscn:38
+msgid "That's all you need to know to play project heartbeat, have fun!"
+msgstr ""
+
+#: page1.tscn:88
+msgid "You can hit slide notes using the analog sticks on your controler."
+msgstr ""
+
+#: ResultsScreen.gd:153 ResultRating.gd:24
+msgid "%.2f"
+msgstr ""
+
+#: ScoreCounter.gd:17 ScoreCounter.gd:24 ScoreCounter.gd:26
+msgid "%0*d"
+msgstr ""
+
+#: MultiplayerScoreboardItem.tscn:110 MultiplayerSidebarUser.tscn:95
+#: HeartbeatRhythmGameUI.tscn:957
+msgid "(NT)0000000"
+msgstr ""
+
+#: ResultsScreen.tscn:131
+msgid "(NT)100.00%"
+msgstr ""
+
+#: ResultsScreen.tscn:299
+msgid "(NT)131231412"
+msgstr ""
+
+#: ResultsScreen.tscn:239 ResultsScreen.tscn:269
+msgid "(NT)700"
+msgstr ""
+
+#: MultiplayerScoreboardItem.tscn:123 MultiplayerSidebarUser.tscn:107
+msgid "(NT)COOL"
+msgstr ""
+
+#: ResultsScreen.tscn:101
+msgid "(NT)DRAGONFORCE"
+msgstr ""
+
+#: MultiplayerScoreboardItem.tscn:103 MultiplayerSidebarUser.tscn:88
+msgid "(NT)EIREXE"
+msgstr ""
+
+#: ResultsScreen.tscn:123
+msgid "(NT)PERFECT"
+msgstr ""
+
+#: ResultsScreen.tscn:110
+msgid "(NT)asdasdasdasdasdasdasd"
+msgstr ""
+
+#: HoldIndicator.gd:63 SlideHoldScoreText.gd:19 HeartbeatRhythmGameUI.tscn:637
+msgid "+"
+msgstr ""
+
+#: ResultsScreen.tscn:260
+msgid "COMBO"
+msgstr ""
+
+#: VisualizerTest.tscn:52
+msgid "Cutoff Freq"
+msgstr ""
+
+#: ResultsScreen.tscn:458
+msgid "Don't ask me again"
+msgstr ""
+
+#: VisualizerTest.tscn:111
+msgid "Load Song..."
+msgstr ""
+
+#: HoldIndicator.gd:90
+msgid "Max Hold Bonus! %d"
+msgstr ""
+
+#: VisualizerTest.tscn:85
+msgid "Min dB"
+msgstr ""
+
+#: ResultsScreen.tscn:450
+msgid "No opinion"
+msgstr ""
+
+#: VisualizerTest.tscn:123
+msgid "Pause"
+msgstr ""
+
+#: VisualizerTest.tscn:117
+msgid "Play"
+msgstr ""
+
+#: ResultsScreen.tscn:335
+msgid "Retry"
+msgstr ""
+
+#: ResultsScreen.tscn:366
+msgid "Return"
+msgstr ""
+
+#: ResultsScreen.tscn:290
+msgid "SCORE"
+msgstr ""
+
+#: ResultsScreen.tscn:350
+msgid "Share"
+msgstr ""
+
+#: VisualizerTest.tscn:129
+msgid "Stop"
+msgstr ""
+
+#: ResultsScreen.tscn:230
+msgid "TOTAL NOTES"
+msgstr ""
+
+#: ResultsScreen.tscn:417
+msgid "What did you think of the song you just played?"
+msgstr ""
+
+#: VisualizerTest.tscn:145
+msgid "press h to hide me"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.gd:119
+msgid " - "
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:989
+msgid "(NT)0.00 %"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:912
+msgid "(NT)LOADED"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:566
+msgid "(NT)Max Hold Bonus! +3300"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:901
+msgid "(NT)NOSONG"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:928
+msgid "(NT)[DIFFICULTY]"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:694
+msgid "(NT)esss"
+msgstr ""
+
+#: SlideHoldScoreText.tscn:53
+msgid "+10"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:513
+msgid "+1000"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:524
+msgid "2"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:677
+msgid "Fast forward!"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:1035
+msgid "HEART POWER AVAILABLE!"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:1055
+msgid "HEART POWER!!!"
+msgstr ""
+
+#: SlideHoldScoreText.tscn:44
+msgid "MAX SCORE"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:940
+msgid "Nightcore"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:618
+msgid "Press "
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:491
+msgid "QUADRUPLE BONUS"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:1002
+msgid "Too Late! +100ms"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:758
+msgid "WORST"
+msgstr ""
+
+#: HeartbeatRhythmGameUI.tscn:656
+msgid "to skip the intro"
+msgstr ""
+
+#: practice_mode.gd:185
+msgid "%d/%d (%.2f %%)\n"
+msgstr ""
+
+#: practice_mode.gd:107
+msgid "%s/%s"
+msgstr ""
+
+#: practice_mode.tscn:100
+msgid "1:20/1:23"
+msgstr ""
+
+#: PauseMenu3D.tscn:105 practice_mode.tscn:255
+#, fuzzy
+#| msgid "Are you sure you want to do this?"
+msgid "Are you sure you want to quit?"
+msgstr "Estàs segur de voler fer això?"
+
+#: PauseMenu3D.tscn:98
+#, fuzzy
+#| msgid "Are you sure you want to do this?"
+msgid "Are you sure you want to restart?"
+msgstr "Estàs segur de voler fer això?"
+
+#: PauseMenu3D.tscn:100 PauseMenu3D.tscn:107
+msgid "Cancel"
+msgstr ""
+
+#: practice_mode.tscn:199
+msgid "Go to waypoint"
+msgstr ""
+
+#: PauseMenuLeft.tscn:42
+msgid "PAUSED"
+msgstr ""
+
+#: PauseMenu3D.tscn:106 PauseMenuLeft.tscn:109
+msgid "Quit"
+msgstr ""
+
+#: PauseMenu3D.tscn:99 PauseMenuLeft.tscn:82
+#, fuzzy
+#| msgid "Start"
+msgid "Restart"
+msgstr "Iniciar"
+
+#: PauseMenuLeft.tscn:69 practice_mode.tscn:215
+msgid "Resume"
+msgstr ""
+
+#: practice_mode.tscn:151
+#, fuzzy
+#| msgid "Back"
+msgid "Seek Back"
+msgstr "Enrere"
+
+#: practice_mode.tscn:167
+msgid "Seek Forward"
+msgstr ""
+
+#: practice_mode.tscn:183
+msgid "Set Waypoint"
+msgstr ""
+
+#: PauseMenuLeft.tscn:96
+msgid "Song Settings"
+msgstr ""
+
+#: practice_mode.tscn:251
+msgid "asdad"
+msgstr ""
+
+#: rhythm_game_clear_bar.gd:19
+msgid "%.2f "
+msgstr ""
+
+#: ResultRating.tscn:86
+msgid "(NT)407/"
+msgstr ""
+
+#: ResultRating.tscn:100
+msgid "(NT)95.55%"
+msgstr ""
+
+#: ResultRating.tscn:56
+msgid "(NT)WORST"
+msgstr ""
+
+#: ResultRating.tscn:67
+msgid ":"
+msgstr ""
+
+#: rhythm_game_controller.tscn:250
+msgid "Rolling back!"
+msgstr ""
+
+#: rhythm_game_multiplayer.tscn:49
+msgid "Waiting for other players to load!"
+msgstr ""
+
+#: rhythm_game_controller.tscn:205
+msgid "asdsadsad"
+msgstr ""
+
+#: rhythm_game_controller.gd:290
+msgid ""
+"pos %f \n"
+" audiopos %f \n"
+" diff %f \n"
+" LHI: %d\n"
+"Audio norm off: %.2f\n"
+msgstr ""
+
+#: HBSong.gd:77
+msgid "Chart by: %s"
+msgstr ""
+
+#: HBSong.gd:74
+msgid "Composed by: "
+msgstr ""
+
+#: PPDLoaderTest.tscn:44
+msgid "Dump PPD crap to human readable format for debugging and other woes"
+msgstr ""
+
+#: PPDLoaderTest.tscn:124
+msgid "EVD"
+msgstr ""
+
+#: PPDLoaderTest.tscn:78
+msgid "Marks"
+msgstr ""
+
+#: PPDLoaderTest.tscn:55
+#, fuzzy
+#| msgid "Select"
+msgid "Select file"
+msgstr "Seleccionar"
+
+#: HBSong.gd:71
+msgid "Vocals by: "
+msgstr ""
+
+#: HBSong.gd:68
+msgid "Written by: "
+msgstr ""
+
+#: PPDLoaderTest.tscn:101
+msgid "XML Params"
+msgstr ""

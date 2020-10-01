@@ -71,7 +71,6 @@ static func convert_dsc_to_chart(path: String) -> HBChart:
 	var curr_time = 0.0
 	var current_BPM = 0.0
 	var target_flying_time = 0.0
-	var most_recent_timeout_source = "BPM"
 	var chart = HBChart.new()
 	var curr_chain_starter = null
 	for opcode in r:
@@ -79,16 +78,16 @@ static func convert_dsc_to_chart(path: String) -> HBChart:
 			curr_time = float(opcode.params[0])
 		if opcode.opcode == DSCOpcodeMap.AFT_OPCODES.BAR_TIME_SET:
 			current_BPM = float(opcode.params[0])
-			most_recent_timeout_source = "BPM"
+			target_flying_time = int((60.0  / current_BPM * (1 + 3) * 1000.0))
 		if opcode.opcode == DSCOpcodeMap.AFT_OPCODES.TARGET_FLYING_TIME:
 			target_flying_time = int(opcode.params[0])
-			most_recent_timeout_source = "TFT"
 		if opcode.opcode == DSCOpcodeMap.AFT_OPCODES.TARGET:
 			if opcode.params[0] in AFTButtons.values():
 				
 				var note_d := HBNoteData.new()
 				note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
-				note_d.time = int(curr_time / 100.0) + target_flying_time
+				note_d.time = int(curr_time / 100.0)
+				note_d.time += target_flying_time
 				
 				if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
 					if opcode.params[0] == AFTButtons.CHAIN_L:
@@ -116,10 +115,7 @@ static func convert_dsc_to_chart(path: String) -> HBChart:
 				note_d.oscillation_frequency = opcode.params[6]
 				note_d.oscillation_amplitude = opcode.params[5]
 				note_d.distance = opcode.params[4] / 250.0
-				if most_recent_timeout_source == "BPM":
-					note_d.time_out = int((60.0  / current_BPM * (1 + 3) * 1000.0))
-				else:
-					note_d.time_out = target_flying_time
+				note_d.time_out = target_flying_time
 					
 					
 				note_d.auto_time_out = false

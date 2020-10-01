@@ -93,7 +93,6 @@ func _init_ytdl():
 		var json = JSON.parse(file.get_as_text()) as JSONParseResult
 		if json.error == OK:
 			cache_meta = json.result
-			print("CACH", cache_meta)
 		else:
 			Log.log(self, "Error loading cache meta: " + str(json.error))
 	if OS.get_name() == "X11":

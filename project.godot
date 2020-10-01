@@ -47,7 +47,12 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "HBAudioNormalizer",
 "language": "GDScript",
-"path": "res://addons/ebur128/AudioNormalizer.gd"
+"path": "res://addons/audio_utils/AudioNormalizer.gd"
+}, {
+"base": "Reference",
+"class": "HBAudioUtils",
+"language": "GDScript",
+"path": "res://addons/audio_utils/AudioUtils.gd"
 }, {
 "base": "HBTimingPoint",
 "class": "HBBPMChange",
@@ -485,9 +490,9 @@ _global_script_classes=[ {
 "path": "res://rythm_game/SineDrawerCPU.gd"
 }, {
 "base": "SongLoaderImpl",
-"class": "SongLoaderDIVA",
+"class": "SongLoaderDSC",
 "language": "GDScript",
-"path": "res://autoloads/song_loader/song_loaders/SongLoaderDIVA.gd"
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderDSC.gd"
 }, {
 "base": "SongLoaderImpl",
 "class": "SongLoaderHB",
@@ -538,6 +543,7 @@ _global_script_class_icons={
 "FolderManagerFolderButton": "",
 "HBAudioLoudnessCacheEntry": "",
 "HBAudioNormalizer": "",
+"HBAudioUtils": "",
 "HBBPMChange": "",
 "HBBackgroundMusicPlayer": "",
 "HBBackgroundSongAssetsLoader": "",
@@ -625,7 +631,7 @@ _global_script_class_icons={
 "ResultF": "",
 "SMFLoader": "",
 "SineDrawerCPU": "",
-"SongLoaderDIVA": "",
+"SongLoaderDSC": "",
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
 "SongLoaderPPD": "",
@@ -648,6 +654,10 @@ config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
 config/build_time=1600183436
 config/build_commit="68d5ef33081bc85b48b8bb1c546fa1b07bf4efc3"
+
+[audio]
+
+output_latency=7
 
 [autoload]
 
@@ -685,6 +695,10 @@ window/size/test_height=720
 window/vsync/use_vsync=false
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
+
+[editor]
+
+main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/m39sdump\""
 
 [editor_plugins]
 
@@ -1024,7 +1038,7 @@ pointing/emulate_touch_from_mouse=true
 [locale]
 
 test="en"
-translations=PoolStringArray( "res://locale/es.po", "res://locale/ca.po" )
+translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
 
 [logging]
 

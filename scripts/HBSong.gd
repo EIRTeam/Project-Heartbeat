@@ -153,7 +153,6 @@ func get_cache_status():
 
 func get_audio_stream():
 	var audio_path = get_song_audio_res_path()
-	print("LOADGIN FROM ", audio_path)
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
 		return load(audio_path)
 	else:

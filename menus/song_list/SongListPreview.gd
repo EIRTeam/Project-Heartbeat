@@ -5,6 +5,8 @@ onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongC
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
 var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
+
+signal song_assets_loaded(song, assets)
 func _ready():
 	connect("resized", self, "_on_resized")
 	hide()
@@ -22,6 +24,7 @@ func _on_song_assets_loaded(song, assets):
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = assets.preview
 	else:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
+	emit_signal("song_assets_loaded", song, assets)
 func select_song(song: HBSong):
 	show()
 	var bpm = "UNK"
@@ -46,7 +49,7 @@ func select_song(song: HBSong):
 		
 	$SongListPreview/VBoxContainer/AuthorInfo/AuthorLabel.text = auth
 	
-	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview"])
+	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview", "background"])
 
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x

@@ -102,7 +102,7 @@ func _ready():
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	player.play_random_song()
-	player.connect("assets_loaded", MENUS["pre_game"].left, "set_current_assets")
+	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game"].left, "set_current_assets")
 	menu_setup()
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 

@@ -15,7 +15,6 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	for folder in starting_folders.back().subfolders:
 		print(folder.folder_name, " ", path[0])
 		if folder.folder_name == path[0]:
-			print("FOUND FOLDER ", path[0])
 			path.pop_front()
 			starting_folders = get_starting_folder(starting_folders + [folder], path)
 			break
@@ -152,10 +151,9 @@ func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop
 	var a_prop = a.get(prop)
 	var b_prop = b.get(prop)
-	if prop == "title" and a.romanized_title:
-		a_prop = a.romanized_title
-	elif prop == "title" and b.romanized_title:
-		b_prop = b.romanized_title
+	if prop == "title":
+		a_prop = a.get_visible_title()
+		b_prop = b.get_visible_title()
 	elif prop == "artist":
 		a_prop = a.get_artist_sort_text()
 		b_prop = b.get_artist_sort_text()
@@ -247,7 +245,16 @@ func _on_difficulty_selected(song, difficulty):
 func _input(event):
 	if event.is_action_pressed("free_friends"):
 		hard_arrange_all()
+	if event is InputEventKey:
+		var c = char(event.unicode)
+		if c.length() == 1:
+			for song in songs:
+				if song.get_visible_title().begins_with(c):
+					select_song_by_id(song.id)
+					break
 
 func _on_create_new_folder():
 	var parent = folder_stack[folder_stack.size()-1]
 	emit_signal("create_new_folder", parent)
+
+	

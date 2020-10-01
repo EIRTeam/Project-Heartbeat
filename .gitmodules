@@ -4,3 +4,6 @@
 [submodule "addons/native/godot_ebur128"]
 	path = addons/native/godot_ebur128
 	url = https://github.com/EIRTeam/godot_ebur128.git
+[submodule "addons/native/--force"]
+	path = addons/native/--force
+	url = https://github.com/EIRTeam/godot_ebur128.git
