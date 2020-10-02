@@ -173,7 +173,6 @@ func _gui_input(event):
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
-	print("HARD")
 	if selected_option:
 		if not prevent_hard_arrange:
 			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)

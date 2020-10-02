@@ -90,12 +90,15 @@ static func convert_dsc_to_chart(path: String) -> HBChart:
 				note_d.time += target_flying_time
 				
 				if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
-					if opcode.params[0] == AFTButtons.CHAIN_L:
-						if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
-							curr_chain_starter = null
+					if curr_chain_starter.position.y != note_d.position.y:
+						curr_chain_starter = null
 					else:
-						if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
-							curr_chain_starter = null
+						if opcode.params[0] == AFTButtons.CHAIN_L:
+							if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+								curr_chain_starter = null
+						else:
+							if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+								curr_chain_starter = null
 				else:
 					curr_chain_starter = null
 					

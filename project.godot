@@ -698,7 +698,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/Descargas/PDAFT/SBZV_7.01\""
+main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/m39sdump\""
 
 [editor_plugins]
 
