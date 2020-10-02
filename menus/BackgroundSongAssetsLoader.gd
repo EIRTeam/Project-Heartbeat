@@ -60,8 +60,7 @@ func _load_song_assets_thread(userdata):
 		if enable_abort:
 			# Current song changed, abort
 			_current_song_mutex.lock()
-			if current_song.id != userdata.song_id:
-				_current_song_mutex.lock()
+			if current_song.id != userdata.song_id or force_abort:
 				call_deferred("_song_asset_loading_aborted", userdata.thread)
 				_current_song_mutex.unlock()
 				return
@@ -103,7 +102,7 @@ func _notification(what):
 	
 func force_abort_current_loading():
 	_current_song_mutex.lock()
-	current_song = HBSong.new()
+	force_abort = true
 	_current_song_mutex.unlock()
 	
 func _song_asset_loading_aborted(thread: Thread):
