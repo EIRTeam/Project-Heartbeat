@@ -98,7 +98,7 @@ func _load_song_assets_thread(userdata):
 	call_deferred("_song_assets_loaded", userdata.thread, song, loaded_assets)
 	
 func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_EXIT_TREE:
 		force_abort_current_loading()
 	
 func force_abort_current_loading():
