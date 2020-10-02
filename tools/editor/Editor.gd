@@ -57,6 +57,7 @@ var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new(
 var plugins = []
 
 var contextual_menu = HBEditorContextualMenuControl.new()
+var fine_position_timer = Timer.new()
 
 func set_bpm(value):
 	BPM_spinbox.value = value
@@ -93,7 +94,9 @@ func _ready():
 	OS.window_maximized = true
 	timeline.editor = self
 	timeline.set_layers_offset(0)
-	
+	add_child(fine_position_timer)
+	fine_position_timer.wait_time = 0.5
+	fine_position_timer.connect("timeout", self, "apply_fine_position")
 	rhythm_game.set_process_unhandled_input(false)
 #	seek(0)
 	inspector.connect("property_changed", self, "_change_selected_property")
@@ -131,10 +134,25 @@ func _unhandled_input(event):
 		return
 	if event.is_action_pressed("gui_undo"):
 		get_tree().set_input_as_handled()
+		apply_fine_position()
 		undo_redo.undo()
 	if event.is_action_pressed("gui_redo"):
 		get_tree().set_input_as_handled()
+		apply_fine_position()
 		undo_redo.redo()
+	
+	if event.is_action("gui_left") or \
+			event.is_action("gui_right") or \
+			event.is_action("gui_up") or \
+			event.is_action("gui_down"):
+		if event is InputEventKey:
+			if event.shift:
+				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
+				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
+				var off = Vector2(int(diff_x), int(diff_y))
+				fine_position_selected(off)
+				get_tree().set_input_as_handled()
+		
 	
 	if timeline.get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_scale_down"):
@@ -221,6 +239,35 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 			selected_item.update_widget_data()
 	_on_timing_points_params_changed()
 	
+var fine_position_originals = {}
+	
+func fine_position_selected(diff: Vector2):
+	for selected_item in selected:
+		if "position" in selected_item.data:
+			if not selected_item in fine_position_originals:
+				fine_position_originals[selected_item] = selected_item.data.position
+			selected_item.data.position += diff
+			selected_item.update_widget_data()
+	fine_position_timer.start()
+	_on_timing_points_params_changed()
+func apply_fine_position():
+	fine_position_timer.stop()
+	if fine_position_originals.size() > 0:
+		for item in fine_position_originals:
+			undo_redo.create_action("Fine position notes")
+			undo_redo.add_undo_property(item.data, "position", fine_position_originals[item])
+			undo_redo.add_undo_method(item, "update_widget_data")
+			undo_redo.add_undo_method(item, "sync_value", "position")
+			undo_redo.add_do_property(item.data, "position", item.data.position)
+			undo_redo.add_do_method(item, "update_widget_data")
+			undo_redo.add_do_method(item, "sync_value", "position")
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		print("APPLIED FINE")
+		fine_position_originals = {}
+		
+		undo_redo.commit_action()
+		inspector.sync_value("position")
 func show_contextual_menu():
 	contextual_menu.popup()
 	var popup_offset = get_global_mouse_position() + contextual_menu.rect_size - get_viewport_rect().size
