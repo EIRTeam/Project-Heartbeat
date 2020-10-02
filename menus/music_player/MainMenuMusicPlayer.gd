@@ -9,7 +9,6 @@ func _init():
 	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 
 func _ready():
-	add_child(background_song_assets_loader)
 	if UserSettings.user_settings.disable_menu_music:
 		hide()
 

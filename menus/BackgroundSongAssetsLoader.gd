@@ -80,12 +80,11 @@ func _load_song_assets_thread(userdata):
 						if enable_abort:
 							_current_song_mutex.lock()
 							if current_song.id != userdata.song_id or force_abort:
-								print("ABORTED!" , force_abort)
 								force_abort = false
+								call_deferred("_song_asset_loading_aborted", userdata.thread)
 								_current_song_mutex.unlock()
 								return
 							_current_song_mutex.unlock()
-					print("TOOK %d msec" % [OS.get_ticks_msec() - prev])
 					loaded_assets["audio_loudness"] = audio_normalizer.get_normalization_result()
 	if enable_abort:
 		# Current song changed, abort
@@ -101,7 +100,6 @@ func _load_song_assets_thread(userdata):
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		force_abort_current_loading()
-		print("ABORTING DUE TO TREE EXIT")
 	
 func force_abort_current_loading():
 	_current_song_mutex.lock()

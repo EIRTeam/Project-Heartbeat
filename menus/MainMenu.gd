@@ -108,8 +108,7 @@ func _ready():
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
 func _on_loading_begun():
-	print("ATTEMPTING ABORT...")
-	MENUS.music_player.right.background_song_assets_loader.force_abort_current_loading()
+	player.background_song_assets_loader.force_abort_current_loading()
 
 func menu_setup():
 	pass
