@@ -105,6 +105,9 @@ func get_song_preview_res_path():
 	else:
 		return null
 		
+func is_visible_in_editor():
+	return true
+		
 func get_song_background_image_res_path():
 	if background_image != "":
 		return path.plus_file("/%s" % [background_image])

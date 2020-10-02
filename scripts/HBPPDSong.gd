@@ -61,3 +61,5 @@ func get_meta_path():
 	return path.plus_file("data.ini")
 func get_serialized_type():
 	return "PPDSong"
+func is_visible_in_editor():
+	return false

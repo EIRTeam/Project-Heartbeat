@@ -42,6 +42,8 @@ class HBSongDSC:
 			var line = "%s: %s" % [key.capitalize(), pv_data.metadata[key]]
 			meta.append(line)
 		return meta
+	func is_visible_in_editor():
+		return false
 func _init_loader():
 	pass
 
@@ -74,7 +76,6 @@ class DSCPVData:
 		if spl.size() > 1:
 			charts[diff].stars = float(spl[-2])
 			charts[diff].stars += float(spl[-1]) / 10.0
-			
 func dsc_diff_to_hb_diff(diff: String):
 	var result = diff
 	match diff:

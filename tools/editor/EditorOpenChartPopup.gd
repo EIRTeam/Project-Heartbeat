@@ -73,7 +73,7 @@ func populate_tree():
 	var root = tree.create_item()
 	for song in SongLoader.songs.values():
 		# PPD charts cannot be edited...
-		if not song is HBPPDSong and not song.comes_from_ugc():
+		if song.is_visible_in_editor() and not song.comes_from_ugc():
 			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
 				var item = tree.create_item()
 				item.set_text(0, song.title)
