@@ -165,7 +165,6 @@ func set_songs(songs: Array):
 			select_option(initial_item)
 
 func _on_difficulty_selected(song, difficulty):
-
 	emit_signal("difficulty_selected", song, difficulty)
 
 func _input(event):

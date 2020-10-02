@@ -145,9 +145,35 @@ func _gui_input(event):
 				get_tree().set_input_as_handled()
 				var right_neighbour = get_node(focus_neighbour_right) as Control
 				right_neighbour.grab_focus()
+		if event is InputEventMouseButton and event.is_pressed() and not event.is_echo():
+			if event.button_index == BUTTON_WHEEL_UP:
+				move_debounce = 0.0
+				var current_pos = selected_option.get_position_in_parent()
+				if current_pos > 0:
+					select_option(current_pos-1)
+					move_sound_player.play()
+			if event.button_index == BUTTON_WHEEL_DOWN:
+				move_debounce = 0.0
+				var current_pos = selected_option.get_position_in_parent()
+				if current_pos < get_child_count()-1:
+					select_option(current_pos+1)
+					move_sound_player.play()
+#	if Input.is_action_pressed("gui_down") and can_press:
+#		move_debounce = 0.0
+#		var current_pos = selected_option.get_position_in_parent()
+#		if current_pos < get_child_count()-1:
+#			select_option(current_pos+1)
+#			move_sound_player.play()
+#	if Input.is_action_pressed("gui_up") and can_press:
+#		move_debounce = 0.0
+#		var current_pos = selected_option.get_position_in_parent()
+#		if current_pos > 0:
+#			select_option(current_pos-1)
+#			move_sound_player.play()
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
+	print("HARD")
 	if selected_option:
 		if not prevent_hard_arrange:
 			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)

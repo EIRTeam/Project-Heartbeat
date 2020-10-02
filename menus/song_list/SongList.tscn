@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
 [ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=8]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
@@ -34,6 +35,7 @@ fallback/0 = ExtResource( 13 )
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 6 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

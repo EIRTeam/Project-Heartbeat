@@ -260,8 +260,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 		if params.has(note.id):
 			var note_params = params[note.id]
 			_apply_note_params(note_data, note_params)
-			if note_data.time == 110129:
-				print("Applying params", note_params, "to note", note.time)
 		if note_type <= PPDNoteType.AC:
 			is_second_slider = false
 		if is_second_slider:

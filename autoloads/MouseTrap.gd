@@ -10,4 +10,4 @@ func enable_mouse_trap():
 	$MouseTrap.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _ready():
-	enable_mouse_trap()
+	disable_mouse_trap()

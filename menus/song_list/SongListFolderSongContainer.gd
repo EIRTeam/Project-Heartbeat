@@ -87,8 +87,9 @@ func update_items():
 	UserSettings.save_user_settings()
 	emit_signal("updated_folders", folder_stack)
 
-func _on_song_selected(song: HBSong):
+func _on_song_selected(song: HBSong, no_hard_arrange=false):
 	if song_items_map.has(song):
+		select_song_by_id(song.id)
 		for difficulty in song_items_map[song]:
 			var item = song_items_map[song][difficulty]
 			remove_child(item)
@@ -96,6 +97,7 @@ func _on_song_selected(song: HBSong):
 			
 		song_items_map.erase(song)
 	else:
+		select_song_by_id(song.id, null, no_hard_arrange)
 		var vals = song_items_map.values()
 		for i in range(song_items_map.size() - 1, -1, -1):
 			for difficulty in vals[i]:
@@ -120,8 +122,9 @@ func _on_song_selected(song: HBSong):
 			item.set_song(song, difficulty)
 			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
 			song_items_map[song][difficulty] = item
-		prevent_hard_arrange = false
-		hard_arrange_all()
+		if not no_hard_arrange:
+			prevent_hard_arrange = false
+			hard_arrange_all()
 #	emit_signal("song_selected", song)
 
 func _create_song_item(song: HBSong):
@@ -129,9 +132,9 @@ func _create_song_item(song: HBSong):
 	add_child(item)
 	item.set_song(song)
 	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-	item.connect("pressed", self, "_on_song_selected", [song])
+	item.connect("pressed", self, "_on_song_selected", [song, true])
 
-func select_song_by_id(song_id: String, difficulty=null):
+func select_song_by_id(song_id: String, difficulty=null, no_hard_arrange=false):
 	for child_i in range(get_child_count()):
 		var child = get_child(child_i)
 		if "song" in child:
@@ -144,7 +147,9 @@ func select_song_by_id(song_id: String, difficulty=null):
 					select_option(song_items_map[song][difficulty].get_position_in_parent())
 				else:
 					select_option(child_i)
-				hard_arrange_all()
+					
+				if not no_hard_arrange:
+					hard_arrange_all()
 				break
 
 func sort_array(a: HBSong, b: HBSong):
@@ -253,8 +258,9 @@ func _input(event):
 					select_song_by_id(song.id)
 					break
 
+func _gui_input(event):
+	pass
+
 func _on_create_new_folder():
 	var parent = folder_stack[folder_stack.size()-1]
 	emit_signal("create_new_folder", parent)
-
-	

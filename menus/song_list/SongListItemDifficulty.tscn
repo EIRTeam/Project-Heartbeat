@@ -8,17 +8,9 @@
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://menus/song_list/SongListItemDifficulty.gd" type="Script" id=7]
 [ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=8]
+[ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=9]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
-border_width_left = 211
-border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
-corner_radius_top_left = 5
-corner_radius_top_right = 1024
-corner_radius_bottom_right = 5
-corner_detail = 1
-
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 30
 use_mipmaps = true
 use_filter = true
@@ -26,7 +18,7 @@ extra_spacing_top = 7
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 30
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_mipmaps = true
@@ -51,10 +43,11 @@ __meta__ = {
 
 [node name="Control" type="Button" parent="."]
 margin_left = 25.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 100.0
 focus_mode = 0
-custom_styles/hover = SubResource( 1 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 8 )
 custom_styles/normal = ExtResource( 8 )
 custom_constants/hseparation = 0
 __meta__ = {
@@ -64,6 +57,7 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/margin_top = 0
 custom_constants/margin_left = 30
 __meta__ = {
@@ -72,42 +66,48 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 margin_left = 30.0
-margin_right = 1255.0
+margin_right = 1895.0
 margin_bottom = 100.0
+mouse_filter = 2
 custom_constants/separation = -15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-margin_right = 609.0
+margin_right = 795.0
 margin_bottom = 100.0
+mouse_filter = 2
 custom_constants/margin_top = 7
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
 margin_top = 7.0
-margin_right = 609.0
+margin_right = 795.0
 margin_bottom = 100.0
+mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 10.0
-margin_right = 609.0
+margin_right = 795.0
 margin_bottom = 41.0
+mouse_filter = 2
 size_flags_vertical = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 margin_top = 45.0
-margin_right = 609.0
+margin_right = 795.0
 margin_bottom = 83.0
+mouse_filter = 2
 
 [node name="StarTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 35.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 35, 35 )
+mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 5 )
@@ -122,7 +122,7 @@ margin_left = 39.0
 margin_right = 105.0
 margin_bottom = 38.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "x10 "
 valign = 1
 
@@ -131,7 +131,7 @@ margin_left = 109.0
 margin_right = 359.0
 margin_bottom = 38.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "CHEAP - 100%"
 valign = 1
 
@@ -140,6 +140,7 @@ margin_left = 363.0
 margin_right = 609.0
 margin_bottom = 38.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "CHEAP - 100%"
 valign = 1
+[connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]
