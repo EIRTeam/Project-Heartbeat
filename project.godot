@@ -652,8 +652,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1601596183
-config/build_commit="a25a248b99aca1b88a0f7a83789643042faab947"
+config/build_time=1601671332
+config/build_commit="d2192e378a91d2edef96e766b159b1d83a3c6fe1"
 
 [audio]
 
@@ -698,7 +698,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/m39sdump\""
+main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/Descargas/PDAFT/SBZV_7.01\""
 
 [editor_plugins]
 
