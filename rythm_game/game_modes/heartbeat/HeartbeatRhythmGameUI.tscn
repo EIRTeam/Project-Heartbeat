@@ -253,8 +253,8 @@ bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
 border_width_top = 2
 border_width_bottom = 2
 border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
-shadow_color = Color( 0, 0, 0, 0.25098 )
-shadow_size = 10
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 15
 
 [sub_resource type="DynamicFont" id=20]
 size = 20

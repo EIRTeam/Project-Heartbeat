@@ -11,7 +11,7 @@ bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.3, 1 )
-colors = PoolColorArray( 0.07, 0.04, 0.15, 1, 0.07, 0.04, 0.15, 0 )
+colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
 
 [sub_resource type="GradientTexture" id=3]
 gradient = SubResource( 2 )
@@ -74,6 +74,9 @@ show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Panel3" type="Panel" parent="Panel2"]
 anchor_right = 1.0
