@@ -5,7 +5,6 @@ func _ready():
 
 
 func _on_PressStart_start_pressed():
-	change_to_menu("switch_premenu")
 	if HBGame.platform_settings is HBPlatformSettingsSwitch:
 		change_to_menu("switch_premenu")
 	elif HBGame.demo_mode:
