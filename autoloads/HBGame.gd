@@ -6,6 +6,7 @@ var demo_mode = false
 var game_modes: Array
 var rich_presence: HBRichPresence
 var song_stats: HBSongStatsLoader
+var platform_settings: HBPlatformSettings
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
 	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
@@ -21,7 +22,14 @@ func _ready():
 		demo_mode = true
 	
 func _game_init():
+	if OS.get_name() == "Switch":
+		platform_settings = HBPlatformSettingsSwitch.new()
+	else:
+		platform_settings = HBPlatformSettingsDesktop.new()
 	PlatformService._initialize_platform()
+	
+
+	
 	SongDataCache.load_cache()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
@@ -38,24 +46,23 @@ func _game_init():
 				SongLoader.add_song_loader("dsc", dsc_loader)
 			else:
 				push_error("Argument game_location requires an input")
-	
-	if OS.has_feature("switch"):
+	IconPackLoader._init_icon_pack_loader()
+	UserSettings._init_user_settings()
+	# Switch specific stuff
+	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"
 		UserSettings.set_joypad_prompts()
+		UserSettings.user_settings.visualizer_enabled = false
 		Input.set_use_accumulated_input(false)
-		UserSettings.user_settings.content_path = "sdmc:/switch"
-	
+		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
 	SongLoader.load_all_songs_async()
 	
 	YoutubeDL._init_ytdl()
-
-	IconPackLoader._init_icon_pack_loader()
-	UserSettings._init_user_settings()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
-	if not OS.has_feature("mobile") or OS.has_feature("switch"):
+	if not OS.has_feature("mobile") or OS.get_name() == "Switch":
 		MobileControls.get_child(0).hide()
-
+		
 	if OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresence.new()
 	else:

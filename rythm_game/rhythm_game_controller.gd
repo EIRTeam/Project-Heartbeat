@@ -125,10 +125,14 @@ const SONGS_WITH_IMAGE = [
 	
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	var bg_path = song.get_song_background_image_res_path()
-	var image = HBUtils.image_from_fs(bg_path)
-	var image_texture = ImageTexture.new()
-	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
-	$Node2D/TextureRect.texture = image_texture
+	if assets:
+		if "background" in assets:
+			$Node2D/TextureRect.texture = assets.background
+	else:
+		var image = HBUtils.image_from_fs(bg_path)
+		var image_texture = ImageTexture.new()
+		image_texture.create_from_image(image, HBGame.platform_settings.texture_mode)
+		$Node2D/TextureRect.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, assets, modifiers)
 	set_game_size()

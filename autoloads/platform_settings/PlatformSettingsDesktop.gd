@@ -1,0 +1,3 @@
+extends HBPlatformSettings
+
+class_name HBPlatformSettingsDesktop

@@ -16,6 +16,10 @@ func _init():
 		"start_menu": {
 			"fullscreen": preload("res://menus/StartMenu.tscn").instance()
 		},
+		"switch_premenu": {
+			"left": preload("res://menus/demo_screen/SwitchScreen.tscn").instance(),
+			"right": "music_player"
+		},
 		"demo_premenu": {
 			"left": preload("res://menus/demo_screen/DemoScreen.tscn").instance(),
 			"right": "music_player"

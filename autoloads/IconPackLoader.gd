@@ -129,7 +129,8 @@ func get_graphic(type, variation):
 	
 func load_all_icon_packs():
 	for path in ICON_PACKS_SEARCH_PATHS:
-		packs = HBUtils.merge_dict(packs, load_icon_packs_from_path(path))
+		var p = HBGame.platform_settings.user_dir_redirect(path)
+		packs = HBUtils.merge_dict(packs, load_icon_packs_from_path(p))
 		
 func get_color(type) -> Color:
 	var color = "#FFFFFF"

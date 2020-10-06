@@ -6,13 +6,17 @@ const LOG_NAME = "SongStats"
 
 var song_stats = {}
 
+func get_song_stats_path():
+	return HBGame.platform_settings.user_dir_redirect(SONG_STATS_PATH)
+
 func _init_song_stats():
 	load_user_stats()
 
 func load_user_stats():
 	var file = File.new()
-	if file.file_exists(SONG_STATS_PATH):
-		file.open(SONG_STATS_PATH, File.READ)
+	var ss_path = HBGame.platform_settings.user_dir_redirect(get_song_stats_path())
+	if file.file_exists(ss_path):
+		file.open(ss_path, File.READ)
 		var new_stats = file.get_var()
 		if new_stats is Dictionary:
 			for song_id in new_stats:
@@ -26,7 +30,8 @@ func load_user_stats():
 		file.close()
 func save_song_stats():
 	var file = File.new()
-	file.open(SONG_STATS_PATH, File.WRITE)
+	var ss_path = HBGame.platform_settings.user_dir_redirect(get_song_stats_path())
+	file.open(ss_path, File.WRITE)
 	var serialized_song_stats = {}
 	for song_id in song_stats:
 		var stats = song_stats[song_id] as HBSongStats

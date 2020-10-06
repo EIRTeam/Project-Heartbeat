@@ -4,8 +4,8 @@ extends Node
 # or another store, because the game is meant to be DRM-Free an offline service provider is also
 # provided, it allows LAN connections amongst other things
 
-const SteamPlatformServicePovider = preload("res://autoloads/platform_service/SteamServiceProvider.gd")
-const OfflinePlatformServicePovider = preload("res://autoloads/platform_service/OfflinePlatformServiceProvider.gd")
+var SteamPlatformServicePovider = load("res://autoloads/platform_service/SteamServiceProvider.gd")
+var OfflinePlatformServicePovider = load("res://autoloads/platform_service/OfflinePlatformServiceProvider.gd")
 
 const LOG_NAME = "PlatformService"
 
@@ -16,6 +16,9 @@ func _ready():
 	pass
 	
 func _initialize_platform():
+	if not Engine.has_singleton("Steam") or not HBGame.platform_settings is HBPlatformSettingsDesktop:
+		set_service_provider(OfflinePlatformServicePovider.new())
+		return
 	# Try to load steam first, if not fallback to Offline
 	if not HBGame.demo_mode:
 		var service_init_result = set_service_provider(SteamPlatformServicePovider.new())

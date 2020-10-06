@@ -11,8 +11,7 @@ var ppd_youtube_url_list = {}
 func _init_loader():
 	var dir := Directory.new()
 	
-	if OS.has_feature("switch"):
-		PPD_YOUTUBE_URL_LIST_PATH = "sdmc:/switch/ppd_youtube.json"
+	PPD_YOUTUBE_URL_LIST_PATH = HBGame.platform_settings.user_dir_redirect(PPD_YOUTUBE_URL_LIST_PATH)
 		
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
@@ -86,7 +85,7 @@ func set_ppd_youtube_url(song: HBSong, url: String):
 		save_ppd_youtube_url_list()
 
 func caching_enabled():
-	if OS.has_feature("switch"):
+	if not HBGame.platform_settings is HBPlatformSettingsDesktop:
 		return false
 	else:
 		return true

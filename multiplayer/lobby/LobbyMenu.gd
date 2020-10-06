@@ -78,8 +78,8 @@ func set_lobby(lobby: HBLobby):
 
 	update_member_list()
 	update_lobby_data_display()
-	if not lobby is SteamLobby:
-		get_tree().call_group("steam_only", "hide")
+#	if not lobby is SteamLobby:
+#		get_tree().call_group("steam_only", "hide")
 func _on_chat_message_received(member: HBServiceMember, message, type):
 	match type:
 		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:

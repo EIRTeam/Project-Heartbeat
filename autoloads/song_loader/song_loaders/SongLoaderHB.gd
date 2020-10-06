@@ -27,7 +27,7 @@ func load_song_meta_from_folder(path: String, id: String):
 	return null
 	
 func caching_enabled():
-	if OS.has_feature("switch"):
+	if not HBGame.platform_settings is HBPlatformSettingsDesktop:
 		return false
 	else:
 		return true

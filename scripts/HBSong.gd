@@ -137,6 +137,8 @@ func get_meta_path():
 		
 # If video is enabled for this type of song
 func has_video_enabled():
+	if HBGame.platform_settings is HBPlatformSettingsSwitch:
+		return false
 	return not UserSettings.user_settings.disable_video
 		
 func is_cached():

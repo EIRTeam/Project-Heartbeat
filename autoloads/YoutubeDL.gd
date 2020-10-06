@@ -79,9 +79,8 @@ func get_cache_dir():
 func _ready():
 	pass
 func _init_ytdl():
-	if OS.has_feature("switch"):
-		YOUTUBE_DL_DIR = "sdmc:/switch/youtube_dl"
-		CACHE_FILE = "sdmc:/switch/youtube_dl/cache/yt_cache.json"
+	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
+	CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
 	var dir = Directory.new()
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)

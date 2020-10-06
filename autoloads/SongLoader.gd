@@ -8,8 +8,6 @@ var songs := {}
 var initial_load_done = false
 const SONGS_PATH = "res://songs"
 
-const SONG_SCORES_PATH = "user://scores.json"
-
 const BASE_DIFFICULTY_ORDER = ["easy", "normal", "hard", "extreme", "extra extreme"]
 var scores = {}
 

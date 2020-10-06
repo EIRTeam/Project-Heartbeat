@@ -352,7 +352,7 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if audio_stream_player.playing and (not editing or previewing):
-		if OS.has_feature("naive_timing"):
+		if HBGame.platform_settings.timing_mode == HBPlatformSettings.TIMING_MODE.NAIVE:
 			var t = audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
 			t *= audio_stream_player.pitch_scale
 			if t > time:
