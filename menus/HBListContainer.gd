@@ -6,7 +6,7 @@ class_name HBListContainer
 signal selected_option_changed
 signal navigate_to_menu(menu)
 signal navigated
-
+const FADE_SIZE := 150
 var selected_option : Control
 var VISIBILITY_THRESHOLD_TOP = 3 # How many items should be visible
 var VISIBILITY_THRESHOLD_BOTTOM = 3 # How many items should be visible
@@ -30,6 +30,9 @@ var move_debounce = MOVE_DEBOUNCE_T
 var initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
 
 func _ready():
+	material = ShaderMaterial.new()
+	material.shader = preload("res://menus/ScrollListShader.shader")
+	
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
 	move_sound_player.stream = MOVE_SOUND
@@ -173,6 +176,12 @@ func _gui_input(event):
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
+	print("POWER")
+	material.set_shader_param("enabled", true)
+	material.set_shader_param("size", rect_size)
+	material.set_shader_param("pos", rect_global_position)
+	material.set_shader_param("fade_size", FADE_SIZE / float(rect_size.x))
+	print(rect_size, " ", rect_global_position)
 	if selected_option:
 		if not prevent_hard_arrange:
 			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
@@ -182,7 +191,8 @@ func hard_arrange_all():
 			else:
 				selected_option.rect_position = Vector2(menu_start.x, menu_start.y - selected_option.rect_size.y/2)
 				selected_option.rect_scale = Vector2(1.0, 1.0)
-				selected_option.target_opacity = 1.0
+				#selected_option.target_opacity = 1.0
+				selected_option.show()
 				selected_option.modulate.a = 1.0
 				arrange_options(selected_option.get_position_in_parent()-1, -1, -1, selected_option.rect_position, selected_option.rect_size.y, true)
 				arrange_options(selected_option.get_position_in_parent()+1, get_child_count(), 1.0, selected_option.rect_position, selected_option.rect_size.y, true)
@@ -235,14 +245,6 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 	for i in range(start, end, step):
 		var label = children[i]
 		
-		# Opacity interpolation
-		var target_op = 0.0
-		if is_child_visible(label.get_position_in_parent()):
-			label.target_opacity = target_op
-		else:
-			target_op = 1.0
-			label.target_opacity = target_op
-		
 		# Scale interpolation
 		
 		var target_scale = prev_child_scale * scale_factor
@@ -266,12 +268,17 @@ func arrange_options(start, end, step, start_position, start_size, hard = false,
 			# Over the selected one, only care about our own size
 			pos_diff.y += (label.rect_size.y + margin) * label.rect_scale.y
 			
+
 #		label.rect_position = lerp(label.rect_position, prev_child_pos + sign(end-start) * pos_diff, lw)
 		label.rect_position = prev_child_pos + sign(end-start) * pos_diff # Looks much better if we don't interpolate position...
 		if hard:
-			label.target_opacity = target_op
-			label.modulate.a = target_op
 			label.rect_scale = Vector2(target_scale, target_scale)
 		prev_child_pos = label.rect_position
 		prev_child_scale = label.rect_scale.y
 		prev_child_size = label.rect_size.y
+		var target_pos = prev_child_pos + sign(end-start) * pos_diff
+		if label.rect_position.y + label.rect_size.y < 0.0 or label.rect_position.y > rect_size.y:
+			label.hide()
+		else:
+			label.show()
+			

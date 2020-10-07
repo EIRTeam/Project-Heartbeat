@@ -130,6 +130,7 @@ func _on_song_selected(song: HBSong, no_hard_arrange=false):
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instance()
 	add_child(item)
+	item.use_parent_material = true
 	item.set_song(song)
 	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
 	item.connect("pressed", self, "_on_song_selected", [song, true])
