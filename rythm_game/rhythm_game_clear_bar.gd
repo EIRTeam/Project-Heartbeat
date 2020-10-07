@@ -49,8 +49,8 @@ func _draw():
 		past_completion_progress_rect = apply_margin(past_completion_progress_rect)
 		
 		draw_style_box(preload("res://rythm_game/game_modes/heartbeat/ClearBarPost.tres"), past_completion_progress_rect)
-	draw_rating_line(0.97)
-	draw_rating_line(0.94)
+	draw_rating_line(0.95)
+	draw_rating_line(0.90)
 	draw_rating_line(0.75)
 	draw_line(origin+Vector2(rect_size.x * CLEAR_POINT, -12), origin+Vector2(rect_size.x * CLEAR_POINT, rect_size.y), Color.red, 3)
 	$PercentageLabel.rect_position = Vector2(rect_size.x * CLEAR_POINT, 0)
