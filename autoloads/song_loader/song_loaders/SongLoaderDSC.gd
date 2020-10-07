@@ -32,7 +32,6 @@ class HBSongDSC:
 		return pv_data.song_file_name != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var p = game_fs_access.get_file_path(pv_data.charts[difficulty].dsc_path)
-		print(p)
 		return DSCConverter.convert_dsc_to_chart(p)
 	func is_cached():
 		return true
@@ -127,7 +126,6 @@ class DSCGameFSAccess:
 		for s_path in search_paths:
 			var file_path = HBUtils.join_path(s_path, path)
 			if file.file_exists(file_path):
-				print("LOADING FROM", file_path)
 				return file_path
 		return null
 class MDATALoader:
@@ -242,16 +240,13 @@ func load_songs() -> Array:
 	var pv_datas = {}
 	for pvdb_path in ["rom/pv_db.txt", "rom/mdata_pv_db.txt"]:
 		var PVDB_LOCATION = fs_access.get_file_path(pvdb_path)
-		print("PATH", PVDB_LOCATION)
 		var file = File.new()
 		if not PVDB_LOCATION:
-			Log.log(self, "Error loading DSC songs from %s PVDB does not exist" % [GAME_LOCATION], Log.LogLevel.ERROR)
-			return []
+			Log.log(self, "Error loading DSC songs from %s PVDB does not exist (%s)" % [GAME_LOCATION, pvdb_path], Log.LogLevel.ERROR)
+			continue
 		var datas = load_pv_datas_from_pvdb(PVDB_LOCATION)
 		pv_datas = HBUtils.merge_dict(pv_datas, datas)
-		print("LOADED %d songs from %s" % [pv_datas.size(), pvdb_path])
 	var songs = []
-	
 	var pvs_str = ""
 	for pv_id in pv_datas:
 		var pv_data := pv_datas[pv_id] as DSCPVData
