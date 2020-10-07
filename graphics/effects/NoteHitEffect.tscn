@@ -103,6 +103,7 @@ tracks/6/keys = {
 }
 
 [node name="NoteHitEffect" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.75 )
 material = SubResource( 2 )
 scale = Vector2( 0.85, 0.85 )
 script = ExtResource( 4 )
