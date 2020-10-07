@@ -8,7 +8,7 @@
 [ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=6]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=7]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 30
 outline_size = 4
 outline_color = Color( 0, 0, 0, 0.486275 )
@@ -18,6 +18,7 @@ extra_spacing_top = 15
 font_data = ExtResource( 5 )
 
 [node name="Control" type="MarginContainer"]
+use_parent_material = true
 anchor_right = 1.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
@@ -32,6 +33,7 @@ __meta__ = {
 }
 
 [node name="Control" type="Button" parent="."]
+use_parent_material = true
 margin_left = 25.0
 margin_top = 25.0
 margin_right = 1920.0
@@ -48,6 +50,7 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -58,6 +61,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+use_parent_material = true
 margin_left = 62.0
 margin_right = 1895.0
 margin_bottom = 50.0
@@ -68,7 +72,8 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-margin_right = 795.0
+use_parent_material = true
+margin_right = 270.0
 margin_bottom = 50.0
 mouse_filter = 2
 custom_constants/margin_top = 7
@@ -76,19 +81,22 @@ custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
+use_parent_material = true
 margin_top = 7.0
-margin_right = 795.0
+margin_right = 270.0
 margin_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_right = 795.0
+use_parent_material = true
+margin_right = 270.0
 margin_bottom = 43.0
 mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
+use_parent_material = true
 margin_left = -87.747
 margin_top = -35.0
 margin_right = 87.253
@@ -105,11 +113,12 @@ __meta__ = {
 }
 
 [node name="StarsLabel" type="Label" parent="Control/TextureRect"]
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.397217
 margin_right = 0.397217
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "(NT)1"
 align = 1
 valign = 1

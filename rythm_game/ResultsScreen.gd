@@ -4,7 +4,6 @@ var game_info : HBGameInfo setget set_game_info
 
 onready var rating_results_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel/RatingResultsContainer")
 onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
-onready var artist_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/ArtistLabel")
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/TitleLabel")
 onready var combo_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/ComboLabel")
 onready var score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ScoreLabel")
@@ -164,11 +163,11 @@ func set_game_info(val: HBGameInfo):
 					# UGC songs can be rated at the end of the game
 					rating_popup.popup_centered()
 					rating_buttons_container.grab_focus()
-		title_label.text = song.title
+		title_label.text_2 = song.title
 		if song.artist_alias != "":
-			artist_label.text = song.artist_alias.to_upper()
+			title_label.text_1 = song.artist_alias.to_upper()
 		else:
-			artist_label.text = song.artist.to_upper()
+			title_label.text_1 = song.artist.to_upper()
 	combo_label.text = str(result.max_combo)
 	score_label.text = str(result.score)
 	total_notes_label.text = str(result.total_notes)

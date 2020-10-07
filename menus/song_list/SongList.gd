@@ -111,7 +111,7 @@ func _on_folder_path_updated(folders):
 			continue
 		folder_str += "%s/" % [folder.folder_name]
 	folder_str = folder_str.substr(0, folder_str.length()-1)
-	folder_path.text = folder_str
+	folder_path.text_1 = folder_str
 
 func _on_non_song_hovered():
 	if UserSettings.user_settings.filter_mode == "folders":
