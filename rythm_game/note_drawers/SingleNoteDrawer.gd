@@ -157,15 +157,16 @@ func _handle_unhandled_input(event):
 		var wrong = false
 		var wrong_rating
 		
-		# HACK: Slides ignore ordinary notes, and vice-versa
-		if (note_data is HBNoteData and note_data.is_slide_note()) or note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
-			if not event.is_action("slide_left") and not event.is_action("slide_right") \
-					and not event.is_action("heart_note"):
-				return
-		else:
-			if event.is_action("slide_left") or event.is_action("slide_right") \
-					or event.is_action("heart_note"):
-				return
+		# HACK: Slides ignore ordinary notes, and vice-versa, unless it's a multi!
+		if conn_notes.size() <= 1:
+			if (note_data is HBNoteData and note_data.is_slide_note()) or note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+				if not event.is_action("slide_left") and not event.is_action("slide_right") \
+						and not event.is_action("heart_note"):
+					return
+			else:
+				if event.is_action("slide_left") or event.is_action("slide_right") \
+						or event.is_action("heart_note"):
+					return
 		
 		# get a list of actions that can happen amongst these connected notes, this
 		# is used for wrong note detection
@@ -279,6 +280,8 @@ func _handle_unhandled_input(event):
 					# The note is now on it's own
 					if not game.is_connected("time_changed", drawer, "_on_game_time_changed"):
 						game.connect("time_changed", drawer, "_on_game_time_changed")
+					if "slide_chain" in drawer and result_judgement >= HBJudge.JUDGE_RATINGS.FINE:
+						drawer.hit_first = true
 					drawer._on_note_judged(result_judgement, true)
 #		if not event is InputEventJoypadMotion:
 #			var actions = []
