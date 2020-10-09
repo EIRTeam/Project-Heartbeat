@@ -75,6 +75,12 @@ func stop_all_looping_sfx():
 		for player in loaded_looping_effects[effect]:
 			stop_looping_sfx(player)
 
+func stop_all_sfx():
+	for effect in loaded_effects:
+		for player in loaded_effects[effect]:
+			stop_sfx(player)
+	stop_all_looping_sfx()
+
 func _process(delta):
 	for effect_name in effects_debounce_times:
 		effects_debounce_times[effect_name] += delta

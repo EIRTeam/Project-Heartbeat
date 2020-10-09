@@ -42,7 +42,6 @@ func set_song(song: HBSong):
 	audio_stream_player.stream = song.get_audio_stream()
 	var volume_db = song.get_volume_db()
 	audio_stream_player.volume_db = volume_db
-	print("setting volume to ", song.volume)
 	if song.voice:
 		voice_audio_stream_player.volume_db = volume_db
 		voice_audio_stream_player.stream = song.get_voice_stream()
@@ -59,7 +58,7 @@ func pause():
 	voice_audio_stream_player.stop()
 #	_on_timing_points_changed()
 	game.previewing = false
-	game.sfx_pool.stop_all_looping_sfx()
+	game.sfx_pool.stop_all_sfx()
 
 func is_playing():
 	return audio_stream_player.playing
