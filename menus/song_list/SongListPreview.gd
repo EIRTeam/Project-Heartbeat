@@ -49,7 +49,7 @@ func select_song(song: HBSong):
 		
 	$SongListPreview/VBoxContainer/AuthorInfo/AuthorLabel.text = auth
 	
-	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview", "background"])
+	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview", "background", "circle_logo"])
 
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x
