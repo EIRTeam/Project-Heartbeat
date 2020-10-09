@@ -108,10 +108,8 @@ func _on_vp_size_changed():
 func recalculate_label_size():
 	label.autowrap = false
 	var size = label.get_combined_minimum_size()
-	print("MINIMUM", size.x, " ", get_parent().rect_size.x / 2.0)
 	if size.x > (get_parent().rect_size.x / 2.0):
 		label.autowrap = true
-		print("RECT AUTOSIZE")
 		label.rect_size.x = get_parent().rect_size.x / 2.0
 	
 func move_to_offset(to_offset, time=0.75):
