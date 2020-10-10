@@ -437,6 +437,14 @@ func deselect_all():
 		item.deselect()
 	selected = []
 	inspector.stop_inspecting()
+func deselect_item(item):
+	if item in selected:
+		selected.erase(item)
+		item.deselect()
+		if selected.size() > 0:
+			inspector.inspect(selected[-1])
+		else:
+			inspector.stop_inspecting()
 func get_notes_at_time(time: int):
 	var notes = []
 	for note in get_timing_points():

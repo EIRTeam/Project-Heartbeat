@@ -69,6 +69,8 @@ func _gui_input(event: InputEvent):
 					get_tree().set_input_as_handled()
 					if not self in editor.selected:
 						editor.select_item(self, event.shift)
+					elif event.shift:
+						editor.deselect_item(self)
 					
 					if not event.shift:
 						_drag_moving = false
