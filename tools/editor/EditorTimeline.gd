@@ -19,6 +19,7 @@ const TRIANGLE_HEIGHT = 15
 
 var _cull_start_time = 0
 var _cull_end_time = 0
+const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
 signal time_cull_changed(start_time, end_time)
 
@@ -47,6 +48,9 @@ func _on_viewport_size_changed():
 func _draw_bars(interval, offset=0):
 	var lines = int(editor.get_song_length() / interval)
 	lines -= ceil(offset / interval)
+	var draw_every = 1.0
+	if editor.scale > 5.0:
+		draw_every = 2.0
 	for line in range(lines):
 		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
 
@@ -58,6 +62,9 @@ func _draw_bars(interval, offset=0):
 		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 1.0), 1.0, false)
+		if fmod(line, draw_every) == 0:
+			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
+			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 45), time_string)
 	
 func _draw_interval(interval, offset=0, ignore_interval=null):
 	var lines = int(editor.get_song_length() / interval)
