@@ -2,6 +2,7 @@ extends HBRhythmGameUIBase
 
 onready var rating_label: Label = get_node("RatingLabel")
 onready var notes_node = get_node("Notes")
+onready var top_ui = get_node("Control/HBoxContainer")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
 onready var song_name_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongName")
@@ -52,7 +53,10 @@ func _on_note_judged(judgement_info):
 	if game.current_combo > 1:
 		rating_label.text += " " + str(game.current_combo)
 	rating_label.rect_position = game.remap_coords(judgement_info.avg_pos) - rating_label.rect_size / 2
-	rating_label.rect_position.y -= 64
+	if rating_label.rect_global_position.y > top_ui.rect_global_position.y + top_ui.rect_size.y:
+		rating_label.rect_position.y -= 64
+	else:
+		rating_label.rect_position.y += 64
 	if not game.previewing:
 		rating_label.show()
 	else:
