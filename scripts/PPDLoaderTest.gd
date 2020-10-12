@@ -25,6 +25,7 @@ func _ready():
 	window_dialog.popup_centered_ratio(0.75)
 	browse_button.connect("pressed", file_dialog, "popup_centered_ratio", [0.75])
 	file_dialog.connect("file_selected", self, "_on_file_selected")
+	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	# var chart = PPDLoader.PPD2HBChart("user://Easy.ppd", 100)
 	# var file := File.new()
 	# print(file.open("user://test.json", File.WRITE))

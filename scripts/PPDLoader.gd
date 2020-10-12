@@ -17,7 +17,7 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 	var marks = []
 	
 	var params = {}
-	
+	var prev_time = null
 	while file.get_position() < file_offset + file_len:
 		var time = file.get_float()
 		if is_nan(time):
@@ -67,7 +67,9 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 		if with_ID:
 			id = file.get_32()
 		u+=1
-
+		if prev_time:
+			if abs(prev_time - time) < 0.010:
+				time = prev_time
 		var note_data = {
 			"position": Vector2(x, y),
 			"time": time,
@@ -77,6 +79,9 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 			"type": type,
 			"end_time": end_time
 		}
+		
+		prev_time = time
+		
 		if is_nan(time) or note_data.end_time > 7587993123566621:
 			break
 
