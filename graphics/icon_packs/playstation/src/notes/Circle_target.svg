@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -15,7 +13,7 @@
    height="100"
    viewBox="0 0 100 100"
    sodipodi:docname="Circle_target.svg"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14">
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
   <metadata
      id="metadata821">
     <rdf:RDF>
@@ -46,9 +44,9 @@
          id="text892"
          y="197.22488"
          x="140.47195"
-         style="font-style:normal;font-weight:normal;font-size:12.1545887px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1"
+         style="font-style:normal;font-weight:normal;font-size:12.1546px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.303865;stroke-opacity:1"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.30386469;stroke-opacity:1"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:condensed;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold Condensed';fill:#e02828;fill-opacity:1;stroke:#000000;stroke-width:0.303865;stroke-opacity:1"
            y="197.22488"
            x="140.47195"
            id="tspan890"
@@ -64,19 +62,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1080"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="8.3299999"
-     inkscape:cx="-1.9211765"
-     inkscape:cy="35.145836"
+     inkscape:cx="33.227747"
+     inkscape:cy="48.050998"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g840">
+     inkscape:current-layer="g840"
+     inkscape:document-rotation="0">
     <sodipodi:guide
        position="57.553229,67.060547"
        orientation="0,1"
@@ -108,8 +107,8 @@
     <path
        inkscape:connector-curvature="0"
        id="main_path"
-       d="M 50,20.446534 C 33.678117,20.446645 20.446645,33.678117 20.446534,50 20.446645,66.321883 33.678117,79.553355 50,79.553466 66.321883,79.553355 79.553355,66.321883 79.553466,50 79.553355,33.678117 66.321883,20.446645 50,20.446534 Z"
-       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.21709061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 50,18.228547 C 32.45316,18.228666 18.228666,32.45316 18.228547,50 18.228666,67.54684 32.45316,81.771334 50,81.771453 67.54684,81.771334 81.771334,67.54684 81.771453,50 81.771334,32.45316 67.54684,18.228666 50,18.228547 Z"
+       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.60863;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        sodipodi:nodetypes="ccccc" />
   </g>
 </svg>

@@ -210,7 +210,7 @@
             }
         },
         "SLIDE_LEFT": {
-            "color": "#ed8a2e",
+            "color": "#862ced",
             "uses_custom_shadow": false,
             "src": {
                 "note": {
@@ -236,7 +236,7 @@
             }
         },
         "SLIDE_LEFT_HOLD_PIECE": {
-            "color": "#ed8a2e",
+            "color": "#862ced",
             "uses_custom_shadow": false,
             "src": {
                 "note": {
@@ -258,7 +258,7 @@
             }
         },
         "SLIDE_RIGHT_HOLD_PIECE": {
-            "color": "#ed8a2e",
+            "color": "#862ced",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
@@ -281,7 +281,7 @@
             }
         },
         "SLIDE_RIGHT": {
-            "color": "#ed8a2e",
+            "color": "#862ced",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {

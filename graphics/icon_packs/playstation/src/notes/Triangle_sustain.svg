@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,15 +70,15 @@
      inkscape:window-maximized="1"
      inkscape:window-y="0"
      inkscape:window-x="0"
-     inkscape:cy="48.838704"
-     inkscape:cx="47.33465"
+     inkscape:cy="58.224501"
+     inkscape:cx="31.901915"
      inkscape:zoom="8.3299999"
      inkscape:guide-bbox="true"
      showguides="true"
      showgrid="false"
      id="namedview817"
      inkscape:window-height="1080"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
      guidetolerance="10"
@@ -102,11 +102,6 @@
        id="guide839"
        orientation="0,1"
        position="62.816209,79.793562" />
-    <sodipodi:guide
-       inkscape:locked="false"
-       id="guide841"
-       orientation="0,1"
-       position="55.68572,20.542598" />
   </sodipodi:namedview>
   <g
      id="g832">
@@ -114,13 +109,13 @@
        sodipodi:nodetypes="ccccccc"
        inkscape:connector-curvature="0"
        id="main_path"
-       d="M 50,20.375 32.896484,50 15.791016,79.625 H 50 84.208984 L 67.103516,50 Z"
-       style="opacity:1;vector-effect:none;fill:#befcbd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07681608;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+       d="m 50,17.501678 -17.103516,29.625 -17.105468,29.625 H 50 84.208984 l -17.105468,-29.625 z"
+       style="opacity:1;vector-effect:none;fill:#befcbd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.07682;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     <path
-       inkscape:original-d="M 50,20.375 32.896484,50 15.791016,79.625 H 50 84.208984 L 67.103516,50 Z"
+       inkscape:original-d="m 50,18.096082 -17.103516,29.625 -17.105468,29.625 H 50 84.208984 l -17.105468,-29.625 z"
        inkscape:path-effect="#path-effect861"
        style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#9294a8;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 50,43.054688 42.716797,55.669922 35.431641,68.287109 H 50 64.570312 L 57.285156,55.669922 Z"
+       d="M 50,40.775391 42.716797,53.390625 35.431641,66.007812 H 50 64.570312 L 57.285156,53.390625 Z"
        id="main_path-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />

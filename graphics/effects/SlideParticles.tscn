@@ -1,66 +1,33 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://graphics/effects/sparkle.png" type="Texture" id=1]
+[ext_resource path="res://graphics/slide_fx_star.png" type="Texture" id=1]
 [ext_resource path="res://graphics/effects/SlideParticles.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.65812, 0.993569 )
+offsets = PoolRealArray( 0.328283, 0.993569 )
 colors = PoolColorArray( 0.988235, 1, 1, 0.501961, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=8]
 flag_disable_z = true
-spread = 50.0
+spread = 25.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 1000.0
-initial_velocity_random = 1.0
+initial_velocity_random = 0.75
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-damping = 1.0
-scale = 0.15
+damping = 250.0
+scale = 0.75
 color_ramp = SubResource( 2 )
-
-[sub_resource type="GradientTexture" id=8]
-gradient = SubResource( 1 )
-
-[sub_resource type="Curve" id=3]
-max_value = 1000.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.246576, 1000 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=9]
-flag_disable_z = true
-spread = 40.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 700.0
-initial_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 200.0
-damping_curve = SubResource( 4 )
-scale = 0.15
-color_ramp = SubResource( 8 )
 
 [node name="Node2D" type="Particles2D"]
 emitting = false
-amount = 10
-lifetime = 0.25
+amount = 12
+lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 7 )
+process_material = SubResource( 8 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
-
-[node name="Node2D2" type="Particles2D" parent="."]
-show_behind_parent = true
-emitting = false
-amount = 10
-lifetime = 0.25
-one_shot = true
-explosiveness = 1.0
-process_material = SubResource( 9 )
-texture = ExtResource( 1 )

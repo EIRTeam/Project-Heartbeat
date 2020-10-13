@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -15,7 +13,7 @@
    height="100"
    viewBox="0 0 100 100"
    sodipodi:docname="Circle.svg"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14">
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
   <metadata
      id="metadata821">
     <rdf:RDF>
@@ -64,19 +62,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1028"
+     inkscape:window-width="2560"
+     inkscape:window-height="1080"
      id="namedview817"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="5.8901994"
-     inkscape:cx="35.296565"
-     inkscape:cy="47.028529"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:zoom="7.9999999"
+     inkscape:cx="41.587674"
+     inkscape:cy="63.742815"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g832">
+     inkscape:current-layer="g832"
+     inkscape:document-rotation="0">
     <sodipodi:guide
        position="57.553229,67.060547"
        orientation="0,1"
@@ -93,7 +92,7 @@
        id="guide839"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="55.68572,20.542598"
+       position="224.04932,20.839051"
        orientation="0,1"
        id="guide841"
        inkscape:locked="false" />
@@ -102,18 +101,33 @@
        orientation="0,1"
        id="guide895"
        inkscape:locked="false" />
+    <sodipodi:guide
+       position="-0.72028813,50"
+       orientation="0,1"
+       id="guide854"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="50,107.68307"
+       orientation="-1,0"
+       id="guide856"
+       inkscape:label=""
+       inkscape:locked="false"
+       inkscape:color="rgb(0,0,255)" />
   </sodipodi:namedview>
   <g
      id="g832">
     <path
-       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.21709061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 50,20.446534 A 29.553667,29.553667 0 0 0 20.446534,50 29.553667,29.553667 0 0 0 50,79.553466 29.553667,29.553667 0 0 0 79.553466,50 29.553667,29.553667 0 0 0 50,20.446534 Z m 0,15.130377 A 14.423803,14.423803 0 0 1 64.423089,50 14.423803,14.423803 0 0 1 50,64.423089 14.423803,14.423803 0 0 1 35.576911,50 14.423803,14.423803 0 0 1 50,35.576911 Z"
+       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.60863;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 50,18.228547 A 31.771669,31.771669 0 0 0 18.228547,50 31.771669,31.771669 0 0 0 50,81.771453 31.771669,31.771669 0 0 0 81.771453,50 31.771669,31.771669 0 0 0 50,18.228547 Z m 0,16.265912 A 15.506309,15.506309 0 0 1 65.505541,50 15.506309,15.506309 0 0 1 50,65.505541 15.506309,15.506309 0 0 1 34.494459,50 15.506309,15.506309 0 0 1 50,34.494459 Z"
        id="main_path"
        inkscape:connector-curvature="0" />
-    <path
-       style="opacity:1;vector-effect:none;fill:#94107f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.93750882;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 84.277246,20.168066 A 28.334867,28.334867 0 0 1 55.942379,48.502933 28.334867,28.334867 0 0 1 27.607512,20.168066 28.334867,28.334867 0 0 1 55.942379,-8.1667996 28.334867,28.334867 0 0 1 84.277246,20.168066 Z"
+    <circle
+       style="fill:#862ced;stroke:#f02bda;stroke-width:2.74119"
        id="shadow"
-       inkscape:connector-curvature="0" />
+       cx="17.670929"
+       cy="19.877033"
+       r="48.484722" />
   </g>
 </svg>

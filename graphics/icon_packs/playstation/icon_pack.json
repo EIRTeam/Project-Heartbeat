@@ -46,8 +46,8 @@
             "src": {
                 "note": {
                     "style": "normal",
-                    "src_path": "notes/Cross"
-                    ,"target_path": "notes/Cross"
+                    "src_path": "notes/Cross",
+                    "target_path": "notes/Cross"
                 },
                 "target": {
                     "style": "target",
@@ -115,8 +115,8 @@
             }
         },
         "UP": {
-            "color": "#09e2a6",
-            "shadow_color": "#64e9c4",
+            "color": "#24E438",
+            "shadow_color": "#9FE4A6",
             "trail_margin": 0.01,
             "uses_custom_shadow": true,
             "src": {

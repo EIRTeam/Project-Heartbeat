@@ -73,7 +73,7 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1080"
      id="namedview817"
      showgrid="false"
@@ -118,8 +118,8 @@
     <path
        inkscape:connector-curvature="0"
        id="main_path"
-       d="M 50,20.446534 C 33.678117,20.446645 20.446645,33.678117 20.446534,50 20.446645,66.321883 33.678117,79.553355 50,79.553466 66.321883,79.553355 79.553355,66.321883 79.553466,50 79.553355,33.678117 66.321883,20.446645 50,20.446534 Z"
-       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.21709061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 50,18.228547 C 32.45316,18.228666 18.228666,32.45316 18.228547,50 18.228666,67.54684 32.45316,81.771334 50,81.771453 67.54684,81.771334 81.771334,67.54684 81.771453,50 81.771334,32.45316 67.54684,18.228666 50,18.228547 Z"
+       style="opacity:1;vector-effect:none;fill:#311094;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.60863;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        sodipodi:nodetypes="ccccc" />
     <path
        inkscape:original-d="M 50,20.446534 C 33.678117,20.446645 20.446645,33.678117 20.446534,50 20.446645,66.321883 33.678117,79.553355 50,79.553466 66.321883,79.553355 79.553355,66.321883 79.553466,50 79.553355,33.678117 66.321883,20.446645 50,20.446534 Z"
