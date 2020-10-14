@@ -12,7 +12,9 @@ func set_song(value):
 	song = value
 	title_label.text_2 = song.get_visible_title()
 	circle_text_rect.hide()
-	if song.artist_alias != "":
+	if song.hide_artist_name:
+		title_label.text_1 = ""
+	elif song.artist_alias != "":
 		title_label.text_1 = song.artist_alias
 	else:
 		title_label.text_1 = song.artist

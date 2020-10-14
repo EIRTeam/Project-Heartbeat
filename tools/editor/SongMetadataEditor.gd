@@ -39,6 +39,7 @@ onready var end_time_spinbox = get_node("TabContainer/Technical Data/MarginConta
 
 onready var volume_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/VolumeSpinbox")
 onready var chart_ed = get_node("TabContainer/Charts")
+onready var hide_artist_name_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HideArtistName")
 func set_song_meta(value):
 	song_meta = value
 	
@@ -64,7 +65,7 @@ func set_song_meta(value):
 	youtube_url_line_edit.text = song_meta.youtube_url
 	intro_skip_checkbox.pressed = song_meta.allows_intro_skip
 	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
-
+	hide_artist_name_checkbox.pressed = song_meta.hide_artist_name
 	start_time_spinbox.value = song_meta.start_time
 	end_time_spinbox.value = song_meta.end_time
 	
@@ -101,6 +102,7 @@ func save_meta():
 	
 	song_meta.start_time = start_time_spinbox.value
 	song_meta.end_time = end_time_spinbox.value
+	song_meta.hide_artist_name = hide_artist_name_checkbox.pressed
 	
 	song_meta.volume = volume_spinbox.value
 	chart_ed.apply_to(song_meta)

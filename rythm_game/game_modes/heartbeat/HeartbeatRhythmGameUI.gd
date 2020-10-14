@@ -84,7 +84,7 @@ func _on_chart_set(chart: HBChart):
 func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = []):
 	progress_indicator.min_value = song.start_time / 1000.0
 	if song.end_time > 0:
-		progress_indicator.max_value = song.start_time / 1000.0
+		progress_indicator.max_value = song.end_time / 1000.0
 	else:
 		progress_indicator.max_value = game.audio_stream_player.stream.get_length()
 	circle_margin_container.hide()
@@ -106,6 +106,7 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 				circle_text_rect.texture = assets.circle_logo
 				_on_size_changed()
 	song_name_label.text = song.get_visible_title()
+	author_label.visible = !song.hide_artist_name
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias
 	else:

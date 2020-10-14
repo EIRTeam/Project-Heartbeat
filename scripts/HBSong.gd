@@ -42,6 +42,7 @@ var intro_skip_min_time = 30.0
 var start_time = 0
 var end_time = -1
 var volume = 1.0
+var hide_artist_name = false
 
 # not serialized
 var loader = ""
@@ -60,7 +61,7 @@ func _init():
 	"preview_start", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
-	"end_time", "volume"]
+	"end_time", "volume", "hide_artist_name"]
 
 func get_meta_string():
 	var song_meta = []

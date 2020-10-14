@@ -22,7 +22,6 @@ __meta__ = {
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -600,6 +599,12 @@ margin_left = 513.0
 margin_right = 588.0
 margin_bottom = 24.0
 text = "Select file"
+
+[node name="HideArtistName" type="CheckBox" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+margin_top = 184.0
+margin_right = 588.0
+margin_bottom = 208.0
+text = "Hide artist name"
 
 [node name="AudioFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
