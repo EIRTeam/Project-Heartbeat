@@ -35,6 +35,8 @@ onready var video_player = get_node("Node2D/Panel/VideoPlayer")
 signal fade_out_finished(game_info)
 signal user_quit()
 
+var current_assets = {}
+
 func _ready():
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
@@ -83,6 +85,7 @@ func start_fade_in():
 	HBGame.song_stats.save_song_stats()
 
 func start_session(game_info: HBGameInfo, assets=null):
+	current_assets = assets
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
 		return
@@ -263,7 +266,7 @@ func _show_results(game_info: HBGameInfo):
 			var scene = MainMenu.instance()
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
-			scene.starting_menu_args = {"game_info": game_info}
+			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets}
 			get_tree().root.add_child(scene)
 			get_tree().current_scene = scene
 #	scene.set_result(results)

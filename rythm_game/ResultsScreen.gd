@@ -32,11 +32,14 @@ signal show_song_results_mp(entries)
 var mp_lobby: HBLobby
 var mp_entries = {}
 var current_song: HBSong
+var current_assets
 func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
 	return a.score > b.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	buttons.grab_focus()
+	if args.has("assets"):
+		current_assets = args.assets
 	if args.has("game_info"):
 		set_game_info(args.game_info)
 	if args.has("hide_retry"):
@@ -120,12 +123,17 @@ func _on_vote_button_pressed(vote):
 		ugc.set_user_item_vote(current_song.ugc_id, vote)
 	
 func _on_retry_button_pressed():
-	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
+	
+	var new_scene = preload("res://menus/LoadingScreen.tscn")
+	game_info.time = OS.get_unix_time()
 	var scene = new_scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	scene.start_session(game_info)
+	game_info.song_id = current_song.id
+	game_info.difficulty = game_info.difficulty
+	emit_signal("begin_loading")
+	scene.load_song(game_info, false, current_assets)
 	
 func _on_return_button_pressed():
 	if not mp_lobby:
