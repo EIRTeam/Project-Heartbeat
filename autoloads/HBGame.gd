@@ -55,7 +55,10 @@ func _game_init():
 		UserSettings.user_settings.visualizer_enabled = false
 		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
-	SongLoader.load_all_songs_async()
+	if OS.has_feature("editor"):
+		SongLoader.load_all_songs_meta()
+	else:
+		SongLoader.load_all_songs_async()
 	
 	YoutubeDL._init_ytdl()
 	

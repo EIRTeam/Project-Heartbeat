@@ -125,7 +125,8 @@ func load_all_songs_meta():
 			var s = loader.load_songs()
 			for song in s:
 				add_song(song)
-
+	initial_load_done = true
+	emit_signal("all_songs_loaded")
 func load_all_songs_async():
 	songs = {}
 #	load_all_songs_meta()
