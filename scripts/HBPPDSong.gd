@@ -5,6 +5,7 @@ class_name HBPPDSong
 
 const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
 const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url"]
+var offset = 0
 var guid = ""
 func _ready():
 	pass
@@ -35,7 +36,7 @@ static func from_ini(content: String, id: String) -> HBSong:
 					}
 
 	if dict.setting.has("start"):
-		song.start_time = max(int(float(dict.setting.start) * 1000.0), 0)
+		song.offset = -int(float(dict.setting.start) * 1000.0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
 	if dict.setting.has("guid"):
@@ -44,7 +45,6 @@ static func from_ini(content: String, id: String) -> HBSong:
 	for setting in dict.setting:
 		if setting.begins_with(EXTENDED_PROPERTY_PREFIX):
 			var property_name = setting.substr(EXTENDED_PROPERTY_PREFIX.length(), setting.length() - EXTENDED_PROPERTY_PREFIX.length())
-			print("FOUND PROP!", property_name)
 			if property_name in ALLOWED_EXTENDED_PROPERTIES:
 				song.set(property_name, dict.setting[setting])
 	
@@ -56,7 +56,7 @@ func has_video_enabled():
 
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
-	return PPDLoader.PPD2HBChart(chart_path, bpm)
+	return PPDLoader.PPD2HBChart(chart_path, bpm, offset)
 func get_meta_path():
 	return path.plus_file("data.ini")
 func get_serialized_type():
