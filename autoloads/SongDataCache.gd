@@ -9,6 +9,8 @@ func _ready():
 	timer.one_shot = true
 	add_child(timer)
 
+const CURRENT_CACHE_VERSION = 0
+
 var song_meta_cache = {}
 var audio_normalization_cache = {}
 	
@@ -44,7 +46,13 @@ func load_cache():
 		file.open(CACHE_PATH, File.READ)
 		var meta_caches = file.get_var()
 		if meta_caches is Dictionary:
+			var has_version = "__version" in meta_caches
+			if not has_version or has_version and meta_caches.__version < CURRENT_CACHE_VERSION:
+				Log.log(self, "Local cache is old, ignoring it...")
+				return
 			for song_id in meta_caches:
+				if song_id == "__version":
+					continue
 				var r = HBSerializable.deserialize(meta_caches[song_id])
 				if r is HBSongMetaCacheEntry:
 					song_meta_cache[song_id] = r
@@ -62,6 +70,7 @@ func load_cache():
 					break
 		else:
 			Log.log(self, "Error loading cache", Log.LogLevel.ERROR)
+		Log.log(self, "Finished loading cache...")
 		file.close()
 	
 func _on_save_cache_timed_out():
@@ -72,6 +81,7 @@ func _on_save_cache_timed_out():
 		var meta_cache = song_meta_cache[song_id] as HBSongMetaCacheEntry
 		var serialized_meta = meta_cache.serialize()
 		serialized_metas[song_id] = serialized_meta
+	serialized_metas["__version"] = CURRENT_CACHE_VERSION
 	file.store_var(serialized_metas)
 	
 	var serialized_audio_caches = {}
@@ -107,3 +117,7 @@ func is_song_audio_loudness_cached(song: HBSong):
 
 func get_song_volume_offset(song: HBSong):
 	return HBAudioNormalizer.get_offset_from_loudness(audio_normalization_cache[song.id].loudness)
+
+func clear_cache():
+	song_meta_cache = {}
+	_on_save_cache_timed_out()
