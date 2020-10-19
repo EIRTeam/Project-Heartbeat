@@ -83,9 +83,11 @@ var right_menu
 var fullscreen_menu_container
 
 var left_menu_container
-var right_menu_container
+var right_menu_container: Control
 
 var player = HBBackgroundMusicPlayer.new()
+
+var user_info_ui
 func _ready():
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	DownloadProgress.holding_back_notifications = false
@@ -133,11 +135,13 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu.connect("transition_finished", fullscreen_menu_container, "remove_child", [fullscreen_menu], CONNECT_ONESHOT)
 		fullscreen_menu = null
 	if menu_data.has("fullscreen"):
+		user_info_ui.hide()
 		fullscreen_menu = menu_data["fullscreen"]
 		fullscreen_menu_container.add_child(fullscreen_menu)
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
-
+	else:
+		user_info_ui.hide()
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
 		# Prevent softlock when transiton hasn't finished
@@ -174,7 +178,7 @@ func _on_song_started(song, assets):
 			MENUS.music_player.right.set_song(song, assets.audio.get_length())
 	else:
 		if not iflag:
-			if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen:
+			if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
 				change_to_background(assets.background)
 			else:
 				change_to_background(null, true)

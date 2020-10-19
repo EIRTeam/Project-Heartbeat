@@ -22,12 +22,13 @@ func _get_song_audio_path(song: HBSong) -> String:
 	return song.get_song_audio_res_path()
 	
 func update_loudness_for_song(song: HBSong, loudness: float):
-	var audio_cache = HBAudioLoudnessCacheEntry.new()
 	var file = File.new()
-	audio_cache.modified = file.get_modified_time(_get_song_audio_path(song))
-	audio_cache.loudness = loudness
-	audio_normalization_cache[song.id] = audio_cache
-	save_cache()
+	if file.file_exists(_get_song_audio_path(song)):
+		var audio_cache = HBAudioLoudnessCacheEntry.new()
+		audio_cache.modified = file.get_modified_time(_get_song_audio_path(song))
+		audio_cache.loudness = loudness
+		audio_normalization_cache[song.id] = audio_cache
+		save_cache()
 func update_cache_for_song(song: HBSong):
 	var song_meta_path = song.get_meta_path()
 	
