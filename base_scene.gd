@@ -8,6 +8,8 @@ var loadingu_t = 0
 var timer = Timer.new()
 func _ready():
 	SongLoader.connect("all_songs_loaded", timer, "start")
+	if SongLoader.initial_load_done:
+		call_deferred("_on_songs_finished_loading")
 	set_status("Loadingu...")
 	add_child(timer)
 	timer.wait_time = 0.3

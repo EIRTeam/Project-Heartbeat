@@ -4,7 +4,7 @@
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
 
 [resource]
-size = 25
+size = 45
 use_filter = true
 font_data = ExtResource( 2 )
 fallback/0 = ExtResource( 1 )
