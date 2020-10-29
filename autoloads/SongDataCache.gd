@@ -112,8 +112,9 @@ func get_cached_meta(song_id: String):
 func is_song_audio_loudness_cached(song: HBSong):
 	if song.id in audio_normalization_cache:
 		var file = File.new()
-		var modified = file.get_modified_time(_get_song_audio_path(song))
-		return modified == audio_normalization_cache[song.id].modified
+		if file.file_exists(_get_song_audio_path(song)):
+			var modified = file.get_modified_time(_get_song_audio_path(song))
+			return modified == audio_normalization_cache[song.id].modified
 	return false
 
 func get_song_volume_offset(song: HBSong):
