@@ -16,7 +16,7 @@
 [ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=14]
 [ext_resource path="res://fonts/new_fonts/roboto_black_25.tres" type="DynamicFont" id=15]
 
-[sub_resource type="Shader" id=4]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
 uniform vec2 pos;
@@ -43,14 +43,14 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -59,7 +59,7 @@ use_filter = true
 extra_spacing_top = 7
 font_data = ExtResource( 7 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
@@ -75,7 +75,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 25.0
 content_margin_right = 0.0
 bg_color = Color( 0.19, 0.07, 0.3, 0.95 )
@@ -131,7 +131,7 @@ rect_min_size = Vector2( 0, 60 )
 custom_constants/separation = 19
 
 [node name="TitleLabel" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
-material = SubResource( 5 )
+material = SubResource( 2 )
 margin_right = 1860.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
@@ -185,16 +185,44 @@ margin_bottom = 798.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
 margin_right = 1860.0
-margin_bottom = 503.0
+margin_bottom = 616.0
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.35
+size_flags_stretch_ratio = 2.77
+custom_constants/separation = 15
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+margin_right = 922.0
+margin_bottom = 616.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_styles/panel = ExtResource( 2 )
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel"]
+[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = 2.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+margin_left = 937.0
+margin_right = 1860.0
+margin_bottom = 616.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 2 )
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = 2.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 __meta__ = {
@@ -202,7 +230,7 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
-margin_top = 518.0
+margin_top = 631.0
 margin_right = 1860.0
 margin_bottom = 798.0
 size_flags_horizontal = 3
@@ -224,7 +252,7 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
 margin_left = 10.0
 margin_right = 1850.0
-margin_bottom = 280.0
+margin_bottom = 167.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 0
 custom_constants/margin_left = 15
@@ -236,16 +264,16 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer"]
 margin_left = 15.0
 margin_right = 1825.0
-margin_bottom = 280.0
+margin_bottom = 167.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 86.0
+margin_top = 30.0
 margin_right = 1810.0
-margin_bottom = 119.0
+margin_bottom = 63.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -255,7 +283,7 @@ __meta__ = {
 margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
@@ -264,7 +292,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "(NT)700"
 align = 2
 valign = 1
@@ -273,9 +301,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 123.0
+margin_top = 67.0
 margin_right = 1810.0
-margin_bottom = 156.0
+margin_bottom = 100.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -285,7 +313,7 @@ __meta__ = {
 margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -294,7 +322,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "(NT)700"
 align = 2
 valign = 1
@@ -303,9 +331,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 160.0
+margin_top = 104.0
 margin_right = 1810.0
-margin_bottom = 193.0
+margin_bottom = 137.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -315,7 +343,7 @@ __meta__ = {
 margin_right = 1610.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "SCORE"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
@@ -324,7 +352,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "(NT)131231412"
 align = 2
 valign = 1
@@ -368,7 +396,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 2 )
+hover_style = SubResource( 4 )
 
 [node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 857.0
@@ -384,7 +412,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 2 )
+hover_style = SubResource( 4 )
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 989.0
@@ -399,7 +427,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 2 )
+hover_style = SubResource( 4 )
 
 [node name="RatingPopup" type="Popup" parent="."]
 visible = true
@@ -414,7 +442,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="RatingPopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

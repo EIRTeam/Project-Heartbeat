@@ -302,7 +302,11 @@ margin_right = 1.49829
 margin_bottom = -1.49835
 
 [node name="VideoURLChangePopup" parent="." instance=ExtResource( 12 )]
+has_cancel = true
+has_accept = true
 text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
+accept_text = "Yes"
+cancel_text = "No"
 [connection signal="out_from_bottom" from="MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" to="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" method="grab_focus"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/StartPractice" to="." method="_on_StartPractice_pressed"]

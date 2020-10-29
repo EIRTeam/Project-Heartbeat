@@ -11,6 +11,7 @@ onready var file_dialog: FileDialog = MouseTrap.content_dir_dialog
 onready var content_reload_popup = get_node("ReloadingContentPopup")
 onready var content_reload_success_popup = get_node("ContentReloadSuccessPopup")
 onready var reset_content_directory_confirmation_window = get_node("ResetContentDirectoryConfirmationWindow")
+onready var cache_clear_success_popup = get_node("CacheClearSucccessPopup")
 var content_directory_control
 var action_being_bound = ""
 
@@ -36,6 +37,7 @@ func _ready():
 	reset_content_directory_confirmation_window.connect("accept", self, "_on_content_directory_reset")
 	reset_content_directory_confirmation_window.connect("cancel", self, "grab_focus")
 	content_reload_success_popup.connect("accept", self, "grab_focus")
+	cache_clear_success_popup.connect("accept", get_tree(), "quit")
 	file_dialog.connect("dir_selected", self, "_on_path_selected")
 	file_dialog.get_close_button().connect("pressed", self, "grab_focus")
 	SongLoader.connect("all_songs_loaded", self, "_on_content_reload_complete")
@@ -56,19 +58,31 @@ func populate():
 	reload_content_button.expand_icon = true
 	reload_content_button.connect("pressed", self, "_on_content_reload")
 	
+	var clear_cache_button = HBHovereableButton.new()
+	clear_cache_button.text = "Clear cache"
+	clear_cache_button.expand_icon = true
+	clear_cache_button.connect("pressed", self, "_on_cache_cleared")
+	
 	scroll_container.vbox_container.add_child(reload_content_button)
 	scroll_container.vbox_container.add_child(add_content_path_button)
+	scroll_container.vbox_container.add_child(clear_cache_button)
 	
 	content_directory_control = PATH_SCENE.instance()
 	content_directory_control.dir = UserSettings.user_settings.content_path
 	content_directory_control.connect("pressed", set_directory_confirmation_window, "popup_centered")
 	scroll_container.vbox_container.add_child(content_directory_control)
 	
+	
 func _on_path_selected(path):
 	UserSettings.user_settings.content_path = path
 	UserSettings.save_user_settings()
 	_on_content_reload()
 	content_directory_control.dir = UserSettings.user_settings.content_path
+	
+func _on_cache_cleared():
+	SongDataCache.clear_cache()
+	cache_clear_success_popup.popup_centered()
+	cache_clear_success_popup.grab_focus()
 	
 func _on_content_reload_complete():
 	content_reload_popup.hide()

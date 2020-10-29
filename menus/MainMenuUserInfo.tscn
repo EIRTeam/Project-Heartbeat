@@ -1,0 +1,89 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=3]
+[ext_resource path="res://fonts/new_fonts/roboto_black_25.tres" type="DynamicFont" id=4]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Panel
+
+"
+
+[sub_resource type="StyleBoxFlat" id=1]
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+shadow_color = Color( 0.94902, 0.239216, 0.819608, 0.501961 )
+shadow_size = 8
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+use_filter = true
+font_data = ExtResource( 2 )
+
+[node name="Panel" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_right = 0.00012207
+margin_bottom = -82.0
+custom_styles/panel = ExtResource( 1 )
+script = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1905.0
+margin_bottom = 119.0
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+margin_right = 104.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 104, 0 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/TextureRect"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_left = 119.0
+margin_right = 266.0
+margin_bottom = 104.0
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 147.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 4 )
+text = "EIREXE"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 57.0
+margin_right = 147.0
+margin_bottom = 99.0
+custom_fonts/font = SubResource( 2 )
+text = "Level 69"
