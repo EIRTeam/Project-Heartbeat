@@ -5,11 +5,13 @@ class_name HBPPDSong
 
 const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
 const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url"]
-var offset = 0
+var ppd_offset = 0
 var guid = ""
 func _ready():
 	pass
 
+func _init():
+	serializable_fields += ["ppd_offset"]
 # Returns a HBPPDSong meta from an ini file
 static func from_ini(content: String, id: String) -> HBSong:
 	var dict = HBINIParser.parse(content)
@@ -36,7 +38,7 @@ static func from_ini(content: String, id: String) -> HBSong:
 					}
 
 	if dict.setting.has("start"):
-		song.offset = -int(float(dict.setting.start) * 1000.0)
+		song.ppd_offset = -int(float(dict.setting.start) * 1000.0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
 	if dict.setting.has("guid"):
@@ -56,7 +58,7 @@ func has_video_enabled():
 
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
-	return PPDLoader.PPD2HBChart(chart_path, bpm, offset)
+	return PPDLoader.PPD2HBChart(chart_path, bpm, ppd_offset)
 func get_meta_path():
 	return path.plus_file("data.ini")
 func get_serialized_type():
