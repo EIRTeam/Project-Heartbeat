@@ -16,8 +16,6 @@ var load_mutex = Mutex.new()
 
 const LOG_NAME = "BackgroundSongAssetsLoader.gd"
 
-var force_abort = false
-
 func _load_song_assets_thread(userdata):
 	var song := SongLoader.songs[userdata.song_id] as HBSong
 	var audio_normalizer := HBAudioNormalizer.new()
@@ -60,7 +58,7 @@ func _load_song_assets_thread(userdata):
 		if enable_abort:
 			# Current song changed, abort
 			_current_song_mutex.lock()
-			if current_song.id != userdata.song_id or force_abort:
+			if current_song.id != userdata.song_id:
 				call_deferred("_song_asset_loading_aborted", userdata.thread)
 				_current_song_mutex.unlock()
 				return
@@ -78,8 +76,7 @@ func _load_song_assets_thread(userdata):
 					while not audio_normalizer.work_on_normalization():
 						if enable_abort:
 							_current_song_mutex.lock()
-							if current_song.id != userdata.song_id or force_abort:
-								force_abort = false
+							if current_song.id != userdata.song_id:
 								call_deferred("_song_asset_loading_aborted", userdata.thread)
 								_current_song_mutex.unlock()
 								return
@@ -88,8 +85,7 @@ func _load_song_assets_thread(userdata):
 	if enable_abort:
 		# Current song changed, abort
 		_current_song_mutex.lock()
-		if current_song.id != userdata.song_id or force_abort:
-			force_abort = false
+		if current_song.id != userdata.song_id:
 			call_deferred("_song_asset_loading_aborted", userdata.thread)
 			_current_song_mutex.unlock()
 			return
@@ -102,7 +98,7 @@ func _notification(what):
 	
 func force_abort_current_loading():
 	_current_song_mutex.lock()
-	force_abort = true
+	current_song = HBSong.new()
 	_current_song_mutex.unlock()
 	
 func _song_asset_loading_aborted(thread: Thread):
@@ -110,6 +106,10 @@ func _song_asset_loading_aborted(thread: Thread):
 	
 func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 	thread.wait_to_finish() # Windows breaks if you don't do this
+	_current_song_mutex.lock()
+	if song.id != current_song.id:
+		return
+	_current_song_mutex.unlock()
 	var images = []
 	for asset_name in assets:
 		if assets[asset_name] is Image:
@@ -130,7 +130,9 @@ func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 	
 func load_song_assets(song, requested_assets=["preview", "background", "audio", "voice"]):
 	var thread = Thread.new()
+	_current_song_mutex.lock()
 	current_song = song
+	_current_song_mutex.unlock()
 	var result = thread.start(self, "_load_song_assets_thread", {"song_id": song.id, "thread": thread, "requested_assets": requested_assets})
 	if result != OK:
 		Log.log(self, "Error starting thread for asset loader: " + str(result), Log.LogLevel.ERROR)
