@@ -74,15 +74,26 @@ static func load_wav(path: String):
 	file.open(path, file.READ)
 	var buffer = file.get_buffer(file.get_len())
 	var stream = AudioStreamSample.new()
-	stream.format = AudioStreamSample.FORMAT_16_BITS      
 	stream.data = buffer
 	
 	var mix_rate_encoded = buffer.subarray(24, 27)
 	var mix_rate = mix_rate_encoded[0] + (mix_rate_encoded[1] << 8)
 	mix_rate += (mix_rate_encoded[2] << 16) + (mix_rate_encoded[3] << 23)
 	stream.mix_rate = mix_rate
-	stream.stereo = true
 	
+	var channel_count_encoded = buffer.subarray(34, 35)
+	
+	var channel_count = channel_count_encoded[0] + (channel_count_encoded[1] << 8)
+	stream.stereo = channel_count == 1
+	
+	var bits_per_sample_encoded = buffer.subarray(34, 35)
+	var bits_per_sample = bits_per_sample_encoded[0] + (bits_per_sample_encoded[1] << 8)
+	
+	if bits_per_sample == 16:
+		stream.format = AudioStreamSample.FORMAT_16_BITS
+	else:
+		stream.format = AudioStreamSample.FORMAT_8_BITS
+
 	file.close()
 	return stream
 	
