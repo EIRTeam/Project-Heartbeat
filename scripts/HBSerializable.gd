@@ -4,22 +4,22 @@ class_name HBSerializable
 var merge_dict_fields := []
 
 var serializable_fields := []
-func serialize():
+func serialize(serialize_defaults = false):
 	if get_serialized_type():
 		var defaults = get_serializable_types()[get_serialized_type()].new()
 		var serialized_data = {}
 		for field in serializable_fields:
 			var _field = get(field)
 			# Ensures that we don't write defaults to disk, in case we change them
-			if _field == defaults.get(field):
+			if not serialize_defaults and _field == defaults.get(field):
 				continue
 			if _field is Object and _field.has_method("serialize"):
-				serialized_data[field] = _field.serialize()
+				serialized_data[field] = _field.serialize(serialize_defaults)
 			elif _field is Array:
 				var r = []
 				for item in _field:
 					if item is Object and item.has_method("serialize"):
-						r.append(item.serialize())
+						r.append(item.serialize(serialize_defaults))
 					else:
 						r.append(item)
 				serialized_data[field] = r
@@ -99,7 +99,8 @@ static func get_serializable_types():
 		"Folder": load("res://scripts/HBFolder.gd"),
 		"MetaCacheEntry": load("res://autoloads/HBSongMetaCacheEntry.gd"),
 		"AudioLoudnessCacheEntry": load("res://autoloads/HBAudioLoudnessCacheEntry.gd"),
-		"PPDSong": load("res://scripts/HBPPDSong.gd")
+		"PPDSong": load("res://scripts/HBPPDSong.gd"),
+		"WebUserInfo": load("res://scripts/HBWebUserInfo.gd")
 	}
 func get_serialized_type():
 	pass

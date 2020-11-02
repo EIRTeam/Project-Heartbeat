@@ -31,11 +31,11 @@ static func deserialize(data: Dictionary):
 			var modifier_settings = HBSerializable.deserialize(data.modifiers[modifier_id])
 			res.modifiers[modifier_id] = modifier_settings
 	return res
-func serialize():
-	var base_data = .serialize()
+func serialize(serialize_defaults=false):
+	var base_data = .serialize(serialize_defaults)
 	var new_modifiers = {}
 	for modifier_id in modifiers:
-		new_modifiers[modifier_id] = modifiers[modifier_id].serialize()
+		new_modifiers[modifier_id] = modifiers[modifier_id].serialize(serialize_defaults)
 	base_data.modifiers = new_modifiers
 	return base_data
 func add_new_modifier(modifier_id: String):

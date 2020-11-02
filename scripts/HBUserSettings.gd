@@ -128,7 +128,7 @@ static func deserialize(data: Dictionary):
 	
 	return result
 	
-func serialize():
+func serialize(serialize_defaults=false):
 	var base_data = .serialize()
 	var new_input_map = {}
 	for action_name in base_data.input_map:
