@@ -11,7 +11,7 @@ func _ready():
 	pass
 
 func _init():
-	serializable_fields += ["ppd_offset"]
+	serializable_fields += ["ppd_offset", "guid"]
 # Returns a HBPPDSong meta from an ini file
 static func from_ini(content: String, id: String) -> HBSong:
 	var dict = HBINIParser.parse(content)
