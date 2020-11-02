@@ -108,6 +108,7 @@ func _song_assets_loaded(thread: Thread, song: HBSong, assets: Dictionary):
 	thread.wait_to_finish() # Windows breaks if you don't do this
 	_current_song_mutex.lock()
 	if song.id != current_song.id:
+		_current_song_mutex.unlock()
 		return
 	_current_song_mutex.unlock()
 	var images = []
