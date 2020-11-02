@@ -109,7 +109,9 @@ func upload_song(song: HBSong, ugc_id):
 	ugc.set_item_metadata(update_id, JSON.print(current_song.serialize()))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	if uploading_new:
-		ugc.add_item_preview_video(update_id, YoutubeDL.get_video_id(song.youtube_url))
+		var video_id = YoutubeDL.get_video_id(song.youtube_url)
+		if video_id:
+			ugc.add_item_preview_video(update_id, video_id)
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
 
 	Steam.setItemTags(update_id, ["Charts"])
