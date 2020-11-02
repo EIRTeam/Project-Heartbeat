@@ -21,12 +21,48 @@ onready var log_rich_text_label = get_node("WindowDialog/TabContainer/Logs/VBoxC
 onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
 onready var fps_label = get_node("FPSLabel")
 onready var gamepad_visualizer = get_node("GamepadVisualizer")
+onready var network_tree = get_node("WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer/Tree")
+onready var tree_root = network_tree.create_item()
+onready var network_body_RTL = get_node("WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer/RichTextLabel")
+onready var auth_token_button = get_node("WindowDialog/TabContainer/Network/VBoxContainer/AuthTokenButton")
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
 	$WindowDialog.hide()
 	fps_label.hide()
 	gamepad_visualizer.hide()
+	network_tree.hide_root = true
+	network_tree.connect("item_selected", self, "_on_network_item_selected")
+	HBBackend.connect("diagnostics_response_received", self, "_on_response_received")
+	HBBackend.connect("diagnostics_created_request", self, "_on_request_created")
+	auth_token_button.connect("pressed", self, "_on_auth_token_button_pressed")
+	
+func _on_auth_token_button_pressed():
+	OS.clipboard = HBBackend.jwt_token
+	
+func _on_request_created(request_data: HBBackend.RequestData):
+	var item = network_tree.create_item(tree_root)
+	item.set_text(0, "%s - %s"  % [request_data.method, request_data.url])
+	item.set_meta("request", request_data)
+	
+func _on_response_received(response_data: HBBackend.ResponseData):
+	var response_name = "%d - %s" % [response_data.code, HBUtils.find_key(HBBackend.REQUEST_TYPE, response_data.request_type)]
+	var item = network_tree.create_item(tree_root)
+	item.set_text(0, response_name)
+	item.set_meta("response_body", response_data.body)
+func _on_network_item_selected():
+	var item = network_tree.get_selected()
+	if item.has_meta("request"):
+		var request = item.get_meta("request")
+		var headers = ""
+		if request.headers is String:
+			headers = request.headers
+		elif request.headers is Array:
+			headers = PoolStringArray(request.headers).join("\n")
+		network_body_RTL.text = "%s\n%s" % [headers, request.body]
+	else:
+		var body = item.get_meta("response_body")
+		network_body_RTL.text = body
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
@@ -92,7 +128,6 @@ func _on_message_logged(logger_name, message, log_level):
 		log_messages[logger_name] = []
 	log_messages[logger_name].append({"caller": logger_name, "message": message, "log_level": log_level})
 	show_log_messages()
-
 
 func _on_LogFilterOptionButton_item_selected(id):
 	show_log_messages()

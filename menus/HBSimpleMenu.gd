@@ -15,9 +15,12 @@ signal back
 signal bottom
 signal out_from_top
 var plays_sfx = true
+var ignore_down = false # Ignore down action
 
 var sfx_player = AudioStreamPlayer.new()
 
+var left_action = "gui_left"
+var right_action = "gui_right"
 
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
@@ -51,8 +54,8 @@ func _on_focus_entered():
 					break
 
 func _gui_input(event):
-	var next_action = "gui_right"
-	var prev_action = "gui_left"
+	var next_action = right_action
+	var prev_action = left_action
 
 	if orientation == ORIENTATION.VERTICAL:
 		next_action = "gui_down"
@@ -76,7 +79,7 @@ func _gui_input(event):
 				get_tree().set_input_as_handled()
 				var i = selected_button_i-1
 				while i >= 0:
-					if get_child(i).visible:
+					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
 						sfx_player.play()
 						break
@@ -94,7 +97,7 @@ func _gui_input(event):
 				get_tree().set_input_as_handled()
 				var i = selected_button_i+1
 				while i <= get_child_count()-1:
-					if get_child(i) != sfx_player and get_child(i).visible:
+					if get_child(i) != sfx_player and get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
 						sfx_player.play()
 						break
@@ -103,7 +106,7 @@ func _gui_input(event):
 		if selected_button:
 			get_tree().set_input_as_handled()
 			selected_button.emit_signal("pressed")
-	elif event.is_action_pressed("gui_down"):
+	elif event.is_action_pressed("gui_down")  and not ignore_down:
 		get_tree().set_input_as_handled()
 		emit_signal("bottom")
 #	elif event.is_action_pressed("gui_cancel"):
@@ -113,3 +116,13 @@ func _on_focus_exited():
 	if selected_button:
 		if stop_hover_on_focus_exit:
 			selected_button.stop_hover()
+
+func _on_button_pressed(button: BaseButton):
+	select_button(button.get_position_in_parent())
+
+func add_child(new_n, legible_u_name = false):
+	.add_child(new_n, legible_u_name)
+	if new_n is BaseButton:
+		new_n.focus_mode = Control.FOCUS_NONE
+		new_n.connect("pressed", self, "_on_button_pressed", [new_n])
+	

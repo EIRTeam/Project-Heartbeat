@@ -1,67 +1,208 @@
 extends Node
 
 signal result_entered
-signal entries_received(entries)
-var login_http_request := HTTPRequest.new()
+signal entries_received(handle, entries, total_pages)
+
+signal user_data_received
+signal diagnostics_response_received(response_data)
+signal diagnostics_created_request(request_data)
+signal request_failed(handle, code, total_pages)
+signal connection_status_changed
+var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
-	"live": "http://localhost:8000",
-	"dev": "http://localhost:8000"
+	"prod": { "url": "https://projectheartbeat.eirteam.moe", "validate_domain": true },
+	"dev": { "url": "https://127.0.0.1:8000", "validate_domain": false }
 }
 
-var service_url = SERVICE_ENVIRONMENTS.dev
+const LEADERBOARD_ENTRIES_PER_PAGE = 25
+
+var service_env = SERVICE_ENVIRONMENTS.prod
 var jwt_token = ""
 var connected = false
+var waiting_for_auth = false
+var has_user_data = false
+var auth_ticket
+
+var queued_requests = []
+
+var request_handle_i = 0
+
+class ResponseData:
+	var code: int
+	var body: String
+	var request_type: int
+
+class RequestData:
+	var url: String
+	var method: String
+	var headers: String
+	var body: String
 
 enum REQUEST_TYPE {
 	LOGIN,
 	ENTER_RESULT,
-	GET_ENTRIES
+	GET_ENTRIES,
+	GET_USER_DATA
 }
 
 var request_type_methods = {
 	REQUEST_TYPE.LOGIN: "_on_logged_in",
 	REQUEST_TYPE.ENTER_RESULT: "_on_result_entered",
-	REQUEST_TYPE.GET_ENTRIES: "_on_entries_received"
+	REQUEST_TYPE.GET_ENTRIES: "_on_entries_received",
+	REQUEST_TYPE.GET_USER_DATA: "_on_user_data_received"
 }
 
 const LOG_NAME = "HBBackend"
 
-func _ready():
-	login_http_request.connect("request_completed", self, "_on_request_completed")
+var user_info := HBWebUserInfo.new()
+
+var timer := Timer.new()
+
+class BackendLeaderboardEntry:
+	var user: SteamServiceMember
+	var rank: int
+	var game_info: HBGameInfo
 	
-func _on_request_completed(result, response_code, headers, body, request_type, requester):
+	func _init(_user: SteamServiceMember, _rank: int, _game_info: HBGameInfo):
+		user = _user
+		rank = _rank
+		game_info = _game_info
+func _ready():
+	add_child(timer)
+	
+	timer.wait_time = 5
+	timer.one_shot = false
+	timer.connect("timeout", self, "_on_retry_timer_timed_out")
+	
+	PlatformService.service_provider.connect("ticket_ready", self, "_on_ticket_ready")
+	PlatformService.service_provider.connect("ticket_failed", self, "_on_ticket_failed")
+	if "--enable-network-diagnostics" in OS.get_cmdline_args():
+		enable_diagnostics = true
+	var cmdline_args = OS.get_cmdline_args()
+	for i in range(cmdline_args.size()):
+		var arg = cmdline_args[i]
+		if arg == "--service-environment":
+			if cmdline_args.size() > i+1:
+				var env = cmdline_args[i+1]
+				if env in SERVICE_ENVIRONMENTS:
+					service_env = SERVICE_ENVIRONMENTS[env]
+					break
+	renew_auth()
+	
+func _on_retry_timer_timed_out():
+	timer.stop()
+	if not connected and not waiting_for_auth:
+		renew_auth()
+	
+func _on_user_data_received(json, _params):
+	json["type"] = "WebUserInfo"
+	var user_info_out = HBWebUserInfo.deserialize(json)
+	
+	if user_info_out:
+		has_user_data = true
+		user_info = user_info_out
+		emit_signal("user_data_received")
+	
+func _on_request_completed(result, response_code, headers, body, request_type, requester, params):
 	requester.queue_free()
-	if response_code == 200:
+	if enable_diagnostics:
+		var data = ResponseData.new()
+		data.code = response_code
+		data.body = body.get_string_from_utf8()
+		data.request_type = request_type
+		emit_signal("diagnostics_response_received", data)
+	if response_code == 200 and result == OK:
 		var json = JSON.parse(body.get_string_from_utf8()).result
-		call(request_type_methods[request_type], json)
+		call(request_type_methods[request_type], json, params)
 	else:
+		emit_signal("request_failed", params.handle, response_code)
+		
+		if request_type == REQUEST_TYPE.LOGIN:
+			timer.start()
+			print("TIMER ON!!!")
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + str(response_code) + body.get_string_from_utf8())
-func _on_logged_in(json):
+func _on_logged_in(json, _params):
 	jwt_token = json.token
 	connected = true
+	emit_signal("connection_status_changed")
+	waiting_for_auth = false
 	Log.log(self, "Succesfully logged in")
-	HBBackend.get_song_results(SongLoader.songs["ugc_2067258398"], "extreme")
+	for request in queued_requests:
+		make_request(request.url, request.payload, request.method, request.type, request.params, request.no_auth)
+	queued_requests = []
+	refresh_user_info()
 	
-func make_request(url: String, payload: Dictionary, method, type, no_auth=false):
+	#HBBackend.get_song_results(SongLoader.songs["ugc_2185496110"], "extreme")
+	
+func get_jwt_data():
+	return JSON.parse(Marshalls.base64_to_utf8(jwt_token.split(".")[1]) + "}").result
+	
+func make_request(url: String, payload: Dictionary, method, type, params = {}, no_auth = false, ignore_jwt_expiration = false):
+	
+	request_handle_i += 1
+	
+	params = HBUtils.merge_dict({
+		"handle": request_handle_i
+	},
+	params)
+	
+	if not ignore_jwt_expiration:
+		if not jwt_token or (get_jwt_data()["exp"] - OS.get_unix_time() < 60):
+			if not waiting_for_auth:
+				renew_auth()
+			queued_requests.append({
+				"url": url,
+				"payload": payload,
+				"method": method,
+				"type": type,
+				"no_auth": no_auth,
+				"params": params
+			})
+			return request_handle_i
+	
 	var requester = HTTPRequest.new()
-	requester.connect("request_completed", self, "_on_request_completed", [type, requester])
+	requester.use_threads = true
+	requester.connect("request_completed", self, "_on_request_completed", [type, requester, params])
 	add_child(requester)
 	var headers = ["Content-Type: application/json"]
 	if not no_auth:
-		headers = ["Authorization: Token " + jwt_token]
-	requester.request(service_url + url,  headers, false, method, JSON.print(payload))
-func login_steam(ticket: PoolByteArray):
+		headers += ["Authorization: Bearer " + jwt_token]
+	requester.request(service_env.url + url,  headers, service_env.validate_domain, method, JSON.print(payload))
+	
+	if enable_diagnostics:
+		var request_data = RequestData.new()
+		request_data.url = url
+		request_data.body = JSON.print(payload, "  ")
+		request_data.method = {
+			HTTPClient.METHOD_POST: "POST",
+			HTTPClient.METHOD_GET: "GET"
+		}[method]
+		request_data.headers = headers
+		emit_signal("diagnostics_created_request", request_data)
+	return request_handle_i
+func login_steam():
 	var payload = {
-		"steam_ticket": ticket.hex_encode()
+		"steam_ticket": auth_ticket.hex_encode()
 	}
-	make_request("/api/users/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, true)
+	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
-func _on_result_entered(result):
+func _on_result_entered(result, _params):
 	emit_signal("result_entered")
+
+func can_have_scores_uploaded(song: HBSong) -> bool:
+	if song is HBPPDSong:
+		if not song.guid:
+			return false
+	else:
+		if song.ugc_service_name != "Steam Workshop" or (not song.comes_from_ugc() and not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN):
+			Log.log(self, "Only UGC songs can have scores uploaded")
+			return false
+	return true
+
 func upload_result(song: HBSong, game_info: HBGameInfo):
-	var request = {"result": {}, "song_ugc_id": "0", "song_ugc_type": "Steam"}
-	var game_info_dict = game_info.serialize()
+	var request = {"game_info": {}, "song_ugc_id": "0", "song_ugc_type": "Steam"}
+	var game_info_dict = game_info.serialize(true)
 	game_info_dict.game_session_type = "Multiplayer"
 	if game_info.game_session_type == game_info.GAME_SESSION_TYPE.OFFLINE:
 		game_info_dict.game_session_type = "Offline"
@@ -75,19 +216,80 @@ func upload_result(song: HBSong, game_info: HBGameInfo):
 		if song.ugc_service_name != "Steam Workshop":
 			Log.log(self, "Only UGC songs can have scores uploaded")
 			return
-			request.song_ugc_id = str(song.ugc_id)
-	request.result = game_info_dict
-	make_request("/api/leaderboard/enter-result", request, HTTPClient.METHOD_POST, REQUEST_TYPE.ENTER_RESULT)
+		request.song_ugc_id = str(song.ugc_id)
 
-func _on_entries_received(result):
-	print("RECEIVED", result)
-	emit_signal("entries_received", result)
+	# HACKISH format conversion and data insertion
 
-func get_song_results(song: HBSong, difficulty: String, include_modifiers = false):
+	game_info_dict.result.note_ratings = {}
+	game_info_dict.result.wrong_note_ratings = {}
+	
+	request["song_data"] = song.serialize()
+	
+	for key in game_info.result.note_ratings:
+		var key_str = HBUtils.find_key(HBJudge.JUDGE_RATINGS, key) as String
+		game_info_dict.result.note_ratings[key_str.capitalize()] = game_info.result.note_ratings[key]
+		
+	for key in game_info.result.wrong_note_ratings:
+		var key_str = HBUtils.find_key(HBJudge.JUDGE_RATINGS, key) as String
+		game_info_dict.result.wrong_note_ratings[key_str.capitalize()] = game_info.result.wrong_note_ratings[key]
+		
+	request.game_info = game_info_dict
+	return make_request("/api/leaderboard/enter-result", request, HTTPClient.METHOD_POST, REQUEST_TYPE.ENTER_RESULT, { "song": song })
+
+func _convert_note_ratings(data_dict: Dictionary):
+	var out_dict = {}
+	for rating_name in data_dict:
+		for key in HBJudge.JUDGE_RATINGS:
+			if key.to_lower() == rating_name.to_lower():
+				out_dict[str(HBJudge.JUDGE_RATINGS[key])] = data_dict[rating_name]
+	return out_dict
+func _on_entries_received(result, params):
+	
+	var page = params.page
+	
+	var pos_i = (page - 1) * LEADERBOARD_ENTRIES_PER_PAGE
+	
+	var entries = []
+	
+	for item in result.leaderboard_entries:
+		pos_i += 1
+		var entry_data = item.entry_data
+		entry_data.result.note_ratings = _convert_note_ratings(entry_data.result.note_ratings)
+		entry_data.result.wrong_note_ratings = _convert_note_ratings(entry_data.result.wrong_note_ratings)
+		var game_info = HBGameInfo.deserialize(entry_data)
+		
+		for user in result.users:
+			if user.id == item.user_id:
+				var member = SteamServiceMember.new(int(user.steam_id))
+				entries.append(BackendLeaderboardEntry.new(member, pos_i, game_info))
+				break
+	
+	emit_signal("entries_received", params.handle, entries, result.total_pages)
+
+func get_song_entries(song: HBSong, difficulty: String, include_modifiers = false, page = 1):
 	var type = "steam"
 	var song_uid = str(song.ugc_id)
 	if song is HBPPDSong:
 		type = "ppd"
 		song_uid = song.guid
-	var params = [type, song_uid, difficulty]
-	make_request("/api/leaderboard/entries/%s/%s/%s?from=0&to=10&modifiers=true" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES)
+	var params = [type, song_uid, difficulty, str(page), str(include_modifiers).to_lower()]
+	return make_request("/api/leaderboard/get-results/%s/%s/%s?page=%s&modifiers=%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES, {"page": page})
+
+func renew_auth():
+	if PlatformService.service_provider.implements_leaderboard_auth:
+		waiting_for_auth = true
+		timer.stop()
+		auth_ticket = PlatformService.service_provider.get_leaderboard_auth_token()
+func _on_ticket_ready():
+	Log.log(self, "Got ticket, attempting login...")
+	login_steam()
+	waiting_for_auth = false
+
+func _on_ticket_failed(err):
+	waiting_for_auth = false
+	connected = false
+	emit_signal("connection_status_changed")
+	Log.log(self, "TICKET RECEPTION FAILED, error code: %d" % [err], Log.LogLevel.ERROR)
+
+func refresh_user_info():
+	return make_request("/api/user/get-current-user-data", {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_USER_DATA)

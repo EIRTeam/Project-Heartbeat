@@ -29,8 +29,26 @@ const QUOTES = [
 	"If she saves you, it's likely her name starts with an E", # Sadnesswaifu yosi yosi
 	"Smooooooooth operatooooooor", # Reference to Carlos Sainz Junior
 	"Rolling around at the speed of tuturu", # ????
-	"Shoutouts to SimpleFlips"
+	"Shoutouts to SimpleFlips",
+	"I'll never break under their madness, I'll be miles above, my head up to the sky", # Ace - I'll never break
+	"Original handcrafted code!", # This code is definitely not stolen
+	"The hate us because they ain't us", # The Interview reference
+	"Now featuring 100% more leaderboards",
+	"Project Project Disappointment", # PPD reference
+	"Project Heartbeat Install from scratch tutorial", # Reference to hisokeee's video.
+	"Sé que, si perdo, vosaltres també perdeu", # Reference to gohan's bird scene in Catalan,
+	"T'has de enfrontar amb mi. Endevant, mira'm els ulls! No tinc cap por. Estic Segur.", # ditto
+	"Shinoboooo", # Oshino Shinobu reference
+	"Not portable *", # Reference to PH not being officially available on portable systems, despite there being a homebrew switch port
+	":v",
+	"The CEO of button mashing", # It is you
+	"Bwoah", # Kimi raikkonen reference
+	"Just leave me alone, I know what to do", # Ditto
+	"Just being a mediocre has never been my ambition. That's not my style.", # Michael Schumacher quote
+	"If God had meant for us to walk, why did he give us fingers that fit game controllers?", # Stirling Moss quote
+	"Oh yeah that was easy, I can't believe it... No it wasn't" # Mika Hakkinen quote
 ]
 
 func _ready():
 	text = QUOTES[randi() % QUOTES.size()]
+	#text = QUOTES[26-4]

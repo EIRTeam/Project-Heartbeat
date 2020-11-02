@@ -26,7 +26,10 @@ func _init():
 		},
 		"main_menu": {
 			"left": preload("res://menus/main_menu/MainMenuLeft.tscn").instance(),
-			"right": "music_player"
+			"right": "news_list"
+		},
+		"news_list": {
+			"right": preload("res://menus/news_list/NewsList.tscn").instance()
 		},
 		"lobby_list": {
 			"left": preload("res://multiplayer/lobby/LobbyList.tscn").instance()
@@ -101,7 +104,7 @@ func _ready():
 	
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
-	MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
+	MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	MENUS["results"].left.connect("show_song_results_mp", MENUS["leaderboard"].right.get_leadearboard_control(), "set_entries")
 	MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
 	MENUS["pre_game"].left.connect("begin_loading", self, "_on_loading_begun")
@@ -141,7 +144,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
 	else:
-		user_info_ui.hide()
+		user_info_ui.show()
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
 		# Prevent softlock when transiton hasn't finished

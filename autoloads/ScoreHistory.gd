@@ -9,21 +9,19 @@ signal score_entered(song, difficulty)
 
 var games_queued_for_upload = []
 
+var last_song_uploaded
+
 func _ready():
 	load_history()
+	HBBackend.connect("result_entered", self, "_on_leaderboard_score_uploaded")
 	if PlatformService.service_provider.implements_leaderboards:
 		var lb_provider = PlatformService.service_provider.leaderboard_provider
 		lb_provider.connect("score_uploaded", self, "_on_leaderboard_score_uploaded")
 	
 		
-func _on_leaderboard_score_uploaded(success, lb_name, score, score_changed, new_rank, old_rank):
-	for game_info in games_queued_for_upload:
-		var song = SongLoader.songs[game_info.song_id] as HBSong
-		if song.get_leaderboard_name(game_info.difficulty) == lb_name:
-			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
-		games_queued_for_upload.erase(game_info)
-		break
-		
+func _on_leaderboard_score_uploaded():
+	emit_signal("score_entered", last_song_uploaded.song_id, last_song_uploaded.difficulty)
+
 func load_history():
 	var file := File.new()
 	if file.file_exists(SCORE_HISTORY_PATH):
@@ -81,14 +79,13 @@ func add_result_to_history(game_info: HBGameInfo):
 				found_higher_score = true
 		if not found_higher_score:
 			scores[game_info.song_id][game_info.difficulty] = game_info
-
-		if PlatformService.service_provider.implements_leaderboards:
-			var leaderboard_service = PlatformService.service_provider.leaderboard_provider as HBLeaderboardService
-			var song = SongLoader.songs[game_info.song_id] as HBSong
-			games_queued_for_upload.append(game_info)
-			leaderboard_service.upload_score(song.get_leaderboard_name(game_info.difficulty), result.score, result.get_percentage())
+		var song = SongLoader.songs[game_info.song_id] as HBSong
+		if HBBackend.can_have_scores_uploaded(song):
+			last_song_uploaded = game_info
+			HBBackend.upload_result(song, game_info)
 		else:
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
+
 		save_history()
 
 func has_result(song_id: String, difficulty: String):

@@ -13,9 +13,12 @@ var leaderboard_provider: HBLeaderboardService
 var ugc_provider: HBUGCService
 var implements_lobby_list = false
 var implements_leaderboards = false
+var implements_leaderboard_auth = false
 var implements_ugc = false
 
 signal run_mp_callbacks
+signal ticket_ready
+signal ticket_failed
 
 func init_platform() -> int:
 	if is_remote_storage_enabled():
@@ -48,3 +51,5 @@ func read_remote_file_to_path(file_name: String, target_path: String):
 	pass
 func is_remote_storage_enabled():
 	return false
+func get_leaderboard_auth_token():
+	pass

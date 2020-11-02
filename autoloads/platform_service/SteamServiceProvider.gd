@@ -6,6 +6,36 @@ func _init():
 	implements_lobby_list = true
 	implements_leaderboards = true
 	implements_ugc = true
+	implements_leaderboard_auth = true
+	Steam.connect("get_auth_session_ticket_response", self, "_on_get_auth_session_ticket_response")
+	
+func _on_get_auth_session_ticket_response(auth_id, result):
+	if result == 1:
+		emit_signal("ticket_ready")
+	else:
+		emit_signal("ticket_failed", result)
+	
+func get_avatar() -> Texture:
+	var img_handle = Steam.getMediumFriendAvatar(Steam.getSteamID())
+	var size = Steam.getImageSize(img_handle)
+	var buffer = Steam.getImageRGBA(img_handle).buffer
+	var avatar_image = Image.new()
+	var avatar_texture = ImageTexture.new()
+	avatar_image.create(size.width, size.height, false, Image.FORMAT_RGBAF)
+	
+	avatar_image.lock()
+	
+	for y in range(size.height):
+		for x in range(size.width):
+			var pixel = 4 * (x + y * size.height)
+			var r = float(buffer[pixel]) / 255.0
+			var g = float(buffer[pixel+1]) / 255.0
+			var b = float(buffer[pixel+2]) / 255.0
+			var a = float(buffer[pixel+3]) / 255.0
+			avatar_image.set_pixel(x, y, Color(r, g, b, a))
+	avatar_image.unlock()
+	avatar_texture.create_from_image(avatar_image)
+	return avatar_texture
 func init_platform() -> int:
 	if Engine.has_singleton("Steam"):
 
@@ -23,7 +53,6 @@ func init_platform() -> int:
 		
 		.init_platform()
 		
-		#HBBackend.login_steam(Steam.getAuthSessionTicket().buffer)
 		return OK
 	else:
 		Log.log(self, "Engine was not built with Steam support, aborting...")
@@ -88,3 +117,7 @@ func read_remote_file_to_path(file_name: String, target_path: String):
 
 func is_remote_storage_enabled():
 	return Steam.isCloudEnabledForApp()
+
+# Leaderboard auth token
+func get_leaderboard_auth_token():
+	return Steam.getAuthSessionTicket().buffer

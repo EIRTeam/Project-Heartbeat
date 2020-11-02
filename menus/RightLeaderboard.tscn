@@ -23,10 +23,11 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1275.0
-margin_bottom = 715.0
+margin_right = 1915.0
+margin_bottom = 1075.0
 custom_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
@@ -45,6 +46,6 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 1265.0
-margin_bottom = 705.0
+margin_right = 1905.0
+margin_bottom = 1065.0
 rect_clip_content = true

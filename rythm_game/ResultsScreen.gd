@@ -192,4 +192,4 @@ func set_game_info(val: HBGameInfo):
 
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:
-		emit_signal("show_song_results", song, difficulty)
+		emit_signal("show_song_results", song, difficulty, game_info.modifiers.size() != 0)

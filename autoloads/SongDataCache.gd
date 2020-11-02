@@ -9,7 +9,7 @@ func _ready():
 	timer.one_shot = true
 	add_child(timer)
 
-const CURRENT_CACHE_VERSION = 0
+const CURRENT_CACHE_VERSION = 1
 
 var song_meta_cache = {}
 var audio_normalization_cache = {}

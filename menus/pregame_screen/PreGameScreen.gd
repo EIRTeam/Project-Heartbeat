@@ -1,16 +1,17 @@
 extends HBMenu
 
 onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
-onready var button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer")
-onready var modifier_button_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer")
-onready var modifier_scroll_container = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer")
-onready var button_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel2")
+var button_container
+var modifier_button_container
+var modifier_scroll_container
+var button_panel
 onready var modifier_selector = get_node("ModifierLoader")
 onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
 onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
-onready var leaderboard_legal_text = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer/Label")
+var leaderboard_legal_text
 onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
-onready var stats_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2/StatsLabel")
+onready var tabbed_container = get_node("MarginContainer/VBoxContainer/TabbedContainer")
+var stats_label
 var current_song: HBSong
 var current_difficulty: String
 var current_editing_modifier: String
@@ -22,9 +23,32 @@ var game_info = HBGameInfo.new()
 
 var modifier_buttons = {}
 var background_image
+
+const LEADERBOARD_TAB = preload("res://menus/new_leaderboard_control/LeaderboardViewTab.tscn")
+
+var leaderboard_tab_normal = LEADERBOARD_TAB.instance()
+var leaderboard_tab_modifiers = LEADERBOARD_TAB.instance()
+
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
+	
+	# Hacky af...
+	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instance()
+	
+	tabbed_container.add_tab(tr("Song"), pregame_start_tab)
+	
+	button_container = pregame_start_tab.button_container
+	modifier_button_container = pregame_start_tab.modifier_button_container
+	modifier_scroll_container = pregame_start_tab.modifier_scroll_container
+	leaderboard_legal_text = pregame_start_tab.leaderboard_legal_text
+	stats_label = pregame_start_tab.stats_label
+	button_panel = pregame_start_tab.button_panel
+	
+	tabbed_container.add_tab(tr("Leaderboard"), leaderboard_tab_normal)
+	tabbed_container.add_tab(tr("Leaderboard (Modifiers)"), leaderboard_tab_modifiers)
+	
+	
 	modifier_settings_editor.hide()
 	modifier_selector.connect("back", self, "_modifier_loader_back")
 	modifier_selector.connect("modifier_selected", self, "_on_user_added_modifier")
@@ -35,6 +59,10 @@ func _ready():
 	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
 	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
 	#per_song_settings_editor.show_editor()
+	
+	pregame_start_tab.start_button.connect("pressed", self, "_on_StartButton_pressed")
+	pregame_start_tab.start_practice_button.connect("pressed", self, "_on_StartPractice_pressed")
+	pregame_start_tab.back_button.connect("pressed", self, "_on_BackButton_pressed")
 
 var current_assets
 var current_song_assets
@@ -79,7 +107,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("song"):
 		current_song = args.song
 	button_container.select_button(0)
-	button_container.grab_focus()
 	current_difficulty = current_song.charts.keys()[0]
 	if args.has("difficulty"):
 		current_difficulty = args.difficulty
@@ -89,10 +116,20 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	UserSettings.user_settings.last_game_info = game_info
 	game_info.song_id = current_song.id
 	
+	leaderboard_tab_normal.song = current_song
+	leaderboard_tab_normal.difficulty = current_difficulty
+	
+	leaderboard_tab_modifiers.song = current_song
+	leaderboard_tab_modifiers.difficulty = current_difficulty
+	leaderboard_tab_modifiers.include_modifiers = true
+	
+	leaderboard_tab_normal.reset()
+	leaderboard_tab_modifiers.reset()
+	
 	emit_signal("song_selected", current_song.id, current_difficulty)
 	update_modifiers()
-	
 	update_song_stats_label()
+	tabbed_container.show_tab("Song")
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
 	var highest_score_string = "Never played"
@@ -224,6 +261,7 @@ func _on_ppd_video_url_confirmed():
 
 
 func _on_StartPractice_pressed():
+
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = OS.get_unix_time()

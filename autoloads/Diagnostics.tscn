@@ -37,6 +37,7 @@ __meta__ = {
 }
 
 [node name="Game" type="MarginContainer" parent="WindowDialog/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -194,6 +195,43 @@ size_flags_vertical = 3
 bbcode_enabled = true
 selection_enabled = true
 
+[node name="Network" type="MarginContainer" parent="WindowDialog/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Network"]
+margin_right = 750.0
+margin_bottom = 383.0
+
+[node name="AuthTokenButton" type="Button" parent="WindowDialog/TabContainer/Network/VBoxContainer"]
+margin_right = 750.0
+margin_bottom = 25.0
+text = "Copy auth token"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="WindowDialog/TabContainer/Network/VBoxContainer"]
+margin_top = 29.0
+margin_right = 750.0
+margin_bottom = 383.0
+size_flags_vertical = 3
+split_offset = 371
+
+[node name="Tree" type="Tree" parent="WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer"]
+margin_right = 372.0
+margin_bottom = 354.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer"]
+margin_left = 380.0
+margin_right = 750.0
+margin_bottom = 354.0
+focus_mode = 2
+selection_enabled = true
+
 [node name="FPSLabel" type="Label" parent="."]
 anchor_right = 1.0
 margin_bottom = 14.0
@@ -204,6 +242,8 @@ __meta__ = {
 }
 
 [node name="GamepadVisualizer" parent="." instance=ExtResource( 4 )]
+margin_left = 1.18921
+margin_right = 1.18921
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

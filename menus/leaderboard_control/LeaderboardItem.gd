@@ -1,6 +1,6 @@
 tool
 extends Panel
-class_name HBLeaderboardItem
+class_name HBLeaderboardItemNew
 
 const style_even = preload("res://styles/ResultRatingStyleOdd.tres")
 var odd = false
@@ -9,6 +9,10 @@ onready var percentage_label = get_node("MarginContainer/HBoxContainer/VBoxConta
 onready var username_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/UserName")
 onready var user_avatar_texture_rect = get_node("MarginContainer/HBoxContainer/UserAvatar")
 onready var rank_label = get_node("MarginContainer/HBoxContainer/Rank")
+
+var items = []
+var starting_position = 1
+
 func _ready():
 	set_values()
 

@@ -99,6 +99,5 @@ func _on_resized():
 	var mat = material as ShaderMaterial
 	mat.set_shader_param("size", rect_size)
 	mat.set_shader_param("pos", rect_global_position)
-	if rect_size.x > 0:
-		mat.set_shader_param("fade_size", FADE_SIZE / float(rect_size.x))
+	mat.set_shader_param("fade_size", 0.25)
 	_on_text_updated()

@@ -176,12 +176,10 @@ func _gui_input(event):
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
-	print("POWER")
 	material.set_shader_param("enabled", true)
 	material.set_shader_param("size", rect_size)
 	material.set_shader_param("pos", rect_global_position)
 	material.set_shader_param("fade_size", FADE_SIZE / float(rect_size.x))
-	print(rect_size, " ", rect_global_position)
 	if selected_option:
 		if not prevent_hard_arrange:
 			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
