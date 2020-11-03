@@ -37,8 +37,8 @@ static func from_ini(content: String, id: String) -> HBSong:
 						"stars": float(song_settings[key].substr(1, song_settings[key].length()-1))
 					}
 
-	if dict.setting.has("start"):
-		song.ppd_offset = -int(float(dict.setting.start) * 1000.0)
+#	if dict.setting.has("start"):
+#		song.ppd_offset = -int(float(dict.setting.start) * 1000.0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
 	if dict.setting.has("guid"):
