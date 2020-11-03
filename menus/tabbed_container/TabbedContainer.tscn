@@ -31,6 +31,7 @@ __meta__ = {
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1900.0
 margin_bottom = 23.0
+custom_constants/separation = 10
 
 [node name="PromptInputAction2" parent="VBoxContainer/HBoxContainer2" instance=ExtResource( 5 )]
 margin_right = 40.0
@@ -39,15 +40,15 @@ rect_min_size = Vector2( 40, 0 )
 input_action = "gui_tab_left"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 44.0
-margin_right = 44.0
+margin_left = 50.0
+margin_right = 50.0
 margin_bottom = 23.0
 focus_mode = 2
+custom_constants/separation = 10
 script = ExtResource( 2 )
 
 [node name="PromptInputAction" parent="VBoxContainer/HBoxContainer2" instance=ExtResource( 5 )]
-margin_left = 48.0
-margin_right = 88.0
+margin_left = 60.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 40, 0 )
 input_action = "gui_tab_right"
