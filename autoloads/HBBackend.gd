@@ -11,13 +11,15 @@ signal connection_status_changed
 var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
-	"prod": { "url": "https://projectheartbeat.eirteam.moe", "validate_domain": true },
+	"production": { "url": "https://projectheartbeat.eirteam.moe", "validate_domain": true },
+	"testing": { "url": "https://testing.projectheartbeat.eirteam.moe:8000/version", "validate_domain": false },
 	"dev": { "url": "https://127.0.0.1:8000", "validate_domain": false }
 }
 
 const LEADERBOARD_ENTRIES_PER_PAGE = 25
 
-var service_env = SERVICE_ENVIRONMENTS.prod
+var service_env = SERVICE_ENVIRONMENTS.production
+var service_env_name = ""
 var jwt_token = ""
 var connected = false
 var waiting_for_auth = false
@@ -80,14 +82,21 @@ func _ready():
 	if "--enable-network-diagnostics" in OS.get_cmdline_args():
 		enable_diagnostics = true
 	var cmdline_args = OS.get_cmdline_args()
+	
+	if ProjectSettings.get("application/config/service_environment"):
+		service_env_name = ProjectSettings.get("application/config/service_environment")
+		service_env = SERVICE_ENVIRONMENTS[service_env_name]
+	
 	for i in range(cmdline_args.size()):
 		var arg = cmdline_args[i]
 		if arg == "--service-environment":
 			if cmdline_args.size() > i+1:
 				var env = cmdline_args[i+1]
 				if env in SERVICE_ENVIRONMENTS:
-					service_env = SERVICE_ENVIRONMENTS[env]
+					service_env_name = env
+					service_env = SERVICE_ENVIRONMENTS[service_env_name]
 					break
+	
 	renew_auth()
 	
 func _on_retry_timer_timed_out():
@@ -272,7 +281,7 @@ func get_song_entries(song: HBSong, difficulty: String, include_modifiers = fals
 	if song is HBPPDSong:
 		type = "ppd"
 		song_uid = song.guid
-	var params = [type, song_uid, difficulty, str(page), str(include_modifiers).to_lower()]
+	var params = [type, song_uid, difficulty.percent_encode(), str(page), str(include_modifiers).to_lower()]
 	return make_request("/api/leaderboard/get-results/%s/%s/%s?page=%s&modifiers=%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES, {"page": page})
 
 func renew_auth():
