@@ -40,6 +40,9 @@ func _on_note_judged(judgement, prevent_free = false):
 			target_graphic.hide()
 			sine_drawer.hide()
 			set_process_unhandled_input(false)
+			if not game.editing and not game.previewing:
+				Input.start_joy_vibration(UserSettings.device_id, 1.0, 1.0)
+				
 			if not game.editing or game.previewing:
 				if not current_sfx_player:
 					current_sfx_player = game.sfx_pool.play_sfx("slide_chain_start", true)
@@ -181,3 +184,4 @@ func is_slide_chain_active():
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_EXIT_TREE:
 		kill_loop_sfx_player()
+		Input.stop_joy_vibration(UserSettings.device_id)
