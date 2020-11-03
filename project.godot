@@ -177,6 +177,11 @@ _global_script_classes=[ {
 "base": "Panel",
 "class": "HBLeaderboardItem",
 "language": "GDScript",
+"path": "res://menus/new_leaderboard_control/LeaderboardItem.gd"
+}, {
+"base": "Panel",
+"class": "HBLeaderboardItemNew",
+"language": "GDScript",
 "path": "res://menus/leaderboard_control/LeaderboardItem.gd"
 }, {
 "base": "Reference",
@@ -384,6 +389,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/timing_points/HBSustainNote.gd"
 }, {
+"base": "Control",
+"class": "HBTabbedContainer",
+"language": "GDScript",
+"path": "res://menus/tabbed_container/TabbedContainer.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -408,6 +418,11 @@ _global_script_classes=[ {
 "class": "HBVersion",
 "language": "GDScript",
 "path": "res://scripts/HBVersion.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBWebUserInfo",
+"language": "GDScript",
+"path": "res://scripts/HBWebUserInfo.gd"
 }, {
 "base": "HBGameInputManager",
 "class": "HeartbeatInputManager",
@@ -448,6 +463,11 @@ _global_script_classes=[ {
 "class": "JS_JoypadMapButton",
 "language": "GDScript",
 "path": "res://third_party/joypad_support/ComponentScripts/JS_JoypadMapButton.gd"
+}, {
+"base": "Control",
+"class": "LeaderboardView",
+"language": "GDScript",
+"path": "res://menus/new_leaderboard_control/LeaderboardView.gd"
 }, {
 "base": "Reference",
 "class": "MPPlayer",
@@ -548,6 +568,11 @@ _global_script_classes=[ {
 "class": "SteamUGCService",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/ugc_services/SteamUGCService.gd"
+}, {
+"base": "Control",
+"class": "TabbedContainerTab",
+"language": "GDScript",
+"path": "res://menus/tabbed_container/TabbedContainerTab.gd"
 } ]
 _global_script_class_icons={
 "EditorPlayback": "",
@@ -584,6 +609,7 @@ _global_script_class_icons={
 "HBJudge": "",
 "HBLeadearboardEntry": "",
 "HBLeaderboardItem": "",
+"HBLeaderboardItemNew": "",
 "HBLeaderboardService": "",
 "HBListContainer": "",
 "HBLobby": "",
@@ -625,11 +651,13 @@ _global_script_class_icons={
 "HBSongVerification": "",
 "HBSoundEffectPool": "",
 "HBSustainNote": "",
+"HBTabbedContainer": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
+"HBWebUserInfo": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
 "InputEventSwipe": "",
@@ -638,6 +666,7 @@ _global_script_class_icons={
 "JS_InputMapProfiles": "",
 "JS_JoypadIdentifier": "",
 "JS_JoypadMapButton": "",
+"LeaderboardView": "",
 "MPPlayer": "",
 "NoteGroup": "",
 "Ok": "",
@@ -657,7 +686,8 @@ _global_script_class_icons={
 "SteamLobby": "",
 "SteamMultiplayerService": "",
 "SteamServiceMember": "",
-"SteamUGCService": ""
+"SteamUGCService": "",
+"TabbedContainerTab": ""
 }
 
 [application]
@@ -671,8 +701,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1601671332
-config/build_commit="d2192e378a91d2edef96e766b159b1d83a3c6fe1"
+config/build_time=1602068482
+config/build_commit="8150456533c8a24bd1d998ff46fadce4f9721aa5"
 
 [audio]
 
@@ -681,15 +711,15 @@ output_latency=7
 [autoload]
 
 Diagnostics="*res://autoloads/Diagnostics.tscn"
-HBBackend="*res://autoloads/HBBackend.gd"
-Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
+Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongDataCache="*res://autoloads/SongDataCache.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
+HBBackend="*res://autoloads/HBBackend.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 IconPackLoader="*res://autoloads/IconPackLoader.gd"
@@ -717,7 +747,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--phplugin:dscloader:game_location \"/home/eirexe/Descargas/PDAFT/SBZV_7.01\""
+main_run_args="--enable-network-diagnostics --service-environment dev"
 
 [editor_plugins]
 
@@ -785,6 +815,18 @@ ui_home={
 "deadzone": 0.5,
 "events": [  ]
 }
+gui_tab_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+gui_tab_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 ui_end={
 "deadzone": 0.5,
 "events": [  ]
@@ -809,7 +851,6 @@ gui_left={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":14,"pressure":0.0,"pressed":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 gui_right={
@@ -817,7 +858,6 @@ gui_right={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777233,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":15,"pressure":0.0,"pressed":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 gui_up={
@@ -1059,14 +1099,11 @@ translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
 
 file_logging/enable_file_logging=true
 
-[memory]
-
-limits/message_queue/max_size_kb=4096
-
 [rendering]
 
 quality/driver/fallback_to_gles2=true
 quality/2d/use_nvidia_rect_flicker_workaround=true
 vram_compression/import_etc=true
+batching/options/use_batching=false
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"
