@@ -166,11 +166,12 @@ func set_game_info(val: HBGameInfo):
 
 			if song.comes_from_ugc():
 				var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
-				var vote = yield(ugc.get_user_item_vote(song.ugc_id), "completed")
-				if vote == HBUGCService.USER_ITEM_VOTE.NOT_VOTED:
-					# UGC songs can be rated at the end of the game
-					rating_popup.popup_centered()
-					rating_buttons_container.grab_focus()
+				if not ugc.has_user_item_vote(song.ugc_id):
+					var vote = yield(ugc.get_user_item_vote(song.ugc_id), "completed")
+					if vote == HBUGCService.USER_ITEM_VOTE.NOT_VOTED:
+						# UGC songs can be rated at the end of the game
+						rating_popup.popup_centered()
+						rating_buttons_container.grab_focus()
 		title_label.text_2 = song.title
 		if song.artist_alias != "":
 			title_label.text_1 = song.artist_alias.to_upper()

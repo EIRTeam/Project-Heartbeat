@@ -188,32 +188,34 @@ func get_update_progress(update_id):
 	return Steam.getItemUpdateProgress(update_id)
 func add_item_preview_video(update_id, video_id):
 	Steam.addItemPreviewVideo(update_id, video_id)
-func get_user_item_vote(item_id):
+	
+func has_user_item_vote(item_id):
 	if item_id in ugc_data.skipped_votes:
-		return USER_ITEM_VOTE.SKIP
-	else:
-		Steam.getUserItemVote(item_id)
-		var r = yield(Steam, "get_item_vote_result")
-		var result = {
-			"result": r[0],
-			"file_id": r[1],
-			"vote_up": r[2],
-			"vote_down": r[3],
-			"vote_skipped": r[4]
-		}
-		if result.result == 1:
-			if result.vote_up:
-				return USER_ITEM_VOTE.UPVOTE
-			elif result.vote_down:
-				return USER_ITEM_VOTE.DOWNVOTE
-			else:
-				return USER_ITEM_VOTE.NOT_VOTED
-	#		else:
-				
-	#			pass
-			# TODO: Skip logic
+		return true
+	
+func get_user_item_vote(item_id):
+	Steam.getUserItemVote(item_id)
+	var r = yield(Steam, "get_item_vote_result")
+	var result = {
+		"result": r[0],
+		"file_id": r[1],
+		"vote_up": r[2],
+		"vote_down": r[3],
+		"vote_skipped": r[4]
+	}
+	if result.result == 1:
+		if result.vote_up:
+			return USER_ITEM_VOTE.UPVOTE
+		elif result.vote_down:
+			return USER_ITEM_VOTE.DOWNVOTE
 		else:
-			return USER_ITEM_VOTE.SKIP
+			return USER_ITEM_VOTE.NOT_VOTED
+#		else:
+			
+#			pass
+		# TODO: Skip logic
+	else:
+		return USER_ITEM_VOTE.SKIP
 
 func set_user_item_vote(item_id, vote):
 	if vote == USER_ITEM_VOTE.UPVOTE:

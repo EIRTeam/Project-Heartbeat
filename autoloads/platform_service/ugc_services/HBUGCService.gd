@@ -75,3 +75,6 @@ func add_item_preview_video(update_id, video_id):
 	pass
 func get_user_item_vote(item_id):
 	pass
+
+func has_user_item_vote(item_id):
+	pass
