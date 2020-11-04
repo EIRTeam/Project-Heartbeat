@@ -90,4 +90,5 @@ func _on_option_hovered(option_name):
 		$VBoxContainer/Panel/MarginContainer/HBoxContainer/DescriptionLabel.text = section_data[option_name].description
 
 func _on_focus_entered():
+	yield(get_tree(), "idle_frame")
 	scroll_container.grab_focus()
