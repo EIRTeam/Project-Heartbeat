@@ -7,7 +7,7 @@ func _ready():
 func update_label():
 	if HBBackend.connected:
 		add_color_override("font_color", Color.green)
-		text = "HeartbeatNET: Connected"
+		text = "HeartbeatNET: Connected (%s)" % [HBBackend.service_env_name]
 	else:
 		add_color_override("font_color", Color.red)
 		text = "HeartbeatNET: Not connected"

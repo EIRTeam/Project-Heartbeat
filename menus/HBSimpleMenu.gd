@@ -19,8 +19,8 @@ var ignore_down = false # Ignore down action
 
 var sfx_player = AudioStreamPlayer.new()
 
-var left_action = "gui_left"
-var right_action = "gui_right"
+var prev_action = "gui_left"
+var next_action = "gui_right"
 
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
@@ -54,12 +54,14 @@ func _on_focus_entered():
 					break
 
 func _gui_input(event):
-	var next_action = right_action
-	var prev_action = left_action
-
+	var left_action = "gui_up"
+	var right_action = "gui_down"
 	if orientation == ORIENTATION.VERTICAL:
 		next_action = "gui_down"
 		prev_action = "gui_up"
+		left_action = "gui_left"
+		right_action = "gui_right"
+		
 
 	if orientation == ORIENTATION.VERTICAL:
 		if selected_button_i == get_child_count() - 1:
@@ -71,9 +73,16 @@ func _gui_input(event):
 		if selected_button:
 			if selected_button_i == 0:
 				get_tree().set_input_as_handled()
-				if focus_neighbour_left:
-					var neighbor_left = get_node(focus_neighbour_left) as Control
-					neighbor_left.grab_focus()
+				if orientation == ORIENTATION.HORIZONTAL:
+					if focus_neighbour_left:
+						var neighbor_left = get_node(focus_neighbour_left) as Control
+						neighbor_left.grab_focus()
+						sfx_player.play()
+				else:
+					if focus_neighbour_top:
+						var neighbor_up = get_node(focus_neighbour_top) as Control
+						neighbor_up.grab_focus()
+						sfx_player.play()
 				emit_signal("out_from_top")
 			else:
 				get_tree().set_input_as_handled()
@@ -89,10 +98,16 @@ func _gui_input(event):
 		if selected_button:
 			if selected_button_i == get_child_count()-1:
 				get_tree().set_input_as_handled()
-				if focus_neighbour_right:
-					get_tree().set_input_as_handled()
-					var neighbour_right = get_node(focus_neighbour_right) as Control
-					neighbour_right.grab_focus()
+				if orientation == ORIENTATION.HORIZONTAL:
+					if focus_neighbour_right:
+						var neighbor_right = get_node(focus_neighbour_right) as Control
+						neighbor_right.grab_focus()
+						sfx_player.play()
+				else:
+					if focus_neighbour_bottom:
+						var neighbor_bottom = get_node(focus_neighbour_bottom) as Control
+						neighbor_bottom.grab_focus()
+						sfx_player.play()
 			else:
 				get_tree().set_input_as_handled()
 				var i = selected_button_i+1
@@ -109,6 +124,24 @@ func _gui_input(event):
 	elif event.is_action_pressed("gui_down")  and not ignore_down:
 		get_tree().set_input_as_handled()
 		emit_signal("bottom")
+	elif event.is_action_pressed(right_action):
+		if orientation == ORIENTATION.VERTICAL:
+			if focus_neighbour_right:
+				var neighbor_right = get_node(focus_neighbour_right) as Control
+				neighbor_right.grab_focus()
+		else:
+			if focus_neighbour_top:
+				var neighbor_up = get_node(focus_neighbour_top) as Control
+				neighbor_up.grab_focus()
+	elif event.is_action_pressed(left_action):
+		if orientation == ORIENTATION.VERTICAL:
+			if focus_neighbour_left:
+				var neighbor_left = get_node(focus_neighbour_left) as Control
+				neighbor_left.grab_focus()
+		else:
+			if focus_neighbour_bottom:
+				var neighbor_bottom = get_node(focus_neighbour_bottom) as Control
+				neighbor_bottom.grab_focus()
 #	elif event.is_action_pressed("gui_cancel"):
 #		get_tree().set_input_as_handled()
 #		emit_signal("back")

@@ -26,10 +26,10 @@ func _init():
 		},
 		"main_menu": {
 			"left": preload("res://menus/main_menu/MainMenuLeft.tscn").instance(),
-			"right": "news_list"
+			"right": "main_menu_right"
 		},
-		"news_list": {
-			"right": preload("res://menus/news_list/NewsList.tscn").instance()
+		"main_menu_right": {
+			"right": preload("res://menus/news_list/MainMenuRight.tscn").instance()
 		},
 		"lobby_list": {
 			"left": preload("res://multiplayer/lobby/LobbyList.tscn").instance()
@@ -113,6 +113,11 @@ func _ready():
 	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	player.play_random_song()
 	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game"].left, "set_current_assets")
+	
+	# Connect main menu list changes
+	MENUS["main_menu"].left.connect("right", MENUS["main_menu_right"].right, "_on_right_from_MainMenu")
+	MENUS["main_menu_right"].right.connect("left", MENUS["main_menu"].left, "_on_left_from_MainMenuRight")
+	
 	menu_setup()
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
@@ -179,14 +184,13 @@ func _on_song_started(song, assets):
 	if "audio" in assets:
 		if assets.audio:
 			MENUS.music_player.right.set_song(song, assets.audio.get_length())
-	else:
-		if not iflag:
-			if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
-				change_to_background(assets.background)
-			else:
-				change_to_background(null, true)
+	if not iflag:
+		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
+			change_to_background(assets.background)
 		else:
-			iflag = false
+			change_to_background(null, true)
+	else:
+		iflag = false
 	
 func change_to_background(background: Texture, use_default = false):
 	if use_default:

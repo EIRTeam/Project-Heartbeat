@@ -1,0 +1,180 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://menus/news_list/MainMenuRight.gd" type="Script" id=1]
+[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=3]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
+[ext_resource path="res://graphics/icons/discord_main_join.svg" type="Texture" id=5]
+[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=6]
+[ext_resource path="res://graphics/icons/twitter_main.svg" type="Texture" id=7]
+[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=10]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 7.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 25.0
+content_margin_right = 7.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_width_left = 133
+border_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=3]
+size = 35
+use_filter = true
+font_data = ExtResource( 2 )
+fallback/0 = ExtResource( 9 )
+
+[node name="Panel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.856
+margin_bottom = -0.480042
+custom_constants/separation = 25
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SocialButtons" type="VBoxContainer" parent="VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 773.0
+focus_neighbour_bottom = NodePath("../NewsButtons")
+focus_mode = 2
+size_flags_vertical = 3
+custom_constants/separation = 15
+alignment = 1
+script = ExtResource( 10 )
+orientation = 1
+
+[node name="DiscordButton" type="Button" parent="VBoxContainer/SocialButtons"]
+margin_top = 254.0
+margin_right = 1920.0
+margin_bottom = 379.0
+rect_min_size = Vector2( 0, 125 )
+focus_mode = 0
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Join the Discord server!"
+icon = ExtResource( 5 )
+script = ExtResource( 4 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
+
+[node name="TwitterButton" type="Button" parent="VBoxContainer/SocialButtons"]
+margin_top = 394.0
+margin_right = 1920.0
+margin_bottom = 519.0
+rect_min_size = Vector2( 0, 125 )
+focus_mode = 0
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+icon = ExtResource( 7 )
+script = ExtResource( 4 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SocialButtons/TwitterButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 123.0
+margin_bottom = -7.62939e-06
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
+margin_top = 12.0
+margin_right = 1797.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 6 )
+text = "Follow us on Twitter!"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
+margin_top = 69.0
+margin_right = 1797.0
+margin_bottom = 111.0
+custom_fonts/font = SubResource( 3 )
+text = "@PHeartbeatGame"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 798.0
+margin_right = 1920.0
+margin_bottom = 898.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 100.0
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.41418
+margin_bottom = -1.41418
+custom_fonts/font = ExtResource( 8 )
+text = "NEWS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewsButtons" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 923.0
+margin_right = 1920.0
+margin_bottom = 923.0
+focus_neighbour_top = NodePath("../SocialButtons")
+focus_mode = 2
+custom_constants/separation = 25
+script = ExtResource( 10 )
+orientation = 1
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+use_threads = true
