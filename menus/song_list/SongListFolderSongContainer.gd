@@ -209,13 +209,13 @@ func set_songs(songs: Array):
 
 	var vbox_container = self
 	
-	var is_song_selected = selected_option is HBSongListItem
+	var is_song_selected = selected_option is HBSongListItem or selected_option is HBSongListItemDifficulty
 	
 	if selected_option and is_song_selected:
 		previously_selected_song_id = selected_option.song.id
 		if selected_option is HBSongListItemDifficulty:
 			previously_selected_difficulty = selected_option.difficulty
-			
+		
 	song_items_map = {}
 			
 	for child in vbox_container.get_children():
