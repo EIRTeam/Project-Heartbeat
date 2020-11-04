@@ -201,10 +201,13 @@ func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	draw_leaderboard_legality()
 	
 func draw_leaderboard_legality():
-	if game_info.is_leaderboard_legal():
-		leaderboard_legal_text.text = "The current song will count towards leaderboard scores"
+	var song = SongLoader.songs[game_info.song_id] as HBSong
+	if HBBackend.can_have_scores_uploaded(song):
+		leaderboard_legal_text.text = "The current song and settings will count towards leaderboard scores"
+		if game_info.modifiers.size() > 0:
+			leaderboard_legal_text.text = "The current song will count towards leaderboard scores with modifiers"
 	else:
-		leaderboard_legal_text.text = "Modifiers are not allowed in the leaderboards, thus this score won't count"
+		leaderboard_legal_text.text = "Only workshop or PPD songs can have their scores uploaded!"
 	
 func add_buttons():
 	var modify_song_settings_option = HBHovereableButton.new()

@@ -23,8 +23,8 @@ func _ready():
 	button_container.stop_hover_on_focus_exit = false
 	button_container.ignore_down = true
 	button_container.connect("hover", self, "_on_button_container_hover")
-	button_container.left_action = "gui_tab_left"
-	button_container.right_action = "gui_tab_right"
+	button_container.prev_action = "gui_tab_left"
+	button_container.next_action = "gui_tab_right"
 
 func _on_button_container_hover(button):
 	show_tab(button.get_meta("tab_name"))
