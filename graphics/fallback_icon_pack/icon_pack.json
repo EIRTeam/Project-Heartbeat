@@ -106,8 +106,8 @@
             }
         },
         "RIGHT": {
-            "color": "#e02828",
-            "shadow_color": "#ec7b7b",
+            "color": "#ff0c5c",
+            "shadow_color": "#fd73b9",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -158,8 +158,8 @@
             }
         },
         "UP": {
-            "color": "#09e2a6",
-            "shadow_color": "#64e9c4",
+            "color": "#24E438",
+            "shadow_color": "#9FE4A6",
             "uses_custom_shadow": true,
             "src": {
                 "note": {
@@ -210,8 +210,9 @@
             }
         },
         "SLIDE_LEFT": {
-            "color": "#862ced",
-            "uses_custom_shadow": false,
+            "color": "#ed8a2e",
+            "shadow_color": "#ffe598",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -236,8 +237,9 @@
             }
         },
         "SLIDE_LEFT_HOLD_PIECE": {
-            "color": "#862ced",
-            "uses_custom_shadow": false,
+            "color": "#ed8a2e",
+            "shadow_color": "#ffe598",
+            "uses_custom_shadow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -258,7 +260,7 @@
             }
         },
         "SLIDE_RIGHT_HOLD_PIECE": {
-            "color": "#862ced",
+            "color": "#ed8a2e",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
@@ -281,7 +283,7 @@
             }
         },
         "SLIDE_RIGHT": {
-            "color": "#862ced",
+            "color": "#ed8a2e",
             "shadow_color": "#ffe598",
             "uses_custom_shadow": true,
             "src": {
