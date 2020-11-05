@@ -91,4 +91,5 @@ func _on_option_hovered(option_name):
 
 func _on_focus_entered():
 	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	scroll_container.grab_focus()

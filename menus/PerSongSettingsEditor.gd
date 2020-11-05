@@ -48,7 +48,6 @@ func _ready():
 	editor.hide()
 func show_editor():
 	editor.show()
-	yield(get_tree(), "idle_frame")
 	editor.grab_focus()
 	
 func _on_per_song_setting_changed(property_name, new_value):
