@@ -244,3 +244,6 @@ static func join_path(path1: String, path2: String) -> String:
 	if not path1.ends_with("/") and not path2.begins_with("/"):
 		path1 += "/"
 	return path1 + path2
+
+static func get_experience_to_next_level(level: int) -> int:
+	return 500 + (500 * level)
