@@ -23,3 +23,4 @@ func stop_hover():
 func _ready():
 	stop_hover()
 	add_stylebox_override("hover", hover_style)
+	focus_mode = FOCUS_NONE
