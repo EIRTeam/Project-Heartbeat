@@ -8,85 +8,42 @@ const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
 uniform sampler2D audio : hint_white;
 uniform sampler2D background;
-float getfrequency(float x) {
-	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
-}
-float getfrequency_smooth(float x) {
-	float index = floor(x * FREQ_RANGE) / FREQ_RANGE;
-    float next = floor(x * FREQ_RANGE + 1.0) / FREQ_RANGE;
-	return mix(getfrequency(index), getfrequency(next), smoothstep(0.0, 1.0, fract(x * FREQ_RANGE)));
-}
-void Rotate( inout vec2 p, float a ) 
-{
-	p = cos( a ) * p + sin( a ) * vec2( p.y, -p.x );
-}
-
-float Circle( vec2 p, float r )
-{
-    return ( length( p / r ) - 1.0 ) * r;
-}
-
-float Rand( vec2 c )
-{
-	return fract( sin( dot( c.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );
-}
-
-float saturate( float x )
-{
-	return clamp( x, 0.0, 1.0 );
-}
-
-void BokehLayer( inout vec4 color, vec2 p, vec3 c )   
-{
-    float wrap = 450.0;    
-    if ( mod( floor( p.y / wrap + 0.5 ), 2.0 ) == 0.0 )
-    {
-        p.x += wrap * 0.5;
-    }    
-    
-    vec2 p2 = mod( p + 0.5 * wrap, wrap ) - 0.5 * wrap;
-    vec2 cell = floor( p / wrap + 0.5 );
-    float cellR = Rand( cell );
-        
-    c *= fract( cellR * 3.33 + 3.33 );    
-    float radius = mix( 30.0, 70.0, fract( cellR * 7.77 + 7.77 ) );
-    p2.x *= mix( 0.9, 1.1, fract( cellR * 11.13 + 11.13 ) );
-    p2.y *= mix( 0.9, 1.1, fract( cellR * 17.17 + 17.17 ) );
-    
-    float sdf = Circle( p2, radius );
-    float circle = 1.0 - smoothstep( 0.0, 1.0, sdf * 0.04 );
-    float glow = exp( -sdf * 0.025 ) * 0.3 * ( 1.0 - circle );
-    color.rgb += c * ( circle + glow );
-}
 
 void fragment()
-{    
+{
+    float snow = 0.0;
 	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
-	vec2 uv = FRAGCOORD.xy / iResolution.xy;
-	vec2 p = ( 1.0 * FRAGCOORD.xy - iResolution.xy ) / iResolution.x * 1000.0;
-    
-    // background
-	vec3 bg = vec3(0.13, 0.07, 0.26);
-	vec4 color;
-	color.rgb = mix( bg, bg, dot( uv, vec2( 0.2, 0.7 ) ) );
-	color.a = 0.5;
-    float time = TIME - 15.0;
-    
-	float intensity = 1.0;
-	
-    Rotate( p, 0.2 + time * 0.03 );
-    BokehLayer( color, p + vec2( -50.0 * time +  0.0, 0.0  ), (intensity + getfrequency_smooth(0.0) * 1.0) * vec3( 0.31, 0.19, 0.68 ) );
-	Rotate( p, 0.3 - time * 0.05 );
-//    BokehLayer( color, p + vec2( -70.0 * time + 33.0, -33.0 ), intensity * vec3( 0.6, 0.4, 0.2 ) );
-	Rotate( p, 0.5 + time * 0.07 );
-//    BokehLayer( color, p + vec2( -60.0 * time + 55.0, 55.0 ), intensity * vec3( 0.4, 0.3, 0.2 ) );
-    Rotate( p, 0.9 - time * 0.03 );
-    BokehLayer( color, p + vec2( -25.0 * time + 77.0, 77.0 ), (intensity + getfrequency_smooth(0.5) * 1.0) * vec3( 0.67, 0.18, 0.68 ) / 2.0 );    
-    Rotate( p, 0.0 + time * 0.05 );
-	
-    BokehLayer( color, p + vec2( -15.0 * time + 99.0, 99.0 ), (intensity + getfrequency_smooth(1.0) * 1.0) * vec3( 0.5, 0.4, 0.4 ) );     
+    float gradient = (1.0-float(FRAGCOORD.y / iResolution.x))*0.4;
+    float random = fract(sin(dot(FRAGCOORD.xy,vec2(12.9898,78.233)))* 43758.5453);
+    for(int k=0;k<6;k++){
+        for(int i=0;i<12;i++){
+            float cellSize = 1.0 + (float(i)*2.0);
+			float downSpeed = 0.3+(sin(TIME*0.4+float(k+i*20))+1.0)*0.0000000008;
+            vec2 uv = (FRAGCOORD.xy / iResolution.x)+vec2(0.01*sin((TIME+float(k*6185))*0.6+float(i))*(5.0/float(i)),downSpeed*(TIME+float(k*1352))*(1.0/float(i)));
+            vec2 uvStep = (ceil((uv)*cellSize-vec2(0.5,0.5))/cellSize);
+            float x = fract(sin(dot(uvStep.xy,vec2(12.9898+float(k)*12.0,78.233+float(k)*315.156)))* 43758.5453+float(k)*12.0)-0.5;
+            float y = fract(sin(dot(uvStep.xy,vec2(62.2364+float(k)*23.0,94.674+float(k)*95.0)))* 62159.8432+float(k)*12.0)-0.5;
 
-	COLOR = vec4( color.rgb * vec3(0.7), color.a);
+            float randomMagnitude1 = sin(TIME*2.5)*0.2/cellSize;
+            float randomMagnitude2 = cos(TIME*2.5)*0.2/cellSize;
+
+            float d = 5.0*distance((uvStep.xy + vec2(x*sin(y),y)*randomMagnitude1 + vec2(y,x)*randomMagnitude2),uv.xy);
+
+            float omiVal = fract(sin(dot(uvStep.xy,vec2(32.4691,94.615)))* 31572.1684);
+            if(omiVal<0.08?true:false){
+                float newd = (x+1.0)*0.4*clamp(1.9-d*(15.0+(x*6.3))*(cellSize/1.4),0.0,1.0);
+                /*snow += d<(0.08+(x*0.3))/(cellSize/1.4)?
+                    newd
+                    :newd;*/
+                snow += newd;
+            }
+        }
+    }
+    
+    
+	vec4 snow_out = vec4(snow);
+	snow_out.a *= 0.75;
+    COLOR = snow_out+gradient*vec4(0.27,0.11,0.43,0.0) + random*0.01;
 }"
 custom_defines = ""
 
