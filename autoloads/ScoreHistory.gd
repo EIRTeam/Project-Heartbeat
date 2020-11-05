@@ -6,7 +6,7 @@ const SCORE_HISTORY_PATH = "user://history.json"
 const LOG_NAME = "ScoreHistory"
 
 signal score_entered(song, difficulty)
-
+signal score_uploaded(score_result)
 var games_queued_for_upload = []
 
 var last_song_uploaded
@@ -19,8 +19,9 @@ func _ready():
 		lb_provider.connect("score_uploaded", self, "_on_leaderboard_score_uploaded")
 	
 		
-func _on_leaderboard_score_uploaded():
+func _on_leaderboard_score_uploaded(result):
 	emit_signal("score_entered", last_song_uploaded.song_id, last_song_uploaded.difficulty)
+	emit_signal("score_uploaded", result)
 
 func load_history():
 	var file := File.new()

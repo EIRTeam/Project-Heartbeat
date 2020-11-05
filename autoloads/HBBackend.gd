@@ -1,6 +1,6 @@
 extends Node
 
-signal result_entered
+signal result_entered(result)
 signal entries_received(handle, entries, total_pages)
 
 signal user_data_received
@@ -197,7 +197,7 @@ func login_steam():
 	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
 func _on_result_entered(result, _params):
-	emit_signal("result_entered")
+	emit_signal("result_entered", result)
 
 func can_have_scores_uploaded(song: HBSong) -> bool:
 	if song is HBPPDSong:

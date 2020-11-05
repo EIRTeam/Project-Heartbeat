@@ -21,7 +21,11 @@ onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContai
 onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
 onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
 onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
-
+onready var level_up_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer")
+onready var experience_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer")
+onready var hi_score_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/HiScoreContainer")
+onready var no_point_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/Label2")
+onready var experience_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer/ExperienceLabel")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 const BASE_HEIGHT = 720.0
@@ -90,6 +94,7 @@ func _on_resized():
 func _ready():
 	connect("resized", self, "_on_resized")
 	ScoreHistory.connect("score_entered", self, "_on_score_entered")
+	ScoreHistory.connect("score_uploaded", self, "_on_score_uploaded")
 	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	for i in range(values.size()-1, -1, -1):
@@ -142,6 +147,9 @@ func _on_return_button_pressed():
 		change_to_menu("lobby", false, {"lobby": mp_lobby})
 func set_game_info(val: HBGameInfo):
 	game_info = val
+	experience_container.hide()
+	level_up_container.hide()
+	hi_score_container.hide()
 	var result = game_info.result as HBResult
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
@@ -182,15 +190,26 @@ func set_game_info(val: HBGameInfo):
 	total_notes_label.text = str(result.total_notes)
 
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
+	hi_score_container.hide()
+	no_point_label.hide()
+	experience_container.hide()
+	level_up_container.hide()
 	if game_info.is_leaderboard_legal():
 		# add result to history
 		ScoreHistory.add_result_to_history(game_info)
 	else:
+		no_point_label.show()
 		_on_score_entered(game_info.song_id, game_info.difficulty)
 		
 	
-	
-
+func _on_score_uploaded(result):
+	if "experience_change" in result:
+		experience_container.show()
+		experience_label.text = "Gained %d experience points!" % [result.experience_change]
+	if "level_change" in result and result.level_change > 0:
+		level_up_container.show()
+	if "beat_previous_record" in result and result.beat_previous_record:
+		hi_score_container.show()
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:
 		emit_signal("show_song_results", song, difficulty, game_info.modifiers.size() != 0)

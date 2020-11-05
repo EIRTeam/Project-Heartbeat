@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
@@ -16,15 +16,29 @@
 [ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=14]
 [ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=15]
 [ext_resource path="res://menus/ScrollingLabelShader.shader" type="Shader" id=16]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=17]
+[ext_resource path="res://graphics/icons/chevron-double-up.svg" type="Texture" id=18]
+[ext_resource path="res://graphics/icons/plus-thick.svg" type="Texture" id=19]
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 16 )
 shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://fonts/Roboto-Black.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 70
+use_filter = true
+font_data = SubResource( 5 )
+fallback/0 = ExtResource( 17 )
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="DynamicFont" id=2]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -33,7 +47,7 @@ use_filter = true
 extra_spacing_top = 7
 font_data = ExtResource( 7 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
@@ -49,7 +63,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 25.0
 content_margin_right = 0.0
 bg_color = Color( 0.19, 0.07, 0.3, 0.95 )
@@ -105,7 +119,7 @@ rect_min_size = Vector2( 0, 60 )
 custom_constants/separation = 19
 
 [node name="TitleLabel" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 margin_right = 1860.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
@@ -192,16 +206,104 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 2 )
 
-[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2.0
-margin_right = 2.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 6 )
+text = "No points were granted!"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 1
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
+margin_left = 1.0
+margin_top = 15.0
+margin_right = 908.0
+margin_bottom = 601.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LevelUpContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+margin_right = 907.0
+margin_bottom = 240.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
+margin_left = 190.0
+margin_right = 430.0
+margin_bottom = 240.0
+texture = ExtResource( 18 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
+margin_left = 434.0
+margin_top = 78.0
+margin_right = 717.0
+margin_bottom = 161.0
+custom_fonts/font = SubResource( 6 )
+text = "Level up!"
+
+[node name="ExperienceContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+margin_top = 240.0
+margin_right = 907.0
+margin_bottom = 480.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+margin_right = 362.0
+margin_bottom = 240.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.67
+texture = ExtResource( 19 )
+stretch_mode = 4
+
+[node name="ExperienceLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+margin_left = 366.0
+margin_top = 35.0
+margin_right = 907.0
+margin_bottom = 204.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 6 )
+text = "1000 Experience points!"
+align = 1
+autowrap = true
+
+[node name="HiScoreContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+margin_top = 480.0
+margin_right = 907.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/HiScoreContainer"]
+margin_right = 907.0
+margin_bottom = 106.0
+size_flags_horizontal = 3
+custom_styles/normal = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 6 )
+bbcode_enabled = true
+bbcode_text = "[center][rainbow]HI-SCORE!!![/rainbow][/center]"
+text = "HI-SCORE!!!"
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
 margin_top = 631.0
@@ -257,7 +359,7 @@ __meta__ = {
 margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
@@ -266,7 +368,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "(NT)700"
 align = 2
 valign = 1
@@ -287,7 +389,7 @@ __meta__ = {
 margin_right = 1641.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -296,7 +398,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "(NT)700"
 align = 2
 valign = 1
@@ -317,7 +419,7 @@ __meta__ = {
 margin_right = 1610.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "SCORE"
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
@@ -326,7 +428,7 @@ margin_right = 1810.0
 margin_bottom = 33.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "(NT)131231412"
 align = 2
 valign = 1
@@ -370,7 +472,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 4 )
+hover_style = SubResource( 3 )
 
 [node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 857.0
@@ -386,7 +488,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 4 )
+hover_style = SubResource( 3 )
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
 margin_left = 989.0
@@ -401,7 +503,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 normal_style = ExtResource( 8 )
-hover_style = SubResource( 4 )
+hover_style = SubResource( 3 )
 
 [node name="RatingPopup" type="Popup" parent="."]
 visible = true
@@ -416,7 +518,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="RatingPopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
