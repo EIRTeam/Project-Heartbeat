@@ -46,7 +46,7 @@ func _ready():
 	button_panel = pregame_start_tab.button_panel
 	
 	tabbed_container.add_tab(tr("Leaderboard"), leaderboard_tab_normal)
-	tabbed_container.add_tab(tr("Leaderboard (Modifiers)"), leaderboard_tab_modifiers)
+	#tabbed_container.add_tab(tr("Leaderboard (Modifiers)"), leaderboard_tab_modifiers)
 	
 	
 	modifier_settings_editor.hide()
@@ -205,7 +205,7 @@ func draw_leaderboard_legality():
 	if HBBackend.can_have_scores_uploaded(song):
 		leaderboard_legal_text.text = "The current song and settings will count towards leaderboard scores"
 		if game_info.modifiers.size() > 0:
-			leaderboard_legal_text.text = "The current song will count towards leaderboard scores with modifiers"
+			leaderboard_legal_text.text = "The current song will not count towards leaderboard scores"
 	else:
 		leaderboard_legal_text.text = "Only workshop or PPD songs can have their scores uploaded!"
 	
@@ -264,7 +264,6 @@ func _on_ppd_video_url_confirmed():
 
 
 func _on_StartPractice_pressed():
-
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = OS.get_unix_time()
