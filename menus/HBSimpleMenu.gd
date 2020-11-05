@@ -26,7 +26,7 @@ func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
 	sfx_player.stream = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
-	
+	sfx_player.pause_mode = PAUSE_MODE_PROCESS
 func _notification(what):
 	if what == NOTIFICATION_EXIT_TREE:
 		get_tree().get_root().call_deferred("remove_child", sfx_player)
