@@ -718,6 +718,7 @@ JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongDataCache="*res://autoloads/SongDataCache.gd"
 SongLoader="*res://autoloads/SongLoader.gd"
+ModifierLoader="*res://autoloads/ModifierLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
 HBBackend="*res://autoloads/HBBackend.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
@@ -726,7 +727,6 @@ IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
-ModifierLoader="*res://autoloads/ModifierLoader.gd"
 MobileControls="*res://autoloads/MobileControls.tscn"
 
 [debug]
@@ -747,7 +747,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--enable-network-diagnostics --service-environment dev"
+main_run_args="--enable-network-diagnostics --service-environment production"
 
 [editor_plugins]
 
@@ -815,6 +815,10 @@ ui_home={
 "deadzone": 0.5,
 "events": [  ]
 }
+ui_end={
+"deadzone": 0.5,
+"events": [  ]
+}
 gui_tab_left={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
@@ -826,10 +830,6 @@ gui_tab_right={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
-}
-ui_end={
-"deadzone": 0.5,
-"events": [  ]
 }
 gui_accept={
 "deadzone": 0.5,
