@@ -703,6 +703,7 @@ config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
 config/build_time=1602068482
 config/build_commit="8150456533c8a24bd1d998ff46fadce4f9721aa5"
+config/service_environment="production"
 
 [audio]
 
