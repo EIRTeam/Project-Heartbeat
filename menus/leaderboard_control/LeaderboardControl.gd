@@ -28,6 +28,7 @@ func _set_leaderboard(value):
 
 func set_entries(entries: Array):
 	_on_leaderboard_entries_downloaded(0, entries)
+	show()
 
 func set_song(song_id, difficulty):
 	current_leaderboard = song_id + "_%s" % difficulty

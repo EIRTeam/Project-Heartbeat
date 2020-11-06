@@ -8,6 +8,13 @@ script/source = "extends HBMenu
 
 func get_leadearboard_control():
 	return $Panel/MarginContainer/Leaderboard
+
+func _on_menu_exit(force_hard_transition = false):
+	._on_menu_exit(force_hard_transition)
+	
+	hide()
+
+	$Panel/MarginContainer/Leaderboard.hide()
 "
 
 [node name="Control" type="MarginContainer"]
@@ -23,7 +30,6 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1915.0
