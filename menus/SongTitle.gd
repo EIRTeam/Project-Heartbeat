@@ -39,7 +39,7 @@ func _on_resized():
 			var image = circle_text_rect.texture.get_data() as Image
 			var ratio = image.get_width() / image.get_height()
 			var new_size = Vector2(rect_size.y * ratio, rect_size.y)
-			new_size.x = clamp(new_size.x, 0, 250)
+			new_size.x = clamp(new_size.x, 0, 350)
 			circle_text_rect.rect_min_size = new_size
 		else:
 			circle_text_rect.rect_min_size = Vector2.ZERO

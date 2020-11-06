@@ -73,26 +73,24 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
 use_parent_material = true
-margin_right = 270.0
+margin_right = 795.0
 margin_bottom = 50.0
 mouse_filter = 2
-custom_constants/margin_top = 7
+custom_constants/margin_top = 6
 custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
+custom_constants/margin_bottom = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
 use_parent_material = true
-margin_top = 7.0
-margin_right = 270.0
-margin_bottom = 50.0
+margin_top = 6.0
+margin_right = 795.0
+margin_bottom = 44.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
-use_parent_material = true
-margin_right = 270.0
-margin_bottom = 43.0
+margin_bottom = 38.0
 mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
