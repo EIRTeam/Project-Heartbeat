@@ -28,7 +28,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 5.0
-custom_constants/margin_right = 16
+custom_constants/margin_right = 25
 custom_constants/margin_top = 10
 custom_constants/margin_left = 16
 custom_constants/margin_bottom = 5
@@ -39,7 +39,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 margin_left = 16.0
 margin_top = 10.0
-margin_right = 1904.0
+margin_right = 1895.0
 margin_bottom = 57.0
 alignment = 1
 __meta__ = {
@@ -47,7 +47,7 @@ __meta__ = {
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_right = 877.0
+margin_right = 873.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.75
@@ -59,8 +59,8 @@ align = 3
 valign = 2
 
 [node name="ValueLabel2" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_left = 881.0
-margin_right = 1382.0
+margin_left = 877.0
+margin_right = 1375.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
@@ -72,13 +72,26 @@ __meta__ = {
 }
 
 [node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 1386.0
-margin_right = 1888.0
+margin_left = 1379.0
+margin_right = 1879.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 
 [node name="TotalLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
-margin_right = 502.0
+margin_right = 248.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 1 )
+text = "(NT)407/"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
+margin_left = 252.0
+margin_right = 500.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )

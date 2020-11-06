@@ -7,6 +7,7 @@ var percentage setget set_percentage
 
 onready var total_label = get_node("MarginContainer/HBoxContainer/ValueLabel3/TotalLabel") 
 onready var rating_label = get_node("MarginContainer/HBoxContainer/RatingLabel")
+onready var percentage_label = get_node("MarginContainer/HBoxContainer/ValueLabel3/PercentageLabel")
 
 const style_even = preload("res://styles/ResultRatingStyleEven.tres")
 var odd = false
@@ -19,7 +20,8 @@ func _ready():
 	if not odd:
 		add_stylebox_override("panel", style_even)
 func set_percentage(val):
-	pass
+	percentage = val
+	percentage_label.text = " (%.2f %%)" % (val*100.0)
 func set_rating(val):
 	rating = val
 	rating_label.add_color_override("font_color", HBJudge.RATING_TO_COLOR[val])
