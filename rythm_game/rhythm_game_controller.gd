@@ -151,12 +151,19 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	if song.id in SONGS_WITH_IMAGE:
 		large_image_name = song.id
 		
+	var title = song.title
+	
+	# Discord breaks if the song name is too short
+	
+	if title.length() <= 1:
+		title = "A song named: %s" % [title]
+		
 	HBGame.rich_presence.update_activity({
 		"state": "Playing a song",
 		"large_image_key": large_image_name,
-		"details": song.title,
+		"details": title,
 		"start_timestamp": OS.get_unix_time(),
-		"large_image_tooltip": song.title
+		"large_image_tooltip": title
 	})
 		
 	var modifier_disables_video = false
