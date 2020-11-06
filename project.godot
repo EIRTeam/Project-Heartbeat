@@ -1099,6 +1099,10 @@ translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
 
 file_logging/enable_file_logging=true
 
+[memory]
+
+limits/message_queue/max_size_kb=4096
+
 [rendering]
 
 quality/driver/fallback_to_gles2=true
