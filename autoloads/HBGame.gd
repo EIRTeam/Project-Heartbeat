@@ -55,7 +55,7 @@ func _game_init():
 		UserSettings.user_settings.visualizer_enabled = false
 		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
-	if OS.has_feature("editor"):
+	if "--disable-async-loading" in OS.get_cmdline_args():
 		SongLoader.load_all_songs_meta()
 	else:
 		SongLoader.load_all_songs_async()
