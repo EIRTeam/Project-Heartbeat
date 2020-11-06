@@ -162,12 +162,13 @@ script = ExtResource( 3 )
 viewport_path = NodePath("../ViewportLeft")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0.0118276 )
 mesh = SubResource( 1 )
 material/0 = SubResource( 3 )
 script = ExtResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
-transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.00420612, -0.0040324, 0.00213248 )
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.00420611, -0.0040324, 0.00213248 )
 shape = SubResource( 4 )
 
 [node name="AreaRight" type="Area" parent="."]
@@ -176,6 +177,7 @@ script = ExtResource( 3 )
 viewport_path = NodePath("../ViewportRight")
 
 [node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 5.96046e-08, 0, 0.00996158 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 7 )
 script = ExtResource( 7 )
