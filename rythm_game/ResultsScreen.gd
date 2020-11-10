@@ -209,6 +209,7 @@ func _on_score_uploaded(result):
 		hi_score_label.show()
 	else:
 		hi_score_label.hide()
+	HBBackend.refresh_user_info()
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:
 		emit_signal("show_song_results", song, difficulty, game_info.modifiers.size() != 0)
