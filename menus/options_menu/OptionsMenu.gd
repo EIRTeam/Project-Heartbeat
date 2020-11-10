@@ -25,6 +25,10 @@ var OPTIONS = {
 			"name": tr("Poll for input more than once per frame"),
 			"description": "If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage."
 		},
+		"vibration_enabled": {
+			"name": tr("Enable vibration"),
+			"description": "If enabled allows the controller to vibrate."
+		},
 		"analog_deadzone": {
 			"name": tr("Analog deadzone"),
 			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off.",

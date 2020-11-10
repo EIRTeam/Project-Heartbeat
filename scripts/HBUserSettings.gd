@@ -59,6 +59,7 @@ var root_folder = HBFolder.new()
 var last_folder_path = []
 
 var button_prompt_override = "default"
+var vibration_enabled = true
 
 var button_prompt_override__possibilities = [
 	"default",
@@ -91,7 +92,7 @@ func _init():
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
-	"custom_sounds", "last_folder_path", "button_prompt_override" ]
+	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration" ]
 	
 	merge_dict_fields += [
 		"custom_sounds"
