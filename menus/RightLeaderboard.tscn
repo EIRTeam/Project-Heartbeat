@@ -9,6 +9,13 @@ script/source = "extends HBMenu
 func get_leadearboard_control():
 	return $Panel/MarginContainer/Leaderboard
 
+func _ready():
+	get_leadearboard_control().connect(\"entries_set\", self, \"show\")
+
+func _on_menu_enter(force_hard_transition = false, args = {}):
+	._on_menu_enter(force_hard_transition, args)
+	hide()
+
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
 	

@@ -8,6 +8,7 @@ onready var not_found_label = get_node("CenterContainer/Label")
 onready var entries_container = get_node("Entries")
 onready var loading_texture_rect = get_node("CenterContainer2/TextureRect")
 var current_leaderboard = ""
+signal entries_set
 func _ready():
 	$CenterContainer2/AnimationPlayer.play("spin")
 func _set_leaderboard(value):
@@ -28,7 +29,7 @@ func _set_leaderboard(value):
 
 func set_entries(entries: Array):
 	_on_leaderboard_entries_downloaded(0, entries)
-	show()
+	emit_signal("entries_set")
 
 func set_song(song_id, difficulty):
 	current_leaderboard = song_id + "_%s" % difficulty

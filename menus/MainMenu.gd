@@ -148,12 +148,14 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu = null
 	if menu_data.has("fullscreen"):
 		user_info_ui.hide()
+		music_player_control.hide()
 		fullscreen_menu = menu_data["fullscreen"]
 		fullscreen_menu_container.add_child(fullscreen_menu)
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
 	else:
 		user_info_ui.show()
+		music_player_control.show()
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
 		# Prevent softlock when transiton hasn't finished

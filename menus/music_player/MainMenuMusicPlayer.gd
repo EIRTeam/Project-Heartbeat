@@ -1,25 +1,47 @@
 extends HBMenu
 
 var current_song_length
-onready var image_preview_texture_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
+onready var image_preview_texture_rect = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 
+onready var main_container = get_node("MusicPlayer")
+
+var entry_tween = Tween.new()
+var exit_timer = Timer.new()
 func _ready():
 	if UserSettings.user_settings.disable_menu_music:
 		hide()
+	add_child(entry_tween)
+	add_child(exit_timer)
+	exit_timer.wait_time = 5.0
+	main_container.modulate.a = 0.0
+	exit_timer.connect("timeout", self, "_on_exit_timer_timeout")
+	exit_timer.one_shot = true
 
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
-func set_song(song: HBSong, length: float):
-	var playback_max_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackMaxLabel")
+func set_song(song: HBSong, length: float, do_animation=true):
+	var playback_max_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackMaxLabel")
 
 
-	var song_title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle")
+	var song_title_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle")
 	current_song_length = length
 	song_title_label.set_song(song)
 	playback_max_label.text = format_time(length)
+	if exit_timer.is_stopped():
+		entry_tween.stop_all()
+		entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * 0.517, 0.5, Tween.TRANS_BOUNCE)
+		entry_tween.interpolate_property(main_container, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
+		entry_tween.start()
+	exit_timer.start()
+	
+func _on_exit_timer_timeout():
+	entry_tween.stop_all()
+	entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
+	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x * 0.517, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	entry_tween.start()
 func set_time(time: float):
-	var playback_current_time_label = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
+	var playback_current_time_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
 	playback_current_time_label.text = format_time(time)
-	var playback_progress_bar = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
+	var playback_progress_bar = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
 	playback_progress_bar.value = time / current_song_length
