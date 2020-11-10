@@ -5,6 +5,7 @@ var starting_menu_args = []
 var background_transition_animation_player: AnimationPlayer
 var first_background_texrect: TextureRect
 var second_background_texrect: TextureRect
+var music_player_control
 var default_bg: Texture = preload("res://graphics/predarkenedbg.png")
 var last_bg = 1
 
@@ -18,11 +19,9 @@ func _init():
 		},
 		"switch_premenu": {
 			"left": preload("res://menus/demo_screen/SwitchScreen.tscn").instance(),
-			"right": "music_player"
 		},
 		"demo_premenu": {
 			"left": preload("res://menus/demo_screen/DemoScreen.tscn").instance(),
-			"right": "music_player"
 		},
 		"main_menu": {
 			"left": preload("res://menus/main_menu/MainMenuLeft.tscn").instance(),
@@ -36,7 +35,7 @@ func _init():
 		},
 		"pre_game": {
 			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance(),
-			"right": "leaderboard"
+			"right": "mp_leaderboard"
 		},
 		"lobby": {
 			"left": preload("res://multiplayer/lobby/LobbyMenu.tscn").instance(),
@@ -46,10 +45,7 @@ func _init():
 			"left": preload("res://multiplayer/lobby/LobbySongSelector.tscn").instance(),
 			"right": "song_list_preview"
 		},
-		"music_player": {
-			"right": preload("res://menus/music_player/MainMenuMusicPlayer.tscn").instance()
-		},
-		"leaderboard": {
+		"mp_leaderboard": {
 			"right": preload("res://menus/RightLeaderboard.tscn").instance()
 		},
 		"song_list": {
@@ -60,20 +56,26 @@ func _init():
 			"right": preload("res://menus/song_list/SongListPreview.tscn").instance()
 		},
 		"options_menu": {
-			"left": preload("res://menus/options_menu/OptionsMenu.tscn").instance()
+			"left": preload("res://menus/options_menu/OptionsMenu.tscn").instance(),
+			"right": "empty"
 		},
 		"tools_menu": {
-			"left": preload("res://menus/tools_menu/ToolsMenu.tscn").instance()
+			"left": preload("res://menus/tools_menu/ToolsMenu.tscn").instance(),
+			"right": "empty"
 		},
 		"results": {
 			"left": preload("res://rythm_game/ResultsScreen.tscn").instance(),
-			"right": "leaderboard"
+			"right": "mp_leaderboard"
 		},
 		"staff_roll": {
 			"left": preload("res://menus/credits/Credits.tscn").instance()
 		},
 		"tutorial": {
-			"fullscreen": preload("res://menus/tutorial/TutorialScreen.tscn").instance()
+			"fullscreen": preload("res://menus/tutorial/TutorialScreen.tscn").instance(),
+			"right": "empty"
+		},
+		"empty": {
+			"right": preload("res://menus/EmptyRightMenu.gd").new()
 		}
 	}
 
@@ -105,12 +107,11 @@ func _ready():
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
 	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
-	MENUS["results"].left.connect("show_song_results_mp", MENUS["leaderboard"].right.get_leadearboard_control(), "set_entries")
+	MENUS["results"].left.connect("show_song_results_mp", MENUS["mp_leaderboard"].right.get_leadearboard_control(), "set_entries")
 	#MENUS["pre_game"].left.connect("song_selected", MENUS["leaderboard"].right.get_leadearboard_control(), "set_song")
 	MENUS["pre_game"].left.connect("begin_loading", self, "_on_loading_begun")
 	player.connect("song_started", self, "_on_song_started")
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
-	MENUS.music_player.right.connect("ready", self, "_on_music_player_ready")
 	player.play_random_song()
 	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game"].left, "set_current_assets")
 	
@@ -119,6 +120,9 @@ func _ready():
 	MENUS["main_menu_right"].right.connect("left", MENUS["main_menu"].left, "_on_left_from_MainMenuRight")
 	
 	menu_setup()
+	
+	music_player_control.connect("ready", self, "_on_music_player_ready")
+	
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
 func _on_loading_begun():
@@ -183,7 +187,8 @@ var iflag = true # Flag that tells it to ignore the first background change
 func _on_song_started(song, assets):
 	if "audio" in assets:
 		if assets.audio:
-			MENUS.music_player.right.set_song(song, assets.audio.get_length())
+			pass
+			music_player_control.set_song(song, assets.audio.get_length())
 	if not iflag:
 		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
 			change_to_background(assets.background)
@@ -206,4 +211,4 @@ func change_to_background(background: Texture, use_default = false):
 		last_bg = 1
 
 func _on_song_time_changed(time):
-	MENUS["music_player"].right.set_time(time)
+	music_player_control.set_time(time)

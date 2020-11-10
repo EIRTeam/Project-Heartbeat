@@ -22,4 +22,5 @@ func menu_setup():
 	second_background_texrect = get_node("CanvasLayer/Background2")
 	background_transition_animation_player = get_node("CanvasLayer/AnimationPlayer")
 	user_info_ui = right_menu_container.get_node("../UserInfo")
+	music_player_control = get_node("CanvasLayer/MainMenuMusicPlayer")
 	change_to_menu(starting_menu, false, starting_menu_args)

@@ -42,8 +42,8 @@ func _on_text_updated():
 	var total_size = size_1.x + margin + size_2.x
 	
 	var mat = material as ShaderMaterial
-	
-	mat.set_shader_param("enabled", total_size > rect_size.x)
+	if mat:
+		mat.set_shader_param("enabled", total_size > rect_size.x)
 	
 	text_x_offset = 0.0
 	
@@ -97,7 +97,8 @@ func _draw():
 	draw_string(font_2, text_2_pos, text_2)
 func _on_resized():
 	var mat = material as ShaderMaterial
-	mat.set_shader_param("size", rect_size)
-	mat.set_shader_param("pos", rect_global_position)
-	mat.set_shader_param("fade_size", 0.25)
+	if mat:
+		mat.set_shader_param("size", rect_size)
+		mat.set_shader_param("pos", rect_global_position)
+		mat.set_shader_param("fade_size", 0.01)
 	_on_text_updated()
