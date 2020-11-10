@@ -2,10 +2,6 @@ extends HBMenu
 
 var OPTIONS = {
 	"Game": {
-		"input_poll_more_than_once_per_frame": {
-			"name": tr("Poll for input more than once per frame"),
-			"description": "If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage."
-		},
 		"lag_compensation": {
 			"name": tr("Latency compensation"),
 			"description": "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
@@ -15,13 +11,6 @@ var OPTIONS = {
 			"debounce_step": 10,
 			"postfix": " ms"
 		},
-		"analog_deadzone": {
-			"name": tr("Analog deadzone"),
-			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off.",
-			"minimum": 0.1,
-			"maximum": 1.0,
-			"step": 0.05,
-		},
 		"show_latency": {
 			"name": tr("Show latency"),
 			"description": tr("Shows how late or how early you were when hitting notes."),
@@ -30,6 +19,19 @@ var OPTIONS = {
 			"name": tr("Load all notes when song starts"),
 			"description": tr("Makes the game pre-generate all notes before the song starts playing, this increases loadtimes but will increase performance once loaded."),
 		}
+	},
+	"Input": {
+		"input_poll_more_than_once_per_frame": {
+			"name": tr("Poll for input more than once per frame"),
+			"description": "If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage."
+		},
+		"analog_deadzone": {
+			"name": tr("Analog deadzone"),
+			"description": "From 0 to 1, how much travel is required for the analog sticks (and other analog inputs) to be considered on/off.",
+			"minimum": 0.1,
+			"maximum": 1.0,
+			"step": 0.05,
+		},
 	},
 	"Controls": {
 		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
