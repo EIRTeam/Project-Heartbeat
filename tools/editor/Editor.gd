@@ -637,7 +637,7 @@ func load_song(song: HBSong, difficulty: String):
 func _on_ExitDialog_confirmed():
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
-	MouseTrap.enable_mouse_trap()
+#	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
 	UserSettings.set_fullscreen(UserSettings.user_settings.fullscreen)
 	
