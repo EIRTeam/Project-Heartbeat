@@ -290,9 +290,10 @@ func renew_auth():
 		timer.stop()
 		auth_ticket = PlatformService.service_provider.get_leaderboard_auth_token()
 func _on_ticket_ready():
-	Log.log(self, "Got ticket, attempting login...")
-	login_steam()
-	waiting_for_auth = false
+	if waiting_for_auth:
+		Log.log(self, "Got ticket, attempting login...")
+		login_steam()
+		waiting_for_auth = false
 
 func _on_ticket_failed(err):
 	waiting_for_auth = false
