@@ -137,7 +137,6 @@ func _on_retry_button_pressed():
 	get_tree().current_scene = scene
 	game_info.song_id = current_song.id
 	game_info.difficulty = game_info.difficulty
-	emit_signal("begin_loading")
 	scene.load_song(game_info, false, current_assets)
 	
 func _on_return_button_pressed():
