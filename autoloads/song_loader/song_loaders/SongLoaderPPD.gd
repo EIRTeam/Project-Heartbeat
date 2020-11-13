@@ -8,6 +8,9 @@ var PPD_YOUTUBE_URL_LIST_PATH = "user://ppd_youtube.json"
 
 var ppd_youtube_url_list = {}
 
+# Extra data json file that is used by the PPD manager tool
+const OPT_META_FILE_NAME = "ph_ext.json"
+
 func _init_loader():
 	var dir := Directory.new()
 	
@@ -19,11 +22,37 @@ func _init_loader():
 func get_meta_file_name() -> String:
 	return "data.ini"
 
+func get_optional_meta_files() -> Array:
+	return [OPT_META_FILE_NAME]
+
+func load_opt_file(path: String) -> Dictionary:
+	var data := {}
+	
+	var file := File.new()
+	
+	if file.file_exists(path):
+		if file.open(path, File.READ) == OK:
+			var contents := file.get_as_text()
+			var parse_result := JSON.parse(contents)
+			if parse_result.error == OK:
+				data = parse_result.result
+				if "type" in data:
+					data.erase("type")
+	
+	return data
+
 func load_song_meta_from_folder(path: String, id: String):
 	var file = File.new()
+	
+	var opt_meta_file_path = HBUtils.join_path(path.get_base_dir(), OPT_META_FILE_NAME)
+	
+	var opt_data = load_opt_file(opt_meta_file_path)
+	
 	if file.open(path, File.READ) == OK:
 		var txt = file.get_as_text()
 		var song = HBPPDSong.from_ini(txt, id)
+		var dict = HBUtils.merge_dict(song.serialize(), opt_data)
+		song = HBPPDSong.deserialize(dict)
 		song.id = id
 		song.path = path.get_base_dir()
 		if id in ppd_youtube_url_list:

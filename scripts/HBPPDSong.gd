@@ -4,16 +4,17 @@ extends HBSong
 class_name HBPPDSong
 
 const EXTENDED_PROPERTY_PREFIX = "project_heartbeat_"
-const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url"]
+const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "background_image", "youtube_url", "creator"]
 var ppd_offset = 0
 var guid = ""
+var ppd_website_id = ""
 func _ready():
 	pass
 
 func _init():
-	serializable_fields += ["ppd_offset", "guid"]
+	serializable_fields += ["ppd_offset", "guid", "ppd_website_id"]
 # Returns a HBPPDSong meta from an ini file
-static func from_ini(content: String, id: String) -> HBSong:
+static func from_ini(content: String, id: String, ext_data=null) -> HBSong:
 	var dict = HBINIParser.parse(content)
 	var song := load("res://scripts/HBPPDSong.gd").new() as HBSong
 	song.title = id
@@ -49,6 +50,8 @@ static func from_ini(content: String, id: String) -> HBSong:
 			var property_name = setting.substr(EXTENDED_PROPERTY_PREFIX.length(), setting.length() - EXTENDED_PROPERTY_PREFIX.length())
 			if property_name in ALLOWED_EXTENDED_PROPERTIES:
 				song.set(property_name, dict.setting[setting])
+	
+	
 	
 	return song
 # If video is enabled for this type of song

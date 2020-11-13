@@ -29,7 +29,7 @@ func update_loudness_for_song(song: HBSong, loudness: float):
 		audio_cache.loudness = loudness
 		audio_normalization_cache[song.id] = audio_cache
 		save_cache()
-func update_cache_for_song(song: HBSong):
+func update_cache_for_song(song: HBSong, loader: SongLoaderImpl):
 	var song_meta_path = song.get_meta_path()
 	
 	var cache = HBSongMetaCacheEntry.new()
@@ -37,6 +37,12 @@ func update_cache_for_song(song: HBSong):
 	var file = File.new()
 	cache.modified = file.get_modified_time(song_meta_path)
 	cache.meta = song
+	
+	for ext_file in loader.get_optional_meta_files():
+		var ext_file_path = HBUtils.join_path(song.path, ext_file)
+		if file.file_exists(ext_file_path):
+			cache.optional_file_modified[ext_file] = file.get_modified_time(ext_file_path)
+	
 	song_meta_cache[song.id] = cache
 	
 	save_cache()
@@ -99,11 +105,41 @@ func _on_save_cache_timed_out():
 func save_cache():
 	timer.start(0)
 
-func is_song_meta_cached(song_id, meta_path: String):
+func is_song_meta_cached(song: HBSong, loader: SongLoaderImpl):
+	var meta_path = song.get_meta_path()
+	var song_id = song.id
+	var is_cached = true
 	if song_id in song_meta_cache:
 		var file = File.new()
 		var modified = file.get_modified_time(meta_path)
-		return modified == song_meta_cache[song_id].modified
+		var cache_entry = song_meta_cache[song_id] as HBSongMetaCacheEntry
+		if modified != song_meta_cache[song_id].modified:
+			is_cached = false
+		else:
+			for opt_file_name in loader.get_optional_meta_files():
+				var opt_file_path = HBUtils.join_path(song.path, opt_file_name)
+
+				if not file.file_exists(opt_file_path):
+					continue
+				elif not opt_file_name in cache_entry.optional_file_modified:
+					is_cached = false
+					break
+				else:
+					var opt_file_modified = file.get_modified_time(opt_file_path)
+					if opt_file_modified != cache_entry.optional_file_modified[opt_file_name]:
+						is_cached = false
+						break
+	return is_cached
+
+func is_song_additional_meta_cached(song: HBSong, loader: SongLoaderImpl):
+	var meta_path = song.get_meta_path()
+	if song.id in song_meta_cache:
+		var file = File.new()
+		var modified = file.get_modified_time(meta_path)
+		var file_name = meta_path.get_file()
+		var meta_cache = song_meta_cache[song.id] as HBSongMetaCacheEntry
+		if file_name in meta_cache.optional_file_modified:
+			return meta_cache.optional_file_modified[file_name] == modified
 	return false
 
 func get_cached_meta(song_id: String):

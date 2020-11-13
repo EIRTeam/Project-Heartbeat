@@ -21,3 +21,6 @@ func load_songs() -> Array:
 
 func caching_enabled():
 	return false
+
+func get_optional_meta_files() -> Array:
+	return []
