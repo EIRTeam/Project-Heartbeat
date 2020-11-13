@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/PPDManager/PPDManagerPopup.gd" type="Script" id=1]
+
+[node name="PPDManagerPopup" type="WindowDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -286.5
+margin_top = -156.0
+margin_right = 286.5
+margin_bottom = 156.0
+popup_exclusive = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 558.0
+margin_bottom = 297.0
+custom_constants/separation = 7
+
+[node name="Tree" type="Tree" parent="MarginContainer/HBoxContainer"]
+margin_right = 357.0
+margin_bottom = 282.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_left = 364.0
+margin_right = 543.0
+margin_bottom = 282.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+custom_constants/separation = 7
+
+[node name="ChangeURLButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 179.0
+margin_bottom = 20.0
+text = "Change YouTube URL"
+
+[node name="ChangeBackgroundButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 27.0
+margin_right = 179.0
+margin_bottom = 47.0
+text = "Change background image"
+
+[node name="ChangeCoverButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 54.0
+margin_right = 179.0
+margin_bottom = 74.0
+text = "Change cover image"
+
+[node name="ChangeBackgroundFileDialog" type="FileDialog" parent="."]
+margin_right = 315.0
+margin_bottom = 130.0
+popup_exclusive = true
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+
+[node name="ChangeCoverFileDialog" type="FileDialog" parent="."]
+margin_right = 315.0
+margin_bottom = 130.0
+popup_exclusive = true
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+show_hidden_files = true
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeBackgroundButton" to="ChangeBackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeCoverButton" to="ChangeCoverFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]

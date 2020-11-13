@@ -6,7 +6,7 @@ func _ready():
 	$ToolsList/OpenSongsDirectoryButton.connect("pressed", self, "_on_OpenSongsDirectoryButton_pressed")
 	$ToolsList/OpenLogsDirectoryButton.connect("pressed", self, "_on_OpenLogsDirectoryButton_pressed")
 	$ToolsList/OpenUserDirectoryButton.connect("pressed", self, "_on_OpenUserDirectoryButton_pressed")
-	$ToolsList/PPDDownloaderButton.connect("pressed", self, "_on_PPDDownloaderButton_pressed")
+	$ToolsList/PPDManagerButton.connect("pressed", self, "_on_PPDDownloaderButton_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -29,4 +29,4 @@ func _on_OpenUserDirectoryButton_pressed():
 	OS.shell_open(ProjectSettings.globalize_path("user://"))
 
 func _on_PPDDownloaderButton_pressed():
-	get_tree().change_scene_to(load("res://tools/PPDDownloader/PPDDownloader.tscn"))
+	get_tree().change_scene_to(load("res://tools/PPDManager/PPDManager.tscn"))

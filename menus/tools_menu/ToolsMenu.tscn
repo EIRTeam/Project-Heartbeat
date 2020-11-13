@@ -7,7 +7,7 @@
 [ext_resource path="res://graphics/icons/folder-cog.svg" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture" id=6]
 [ext_resource path="res://graphics/icons/account-bigger.svg" type="Texture" id=7]
-[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture" id=8]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -72,12 +72,12 @@ text = "Open User Directory"
 icon = ExtResource( 7 )
 next_menu = ""
 
-[node name="PPDDownloaderButton" parent="ToolsList" instance=ExtResource( 3 )]
+[node name="PPDManagerButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 565.0
 margin_right = 547.0
 margin_bottom = 625.0
 rect_min_size = Vector2( 0, 60 )
-text = "PPD Downloader"
+text = "PPD Manager"
 icon = ExtResource( 8 )
 next_menu = ""

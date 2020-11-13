@@ -1,0 +1,192 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=2]
+[ext_resource path="res://tools/PPDManager/PPDManager.gd" type="Script" id=3]
+[ext_resource path="res://tools/PPDManager/PPDDownloader.gd" type="Script" id=4]
+[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=5]
+[ext_resource path="res://tools/PPDManager/PPDManagerPopup.tscn" type="PackedScene" id=6]
+[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="PPDManager" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = -1.0
+mouse_filter = 2
+
+[node name="ToolsPopup" type="WindowDialog" parent="CenterContainer"]
+visible = true
+margin_left = 660.0
+margin_top = 340.0
+margin_right = 1260.0
+margin_bottom = 740.0
+rect_min_size = Vector2( 600, 400 )
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ToolsPopup/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 590.0
+margin_bottom = 390.0
+
+[node name="PPDDownloaderButton" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
+margin_right = 580.0
+margin_bottom = 50.0
+text = "PPD Downloader"
+icon = ExtResource( 5 )
+
+[node name="PPDManagerSongs" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
+margin_top = 54.0
+margin_right = 580.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 50 )
+text = "Manage PPD Songs"
+icon = ExtResource( 7 )
+
+[node name="PPDDownloader" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.05945
+margin_top = -0.529724
+margin_right = 1.05945
+margin_bottom = -0.529785
+mouse_filter = 2
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="WindowDialog" parent="PPDDownloader"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -185.0
+margin_top = -41.0
+margin_right = 402.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 371, 82 )
+popup_exclusive = true
+window_title = "PPD Downloader Tool"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/Panel/MarginContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 572.0
+margin_bottom = 117.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+margin_right = 557.0
+margin_bottom = 44.0
+size_flags_vertical = 3
+custom_styles/normal = SubResource( 1 )
+custom_colors/default_color = Color( 1, 1, 0, 1 )
+text = "WARNING: This is an experimental feature, it may be slow on some computers, performance will be improved in a future update."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 557.0
+margin_bottom = 73.0
+
+[node name="Label" type="Label" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 135.0
+margin_bottom = 25.0
+text = "PPD download URL: "
+
+[node name="URLLineEdit" type="LineEdit" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 139.0
+margin_right = 557.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
+margin_top = 77.0
+margin_right = 557.0
+margin_bottom = 102.0
+text = "Download and install..."
+
+[node name="WaitDialog" type="WindowDialog" parent="PPDDownloader"]
+visible = true
+margin_right = 304.0
+margin_bottom = 77.0
+popup_exclusive = true
+window_title = "Downloading..."
+
+[node name="Label" type="Label" parent="PPDDownloader/WaitDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Downloading, please wait..."
+align = 1
+valign = 1
+
+[node name="PPDManagerPopup" parent="." instance=ExtResource( 6 )]
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 1.05945
+margin_top = -0.529724
+margin_right = 305.059
+margin_bottom = 76.4703
+window_title = ""
+dialog_text = "Erorr downloading: asdsadsa"
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDDownloaderButton" to="PPDDownloader" method="show_panel"]
+[connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDManagerSongs" to="PPDManagerPopup" method="popup_centered"]

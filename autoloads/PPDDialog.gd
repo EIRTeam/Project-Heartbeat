@@ -31,13 +31,12 @@ func _on_file_selected(file):
 		else:
 			error_dialog.dialog_text = "The file you selected is an OGG file, but it doesn't use the vorbis codec."
 		error_dialog.popup_centered()
-	
-	
 
-func ask_for_file():
+func ask_for_file(youtube_only=false):
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.ogg ; OGG"]
+	$MarginContainer/VBoxContainer/Button.disabled = youtube_only
 	popup_centered()
 func _on_about_to_show():
 	youtube_url_line_edit.text = ""

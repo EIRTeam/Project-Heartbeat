@@ -1,7 +1,6 @@
 extends Control
 
 onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")
-onready var error_dialog = get_node("ErrorDialog")
 onready var wait_dialog = get_node("WaitDialog")
 onready var wait_dialog_label = get_node("WaitDialog/Label")
 onready var download_button = get_node("Panel/MarginContainer/VBoxContainer/Button")
@@ -13,12 +12,9 @@ const UA = "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/53
 
 var current_yt_url = ""
 
+signal error(error)
+
 func _ready():
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
-	
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	
 	add_child(request)
 	add_child(download_request)
 	request.use_threads = true
@@ -26,13 +22,11 @@ func _ready():
 	request.connect("request_completed", self, "_on_request_completed")
 	download_request.connect("request_completed", self, "_on_zip_download_completed")
 	download_button.connect("pressed", self, "download_from_url")
-	downloader_panel.popup_centered_minsize(Vector2(587, 82))
 	wait_dialog.get_close_button().hide()
-	downloader_panel.connect("modal_closed", self, "_on_modal_closed")
-	downloader_panel.get_close_button().connect("pressed", self, "_on_modal_closed")
 
-func _on_modal_closed():
-	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
+func show_panel():
+	downloader_panel.popup_centered_minsize(Vector2(587, 82))
+
 func download_from_url():
 	var url = url_line_edit.text.strip_edges()
 	if not url.begins_with("https://projectdxxx.me"):
@@ -42,8 +36,7 @@ func download_from_url():
 	wait_dialog.popup_centered()
 	request.request(url, [UA], true, HTTPClient.METHOD_GET)
 func show_error(error: String):
-	error_dialog.dialog_text = error
-	error_dialog.popup_centered()
+	emit_signal("error", error)
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
