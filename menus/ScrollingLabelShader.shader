@@ -15,10 +15,10 @@ void fragment() {
 		float start = pos.x / res.x;
 		float end = (pos.x + size.x) / res.x;
 
-		float remapped_x = remap(SCREEN_UV.x, start, 0.0, end, 1.0);
+		float remapped_x = remap(POINT_COORD.x, start, 0.0, end, 1.0);
 
 		COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_x);
-//		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_x);
+		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_x);
 	}
 
 }
