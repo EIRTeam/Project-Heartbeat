@@ -13,12 +13,14 @@ var current_song: HBSong
 
 var background_assets_loader = HBBackgroundSongAssetsLoader.new()
 
+const TIME_ON_SCREEN = 8.0
+
 func _ready():
 	if UserSettings.user_settings.disable_menu_music:
 		hide()
 	add_child(entry_tween)
 	add_child(exit_timer)
-	exit_timer.wait_time = 5.0
+	exit_timer.wait_time = TIME_ON_SCREEN
 	main_container.modulate.a = 0.0
 	exit_timer.connect("timeout", self, "_on_exit_timer_timeout")
 	exit_timer.one_shot = true
