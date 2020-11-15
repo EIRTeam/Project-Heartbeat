@@ -527,7 +527,7 @@ func remove_all_notes_from_screen():
 	notes_on_screen = []
 	for point in timing_point_to_drawer_map:
 		if point in timing_point_to_drawer_map:
-			if timing_point_to_drawer_map[point]:
+			if timing_point_to_drawer_map[point] and is_instance_valid(timing_point_to_drawer_map[point]):
 				if not timing_point_to_drawer_map[point].is_queued_for_deletion():
 					timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
