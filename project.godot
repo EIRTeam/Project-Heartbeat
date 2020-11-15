@@ -701,8 +701,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1602068482
-config/build_commit="8150456533c8a24bd1d998ff46fadce4f9721aa5"
+config/build_time=1605399751
+config/build_commit="f7d8219a55f2045d71d16357dee9aa7ed196ae71"
 config/service_environment="production"
 
 [audio]
