@@ -221,8 +221,7 @@ func rescale_video_player():
 
 func set_game_size():
 	game.size = rect_size
-	if UserSettings.user_settings.visualizer_enabled:
-		$Node2D/Visualizer.rect_size = rect_size
+	$Node2D/Visualizer.rect_size = rect_size
 	#$Node2D/VHS.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
