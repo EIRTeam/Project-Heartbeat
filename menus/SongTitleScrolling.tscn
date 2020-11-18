@@ -25,6 +25,7 @@ code = "shader_type canvas_item;
 
 uniform vec2 pos;
 uniform vec2 size;
+uniform vec2 res;
 uniform bool enabled;
 uniform float fade_size;
 float remap(float value, float low1, float low2, float high1, float high2) {
@@ -34,7 +35,6 @@ float remap(float value, float low1, float low2, float high1, float high2) {
 void fragment() {
 	COLOR = COLOR * texture(TEXTURE, UV);
 	if (enabled) {
-		vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
 		float start = pos.x / res.x;
 		float end = (pos.x + size.x) / res.x;
 
@@ -48,9 +48,11 @@ void fragment() {
 custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
 shader = SubResource( 3 )
 shader_param/pos = null
 shader_param/size = null
+shader_param/res = null
 shader_param/enabled = null
 shader_param/fade_size = null
 

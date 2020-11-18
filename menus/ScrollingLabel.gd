@@ -95,10 +95,13 @@ func _draw():
 	text_1_pos.y = y_pos
 	draw_string(font_1, text_1_pos, text_1)
 	draw_string(font_2, text_2_pos, text_2)
-func _on_resized():
 	var mat = material as ShaderMaterial
 	if mat:
 		mat.set_shader_param("size", rect_size)
 		mat.set_shader_param("pos", rect_global_position)
-		mat.set_shader_param("fade_size", 0.01)
+		mat.set_shader_param("res", get_viewport_rect().size)
+func _on_resized():
+	var mat = material as ShaderMaterial
+	if mat:
+		mat.set_shader_param("fade_size", FADE_SIZE / float(rect_size.x))
 	_on_text_updated()
