@@ -609,7 +609,7 @@ func create_note_drawer(timing_point: HBBaseNote):
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 	if timing_point in timing_point_to_drawer_map:
-		if timing_point_to_drawer_map[timing_point]:
+		if is_instance_valid(timing_point_to_drawer_map[timing_point]):
 			if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
 				timing_point_to_drawer_map[timing_point].free()
 	timing_point_to_drawer_map[timing_point] = note_drawer
