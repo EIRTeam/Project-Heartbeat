@@ -198,7 +198,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				video_player.stream_position = song.start_time  / 1000.0
 				video_player.paused = true
 				$Node2D/Panel.show()
-				if visualizer:
+				if visualizer and UserSettings.user_settings.visualizer_enabled:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
 				Log.log(self, "Video Stream failed to load")
@@ -221,7 +221,8 @@ func rescale_video_player():
 
 func set_game_size():
 	game.size = rect_size
-	$Node2D/Visualizer.rect_size = rect_size
+	if UserSettings.user_settings.visualizer_enabled:
+		$Node2D/Visualizer.rect_size = rect_size
 	#$Node2D/VHS.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
