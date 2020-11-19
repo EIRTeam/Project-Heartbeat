@@ -201,27 +201,40 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 #	audio_stream_player.play()
 #	audio_stream_player_voice.play()
 
-
-func _input(event):
-	if event is InputEventHB:
-		
-		# Note SFX
-		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-			var action_pressed = false
-			var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
-			for action in actions:
-				if event.action == action and event.pressed and not event.is_echo():
-					var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
+func _on_do_input(event: InputEventHB):
+	._on_do_input(event)
+	
+	var is_in_double_range = false
+	
+	var closest_notes = get_closest_notes()
+	
+	for note in closest_notes:
+		if note is HBDoubleNote and abs((time * 1000.0) - note.time) <= judge.get_target_window_msec():
+			is_in_double_range = true
+			break
+	
+	# Note SFX
+	for note in closest_notes:
+		var drw = get_note_drawer(note)
+		if get_note_drawer(note).note_master:
+			drw._handle_unhandled_input(event)
+			break
+	for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+		var action_pressed = false
+		var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
+		for action in actions:
+			if event.action == action and event.pressed and not event.is_echo():
+				var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
+				if not is_in_double_range:
 					play_note_sfx(type in slide_types)
-					action_pressed = true
-					break
-			if action_pressed:
+				action_pressed = true
 				break
-		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
-				if not event.event_uid in held_note_event_map[type]:
-					held_note_event_map[type].append(event.event_uid)
-
+		if action_pressed:
+			break
+	for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+		if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
+			if not event.event_uid in held_note_event_map[type]:
+				held_note_event_map[type].append(event.event_uid)
 
 func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
@@ -251,7 +264,7 @@ func get_closest_notes():
 # plays note SFX automatically
 func play_note_sfx(slide = false):
 	if not slide:
-		sfx_pool.play_sfx("note_hit")
+		return sfx_pool.play_sfx("note_hit")
 	else:
 		sfx_pool.play_sfx("slide_hit")
 func create_note_drawer(timing_point: HBBaseNote):
@@ -375,8 +388,6 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					held_note_event_map[n.note_type].append(event.event_uid)
 					start_hold(n.note_type)
 	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
-		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stream_paused = true
-		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stop()
 		sfx_pool.play_sfx("double_note_hit")
 	
 # called when the initial slide is done, to swap it out for a slide loop

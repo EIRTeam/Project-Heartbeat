@@ -117,7 +117,11 @@ func _ready():
 
 func set_game_input_manager(manager: HBGameInputManager):
 	game_input_manager = manager
+	game_input_manager.connect("do_input", self, "_on_do_input")
 	add_child(game_input_manager)
+
+func _on_do_input(event: InputEventHB):
+	pass
 
 # TODO: generalize this
 func set_chart(chart: HBChart):
@@ -582,7 +586,7 @@ func inv_map_coords(coords: Vector2):
 func cache_note_drawers():
 	if UserSettings.user_settings.load_all_notes_on_song_start:
 		for drawer in cached_note_drawers.values():
-			if drawer and not drawer.is_queued_for_deletion():
+			if drawer             and not drawer.is_queued_for_deletion():
 				drawer.free()
 		cached_note_drawers = {}
 		for group in timing_points:

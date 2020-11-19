@@ -5,6 +5,8 @@ extends Node
 
 class_name HBGameInputManager
 
+signal do_input(event)
+
 func get_action_press_count(action):
 	return 0
 	
@@ -16,7 +18,7 @@ func send_input(action, pressed, count = 1, event_uid=0b0):
 	a.triggered_actions_count = count
 	a.pressed = pressed
 	a.event_uid = event_uid
-	Input.parse_input_event(a)
+	emit_signal("do_input", a)
 
 func _input_received(event):
 	pass
