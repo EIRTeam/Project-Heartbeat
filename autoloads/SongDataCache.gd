@@ -129,6 +129,8 @@ func is_song_meta_cached(song_id, song_meta_path: String, loader: SongLoaderImpl
 					if opt_file_modified != cache_entry.optional_file_modified[opt_file_name]:
 						is_cached = false
 						break
+	else:
+		is_cached = false
 	return is_cached
 
 func get_cached_meta(song_id: String):
