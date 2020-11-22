@@ -144,19 +144,21 @@ func _on_show_success(item_id):
 	success_install_things.erase(item_id)
 	
 func _on_ugc_query_completed(update_handle, result, number_of_results, number_of_matching_results, cached):
-	var details = Steam.getQueryUGCResult(update_handle, 0)
-	var item_id = query_id_to_item[update_handle]
-	query_id_to_item.erase(update_handle)
-	details["item_id"] = item_id
-	cached_items_data[item_id] = details
-	if item_id in success_install_things:
-		if result != 1:
-			success_install_things[item_id].queue_free()
-			success_install_things.erase(item_id)
-			Log.log(self, "Issue obtaining data for install success notification")
-		else:
-			_on_show_success(item_id)
-	emit_signal("ugc_details_request_done", details.result, details)
+	if update_handle in query_id_to_item:
+		var details = Steam.getQueryUGCResult(update_handle, 0)
+		var item_id = query_id_to_item[update_handle]
+		query_id_to_item.erase(update_handle)
+		details["item_id"] = item_id
+		cached_items_data[item_id] = details
+		if item_id in success_install_things:
+			if result != 1:
+				success_install_things[item_id].queue_free()
+				success_install_things.erase(item_id)
+				Log.log(self, "Issue obtaining data for install success notification")
+			else:
+				_on_show_success(item_id)
+		emit_signal("ugc_details_request_done", details.result, details)
+		Steam.releaseQueryUGCRequest(update_handle)
 func create_item():
 	Steam.createItem(Steam.getAppID(), WORKSHOP_FILE_TYPES.COMMUNITY)
 func set_item_title(update_id, title: String):
