@@ -8,12 +8,12 @@ onready var progress_circle_rect = get_node("Node2D/TextureRect")
 func set_arm_position(value):
 	arm_position = value
 	if UserSettings.user_settings.use_timing_arm:
+		pass
 		$TimingArm.rotation_degrees = 360 * value
 	else:
 		if arm2_position == 0.0:
 			progress_circle_rect.value = arm_position
 			progress_circle_rect.self_modulate.a = arm_position
-			
 func set_arm2_position(value):
 	arm2_position = value
 	if UserSettings.user_settings.use_timing_arm:
@@ -23,7 +23,9 @@ func set_arm2_position(value):
 			progress_circle_rect.value = arm2_position
 			progress_circle_rect.self_modulate.a = arm2_position
 
-
+func _ready():
+	$TimingArm.texture = IconPackLoader.timing_arm_atlas
+	$TimingArm2.texture = IconPackLoader.timing_arm_atlas
 
 func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 	# set the texture to the correct one
@@ -36,9 +38,11 @@ func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
-			$Sprite/HoldTextSpriteMulti.visible = note_data.hold
+			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite
+			$Sprite/HoldTextSprite.visible = note_data.hold
 		else:
 			$Sprite/HoldTextSprite.visible = note_data.hold
+			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite_multi
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [

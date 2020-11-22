@@ -16,6 +16,11 @@ var sine_drawer = SineDrawerCPU.new()
 var blue = false
 var slide_chain_master = false
 var note_scale = 1.0
+
+var appear_particles_node = preload("res://menus/AppearParticles.tscn").instance()
+
+var target_remote_transform = RemoteTransform2D.new()
+
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -33,17 +38,45 @@ func undo_blue():
 	target_graphic.set_note_type(note_data, connected_notes.size() > 0, false)
 func play_appear_animation():
 	$AnimationPlayer.play("note_appear")
-	$NoteTarget/Particles2D.emitting = true
+	appear_particles_node.show()
+	appear_particles_node.get_node("AnimationPlayer").play("appear")
+	#$AppearParticles.hide()
+
+
+func _note_init():
+#	bind_node_to_layer(appear_particles_node, "AppearParticles", NodePath("NoteTarget"))
+	bind_node_to_layer(sine_drawer, "Trails")
+
+func _notification(what):
+	if what == NOTIFICATION_POST_ENTER_TREE:
+		sine_drawer.note_data = note_data
+		sine_drawer.time_out = get_time_out()
+		sine_drawer.game = game
+		
+		for data in layer_bound_node_datas:
+			add_bind_to_tree(data)
+	elif what == NOTIFICATION_EXIT_TREE:
+		for data in layer_bound_node_datas:
+			var ui_node = game.game_ui.get_drawing_layer_node(data.layer_name)
+			ui_node.remove_child(data.node)
 
 func _ready():
 	_on_note_type_changed()
 	play_appear_animation()
-	sine_drawer.note_data = note_data
-	sine_drawer.time_out = get_time_out()
-	sine_drawer.game = game
-	add_child(sine_drawer)
-	move_child(sine_drawer, 0)
+	#move_child(sine_drawer, 0)
 	_on_game_size_changed()
+	for data in layer_bound_node_datas:
+		if data.remote_transform:
+			var target_node = get_node(data.source_transform)
+			data.remote_transform.use_global_coordinates = true
+			target_node.add_child(data.remote_transform)
+#	target_remote_transform.use_global_coordinates = true
+#	$NoteTarget.add_child(target_remote_transform)
+	appear_particles_node.get_node("AnimationPlayer").connect("animation_finished", self, "_on_appear_particles_node_animation_finished")
+	
+func _on_appear_particles_node_animation_finished(_animation_name: String):
+	appear_particles_node.hide()
+	
 var cached_amplitude
 var cached_starting_pos
 func _on_game_size_changed():
@@ -116,7 +149,7 @@ func _on_note_judged(judgement, prevent_freeing = false):
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
 			particles.scale *= note_graphic.scale
-			game.game_ui.get_notes_node().add_child(particles)
+			game.game_ui.get_drawing_layer_node("StarParticles").add_child(particles)
 			particles.position = game.remap_coords(note_data.position)
 	else:
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:

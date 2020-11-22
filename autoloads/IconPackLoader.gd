@@ -6,16 +6,23 @@ var packs = {}
 
 const LOG_NAME = "IconPackLoader"
 
+# Currently loaded atlas before processing
 var current_atlas
 var current_pack
 # Arrows pack also acts as fallback when other graphics are not available
-var fallback_atlas
+var fallback_atlas: HBAtlas
 var fallback_pack
 
-var final_atlas = {}
+# Final atlas data
+var final_atlas: HBAtlas = HBAtlas.new()
 var final_pack = {}
 
 var variations_map = {}
+
+class HBAtlas:
+	var texture: Texture
+	var config: Dictionary
+	var atlas_textures: Dictionary
 
 const DIRECTIONAL_TYPES_PROPERTY_MAP = {
 	"LEFT": "left_arrow_override_enabled",
@@ -24,8 +31,10 @@ const DIRECTIONAL_TYPES_PROPERTY_MAP = {
 	"DOWN": "down_arrow_override_enabled"
 }
 
-func _ready():
-	pass
+var hold_icon_sprite = AtlasTexture.new()
+var hold_icon_sprite_multi = AtlasTexture.new()
+
+const hold_multi_sprite_texture = preload("res://graphics/hold_text_atlas.png")
 	
 func _init_icon_pack_loader():
 	load_all_icon_packs()
@@ -37,8 +46,57 @@ func set_current_pack(pack_name):
 	current_atlas = preload_atlas(packs[pack_name])
 	current_pack = packs[pack_name]
 	rebuild_final_atlas()
-
+	
+var timing_arm_texture = preload("res://graphics/arm.png")
+var timing_arm_atlas = AtlasTexture.new()
 func rebuild_final_atlas():
+	# We first do the atlas processing, for batching purposes we map the packs into a single texture
+
+	var final_texture = ImageTexture.new()
+
+	var final_texture_img := fallback_atlas.texture.get_data().duplicate(true) as Image
+	var new_height = max(final_texture_img.get_height(), current_atlas.texture.get_height())
+	var new_width = final_texture_img.get_width() + current_atlas.texture.get_width() + timing_arm_texture.get_width()
+	final_texture_img.crop(nearest_po2(new_width), new_height)
+	var current_atlas_texture_img := current_atlas.texture.get_data() as Image
+	var src_rect = Rect2(Vector2.ZERO, current_atlas_texture_img.get_size())
+	final_texture_img.lock()
+	final_texture_img.blit_rect(current_atlas_texture_img, src_rect, Vector2(current_atlas.texture.get_width()-1, 0))
+	
+	# We also bake the timing arm texture
+	var timing_arm_target_position = Vector2(fallback_atlas.texture.get_width() + current_atlas.texture.get_width()-1, 0)
+	var timing_arm_size = timing_arm_texture.get_size()
+	final_texture_img.blit_rect(timing_arm_texture.get_data(), Rect2(Vector2.ZERO, timing_arm_size), timing_arm_target_position)
+
+	timing_arm_atlas.atlas = final_texture
+	timing_arm_atlas.region = Rect2(timing_arm_target_position, timing_arm_size)
+	
+	timing_arm_target_position.y += timing_arm_texture.get_height()
+	
+	final_texture_img.blit_rect(hold_multi_sprite_texture.get_data(), Rect2(Vector2.ZERO, hold_multi_sprite_texture.get_size()), timing_arm_target_position)
+		
+	final_texture_img.unlock()
+
+	hold_icon_sprite.atlas = final_texture
+	hold_icon_sprite_multi.atlas = final_texture_img
+	
+	var hold_icon_sprite_size = hold_multi_sprite_texture.get_size()
+	
+	hold_icon_sprite.region = Rect2(timing_arm_target_position, Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
+	hold_icon_sprite_multi.region = Rect2(timing_arm_target_position + Vector2(hold_icon_sprite_size.x / 2.0, 0), Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
+
+	print("A", hold_icon_sprite_multi.region)
+
+	final_texture_img.save_png("user://test.png")
+
+	final_texture.create_from_image(final_texture_img)
+
+	var current_atlas_offset_x = fallback_atlas.texture.get_width()
+
+	for type in current_atlas.atlas_textures:
+		for variation in current_atlas.atlas_textures[type]:
+			var texture := current_atlas.atlas_textures[type][variation] as AtlasTexture
+			texture.region.position.x += fallback_atlas.texture.get_width()
 	var final_atlas_textures = HBUtils.merge_dict(fallback_atlas.atlas_textures.duplicate(true), current_atlas.atlas_textures.duplicate(true))
 	var final_pack_config = {"graphics": HBUtils.merge_dict(fallback_pack.graphics.duplicate(true), current_pack.graphics.duplicate(true))}
 	
@@ -51,9 +109,16 @@ func rebuild_final_atlas():
 			final_atlas_textures[note_type] = HBUtils.merge_dict(final_atlas_textures[note_type], fallback_atlas.atlas_textures[note_type])
 			final_pack_config.graphics[note_type] = HBUtils.merge_dict(final_pack_config.graphics[note_type], fallback_pack.graphics[note_type])
 	final_pack = final_pack_config
-	final_atlas = {"atlas_textures": final_atlas_textures}
+	for type in final_atlas_textures:
+		for variation in final_atlas_textures[type]:
+			var texture := final_atlas_textures[type][variation] as AtlasTexture
+			texture.atlas = final_texture
+	var atlas = HBAtlas.new()
+	atlas.atlas_textures = final_atlas_textures
+	atlas.texture = final_texture
+	final_atlas = atlas
 	
-func generate_atlas_textures(pack_config, texture, atlas_config):
+func generate_atlas_textures(pack_config, texture, atlas_config, x_offset = 0):
 	var atlas_textures = {}
 	for type in pack_config.graphics:
 		for variation in pack_config.graphics[type].src:
@@ -66,7 +131,7 @@ func generate_atlas_textures(pack_config, texture, atlas_config):
 				var atlas_texture := AtlasTexture.new()
 				atlas_texture.atlas = texture
 		
-				var region = Rect2(Vector2(frame.x, frame.y), Vector2(frame.w, frame.h))
+				var region = Rect2(Vector2(frame.x + x_offset, frame.y), Vector2(frame.w, frame.h))
 				atlas_texture.region = region
 		
 				var margin = Rect2(Vector2(sprite_source_size.x, sprite_source_size.y), Vector2(sprite_source_size.w-frame.w, sprite_source_size.h-frame.h))
@@ -78,17 +143,17 @@ func generate_atlas_textures(pack_config, texture, atlas_config):
 			else:
 				Log.log(self, "Atlas entry not found: %s" % [graphic_path], Log.LogLevel.ERROR)
 	return atlas_textures
-func preload_atlas(icon_pack):
+func preload_atlas(icon_pack, x_offset = 0):
 	var file = File.new()
 	file.open(icon_pack.__origin + "/" + "atlas.json", File.READ)
 	var atlas_json := JSON.parse(file.get_as_text()) as JSONParseResult
 	if atlas_json.error == OK:
 		var texture = HBUtils.texture_from_fs(icon_pack.__origin + "/" + "atlas.png")
-		return {
-			"texture": texture,
-			"config": atlas_json.result,
-			"atlas_textures": generate_atlas_textures(icon_pack, texture, atlas_json.result)
-			}
+		var atlas = HBAtlas.new()
+		atlas.texture = texture
+		atlas.config = atlas_json.result
+		atlas.atlas_textures = generate_atlas_textures(icon_pack, texture, atlas_json.result, x_offset)
+		return atlas
 	else:
 		Log.log(self, "Error loading atlas: " + icon_pack.__origin + "/" + "atlas.json", Log.LogLevel.ERROR)
 

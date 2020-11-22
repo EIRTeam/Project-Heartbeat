@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://graphics/arm.png" type="Texture" id=2]
 [ext_resource path="res://rythm_game/note_drawers/NoteTarget.gd" type="Script" id=3]
 [ext_resource path="res://graphics/hold_text.png" type="Texture" id=4]
 [ext_resource path="res://graphics/progress_circle.png" type="Texture" id=5]
-[ext_resource path="res://graphics/hold_text_multi_note_target.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 64 )
@@ -37,10 +36,6 @@ __meta__ = {
 [node name="HoldTextSprite" type="Sprite" parent="Sprite"]
 visible = false
 texture = ExtResource( 4 )
-
-[node name="HoldTextSpriteMulti" type="Sprite" parent="Sprite"]
-visible = false
-texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

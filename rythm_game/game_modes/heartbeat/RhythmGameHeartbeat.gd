@@ -181,6 +181,7 @@ func _game_ready():
 	# slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
 	# slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
 	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
+	
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
@@ -204,14 +205,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 func _on_do_input(event: InputEventHB):
 	._on_do_input(event)
 	
-	var is_in_double_range = false
-	
 	var closest_notes = get_closest_notes()
-	
-	for note in closest_notes:
-		if note is HBDoubleNote and abs((time * 1000.0) - note.time) <= judge.get_target_window_msec():
-			is_in_double_range = true
-			break
 	
 	# Note SFX
 	for note in closest_notes:
@@ -225,8 +219,7 @@ func _on_do_input(event: InputEventHB):
 		for action in actions:
 			if event.action == action and event.pressed and not event.is_echo():
 				var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
-				if not is_in_double_range:
-					play_note_sfx(type in slide_types)
+				play_note_sfx(type in slide_types)
 				action_pressed = true
 				break
 		if action_pressed:
@@ -325,7 +318,7 @@ func _process_game(_delta):
 			Log.log(self, "Disabling leaderboard upload for cheated result")
 		var actions_to_press = []
 		var actions_to_release = []
-		for i in range(notes_on_screen.size() - 1, -1, -1):
+		for i in range(notes_on_screen.size()):
 			var note = notes_on_screen[i]
 			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
@@ -337,26 +330,19 @@ func _process_game(_delta):
 				elif time * 1000 > note.time:
 					actions_to_press.append(note.get_input_actions()[0])
 					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+				else:
+					break
+		var a = InputEventHB.new()
+		
 		for action in actions_to_release:
-			var a = InputEventHB.new()
-			a.action = action
-			a.pressed = false
-			
-			Input.parse_input_event(a)
+			game_input_manager.send_input(action, false)
 		for action in actions_to_press:
-			var a = InputEventHB.new()
-			
-			
 			# Double note device emulation
 			game_input_manager.digital_action_tracking[action] = {}
 			game_input_manager.digital_action_tracking[action][-1] = {}
 			game_input_manager.digital_action_tracking[action][-1][0] = true
 			game_input_manager.digital_action_tracking[action][-1][1] = true
-			a.action = action
-			
-			a.pressed = true
-			
-			Input.parse_input_event(a)
+			game_input_manager.send_input(action, true)
 
 
 # called when a note or group of notes is judged
@@ -389,6 +375,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					start_hold(n.note_type)
 	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
 		sfx_pool.play_sfx("double_note_hit")
+		sfx_pool.stop_sfx(sfx_pool.loaded_effects["note_hit"][-1])
 	
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):

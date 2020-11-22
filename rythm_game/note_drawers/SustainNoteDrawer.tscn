@@ -1,35 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://rythm_game/note_drawers/NoteTarget.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteDrawer.gd" type="Script" id=3]
-[ext_resource path="res://graphics/effects/appear.png" type="Texture" id=4]
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteGraphic.gd" type="Script" id=8]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.941077, 1 )
-colors = PoolColorArray( 0.00392157, 0.00392157, 0.00392157, 0.415686, 1, 1, 1, 0.42, 1, 1, 1, 0 )
-
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
-
-[sub_resource type="Curve" id=3]
-max_value = 6.0
-_data = [ Vector2( 0, 3.592 ), 0.0, 0.0, 0, 0, Vector2( 1, 6 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
-flag_disable_z = true
-gravity = Vector3( 0, 0, 0 )
-angular_velocity = 50.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 0.1
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 render_mode blend_mix;
 
@@ -46,12 +21,12 @@ void fragment() {
 }"
 custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 shader_param/offset = Vector2( 8, 8 )
 shader_param/modulate = Color( 0, 0, 0, 0.8 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -72,20 +47,8 @@ script = ExtResource( 3 )
 
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
 
-[node name="Particles2D" type="Particles2D" parent="NoteTarget"]
-position = Vector2( -2.21606, -1.10802 )
-emitting = false
-amount = 1
-one_shot = true
-speed_scale = 4.0
-process_material = SubResource( 5 )
-texture = ExtResource( 4 )
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="Note" type="Sprite" parent="."]
-material = SubResource( 7 )
+material = SubResource( 2 )
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 8 )
@@ -98,7 +61,7 @@ update_rotation = false
 update_scale = false
 
 [node name="Note2" type="Sprite" parent="."]
-material = SubResource( 7 )
+material = SubResource( 2 )
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 8 )
@@ -111,4 +74,4 @@ update_rotation = false
 update_scale = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 8 )
+anims/note_appear = SubResource( 3 )

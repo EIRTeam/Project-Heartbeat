@@ -152,7 +152,6 @@ func update_progress_bar():
 	current_duration -= game.audio_stream_player.stream.get_length() - end_time
 	
 	var progress = clamp(game.time, start_time, end_time)
-	print("ST: %s ET: %s" % [start_time, end_time])
 	progress = progress / current_duration
 	
 	progress_bar.value = progress

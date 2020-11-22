@@ -12,6 +12,8 @@ var multi_note_line_renderers = []
 var next_note = null
 var note_master = true setget set_note_master # Master notes take care of multi-note stuff...
 
+var layer_bound_node_datas = []
+
 const Laser = preload("res://rythm_game/Laser.tscn")
 
 class JudgeInputResult:
@@ -19,15 +21,27 @@ class JudgeInputResult:
 	var has_rating = false
 	var resulting_rating = -1
 
+class LayerBoundNodeData:
+	var node: Node2D
+	var remote_transform = null
+	var source_transform = source_transform
+	var layer_name: String
+
 func set_note_data(val):
 	note_data = val
 #	$NoteTarget.note_data = note_data
+
+func add_bind_to_tree(data):
+	var ui_node = game.game_ui.get_drawing_layer_node(data.layer_name)
+	ui_node.add_child(data.node)
+	if data.remote_transform:
+		data.remote_transform.remote_path = data.node.get_path()
 
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()
 	effect.scale = get_note_graphic().scale
-	game.game_ui.get_notes_node().add_child(effect)
+	game.game_ui.get_drawing_layer_node("HitParticles").add_child(effect)
 	effect.position = game.remap_coords(note_data.position)
 func set_note_master(val):
 	note_master = val
@@ -39,6 +53,20 @@ func set_note_master(val):
 		set_process_unhandled_input(true)
 		game.connect("time_changed", self, "_on_game_time_changed")
 		
+func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = null):
+	var data := LayerBoundNodeData.new()
+	data.node = node
+	data.layer_name = layer_name
+	
+	if source_transform is NodePath:
+		var remote_transform = RemoteTransform2D.new()
+		data.remote_transform = remote_transform
+		data.source_transform = source_transform
+		
+	if is_inside_tree():
+		add_bind_to_tree(data)
+	
+	layer_bound_node_datas.append(data)
 
 func set_connected_notes(val):
 	connected_notes = val
@@ -46,8 +74,7 @@ func set_connected_notes(val):
 		if multi_note_line_renderers.size() == 0:
 			var laser = Laser.instance()
 			multi_note_line_renderers.append(laser)
-			add_child(laser)
-			move_child(laser, 0)
+			bind_node_to_layer(laser, "Laser")
 		update_multi_note_renderers()
 func _ready():
 #	z_index = 0

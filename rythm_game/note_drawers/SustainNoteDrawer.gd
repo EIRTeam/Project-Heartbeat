@@ -89,7 +89,10 @@ func _on_game_time_changed(time: float):
 				queue_free()
 				
 func _on_unhandled_action_released(event, event_uid):
-	handle_input(event, game.time)
+	var ev = InputEventAction.new()
+	ev.action = event
+	ev.pressed = false
+	handle_input(ev, game.time)
 				
 func _handle_unhandled_input(event: InputEvent):
 	if not pressed:

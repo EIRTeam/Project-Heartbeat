@@ -599,6 +599,7 @@ func _create_note_drawer_impl(timing_point: HBBaseNote):
 	note_drawer = timing_point.get_drawer().instance()
 	note_drawer.game = self
 	note_drawer.note_data = timing_point
+	note_drawer._note_init()
 	game_ui.get_notes_node().add_child(note_drawer)
 	game_ui.get_notes_node().remove_child(note_drawer)
 	return note_drawer

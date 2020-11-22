@@ -1,7 +1,7 @@
 extends HBRhythmGameUIBase
 
 onready var rating_label: Label = get_node("RatingLabel")
-onready var notes_node = get_node("Notes")
+onready var game_layer_node = get_node("GameLayer")
 onready var top_ui = get_node("Control/HBoxContainer")
 onready var score_counter = get_node("Control/HBoxContainer/HBoxContainer/Label")
 onready var author_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SongAuthor")
@@ -20,6 +20,8 @@ onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 
+var drawing_layer_nodes = {}
+
 const LOG_NAME = "HeartbeatRhythmGameUI"
 
 var start_time = 0.0
@@ -32,12 +34,31 @@ func set_game(new_game):
 	slide_hold_score_text._game = game
 	game.connect("time_changed", self, "_on_game_time_changed")
 	
+func get_notes_node() -> Node2D:
+	return get_drawing_layer_node("Notes")
+	
 func _on_game_time_changed(time: float):
 	progress_indicator.value = time
 func _ready():
 	rating_label.hide()
 	connect("resized", self, "_on_size_changed")
 	call_deferred("_on_size_changed")
+	
+	add_drawing_layer("Trails")
+	add_drawing_layer("Laser")
+	add_drawing_layer("StarParticles")
+	add_drawing_layer("HitParticles")
+	add_drawing_layer("AppearParticles")
+	add_drawing_layer("Notes")
+func add_drawing_layer(layer_name: String):
+	var layer_node = Node2D.new()
+	layer_node.name = "LAYER_" + layer_name
+	game_layer_node.add_child(layer_node)
+	drawing_layer_nodes[layer_name] = layer_node
+	
+func get_drawing_layer_node(layer_name: String) -> Node2D:
+	return drawing_layer_nodes[layer_name]
+	
 func _on_note_judged(judgement_info):
 	latency_display._on_note_judged(judgement_info)
 	rating_label.show_rating()
@@ -142,10 +163,6 @@ func _on_hold_released_early():
 	# When you release a hold it disappears instantly
 	hold_indicator.disappear()
 	_update_clear_bar_value()
-
-func get_notes_node() -> Node2D:
-	return notes_node
-	
 func _on_max_hold():
 	hold_indicator.show_max_combo(game.MAX_HOLD)
 

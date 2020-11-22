@@ -192,7 +192,6 @@ void fragment() {
 	COLOR = texture(bg, SCREEN_UV/scale);
 	COLOR.a = COLOR.a * UV.x;
 }"
-custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=12]
 shader = SubResource( 11 )
@@ -236,7 +235,6 @@ code = "shader_type canvas_item;
 void fragment() {
 	COLOR.a = texture(TEXTURE, UV).a * UV.y;
 }"
-custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=17]
 shader = SubResource( 16 )
@@ -682,7 +680,7 @@ __meta__ = {
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
 anims/animate = SubResource( 9 )
 
-[node name="Notes" type="Node2D" parent="."]
+[node name="GameLayer" type="Node2D" parent="."]
 show_behind_parent = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
