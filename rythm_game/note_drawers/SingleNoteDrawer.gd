@@ -122,20 +122,21 @@ enum GRADIENT_OFFSETS {
 func generate_trail_points():
 	sine_drawer.generate_trail_points()
 func draw_trail(time: float):
-	var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
-	# Trail will be time_out / 2 behind
-	var time_out = get_time_out()
-	var points = PoolVector2Array()
-	var points2 = PoolVector2Array()
-	# How much margin we leave for the trail from the note center, this prevents
-	# the trail from leaking into notes with holes in the middle
+	if sine_drawer.is_inside_tree():
+		var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
+		# Trail will be time_out / 2 behind
+		var time_out = get_time_out()
+		var points = PoolVector2Array()
+		var points2 = PoolVector2Array()
+		# How much margin we leave for the trail from the note center, this prevents
+		# the trail from leaking into notes with holes in the middle
 
-	var t = clamp((time_out_distance / time_out), 0.0, 1.25)
-	var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
-	if disable_trail_margin:
-		trail_margin = 0.0
-	sine_drawer.time = t-trail_margin
-	sine_drawer.trail_margin = trail_margin
+		var t = clamp((time_out_distance / time_out), 0.0, 1.25)
+		var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+		if disable_trail_margin:
+			trail_margin = 0.0
+		sine_drawer.time = t-trail_margin
+		sine_drawer.trail_margin = trail_margin
 func _on_note_type_changed():
 	$Note.set_note_type(note_data.note_type, connected_notes.size() > 0)
 	target_graphic.set_note_type(note_data, connected_notes.size() > 0)

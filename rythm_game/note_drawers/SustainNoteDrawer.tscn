@@ -19,7 +19,6 @@ void fragment() {
 
 	COLOR = mix(shadow, col, col.a);
 }"
-custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
@@ -53,25 +52,11 @@ position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 8 )
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note"]
-position = Vector2( -1176.91, -109.704 )
-scale = Vector2( 2, 2 )
-remote_path = NodePath("../../Node2D")
-update_rotation = false
-update_scale = false
-
 [node name="Note2" type="Sprite" parent="."]
 material = SubResource( 2 )
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 8 )
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note2"]
-position = Vector2( -1176.91, -109.704 )
-scale = Vector2( 2, 2 )
-remote_path = NodePath("../../Node2D")
-update_rotation = false
-update_scale = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/note_appear = SubResource( 3 )
