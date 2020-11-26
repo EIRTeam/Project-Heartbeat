@@ -586,8 +586,9 @@ func inv_map_coords(coords: Vector2):
 func cache_note_drawers():
 	if UserSettings.user_settings.load_all_notes_on_song_start:
 		for drawer in cached_note_drawers.values():
-			if drawer             and not drawer.is_queued_for_deletion():
-				drawer.free()
+			if is_instance_valid(drawer):
+				if drawer and not drawer.is_queued_for_deletion():
+					drawer.free()
 		cached_note_drawers = {}
 		for group in timing_points:
 			for note in group.notes:
@@ -603,6 +604,10 @@ func _create_note_drawer_impl(timing_point: HBBaseNote):
 	game_ui.get_notes_node().add_child(note_drawer)
 	game_ui.get_notes_node().remove_child(note_drawer)
 	return note_drawer
+	
+func bsearch_time(a, b):
+	return a.time < b.time
+	
 # creates and connects a new note drawer
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer
@@ -618,7 +623,8 @@ func create_note_drawer(timing_point: HBBaseNote):
 			if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
 				timing_point_to_drawer_map[timing_point].free()
 	timing_point_to_drawer_map[timing_point] = note_drawer
-	notes_on_screen.append(timing_point)
+	var pos = notes_on_screen.bsearch_custom(timing_point, self, "bsearch_time")
+	notes_on_screen.insert(pos, timing_point)
 	connect("time_changed", note_drawer, "_on_game_time_changed")
 	return note_drawer
 func set_game_ui(ui: HBRhythmGameUIBase):

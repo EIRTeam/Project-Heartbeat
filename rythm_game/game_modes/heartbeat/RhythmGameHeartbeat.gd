@@ -205,10 +205,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 func _on_do_input(event: InputEventHB):
 	._on_do_input(event)
 	
-	var closest_notes = get_closest_notes()
-	
 	# Note SFX
-	for note in closest_notes:
+	for i in range(notes_on_screen.size()):
+		var note = notes_on_screen[i]
 		var drw = get_note_drawer(note)
 		if get_note_drawer(note).note_master:
 			drw._handle_unhandled_input(event)
