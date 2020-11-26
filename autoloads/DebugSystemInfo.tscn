@@ -1,17 +1,33 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://autoloads/DebugSystemInfo.gd" type="Script" id=1]
 [ext_resource path="res://fonts/new_fonts/roboto_black_15.tres" type="DynamicFont" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Label
+
+func _ready():
+	connect(\"mouse_entered\", self, \"_on_mouse_entered\")
+	connect(\"mouse_exited\", self, \"_on_mouse_exited\")
+
+func _on_mouse_entered():
+	self_modulate.a = 0.0
+func _on_mouse_exited():
+	self_modulate.a = 1.0
+"
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
 
 [node name="Version Label" type="Label" parent="."]
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -18.0
-margin_right = 40.0
+mouse_filter = 1
 custom_fonts/font = ExtResource( 2 )
+align = 2
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
