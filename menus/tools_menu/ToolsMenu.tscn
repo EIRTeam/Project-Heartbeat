@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
 [ext_resource path="res://menus/tools_menu/ToolsMenu.gd" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://graphics/icons/folder-cog.svg" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture" id=6]
 [ext_resource path="res://graphics/icons/account-bigger.svg" type="Texture" id=7]
-[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture" id=8]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -34,9 +33,9 @@ orientation = 1
 
 [node name="SongMetaEditorButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 285.0
+margin_top = 320.0
 margin_right = 547.0
-margin_bottom = 345.0
+margin_bottom = 380.0
 rect_min_size = Vector2( 0, 60 )
 text = "Song Editor"
 icon = ExtResource( 6 )
@@ -44,9 +43,9 @@ next_menu = ""
 
 [node name="OpenLogsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 355.0
+margin_top = 390.0
 margin_right = 547.0
-margin_bottom = 415.0
+margin_bottom = 450.0
 rect_min_size = Vector2( 0, 60 )
 text = "Open Logs Directory"
 icon = ExtResource( 5 )
@@ -54,9 +53,9 @@ next_menu = ""
 
 [node name="OpenSongsDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 425.0
+margin_top = 460.0
 margin_right = 547.0
-margin_bottom = 485.0
+margin_bottom = 520.0
 rect_min_size = Vector2( 0, 60 )
 text = "Open Songs Directory"
 icon = ExtResource( 4 )
@@ -64,20 +63,10 @@ next_menu = ""
 
 [node name="OpenUserDirectoryButton" parent="ToolsList" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 495.0
+margin_top = 530.0
 margin_right = 547.0
-margin_bottom = 555.0
+margin_bottom = 590.0
 rect_min_size = Vector2( 0, 60 )
 text = "Open User Directory"
 icon = ExtResource( 7 )
-next_menu = ""
-
-[node name="PPDManagerButton" parent="ToolsList" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 565.0
-margin_right = 547.0
-margin_bottom = 625.0
-rect_min_size = Vector2( 0, 60 )
-text = "PPD Manager"
-icon = ExtResource( 8 )
 next_menu = ""
