@@ -26,7 +26,8 @@ func _unhandled_input(event):
 					scroll_container.selected_child.stop_hover()
 		else:
 			if scroll_container.selected_child:
-				scroll_container.selected_child._gui_input(event)
+				if not event is InputEventMouse:
+					scroll_container.selected_child._gui_input(event)
 
 func _ready():
 	populate()
