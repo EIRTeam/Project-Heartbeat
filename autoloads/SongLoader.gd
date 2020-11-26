@@ -79,16 +79,7 @@ func load_songs_from_path(path):
 					if not loader.uses_custom_load_paths():
 						var song_meta_path = path + "/%s/%s" % [dir_name, loader.get_meta_file_name()]
 						if file.file_exists(song_meta_path):
-							if loader.caching_enabled():
-								if SongDataCache.is_song_meta_cached(dir_name, song_meta_path, loader):
-									song_meta = SongDataCache.get_cached_meta(dir_name)
-									song_meta.id = dir_name
-									song_meta.path = song_meta_path.get_base_dir()
-								else:
-									song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
-									SongDataCache.update_cache_for_song(song_meta, loader)
-							else:
-								song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
+							song_meta = loader.load_song_meta_from_folder(song_meta_path, dir_name)
 							if song_meta:
 								value[dir_name] = song_meta
 							song_found = true
