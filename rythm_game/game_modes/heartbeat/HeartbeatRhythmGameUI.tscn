@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -33,6 +33,7 @@
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=32]
 [ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
+[ext_resource path="res://rythm_game/lyrics/lyrics.tscn" type="PackedScene" id=34]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -437,8 +438,8 @@ z_index = -2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.950073
-margin_right = 1280.95
-margin_bottom = 720.0
+margin_right = 1920.95
+margin_bottom = 1080.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -455,7 +456,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="UnderNotesUI/Control/HoldIndicator"]
-margin_right = 639.0
+margin_right = 960.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 custom_styles/panel = ExtResource( 15 )
@@ -474,7 +475,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer"]
 margin_left = 43.0
-margin_right = 628.0
+margin_right = 949.0
 margin_bottom = 35.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -497,13 +498,13 @@ size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
 margin_left = 306.0
-margin_right = 585.0
+margin_right = 906.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 279.0
+margin_right = 600.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -529,7 +530,7 @@ __meta__ = {
 [node name="MaxComboContainer" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 39.0
-margin_right = 639.0
+margin_right = 960.0
 margin_bottom = 69.0
 rect_min_size = Vector2( 0, 30 )
 
@@ -552,12 +553,12 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer"]
 margin_left = 5.0
-margin_right = 376.0
+margin_right = 480.0
 margin_bottom = 30.0
 
 [node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer/HBoxContainer"]
 margin_top = 3.0
-margin_right = 371.0
+margin_right = 475.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
@@ -679,6 +680,27 @@ __meta__ = {
 
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
 anims/animate = SubResource( 9 )
+
+[node name="Lyrics" type="Node2D" parent="."]
+z_index = -2
+
+[node name="Control" type="Control" parent="Lyrics"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.950073
+margin_right = 1920.95
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LyricsView" parent="Lyrics/Control" instance=ExtResource( 34 )]
+anchor_top = 0.174
+anchor_right = 1.0
+anchor_bottom = 0.174
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 53.0
 
 [node name="GameLayer" type="Node2D" parent="."]
 show_behind_parent = true

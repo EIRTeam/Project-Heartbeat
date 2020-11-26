@@ -58,10 +58,14 @@ func deselect():
 		widget.queue_free()
 		widget = null
 
-func _gui_input(event: InputEvent):
+func get_click_rect():
 	var global_rect = get_global_rect()
 	if has_node("TextureRect"):
 		global_rect = $TextureRect.get_global_rect()
+	return global_rect
+
+func _gui_input(event: InputEvent):
+	var global_rect = get_click_rect()
 		
 	if global_rect.has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_select"): 

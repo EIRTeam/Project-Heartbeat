@@ -19,7 +19,7 @@ onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Pane
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
-
+onready var lyrics_view = get_node("Lyrics/Control/LyricsView")
 var drawing_layer_nodes = {}
 
 const LOG_NAME = "HeartbeatRhythmGameUI"
@@ -37,8 +37,12 @@ func set_game(new_game):
 func get_notes_node() -> Node2D:
 	return get_drawing_layer_node("Notes")
 	
+func get_lyrics_view():
+	return lyrics_view
+	
 func _on_game_time_changed(time: float):
 	progress_indicator.value = time
+	lyrics_view._on_game_time_changed(int(time*1000.0))
 func _ready():
 	rating_label.hide()
 	connect("resized", self, "_on_size_changed")
@@ -94,6 +98,7 @@ func _on_size_changed():
 	if game:
 		$UnderNotesUI/Control.rect_size = game.size
 		$AboveNotesUI/Control.rect_size = game.size
+		$Lyrics/Control.rect_size = game.size
 func _on_reset():
 	clear_bar.value = 0.0
 	clear_bar.potential_score = 0.0
@@ -150,6 +155,7 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 			intro_skip_info_animation_player.play("appear")
 		else:
 			Log.log(self, "Disabling intro skip")
+	lyrics_view.set_phrases(song.lyrics)
 
 func _on_intro_skipped(time):
 	intro_skip_info_animation_player.play("disappear")

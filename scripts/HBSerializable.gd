@@ -100,7 +100,11 @@ static func get_serializable_types():
 		"MetaCacheEntry": load("res://autoloads/HBSongMetaCacheEntry.gd"),
 		"AudioLoudnessCacheEntry": load("res://autoloads/HBAudioLoudnessCacheEntry.gd"),
 		"PPDSong": load("res://scripts/HBPPDSong.gd"),
-		"WebUserInfo": load("res://scripts/HBWebUserInfo.gd")
+		"WebUserInfo": load("res://scripts/HBWebUserInfo.gd"),
+		"Phrase": load("res://rythm_game/lyrics/HBLyricsPhrase.gd"),
+		"PhraseStart": load("res://rythm_game/lyrics/HBLyricsPhraseStart.gd"),
+		"PhraseEnd": load("res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"),
+		"Lyric": load("res://rythm_game/lyrics/HBLyricsLyric.gd"),
 	}
 func get_serialized_type():
 	pass

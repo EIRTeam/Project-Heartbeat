@@ -5,7 +5,8 @@ const INSPECTOR_TYPES = {
 	"Vector2": preload("res://tools/editor/inspector_types/Vector2.tscn"),
 	"float": preload("res://tools/editor/inspector_types/float.tscn"),
 	"Angle": preload("res://tools/editor/inspector_types/angle.tscn"),
-	"bool": preload("res://tools/editor/inspector_types/bool.tscn")
+	"bool": preload("res://tools/editor/inspector_types/bool.tscn"),
+	"String": preload("res://tools/editor/inspector_types/String.tscn")
 }
 
 onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")
@@ -15,6 +16,7 @@ onready var paste_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer
 
 var inspecting_item: EditorTimelineItem
 var inspecting_properties = {}
+
 
 signal property_changed(property, value)
 signal property_change_committed(property)

@@ -107,3 +107,7 @@ func play_from_pos(position: float):
 		game.delete_rogue_notes(position / 1000.0)
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)
+
+func set_lyrics(phrases: Array):
+	var lyrics_view = game.game_ui.get_lyrics_view()
+	lyrics_view.set_phrases(phrases)

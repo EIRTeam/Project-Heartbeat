@@ -17,6 +17,16 @@ func get_serialized_type():
 static func can_show_in_editor():
 	return true
 
+func get_inspector_properties():
+	return HBUtils.merge_dict(.get_inspector_properties(), {
+		"bpm": {
+			"type": "int",
+			"params": {
+				"min": 1
+			}
+		}
+	})
+
 func get_timeline_item():
 	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemBPMChange.tscn")
 	var timeline_item = timeline_item_scene.instance()

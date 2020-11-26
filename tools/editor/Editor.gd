@@ -261,7 +261,6 @@ func apply_fine_position():
 			undo_redo.add_do_method(item, "sync_value", "position")
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-		print("APPLIED FINE")
 		fine_position_originals = {}
 		
 		undo_redo.commit_action()
@@ -305,16 +304,19 @@ func _commit_selected_property_change(property_name: String):
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_do_method(selected_item, "sync_value", property_name)
-				
 
 
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
-	
+				
+	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(self, "sync_lyrics")
+	undo_redo.add_undo_method(self, "sync_lyrics")
 	
 	undo_redo.commit_action()
 	inspector.sync_value(property_name)
@@ -365,7 +367,13 @@ func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
 	timing_point.time = playhead_position
 	# Event layer is the last one
-	user_create_timing_point(timeline.get_layers()[-1], timing_point.get_timeline_item())
+	var ev_layer = null
+	for layer in timeline.get_layers():
+		if layer.layer_name == "Events":
+			ev_layer = layer
+			break
+		
+	user_create_timing_point(ev_layer, timing_point.get_timeline_item())
 
 func _on_game_playback_time_changed(time: float):
 	playhead_position = max(time * 1000.0, 0.0)
@@ -413,6 +421,8 @@ func paste(time: int):
 			undo_redo.add_undo_method(timeline_item._layer, "remove_item", new_item)
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self, "sync_lyrics")
+		undo_redo.add_undo_method(self, "sync_lyrics")
 		undo_redo.commit_action()
 func delete_selected():
 	if selected.size() > 0:
@@ -427,6 +437,8 @@ func delete_selected():
 		
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(self, "sync_lyrics")
+	undo_redo.add_undo_method(self, "sync_lyrics")
 	selected = []
 	undo_redo.commit_action()
 
@@ -508,12 +520,15 @@ func get_song_length():
 		return game_playback.audio_stream_player.stream.get_length()
 	else:
 		return 0.0
+		
 func get_chart():
 	var chart = HBChart.new()
 	var layer_items = timeline.get_layers()
 	chart.editor_settings = song_editor_settings
 	var layers = []
 	for layer in layer_items:
+		if layer.layer_name == "Lyrics":
+			continue
 		layers.append({
 			"name": layer.layer_name,
 			"timing_points": layer.get_timing_points()
@@ -565,6 +580,29 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		var layer_visible = not layer.name in chart.editor_settings.hidden_layers
 		
 		layer_manager.add_layer(layer.name, layer_visible)
+		
+	# Lyrics layer
+	var layer_scene = EDITOR_LAYER_SCENE.instance()
+	layer_scene.layer_name = "Lyrics"
+	timeline.add_layer(layer_scene)
+	layer_manager.add_layer("Lyrics", false)
+	
+	var lyrics_layer_n = timeline.get_layers().size()-1
+	
+	for phrase in current_song.lyrics:
+		if phrase is HBLyricsPhrase:
+			var start_item = HBLyricsPhraseStart.new()
+			start_item.time = phrase.time
+			add_item(lyrics_layer_n, start_item.get_timeline_item())
+			
+			for lyric in phrase.lyrics:
+				if lyric is HBLyricsLyric:
+					add_item(lyrics_layer_n, lyric.get_timeline_item())
+			
+			var end_item = HBLyricsPhraseEnd.new()
+			end_item.time = phrase.end_time
+			add_item(lyrics_layer_n, end_item.get_timeline_item())
+		
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
 	_on_timing_points_changed()
@@ -573,7 +611,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
-
+	
+	sync_lyrics()
 func paste_note_data(note_data: HBBaseNote):
 	undo_redo.create_action("Paste note data")
 	for selected_item in selected:
@@ -685,7 +724,9 @@ func _on_SaveButton_pressed():
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
 	file.store_string(JSON.print(serialize_chart(), "  "))
-
+	
+	current_song.lyrics = get_lyrics()
+	current_song.save_song()
 
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
@@ -839,3 +880,89 @@ func _on_playtest_quit():
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
+
+func create_lyrics_event(event_obj: HBTimingPoint):
+	var ev_layer = null
+	for layer in timeline.get_layers():
+		if layer.layer_name == "Lyrics":
+			ev_layer = layer
+			break
+	var timeline_item = event_obj.get_timeline_item() as EditorLyricPhraseTimelineItem
+	timeline_item.connect("phrases_changed", self, "sync_lyrics")
+	user_create_timing_point(ev_layer, timeline_item)
+	sync_lyrics()
+func _create_lyrics_phrase():
+	pass
+#	print("LYRIC!")
+#	var timing_point := HBLyricsPhrase.new()
+#
+#	var starter_lyric = HBLyricsLyric.new()
+#	starter_lyric.time = playhead_position+1
+#
+#	timing_point.time = playhead_position
+#	timing_point.end_time = playhead_position + 100
+#	timing_point.lyrics = [starter_lyric]
+#	var ev_layer = null
+#	for layer in timeline.get_layers():
+#		if layer.layer_name == "Lyrics":
+#			ev_layer = layer
+#			break
+#	# Event layer is the last one
+#	user_create_timing_point(ev_layer, timing_point.get_timeline_item())
+
+
+func _create_lyrics_phrase_start():
+	var obj = HBLyricsPhraseStart.new()
+	obj.time = playhead_position
+	create_lyrics_event(obj)
+
+func _create_lyrics_phrase_end():
+	var obj = HBLyricsPhraseEnd.new()
+	obj.time = playhead_position
+	create_lyrics_event(obj)
+
+func _create_lyric():
+	var obj = HBLyricsLyric.new()
+	obj.time = playhead_position
+	create_lyrics_event(obj)
+
+func _chronological_compare(a, b):
+	return a.time < b.time
+
+func get_lyrics():
+	var phrases = []
+	for layer in timeline.get_layers():
+		if layer.layer_name == "Lyrics":
+			var is_inside_phrase = false
+			var curr_phrase: HBLyricsPhrase
+			var points = layer.get_timing_points()
+			points.sort_custom(self, "_chronological_compare")
+			for i in range(points.size()):
+				if i < points.size()-1:
+					var p1 = points[i]
+					var p2 = points[i+1]
+					if p1.time == p2.time:
+						if p1 is HBLyricsLyric and p2 is HBLyricsPhraseStart or \
+								p1 is HBLyricsPhraseStart and p2 is HBLyricsPhraseEnd:
+							points[i] = p2
+							points[i+1] = p1
+				var point = points[i]
+				
+				if point is HBLyricsPhraseStart:
+					is_inside_phrase = true
+					curr_phrase = HBLyricsPhrase.new()
+					curr_phrase.time = point.time
+				elif point is HBLyricsPhraseEnd:
+					if curr_phrase:
+						curr_phrase.end_time = point.time
+						phrases.append(curr_phrase)
+					curr_phrase = null
+					is_inside_phrase = false
+				elif is_inside_phrase:
+					if point is HBLyricsLyric:
+						curr_phrase.lyrics.append(point)
+			break
+	return phrases
+func sync_lyrics():
+	game_playback.set_lyrics(get_lyrics())
+	
