@@ -99,7 +99,8 @@ func _gui_input(event):
 			get_tree().set_input_as_handled()
 			selected_child.emit_signal("pressed")
 		if not get_tree().is_input_handled():
-			selected_child._gui_input(event)
+			if not event is InputEventMouse:
+				selected_child._gui_input(event)
 		if page_skip_enabled:
 			if event.is_action_pressed("gui_left"):
 				select_child(vbox_container.get_child(clamp(child_i-5, 0, vbox_container.get_child_count()-1)))
