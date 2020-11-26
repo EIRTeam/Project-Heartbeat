@@ -81,7 +81,8 @@ static func deserialize(data: Dictionary):
 		return object
 	
 static func get_serializable_types():
-	return {
+	HBGame.serializable_mutex.lock()
+	var types = {
 		"Note": load("res://scripts/timing_points/HBNoteData.gd"),
 		"TimingPoint": load("res://scripts/timing_points/HBTimingPoint.gd"),
 		"DoubleNote": load("res://scripts/timing_points/HBDoubleNote.gd"),
@@ -106,6 +107,8 @@ static func get_serializable_types():
 		"PhraseEnd": load("res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"),
 		"Lyric": load("res://rythm_game/lyrics/HBLyricsLyric.gd"),
 	}
+	HBGame.serializable_mutex.unlock()
+	return types
 func get_serialized_type():
 	pass
 

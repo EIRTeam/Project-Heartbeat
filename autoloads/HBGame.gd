@@ -16,6 +16,10 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: ["slide_right"],
 	HBNoteData.NOTE_TYPE.HEART: ["heart_note"]
 }
+
+# HACK HACK HACK, used by HBSerializable to load serializable types concurrently
+var serializable_mutex = Mutex.new()
+
 func _ready():
 	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():
