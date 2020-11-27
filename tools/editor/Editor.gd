@@ -129,6 +129,19 @@ func change_scale(new_scale):
 	scale = max(new_scale, 0.1)
 	emit_signal("scale_changed", prev_scale, new_scale)
 	
+func _input(event: InputEvent):
+	if event.is_action("gui_left") or \
+		event.is_action("gui_right") or \
+		event.is_action("gui_up") or \
+		event.is_action("gui_down"):
+		if event is InputEventKey:
+			if event.shift:
+				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
+				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
+				var off = Vector2(int(diff_x), int(diff_y))
+				fine_position_selected(off)
+				get_tree().set_input_as_handled()
+	
 func _unhandled_input(event):
 	if rhythm_game_playtest_popup in get_children():
 		return
@@ -140,18 +153,6 @@ func _unhandled_input(event):
 		get_tree().set_input_as_handled()
 		apply_fine_position()
 		undo_redo.redo()
-	
-	if event.is_action("gui_left") or \
-			event.is_action("gui_right") or \
-			event.is_action("gui_up") or \
-			event.is_action("gui_down"):
-		if event is InputEventKey:
-			if event.shift:
-				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
-				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
-				var off = Vector2(int(diff_x), int(diff_y))
-				fine_position_selected(off)
-				get_tree().set_input_as_handled()
 		
 	
 	if timeline.get_global_rect().has_point(get_global_mouse_position()):
@@ -251,8 +252,8 @@ func fine_position_selected(diff: Vector2):
 func apply_fine_position():
 	fine_position_timer.stop()
 	if fine_position_originals.size() > 0:
+		undo_redo.create_action("Fine position notes")
 		for item in fine_position_originals:
-			undo_redo.create_action("Fine position notes")
 			undo_redo.add_undo_property(item.data, "position", fine_position_originals[item])
 			undo_redo.add_undo_method(item, "update_widget_data")
 			undo_redo.add_undo_method(item, "sync_value", "position")
@@ -261,7 +262,6 @@ func apply_fine_position():
 			undo_redo.add_do_method(item, "sync_value", "position")
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-		print("APPLIED FINE")
 		fine_position_originals = {}
 		
 		undo_redo.commit_action()
@@ -779,10 +779,10 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var note_length = 1.0/4.0 # a quarter of a beat
 	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
 
+	print("ARRANGE", selected.size())
+
 	undo_redo.create_action("Arrange selected notes by time")
 	selected.sort_custom(self, "_order_items")
-	
-	
 	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
