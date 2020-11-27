@@ -68,6 +68,18 @@ var button_prompt_override__possibilities = [
 	"nintendo"
 ]
 
+var lyrics_enabled: bool = true
+
+var lyrics_position = "top_center"
+var lyrics_position__possibilities = [
+	"top_left",
+	"top_center",
+	"top_right",
+	"bottom_left",
+	"bottom_center",
+	"bottom_right",
+]
+
 const DEFAULT_SOUNDS = {
 	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
 	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
@@ -92,7 +104,7 @@ func _init():
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
-	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration" ]
+	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position" ]
 	
 	merge_dict_fields += [
 		"custom_sounds"
@@ -100,6 +112,20 @@ func _init():
 
 	for sound_name in DEFAULT_SOUNDS:
 		custom_sounds[sound_name] = "default"
+
+func get_lyrics_position():
+	var y_anchor = 0.9
+	if lyrics_position.begins_with("top"):
+		y_anchor = 0.2
+	return y_anchor
+
+func get_lyrics_alignment():
+	var alignment = Label.ALIGN_LEFT
+	if lyrics_position.ends_with("center"):
+		alignment = Label.ALIGN_CENTER
+	if lyrics_position.ends_with("right"):
+		alignment = Label.ALIGN_RIGHT
+	return alignment
 
 static func deserialize(data: Dictionary):
 	var result = .deserialize(data)

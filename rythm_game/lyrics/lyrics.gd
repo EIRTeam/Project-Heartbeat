@@ -16,6 +16,9 @@ const BASE_FONT_SIZE = 45
 const BASE_OUTLINE_SIZE = 5
 
 func _on_game_time_changed(time: int):
+	if not UserSettings.user_settings.lyrics_enabled:
+		hide()
+		return
 	show()
 	for i in range(phrases.size()):
 		var c_phrase := phrases[i] as HBLyricsPhrase
@@ -66,6 +69,12 @@ func set_current_phrase(phrase: HBLyricsPhrase):
 func _ready():
 	update_labels()
 	connect("resized", self, "_on_resized")
+	align = UserSettings.user_settings.get_lyrics_alignment()
+	overlay_label.align = UserSettings.user_settings.get_lyrics_alignment()
+	
+	anchor_bottom = UserSettings.user_settings.get_lyrics_position()
+	anchor_top = UserSettings.user_settings.get_lyrics_position()
+	
 	_on_resized()
 	
 	

@@ -150,6 +150,17 @@ var OPTIONS = {
 			"options_pretty": ["Auto-detect", "Xbox™", "PlayStation™", "Nintendo™"],
 			"type": "options"
 		},
+		"lyrics_enabled": {
+			"name": tr("Enable lyrics"),
+			"description": tr("Enables showing lyrics in-game.")
+		},
+		"lyrics_position": {
+			"name": tr("Lyrics position"),
+			"description": tr("Changes where the lyrics are shown."),
+			"options": ["top_left", "top-center", "top_right", "botom_left", "bottom_center", "bottom_right"],
+			"options_pretty": ["Top left", "Top center", "Top right", "Bottom left", "Bottom center", "Bottom right"],
+			"type": "options"
+		},
 		"note_size": {
 			"name": tr("Note Size"),
 			"description": "How big the notes will appear in the game.",
