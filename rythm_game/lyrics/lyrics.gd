@@ -9,6 +9,12 @@ onready var overlay_label = get_node("Label2")
 
 var last_time = 0
 
+export(DynamicFont) var font1
+export(DynamicFont) var font2
+
+const BASE_FONT_SIZE = 45
+const BASE_OUTLINE_SIZE = 5
+
 func _on_game_time_changed(time: int):
 	show()
 	for i in range(phrases.size()):
@@ -59,6 +65,8 @@ func set_current_phrase(phrase: HBLyricsPhrase):
 	
 func _ready():
 	update_labels()
+	connect("resized", self, "_on_resized")
+	_on_resized()
 	
 	
 func update_labels():
@@ -71,9 +79,14 @@ func update_labels():
 		overlay_label.text = ""
 		text = ""
 	
-	
+func _on_resized():
+	var font_size = int(BASE_FONT_SIZE * rect_size.x / 1920.0)
+	var outline_size = int(BASE_OUTLINE_SIZE * rect_size.x / 1920.0)
+	font1.size = font_size
+	font1.outline_size = outline_size
+	font2.size = font_size
+	font2.outline_size = outline_size
 func set_phrases(array: Array):
-	print("SETTING PHRASES")
 	phrases = array
 	overlay_label.text = ""
 	text = ""
