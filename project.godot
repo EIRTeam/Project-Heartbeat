@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "",
+"class": "EditorLyricPhraseTimelineItem",
+"language": "GDScript",
+"path": "res://tools/editor/timeline_items/EditorLyricPhraseTimelineItem.gd"
+}, {
 "base": "Node",
 "class": "EditorPlayback",
 "language": "GDScript",
@@ -198,6 +203,26 @@ _global_script_classes=[ {
 "class": "HBLobby",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/Lobby.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBLyricsLyric",
+"language": "GDScript",
+"path": "res://rythm_game/lyrics/HBLyricsLyric.gd"
+}, {
+"base": "HBSerializable",
+"class": "HBLyricsPhrase",
+"language": "GDScript",
+"path": "res://rythm_game/lyrics/HBLyricsPhrase.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBLyricsPhraseEnd",
+"language": "GDScript",
+"path": "res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBLyricsPhraseStart",
+"language": "GDScript",
+"path": "res://rythm_game/lyrics/HBLyricsPhraseStart.gd"
 }, {
 "base": "Control",
 "class": "HBMenu",
@@ -424,6 +449,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBWebUserInfo.gd"
 }, {
+"base": "Reference",
+"class": "HBWorkshopPreviewData",
+"language": "GDScript",
+"path": "res://menus/workshop_browser/WorkshopPreviewData.gd"
+}, {
 "base": "HBGameInputManager",
 "class": "HeartbeatInputManager",
 "language": "GDScript",
@@ -575,6 +605,7 @@ _global_script_classes=[ {
 "path": "res://menus/tabbed_container/TabbedContainerTab.gd"
 } ]
 _global_script_class_icons={
+"EditorLyricPhraseTimelineItem": "",
 "EditorPlayback": "",
 "EditorTimelineItem": "",
 "EditorTimelineItemBPMChange": "",
@@ -613,6 +644,10 @@ _global_script_class_icons={
 "HBLeaderboardService": "",
 "HBListContainer": "",
 "HBLobby": "",
+"HBLyricsLyric": "",
+"HBLyricsPhrase": "",
+"HBLyricsPhraseEnd": "",
+"HBLyricsPhraseStart": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
 "HBMenuChangecontainer": "",
@@ -658,6 +693,7 @@ _global_script_class_icons={
 "HBUtils": "",
 "HBVersion": "",
 "HBWebUserInfo": "",
+"HBWorkshopPreviewData": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
 "InputEventSwipe": "",
@@ -701,8 +737,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1605399858
-config/build_commit="9c0c387201ecbd40e0a91a840245e187e0ddb481"
+config/build_time=1606377485
+config/build_commit="80d4898d6b8888a303c31ff9c1a0b971326ec4d6"
 config/service_environment="production"
 
 [audio]
@@ -1093,7 +1129,7 @@ practice_go_to_waypoint={
 
 [locale]
 
-test="en"
+test="ca"
 translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
 
 [logging]
