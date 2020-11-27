@@ -198,6 +198,8 @@ func change_note_type(new_type: String):
 		undo_redo.add_undo_method(editor, "_on_timing_points_changed")
 		undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
 		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+		undo_redo.add_do_method(editor, "deselect_all")
+		undo_redo.add_undo_method(editor, "deselect_all")
 		undo_redo.commit_action()
 func _on_contextual_menu_about_to_show():
 	hovered_time = get_editor().timeline.get_time_being_hovered()
