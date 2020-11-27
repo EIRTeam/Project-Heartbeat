@@ -86,6 +86,7 @@ func cache_lyrics():
 						if i < lines.size() - 1:
 							var next_phrase = line2phrase(lines[i+1])
 							phrase.end_time = next_phrase.time
+							phrase.lyrics[0].value = phrase.lyrics[0].value.replace("０　", "")
 							lyr.append(phrase)
 			lyrics = lyr
 					
