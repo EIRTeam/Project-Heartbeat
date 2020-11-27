@@ -8,11 +8,10 @@ const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "backgr
 var ppd_offset = 0
 var guid = ""
 var ppd_website_id = ""
-func _ready():
-	pass
 
 func _init():
 	serializable_fields += ["ppd_offset", "guid", "ppd_website_id"]
+	LOG_NAME = "HBPPDSong"
 # Returns a HBPPDSong meta from an ini file
 static func from_ini(content: String, id: String, ext_data=null) -> HBSong:
 	var dict = HBINIParser.parse(content)
@@ -59,8 +58,43 @@ func has_video_enabled():
 	if .has_video_enabled():
 		return not UserSettings.user_settings.disable_ppd_video
 
+func line2phrase(line: String):
+	var split_l = line.split(":")
+	var time = int(float(split_l[0]) * 1000.0)
+	var phrase = HBLyricsPhrase.new()
+	phrase.time = time
+	var lyric = HBLyricsLyric.new()
+	lyric.time = time
+	if split_l.size() > 0:
+		lyric.value = split_l[1]
+	phrase.lyrics = [lyric]
+	return phrase
+func cache_lyrics():
+	var lyrics_txt = path.plus_file("kasi.txt")
+	var file = File.new()
+	if file.file_exists(lyrics_txt):
+		var err = file.open(lyrics_txt, File.READ)
+		if err == OK:
+			var lyr = []
+			var lines = []
+			while not file.eof_reached():
+				lines.append(file.get_line())
+			for i in range(lines.size()):
+				if lines[i] and ":" in lines[i]:
+					var phrase = line2phrase(lines[i])
+					if not phrase.lyrics[0].value.strip_edges() == "":
+						if i < lines.size() - 1:
+							var next_phrase = line2phrase(lines[i+1])
+							phrase.end_time = next_phrase.time
+							lyr.append(phrase)
+			lyrics = lyr
+					
+		else:
+			Log.log(self, "Error opening lyrics for PPD song %s, error %d" % [id, err])
+
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
+	cache_lyrics()
 	return PPDLoader.PPD2HBChart(chart_path, bpm, ppd_offset)
 func get_meta_path():
 	return path.plus_file("data.ini")

@@ -3,7 +3,7 @@ extends HBSerializable
 
 class_name HBSong
 
-const LOG_NAME = "HBSong"
+var LOG_NAME = "HBSong"
 
 # Because user loaded songs don't have .import files we have to load stuff like songs
 # differently, seriously???
