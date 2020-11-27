@@ -63,7 +63,8 @@ func _on_time_changed(child):
 
 func remove_item(item: EditorTimelineItem):
 	timing_points.erase(item)
-	remove_child(item)
+	if item.get_parent() == self:
+		remove_child(item)
 
 func can_drop_data(position, data):
 	if data is EditorTimelineItem:
