@@ -36,16 +36,22 @@ var hold_icon_sprite_multi = AtlasTexture.new()
 
 const hold_multi_sprite_texture = preload("res://graphics/hold_text_atlas.png")
 	
+var current_pack_name = ""
+
+	
 func _init_icon_pack_loader():
 	load_all_icon_packs()
 	# Todo use default if pack doesn't exist
 	fallback_pack = load_icon_pack("res://graphics/fallback_icon_pack")
 	fallback_atlas = preload_atlas(fallback_pack)
 
+
 func set_current_pack(pack_name):
-	current_atlas = preload_atlas(packs[pack_name])
-	current_pack = packs[pack_name]
-	rebuild_final_atlas()
+	if pack_name != current_pack_name:
+		current_pack_name = pack_name
+		current_atlas = preload_atlas(packs[pack_name])
+		current_pack = packs[pack_name]
+		rebuild_final_atlas()
 	
 var timing_arm_texture = preload("res://graphics/arm.png")
 var timing_arm_atlas = AtlasTexture.new()
@@ -84,8 +90,6 @@ func rebuild_final_atlas():
 	
 	hold_icon_sprite.region = Rect2(timing_arm_target_position, Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
 	hold_icon_sprite_multi.region = Rect2(timing_arm_target_position + Vector2(hold_icon_sprite_size.x / 2.0, 0), Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
-
-	print("A", hold_icon_sprite_multi.region)
 
 	final_texture_img.save_png("user://test.png")
 
