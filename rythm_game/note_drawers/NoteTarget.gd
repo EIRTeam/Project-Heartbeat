@@ -38,11 +38,11 @@ func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
-			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite
+			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite_multi
 			$Sprite/HoldTextSprite.visible = note_data.hold
 		else:
 			$Sprite/HoldTextSprite.visible = note_data.hold
-			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite_multi
+			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [

@@ -84,12 +84,12 @@ func rebuild_final_atlas():
 	final_texture_img.unlock()
 
 	hold_icon_sprite.atlas = final_texture
-	hold_icon_sprite_multi.atlas = final_texture_img
+	hold_icon_sprite_multi.atlas = final_texture
 	
 	var hold_icon_sprite_size = hold_multi_sprite_texture.get_size()
 	
-	hold_icon_sprite.region = Rect2(timing_arm_target_position, Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
-	hold_icon_sprite_multi.region = Rect2(timing_arm_target_position + Vector2(hold_icon_sprite_size.x / 2.0, 0), Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
+	hold_icon_sprite.region = Rect2(timing_arm_target_position + Vector2(hold_icon_sprite_size.x / 2.0, 0), Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
+	hold_icon_sprite_multi.region = Rect2(timing_arm_target_position, Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
 
 	final_texture_img.save_png("user://test.png")
 
