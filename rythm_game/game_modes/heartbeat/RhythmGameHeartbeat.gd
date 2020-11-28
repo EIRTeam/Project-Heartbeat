@@ -334,7 +334,10 @@ func _process_game(_delta):
 		var a = InputEventHB.new()
 		
 		for action in actions_to_release:
-			game_input_manager.send_input(action, false)
+			a.action = action
+			a.pressed = false
+			Input.parse_input_event(a)
+			#game_input_manager.send_input(action, false)
 		for action in actions_to_press:
 			# Double note device emulation
 			game_input_manager.digital_action_tracking[action] = {}
