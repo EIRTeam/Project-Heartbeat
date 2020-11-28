@@ -6,10 +6,9 @@ const USER_SETTINGS_PATH = "user://user_settings.json"
 const LOG_NAME = "UserSettings"
 var base_input_map = {}
 
-const SAVE_DEBOUNCE_TIME = 0.2
 var CUSTOM_SOUND_PATH = "user://custom_sounds" setget , _get_custom_sounds_path
-var save_debounce_t = 0.0
-var debouncing = false
+
+var debounce_timer = Timer.new()
 
 func _get_custom_sounds_path():
 	return HBGame.platform_settings.user_dir_redirect(CUSTOM_SOUND_PATH)
@@ -92,6 +91,12 @@ const DISABLE_ANALOG_FOR_ACTION = [
 ]
 
 var device_id = 0
+
+func _ready():
+	add_child(debounce_timer)
+	debounce_timer.wait_time = 1.0
+	debounce_timer.one_shot = true
+	debounce_timer.connect("timeout", self, "_save_user_settings")
 
 func get_input_map():
 	var map = {}
@@ -208,16 +213,9 @@ func apply_user_settings():
 	OS.vsync_enabled = user_settings.vsync_enabled
 	
 	set_volumes()
-func _process(delta):
-	if debouncing:
-		save_debounce_t += delta
-		if save_debounce_t >= SAVE_DEBOUNCE_TIME:
-			_save_user_settings()
-			debouncing = false
 
 func save_user_settings():
-	save_debounce_t = 0.0
-	debouncing = true
+	debounce_timer.start(0)
 func _save_user_settings():
 	var file := File.new()
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
