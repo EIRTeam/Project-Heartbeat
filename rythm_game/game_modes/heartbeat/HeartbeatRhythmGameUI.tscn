@@ -165,7 +165,24 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Shader" id=10]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR.a = texture(TEXTURE, UV).a * UV.y;
+}"
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+
+[sub_resource type="StyleBoxTexture" id=12]
+texture = ExtResource( 33 )
+region_rect = Rect2( 0, 0, 128, 128 )
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color( 1, 0, 0.772549, 1 )
+
+[sub_resource type="Animation" id=13]
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
@@ -181,7 +198,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=14]
 code = "shader_type canvas_item;
 
 uniform sampler2D bg: hint_albedo;
@@ -194,11 +211,11 @@ void fragment() {
 	COLOR.a = COLOR.a * UV.x;
 }"
 
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=15]
+shader = SubResource( 14 )
 shader_param/bg = ExtResource( 33 )
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=16]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 corner_radius_bottom_right = 1024
@@ -207,7 +224,7 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=17]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 border_width_left = 2
@@ -222,30 +239,13 @@ shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=18]
 size = 25
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 5
 font_data = ExtResource( 32 )
 fallback/0 = ExtResource( 2 )
-
-[sub_resource type="Shader" id=16]
-code = "shader_type canvas_item;
-
-void fragment() {
-	COLOR.a = texture(TEXTURE, UV).a * UV.y;
-}"
-
-[sub_resource type="ShaderMaterial" id=17]
-shader = SubResource( 16 )
-
-[sub_resource type="StyleBoxTexture" id=18]
-texture = ExtResource( 33 )
-region_rect = Rect2( 0, 0, 128, 128 )
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-modulate_color = Color( 1, 0, 0.772549, 1 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
@@ -456,7 +456,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="UnderNotesUI/Control/HoldIndicator"]
-margin_right = 960.0
+margin_right = 959.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 35 )
 custom_styles/panel = ExtResource( 15 )
@@ -475,7 +475,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer"]
 margin_left = 43.0
-margin_right = 949.0
+margin_right = 948.0
 margin_bottom = 35.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -498,13 +498,13 @@ size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
 margin_left = 306.0
-margin_right = 906.0
+margin_right = 905.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 600.0
+margin_right = 599.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -530,7 +530,7 @@ __meta__ = {
 [node name="MaxComboContainer" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 39.0
-margin_right = 960.0
+margin_right = 959.0
 margin_bottom = 69.0
 rect_min_size = Vector2( 0, 30 )
 
@@ -553,12 +553,12 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer"]
 margin_left = 5.0
-margin_right = 480.0
+margin_right = 479.0
 margin_bottom = 30.0
 
 [node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer/HBoxContainer"]
 margin_top = 3.0
-margin_right = 475.0
+margin_right = 474.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 7 )
@@ -681,6 +681,20 @@ __meta__ = {
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
 anims/animate = SubResource( 9 )
 
+[node name="Panel" type="Panel" parent="UnderNotesUI/Control"]
+material = SubResource( 11 )
+anchor_top = 0.842
+anchor_right = 1.0
+anchor_bottom = 0.928
+margin_left = -0.950073
+margin_top = -1.15552
+margin_right = -0.950073
+margin_bottom = -1.15552
+custom_styles/panel = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Lyrics" type="Node2D" parent="."]
 z_index = -2
 
@@ -695,12 +709,13 @@ __meta__ = {
 }
 
 [node name="LyricsView" parent="Lyrics/Control" instance=ExtResource( 34 )]
-anchor_top = 0.174
+anchor_left = 0.018
+anchor_top = 0.2
 anchor_right = 1.0
-anchor_bottom = 0.174
-margin_top = 0.0
+anchor_bottom = 0.2
+margin_top = -53.0
 margin_right = 0.0
-margin_bottom = 53.0
+margin_bottom = 0.0
 
 [node name="GameLayer" type="Node2D" parent="."]
 show_behind_parent = true
@@ -784,7 +799,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-anims/rating_appear = SubResource( 10 )
+anims/rating_appear = SubResource( 13 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -831,7 +846,7 @@ size_flags_horizontal = 3
 
 [node name="Panel2" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
 modulate = Color( 0.592157, 0.239216, 0.94902, 1 )
-material = SubResource( 12 )
+material = SubResource( 15 )
 anchor_left = -0.055
 anchor_top = 0.194
 anchor_right = 1.0
@@ -842,7 +857,7 @@ margin_bottom = -41.0
 rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -857,7 +872,7 @@ margin_bottom = -39.0705
 rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -944,7 +959,7 @@ margin_top = 1.0
 margin_right = 237.0
 margin_bottom = 32.0
 size_flags_vertical = 6
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 18 )
 text = "(NT)[DIFFICULTY]"
 valign = 1
 uppercase = true
@@ -978,16 +993,6 @@ text = "(NT)0000000"
 align = 1
 valign = 1
 script = ExtResource( 9 )
-
-[node name="Panel" type="Panel" parent="Control"]
-material = SubResource( 17 )
-anchor_top = 0.842
-anchor_right = 1.0
-anchor_bottom = 0.928
-custom_styles/panel = SubResource( 18 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ClearBar" type="Panel" parent="Control"]
 anchor_top = 0.924

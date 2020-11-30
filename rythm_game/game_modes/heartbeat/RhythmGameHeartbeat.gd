@@ -206,8 +206,7 @@ func _on_do_input(event: InputEventHB):
 	._on_do_input(event)
 	
 	# Note SFX
-	for i in range(notes_on_screen.size()):
-		var note = notes_on_screen[i]
+	for note in get_closest_notes():
 		var drw = get_note_drawer(note)
 		if get_note_drawer(note).note_master:
 			drw._handle_unhandled_input(event)

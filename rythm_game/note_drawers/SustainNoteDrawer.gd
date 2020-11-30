@@ -75,6 +75,7 @@ func handle_input(event: InputEvent, time: float):
 			if rating >= game.judge.JUDGE_RATINGS.FINE:
 				game.play_note_sfx()
 			set_process_unhandled_input(false)
+			break
 		
 func _on_game_time_changed(time: float):
 	if not is_queued_for_deletion():
@@ -91,7 +92,10 @@ func _handle_unhandled_input(event: InputEvent):
 	if not pressed:
 		._handle_unhandled_input(event)
 	else:
-		handle_input(event, game.time)
+		for action in note_data.get_input_actions():
+			if event.is_action_released(action):
+				handle_input(event, game.time)
+				break
 
 func reset_note_state():
 	pressed = false
