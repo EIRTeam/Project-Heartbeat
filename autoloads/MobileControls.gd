@@ -2,6 +2,12 @@ extends Control
 
 onready var button_template = get_node("HBoxContainer/Button")
 var NOTE_TYPE_TO_ACTIONS_MAP = {}
+
+var input_manager setget set_input_manager
+
+func set_input_manager(val):
+	$NoteDetector.input_manager = val
+
 func _ready():
 	var g = HBRhythmGame.new()
 	HBGame.NOTE_TYPE_TO_ACTIONS_MAP = HBGame.NOTE_TYPE_TO_ACTIONS_MAP

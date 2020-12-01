@@ -119,6 +119,7 @@ func set_game_input_manager(manager: HBGameInputManager):
 	game_input_manager = manager
 	game_input_manager.connect("do_input", self, "_on_do_input")
 	add_child(game_input_manager)
+	MobileControls.set_input_manager(manager)
 
 func _on_do_input(event: InputEventHB):
 	pass

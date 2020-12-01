@@ -28,6 +28,8 @@ func _ready():
 func _game_init():
 	if OS.get_name() == "Switch":
 		platform_settings = HBPlatformSettingsSwitch.new()
+	elif OS.has_feature("mobile"):
+		platform_settings = HBPlatformSettingsMobile.new()
 	else:
 		platform_settings = HBPlatformSettingsDesktop.new()
 	PlatformService._initialize_platform()
@@ -67,8 +69,8 @@ func _game_init():
 	YoutubeDL._init_ytdl()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
-	if not OS.has_feature("mobile") or OS.get_name() == "Switch":
-		MobileControls.get_child(0).hide()
+	#if not OS.has_feature("mobile") or OS.get_name() == "Switch":
+	#	MobileControls.get_child(0).hide()
 		
 	if OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresence.new()

@@ -1,5 +1,7 @@
 extends Node
 
+var input_manager: HBGameInputManager
+
 class GestureManager:
 	const SWIPE_DISTANCE = 5.0
 	const MAX_DIAGONAL_SLOPE = 1.3
@@ -67,7 +69,6 @@ var gestures = []
 
 signal swipe_canceled(start_position)
 signal swipe_started(direction)
-
 export(float) var swipe_min_distance = 20.0
 onready var timer: Node = $SwipeTimeout
 var swipe_start_position: = Vector2()
@@ -92,7 +93,6 @@ func _input(event: InputEvent) -> void:
 	var current_gesture = get_gesture_for_index(event_index) as GestureManager
 
 	if event is InputEventScreenTouch:
-		print("TOCHED AT", event.position, " MODE ", input_mode)
 		if event.pressed:
 			if not current_gesture:
 				var swipe_status_timer = timer.duplicate()
@@ -121,52 +121,32 @@ var process_time = 0
 func _process(delta):
 	process_time += delta
 
+func send_event(action, pressed, gest):
+	if input_manager and is_instance_valid(input_manager):
+		input_manager.send_input(action, pressed, 1, gest)
+
 func _on_swipe_started(direction: Vector2, gesture: GestureManager):
 	var action = "slide_left"
 	if direction == Vector2.RIGHT:
 		action = "slide_right"
-	print("SWIPING " , action)
-	var event = InputEventHB.new()
-	event.event_uid = gesture.index
-	event.triggered_actions_count = 1
-	event.pressed = true
-	event.action = action
-	Input.parse_input_event(event)
+	send_event(action, true, gesture.index)
 func _on_swipe_ended(direction: Vector2, gesture: GestureManager):
 	var action = "slide_left"
 	if direction == Vector2.RIGHT:
 		action = "slide_right"
-	var event = InputEventHB.new()
-	event.event_uid = gesture.index
-	event.triggered_actions_count = 1
-	event.action = action
-	event.pressed = false
-	Input.parse_input_event(event)
-	print("END SWIPE ", direction)
+	send_event(action, true, gesture.index)
 func remove_gesture(gesture: GestureManager):
-	print("REMOVING GESTURE")
 	gestures.erase(gesture)
 	for ges in gestures:
 		if ges.index > gesture.index:
 			ges.index -= 1
 func _on_tap_started(position: Vector2, gesture: GestureManager):
-	var button = int(position.x / (OS.get_real_window_size().x / 4.0))
+	var button = clamp(int(position.x / (get_viewport().get_size_override().x/4.0)), 0, 3)
+	print(position.x, " ", get_viewport().get_size_override().x)
 	var action = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[button][0]
-	var event = InputEventHB.new()
-	event.event_uid = gesture.index
-	event.triggered_actions_count = 1
-	event.action = action
-	event.pressed = true
-	Input.parse_input_event(event)
-	OS.get_real_window_size()
-	print("SENDING TAP", action)
+	send_event(action, true, gesture.index)
 
 func _on_tap_ended(position: Vector2, gesture: GestureManager):
 	var button = int(position.x / (OS.get_real_window_size().x / 4.0))
 	var action = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[button][0]
-	var event = InputEventHB.new()
-	event.event_uid = gesture.index
-	event.triggered_actions_count = 1
-	event.action = action
-	event.pressed = false
-	Input.parse_input_event(event)
+	send_event(action, false, gesture.index)

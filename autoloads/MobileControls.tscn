@@ -8,8 +8,18 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 
+signal note_emulated
+signal slide_emulated
+
+func _ready():
+	$Control.connect(\"note_emulated\", self, \"emit_signal\", [\"note_emulated\"])
+	$Control.connect(\"slide_emulated\", self, \"emit_signal\", [\"slide_emulated\"])
+
 func set_input_mode(mode: int):
 	$Control/NoteDetector.input_mode = mode
+
+func set_input_manager(manager):
+	$Control.input_manager = manager
 "
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -77,9 +87,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-margin_top = 178.0
+margin_top = 330.0
 margin_right = 250.0
-margin_bottom = 258.0
+margin_bottom = 410.0
 
 [node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer"]
 margin_right = 80.0
@@ -89,7 +99,7 @@ color = Color( 0, 0, 0, 0 )
 
 [node name="ColorRect2" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 margin_left = 84.0
-margin_right = 164.0
+margin_right = 165.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
@@ -99,16 +109,16 @@ script = ExtResource( 4 )
 action = "gui_up"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer"]
-margin_left = 168.0
+margin_left = 169.0
 margin_right = 250.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer"]
-margin_top = 262.0
+margin_top = 414.0
 margin_right = 250.0
-margin_bottom = 342.0
+margin_bottom = 494.0
 
 [node name="ColorRect6" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
 margin_right = 80.0
@@ -122,13 +132,13 @@ action = "gui_left"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer2"]
 margin_left = 84.0
-margin_right = 164.0
+margin_right = 165.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
 [node name="ColorRect7" type="Button" parent="Control/VBoxContainer/HBoxContainer2"]
-margin_left = 168.0
+margin_left = 169.0
 margin_right = 250.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
@@ -139,9 +149,9 @@ script = ExtResource( 4 )
 action = "gui_right"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Control/VBoxContainer"]
-margin_top = 346.0
+margin_top = 498.0
 margin_right = 250.0
-margin_bottom = 426.0
+margin_bottom = 578.0
 
 [node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer3"]
 margin_right = 80.0
@@ -151,7 +161,7 @@ color = Color( 0, 0, 0, 0 )
 
 [node name="ColorRect8" type="Button" parent="Control/VBoxContainer/HBoxContainer3"]
 margin_left = 84.0
-margin_right = 164.0
+margin_right = 165.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
@@ -161,7 +171,7 @@ script = ExtResource( 4 )
 action = "gui_down"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer/HBoxContainer3"]
-margin_left = 168.0
+margin_left = 169.0
 margin_right = 250.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
@@ -179,12 +189,12 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer2"]
-margin_top = 320.0
-margin_right = 270.0
-margin_bottom = 400.0
+margin_top = 500.0
+margin_right = 405.0
+margin_bottom = 580.0
 
 [node name="ColorRect9" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
-margin_right = 87.0
+margin_right = 132.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
@@ -194,15 +204,15 @@ script = ExtResource( 4 )
 action = "gui_cancel"
 
 [node name="ColorRect3" type="ColorRect" parent="Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 91.0
-margin_right = 178.0
+margin_left = 136.0
+margin_right = 268.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 color = Color( 0, 0, 0, 0 )
 
 [node name="ColorRect10" type="Button" parent="Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 182.0
-margin_right = 270.0
+margin_left = 272.0
+margin_right = 405.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 80 )
 focus_mode = 0
@@ -221,6 +231,7 @@ focus_mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="action_down" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="_on_gui_action_down"]
 [connection signal="action_up" from="Control/VBoxContainer/HBoxContainer/ColorRect2" to="Control" method="_on_gui_action_up"]
 [connection signal="action_down" from="Control/VBoxContainer/HBoxContainer2/ColorRect6" to="Control" method="_on_gui_action_down"]
