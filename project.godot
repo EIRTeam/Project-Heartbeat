@@ -295,6 +295,11 @@ _global_script_classes=[ {
 "path": "res://autoloads/platform_settings/PlatformSettingsDesktop.gd"
 }, {
 "base": "HBPlatformSettings",
+"class": "HBPlatformSettingsMobile",
+"language": "GDScript",
+"path": "res://autoloads/platform_settings/PlatformSettingsMobile.gd"
+}, {
+"base": "HBPlatformSettings",
 "class": "HBPlatformSettingsSwitch",
 "language": "GDScript",
 "path": "res://autoloads/platform_settings/PlatformSettingsSwitch.gd"
@@ -662,6 +667,7 @@ _global_script_class_icons={
 "HBPlatformAchievment": "",
 "HBPlatformSettings": "",
 "HBPlatformSettingsDesktop": "",
+"HBPlatformSettingsMobile": "",
 "HBPlatformSettingsSwitch": "",
 "HBResourceQueue": "",
 "HBResult": "",
@@ -750,7 +756,7 @@ output_latency=7
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
-Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
+Steam="*res://autoloads/platform_service/SteamPlaceholder.gd"
 JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongDataCache="*res://autoloads/SongDataCache.gd"
@@ -1129,7 +1135,7 @@ practice_go_to_waypoint={
 
 [locale]
 
-test="ca"
+test="en"
 translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
 
 [logging]
@@ -1141,5 +1147,7 @@ file_logging/enable_file_logging=true
 quality/driver/fallback_to_gles2=true
 quality/2d/use_nvidia_rect_flicker_workaround=true
 vram_compression/import_etc=true
+batching/parameters/max_join_item_commands=64
+batching/parameters/item_reordering_lookahead=32
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"
