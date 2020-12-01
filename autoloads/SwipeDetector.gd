@@ -142,7 +142,6 @@ func remove_gesture(gesture: GestureManager):
 			ges.index -= 1
 func _on_tap_started(position: Vector2, gesture: GestureManager):
 	var button = clamp(int(position.x / (get_viewport().get_size_override().x/4.0)), 0, 3)
-	print(position.x, " ", get_viewport().get_size_override().x)
 	var action = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[button][0]
 	send_event(action, true, gesture.index)
 
