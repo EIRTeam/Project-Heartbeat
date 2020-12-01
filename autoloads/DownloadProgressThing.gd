@@ -90,10 +90,10 @@ func set_text(val):
 	$Panel/Label.text = text
 	recalculate_label_size()
 	var minimum_size = $Panel/Label.get_minimum_size().x
-	if label.autowrap == true:
+	if $Panel/Label.autowrap == true:
 		minimum_size = get_parent().rect_size.x / 2.0
 	$Panel.rect_size.x = minimum_size
-	label.rect_size.y = 0
+	$Panel/Label.rect_size.y = 0
 	
 func _ready():
 	set_type(TYPE.SUCCESS)
