@@ -80,6 +80,16 @@ var lyrics_position__possibilities = [
 	"bottom_right",
 ]
 
+var lyrics_color = "orange"
+
+var lyrics_color__possibilities = [
+	"orange",
+	"purple",
+	"blue",
+	"red",
+	"green",
+]
+
 const DEFAULT_SOUNDS = {
 	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
 	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
@@ -104,7 +114,8 @@ func _init():
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
-	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position" ]
+	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
+	"lyrics_color"]
 	
 	merge_dict_fields += [
 		"custom_sounds"
@@ -112,6 +123,19 @@ func _init():
 
 	for sound_name in DEFAULT_SOUNDS:
 		custom_sounds[sound_name] = "default"
+
+func get_lyrics_color() -> Color:
+	var color = Color("#ffaa00")
+	match lyrics_color:
+		"purple":
+			color = Color("#6F14FF")
+		"blue":
+			color = Color("#00a2ff")
+		"red":
+			color = Color("#ff0000")
+		"green":
+			color = Color("6EFF1F")
+	return color
 
 func get_lyrics_halign():
 	var alignment = Label.ALIGN_LEFT

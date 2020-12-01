@@ -161,6 +161,13 @@ var OPTIONS = {
 			"options_pretty": ["Top left", "Top center", "Top right", "Bottom left", "Bottom center", "Bottom right"],
 			"type": "options"
 		},
+		"lyrics_color": {
+			"name": tr("Lyrics color"),
+			"description": tr("Changes the color used to show the lyrics."),
+			"options": UserSettings.user_settings.lyrics_color__possibilities,
+			"options_pretty": ["Orange", "Purple", "Blue", "Red", "Green"],
+			"type": "options"
+		},
 		"note_size": {
 			"name": tr("Note Size"),
 			"description": "How big the notes will appear in the game.",

@@ -77,6 +77,8 @@ func _ready():
 	valign = UserSettings.user_settings.get_lyrics_valign()
 	overlay_label.valign = valign
 	
+	$Label2.add_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
+	
 	_on_resized()
 	
 	

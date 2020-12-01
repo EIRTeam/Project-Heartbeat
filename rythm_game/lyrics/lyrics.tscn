@@ -17,7 +17,7 @@ fallback/0 = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=3]
 size = 45
 outline_size = 5
-outline_color = Color( 0, 0, 0, 0 )
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = SubResource( 1 )
 fallback/0 = ExtResource( 1 )
@@ -45,6 +45,7 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 0.666667, 0, 1 )
 text = "asdsadas"
 autowrap = true
+percent_visible = -0.125
 __meta__ = {
 "_edit_use_anchors_": false
 }
