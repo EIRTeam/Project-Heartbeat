@@ -12,7 +12,7 @@
                     "target_path": "notes/Left"
                 },
                 "target": {
-                    "style": "target",
+                    "style": "target_with_fill_color",
                     "src_path": "notes/Left",
                     "target_path": "notes/Left_target"
                 },
@@ -64,7 +64,7 @@
                     "target_path": "notes/Down"
                 },
                 "target": {
-                    "style": "target",
+                    "style": "target_with_fill_color",
                     "src_path": "notes/Down",
                     "target_path": "notes/Down_target"
                 },
@@ -116,7 +116,7 @@
                     "target_path": "notes/Right"
                 },
                 "target": {
-                    "style": "target",
+                    "style": "target_with_fill_color",
                     "src_path": "notes/Right",
                     "target_path": "notes/Right_target"
                 },
@@ -168,7 +168,7 @@
                     "target_path": "notes/Up"
                 },
                 "target": {
-                    "style": "target",
+                    "style": "target_with_fill_color",
                     "src_path": "notes/Up",
                     "target_path": "notes/Up_target"
                 },
