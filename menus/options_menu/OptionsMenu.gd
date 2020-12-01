@@ -157,7 +157,7 @@ var OPTIONS = {
 		"lyrics_position": {
 			"name": tr("Lyrics position"),
 			"description": tr("Changes where the lyrics are shown."),
-			"options": ["top_left", "top_center", "top_right", "botom_left", "bottom_center", "bottom_right"],
+			"options": ["top_left", "top_center", "top_right", "bottom_left", "bottom_center", "bottom_right"],
 			"options_pretty": ["Top left", "Top center", "Top right", "Bottom left", "Bottom center", "Bottom right"],
 			"type": "options"
 		},
