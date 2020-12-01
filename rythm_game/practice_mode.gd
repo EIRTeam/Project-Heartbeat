@@ -101,9 +101,16 @@ func _process(delta):
 				update_time_label()
 				
 func update_time_label():
-	var time_str = HBUtils.format_time(game.time * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
-	var song_length = game.audio_stream_player.stream.get_length()
-	var song_length_str = HBUtils.format_time(song_length * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
+	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	var start_time = song.start_time / 1000.0
+	var end_time = game.audio_stream_player.stream.get_length()
+	if song.end_time > 0:
+		end_time = song.end_time / 1000.0
+	var current_duration = game.audio_stream_player.stream.get_length()
+	current_duration -= start_time
+	current_duration -= game.audio_stream_player.stream.get_length() - end_time
+	var time_str = HBUtils.format_time(game.time * 1000.0 - start_time * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
+	var song_length_str = HBUtils.format_time(current_duration * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	time_label.text = "%s/%s" % [time_str, song_length_str]
 				
 func go_to_time(time: float):
@@ -151,7 +158,7 @@ func update_progress_bar():
 	current_duration -= start_time
 	current_duration -= game.audio_stream_player.stream.get_length() - end_time
 	
-	var progress = clamp(game.time, start_time, end_time)
+	var progress = game.time - start_time
 	progress = progress / current_duration
 	
 	progress_bar.value = progress
@@ -166,7 +173,7 @@ func update_progress_bar_waypoint():
 	current_duration -= start_time
 	current_duration -= game.audio_stream_player.stream.get_length() - end_time
 	
-	var waypoint_pos = clamp(waypoint, start_time, end_time)
+	var waypoint_pos = waypoint - start_time
 	waypoint_pos = waypoint_pos / current_duration
 	progess_bar_waypoint.value = waypoint_pos
 func update_stats_label():
@@ -200,3 +207,17 @@ func _on_note_judged(judgement_info):
 		stats_passed_notes += 1
 		stats_latency_sum += judgement_info.time-judgement_info.target_time
 	update_stats_label()
+
+
+func _on_SeekButton_seeked(seek_pos):
+	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	var start_time = song.start_time / 1000.0
+	var end_time = game.audio_stream_player.stream.get_length()
+	if song.end_time > 0:
+		end_time = song.end_time / 1000.0
+	var current_duration = game.audio_stream_player.stream.get_length()
+	current_duration -= start_time
+	current_duration -= game.audio_stream_player.stream.get_length() - end_time
+	var new_time = start_time + (seek_pos * current_duration)
+	go_to_time(new_time)
+	update_time_label()

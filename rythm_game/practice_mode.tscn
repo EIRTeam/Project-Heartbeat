@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_controller.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/practice_mode.gd" type="Script" id=2]
@@ -39,7 +39,23 @@ expand_margin_right = 1.0
 
 [sub_resource type="StyleBoxEmpty" id=5]
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="GDScript" id=6]
+script/source = "extends Button
+
+signal seeked(seek_pos)
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if get_tree().paused:
+			if event.pressed:
+				if event.button_index == BUTTON_LEFT:
+					var global_rect = get_global_rect()
+					if global_rect.has_point(event.position):
+						var progress = (event.position.x - rect_global_position.x) / rect_size.x
+						emit_signal(\"seeked\", progress)
+"
+
+[sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 7.0
 content_margin_right = 7.0
 content_margin_top = 7.0
@@ -53,7 +69,7 @@ corner_radius_bottom_left = 5
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=8]
 size = 19
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -127,6 +143,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SeekButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" index="1"]
 margin_top = 930.0
 margin_right = 1820.0
@@ -139,7 +165,7 @@ margin_left = 270.0
 margin_right = 475.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 205, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -155,7 +181,7 @@ margin_left = 479.0
 margin_right = 734.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 255, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -171,7 +197,7 @@ margin_left = 738.0
 margin_right = 978.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 240, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -187,7 +213,7 @@ margin_left = 982.0
 margin_right = 1247.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 265, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel9/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -203,7 +229,7 @@ margin_left = 1251.0
 margin_right = 1421.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 170, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -219,7 +245,7 @@ margin_left = 1425.0
 margin_right = 1550.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 125, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -232,6 +258,7 @@ margin_bottom = 50.0
 [node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="12"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/margin_right = 25
 __meta__ = {
 "_edit_use_anchors_": false
@@ -240,6 +267,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="PracticeModeUIIngame" index="0"]
 margin_right = 1895.0
 margin_bottom = 1080.0
+mouse_filter = 2
 alignment = 2
 
 [node name="Label" type="Label" parent="PracticeModeUIIngame/HBoxContainer" index="0"]
@@ -247,7 +275,7 @@ margin_left = 1830.0
 margin_top = 530.0
 margin_right = 1895.0
 margin_bottom = 550.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 text = "asdad"
 align = 2
 
@@ -258,14 +286,11 @@ text = "Are you sure you want to quit?"
 accept_text = "Yes"
 cancel_text = "No"
 
+[connection signal="seeked" from="MarginContainer/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]
+
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel9"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel7"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel6"]
