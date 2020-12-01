@@ -60,6 +60,8 @@ func _on_game_time_changed(time: int):
 		for phrase in current_phrase.lyrics:
 			if time >= phrase.time:
 				curr_visible_characters += phrase.value.length() - phrase.value.count(" ")
+		if current_phrase.lyrics.size() <= 1:
+			curr_visible_characters = -1
 		overlay_label.visible_characters = curr_visible_characters
 func set_current_phrase(phrase: HBLyricsPhrase):
 	if phrase != current_phrase:
