@@ -4,8 +4,8 @@
 
 [resource]
 size = 40
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
+outline_size = 4
+outline_color = Color( 0, 0, 0, 0.75 )
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 7
