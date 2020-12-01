@@ -709,13 +709,15 @@ __meta__ = {
 }
 
 [node name="LyricsView" parent="Lyrics/Control" instance=ExtResource( 34 )]
-anchor_left = 0.018
-anchor_top = 0.2
-anchor_right = 1.0
-anchor_bottom = 0.2
-margin_top = -53.0
-margin_right = 0.0
+anchor_left = 0.05
+anchor_top = 0.15
+anchor_right = 0.95
+anchor_bottom = 0.9
+margin_left = 7.62939e-06
+margin_top = 0.0
+margin_right = 0.00012207
 margin_bottom = 0.0
+autowrap = true
 
 [node name="GameLayer" type="Node2D" parent="."]
 show_behind_parent = true

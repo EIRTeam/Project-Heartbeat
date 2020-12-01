@@ -29,6 +29,7 @@ margin_bottom = 90.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "asdsadas"
+autowrap = true
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -42,6 +43,7 @@ anchor_bottom = 1.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 0.666667, 0, 1 )
 text = "asdsadas"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

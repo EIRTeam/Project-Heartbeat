@@ -69,11 +69,11 @@ func set_current_phrase(phrase: HBLyricsPhrase):
 func _ready():
 	update_labels()
 	connect("resized", self, "_on_resized")
-	align = UserSettings.user_settings.get_lyrics_alignment()
-	overlay_label.align = UserSettings.user_settings.get_lyrics_alignment()
+	align = UserSettings.user_settings.get_lyrics_halign()
+	overlay_label.align = align
 	
-	anchor_bottom = UserSettings.user_settings.get_lyrics_position()
-	anchor_top = UserSettings.user_settings.get_lyrics_position()
+	valign = UserSettings.user_settings.get_lyrics_valign()
+	overlay_label.valign = valign
 	
 	_on_resized()
 	

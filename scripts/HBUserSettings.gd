@@ -113,18 +113,18 @@ func _init():
 	for sound_name in DEFAULT_SOUNDS:
 		custom_sounds[sound_name] = "default"
 
-func get_lyrics_position():
-	var y_anchor = 0.9
-	if lyrics_position.begins_with("top"):
-		y_anchor = 0.2
-	return y_anchor
-
-func get_lyrics_alignment():
+func get_lyrics_halign():
 	var alignment = Label.ALIGN_LEFT
 	if lyrics_position.ends_with("center"):
 		alignment = Label.ALIGN_CENTER
 	if lyrics_position.ends_with("right"):
 		alignment = Label.ALIGN_RIGHT
+	return alignment
+	
+func get_lyrics_valign():
+	var alignment = Label.VALIGN_TOP
+	if lyrics_position.begins_with("bottom"):
+		alignment = Label.VALIGN_BOTTOM
 	return alignment
 
 static func deserialize(data: Dictionary):
