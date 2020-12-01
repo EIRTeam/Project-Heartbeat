@@ -31,7 +31,7 @@ fallback/0 = ExtResource( 4 )
 
 [node name="SongTitle" type="HBoxContainer"]
 use_parent_material = true
-margin_right = 795.0
+margin_right = 1612.0
 margin_bottom = 39.0
 size_flags_vertical = 3
 custom_constants/separation = 20
@@ -50,6 +50,9 @@ size_flags_vertical = 3
 texture = SubResource( 2 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DifficultyLabel" type="Label" parent="."]
 visible = false
@@ -64,10 +67,20 @@ align = 3
 valign = 1
 uppercase = true
 
-[node name="AuthorLabel" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="."]
 use_parent_material = true
 margin_left = 270.0
-margin_right = 537.0
+margin_right = 508.0
+margin_bottom = 39.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 1 )
+text = "(NT)Song Title"
+valign = 1
+
+[node name="AuthorLabel" type="Label" parent="."]
+use_parent_material = true
+margin_left = 528.0
+margin_right = 795.0
 margin_bottom = 39.0
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
@@ -76,13 +89,3 @@ text = "(NT)Ken asdsad"
 align = 3
 valign = 1
 uppercase = true
-
-[node name="TitleLabel" type="Label" parent="."]
-use_parent_material = true
-margin_left = 557.0
-margin_right = 795.0
-margin_bottom = 39.0
-size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
-text = "(NT)Song Title"
-valign = 1
