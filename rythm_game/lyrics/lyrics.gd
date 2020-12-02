@@ -24,12 +24,27 @@ func _on_game_time_changed(time: int):
 		var c_phrase := phrases[i] as HBLyricsPhrase
 		
 		if i == 0:
+			
+			if phrases.size() == 1:
+				if time > c_phrase.get_max_time():
+					hide()
+					break
+			
 			if time < c_phrase.get_min_time() - LYRIC_MARGIN:
 				hide()
 				break
 			else:
 				show()
 		else:
+			# case 4: last
+			if i == phrases.size() - 1:
+				if time > c_phrase.get_max_time():
+					hide()
+					break
+				elif c_phrase.get_min_time() < time:
+					show()
+					break
+			
 			# case 2: in the middle of a phrase
 			if time < c_phrase.get_max_time() and time > c_phrase.get_min_time():
 				show()
@@ -48,20 +63,15 @@ func _on_game_time_changed(time: int):
 					hide()
 					set_current_phrase(prev_phrase)
 					break
-					
-			# case 4: last
-			if i == phrases.size() - 1:
-				if time > c_phrase.get_max_time():
-					hide()
-				else:
-					show()
 	if current_phrase:
 		var curr_visible_characters = 0
 		for phrase in current_phrase.lyrics:
 			if time >= phrase.time:
 				curr_visible_characters += phrase.value.length() - phrase.value.count(" ")
-		if current_phrase.lyrics.size() <= 1:
+		if current_phrase.lyrics.size() <= 1 and time < current_phrase.end_time:
 			curr_visible_characters = -1
+		elif current_phrase.end_time < time:
+			hide()
 		overlay_label.visible_characters = curr_visible_characters
 func set_current_phrase(phrase: HBLyricsPhrase):
 	if phrase != current_phrase:
