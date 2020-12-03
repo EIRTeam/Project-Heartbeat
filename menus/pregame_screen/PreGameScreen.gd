@@ -36,7 +36,7 @@ func _ready():
 	# Hacky af...
 	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instance()
 	
-	tabbed_container.add_tab(tr("Song"), pregame_start_tab)
+	tabbed_container.add_tab("Song", tr("Song"), pregame_start_tab)
 	
 	button_container = pregame_start_tab.button_container
 	modifier_button_container = pregame_start_tab.modifier_button_container
@@ -45,7 +45,7 @@ func _ready():
 	stats_label = pregame_start_tab.stats_label
 	button_panel = pregame_start_tab.button_panel
 	
-	tabbed_container.add_tab(tr("Leaderboard"), leaderboard_tab_normal)
+	tabbed_container.add_tab("Leaderboard", tr("Leaderboard"), leaderboard_tab_normal)
 	#tabbed_container.add_tab(tr("Leaderboard (Modifiers)"), leaderboard_tab_modifiers)
 	
 	
@@ -132,13 +132,13 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	tabbed_container.show_tab("Song")
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
-	var highest_score_string = "Never played"
+	var highest_score_string = tr("Never played")
 	if ScoreHistory.has_result(current_song.id, current_difficulty):
 		var result := ScoreHistory.get_result(current_song.id, current_difficulty) as HBResult
 		var pass_percentage = result.get_percentage()
 		var thousands_sep_score = HBUtils.thousands_sep(result.score)
 		highest_score_string = "%s (%.2f %%)" % [thousands_sep_score, pass_percentage*100]
-	var text = "Times Played: %d\n\nHighest score:\n%s" % [stats.times_played, highest_score_string]
+	var text = tr("Times Played: %d\n\nHighest score:\n%s") % [stats.times_played, highest_score_string]
 	stats_label.text = text
 	
 func _on_button_list_out_from_top():

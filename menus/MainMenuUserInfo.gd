@@ -12,7 +12,7 @@ func _ready():
 	load_from_user_data()
 
 func load_from_user_data():
-	level_field.text = "Level %d" % [HBBackend.user_info.level]
+	level_field.text = tr("Level %d") % [HBBackend.user_info.level]
 	var max_exp = HBUtils.get_experience_to_next_level(HBBackend.user_info.level)
 	exp_progress_bar.max_value = max_exp
 	exp_progress_bar.value = HBBackend.user_info.experience

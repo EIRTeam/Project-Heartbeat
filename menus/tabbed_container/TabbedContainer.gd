@@ -7,9 +7,9 @@ onready var tab_container = get_node("VBoxContainer/TabContainer")
 var tabs = {}
 var tab_buttons = {}
 var current_tab
-func add_tab(tab_name: String, tab: Control):
+func add_tab(tab_name: String, tab_display_name: String, tab: Control):
 	var button = HBHovereableButton.new()
-	button.text = tab_name
+	button.text = tab_display_name
 	button_container.add_child(button)
 	button.set_meta("tab_name", tab_name)
 	tabs[tab_name] = tab

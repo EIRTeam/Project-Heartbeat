@@ -25,14 +25,14 @@ func get_modifier_list_name():
 	return "Nightcore %d %%" % [modifier_settings.speed]
 
 static func get_modifier_description():
-	return "Turns your manly voices into anime girls."
+	return TranslationServer.tr("Turns your manly voices into anime girls.")
 static func get_modifier_settings_class() -> Script:
 	return NightcoreSettings
 static func get_option_settings() -> Dictionary:
 	return {
 		"speed": {
-			"name": "Speed",
-			"description": "Percentage of speed to increase (or decrease) the song's playback",
+			"name": TranslationServer.tr("Speed"),
+			"description": TranslationServer.tr("Percentage of speed to increase (or decrease) the song's playback"),
 			"minimum": 10,
 			"maximum": 1000,
 			"step": 5,
