@@ -75,6 +75,7 @@ func set_lobby(lobby: HBLobby):
 	lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
 	lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 	lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
+	lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
 
 	update_member_list()
 	update_lobby_data_display()
@@ -120,6 +121,7 @@ func _on_LeaveLobbyButton_pressed():
 	lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
 	lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
 	lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
+	lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
 	lobby.leave_lobby()
 	change_to_menu("lobby_list")
 
@@ -149,6 +151,15 @@ func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, av
 		checking_song_availabilities = false
 		start_multiplayer_session_authority()
 
+func _on_check_songs_request_received(song_id):
+	if not song_id in SongLoader.songs:
+		song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the currently selected song."
+		song_confirmation_error_prompt.popup_centered()
+	else:
+		var song = SongLoader.songs[song_id] as HBSong
+		if not song.is_cached():
+			song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
+			song_confirmation_error_prompt.popup_centered()
 func _on_InviteFriendButton_pressed():
 	lobby.invite_friend_to_lobby()
 
