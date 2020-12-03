@@ -174,6 +174,7 @@ func start_multiplayer_session_authority():
 	get_tree().current_scene = rhythm_game_multiplayer_scene
 	rhythm_game_multiplayer_scene.lobby = lobby
 	rhythm_game_multiplayer_scene.start_game()
+	lobby.game_results = {}
 
 func _on_StartGameButton_pressed():
 	lobby.check_if_lobby_members_have_song()
@@ -192,3 +193,4 @@ func _on_lobby_loading_start():
 	get_tree().current_scene = rhythm_game_multiplayer_scene
 	rhythm_game_multiplayer_scene.lobby = lobby
 	rhythm_game_multiplayer_scene.start_loading()
+	lobby.game_results = {}
