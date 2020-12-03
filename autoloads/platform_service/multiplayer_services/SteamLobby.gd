@@ -88,7 +88,6 @@ func _on_lobby_joined(lobby_id, permissions, locked, response):
 func execute_command_message(user: HBServiceMember, message: String):
 	var command = message.substr(1, -1).split(" ")[0]
 	if is_owned_by_local_user():
-		print(message)
 		if command == "song_available_update":
 			var data = JSON.parse(message.split(" ", true, 1)[1]).result
 			var song_id = Marshalls.base64_to_utf8(data.song_id)
@@ -100,15 +99,19 @@ func execute_command_message(user: HBServiceMember, message: String):
 		if command == "check_songs_request":
 			var song_id_b64 = message.split(" ", true, 1)[1]
 			var song_id = Marshalls.base64_to_utf8(song_id_b64)
+			emit_signal("check_songs_request_received", song_id)
 			var dict = {
 				"song_id": song_id_b64,
-				"available": song_id in SongLoader.songs
+				"available": false
 			}
+			if song_id in SongLoader.songs:
+				var song = SongLoader.songs[song_id] as HBSong
+				if song.is_cached():
+					dict.available = true
 			send_chat_message("/song_available_update %s" % [JSON.print(dict)])
 
 func check_if_lobby_members_have_song():
 	if is_owned_by_local_user():
-		print("SENDING SONG REQUEST")
 		send_chat_message("/check_songs_request %s" % [Marshalls.utf8_to_base64(get_song_id())])
 
 func _on_lobby_message(result, user, message: String, type):

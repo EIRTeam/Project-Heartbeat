@@ -85,6 +85,7 @@ signal game_start # sent by authority
 signal game_note_hit(member, score, rating)
 signal game_done(results, game_info) # sent when we realise that all other members have finished
 signal user_song_availability_update(user, song_id, available)
+signal check_songs_request_received(song_id)
 var _lobby_id
 
 var lobby_name := "How can my little lobby can be this cute" setget set_lobby_name, get_lobby_name
