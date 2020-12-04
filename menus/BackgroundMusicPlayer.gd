@@ -52,7 +52,6 @@ func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 
-
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
 		target_volume = current_song.get_volume_db() + _volume_offset
 		if next_audio:
@@ -94,7 +93,7 @@ func _on_song_assets_loaded(song: HBSong, assets):
 					voice_player.seek(song.preview_start/1000.0)
 				player.volume_db = FADE_OUT_VOLUME
 				voice_player.volume_db = FADE_OUT_VOLUME
-				target_volume = song.get_volume_db()
+				target_volume = song.get_volume_db() + _volume_offset
 			else:
 				next_audio = assets.audio
 				if song.voice:
