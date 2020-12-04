@@ -15,66 +15,13 @@ func _get_custom_sounds_path():
 
 signal controller_swapped(to_device)
 
-const ACTION_CATEGORIES = {
-	"Notes": ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
-	"Game": ["pause", "practice_set_waypoint", "practice_go_to_waypoint"],
-	"GUI": ["gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "contextual_option"]
-}
+var ACTION_CATEGORIES = {}
 
-var action_names = {
-	"note_up": "Note up",
-	"note_down": "Note down",
-	"note_left": "Note left",
-	"note_right": "Note right",
-	"gui_up": "Menu up",
-	"gui_down": "Menu down",
-	"gui_left": "Menu left",
-	"gui_right": "Menu right",
-	"gui_tab_left": "Tab left",
-	"gui_tab_right": "Tab right",
-	"gui_accept": "Menu accept",
-	"gui_cancel": "Menu cancel",
-	"contextual_option": "Contextual option",
-	"practice_set_waypoint": "Practice mode: Set waypoint",
-	"practice_go_to_waypoint": "Practice mode: Go to waypoint",
-	"slide_left": "Slide left",
-	"slide_right": "Slide right",
-	"heart_note": "Heart note",
-	"pause": "Pause"
-}
+var action_names = {}
 
-var axis_names = [
-	" (Left Stick Left)",
-	" (Left Stick Right)",
-	" (Left Stick Up)",
-	" (Left Stick Down)",
-	" (Right Stick Left)",
-	" (Right Stick Right)",
-	" (Right Stick Up)",
-	" (Right Stick Down)",
-	"", "", "", "",
-	"", " (L2)",
-	"", " (R2)"
-]
+var axis_names = []
 
-var button_names = [
-	"DualShock Cross, Xbox A, Nintendo B",
-	"DualShock Circle, Xbox B, Nintendo A",
-	"DualShock Square, Xbox X, Nintendo Y",
-	"DualShock Triangle, Xbox Y, Nintendo X",
-	"L, L1",
-	"R, R1",
-	"L2",
-	"R2",
-	"L3",
-	"R3",
-	"Select, DualShock Share, Nintendo -",
-	"Start, DualShock Options, Nintendo +",
-	"D-Pad Up",
-	"D-Pad Down",
-	"D-Pad Left",
-	"D-Pad Right"
-]
+var button_names = []
 
 const HIDE_KB_REMAPS_ACTIONS = [
 	"gui_up",
@@ -118,6 +65,72 @@ func _init_user_settings():
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
 	load_input_map()
 	user_settings.last_controller_guid = ""
+	
+	# Translation init
+	if user_settings.locale != "auto-detect":
+		TranslationServer.set_locale(user_settings.locale)
+	fill_localized_arrays()
+func fill_localized_arrays():
+	button_names = [
+		tr("DualShock Cross, Xbox A, Nintendo B"),
+		tr("DualShock Circle, Xbox B, Nintendo A"),
+		tr("DualShock Square, Xbox X, Nintendo Y"),
+		tr("DualShock Triangle, Xbox Y, Nintendo X"),
+		"L, L1",
+		"R, R1",
+		"L2",
+		"R2",
+		"L3",
+		"R3",
+		tr("Select, DualShock Share, Nintendo -"),
+		tr("Start, DualShock Options, Nintendo +"),
+		tr("D-Pad Up"),
+		tr("D-Pad Down"),
+		tr("D-Pad Left"),
+		tr("D-Pad Right")
+	]
+	
+	axis_names = [
+		tr(" (Left Stick Left)"),
+		tr(" (Left Stick Right)"),
+		tr(" (Left Stick Up)"),
+		tr(" (Left Stick Down)"),
+		tr(" (Right Stick Left)"),
+		tr(" (Right Stick Right)"),
+		tr(" (Right Stick Up)"),
+		tr(" (Right Stick Down)"),
+		"", "", "", "",
+		"", " (L2)",
+		"", " (R2)"
+	]
+	
+	action_names = {
+		"note_up": tr("Note up"),
+		"note_down": tr("Note down"),
+		"note_left": tr("Note left"),
+		"note_right": tr("Note right"),
+		"gui_up": tr("Menu up"),
+		"gui_down": tr("Menu down"),
+		"gui_left": tr("Menu left"),
+		"gui_right": tr("Menu right"),
+		"gui_tab_left": tr("Tab left"),
+		"gui_tab_right": tr("Tab right"),
+		"gui_accept": tr("Menu accept"),
+		"gui_cancel": tr("Menu cancel"),
+		"contextual_option": tr("Contextual option"),
+		"practice_set_waypoint": tr("Practice mode: Set waypoint"),
+		"practice_go_to_waypoint": tr("Practice mode: Go to waypoint"),
+		"slide_left": tr("Slide left"),
+		"slide_right": tr("Slide right"),
+		"heart_note": tr("Heart note"),
+		"pause": tr("Pause")
+	}
+	
+	ACTION_CATEGORIES = {
+		tr("Notes"): ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
+		tr("Game"): ["pause", "practice_set_waypoint", "practice_go_to_waypoint"],
+		tr("GUI"): ["gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "contextual_option"]
+	}
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;
 	if event.axis_value >= 0:

@@ -102,6 +102,14 @@ const DEFAULT_SOUNDS = {
 
 var custom_sounds = {}
 
+var locale = "auto-detect"
+var locale__possibilities = [
+	"auto-detect",
+	"en",
+	"es",
+	"ca"
+]
+
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -115,7 +123,7 @@ func _init():
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
 	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
-	"lyrics_color"]
+	"lyrics_color", "locale"]
 	
 	merge_dict_fields += [
 		"custom_sounds"

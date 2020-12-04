@@ -12,9 +12,7 @@ signal note_emulated
 signal slide_emulated
 
 func _ready():
-	$Control.connect(\"note_emulated\", self, \"emit_signal\", [\"note_emulated\"])
-	$Control.connect(\"slide_emulated\", self, \"emit_signal\", [\"slide_emulated\"])
-
+	pass
 func set_input_mode(mode: int):
 	$Control/NoteDetector.input_mode = mode
 

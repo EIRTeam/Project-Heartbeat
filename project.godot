@@ -1135,8 +1135,7 @@ practice_go_to_waypoint={
 
 [locale]
 
-test="en"
-translations=PoolStringArray( "res://locale/es.po", "res://locale_new/ca.po" )
+translations=PoolStringArray( "res://locale/es.po", "res://locale/ca.po" )
 
 [logging]
 
