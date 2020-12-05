@@ -255,6 +255,7 @@ func get_event_name(event: InputEvent):
 	return ret
 	
 func set_fullscreen(fullscreen = false):
+	yield(get_tree(), "idle_frame")
 	OS.window_borderless = fullscreen
 	OS.window_fullscreen = fullscreen
 	
