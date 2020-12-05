@@ -36,6 +36,11 @@ func _on_game_time_changed(time: int):
 			else:
 				show()
 		else:
+			# case 2: in the middle of a phrase
+			if time < c_phrase.get_max_time() and time > c_phrase.get_min_time():
+				show()
+				set_current_phrase(c_phrase)
+				break
 			# case 4: last
 			if i == phrases.size() - 1:
 				if time > c_phrase.get_max_time():
@@ -44,12 +49,6 @@ func _on_game_time_changed(time: int):
 				elif c_phrase.get_min_time() < time:
 					show()
 					break
-			
-			# case 2: in the middle of a phrase
-			if time < c_phrase.get_max_time() and time > c_phrase.get_min_time():
-				show()
-				set_current_phrase(c_phrase)
-				break
 			
 			# case 1: between two phrases
 			# will show phrase 200 ms before second one
