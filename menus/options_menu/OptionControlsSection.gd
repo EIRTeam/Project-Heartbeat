@@ -59,6 +59,9 @@ func populate():
 		button.text = category
 		category_container.add_child(button)
 		button.connect("hovered", self, "show_category", [category])
+		
+var current_category = ""
+		
 func show_category(category: String, prevent_selection=false):
 	scroll_container.selected_child = null
 	var children = scroll_container.vbox_container.get_children()
@@ -70,6 +73,7 @@ func show_category(category: String, prevent_selection=false):
 	reset_scene.connect("pressed", self, "_on_reset_bindings")
 	scroll_container.vbox_container.add_child(reset_scene)
 	var input_map = UserSettings.get_input_map()
+	current_category = category
 	for action_name in UserSettings.ACTION_CATEGORIES[category]:
 		var action_scene = ACTION_SCENE.instance()
 		action_scene.action = UserSettings.action_names[action_name]
@@ -127,6 +131,7 @@ func _on_reset_bindings():
 func _on_reset_bindings_confirmed():
 	UserSettings.reset_to_default_input_map()
 	populate()
+	show_category(current_category)
 	scroll_container.select_child(scroll_container.vbox_container.get_child(0))
 	grab_focus()
 	UserSettings.save_user_settings()

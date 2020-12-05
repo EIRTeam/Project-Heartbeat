@@ -262,7 +262,7 @@ func push_match_event_variables_error() -> void:
 func _push_fallback_failed_error() -> void:
 	if Engine.editor_hint:
 		return
-	
+	return
 	push_error("Unable to set prompt or fallback text for any of the events in %s: "\
 			%[input_action] + \
 			"_event_keyboard: %s | "%[_event_keyboard] + \

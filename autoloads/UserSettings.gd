@@ -55,9 +55,16 @@ func get_input_map():
 					map[action_name].append(event)
 	return map
 func _init_user_settings():
+	load_user_settings()
+	
+	fill_localized_arrays()
+	
+	# Translation init
+	if user_settings.locale != "auto-detect":
+		TranslationServer.set_locale(user_settings.locale)
 	
 	base_input_map = get_input_map()
-	load_user_settings()
+
 	apply_user_settings()
 	# Set the controller to be the first one if we have none
 	if Input.get_connected_joypads().size() > 0:
@@ -65,11 +72,7 @@ func _init_user_settings():
 			user_settings.last_controller_guid = Input.get_joy_guid(0)
 	load_input_map()
 	user_settings.last_controller_guid = ""
-	
-	# Translation init
-	if user_settings.locale != "auto-detect":
-		TranslationServer.set_locale(user_settings.locale)
-	fill_localized_arrays()
+
 func fill_localized_arrays():
 	button_names = [
 		tr("DualShock Cross, Xbox A, Nintendo B"),
