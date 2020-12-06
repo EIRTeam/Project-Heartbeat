@@ -3,6 +3,7 @@ extends Node
 class_name HBMultiplayerService
 
 signal lobby_match_list(lobbies)
+signal lobby_join_requested(lobby)
 
 var lobby: HBLobby
 

@@ -6,21 +6,19 @@ const LOG_NAME = "SteamMultiplayerService"
 
 func _init():
 	Steam.connect("lobby_match_list", self , "_on_lobby_list_returned")
+	Steam.connect("join_requested", self, "_on_lobby_join_requested")
+	
 func _check_cmd():
 	var arguments = OS.get_cmdline_args()
 	
-	var lobby_invite_arg = false
 	# Steam argument detection shit
-	if arguments.size() > 0:
+	if arguments.size() > 1:
 
-		for argument in arguments:
-			if lobby_invite_arg:
-				var lobby = SteamLobby.new(int(argument))
-				join_lobby(lobby)
-
-			if argument == "+connect_lobby":
-				lobby_invite_arg = true
-				
+		for i in range(arguments.size()):
+			var argument = arguments[i]
+			if argument == "+connect_lobby" and i < arguments.size()-1:
+				_on_lobby_join_requested(int(arguments[i+1]), 0)
+				break
 
 func request_lobby_list():
 	Log.log(self, "Requesting lobby list")
@@ -37,3 +35,7 @@ func _on_lobby_list_returned(lobbies):
 
 func create_lobby():
 	return SteamLobby.new(null)
+
+func _on_lobby_join_requested(lobby_id: int, steam_id: int):
+	var lobby = SteamLobby.new(lobby_id)
+	emit_signal("lobby_join_requested", lobby)

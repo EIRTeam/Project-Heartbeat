@@ -48,6 +48,7 @@ func init_platform() -> int:
 		friendly_username = Steam.getPersonaName()
 		user_id = Steam.getSteamID()
 		multiplayer_provider = SteamMultiplayerService.new()
+		multiplayer_provider.connect("lobby_join_requested", self, "_on_lobby_join_requested")
 		leaderboard_provider = SteamLeaderboardService.new()
 		ugc_provider = SteamUGCService.new()
 		
@@ -57,6 +58,27 @@ func init_platform() -> int:
 	else:
 		Log.log(self, "Engine was not built with Steam support, aborting...")
 		return ERR_METHOD_NOT_FOUND
+		
+var MainMenu = load("res://menus/MainMenu3D.tscn")
+		
+func _on_lobby_join_requested(lobby: HBLobby):
+	lobby.join_lobby()
+	lobby.connect("lobby_joined", self, "_on_lobby_joined_from_invite", [lobby])
+func _on_lobby_joined_from_invite(response, lobby: HBLobby):
+	var args = { "lobby": lobby }
+	
+	if response == HBLobby.LOBBY_ENTER_RESPONSE.SUCCESS:
+		if get_tree().current_scene is HBMainMenu:
+			var menu: HBMainMenu = get_tree().current_scene
+			menu._on_change_to_menu("lobby", false, args)
+		else:
+			var scene = MainMenu.instance()
+			get_tree().current_scene.queue_free()
+			scene.starting_menu = "lobby"
+			scene.starting_menu_args = args
+			get_tree().root.add_child(scene)
+			get_tree().current_scene = scene
+		
 func run_callbacks():
 	Steam.run_callbacks()
 	emit_signal("run_mp_callbacks")

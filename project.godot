@@ -224,6 +224,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/lyrics/HBLyricsPhraseStart.gd"
 }, {
+"base": "Spatial",
+"class": "HBMainMenu",
+"language": "GDScript",
+"path": "res://menus/MainMenu.gd"
+}, {
 "base": "Control",
 "class": "HBMenu",
 "language": "GDScript",
@@ -653,6 +658,7 @@ _global_script_class_icons={
 "HBLyricsPhrase": "",
 "HBLyricsPhraseEnd": "",
 "HBLyricsPhraseStart": "",
+"HBMainMenu": "",
 "HBMenu": "",
 "HBMenuChangeButton": "",
 "HBMenuChangecontainer": "",
@@ -743,8 +749,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1606377485
-config/build_commit="80d4898d6b8888a303c31ff9c1a0b971326ec4d6"
+config/build_time=1607119252
+config/build_commit="0b64d7867f826a8ab45734c9b5a9676843a0e5f2"
 config/service_environment="production"
 
 [audio]

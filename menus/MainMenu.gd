@@ -1,5 +1,7 @@
 extends "res://menus/MenuTransitionProvider.gd"
 
+class_name HBMainMenu
+
 var starting_menu = "start_menu"
 var starting_menu_args = []
 var background_transition_animation_player: AnimationPlayer

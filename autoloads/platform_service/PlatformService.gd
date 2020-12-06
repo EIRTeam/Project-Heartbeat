@@ -34,6 +34,8 @@ func set_service_provider(provider: PlatformServiceProvider):
 	
 	service_provider = provider
 	
+	add_child(service_provider)
+	
 	return init_result
 
 func _process(delta):
