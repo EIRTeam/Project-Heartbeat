@@ -7,6 +7,7 @@
 font_path = "res://fonts/Roboto-Black.ttf"
 
 [sub_resource type="DynamicFont" id=2]
+resource_local_to_scene = true
 size = 45
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
@@ -16,6 +17,7 @@ font_data = SubResource( 1 )
 fallback/0 = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
+resource_local_to_scene = true
 size = 45
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
