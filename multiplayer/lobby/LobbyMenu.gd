@@ -28,8 +28,15 @@ func select_song(song: HBSong, difficulty: String):
 	selected_song = song
 	selected_difficulty = difficulty
 	emit_signal("song_selected", selected_song)
+	
+func _on_menu_exit(force_hard_transition=false):
+	._on_menu_exit(force_hard_transition)
+	disconnect_lobby(lobby)
+	
 func _on_menu_enter(force_hard_transition=false, args={}):
 	._on_menu_enter(force_hard_transition, args)
+	if lobby:
+		connect_lobby(lobby)
 	if args.has("lobby"):
 		set_lobby(args.lobby)
 	_check_ownership_changed()
@@ -68,14 +75,29 @@ func update_member_list():
 func update_lobby_data_display():
 	lobby_name_label.text = lobby.lobby_name
 	select_song(lobby.get_song(), lobby.song_difficulty)
-func set_lobby(lobby: HBLobby):
-	self.lobby = lobby
+	
+func connect_lobby(lobby: HBLobby):
 	lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
 	lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
 	lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
 	lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 	lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
 	lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
+	
+func disconnect_lobby(lobbby: HBLobby):
+	lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
+	lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
+	lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
+	lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+	lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
+	lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
+	
+func set_lobby(lobby: HBLobby):
+	if self.lobby:
+		disconnect_lobby(lobby)
+	self.lobby = lobby
+
+	connect_lobby(lobby)
 
 	update_member_list()
 	update_lobby_data_display()
@@ -116,12 +138,7 @@ func send_chat_message():
 	chat_line_edit.text = ""
 
 func _on_LeaveLobbyButton_pressed():
-	lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
-	lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
-	lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
-	lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
-	lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
-	lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
+	disconnect_lobby(lobby)
 	lobby.leave_lobby()
 	change_to_menu("lobby_list")
 
