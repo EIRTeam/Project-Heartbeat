@@ -669,7 +669,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	undo_redo.clear_history()
 	selected = []
 	layer_manager.clear_layers()
-
+	current_notes = []
+	deselect_all()
 	timeline.send_time_cull_changed_signal()
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
