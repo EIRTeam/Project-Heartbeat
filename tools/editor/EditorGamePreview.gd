@@ -44,6 +44,7 @@ func _process(delta):
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
 	$Label.text += "\nVP:%s" % [video_player.stream_position]
 func set_visualizer_processing_enabled(enabled):
+	return
 	if UserSettings.user_settings.visualizer_enabled:
 		visualizer.set_physics_process(enabled)
 	
@@ -90,6 +91,7 @@ func set_song(song: HBSong):
 	video_player.stream = null
 	background_rect.show()
 	video_player.hide()
+	visualizer.show()
 	if song.has_video_enabled():
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
 			var stream = song.get_video_stream()
