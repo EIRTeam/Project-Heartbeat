@@ -87,7 +87,8 @@ func _ready():
 	overlay_label.valign = valign
 	
 	$Label2.add_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
-	
+	add_font_override("font", font1)
+	$Label2.add_font_override("font", font2)
 	_on_resized()
 	
 	
@@ -108,6 +109,7 @@ func _on_resized():
 	font1.outline_size = outline_size
 	font2.size = font_size
 	font2.outline_size = outline_size
+	print(font_size)
 func set_phrases(array: Array):
 	phrases = array
 	overlay_label.text = ""
