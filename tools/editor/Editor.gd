@@ -164,6 +164,16 @@ func _input(event: InputEvent):
 				fine_position_selected(off)
 				get_tree().set_input_as_handled()
 	
+func get_items_at_time(time: int):
+	var items = []
+	var i = 0
+	for item in current_notes:
+		if item.data.time == time:
+			items.append(item)
+		elif item.data.time > time:
+			break
+	return items
+	
 func _unhandled_input(event):
 	if rhythm_game_playtest_popup in get_children():
 		return
@@ -217,6 +227,45 @@ func _unhandled_input(event):
 					timeline.ensure_playhead_is_visible()
 				if old_pos != playhead_position:
 					seek(playhead_position)
+				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+					for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+						if event.is_action_pressed(action):
+							var items_at_time = get_items_at_time(playhead_position)
+							
+							
+							var layer = null
+							for layer_c in timeline.get_layers():
+								if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
+									layer = layer_c
+									break
+							
+							var item_erased = false
+							for item in items_at_time:
+								if item is EditorTimelineItemNote:
+									if item.data.note_type == type:
+										item_erased = true
+										
+										deselect_all()
+										
+										undo_redo.create_action("Remove note")
+										
+										undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+										undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+											
+										undo_redo.add_do_method(self, "_on_timing_points_changed")
+										undo_redo.add_undo_method(self, "_on_timing_points_changed")
+										undo_redo.commit_action()
+							if not item_erased:
+								var timing_point := HBNoteData.new()
+								timing_point.time = playhead_position
+								# Event layer is the last one
+									
+								timing_point.note_type = type
+									
+								user_create_timing_point(layer, timing_point.get_timeline_item())
+							break
+							
+							
 func _note_comparison(a, b):
 	return a.time > b.time
 
@@ -254,7 +303,6 @@ func select_item(item: EditorTimelineItem, add = false):
 		item.connect_widget(widget_instance)
 	inspector.inspect(item)
 func add_item(layer_n: int, item: EditorTimelineItem):
-
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
@@ -465,7 +513,7 @@ func paste(time: int):
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
-			undo_redo.add_undo_method(timeline_item._layer, "remove_item", new_item)
+			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(self, "sync_lyrics")
@@ -479,7 +527,7 @@ func delete_selected():
 	
 	for selected_item in selected:
 		selected_item.deselect()
-		undo_redo.add_do_method(selected_item._layer, "remove_item", selected_item)
+		undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
 		undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
 		
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -525,7 +573,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 				item.data.distance = 880
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(layer, "remove_item", item)
+	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
