@@ -18,13 +18,13 @@ onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
-onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/GridRenderer")
-onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer/Inspector")
-onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_hv_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
-onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
-onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
-onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Layers/LayerManager")
+onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer")
+onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Inspector")
+onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
+onready var time_arrange_hv_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
+onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
+onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
+onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("OpenChartPopupDialog")
 onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
@@ -59,12 +59,34 @@ var plugins = []
 var contextual_menu = HBEditorContextualMenuControl.new()
 var fine_position_timer = Timer.new()
 
+var current_notes = []
+
+# Fades that obscure some UI elements while playing
+
+onready var ui_fades = [
+	get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/UIFade"),
+	get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/UIFade"),
+	get_node("VBoxContainer/Panel2/UIFade")
+]
+
 func set_bpm(value):
 	BPM_spinbox.value = value
 	song_editor_settings.bpm = value
 func get_bpm():
 	return BPM_spinbox.value
 	
+func _sort_current_items_impl(a, b):
+	return a.data.time > b.data.time
+	
+func sort_current_items():
+	current_notes.sort_custom(self, "_sort_current_items_impl")
+	
+func _insert_note_at_time_bsearch(item: EditorTimelineItem, time: int):
+	return item.data.time < time
+	
+func insert_note_at_time(item: EditorTimelineItem):
+	var pos = current_notes.bsearch_custom(item.data.time, self, "_insert_note_at_time_bsearch")
+	current_notes.insert(pos, item)
 func load_plugins():
 	var dir := Directory.new()
 	var file = File.new()
@@ -179,6 +201,22 @@ func _unhandled_input(event):
 	if event.is_action_pressed("editor_cut"):
 		copy_selected()
 		delete_selected()
+	if not game_playback.is_playing():
+		if event is InputEventKey:
+			if not event.shift:
+				var old_pos = playhead_position
+				if event.is_action_pressed("gui_left"):
+					playhead_position -= get_timing_interval()
+					playhead_position = snap_time_to_timeline(playhead_position)
+					emit_signal("playhead_position_changed")
+					timeline.ensure_playhead_is_visible()
+				if event.is_action_pressed("gui_right"):
+					playhead_position += get_timing_interval()
+					playhead_position = snap_time_to_timeline(playhead_position)
+					emit_signal("playhead_position_changed")
+					timeline.ensure_playhead_is_visible()
+				if old_pos != playhead_position:
+					seek(playhead_position)
 func _note_comparison(a, b):
 	return a.time > b.time
 
@@ -212,8 +250,8 @@ func select_item(item: EditorTimelineItem, add = false):
 	if widget:
 		var widget_instance = widget.instance() as HBEditorWidget
 		widget_instance.editor = self
-		item.connect_widget(widget_instance)
 		game_preview.widget_area.add_child(widget_instance)
+		item.connect_widget(widget_instance)
 	inspector.inspect(item)
 func add_item(layer_n: int, item: EditorTimelineItem):
 
@@ -294,10 +332,12 @@ func _commit_selected_property_change(property_name: String):
 	
 	print(action_name)
 	undo_redo.create_action(action_name)
+	var times_changed = false
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data:
 				if property_name == "time":
+					times_changed = true
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
@@ -306,18 +346,21 @@ func _commit_selected_property_change(property_name: String):
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_do_method(selected_item, "sync_value", property_name)
 
-
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
 				
+
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.add_do_method(self, "sync_lyrics")
 	undo_redo.add_undo_method(self, "sync_lyrics")
+	
+	if property_name == "time":
+		undo_redo.add_do_method(self, "sort_current_items")
 	
 	undo_redo.commit_action()
 	inspector.sync_value(property_name)
@@ -362,6 +405,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 	else:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
+	insert_note_at_time(item)
 	layer.add_item(item)
 	
 func add_event_timing_point(timing_point_class: GDScript):
@@ -383,7 +427,9 @@ func _on_game_playback_time_changed(time: float):
 		timeline.ensure_playhead_is_visible()
 		emit_signal("playhead_position_changed")
 
-func seek(value: int):
+func seek(value: int, snapped = false):
+	if snapped:
+		value = snap_time_to_timeline(value)
 	game_playback.seek(value)
 	if game_playback.audio_stream_player.stream_paused:
 		game_preview.set_time(value / 1000.0)
@@ -484,11 +530,19 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.commit_action()
 			
+func remove_item_from_layer(layer, item: EditorTimelineItem):
+	layer.remove_item(item)
+	current_notes.erase(item)
+			
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 func pause():
 	game_playback.pause()
 	game_preview.set_visualizer_processing_enabled(false)
+	game_preview.widget_area.show()
+	playhead_position = snap_time_to_timeline(playhead_position)
+	emit_signal("playhead_position_changed")
+	reveal_ui()
 func _on_PauseButton_pressed():
 	pause()
 	game_preview.set_time(playhead_position/1000.0)
@@ -501,6 +555,8 @@ func _on_PlayButton_pressed():
 	play_button.hide()
 	pause_button.show()
 	game_preview.set_visualizer_processing_enabled(true)
+	game_preview.widget_area.hide()
+	obscure_ui()
 
 func _on_StopButton_pressed():
 	game_playback.seek(0)
@@ -672,8 +728,14 @@ func load_song(song: HBSong, difficulty: String):
 	save_button.disabled = false
 	save_as_button.disabled = false
 	emit_signal("load_song", song)
-
-
+	reveal_ui()
+func obscure_ui():
+	for fade in ui_fades:
+		fade.obscure()
+		
+func reveal_ui():
+	for fade in ui_fades:
+		fade.reveal()
 func _on_ExitDialog_confirmed():
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
@@ -749,17 +811,22 @@ func snap_position_to_grid(new_pos: Vector2):
 func _on_TimelineGridSnapButton_toggled(button_pressed):
 	timeline_snap_enabled = button_pressed
 
+func get_timing_interval():
+	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
+	var seconds_per_bar = 60.0/bars_per_minute
+	
+	var beat_length = seconds_per_bar / float(get_beats_per_bar())
+	var note_length = 1.0/4.0 # a quarter of a beat
+	var interval = (get_note_resolution() / note_length) * beat_length
+	interval = interval * 1000.0
+	
+	return interval
+
 func snap_time_to_timeline(time):
 
 	if timeline_snap_enabled:
-		var bars_per_minute = get_bpm() / float(get_beats_per_bar())
-		var seconds_per_bar = 60.0/bars_per_minute
-		
-		var beat_length = seconds_per_bar / float(get_beats_per_bar())
-		var note_length = 1.0/4.0 # a quarter of a beat
-		var interval = (get_note_resolution() / note_length) * beat_length
+		var interval = get_timing_interval()
 		time -= get_note_snap_offset()*1000.0
-		interval = interval * 1000.0
 		var n = time / float(interval)
 		n = round(n)
 		return n*interval + get_note_snap_offset()*1000.0
@@ -848,9 +915,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 #	inspector.update_value()
 
 func add_button_to_tools_tab(button: BaseButton):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
+	$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
 func add_tool_to_tools_tab(tool_control: Control):
-	$VBoxContainer/VSplitContainer/HBoxContainer/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
+	$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 

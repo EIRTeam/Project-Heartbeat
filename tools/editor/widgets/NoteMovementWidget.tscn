@@ -21,5 +21,23 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 0.5, 0.5, 0.5, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+mouse_filter = 2
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="dragged" from="MovementGizmo" to="." method="_on_dragged"]
 [connection signal="finish_dragging" from="MovementGizmo" to="." method="_on_finish_dragging"]

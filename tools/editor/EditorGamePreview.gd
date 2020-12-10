@@ -1,11 +1,12 @@
 extends Control
 
-onready var widget_area = get_node("WidgetArea")
+onready var widget_area = get_node("Node2D/WidgetArea")
 onready var game = get_node("RhythmGame")
 onready var game_ui = get_node("RythmGameUI")
 onready var background_rect : TextureRect = get_node("Node2D/TextureRect")
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var video_player: VideoPlayer = get_node("Node2D/VideoPlayer")
+onready var grid_renderer = get_node("Node2D/GridRenderer")
 const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
 var video_pause_timer = Timer.new()
@@ -30,6 +31,8 @@ func _on_resized():
 	update()
 	background_rect.rect_size = rect_size
 	visualizer.rect_size = rect_size
+	widget_area.rect_size = rect_size
+	grid_renderer.rect_size = rect_size
 	var height_u = rect_size.y / 9.0
 	var width = height_u * 16.0
 	var offset_X = (rect_size.x - width) / 2.0

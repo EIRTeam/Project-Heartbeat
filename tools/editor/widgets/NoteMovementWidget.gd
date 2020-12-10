@@ -8,24 +8,37 @@ var starting_pos
 var entry_angle = 0.0 setget set_entry_angle
 var starting_entry_angle = 0.0
 var show_angle = false
+var note_data: HBBaseNote setget set_note_data
+var angle_color := Color.green
+onready var texture_rect = get_node("TextureRect")
+
 func set_entry_angle(val):
 	entry_angle = val
 	starting_entry_angle = val
 	update()
 
+func set_note_data(val):
+	note_data = val
+	texture_rect.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
+	angle_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	arrange_gizmo()
 func _ready():
 	arrange_gizmo()
 	get_viewport().connect("size_changed", self, "_on_resized")
+	
 	
 func _on_resized():
 	yield(get_tree(), "idle_frame")
 	arrange_gizmo()
 	
 func arrange_gizmo():
-	var note_scale = editor.rhythm_game.get_note_scale()
-	movement_gizmo.rect_size = Vector2(128, 128) * note_scale
-	movement_gizmo.rect_position = rect_size / 2 - movement_gizmo.rect_size/2
-	internal_pos = rect_position
+	if note_data:
+		var note_scale = editor.rhythm_game.get_note_scale()
+		movement_gizmo.rect_size = texture_rect.texture.get_size() * note_scale
+		movement_gizmo.rect_position = rect_size / 2 - movement_gizmo.rect_size/2
+		texture_rect.rect_position = movement_gizmo.rect_position
+		texture_rect.rect_size = movement_gizmo.rect_size
+		internal_pos = rect_position
 	
 func _on_dragged(movement: Vector2):
 	internal_pos += movement
@@ -54,7 +67,7 @@ func _draw():
 	if show_angle:
 		var note_center = rect_size/2
 		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle)
-		draw_line(note_center, note_center + rotated_n_v * 1000, Color.green)
+		draw_line(note_center, note_center + rotated_n_v * 1000, angle_color, 3.0, true)
 func _on_start_dragging():
 	internal_pos = rect_position
 

@@ -101,14 +101,14 @@ func _draw_timing_lines():
 	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
-	_draw_playhead()
 	_draw_timing_lines()
 	_draw_area_select()
+	_draw_playhead()
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 
 func _draw_playhead():
-	if editor.playhead_position > _offset:
+	if editor.playhead_position > _offset-1:
 		var playhead_pos = calculate_playhead_position()
 		_prev_playhead_position = playhead_pos
 	
@@ -138,7 +138,7 @@ func get_layers():
 
 
 func _on_PlayheadArea_mouse_x_input(value):
-	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0))
+	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0), true)
 
 func _on_playhead_position_changed():
 	update()

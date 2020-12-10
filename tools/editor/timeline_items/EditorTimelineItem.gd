@@ -121,6 +121,7 @@ func update_widget_data():
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
 		self.widget.rect_position = new_pos - self.widget.rect_size / 2
 		widget.entry_angle = deg2rad(data.entry_angle)
+		widget.note_data = data
 	
 func get_duration():
 	return 1000

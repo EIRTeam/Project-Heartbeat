@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -182,7 +182,30 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 modulate_color = Color( 1, 0, 0.772549, 1 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="DynamicFontData" id=13]
+font_path = "res://fonts/Roboto-Black.ttf"
+
+[sub_resource type="DynamicFont" id=14]
+resource_local_to_scene = true
+size = 45
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 13 )
+fallback/0 = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=15]
+resource_local_to_scene = true
+size = 45
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 13 )
+fallback/0 = ExtResource( 2 )
+
+[sub_resource type="Animation" id=16]
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
@@ -198,7 +221,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="Shader" id=14]
+[sub_resource type="Shader" id=17]
 code = "shader_type canvas_item;
 
 uniform sampler2D bg: hint_albedo;
@@ -211,11 +234,11 @@ void fragment() {
 	COLOR.a = COLOR.a * UV.x;
 }"
 
-[sub_resource type="ShaderMaterial" id=15]
-shader = SubResource( 14 )
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
 shader_param/bg = ExtResource( 33 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=19]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 corner_radius_bottom_right = 1024
@@ -224,7 +247,7 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=20]
 content_margin_left = 77.0
 bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
 border_width_left = 2
@@ -239,7 +262,7 @@ shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=21]
 size = 25
 use_mipmaps = true
 use_filter = true
@@ -247,7 +270,7 @@ extra_spacing_top = 5
 font_data = ExtResource( 32 )
 fallback/0 = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=19]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
 border_width_top = 2
 border_width_bottom = 2
@@ -255,7 +278,7 @@ border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 15
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=23]
 size = 20
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -264,14 +287,14 @@ use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=24]
 size = 15
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=25]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -279,7 +302,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=26]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -287,7 +310,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=27]
 length = 5.0
 step = 0.05
 tracks/0/type = "value"
@@ -341,7 +364,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=28]
 length = 3.0
 step = 0.05
 tracks/0/type = "value"
@@ -421,6 +444,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="AboveNotesUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -704,6 +728,7 @@ anchor_bottom = 1.0
 margin_left = 0.950073
 margin_right = 1920.95
 margin_bottom = 1080.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -717,7 +742,9 @@ margin_left = 7.62939e-06
 margin_top = 0.0
 margin_right = 0.00012207
 margin_bottom = 0.0
-autowrap = true
+custom_fonts/font = SubResource( 14 )
+font1 = SubResource( 14 )
+font2 = SubResource( 15 )
 
 [node name="GameLayer" type="Node2D" parent="."]
 show_behind_parent = true
@@ -801,7 +828,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
-anims/rating_appear = SubResource( 13 )
+anims/rating_appear = SubResource( 16 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -848,7 +875,7 @@ size_flags_horizontal = 3
 
 [node name="Panel2" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
 modulate = Color( 0.592157, 0.239216, 0.94902, 1 )
-material = SubResource( 15 )
+material = SubResource( 18 )
 anchor_left = -0.055
 anchor_top = 0.194
 anchor_right = 1.0
@@ -859,7 +886,7 @@ margin_bottom = -41.0
 rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -874,7 +901,7 @@ margin_bottom = -39.0705
 rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 17 )
+custom_styles/panel = SubResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -961,7 +988,7 @@ margin_top = 1.0
 margin_right = 237.0
 margin_bottom = 32.0
 size_flags_vertical = 6
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 21 )
 text = "(NT)[DIFFICULTY]"
 valign = 1
 uppercase = true
@@ -1001,7 +1028,7 @@ anchor_top = 0.924
 anchor_right = 1.0
 anchor_bottom = 0.924
 rect_min_size = Vector2( 0, 32 )
-custom_styles/panel = SubResource( 19 )
+custom_styles/panel = SubResource( 22 )
 script = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1012,7 +1039,7 @@ CLEAR_COLOR = Color( 0.662745, 0.0509804, 0.364706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 1.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 23 )
 text = "(NT)0.00 %"
 align = 1
 valign = 1
@@ -1025,7 +1052,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -20.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 24 )
 text = "Too Late! +100ms"
 align = 1
 script = ExtResource( 25 )
@@ -1040,6 +1067,7 @@ margin_left = 1.99561
 margin_top = 1.58344
 margin_right = 1.99561
 margin_bottom = 1.58344
+mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -1056,7 +1084,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -123.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER AVAILABLE!"
@@ -1076,7 +1104,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -124.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 26 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER!!!"
@@ -1086,8 +1114,8 @@ __meta__ = {
 }
 
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 24 )
-anims/HeartPowerEnabled = SubResource( 25 )
+anims/HeartPowerAvailable = SubResource( 27 )
+anims/HeartPowerEnabled = SubResource( 28 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 20 )

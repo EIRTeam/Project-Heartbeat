@@ -7,13 +7,11 @@ signal dragged(relative_movement)
 signal finish_dragging()
 var hovering = false
 func _draw():
-	var inside_color = Color.lightgray
-	inside_color.a = 0.5
-	var border_color = Color.white
+	var border_color = Color.yellow
 	if hovering:
-		border_color = Color.yellow
+		border_color = Color.red
 	border_color.a = 0.75
-	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true)
+#	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true)
 	draw_rect(Rect2(Vector2(0,0), rect_size), border_color, false, 2.0)
 
 
