@@ -109,7 +109,6 @@ func _on_resized():
 	font1.outline_size = outline_size
 	font2.size = font_size
 	font2.outline_size = outline_size
-	print(font_size)
 func set_phrases(array: Array):
 	phrases = array
 	overlay_label.text = ""
