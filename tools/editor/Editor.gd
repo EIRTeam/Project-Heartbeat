@@ -232,14 +232,14 @@ func _unhandled_input(event):
 		delete_selected()
 	elif not game_playback.is_playing():
 		if event is InputEventKey:
-			if not event.shift:
+			if not event.shift and not event.control:
 				var old_pos = playhead_position
 				if event.is_action_pressed("gui_left"):
 					playhead_position -= get_timing_interval()
 					playhead_position = snap_time_to_timeline(playhead_position)
 					emit_signal("playhead_position_changed")
 					timeline.ensure_playhead_is_visible()
-				if event.is_action_pressed("gui_right"):
+				elif event.is_action_pressed("gui_right"):
 					playhead_position += get_timing_interval()
 					playhead_position = snap_time_to_timeline(playhead_position)
 					emit_signal("playhead_position_changed")
@@ -247,16 +247,20 @@ func _unhandled_input(event):
 				if old_pos != playhead_position:
 					seek(playhead_position)
 				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+					var found_note = false
 					for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+						var layer = null
+						for layer_c in timeline.get_visible_layers():
+							if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
+								layer = layer_c
+								break
+						if not layer:
+							continue
 						if event.is_action_pressed(action):
 							var items_at_time = get_items_at_time(playhead_position)
 							
 							
-							var layer = null
-							for layer_c in timeline.get_layers():
-								if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
-									layer = layer_c
-									break
+
 							
 							var item_erased = false
 							for item in items_at_time:
@@ -282,7 +286,10 @@ func _unhandled_input(event):
 								timing_point.note_type = type
 									
 								user_create_timing_point(layer, timing_point.get_timeline_item())
+							found_note = true
 							break
+					if found_note:
+						break
 							
 							
 func _note_comparison(a, b):
