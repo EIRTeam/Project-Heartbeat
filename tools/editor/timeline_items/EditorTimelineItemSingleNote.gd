@@ -27,6 +27,14 @@ func get_duration():
 func get_editor_widget():
 	return preload("res://tools/editor/widgets/NoteMovementWidget.tscn")
 
+func select():
+	.select()
+	$TextureRect.modulate = Color(0.5, 0.5, 0.5, 1.0)
+
+func deselect():
+	.deselect()
+	$TextureRect.modulate = Color.white
+
 func _on_note_moved(new_position: Vector2):
 	var old_pos = data.position
 	data.position = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(new_position + widget.rect_size/2))

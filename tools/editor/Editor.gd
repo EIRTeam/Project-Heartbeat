@@ -191,11 +191,9 @@ func _unhandled_input(event):
 			if event.scancode > KEY_0 and event.scancode < KEY_9:
 				var layer_i = event.scancode - KEY_1
 				var visible_layers = timeline.get_visible_layers()
-				print("A ", layer_i)
 				for i in range(visible_layers.size()):
 					var layer = visible_layers[i]
 					if i == layer_i:
-						print("found_lA ", layer_i)
 						
 						for item in get_items_at_time(playhead_position):
 							if item._layer == layer:

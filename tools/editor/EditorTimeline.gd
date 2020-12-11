@@ -61,7 +61,7 @@ func _draw_bars(interval, offset=0):
 			break
 		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 1.0), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 0.5), 1.0, false)
 		if fmod(line, draw_every) == 0:
 			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 45), time_string)
@@ -86,7 +86,7 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
 				continue
 			
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(0.5, 0.5, 0.5), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 1.0, 0.25), 1.0, false)
 	
 func _draw_timing_lines():
 	var bars_per_minute = editor.bpm / float(editor.get_beats_per_bar())
@@ -139,8 +139,14 @@ func get_layers():
 func get_visible_layers():
 	var visible_layers = []
 	for layer in layers.get_children():
-		visible_layers.append(layer)
+		if layer.visible:
+			visible_layers.append(layer)
 	return visible_layers
+
+func update_layer_styles():
+	var visible_layers = get_visible_layers()
+	for i in range(visible_layers.size()):
+		visible_layers[i].set_style(i % 2 == 0)
 
 func _on_PlayheadArea_mouse_x_input(value):
 	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0), true)
@@ -274,6 +280,7 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 	for layer_n in layer_names.get_children():
 		if layer_n.layer_name == layer_name:
 			layer_n.visible = visibility
+	update_layer_styles()
 
 
 func _on_HScrollBar_scrolling():

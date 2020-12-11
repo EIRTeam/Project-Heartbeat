@@ -14,6 +14,13 @@ var _cull_end_note_i = 0
 func _ready():
 	preview.hide()
 
+
+func set_style(use_lighter: bool):
+	var stylebox = get_stylebox("panel")
+	if use_lighter:
+		stylebox.bg_color = Color("#2D3444")
+	else:
+		stylebox.bg_color = Color("#252b38")
 func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 	return (a.data.time) < (b.data.time)
 
@@ -22,8 +29,6 @@ func place_child(child: EditorTimelineItem):
 	child.rect_position = Vector2(x_pos, 0)
 	child.rect_size = child.get_editor_size()
 	child.sync_value("end_time")
-	
-
 
 func place_all_children():
 	#timing_points.sort_custom(self, "_sort_timing_points")

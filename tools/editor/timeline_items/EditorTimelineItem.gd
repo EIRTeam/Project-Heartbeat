@@ -24,10 +24,13 @@ var widget: HBEditorWidget
 var update_affects_timing_points = false
 signal time_changed
 
+var _draw_selected_box = false
+
 func _ready():
 	deselect()
 	set_process(false)
 	update()
+	VisualServer.canvas_item_set_z_index(get_canvas_item(), 3000)
 
 func set_start(value: int):
 	if data.time != value:
@@ -53,7 +56,8 @@ func _process(delta):
 #		set_start(clamp(new_time, 0.0, editor.get_song_duration()))
 
 func deselect():
-	modulate = Color.white
+	_draw_selected_box = false
+	update()
 	if widget:
 		widget.queue_free()
 		widget = null
@@ -97,7 +101,15 @@ func _gui_input(event: InputEvent):
 			
 		
 func select():
-	modulate = Color(0.5, 0.5, 0.5, 1.0)
+	_draw_selected_box = true
+	update()
+func _draw_timeline_item_selected():
+	if _draw_selected_box:
+		var selected_rect_size = Vector2(rect_size.y, rect_size.y) * 0.85
+		var selected_square_rect = Rect2((Vector2(0.0, rect_size.y) - selected_rect_size) / 2.0, selected_rect_size)
+		draw_rect(selected_square_rect, Color.yellow, false, 1.0)
+func _draw():
+	_draw_timeline_item_selected()
 		
 func get_inspector_properties():
 	pass
@@ -121,7 +133,8 @@ func update_widget_data():
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
 		self.widget.rect_position = new_pos - self.widget.rect_size / 2
 		widget.entry_angle = deg2rad(data.entry_angle)
-		widget.note_data = data
+		if not widget.note_data:
+			widget.note_data = data
 	
 func get_duration():
 	return 1000

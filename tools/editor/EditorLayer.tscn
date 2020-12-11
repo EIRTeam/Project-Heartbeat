@@ -4,11 +4,12 @@
 [ext_resource path="res://tools/editor/EditorTimelinePreview.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.207843, 0.223529, 0.270588, 1 )
+resource_local_to_scene = true
+bg_color = Color( 0.145098, 0.168627, 0.219608, 1 )
 border_width_bottom = 1
+border_color = Color( 1, 1, 1, 0.25098 )
 
 [node name="EditorLayer" type="Panel"]
-self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_right = 1.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 50, 35 )
@@ -23,4 +24,5 @@ __meta__ = {
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 mouse_filter = 2
+
 [connection signal="mouse_exited" from="." to="." method="_on_EditorLayer_mouse_exited"]
