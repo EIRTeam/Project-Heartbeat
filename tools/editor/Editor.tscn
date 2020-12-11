@@ -856,27 +856,29 @@ bus = "Music"
 stream = ExtResource( 2 )
 bus = "Vocals"
 
-[node name="SongSelector" parent="." instance=ExtResource( 13 )]
+[node name="Popups" type="CanvasLayer" parent="."]
+
+[node name="SongSelector" parent="Popups" instance=ExtResource( 13 )]
 from_ppd_allowed = true
 
-[node name="SaveAsSongSelector" parent="." instance=ExtResource( 13 )]
+[node name="SaveAsSongSelector" parent="Popups" instance=ExtResource( 13 )]
 save_mode = 1
 
-[node name="ExitDialog" type="ConfirmationDialog" parent="."]
+[node name="ExitDialog" type="ConfirmationDialog" parent="Popups"]
 margin_right = 227.0
-margin_bottom = 86.0
+margin_bottom = 94.0
 popup_exclusive = true
 window_title = "Are you sure about that?"
 dialog_text = "Any unsaved progress will be lost."
 dialog_autowrap = true
 
-[node name="OpenChartPopupDialog" parent="." instance=ExtResource( 1 )]
+[node name="OpenChartPopupDialog" parent="Popups" instance=ExtResource( 1 )]
 margin_left = 334.997
 margin_top = 141.999
 margin_right = 950.997
-margin_bottom = 417.999
+margin_bottom = 592.999
 
-[node name="PluginErrorDialog" type="AcceptDialog" parent="."]
+[node name="PluginErrorDialog" type="AcceptDialog" parent="Popups"]
 margin_right = 300.0
 margin_bottom = 80.0
 window_title = "Plugin Error"
@@ -889,14 +891,17 @@ visible = false
 [node name="FocusTrap" type="Control" parent="."]
 focus_mode = 2
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="OpenChartPopupDialog" method="popup_centered"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="Popups/ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="Popups/OpenChartPopupDialog" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="Popups/SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox" to="." method="_on_auto_multi_toggled"]
 [connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
@@ -929,7 +934,7 @@ mouse_filter = 2
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseStartButton" to="." method="_create_lyrics_phrase_start"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricButton" to="." method="_create_lyric"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseEndButton" to="." method="_create_lyrics_phrase_end"]
-[connection signal="chart_selected" from="SongSelector" to="." method="_on_SongSelector_chart_selected"]
-[connection signal="ppd_chart_selected" from="SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
-[connection signal="chart_selected" from="SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
-[connection signal="confirmed" from="ExitDialog" to="." method="_on_ExitDialog_confirmed"]
+[connection signal="chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_chart_selected"]
+[connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
+[connection signal="chart_selected" from="Popups/SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
+[connection signal="confirmed" from="Popups/ExitDialog" to="." method="_on_ExitDialog_confirmed"]

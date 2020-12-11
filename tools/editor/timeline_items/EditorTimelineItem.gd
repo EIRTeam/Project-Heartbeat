@@ -30,7 +30,7 @@ func _ready():
 	deselect()
 	set_process(false)
 	update()
-	VisualServer.canvas_item_set_z_index(get_canvas_item(), 3000)
+	VisualServer.canvas_item_set_z_index(get_canvas_item(), 1)
 
 func set_start(value: int):
 	if data.time != value:
