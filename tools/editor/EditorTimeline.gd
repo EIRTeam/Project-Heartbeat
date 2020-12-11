@@ -136,6 +136,11 @@ func add_layer(layer):
 func get_layers():
 	return layers.get_children()
 
+func get_visible_layers():
+	var visible_layers = []
+	for layer in layers.get_children():
+		visible_layers.append(layer)
+	return visible_layers
 
 func _on_PlayheadArea_mouse_x_input(value):
 	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0), true)

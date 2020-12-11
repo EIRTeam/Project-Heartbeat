@@ -177,15 +177,6 @@ func get_items_at_time(time: int):
 func _unhandled_input(event):
 	if rhythm_game_playtest_popup in get_children():
 		return
-	if event.is_action_pressed("gui_undo"):
-		get_tree().set_input_as_handled()
-		apply_fine_position()
-		undo_redo.undo()
-	if event.is_action_pressed("gui_redo"):
-		get_tree().set_input_as_handled()
-		apply_fine_position()
-		undo_redo.redo()
-		
 	
 	if timeline.get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_scale_down"):
@@ -194,24 +185,54 @@ func _unhandled_input(event):
 		if event.is_action_pressed("editor_scale_up"):
 			get_tree().set_input_as_handled()
 			change_scale(scale-0.5)
-	if event.is_action_pressed("editor_delete"):
-		if selected.size() != 0:
-			get_tree().set_input_as_handled()
-			delete_selected()
+	
+	if event is InputEventKey:
+		if event.pressed and not event.echo:
+			if event.scancode > KEY_0 and event.scancode < KEY_9:
+				var layer_i = event.scancode - KEY_1
+				var visible_layers = timeline.get_visible_layers()
+				print("A ", layer_i)
+				for i in range(visible_layers.size()):
+					var layer = visible_layers[i]
+					if i == layer_i:
+						print("found_lA ", layer_i)
+						
+						for item in get_items_at_time(playhead_position):
+							if item._layer == layer:
+								if not event.shift and selected.size() > 1:
+									deselect_all()
+								if item in selected:
+									deselect_item(item)
+								else:
+									select_item(item, event.shift)
+								break
+				return
 	if event.is_action_pressed("editor_play"):
 		if not game_playback.is_playing():
 			_on_PlayButton_pressed()
 		else:
 			_on_PauseButton_pressed()
-	if event.is_action_pressed("editor_paste"):
+	elif event.is_action_pressed("gui_undo"):
+		get_tree().set_input_as_handled()
+		apply_fine_position()
+		undo_redo.undo()
+	elif event.is_action_pressed("gui_redo"):
+		get_tree().set_input_as_handled()
+		apply_fine_position()
+		undo_redo.redo()
+	elif event.is_action_pressed("editor_delete"):
+		if selected.size() != 0:
+			get_tree().set_input_as_handled()
+			delete_selected()
+	elif event.is_action_pressed("editor_paste"):
 		var time = timeline.get_time_being_hovered()
 		paste(time)
-	if event.is_action_pressed("editor_copy"):
+	elif event.is_action_pressed("editor_copy"):
 		copy_selected()
-	if event.is_action_pressed("editor_cut"):
+	elif event.is_action_pressed("editor_cut"):
 		copy_selected()
 		delete_selected()
-	if not game_playback.is_playing():
+	elif not game_playback.is_playing():
 		if event is InputEventKey:
 			if not event.shift:
 				var old_pos = playhead_position
