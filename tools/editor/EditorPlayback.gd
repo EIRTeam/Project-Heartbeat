@@ -37,10 +37,24 @@ func _process(delta):
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		emit_signal("time_changed", time)
 
+func get_song_volume():
+	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
+
 func set_song(song: HBSong):
 	current_song = song
 	audio_stream_player.stream = song.get_audio_stream()
-	var volume_db = song.get_volume_db()
+	
+	if not SongDataCache.is_song_audio_loudness_cached(song):
+		var norm = HBAudioNormalizer.new()
+		norm.set_target_ogg(song.get_audio_stream())
+		print("Loudness cache not found, normalizing...")
+		while not norm.work_on_normalization():
+			pass
+		var res = norm.get_normalization_result()
+		SongDataCache.update_loudness_for_song(song, res)
+	
+	var volume_db = get_song_volume()
+	
 	audio_stream_player.volume_db = volume_db
 	if song.voice:
 		voice_audio_stream_player.volume_db = volume_db
@@ -93,7 +107,7 @@ func play_from_pos(position: float):
 		audio_stream_player.seek(position / 1000.0)
 		voice_audio_stream_player.stream_paused = false
 		
-		var song_volume = current_song.get_volume_db()
+		var song_volume = get_song_volume()
 		audio_stream_player.volume_db = song_volume
 		if current_song.voice:
 			voice_audio_stream_player.volume_db = song_volume
