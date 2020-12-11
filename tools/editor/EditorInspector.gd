@@ -43,7 +43,7 @@ func update_label():
 	title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 
 func stop_inspecting():
-	if inspecting_item:
+	if inspecting_item and is_instance_valid(inspecting_item):
 		inspecting_item.disconnect("property_changed", self, "update_value")
 	inspecting_item = null
 	for child in property_container.get_children():
