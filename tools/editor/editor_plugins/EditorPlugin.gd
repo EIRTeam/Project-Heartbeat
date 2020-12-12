@@ -1,3 +1,5 @@
+extends Node
+
 class_name HBEditorPlugin
 
 var _editor: HBEditor

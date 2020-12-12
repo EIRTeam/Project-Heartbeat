@@ -4,7 +4,7 @@ const LASER_RES = 16
 
 var positions = [] setget set_positions
 var line_2ds = []
-
+export(bool) var disable_animation = false
 export(float) var phase_shift = 0.0
 export(float) var frequency = 5.0
 export(float) var timescale = 1.0
@@ -28,7 +28,8 @@ func set_positions(val):
 		line_2d.texture_mode = Line2D.LINE_TEXTURE_STRETCH
 		
 		line_2d.default_color = Color.white
-		line_2d.material = preload("res://rythm_game/Laser_material.tres")
+		if not disable_animation:
+			line_2d.material = preload("res://rythm_game/Laser_material.tres")
 		add_child(line_2d)
 		line_2ds.append(line_2d)
 		
@@ -45,4 +46,3 @@ func _process(delta):
 			var line_2d = line_2ds[i] as Line2D
 			line_2d.set_point_position(0, current_position)
 			line_2d.set_point_position(1, target_position)
-

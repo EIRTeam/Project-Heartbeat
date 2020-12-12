@@ -7,6 +7,7 @@ onready var background_rect : TextureRect = get_node("Node2D/TextureRect")
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var video_player: VideoPlayer = get_node("Node2D/VideoPlayer")
 onready var grid_renderer = get_node("Node2D/GridRenderer")
+onready var transform_preview = get_node("TransformPreview")
 const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
 var video_pause_timer = Timer.new()
@@ -25,6 +26,7 @@ func _ready():
 	video_pause_timer.wait_time = 0.250
 	video_pause_timer.one_shot = true
 	add_child(video_pause_timer)
+	transform_preview.game = game
 func _on_resized():
 	game.size = rect_size
 	game._on_viewport_size_changed()

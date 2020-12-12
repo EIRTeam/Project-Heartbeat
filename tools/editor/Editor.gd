@@ -36,6 +36,7 @@ onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCo
 onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton")
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
+onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -101,6 +102,7 @@ func load_plugins():
 				if file.file_exists(plugin_script_path):
 					var plugin = load(plugin_script_path).new(self)
 					plugins.append(plugin)
+					add_child(plugin)
 				else:
 					Log.log(self, "Error loading editor plugin %s: File not found" % [dir_name])
 			dir_name = dir.get_next()
@@ -142,6 +144,71 @@ func _ready():
 	inspector.connect("note_pasted", self, "paste_note_data")
 	
 	MouseTrap.disable_mouse_trap()
+	
+	sync_presets_tool.connect("show_transform", self, "_show_transform_on_current_notes")
+	sync_presets_tool.connect("show_transform_dynamic", self, "_show_dynamic_transform_on_current_notes")
+	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
+	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
+	sync_presets_tool.connect("apply_transform_dynamic", self, "_apply_dynamic_transform_on_current_notes")
+	
+func _transform_dynamic_transform(transformation):
+	transformation = transformation.duplicate(true) # so we don't replace shit by accident
+	# find the average position of the notes
+	var average_position = Vector2(0, 0)
+	var average_count = 0
+	var current_items = get_items_at_time(playhead_position)
+	for item in current_items:
+		if item is EditorTimelineItemNote:
+			if item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
+				average_position += item.data.position
+				average_count += 1
+	average_position /= float(average_count)
+	for note_type in transformation:
+		if "position" in transformation[note_type]:
+			transformation[note_type].position += average_position
+	return transformation
+func _show_dynamic_transform_on_current_notes(transformation):
+	_show_transform_on_current_notes(_transform_dynamic_transform(transformation))
+	
+func _apply_dynamic_transform_on_current_notes(transformation):
+	_apply_transform_on_current_notes(_transform_dynamic_transform(transformation))
+	
+# transform_values is a dict mapping between note_type and transform properties
+func _show_transform_on_current_notes(transformation):
+	var current_notes = get_items_at_time(playhead_position)
+	if current_notes.size() == 0:
+		return
+	var base_transform_notes = {}
+	for timeline_item in current_notes:
+		if timeline_item is EditorTimelineItemNote:
+			var note = timeline_item.data
+			if note.note_type in transformation:
+				base_transform_notes[note.note_type] = note
+	game_preview.transform_preview.transformation = transformation
+	game_preview.transform_preview.notes_to_transform = base_transform_notes
+	game_preview.transform_preview.update()
+	game_preview.transform_preview.show()
+			
+func _apply_transform_on_current_notes(transformation):
+	var current_items = get_items_at_time(playhead_position)
+	var notes_to_apply_found = false
+	for item in current_items:
+		if item is EditorTimelineItemNote:
+			if item.data.note_type in transformation:
+				notes_to_apply_found = true
+				break
+	if notes_to_apply_found:
+		deselect_all()
+		undo_redo.create_action("Apply transformation")
+		for item in current_items:
+			if item is EditorTimelineItem and item.data.note_type in transformation:
+				var note_type = item.data.note_type
+				for property_name in transformation[note_type]:
+					undo_redo.add_do_property(item.data, property_name, transformation[note_type][property_name])
+					undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.commit_action()
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -244,6 +311,7 @@ func _unhandled_input(event):
 					playhead_position = snap_time_to_timeline(playhead_position)
 					emit_signal("playhead_position_changed")
 					timeline.ensure_playhead_is_visible()
+					
 				if old_pos != playhead_position:
 					seek(playhead_position)
 				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
@@ -258,9 +326,6 @@ func _unhandled_input(event):
 							continue
 						if event.is_action_pressed(action):
 							var items_at_time = get_items_at_time(playhead_position)
-							
-							
-
 							
 							var item_erased = false
 							for item in items_at_time:
