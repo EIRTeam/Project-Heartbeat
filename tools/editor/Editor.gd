@@ -156,7 +156,7 @@ func _transform_dynamic_transform(transformation):
 	# find the average position of the notes
 	var average_position = Vector2(0, 0)
 	var average_count = 0
-	var current_items = get_items_at_time(playhead_position)
+	var current_items = get_items_at_time_or_selected(playhead_position)
 	for item in current_items:
 		if item is EditorTimelineItemNote:
 			if item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
@@ -173,9 +173,14 @@ func _show_dynamic_transform_on_current_notes(transformation):
 func _apply_dynamic_transform_on_current_notes(transformation):
 	_apply_transform_on_current_notes(_transform_dynamic_transform(transformation))
 	
+func get_items_at_time_or_selected(time: int):
+	if selected.size() > 0:
+		return selected
+	else:
+		return get_items_at_time(time)
 # transform_values is a dict mapping between note_type and transform properties
 func _show_transform_on_current_notes(transformation):
-	var current_notes = get_items_at_time(playhead_position)
+	var current_notes = get_items_at_time_or_selected(playhead_position)
 	if current_notes.size() == 0:
 		return
 	var base_transform_notes = {}
@@ -190,7 +195,7 @@ func _show_transform_on_current_notes(transformation):
 	game_preview.transform_preview.show()
 			
 func _apply_transform_on_current_notes(transformation):
-	var current_items = get_items_at_time(playhead_position)
+	var current_items = get_items_at_time_or_selected(playhead_position)
 	var notes_to_apply_found = false
 	for item in current_items:
 		if item is EditorTimelineItemNote:
