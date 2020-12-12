@@ -41,7 +41,7 @@ func _on_create_notes(notes_per_note: float, beats: float):
 					var note_timeline_item = new_note.get_timeline_item()
 					_editor.undo_redo.add_do_method(_editor, "add_item_to_layer", timeline_item._layer, note_timeline_item)
 					_editor.undo_redo.add_do_method(_editor, "_on_timing_points_changed")
-					_editor.undo_redo.add_undo_method(timeline_item._layer, "remove_item", note_timeline_item)
+					_editor.undo_redo.add_undo_method(_editor, "remove_item_from_layer", timeline_item._layer, note_timeline_item)
 					_editor.undo_redo.add_undo_method(timeline_item, "deselect")
 					_editor.undo_redo.add_undo_method(_editor, "_on_timing_points_changed")
 				_editor.undo_redo.commit_action()

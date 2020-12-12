@@ -131,7 +131,7 @@ func change_note_button(new_button_name):
 	var editor = get_editor()
 	var undo_redo = get_editor().undo_redo as UndoRedo
 	var new_button = HBBaseNote.NOTE_TYPE[new_button_name]
-	
+	var changed_buttons = []
 	if get_editor().selected.size() > 0:
 		undo_redo.create_action("Change note button to " + new_button_name)
 
@@ -158,16 +158,18 @@ func change_note_button(new_button_name):
 			
 			undo_redo.add_do_method(editor, "add_item_to_layer", new_layer, new_item)
 			undo_redo.add_do_method(item, "deselect")
-			undo_redo.add_undo_method(new_layer, "remove_item", new_item)
+			undo_redo.add_undo_method(editor, "remove_item_from_layer", new_layer, new_item)
 			
-			undo_redo.add_do_method(item._layer, "remove_item", item)
+			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
 			undo_redo.add_undo_method(new_item, "deselect")
 			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+			changed_buttons.append(new_item)
 		undo_redo.add_do_method(editor, "_on_timing_points_changed")
 		undo_redo.add_undo_method(editor, "_on_timing_points_changed")
 		undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
 		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
 		undo_redo.commit_action()
+	return changed_buttons
 		
 func change_note_type(new_type: String):
 	
@@ -191,7 +193,7 @@ func change_note_type(new_type: String):
 			undo_redo.add_do_method(item, "deselect")
 			undo_redo.add_undo_method(item._layer, "remove_item", new_item)
 			
-			undo_redo.add_do_method(item._layer, "remove_item", item)
+			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
 			undo_redo.add_undo_method(new_item, "deselect")
 			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
 		undo_redo.add_do_method(editor, "_on_timing_points_changed")
@@ -222,3 +224,42 @@ func _on_contextual_menu_about_to_show():
 			break
 		if selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
 			contextual_menu.set_contextual_item_disabled("make_sustain", true)
+
+# Changes a note type up or down
+func move_note_button_up():
+	var editor = get_editor()
+	if editor.selected.size() == 1:
+		var item = editor.selected[0]
+		if item is EditorTimelineItemNote:
+			if item.data.note_type > HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
+				for editor_item in editor.get_items_at_time(item.data.time):
+					if editor_item is EditorTimelineItemNote:
+						if editor_item.data.note_type == item.data.note_type - 1:
+							return
+				var new_button_name = HBUtils.find_key(HBNoteData.NOTE_TYPE, item.data.note_type - 1)
+				var new_item = change_note_button(new_button_name)[0]
+				editor.deselect_all()
+				editor.select_item(new_item)
+# Changes a note type up or down
+func move_note_button_down():
+	var editor = get_editor()
+	if editor.selected.size() == 1:
+		var item = editor.selected[0]
+		if item is EditorTimelineItemNote:
+			if item.data.note_type < HBNoteData.NOTE_TYPE.RIGHT:
+				for editor_item in editor.get_items_at_time(item.data.time):
+					if editor_item is EditorTimelineItemNote:
+						if editor_item.data.note_type == item.data.note_type + 1:
+							return
+				
+				var new_button_name = HBUtils.find_key(HBNoteData.NOTE_TYPE, item.data.note_type + 1)
+				var new_item = change_note_button(new_button_name)[0]
+				editor.deselect_all()
+				editor.select_item(new_item)
+func _unhandled_input(event):
+	var editor = get_editor()
+	if event is InputEventKey:
+		if event.is_action_pressed("gui_up") and event.control:
+			move_note_button_up()
+		elif event.is_action_pressed("gui_down") and event.control:
+			move_note_button_down()
