@@ -68,6 +68,19 @@ func _draw():
 		var note_center = rect_size/2
 		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle)
 		draw_line(note_center, note_center + rotated_n_v * 1000, angle_color, 3.0, true)
+	# draw sine wave
+	var sine_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	sine_color.a = 0.75
+	
+	var trail_points = PoolVector2Array()
+	trail_points.resize(editor.rhythm_game.TRAIL_RESOLUTION)
+	
+	for point_i in range(editor.rhythm_game.TRAIL_RESOLUTION):
+		var n = point_i / float(editor.rhythm_game.TRAIL_RESOLUTION-1)
+		var wave_point = HBUtils.calculate_note_sine(n, note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
+		trail_points[point_i] = editor.rhythm_game.remap_coords(wave_point) - rect_position
+		
+	draw_polyline(trail_points, sine_color, 4.0, true)
 func _on_start_dragging():
 	internal_pos = rect_position
 
