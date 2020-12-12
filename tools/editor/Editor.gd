@@ -150,6 +150,7 @@ func _ready():
 	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
 	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	sync_presets_tool.connect("apply_transform_dynamic", self, "_apply_dynamic_transform_on_current_notes")
+	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
 func _transform_dynamic_transform(transformation):
 	transformation = transformation.duplicate(true) # so we don't replace shit by accident
