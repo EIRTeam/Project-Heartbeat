@@ -638,6 +638,7 @@ size_flags_horizontal = 3
 [node name="GamePreview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_clip_content = true
 mouse_filter = 2
 script = ExtResource( 5 )
 __meta__ = {
@@ -678,6 +679,8 @@ __meta__ = {
 [node name="WidgetArea" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 1195.0
+margin_bottom = 680.0
 script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -689,8 +692,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -236.0
-margin_top = -28.0
+margin_left = -289.0
+margin_top = -28.0001
+margin_bottom = -6.10352e-05
 __meta__ = {
 "_edit_use_anchors_": false
 }
