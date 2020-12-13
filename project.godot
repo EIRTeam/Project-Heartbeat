@@ -755,7 +755,7 @@ config/service_environment="production"
 
 [audio]
 
-output_latency=7
+output_latency=6
 
 [autoload]
 
