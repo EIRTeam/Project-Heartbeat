@@ -35,23 +35,29 @@ const RATING_TO_WRONG_TEXT_MAP = {
 	JUDGE_RATINGS.FINE: "fInE",
 	JUDGE_RATINGS.COOL: "CoOl"
 }
+
+var timing_window_scale = 1.0
+
 func judge_note (input: float, target_note_timing: float):
 	var diff =  (input - target_note_timing)*1000
-	var closest = 128
+	var closest = 128 * timing_window_scale
 	
 	if diff < -get_target_window_msec():
 		return
 	
-	for rating_window in RATING_WINDOWS:
-		if not rating_window < abs(diff):
-			closest = rating_window
-			
+	for i in range(RATING_WINDOWS.size()-1, -1, -1):
+		var rating_window = int(RATING_WINDOWS.keys()[i] * timing_window_scale)
+		if rating_window >= abs(diff):
+			closest = RATING_WINDOWS.keys()[i]
+			break
 	if diff >= get_target_window_msec():
 		return JUDGE_RATINGS.WORST
 	return RATING_WINDOWS[closest]
 
 func get_target_window_msec():
-	return RATING_WINDOWS.keys()[0]
+	return int(RATING_WINDOWS.keys()[0] * timing_window_scale)
 
+func get_window_for_rating(rating):
+	return int(HBUtils.find_key(RATING_WINDOWS, rating) * timing_window_scale)
 func get_target_window_sec():
 	return get_target_window_msec()/1000
