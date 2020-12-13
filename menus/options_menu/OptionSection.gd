@@ -20,6 +20,7 @@ func _ready():
 
 func _set_section_data(val):
 	section_data = val
+	scroll_container.selected_child = null
 	for child in options_container.get_children():
 		options_container.remove_child(child)
 		child.queue_free()
