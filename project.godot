@@ -749,13 +749,13 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1607119252
-config/build_commit="0b64d7867f826a8ab45734c9b5a9676843a0e5f2"
+config/build_time=1607886572
+config/build_commit="209d53ecef5bd9984151c9a87374a2bf1fb1bb4c"
 config/service_environment="production"
 
 [audio]
 
-output_latency=6
+output_latency=5
 
 [autoload]
 
