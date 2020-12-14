@@ -980,12 +980,13 @@ func snap_time_to_timeline(time):
 		return time
 
 func arrange_selected_by_angle(diff):
-	undo_redo.create_action("Arrange selected notes by angle")
 	var notes = []
 	for item in selected:
 		if item.data is HBBaseNote:
 			notes.append(item.data)
 	if notes.size() > 1:
+		undo_redo.create_action("Arrange selected notes by angle")
+		
 		notes.sort_custom(self, "_note_comparison")
 		
 		var first_angle = notes[notes.size()-1].entry_angle
