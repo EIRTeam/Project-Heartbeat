@@ -17,8 +17,34 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.HEART: ["heart_note"]
 }
 
-# HACK HACK HACK, used by HBSerializable to load serializable types concurrently
-var serializable_mutex = Mutex.new()
+# HACK HACK HACK, because using load() on multiple thread is more broken than my
+# love life we have to put this here, it's also much faster if it's already loaded
+var serializable_types = {
+	"Note": load("res://scripts/timing_points/HBNoteData.gd"),
+	"TimingPoint": load("res://scripts/timing_points/HBTimingPoint.gd"),
+	"DoubleNote": load("res://scripts/timing_points/HBDoubleNote.gd"),
+	"SustainNote": load("res://scripts/timing_points/HBSustainNote.gd"),
+	"BpmChange": load("res://scripts/timing_points/HBBPMChange.gd"),
+	"Song": load("res://scripts/HBSong.gd"),
+	"Result": load("res://scripts/HBResult.gd"),
+	"UserSettings": load("res://scripts/HBUserSettings.gd"),
+	"PerSongEditorSettings": load("res://scripts/HBPerSongEditorSettings.gd"),
+	"GameInfo": load("res://scripts/HBGameInfo.gd"),
+	"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
+	"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
+	"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
+	"SongStats": load("res://scripts/HBSongStats.gd"),
+	"Folder": load("res://scripts/HBFolder.gd"),
+	"MetaCacheEntry": load("res://autoloads/HBSongMetaCacheEntry.gd"),
+	"AudioLoudnessCacheEntry": load("res://autoloads/HBAudioLoudnessCacheEntry.gd"),
+	"PPDSong": load("res://scripts/HBPPDSong.gd"),
+	"WebUserInfo": load("res://scripts/HBWebUserInfo.gd"),
+	"Phrase": load("res://rythm_game/lyrics/HBLyricsPhrase.gd"),
+	"PhraseStart": load("res://rythm_game/lyrics/HBLyricsPhraseStart.gd"),
+	"PhraseEnd": load("res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"),
+	"Lyric": load("res://rythm_game/lyrics/HBLyricsLyric.gd"),
+	"TimingModifierSettings": load("res://rythm_game/modifiers/timing/timing_settings.gd")
+}
 
 func _ready():
 	_game_init()
