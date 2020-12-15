@@ -38,15 +38,16 @@ func _ready():
 
 func play_random_song():
 	# Ensure random song will always be different from current
-	var song = current_song
-	var possible_songs = []
-	for possible_song in SongLoader.songs.values():
-		if possible_song.has_audio() and not possible_song == current_song:
-			possible_songs.append(possible_song)
-	if possible_songs.size() > 0:
-		randomize()
-		song = possible_songs[randi() % possible_songs.size()]
-	play_song(song, true)
+	if not waiting_for_song_assets:
+		var song = current_song
+		var possible_songs = []
+		for possible_song in SongLoader.songs.values():
+			if possible_song.has_audio() and not possible_song == current_song:
+				possible_songs.append(possible_song)
+		if possible_songs.size() > 0:
+			randomize()
+			song = possible_songs[randi() % possible_songs.size()]
+		play_song(song, true)
 	
 func _process(delta):
 	player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
@@ -67,7 +68,11 @@ func _process(delta):
 				voice_player.stream = null
 	if player.stream and not waiting_for_song_assets:
 		emit_signal("stream_time_changed", player.get_playback_position())
-			
+	if not waiting_for_song_assets and current_song:
+		if current_song.preview_end != -1:
+			var end_time = current_song.preview_end / 1000.0
+			if player.get_playback_position() > end_time:
+				play_random_song()
 func _on_song_assets_loaded(song: HBSong, assets):
 	waiting_for_song_assets = false
 	if UserSettings.user_settings.disable_menu_music:

@@ -27,6 +27,7 @@ var creator = ""
 var original_title = ""
 var bpm = 150.0
 var preview_start = 0
+var preview_end = -1
 var charts = {}
 var preview_image = ""
 var background_image = ""
@@ -59,7 +60,7 @@ func get_serialized_type():
 func _init():
 	serializable_fields += ["title", "romanized_title", "artist", "artist_alias", 
 	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
-	"preview_start", "charts", "preview_image", "background_image", "voice", 
+	"preview_start", "preview_end", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
 	"end_time", "volume", "hide_artist_name", "lyrics"]

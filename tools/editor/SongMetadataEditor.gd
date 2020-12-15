@@ -16,6 +16,7 @@ onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBo
 onready var bpm_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/BPMSpinBox")
 onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
 onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
+onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewEndSpinBox")
 onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
 onready var difficulties_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer")
@@ -58,6 +59,7 @@ func set_song_meta(value):
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	voice_audio_filename_edit.text = song_meta.voice
 	preview_start_edit.value = song_meta.preview_start
+	preview_end_edit.value = song_meta.preview_end
 	background_image_filename_edit.text = song_meta.background_image
 	preview_image_filename_edit.text = song_meta.preview_image
 	use_youtube_as_audio.pressed = song_meta.use_youtube_for_audio
@@ -91,6 +93,7 @@ func save_meta():
 	song_meta.bpm = bpm_edit.value
 	song_meta.audio = audio_filename_edit.text
 	song_meta.preview_start = preview_start_edit.value
+	song_meta.preview_end = preview_end_edit.value
 	song_meta.background_image = background_image_filename_edit.text
 	song_meta.preview_image = preview_image_filename_edit.text
 	song_meta.youtube_url = youtube_url_line_edit.text

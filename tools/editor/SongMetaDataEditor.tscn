@@ -17,11 +17,14 @@ __meta__ = {
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -1.12246
+margin_bottom = -1.12244
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -177,19 +180,19 @@ text = "Writers"
 [node name="SongWriters" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
 margin_top = 516.0
 margin_right = 588.0
-margin_bottom = 617.0
+margin_bottom = 618.0
 size_flags_vertical = 3
 
 [node name="Label5" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 621.0
+margin_top = 622.0
 margin_right = 588.0
-margin_bottom = 635.0
+margin_bottom = 636.0
 text = "Chart creator"
 
 [node name="SongCreator" type="LineEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 639.0
+margin_top = 640.0
 margin_right = 588.0
-margin_bottom = 663.0
+margin_bottom = 664.0
 
 [node name="Technical Data" type="ScrollContainer" parent="TabContainer"]
 anchor_right = 1.0
@@ -308,22 +311,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label4" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
 margin_top = 195.0
 margin_right = 588.0
 margin_bottom = 209.0
+text = "Song preview end (-1 to use audio file end time, in miliseconds)"
+
+[node name="SongPreviewEndSpinBox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+margin_top = 213.0
+margin_right = 588.0
+margin_bottom = 237.0
+min_value = -1.0
+max_value = 2.14748e+09
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
+margin_top = 241.0
+margin_right = 588.0
+margin_bottom = 255.0
 text = "YouTube URL (optional, leave empty to not use YouTube, can replace audio)"
 autowrap = true
 
 [node name="YoutubeURL" type="LineEdit" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 213.0
+margin_top = 259.0
 margin_right = 588.0
-margin_bottom = 237.0
+margin_bottom = 283.0
 
 [node name="Label15" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 241.0
+margin_top = 287.0
 margin_right = 588.0
-margin_bottom = 255.0
+margin_bottom = 301.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label15"]
 margin_right = 229.0
@@ -331,9 +350,9 @@ margin_bottom = 14.0
 text = "Volume (0 is mute, 1 is full volume)"
 
 [node name="VolumeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 259.0
+margin_top = 305.0
 margin_right = 588.0
-margin_bottom = 283.0
+margin_bottom = 329.0
 max_value = 2.14748e+09
 step = 0.0
 value = 10.0
@@ -342,9 +361,9 @@ __meta__ = {
 }
 
 [node name="Label13" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 287.0
+margin_top = 333.0
 margin_right = 588.0
-margin_bottom = 301.0
+margin_bottom = 347.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label13"]
 margin_right = 169.0
@@ -352,9 +371,9 @@ margin_bottom = 14.0
 text = "Start time (in miliseconds)"
 
 [node name="StartTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 305.0
+margin_top = 351.0
 margin_right = 588.0
-margin_bottom = 329.0
+margin_bottom = 375.0
 max_value = 2.14748e+09
 value = 10.0
 __meta__ = {
@@ -362,9 +381,9 @@ __meta__ = {
 }
 
 [node name="Label14" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 333.0
+margin_top = 379.0
 margin_right = 588.0
-margin_bottom = 347.0
+margin_bottom = 393.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label14"]
 margin_right = 588.0
@@ -374,9 +393,9 @@ text = "End time (-1 to use audio file end time, in miliseconds)"
 autowrap = true
 
 [node name="EndTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 351.0
+margin_top = 397.0
 margin_right = 588.0
-margin_bottom = 375.0
+margin_bottom = 421.0
 min_value = -1.0
 max_value = 2.14748e+09
 value = 10.0
@@ -385,9 +404,9 @@ __meta__ = {
 }
 
 [node name="Label11" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 379.0
+margin_top = 425.0
 margin_right = 588.0
-margin_bottom = 404.0
+margin_bottom = 450.0
 
 [node name="IntroSkipCheckbox" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11"]
 margin_right = 134.0
@@ -405,9 +424,9 @@ expand = true
 stretch_mode = 6
 
 [node name="Label12" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 408.0
+margin_top = 454.0
 margin_right = 588.0
-margin_bottom = 433.0
+margin_bottom = 479.0
 
 [node name="Label" type="Label" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer/Label12"]
 margin_top = 5.0
@@ -426,9 +445,9 @@ expand = true
 stretch_mode = 6
 
 [node name="IntroSkipTimeSpinbox" type="SpinBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 437.0
+margin_top = 483.0
 margin_right = 588.0
-margin_bottom = 461.0
+margin_bottom = 507.0
 min_value = 10.0
 max_value = 2.14748e+09
 value = 10.0
@@ -437,15 +456,15 @@ __meta__ = {
 }
 
 [node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 465.0
+margin_top = 511.0
 margin_right = 588.0
-margin_bottom = 489.0
+margin_bottom = 535.0
 text = "Use YouTube for audio"
 
 [node name="UseYoutubeAsVideo" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
-margin_top = 493.0
+margin_top = 539.0
 margin_right = 588.0
-margin_bottom = 517.0
+margin_bottom = 563.0
 text = "Use YouTube for video"
 
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
@@ -614,8 +633,8 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 
 [node name="VoiceAudioFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -625,8 +644,8 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 
 [node name="PreviewFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -636,8 +655,8 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -647,8 +666,8 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 
 [node name="CircleFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -658,8 +677,8 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="."]
 margin_right = 535.0
@@ -669,8 +688,9 @@ mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
+
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageButton" to="PreviewFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
