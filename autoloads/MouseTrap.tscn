@@ -7,6 +7,7 @@
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=5]
 
 [node name="CanvasLayer" type="CanvasLayer"]
+layer = 128
 script = ExtResource( 1 )
 
 [node name="MouseTrap" type="Control" parent="."]
@@ -35,25 +36,17 @@ __meta__ = {
 }
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
-has_cancel = true
-has_accept = true
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
 has_accept = false
 text = "Downloading..."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
-has_accept = true
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
-cancel_text = "No"
 
 [node name="PPDDialog" type="WindowDialog" parent="MouseTrap"]
 visible = true
@@ -147,6 +140,7 @@ window_title = "Abrir un Directorio"
 mode = 2
 access = 2
 show_hidden_files = true
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+current_dir = "/Users/EIREXE/Project-Heartbeat"
+current_path = "/Users/EIREXE/Project-Heartbeat/"
+
 [connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]
