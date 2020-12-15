@@ -5,6 +5,7 @@
             "color": "#f971d3",
             "shadow_color": "#f5a0de",
             "uses_custom_shadow": true,
+            "is_arrow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -12,7 +13,7 @@
                     "target_path": "notes/Left"
                 },
                 "target": {
-                    "style": "target_with_fill_color",
+                    "style": "target_with_darker_fill_color",
                     "src_path": "notes/Left",
                     "target_path": "notes/Left_target"
                 },
@@ -57,6 +58,7 @@
             "color": "#2996f8",
             "uses_custom_shadow": true,
             "shadow_color": "#aad1f2",
+            "is_arrow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -64,7 +66,7 @@
                     "target_path": "notes/Down"
                 },
                 "target": {
-                    "style": "target_with_fill_color",
+                    "style": "target_with_darker_fill_color",
                     "src_path": "notes/Down",
                     "target_path": "notes/Down_target"
                 },
@@ -109,6 +111,7 @@
             "color": "#ff0c5c",
             "shadow_color": "#fd73b9",
             "uses_custom_shadow": true,
+            "is_arrow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -116,7 +119,7 @@
                     "target_path": "notes/Right"
                 },
                 "target": {
-                    "style": "target_with_fill_color",
+                    "style": "target_with_darker_fill_color",
                     "src_path": "notes/Right",
                     "target_path": "notes/Right_target"
                 },
@@ -161,6 +164,7 @@
             "color": "#24E438",
             "shadow_color": "#9FE4A6",
             "uses_custom_shadow": true,
+            "is_arrow": true,
             "src": {
                 "note": {
                     "style": "normal",
@@ -168,7 +172,7 @@
                     "target_path": "notes/Up"
                 },
                 "target": {
-                    "style": "target_with_fill_color",
+                    "style": "target_with_darker_fill_color",
                     "src_path": "notes/Up",
                     "target_path": "notes/Up_target"
                 },
