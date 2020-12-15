@@ -10,7 +10,7 @@ var song_items_map = {}
 var songs = []
 
 var sort_by_prop = "title" # title, chart creator, difficulty
-var filter_by = "all" # choices are: all, official, community and ppd
+var filter_by = "" # choices are: all, official, community and ppd
 
 const LOG_NAME = "SongListSongContainer"
 

@@ -172,9 +172,15 @@ func sort_array(a: HBSong, b: HBSong):
 		b_prop = b_prop.to_lower()
 	return a_prop < b_prop
 
+var last_filter = ""
+
 func sort_and_filter_songs():
+	if last_filter == filter_by:
+		return
 	songs.sort_custom(self, "sort_array")
 	Log.log(self, "Filtering by " + filter_by)
+
+	last_filter = filter_by
 
 	if filter_by != "all":
 		var filtered_songs = []
@@ -202,6 +208,8 @@ func set_filter(filter_name: String):
 func set_songs(songs: Array):
 	self.songs = songs
 	if filter_by == "folders":
+		return
+	if last_filter == filter_by:
 		return
 	var filtered_songs = sort_and_filter_songs()
 	var previously_selected_song_id = null
