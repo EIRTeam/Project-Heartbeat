@@ -34,6 +34,10 @@ func _ready():
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
 	
+func _unhandled_input(event):
+	if event.is_action_pressed("contextual_option"):
+		_on_restart_button_pressed()
+	
 func _on_restart_button_pressed():
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.reset_hit_notes()
