@@ -265,3 +265,7 @@ func _on_folder_selected(folder: HBFolder):
 		folder.songs.append(current_song.id)
 		UserSettings.save_user_settings()
 	song_container.grab_focus()
+
+func _on_songs_reloaded():
+	if song_container:
+		song_container.last_filter = ""

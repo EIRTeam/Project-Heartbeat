@@ -125,6 +125,9 @@ func _ready():
 	
 	music_player_control.connect("ready", self, "_on_music_player_ready")
 	
+	SongLoader.connect("all_songs_loaded", MENUS["song_list"].left, "_on_songs_reloaded")
+	SongLoader.connect("all_songs_loaded", MENUS["song_list_lobby"].left, "_on_songs_reloaded")
+	
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
 func _on_loading_begun():
