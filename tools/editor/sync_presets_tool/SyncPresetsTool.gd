@@ -16,14 +16,14 @@ signal apply_transform_dynamic(transform_data)
 func make_button(preset_name: String, preset_list, dynamic_preset = false) -> Button:
 	var button = Button.new()
 	button.text = preset_name
-	if not dynamic_preset:
-		button.connect("mouse_entered", self, "_show_preset_preview", [preset_name, preset_list])
-		button.connect("pressed", self, "_apply_transform", [preset_name, preset_list])
-	else:
-		button.connect("mouse_entered", self, "_show_preset_preview_dynamic", [preset_name, preset_list])
-		button.connect("pressed", self, "_apply_transform_dynamic", [preset_name, preset_list])
+	var transformation = EditorTransformationTemplate.new()
+	transformation.dynamic = dynamic_preset
+	transformation.template = preset_list[preset_name]
+	button.connect("mouse_entered", self, "_show_preset_preview", [transformation])
+	button.connect("pressed", self, "_apply_transform", [transformation])
 	button.connect("mouse_exited", self, "_hide_preset_preview")
 
+	button.set_meta("transformation", transformation)
 	return button
 	
 func add_button_row(button, button2):
@@ -59,13 +59,9 @@ func _ready():
 		var button = make_button(preset_name, dynamic_sync_presets, true)
 		var button2 = make_button(preset_name2, dynamic_sync_presets, true)
 		add_button_row(button, button2)
-func _show_preset_preview(preset_name: String, preset_list):
-	emit_signal("show_transform", preset_list[preset_name])
+func _show_preset_preview(transformation):
+	emit_signal("show_transform", transformation)
 func _hide_preset_preview():
 	emit_signal("hide_transform")
-func _apply_transform(preset_name: String, preset_list):
-	emit_signal("apply_transform", preset_list[preset_name])
-func _show_preset_preview_dynamic(preset_name: String, preset_list):
-	emit_signal("show_transform_dynamic", preset_list[preset_name])
-func _apply_transform_dynamic(preset_name: String, preset_list):
-	emit_signal("apply_transform_dynamic", preset_list[preset_name])
+func _apply_transform(transformation):
+	emit_signal("apply_transform", transformation)

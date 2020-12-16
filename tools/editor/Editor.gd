@@ -146,71 +146,58 @@ func _ready():
 	MouseTrap.disable_mouse_trap()
 	
 	sync_presets_tool.connect("show_transform", self, "_show_transform_on_current_notes")
-	sync_presets_tool.connect("show_transform_dynamic", self, "_show_dynamic_transform_on_current_notes")
 	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
 	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
-	sync_presets_tool.connect("apply_transform_dynamic", self, "_apply_dynamic_transform_on_current_notes")
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
-	
-func _transform_dynamic_transform(transformation):
-	transformation = transformation.duplicate(true) # so we don't replace shit by accident
-	# find the average position of the notes
-	var average_position = Vector2(0, 0)
-	var average_count = 0
-	var current_items = get_items_at_time_or_selected(playhead_position)
-	for item in current_items:
-		if item is EditorTimelineItemNote:
-			if item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
-				average_position += item.data.position
-				average_count += 1
-	average_position /= float(average_count)
-	for note_type in transformation:
-		if "position" in transformation[note_type]:
-			transformation[note_type].position += average_position
-	return transformation
-func _show_dynamic_transform_on_current_notes(transformation):
-	_show_transform_on_current_notes(_transform_dynamic_transform(transformation))
-	
-func _apply_dynamic_transform_on_current_notes(transformation):
-	_apply_transform_on_current_notes(_transform_dynamic_transform(transformation))
 	
 func get_items_at_time_or_selected(time: int):
 	if selected.size() > 0:
 		return selected
 	else:
 		return get_items_at_time(time)
+
 # transform_values is a dict mapping between note_type and transform properties
 func _show_transform_on_current_notes(transformation):
-	var current_notes = get_items_at_time_or_selected(playhead_position)
-	if current_notes.size() == 0:
+	var notes = get_items_at_time_or_selected(playhead_position)
+	if notes.size() == 0:
 		return
-	var base_transform_notes = {}
-	for timeline_item in current_notes:
+	var base_transform_notes = []
+	for timeline_item in notes:
 		if timeline_item is EditorTimelineItemNote:
 			var note = timeline_item.data
-			if note.note_type in transformation:
-				base_transform_notes[note.note_type] = note
+			base_transform_notes.append(note)
 	game_preview.transform_preview.transformation = transformation
 	game_preview.transform_preview.notes_to_transform = base_transform_notes
 	game_preview.transform_preview.update()
 	game_preview.transform_preview.show()
 			
-func _apply_transform_on_current_notes(transformation):
+func _apply_transform_on_current_notes(transformation: EditorTransformation):
 	var current_items = get_items_at_time_or_selected(playhead_position)
+	var base_transform_notes = []
+	for timeline_item in current_items:
+		if timeline_item is EditorTimelineItemNote:
+			var note = timeline_item.data
+			base_transform_notes.append(note)
+	
+	var transformation_result = transformation.transform_notes(base_transform_notes)
+	
 	var notes_to_apply_found = false
+
 	for item in current_items:
 		if item is EditorTimelineItemNote:
-			if item.data.note_type in transformation:
+			if item.data in transformation_result:
 				notes_to_apply_found = true
 				break
 	if notes_to_apply_found:
 		deselect_all()
 		undo_redo.create_action("Apply transformation")
+		print("APPLY")
 		for item in current_items:
-			if item is EditorTimelineItem and item.data.note_type in transformation:
-				var note_type = item.data.note_type
-				for property_name in transformation[note_type]:
-					undo_redo.add_do_property(item.data, property_name, transformation[note_type][property_name])
+			var note = item.data
+			if note in transformation_result:
+				var note_type = note.note_type
+				for property_name in transformation_result[note]:
+					undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
 					undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")

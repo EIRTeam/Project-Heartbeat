@@ -39,6 +39,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd"
 }, {
+"base": "Reference",
+"class": "EditorTransformation",
+"language": "GDScript",
+"path": "res://tools/editor/transformation_display/EditorTransformation.gd"
+}, {
+"base": "EditorTransformation",
+"class": "EditorTransformationTemplate",
+"language": "GDScript",
+"path": "res://tools/editor/transformation_display/EditorTransformationTemplate.gd"
+}, {
 "base": "HBHovereableButton",
 "class": "FolderManagerFolderButton",
 "language": "GDScript",
@@ -621,6 +631,8 @@ _global_script_class_icons={
 "EditorTimelineItemBPMChange": "",
 "EditorTimelineItemNote": "",
 "EditorTimelineItemSustainNote": "",
+"EditorTransformation": "",
+"EditorTransformationTemplate": "",
 "FolderManagerFolderButton": "",
 "HBAudioLoudnessCacheEntry": "",
 "HBAudioNormalizer": "",
