@@ -97,7 +97,8 @@ func _gui_input(event):
 		var child_i = vbox_container.get_children().find(selected_child)
 		if event.is_action_pressed("gui_accept"):
 			get_tree().set_input_as_handled()
-			selected_child.emit_signal("pressed")
+			if selected_child.has_signal("pressed"):
+				selected_child.emit_signal("pressed")
 		if not get_tree().is_input_handled():
 			if not event is InputEventMouse:
 				selected_child._gui_input(event)
