@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://tools/editor/transformation_display/TransformationDisplay.gd" type="Script" id=1]
-[ext_resource path="res://rythm_game/Laser.tscn" type="PackedScene" id=2]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -16,7 +15,3 @@ show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.75 )
-
-[node name="Laser" parent="." instance=ExtResource( 2 )]
-show_behind_parent = true
-disable_animation = true

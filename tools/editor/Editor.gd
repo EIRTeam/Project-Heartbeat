@@ -37,6 +37,7 @@ onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
+onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Transforms/TransformsTool")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -148,6 +149,10 @@ func _ready():
 	sync_presets_tool.connect("show_transform", self, "_show_transform_on_current_notes")
 	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
 	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
+	
+	transforms_tools.connect("show_transform", self, "_show_transform_on_current_notes")
+	transforms_tools.connect("hide_transform", game_preview.transform_preview, "hide")
+	transforms_tools.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
 func get_items_at_time_or_selected(time: int):
@@ -386,6 +391,7 @@ func select_item(item: EditorTimelineItem, add = false):
 		game_preview.widget_area.add_child(widget_instance)
 		item.connect_widget(widget_instance)
 	inspector.inspect(item)
+	selected.sort_custom(self, "_sort_current_items_impl")
 func add_item(layer_n: int, item: EditorTimelineItem):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]

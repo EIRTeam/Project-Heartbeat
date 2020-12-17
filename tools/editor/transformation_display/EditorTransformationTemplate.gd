@@ -31,13 +31,3 @@ func transform_notes(notes: Array) -> Dictionary:
 				notes_to_transform_map[note]["position"] = Vector2.ZERO
 			notes_to_transform_map[note].position += center
 	return notes_to_transform_map
-
-func get_center_for_notes(notes: Array) -> Vector2:
-	var average_position = Vector2(0, 0)
-	var average_count = 0
-	for note in notes:
-		if note.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
-			average_position += note.position
-			average_count += 1
-	average_position /= float(average_count)
-	return average_position

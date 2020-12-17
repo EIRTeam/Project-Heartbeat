@@ -9,7 +9,7 @@ var notes_to_transform = {}
 
 var angle_line_2ds = []
 
-onready var multi_laser = get_node("Laser")
+var multi_lasers = []
 
 const TRAIL_RESOLUTION = 60
 
@@ -41,7 +41,7 @@ func get_transformed_value(note, transformation_map, property_name: String):
 	if property_name in transformation_map[note]:
 		value = transformation_map[note][property_name]
 	else:
-		value = HBBaseNote.new().get(property_name)
+		value = note.get(property_name)
 	return value
 func get_note_scale():
 	if game:
@@ -90,24 +90,18 @@ func _draw_note_graphic(center_pos: Vector2, note_type: int, target_graphic: Str
 	var timing_arm_draw_pos = center_pos - Vector2(timing_arm_texture_size.x / 2.0 + 2 * get_note_scale(), timing_arm_texture_size.y - (31 * get_note_scale()))
 	draw_texture_rect(timing_arm_texture, Rect2(timing_arm_draw_pos, timing_arm_texture_size), false, note_modulate)
 
+func _create_laser(scale_x):
+	var laser = preload("res://rythm_game/Laser.tscn").instance()
+	laser.width_scale = scale_x
+	return laser
+
 func _draw_transformation():
 	var transformation_map = transformation.transform_notes(notes_to_transform)
 
-	var is_multi = transformation_map.size() > 1
 	var scale_x = (remap_coords(Vector2(1.0, 1.0)) - remap_coords(Vector2.ZERO)).x
-	
-	if is_multi:
-		multi_laser.width_scale = scale_x
-	
-	var laser_positions = PoolVector2Array()
-	laser_positions.resize(transformation_map.size())
 	
 	var trail_points = PoolVector2Array()
 	trail_points.resize(TRAIL_RESOLUTION)
-	
-	for line in multi_laser.line_2ds:
-		line.free()
-	multi_laser.line_2ds = []
 	
 	for line in angle_line_2ds:
 		line.hide()
@@ -116,11 +110,27 @@ func _draw_transformation():
 
 	var i = 0
 
+	for laser in multi_lasers:
+		laser.queue_free()
+		
+	multi_lasers = []
+	
 
 	for note_to_transform in transformation_map:
 		var note_type = note_to_transform.note_type
 		var target_graphic = "target"
 
+		var is_multi = false
+		
+		if i == 0:
+			if transformation_map.size() > 1:
+				is_multi = transformation_map.keys()[i+1].time == note_to_transform.time
+		else:
+			if transformation_map.size() > i+1:
+				is_multi = transformation_map.keys()[i+1].time == note_to_transform.time
+			if not is_multi:
+				is_multi = transformation_map.keys()[i-1].time == note_to_transform.time
+			
 		if is_multi:
 			target_graphic = "multi_note_target"
 		
@@ -160,20 +170,36 @@ func _draw_transformation():
 
 		if not note_to_transform in notes_to_transform:
 			note_modulate = Color(0.75, 0.75, 0.75)
-		_draw_note_graphic(note_center_pos, note_to_transform.note_type, target_graphic, note_modulate)		
-		laser_positions[i] = note_center_pos
+		_draw_note_graphic(note_center_pos, note_to_transform.note_type, target_graphic, note_modulate)
+		if i > 0:
+			var make_multi_laser = true
+			if i < transformation_map.size() - 1:
+				var next_note = transformation_map.keys()[i+1] as HBBaseNote
+				if next_note.time == note_to_transform.time:
+					make_multi_laser = false
+			if make_multi_laser:
+				var prev_note = transformation_map.keys()[i-1] as HBBaseNote
+				if prev_note.time == note_to_transform.time:
+					var positions = []
+					for ii in range(i, -1, -1):
+						var multi_note = transformation_map.keys()[ii] as HBBaseNote
+						if multi_note.time != note_to_transform.time:
+							break
+						positions.append(remap_coords(get_transformed_value(multi_note, transformation_map, "position")))
+					
+					center = Vector2.ZERO
+					for point in positions:
+						center += point
+					center /= float(positions.size())
+					
+					positions.sort_custom(self, "_point_sort")
+					positions.append(positions[0])
+					var laser = _create_laser(scale_x)
+					add_child(laser)
+					laser.positions = positions
+					multi_lasers.append(laser)
+					
+					
 		i += 1
-	if is_multi:
-		center = Vector2.ZERO
-		for point in laser_positions:
-			center += point
-		center /= float(laser_positions.size())
-		var positions = Array(laser_positions)
-		positions.sort_custom(self, "_point_sort")
-		positions.append(positions[0])
-		multi_laser.positions = positions
-		multi_laser.show()
-	else:
-		multi_laser.hide()
 func _draw():
 	_draw_transformation()

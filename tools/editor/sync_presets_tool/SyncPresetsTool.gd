@@ -10,8 +10,6 @@ onready var sync_button_container = get_node("ScrollContainer/SyncButtonContaine
 signal show_transform(transform_data)
 signal hide_transform()
 signal apply_transform(transform_data)
-signal show_transform_dynamic(transform_data)
-signal apply_transform_dynamic(transform_data)
 
 func make_button(preset_name: String, preset_list, dynamic_preset = false) -> Button:
 	var button = Button.new()
@@ -23,7 +21,6 @@ func make_button(preset_name: String, preset_list, dynamic_preset = false) -> Bu
 	button.connect("pressed", self, "_apply_transform", [transformation])
 	button.connect("mouse_exited", self, "_hide_preset_preview")
 
-	button.set_meta("transformation", transformation)
 	return button
 	
 func add_button_row(button, button2):
