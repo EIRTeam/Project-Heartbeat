@@ -68,8 +68,9 @@ var current_assets
 var current_song_assets
 
 func set_current_assets(song, assets):
-	current_song_assets = song
-	current_assets = assets
+	if song == current_song:
+		current_song_assets = song
+		current_assets = assets
 
 func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
@@ -181,6 +182,10 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.section_data = modifier_class.get_option_settings()
 	modifier_settings_editor.show()
 	modifier_settings_editor.grab_focus()
+	
+func select_song(s: HBSong):
+	print("SELECTING ", s.title)
+	current_song = s
 	
 func _on_modify_song_settings_pressed():
 	per_song_settings_editor.current_song = current_song
