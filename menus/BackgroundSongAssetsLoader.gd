@@ -36,7 +36,7 @@ func _load_song_assets_thread(userdata):
 				if song.has_audio():
 					loaded_asset = song.get_audio_stream()
 					original_audio = loaded_asset
-					if "__game_request" in userdata.requested_assets and not userdata.song.youtube_url:
+					if "__game_request" in userdata.requested_assets and not song.youtube_url:
 						if loaded_asset is AudioStreamOGGVorbis:
 							var channel_count = HBUtils.get_ogg_channel_count(song.get_song_audio_res_path())
 							if channel_count >= 4:
