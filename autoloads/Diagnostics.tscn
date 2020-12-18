@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://autoloads/Diagnostics.gd" type="Script" id=1]
 [ext_resource path="res://fonts/new_fonts/roboto_black_15.tres" type="DynamicFont" id=2]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=3]
 [ext_resource path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 5 )
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 2
@@ -37,7 +42,6 @@ __meta__ = {
 }
 
 [node name="Game" type="MarginContainer" parent="WindowDialog/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -196,6 +200,7 @@ bbcode_enabled = true
 selection_enabled = true
 
 [node name="Network" type="MarginContainer" parent="WindowDialog/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -235,6 +240,7 @@ selection_enabled = true
 [node name="FPSLabel" type="Label" parent="."]
 anchor_right = 1.0
 margin_bottom = 14.0
+custom_fonts/font = SubResource( 1 )
 text = "FPS: 15"
 align = 2
 __meta__ = {
@@ -244,6 +250,7 @@ __meta__ = {
 [node name="GamepadVisualizer" parent="." instance=ExtResource( 4 )]
 margin_left = 1.18921
 margin_right = 1.18921
+
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
