@@ -44,6 +44,7 @@ func _on_game_time_changed(time: float):
 	progress_indicator.value = time
 	lyrics_view._on_game_time_changed(int(time*1000.0))
 func _ready():
+	$UnderNotesUI/Control/SkipContainer.hide()
 	rating_label.hide()
 	connect("resized", self, "_on_size_changed")
 	call_deferred("_on_size_changed")
