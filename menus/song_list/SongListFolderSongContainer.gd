@@ -219,7 +219,7 @@ func set_songs(songs: Array):
 	
 	var is_song_selected = selected_option is HBSongListItem or selected_option is HBSongListItemDifficulty
 	
-	if selected_option and is_song_selected:
+	if selected_option and is_song_selected and is_instance_valid(selected_option):
 		previously_selected_song_id = selected_option.song.id
 		if selected_option is HBSongListItemDifficulty:
 			previously_selected_difficulty = selected_option.difficulty

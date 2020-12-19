@@ -108,7 +108,7 @@ func _process(delta):
 			if has_focus():
 				emit_signal("selected_option_changed")
 			
-	if selected_option:
+	if selected_option and is_instance_valid(selected_option):
 		if disable_repositioning:
 			arrange_options(0, get_child_count(), 1.0, menu_start * 0.75, get_child(0).rect_size.y, true)
 		else:
