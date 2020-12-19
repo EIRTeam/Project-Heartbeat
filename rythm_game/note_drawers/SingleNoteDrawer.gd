@@ -44,7 +44,7 @@ func play_appear_animation():
 
 
 func _note_init():
-#	bind_node_to_layer(appear_particles_node, "AppearParticles", NodePath("NoteTarget"))
+	bind_node_to_layer(appear_particles_node, "AppearParticles", NodePath("NoteTarget"))
 	bind_node_to_layer(sine_drawer, "Trails")
 
 func _notification(what):
