@@ -4,27 +4,28 @@ onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongC
 
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
 var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
-var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
-
+var current_task: SongAssetLoadAsyncTask
+var current_song
 signal song_assets_loaded(song, assets)
 func _ready():
 	connect("resized", self, "_on_resized")
 	hide()
 	_on_resized()
-	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-func _on_song_assets_loaded(song, assets):
-	if song.circle_image:
+func _on_song_assets_loaded(assets):
+	if current_song.circle_image:
 		$SongListPreview/VBoxContainer/AuthorInfo.hide()
 		$SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2.texture = assets.circle_image
 		$SongListPreview/VBoxContainer/CirclePanel.show()
 	else:
 		$SongListPreview/VBoxContainer/CirclePanel.hide()
 		$SongListPreview/VBoxContainer/AuthorInfo.show()
-	if song.preview_image:
+	if current_song.preview_image:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = assets.preview
 	else:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE
-	emit_signal("song_assets_loaded", song, assets)
+	emit_signal("song_assets_loaded", current_song, assets)
+	
+	
 func select_song(song: HBSong):
 	show()
 	var bpm = "UNK"
@@ -49,7 +50,14 @@ func select_song(song: HBSong):
 		
 	$SongListPreview/VBoxContainer/AuthorInfo/AuthorLabel.text = auth
 	
-	background_song_assets_loader.load_song_assets(song, ["circle_image", "preview", "background", "circle_logo"])
+	if current_task:
+		AsyncTaskQueue.abort_task(current_task)
+		
+	current_song = song
+	
+	current_task = SongAssetLoadAsyncTask.new(["circle_image", "preview", "background", "circle_logo"], song)
+	current_task.connect("assets_loaded", self, "_on_song_assets_loaded")
+	AsyncTaskQueue.queue_task(current_task)
 
 func _on_resized():
 	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x

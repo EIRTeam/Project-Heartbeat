@@ -132,7 +132,7 @@ func _ready():
 #	MENUS["pre_game"].left.set_background_image(first_background_texrect.texture)
 
 func _on_loading_begun():
-	player.background_song_assets_loader.force_abort_current_loading()
+	pass
 
 func menu_setup():
 	pass

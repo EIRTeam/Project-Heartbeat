@@ -46,13 +46,13 @@ func _on_resized():
 	mp_scoreboard.rect_size.y = rect_size.y
 	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
-	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-	background_song_assets_loader.load_song_assets(lobby.get_song(), ["circle_logo", "background", "audio", "voice", "audio_loudness"])
+	var task = SongAssetLoadAsyncTask.new(["circle_logo", "background", "audio", "voice", "audio_loudness", "do_dsc_audio_split"], lobby.get_song())
+	task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	lobby.connect("game_start", self, "_on_game_started")
 	lobby.connect("game_done", self, "_on_game_done")
 	lobby.connect("member_left", mp_scoreboard, "remove_member")
 
-func _on_song_assets_loaded(song, assets):
+func _on_song_assets_loaded(assets):
 	# Authority doesn't have to send a packet...
 	if lobby.is_owned_by_local_user():
 		for member in lobby.members.values():

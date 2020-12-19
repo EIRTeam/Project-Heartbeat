@@ -5,8 +5,7 @@ onready var difficulty_label = get_node("DifficultyLabel")
 var song: HBSong setget set_song
 var difficulty setget set_difficulty
 
-var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
-
+var current_asset_task: SongAssetLoadAsyncTask
 
 func set_song(value):
 	song = value
@@ -19,9 +18,15 @@ func set_song(value):
 	else:
 		title_label.text_1 = song.artist
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
+	
+	if current_asset_task:
+		AsyncTaskQueue.abort_task(current_asset_task)
+	
 	if circle_logo_path:
 #		author_label.hide()
-		background_song_assets_loader.load_song_assets(song, ["circle_logo"])
+		current_asset_task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
+		current_asset_task.connect("assets_loaded", self, "_on_assets_loaded")
+		AsyncTaskQueue.queue_task(current_asset_task)
 	else:
 		circle_text_rect.texture = null
 		_on_resized()
@@ -47,10 +52,9 @@ func _on_resized():
 
 func _ready():
 	connect("resized", self, "_on_resized")
-	background_song_assets_loader.connect("song_assets_loaded", self, "_on_assets_loaded")
 	_on_resized()
 
-func _on_assets_loaded(song, assets):
+func _on_assets_loaded(assets):
 #	author_label.hide()
 	if assets.circle_logo:
 		circle_text_rect.show()

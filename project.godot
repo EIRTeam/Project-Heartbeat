@@ -439,6 +439,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/tabbed_container/TabbedContainer.gd"
 }, {
+"base": "Object",
+"class": "HBTask",
+"language": "GDScript",
+"path": "res://autoloads/async_task_queue/HBTask.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -573,6 +578,11 @@ _global_script_classes=[ {
 "class": "SineDrawerCPU",
 "language": "GDScript",
 "path": "res://rythm_game/SineDrawerCPU.gd"
+}, {
+"base": "HBTask",
+"class": "SongAssetLoadAsyncTask",
+"language": "GDScript",
+"path": "res://autoloads/async_task_queue/SongAssetLoadAsyncTask.gd"
 }, {
 "base": "SongLoaderImpl",
 "class": "SongLoaderDSC",
@@ -711,6 +721,7 @@ _global_script_class_icons={
 "HBSoundEffectPool": "",
 "HBSustainNote": "",
 "HBTabbedContainer": "",
+"HBTask": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
 "HBUserSettings": "",
@@ -738,6 +749,7 @@ _global_script_class_icons={
 "ResultF": "",
 "SMFLoader": "",
 "SineDrawerCPU": "",
+"SongAssetLoadAsyncTask": "",
 "SongLoaderDSC": "",
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
@@ -773,6 +785,7 @@ output_latency=9
 
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
+AsyncTaskQueue="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
 Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
@@ -1163,6 +1176,7 @@ file_logging/enable_file_logging=true
 
 quality/driver/fallback_to_gles2=true
 quality/2d/use_nvidia_rect_flicker_workaround=true
+threads/thread_model=2
 vram_compression/import_etc=true
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32

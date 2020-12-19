@@ -11,9 +11,9 @@ var exit_timer = Timer.new()
 
 var current_song: HBSong
 
-var background_assets_loader = HBBackgroundSongAssetsLoader.new()
-
 const TIME_ON_SCREEN = 8.0
+
+var current_task
 
 func _ready():
 	if UserSettings.user_settings.disable_menu_music:
@@ -24,7 +24,7 @@ func _ready():
 	main_container.modulate.a = 0.0
 	exit_timer.connect("timeout", self, "_on_exit_timer_timeout")
 	exit_timer.one_shot = true
-	background_assets_loader.connect("song_assets_loaded", self, "_on_assets_loaded")
+
 
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
@@ -44,8 +44,12 @@ func set_song(song: HBSong, length: float, do_animation=true):
 		entry_tween.start()
 	exit_timer.start()
 	
-	background_assets_loader.load_song_assets(song, ["preview"])
-	
+	var preview_load_task = SongAssetLoadAsyncTask.new(["preview"], song)
+	preview_load_task.connect("assets_loaded", self, "_on_assets_loaded")
+	if current_task:
+		AsyncTaskQueue.abort_task(current_task)
+	current_task = preview_load_task
+	AsyncTaskQueue.queue_task(preview_load_task)
 func _on_exit_timer_timeout():
 	entry_tween.stop_all()
 	entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
@@ -57,9 +61,8 @@ func set_time(time: float):
 	var playback_progress_bar = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
 	playback_progress_bar.value = time / current_song_length
 
-func _on_assets_loaded(song, assets):
-	if song == current_song:
-		if "preview" in assets:
-			image_preview_texture_rect.texture = assets.preview
-		else:
-			image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE
+func _on_assets_loaded(assets):
+	if "preview" in assets:
+		image_preview_texture_rect.texture = assets.preview
+	else:
+		image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE

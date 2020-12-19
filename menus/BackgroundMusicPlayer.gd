@@ -6,8 +6,8 @@ class_name HBBackgroundMusicPlayer
 
 const FADE_OUT_VOLUME = -70
 var target_volume = 0
-var next_audio: AudioStreamOGGVorbis
-var next_voice: AudioStreamOGGVorbis
+var next_audio: AudioStream
+var next_voice: AudioStream
 var current_song: HBSong
 var song_queued = false
 var waiting_for_song_assets = false
@@ -16,7 +16,7 @@ var voice_player = AudioStreamPlayer.new()
 
 var loading_song = null
 
-var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
+var current_load_task: SongAssetLoadAsyncTask
 
 signal stream_time_changed
 signal song_started(song, assets)
@@ -30,7 +30,6 @@ func _ready():
 	voice_player.bus = "Voice"
 	add_child(player)
 	add_child(voice_player)
-	background_song_assets_loader.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	player.connect("finished", self, "play_random_song")
 	
 	if UserSettings.user_settings.disable_menu_music:
@@ -73,15 +72,13 @@ func _process(delta):
 			var end_time = current_song.preview_end / 1000.0
 			if player.get_playback_position() > end_time:
 				play_random_song()
-func _on_song_assets_loaded(song: HBSong, assets):
+func _on_song_assets_loaded(assets):
 	waiting_for_song_assets = false
+	var song = current_song
 	if UserSettings.user_settings.disable_menu_music:
 		emit_signal("song_started", song, assets)
 	else:
 		if song.has_audio():
-			if current_song:
-				if song != loading_song:
-					return
 			if "audio_loudness" in assets:
 				_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 			elif SongDataCache.is_song_audio_loudness_cached(song):
@@ -92,7 +89,7 @@ func _on_song_assets_loaded(song: HBSong, assets):
 				player.stream = assets.audio
 				player.play()
 				player.seek(song.preview_start/1000.0)
-				if song.voice:
+				if "voice" in assets and assets.voice:
 					voice_player.stream = assets.voice
 					voice_player.play()
 					voice_player.seek(song.preview_start/1000.0)
@@ -101,7 +98,7 @@ func _on_song_assets_loaded(song: HBSong, assets):
 				target_volume = song.get_volume_db() + _volume_offset
 			else:
 				next_audio = assets.audio
-				if song.voice:
+				if "voice" in assets and assets.voice:
 					next_voice = assets.voice
 				else:
 					next_voice = null
@@ -114,16 +111,20 @@ func play_song(song: HBSong, force = false):
 	waiting_for_song_assets = true
 	if song == current_song and not force:
 		return
-	loading_song = song
 #	if player.stream:
 #		# Sometimes, when doing this normally we would 
 #		if player.stream.get_length() - player.get_playback_position() < 5.0:
 #			player.stream = null
 #			player.volume_db = FADE_OUT_VOLUME
+	if current_load_task:
+		AsyncTaskQueue.abort_task(current_load_task)
 	if SongDataCache.is_song_audio_loudness_cached(song):
-		background_song_assets_loader.load_song_assets(song, ["audio", "voice", "preview", "background", "circle_logo"])
+		current_load_task = SongAssetLoadAsyncTask.new(["audio", "voice", "preview", "background", "circle_logo", "do_dsc_audio_split"], song)
 	else:
-		background_song_assets_loader.load_song_assets(song, ["audio", "voice", "preview", "background", "circle_logo", "audio_loudness"])
+		current_load_task = SongAssetLoadAsyncTask.new(["audio", "voice", "preview", "background", "circle_logo", "audio_loudness", "do_dsc_audio_split"], song)
+	current_song = song
+	current_load_task.connect("assets_loaded", self, "_on_song_assets_loaded")
+	AsyncTaskQueue.queue_task(current_load_task)
 		
 func get_song_length():
 	return player.stream.get_length()

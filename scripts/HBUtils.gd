@@ -207,16 +207,15 @@ static func texture_from_fs(path: String):
 # 		image.load(path)
 # 		return image
 		
-static func image_from_fs_async(path: String):
+static func image_from_fs_async(path: String) -> Texture:
 	if path.begins_with("res://"):
-		var ril = ResourceLoader.load_interactive(path)
-		while true:
-			if ril.poll() == ERR_FILE_EOF:
-				return ril.get_resource()
+		return load(path) as Texture
 	else:
 		var image = Image.new()
 		image.load(path)
-		return image
+		var texture = ImageTexture.new()
+		texture.create_from_image(image)
+		return texture
 	
 
 # Adds a thousands separator to the number given
