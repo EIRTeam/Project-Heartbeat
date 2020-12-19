@@ -201,6 +201,7 @@ func sort_and_filter_songs():
 func set_filter(filter_name: String):
 	if filter_name == "folders":
 		filter_by = filter_name
+		last_filter = "folders"
 		update_items()
 	else:
 		.set_filter(filter_name)
@@ -231,6 +232,8 @@ func set_songs(songs: Array):
 		child.queue_free()
 	for song in filtered_songs:
 		_create_song_item(song)
+	selected_option = null
+	select_option(0)
 	if previously_selected_song_id:
 		var found_child = false
 		for child_i in range(vbox_container.get_child_count()):
@@ -243,6 +246,7 @@ func set_songs(songs: Array):
 			select_option(0)
 		else:
 			if previously_selected_difficulty:
+				prints("SELECTING SONG", previously_selected_song_id)
 				select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
 	else:
 		if filtered_songs.size() <= items_visible_top:

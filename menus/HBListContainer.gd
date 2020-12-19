@@ -180,7 +180,7 @@ func hard_arrange_all():
 	material.set_shader_param("size", rect_size)
 	material.set_shader_param("pos", rect_global_position)
 	material.set_shader_param("fade_size", FADE_SIZE / float(rect_size.x))
-	if selected_option:
+	if selected_option and is_instance_valid(selected_option):
 		if not prevent_hard_arrange:
 			var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 			
