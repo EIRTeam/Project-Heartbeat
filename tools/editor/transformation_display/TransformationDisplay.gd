@@ -195,7 +195,8 @@ func _draw_transformation():
 					positions.sort_custom(self, "_point_sort")
 					positions.append(positions[0])
 					var laser = _create_laser(scale_x)
-					add_child(laser)
+					add_child_below_node($ColorRect, laser)
+					laser.show_behind_parent = true
 					laser.positions = positions
 					multi_lasers.append(laser)
 					
