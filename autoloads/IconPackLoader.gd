@@ -55,6 +55,19 @@ func set_current_pack(pack_name):
 	
 var timing_arm_texture = preload("res://graphics/arm.png")
 var timing_arm_atlas = AtlasTexture.new()
+
+
+func regenerate_direction_overrides():
+	var overriden_directions = []
+	var final_atlas_texures = final_atlas.atlas_textures
+	for note_type in DIRECTIONAL_TYPES_PROPERTY_MAP:
+		if not UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[note_type]):
+			final_atlas.atlas_textures[note_type] = HBUtils.merge_dict(final_atlas.atlas_textures[note_type], current_atlas.atlas_textures[note_type])
+			final_pack.graphics[note_type] = HBUtils.merge_dict(final_pack.graphics[note_type], current_pack.graphics[note_type])
+		else:
+			final_atlas.atlas_textures[note_type] = HBUtils.merge_dict(final_atlas.atlas_textures[note_type], fallback_atlas.atlas_textures[note_type])
+			final_pack.graphics[note_type] = HBUtils.merge_dict(final_pack.graphics[note_type], fallback_pack.graphics[note_type])
+
 func rebuild_final_atlas():
 	# We first do the atlas processing, for batching purposes we map the packs into a single texture
 
@@ -104,14 +117,6 @@ func rebuild_final_atlas():
 	var final_atlas_textures = HBUtils.merge_dict(fallback_atlas.atlas_textures.duplicate(true), current_atlas.atlas_textures.duplicate(true))
 	var final_pack_config = {"graphics": HBUtils.merge_dict(fallback_pack.graphics.duplicate(true), current_pack.graphics.duplicate(true))}
 	
-	var overriden_directions = []
-	for note_type in DIRECTIONAL_TYPES_PROPERTY_MAP:
-		if not UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[note_type]):
-			final_atlas_textures[note_type] = HBUtils.merge_dict(final_atlas_textures[note_type], current_atlas.atlas_textures[note_type])
-			final_pack_config.graphics[note_type] = HBUtils.merge_dict(final_pack_config.graphics[note_type], current_pack.graphics[note_type])
-		else:
-			final_atlas_textures[note_type] = HBUtils.merge_dict(final_atlas_textures[note_type], fallback_atlas.atlas_textures[note_type])
-			final_pack_config.graphics[note_type] = HBUtils.merge_dict(final_pack_config.graphics[note_type], fallback_pack.graphics[note_type])
 	final_pack = final_pack_config
 	for type in final_atlas_textures:
 		for variation in final_atlas_textures[type]:
@@ -121,7 +126,7 @@ func rebuild_final_atlas():
 	atlas.atlas_textures = final_atlas_textures
 	atlas.texture = final_texture
 	final_atlas = atlas
-	
+	regenerate_direction_overrides()
 func generate_atlas_textures(pack_config, texture, atlas_config, x_offset = 0):
 	var atlas_textures = {}
 	for type in pack_config.graphics:
