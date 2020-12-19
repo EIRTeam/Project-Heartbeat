@@ -18,12 +18,12 @@ func transform_notes(notes: Array) -> Dictionary:
 
 	for note in notes:
 		if note.note_type in template_to_use:
-			notes_to_transform_map[note] = template_to_use[note.note_type]
+			notes_to_transform_map[note] = template_to_use[note.note_type].duplicate(true)
 			found_types.append(note.note_type)
 	for note_type in template:
 		if not note_type in found_types:
 			var n = HBNoteData.new()
-			notes_to_transform_map[n] = template_to_use[note_type]
+			notes_to_transform_map[n] = template_to_use[note_type].duplicate(true)
 	if dynamic:
 		var center = get_center_for_notes(notes)
 		for note in notes_to_transform_map:
