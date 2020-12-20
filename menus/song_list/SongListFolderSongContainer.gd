@@ -7,6 +7,8 @@ var folder_stack = []
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
+signal start_loading
+signal end_loading
 signal hover_nonsong
 
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
@@ -46,6 +48,7 @@ func update_items():
 	for i in get_children():
 		remove_child(i)
 		i.queue_free()
+	
 	if folder_stack.size() == 0:
 		return
 
@@ -174,45 +177,16 @@ func sort_array(a: HBSong, b: HBSong):
 
 var last_filter = ""
 
-func sort_and_filter_songs():
-	if last_filter == filter_by:
-		return
-	songs.sort_custom(self, "sort_array")
-	Log.log(self, "Filtering by " + filter_by)
-
-	last_filter = filter_by
-
-	if filter_by != "all":
-		var filtered_songs = []
-		for song in songs:
-			var should_add_song = false
-			match filter_by:
-				"ppd":
-					should_add_song = song is HBPPDSong
-				"official":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
-				"community":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong
-			if should_add_song:
-				filtered_songs.append(song)
-		return filtered_songs
-	else:
-		return songs
 func set_filter(filter_name: String):
 	if filter_name == "folders":
 		filter_by = filter_name
 		last_filter = "folders"
 		update_items()
 	else:
+		last_filter = filter_by
 		.set_filter(filter_name)
 		
-func set_songs(songs: Array):
-	self.songs = songs
-	if filter_by == "folders":
-		return
-	if last_filter == filter_by:
-		return
-	var filtered_songs = sort_and_filter_songs()
+func _on_songs_filtered(song_items: Array, filtered_songs: Array):
 	var previously_selected_song_id = null
 	var previously_selected_difficulty = null
 
@@ -255,9 +229,38 @@ func set_songs(songs: Array):
 		else:
 			var initial_item = clamp(items_visible_top, 0, get_child_count())
 			select_option(initial_item)
+	hard_arrange_all()
+		
+	emit_signal("end_loading")
+		
+var current_filter_task: HBFilterSongsTask
+		
+func set_songs(songs: Array):
+	self.songs = songs
+	
+	if filter_by == last_filter:
+		return
+	
+	if filter_by == "folders":
+		return
+	
+	for i in get_children():
+		remove_child(i)
+		i.queue_free()
+	
+	if current_filter_task:
+		AsyncTaskQueueLight.abort_task(current_filter_task)
+		
+	current_filter_task = HBFilterSongsTask.new(songs, filter_by)
+	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
+	selected_option = null
+	
+	emit_signal("start_loading")
+
+	AsyncTaskQueueLight.queue_task(current_filter_task)
+	
 func _on_difficulty_selected(song, difficulty):
-
 	emit_signal("difficulty_selected", song, difficulty)
 
 func _input(event):

@@ -25,7 +25,7 @@ signal song_selected(song)
 func set_song(value: HBSong):
 	song = value
 
-	song_title.song = song
+	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2").song = song
 	var max_stars = value.get_max_score()
 	for chart in value.charts:
 		if value.charts[chart].has("stars"):
@@ -38,7 +38,7 @@ func set_song(value: HBSong):
 			stars_string = "%.1f" % [max_stars]
 		else:
 			stars_string = "%d" % [max_stars]
-	stars_label.text = stars_string
+	get_node("Control/TextureRect/StarsLabel").text = stars_string
 #	if ScoreHistory.has_result(value.id, difficulty):
 #		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
 #		var pass_percentage = result.get_percentage()

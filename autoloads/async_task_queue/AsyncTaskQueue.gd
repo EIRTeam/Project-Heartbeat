@@ -1,5 +1,7 @@
 extends Node
 
+class_name HBAsyncTaskQueue
+
 var thread := Thread.new()
 var semaphore := Semaphore.new()
 var mutex := Mutex.new()
@@ -11,10 +13,13 @@ func _ready() -> void:
 	set_physics_process(false)
 
 func queue_task(task: HBTask) -> void:
-	mutex.lock()
-	queue.append(task)
-	mutex.unlock()
-	set_process(true)
+	if task:
+		mutex.lock()
+		queue.append(task)
+		mutex.unlock()
+		set_process(true)
+	else:
+		push_error("Error pushing task!")
 
 func abort_task(task: HBTask) -> void:
 	mutex.lock()
@@ -68,7 +73,7 @@ func _thread_function(_userdata):
 			if current_task._task_process():
 				mutex.lock()
 				if not current_task._aborted:
-					current_task.call_deferred("emit_signal", "task_done")
+					current_task.call_deferred("emit_signal", "task_done", current_task.get_task_output_data())
 				queue.erase(current_task)
 				mutex.unlock()
 		mutex.lock()

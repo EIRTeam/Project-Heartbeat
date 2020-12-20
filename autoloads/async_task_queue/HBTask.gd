@@ -2,7 +2,7 @@ extends Object
 
 class_name HBTask
 
-signal task_done
+signal task_done(data)
 
 var _aborted := false
 var _done := true
@@ -13,5 +13,8 @@ func _init():
 func _task_process() -> bool:
 	return false
 	
-func _on_task_finished_processing():
-	free()
+func _on_task_finished_processing(data):
+	call_deferred("free")
+
+func get_task_output_data():
+	return null

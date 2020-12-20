@@ -30,15 +30,24 @@ func _process(delta):
 	
 	status_label.percent_visible = fmod(loadingu_t, 1.5)
 
+func _on_main_scene_finished_loading(scene):
+	VisualServer.sync()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+
 func _on_songs_finished_loading():
 	set_status("Loading main menu...")
-	set_status("Loading editor...")
-	var new_scene
-
-	if not loading_editor:
-		new_scene = MAIN_MENU.instance()
-	else:
-		new_scene = load("res://tools/editor/Editor.tscn").instance()
-	get_tree().current_scene.queue_free()
-	get_tree().root.add_child(new_scene)
-	get_tree().current_scene = new_scene
+	if loading_editor:
+		set_status("Loading editor...")
+		
+	var main_path = "res://menus/MainMenu3D.tscn"
+		
+	if loading_editor:
+		main_path = "res://tools/editor/Editor.tscn"
+		
+	var main_scene_load_task = HBLoadMainMenuTask.new(main_path)
+	
+	main_scene_load_task.connect("task_done", self, "_on_main_scene_finished_loading")
+	
+	AsyncTaskQueue.queue_task(main_scene_load_task)

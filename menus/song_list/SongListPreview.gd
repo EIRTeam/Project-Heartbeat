@@ -12,14 +12,14 @@ func _ready():
 	hide()
 	_on_resized()
 func _on_song_assets_loaded(assets):
-	if current_song.circle_image:
+	if "circle_image" in assets:
 		$SongListPreview/VBoxContainer/AuthorInfo.hide()
 		$SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2.texture = assets.circle_image
 		$SongListPreview/VBoxContainer/CirclePanel.show()
 	else:
 		$SongListPreview/VBoxContainer/CirclePanel.hide()
 		$SongListPreview/VBoxContainer/AuthorInfo.show()
-	if current_song.preview_image:
+	if "preview" in assets:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = assets.preview
 	else:
 		$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.texture = DEFAULT_IMAGE_TEXTURE

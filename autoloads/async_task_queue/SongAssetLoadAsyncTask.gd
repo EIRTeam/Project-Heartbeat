@@ -75,10 +75,11 @@ func _task_process() -> bool:
 	requested_assets_queue.pop_front()
 	return requested_assets_queue.size() == 0
 
-func _on_task_finished_processing():
-	loaded_assets_mutex.lock()
+func _on_task_finished_processing(data):
 	VisualServer.sync()
-	emit_signal("assets_loaded", loaded_assets)
-	if "audio_loudness" in loaded_assets:
-		SongDataCache.update_loudness_for_song(song, loaded_assets.audio_loudness)
-	loaded_assets_mutex.unlock()
+	emit_signal("assets_loaded", data)
+	if "audio_loudness" in data:
+		SongDataCache.update_loudness_for_song(song, data.audio_loudness)
+
+func get_task_output_data():
+	return loaded_assets

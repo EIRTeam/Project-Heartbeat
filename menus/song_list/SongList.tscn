@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
@@ -16,6 +16,23 @@
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=14]
 [ext_resource path="res://menus/ScrollListShader.shader" type="Shader" id=15]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=16]
+[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=17]
+
+[sub_resource type="Animation" id=5]
+resource_name = "spin"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -42,7 +59,6 @@ void fragment() {
 	}
 
 }"
-custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
@@ -74,6 +90,27 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SpinnerContainer" type="CenterContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="SpinnerContainer"]
+margin_left = 924.0
+margin_top = 504.0
+margin_right = 996.0
+margin_bottom = 576.0
+rect_rotation = 140.807
+rect_pivot_offset = Vector2( 36, 36 )
+texture = ExtResource( 17 )
+stretch_mode = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/TextureRect"]
+anims/spin = SubResource( 5 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -360,5 +397,10 @@ orientation = 1
 
 [node name="FolderManager" parent="." instance=ExtResource( 11 )]
 visible = false
+
+[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
+[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
+[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
+[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
 
 [editable path="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel4"]

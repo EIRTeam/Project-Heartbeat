@@ -78,7 +78,7 @@ func _on_song_assets_loaded(assets):
 	if UserSettings.user_settings.disable_menu_music:
 		emit_signal("song_started", song, assets)
 	else:
-		if song.has_audio():
+		if "audio" in assets:
 			if "audio_loudness" in assets:
 				_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 			elif SongDataCache.is_song_audio_loudness_cached(song):

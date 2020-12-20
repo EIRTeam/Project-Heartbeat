@@ -72,16 +72,18 @@ func _on_button_pressed(option: BaseButton):
 #			option.connect("pressed", self, "_on_button_pressed", [option], CONNECT_ONESHOT)
 				
 func _on_focus_entered():
-	if selected_option:
+	if selected_option and is_instance_valid(selected_option):
 		selected_option.hover()
 			
 func _on_focus_exited():
-	if selected_option:
+	if selected_option and is_instance_valid(selected_option):
 		selected_option.stop_hover()
 			
 func _process(delta):
 	move_debounce += delta
 	initial_move_debounce += delta
+	if not selected_option:
+		return
 	var can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T and has_focus()
 	if (Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up")) and can_press:
 		move_debounce = MOVE_DEBOUNCE_T
