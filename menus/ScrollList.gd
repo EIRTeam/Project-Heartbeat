@@ -28,6 +28,7 @@ var can_press = false
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_lost")
+	vbox_container = get_node("VBoxContainer")
 	_set_opacities(true)
 	connect("resized", self, "_on_resized")
 
