@@ -92,6 +92,8 @@ func save_meta():
 	
 	song_meta.bpm = bpm_edit.value
 	song_meta.audio = audio_filename_edit.text
+	song_meta.circle_image = circle_image_line_edit.text
+	song_meta.circle_logo = circle_logo_image_line_edit.text
 	song_meta.preview_start = preview_start_edit.value
 	song_meta.preview_end = preview_end_edit.value
 	song_meta.background_image = background_image_filename_edit.text
