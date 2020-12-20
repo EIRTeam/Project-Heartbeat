@@ -1,15 +1,27 @@
-extends "SongListSongContainer.gd"
+extends HBListContainer
 
+const SongListItem = preload("res://menus/song_list/SongListItem.tscn")
 const SongListItemFolder = preload("res://menus/song_list/SongListFolder.tscn")
 const SongListItemFolderBack = preload("res://menus/song_list/SongListFolderBack.tscn")
+const SongListItemDifficulty = preload("res://menus/song_list/SongListItemDifficulty.tscn")
 
 var folder_stack = []
+
+var song_items_map = {}
+
+var sort_by_prop = "title" # title, chart creator, difficulty
+var filter_by = "" # choices are: all, official, community and ppd
+var songs = []
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
 signal start_loading
 signal end_loading
 signal hover_nonsong
+signal song_hovered(song)
+signal difficulty_selected(song, difficulty)
+
+
 
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	if path.size() == 0:
@@ -22,6 +34,8 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 			break
 	return starting_folders
 func _ready():
+	sort_by_prop = UserSettings.user_settings.sort_mode
+	connect("selected_option_changed", self, "_on_selected_option_changed")
 	var path = UserSettings.user_settings.last_folder_path.duplicate()
 	path.pop_front()
 	var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
@@ -44,6 +58,13 @@ func navigate_back():
 func go_to_root():
 	folder_stack = []
 	navigate_folder(UserSettings.user_settings.root_folder)
+func _create_song_item(song: HBSong):
+	var item = SongListItem.instance()
+	add_child(item)
+	item.use_parent_material = true
+	item.set_song(song)
+	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+	item.connect("pressed", self, "_on_song_selected", [song, true])
 func update_items():
 	for i in get_children():
 		remove_child(i)
@@ -109,8 +130,6 @@ func _on_song_selected(song: HBSong, no_hard_arrange=false):
 				item.queue_free()
 		song_items_map = {}
 		song_items_map[song] = {}
-		var first = true
-		var first_item_position
 		var pos = selected_option.get_position_in_parent()
 		prevent_hard_arrange = true
 		for difficulty in song.charts:
@@ -128,15 +147,6 @@ func _on_song_selected(song: HBSong, no_hard_arrange=false):
 		if not no_hard_arrange:
 			prevent_hard_arrange = false
 			hard_arrange_all()
-#	emit_signal("song_selected", song)
-
-func _create_song_item(song: HBSong):
-	var item = SongListItem.instance()
-	add_child(item)
-	item.use_parent_material = true
-	item.set_song(song)
-	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-	item.connect("pressed", self, "_on_song_selected", [song, true])
 
 func select_song_by_id(song_id: String, difficulty=null, no_hard_arrange=false):
 	for child_i in range(get_child_count()):
@@ -184,7 +194,11 @@ func set_filter(filter_name: String):
 		update_items()
 	else:
 		last_filter = filter_by
-		.set_filter(filter_name)
+		if filter_by != filter_name:
+			filter_by = filter_name
+			if songs.size() > 0:
+				set_songs(songs)
+				hard_arrange_all()
 		
 func _on_songs_filtered(song_items: Array, filtered_songs: Array):
 	var previously_selected_song_id = null
@@ -235,8 +249,8 @@ func _on_songs_filtered(song_items: Array, filtered_songs: Array):
 		
 var current_filter_task: HBFilterSongsTask
 		
-func set_songs(songs: Array):
-	self.songs = songs
+func set_songs(_songs: Array):
+	songs = _songs
 	
 	if filter_by == last_filter:
 		return
@@ -251,13 +265,12 @@ func set_songs(songs: Array):
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	current_filter_task = HBFilterSongsTask.new(songs, filter_by)
+	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
 	selected_option = null
 	
 	emit_signal("start_loading")
-
 	AsyncTaskQueueLight.queue_task(current_filter_task)
 	
 func _on_difficulty_selected(song, difficulty):

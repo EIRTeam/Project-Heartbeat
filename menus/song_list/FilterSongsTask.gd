@@ -11,9 +11,11 @@ var songs: Array
 var filter_by: String
 var filtered_songs: Array
 var song_items: Array = []
-func _init(_songs: Array, _filter_by: String).():
+var sort_by_prop: String
+func _init(_songs: Array, _filter_by: String, _sort_by: String).():
 	songs = _songs
 	filter_by = _filter_by
+	sort_by_prop = _sort_by
 func sort_and_filter_songs():
 	songs.sort_custom(self, "sort_array")
 	prints("Filtering by", filter_by)
@@ -34,6 +36,26 @@ func sort_and_filter_songs():
 		return filtered_songs
 	else:
 		return songs
+		
+func sort_array(a: HBSong, b: HBSong):
+	var prop = sort_by_prop
+	var a_prop = a.get(prop)
+	var b_prop = b.get(prop)
+	if prop == "title":
+		a_prop = a.get_visible_title()
+		b_prop = b.get_visible_title()
+	elif prop == "artist":
+		a_prop = a.get_artist_sort_text()
+		b_prop = b.get_artist_sort_text()
+	elif prop == "score":
+		a_prop = b.get_max_score()
+		b_prop = a.get_max_score()
+	if a_prop is String:
+		a_prop = a_prop.to_lower()
+	if b_prop is String:
+		b_prop = b_prop.to_lower()
+	return a_prop < b_prop
+		
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instance()
 	item.use_parent_material = true
