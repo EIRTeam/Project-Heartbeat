@@ -90,7 +90,7 @@ func _game_init():
 	if "--disable-async-loading" in OS.get_cmdline_args():
 		SongLoader.load_all_songs_meta()
 	else:
-		SongLoader.load_all_songs_async()
+		SongLoader.call_deferred("load_all_songs_async")
 	
 	YoutubeDL._init_ytdl()
 	
