@@ -6,22 +6,34 @@ onready var difficulty_label = get_node("DifficultyLabel")
 var song: HBSong setget set_song
 var difficulty setget set_difficulty
 
+var ready = false
+
+var queued_task_for_ready: SongAssetLoadAsyncTask
+
 func set_song(value):
 	song = value
-	title_label.text = song.get_visible_title()
-	circle_text_rect.hide()
-	author_label.visible = !song.hide_artist_name
+	
+	var _title_label = get_node("TitleLabel")
+	var _author_label = get_node("AuthorLabel")
+	var _circle_text_rect = get_node("CircleLabel")
+	
+	_title_label.text = song.get_visible_title()
+	_circle_text_rect.hide()
+	_author_label.visible = !song.hide_artist_name
 	if song.artist_alias != "":
-		author_label.text = song.artist_alias
+		_author_label.text = song.artist_alias
 	else:
-		author_label.text = song.artist
+		_author_label.text = song.artist
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
 	if circle_logo_path:
 		var task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
 		task.connect("assets_loaded", self, "_on_assets_loaded")
-		AsyncTaskQueue.queue_task(task)
+		if not ready:
+			queued_task_for_ready = task
+		else:
+			AsyncTaskQueue.queue_task(task)
 	else:
-		circle_text_rect.texture = null
+		_circle_text_rect.texture = null
 		_on_resized()
 func set_difficulty(value):
 	if not value:
@@ -45,6 +57,9 @@ func _on_resized():
 
 func _ready():
 	connect("resized", self, "_on_resized")
+	ready = true
+	if queued_task_for_ready:
+		AsyncTaskQueue.queue_task(queued_task_for_ready)
 	_on_resized()
 
 func _on_assets_loaded(assets):
