@@ -10,8 +10,8 @@ func populate(song: HBSong):
 		var diff = DIFF.instance()
 		container.add_child(diff)
 		diff.label.text = chart_diff.capitalize()
-		diff.spinbox.value = song.charts[chart_diff].stars
 		diff.spinbox.step = 0.0
+		diff.spinbox.value = song.charts[chart_diff].stars
 func apply_to(song: HBSong):
 	for child in container.get_children():
 		song.charts[child.label.text.to_lower()].stars = child.spinbox.value
