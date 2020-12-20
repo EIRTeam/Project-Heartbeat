@@ -46,8 +46,10 @@ func _on_songs_finished_loading():
 	if loading_editor:
 		main_path = "res://tools/editor/Editor.tscn"
 		
-	var main_scene_load_task = HBLoadMainMenuTask.new(main_path)
-	
-	main_scene_load_task.connect("task_done", self, "_on_main_scene_finished_loading")
-	
-	AsyncTaskQueue.queue_task(main_scene_load_task)
+#	var main_scene_load_task = HBLoadMainMenuTask.new(main_path)
+#
+#	main_scene_load_task.connect("task_done", self, "_on_main_scene_finished_loading")
+#
+#	AsyncTaskQueue.queue_task(main_scene_load_task)
+
+	_on_main_scene_finished_loading(load(main_path).instance())
