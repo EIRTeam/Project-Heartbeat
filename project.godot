@@ -791,8 +791,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1608445589
-config/build_commit="8f2fd85f6e8db791308ef6a612d77478c01fd9fe"
+config/build_time=1607886572
+config/build_commit="209d53ecef5bd9984151c9a87374a2bf1fb1bb4c"
 config/service_environment="production"
 
 [audio]
@@ -1195,7 +1195,6 @@ file_logging/enable_file_logging=true
 
 quality/driver/fallback_to_gles2=true
 quality/2d/use_nvidia_rect_flicker_workaround=true
-threads/thread_model=2
 vram_compression/import_etc=true
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32
