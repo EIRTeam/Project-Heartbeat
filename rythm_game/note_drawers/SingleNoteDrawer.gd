@@ -260,12 +260,14 @@ func _handle_unhandled_input(event):
 							if wrong_input_judgement.has_rating:
 								wrong_rating = wrong_input_judgement.resulting_rating
 								wrong = true
+								get_tree().set_input_as_handled()
 								break
 					
 					else:
 						if not note in connected_note_judgements:
 							connected_note_judgements[note] = input_judgement.resulting_rating
 							connected_note_events[note] = event
+							get_tree().set_input_as_handled()
 							break
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating

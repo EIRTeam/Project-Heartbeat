@@ -202,30 +202,26 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 #	audio_stream_player.play()
 #	audio_stream_player_voice.play()
 
-func _on_do_input(event: InputEventHB):
-	._on_do_input(event)
-	
-	# Note SFX
-	for note in get_closest_notes():
-		var drw = get_note_drawer(note)
-		if get_note_drawer(note).note_master:
-			drw._handle_unhandled_input(event)
-			break
-	for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-		var action_pressed = false
-		var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
-		for action in actions:
-			if event.action == action and event.pressed and not event.is_echo():
-				var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
-				play_note_sfx(type in slide_types)
-				action_pressed = true
+func _input(event):
+	if event is InputEventHB:
+		
+		# Note SFX
+		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+			var action_pressed = false
+			var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
+			for action in actions:
+				if event.action == action and event.pressed and not event.is_echo():
+					var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
+					play_note_sfx(type in slide_types)
+					action_pressed = true
+					break
+			if action_pressed:
 				break
-		if action_pressed:
-			break
-	for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-		if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
-			if not event.event_uid in held_note_event_map[type]:
-				held_note_event_map[type].append(event.event_uid)
+		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
+				if not event.event_uid in held_note_event_map[type]:
+					held_note_event_map[type].append(event.event_uid)
+
 
 func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
@@ -255,7 +251,7 @@ func get_closest_notes():
 # plays note SFX automatically
 func play_note_sfx(slide = false):
 	if not slide:
-		return sfx_pool.play_sfx("note_hit")
+		sfx_pool.play_sfx("note_hit")
 	else:
 		sfx_pool.play_sfx("slide_hit")
 func create_note_drawer(timing_point: HBBaseNote):
@@ -316,7 +312,7 @@ func _process_game(_delta):
 			Log.log(self, "Disabling leaderboard upload for cheated result")
 		var actions_to_press = []
 		var actions_to_release = []
-		for i in range(notes_on_screen.size()):
+		for i in range(notes_on_screen.size()-1, -1, -1):
 			var note = notes_on_screen[i]
 			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
@@ -328,8 +324,6 @@ func _process_game(_delta):
 				elif time * 1000 > note.time:
 					actions_to_press.append(note.get_input_actions()[0])
 					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-				else:
-					break
 		var a = InputEventHB.new()
 		
 		for action in actions_to_release:
@@ -344,6 +338,9 @@ func _process_game(_delta):
 			game_input_manager.digital_action_tracking[action][-1][0] = true
 			game_input_manager.digital_action_tracking[action][-1][1] = true
 			game_input_manager.send_input(action, true)
+			a.action = action
+			a.pressed = true
+			Input.parse_input_event(a)
 
 
 # called when a note or group of notes is judged
@@ -375,9 +372,9 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					held_note_event_map[n.note_type].append(event.event_uid)
 					start_hold(n.note_type)
 	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
+		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stream_paused = true
+		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stop()
 		sfx_pool.play_sfx("double_note_hit")
-		sfx_pool.stop_sfx(sfx_pool.loaded_effects["note_hit"][-1])
-	
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
