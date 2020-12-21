@@ -791,13 +791,13 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1607886572
-config/build_commit="209d53ecef5bd9984151c9a87374a2bf1fb1bb4c"
+config/build_time=1608445589
+config/build_commit="8f2fd85f6e8db791308ef6a612d77478c01fd9fe"
 config/service_environment="production"
 
 [audio]
 
-output_latency=0
+output_latency=10
 
 [autoload]
 
