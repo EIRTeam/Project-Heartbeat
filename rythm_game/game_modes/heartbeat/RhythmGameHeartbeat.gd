@@ -337,7 +337,6 @@ func _process_game(_delta):
 			game_input_manager.digital_action_tracking[action][-1] = {}
 			game_input_manager.digital_action_tracking[action][-1][0] = true
 			game_input_manager.digital_action_tracking[action][-1][1] = true
-			game_input_manager.send_input(action, true)
 			a.action = action
 			a.pressed = true
 			Input.parse_input_event(a)
