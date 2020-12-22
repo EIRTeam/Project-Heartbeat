@@ -118,10 +118,13 @@ func play_song(song: HBSong, force = false):
 #			player.volume_db = FADE_OUT_VOLUME
 	if current_load_task:
 		AsyncTaskQueue.abort_task(current_load_task)
-	if SongDataCache.is_song_audio_loudness_cached(song):
-		current_load_task = SongAssetLoadAsyncTask.new(["audio", "voice", "preview", "background", "circle_logo", "do_dsc_audio_split"], song)
-	else:
-		current_load_task = SongAssetLoadAsyncTask.new(["audio", "voice", "preview", "background", "circle_logo", "audio_loudness", "do_dsc_audio_split"], song)
+	var assets_to_load = ["audio", "voice", "preview", "background", "circle_logo"]
+	if not SongDataCache.is_song_audio_loudness_cached(song):
+		assets_to_load.append("audio_loudness")
+	#do_dsc_audio_split
+	if song is SongLoaderDSC.HBSongDSC:
+		assets_to_load.append("do_dsc_audio_split")
+	current_load_task = SongAssetLoadAsyncTask.new(assets_to_load, song)
 	current_song = song
 	current_load_task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	AsyncTaskQueue.queue_task(current_load_task)
