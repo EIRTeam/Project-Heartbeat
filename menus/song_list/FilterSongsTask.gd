@@ -10,7 +10,6 @@ var out_mutex := Mutex.new()
 var songs: Array
 var filter_by: String
 var filtered_songs: Array
-var song_items: Array = []
 var sort_by_prop: String
 func _init(_songs: Array, _filter_by: String, _sort_by: String).():
 	songs = _songs
@@ -66,16 +65,17 @@ func _task_process() -> bool:
 	out_mutex.lock()
 	filtered_songs = sort_and_filter_songs()
 	out_mutex.unlock()
-	for song in filtered_songs:
-		var item = _create_song_item(song)
-		out_mutex.lock()
-		song_items.append(item)
-		out_mutex.unlock()
+
 	return true
 	
 func get_task_output_data():
-	return {"song_items": song_items, "filtered_songs": filtered_songs}
+	return {"filtered_songs": filtered_songs}
 	
 func _on_task_finished_processing(data):
-	VisualServer.sync()
-	emit_signal("songs_filtered", data.song_items, data.filtered_songs)
+	out_mutex.lock()
+	var song_items = []
+	for song in data.filtered_songs:
+		var item = _create_song_item(song)
+		song_items.append(item)
+	out_mutex.unlock()
+	emit_signal("songs_filtered", song_items, data.filtered_songs)
