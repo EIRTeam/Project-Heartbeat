@@ -30,12 +30,14 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #		difficulty_list.select_button(0)
 	populate_buttons()
 	set_filter(UserSettings.user_settings.filter_mode, false)
-	update_songs()
-
+	var song_to_select = null
+	var difficulty_to_select = null
 	if args.has("song_difficulty"):
-		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song, args.song_difficulty)
-	elif args.has("song"):
-		$VBoxContainer/MarginContainer/VBoxContainer.select_song_by_id(args.song)
+		difficulty_to_select = args.song_difficulty
+	if args.has("song"):
+		song_to_select = args.song
+	update_songs(song_to_select, difficulty_to_select)
+	
 	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
@@ -257,8 +259,8 @@ func _on_folder_manager_closed():
 		song_container.go_to_root()
 	song_container.grab_focus()
 
-func update_songs():
-	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values())
+func update_songs(song_to_select=null, difficulty_to_select=null):
+	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select)
 
 func _on_folder_selected(folder: HBFolder):
 	if not current_song.id in folder.songs:

@@ -200,7 +200,7 @@ func set_filter(filter_name: String):
 				set_songs(songs)
 				hard_arrange_all()
 		
-func _on_songs_filtered(song_items: Array, filtered_songs: Array):
+func _on_songs_filtered(song_items: Array, filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
 	var previously_selected_song_id = null
 	var previously_selected_difficulty = null
 
@@ -245,11 +245,15 @@ func _on_songs_filtered(song_items: Array, filtered_songs: Array):
 			select_option(initial_item)
 	hard_arrange_all()
 		
+	if song_id_to_select:
+		select_song_by_id(song_id_to_select, song_difficulty_to_select)
+		
+		
 	emit_signal("end_loading")
 		
 var current_filter_task: HBFilterSongsTask
 		
-func set_songs(_songs: Array):
+func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 	songs = _songs
 	
 	if filter_by == last_filter:
@@ -265,7 +269,7 @@ func set_songs(_songs: Array):
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop)
+	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
 	selected_option = null

@@ -4,17 +4,21 @@ class_name HBFilterSongsTask
 
 const SongListItem = preload("res://menus/song_list/SongListItem.tscn")
 
-signal songs_filtered(song_items, songs)
+signal songs_filtered(song_items, songs, song_id_to_select, difficulty_to_select)
 
 var out_mutex := Mutex.new()
 var songs: Array
 var filter_by: String
 var filtered_songs: Array
 var sort_by_prop: String
-func _init(_songs: Array, _filter_by: String, _sort_by: String).():
+var song_id_to_select
+var difficulty_to_select
+func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null).():
 	songs = _songs
 	filter_by = _filter_by
 	sort_by_prop = _sort_by
+	song_id_to_select = _song_id_to_select
+	difficulty_to_select = _difficulty_to_select
 func sort_and_filter_songs():
 	songs.sort_custom(self, "sort_array")
 	prints("Filtering by", filter_by)
@@ -78,4 +82,4 @@ func _on_task_finished_processing(data):
 		var item = _create_song_item(song)
 		song_items.append(item)
 	out_mutex.unlock()
-	emit_signal("songs_filtered", song_items, data.filtered_songs)
+	emit_signal("songs_filtered", song_items, data.filtered_songs, song_id_to_select, difficulty_to_select)
