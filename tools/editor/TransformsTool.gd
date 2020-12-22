@@ -14,7 +14,7 @@ class FlipHorizontallyTransformation:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		for n in notes:
-			var note = n as HBNoteData
+			var note = n as HBBaseNote
 			transformation_result[n] = {
 				"position": Vector2(1920 - note.position.x, note.position.y),
 				"entry_angle": fmod((180 - note.entry_angle), 360),
@@ -28,8 +28,7 @@ class FlipVerticallyTransformation:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		for n in notes:
-			var note = n as HBNoteData
-			print("FREQ", -note.oscillation_frequency)
+			var note = n as HBBaseNote
 			transformation_result[n] = {
 				"position": Vector2(note.position.x, 1080 - note.position.y),
 				"entry_angle": -note.entry_angle,
