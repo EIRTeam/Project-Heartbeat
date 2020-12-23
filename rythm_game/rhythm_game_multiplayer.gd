@@ -47,6 +47,7 @@ func _on_resized():
 	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
 	var task = SongAssetLoadAsyncTask.new(["circle_logo", "background", "audio", "voice", "audio_loudness", "do_dsc_audio_split"], lobby.get_song())
+	AsyncTaskQueue.queue_task(task)
 	task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	lobby.connect("game_start", self, "_on_game_started")
 	lobby.connect("game_done", self, "_on_game_done")
