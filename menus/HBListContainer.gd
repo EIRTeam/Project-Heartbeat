@@ -79,30 +79,40 @@ func _on_focus_exited():
 	if selected_option and is_instance_valid(selected_option):
 		selected_option.stop_hover()
 			
+func select_next_option(initial=true):
+	move_debounce = 0.0
+	if initial:
+		initial_move_debounce = 0.0
+	var current_pos = selected_option.get_position_in_parent()
+	if current_pos < get_child_count()-1:
+		select_option(current_pos+1)
+		move_sound_player.play()
+			
+func select_prev_option(initial=true):
+	move_debounce = 0.0
+	if initial:
+		initial_move_debounce = 0.0
+	var current_pos = selected_option.get_position_in_parent()
+	if current_pos > 0:
+		select_option(current_pos-1)
+		move_sound_player.play()
+			
 func _process(delta):
 	move_debounce += delta
 	initial_move_debounce += delta
 	if not selected_option:
 		return
 	var can_press = move_debounce >= MOVE_DEBOUNCE_T and initial_move_debounce >= INITIAL_MOVE_DEBOUNCE_T and has_focus()
-	if (Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up")) and can_press:
-		move_debounce = MOVE_DEBOUNCE_T
-		initial_move_debounce = 0.0
-		can_press = true
+#	if Input.is_action_just_pressed("gui_down") or Input.is_action_just_pressed("gui_up") and can_press:
+#		move_debounce = MOVE_DEBOUNCE_T
+#		initial_move_debounce = 0.0
+#		can_press = true
 	if get_child_count() == 0:
 		can_press = false
 	if Input.is_action_pressed("gui_down") and can_press:
-		move_debounce = 0.0
-		var current_pos = selected_option.get_position_in_parent()
-		if current_pos < get_child_count()-1:
-			select_option(current_pos+1)
-			move_sound_player.play()
+		select_next_option(false)
 	if Input.is_action_pressed("gui_up") and can_press:
-		move_debounce = 0.0
-		var current_pos = selected_option.get_position_in_parent()
-		if current_pos > 0:
-			select_option(current_pos-1)
-			move_sound_player.play()
+		select_prev_option(false)
 	var menu_start := Vector2(0, rect_size.y * menu_start_percentage)
 	if not selected_option:
 		if get_child_count() > 0:
@@ -163,18 +173,10 @@ func _gui_input(event):
 				if current_pos < get_child_count()-1:
 					select_option(current_pos+1)
 					move_sound_player.play()
-#	if Input.is_action_pressed("gui_down") and can_press:
-#		move_debounce = 0.0
-#		var current_pos = selected_option.get_position_in_parent()
-#		if current_pos < get_child_count()-1:
-#			select_option(current_pos+1)
-#			move_sound_player.play()
-#	if Input.is_action_pressed("gui_up") and can_press:
-#		move_debounce = 0.0
-#		var current_pos = selected_option.get_position_in_parent()
-#		if current_pos > 0:
-#			select_option(current_pos-1)
-#			move_sound_player.play()
+		if event.is_action_pressed("gui_down"):
+			select_next_option()
+		if event.is_action_pressed("gui_up"):
+			select_prev_option()
 func hard_arrange_all():
 #	yield(get_tree(), "idle_frame")
 #	yield(get_tree(), "idle_frame")
