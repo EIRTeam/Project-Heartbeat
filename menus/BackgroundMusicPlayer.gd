@@ -114,8 +114,6 @@ func play_song(song: HBSong, force = false):
 	if current_load_task:
 		AsyncTaskQueue.abort_task(current_load_task)
 	var assets_to_load = ["audio", "voice", "preview", "background", "circle_logo"]
-	if not SongDataCache.is_song_audio_loudness_cached(song):
-		assets_to_load.append("audio_loudness")
 	#do_dsc_audio_split
 	if song is SongLoaderDSC.HBSongDSC:
 		assets_to_load.append("do_dsc_audio_split")
