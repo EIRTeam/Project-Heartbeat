@@ -42,7 +42,7 @@ func _ready():
 	for folder in starting_folders:
 		navigate_folder(folder)
 func _on_selected_option_changed():
-	if selected_option is HBSongListItem:
+	if selected_option is HBSongListItem or selected_option is HBSongListItemDifficulty:
 		emit_signal("song_hovered", selected_option.song)
 	else:
 		emit_signal("hover_nonsong")
