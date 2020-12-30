@@ -25,9 +25,9 @@ var _volume_offset = 0
 
 func _ready():
 	player.volume_db = FADE_OUT_VOLUME
-	player.bus = "Music"
+	player.bus = "MenuMusic"
 	voice_player.volume_db = FADE_OUT_VOLUME
-	voice_player.bus = "Voice"
+	voice_player.bus = "MenuMusic"
 	add_child(player)
 	add_child(voice_player)
 	player.connect("finished", self, "play_random_song")
@@ -79,12 +79,7 @@ func _on_song_assets_loaded(assets):
 		emit_signal("song_started", song, assets)
 	else:
 		if "audio" in assets:
-			if "audio_loudness" in assets:
-				_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
-			elif SongDataCache.is_song_audio_loudness_cached(song):
-				_volume_offset = SongDataCache.get_song_volume_offset(song)
-			else:
-				_volume_offset = 0
+			_volume_offset = 0
 			if not current_song:
 				player.stream = assets.audio
 				player.play()

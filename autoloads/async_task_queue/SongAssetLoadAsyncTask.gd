@@ -76,7 +76,7 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
-	VisualServer.sync()
+	VisualServer.force_sync()
 	emit_signal("assets_loaded", data)
 	if "audio_loudness" in data:
 		SongDataCache.update_loudness_for_song(song, data.audio_loudness)
