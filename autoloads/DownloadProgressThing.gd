@@ -99,6 +99,7 @@ func _ready():
 	set_type(TYPE.SUCCESS)
 	modulate.a = 0.0
 	get_viewport().connect("size_changed", self, "_on_vp_size_changed")
+	recalculate_label_size()
 	
 func _on_vp_size_changed():
 	yield(get_tree(), "idle_frame")
@@ -106,12 +107,13 @@ func _on_vp_size_changed():
 	move_t = move_time
 	
 func recalculate_label_size():
-	label.autowrap = false
-	var size = label.get_combined_minimum_size()
-	if size.x > (get_parent().rect_size.x / 2.0):
-		label.autowrap = true
-		label.rect_size.x = get_parent().rect_size.x / 2.0
-	
+	if label:
+		label.autowrap = false
+		var size = label.get_combined_minimum_size()
+		if size.x > (get_parent().rect_size.x / 2.0):
+			label.autowrap = true
+			label.rect_size.x = get_parent().rect_size.x / 2.0
+		
 func move_to_offset(to_offset, time=0.75):
 	var parent = get_parent()
 	move_target_position = Vector2(0, parent.rect_size.y - to_offset) + MARGIN
