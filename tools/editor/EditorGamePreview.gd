@@ -88,7 +88,7 @@ func set_song(song: HBSong):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
 	var image_texture = ImageTexture.new()
-	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT)
+	image_texture.create_from_image(image, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
 	background_rect.texture = image_texture
 	video_player.stream = null
 	background_rect.show()
