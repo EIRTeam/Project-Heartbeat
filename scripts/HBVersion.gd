@@ -17,6 +17,14 @@ static func get_version_string():
 	var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
 	var time = " %02d:%02d:%d" % [datetime.hour, datetime.minute, datetime.second]
 	var video_driver = OS.get_video_driver_name(OS.get_current_video_driver())
+	var video_adapter_name = VisualServer.get_video_adapter_name().to_lower()
+	if "angle" in video_adapter_name:
+		var backend = "OpenGL"
+		if "vulkan" in video_adapter_name:
+			backend = "Vulkan"
+		elif "direct3d11" in video_adapter_name:
+			backend = "DirectX 11"
+		video_driver += " on ANGLE %s" % [backend] 
 	
 	var version = "%d.%d.%d" % [MAJOR, MINOR, PATCH]
 	

@@ -214,7 +214,7 @@ static func image_from_fs_async(path: String) -> Texture:
 		var image = Image.new()
 		image.load(path)
 		var texture = ImageTexture.new()
-		texture.create_from_image(image)
+		texture.create_from_image(image, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
 		return texture
 	
 
