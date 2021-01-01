@@ -227,7 +227,7 @@ func apply_user_settings():
 	Engine.target_fps = int(user_settings.fps_limit)
 	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
-	
+	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	set_volumes()
 
 func save_user_settings():

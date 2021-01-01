@@ -639,7 +639,7 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 # this doesn't take care of adding the score
 # todo: generalize this
 func _on_notes_judged(notes: Array, judgement, wrong):
-	print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
+	#print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
 	var note = notes[0] as HBBaseNote 
 	
 	# Simultaneous slides are a special case...

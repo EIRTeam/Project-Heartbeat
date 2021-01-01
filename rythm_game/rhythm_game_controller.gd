@@ -52,7 +52,7 @@ func _ready():
 	set_process(false)
 	
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
-
+	$Label.visible = false
 func _on_intro_skipped(new_time):
 	video_player.stream_position = new_time
 
@@ -301,10 +301,10 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 var _last_time = 0.0
 
 func _process(delta):
-	$Label.visible = Diagnostics.fps_label.visible
-	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
-	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
-	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
+#	$Label.visible = Diagnostics.fps_label.visible
+#	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
+#	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
+#	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_game_info:
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
@@ -315,7 +315,7 @@ func _process(delta):
 		game.audio_stream_player_voice.stream_paused = true
 		game.audio_stream_player.seek(game.time + latency_compensation)
 		game._process(0)
-		$Label.text += "%f" % [last_pause_time]
+#		$Label.text += "%f" % [last_pause_time]
 		if game.time <= last_pause_time - ROLLBACK_TIME:
 			game.time = last_pause_time - ROLLBACK_TIME
 			rollback_on_resume = false
