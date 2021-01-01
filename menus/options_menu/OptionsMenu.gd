@@ -2,6 +2,13 @@ extends HBMenu
 
 var OPTIONS = {
 	tr("Game"): {
+		"timing_method": {
+			"name": tr("Timing method"),
+			"description": tr("Selects the timing method to use, using the sound hardware clock is the most compatible option, using the system clock is more precise but might desync on some systems"),
+			"options": [HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK, HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK],
+			"options_pretty": ["Sound hardware clock", "System clock"],
+			"type": "options"
+		},
 		"locale": {
 			"name": tr("Language"),
 			"description": tr("Selects the language to use (requires restart)"),

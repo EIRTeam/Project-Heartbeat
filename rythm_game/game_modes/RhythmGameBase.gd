@@ -353,12 +353,13 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if audio_stream_player.playing and (not editing or previewing):
-		if HBGame.platform_settings.timing_mode == HBPlatformSettings.TIMING_MODE.NAIVE:
+		if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK:
 			var t = audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
 			t *= audio_stream_player.pitch_scale
 			if t > time:
 				time = t
 				time -= latency_compensation / 1000.0
+			time = max(time, 0)
 		else:
 			# Obtain current time from ticks, offset by the time we began playing music.
 			time = (OS.get_ticks_usec() - time_begin) / 1000000.0
