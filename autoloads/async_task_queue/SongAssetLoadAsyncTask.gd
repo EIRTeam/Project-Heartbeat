@@ -11,10 +11,13 @@ var loaded_assets: Dictionary = {}
 
 var loaded_assets_mutex := Mutex.new()
 
+var safe_texture_loading = false
+
 func _init(_requested_assets: Array, _song: HBSong).():
 	requested_assets = _requested_assets
 	requested_assets_queue = _requested_assets.duplicate(true)
 	song = _song
+	safe_texture_loading = !UserSettings.user_settings.enable_multi_threaded_texture_loading
 
 func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	var audio_normalizer = HBAudioNormalizer.new()
@@ -26,6 +29,12 @@ func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 			return
 	loaded_assets["audio_loudness"] = audio_normalizer.get_normalization_result()
 
+func _image_from_fs(path):
+	if not safe_texture_loading:
+		return HBUtils.texture_from_fs_image(path)
+	else:
+		return HBUtils.image_from_fs(path)
+
 func _task_process() -> bool:
 	var audio_normalizer := HBAudioNormalizer.new()
 	var original_audio = null
@@ -35,10 +44,10 @@ func _task_process() -> bool:
 	match asset:
 		"preview":
 			if song.preview_image:
-				loaded_asset = HBUtils.image_from_fs_async(song.get_song_preview_res_path())
+				loaded_asset = _image_from_fs(song.get_song_preview_res_path())
 		"background":
 			if song.background_image:
-				loaded_asset = HBUtils.image_from_fs_async(song.get_song_background_image_res_path())
+				loaded_asset = _image_from_fs(song.get_song_background_image_res_path())
 		"audio":
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream()
@@ -63,10 +72,10 @@ func _task_process() -> bool:
 				loaded_asset = song.get_voice_stream()
 		"circle_image":
 			if song.circle_image:
-				loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_image_res_path())
+				loaded_asset = _image_from_fs(song.get_song_circle_image_res_path())
 		"circle_logo":
 			if song.circle_logo:
-				loaded_asset = HBUtils.image_from_fs_async(song.get_song_circle_logo_image_res_path())
+				loaded_asset = _image_from_fs(song.get_song_circle_logo_image_res_path())
 	if loaded_asset:
 		loaded_assets_mutex.lock()
 		loaded_assets[asset] = loaded_asset
@@ -76,7 +85,13 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
-	VisualServer.force_sync()
+	if not safe_texture_loading:
+		VisualServer.force_sync()
+	for asset_name in data:
+		if data[asset_name] is Image:
+			var texture = ImageTexture.new()
+			texture.create_from_image(data[asset_name], Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
+			data[asset_name] = texture
 	emit_signal("assets_loaded", data)
 	if "audio_loudness" in data:
 		SongDataCache.update_loudness_for_song(song, data.audio_loudness)

@@ -182,7 +182,7 @@ static func image_from_fs(path: String):
 
 static func _wrap_image_texture(img: Image):
 	var text = ImageTexture.new()
-	text.create_from_image(img, ImageTexture.FLAGS_DEFAULT)
+	text.create_from_image(img, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
 	return text
 
 static func texture_from_fs(path: String):
@@ -207,15 +207,17 @@ static func texture_from_fs(path: String):
 # 		image.load(path)
 # 		return image
 		
-static func image_from_fs_async(path: String) -> Texture:
+static func texture_from_fs_image(path: String) -> Texture:
+	var img
 	if path.begins_with("res://"):
-		return load(path) as Texture
+		img = load(path) as Texture
 	else:
-		var image = Image.new()
-		image.load(path)
-		var texture = ImageTexture.new()
-		texture.create_from_image(image, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
-		return texture
+		img = Image.new()
+		img.load(path)
+		
+	var texture = ImageTexture.new()
+	texture.create_from_image(img, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
+	return texture
 	
 
 # Adds a thousands separator to the number given

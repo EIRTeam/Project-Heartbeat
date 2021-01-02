@@ -251,7 +251,7 @@ func _on_songs_filtered(song_items: Array, filtered_songs: Array, song_id_to_sel
 		
 	emit_signal("end_loading")
 		
-var current_filter_task: HBFilterSongsTask
+var current_filter_task: HBTask
 		
 func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 	songs = _songs
@@ -269,7 +269,10 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
+	if UserSettings.user_settings.enable_multi_threaded_texture_loading:
+		current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
+	else:
+		current_filter_task = HBFilterSongsTaskSafe.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
 	selected_option = null

@@ -9,6 +9,10 @@ var OPTIONS = {
 			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)"],
 			"type": "options"
 		},
+		"enable_multi_threaded_texture_loading": {
+			"name": tr("Enable multi-threaded texture loading"),
+			"description": tr("Allows loading of textures from multiple threads, this might cause crashes to happen randomly on some systems.")
+		},
 		"locale": {
 			"name": tr("Language"),
 			"description": tr("Selects the language to use (requires restart)"),
