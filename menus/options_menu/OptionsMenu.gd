@@ -4,9 +4,9 @@ var OPTIONS = {
 	tr("Game"): {
 		"timing_method": {
 			"name": tr("Timing method"),
-			"description": tr("Selects the timing method to use, using the sound hardware clock is the most compatible option, using the system clock is more precise but might desync on some systems"),
-			"options": [HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK, HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK],
-			"options_pretty": ["Sound hardware clock", "System clock"],
+			"description": tr("Selects the timing method to use, using the system clock is the recommended option for most people, use the alternatives only if you are having issues."),
+			"options": [HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK, HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK],
+			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)"],
 			"type": "options"
 		},
 		"locale": {

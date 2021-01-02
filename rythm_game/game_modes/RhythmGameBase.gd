@@ -353,9 +353,13 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if audio_stream_player.playing and (not editing or previewing):
-		if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK:
-			var t = audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
+		if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK \
+				or UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK:
+			var t = audio_stream_player.get_playback_position() +  - AudioServer.get_output_latency()
+			if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK:
+				t += AudioServer.get_time_since_last_mix()
 			t *= audio_stream_player.pitch_scale
+			
 			if t > time:
 				time = t
 				time -= latency_compensation / 1000.0
