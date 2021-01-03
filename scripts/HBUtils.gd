@@ -208,9 +208,9 @@ static func texture_from_fs(path: String):
 # 		return image
 		
 static func texture_from_fs_image(path: String) -> Texture:
-	var img
+	var img: Image
 	if path.begins_with("res://"):
-		img = load(path) as Texture
+		img = load(path) as Image
 	else:
 		img = Image.new()
 		img.load(path)
