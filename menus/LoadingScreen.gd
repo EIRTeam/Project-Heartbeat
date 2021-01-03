@@ -22,7 +22,10 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	current_diff = game_info.difficulty
 	var song: HBSong = new_game_info.get_song()
 	is_loading_practice_mode = practice
-	var asset_task = SongAssetLoadAsyncTask.new(["audio", "voice", "audio_loudness", "do_dsc_audio_split"], song)
+	var assets_to_get = ["audio", "voice", "do_dsc_audio_split"]
+	if not SongDataCache.is_song_audio_loudness_cached(song):
+		assets_to_get.append("audio_loudness")
+	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)
 	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	AsyncTaskQueue.queue_task(asset_task)
 	
@@ -47,6 +50,10 @@ func _on_song_assets_loaded(assets):
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
+	if not "audio_loudness" in assets:
+		assets["audio_loudness"] = 0.0
+		if SongDataCache.is_song_audio_loudness_cached(SongLoader.songs[game_info.song_id]):
+			assets["audio_loudness"] = SongDataCache.audio_normalization_cache[game_info.song_id].loudness
 	scene.start_session(game_info, HBUtils.merge_dict(base_assets, assets))
 	
 var visible_chars := 0.0
