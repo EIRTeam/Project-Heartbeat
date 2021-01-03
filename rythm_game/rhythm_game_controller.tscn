@@ -79,7 +79,6 @@ void fragment()
     vec4 tex = vec4(desaturate(vec3(r, g, b), 0.25), 1.0);
     COLOR = tex;
 }"
-custom_defines = ""
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 3 )
@@ -160,6 +159,7 @@ __meta__ = {
 pause_mode = 1
 margin_right = 1280.0
 margin_bottom = 720.0
+ingame = true
 
 [node name="GameUIContainer" type="Control" parent="."]
 anchor_right = 1.0
@@ -257,6 +257,7 @@ margin_right = 1920.0
 margin_bottom = 589.0
 texture = ExtResource( 8 )
 stretch_mode = 6
+
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]
 [connection signal="restarted" from="PauseMenu" to="." method="_on_PauseMenu_restarted"]
 [connection signal="resumed" from="PauseMenu" to="." method="_on_resumed"]

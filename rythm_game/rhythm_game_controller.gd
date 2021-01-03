@@ -300,11 +300,20 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 
 var _last_time = 0.0
 
+#var prev_aht = 0
+
 func _process(delta):
 #	$Label.visible = Diagnostics.fps_label.visible
 #	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
 #	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
+#	var AHT = game.audio_stream_player.get_playback_position() - AudioServer.get_output_latency()
+#	AHT = int(AHT*1000.0)
+#	if AHT < prev_aht:
+#		AHT = prev_aht
+#	else:
+#		prev_aht = AHT
+#	$Label.text = "GT: %d\nAHT: %d\ndiff: %d" % [int(game.time*1000.0), AHT, int(game.time*1000.0) - AHT]
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_game_info:
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
