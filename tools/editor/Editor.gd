@@ -312,47 +312,49 @@ func _unhandled_input(event):
 					
 				if old_pos != playhead_position:
 					seek(playhead_position)
-				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-					var found_note = false
-					for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
-						var layer = null
-						for layer_c in timeline.get_visible_layers():
-							if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
-								layer = layer_c
-								break
-						if not layer:
-							continue
-						if event.is_action_pressed(action):
-							var items_at_time = get_items_at_time(playhead_position)
-							
-							var item_erased = false
-							for item in items_at_time:
-								if item is EditorTimelineItemNote:
-									if item.data.note_type == type:
-										item_erased = true
-										
-										deselect_all()
-										
-										undo_redo.create_action("Remove note")
-										
-										undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-										undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
-											
-										undo_redo.add_do_method(self, "_on_timing_points_changed")
-										undo_redo.add_undo_method(self, "_on_timing_points_changed")
-										undo_redo.commit_action()
-							if not item_erased:
-								var timing_point := HBNoteData.new()
-								timing_point.time = playhead_position
-								# Event layer is the last one
-									
-								timing_point.note_type = type
-									
-								user_create_timing_point(layer, timing_point.get_timeline_item())
-							found_note = true
+	if event is InputEventKey:
+		if not event.shift and not event.control and not event.is_action_pressed("editor_play"):
+			for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+				var found_note = false
+				for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+					var layer = null
+					for layer_c in timeline.get_visible_layers():
+						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
+							layer = layer_c
 							break
-					if found_note:
+					if not layer:
+						continue
+					if event.is_action_pressed(action):
+						var items_at_time = get_items_at_time(playhead_position)
+						
+						var item_erased = false
+						for item in items_at_time:
+							if item is EditorTimelineItemNote:
+								if item.data.note_type == type:
+									item_erased = true
+									
+									deselect_all()
+									
+									undo_redo.create_action("Remove note")
+									
+									undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+									undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+										
+									undo_redo.add_do_method(self, "_on_timing_points_changed")
+									undo_redo.add_undo_method(self, "_on_timing_points_changed")
+									undo_redo.commit_action()
+						if not item_erased:
+							var timing_point := HBNoteData.new()
+							timing_point.time = snap_time_to_timeline(playhead_position)
+							# Event layer is the last one
+								
+							timing_point.note_type = type
+								
+							user_create_timing_point(layer, timing_point.get_timeline_item())
+						found_note = true
 						break
+				if found_note:
+					break
 							
 							
 func _note_comparison(a, b):
