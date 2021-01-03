@@ -23,7 +23,7 @@ func _ready():
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
 	set("z", -1000)
 	if not UserSettings.user_settings.visualizer_enabled:
-		if ingame:
+		if ingame and UserSettings.user_settings.background_dim == 0:
 			queue_free()
 		else:
 			set_physics_process(false)

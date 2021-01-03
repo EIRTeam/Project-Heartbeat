@@ -27,6 +27,7 @@ func _ready():
 	video_pause_timer.one_shot = true
 	add_child(video_pause_timer)
 	transform_preview.game = game
+	visualizer.ingame = true
 func _on_resized():
 	game.size = rect_size
 	game._on_viewport_size_changed()
