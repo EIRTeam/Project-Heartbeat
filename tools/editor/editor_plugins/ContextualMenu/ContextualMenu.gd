@@ -141,6 +141,8 @@ func change_note_button(new_button_name):
 
 		for item in get_editor().selected:
 			var data = item.data as HBBaseNote
+			if not data:
+				continue
 			var new_data_ser = data.serialize()
 			
 			new_data_ser["note_type"] = new_button
@@ -217,6 +219,8 @@ func _on_contextual_menu_about_to_show():
 		return
 	
 	for selected in get_editor().selected:
+		if selected.data != HBBaseNote:
+			continue
 		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
 			contextual_menu.set_contextual_item_disabled("make_double", true)
 			contextual_menu.set_contextual_item_disabled("make_normal", true)

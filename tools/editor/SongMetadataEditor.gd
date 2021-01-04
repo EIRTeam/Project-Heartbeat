@@ -20,7 +20,6 @@ onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginConta
 onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
 onready var difficulties_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer")
-onready var stars_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer2")
 
 onready var preview_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
 onready var background_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")

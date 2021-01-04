@@ -656,13 +656,19 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 		if item.data is HBBaseNote:
 			var notes = get_notes_at_time(item.data.time)
 			if notes.size() > 0:
+				var found_any_note = false
 				for note in notes:
+					if note is HBBaseNote:
+						found_any_note = true
+					else:
+						continue
 					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
 					undo_redo.add_do_property(note, "distance", 880)
 					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
 					undo_redo.add_undo_property(note, "distance", note.distance)
-				item.data.oscillation_amplitude = 0
-				item.data.distance = 880
+				if found_any_note:
+					item.data.oscillation_amplitude = 0
+					item.data.distance = 880
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
