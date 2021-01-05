@@ -13,7 +13,7 @@ var filtered_songs: Array
 var sort_by_prop: String
 var song_id_to_select
 var difficulty_to_select
-var out_song_items: Array
+var out_song_items: Dictionary = {}
 func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null).():
 	songs = _songs
 	filter_by = _filter_by
@@ -73,7 +73,7 @@ func _task_process() -> bool:
 	
 	for song in filtered_songs:
 		var item = _create_song_item(song)
-		out_song_items.append(item)
+		out_song_items[song] = item
 
 	return true
 	

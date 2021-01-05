@@ -200,7 +200,7 @@ func set_filter(filter_name: String):
 				set_songs(songs)
 				hard_arrange_all()
 		
-func _on_songs_filtered(song_items: Array, filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
+func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
 	var previously_selected_song_id = null
 	var previously_selected_difficulty = null
 
@@ -213,13 +213,17 @@ func _on_songs_filtered(song_items: Array, filtered_songs: Array, song_id_to_sel
 		if selected_option is HBSongListItemDifficulty:
 			previously_selected_difficulty = selected_option.difficulty
 		
-	song_items_map = {}
+	song_items_map = song_items
 			
 	for child in vbox_container.get_children():
 		vbox_container.remove_child(child)
 		child.queue_free()
-	for song in filtered_songs:
-		_create_song_item(song)
+	for song in song_items:
+		var item = song_items[song]
+		add_child(item)
+		item.use_parent_material = true
+		item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+		item.connect("pressed", self, "_on_song_selected", [song, true])
 	selected_option = null
 	select_option(0)
 	if previously_selected_song_id:

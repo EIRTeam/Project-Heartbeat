@@ -75,9 +75,9 @@ func get_task_output_data():
 	
 func _on_task_finished_processing(data):
 	out_mutex.lock()
-	var song_items = []
+	var song_items = {}
 	for song in data.filtered_songs:
 		var item = _create_song_item(song)
-		song_items.append(item)
+		song_items[song] = item
 	out_mutex.unlock()
 	emit_signal("songs_filtered", song_items, data.filtered_songs, song_id_to_select, difficulty_to_select)
