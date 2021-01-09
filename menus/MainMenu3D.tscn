@@ -15,7 +15,7 @@
 size = Vector2( 1.6, 0.9 )
 
 [sub_resource type="ViewportTexture" id=2]
-flags = 5
+flags = 4
 viewport_path = NodePath("ViewportLeft")
 
 [sub_resource type="SpatialMaterial" id=3]
@@ -33,7 +33,7 @@ extents = Vector3( 0.8, 0.45, 0.01 )
 size = Vector2( 0.45, 0.9 )
 
 [sub_resource type="ViewportTexture" id=6]
-flags = 5
+flags = 4
 viewport_path = NodePath("ViewportRight")
 
 [sub_resource type="SpatialMaterial" id=7]
