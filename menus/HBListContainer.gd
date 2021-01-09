@@ -140,7 +140,7 @@ func _process(delta):
 
 func select_option(option_i: int):
 	get_tree().set_input_as_handled()
-	if selected_option:
+	if selected_option and is_instance_valid(selected_option):
 		selected_option.stop_hover()
 	selected_option = get_child(option_i)
 	selected_option.hover()
