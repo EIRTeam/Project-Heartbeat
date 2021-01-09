@@ -36,11 +36,6 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 func _ready():
 	sort_by_prop = UserSettings.user_settings.sort_mode
 	connect("selected_option_changed", self, "_on_selected_option_changed")
-	var path = UserSettings.user_settings.last_folder_path.duplicate()
-	path.pop_front()
-	var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
-	for folder in starting_folders:
-		navigate_folder(folder)
 func _on_selected_option_changed():
 	if selected_option is HBSongListItem or selected_option is HBSongListItemDifficulty:
 		emit_signal("song_hovered", selected_option.song)
@@ -191,7 +186,13 @@ func set_filter(filter_name: String):
 	if filter_name == "folders":
 		filter_by = filter_name
 		last_filter = "folders"
-		update_items()
+		var path = UserSettings.user_settings.last_folder_path.duplicate()
+		path.pop_front()
+		var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
+		print("GOING TO! ")
+		folder_stack = []
+		for folder in starting_folders:
+			navigate_folder(folder)
 	else:
 		last_filter = filter_by
 		if filter_by != filter_name:
@@ -259,13 +260,15 @@ var current_filter_task: HBTask
 		
 func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 	songs = _songs
+
+	if filter_by == "folders":
+		if select_song_id:
+			select_song_by_id(select_song_id, select_difficulty)
+		return
 	
 	if filter_by == last_filter:
 		return
-	
-	if filter_by == "folders":
-		return
-	
+
 	for i in get_children():
 		remove_child(i)
 		i.queue_free()
