@@ -1,14 +1,14 @@
 extends Control
 
-var editor
+var editor setget set_editor
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 onready var layers = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/LayerControl")
 onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/LayerNames")
 signal offset_changed(offset)
 const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
-onready var scroll_bar = get_node("VBoxContainer/HScrollBar")
 onready var scroll_container = get_node("VBoxContainer/ScrollContainer")
+onready var minimap = get_node("VBoxContainer/Minimap")
 var _offset = 0
 var _prev_playhead_position = Vector2()
 signal layers_changed
@@ -21,6 +21,10 @@ var _cull_start_time = 0
 var _cull_end_time = 0
 const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
+func set_editor(ed):
+	editor = ed
+	minimap.editor = ed
+
 signal time_cull_changed(start_time, end_time)
 
 func _ready():
@@ -28,6 +32,8 @@ func _ready():
 	connect("resized", self, "_on_viewport_size_changed")
 	scroll_container.connect("zoom_in", self, "_on_zoom_in")
 	scroll_container.connect("zoom_out", self, "_on_zoom_out")
+	connect("time_cull_changed", minimap, "_on_time_cull_changed")
+	minimap.connect("offset_changed", self, "set_layers_offset")
 func _on_zoom_in():
 	editor.change_scale(editor.scale-0.5)
 func _on_zoom_out():
@@ -101,6 +107,7 @@ func _draw_timing_lines():
 	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
+	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
 	_draw_area_select()
 	_draw_playhead()
@@ -186,7 +193,6 @@ func _input(event):
 			if Input.is_action_pressed("editor_pan"):
 				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
 				set_layers_offset(new_offset)
-				scroll_bar.value = new_offset / float(editor.get_song_length() * 1000.0)
 		if _area_selecting:
 			update()
 	if get_global_rect().has_point(get_global_mouse_position()):
@@ -281,11 +287,7 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 		if layer_n.layer_name == layer_name:
 			layer_n.visible = visibility
 	update_layer_styles()
-
-
-func _on_HScrollBar_scrolling():
-	var new_position = (scroll_bar.value * editor.get_song_length()) * 1000.0
-	set_layers_offset(int(new_position))
+	minimap.update()
 
 func find_layer_by_name(name):
 	var r = null

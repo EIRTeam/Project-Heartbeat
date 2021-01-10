@@ -6,7 +6,7 @@ signal scale_changed(prev_scale, scale)
 signal playhead_position_changed
 signal load_song(song)
 signal timing_information_changed
-
+signal timing_points_changed
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
@@ -211,6 +211,8 @@ func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
 func change_scale(new_scale):
+	if new_scale < scale and scale < 1.0:
+		return
 	var prev_scale = scale
 	scale = new_scale
 	scale = max(new_scale, 0.1)
@@ -713,6 +715,7 @@ func _on_StopButton_pressed():
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():
 	game_playback.chart = get_chart()
+	emit_signal("timing_points_changed")
 
 func _on_timing_points_params_changed():
 	game_playback._on_timing_params_changed()
