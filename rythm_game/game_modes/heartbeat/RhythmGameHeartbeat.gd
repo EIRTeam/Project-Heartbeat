@@ -226,11 +226,12 @@ func _input(event):
 func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
 		if event_uid in held_note_event_map[note_type]:
-			held_note_event_map[note_type].erase(event_uid)
-			if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type] and held_note_event_map[note_type].size() <= 0:
-				hold_release()
-				emit_signal("hold_released_early")
-				break
+			if action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_type]:
+				held_note_event_map[note_type].erase(event_uid)
+				if held_note_event_map[note_type].size() <= 0:
+					hold_release()
+					emit_signal("hold_released_early")
+					break
 
 
 func get_closest_notes():
