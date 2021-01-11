@@ -214,7 +214,7 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 		if selected_option is HBSongListItemDifficulty:
 			previously_selected_difficulty = selected_option.difficulty
 		
-#	song_items_map = song_items
+	song_items_map = {}
 			
 	for child in vbox_container.get_children():
 		vbox_container.remove_child(child)
