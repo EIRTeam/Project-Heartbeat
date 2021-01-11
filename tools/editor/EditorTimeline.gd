@@ -107,9 +107,9 @@ func _draw_timing_lines():
 	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
+	_draw_area_select()
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
-	_draw_area_select()
 	_draw_playhead()
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
