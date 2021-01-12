@@ -1,5 +1,7 @@
 extends Label
 
+signal birthday_triggered
+
 const QUOTES = [
 	"On the wings of a dream", # TTFAF reference
 	"Dangerous choking hazard!", # Reference to plastic instruments
@@ -50,6 +52,19 @@ const QUOTES = [
 	"So good hiso banned it!"
 ]
 
+const BIRTHDAYS = {
+	[27, 02]: "EIREXE",
+	[26, 03]: "Project Heartbeat",
+	[23, 04]: "Sadnesswaifu",
+	[04, 05]: "Aiko",
+	[13, 10]: "Kami",
+}
+
 func _ready():
 	text = QUOTES[randi() % QUOTES.size()]
+	var date_time = OS.get_datetime()
+	for birthday in BIRTHDAYS:
+		if birthday[0] == date_time.day and birthday[1] == date_time.month:
+			emit_signal("birthday_triggered")
+			text = "Happy birthday %s!" % [BIRTHDAYS[birthday]]
 #	text = QUOTES[50-4]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://graphics/Logo.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
 [ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=6]
 [ext_resource path="res://fonts/RatingFontSmaller.tres" type="DynamicFont" id=7]
+[ext_resource path="res://graphics/party_hat.png" type="Texture" id=8]
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
@@ -44,9 +45,9 @@ __meta__ = {
 }
 
 [node name="TextureRect3" type="TextureRect" parent="PressStart/VBoxContainer"]
-margin_top = 177.0
-margin_right = 1280.0
-margin_bottom = 377.0
+margin_top = 354.0
+margin_right = 1920.0
+margin_bottom = 554.0
 rect_min_size = Vector2( 0, 200 )
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -57,15 +58,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BirthdayHat" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -682.56
+margin_top = -253.0
+margin_right = 168.0
+margin_bottom = 16.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
-margin_top = 409.0
-margin_right = 1280.0
-margin_bottom = 542.0
+margin_top = 586.0
+margin_right = 1920.0
+margin_bottom = 725.0
 mouse_filter = 2
 custom_constants/separation = 70
 
 [node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 7 )
 text = "(NT)On the wings of a dream"
@@ -75,8 +93,8 @@ script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
 margin_top = 108.0
-margin_right = 1280.0
-margin_bottom = 133.0
+margin_right = 1920.0
+margin_bottom = 139.0
 custom_fonts/font = ExtResource( 1 )
 text = "Press any key"
 align = 1
@@ -84,4 +102,6 @@ valign = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="start_pressed" from="PressStart" to="." method="_on_PressStart_start_pressed"]
+[connection signal="birthday_triggered" from="PressStart/VBoxContainer/VBoxContainer/RandomQuote" to="PressStart/VBoxContainer/TextureRect3/BirthdayHat" method="show"]
