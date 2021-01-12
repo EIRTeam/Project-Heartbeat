@@ -13,7 +13,8 @@ onready var progress_indicator = get_node("Control/HBoxContainer/TimeTextureProg
 onready var circle_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
 onready var circle_text_rect = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/CircleImage")
 onready var circle_text_rect_margin_container = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer")
-onready var latency_display = get_node("Control/LatencyDisplay")
+onready var latency_display = get_node("Control/LatencyDisplay/Panel")
+onready var latency_display_container = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
@@ -33,7 +34,7 @@ func set_game(new_game):
 	game = new_game
 	slide_hold_score_text._game = game
 	game.connect("time_changed", self, "_on_game_time_changed")
-	
+	latency_display.set_judge(game.judge)
 func get_notes_node() -> Node2D:
 	return get_drawing_layer_node("Notes")
 	
@@ -55,6 +56,8 @@ func _ready():
 	add_drawing_layer("HitParticles")
 	add_drawing_layer("AppearParticles")
 	add_drawing_layer("Notes")
+	latency_display_container.visible = UserSettings.user_settings.show_latency
+
 func add_drawing_layer(layer_name: String):
 	var layer_node = Node2D.new()
 	layer_node.name = "LAYER_" + layer_name

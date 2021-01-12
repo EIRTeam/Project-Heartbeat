@@ -1,32 +1,99 @@
-extends Label
+extends Control
 
-var last_latency_diff = 0
-var max_latency
-const LATENCY_RECT_HEIGHT = 3
+var max_latency = 128
+const JUDGEMENTS_TO_COUNT = 20
+var last_judgements = []
+
+const RATING_LINE_WIDTH = 3
+
+const GRADIENT_COLOR_1 = Color.orange
+const GRADIENT_COLOR_2 = Color.green
+const GRADIENT_COLOR_3 = Color.aqua
+const LINE_GRAD_COLORS = [GRADIENT_COLOR_1, GRADIENT_COLOR_2, GRADIENT_COLOR_3,
+	GRADIENT_COLOR_2, GRADIENT_COLOR_1]
+var gradient_texture: Texture
+
+const GRADIENT_LINE_HEIGHT = 12
+
+func set_judge(judge: HBJudge):
+	max_latency = judge.get_target_window_msec()
+
 func _on_note_judged(judgement_info):
 	if UserSettings.user_settings.show_latency:
-		show()
-		var message = "Perfect! %+d ms"
-		if judgement_info.target_time < judgement_info.time:
-			message = "Late! %+d ms"
-		elif judgement_info.target_time > judgement_info.time:
-			message = "Early! %+d ms"
-		message = message % [judgement_info.time-judgement_info.target_time]
-		text = message
-		last_latency_diff = judgement_info.time-judgement_info.target_time
-
+		if judgement_info.wrong or judgement_info.judgement < HBJudge.JUDGE_RATINGS.SAD:
+			return
+		var latency_diff = judgement_info.time-judgement_info.target_time
+		if latency_diff > 1.0:
+			return
+		latency_diff = range_lerp(latency_diff, -max_latency, max_latency, 0.0, 1.0)
+		if last_judgements.size() >= JUDGEMENTS_TO_COUNT:
+			last_judgements.pop_back()
+		last_judgements.push_front(latency_diff)
+		update()
 func _ready():
-	hide()
-	max_latency = HBUtils.find_key(HBJudge.RATING_WINDOWS, HBJudge.JUDGE_RATINGS.SAD)
-	
+#	gradient-based texture:
+#	var line_grad = Gradient.new()
+#	var line_grad_offsets = PoolRealArray()
+#	line_grad_offsets.resize(LINE_GRAD_COLORS.size())
+#	var line_grad_colors = PoolColorArray()
+#	line_grad_colors.resize(LINE_GRAD_COLORS.size())
+#	line_grad.remove_point(0)
+#	line_grad.remove_point(1)
+#	for i in range(LINE_GRAD_COLORS.size()):
+#		line_grad_offsets[i] = i / float(LINE_GRAD_COLORS.size())
+#		line_grad_colors[i] = LINE_GRAD_COLORS[i]
+#	line_grad.offsets = line_grad_offsets
+#	line_grad.colors = line_grad_colors
+#	var line_grad_stylebox = StyleBoxTexture.new()
+#	var line_grad_texture = GradientTexture.new()
+#	line_grad_texture.gradient = line_grad
+#	line_grad_texture.width = 2
+
+	var img = Image.new()
+	img.create(LINE_GRAD_COLORS.size(), 1, false, Image.FORMAT_RGB8)
+	img.lock()
+	for i in range(LINE_GRAD_COLORS.size()):
+		img.set_pixel(i, 0, LINE_GRAD_COLORS[i])
+	img.unlock()
+	var texture = ImageTexture.new()
+	texture.create_from_image(img, 0)
+	gradient_texture = texture
 func _draw():
-	var val = float(last_latency_diff) / float(max_latency)
-	var color = Color.white
-	if val > 0:
-		color = Color.red
-	else:
-		color = Color.green
-	var origin = Vector2(rect_size.x/2.0, rect_size.y - LATENCY_RECT_HEIGHT)
-	var size =  Vector2((val/2.0)*rect_size.x, LATENCY_RECT_HEIGHT)
-	var rect = Rect2(origin, size)
-	draw_rect(rect, color)
+	# draw the background
+	draw_rect(Rect2(Vector2.ZERO, rect_size), Color.black)
+	
+	# draw the gradient line
+	var gradient_line_rect = Rect2(Vector2(0, (rect_size.y / 2.0) - (GRADIENT_LINE_HEIGHT / 2.0)), Vector2(rect_size.x, GRADIENT_LINE_HEIGHT))
+	draw_texture_rect(gradient_texture, gradient_line_rect, false)
+	
+	# draw the rating lines
+	var starting_pos = Vector2.ZERO
+	var ending_pos = Vector2.ZERO
+	ending_pos.y = rect_size.y
+	var average_sum := 0.0
+	var average_count := 0.0
+	for i in range(last_judgements.size()):
+		var judgement = last_judgements[i]
+		starting_pos.x = judgement * rect_size.x
+		ending_pos.x = starting_pos.x
+		var color_i = clamp(judgement * LINE_GRAD_COLORS.size(), 0, LINE_GRAD_COLORS.size()-1)
+		var color = LINE_GRAD_COLORS[int(color_i)]
+		color.a -= 0.95 * (i / float(JUDGEMENTS_TO_COUNT-1))
+		draw_line(starting_pos, ending_pos, color, RATING_LINE_WIDTH)
+		average_count += 1
+		average_sum += judgement
+	# draw the center line
+	draw_line(Vector2(rect_size.x * 0.5, 0.0), Vector2(rect_size.x * 0.5, rect_size.y), Color.white, RATING_LINE_WIDTH)
+
+	# draw the average arrow
+
+	var average = 0.5
+
+	if last_judgements.size() > 0: 
+		average = average_sum / average_count
+	var triangle_height = gradient_line_rect.position.y
+	var point1 = Vector2(average * rect_size.x, 0.0) + Vector2(0, triangle_height)
+	var point2 = Vector2(average * rect_size.x, 0.0) + Vector2(triangle_height, 0)
+	var point3 = Vector2(average * rect_size.x, 0.0) + Vector2(-triangle_height, 0)
+	
+	draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.white, PoolVector2Array(), null, null, true)
