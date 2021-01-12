@@ -797,8 +797,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1607886572
-config/build_commit="209d53ecef5bd9984151c9a87374a2bf1fb1bb4c"
+config/build_time=1610459457
+config/build_commit="d87426ae4c85f0ae0e00a5a391ea443faee1543a"
 config/service_environment="production"
 
 [autoload]
