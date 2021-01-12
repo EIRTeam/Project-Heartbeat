@@ -66,6 +66,9 @@ func _update_youtube_dl(userdata):
 	else:
 		status = YOUTUBE_DL_STATUS.FAILED
 	status_mutex.unlock()
+	
+	ensure_perms()
+	
 	call_deferred("_youtube_dl_updated", thread)
 func update_youtube_dl():
 	var thread = Thread.new()
@@ -78,6 +81,13 @@ func get_cache_dir():
 		
 func _ready():
 	pass
+	
+func ensure_perms():
+	if OS.get_name() == "X11":
+		# Ensure YTDL can be executed on linoox
+		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
+		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
+		OS.execute("chmod", ["+x", get_ffprobe_executable()], true)
 func _init_ytdl():
 	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
 	CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
@@ -94,11 +104,7 @@ func _init_ytdl():
 			cache_meta = json.result
 		else:
 			Log.log(self, "Error loading cache meta: " + str(json.error))
-	if OS.get_name() == "X11":
-		# Ensure YTDL can be executed on linoox
-		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
-		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
-		OS.execute("chmod", ["+x", get_ffprobe_executable()], true)
+	ensure_perms()
 	if dir.file_exists(YOUTUBE_DL_DIR + "/VERSION"):
 		
 		var file = File.new()
@@ -117,6 +123,7 @@ func _init_ytdl():
 			emit_signal("youtube_dl_status_updated")
 	else:
 		update_youtube_dl()
+		
 	
 #	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
 func ytdl_download():
