@@ -16,6 +16,10 @@ func update_activity(state):
 	var dict = HBUtils.merge_dict({
 		"large_image_key": "default"
 	}, state)
+	if "details" in dict:
+		var details_string := dict.details as String
+		if details_string.length() > 128:
+			dict.details = details_string.substr(0, 127)
 	discord_controller.update_activity(dict)
 	
 func _process(delta):
