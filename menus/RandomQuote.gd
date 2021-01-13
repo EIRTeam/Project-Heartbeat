@@ -56,6 +56,7 @@ const BIRTHDAYS = {
 	[26, 03]: "Project Heartbeat",
 	[23, 04]: "Sadnesswaifu",
 	[04, 05]: "Aiko",
+	[28, 08]: "Alex",
 	[13, 10]: "Kami",
 }
 

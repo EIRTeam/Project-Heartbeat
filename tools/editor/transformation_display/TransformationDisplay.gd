@@ -24,7 +24,7 @@ func _ready():
 	angle_line_2d.texture = preload("res://tools/editor/transformation_display/angle_display.svg")
 	angle_line_2d.width = 25
 	angle_line_2d.texture_mode = Line2D.LINE_TEXTURE_TILE
-	
+	angle_line_2d.show_behind_parent = true
 	for _i in range(10):
 		var l2 = angle_line_2d.duplicate() as Line2D
 		add_child(l2)
@@ -117,7 +117,7 @@ func _draw_transformation():
 	
 
 	for note_to_transform in transformation_map:
-		var note_type = note_to_transform.note_type
+		var note_type = get_transformed_value(note_to_transform, transformation_map, "note_type")
 		var target_graphic = "target"
 
 		var is_multi = false
@@ -170,7 +170,7 @@ func _draw_transformation():
 
 		if not note_to_transform in notes_to_transform:
 			note_modulate = Color(0.75, 0.75, 0.75)
-		_draw_note_graphic(note_center_pos, note_to_transform.note_type, target_graphic, note_modulate)
+		_draw_note_graphic(note_center_pos, note_type, target_graphic, note_modulate)
 		if i > 0:
 			var make_multi_laser = true
 			if i < transformation_map.size() - 1:

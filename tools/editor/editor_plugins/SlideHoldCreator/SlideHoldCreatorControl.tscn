@@ -11,14 +11,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 14.0
-text = "Hold note piece  placement interval (usually 2x your song's note resolution)."
+text = "Chain note piece placement interval (usually 2x your song's note resolution)."
 autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_top = 18.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 42.0
 custom_constants/separation = 0
 
@@ -30,7 +30,7 @@ text = "1/"
 
 [node name="ResolutionSpinBox" type="SpinBox" parent="HBoxContainer"]
 margin_left = 13.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
@@ -39,13 +39,13 @@ suffix = "th of a note"
 
 [node name="Label2" type="Label" parent="."]
 margin_top = 46.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 60.0
 text = "Beats"
 
 [node name="BeatsSpinbox" type="SpinBox" parent="."]
 margin_top = 64.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
@@ -55,9 +55,10 @@ suffix = "beats"
 
 [node name="CreateButton" type="Button" parent="."]
 margin_top = 92.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 112.0
 focus_mode = 0
 enabled_focus_mode = 0
-text = "Create Slide Hold Pieces"
+text = "Create Slide Chain"
+
 [connection signal="pressed" from="CreateButton" to="." method="_on_CreateButton_pressed"]

@@ -196,14 +196,36 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 	if notes_to_apply_found:
 		deselect_all()
 		undo_redo.create_action("Apply transformation")
-		print("APPLY")
+		
+		# Some transforms might change the note type and thus the layer
+		var type_to_layer_name_map = {}
+		for type_name in HBNoteData.NOTE_TYPE:
+			type_to_layer_name_map[HBNoteData.NOTE_TYPE[type_name]] = type_name
+		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE] = "SLIDE_LEFT"
+		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE] = "SLIDE_RIGHT"
+		
 		for item in current_items:
 			var note = item.data
 			if note in transformation_result:
 				var note_type = note.note_type
 				for property_name in transformation_result[note]:
-					undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
-					undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
+					if property_name in item.data:
+						undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
+						undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
+						if property_name == "note_type":
+							# When note type is changed we also change the layer
+							var new_note_type = transformation_result[note].note_type
+							if type_to_layer_name_map[new_note_type] != item._layer.layer_name and \
+									type_to_layer_name_map[new_note_type] + "2" != item._layer.layer_name:
+								var source_layer = item._layer
+								var target_layer_name = type_to_layer_name_map[new_note_type]
+								if source_layer.layer_name.ends_with("2"):
+									target_layer_name += "2"
+								var target_layer = timeline.find_layer_by_name(target_layer_name)
+								undo_redo.add_do_method(self, "remove_item_from_layer", source_layer, item)
+								undo_redo.add_do_method(self, "add_item_to_layer", target_layer, item)
+								undo_redo.add_undo_method(self, "remove_item_from_layer", target_layer, item)
+								undo_redo.add_undo_method(self, "add_item_to_layer", source_layer, item)
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.commit_action()

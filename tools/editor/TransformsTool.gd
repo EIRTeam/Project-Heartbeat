@@ -22,6 +22,50 @@ class FlipHorizontallyTransformation:
 			}
 		return transformation_result
 
+class FlipSlideChainsTransformation:
+	extends EditorTransformation
+	
+	func _get_chains(notes: Array):
+		var chains = []
+		var current_chain = []
+		for i in range(notes.size()-1, -1, -1):
+			var note = notes[i]
+			if note is HBNoteData:
+				if note.is_slide_note():
+					if current_chain.size() >= 1:
+						chains.append(current_chain)
+					current_chain = [note]
+				elif note.is_slide_hold_piece():
+					if current_chain.size() > 0:
+						current_chain.append(note)
+		if current_chain.size() > 1:
+			chains.append(current_chain)
+		return chains
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		var chains = _get_chains(notes)
+		var note_type_change_map = {
+			HBBaseNote.NOTE_TYPE.SLIDE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
+			HBBaseNote.NOTE_TYPE.SLIDE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
+			HBBaseNote.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE,
+			HBBaseNote.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE: HBBaseNote.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
+		}
+		
+		if chains.size() > 0:
+			for chain in chains:
+				var chain_slide_note_pos = chain[0].position
+				for note in chain:
+					if note is HBNoteData:
+						if note.is_slide_note() or note.is_slide_hold_piece():
+							var new_note_x = note.position.x - (note.position.x - chain_slide_note_pos.x) * 2
+							transformation_result[note] = {
+								"position": Vector2(new_note_x, note.position.y),
+								"entry_angle": fmod((180 - note.entry_angle), 360),
+								"oscillation_frequency": -note.oscillation_frequency,
+								"note_type": note_type_change_map[note.note_type]
+							}
+		return transformation_result
+
 class FlipVerticallyTransformation:
 	extends EditorTransformation
 	
@@ -130,6 +174,9 @@ func _ready():
 		make_button("Flip horizontally", FlipHorizontallyTransformation.new()),
 		make_button("Flip vertically", FlipVerticallyTransformation.new())
 	)
+	
+	
+	button_container.add_child(make_button("Flip slide chains", FlipSlideChainsTransformation.new()))
 	
 	button_container.add_child(HSeparator.new())
 	

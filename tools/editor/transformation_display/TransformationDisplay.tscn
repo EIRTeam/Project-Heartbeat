@@ -15,3 +15,6 @@ show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
