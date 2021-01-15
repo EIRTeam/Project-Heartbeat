@@ -18,6 +18,12 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	rhythm_game.set_process_input(true)
 	rhythm_game.game_input_manager.set_process_input(true)
 	rhythm_game.play_from_pos(time)
+	var volume = SongDataCache.get_song_volume_offset(song) * song.volume
+	rhythm_game.audio_stream_player.volume_db = volume
+	if song.voice:
+		rhythm_game.audio_stream_player_voice.volume_db = volume
+	else:
+		rhythm_game.audio_stream_player_voice.volume_db = -100
 	_last_time = time
 	show()
 	set_game_size()
