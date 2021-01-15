@@ -7,11 +7,29 @@ const TOP_MARGIN = 5.0
 
 onready var selection_rect = get_node("ColorRect")
 signal offset_changed
+
+var image = Image.new()
+var texture = ImageTexture.new()
+
+func _ready():
+	pass
 func set_editor(val):
 	editor = val
 	editor.connect("timing_points_changed", self, "update")
 
 func _redraw_items():
+	var base_color = Color.white
+	base_color.a = 0.0
+	var texture_size_changed = false
+	if rect_size != image.get_size():
+		image.create(rect_size.x, rect_size.y, false, Image.FORMAT_RGBA8)
+		texture_size_changed = true
+	else:
+		image.fill(base_color)
+	image.lock()
+
+	#image.fill(base_color)
+	
 	var visible_layers = 0
 	for layer in editor.timeline.get_layers():
 		if layer.visible:
@@ -26,6 +44,7 @@ func _redraw_items():
 		if fmod(layer_i, 2) == 0:
 			rect_color = Color("#252b38")
 		draw_rect(Rect2(Vector2(0, y_pos + TOP_MARGIN - CIRCLE_SIZE), Vector2(rect_size.x, CIRCLE_SIZE * 2.0)), rect_color)
+
 		if layer.get_child_count() > 1:
 			var base_item := layer.get_child(1) as EditorTimelineItemNote
 			if base_item:
@@ -37,8 +56,19 @@ func _redraw_items():
 					if item is EditorTimelineItemNote:
 						var data = item.data as HBBaseNote
 						var pos = data.time / float(song_length_ms)
-						draw_circle(Vector2(pos*rect_size.x, y_pos + TOP_MARGIN), CIRCLE_SIZE, note_color)
+						
+						# We draw the notes in the minimap, they are not squares
+						# they match the height for easier viewing.
+						for i in range(-1, 2):
+							for y in range(-CIRCLE_SIZE, CIRCLE_SIZE):
+								image.set_pixel(pos*rect_size.x + i, y_pos + TOP_MARGIN + y, note_color)
 		layer_i += 1
+	image.unlock()
+	if texture_size_changed:
+		texture.create_from_image(image, 0)
+	else:
+		texture.set_data(image)
+	draw_texture(texture, Vector2.ZERO)
 func _draw():
 	_redraw_items()
 
