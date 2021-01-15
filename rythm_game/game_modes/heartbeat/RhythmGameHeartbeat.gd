@@ -371,8 +371,13 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					held_note_event_map[n.note_type].append(event.event_uid)
 					start_hold(n.note_type)
 	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
-		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stream_paused = true
-		sfx_pool.loaded_effects["note_hit"][sfx_pool.loaded_effects["note_hit"].size()-1].stop()
+		var note_sfx_name = "note_hit"
+		if notes[0].note_type == HBNoteData.NOTE_TYPE.HEART:
+			note_sfx_name = "slide_hit"
+		for i in range(2):
+			if sfx_pool.playing_effects[note_sfx_name].size() > 0:
+				var sfx_player = sfx_pool.playing_effects[note_sfx_name][sfx_pool.playing_effects[note_sfx_name].size()-1]
+				sfx_pool.stop_sfx(sfx_player)
 		sfx_pool.play_sfx("double_note_hit")
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
