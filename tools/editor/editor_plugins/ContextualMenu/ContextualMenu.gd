@@ -219,13 +219,12 @@ func _on_contextual_menu_about_to_show():
 		return
 	
 	for selected in get_editor().selected:
-		if selected.data != HBBaseNote:
+		if not selected.data is HBBaseNote:
 			continue
 		if selected.data is HBNoteData and (selected.data.is_slide_note() or selected.data.is_slide_hold_piece()):
 			contextual_menu.set_contextual_item_disabled("make_double", true)
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
 			contextual_menu.set_contextual_item_disabled("make_sustain", true)
-			break
 		if selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
 			contextual_menu.set_contextual_item_disabled("make_sustain", true)
 
