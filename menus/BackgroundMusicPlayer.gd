@@ -21,8 +21,6 @@ var current_load_task: SongAssetLoadAsyncTask
 signal stream_time_changed
 signal song_started(song, assets)
 
-var _volume_offset = 0
-
 func _ready():
 	player.volume_db = FADE_OUT_VOLUME
 	player.bus = "MenuMusic"
@@ -53,7 +51,7 @@ func _process(delta):
 	voice_player.volume_db = lerp(player.volume_db, target_volume, 4.0*delta)
 
 	if abs(FADE_OUT_VOLUME) - abs(player.volume_db) < 3.0 and song_queued:
-		target_volume = current_song.get_volume_db() + _volume_offset
+		target_volume = 0
 		if next_audio:
 			player.stream = next_audio
 			player.play()
@@ -79,7 +77,6 @@ func _on_song_assets_loaded(assets):
 		emit_signal("song_started", song, assets)
 	else:
 		if "audio" in assets:
-			_volume_offset = 0
 			if not current_song:
 				player.stream = assets.audio
 				player.play()
@@ -90,7 +87,7 @@ func _on_song_assets_loaded(assets):
 					voice_player.seek(song.preview_start/1000.0)
 				player.volume_db = FADE_OUT_VOLUME
 				voice_player.volume_db = FADE_OUT_VOLUME
-				target_volume = song.get_volume_db() + _volume_offset
+				target_volume = 0
 			else:
 				next_audio = assets.audio
 				if "voice" in assets and assets.voice:
