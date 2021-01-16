@@ -10,7 +10,8 @@ var exit_thread := false
 var queue = []
 func _ready() -> void:
 	assert(thread.start(self, "_thread_function") == OK, "Error creating async task queue")
-	set_physics_process(false)
+	set_process(false)
+	pause_mode = Node.PAUSE_MODE_PROCESS
 
 func queue_task(task: HBTask) -> void:
 	if task:
@@ -82,9 +83,12 @@ func _thread_function(_userdata):
 				queue.erase(current_task)
 				current_task.free()
 		mutex.unlock()
-func _exit_tree():
+		
+func _end_thread():
 	# Set exit condition to true.
 	mutex.lock()
+	if exit_thread == true:
+		return
 	exit_thread = true # Protect with Mutex.
 	mutex.unlock()
 
@@ -93,3 +97,10 @@ func _exit_tree():
 
 	# Wait until it exits.
 	thread.wait_to_finish()
+	print("ENDTHREAD")
+func _exit_tree():
+	_end_thread()
+
+func _notification(what):
+	if what == NOTIFICATION_WM_QUIT_REQUEST:
+		_end_thread()
