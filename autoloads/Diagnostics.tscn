@@ -57,11 +57,11 @@ margin_bottom = 383.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
 margin_right = 750.0
-margin_bottom = 141.0
+margin_bottom = 199.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer"]
 margin_right = 750.0
-margin_bottom = 141.0
+margin_bottom = 199.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -94,15 +94,43 @@ margin_right = 750.0
 margin_bottom = 141.0
 text = "Reset"
 
-[node name="HSeparator" type="HSeparator" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
+[node name="PrintOrphanedNodesButton" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 145.0
 margin_right = 750.0
-margin_bottom = 149.0
+margin_bottom = 170.0
+text = "Print Stray Nodes"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 174.0
+margin_right = 750.0
+margin_bottom = 199.0
+
+[node name="InstanceID" type="SpinBox" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 64.0
+margin_bottom = 25.0
+max_value = 9.22337e+18
+
+[node name="PropertyName" type="LineEdit" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 68.0
+margin_right = 116.0
+margin_bottom = 25.0
+
+[node name="PrintPropertyValue" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 120.0
+margin_right = 750.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Print property"
+
+[node name="HSeparator" type="HSeparator" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
+margin_top = 203.0
+margin_right = 750.0
+margin_bottom = 207.0
 
 [node name="AutoplayCheckbox" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 153.0
+margin_top = 211.0
 margin_right = 750.0
-margin_bottom = 178.0
+margin_bottom = 236.0
 focus_mode = 0
 text = "Enable autoplay"
 
@@ -252,5 +280,7 @@ margin_left = 1.18921
 margin_right = 1.18921
 
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

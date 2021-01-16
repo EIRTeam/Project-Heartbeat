@@ -25,6 +25,8 @@ onready var network_tree = get_node("WindowDialog/TabContainer/Network/VBoxConta
 onready var tree_root = network_tree.create_item()
 onready var network_body_RTL = get_node("WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer/RichTextLabel")
 onready var auth_token_button = get_node("WindowDialog/TabContainer/Network/VBoxContainer/AuthTokenButton")
+onready var instance_id_spinbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
+onready var property_name_line_edit = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
@@ -131,3 +133,11 @@ func _on_message_logged(logger_name, message, log_level):
 
 func _on_LogFilterOptionButton_item_selected(id):
 	show_log_messages()
+
+
+func _on_PrintOrphanedNodesButton_pressed():
+	print_stray_nodes()
+
+
+func _on_PrintPropertyValue_pressed():
+	print(instance_from_id(int(instance_id_spinbox.value)).get(property_name_line_edit.text))
