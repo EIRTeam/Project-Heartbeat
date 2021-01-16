@@ -80,6 +80,9 @@ func get_gesture_for_index(idx: int):
 		if gesture.index == idx:
 			return gesture
 
+func _init():
+	name = "SwipeDetector"
+
 func _input(event: InputEvent) -> void:
 	var ignore_mouse = OS.has_feature("mobile")
 	if not event is InputEventScreenTouch and not event is InputEventScreenDrag:

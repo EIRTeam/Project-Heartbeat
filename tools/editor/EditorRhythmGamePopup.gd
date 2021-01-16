@@ -8,6 +8,9 @@ signal quit
 
 var _last_time = 0.0
 
+func _init():
+	name = "EditorRhythmGamePopup"
+	
 func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 #	rhythm_game.set_song(song, )
 	rhythm_game.remove_all_notes_from_screen()

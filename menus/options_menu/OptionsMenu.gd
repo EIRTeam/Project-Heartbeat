@@ -340,3 +340,15 @@ func _input(event):
 					change_to_menu("staff_roll")
 			else:
 				code_p = 0
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for section_name in section_name_to_section_control:
+			var section = section_name_to_section_control[section_name]
+			if is_instance_valid(section) and not section.is_queued_for_deletion():
+				section.queue_free()
+		for section_name in OPTIONS:
+			if OPTIONS[section_name].has("__section_override"):
+				var section = OPTIONS[section_name].__section_override
+				if is_instance_valid(section) and not section.is_queued_for_deletion():
+					section.queue_free()

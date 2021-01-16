@@ -12,8 +12,8 @@ const LOG_NAME = "PlatformService"
 var service_provider : PlatformServiceProvider
 
 
-func _ready():
-	pass
+func _init():
+	name = "PlatformService"
 	
 func _initialize_platform():
 	if not Engine.has_singleton("Steam") or not HBGame.platform_settings is HBPlatformSettingsDesktop:

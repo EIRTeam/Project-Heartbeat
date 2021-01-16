@@ -10,6 +10,9 @@ var playing_effects = {}
 var loaded_looping_effects = {}
 var effects_debounce_times = {}
 
+func _init():
+	name = "SoundEffectPool"
+
 func _create_sfx_player(sample, volume, bus="SFX") -> AudioStreamPlayer:
 	var player = AudioStreamPlayer.new()
 	player.bus = bus
@@ -77,8 +80,8 @@ func stop_all_looping_sfx():
 			stop_looping_sfx(player)
 
 func stop_all_sfx():
-	for effect in loaded_effects:
-		for player in loaded_effects[effect]:
+	for effect in playing_effects:
+		for player in playing_effects[effect]:
 			stop_sfx(player)
 	stop_all_looping_sfx()
 

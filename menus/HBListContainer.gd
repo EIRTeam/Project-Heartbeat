@@ -20,7 +20,7 @@ export(bool) var instant_scale_change = false
 var f = true
 const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const ACCEPT_SOUND = preload("res://sounds/sfx/MENU A_Select.wav")
-var move_sound_player = AudioStreamPlayer.new()
+onready var move_sound_player = AudioStreamPlayer.new()
 export(bool) var fixed_scale_factor = false
 var prevent_hard_arrange = false
 

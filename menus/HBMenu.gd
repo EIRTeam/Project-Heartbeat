@@ -4,7 +4,7 @@ signal change_to_menu(menu_name, force_hard_transition, args)
 signal transition_finished()
 class_name HBMenu
 
-var tween = Tween.new()
+onready var tween = Tween.new()
 
 const TRANSITION_DURATION = 0.25
 

@@ -280,3 +280,9 @@ func _on_StartPractice_pressed():
 		game_info.difficulty = current_difficulty
 		emit_signal("begin_loading")
 		scene.load_song(game_info, true, current_assets)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for tab in [leaderboard_tab_normal, leaderboard_tab_modifiers]:
+			if is_instance_valid(tab) and not tab.is_queued_for_deletion():
+				tab.queue_free()

@@ -48,7 +48,7 @@ func _redraw_items():
 		if layer.get_child_count() > 1:
 			var base_item := layer.get_child(1) as EditorTimelineItemNote
 			if base_item:
-				var note_color := IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, base_item.data.note_type))
+				var note_color := IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, base_item.data.note_type)) as Color
 				var song_length_ms: int = int(editor.get_song_length() * 1000.0)
 
 				

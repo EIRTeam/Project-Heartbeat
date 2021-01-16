@@ -33,6 +33,7 @@ func _ready():
 		points.resize(2)
 		l2.points = points
 		angle_line_2ds.append(l2)
+	angle_line_2d.queue_free()
 
 func get_transformed_value(note, transformation_map, property_name: String):
 	var value

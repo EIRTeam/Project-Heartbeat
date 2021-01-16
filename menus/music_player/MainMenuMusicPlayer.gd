@@ -6,8 +6,8 @@ var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 
 onready var main_container = get_node("MusicPlayer")
 
-var entry_tween = Tween.new()
-var exit_timer = Timer.new()
+onready var entry_tween = Tween.new()
+onready var exit_timer = Timer.new()
 
 var current_song: HBSong
 

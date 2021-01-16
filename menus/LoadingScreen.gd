@@ -7,7 +7,7 @@ onready var title_label = get_node("Panel2/Panel3/MarginContainer/HBoxContainer/
 onready var meta_label = get_node("Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer/MetaLabel")
 onready var loadingu_label = get_node("Panel2/Panel3/MarginContainer/HBoxContainer/LoadinguLabel")
 onready var album_cover = get_node("Panel2/Panel3/MarginContainer/HBoxContainer/TextureRect")
-var appear_tween := Tween.new()
+onready var appear_tween := Tween.new()
 var base_assets
 const DEFAULT_PREVIEW_TEXTURE = preload("res://graphics/no_preview_texture.png")
 const DEFAULT_BG = preload("res://graphics/predarkenedbg.png")

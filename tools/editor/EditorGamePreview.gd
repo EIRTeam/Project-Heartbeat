@@ -10,7 +10,7 @@ onready var grid_renderer = get_node("Node2D/GridRenderer")
 onready var transform_preview = get_node("TransformPreview")
 const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
-var video_pause_timer = Timer.new()
+onready var video_pause_timer = Timer.new()
 var video_time = 0.0
 func _ready():
 	game.size = rect_size

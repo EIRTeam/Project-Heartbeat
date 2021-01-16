@@ -5,6 +5,9 @@ extends Node
 
 class_name HBGameInputManager
 
+func _init():
+	name = "GameInputManager"
+
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 

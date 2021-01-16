@@ -220,3 +220,11 @@ func change_to_background(background: Texture, use_default = false):
 
 func _on_song_time_changed(time):
 	music_player_control.set_time(time)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for menu in MENUS:
+			for submenu in MENUS[menu]:
+				if not MENUS[menu][submenu] is String:
+					if is_instance_valid(MENUS[menu][submenu]):
+						MENUS[menu][submenu].queue_free()

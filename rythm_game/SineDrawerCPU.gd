@@ -4,10 +4,6 @@ class_name SineDrawerCPU
 
 var note_data: HBBaseNote
 
-var points: PoolVector2Array
-var points2: PoolVector2Array
-var points_leading: PoolVector2Array
-
 var time_out
 var game
 
@@ -23,6 +19,9 @@ func set_trail_margin(val):
 	trail_margin = val
 	var shad_mat = line.material as ShaderMaterial
 	shad_mat.set_shader_param("trail_margin", val)
+	
+func _init():
+	name = "SineDrawerCPU"
 	
 func generate_trail_points():
 	var points = game.get_note_trail_points(note_data)
@@ -40,7 +39,6 @@ func generate_trail_points():
 	_on_resized()
 	
 func _on_resized():
-	var shad_mat = line.material as ShaderMaterial
 	position = game.remap_coords(note_data.position)
 	scale = game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)
 	var factor = 40
@@ -63,5 +61,10 @@ func setup():
 	z_index = -1
 func _ready():
 	setup()
+	
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(line) and not line.is_queued_for_deletion():
+			line.queue_free()
 
 #	scale = Vector2(game.get_note_scale(), game.get_note_scale())

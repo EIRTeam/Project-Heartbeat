@@ -16,7 +16,11 @@ func _unhandled_input(event):
 		change_to_menu("main_menu")
 
 func _on_SongMetaEditorButton_pressed():
-	get_tree().change_scene_to(load("res://tools/editor/Editor.tscn"))
+	var new_scene = preload("res://tools/editor/Editor.tscn")
+	var scene = new_scene.instance()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
 
 func _on_OpenSongsDirectoryButton_pressed():
 	OS.shell_open(ProjectSettings.globalize_path(HBUtils.join_path(UserSettings.user_settings.content_path, "songs")))

@@ -13,8 +13,8 @@ var header_offset = 0
 var path
 var file
 const SIGNATURE = "PPDPACKV1"
-func _init(path: String):
-	self.path = path
+func _init(_path: String):
+	path = _path
 	file = File.new()
 	file.open(path, File.READ)
 	
@@ -28,15 +28,13 @@ func _init(path: String):
 		file_name_lengths.append(length)
 		length = file.get_8()
 		
-	var size_sum = 0
 	for name_length in file_name_lengths:
 		var file_name = file.get_buffer(name_length)
 		file_names.append(file_name)
 		var size = file.get_32()
 		file_sizes.append(size)
-		size_sum += size
 	header_offset = file.get_position()
-	var last_index = header_offset + size_sum
+#	var last_index = header_offset + size_sum
 	# Read file
 	var offset = header_offset
 	file_offsets.append(header_offset)

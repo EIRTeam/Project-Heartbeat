@@ -59,7 +59,7 @@ var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new(
 var plugins = []
 
 var contextual_menu = HBEditorContextualMenuControl.new()
-var fine_position_timer = Timer.new()
+onready var fine_position_timer = Timer.new()
 
 var current_notes = []
 
@@ -1207,3 +1207,7 @@ func get_lyrics():
 func sync_lyrics():
 	game_playback.set_lyrics(get_lyrics())
 	
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(rhythm_game_playtest_popup) and not rhythm_game_playtest_popup.is_queued_for_deletion():
+			rhythm_game_playtest_popup.queue_free()
