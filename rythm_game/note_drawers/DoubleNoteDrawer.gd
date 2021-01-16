@@ -8,7 +8,6 @@ func _on_note_type_changed():
 	target_graphic.set_note_type(note_data)
 
 func judge_note_input(event: InputEvent, time: float):
-	var handled = false
 	var total = 0
 	for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		total += game.game_input_manager.get_action_press_count(action)
@@ -16,9 +15,7 @@ func judge_note_input(event: InputEvent, time: float):
 	for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		if event.is_action_pressed(action) and total >= 2:
 			return .judge_note_input(event, time)
-			handled = true
-	if not handled: 
-		return JudgeInputResult.new()
+	return JudgeInputResult.new()
 
 func handle_input(event: InputEvent, time: float):
 	pass

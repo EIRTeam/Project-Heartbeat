@@ -19,8 +19,6 @@ var note_scale = 1.0
 
 var appear_particles_node = preload("res://menus/AppearParticles.tscn").instance()
 
-var target_remote_transform = RemoteTransform2D.new()
-
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -59,6 +57,15 @@ func _notification(what):
 		for data in layer_bound_node_datas:
 			var ui_node = game.game_ui.get_drawing_layer_node(data.layer_name)
 			ui_node.remove_child(data.node)
+	elif what == NOTIFICATION_PREDELETE:
+		for data in layer_bound_node_datas:
+			if is_instance_valid(data.node) and not data.node.is_queued_for_deletion():
+				data.node.queue_free()
+			if is_instance_valid(data.remote_transform) and not data.remote_transform.is_queued_for_deletion():
+				data.remote_transform.queue_free()
+		for node in [appear_particles_node, sine_drawer]:
+			if is_instance_valid(node) and not node.is_queued_for_deletion():
+				node.queue_free()
 
 func _ready():
 	_on_note_type_changed()
@@ -126,8 +133,6 @@ func draw_trail(time: float):
 		var time_out_distance = get_time_out() - (note_data.time - time*1000.0)
 		# Trail will be time_out / 2 behind
 		var time_out = get_time_out()
-		var points = PoolVector2Array()
-		var points2 = PoolVector2Array()
 		# How much margin we leave for the trail from the note center, this prevents
 		# the trail from leaking into notes with holes in the middle
 

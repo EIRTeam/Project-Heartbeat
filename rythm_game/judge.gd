@@ -1,4 +1,3 @@
-extends Node
 class_name HBJudge
 enum JUDGE_RATINGS {
 	WORST

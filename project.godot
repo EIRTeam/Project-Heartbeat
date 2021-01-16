@@ -194,7 +194,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBINIParser.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "HBJudge",
 "language": "GDScript",
 "path": "res://rythm_game/judge.gd"

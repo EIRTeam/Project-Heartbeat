@@ -6,7 +6,7 @@ onready var progess_bar_waypoint = get_node("MarginContainer/VBoxContainer/VBoxC
 onready var ingame_stats_label = get_node("PracticeModeUIIngame/HBoxContainer/Label")
 onready var quit_confirmation = get_node("QuitConfirmation")
 onready var time_label = get_node("MarginContainer/VBoxContainer/VBoxContainer/Label")
-var video_pause_timer = Timer.new()
+onready var video_pause_timer = Timer.new()
 
 var stats_passed_notes = 0
 var stats_total_notes = 0

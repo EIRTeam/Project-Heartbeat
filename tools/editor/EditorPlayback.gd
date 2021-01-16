@@ -17,11 +17,13 @@ func set_chart(val):
 	chart = val
 	game.set_chart(chart)
 func _init(_game: HBRhythmGame):
+	self.game = _game
+
+func _ready():
 	add_child(audio_stream_player)
 	add_child(voice_audio_stream_player)
 	audio_stream_player.bus = "Music"
 	voice_audio_stream_player.bus = "Music"
-	self.game = _game
 
 func _process(delta):
 	var time = 0.0

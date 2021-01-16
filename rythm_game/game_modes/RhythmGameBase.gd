@@ -78,7 +78,7 @@ var audio_stream_player: AudioStreamPlayer
 var audio_stream_player_voice: AudioStreamPlayer
 
 var game_ui: HBRhythmGameUIBase
-var game_input_manager: HBGameInputManager = HBGameInputManager.new()
+var game_input_manager: HBGameInputManager
 
 var bpm_changes = {}
 
@@ -90,6 +90,9 @@ var base_bpm = 180.0
 var sfx_player_queue = []
 
 var current_assets
+
+func _init():
+	name = "RhythmGameBase"
 
 func _game_ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -692,3 +695,10 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		var judgement_info = {"judgement": judgement, "target_time": target_time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
 
 		emit_signal("note_judged", judgement_info)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for c in [cached_note_drawers, restart_cached_note_drawers]:
+			for note in c:
+				if is_instance_valid(c[note]) and not c[note].is_queued_for_deletion():
+					c[note].queue_free()

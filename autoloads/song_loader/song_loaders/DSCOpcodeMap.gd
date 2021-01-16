@@ -1,5 +1,3 @@
-extends Node
-
 enum AFT_OPCODES {
 	END = 0x00,
 	TIME = 0x01,

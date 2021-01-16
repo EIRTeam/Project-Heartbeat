@@ -9,7 +9,6 @@ func set_input_manager(val):
 	$NoteDetector.input_manager = val
 
 func _ready():
-	var g = HBRhythmGame.new()
 	HBGame.NOTE_TYPE_TO_ACTIONS_MAP = HBGame.NOTE_TYPE_TO_ACTIONS_MAP
 	var buttons = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
 	for button in buttons:

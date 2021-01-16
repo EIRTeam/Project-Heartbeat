@@ -7,7 +7,7 @@ export(DynamicFont) var font_2: DynamicFont
 export(String) var text_1 = "asd" setget set_text_1
 export(String) var text_2 = "asd" setget set_text_2
 
-var movement_tween := Tween.new()
+onready var movement_tween := Tween.new()
 
 var text_x_offset := 0.0
 

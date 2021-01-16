@@ -20,11 +20,16 @@ signal run_mp_callbacks
 signal ticket_ready
 signal ticket_failed
 
+func _init():
+	name = "PlatformServiceProvider"
+
 func init_platform() -> int:
 	if is_remote_storage_enabled():
 		for file_path in FILES_TO_SYNC_ON_STARTUP:
 			read_remote_file_to_path(file_path, "user://" + file_path.get_file())
 #		write_remote_file_from_path(file_path, "user://" + file_path.get_file())
+	if multiplayer_provider:
+		add_child(multiplayer_provider)
 	return 0
 
 func get_avatar() -> Texture:

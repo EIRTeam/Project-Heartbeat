@@ -32,6 +32,9 @@ func _notification(what):
 		get_tree().get_root().call_deferred("remove_child", sfx_player)
 	elif what == NOTIFICATION_ENTER_TREE:
 		get_tree().get_root().call_deferred("add_child", sfx_player)
+	elif what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(sfx_player) and not sfx_player.is_queued_for_deletion():
+			sfx_player.queue_free()
 func select_button(i: int, fire_event=true):
 	var child = get_child(i)
 	if selected_button:

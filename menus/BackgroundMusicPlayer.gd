@@ -11,8 +11,8 @@ var next_voice: AudioStream
 var current_song: HBSong
 var song_queued = false
 var waiting_for_song_assets = false
-var player = AudioStreamPlayer.new()
-var voice_player = AudioStreamPlayer.new()
+onready var player = AudioStreamPlayer.new()
+onready var voice_player = AudioStreamPlayer.new()
 
 var loading_song = null
 

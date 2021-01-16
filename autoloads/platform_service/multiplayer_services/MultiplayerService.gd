@@ -24,3 +24,6 @@ func join_lobby(new_lobby: HBLobby):
 
 func create_lobby():
 	return HBLobby.new(null)
+
+func _init():
+	name = "MultiplayerService"
