@@ -23,9 +23,9 @@ func _on_note_judged(judgement_info):
 		if judgement_info.wrong or judgement_info.judgement < HBJudge.JUDGE_RATINGS.SAD:
 			return
 		var latency_diff = judgement_info.time-judgement_info.target_time
+		latency_diff = range_lerp(latency_diff, -max_latency, max_latency, 0.0, 1.0)
 		if latency_diff > 1.0:
 			return
-		latency_diff = range_lerp(latency_diff, -max_latency, max_latency, 0.0, 1.0)
 		if last_judgements.size() >= JUDGEMENTS_TO_COUNT:
 			last_judgements.pop_back()
 		last_judgements.push_front(latency_diff)
