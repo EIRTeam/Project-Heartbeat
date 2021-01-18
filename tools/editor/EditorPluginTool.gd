@@ -11,10 +11,11 @@ func set_tool(child, tool_name: String):
 	tool_control = child
 	$HBoxContainer/ToolName.text = tool_name
 	add_child(child)
+	child.hide()
 
 func _on_ToggleToolButton_pressed():
 	if tool_control:
-		if tool_control in get_children():
+		if tool_control.visible:
 			tool_control.hide()
 			toggle_tool_button.icon = RIGHT_ICON
 		else:
