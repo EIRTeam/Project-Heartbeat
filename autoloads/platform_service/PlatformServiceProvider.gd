@@ -58,3 +58,7 @@ func is_remote_storage_enabled():
 	return false
 func get_leaderboard_auth_token():
 	pass
+func unlock_achievement(achievement_name: String):
+	pass
+func save_achievements():
+	pass

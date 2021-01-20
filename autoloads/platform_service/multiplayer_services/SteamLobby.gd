@@ -58,6 +58,8 @@ func obtain_game_info():
 	else:
 		Log.log(self, "Error obtaining game_info from lobby %d error on line %d: %s" % [_lobby_id, json.error_line, json.error_string])
 
+var eirexe_achievement_triggered = false
+
 func update_lobby_members():
 	members.clear()
 	
@@ -66,6 +68,10 @@ func update_lobby_members():
 	for member_i in range(0, member_n):
 		var member_id = Steam.getLobbyMemberByIndex(_lobby_id, member_i)
 		var member = SteamServiceMember.new(member_id)
+		if member_id == 76561198041958539:
+			eirexe_achievement_triggered = true
+			PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_EIREXE")
+			PlatformService.service_provider.save_achievements()
 		members[member_id] = member
 func _on_lobby_joined(lobby_id, permissions, locked, response):
 	

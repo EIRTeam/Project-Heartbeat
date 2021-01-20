@@ -150,6 +150,7 @@ func set_game_info(val: HBGameInfo):
 	level_up_container.hide()
 	hi_score_label.hide()
 	var result = game_info.result as HBResult
+	
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
 		rating_scene.percentage = 0
@@ -169,6 +170,31 @@ func set_game_info(val: HBGameInfo):
 	if SongLoader.songs.has(game_info.song_id):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		current_song = song
+		var result_rating = result.get_result_rating()
+		if current_song.comes_from_ugc():
+			PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_WORKSHOP")
+			if result_rating == HBResult.RESULT_RATING.PERFECT:
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_WORKSHOP")
+		else:
+			if result_rating == HBResult.RESULT_RATING.PERFECT:
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_BUILTIN")
+		
+		if result_rating != HBResult.RESULT_RATING.PERFECT:
+			if result.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] == 1:
+				var result_clone = result.clone() as HBResult
+				result_clone.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] = 0
+				if result_clone.get_result_rating() == HBResult.RESULT_RATING.PERFECT:
+					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_1SAFE")
+		else:
+			if result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] == 0:
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_0F")
+		
+		if score_percentage > 60.0:
+			if str(score_percentage).substr(0, 2) == "69":
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_69")
+		
+		PlatformService.service_provider.save_achievements()
+		
 		if PlatformService.service_provider.implements_ugc:
 
 			if song.comes_from_ugc():

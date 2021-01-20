@@ -143,3 +143,12 @@ func is_remote_storage_enabled():
 # Leaderboard auth token
 func get_leaderboard_auth_token():
 	return Steam.getAuthSessionTicket().buffer
+
+func unlock_achievement(achievement_name: String):
+	var achievement_result = Steam.setAchievement(achievement_name)
+	if not achievement_result:
+		Log.log(self, "Error setting achievement %s" % [achievement_name], Log.LogLevel.ERROR)
+func save_achievements():
+	var store_stats_result = Steam.storeStats()
+	if not store_stats_result:
+		Log.log(self, "Error storing achievement stats", Log.LogLevel.ERROR)
