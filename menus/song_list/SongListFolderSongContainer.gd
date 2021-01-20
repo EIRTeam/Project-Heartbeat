@@ -276,7 +276,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	if UserSettings.user_settings.enable_multi_threaded_texture_loading:
+	if UserSettings.get_async_texture_loading_enabled():
 		current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
 	else:
 		current_filter_task = HBFilterSongsTaskSafe.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)

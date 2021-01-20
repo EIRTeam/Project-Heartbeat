@@ -39,11 +39,18 @@ const DISABLE_ANALOG_FOR_ACTION = [
 
 var device_id = 0
 
+var force_disable_async_textures = false
+
 func _ready():
 	add_child(debounce_timer)
 	debounce_timer.wait_time = 1.0
 	debounce_timer.one_shot = true
 	debounce_timer.connect("timeout", self, "_save_user_settings")
+
+	if OS.get_name() == "Windows":
+		var video_adapter_name = VisualServer.get_video_adapter_name().to_lower()
+		if not "angle" in video_adapter_name:
+			force_disable_async_textures = true
 
 func get_input_map():
 	var map = {}
@@ -285,3 +292,9 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 			if f:
 				return f
 	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
+
+func get_async_texture_loading_enabled() -> bool:
+	if force_disable_async_textures:
+		return true
+	else:
+		return user_settings.enable_multi_threaded_texture_loading
