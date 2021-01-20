@@ -89,4 +89,4 @@ func _gui_input(event):
 			var song_length_ms: int = int(editor.get_song_length() * 1000.0)
 			var new_offset = (get_local_mouse_position().x / rect_size.x) * song_length_ms
 			var cull_size = selection_rect.rect_size.x
-			emit_signal("offset_changed", new_offset - (cull_size / rect_size.x * song_length_ms) / 2.0)
+			emit_signal("offset_changed", max(new_offset - (cull_size / rect_size.x * song_length_ms) / 2.0, 0))
