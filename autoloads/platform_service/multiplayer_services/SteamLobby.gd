@@ -70,8 +70,9 @@ func update_lobby_members():
 		var member = SteamServiceMember.new(member_id)
 		if member_id == 76561198041958539:
 			eirexe_achievement_triggered = true
-			PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_EIREXE")
-			PlatformService.service_provider.save_achievements()
+			if not eirexe_achievement_triggered:
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_EIREXE")
+				PlatformService.service_provider.save_achievements()
 		members[member_id] = member
 func _on_lobby_joined(lobby_id, permissions, locked, response):
 	
