@@ -70,7 +70,7 @@ func _draw_bars(interval, offset=0):
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 0.5), 1.0, false)
 		if fmod(line, draw_every) == 0:
 			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
-			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 45), time_string)
+			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 35), time_string)
 	
 func _draw_interval(interval, offset=0, ignore_interval=null):
 	var lines = int(editor.get_song_length() / interval)
