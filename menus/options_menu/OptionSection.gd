@@ -70,7 +70,7 @@ func _set_section_data(val):
 			# text is completely filled
 			_on_option_hovered(section_data.keys()[0])
 
-func _unhandled_input(event):
+func _input(event):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
