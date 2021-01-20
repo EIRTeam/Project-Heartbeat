@@ -11,3 +11,7 @@ func enable_mouse_trap():
 
 func _ready():
 	disable_mouse_trap()
+
+
+func _on_Label_meta_clicked(meta):
+	OS.shell_open(meta)
