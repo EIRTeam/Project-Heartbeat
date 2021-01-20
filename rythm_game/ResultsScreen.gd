@@ -190,7 +190,7 @@ func set_game_info(val: HBGameInfo):
 				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_0F")
 		
 		if score_percentage > 60.0:
-			if str(score_percentage).substr(0, 2) == "69":
+			if str(score_percentage*100.0).substr(0, 2) == "69":
 				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_69")
 		
 		PlatformService.service_provider.save_achievements()
