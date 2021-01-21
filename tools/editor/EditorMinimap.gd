@@ -59,9 +59,10 @@ func _redraw_items():
 						
 						# We draw the notes in the minimap, they are not squares
 						# they match the height for easier viewing.
-						for i in range(-1, 2):
+						for x in range(-1, 2):
 							for y in range(-CIRCLE_SIZE, CIRCLE_SIZE):
-								image.set_pixel(pos*rect_size.x + i, y_pos + TOP_MARGIN + y, note_color)
+								if y_pos + TOP_MARGIN + y < image.get_size().y:
+									image.set_pixel(pos*rect_size.x + x, y_pos + TOP_MARGIN + y, note_color)
 		layer_i += 1
 	image.unlock()
 	if texture_size_changed:
