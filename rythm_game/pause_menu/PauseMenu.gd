@@ -26,7 +26,7 @@ func _on_resumed():
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()
 	$ViewportContainer/Viewport/Spatial/RestartPopup.hide()
 	$ViewportContainer/Viewport/Spatial/QuitPopup.hide()
-	song_settings_editor.hide()
+	song_settings_editor.hide_editor()
 func _on_viewport_size_changed():
 	$ViewportContainer/Viewport.size = OS.window_size
 

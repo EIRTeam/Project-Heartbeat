@@ -50,6 +50,9 @@ func show_editor():
 	editor.show()
 	editor.grab_focus()
 	
+func hide_editor():
+	editor.hide()
+	
 func _on_per_song_setting_changed(property_name, new_value):
 	UserSettings.user_settings.per_song_settings[current_song.id].set(property_name, new_value)
 	UserSettings.save_user_settings()
