@@ -287,7 +287,6 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 	if user_settings.custom_sounds[sound_name] != "default":
 		var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, user_settings.custom_sounds[sound_name]]
 		var f = HBUtils.load_wav(file_path)
-		print("FINDING FILE ", file_path)
 		if file.file_exists(file_path):
 			if f:
 				return f
@@ -295,6 +294,6 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 
 func get_async_texture_loading_enabled() -> bool:
 	if force_disable_async_textures:
-		return true
+		return false
 	else:
 		return user_settings.enable_multi_threaded_texture_loading
