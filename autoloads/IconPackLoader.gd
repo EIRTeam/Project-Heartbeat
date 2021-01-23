@@ -140,7 +140,7 @@ func generate_atlas_textures(pack_config, texture, atlas_config, x_offset = 0):
 				var atlas_texture := AtlasTexture.new()
 				atlas_texture.atlas = texture
 		
-				var region = Rect2(Vector2(frame.x + x_offset, frame.y), Vector2(frame.w, frame.h))
+				var region = Rect2(Vector2(frame.x + x_offset - 2, frame.y), Vector2(frame.w + 3, frame.h))
 				atlas_texture.region = region
 		
 				var margin = Rect2(Vector2(sprite_source_size.x, sprite_source_size.y), Vector2(sprite_source_size.w-frame.w, sprite_source_size.h-frame.h))
