@@ -92,6 +92,7 @@ func _on_task_finished_processing(data):
 			var texture = ImageTexture.new()
 			texture.create_from_image(data[asset_name], Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
 			data[asset_name] = texture
+	data["song"] = song
 	emit_signal("assets_loaded", data)
 	if "audio_loudness" in data:
 		SongDataCache.update_loudness_for_song(song, data.audio_loudness)
