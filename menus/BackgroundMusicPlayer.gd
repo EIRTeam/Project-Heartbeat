@@ -74,10 +74,11 @@ func _on_song_assets_loaded(assets):
 	waiting_for_song_assets = false
 	var song = current_song
 	if UserSettings.user_settings.disable_menu_music:
-		emit_signal("song_started", song, assets)
+		if current_song == assets.song:
+			emit_signal("song_started", song, assets)
 	else:
 		if "audio" in assets:
-			if not current_song:
+			if not player.playing:
 				player.stream = assets.audio
 				player.play()
 				player.seek(song.preview_start/1000.0)
@@ -88,7 +89,7 @@ func _on_song_assets_loaded(assets):
 				player.volume_db = FADE_OUT_VOLUME
 				voice_player.volume_db = FADE_OUT_VOLUME
 				target_volume = 0
-			else:
+			elif current_song == assets.song:
 				next_audio = assets.audio
 				if "voice" in assets and assets.voice:
 					next_voice = assets.voice
