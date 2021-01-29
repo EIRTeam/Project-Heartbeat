@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://autoloads/MouseTrap.gd" type="Script" id=1]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=2]
 [ext_resource path="res://autoloads/CacheSongOverlay.gd" type="Script" id=3]
 [ext_resource path="res://autoloads/PPDDialog.gd" type="Script" id=4]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=5]
+[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=6]
+[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=7]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -40,28 +43,43 @@ __meta__ = {
 }
 
 [node name="DownloadConfirmPopup" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
-has_cancel = true
-has_accept = true
 text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
-accept_text = "Yes"
-cancel_text = "No"
+
+[node name="Label" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/MarginContainer/VBoxContainer" index="0"]
+margin_top = 56.0
+margin_bottom = 155.0
+text = "This song requires downloading video/audio files from YouTube, would you like to download them?"
+
+[node name="AcceptButton" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/HBoxContainer" index="0"]
+margin_left = 77.0
+margin_right = 145.0
+
+[node name="AcceptButtonAudio" type="Button" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/HBoxContainer" index="1"]
+margin_left = 165.0
+margin_right = 397.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 55, 0 )
+custom_styles/hover = ExtResource( 7 )
+custom_styles/pressed = ExtResource( 7 )
+custom_styles/normal = ExtResource( 6 )
+text = "Yes (audio only)"
+script = ExtResource( 8 )
+
+[node name="CancelButton" parent="MouseTrap/CacheSongOverlay/DownloadConfirmPopup/Panel/HBoxContainer" index="2"]
+margin_left = 417.0
+margin_right = 472.0
 
 [node name="DownloadingPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
 has_accept = false
 text = "Downloading..."
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="ErrorPrompt" parent="MouseTrap/CacheSongOverlay" instance=ExtResource( 2 )]
 has_cancel = false
-has_accept = true
 text = "Media for this song is currently being downloaded."
 accept_text = "Ok"
-cancel_text = "No"
 
 [node name="PPDDialog" type="WindowDialog" parent="MouseTrap"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -161,8 +179,10 @@ window_title = "Abrir un Directorio"
 mode = 2
 access = 2
 show_hidden_files = true
-current_dir = "/Users/EIREXE/Project-Heartbeat"
-current_path = "/Users/EIREXE/Project-Heartbeat/"
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [connection signal="meta_clicked" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
 [connection signal="pressed" from="MouseTrap/PPDDialog/MarginContainer/VBoxContainer/Button" to="MouseTrap/PPDFileDialog" method="popup_centered"]
+
+[editable path="MouseTrap/CacheSongOverlay/DownloadConfirmPopup"]

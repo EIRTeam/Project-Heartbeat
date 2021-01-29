@@ -8,7 +8,7 @@ export(bool) var has_accept = true
 export(String) var text  = "Are you sure you want to do this?" setget set_text
 export(String) var accept_text  = "Yes" setget set_accept_text
 export(String) var cancel_text  = "No" setget set_cancel_text
-
+onready var cancel_button = get_node("Panel/HBoxContainer/CancelButton")
 func _ready():
 	popup_exclusive = true
 	connect("cancel", self, "hide")
@@ -32,6 +32,6 @@ func set_cancel_text(value):
 func _on_Control_about_to_show():
 	$Panel/HBoxContainer.grab_focus()
 	if has_cancel:
-		$Panel/HBoxContainer.select_button(1)
+		$Panel/HBoxContainer.select_button(cancel_button.get_position_in_parent())
 	else:
 		$Panel/HBoxContainer.select_button(0)
