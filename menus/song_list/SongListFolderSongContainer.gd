@@ -20,6 +20,8 @@ signal end_loading
 signal hover_nonsong
 signal song_hovered(song)
 signal difficulty_selected(song, difficulty)
+signal show_no_folder_label
+signal hide_no_folder_label
 
 
 
@@ -42,9 +44,8 @@ func _on_selected_option_changed():
 	else:
 		emit_signal("hover_nonsong")
 func navigate_folder(folder: HBFolder):
-	if folder.songs.size() > 0 or folder.subfolders.size() > 0:
-		folder_stack.append(folder)
-		update_items()
+	folder_stack.append(folder)
+	update_items()
 		
 func navigate_back():
 	folder_stack.pop_back()
@@ -65,7 +66,10 @@ func update_items():
 		remove_child(i)
 		i.queue_free()
 	
-	if folder_stack.size() == 0:
+	if folder_stack.size() == 1 and folder_stack[0].songs.size() == 0 and folder_stack[0].subfolders.size() == 0:
+		emit_signal("show_no_folder_label")
+		selected_option = null
+		emit_signal("updated_folders", folder_stack)
 		return
 
 	song_items_map = {}
@@ -105,6 +109,7 @@ func update_items():
 		UserSettings.user_settings.last_folder_path.append(f.folder_name)
 	UserSettings.save_user_settings()
 	emit_signal("updated_folders", folder_stack)
+	emit_signal("hide_no_folder_label")
 
 func _on_song_selected(song: HBSong, no_hard_arrange=false):
 	if song_items_map.has(song):
@@ -189,11 +194,12 @@ func set_filter(filter_name: String):
 		var path = UserSettings.user_settings.last_folder_path.duplicate()
 		path.pop_front()
 		var starting_folders = get_starting_folder([UserSettings.user_settings.root_folder], path)
-		print("GOING TO! ")
 		folder_stack = []
+
 		for folder in starting_folders:
 			navigate_folder(folder)
 	else:
+		emit_signal("hide_no_folder_label")
 		last_filter = filter_by
 		if filter_by != filter_name:
 			filter_by = filter_name
@@ -239,7 +245,6 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 			select_option(0)
 		else:
 			if previously_selected_difficulty:
-				prints("SELECTING SONG", previously_selected_song_id)
 				select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
 	else:
 		if filtered_songs.size() <= items_visible_top:
