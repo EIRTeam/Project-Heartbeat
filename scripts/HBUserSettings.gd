@@ -118,7 +118,7 @@ enum TIMING_METHOD {
 
 var timing_method = TIMING_METHOD.SYSTEM_CLOCK
 
-var enable_multi_threaded_texture_loading = true
+var enable_multi_threaded_texture_loading = false
 
 func _init():
 
