@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
@@ -17,8 +17,9 @@
 [ext_resource path="res://menus/ScrollListShader.shader" type="Shader" id=15]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=16]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=17]
+[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=18]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=1]
 resource_name = "spin"
 loop = true
 tracks/0/type = "value"
@@ -34,7 +35,7 @@ tracks/0/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
 
 uniform vec2 pos;
@@ -60,21 +61,21 @@ void fragment() {
 
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
 shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 15 )
 shader_param/pos = null
 shader_param/size = Vector2( 1920, 1080 )
 shader_param/enabled = true
 shader_param/fade_size = 50.0
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 25
 use_mipmaps = true
 use_filter = true
@@ -104,13 +105,12 @@ margin_left = 924.0
 margin_top = 504.0
 margin_right = 996.0
 margin_bottom = 576.0
-rect_rotation = 140.807
 rect_pivot_offset = Vector2( 36, 36 )
 texture = ExtResource( 17 )
 stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/TextureRect"]
-anims/spin = SubResource( 5 )
+anims/spin = SubResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -133,7 +133,7 @@ rect_min_size = Vector2( 0, 40 )
 alignment = 2
 
 [node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-material = SubResource( 2 )
+material = SubResource( 3 )
 margin_right = 1916.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
@@ -162,7 +162,7 @@ custom_constants/margin_top = 0
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
-material = SubResource( 3 )
+material = SubResource( 4 )
 margin_right = 1920.0
 margin_bottom = 974.0
 size_flags_horizontal = 3
@@ -171,6 +171,16 @@ script = ExtResource( 10 )
 scale_factor = 0.85
 items_visible_top = 3
 fixed_scale_factor = true
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+visible = false
+margin_top = 463.0
+margin_right = 1920.0
+margin_bottom = 510.0
+custom_fonts/font = ExtResource( 18 )
+text = "No folders found, add some!"
+align = 1
+valign = 1
 
 [node name="Prompts" type="VBoxContainer" parent="VBoxContainer"]
 margin_top = 1024.0
@@ -219,7 +229,7 @@ margin_left = 44.0
 margin_right = 105.0
 margin_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Sort"
 align = 1
 valign = 1
@@ -249,7 +259,7 @@ margin_left = 44.0
 margin_right = 148.0
 margin_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Add to..."
 align = 1
 valign = 1
@@ -279,7 +289,7 @@ margin_left = 44.0
 margin_right = 152.0
 margin_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Manage"
 align = 1
 valign = 1
@@ -309,7 +319,7 @@ margin_left = 44.0
 margin_right = 160.0
 margin_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Remove"
 align = 1
 valign = 1
@@ -339,7 +349,7 @@ margin_left = 44.0
 margin_right = 134.0
 margin_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Select"
 align = 1
 valign = 1
@@ -351,7 +361,7 @@ rect_min_size = Vector2( 123.711, 0 )
 
 [node name="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
 margin_right = 115.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
 margin_left = -314.0
@@ -400,6 +410,8 @@ visible = false
 
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
+[connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]
+[connection signal="show_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
 
