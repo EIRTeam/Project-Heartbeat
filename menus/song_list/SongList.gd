@@ -46,7 +46,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
-	song_container.hard_arrange_all()
+#	song_container.hard_arrange_all()
 	
 	var allowed_sort_by = {
 		"title": "Title",
@@ -207,9 +207,10 @@ func _unhandled_input(event):
 				show_order_by_list()
 		if event.is_action_pressed("contextual_option"):
 			if UserSettings.user_settings.filter_mode == "folders":
-				if song_container.selected_option is HBSongListItem:
+				var item = song_container.get_selected_item()
+				if item and item is HBSongListItem:
 					var folder = song_container.folder_stack[song_container.folder_stack.size()-1] as HBFolder
-					folder.songs.erase(song_container.selected_option.song.id)
+					folder.songs.erase(item.song.id)
 					if folder.songs.size() == 0:
 						song_container.navigate_back()
 					else:

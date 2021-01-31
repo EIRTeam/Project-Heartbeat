@@ -17,26 +17,24 @@ use_filter = true
 extra_spacing_top = 15
 font_data = ExtResource( 5 )
 
-[node name="Control" type="MarginContainer"]
+[node name="Control" type="Control"]
 use_parent_material = true
 anchor_right = 1.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 focus_mode = 2
 size_flags_horizontal = 3
-custom_constants/margin_top = 25
-custom_constants/margin_left = 25
-custom_constants/margin_bottom = 25
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
 use_parent_material = true
-margin_left = 25.0
+margin_left = 60.0
 margin_top = 25.0
-margin_right = 1920.0
+margin_right = 1720.0
 margin_bottom = 75.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -63,7 +61,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 use_parent_material = true
 margin_left = 62.0
-margin_right = 1895.0
+margin_right = 1660.0
 margin_bottom = 50.0
 mouse_filter = 2
 custom_constants/separation = 7
@@ -90,6 +88,7 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_right = 795.0
 margin_bottom = 38.0
 mouse_filter = 2
 
@@ -124,4 +123,5 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]

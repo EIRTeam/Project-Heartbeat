@@ -1,26 +1,17 @@
-extends Control
+extends HBSongListItemBase
 
 class_name HBSongListItem
 
 var song : HBSong
 
-
-var hover_style = preload("res://styles/SongListItemHover.tres")
-var normal_style = preload("res://styles/SongListItemNormal.tres")
-
-var target_opacity = 1.0
-
-const LERP_SPEED = 3.0
-
-signal pressed
-
 var prev_focus
-onready var stars_label = get_node("Control/TextureRect/StarsLabel")
-onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
-onready var stars_texture_rect = get_node("Control/TextureRect")
 onready var button = get_node("Control")
 #onready var star_texture_rect = get_node("TextureRect")
 signal song_selected(song)
+
+onready var stars_label = get_node("Control/TextureRect/StarsLabel")
+onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
+onready var stars_texture_rect = get_node("Control/TextureRect")
 
 func set_song(value: HBSong):
 	song = value
@@ -48,27 +39,9 @@ func set_song(value: HBSong):
 #	else:
 #		score_label.hide()
 
-func _on_resize():
-	pass
 #	stars_texture_rect.rect_position = Vector2(-88, -25)
 #	star_texture_rect.rect_position = Vector2(-(star_texture_rect.rect_size.x/2.0), (rect_size.y / 2.0) - ((star_texture_rect.rect_size.y) / 2.0))
-
-func _ready():
-	connect("resized", self, "_on_resize")
-	_on_resize()
-
-func hover():
-	button.add_stylebox_override("normal", hover_style)
-
-func stop_hover():
-	button.add_stylebox_override("normal", normal_style)
 	
-func _process(delta):
-	modulate.a = lerp(modulate.a, target_opacity, LERP_SPEED*delta)
-
-func _gui_input(event):
-	if event.is_action_pressed("gui_accept") and not event.is_echo():
-		emit_signal("song_selected", song)
 #	var new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")
 #	var scene = new_scene.instance()
 #	get_tree().current_scene.queue_free()

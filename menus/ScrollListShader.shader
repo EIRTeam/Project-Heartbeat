@@ -19,5 +19,8 @@ void fragment() {
 
 		COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_y);
 		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_y);
+		if (COLOR.a == 0.0) {
+			discard;
+		}
 	}
 }

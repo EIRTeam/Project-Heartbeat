@@ -27,23 +27,21 @@ extra_spacing_top = 7
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 3 )
 
-[node name="Control" type="MarginContainer"]
+[node name="Control" type="Control"]
 anchor_right = 1.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 focus_mode = 2
 size_flags_horizontal = 3
-custom_constants/margin_top = 0
-custom_constants/margin_left = 25
-custom_constants/margin_bottom = 0
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
 margin_left = 25.0
-margin_right = 1920.0
+margin_right = 1720.0
 margin_bottom = 100.0
 focus_mode = 0
 custom_styles/hover = ExtResource( 9 )
@@ -66,7 +64,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 margin_left = 30.0
-margin_right = 1895.0
+margin_right = 1695.0
 margin_bottom = 100.0
 mouse_filter = 2
 custom_constants/separation = -15
@@ -91,16 +89,16 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 10.0
+margin_top = 13.0
 margin_right = 795.0
-margin_bottom = 41.0
+margin_bottom = 37.0
 mouse_filter = 2
 size_flags_vertical = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 45.0
+margin_top = 41.0
 margin_right = 795.0
-margin_bottom = 83.0
+margin_bottom = 79.0
 mouse_filter = 2
 
 [node name="StarTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -143,4 +141,5 @@ size_flags_vertical = 7
 custom_fonts/font = SubResource( 1 )
 text = "CHEAP - 100%"
 valign = 1
+
 [connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]

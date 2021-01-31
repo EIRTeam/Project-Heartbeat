@@ -18,24 +18,19 @@ corner_detail = 1
 [sub_resource type="Theme" id=2]
 default_font = ExtResource( 2 )
 
-[node name="Control" type="MarginContainer"]
+[node name="Control" type="Control"]
 anchor_right = 1.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 focus_mode = 2
 size_flags_horizontal = 3
-custom_constants/margin_top = 25
-custom_constants/margin_left = 25
-custom_constants/margin_bottom = 25
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
-margin_left = 25.0
+margin_left = 50.0
 margin_top = 25.0
-margin_right = 1920.0
+margin_right = 1720.0
 margin_bottom = 75.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -57,7 +52,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 margin_left = 62.0
-margin_right = 1895.0
+margin_right = 1670.0
 margin_bottom = 50.0
 custom_constants/separation = 7
 __meta__ = {

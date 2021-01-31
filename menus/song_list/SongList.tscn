@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=12]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=13]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=14]
-[ext_resource path="res://menus/ScrollListShader.shader" type="Shader" id=15]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=16]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=17]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=18]
@@ -67,13 +66,6 @@ shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
-
-[sub_resource type="ShaderMaterial" id=4]
-shader = ExtResource( 15 )
-shader_param/pos = null
-shader_param/size = Vector2( 1920, 1080 )
-shader_param/enabled = true
-shader_param/fade_size = 50.0
 
 [sub_resource type="DynamicFont" id=5]
 size = 25
@@ -159,18 +151,27 @@ margin_bottom = 1019.0
 size_flags_vertical = 3
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
+custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="Control" parent="VBoxContainer/MarginContainer"]
-material = SubResource( 4 )
+[node name="VBoxContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer"]
 margin_right = 1920.0
 margin_bottom = 974.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 10 )
-scale_factor = 0.85
-items_visible_top = 3
-fixed_scale_factor = true
+container_path = NodePath("VBoxContainer")
+horizontal_step = 0
+enable_fade = true
+scroll_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+use_parent_material = true
+margin_right = 1920.0
+margin_bottom = 974.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
 visible = false

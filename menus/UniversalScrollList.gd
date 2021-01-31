@@ -1,0 +1,179 @@
+extends ScrollContainer
+
+class_name HBUniversalScrollList
+
+signal out_from_bottom
+signal selected_item_changed
+
+export(NodePath) var container_path
+export(int) var horizontal_step = 1
+export(int) var vertical_step = 1
+export(bool) var enable_fade = false
+
+enum SCROLL_MODE {
+	PAGE,
+	CENTER
+}
+
+export(SCROLL_MODE) var scroll_mode = SCROLL_MODE.PAGE
+
+const FADE_SHADER = preload("res://menus/ScrollListShader.shader")
+const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
+const INITIAL_DEBOUNCE_WAIT = 0.3
+const DEBOUNCE_WAIT = 0.1
+
+
+var debounce_step = 0
+var target_scroll = 0.0
+var current_selected_item = 0
+
+var tween = Tween.new()
+var initial_input_debounce_timer = Timer.new()
+var input_debounce_timer = Timer.new()
+var sfx_audio_player = AudioStreamPlayer.new()
+
+onready var item_container = get_node(container_path)
+
+func _ready():
+	add_child(tween)
+	add_child(initial_input_debounce_timer)
+	add_child(input_debounce_timer)
+	add_child(sfx_audio_player)
+	
+	sfx_audio_player.stream = MOVE_SOUND
+	sfx_audio_player.bus = "SFX"
+	
+	initial_input_debounce_timer.wait_time = INITIAL_DEBOUNCE_WAIT
+	initial_input_debounce_timer.one_shot = true
+	initial_input_debounce_timer.connect("timeout", self, "_on_initial_input_debounce_timeout")
+	input_debounce_timer.wait_time = DEBOUNCE_WAIT
+	input_debounce_timer.connect("timeout", self, "_on_input_debounce_timeout")
+	
+	connect("focus_exited", self, "_on_focus_lost")
+	connect("focus_entered", self, "_on_focus_entered")
+	connect("resized", self, "_on_resized")
+	
+	get_v_scrollbar().connect("visibility_changed", self, "_on_vscrollbar_visibility_changed")
+	
+	if enable_fade:
+		var fade_mat = ShaderMaterial.new()
+		fade_mat.shader = FADE_SHADER
+		material = fade_mat
+	
+	_on_resized()
+	
+func _on_initial_input_debounce_timeout():
+	_position_change_input(debounce_step)
+	input_debounce_timer.start()
+	
+func _on_input_debounce_timeout():
+	_position_change_input(debounce_step)
+	
+func _on_vscrollbar_visibility_changed():
+	if enable_fade:
+		var mat = material as ShaderMaterial
+		if mat:
+			mat.set_shader_param("enabled", get_v_scrollbar().visible)
+	
+func _on_resized():
+	if enable_fade:
+		var mat = material as ShaderMaterial
+		if mat:
+			mat.set_shader_param("enabled", get_v_scrollbar().visible)
+			mat.set_shader_param("size", rect_size)
+			mat.set_shader_param("pos", rect_global_position)
+			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
+	
+func get_selected_item():
+	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
+		var item = item_container.get_child(current_selected_item)
+		if item and is_instance_valid(item):
+			return item
+	return null
+	
+func smooth_scroll_to(target: float):
+	tween.stop_all()
+	tween.follow_property(self, "scroll_vertical", scroll_vertical, self, "target_scroll", 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	target_scroll = target
+	tween.start()
+	
+func select_item(item_i: int):
+	var current_item = get_selected_item()
+	
+	var old_selected_item = current_selected_item
+	
+	if current_item:
+		item_container.get_child(current_selected_item).stop_hover()
+	
+	var child = item_container.get_child(item_i)
+
+	current_selected_item = item_i
+	match scroll_mode:
+		SCROLL_MODE.PAGE:
+			if child.rect_position.y + child.rect_size.y > scroll_vertical + rect_size.y or \
+					child.rect_position.y < scroll_vertical:
+				smooth_scroll_to(float(child.rect_position.y))
+		SCROLL_MODE.CENTER:
+			smooth_scroll_to(float(child.rect_position.y + child.rect_size.y / 2.0 - rect_size.y / 2.0))
+	if child.has_method("hover") and has_focus():
+		child.hover()
+	if old_selected_item != current_selected_item:
+		emit_signal("selected_item_changed")
+
+func _input(event):
+	for action in ["gui_up", "gui_down", "gui_left", "gui_right"]:
+		if event.is_action_released(action):
+			initial_input_debounce_timer.stop()
+			input_debounce_timer.stop()
+
+func _position_change_input(position_change: int):
+	if position_change != 0:
+		var new_pos = current_selected_item + position_change
+		if new_pos > item_container.get_child_count() - 1:
+			emit_signal("out_from_bottom")
+		else:
+			new_pos = clamp(new_pos, 0, item_container.get_child_count() - 1)
+			if new_pos != current_selected_item:
+				select_item(new_pos)
+		sfx_audio_player.play()
+
+func _gui_input(event):
+	var position_change = 0
+	
+	if event.is_action_pressed("gui_down"):
+		if vertical_step != 0:
+			position_change += vertical_step
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_up"):
+		if vertical_step != 0:
+			position_change -= vertical_step
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_right"):
+		if horizontal_step != 0:
+			position_change += horizontal_step
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_left"):
+		if horizontal_step != 0:
+			position_change -= horizontal_step
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_accept"):
+		var selected_child = get_selected_item()
+		if selected_child and selected_child.has_signal("pressed"):
+			get_tree().set_input_as_handled()
+			selected_child.emit_signal("pressed")
+	_position_change_input(position_change)
+	if position_change != 0:
+		debounce_step = position_change
+		initial_input_debounce_timer.stop()
+		input_debounce_timer.stop()
+		initial_input_debounce_timer.start()
+
+func _on_focus_lost():
+	var current_item = get_selected_item()
+	if current_item:
+		current_item.stop_hover()
+
+func _on_focus_entered():
+	var current_item = get_selected_item()
+	if current_item:
+		current_item.hover()
