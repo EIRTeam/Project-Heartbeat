@@ -32,7 +32,7 @@ var initial_input_debounce_timer = Timer.new()
 var input_debounce_timer = Timer.new()
 var sfx_audio_player = AudioStreamPlayer.new()
 
-onready var item_container = get_node(container_path)
+onready var item_container: Control = get_node(container_path)
 
 func _ready():
 	add_child(tween)
@@ -55,6 +55,7 @@ func _ready():
 	
 	get_v_scrollbar().connect("visibility_changed", self, "_on_vscrollbar_visibility_changed")
 	get_v_scrollbar().connect("changed", self, "update_fade")
+	item_container.connect("resized", self, "force_scroll")
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
@@ -92,7 +93,7 @@ func get_selected_item():
 	
 func smooth_scroll_to(target: float):
 	tween.stop_all()
-	tween.follow_property(self, "scroll_vertical", scroll_vertical, self, "target_scroll", 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	target_scroll = target
 	tween.start()
 
@@ -102,7 +103,13 @@ func update_fade():
 		var mat = material as ShaderMaterial
 		if mat:
 			var max_scroll = get_v_scrollbar().max_value - rect_size.y
-			mat.set_shader_param("top_enabled", target_scroll > 0)
+			var selected_item = get_selected_item()
+			if selected_item:
+				# This ensures that if the target is at the top the fade is disabled so it's visible
+				mat.set_shader_param("top_enabled", clamp(target_scroll, 0, max_scroll) < get_selected_item().rect_position.y)
+			else:
+				mat.set_shader_param("top_enabled", target_scroll > 0)
+				
 			mat.set_shader_param("bottom_enabled", target_scroll < max_scroll)
 	
 func select_item(item_i: int):
@@ -128,6 +135,11 @@ func select_item(item_i: int):
 	if old_selected_item != current_selected_item:
 		emit_signal("selected_item_changed")
 	call_deferred("update_fade")
+	
+func force_scroll():
+	if get_selected_item():
+		select_item(current_selected_item)
+	
 func _input(event):
 	# Stop debouncing when buttons are released
 	for action in ["gui_up", "gui_down", "gui_left", "gui_right"]:

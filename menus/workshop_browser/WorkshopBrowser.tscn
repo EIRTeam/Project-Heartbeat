@@ -1,25 +1,234 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://menus/workshop_browser/WorkshopBrowser.gd" type="Script" id=1]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=2]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
+[ext_resource path="res://graphics/icons/menu-left.svg" type="Texture" id=4]
+[ext_resource path="res://graphics/icons/menu-right.svg" type="Texture" id=5]
+[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=6]
+[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=7]
+[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=8]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=9]
+[ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=10]
+[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=12]
 
-[node name="Control" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[sub_resource type="Animation" id=1]
+resource_name = "spin"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1e-05 ),
+"update": 0,
+"values": [ 180.0, 0.0, -180.0 ]
+}
+
+[node name="WorkshopBrowser" type="Control"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1910.0
+margin_bottom = 1070.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -0.840897
+margin_bottom = -0.840942
+theme = ExtResource( 9 )
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
-custom_constants/hseparation = 5
-columns = 5
+[node name="Control" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1890.0
+margin_bottom = 1050.0
+custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control"]
+margin_right = 1880.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+
+[node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource( 11 )]
+margin_right = 156.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 156, 31 )
+action_name = "contextual_option"
+text = "Search"
+
+[node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
+margin_left = 160.0
+margin_top = 14.0
+margin_right = 1703.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+text = "Most popular for the last week"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
+margin_left = 1707.0
+margin_right = 1880.0
+margin_bottom = 60.0
+alignment = 2
+
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource( 11 )]
+margin_right = 173.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 173, 31 )
+action_name = "note_up"
+text = "Sort by..."
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control"]
+margin_top = 70.0
+margin_right = 1880.0
+margin_bottom = 968.0
+focus_mode = 2
+size_flags_vertical = 3
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+container_path = NodePath("GridContainer")
+enable_fade = true
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/ScrollContainer"]
+use_parent_material = true
+margin_right = 1880.0
+margin_bottom = 898.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 15
+custom_constants/hseparation = 15
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control"]
+margin_top = 978.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+rect_min_size = Vector2( 0, 40 )
+focus_neighbour_top = NodePath("../ScrollContainer")
+focus_mode = 2
+custom_constants/separation = 29
+alignment = 1
+script = ExtResource( 3 )
+
+[node name="HBHovereableButton" type="Button" parent="MarginContainer/Control/HBoxContainer"]
+margin_left = 815.0
+margin_right = 877.0
+margin_bottom = 62.0
+icon = ExtResource( 4 )
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer"]
+margin_left = 906.0
+margin_top = 4.0
+margin_right = 974.0
+margin_bottom = 57.0
+custom_fonts/font = ExtResource( 6 )
+text = "1/1"
+
+[node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer"]
+margin_left = 1003.0
+margin_right = 1065.0
+margin_bottom = 62.0
+icon = ExtResource( 5 )
+script = ExtResource( 2 )
+
+[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer"]
+visible = false
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1890.0
+margin_bottom = 1050.0
+mouse_filter = 2
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/CenterContainer2"]
+margin_left = 940.0
+margin_top = 520.0
+margin_right = 940.0
+margin_bottom = 520.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/CenterContainer2"]
+playback_speed = -1.0
+anims/spin = SubResource( 1 )
+
+[node name="HBConfirmationWindow" parent="." instance=ExtResource( 10 )]
+visible = true
+margin_left = -275.0
+margin_right = 275.0
+margin_bottom = 101.0
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -205.5
+margin_top = -113.0
+margin_right = 205.5
+margin_bottom = 113.0
+custom_styles/panel = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 401.0
+margin_bottom = 216.0
+focus_mode = 2
+size_flags_horizontal = 3
+custom_constants/separation = 10
+script = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[connection signal="out_from_bottom" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
+[connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
+[connection signal="cancel" from="HBConfirmationWindow" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
+[connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]

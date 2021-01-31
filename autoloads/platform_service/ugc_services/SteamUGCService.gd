@@ -72,6 +72,8 @@ func _process(delta):
 			text += "%"
 
 func _add_downloaded_item(item_id, fire_signal=false):
+	if Steam.getItemState(item_id) == 0:
+		return
 	var install_info = Steam.getItemInstallInfo(item_id)
 	var folder = install_info.folder
 	var file = File.new()

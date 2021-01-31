@@ -1,46 +1,153 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://menus/workshop_browser/WorkshopItemThumbnail.gd" type="Script" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=4]
+[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=5]
+[ext_resource path="res://graphics/icons/check-circle.svg" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/5-star.png" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/0-star.png" type="Texture" id=8]
 
-[sub_resource type="DynamicFont" id=1]
-size = 25
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 7.0
+content_margin_right = 7.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_color = Color( 1, 1, 1, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 3 )
 fallback/0 = ExtResource( 2 )
 
 [node name="Control" type="Button"]
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 375, 345 )
 focus_mode = 0
+size_flags_horizontal = 3
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 935.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+use_parent_material = true
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1915.0
+margin_bottom = 1075.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+use_parent_material = true
+margin_right = 1910.0
+margin_bottom = 989.0
+mouse_filter = 2
 size_flags_vertical = 3
 expand = true
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 939.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+[node name="Panel" type="ColorRect" parent="MarginContainer/VBoxContainer/TextureRect"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -40.0
+rect_min_size = Vector2( 40, 40 )
+color = Color( 0, 0, 0, 0.75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/TextureRect/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
+[node name="Panel2" type="ColorRect" parent="MarginContainer/VBoxContainer/TextureRect"]
+anchor_top = 1.0
+anchor_right = 0.012
+anchor_bottom = 1.0
+margin_top = -40.0
+margin_right = 127.08
+rect_min_size = Vector2( 150, 40 )
+color = Color( 0, 0, 0, 0.75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureProgress" parent="MarginContainer/VBoxContainer/TextureRect/Panel2"]
+anchor_left = 0.043
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -11.5
+margin_bottom = 11.5
+max_value = 1.0
+step = 0.0
+value = 0.5
+texture_under = ExtResource( 8 )
+texture_progress = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 993.0
+margin_right = 1910.0
+margin_bottom = 1070.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+use_parent_material = true
+margin_right = 1910.0
+margin_bottom = 42.0
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-custom_fonts/font = SubResource( 1 )
-text = "ワーワーワールド"
+custom_fonts/font = SubResource( 2 )
+align = 1
+autowrap = true
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 46.0
+margin_right = 1910.0
+margin_bottom = 77.0
+size_flags_vertical = 7
+size_flags_stretch_ratio = 0.15
+custom_fonts/font = ExtResource( 4 )
 align = 1
 autowrap = true

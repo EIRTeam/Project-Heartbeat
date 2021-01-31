@@ -4,6 +4,8 @@ signal item_created(result, file_id, tos)
 signal item_update_result(result, tos)
 signal ugc_details_request_done(result, details)
 signal ugc_item_installed(type, item)
+signal ugc_item_deleted(type, item)
+signal ugc
 
 const UGC_DATA_PATH = "user://ugc.json"
 var LOG_NAME = "HBUGCService"

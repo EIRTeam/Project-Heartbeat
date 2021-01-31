@@ -16,6 +16,7 @@ onready var folder_manager = get_node("FolderManager")
 onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
 onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel9")
 onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
+var force_next_song_update = false
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 #	populate_difficulties()
@@ -29,9 +30,14 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #	else:
 #		difficulty_list.select_button(0)
 	populate_buttons()
-	set_filter(UserSettings.user_settings.filter_mode, false)
+	if args.has("force_filter"):
+		set_filter(args.force_filter, false)
+	else:
+		set_filter(UserSettings.user_settings.filter_mode, false)
+	
 	var song_to_select = null
 	var difficulty_to_select = null
+
 	if args.has("song_difficulty"):
 		difficulty_to_select = args.song_difficulty
 	if args.has("song"):
@@ -43,9 +49,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus")
-	if PlatformService.service_provider.implements_ugc:
-		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
-		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
 #	song_container.hard_arrange_all()
 	
 	var allowed_sort_by = {
@@ -77,12 +80,10 @@ func set_sort(sort_by):
 	song_container.sort_by_prop = sort_by
 	song_container.set_songs(SongLoader.songs.values())
 	song_container.grab_focus()
-	song_container.hard_arrange_all()
 	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
-		song_container.set_songs(SongLoader.songs.values())
-		song_container.hard_arrange_all()
+		force_next_song_update = true
 
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
@@ -91,9 +92,6 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
-	if PlatformService.service_provider.implements_ugc:
-		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
-		ugc.disconnect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _ready():
 	song_container.connect("song_hovered", self, "_on_song_hovered")
 	song_container.connect("hover_nonsong", self, "_on_non_song_hovered")
@@ -104,6 +102,9 @@ func _ready():
 
 	folder_manager.connect("closed", self, "_on_folder_manager_closed")
 	folder_manager.connect("folder_selected", self, "_on_folder_selected")
+	if PlatformService.service_provider.implements_ugc:
+		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
+		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
 func _on_folder_path_updated(folders):
 	var folder_str := "/"
 	var ignore = true # we ignore the root
@@ -261,7 +262,8 @@ func _on_folder_manager_closed():
 	song_container.grab_focus()
 
 func update_songs(song_to_select=null, difficulty_to_select=null):
-	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select)
+	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select, force_next_song_update)
+	force_next_song_update = false
 
 func _on_folder_selected(folder: HBFolder):
 	if not current_song.id in folder.songs:

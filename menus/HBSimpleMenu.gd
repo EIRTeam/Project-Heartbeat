@@ -44,12 +44,12 @@ func select_button(i: int, fire_event=true):
 
 func _on_focus_entered():
 	if get_child_count() > 0:
-		if selected_button:
+		if selected_button and selected_button.visible:
 			select_button(selected_button_i)
 		else:
 			for child_i in range(get_child_count()):
 				var child = get_child(child_i)
-				if child.visible:
+				if child.visible and child is BaseButton:
 					select_button(child_i)
 					break
 
@@ -68,6 +68,13 @@ func _gui_input(event):
 			if event.is_action_pressed("gui_down"):
 				get_tree().set_input_as_handled()
 				emit_signal("bottom")
+	if orientation == ORIENTATION.HORIZONTAL:
+		if event.is_action_pressed("gui_up"):
+			get_tree().set_input_as_handled()
+			if focus_neighbour_top:
+				var neighbor_up = get_node(focus_neighbour_top) as Control
+				neighbor_up.grab_focus()
+				sfx_player.play()
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:

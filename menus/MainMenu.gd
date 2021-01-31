@@ -78,6 +78,14 @@ func _init():
 		},
 		"empty": {
 			"right": preload("res://menus/EmptyRightMenu.gd").new()
+		},
+		"workshop_browser": {
+			"left": preload("res://menus/workshop_browser/WorkshopBrowser.tscn").instance(),
+			"right": "empty"
+		},
+		"workshop_browser_detail_view": {
+			"left": preload("res://menus/workshop_browser/WorkshopItemDetailView.tscn").instance(),
+			"right": "empty"
 		}
 	}
 

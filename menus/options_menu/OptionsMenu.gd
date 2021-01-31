@@ -9,6 +9,10 @@ var OPTIONS = {
 			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)"],
 			"type": "options"
 		},
+		"workshop_download_audio_only": {
+			"name": tr("Download audio only from workshop"),
+			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")
+		},
 		"enable_multi_threaded_texture_loading": {
 			"name": tr("Enable multi-threaded texture loading"),
 			"description": tr("Allows loading of textures from multiple threads, this might cause crashes to happen randomly on some systems.")

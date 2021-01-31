@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=13]
 [ext_resource path="res://graphics/icons/discord_main.svg" type="Texture" id=14]
 [ext_resource path="res://menus/main_menu/NetworkStatus.gd" type="Script" id=15]
+[ext_resource path="res://graphics/icons/steam.svg" type="Texture" id=16]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -91,15 +92,15 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 230.0
+margin_top = 170.0
 margin_right = 435.0
-margin_bottom = 430.0
-rect_min_size = Vector2( 0, 200 )
+margin_bottom = 420.0
+rect_min_size = Vector2( 0, 250 )
 
 [node name="StartMenu" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 455.0
+margin_top = 445.0
 margin_right = 435.0
-margin_bottom = 865.0
+margin_bottom = 925.0
 focus_mode = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -120,7 +121,7 @@ text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
 
-[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=[
+[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=[
 "mponly",
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -128,9 +129,9 @@ margin_top = 70.0
 margin_right = 435.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 430, 60 )
-text = "Multiplayer"
-icon = ExtResource( 7 )
-next_menu = "lobby_list"
+text = "Workshop"
+icon = ExtResource( 16 )
+next_menu = "workshop_browser"
 
 [node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -141,6 +142,18 @@ rect_min_size = Vector2( 430, 60 )
 text = "How to play"
 icon = ExtResource( 12 )
 next_menu = "tutorial"
+
+[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=[
+"mponly",
+] instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_top = 210.0
+margin_right = 435.0
+margin_bottom = 270.0
+rect_min_size = Vector2( 430, 60 )
+text = "Multiplayer"
+icon = ExtResource( 7 )
+next_menu = "lobby_list"
 
 [node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=[
 "demo_only",
@@ -158,9 +171,9 @@ next_menu = ""
 
 [node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 210.0
+margin_top = 280.0
 margin_right = 435.0
-margin_bottom = 270.0
+margin_bottom = 340.0
 rect_min_size = Vector2( 430, 60 )
 text = "Options"
 icon = ExtResource( 3 )
@@ -170,9 +183,9 @@ next_menu = "options_menu"
 "nodemo",
 ] instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 280.0
+margin_top = 350.0
 margin_right = 435.0
-margin_bottom = 340.0
+margin_bottom = 410.0
 rect_min_size = Vector2( 430, 60 )
 text = "Tools"
 icon = ExtResource( 6 )
@@ -180,9 +193,9 @@ next_menu = "tools_menu"
 
 [node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 350.0
+margin_top = 420.0
 margin_right = 435.0
-margin_bottom = 410.0
+margin_bottom = 480.0
 rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Exit"
@@ -247,6 +260,7 @@ margin_right = 425.0
 margin_bottom = 36.0
 custom_fonts/font = SubResource( 2 )
 text = "@PHeartbeatGame"
+
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]
 [connection signal="pressed" from="VBoxContainer/StartMenu/DiscordButton" to="." method="_on_discord_server_pressed"]
 [connection signal="pressed" from="VBoxContainer/StartMenu/ExitButton" to="VBoxContainer/StartMenu" method="_on_ExitButton_pressed"]

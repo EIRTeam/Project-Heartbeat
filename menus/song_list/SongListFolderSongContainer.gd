@@ -114,7 +114,6 @@ func update_items():
 
 func _on_song_selected(song: HBSong):
 	if song_items_map.has(song):
-		select_song_by_id(song.id)
 		for difficulty in song_items_map[song]:
 			var item = song_items_map[song][difficulty]
 			item_container.remove_child(item)
@@ -154,7 +153,6 @@ func select_song_by_id(song_id: String, difficulty=null):
 		var child = item_container.get_child(child_i)
 		if "song" in child:
 			if child.song.id == song_id:
-				prints("SELECC", child.song.title)
 				if difficulty:
 					var song = SongLoader.songs[song_id]
 					select_item(child_i)
@@ -253,14 +251,15 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 #	hard_arrange_all()
 		
 	if song_id_to_select:
-		select_song_by_id(song_id_to_select, song_difficulty_to_select)
+		print("DEFERRED SELECT!")
+		call_deferred("select_song_by_id", song_id_to_select, song_difficulty_to_select)
 		
 		
 	emit_signal("end_loading")
 		
 var current_filter_task: HBTask
 		
-func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
+func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force_update=false):
 	songs = _songs
 
 	if filter_by == "folders":
@@ -268,7 +267,9 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null):
 			select_song_by_id(select_song_id, select_difficulty)
 		return
 	
-	if filter_by == last_filter:
+	if filter_by == last_filter and not force_update:
+		if select_song_id:
+			select_song_by_id(select_song_id)
 		return
 
 	for i in item_container.get_children():

@@ -248,3 +248,16 @@ static func join_path(path1: String, path2: String) -> String:
 
 static func get_experience_to_next_level(level: int) -> int:
 	return 500 + (500 * level)
+
+static func array2texture(body: PoolByteArray) -> Texture:
+	var tex = ImageTexture.new()
+	var img = Image.new()
+	if body.subarray(0, 2) == PoolByteArray([0xFF, 0xD8, 0xFF]):
+		img.load_jpg_from_buffer(body)
+	elif body.subarray(0, 3) == PoolByteArray([0x89, 0x50, 0x4E, 0x47]):
+		img.load_png_from_buffer(body)
+	elif body.subarray(0, 3) == PoolByteArray([0x52, 0x49, 0x46, 0x46]):
+		img.load_webp_from_buffer(body)
+
+	tex.create_from_image(img, 0)
+	return tex

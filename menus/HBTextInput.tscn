@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menus/HBTextInput.gd" type="Script" id=2]
@@ -44,6 +44,19 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends LineEdit
+
+# HACKHACKHACK
+
+signal cancel
+
+func _gui_input(event):
+	if event.is_action_pressed(\"gui_cancel\"):
+		get_tree().set_input_as_handled()
+		emit_signal(\"cancel\")
+"
 
 [node name="HBConfirmationWindow" type="Popup"]
 anchor_left = 0.5
@@ -102,6 +115,7 @@ margin_bottom = 140.0
 rect_min_size = Vector2( 0, 35 )
 custom_styles/focus = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
+script = SubResource( 4 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
 margin_top = 162.0
@@ -115,9 +129,11 @@ __meta__ = {
 
 [node name="Panel4" parent="Panel/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 210.0
-margin_right = 340.0
+margin_right = 364.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 130, 0 )
+rect_min_size = Vector2( 154, 31 )
+action_name = "gui_accept"
+text = "Accept"
 
 [node name="PromptInputAction" parent="Panel/HBoxContainer/Panel4/HBoxContainer" index="0"]
 margin_bottom = 46.0
@@ -127,7 +143,17 @@ input_action = "gui_accept"
 margin_right = 120.0
 margin_bottom = 46.0
 text = "Accept"
+
+[node name="CancelButton" parent="Panel/HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 210.0
+margin_right = 362.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 152, 31 )
+action_name = "gui_cancel"
+text = "Cancel"
+
 [connection signal="about_to_show" from="." to="." method="_on_Control_about_to_show"]
+[connection signal="cancel" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="emit_signal" binds= [ "cancel" ]]
 [connection signal="text_entered" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
 
 [editable path="Panel/HBoxContainer/Panel4"]

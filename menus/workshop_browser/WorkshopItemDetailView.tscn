@@ -1,0 +1,231 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
+[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=2]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=3]
+[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=4]
+[ext_resource path="res://menus/workshop_browser/WorkshopItemDetailView.gd" type="Script" id=5]
+[ext_resource path="res://graphics/icons/5-star.png" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/0-star.png" type="Texture" id=7]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=8]
+[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=10]
+
+[node name="DetailView" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 1920.0
+margin_bottom = 1065.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 179.0
+rect_min_size = Vector2( 0, 133 )
+size_flags_horizontal = 3
+custom_constants/separation = 25
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_right = 631.0
+margin_bottom = 179.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+expand = true
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 656.0
+margin_right = 1920.0
+margin_bottom = 179.0
+rect_min_size = Vector2( 1000, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+margin_right = 1264.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer"]
+margin_right = 1264.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+custom_constants/separation = -7
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 1264.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "aasdasdasdsadsadsa"
+align = 2
+autowrap = true
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 1264.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+text = "aasdasdasdsadsadsa"
+align = 2
+autowrap = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+margin_top = 92.0
+margin_right = 1264.0
+margin_bottom = 137.0
+focus_mode = 2
+size_flags_horizontal = 3
+custom_constants/separation = 23
+alignment = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+margin_left = 432.0
+margin_right = 570.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 138, 0 )
+
+[node name="TextureProgress" type="TextureProgress" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -11.5
+margin_right = 138.0
+margin_bottom = 11.5
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+margin_left = 593.0
+margin_right = 634.0
+margin_bottom = 45.0
+
+[node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_top = 7.0
+margin_right = 10.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+text = "1"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_left = 14.0
+margin_top = 7.0
+margin_right = 27.0
+margin_bottom = 38.0
+text = "/"
+
+[node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_left = 31.0
+margin_top = 7.0
+margin_right = 41.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "1"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
+margin_left = 657.0
+margin_right = 1264.0
+margin_bottom = 45.0
+focus_mode = 2
+script = ExtResource( 4 )
+
+[node name="SubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_right = 156.0
+margin_bottom = 45.0
+text = "Subscribe"
+script = ExtResource( 3 )
+
+[node name="UnsubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_left = 160.0
+margin_right = 350.0
+margin_bottom = 45.0
+text = "Unsubscribe"
+script = ExtResource( 3 )
+
+[node name="ShowInSongListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+margin_left = 354.0
+margin_right = 607.0
+margin_bottom = 45.0
+text = "Show in song list"
+script = ExtResource( 3 )
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+margin_top = 152.0
+margin_right = 1264.0
+margin_bottom = 179.364
+rect_min_size = Vector2( 0, 27.364 )
+custom_styles/panel = ExtResource( 8 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1249.0
+margin_bottom = 46.0
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 183.0
+margin_right = 1920.0
+margin_bottom = 1065.0
+size_flags_vertical = 3
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 842.0
+margin_right = 1920.0
+margin_bottom = 882.0
+rect_min_size = Vector2( 0, 40 )
+alignment = 1
+
+[node name="Panel4" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 9 )]
+margin_left = 897.0
+margin_right = 1022.0
+rect_min_size = Vector2( 125, 31 )
+action_name = "gui_cancel"
+text = "Back"
+
+[node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource( 10 )]
+visible = true
+has_cancel = false
+text = "Item unsubscribed succesfully, will be removed after you restart the game."
+accept_text = "Alright"
+cancel_text = ""
+
+[connection signal="resized" from="MarginContainer/VBoxContainer/HBoxContainer3/TextureRect" to="." method="_on_TextureRect_resized"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton" to="." method="_on_SubscribeButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton" to="." method="_on_UnsubscribeButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton" to="." method="_on_ShowInSongListButton_pressed"]
