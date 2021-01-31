@@ -3,6 +3,8 @@ shader_type canvas_item;
 uniform vec2 pos;
 uniform vec2 size;
 uniform bool enabled;
+uniform bool top_enabled = true;
+uniform bool bottom_enabled = true;
 uniform float fade_size;
 float remap(float value, float low1, float low2, float high1, float high2) {
 	return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
@@ -16,9 +18,12 @@ void fragment() {
 		float end = (pos.y + size.y) / res.y;
 
 		float remapped_y = remap(SCREEN_UV.y, start, 0.0, end, 1.0);
-
-		COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_y);
-		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_y);
+		if (top_enabled) {
+			COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_y);
+		}
+		if (bottom_enabled) {
+			COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_y);
+		}
 		if (COLOR.a == 0.0) {
 			discard;
 		}

@@ -54,7 +54,7 @@ func _ready():
 	connect("resized", self, "_on_resized")
 	
 	get_v_scrollbar().connect("visibility_changed", self, "_on_vscrollbar_visibility_changed")
-	
+	get_v_scrollbar().connect("changed", self, "update_fade")
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
@@ -83,7 +83,6 @@ func _on_resized():
 			mat.set_shader_param("size", rect_size)
 			mat.set_shader_param("pos", rect_global_position)
 			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
-	
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
 		var item = item_container.get_child(current_selected_item)
@@ -96,6 +95,15 @@ func smooth_scroll_to(target: float):
 	tween.follow_property(self, "scroll_vertical", scroll_vertical, self, "target_scroll", 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	target_scroll = target
 	tween.start()
+
+func update_fade():
+	# Hide top/bottom fade intelligently
+	if enable_fade:
+		var mat = material as ShaderMaterial
+		if mat:
+			var max_scroll = get_v_scrollbar().max_value - rect_size.y
+			mat.set_shader_param("top_enabled", target_scroll > 0)
+			mat.set_shader_param("bottom_enabled", target_scroll < max_scroll)
 	
 func select_item(item_i: int):
 	var current_item = get_selected_item()
@@ -119,13 +127,15 @@ func select_item(item_i: int):
 		child.hover()
 	if old_selected_item != current_selected_item:
 		emit_signal("selected_item_changed")
-
+	call_deferred("update_fade")
 func _input(event):
+	# Stop debouncing when buttons are released
 	for action in ["gui_up", "gui_down", "gui_left", "gui_right"]:
 		if event.is_action_released(action):
 			initial_input_debounce_timer.stop()
 			input_debounce_timer.stop()
 
+# Receives position change input, select items as needed & plays back sounds
 func _position_change_input(position_change: int):
 	if position_change != 0:
 		var new_pos = current_selected_item + position_change
@@ -135,7 +145,7 @@ func _position_change_input(position_change: int):
 			new_pos = clamp(new_pos, 0, item_container.get_child_count() - 1)
 			if new_pos != current_selected_item:
 				select_item(new_pos)
-		sfx_audio_player.play()
+				sfx_audio_player.play()
 
 func _gui_input(event):
 	var position_change = 0
