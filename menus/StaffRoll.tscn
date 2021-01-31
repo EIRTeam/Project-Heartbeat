@@ -30,7 +30,7 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 texture = ExtResource( 2 )
@@ -39,7 +39,7 @@ stretch_mode = 6
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer"]
 margin_top = 150.0
-margin_right = 1280.0
+margin_right = 1920.0
 margin_bottom = 550.0
 rect_min_size = Vector2( 0, 400 )
 texture = ExtResource( 5 )
@@ -48,35 +48,35 @@ stretch_mode = 6
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 margin_top = 600.0
-margin_right = 1280.0
-margin_bottom = 681.0
+margin_right = 1920.0
+margin_bottom = 699.0
 text = "Made by EIREXE (Álex Román)
 
 With special thanks to the following people:"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 731.0
-margin_right = 1280.0
-margin_bottom = 869.0
+margin_top = 749.0
+margin_right = 1920.0
+margin_bottom = 922.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 424.0
-margin_bottom = 138.0
+margin_right = 637.0
+margin_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 424.0
-margin_bottom = 25.0
+margin_right = 637.0
+margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Charting Team"
 align = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 424.0
-margin_bottom = 138.0
+margin_top = 40.0
+margin_right = 637.0
+margin_bottom = 173.0
 size_flags_horizontal = 3
 text = "Blizzin
 Twoncity
@@ -85,74 +85,75 @@ Starbeat"
 align = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 428.0
-margin_right = 852.0
-margin_bottom = 138.0
+margin_left = 641.0
+margin_right = 1278.0
+margin_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 424.0
-margin_bottom = 25.0
+margin_right = 637.0
+margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Background Artists"
 align = 1
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 29.0
-margin_right = 424.0
-margin_bottom = 82.0
+margin_top = 40.0
+margin_right = 637.0
+margin_bottom = 139.0
 size_flags_horizontal = 3
 text = "Emmilly Lima (sadnesswaifu)
-Guinii4"
+Guinii4
+Mariale (_unangelito)"
 align = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 856.0
-margin_right = 1280.0
-margin_bottom = 138.0
+margin_left = 1282.0
+margin_right = 1920.0
+margin_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
-margin_right = 424.0
-margin_bottom = 25.0
+margin_right = 638.0
+margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Music provided by"
 align = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
-margin_top = 29.0
-margin_right = 424.0
-margin_bottom = 79.0
+margin_top = 40.0
+margin_right = 638.0
+margin_bottom = 90.0
 rect_min_size = Vector2( 0, 50 )
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 919.0
-margin_right = 1280.0
-margin_bottom = 944.0
+margin_top = 972.0
+margin_right = 1920.0
+margin_bottom = 1008.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 text = "Thank you to the following people for keeping me alive:"
 align = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 994.0
-margin_right = 1280.0
-margin_bottom = 1523.0
+margin_top = 1058.0
+margin_right = 1920.0
+margin_bottom = 1667.0
 alignment = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 424.0
-margin_bottom = 529.0
+margin_right = 637.0
+margin_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer3"]
-margin_right = 424.0
-margin_bottom = 529.0
+margin_right = 637.0
+margin_bottom = 609.0
 size_flags_horizontal = 3
 text = "Emmilly Lima
 Estrella
@@ -171,19 +172,18 @@ Pere
 Pol
 Edu (vendido)
 the 2 Angelas
-the soft Marina
 Júlia"
 align = 1
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 428.0
-margin_right = 852.0
-margin_bottom = 529.0
+margin_left = 641.0
+margin_right = 1278.0
+margin_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer4"]
-margin_right = 424.0
-margin_bottom = 501.0
+margin_right = 637.0
+margin_bottom = 575.0
 size_flags_horizontal = 3
 text = "The great Brian
 Ivanex
@@ -193,7 +193,6 @@ Marwan S
 Joel H
 David SK
 my art teacher Ana
-Eris
 bigm8gte
 Elektronik
 Yumi
@@ -206,27 +205,27 @@ Jordi"
 align = 1
 
 [node name="VBoxContainer5" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 856.0
-margin_right = 1280.0
-margin_bottom = 529.0
+margin_left = 1282.0
+margin_right = 1920.0
+margin_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer5"]
-margin_right = 424.0
-margin_bottom = 193.0
+margin_right = 638.0
+margin_bottom = 235.0
 size_flags_horizontal = 3
 text = "My new mates from Castellbisbal
 My long-time friends the R... commando
 The HobbyFiguras people
-The Knockout community
 The Godot community
 The PonySomnio people
-The Eurobeat-prime community"
+The Eurobeat-prime community
+The Modding 2nd community"
 align = 1
 
 [node name="TextureRect3" type="TextureRect" parent="VBoxContainer"]
-margin_top = 1573.0
-margin_right = 1280.0
-margin_bottom = 1916.0
+margin_top = 1717.0
+margin_right = 1920.0
+margin_bottom = 2060.0
 texture = ExtResource( 6 )
 stretch_mode = 4
