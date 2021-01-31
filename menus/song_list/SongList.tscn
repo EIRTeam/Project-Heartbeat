@@ -1,19 +1,15 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=8]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
 [ext_resource path="res://menus/song_list/SongListFolderSongContainer.gd" type="Script" id=10]
 [ext_resource path="res://menus/FolderManager.tscn" type="PackedScene" id=11]
 [ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=12]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=13]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=14]
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=16]
 [ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=17]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=18]
@@ -66,14 +62,6 @@ shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
-
-[sub_resource type="DynamicFont" id=5]
-size = 25
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 5
-font_data = ExtResource( 14 )
-fallback/0 = ExtResource( 13 )
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -171,6 +159,7 @@ margin_right = 1920.0
 margin_bottom = 974.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
@@ -205,164 +194,47 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 alignment = 1
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 500.0
-margin_right = 615.017
-margin_bottom = 40.0
-rect_min_size = Vector2( 115.017, 0 )
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel/HBoxContainer" instance=ExtResource( 8 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-input_action = "note_up"
-
-[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel/HBoxContainer"]
-margin_left = 44.0
-margin_right = 105.0
-margin_bottom = 40.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+[node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 495.0
+margin_right = 611.0
+rect_min_size = Vector2( 116, 31 )
+action_name = "note_up"
 text = "Sort"
-align = 1
-valign = 1
 
-[node name="Panel2" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 625.0
-margin_right = 782.255
-margin_bottom = 40.0
-rect_min_size = Vector2( 157.255, 0 )
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2/HBoxContainer" instance=ExtResource( 8 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-input_action = "contextual_option"
-
-[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel2/HBoxContainer"]
-margin_left = 44.0
-margin_right = 148.0
-margin_bottom = 40.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 621.0
+margin_right = 781.0
+rect_min_size = Vector2( 160, 31 )
+action_name = "contextual_option"
 text = "Add to..."
-align = 1
-valign = 1
 
-[node name="Panel5" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 792.0
-margin_right = 954.701
-margin_bottom = 40.0
-rect_min_size = Vector2( 162.701, 0 )
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5/HBoxContainer" instance=ExtResource( 8 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-input_action = "contextual_option"
-
-[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel5/HBoxContainer"]
-margin_left = 44.0
-margin_right = 152.0
-margin_bottom = 40.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+[node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 791.0
+margin_right = 953.0
+rect_min_size = Vector2( 162, 31 )
+action_name = "contextual_option"
 text = "Manage"
-align = 1
-valign = 1
 
-[node name="Panel6" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 964.0
-margin_right = 1132.6
-margin_bottom = 40.0
-rect_min_size = Vector2( 168.6, 0 )
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6/HBoxContainer" instance=ExtResource( 8 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-input_action = "contextual_option"
-
-[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel6/HBoxContainer"]
-margin_left = 44.0
-margin_right = 160.0
-margin_bottom = 40.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+[node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 963.0
+margin_right = 1133.0
+rect_min_size = Vector2( 170, 31 )
+action_name = "contextual_option"
 text = "Remove"
-align = 1
-valign = 1
 
-[node name="Panel3" type="Panel" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer"]
-margin_left = 1142.0
-margin_right = 1286.56
-margin_bottom = 40.0
-rect_min_size = Vector2( 144.563, 0 )
-custom_styles/panel = ExtResource( 3 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3/HBoxContainer" instance=ExtResource( 8 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-input_action = "gui_accept"
-
-[node name="Label" type="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel3/HBoxContainer"]
-margin_left = 44.0
-margin_right = 134.0
-margin_bottom = 40.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+[node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 1143.0
+margin_right = 1289.0
+rect_min_size = Vector2( 146, 31 )
+action_name = "gui_accept"
 text = "Select"
-align = 1
-valign = 1
 
-[node name="Panel4" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1296.0
-margin_right = 1419.71
-rect_min_size = Vector2( 123.711, 0 )
-
-[node name="Label" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 115.0
-custom_fonts/font = SubResource( 5 )
+[node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 1299.0
+margin_right = 1424.0
+rect_min_size = Vector2( 125, 31 )
+action_name = "gui_cancel"
+text = "Back"
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
 margin_left = -314.0
@@ -415,5 +287,3 @@ visible = false
 [connection signal="show_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
-
-[editable path="VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel4"]

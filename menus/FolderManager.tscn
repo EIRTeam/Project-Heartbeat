@@ -90,9 +90,11 @@ custom_constants/separation = 15
 alignment = 1
 
 [node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 78.0
-margin_right = 211.58
-rect_min_size = Vector2( 133.58, 0 )
+margin_left = 73.0
+margin_right = 208.0
+rect_min_size = Vector2( 135, 31 )
+action_name = "gui_left"
+text = "Close"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
 input_action = "gui_left"
@@ -102,9 +104,11 @@ margin_right = 125.0
 text = "Close"
 
 [node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 226.0
-margin_right = 350.649
-rect_min_size = Vector2( 124.649, 0 )
+margin_left = 223.0
+margin_right = 349.0
+rect_min_size = Vector2( 126, 31 )
+action_name = "gui_right"
+text = "Open"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
 input_action = "gui_right"
@@ -114,9 +118,11 @@ margin_right = 116.0
 text = "Open"
 
 [node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 365.0
-margin_right = 508.938
-rect_min_size = Vector2( 143.938, 0 )
+margin_left = 364.0
+margin_right = 510.0
+rect_min_size = Vector2( 146, 31 )
+action_name = "gui_accept"
+text = "Select"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
 input_action = "gui_accept"
@@ -126,12 +132,18 @@ margin_right = 136.0
 text = "Select"
 
 [node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 523.0
-margin_right = 645.744
-rect_min_size = Vector2( 122.744, 0 )
+margin_left = 525.0
+margin_right = 650.0
+rect_min_size = Vector2( 125, 31 )
+action_name = "gui_cancel"
+text = "Back"
+
+[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
+input_action = "gui_cancel"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
 margin_right = 115.0
+text = "Back"
 
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource( 8 )]
 margin_left = -275.0
@@ -181,12 +193,10 @@ margin_right = 275.0
 [node name="TextInputRename" parent="." instance=ExtResource( 9 )]
 margin_left = -275.0
 margin_right = 275.0
+
 [connection signal="back" from="Panel/MarginContainer/VBoxContainer" to="." method="_on_folder_options_back"]
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel7"]

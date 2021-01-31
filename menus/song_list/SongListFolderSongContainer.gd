@@ -60,7 +60,7 @@ func _create_song_item(song: HBSong):
 	item.use_parent_material = true
 	item.set_song(song)
 	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-	item.connect("pressed", self, "_on_song_selected", [song, true])
+	item.connect("pressed", self, "_on_song_selected", [song])
 func update_items():
 	for i in item_container.get_children():
 		item_container.remove_child(i)
@@ -112,7 +112,7 @@ func update_items():
 	emit_signal("updated_folders", folder_stack)
 	emit_signal("hide_no_folder_label")
 
-func _on_song_selected(song: HBSong, no_hard_arrange=false):
+func _on_song_selected(song: HBSong):
 	if song_items_map.has(song):
 		select_song_by_id(song.id)
 		for difficulty in song_items_map[song]:
@@ -128,7 +128,7 @@ func _on_song_selected(song: HBSong, no_hard_arrange=false):
 				var item = vals[i][difficulty]
 				item_container.remove_child(item)
 				item.queue_free()
-		select_song_by_id(song.id, null, no_hard_arrange)
+		select_song_by_id(song.id, null)
 
 		song_items_map = {}
 		song_items_map[song] = {}
@@ -148,12 +148,8 @@ func _on_song_selected(song: HBSong, no_hard_arrange=false):
 			item.set_song_difficulty(song, difficulty)
 			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
 			song_items_map[song][difficulty] = item
-		if not no_hard_arrange:
-			# TODO: HARD ARRANGE
-			pass
-#			hard_arrange_all()
 
-func select_song_by_id(song_id: String, difficulty=null, no_hard_arrange=false):
+func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(item_container.get_child_count()):
 		var child = item_container.get_child(child_i)
 		if "song" in child:
@@ -167,11 +163,6 @@ func select_song_by_id(song_id: String, difficulty=null, no_hard_arrange=false):
 					select_item(song_items_map[song][difficulty].get_position_in_parent())
 				else:
 					select_item(child_i)
-					
-				if not no_hard_arrange:
-					pass
-#					hard_arrange_all()
-				break
 
 func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop
@@ -236,7 +227,7 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 		item.update_scale(item.get_scale(), true)
 		item.use_parent_material = true
 		item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-		item.connect("pressed", self, "_on_song_selected", [song, true])
+		item.connect("pressed", self, "_on_song_selected", [song])
 #	selected_option = null
 	select_item(0)
 	if previously_selected_song_id:
