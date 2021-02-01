@@ -11,9 +11,17 @@ const LOG_NAME = "PlatformService"
 
 var service_provider : PlatformServiceProvider
 
+const callbacks_rate: float = 1.0 / 30.0 # do steam callbacks 30 times a second
+var callbacks_timer := Timer.new()
 
 func _init():
 	name = "PlatformService"
+	
+func _ready():
+	add_child(callbacks_timer)
+	callbacks_timer.wait_time = callbacks_rate
+	callbacks_timer.connect("timeout", self, "_on_callbacks_timer_timeout")
+	callbacks_timer.start()
 	
 func _initialize_platform():
 	if not Engine.has_singleton("Steam") or not HBGame.platform_settings is HBPlatformSettingsDesktop:
@@ -38,5 +46,5 @@ func set_service_provider(provider: PlatformServiceProvider):
 	
 	return init_result
 
-func _process(delta):
+func _on_callbacks_timer_timeout():
 	service_provider.run_callbacks()
