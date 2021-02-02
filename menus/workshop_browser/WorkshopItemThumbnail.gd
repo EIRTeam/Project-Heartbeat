@@ -1,6 +1,6 @@
 extends HBHovereableButton
 
-var request = HTTPRequest.new()
+var request: HTTPRequest
 
 onready var texture_rect = get_node("MarginContainer/VBoxContainer/TextureRect")
 onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer/Label")
@@ -12,20 +12,13 @@ onready var stars_panel = get_node("MarginContainer/VBoxContainer/TextureRect/Pa
 var data: HBWorkshopPreviewData
 
 func _ready():
-	request.connect("request_completed", self, "_on_request_completed")
 	connect("resized", self, "_on_resized")
-	
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		if is_instance_valid(request) and not request.is_queued_for_deletion():
-			request.queue_free()
 	
 func set_data(_data: HBWorkshopPreviewData):
 	# HACKHACKHACK: requests need to be in tree?
-	get_tree().get_root().add_child(request)
 	data = _data
-	request.use_threads = true
-	request.request(data.preview_url)
+	request = HTTPRequestQueue.add_request(data.preview_url)
+	request.connect("request_completed", self, "_on_request_completed")
 	title_label.text = data.title
 	if not Steam.requestUserInformation(data.steam_id_owner, true):
 		update_author_label()

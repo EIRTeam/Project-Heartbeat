@@ -66,7 +66,8 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
-	image_request.disconnect("request_completed", self, "_on_request_completed")
+	if image_request and is_instance_valid(image_request):
+		image_request.disconnect("request_completed", self, "_on_request_completed")
 
 func update_author_label():
 	var pers = Steam.getFriendPersonaName(item_data.steam_id_owner)

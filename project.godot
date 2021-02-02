@@ -399,22 +399,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBSong.gd"
 }, {
-"base": "Control",
+"base": "HBSongListItemBase",
 "class": "HBSongListFolder",
 "language": "GDScript",
 "path": "res://menus/song_list/SongListFolder.gd"
 }, {
-"base": "Control",
+"base": "HBSongListItemBase",
 "class": "HBSongListFolderBack",
 "language": "GDScript",
 "path": "res://menus/song_list/SongListFolderBack.gd"
 }, {
-"base": "Control",
+"base": "HBSongListItemBase",
 "class": "HBSongListItem",
 "language": "GDScript",
 "path": "res://menus/song_list/SongListItem.gd"
 }, {
 "base": "Control",
+"class": "HBSongListItemBase",
+"language": "GDScript",
+"path": "res://menus/song_list/SongListItemBase.gd"
+}, {
+"base": "HBSongListItemBase",
 "class": "HBSongListItemDifficulty",
 "language": "GDScript",
 "path": "res://menus/song_list/SongListItemDifficulty.gd"
@@ -474,6 +479,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/ugc_services/HBUGCService.gd"
 }, {
+"base": "ScrollContainer",
+"class": "HBUniversalScrollList",
+"language": "GDScript",
+"path": "res://menus/UniversalScrollList.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBUserSettings",
 "language": "GDScript",
@@ -493,6 +503,16 @@ _global_script_classes=[ {
 "class": "HBWebUserInfo",
 "language": "GDScript",
 "path": "res://scripts/HBWebUserInfo.gd"
+}, {
+"base": "HBMenu",
+"class": "HBWorkshopBrowser",
+"language": "GDScript",
+"path": "res://menus/workshop_browser/WorkshopBrowser.gd"
+}, {
+"base": "Reference",
+"class": "HBWorkshopBrowserQuery",
+"language": "GDScript",
+"path": "res://menus/workshop_browser/WorkshopBrowserQuery.gd"
 }, {
 "base": "Reference",
 "class": "HBWorkshopPreviewData",
@@ -624,6 +644,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/song_loader/song_loaders/SongLoaderPPD.gd"
 }, {
+"base": "Reference",
+"class": "SteamHTTPRequest",
+"language": "GDScript",
+"path": "res://autoloads/platform_service/SteamHTTPRequest.gd"
+}, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
 "language": "GDScript",
@@ -736,6 +761,7 @@ _global_script_class_icons={
 "HBSongListFolder": "",
 "HBSongListFolderBack": "",
 "HBSongListItem": "",
+"HBSongListItemBase": "",
 "HBSongListItemDifficulty": "",
 "HBSongListMenu": "",
 "HBSongMetaCacheEntry": "",
@@ -748,10 +774,13 @@ _global_script_class_icons={
 "HBTask": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
+"HBUniversalScrollList": "",
 "HBUserSettings": "",
 "HBUtils": "",
 "HBVersion": "",
 "HBWebUserInfo": "",
+"HBWorkshopBrowser": "",
+"HBWorkshopBrowserQuery": "",
 "HBWorkshopPreviewData": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
@@ -778,6 +807,7 @@ _global_script_class_icons={
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
 "SongLoaderPPD": "",
+"SteamHTTPRequest": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
@@ -823,6 +853,7 @@ ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 MobileControls="*res://autoloads/MobileControls.tscn"
+HTTPRequestQueue="*res://autoloads/HTTPRequestQueue.gd"
 
 [debug]
 
