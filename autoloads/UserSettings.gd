@@ -37,7 +37,7 @@ const DISABLE_ANALOG_FOR_ACTION = [
 	"gui_cancel",
 ]
 
-var device_id = 0
+var controller_device_idx = -1
 
 var force_disable_async_textures = false
 
@@ -51,6 +51,14 @@ func _ready():
 		var video_adapter_name = VisualServer.get_video_adapter_name().to_lower()
 		if not "angle" in video_adapter_name:
 			force_disable_async_textures = true
+			
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+
+func _on_joy_connection_changed(device_idx: int, is_connected: bool):
+	# fallback to controller 0
+	if is_connected and Input.get_joy_guid(device_idx) == user_settings.controller_guid:
+		print("Known controller connected, remapping...")
+		map_actions_to_controller()
 
 func get_input_map():
 	var map = {}
@@ -75,10 +83,10 @@ func _init_user_settings():
 	apply_user_settings()
 	# Set the controller to be the first one if we have none
 	if Input.get_connected_joypads().size() > 0:
-		if not user_settings.last_controller_guid:
-			user_settings.last_controller_guid = Input.get_joy_guid(0)
+		if not user_settings.controller_guid:
+			print("No information on last connected controller found, falling back to %s" % [Input.get_joy_guid(Input.get_connected_joypads()[0])])
+			user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
 	load_input_map()
-	user_settings.last_controller_guid = ""
 
 func fill_localized_arrays():
 	button_names = [
@@ -160,21 +168,34 @@ func load_input_map():
 			InputMap.action_erase_events(action_name)
 			for action in user_settings.input_map[action_name]:
 				InputMap.action_add_event(action_name, action)
+	# if we don't have a device idx we try to use the stored guid one, else we use
+	# the first one
+	if controller_device_idx == -1:
+		var found_stored_guid_device = false
+		for _device_idx in Input.get_connected_joypads():
+			if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
+				found_stored_guid_device = true
+				break
+		if not found_stored_guid_device:
+			controller_device_idx = 0
+			if Input.get_connected_joypads().size() > 0:
+				user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
 	map_actions_to_controller()
 func map_actions_to_controller():
-	for _device_id in Input.get_connected_joypads():
-		if Input.get_joy_guid(_device_id) == user_settings.last_controller_guid:
-			Log.log(self, "Swapping main controller device from " + str(device_id) + " to " + str(_device_id))
-			device_id = _device_id
+	for _device_idx in Input.get_connected_joypads():
+		if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
+			Log.log(self, "Swapping main controller device from " + str(controller_device_idx) + " to " + str(_device_idx))
+			controller_device_idx = _device_idx
 			break
 	# Remap actions to new device id
 	for action_name in action_names:
 		for event in InputMap.get_action_list(action_name):
 			if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 				InputMap.action_erase_event(action_name, event)
-				event.device = device_id
+				event.device = controller_device_idx
 				InputMap.action_add_event(action_name, event)
-	emit_signal("controller_swapped", device_id)
+	JoypadSupport._set_joypad(controller_device_idx, true)
+	emit_signal("controller_swapped", controller_device_idx)
 	
 enum PROMPT_MODE {
 	KEYBOARD,
@@ -184,13 +205,6 @@ enum PROMPT_MODE {
 var current_mode = PROMPT_MODE.KEYBOARD
 func _input(event):
 	if event is InputEventJoypadButton:
-		# If we receive an input from a controller that isn't the one we have
-		# we rebind the InputMap to use that
-		var new_guid = Input.get_joy_guid(event.device)
-		if new_guid != user_settings.last_controller_guid:
-			user_settings.last_controller_guid = new_guid
-			map_actions_to_controller()
-			Input.parse_input_event(event)
 		if current_mode != PROMPT_MODE.JOYPAD:
 			current_mode = PROMPT_MODE.JOYPAD
 			JoypadSupport._set_joypad(event.device, true)

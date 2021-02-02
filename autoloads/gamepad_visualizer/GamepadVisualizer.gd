@@ -8,7 +8,7 @@ const BUTTON_VISUALIZER = preload("res://autoloads/gamepad_visualizer/GamepadBut
 func _ready():
 	UserSettings.connect("controller_swapped", self, "create_controller_map")
 	for device in Input.get_connected_joypads():
-		if Input.get_joy_guid(device) == UserSettings.user_settings.last_controller_guid:
+		if Input.get_joy_guid(device) == UserSettings.user_settings.controller_guid:
 			create_controller_map(device)
 func get_slider_axis(axis, device):
 	var visualizer = ANALOG_SLIDER_VISUALIZER.instance()

@@ -1,0 +1,128 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=2]
+[ext_resource path="res://menus/options_menu/OptionControllerSelect.gd" type="Script" id=3]
+[ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 0.0
+bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends HBUniversalScrollList
+
+signal back
+
+func _gui_input(event):
+	if event.is_action_pressed(\"gui_cancel\"):
+		get_tree().set_input_as_handled()
+		emit_signal(\"back\")
+"
+
+[node name="OptionSelect" type="Panel"]
+anchor_right = 1.0
+rect_min_size = Vector2( 0, 64 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_right = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 317.0
+margin_bottom = 64.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 1 )
+text = "(NT)Boolean Option"
+align = 1
+valign = 1
+
+[node name="Control" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 321.0
+margin_right = 1880.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer/Control"]
+margin_left = 1242.0
+margin_right = 1559.0
+margin_bottom = 64.0
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 1 )
+text = "(NT)Boolean Option"
+align = 1
+valign = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DropDown" type="Panel" parent="CanvasLayer"]
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+focus_mode = 2
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/DropDown"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="ScrollContainer" parent="CanvasLayer/DropDown/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 950.0
+margin_bottom = 530.0
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource( 2 )
+container_path = NodePath("VBoxContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DropDown/MarginContainer/Control"]
+margin_right = 940.0
+margin_bottom = 520.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/DropDown/MarginContainer/Control"]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[connection signal="back" from="CanvasLayer/DropDown/MarginContainer/Control" to="." method="close_dropdown"]

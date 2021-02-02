@@ -644,11 +644,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/song_loader/song_loaders/SongLoaderPPD.gd"
 }, {
-"base": "Reference",
-"class": "SteamHTTPRequest",
-"language": "GDScript",
-"path": "res://autoloads/platform_service/SteamHTTPRequest.gd"
-}, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
 "language": "GDScript",
@@ -807,7 +802,6 @@ _global_script_class_icons={
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
 "SongLoaderPPD": "",
-"SteamHTTPRequest": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",

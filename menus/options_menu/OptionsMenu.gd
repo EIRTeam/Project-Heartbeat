@@ -43,6 +43,11 @@ var OPTIONS = {
 		}
 	},
 	tr("Input"): {
+		"controller_guid": {
+			"name": tr("Controller"),
+			"description": tr("Controller to use for input."),
+			"type": "controller_selector"
+		},
 		"input_poll_more_than_once_per_frame": {
 			"name": tr("Poll for input more than once per frame"),
 			"description": tr("If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage.")
@@ -318,6 +323,8 @@ func _on_value_changed(property_name, new_value):
 		IconPackLoader.set_current_pack(new_value)
 	if property_name.ends_with("_arrow_override_enabled"):
 		IconPackLoader.regenerate_direction_overrides()
+	if property_name == "button_prompt_override":
+		UserSettings.set_joypad_prompts()
 	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
 
