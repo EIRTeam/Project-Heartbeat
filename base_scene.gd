@@ -31,7 +31,6 @@ func _process(delta):
 	status_label.percent_visible = fmod(loadingu_t, 1.5)
 
 func _on_main_scene_finished_loading(scene):
-	VisualServer.sync()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
