@@ -35,6 +35,28 @@ func _image_from_fs(path):
 	else:
 		return HBUtils.image_from_fs(path)
 
+# HACK to allow case insensitive naming of files, fairly expensive so use sparingly
+func _case_sensitivity_hack(path: String):
+	if OS.get_name() == "X11":
+		var dir = Directory.new()
+		var file_name = path.get_file().to_lower()
+		var out_path = null
+		if dir.file_exists(path):
+			out_path = path
+		else:
+			if dir.open(path.get_base_dir()) == OK:
+				dir.list_dir_begin()
+				var dir_name = dir.get_next()
+				while dir_name != "":
+					if not dir.current_is_dir():
+						if dir_name.to_lower() == file_name.to_lower():
+							out_path = HBUtils.join_path(path.get_base_dir(), dir_name)
+							break
+					dir_name = dir.get_next()
+		return out_path
+	else:
+		return path
+
 func _task_process() -> bool:
 	var audio_normalizer := HBAudioNormalizer.new()
 	var original_audio = null
@@ -44,10 +66,14 @@ func _task_process() -> bool:
 	match asset:
 		"preview":
 			if song.preview_image:
-				loaded_asset = _image_from_fs(song.get_song_preview_res_path())
+				var asset_path = _case_sensitivity_hack(song.get_song_preview_res_path())
+				if asset_path:
+					loaded_asset = _image_from_fs(asset_path)
 		"background":
 			if song.background_image:
-				loaded_asset = _image_from_fs(song.get_song_background_image_res_path())
+				var asset_path = _case_sensitivity_hack(song.get_song_background_image_res_path())
+				if asset_path:
+					loaded_asset = _image_from_fs(asset_path)
 		"audio":
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream()
@@ -72,10 +98,14 @@ func _task_process() -> bool:
 				loaded_asset = song.get_voice_stream()
 		"circle_image":
 			if song.circle_image:
-				loaded_asset = _image_from_fs(song.get_song_circle_image_res_path())
+				var asset_path = _case_sensitivity_hack(song.get_song_circle_image_res_path())
+				if asset_path:
+					loaded_asset = _image_from_fs(asset_path)
 		"circle_logo":
 			if song.circle_logo:
-				loaded_asset = _image_from_fs(song.get_song_circle_logo_image_res_path())
+				var asset_path = _case_sensitivity_hack(song.get_song_circle_logo_image_res_path())
+				if asset_path:
+					loaded_asset = _image_from_fs(asset_path)
 	if loaded_asset:
 		loaded_assets_mutex.lock()
 		loaded_assets[asset] = loaded_asset
