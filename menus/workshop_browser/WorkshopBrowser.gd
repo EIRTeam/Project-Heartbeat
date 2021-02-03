@@ -129,6 +129,8 @@ func update_pagination_label(page_n: int):
 	pagination_forward_button.visible = page_n <  total_pages
 	pagination_container.selected_button_i
 func _on_ugc_query_completed(handle, result, total_results, number_of_matching_results, cached):
+	if not is_inside_tree():
+		return
 	if result == 1:
 		if query_handle == handle:
 			loading_spinner.hide()

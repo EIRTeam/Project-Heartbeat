@@ -15,7 +15,7 @@ func _ready():
 	accept_button_audio.connect("pressed", self, "_on_download_prompt_accepted", [true])
 func show_download_prompt(song: HBSong):
 	if YoutubeDL.is_already_downloading(song):
-		error_prompt.popup_centered()
+		error_prompt.popup_centered_ratio(0.5)
 		return
 	current_song_downloading = song
 	var messages = {

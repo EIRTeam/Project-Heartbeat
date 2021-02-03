@@ -56,9 +56,10 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 			item_image_rect.texture = args.item_image
 		else:
 			item_image_rect.texture = null
-	if "request" in args:
-		image_request = args.request
-		image_request.connect("request_completed", self, "_on_request_completed")
+			if "request" in args:
+				if is_instance_valid(image_request):
+					image_request = args.request
+					image_request.connect("request_completed", self, "_on_request_completed")
 
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	if result == OK and response_code == 200:
