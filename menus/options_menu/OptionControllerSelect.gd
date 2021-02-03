@@ -22,7 +22,7 @@ func _gui_input(event: InputEvent):
 	pass
 	
 func show_current():
-	selected_text.text = "None"
+	selected_text.text = "None Connected"
 	if UserSettings.user_settings.controller_guid:
 		for controller_idx in Input.get_connected_joypads():
 			if Input.get_joy_guid(controller_idx) == UserSettings.user_settings.controller_guid:
@@ -31,6 +31,8 @@ func show_current():
 var _old_focus
 	
 func show_list():
+	if Input.get_connected_joypads().size() == 0:
+		return
 	for child in controller_item_container.get_children():
 		controller_item_container.remove_child(child)
 		child.queue_free()

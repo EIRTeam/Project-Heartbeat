@@ -259,7 +259,7 @@ func _unhandled_input(event):
 					_on_paused()
 					video_player.paused = true
 					game.pause_game()
-				Input.stop_joy_vibration(UserSettings.device_id)
+				Input.stop_joy_vibration(UserSettings.controller_device_idx)
 				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:

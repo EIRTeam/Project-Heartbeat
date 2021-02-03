@@ -195,6 +195,10 @@ func map_actions_to_controller():
 				event.device = controller_device_idx
 				InputMap.action_add_event(action_name, event)
 	JoypadSupport._set_joypad(controller_device_idx, true)
+	
+	if Input.get_connected_joypads().size() == 0:
+		JoypadSupport.force_keyboard_prompts()
+	
 	emit_signal("controller_swapped", controller_device_idx)
 	
 enum PROMPT_MODE {
