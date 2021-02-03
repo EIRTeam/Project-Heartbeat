@@ -104,7 +104,7 @@ func rebuild_final_atlas():
 	hold_icon_sprite.region = Rect2(timing_arm_target_position + Vector2(hold_icon_sprite_size.x / 2.0, 0), Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
 	hold_icon_sprite_multi.region = Rect2(timing_arm_target_position, Vector2(hold_icon_sprite_size.x / 2.0, hold_icon_sprite_size.y))
 
-	final_texture_img.save_png("user://test.png")
+	#final_texture_img.save_png("user://test.png")
 
 	final_texture.create_from_image(final_texture_img)
 
