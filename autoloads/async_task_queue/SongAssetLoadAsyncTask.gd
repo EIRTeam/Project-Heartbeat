@@ -37,6 +37,8 @@ func _image_from_fs(path):
 
 # HACK to allow case insensitive naming of files, fairly expensive so use sparingly
 func _case_sensitivity_hack(path: String):
+	if path.begins_with("res://"):
+		return path
 	if OS.get_name() == "X11":
 		var dir = Directory.new()
 		var file_name = path.get_file().to_lower()
