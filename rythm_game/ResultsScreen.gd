@@ -171,29 +171,30 @@ func set_game_info(val: HBGameInfo):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		current_song = song
 		var result_rating = result.get_result_rating()
-		if current_song.comes_from_ugc():
-			PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_WORKSHOP")
-			if result_rating == HBResult.RESULT_RATING.PERFECT:
-				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_WORKSHOP")
-		else:
-			if result_rating == HBResult.RESULT_RATING.PERFECT and game_info.difficulty.to_lower() == "extreme":
-				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_BUILTIN")
+		if not result.used_cheats:
+			if current_song.comes_from_ugc():
+				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_WORKSHOP")
+				if result_rating == HBResult.RESULT_RATING.PERFECT:
+					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_WORKSHOP")
+			else:
+				if result_rating == HBResult.RESULT_RATING.PERFECT and game_info.difficulty.to_lower() == "extreme":
+					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_BUILTIN")
+			
+			if result_rating != HBResult.RESULT_RATING.PERFECT:
+				if result.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] == 1:
+					var result_clone = result.clone() as HBResult
+					result_clone.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] = 0
+					if result_clone.get_result_rating() == HBResult.RESULT_RATING.PERFECT:
+						PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_1SAFE")
+			else:
+				if result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] == 0:
+					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_0F")
+			
+			if score_percentage > 0.6:
+				if str(score_percentage*100.0).substr(0, 2) == "69":
+					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_69")
 		
-		if result_rating != HBResult.RESULT_RATING.PERFECT:
-			if result.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] == 1:
-				var result_clone = result.clone() as HBResult
-				result_clone.note_ratings[HBJudge.JUDGE_RATINGS.SAFE] = 0
-				if result_clone.get_result_rating() == HBResult.RESULT_RATING.PERFECT:
-					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_1SAFE")
-		else:
-			if result.note_ratings[HBJudge.JUDGE_RATINGS.FINE] == 0:
-				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_0F")
-		
-		if score_percentage > 0.6:
-			if str(score_percentage*100.0).substr(0, 2) == "69":
-				PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_69")
-		
-		PlatformService.service_provider.save_achievements()
+			PlatformService.service_provider.save_achievements()
 		
 		if PlatformService.service_provider.implements_ugc:
 
