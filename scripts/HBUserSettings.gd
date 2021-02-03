@@ -29,7 +29,9 @@ var use_visualizer_with_video = true
 var filter_mode = "all"
 var filter_mode__possibilities = [
 	"all",
-	"community",
+	"official",
+	"local",
+	"workshop",
 	"ppd",
 	"folders"
 ]

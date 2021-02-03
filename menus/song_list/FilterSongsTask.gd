@@ -33,8 +33,10 @@ func sort_and_filter_songs():
 					should_add_song = song is HBPPDSong
 				"official":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
-				"community":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong
+				"local":
+					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong and not song.comes_from_ugc()
+				"workshop":
+					should_add_song = song.comes_from_ugc()
 			if should_add_song:
 				filtered_songs.append(song)
 		return filtered_songs

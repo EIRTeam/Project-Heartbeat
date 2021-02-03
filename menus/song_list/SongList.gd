@@ -133,9 +133,15 @@ func populate_buttons():
 		filter_type_container.remove_child(child)
 	
 	for song_id in SongLoader.songs:
+		var song = SongLoader.songs[song_id] as HBSong
+		if song.comes_from_ugc():
+			filter_types["workshop"] = "Workshop"
+			break
+	
+	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
-			filter_types["community"] = "Community"
+			filter_types["local"] = "Local"
 			break
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong

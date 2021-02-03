@@ -91,7 +91,7 @@ func _unhandled_input(event):
 func _on_ShowInSongListButton_pressed():
 	var song_id = "ugc_%d" % [item_data.item_id]
 	var song = SongLoader.songs[song_id] as HBSong
-	change_to_menu("song_list", false, {"song": song_id, "force_filter": "community"})
+	change_to_menu("song_list", false, {"song": song_id, "force_filter": "workshop"})
 
 func _on_SubscribeButton_pressed():
 	installing = true
