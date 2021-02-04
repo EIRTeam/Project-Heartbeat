@@ -137,12 +137,20 @@ func populate_buttons():
 		if song.comes_from_ugc():
 			filter_types["workshop"] = "Workshop"
 			break
-	
+	var has_local = false
+	var has_editor = false
+	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
 		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong:
-			filter_types["local"] = "Local"
-			break
+			if song.path.begins_with(editor_songs_path):
+				has_editor = true
+				filter_types["editor"] = "Editor"
+			else:
+				has_local = true
+				filter_types["local"] = "Local"
+			if has_editor and has_local:
+				break
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
 		if song is HBPPDSong:

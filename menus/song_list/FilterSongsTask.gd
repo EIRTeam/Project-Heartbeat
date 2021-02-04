@@ -23,7 +23,7 @@ func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_sele
 func sort_and_filter_songs():
 	songs.sort_custom(self, "sort_array")
 	prints("Filtering by", filter_by)
-
+	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	if filter_by != "all":
 		var filtered_songs = []
 		for song in songs:
@@ -34,7 +34,13 @@ func sort_and_filter_songs():
 				"official":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
 				"local":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER and not song is HBPPDSong and not song.comes_from_ugc()
+					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
+										and not song is HBPPDSong and not song.comes_from_ugc() \
+										and not song.path.begins_with(editor_songs_path)
+				"editor":
+					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
+										and not song is HBPPDSong and not song.comes_from_ugc() \
+										and song.path.begins_with(editor_songs_path)
 				"workshop":
 					should_add_song = song.comes_from_ugc()
 			if should_add_song:

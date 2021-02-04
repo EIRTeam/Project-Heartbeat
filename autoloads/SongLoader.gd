@@ -19,11 +19,12 @@ func _ready():
 	for dir_name in UserSettings.get_content_directories():
 		var o_err = dir.open(dir_name)
 		if o_err == OK:
-			var songs_path = HBUtils.join_path(dir_name, "songs")
-			if not dir.file_exists(songs_path):
-				var err = dir.make_dir_recursive(songs_path)
-				if err != OK:
-					Log.log(self, "Error creating songs directory with error %s at %s" % [str(err), songs_path])
+			var song_paths = [HBUtils.join_path(dir_name, "songs"), HBUtils.join_path(dir_name, "editor_songs")]
+			for songs_path in song_paths:
+				if not dir.file_exists(songs_path):
+					var err = dir.make_dir_recursive(songs_path)
+					if err != OK:
+						Log.log(self, "Error creating songs directory with error %s at %s" % [str(err), songs_path])
 		else:
 			Log.log(self, "Error opening folder to create songs folder with error %s at %s" %  [str(o_err), dir_name])
 
@@ -102,12 +103,13 @@ func load_all_songs_meta():
 	if not HBGame.demo_mode:
 		for content_dir in UserSettings.get_content_directories():
 			var songs_dir = HBUtils.join_path(content_dir, "songs")
+			var editor_songs_dir = HBUtils.join_path(content_dir, "editor_songs")
 			song_paths.append(songs_dir)
+			song_paths.append(editor_songs_dir)
 	else:
 		song_paths = ["res://songs"]
 	
 	for path in song_paths:
-		print("LOADING SONGS FROM ", path)
 		var loaded_songs = load_songs_from_path(path)
 		for song_id in loaded_songs:
 			add_song(loaded_songs[song_id])

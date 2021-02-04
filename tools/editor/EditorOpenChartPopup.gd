@@ -109,11 +109,12 @@ func _on_CreateSongDialog_confirmed():
 	if $CreateSongDialog/VBoxContainer/LineEdit.text != "":
 		var song_name = HBUtils.get_valid_filename($CreateSongDialog/VBoxContainer/LineEdit.text)
 		if song_name != "":
+			var editor_song_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs/%s")
 			
 			var song_meta = HBSong.new()
 			song_meta.title = $CreateSongDialog/VBoxContainer/LineEdit.text
 			song_meta.id = song_name
-			song_meta.path = "user://songs/%s" % song_name
+			song_meta.path = editor_song_folder % song_name
 			song_meta.save_song()
 			SongLoader.songs[song_meta.id] = song_meta
 			populate_tree()
