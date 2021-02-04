@@ -29,11 +29,12 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 #				difficulty_list.select_button(i)
 #	else:
 #		difficulty_list.select_button(0)
-	populate_buttons()
 	if args.has("force_filter"):
-		set_filter(args.force_filter, false)
-	else:
-		set_filter(UserSettings.user_settings.filter_mode, false)
+		UserSettings.user_settings.filter_mode = args.force_filter
+		UserSettings.save_user_settings()
+	populate_buttons()
+		
+	set_filter(UserSettings.user_settings.filter_mode, false)
 	
 	var song_to_select = null
 	var difficulty_to_select = null
