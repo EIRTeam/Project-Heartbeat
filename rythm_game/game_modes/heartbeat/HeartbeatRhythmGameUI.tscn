@@ -287,7 +287,7 @@ use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=24]
 size = 25
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -295,7 +295,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=25]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
@@ -303,7 +303,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=26]
 length = 5.0
 step = 0.05
 tracks/0/type = "value"
@@ -357,7 +357,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=27]
 length = 3.0
 step = 0.05
 tracks/0/type = "value"
@@ -1066,6 +1066,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="Control/LatencyDisplay/Panel/VBoxContainer"]
+visible = false
 show_behind_parent = true
 margin_top = 14.0
 margin_right = 600.0
@@ -1099,7 +1100,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -123.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER AVAILABLE!"
@@ -1119,7 +1120,7 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -124.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
 text = "HEART POWER!!!"
@@ -1129,8 +1130,8 @@ __meta__ = {
 }
 
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 27 )
-anims/HeartPowerEnabled = SubResource( 28 )
+anims/HeartPowerAvailable = SubResource( 26 )
+anims/HeartPowerEnabled = SubResource( 27 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 20 )

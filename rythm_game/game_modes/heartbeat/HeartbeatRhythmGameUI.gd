@@ -108,6 +108,7 @@ func _on_reset():
 	clear_bar.potential_score = 0.0
 	score_counter.score = 0
 	rating_label.hide()
+	latency_display.reset()
 func _on_chart_set(chart: HBChart):
 	clear_bar.max_value = chart.get_max_score()
 	_update_clear_bar_value()

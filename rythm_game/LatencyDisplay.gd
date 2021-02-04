@@ -1,12 +1,12 @@
 extends Control
 
 var max_latency = 128
-const JUDGEMENTS_TO_COUNT = 20
+const JUDGEMENTS_TO_COUNT = 40
 var last_judgements = []
 
 const RATING_LINE_WIDTH = 3
 
-const GRADIENT_COLOR_COOL = Color.aqua
+const GRADIENT_COLOR_COOL = Color.deepskyblue
 const GRADIENT_COLOR_FINE = Color.green
 const GRADIENT_COLOR_SAFE = Color.orange
 const GRADIENT_COLOR_SAD = Color.gold
@@ -18,6 +18,9 @@ const GRADIENT_LINE_HEIGHT = 12
 
 func set_judge(judge: HBJudge):
 	max_latency = judge.get_target_window_msec()
+
+func reset():
+	last_judgements = []
 
 func _on_note_judged(judgement_info):
 	if UserSettings.user_settings.show_latency:
@@ -32,24 +35,6 @@ func _on_note_judged(judgement_info):
 		last_judgements.push_front(latency_diff)
 		update()
 func _ready():
-#	gradient-based texture:
-#	var line_grad = Gradient.new()
-#	var line_grad_offsets = PoolRealArray()
-#	line_grad_offsets.resize(LINE_GRAD_COLORS.size())
-#	var line_grad_colors = PoolColorArray()
-#	line_grad_colors.resize(LINE_GRAD_COLORS.size())
-#	line_grad.remove_point(0)
-#	line_grad.remove_point(1)
-#	for i in range(LINE_GRAD_COLORS.size()):
-#		line_grad_offsets[i] = i / float(LINE_GRAD_COLORS.size())
-#		line_grad_colors[i] = LINE_GRAD_COLORS[i]
-#	line_grad.offsets = line_grad_offsets
-#	line_grad.colors = line_grad_colors
-#	var line_grad_stylebox = StyleBoxTexture.new()
-#	var line_grad_texture = GradientTexture.new()
-#	line_grad_texture.gradient = line_grad
-#	line_grad_texture.width = 2
-
 	var img = Image.new()
 	img.create(LINE_GRAD_COLORS.size(), 1, false, Image.FORMAT_RGB8)
 	img.lock()
@@ -61,7 +46,9 @@ func _ready():
 	gradient_texture = texture
 func _draw():
 	# draw the background
-	draw_rect(Rect2(Vector2.ZERO, rect_size), Color.black)
+	var background_color = Color.black
+	background_color.a = 0.5
+	draw_rect(Rect2(Vector2.ZERO, rect_size), background_color)
 	
 	# draw the gradient line
 	var gradient_line_rect = Rect2(Vector2(0, (rect_size.y / 2.0) - (GRADIENT_LINE_HEIGHT / 2.0)), Vector2(rect_size.x, GRADIENT_LINE_HEIGHT))
