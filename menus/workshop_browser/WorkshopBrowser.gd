@@ -170,10 +170,10 @@ func _unhandled_input(event):
 			scroll_container.grab_focus()
 		else:
 			change_to_menu("main_menu")
-	elif event.is_action_pressed("note_up"):
+	elif event.is_action_pressed("note_up") and not search_prompt.visible:
 		sort_by_popup.show()
 		sort_by_container.grab_focus()
-	if event.is_action_pressed("contextual_option"):
+	if event.is_action_pressed("contextual_option") and not search_prompt.visible:
 		search_prompt.popup_centered()
 
 
