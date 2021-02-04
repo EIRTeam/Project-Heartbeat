@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
 [ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=2]
@@ -10,6 +10,29 @@
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=8]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=9]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=10]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=11]
+[ext_resource path="res://fonts/orbitron-bold.otf" type="DynamicFontData" id=12]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 5
+font_data = ExtResource( 12 )
+fallback/0 = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 25
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 5
+font_data = ExtResource( 13 )
+fallback/0 = ExtResource( 11 )
 
 [node name="DetailView" type="Control"]
 anchor_right = 1.0
@@ -187,15 +210,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 1249.0
-margin_bottom = 46.0
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 47.0
+custom_styles/focus = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/bold_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 4 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+bbcode_enabled = true
+fit_content_height = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 183.0
@@ -219,8 +245,8 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource( 10 )]
-visible = true
 has_cancel = false
+has_accept = true
 text = "Item unsubscribed succesfully, will be removed after you restart the game."
 accept_text = "Alright"
 cancel_text = ""
@@ -229,3 +255,4 @@ cancel_text = ""
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton" to="." method="_on_SubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton" to="." method="_on_UnsubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton" to="." method="_on_ShowInSongListButton_pressed"]
+[connection signal="meta_clicked" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label" to="." method="_on_Label_meta_clicked"]

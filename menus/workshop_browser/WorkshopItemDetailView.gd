@@ -41,7 +41,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		title_label.text = item.title
 		up_vote_label.text = str(item.up_votes)
 		down_vote_label.text = str(item.down_votes)
-		description_label.text = item.description
+		description_label.bbcode_text = item.description
 		
 		star_progress.visible = (item.up_votes + item.down_votes) != 0
 		if item.up_votes + item.down_votes != 0:
@@ -117,3 +117,7 @@ func _on_UnsubscribeButton_pressed():
 	if Steam.getItemState(item_data.item_id) != 0:
 		Steam.unsubscribeItem(item_data.item_id)
 		unsubscribed_confirmation_window.popup_centered()
+
+
+func _on_Label_meta_clicked(meta):
+	OS.shell_open(meta)
