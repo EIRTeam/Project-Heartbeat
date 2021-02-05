@@ -151,6 +151,7 @@ script = ExtResource( 10 )
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_fade = true
+enable_wrap_around = true
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]

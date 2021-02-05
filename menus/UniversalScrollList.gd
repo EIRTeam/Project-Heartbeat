@@ -9,6 +9,7 @@ export(NodePath) var container_path
 export(int) var horizontal_step = 1
 export(int) var vertical_step = 1
 export(bool) var enable_fade = false
+export (bool) var enable_wrap_around = false
 
 enum SCROLL_MODE {
 	PAGE,
@@ -151,6 +152,8 @@ func _input(event):
 func _position_change_input(position_change: int):
 	if position_change != 0:
 		var new_pos = current_selected_item + position_change
+		if enable_wrap_around:
+			 new_pos = wrapi(new_pos, 0, item_container.get_child_count())
 		if new_pos > item_container.get_child_count() - 1:
 			emit_signal("out_from_bottom")
 		else:
