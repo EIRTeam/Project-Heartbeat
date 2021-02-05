@@ -40,7 +40,8 @@ func add_bind_to_tree(data):
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()
-	effect.scale = get_note_graphic().scale
+	var s = game.get_note_scale()
+	effect.scale = Vector2(s, s)
 	game.game_ui.get_drawing_layer_node("HitParticles").add_child(effect)
 	effect.position = game.remap_coords(note_data.position)
 func set_note_master(val):
