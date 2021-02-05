@@ -27,7 +27,6 @@ position = Vector2( 0, 0 )
 
 [node name="NoteIcon" type="Sprite" parent="."]
 use_parent_material = true
-position = Vector2( 8.21875, -0.625 )
 scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 2 )
 
