@@ -4,7 +4,7 @@ onready var note_icon = get_node("NoteIcon")
 onready var note_loop = get_node("Loop")
 onready var note_flare = get_node("Flare")
 
-var tween = Tween.new()
+onready var tween = Tween.new()
 
 func _ready():
 	add_child(tween)

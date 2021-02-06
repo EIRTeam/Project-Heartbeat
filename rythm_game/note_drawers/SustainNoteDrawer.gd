@@ -8,6 +8,7 @@ onready var note_graphic2 = get_node("Note2")
 
 
 func _init():
+	sine_drawer.queue_free()
 	sine_drawer = preload("res://rythm_game/SineDrawerSustain.gd").new()
 	disable_trail_margin = true
 func set_connected_notes(val):

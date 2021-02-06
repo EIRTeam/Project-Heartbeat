@@ -28,10 +28,10 @@ var debounce_step = 0
 var target_scroll = 0.0
 var current_selected_item = 0
 
-var tween = Tween.new()
-var initial_input_debounce_timer = Timer.new()
-var input_debounce_timer = Timer.new()
-var sfx_audio_player = AudioStreamPlayer.new()
+onready var tween = Tween.new()
+onready var initial_input_debounce_timer = Timer.new()
+onready var input_debounce_timer = Timer.new()
+onready var sfx_audio_player = AudioStreamPlayer.new()
 
 onready var item_container: Control = get_node(container_path)
 

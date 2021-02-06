@@ -25,7 +25,7 @@ onready var sort_by_popup = get_node("Panel")
 
 var current_page = 1
 
-var pagination_debounce_timer = Timer.new()
+onready var pagination_debounce_timer = Timer.new()
 
 var total_items = 0
 
