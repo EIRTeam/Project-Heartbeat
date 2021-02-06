@@ -57,11 +57,11 @@ margin_bottom = 383.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
 margin_right = 750.0
-margin_bottom = 199.0
+margin_bottom = 228.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer"]
 margin_right = 750.0
-margin_bottom = 199.0
+margin_bottom = 228.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -94,16 +94,22 @@ margin_right = 750.0
 margin_bottom = 141.0
 text = "Reset"
 
-[node name="PrintOrphanedNodesButton" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="OpenStrayNodeTester" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 145.0
 margin_right = 750.0
 margin_bottom = 170.0
-text = "Print Stray Nodes"
+text = "Open Stray Node Test Scene"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PrintOrphanedNodesButton" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 174.0
 margin_right = 750.0
 margin_bottom = 199.0
+text = "Print Stray Nodes"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 203.0
+margin_right = 750.0
+margin_bottom = 228.0
 
 [node name="InstanceID" type="SpinBox" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 64.0
@@ -123,14 +129,14 @@ size_flags_horizontal = 3
 text = "Print property"
 
 [node name="HSeparator" type="HSeparator" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 203.0
-margin_right = 750.0
-margin_bottom = 207.0
-
-[node name="AutoplayCheckbox" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 211.0
+margin_top = 232.0
 margin_right = 750.0
 margin_bottom = 236.0
+
+[node name="AutoplayCheckbox" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
+margin_top = 240.0
+margin_right = 750.0
+margin_bottom = 265.0
 focus_mode = 0
 text = "Enable autoplay"
 
@@ -280,6 +286,7 @@ margin_left = 1.18921
 margin_right = 1.18921
 
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]

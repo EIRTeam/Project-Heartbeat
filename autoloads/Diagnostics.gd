@@ -141,3 +141,10 @@ func _on_PrintOrphanedNodesButton_pressed():
 
 func _on_PrintPropertyValue_pressed():
 	print(instance_from_id(int(instance_id_spinbox.value)).get(property_name_line_edit.text))
+
+
+func _on_OpenStrayNodeTester_pressed():
+		var scene = preload("res://tools/MemoryLeakTester.tscn").instance()
+		get_tree().current_scene.queue_free()
+		get_tree().root.add_child(scene)
+		get_tree().current_scene = scene
