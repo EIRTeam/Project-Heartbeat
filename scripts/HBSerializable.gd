@@ -118,4 +118,7 @@ func convert_to_type(target_type: String) -> HBSerializable:
 
 # Returns a clone of itself
 func clone() -> HBSerializable:
-	return deserialize(serialize())
+	var c = get_script().new()
+	for property in serializable_fields:
+		c.set(property, self.get(property))
+	return c
