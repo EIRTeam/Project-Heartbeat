@@ -7,6 +7,7 @@ onready var note_flare = get_node("Flare")
 onready var tween = Tween.new()
 
 func _ready():
+	tween.connect("tween_all_completed", self, "queue_free")
 	add_child(tween)
 	play_effect()
 	
@@ -35,10 +36,7 @@ func play_effect():
 	
 	tween.start()
 #	$AnimationPlayer.play("COOL")
-	
-func _on_animation_finished(anim_name: String):
-	queue_free()
 
-func _input(event):
-	if event.is_action_pressed("free_friends"):
-		play_effect()
+func _notification(what):
+	if what == NOTIFICATION_EXIT_TREE:
+		queue_free()
