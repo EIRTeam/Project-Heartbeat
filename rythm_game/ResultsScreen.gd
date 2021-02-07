@@ -167,6 +167,23 @@ func set_game_info(val: HBGameInfo):
 		score_percentage = result.get_percentage()
 	percentage_label.text = "%.2f" % (score_percentage * 100.0)
 	percentage_label.text += " %"
+	
+	combo_label.text = str(result.max_combo)
+	score_label.text = str(result.score)
+	total_notes_label.text = str(result.total_notes)
+
+	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
+	hi_score_label.hide()
+	no_point_label.hide()
+	experience_container.hide()
+	level_up_container.hide()
+	if game_info.is_leaderboard_legal():
+		# add result to history
+		ScoreHistory.add_result_to_history(game_info)
+	else:
+		no_point_label.show()
+		_on_score_entered(game_info.song_id, game_info.difficulty)
+	
 	if SongLoader.songs.has(game_info.song_id):
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		current_song = song
@@ -196,6 +213,9 @@ func set_game_info(val: HBGameInfo):
 		
 			PlatformService.service_provider.save_achievements()
 		
+		title_label.set_song(song)
+		title_label.difficulty = game_info.difficulty
+		
 		if PlatformService.service_provider.implements_ugc:
 
 			if song.comes_from_ugc():
@@ -206,23 +226,6 @@ func set_game_info(val: HBGameInfo):
 						# UGC songs can be rated at the end of the game
 						rating_popup.popup_centered()
 						rating_buttons_container.grab_focus()
-		title_label.set_song(song)
-		title_label.difficulty = game_info.difficulty
-	combo_label.text = str(result.max_combo)
-	score_label.text = str(result.score)
-	total_notes_label.text = str(result.total_notes)
-
-	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
-	hi_score_label.hide()
-	no_point_label.hide()
-	experience_container.hide()
-	level_up_container.hide()
-	if game_info.is_leaderboard_legal():
-		# add result to history
-		ScoreHistory.add_result_to_history(game_info)
-	else:
-		no_point_label.show()
-		_on_score_entered(game_info.song_id, game_info.difficulty)
 		
 	
 func _on_score_uploaded(result):
