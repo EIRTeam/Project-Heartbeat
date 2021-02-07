@@ -2,6 +2,8 @@ extends Node
 
 class_name HBAsyncTaskQueue
 
+const LOG_NAME = "AsyncTaskQueue"
+
 var thread := Thread.new()
 var semaphore := Semaphore.new()
 var mutex := Mutex.new()
@@ -9,7 +11,10 @@ var exit_thread := false
 
 var queue = []
 func _ready() -> void:
-	assert(thread.start(self, "_thread_function") == OK, "Error creating async task queue")
+	var err = thread.start(self, "_thread_function")
+	if err != OK:
+		Log.log(self, "Error creating async task queue (%d)" % [err], Log.LogLevel.ERROR)
+	assert(err == OK, "Error creating async task queue")
 	set_process(false)
 	pause_mode = Node.PAUSE_MODE_PROCESS
 
