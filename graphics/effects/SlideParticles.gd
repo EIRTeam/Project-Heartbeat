@@ -4,8 +4,5 @@ var d = 0
 
 func _ready():
 	emitting = true
-	
-func _process(delta):
-	d += delta
-	if d >= lifetime:
-		queue_free()
+	yield(get_tree().create_timer(lifetime), "timeout")
+	queue_free()
