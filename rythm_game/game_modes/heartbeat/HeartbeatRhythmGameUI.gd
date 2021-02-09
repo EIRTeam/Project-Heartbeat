@@ -20,6 +20,8 @@ onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
 onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 onready var lyrics_view = get_node("Lyrics/Control/LyricsView")
+onready var under_notes_node = get_node("UnderNotesUI")
+
 var drawing_layer_nodes = {}
 
 const LOG_NAME = "HeartbeatRhythmGameUI"
