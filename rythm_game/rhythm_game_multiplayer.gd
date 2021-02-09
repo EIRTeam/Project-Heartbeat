@@ -67,6 +67,8 @@ func _on_game_started(game_info: HBGameInfo):
 	mp_scoreboard.members = lobby.members.values()
 	mp_loading_label.hide()
 	lobby.connect("game_note_hit", self, "_on_game_note_hit")
+	mp_scoreboard.get_parent().remove_child(mp_scoreboard)
+	rhythm_game_controller.game.game_ui.under_notes_node.add_child(mp_scoreboard)
 # Called when a client has finished loading the song (this includes authority)
 func _on_game_member_loading_finished(member: HBServiceMember):
 	loaded_members.append(member)
