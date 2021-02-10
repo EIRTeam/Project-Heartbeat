@@ -100,7 +100,6 @@ func _on_size_changed():
 		var new_size = Vector2(hbox_container2.rect_size.y * ratio, hbox_container2.rect_size.y)
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect_margin_container.rect_min_size = new_size
-	$Viewport.size = self.rect_size
 	if game:
 		$UnderNotesUI/Control.rect_size = game.size
 		$AboveNotesUI/Control.rect_size = game.size
@@ -221,8 +220,10 @@ func _on_hold_started(holds):
 	hold_indicator.current_holds = holds
 	hold_indicator.appear()
 
-func _unhandled_input(event):
-	$Viewport.unhandled_input(event)
+func _input(event):
+	if event.is_action_pressed("hide_ui"):
+		_on_toggle_ui()
+		get_tree().set_input_as_handled()
 
 func _on_toggle_ui():
 	$UnderNotesUI/Control.visible = !$UnderNotesUI/Control.visible
