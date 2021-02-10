@@ -250,8 +250,8 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 			select_item(initial_item)
 #	hard_arrange_all()
 		
+		
 	if song_id_to_select:
-		print("DEFERRED SELECT!")
 		call_deferred("select_song_by_id", song_id_to_select, song_difficulty_to_select)
 		
 		
@@ -269,7 +269,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 	
 	if filter_by == last_filter and not force_update:
 		if select_song_id:
-			select_song_by_id(select_song_id)
+			select_song_by_id(select_song_id, select_difficulty)
 		return
 
 	for i in item_container.get_children():
