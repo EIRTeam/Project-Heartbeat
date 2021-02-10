@@ -80,9 +80,6 @@ font_data = ExtResource( 5 )
 [node name="RhythmGame" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="Visualizer" parent="Node2D" index="2"]
-ingame = true
-
 [node name="PauseMenu" parent="." index="4"]
 visible = false
 
@@ -161,43 +158,49 @@ rect_min_size = Vector2( 0, 50 )
 alignment = 1
 
 [node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
-margin_left = 270.0
-margin_right = 475.0
+margin_left = 303.0
+margin_right = 494.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 205, 0 )
+rect_min_size = Vector2( 191, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "gui_left"
+text = "Seek Left"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
 margin_bottom = 50.0
 input_action = "gui_left"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-margin_right = 194.0
+margin_right = 181.0
 margin_bottom = 50.0
-text = "Seek Back"
+text = "Seek Left"
 
 [node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
-margin_left = 479.0
-margin_right = 734.0
+margin_left = 498.0
+margin_right = 703.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 255, 0 )
+rect_min_size = Vector2( 205, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "gui_right"
+text = "Seek Right"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
 margin_bottom = 50.0
 input_action = "gui_right"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 244.0
+margin_right = 195.0
 margin_bottom = 50.0
-text = "Seek Forward"
+text = "Seek Right"
 
 [node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
-margin_left = 738.0
-margin_right = 978.0
+margin_left = 707.0
+margin_right = 949.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 240, 0 )
+rect_min_size = Vector2( 242, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "practice_set_waypoint"
+text = "Set Waypoint"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -209,11 +212,13 @@ margin_bottom = 50.0
 text = "Set Waypoint"
 
 [node name="Panel9" parent="MarginContainer/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
-margin_left = 982.0
-margin_right = 1247.0
+margin_left = 953.0
+margin_right = 1217.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 265, 0 )
+rect_min_size = Vector2( 264, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "practice_go_to_waypoint"
+text = "Go to waypoint"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel9/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -225,11 +230,13 @@ margin_bottom = 50.0
 text = "Go to waypoint"
 
 [node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
-margin_left = 1251.0
-margin_right = 1421.0
+margin_left = 1221.0
+margin_right = 1388.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 170, 0 )
+rect_min_size = Vector2( 167, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "pause"
+text = "Resume"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -241,11 +248,13 @@ margin_bottom = 50.0
 text = "Resume"
 
 [node name="Panel6" parent="MarginContainer/VBoxContainer/HBoxContainer" index="5" instance=ExtResource( 4 )]
-margin_left = 1425.0
-margin_right = 1550.0
+margin_left = 1392.0
+margin_right = 1517.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 125, 0 )
+rect_min_size = Vector2( 125, 31 )
 custom_styles/panel = SubResource( 7 )
+action_name = "contextual_option"
+text = "Back"
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
 margin_bottom = 50.0
@@ -254,6 +263,7 @@ input_action = "contextual_option"
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
 margin_right = 115.0
 margin_bottom = 50.0
+text = "Back"
 
 [node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="12"]
 anchor_right = 1.0
