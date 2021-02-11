@@ -96,6 +96,8 @@ func _init_ytdl():
 		dir.make_dir(YOUTUBE_DL_DIR)
 	if not dir.dir_exists(get_cache_dir()):
 		dir.make_dir(get_cache_dir())
+	if not dir.dir_exists(CACHE_FILE.get_base_dir()):
+		dir.make_dir(CACHE_FILE.get_base_dir())
 	if dir.file_exists(CACHE_FILE):
 		var file = File.new()
 		file.open(CACHE_FILE, File.READ)
