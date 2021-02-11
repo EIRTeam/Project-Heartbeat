@@ -3,7 +3,7 @@ class_name HBAudioUtils
 var utils_native = null
 
 func _init():
-	var AudioNormalizer = preload("res://addons/audio_utils/AudioUtils.gdns") as NativeScript
+	var AudioNormalizer = preload("res://addons/ph_native_utils/AudioNormalizer.gdns") as NativeScript
 	if not AudioNormalizer.library.get_current_library_path().empty():
 		utils_native = AudioNormalizer.new()
 

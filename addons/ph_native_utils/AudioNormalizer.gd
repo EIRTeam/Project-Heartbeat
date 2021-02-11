@@ -5,7 +5,7 @@ const TARGET_VOLUME = -14.0
 var normalizer = null
 
 func _init():
-	var AudioNormalizer = preload("res://addons/audio_utils/AudioUtils.gdns") as NativeScript
+	var AudioNormalizer = preload("res://addons/ph_native_utils/AudioNormalizer.gdns") as NativeScript
 	if not AudioNormalizer.library.get_current_library_path().empty():
 		normalizer = AudioNormalizer.new()
 		normalizer.set_target_loudness(TARGET_VOLUME)
