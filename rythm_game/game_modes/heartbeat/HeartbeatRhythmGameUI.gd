@@ -221,7 +221,7 @@ func _on_hold_started(holds):
 	hold_indicator.appear()
 
 func _input(event):
-	if event.is_action_pressed("hide_ui"):
+	if event.is_action_pressed("hide_ui") and event.control and not game.editing:
 		_on_toggle_ui()
 		get_tree().set_input_as_handled()
 
