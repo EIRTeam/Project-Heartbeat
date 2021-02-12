@@ -80,7 +80,7 @@ func rebuild_final_atlas():
 	var current_atlas_texture_img := current_atlas.texture.get_data() as Image
 	var src_rect = Rect2(Vector2.ZERO, current_atlas_texture_img.get_size())
 	final_texture_img.lock()
-	final_texture_img.blit_rect(current_atlas_texture_img, src_rect, Vector2(current_atlas.texture.get_width()-1, 0))
+	final_texture_img.blit_rect(current_atlas_texture_img, src_rect, Vector2(fallback_atlas.texture.get_width()-1, 0))
 	
 	# We also bake the timing arm texture
 	var timing_arm_target_position = Vector2(fallback_atlas.texture.get_width() + current_atlas.texture.get_width()-1, 0)
