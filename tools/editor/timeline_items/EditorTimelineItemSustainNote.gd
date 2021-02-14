@@ -41,8 +41,9 @@ func _process(delta):
 			var drag_delta = new_time -_end_time_drag_last
 			_end_time_drag_last = new_time
 			editor.select_item(self)
-			if abs(drag_delta) > 0:
-				editor._change_selected_property_delta("end_time",  int(drag_delta), self)
+			if data.end_time + drag_delta > data.time:
+				if abs(drag_delta) > 0:
+					editor._change_selected_property_delta("end_time",  int(drag_delta), self)
 			_on_end_time_changed()
 
 func _input(event):
@@ -55,7 +56,6 @@ func _input(event):
 			_end_time_drag_start_time = data.end_time
 			_end_time_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 			_end_time_drag_last = data.end_time
-			print("Dragging")
 			set_process(true)
 	if event.is_action_released("editor_select") and _end_time_dragging:
 		editor.select_item(self)
