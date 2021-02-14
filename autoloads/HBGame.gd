@@ -43,7 +43,8 @@ var serializable_types = {
 	"PhraseStart": load("res://rythm_game/lyrics/HBLyricsPhraseStart.gd"),
 	"PhraseEnd": load("res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"),
 	"Lyric": load("res://rythm_game/lyrics/HBLyricsLyric.gd"),
-	"TimingModifierSettings": load("res://rythm_game/modifiers/timing/timing_settings.gd")
+	"TimingModifierSettings": load("res://rythm_game/modifiers/timing/timing_settings.gd"),
+	"IntroSkipMarker": load("res://scripts/timing_points/HBIntroSkipMarker.gd")
 }
 
 func _ready():

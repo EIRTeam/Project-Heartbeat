@@ -842,6 +842,7 @@ __meta__ = {
 }
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer" instance=ExtResource( 12 )]
+visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -851,7 +852,6 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -867,35 +867,44 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_right = 309.0
+margin_right = 349.0
 margin_bottom = 25.0
 text = "Create BPM change"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CreateLyricsPhraseStartButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
+[node name="CreateIntroSkipMarkerButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
 margin_top = 29.0
-margin_right = 309.0
+margin_right = 349.0
 margin_bottom = 54.0
+text = "Create intro skip time marker"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateLyricsPhraseStartButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
+margin_top = 58.0
+margin_right = 349.0
+margin_bottom = 83.0
 text = "Create phrase start"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CreateLyricButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 58.0
-margin_right = 309.0
-margin_bottom = 83.0
+margin_top = 87.0
+margin_right = 349.0
+margin_bottom = 112.0
 text = "Create lyric"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CreateLyricsPhraseEndButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 87.0
-margin_right = 309.0
-margin_bottom = 112.0
+margin_top = 116.0
+margin_right = 349.0
+margin_bottom = 141.0
 text = "Create phrase end"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1003,12 +1012,13 @@ __meta__ = {
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/Button" to="." method="_create_bpm_change"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateIntroSkipMarkerButton" to="." method="_on_CreateIntroSkipMarkerButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseStartButton" to="." method="_create_lyrics_phrase_start"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricButton" to="." method="_create_lyric"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseEndButton" to="." method="_create_lyrics_phrase_end"]

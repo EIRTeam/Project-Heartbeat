@@ -91,6 +91,8 @@ var sfx_player_queue = []
 
 var current_assets
 
+var intro_skip_marker: HBIntroSkipMarker
+
 func _init():
 	name = "RhythmGameBase"
 
@@ -181,6 +183,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		else:
 			Log.log(self, "Disabling intro skip")
 			_intro_skip_enabled = false
+		if intro_skip_marker.time >= earliest_note_time:
+			intro_skip_marker = null
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	
@@ -254,15 +258,24 @@ func _process_timing_points_into_groups(points):
 				last_notes.append(point)
 	return timing_points_grouped
 	
+func get_time_to_intro_skip_to():
+	if intro_skip_marker:
+		return intro_skip_marker.time
+	else:
+		return earliest_note_time - INTRO_SKIP_MARGIN
+	
 func _set_timing_points(points):
 	timing_points = points
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	# When timing points change, we might introduce new BPM change events
 	bpm_changes = {}
+	intro_skip_marker = null
 	for point in timing_points:
 		if point is HBBPMChange:
 			bpm_changes[point.time] = point.bpm
 			print("FOUND BPM CHANGE at ", point.time)
+		if point is HBIntroSkipMarker:
+			intro_skip_marker = point
 	timing_points = _process_timing_points_into_groups(points)
 	last_hit_index = timing_points.size()
 	remove_all_notes_from_screen()
@@ -304,10 +317,10 @@ func _input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
-				if time*1000.0 < earliest_note_time - INTRO_SKIP_MARGIN:
+				if time*1000.0 < get_time_to_intro_skip_to():
 					_intro_skip_enabled = false
 
-					play_from_pos((earliest_note_time - INTRO_SKIP_MARGIN) / 1000.0)
+					play_from_pos(get_time_to_intro_skip_to() / 1000.0)
 					# HACK: For note time precision
 					_process(0)
 					# call ui on intro skip
@@ -424,9 +437,10 @@ func _process_game(_delta):
 		
 	closest_multi_notes = new_closest_multi_notes
 	if _intro_skip_enabled:
-		if time*1000.0 >= earliest_note_time - INTRO_SKIP_MARGIN:
+		if time*1000.0 >= get_time_to_intro_skip_to():
 			emit_signal("end_intro_skip_period")
 			_intro_skip_enabled = false
+			
 func _process(delta):
 	_process_game(delta)
 

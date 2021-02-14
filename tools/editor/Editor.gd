@@ -1211,3 +1211,7 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		if is_instance_valid(rhythm_game_playtest_popup) and not rhythm_game_playtest_popup.is_queued_for_deletion():
 			rhythm_game_playtest_popup.queue_free()
+
+
+func _on_CreateIntroSkipMarkerButton_pressed():
+	add_event_timing_point(HBIntroSkipMarker)

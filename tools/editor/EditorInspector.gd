@@ -13,6 +13,7 @@ onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContaine
 onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxContainer/PropertyContainer")
 onready var copy_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/CopyIcon")
 onready var paste_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/PasteIcon")
+onready var description_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/DescriptionLabel")
 
 var inspecting_item: EditorTimelineItem
 var inspecting_properties = {}
@@ -42,8 +43,9 @@ func _on_paste_pressed():
 func update_label():
 	title_label.text = "Note at %s" % HBUtils.format_time(inspecting_item.data.time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 	var item_description = inspecting_item.get_editor_description()
+	description_label.text = ""
 	if item_description != "":
-		title_label.text += "\n%s" % [item_description]
+		description_label.text += "%s" % [item_description]
 func stop_inspecting():
 	if inspecting_item and is_instance_valid(inspecting_item):
 		inspecting_item.disconnect("property_changed", self, "update_value")

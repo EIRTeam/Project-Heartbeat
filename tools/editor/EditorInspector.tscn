@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tools/editor/EditorInspector.gd" type="Script" id=1]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
 [ext_resource path="res://tools/icons/icon_action_paste.svg" type="Texture" id=3]
 [ext_resource path="res://tools/icons/icon_action_copy.svg" type="Texture" id=4]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+use_filter = true
+font_data = ExtResource( 5 )
+fallback/0 = ExtResource( 6 )
 
 [node name="EditorInspector" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -61,10 +69,16 @@ flat = true
 margin_top = 29.0
 margin_right = 1900.0
 margin_bottom = 54.0
-text = "Note selected at time"
+autowrap = true
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 1900.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 1 )
 autowrap = true
 
 [node name="PropertyContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 58.0
+margin_top = 94.0
 margin_right = 1900.0
-margin_bottom = 58.0
+margin_bottom = 94.0
