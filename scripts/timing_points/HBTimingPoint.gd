@@ -22,12 +22,6 @@ func get_inspector_properties():
 	return {
 		"time": {
 			"type": "int"
-		},
-		"bpm": {
-			"type": "int",
-			"params": {
-				"min": 1
-			}
 		}
 	}
 

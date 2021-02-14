@@ -145,3 +145,6 @@ func sync_value(property_name: String):
 	if property_name == "position":
 		if widget:
 			widget.arrange_gizmo()
+
+func get_editor_description() -> String:
+	return ""

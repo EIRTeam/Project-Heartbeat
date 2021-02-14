@@ -8,7 +8,14 @@ func _init():
 func get_editor_size():
 	return Vector2(50, rect_size.y)
 func get_inspector_properties():
-	return {
+	return HBUtils.merge_dict(.get_inspector_properties(), {
+		"bpm": {
+			"type": "int",
+			"params": {
+				"min": 1
+			}
+		}
+	})
 
-		
-	}
+func get_editor_description():
+	return "Changes the BPM (requires notes to have auto time-out enabled)"
