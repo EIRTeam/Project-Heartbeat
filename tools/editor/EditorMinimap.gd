@@ -62,7 +62,8 @@ func _redraw_items():
 						for x in range(-1, 2):
 							for y in range(-CIRCLE_SIZE, CIRCLE_SIZE):
 								if y_pos + TOP_MARGIN + y < image.get_size().y:
-									image.set_pixel(pos*rect_size.x + x, y_pos + TOP_MARGIN + y, note_color)
+									if pos*rect_size.x + x < image.get_size().x:
+										image.set_pixel(pos*rect_size.x + x, y_pos + TOP_MARGIN + y, note_color)
 		layer_i += 1
 	image.unlock()
 	if texture_size_changed:
