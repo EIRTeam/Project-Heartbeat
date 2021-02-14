@@ -183,8 +183,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 		else:
 			Log.log(self, "Disabling intro skip")
 			_intro_skip_enabled = false
-		if intro_skip_marker.time >= earliest_note_time:
-			intro_skip_marker = null
+		if intro_skip_marker:
+			if intro_skip_marker.time >= earliest_note_time:
+				intro_skip_marker = null
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	

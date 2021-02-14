@@ -304,9 +304,8 @@ icon = ExtResource( 32 )
 flat = true
 
 [node name="UIFade" parent="VBoxContainer/Panel2" instance=ExtResource( 38 )]
-visible = false
 margin_top = 0.0
-margin_right = 0.0
+margin_right = -118.0
 margin_bottom = 0.0
 
 [node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer"]
@@ -842,7 +841,6 @@ __meta__ = {
 }
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer" instance=ExtResource( 12 )]
-visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -852,6 +850,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
