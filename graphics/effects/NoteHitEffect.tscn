@@ -1,20 +1,21 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://graphics/effects/flare.png" type="Texture" id=1]
 [ext_resource path="res://graphics/effects/bubble.png" type="Texture" id=2]
 [ext_resource path="res://rythm_game/note_drawers/NoteGraphic.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/effects/NoteHitEffect.gd" type="Script" id=4]
 [ext_resource path="res://graphics/effects/loop.png" type="Texture" id=5]
+[ext_resource path="res://third_party/EasyBlend/Blends/overlay.png" type="Texture" id=6]
+[ext_resource path="res://third_party/EasyBlend/EasyBlend.shader" type="Shader" id=7]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-render_mode blend_mix;"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 7 )
+shader_param/enabled = true
+shader_param/Intensity = 0.25
+shader_param/Blend = ExtResource( 6 )
 
 [node name="NoteHitEffect" type="Node2D"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 position = Vector2( 940.718, 440.502 )
 scale = Vector2( 0.5, 0.5 )
 z_index = -1
