@@ -1,0 +1,48 @@
+# Any script that interacts with the Project Heartbeat API is licensed under the
+# AGPLv3 for the general public and also gives an exclusive, royalty-free license
+# for EIRTeam to incorporate it in the game
+
+# Documentation for the scripting system can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2398390074
+
+extends ScriptRunnerScript # Do not remove this
+
+func run_script() -> int:
+	# Get selected timing points
+	var selected_timing_points := get_selected_timing_points()
+	
+	# Iterate over them
+	# Alternatively, iterate without an index:
+	#for point in selected_timing_points:
+	for i in range(selected_timing_points.size()):
+		var point := selected_timing_points[i] as HBTimingPoint
+		
+		# You can get a point by it's time property
+		var point_at_time := get_point_at_time(1000) as HBTimingPoint
+		# get_point_at_time returns null if there was no point found at that time
+		if point_at_time:
+			pass
+		
+		# All notes inherit from HBBaseNote, which by itself inherits from HBTimingPoint
+		# Check if point is a sustain note
+		if point is HBSustainNote:
+			pass
+		# Check if point is a double note
+		elif point is HBDoubleNote:
+			pass
+		# Check if point is a normal or slide note
+		elif point is HBNoteData:
+			# HBNoteData has special methods to deal with sliders...
+			if point.is_slide_note():
+				pass
+			# ...and slide chain pieces
+			elif point.is_slide_hold_piece():
+				pass
+		# Check if point is any type of note
+		elif point is HBBaseNote:
+			# You can set the values of any point property using the set_timing_point_property
+			# method, refer to the editor documentation to know which properties are available
+			set_timing_point_property(point, "time", 1000)
+	
+	# Return OK to apply the script's changes, return anything else (such as -1)
+	# to cancel it
+	return OK

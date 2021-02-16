@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://tools/editor/timeline_items/EditorTimelineItemBPMChange.gd"
 }, {
 "base": "Control",
+"class": "EditorTimelineItemIntroSkip",
+"language": "GDScript",
+"path": "res://tools/editor/timeline_items/EditorTimelineItemIntroSkipMarker.gd"
+}, {
+"base": "Control",
 "class": "EditorTimelineItemNote",
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemNote.gd"
@@ -193,6 +198,11 @@ _global_script_classes=[ {
 "class": "HBINIParser",
 "language": "GDScript",
 "path": "res://scripts/HBINIParser.gd"
+}, {
+"base": "HBTimingPoint",
+"class": "HBIntroSkipMarker",
+"language": "GDScript",
+"path": "res://scripts/timing_points/HBIntroSkipMarker.gd"
 }, {
 "base": "Reference",
 "class": "HBJudge",
@@ -619,6 +629,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/SMFLoader.gd"
 }, {
+"base": "Reference",
+"class": "ScriptRunnerScript",
+"language": "GDScript",
+"path": "res://tools/editor/editor_plugins/ScriptRunner/ScriptRunnerScript.gd"
+}, {
 "base": "Node2D",
 "class": "SineDrawerCPU",
 "language": "GDScript",
@@ -684,6 +699,7 @@ _global_script_class_icons={
 "EditorPlayback": "",
 "EditorTimelineItem": "",
 "EditorTimelineItemBPMChange": "",
+"EditorTimelineItemIntroSkip": "",
 "EditorTimelineItemNote": "",
 "EditorTimelineItemSustainNote": "",
 "EditorTransformation": "",
@@ -717,6 +733,7 @@ _global_script_class_icons={
 "HBHeartbeatGameMode": "",
 "HBHovereableButton": "",
 "HBINIParser": "",
+"HBIntroSkipMarker": "",
 "HBJudge": "",
 "HBLeadearboardEntry": "",
 "HBLeaderboardItem": "",
@@ -802,6 +819,7 @@ _global_script_class_icons={
 "Result": "",
 "ResultF": "",
 "SMFLoader": "",
+"ScriptRunnerScript": "",
 "SineDrawerCPU": "",
 "SongAssetLoadAsyncTask": "",
 "SongLoaderDSC": "",
