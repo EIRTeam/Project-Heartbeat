@@ -49,7 +49,10 @@ const QUOTES = [
 	"Just being a mediocre has never been my ambition. That's not my style.", # Michael Schumacher quote
 	"If God had meant for us to walk, why did he give us fingers that fit game controllers?", # Stirling Moss quote
 	"Oh yeah that was easy, I can't believe it... No it wasn't", # Mika Hakkinen quote
-	"MiyakiWelp MiyakiWelp"
+	"MiyakiWelp MiyakiWelp",
+	"In loving memory of Paçoca the rat, forever in our hearts",
+	"In loving memory of Haru the cat",
+	"In loving memory of Jose Luis, que la tierra te sea leve amigo",
 ]
 
 const BIRTHDAYS = {
