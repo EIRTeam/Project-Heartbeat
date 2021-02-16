@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://menus/LoadingScreen.gd" type="Script" id=1]
 [ext_resource path="res://fonts/new_fonts/Comforta.tres" type="DynamicFont" id=2]
 [ext_resource path="res://graphics/no_preview_texture.png" type="Texture" id=3]
 [ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=4]
 [ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://graphics/Warning sign.svg" type="Texture" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
@@ -152,3 +154,71 @@ text = "Loadingu..."
 align = 2
 valign = 2
 percent_visible = 0.0
+
+[node name="EpilepsyWarning" type="Panel" parent="."]
+anchor_top = 0.26
+anchor_right = 1.0
+anchor_bottom = 0.31
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+rect_pivot_offset = Vector2( 0, 102 )
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="EpilepsyWarning"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel3" type="Panel" parent="EpilepsyWarning"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="EpilepsyWarning/Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 40
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EpilepsyWarning/Panel3/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 1880.0
+margin_bottom = 184.0
+custom_constants/separation = 21
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
+margin_left = 394.0
+margin_right = 547.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 153, 0 )
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
+margin_left = 568.0
+margin_top = 49.0
+margin_right = 1466.0
+margin_bottom = 114.0
+custom_fonts/font = ExtResource( 6 )
+text = "This chart's video contains scenes with rapidly flashing colours.
+Please take caution if you are affected by epilepsy."
+align = 1
+valign = 1
