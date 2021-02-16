@@ -18,6 +18,7 @@ func _ready():
 	spectrum = AudioServer.get_bus_effect_instance(1,0)
 	spectrum_image_texture.flags = 0 # disable filter to avoid bugs
 	spectrum_image.create(VU_COUNT,1,false,Image.FORMAT_R8)
+	spectrum_image_texture.create_from_image(spectrum_image)
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("audio", spectrum_image_texture)
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
@@ -51,10 +52,9 @@ func _physics_process(delta):
 		if (i == -1):
 			spectrum_image.set_pixel(i, 0, Color(1.0, 0.0, 0.0))
 			
-		
-		spectrum_image_texture.create_from_image(spectrum_image)
 		prev_hz = hz
 	spectrum_image.unlock()
+	spectrum_image_texture.set_data(spectrum_image)
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("size", rect_size)
 
