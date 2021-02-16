@@ -71,7 +71,7 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
 use_parent_material = true
-margin_right = 795.0
+margin_right = 891.0
 margin_bottom = 50.0
 mouse_filter = 2
 custom_constants/margin_top = 6
@@ -81,14 +81,45 @@ custom_constants/margin_bottom = 6
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
 use_parent_material = true
 margin_top = 6.0
-margin_right = 795.0
+margin_right = 891.0
 margin_bottom = 44.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_right = 795.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+use_parent_material = true
+margin_right = 891.0
+margin_bottom = 38.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 86.0
+margin_bottom = 38.0
+custom_constants/separation = -10
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 48.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 48, 0 )
+expand = true
+stretch_mode = 7
+
+[node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_left = 38.0
+margin_right = 86.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 48, 0 )
+expand = true
+stretch_mode = 7
+
+[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 96.0
+margin_right = 891.0
 margin_bottom = 38.0
 mouse_filter = 2
 

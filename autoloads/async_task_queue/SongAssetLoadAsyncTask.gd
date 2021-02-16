@@ -76,6 +76,10 @@ func _task_process() -> bool:
 				var asset_path = _case_sensitivity_hack(song.get_song_background_image_res_path())
 				if asset_path:
 					loaded_asset = _image_from_fs(asset_path)
+		"note_usage":
+			loaded_asset = {}
+			for difficulty in song.charts:
+				loaded_asset[difficulty] = song.get_chart_note_usage(difficulty)
 		"audio":
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream()

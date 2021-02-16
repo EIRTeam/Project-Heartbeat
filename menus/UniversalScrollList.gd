@@ -10,6 +10,9 @@ export(int) var horizontal_step = 1
 export(int) var vertical_step = 1
 export(bool) var enable_fade = false
 export (bool) var enable_wrap_around = false
+# When selecting an item, n HBHovereableItems before and after the selected one will
+# receive a visibility report
+export(int) var items_to_report_visibility_to = 6
 
 enum SCROLL_MODE {
 	PAGE,
@@ -56,6 +59,7 @@ func _ready():
 	
 	get_v_scrollbar().connect("visibility_changed", self, "_on_vscrollbar_visibility_changed")
 	get_v_scrollbar().connect("changed", self, "update_fade")
+	get_v_scrollbar().connect("changed", self, "_on_scroll_changed")
 	item_container.connect("resized", self, "force_scroll")
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
@@ -63,6 +67,18 @@ func _ready():
 		material = fade_mat
 	
 	_on_resized()
+	
+func _on_scroll_changed():
+	for i in range(item_container.get_child_count()):
+		var child = item_container.get_child(i)
+		if child.rect_position.y + child.rect_size.y >= scroll_vertical:
+			for ii in range(child.get_position_in_parent() + items_to_report_visibility_to*2):
+				if ii >= item_container.get_child_count():
+					break
+				var child2 = item_container.get_child(ii) as HBUniversalListItem
+				if child2:
+					child2._become_visible()
+			break
 	
 func _on_initial_input_debounce_timeout():
 	_position_change_input(debounce_step)
@@ -135,6 +151,15 @@ func select_item(item_i: int):
 		child.hover()
 	if old_selected_item != current_selected_item:
 		emit_signal("selected_item_changed")
+	if items_to_report_visibility_to > 0:
+		var item_visiblity_report_min = current_selected_item - items_to_report_visibility_to
+		item_visiblity_report_min = max(item_visiblity_report_min, 0)
+		var item_visibility_report_max = current_selected_item + items_to_report_visibility_to + 1
+		item_visibility_report_max = min(item_visibility_report_max, item_container.get_child_count())
+		for i in range(item_visiblity_report_min, item_visibility_report_max):
+			var visible_child = item_container.get_child(i)
+			if visible_child is HBUniversalListItem:
+				visible_child._become_visible()
 	call_deferred("update_fade")
 	
 func force_scroll():

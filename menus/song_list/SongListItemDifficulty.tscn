@@ -124,9 +124,47 @@ custom_fonts/font = SubResource( 1 )
 text = "x10 "
 valign = 1
 
-[node name="DifficultyLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+use_parent_material = true
 margin_left = 109.0
-margin_right = 359.0
+margin_right = 195.0
+margin_bottom = 38.0
+custom_constants/separation = -10
+
+[node name="ArcadeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 48.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 48, 35 )
+mouse_filter = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConsoleTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_left = 38.0
+margin_right = 86.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 48, 35 )
+mouse_filter = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifficultyLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 199.0
+margin_right = 449.0
 margin_bottom = 38.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
@@ -134,8 +172,8 @@ text = "CHEAP - 100%"
 valign = 1
 
 [node name="ScoreLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 363.0
-margin_right = 609.0
+margin_left = 453.0
+margin_right = 699.0
 margin_bottom = 38.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 1 )

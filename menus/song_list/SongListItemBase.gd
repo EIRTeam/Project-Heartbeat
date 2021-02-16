@@ -1,4 +1,4 @@
-extends Control
+extends HBUniversalListItem
 
 class_name HBSongListItemBase
 

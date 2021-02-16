@@ -5,6 +5,11 @@ class_name HBSong
 
 var LOG_NAME = "HBSong"
 
+enum SongChartNoteUsage {
+	ARCADE,
+	CONSOLE
+}
+
 # Because user loaded songs don't have .import files we have to load stuff like songs
 # differently, seriously???
 enum SONG_FS_ORIGIN {
@@ -51,6 +56,8 @@ var loader = ""
 var _comes_from_ugc = false
 var id: String
 var path: String
+var _note_usage_cache = {}
+var _note_usage_cache_lock = Mutex.new()
 
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty
@@ -242,5 +249,35 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	file.open(chart_path, File.READ)
 	var result = JSON.parse(file.get_as_text()).result
 	var chart = HBChart.new()
+	if not result:
+		return null
 	chart.deserialize(result)
 	return chart
+
+# Returns note usage, used in main menu badges
+func get_chart_note_usage(difficulty: String):
+	_note_usage_cache_lock.lock()
+	if difficulty in _note_usage_cache:
+		return _note_usage_cache[difficulty]
+	_note_usage_cache_lock.unlock()
+	var notes_used = []
+	var chart = get_chart_for_difficulty(difficulty) as HBChart
+	if chart:
+		var tpoints = chart.get_timing_points()
+		for point in tpoints:
+			if point is HBBaseNote:
+				if point is HBNoteData:
+					if point.is_slide_note() or point.hold:
+						if not SongChartNoteUsage.ARCADE in notes_used:
+							notes_used.append(SongChartNoteUsage.ARCADE)
+						if notes_used.size() > 1:
+							break
+				elif point.note_type == HBNoteData.NOTE_TYPE.HEART or point is HBSustainNote or point is HBDoubleNote:
+					if not SongChartNoteUsage.CONSOLE in notes_used:
+						notes_used.append(SongChartNoteUsage.CONSOLE)
+					if notes_used.size() > 1:
+						break
+	_note_usage_cache_lock.lock()
+	_note_usage_cache[difficulty] = notes_used
+	_note_usage_cache_lock.unlock()
+	return notes_used
