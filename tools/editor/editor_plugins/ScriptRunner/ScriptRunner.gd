@@ -26,7 +26,9 @@ func _init(_editor).(_editor):
 	warning_label.autowrap = true
 	warning_label.text = """WARNING! This is an advanced feature, errors in custom scripts
 	may break the game's scripting engine and corrupt data, please be sure to make backups of
-	your charts before running scripts on them! You can find errors in the console"""
+	your charts before running scripts on them! You can find errors in the console.
+	
+	WARNING2!! Scripts are not sandboxed, don't run scripts you don't trust."""
 	
 	vbox_container.add_child(warning_label)
 	
