@@ -412,7 +412,7 @@ func _process_game(_delta):
 			else:
 				new_closest_multi_notes = [note]
 			last_note_time = note.time
-	if UserSettings.get_async_texture_loading_enabled():
+	if UserSettings.user_settings.enable_multi_hint:
 		if new_closest_multi_notes.size() > 1:
 			if not new_closest_multi_notes[0] in closest_multi_notes:
 				closest_multi_notes = new_closest_multi_notes
