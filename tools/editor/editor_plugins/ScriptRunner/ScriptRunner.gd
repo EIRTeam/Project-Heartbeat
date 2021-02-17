@@ -170,8 +170,11 @@ func run_script(script_path: String):
 				var inst = script.new() as ScriptRunnerScript
 				inst._editor = _editor
 				inst.init_script()
-				inst.run_script()
-				_process_changed_values(inst)
+				var result = inst.run_script()
+				if result == OK:
+					_process_changed_values(inst)
+				else:
+					print("Script returned %d, aborting..." % [result])
 			else:
 				prints("Error instancing script,", reload_err)
 		else:
