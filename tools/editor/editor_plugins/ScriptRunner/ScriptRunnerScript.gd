@@ -37,8 +37,8 @@ func bsearch_time(a, b):
 	return a_t < b_t
 
 func get_point_at_time(time: int):
-	var point_i = selected_timing_points.bsearch_custom(self, "bsearch_time")
-	if selected_timing_points[point_i].time != time:
+	var point_i = selected_timing_points.bsearch_custom(time, self, "bsearch_time")
+	if selected_timing_points[point_i].time != time or point_i >= selected_timing_points.size():
 		return null
 	else:
 		return selected_timing_points[point_i]
