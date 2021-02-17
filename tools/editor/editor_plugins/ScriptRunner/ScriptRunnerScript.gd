@@ -36,9 +36,10 @@ func bsearch_time(a, b):
 		b_t = b.time
 	return a_t < b_t
 
-func get_point_at_time(time: int):
-	var point_i = selected_timing_points.bsearch_custom(time, self, "bsearch_time")
-	if selected_timing_points[point_i].time != time or point_i >= selected_timing_points.size():
-		return null
-	else:
-		return selected_timing_points[point_i]
+func get_points_at_time(time: int):
+	var notes = []
+	for note in selected_timing_points:
+		if note is HBTimingPoint:
+			if note.time == time:
+				notes.append(note)
+	return notes

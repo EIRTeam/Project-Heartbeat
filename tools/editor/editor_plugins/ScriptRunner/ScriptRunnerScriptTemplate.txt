@@ -16,11 +16,8 @@ func run_script() -> int:
 	for i in range(selected_timing_points.size()):
 		var point := selected_timing_points[i] as HBTimingPoint
 		
-		# You can get a point by it's time property
-		var point_at_time := get_point_at_time(1000) as HBTimingPoint
-		# get_point_at_time returns null if there was no point found at that time
-		if point_at_time:
-			pass
+		# You can get points that happen at a certain time
+		var points_at_time := get_points_at_time(1000) as Array
 		
 		# All notes inherit from HBBaseNote, which by itself inherits from HBTimingPoint
 		# Check if point is a sustain note
