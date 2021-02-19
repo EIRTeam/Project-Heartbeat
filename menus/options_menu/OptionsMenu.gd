@@ -243,7 +243,16 @@ var OPTIONS = {
 		"romanized_titles_enabled": {
 			"name": tr("Romanized titles"),
 			"description": tr("Shows romanized versions of foreign titles when available.")
-		}
+		},
+		"multi_laser_opacity": {
+			"name": tr("Multi laser opacity"),
+			"description": tr("Changes the opacity of the laser that connects multi notes."),
+			"minimum": 0.0,
+			"maximum": 1.0,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %"
+		},
 	}
 }
 
