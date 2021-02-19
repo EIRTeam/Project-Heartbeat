@@ -89,10 +89,16 @@ func get_inspector_properties():
 			"type": "int"
 		},
 		"oscillation_amplitude": {
-			"type": "float"
+			"type": "float",
+			"params": {
+				"show_toggle_negative_button": true
+			}
 		},
 		"oscillation_frequency": {
-			"type": "int"
+			"type": "int",
+			"params": {
+				"show_toggle_negative_button": true
+			}
 		},
 		"entry_angle": {
 			"type": "Angle"
