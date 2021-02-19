@@ -7,8 +7,6 @@ const LOG_NAME = "RhythmGameMultiplayer"
 
 var loaded_members = []
 
-var background_song_assets_loader = HBBackgroundSongAssetsLoader.new()
-
 var _preloaded_assets
 
 onready var mp_loading_label = get_node("MPLoadingLabel")
