@@ -958,11 +958,13 @@ func _on_SaveButton_pressed():
 	var chart_path = current_song.get_chart_path(current_difficulty)
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
-	file.store_string(JSON.print(serialize_chart(), "  "))
+	var chart = get_chart()
+	file.store_string(JSON.print(chart.serialize(), "  "))
 	
 	current_song.lyrics = get_lyrics()
+	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
 	current_song.save_song()
-
+	
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
 

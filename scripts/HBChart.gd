@@ -3,6 +3,12 @@ class_name HBChart
 
 var layers = []
 var editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
+
+enum ChartNoteUsage {
+	ARCADE,
+	CONSOLE
+}
+
 func _init():
 	_populate_layers()
 
@@ -169,3 +175,21 @@ func get_layer_i(layer_name: String):
 		if layers[i].name == layer_name:
 			result = i
 	return result
+
+func get_note_usage() -> Array:
+	var notes_used = []
+	var tpoints = get_timing_points()
+	for point in tpoints:
+		if point is HBBaseNote:
+			if point is HBNoteData:
+				if point.is_slide_note() or point.hold:
+					if not ChartNoteUsage.ARCADE in notes_used:
+						notes_used.append(ChartNoteUsage.ARCADE)
+				if point.note_type == HBNoteData.NOTE_TYPE.HEART:
+					notes_used.append(ChartNoteUsage.CONSOLE)
+			if point is HBSustainNote or point is HBDoubleNote:
+				if not ChartNoteUsage.CONSOLE in notes_used:
+					notes_used.append(ChartNoteUsage.CONSOLE)
+		if notes_used.size() > 1:
+			break
+	return notes_used

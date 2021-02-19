@@ -35,7 +35,7 @@ var serializable_types = {
 	"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
 	"SongStats": load("res://scripts/HBSongStats.gd"),
 	"Folder": load("res://scripts/HBFolder.gd"),
-	"MetaCacheEntry": load("res://autoloads/HBSongMetaCacheEntry.gd"),
+	"SongCacheEntry": load("res://autoloads/HBSongCacheEntry.gd"),
 	"AudioLoudnessCacheEntry": load("res://autoloads/HBAudioLoudnessCacheEntry.gd"),
 	"PPDSong": load("res://scripts/HBPPDSong.gd"),
 	"WebUserInfo": load("res://scripts/HBWebUserInfo.gd"),

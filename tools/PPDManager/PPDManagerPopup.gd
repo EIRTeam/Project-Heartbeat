@@ -30,7 +30,6 @@ func _on_youtube_url_selected(url):
 	if loader:
 		var song = SongLoader.songs[tree.get_selected().get_meta("song_id")]
 		loader.set_ppd_youtube_url(song, url)
-		SongDataCache.update_cache_for_song(song, loader)
 		show_error("Succesfully set YouTube URL")
 func populate_tree():
 	tree.clear()

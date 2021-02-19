@@ -1,6 +1,6 @@
 extends Node
 
-const CACHE_PATH = "user://cache.hbdict"
+const CACHE_PATH = "user://cache.json"
 var timer = Timer.new()
 const LOG_NAME = "SongDataCache"
 func _ready():
@@ -11,17 +11,18 @@ func _ready():
 
 const CURRENT_CACHE_VERSION = 1
 
+var song_cache_mutex = Mutex.new()
 var song_meta_cache = {}
 var audio_normalization_cache = {}
 	
-func _get_song_audio_path(song: HBSong) -> String:
+func _get_song_audio_path(song) -> String:
 	if song.youtube_url:
 		if song.use_youtube_for_audio:
 			if YoutubeDL.get_cache_status(song.youtube_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
 				return YoutubeDL.get_audio_path(YoutubeDL.get_video_id(song.youtube_url))
 	return song.get_song_audio_res_path()
 	
-func update_loudness_for_song(song: HBSong, loudness: float):
+func update_loudness_for_song(song, loudness: float):
 	var file = File.new()
 	if file.file_exists(_get_song_audio_path(song)):
 		var audio_cache = HBAudioLoudnessCacheEntry.new()
@@ -29,67 +30,52 @@ func update_loudness_for_song(song: HBSong, loudness: float):
 		audio_cache.loudness = loudness
 		audio_normalization_cache[song.id] = audio_cache
 		save_cache()
-func update_cache_for_song(song: HBSong, loader: SongLoaderImpl):
-	var song_meta_path = song.get_meta_path()
-	
-	var cache = HBSongMetaCacheEntry.new()
-	
-	var file = File.new()
-	cache.modified = file.get_modified_time(song_meta_path)
-	cache.meta = song
-	
-	for ext_file in loader.get_optional_meta_files():
-		var ext_file_path = HBUtils.join_path(song.path, ext_file)
-		if file.file_exists(ext_file_path):
-			cache.optional_file_modified[ext_file] = file.get_modified_time(ext_file_path)
-	
-	song_meta_cache[song.id] = cache
-	
-	save_cache()
 	
 func load_cache():
 	var file = File.new()
 	if file.file_exists(CACHE_PATH):
-		file.open(CACHE_PATH, File.READ)
-		var meta_caches = file.get_var()
-		if meta_caches is Dictionary:
-			var has_version = "__version" in meta_caches
-			if not has_version or has_version and meta_caches.__version < CURRENT_CACHE_VERSION:
+		if file.open(CACHE_PATH, File.READ) == OK:
+			var text = file.get_as_text()
+			var result := JSON.parse(text) as JSONParseResult
+			if result.error != OK:
+				prints("Error loading cache", result.error_line, result.error_string)
+				return
+			
+			var has_version = "__version" in result.result
+			if not has_version or (has_version and result.result.__version < CURRENT_CACHE_VERSION):
 				Log.log(self, "Local cache is old, ignoring it...")
 				return
-			for song_id in meta_caches:
-				if song_id == "__version":
-					continue
-				var r = HBSerializable.deserialize(meta_caches[song_id])
-				if r is HBSongMetaCacheEntry:
-					song_meta_cache[song_id] = r
-				else:
-					Log.log(self, "Error deserializing cache for song %s", [song_id])
-					break
-		var audio_normalization_caches = file.get_var()
-		if meta_caches is Dictionary:
-			for song_id in audio_normalization_caches:
-				var r = HBSerializable.deserialize(audio_normalization_caches[song_id])
-				if r is HBAudioLoudnessCacheEntry:
-					audio_normalization_cache[song_id] = r
-				else:
-					Log.log(self, "Error deserializing audio normalization cache for song %s", [song_id])
-					break
-		else:
-			Log.log(self, "Error loading cache", Log.LogLevel.ERROR)
-		Log.log(self, "Finished loading cache...")
-		file.close()
+			if "song_meta" in result.result:
+				var meta_caches = result.result.song_meta
+				if meta_caches is Dictionary:
+					for song_id in meta_caches:
+						var r = HBSerializable.deserialize(meta_caches[song_id])
+						if r is HBSongCacheEntry:
+							r.song_id = song_id
+							song_meta_cache[song_id] = r
+						else:
+							Log.log(self, "Error deserializing cache for song %s", [song_id])
+							break
+			if "audio_normalization" in result.result:
+				var audio_normalization_caches = result.result.audio_normalization
+				for song_id in audio_normalization_caches:
+					var r = HBSerializable.deserialize(audio_normalization_caches[song_id])
+					if r is HBAudioLoudnessCacheEntry:
+						audio_normalization_cache[song_id] = r
+					else:
+						Log.log(self, "Error deserializing audio normalization cache for song %s", [song_id])
+						break
+			Log.log(self, "Finished loading cache...")
+			file.close()
 	
 func _on_save_cache_timed_out():
 	var file = File.new()
 	file.open(CACHE_PATH, File.WRITE)
 	var serialized_metas = {}
 	for song_id in song_meta_cache:
-		var meta_cache = song_meta_cache[song_id] as HBSongMetaCacheEntry
+		var meta_cache = song_meta_cache[song_id] as HBSongCacheEntry
 		var serialized_meta = meta_cache.serialize()
 		serialized_metas[song_id] = serialized_meta
-	serialized_metas["__version"] = CURRENT_CACHE_VERSION
-	file.store_var(serialized_metas)
 	
 	var serialized_audio_caches = {}
 	for song_id in audio_normalization_cache:
@@ -97,7 +83,12 @@ func _on_save_cache_timed_out():
 		var serialized_meta = meta_cache.serialize()
 		serialized_audio_caches[song_id] = serialized_meta
 	
-	file.store_var(serialized_audio_caches)
+	var text = JSON.print({
+		"__version": CURRENT_CACHE_VERSION,
+		"song_meta": serialized_metas,
+		"audio_normalization": serialized_audio_caches
+	})
+	file.store_string(text)
 	
 	file.close()
 	
@@ -105,38 +96,18 @@ func _on_save_cache_timed_out():
 func save_cache():
 	timer.start(0)
 
-func is_song_meta_cached(song_id, song_meta_path: String, loader: SongLoaderImpl):
-	var song_path = song_meta_path.get_base_dir()
-	var is_cached = true
-	if song_id in song_meta_cache:
-		var file = File.new()
-		var modified = file.get_modified_time(song_meta_path)
-		var cache_entry = song_meta_cache[song_id] as HBSongMetaCacheEntry
-		if modified != song_meta_cache[song_id].modified:
-			is_cached = false
-		else:
-			# Opt meta file stuff
-			for opt_file_name in loader.get_optional_meta_files():
-				var opt_file_path = HBUtils.join_path(song_path, opt_file_name)
-
-				if not file.file_exists(opt_file_path):
-					continue
-				elif not opt_file_name in cache_entry.optional_file_modified:
-					is_cached = false
-					break
-				else:
-					var opt_file_modified = file.get_modified_time(opt_file_path)
-					if opt_file_modified != cache_entry.optional_file_modified[opt_file_name]:
-						is_cached = false
-						break
+func get_cache_for_song(song):
+	if not song.id in song_meta_cache:
+		var new_cache = HBSongCacheEntry.new()
+		new_cache.song_id = song.id
+		song_cache_mutex.lock()
+		song_meta_cache[song.id] = new_cache
+		song_cache_mutex.unlock()
+		return new_cache
 	else:
-		is_cached = false
-	return is_cached
+		return song_meta_cache[song.id]
 
-func get_cached_meta(song_id: String):
-	return song_meta_cache[song_id].meta
-
-func is_song_audio_loudness_cached(song: HBSong):
+func is_song_audio_loudness_cached(song):
 	if song.id in audio_normalization_cache:
 		var file = File.new()
 		if file.file_exists(_get_song_audio_path(song)):
@@ -144,7 +115,7 @@ func is_song_audio_loudness_cached(song: HBSong):
 			return modified == audio_normalization_cache[song.id].modified
 	return false
 
-func get_song_volume_offset(song: HBSong):
+func get_song_volume_offset(song):
 	return HBAudioNormalizer.get_offset_from_loudness(audio_normalization_cache[song.id].loudness)
 
 func clear_cache():

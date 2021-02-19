@@ -37,18 +37,17 @@ func set_song_difficulty(value: HBSong, difficulty: String):
 	else:
 		score_label.hide()
 		
-func set_note_usage_map(map):
-	if difficulty in map:
-		if HBSong.SongChartNoteUsage.ARCADE in map[difficulty]:
-			arcade_texture.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, "note")
-			arcade_texture.show()
-		if HBSong.SongChartNoteUsage.CONSOLE in map[difficulty]:
-			console_texture.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.HEART, "note")
-			console_texture.show()
+func show_note_usage():
+	var usage = song.get_chart_note_usage(difficulty)
+	if HBChart.ChartNoteUsage.ARCADE in usage:
+		arcade_texture.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, "note")
+		arcade_texture.show()
+	if HBChart.ChartNoteUsage.CONSOLE in usage:
+		console_texture.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.HEART, "note")
+		console_texture.show()
 		
 func _on_note_usage_loaded(assets):
-	if "note_usage" in assets:
-		set_note_usage_map(assets.note_usage)
+	show_note_usage()
 #	stars_texture_rect.rect_position = Vector2(-88, -25)
 #	star_texture_rect.rect_position = Vector2(-(star_texture_rect.rect_size.x/2.0), (rect_size.y / 2.0) - ((star_texture_rect.rect_size.y) / 2.0))
 

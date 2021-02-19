@@ -5,11 +5,6 @@ class_name HBSong
 
 var LOG_NAME = "HBSong"
 
-enum SongChartNoteUsage {
-	ARCADE,
-	CONSOLE
-}
-
 # Because user loaded songs don't have .import files we have to load stuff like songs
 # differently, seriously???
 enum SONG_FS_ORIGIN {
@@ -255,30 +250,38 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	chart.deserialize(result)
 	return chart
 
+func is_chart_note_usage_known(difficulty: String):
+	var f = File.new()
+	# HACKish...
+	if not f.file_exists(get_chart_path(difficulty)):
+		return true
+	if "note_usage" in charts[difficulty]:
+		return true
+	else:
+		var cache = SongDataCache.get_cache_for_song(self) as HBSongCacheEntry
+		return cache.is_note_usage_cached(difficulty)
+
+# Same as above but for all charts
+func is_chart_note_usage_known_all():
+	for chart in charts:
+		if not is_chart_note_usage_known(chart):
+			return false
+	return true
+
 # Returns note usage, used in main menu badges
 func get_chart_note_usage(difficulty: String):
-	_note_usage_cache_lock.lock()
-	if difficulty in _note_usage_cache:
-		return _note_usage_cache[difficulty]
-	_note_usage_cache_lock.unlock()
-	var notes_used = []
-	var chart = get_chart_for_difficulty(difficulty) as HBChart
-	if chart:
-		var tpoints = chart.get_timing_points()
-		for point in tpoints:
-			if point is HBBaseNote:
-				if point is HBNoteData:
-					if point.is_slide_note() or point.hold:
-						if not SongChartNoteUsage.ARCADE in notes_used:
-							notes_used.append(SongChartNoteUsage.ARCADE)
-						if notes_used.size() > 1:
-							break
-				elif point.note_type == HBNoteData.NOTE_TYPE.HEART or point is HBSustainNote or point is HBDoubleNote:
-					if not SongChartNoteUsage.CONSOLE in notes_used:
-						notes_used.append(SongChartNoteUsage.CONSOLE)
-					if notes_used.size() > 1:
-						break
-	_note_usage_cache_lock.lock()
-	_note_usage_cache[difficulty] = notes_used
-	_note_usage_cache_lock.unlock()
+	var f = File.new()
+	# HACKish...
+	if not f.file_exists(get_chart_path(difficulty)):
+		return []
+	var cache = SongDataCache.get_cache_for_song(self) as HBSongCacheEntry
+	if difficulty in charts:
+		if "note_usage" in charts[difficulty]:
+			return charts[difficulty].note_usage
+	if cache.is_note_usage_cached(difficulty):
+		return cache.get_note_usage(difficulty)
+	var chart = get_chart_for_difficulty(difficulty)
+	var notes_used = chart.get_note_usage()
+	cache.update_note_usage(difficulty, notes_used)
+	SongDataCache.save_cache()
 	return notes_used

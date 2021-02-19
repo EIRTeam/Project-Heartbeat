@@ -146,8 +146,8 @@ func _on_song_selected(song: HBSong):
 			item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
 			item.set_song_difficulty(song, difficulty)
 			if selected_item is HBSongListItem:
-				if selected_item.note_usage_map:
-					item.set_note_usage_map(selected_item.note_usage_map)
+				if song.is_chart_note_usage_known_all():
+					item.show_note_usage()
 				else:
 					if selected_item.task:
 						selected_item.task.connect("assets_loaded", item, "_on_note_usage_loaded")

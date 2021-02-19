@@ -84,7 +84,5 @@ static func get_data_from_evd(file: File, file_size, file_offset):
 			PPDEventType.ChangeSlideScale:
 				var slide_scale = file.get_float()
 				event["slide_scale"] = slide_scale
-		print("Found event of type " + HBUtils.find_key(PPDEventType, mode))
-		print(event)
 		events.append(event)
 	return events

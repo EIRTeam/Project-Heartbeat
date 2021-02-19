@@ -61,29 +61,27 @@ func set_song(value: HBSong):
 
 # Called by UniversalScrollList when the item becomes visible
 
-func _set_note_usage_map(map):
-	note_usage_map = map
+func _show_note_usage_map():
 	var global_note_type_usage = []
-	for difficulty in note_usage_map:
-		for type in note_usage_map[difficulty]:
+	for difficulty in song.charts:
+		for type in song.get_chart_note_usage(difficulty):
 			if not type in global_note_type_usage:
 				global_note_type_usage.append(type)
-			if global_note_type_usage.size() >= HBSong.SongChartNoteUsage.size():
+			if global_note_type_usage.size() >= HBChart.ChartNoteUsage.size():
 				break
-	if HBSong.SongChartNoteUsage.ARCADE in global_note_type_usage:
+	if HBChart.ChartNoteUsage.ARCADE in global_note_type_usage:
 		arcade_texture_rect.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, "note")
 		arcade_texture_rect.show()
-	if HBSong.SongChartNoteUsage.CONSOLE in global_note_type_usage:
+	if HBChart.ChartNoteUsage.CONSOLE in global_note_type_usage:
 		console_texture_rect.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.HEART, "note")
 		console_texture_rect.show()
 func _on_note_usage_loaded(assets):
-	if "note_usage" in assets:
-		_set_note_usage_map(assets.note_usage)
+	_show_note_usage_map()
 
 func _become_visible():
 	if not task:
-		if not song._note_usage_cache.empty():
-			_set_note_usage_map(song._note_usage_cache)
+		if song.is_chart_note_usage_known_all():
+			_show_note_usage_map()
 		else:
 			task = SongAssetLoadAsyncTask.new(["note_usage"], song)
 			task.connect("assets_loaded", self, "_on_note_usage_loaded")
