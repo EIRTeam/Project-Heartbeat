@@ -50,7 +50,7 @@ func update_arm_position(time: float):
 	else:
 		target_graphic.arm2_position = 1.0 - ((note_data.time - time*1000) / get_time_out())
 	var time_out_distance = get_time_out() - (note_data.time - time*1000.0) - note_data.get_duration()
-	target_graphic.arm_position = (time_out_distance / get_time_out())
+	target_graphic.arm_position = max(time_out_distance / get_time_out(), 0.0)
 	
 func update_graphic_positions_and_scale(time: float):
 	.update_graphic_positions_and_scale(time)
