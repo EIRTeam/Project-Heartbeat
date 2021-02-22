@@ -155,7 +155,8 @@ func _on_difficulty_created(difficulty: String, stars):
 	if diff:
 		song.charts[difficulty.to_lower()] = {
 			"file": difficulty.to_lower() + ".json",
-			"stars": stars
+			"stars": stars,
+			"note_usage": []
 		}
 		song.save_song()
 		populate_tree()
