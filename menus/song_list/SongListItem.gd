@@ -13,7 +13,6 @@ onready var stars_label = get_node("Control/TextureRect/StarsLabel")
 onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2")
 onready var stars_texture_rect = get_node("Control/TextureRect")
 var task: SongAssetLoadAsyncTask
-var note_usage_map
 
 onready var arcade_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
 onready var console_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect2")
@@ -61,7 +60,9 @@ func set_song(value: HBSong):
 
 # Called by UniversalScrollList when the item becomes visible
 
-func _show_note_usage_map():
+var note_usage_shown = false
+
+func _show_note_usage():
 	var global_note_type_usage = []
 	for difficulty in song.charts:
 		for type in song.get_chart_note_usage(difficulty):
@@ -70,18 +71,21 @@ func _show_note_usage_map():
 			if global_note_type_usage.size() >= HBChart.ChartNoteUsage.size():
 				break
 	if HBChart.ChartNoteUsage.ARCADE in global_note_type_usage:
-		arcade_texture_rect.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, "note")
+		arcade_texture_rect.texture = IconPackLoader.final_atlas.atlas_textures["SLIDE_RIGHT"]["note"]
 		arcade_texture_rect.show()
 	if HBChart.ChartNoteUsage.CONSOLE in global_note_type_usage:
-		console_texture_rect.texture = HBNoteData.get_note_graphic(HBNoteData.NOTE_TYPE.HEART, "note")
+		console_texture_rect.texture = IconPackLoader.final_atlas.atlas_textures["HEART"]["note"]
 		console_texture_rect.show()
+	note_usage_shown = true
 func _on_note_usage_loaded(assets):
-	_show_note_usage_map()
+	_show_note_usage()
 
 func _become_visible():
+	if note_usage_shown:
+		return
 	if not task:
 		if song.is_chart_note_usage_known_all():
-			_show_note_usage_map()
+			_show_note_usage()
 		else:
 			task = SongAssetLoadAsyncTask.new(["note_usage"], song)
 			task.connect("assets_loaded", self, "_on_note_usage_loaded")

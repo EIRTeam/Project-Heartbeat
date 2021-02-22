@@ -24,12 +24,9 @@ func get_serialized_type():
 	return "SongCacheEntry"
 
 func is_note_usage_cached(difficulty: String) -> bool:
-	var file = File.new()
 	var song = get_song()
-	var chart_path = song.get_chart_path(difficulty)
 	return difficulty in song.charts and \
-		difficulty in note_usage_cache.note_usages and \
-		note_usage_cache.modified >= file.get_modified_time(chart_path)
+		difficulty in note_usage_cache.note_usages
 		
 func update_note_usage(difficulty: String, note_usage: Array):
 	var song = get_song()

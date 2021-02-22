@@ -251,10 +251,6 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	return chart
 
 func is_chart_note_usage_known(difficulty: String):
-	var f = File.new()
-	# HACKish...
-	if not f.file_exists(get_chart_path(difficulty)):
-		return true
 	if "note_usage" in charts[difficulty]:
 		return true
 	else:
