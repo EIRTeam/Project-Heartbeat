@@ -53,6 +53,7 @@ func _ready():
 			force_disable_async_textures = true
 			
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	get_preferred_joypad()
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
 	# fallback to controller 0
@@ -85,7 +86,9 @@ func _init_user_settings():
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.controller_guid:
 			print("No information on last connected controller found, falling back to %s" % [Input.get_joy_guid(Input.get_connected_joypads()[0])])
-			user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
+			var joypad_pref = get_preferred_joypad()
+			if joypad_pref != -1:
+				user_settings.controller_guid = Input.get_joy_guid(get_preferred_joypad())
 	load_input_map()
 
 func fill_localized_arrays():
@@ -161,6 +164,26 @@ func get_axis_name(event: InputEventJoypadMotion):
 func get_button_name(event: InputEventJoypadButton):
 	return button_names[event.button_index]
 
+const JOYPAD_PRIORITIES = ["xbox", "ps4", "steam"]
+
+# Gets the preferred joystick with priorities (Xbox, PS4, Steam Input, others in that order)
+func get_preferred_joypad() -> int:
+	var connected_joypads = Input.get_connected_joypads()
+	var preferred_joypad = -1
+	var preferred_joypad_priority = JOYPAD_PRIORITIES.size()
+	if connected_joypads.size() > 0:
+		preferred_joypad = connected_joypads[0]
+		for joypad_i in connected_joypads:
+			var joy_name_l = Input.get_joy_name(joypad_i).to_lower()
+			for i in range(JOYPAD_PRIORITIES.size()):
+				var pr = JOYPAD_PRIORITIES[i]
+				if pr in joy_name_l:
+					if i < preferred_joypad_priority:
+						preferred_joypad = joypad_i
+						preferred_joypad_priority = i
+	return preferred_joypad
+			
+
 func load_input_map():
 	# Loads input map from the user's settings
 	for action_name in user_settings.input_map:
@@ -175,8 +198,9 @@ func load_input_map():
 			break
 	if not found_stored_guid_device:
 		controller_device_idx = Input.get_connected_joypads()[0]
-		if Input.get_connected_joypads().size() > 0:
-			user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
+		var preferred_joypad = get_preferred_joypad()
+		if preferred_joypad != -1:
+			user_settings.controller_guid = Input.get_joy_guid(preferred_joypad)
 	map_actions_to_controller()
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
