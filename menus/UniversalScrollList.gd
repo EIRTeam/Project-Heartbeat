@@ -69,16 +69,17 @@ func _ready():
 	_on_resized()
 	
 func _on_scroll_changed():
-	for i in range(item_container.get_child_count()):
-		var child = item_container.get_child(i)
-		if child.rect_position.y + child.rect_size.y >= scroll_vertical:
-			for ii in range(child.get_position_in_parent() + items_to_report_visibility_to*2):
-				if ii >= item_container.get_child_count():
-					break
-				var child2 = item_container.get_child(ii) as HBUniversalListItem
-				if child2:
-					child2._become_visible()
-			break
+	if not tween.is_active():
+		for i in range(item_container.get_child_count()):
+			var child = item_container.get_child(i)
+			if child.rect_position.y + child.rect_size.y >= scroll_vertical:
+				for ii in range(child.get_position_in_parent() + items_to_report_visibility_to*2):
+					if ii >= item_container.get_child_count():
+						break
+					var child2 = item_container.get_child(ii) as HBUniversalListItem
+					if child2:
+						child2._become_visible()
+				break
 	
 func _on_initial_input_debounce_timeout():
 	_position_change_input(debounce_step)
@@ -109,7 +110,7 @@ func get_selected_item():
 	return null
 	
 func smooth_scroll_to(target: float):
-	tween.stop_all()
+	tween.remove_all()
 	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	target_scroll = target
 	tween.start()

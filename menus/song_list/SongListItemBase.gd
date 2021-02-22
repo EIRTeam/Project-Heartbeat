@@ -32,10 +32,10 @@ func update_scale(to: Vector2, no_animation=false):
 	node_to_scale.rect_pivot_offset = node_to_scale.rect_size / 2.0
 	node_to_scale.rect_pivot_offset.x = 0
 	if no_animation:
-		scale_tween.stop_all()
+		scale_tween.remove_all()
 		node_to_scale.rect_scale = get_scale()
 	else:
-		scale_tween.stop_all()
+		scale_tween.remove_all()
 		scale_tween.interpolate_property(node_to_scale, "rect_scale", node_to_scale.rect_scale, to, 0.25, Tween.TRANS_BACK, Tween.EASE_OUT)
 		scale_tween.start()
 func hover(no_animation=false):

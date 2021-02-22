@@ -28,7 +28,7 @@ func _ready():
 	Diagnostics.gamepad_visualizer.show()
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
 	.set_song(song, difficulty, modifiers, true, assets)
-	fade_in_tween.stop_all()
+	fade_in_tween.remove_all()
 	_fade_in_done()
 	disable_intro_skip = true
 	pause_disabled = true

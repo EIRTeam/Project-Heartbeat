@@ -38,7 +38,7 @@ func set_song(song: HBSong, length: float, do_animation=true):
 	song_title_label.set_song(song)
 	playback_max_label.text = format_time(length)
 	if exit_timer.is_stopped():
-		entry_tween.stop_all()
+		entry_tween.remove_all()
 		entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * 0.517, 0.5, Tween.TRANS_BOUNCE)
 		entry_tween.interpolate_property(main_container, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
 		entry_tween.start()
@@ -51,7 +51,7 @@ func set_song(song: HBSong, length: float, do_animation=true):
 	current_task = preview_load_task
 	AsyncTaskQueue.queue_task(preview_load_task)
 func _on_exit_timer_timeout():
-	entry_tween.stop_all()
+	entry_tween.remove_all()
 	entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
 	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x * 0.517, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	entry_tween.start()

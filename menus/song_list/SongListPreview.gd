@@ -35,7 +35,7 @@ func _notification(what):
 			animate_cover_art()
 	
 func animate_cover_art():
-	list_tween.stop_all()
+	list_tween.remove_all()
 	preview_texture_rect.rect_pivot_offset = preview_texture_rect.rect_size / 2.0
 	cover_art_texture2.rect_position = Vector2(20, 20)
 	var x_target = song_cover_panel.get_constant("margin_left")

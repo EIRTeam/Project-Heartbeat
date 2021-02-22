@@ -19,7 +19,7 @@ func play_effect():
 	note_flare.scale = Vector2.ZERO
 	note_flare.modulate.a = 0.0
 	tween.playback_speed = 1.5
-	tween.stop_all()
+	tween.remove_all()
 	var note_icon_t = Color.white
 	note_icon_t.a = 0.75
 	
