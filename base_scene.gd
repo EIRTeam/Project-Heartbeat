@@ -5,7 +5,7 @@ const MAIN_MENU = preload("res://menus/MainMenu3D.tscn")
 
 const LOADINGU_SPEED = 0.5
 var loadingu_t = 0
-var timer = Timer.new()
+onready var timer = Timer.new()
 
 var loading_editor = false
 

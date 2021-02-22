@@ -79,7 +79,8 @@ func deserialize(data: Dictionary):
 		var timing_points = []
 		for point in layer.timing_points:
 			var _point = HBTimingPoint.deserialize(point)
-			timing_points.append(_point)
+			if _point:
+				timing_points.append(_point)
 			
 		var found_matching_layer = false
 		for l in layers:
