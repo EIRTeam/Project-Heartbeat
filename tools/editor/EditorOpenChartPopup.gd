@@ -176,5 +176,6 @@ func _on_chart_deleted():
 	else:
 		Log.log(self, "Attempted to remove chart %s from song %s failed becuase the chart doesn't exist on disk" % [chart_path, song.id])
 	song.charts.erase(difficulty)
+	song.save_song()
 	populate_tree()
 	
