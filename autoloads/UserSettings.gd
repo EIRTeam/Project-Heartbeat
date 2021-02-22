@@ -168,18 +168,15 @@ func load_input_map():
 			InputMap.action_erase_events(action_name)
 			for action in user_settings.input_map[action_name]:
 				InputMap.action_add_event(action_name, action)
-	# if we don't have a device idx we try to use the stored guid one, else we use
-	# the first one
-	if controller_device_idx == -1:
-		var found_stored_guid_device = false
-		for _device_idx in Input.get_connected_joypads():
-			if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
-				found_stored_guid_device = true
-				break
-		if not found_stored_guid_device:
-			controller_device_idx = 0
-			if Input.get_connected_joypads().size() > 0:
-				user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
+	var found_stored_guid_device = false
+	for _device_idx in Input.get_connected_joypads():
+		if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
+			found_stored_guid_device = true
+			break
+	if not found_stored_guid_device:
+		controller_device_idx = Input.get_connected_joypads()[0]
+		if Input.get_connected_joypads().size() > 0:
+			user_settings.controller_guid = Input.get_joy_guid(Input.get_connected_joypads()[0])
 	map_actions_to_controller()
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
