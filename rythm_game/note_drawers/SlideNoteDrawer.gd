@@ -24,6 +24,7 @@ func set_note_data(data):
 			note_drawer.game = game
 			slide_chain_drawers[slide_piece] = note_drawer
 			add_child(note_drawer)
+			note_drawer._note_init()
 			accumulated_score = 0
 			note_drawer.hide()
 
