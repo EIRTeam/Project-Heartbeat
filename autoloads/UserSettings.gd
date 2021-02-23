@@ -90,6 +90,7 @@ func _init_user_settings():
 			if joypad_pref != -1:
 				user_settings.controller_guid = Input.get_joy_guid(get_preferred_joypad())
 	load_input_map()
+	set_joypad_prompts()
 
 func fill_localized_arrays():
 	button_names = [
@@ -197,10 +198,11 @@ func load_input_map():
 			found_stored_guid_device = true
 			break
 	if not found_stored_guid_device:
-		controller_device_idx = Input.get_connected_joypads()[0]
-		var preferred_joypad = get_preferred_joypad()
-		if preferred_joypad != -1:
-			user_settings.controller_guid = Input.get_joy_guid(preferred_joypad)
+		if Input.get_connected_joypads().size() > 0:
+			controller_device_idx = Input.get_connected_joypads()[0]
+			var preferred_joypad = get_preferred_joypad()
+			if preferred_joypad != -1:
+				user_settings.controller_guid = Input.get_joy_guid(preferred_joypad)
 	map_actions_to_controller()
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
@@ -243,7 +245,6 @@ func _input(event):
 func load_user_settings():
 	var file := File.new()
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
-	print("LOADING USER SETINGS FROM ", usp)
 	if file.file_exists(usp):
 		if file.open(usp, File.READ) == OK:
 			var result = JSON.parse(file.get_as_text())
