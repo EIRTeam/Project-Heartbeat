@@ -348,6 +348,16 @@
                     "style": "normal",
                     "src_path": "notes/Double_heart",
                     "target_path": "notes/Double_heart"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Heart_sustain",
+                    "target_path": "notes/Heart_sustain"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Heart",
+                    "target_path": "notes/Heart_sustain_target"
                 }
             }
         }

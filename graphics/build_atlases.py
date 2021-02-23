@@ -1,6 +1,7 @@
 DIRECTORIES = [
 	"icon_packs/playstation",
 	"icon_packs/xbox",
+	"icon_packs/nintendo",
 	"fallback_icon_pack"
 ]
 
