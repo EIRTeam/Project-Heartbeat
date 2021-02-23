@@ -190,8 +190,6 @@ func load_icon_pack(path: String):
 		file.open(pack_json_path, File.READ)
 		var result = JSON.parse(file.get_as_text())
 		if result.error == OK:
-			print(result.result.name)
-			print(result.result.graphics.keys())
 			value = result.result
 			value["__origin"] = path
 		else:
