@@ -13,6 +13,10 @@ var OPTIONS = {
 			"name": tr("Download audio only from workshop"),
 			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")
 		},
+		"show_note_types_before_playing": {
+			"name": tr("Show note types before playing"),
+			"description": tr("Shows a list of notes and how to hit them before the song starts")
+		},
 		"enable_multi_threaded_texture_loading": {
 			"name": tr("Enable multi-threaded texture loading"),
 			"description": tr("Allows loading of textures from multiple threads, this might cause crashes to happen randomly on some systems.")

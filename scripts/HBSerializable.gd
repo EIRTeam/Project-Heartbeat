@@ -122,3 +122,6 @@ func clone() -> HBSerializable:
 	for property in serializable_fields:
 		c.set(property, self.get(property))
 	return c
+
+func _to_string():
+	return "HBSerializable (%s)" % [get_serialized_type()]

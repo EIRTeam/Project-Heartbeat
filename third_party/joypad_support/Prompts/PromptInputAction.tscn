@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.gd" type="Script" id=1]
 [ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_A.png" type="Texture" id=2]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://graphics/icons/menu-left.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/menu-right.svg" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/menu-down.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/menu-up.svg" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 17
@@ -22,11 +26,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Prompt" type="TextureRect" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 100.0
+margin_bottom = 100.0
+
+[node name="Prompt" type="TextureRect" parent="HBoxContainer"]
 margin_right = 100.0
 margin_bottom = 100.0
 mouse_filter = 2
+size_flags_horizontal = 3
 texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="LeftPrompt" type="TextureRect" parent="HBoxContainer"]
+visible = false
+margin_left = 52.0
+margin_right = 100.0
+margin_bottom = 100.0
+mouse_filter = 2
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="RightPrompt" type="TextureRect" parent="HBoxContainer"]
+visible = false
+margin_left = 100.0
+margin_right = 100.0
+margin_bottom = 100.0
+mouse_filter = 2
+size_flags_horizontal = 3
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
+[node name="UpPrompt" type="TextureRect" parent="HBoxContainer"]
+visible = false
+margin_left = 34.0
+margin_right = 65.0
+margin_bottom = 100.0
+mouse_filter = 2
+size_flags_horizontal = 3
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+
+[node name="DownPrompt" type="TextureRect" parent="HBoxContainer"]
+visible = false
+margin_left = 34.0
+margin_right = 65.0
+margin_bottom = 100.0
+mouse_filter = 2
+size_flags_horizontal = 3
+texture = ExtResource( 7 )
 expand = true
 stretch_mode = 6
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=1]
 [ext_resource path="res://rythm_game/rhythm_game_controller.gd" type="Script" id=2]
@@ -112,6 +112,8 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+
+[sub_resource type="Environment" id=7]
 
 [node name="RhythmGame" type="Control"]
 pause_mode = 2
@@ -257,6 +259,9 @@ margin_right = 1920.0
 margin_bottom = 589.0
 texture = ExtResource( 8 )
 stretch_mode = 6
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 7 )
 
 [connection signal="quit" from="PauseMenu" to="." method="_on_PauseMenu_quit"]
 [connection signal="restarted" from="PauseMenu" to="." method="_on_PauseMenu_restarted"]

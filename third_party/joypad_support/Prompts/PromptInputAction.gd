@@ -22,9 +22,13 @@ enum ForceType {
 	JOYPAD
 }
 # constants
+const DIRECTION_IMAGE_SIZE_MULTIPLIER = 0.75
+
 # export variables
 export var input_action: = "" setget _set_input_action
 export(ForceType) var force_type: = ForceType.NONE
+export(int) var skip_inputs = 0
+export(bool) var disable_axis_direction_display = false
 
 # public variables
 # private variables
@@ -32,10 +36,15 @@ var _event_keyboard: String = ""
 var _event_mouse: String = ""
 var _event_joybutton: String = ""
 var _event_joyaxis: String = ""
+var _event_joyaxis_direction = 0.0
 
 # onready variables
-onready var _prompt: TextureRect = get_node("Prompt")
+onready var _prompt: TextureRect = get_node("HBoxContainer/Prompt")
 onready var _fallback: Label = get_node("Fallback")
+onready var _direction_left: TextureRect =  get_node("HBoxContainer/LeftPrompt")
+onready var _direction_right: TextureRect =  get_node("HBoxContainer/RightPrompt")
+onready var _direction_up: TextureRect =  get_node("HBoxContainer/UpPrompt")
+onready var _direction_down: TextureRect =  get_node("HBoxContainer/DownPrompt")
 
 ### ---------------------------------------
 
@@ -79,6 +88,9 @@ func _set_input_action(value) -> void:
 
 func _on_resized():
 	rect_min_size.x = rect_size.y
+	for dir in [_direction_left, _direction_right, _direction_up, _direction_down]:
+		if dir.visible:
+			rect_min_size.x += rect_size.y * DIRECTION_IMAGE_SIZE_MULTIPLIER
 
 func _setup() -> void:
 	_reset_event_variables()
@@ -97,20 +109,30 @@ func _reset_event_variables() -> void:
 	_event_mouse = ""
 	_event_joybutton = ""
 	_event_joyaxis = ""
+	_event_joyaxis_direction = 0.0
 
 
 func _setup_event_variables() -> void:
 	var event_list: = InputMap.get_action_list(input_action)
+	var _skip_count_keyboard = skip_inputs+1
+	var _skip_count_mouse = skip_inputs+1
+	var _skip_count_joybutton = skip_inputs+1
+	var _skip_count_joyaxis = skip_inputs+1
 	if event_list.size() > 0:
 		for event in event_list:
-			if event is InputEventKey and _event_keyboard == "":
+			if event is InputEventKey and (_event_keyboard == "" or _skip_count_keyboard > 0):
 				_event_keyboard = str((event as InputEventKey).scancode)
-			elif event is InputEventMouseButton and _event_mouse == "":
+				_skip_count_keyboard -= 1
+			elif event is InputEventMouseButton and (_event_mouse == "" or _skip_count_mouse > 0):
 				_event_mouse = str((event as InputEventMouseButton).button_index)
-			elif event is InputEventJoypadButton and _event_joybutton == "":
+				_skip_count_mouse -= 1
+			elif event is InputEventJoypadButton and (_event_joybutton == "" or _skip_count_joybutton > 0):
 				_event_joybutton = str((event as InputEventJoypadButton).button_index)
-			elif event is InputEventJoypadMotion and _event_joyaxis == "":
+				_skip_count_joybutton -= 1
+			elif event is InputEventJoypadMotion and (_event_joyaxis == "" or _skip_count_joyaxis > 0):
 				_event_joyaxis = str((event as InputEventJoypadMotion).axis)
+				_event_joyaxis_direction = event.axis_value
+				_skip_count_joyaxis -= 1
 	else:
 		if not Engine.editor_hint:
 			push_error("input map action has no events in it!" + \
@@ -122,6 +144,11 @@ func _setup_prompt_appearence() -> void:
 	_prompt.texture = null
 	_fallback.text = ""
 	
+	_direction_up.hide()
+	_direction_down.hide()
+	_direction_left.hide()
+	_direction_right.hide()
+	
 	var success: = false
 	success = _set_prompt_texture()
 	
@@ -132,6 +159,20 @@ func _setup_prompt_appearence() -> void:
 		_push_fallback_failed_error()
 
 
+func _set_joypad_direction_display(string_index: String):
+	var idx = int(string_index)
+	if not disable_axis_direction_display:
+		if idx == JOY_ANALOG_LX or idx == JOY_ANALOG_RX:
+			if _event_joyaxis_direction < 0.0:
+				_direction_left.show()
+			else:
+				_direction_right.show()
+		elif idx == JOY_ANALOG_LY or idx == JOY_ANALOG_RY:
+			if _event_joyaxis_direction < 0.0:
+				_direction_up.show()
+			else:
+				_direction_down.show()
+
 func _set_prompt_texture() -> bool:
 	var success: = false
 	
@@ -141,6 +182,7 @@ func _set_prompt_texture() -> bool:
 			success = _set_prompt_for(_event_joybutton)
 		elif _event_joyaxis != "":
 			success = _set_prompt_for(_event_joyaxis)
+			_set_joypad_direction_display(_event_joyaxis)
 		elif _event_keyboard != "":
 			success = _set_prompt_for(_event_keyboard)
 		elif _event_mouse != "":
@@ -163,7 +205,6 @@ func _set_prompt_for(string_index: String) -> bool:
 	
 	return success
 
-
 func _get_prompt_texture_for(string_index: String) -> Texture:
 	var prompt_texture
 	match string_index:
@@ -173,10 +214,8 @@ func _get_prompt_texture_for(string_index: String) -> Texture:
 			prompt_texture = JoypadSupport.get_mouse_prompt_for(_event_mouse)
 		_event_joybutton:
 			prompt_texture = JoypadSupport.get_joypad_button_prompt_for(_event_joybutton)
-		_event_joybutton:
-			print_debug("Change this line once Joy Axis support is implemented")
-			if not Engine.editor_hint:
-				assert(false)
+		_event_joyaxis:
+			prompt_texture = JoypadSupport.get_joy_axis_prompt_for(_event_joyaxis)
 		_:
 			push_match_event_variables_error()
 	

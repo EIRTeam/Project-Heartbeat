@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://menus/LoadingScreen.gd" type="Script" id=1]
 [ext_resource path="res://fonts/new_fonts/Comforta.tres" type="DynamicFont" id=2]
@@ -7,16 +7,17 @@
 [ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=5]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://graphics/Warning sign.svg" type="Texture" id=7]
+[ext_resource path="res://menus/PreGameChartFeaturesDisplay.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0.3, 1 )
 colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
 
 [sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+gradient = SubResource( 7 )
 
 [sub_resource type="StyleBoxTexture" id=4]
 texture = SubResource( 3 )
@@ -60,18 +61,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel2" type="Panel" parent="."]
+[node name="LoadingScreenElements" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="LoadingScreenElements"]
 anchor_top = 0.674
 anchor_right = 1.0
 anchor_bottom = 0.714
-margin_bottom = 150.0
+margin_top = 0.0799561
+margin_bottom = 155.88
 rect_min_size = Vector2( 0, 150 )
 custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="Panel2"]
+[node name="Panel" type="Panel" parent="LoadingScreenElements/Panel2"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -80,7 +89,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel3" type="Panel" parent="Panel2"]
+[node name="Panel3" type="Panel" parent="LoadingScreenElements/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 6 )
@@ -88,7 +97,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel2/Panel3"]
+[node name="MarginContainer" type="MarginContainer" parent="LoadingScreenElements/Panel2/Panel3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 40
@@ -99,28 +108,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel2/Panel3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 1880.0
-margin_bottom = 173.0
+margin_bottom = 179.0
 custom_constants/separation = 21
 
-[node name="TextureRect" type="TextureRect" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_right = 153.0
-margin_bottom = 153.0
+margin_bottom = 159.0
 rect_min_size = Vector2( 153, 0 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 174.0
 margin_right = 222.0
-margin_bottom = 153.0
+margin_bottom = 159.0
 custom_constants/separation = 0
 
-[node name="TitleLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 48.0
 margin_bottom = 31.0
 size_flags_vertical = 5
@@ -130,23 +139,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 31.0
 margin_right = 48.0
 margin_bottom = 35.0
 
-[node name="MetaLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="MetaLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 35.0
 margin_right = 48.0
-margin_bottom = 153.0
+margin_bottom = 159.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 5 )
 valign = 2
 
-[node name="LoadinguLabel" type="Label" parent="Panel2/Panel3/MarginContainer/HBoxContainer"]
+[node name="LoadinguLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 243.0
 margin_right = 1860.0
-margin_bottom = 153.0
+margin_bottom = 159.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 2 )
@@ -155,11 +164,12 @@ align = 2
 valign = 2
 percent_visible = 0.0
 
-[node name="EpilepsyWarning" type="Panel" parent="."]
+[node name="EpilepsyWarning" type="Panel" parent="LoadingScreenElements"]
 anchor_top = 0.26
 anchor_right = 1.0
 anchor_bottom = 0.31
-margin_bottom = 150.0
+margin_top = 270.4
+margin_bottom = 420.4
 rect_min_size = Vector2( 0, 150 )
 rect_pivot_offset = Vector2( 0, 102 )
 custom_styles/panel = SubResource( 4 )
@@ -167,7 +177,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="EpilepsyWarning"]
+[node name="Panel" type="Panel" parent="LoadingScreenElements/EpilepsyWarning"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -176,7 +186,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel3" type="Panel" parent="EpilepsyWarning"]
+[node name="Panel3" type="Panel" parent="LoadingScreenElements/EpilepsyWarning"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 6 )
@@ -184,7 +194,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="EpilepsyWarning/Panel3"]
+[node name="MarginContainer" type="MarginContainer" parent="LoadingScreenElements/EpilepsyWarning/Panel3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 40
@@ -195,7 +205,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EpilepsyWarning/Panel3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 1880.0
@@ -203,7 +213,7 @@ margin_bottom = 184.0
 custom_constants/separation = 21
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 394.0
 margin_right = 547.0
 margin_bottom = 164.0
@@ -212,7 +222,7 @@ texture = ExtResource( 7 )
 expand = true
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 568.0
 margin_top = 49.0
 margin_right = 1466.0
@@ -222,3 +232,14 @@ text = "This chart's video contains scenes with rapidly flashing colours.
 Please take caution if you are affected by epilepsy."
 align = 1
 valign = 1
+
+[node name="FeaturesDisplay" parent="LoadingScreenElements" instance=ExtResource( 8 )]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="LoadingScreenElements"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

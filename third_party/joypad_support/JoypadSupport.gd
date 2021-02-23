@@ -219,8 +219,18 @@ func are_ui_accept_and_cancel_swapped() -> bool:
 func get_joypad_button_prompt_for(button_index: String) -> Texture:
 	var prompt_texture: Texture = _get_prompt_for(prompts_joypad, button_index)
 	return prompt_texture
-
-
+func get_joy_axis_prompt_for(button_index: String) -> Texture:
+	var idx = int(button_index)
+	var prompt_texture: Texture
+	if idx == JOY_ANALOG_LX or idx == JOY_ANALOG_LY:
+		prompt_texture = _get_prompt_for(prompts_joypad, str(JOY_L3))
+	elif idx == JOY_ANALOG_RX or idx == JOY_ANALOG_RY:
+		prompt_texture = _get_prompt_for(prompts_joypad, str(JOY_R3))
+	elif idx == JOY_ANALOG_L2:
+		prompt_texture = _get_prompt_for(prompts_joypad, str(JOY_L2))
+	elif idx == JOY_ANALOG_R2:
+		prompt_texture = _get_prompt_for(prompts_joypad, str(JOY_R2))
+	return prompt_texture
 func get_keyboard_prompt_for(scancode: String) -> Texture:
 	var prompt_texture: Texture = _get_prompt_for(prompts_keyboard, scancode)
 	return prompt_texture
