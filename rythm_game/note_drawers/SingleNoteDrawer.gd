@@ -67,7 +67,12 @@ func _notification(what):
 			if is_instance_valid(node) and not node.is_queued_for_deletion():
 				node.queue_free()
 
+func _on_visibility_changed():
+	for data in layer_bound_node_datas:
+		data.node.visible = visible
+
 func _ready():
+	connect("visibility_changed", self, "_on_visibility_changed")
 	_on_note_type_changed()
 	play_appear_animation()
 	#move_child(sine_drawer, 0)
