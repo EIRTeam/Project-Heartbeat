@@ -8,6 +8,7 @@
 [ext_resource path="res://tools/editor/WorkshopUploadForm.tscn" type="PackedScene" id=6]
 
 [node name="Control" type="ConfirmationDialog"]
+visible = true
 margin_top = -1.0
 margin_right = 587.0
 margin_bottom = 244.0
@@ -105,7 +106,6 @@ margin_bottom = 186.0
 text = "Upload to workshop"
 
 [node name="CreateSongDialog" type="ConfirmationDialog" parent="."]
-visible = true
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 579.0
@@ -129,7 +129,7 @@ __meta__ = {
 }
 
 [node name="LineEdit" type="LineEdit" parent="CreateSongDialog/VBoxContainer"]
-margin_right = 282.0
+margin_right = 555.0
 margin_bottom = 25.0
 placeholder_text = "EIREXE's incredible song..."
 caret_blink = true
@@ -176,7 +176,7 @@ visible = true
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 579.0
-margin_bottom = 410.0
+margin_bottom = 281.0
 
 [node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="."]
 margin_left = 8.0
@@ -187,6 +187,7 @@ window_title = ""
 dialog_text = "Are you sure you want to delete this chart?"
 
 [node name="SongVerificationPopup" parent="." instance=ExtResource( 5 )]
+visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 579.0
@@ -197,4 +198,5 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 579.0
 margin_bottom = 410.0
+
 [connection signal="confirmed" from="SongMetaEditorDialog" to="." method="_on_SongMetaEditorDialog_confirmed"]

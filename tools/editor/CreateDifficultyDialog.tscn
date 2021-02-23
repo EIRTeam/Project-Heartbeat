@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tools/editor/CreateDifficultyDialog.gd" type="Script" id=1]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
+[ext_resource path="res://tools/editor/arcade_style.png" type="Texture" id=3]
+[ext_resource path="res://tools/editor/console_style.png" type="Texture" id=4]
+[ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=5]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog"]
-visible = true
 margin_left = 586.0
 margin_top = 343.0
-margin_right = 937.0
-margin_bottom = 475.0
+margin_right = 1047.0
+margin_bottom = 616.0
 theme = ExtResource( 2 )
 popup_exclusive = true
 window_title = "Add new chart"
@@ -29,7 +31,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 335.0
+margin_right = 445.0
 margin_bottom = 25.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
@@ -39,7 +41,7 @@ text = "Difficulty:"
 
 [node name="DifficultySelectOptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
 margin_left = 70.0
-margin_right = 335.0
+margin_right = 445.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 text = "Easy"
@@ -48,7 +50,7 @@ selected = 0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 29.0
-margin_right = 335.0
+margin_right = 445.0
 margin_bottom = 54.0
 
 [node name="CustomDifficultyCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer2"]
@@ -58,13 +60,13 @@ text = "Use Custom Difficulty"
 
 [node name="CustomDifficultyLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
 margin_left = 165.0
-margin_right = 335.0
+margin_right = 445.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 58.0
-margin_right = 335.0
+margin_right = 445.0
 margin_bottom = 83.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
@@ -78,3 +80,38 @@ margin_right = 109.0
 margin_bottom = 25.0
 max_value = 10.0
 step = 0.0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 87.0
+margin_right = 445.0
+margin_bottom = 91.0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 95.0
+margin_right = 445.0
+margin_bottom = 120.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+margin_right = 85.0
+margin_bottom = 25.0
+text = "Chart preset"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer4"]
+margin_left = 89.0
+margin_right = 114.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 0 )
+hint_tooltip = "Project Heartbeat features two gameplay styles, these two can be mixed but it's not encouraged, you can do this (or change between the two styles) in the layer tab of the editor."
+texture = ExtResource( 5 )
+expand = true
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+margin_top = 124.0
+margin_right = 445.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 0, 100 )
+text = "6 button/arcade style"
+icon = ExtResource( 3 )
+expand_icon = true
+items = [ "6 button/arcade style", ExtResource( 3 ), false, 0, null, "8 button/console style", ExtResource( 4 ), false, 1, null ]
+selected = 0

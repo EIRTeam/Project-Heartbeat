@@ -149,9 +149,13 @@ func _on_SongMetaEditorDialog_confirmed():
 	song_meta_editor.save_meta()
 	populate_tree()
 
-func _on_difficulty_created(difficulty: String, stars):
+func _on_difficulty_created(difficulty: String, stars, uses_console_style = false):
 	var song = tree.get_selected().get_meta("song") as HBSong
 	var diff = HBUtils.get_valid_filename(difficulty.strip_edges())
+	if diff.to_lower() in song.charts:
+		show_error("A chart with that name already exists")
+		populate_tree()
+		return
 	if diff:
 		song.charts[difficulty.to_lower()] = {
 			"file": difficulty.to_lower() + ".json",
@@ -159,6 +163,21 @@ func _on_difficulty_created(difficulty: String, stars):
 			"note_usage": []
 		}
 		song.save_song()
+		
+		var chart = HBChart.new()
+		if not uses_console_style:
+			chart.editor_settings.hidden_layers.erase("SLIDE_LEFT2")
+			chart.editor_settings.hidden_layers.erase("SLIDE_RIGHT2")
+		else:
+			chart.editor_settings.hidden_layers.append("SLIDE_LEFT")
+			chart.editor_settings.hidden_layers.append("SLIDE_RIGHT")
+			chart.editor_settings.hidden_layers.erase("HEART")
+		var json = JSON.print(chart.serialize(), "  ")
+		
+		var f = File.new()
+		f.open(song.get_chart_path(difficulty.to_lower()), File.WRITE)
+		f.store_string(json)
+		
 		populate_tree()
 	else:
 		show_error("Invalid difficulty name!")
