@@ -251,6 +251,11 @@ func _on_resumed():
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		vhs_panel.show()
+		
+func _input(event):
+	if event.is_action_pressed("hide_ui") and event.shift and event.control:
+		game_ui._on_toggle_ui()
+		$Node2D.visible = game_ui.is_ui_visible()
 func _unhandled_input(event):
 	if not pause_menu_disabled:
 		if event.is_action_pressed("pause") and not event.is_echo():

@@ -221,7 +221,7 @@ func _on_hold_started(holds):
 	hold_indicator.appear()
 
 func _input(event):
-	if event.is_action_pressed("hide_ui") and event.control and not game.editing:
+	if event.is_action_pressed("hide_ui") and event.control and not event.shift and not game.editing:
 		_on_toggle_ui()
 		get_tree().set_input_as_handled()
 
@@ -229,3 +229,6 @@ func _on_toggle_ui():
 	$UnderNotesUI/Control.visible = !$UnderNotesUI/Control.visible
 	$AboveNotesUI/Control.visible = !$UnderNotesUI/Control.visible
 	$Control.visible = !$Control.visible
+
+func is_ui_visible():
+	return $Control.visible
