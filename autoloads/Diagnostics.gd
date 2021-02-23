@@ -77,6 +77,10 @@ func _input(event):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
+		img.convert(Image.FORMAT_RGBA8)
+		var dir = Directory.new()
+		if not dir.dir_exists("user://debug_screenshot"):
+			dir.make_dir("user://debug_screenshot")
 		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
 	if event.is_action_pressed("toggle_gamepad_view"):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
@@ -148,3 +152,7 @@ func _on_OpenStrayNodeTester_pressed():
 		get_tree().current_scene.queue_free()
 		get_tree().root.add_child(scene)
 		get_tree().current_scene = scene
+
+
+func _on_TransparentViewport_toggled(button_pressed):
+	get_viewport().transparent_bg = button_pressed

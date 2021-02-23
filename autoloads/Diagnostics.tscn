@@ -11,6 +11,7 @@ size = 20
 font_data = ExtResource( 5 )
 
 [node name="CanvasLayer" type="CanvasLayer"]
+pause_mode = 2
 layer = 2
 script = ExtResource( 1 )
 
@@ -139,6 +140,12 @@ margin_right = 750.0
 margin_bottom = 265.0
 focus_mode = 0
 text = "Enable autoplay"
+
+[node name="TransparentViewport" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
+margin_top = 269.0
+margin_right = 750.0
+margin_bottom = 294.0
+text = "Enable transparent viewport (slower)"
 
 [node name="Service" type="MarginContainer" parent="WindowDialog/TabContainer"]
 visible = false
@@ -289,5 +296,6 @@ margin_right = 1.18921
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]
+[connection signal="toggled" from="WindowDialog/TabContainer/Game/VBoxContainer/TransparentViewport" to="." method="_on_TransparentViewport_toggled"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
