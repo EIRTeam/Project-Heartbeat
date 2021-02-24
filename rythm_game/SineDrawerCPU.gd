@@ -36,7 +36,7 @@ func generate_trail_points():
 	shad_mat.set_shader_param("color_end", color_late)
 	shad_mat.set_shader_param("texture_scale", note_data.oscillation_frequency*2)
 	
-	_on_resized()
+	call_deferred("_on_resized")
 	
 func _on_resized():
 	position = game.remap_coords(note_data.position)
@@ -61,6 +61,10 @@ func setup():
 	z_index = -1
 func _ready():
 	setup()
+	connect("visibility_changed", self, "_a")
+	
+func _a():
+	pass
 	
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

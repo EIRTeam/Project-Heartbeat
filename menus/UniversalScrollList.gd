@@ -66,7 +66,7 @@ func _ready():
 		fade_mat.shader = FADE_SHADER
 		material = fade_mat
 	
-	_on_resized()
+	call_deferred("_on_resized")
 	
 func _on_scroll_changed():
 	if not tween.is_active():

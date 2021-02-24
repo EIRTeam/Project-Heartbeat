@@ -87,7 +87,6 @@ func _on_lobby_loading_start():
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
-	yield(get_tree(), "idle_frame")
 	var inv = 0.1 / (rect_size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
@@ -95,7 +94,7 @@ func _ready():
 	connect("resized", self, "_on_resized")
 	ScoreHistory.connect("score_entered", self, "_on_score_entered")
 	ScoreHistory.connect("score_uploaded", self, "_on_score_uploaded")
-	_on_resized()
+	call_deferred("_on_resized")
 	var values = HBJudge.JUDGE_RATINGS.values()
 	for i in range(values.size()-1, -1, -1):
 		var rating = values[i]

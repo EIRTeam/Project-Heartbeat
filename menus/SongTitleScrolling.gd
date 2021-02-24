@@ -48,11 +48,11 @@ func _on_resized():
 			circle_text_rect.rect_min_size = new_size
 		else:
 			circle_text_rect.rect_min_size = Vector2.ZERO
-			circle_text_rect.rect_size = Vector2.ZERO
+			circle_text_rect.set_deferred("rect_size", Vector2.ZERO)
 
 func _ready():
 	connect("resized", self, "_on_resized")
-	_on_resized()
+	call_deferred("_on_resized")
 
 func _on_assets_loaded(assets):
 #	author_label.hide()

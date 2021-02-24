@@ -19,7 +19,7 @@ func _ready():
 	connect("resized", self, "_on_resized")
 	hide()
 	add_child(list_tween)
-	_on_resized()
+	call_deferred("_on_resized")
 	
 const ANIMATION_DURATION = 0.25
 	

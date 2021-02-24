@@ -21,7 +21,7 @@ func _ready():
 	input_manager.set_process_input(false)
 	game.toggle_ui()
 	connect("resized", self, "_on_resized")
-	_on_resized()
+	call_deferred("_on_resized")
 	video_pause_timer.connect("timeout", self, "_video_player_debounce")
 	video_pause_timer.wait_time = 0.250
 	video_pause_timer.one_shot = true
@@ -32,14 +32,14 @@ func _on_resized():
 	game.size = rect_size
 	game._on_viewport_size_changed()
 	update()
-	background_rect.rect_size = rect_size
-	visualizer.rect_size = rect_size
-	widget_area.rect_size = rect_size
-	grid_renderer.rect_size = rect_size
+	background_rect.set_deferred("rect_size", rect_size)
+	visualizer.set_deferred("rect_size", rect_size)
+	widget_area.set_deferred("rect_size", rect_size)
+	grid_renderer.set_deferred("rect_size", rect_size)
 	var height_u = rect_size.y / 9.0
 	var width = height_u * 16.0
 	var offset_X = (rect_size.x - width) / 2.0
-	visualizer.rect_size.x = width
+	visualizer.set_deferred("rect_size:x", width)
 	visualizer.rect_position.x = offset_X
 	rescale_video_player()
 func _process(delta):

@@ -28,4 +28,4 @@ func _on_persona_state_changed(flags):
 func _on_resized():
 	var new_size = clamp(rect_size.y, 25, 50)
 	avatar_texture_rect.rect_min_size = Vector2(new_size, new_size)
-	avatar_texture_rect.rect_size = Vector2(new_size, new_size)
+	avatar_texture_rect.set_deferred("rect_size", Vector2(new_size, new_size))
