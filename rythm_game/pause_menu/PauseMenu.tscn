@@ -63,5 +63,5 @@ margin_bottom = 358.0
 
 [connection signal="quit" from="ViewportContainer/Viewport/Spatial" to="." method="_on_quit"]
 [connection signal="restart" from="ViewportContainer/Viewport/Spatial" to="." method="_on_restart"]
-[connection signal="resumed" from="ViewportContainer/Viewport/Spatial" to="." method="resume" binds= [ "resumed" ]]
+[connection signal="resumed" from="ViewportContainer/Viewport/Spatial" to="." method="resume"]
 [connection signal="song_settings" from="ViewportContainer/Viewport/Spatial" to="." method="_on_song_settings_open"]
