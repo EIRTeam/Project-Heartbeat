@@ -1246,7 +1246,6 @@ quality/driver/fallback_to_gles2=true
 quality/2d/use_nvidia_rect_flicker_workaround=true
 threads/thread_model=2
 vram_compression/import_etc=true
-batching/options/use_batching=false
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
