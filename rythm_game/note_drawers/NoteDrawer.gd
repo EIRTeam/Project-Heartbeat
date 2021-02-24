@@ -26,6 +26,10 @@ class LayerBoundNodeData:
 	var remote_transform = null
 	var source_transform = source_transform
 	var layer_name: String
+	var node_self_visibility = false # for storing the old visibility of the node
+	
+	func _on_node_self_visibility_changed():
+		node_self_visibility = node.visible
 
 func set_note_data(val):
 	note_data = val
@@ -63,7 +67,8 @@ func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = nul
 		var remote_transform = RemoteTransform2D.new()
 		data.remote_transform = remote_transform
 		data.source_transform = source_transform
-		
+	data.node_self_visibility = node.visible
+	node.connect("visibility_changed", data, "_on_node_self_visibility_changed")
 	if is_inside_tree():
 		add_bind_to_tree(data)
 	

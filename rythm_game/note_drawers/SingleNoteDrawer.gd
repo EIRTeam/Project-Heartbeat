@@ -69,7 +69,12 @@ func _notification(what):
 
 func _on_visibility_changed():
 	for data in layer_bound_node_datas:
-		data.node.visible = visible
+		data.node.set_block_signals(true)
+		if not visible:
+			data.node.visible = false
+		else:
+			data.node.visible = data.node_self_visibility
+		data.node.set_block_signals(false)
 
 func _ready():
 	connect("visibility_changed", self, "_on_visibility_changed")

@@ -10,6 +10,8 @@ var is_audio_looping = false
 
 func set_note_data(data):
 	.set_note_data(data)
+
+func _ready():
 	if note_data in game.slide_hold_chains:
 		slide_chain = game.slide_hold_chains[note_data]
 		for drawer in slide_chain_drawers:
@@ -23,8 +25,8 @@ func set_note_data(data):
 			note_drawer.note_data = slide_piece
 			note_drawer.game = game
 			slide_chain_drawers[slide_piece] = note_drawer
-			add_child(note_drawer)
 			note_drawer._note_init()
+			add_child(note_drawer)
 			accumulated_score = 0
 			note_drawer.hide()
 
@@ -127,10 +129,8 @@ func _on_game_time_changed(time: float):
 						if not piece_drawer.visible:
 							piece_drawer.show()
 							piece_drawer.play_appear_animation()
-				elif piece_drawer.visible:
+				else:
 					piece_drawer.hide()
-
-				
 
 				if piece_drawer.visible and (hit_first or game.editing):
 					if time * 1000.0 >= piece.time:
