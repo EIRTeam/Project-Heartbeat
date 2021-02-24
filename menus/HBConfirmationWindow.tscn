@@ -109,6 +109,4 @@ text = "No"
 script = ExtResource( 2 )
 
 [connection signal="about_to_show" from="." to="." method="_on_Control_about_to_show"]
-[connection signal="pressed" from="Panel/HBoxContainer/AcceptButton" to="." method="emit_signal" binds= [ "accept" ]]
-[connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="emit_signal" binds= [ "cancel" ]]
 [connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="hide"]
