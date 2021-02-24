@@ -90,14 +90,18 @@ func _on_add_button_pressed():
 func refresh_script_list():
 	script_item_list.clear()
 	var dir = Directory.new()
+	var scripts = []
 	if dir.open(EDITOR_SCRIPTS_PATH) == OK:
 		dir.list_dir_begin()
 		var dir_name = dir.get_next()
 
 		while dir_name != "":
 			if not dir.current_is_dir() and dir_name.ends_with(".gd"):
-				script_item_list.add_item(dir_name)
+				scripts.append(dir_name)
 			dir_name = dir.get_next()
+	scripts.sort()
+	for script in scripts:
+		script_item_list.add_item(script)
 
 func _on_add_confirmed():
 	var script_name := script_name_line_edit.text.strip_edges() as String
