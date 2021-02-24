@@ -73,7 +73,6 @@ func add_folder_item(folder: HBFolder, depth = 0):
 	folder_button.depth = depth+1
 	folder_button.text = get_folder_name(folder, depth+1)
 	folder_button.connect("pressed", self, "_on_folder_selected", [folder_button])
-	var pos = 0
 	if scroll_list.selected_child:
 		scroll_list_container.add_child_below_node(scroll_list.selected_child, folder_button)
 	else:

@@ -301,15 +301,15 @@ func push_match_event_variables_error() -> void:
 func _push_fallback_failed_error() -> void:
 	if Engine.editor_hint:
 		return
-	return
-	push_error("Unable to set prompt or fallback text for any of the events in %s: "\
-			%[input_action] + \
-			"_event_keyboard: %s | "%[_event_keyboard] + \
-			"_event_mouse: %s | "%[_event_mouse] + \
-			"_event_joybutton: %s | "%[_event_joybutton] + \
-			"_event_joyaxis: %s"%[_event_joyaxis] \
-	)
-	assert(false)
+#	return
+#	push_error("Unable to set prompt or fallback text for any of the events in %s: "\
+#			%[input_action] + \
+#			"_event_keyboard: %s | "%[_event_keyboard] + \
+#			"_event_mouse: %s | "%[_event_mouse] + \
+#			"_event_joybutton: %s | "%[_event_joybutton] + \
+#			"_event_joyaxis: %s"%[_event_joyaxis] \
+#	)
+#	assert(false)
 
 
 func _on_JoypadSupport_joypad_connected() -> void:

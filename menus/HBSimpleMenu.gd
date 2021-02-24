@@ -11,7 +11,6 @@ enum ORIENTATION {
 export(bool) var stop_hover_on_focus_exit = true
 export(ORIENTATION) var orientation = ORIENTATION.HORIZONTAL
 signal hover(hovered_button)
-signal back
 signal bottom
 signal out_from_top
 var plays_sfx = true
@@ -149,9 +148,6 @@ func _gui_input(event):
 			if focus_neighbour_bottom:
 				var neighbor_bottom = get_node(focus_neighbour_bottom) as Control
 				neighbor_bottom.grab_focus()
-#	elif event.is_action_pressed("gui_cancel"):
-#		get_tree().set_input_as_handled()
-#		emit_signal("back")
 func _on_focus_exited():
 	if selected_button:
 		if stop_hover_on_focus_exit:

@@ -22,7 +22,6 @@ func _create_sfx_player(sample, volume, bus="SFX") -> AudioStreamPlayer:
 
 func add_sfx(effect_name: String, sample, volume, bus="SFX"):
 	var player = _create_sfx_player(sample, volume, bus)
-	var players = [player]
 	add_child(player)
 	loaded_effects[effect_name] = player
 	effects_debounce_times[effect_name] = SFX_DEBOUNCE_TIME

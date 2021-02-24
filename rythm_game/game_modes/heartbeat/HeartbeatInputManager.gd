@@ -63,8 +63,6 @@ func _input_received(event):
 			if event.is_action(action):
 				found_actions.append(action)
 		for action in found_actions:
-			var event_pressed = false
-			
 			if event is InputEventJoypadMotion:
 				var digital_action = action
 				
@@ -74,12 +72,7 @@ func _input_received(event):
 					last_axis_values[event.device][digital_action] = {}
 				if not last_axis_values[event.device][digital_action].has(event.axis):
 					last_axis_values[event.device][digital_action][event.axis] = 0.0
-				var last_value = last_axis_values[event.device][digital_action][event.axis]
-				
-
-				
 				var was_axis_held_last_time = _is_axis_held(event.device, digital_action, event.axis)
-				var was_action_held_last_time = is_action_held(digital_action)
 
 				var is_bidirectional = digital_action in BIDIRECTIONAL_ACTIONS
 				

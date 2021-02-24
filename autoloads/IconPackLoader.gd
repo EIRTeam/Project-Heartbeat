@@ -58,8 +58,6 @@ var timing_arm_atlas = AtlasTexture.new()
 
 
 func regenerate_direction_overrides():
-	var overriden_directions = []
-	var final_atlas_texures = final_atlas.atlas_textures
 	for note_type in DIRECTIONAL_TYPES_PROPERTY_MAP:
 		if not UserSettings.user_settings.get(DIRECTIONAL_TYPES_PROPERTY_MAP[note_type]):
 			final_atlas.atlas_textures[note_type] = HBUtils.merge_dict(final_atlas.atlas_textures[note_type], current_atlas.atlas_textures[note_type])
@@ -107,8 +105,6 @@ func rebuild_final_atlas():
 	#final_texture_img.save_png("user://test.png")
 
 	final_texture.create_from_image(final_texture_img)
-
-	var current_atlas_offset_x = fallback_atlas.texture.get_width()
 
 	for type in current_atlas.atlas_textures:
 		for variation in current_atlas.atlas_textures[type]:

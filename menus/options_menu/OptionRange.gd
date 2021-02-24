@@ -36,8 +36,8 @@ func hover():
 func stop_hover():
 	$OptionRange.add_stylebox_override("panel", normal_style)
 
-func set_text(value):
-	text_label.text = value
+func set_text(_text):
+	text_label.text = _text
 
 func set_value(val):
 	value = val

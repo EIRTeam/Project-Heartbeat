@@ -2,7 +2,9 @@ extends Node
 
 class_name HBMultiplayerService
 
+# warning-ignore:unused_signal
 signal lobby_match_list(lobbies)
+# warning-ignore:unused_signal
 signal lobby_join_requested(lobby)
 
 var lobby: HBLobby

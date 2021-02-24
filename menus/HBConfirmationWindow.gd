@@ -11,12 +11,23 @@ export(String) var cancel_text  = "No" setget set_cancel_text
 onready var cancel_button = get_node("Panel/HBoxContainer/CancelButton")
 func _ready():
 	popup_exclusive = true
+	_connect_button_signals()
 	connect("cancel", self, "hide")
 	connect("accept", self, "hide")
 	if not has_cancel:
 		$Panel/HBoxContainer/CancelButton.hide()
 	if not has_accept:
 		$Panel/HBoxContainer/AcceptButton.hide()
+		
+func _connect_button_signals():
+	$Panel/HBoxContainer/AcceptButton.connect("pressed", self, "_on_accept_pressed")
+	$Panel/HBoxContainer/CancelButton.connect("pressed", self, "_on_cancel_pressed")
+
+func _on_accept_pressed():
+	emit_signal("accept")
+
+func _on_cancel_pressed():
+	emit_signal("cancel")
 
 func set_text(value):
 	text = value

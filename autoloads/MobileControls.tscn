@@ -8,7 +8,9 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 
+# warning-ignore:unused_signal
 signal note_emulated
+# warning-ignore:unused_signal
 signal slide_emulated
 
 func _ready():

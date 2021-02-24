@@ -17,11 +17,11 @@ class GestureManager:
 	signal tap_started(position)
 	signal tap_ended(position)
 	
-	func _init(index: int, starting_pos: Vector2, current_pos: Vector2, input_mode: int):
-		self.index = index
-		self.starting_pos = starting_pos
-		self.current_pos = current_pos
-		self.input_mode = input_mode
+	func _init(_index: int, _starting_pos: Vector2, _current_pos: Vector2, _input_mode: int):
+		self.index = _index
+		self.starting_pos = _starting_pos
+		self.current_pos = _current_pos
+		self.input_mode = _input_mode
 	func begin_detection():
 		if input_mode == 0:
 			do_tap()
@@ -67,7 +67,9 @@ enum InputMode {
 
 var gestures = []
 
+# warning-ignore:unused_signal
 signal swipe_canceled(start_position)
+# warning-ignore:unused_signal
 signal swipe_started(direction)
 export(float) var swipe_min_distance = 20.0
 onready var timer: Node = $SwipeTimeout
@@ -84,7 +86,6 @@ func _init():
 	name = "SwipeDetector"
 
 func _input(event: InputEvent) -> void:
-	var ignore_mouse = OS.has_feature("mobile")
 	if not event is InputEventScreenTouch and not event is InputEventScreenDrag:
 		return
 		

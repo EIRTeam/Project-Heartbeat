@@ -28,7 +28,6 @@ func _ready():
 		
 		while dir_name != "":
 			if not dir.current_is_dir() and not dir_name.begins_with(".") and dir_name.ends_with(".wav"):
-				var file = File.new()
 				var sound_select_button = get_button()
 				pack_container.add_child(sound_select_button)
 				sound_select_button.text = dir_name
@@ -41,8 +40,8 @@ func _on_focus_grabbed():
 	for button in pack_container.get_children():
 		if button.get_meta("sound_name") == UserSettings.user_settings.custom_sounds[sound_name]:
 			scroll_container.select_child(button, true)
-func _on_sound_selected(sound_name):
-	emit_signal("selected_sound_changed", sound_name)
+func _on_sound_selected(selected_sound):
+	emit_signal("selected_sound_changed", selected_sound)
 
 
 func _on_Control_back():

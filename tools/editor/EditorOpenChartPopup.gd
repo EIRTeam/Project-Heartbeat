@@ -70,7 +70,7 @@ func populate_tree():
 	upload_button.disabled = true
 	get_ok().disabled = true
 	tree.clear()
-	var root = tree.create_item()
+	var _root = tree.create_item()
 	for song in SongLoader.songs.values():
 		# PPD charts cannot be edited...
 		if song.is_visible_in_editor() and not song.comes_from_ugc():
@@ -99,7 +99,6 @@ func _on_item_selected():
 	
 func _on_about_to_show():
 	populate_tree()
-	rect_size = Vector2.ZERO
 
 func _show_meta_editor():
 	song_meta_editor_dialog.rect_size = Vector2.ZERO

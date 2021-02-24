@@ -148,10 +148,17 @@ func make_button(button_text, transformation: EditorTransformation, disable_pres
 	var button = Button.new()
 	button.text = button_text
 	button.connect("mouse_entered", self, "emit_signal", ["show_transform", transformation])
-	button.connect("mouse_exited", self, "emit_signal", ["hide_transform"])
+	button.connect("mouse_exited", self, "hide_transform")
 	if not disable_pressed:
-		button.connect("pressed", self, "emit_signal", ["apply_transform", transformation])
+		button.connect("pressed", self, "apply_transform")
 	return button
+	
+func apply_transform(transformation):
+	emit_signal("apply_transform", transformation)
+	
+func hide_transform():
+	emit_signal("hide_transform")
+	
 func add_button_row(button, button2):
 	var hbox_container = HBoxContainer.new()
 	button.size_flags_horizontal = SIZE_EXPAND_FILL

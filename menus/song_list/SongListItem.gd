@@ -7,7 +7,6 @@ var song : HBSong
 var prev_focus
 onready var button = get_node("Control")
 #onready var star_texture_rect = get_node("TextureRect")
-signal song_selected(song)
 
 onready var stars_label = get_node("Control/TextureRect/StarsLabel")
 onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2")

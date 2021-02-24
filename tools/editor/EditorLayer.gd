@@ -27,7 +27,7 @@ func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
-	child.rect_size = child.get_editor_size()
+	child.set_deferred("rect_size", child.get_editor_size())
 	child.sync_value("end_time")
 
 func place_all_children():

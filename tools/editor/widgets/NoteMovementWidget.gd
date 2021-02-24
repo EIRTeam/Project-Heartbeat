@@ -1,7 +1,5 @@
 tool
 extends HBEditorWidget
-signal note_moved(new_pos)
-signal note_moving_finished()
 onready var movement_gizmo = get_node("MovementGizmo")
 var internal_pos : Vector2
 var starting_pos
@@ -42,7 +40,6 @@ func arrange_gizmo():
 	
 func _on_dragged(movement: Vector2):
 	internal_pos += movement
-#	emit_signal("note_moved", internal_pos)
 	var snapped_pos = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(internal_pos + rect_size/2))
 	editor._change_selected_property_delta("position", snapped_pos - starting_pos)
 	rect_position = editor.rhythm_game.remap_coords(snapped_pos) - rect_size / 2

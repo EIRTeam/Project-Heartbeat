@@ -1,7 +1,8 @@
 extends "Option.gd"
-signal changed(value)
 
 var text = "" setget set_text
+# warning-ignore:unused_signal
+# pressed externally by list TODO?
 signal pressed
 
 onready var pack_select_dropdown = get_node("CanvasLayer/DropDown")
@@ -26,7 +27,7 @@ func _on_pressed():
 	pack_select_dropdown.grab_focus()
 func _on_selected_pack_changed(new_pack):
 	IconPackLoader.set_current_pack(new_pack)
-	emit_signal("changed", new_pack)
+	change_value(new_pack)
 	$HBoxContainer/Control/IconPackPreview.icon_pack = new_pack
 	_old_focus.grab_focus()
 	pack_select_dropdown.hide()

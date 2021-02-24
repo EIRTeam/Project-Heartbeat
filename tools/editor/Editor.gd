@@ -207,7 +207,6 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 		for item in current_items:
 			var note = item.data
 			if note in transformation_result:
-				var note_type = note.note_type
 				for property_name in transformation_result[note]:
 					if property_name in item.data:
 						undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
@@ -255,7 +254,6 @@ func _input(event: InputEvent):
 	
 func get_items_at_time(time: int):
 	var items = []
-	var i = 0
 	for item in current_notes:
 		if item.data.time == time:
 			items.append(item)
@@ -496,12 +494,10 @@ func _commit_selected_property_change(property_name: String):
 	
 	print(action_name)
 	undo_redo.create_action(action_name)
-	var times_changed = false
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data:
 				if property_name == "time":
-					times_changed = true
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
@@ -615,7 +611,6 @@ func paste(time: int):
 		undo_redo.create_action("Paste timing points")
 		var min_point = copied_points[0].data as HBTimingPoint
 		for item in copied_points:
-			var timeline_item := item as EditorTimelineItem
 			var timing_point := item.data as HBTimingPoint
 			if timing_point.time < min_point.time:
 				min_point = timing_point

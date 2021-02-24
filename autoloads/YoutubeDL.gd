@@ -276,7 +276,6 @@ func _video_downloaded(thread: Thread, result):
 
 	songs_being_cached.erase(result.video_id)
 	var has_error = false
-	var out = ""
 	var current_song := tracked_video_downloads[result.video_id].song as HBSong
 	if result.has("video"):
 		if not result.video:

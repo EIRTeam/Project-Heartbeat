@@ -23,7 +23,6 @@ func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	var audio_normalizer = HBAudioNormalizer.new()
 	loaded_assets["audio_loudness"] = 0.0
 	audio_normalizer.set_target_ogg(audio_to_normalize)
-	var prev = OS.get_ticks_msec()
 	while not audio_normalizer.work_on_normalization():
 		if _aborted:
 			return
@@ -60,9 +59,6 @@ func _case_sensitivity_hack(path: String):
 		return path
 
 func _task_process() -> bool:
-	var audio_normalizer := HBAudioNormalizer.new()
-	var original_audio = null
-	
 	var asset = requested_assets_queue[0]
 	var loaded_asset
 	match asset:

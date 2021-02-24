@@ -145,8 +145,8 @@ func get_chart_from_song(song: HBSong, difficulty) -> HBChart:
 	return song.get_chart_for_difficulty(difficulty)
 
 # TODO: generalize this
-func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
-	self.modifiers = modifiers
+func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
+	modifiers = _modifiers
 	current_song = song
 	base_bpm = song.bpm
 	_volume_offset = 0.0
@@ -206,10 +206,10 @@ func _create_sfx_player(sample, volume, bus="SFX"):
 	player.volume_db = volume
 	return player
 
-func make_group(notes: Array, extra_notes: Array, group_position, time):
+func make_group(notes: Array, extra_notes: Array, group_position, group_time):
 	var group = NoteGroup.new()
 	group.notes = notes + extra_notes
-	group.time = time
+	group.time = group_time
 	
 	var highest_time_out = 0
 
@@ -280,10 +280,10 @@ func _set_timing_points(points):
 	timing_points = _process_timing_points_into_groups(points)
 	last_hit_index = timing_points.size()
 	remove_all_notes_from_screen()
-func get_bpm_at_time(time):
+func get_bpm_at_time(bpm_time):
 	var current_time = null
 	for c_t in bpm_changes:
-		if (current_time == null and c_t <= time) or (c_t <= time and c_t > current_time):
+		if (current_time == null and c_t <= bpm_time) or (c_t <= bpm_time and c_t > current_time):
 			current_time = c_t
 	if current_time == null:
 		return base_bpm
@@ -455,7 +455,6 @@ func set_current_combo(combo: int):
 func remove_note_from_screen(i, update_last_hit = true):
 	if i != -1:
 		if update_last_hit:
-			var note = notes_on_screen[i]
 			if notes_on_screen[i].has_meta("group_position"):
 				var group = notes_on_screen[i].get_meta("group")
 				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
@@ -466,7 +465,6 @@ func remove_note_from_screen(i, update_last_hit = true):
 func reset_hit_notes():
 	last_hit_index = timing_points.size()
 	for group in timing_points:
-		var g = group as NoteGroup
 		var array = PoolByteArray()
 		array.resize(group.notes.size())
 		for i in range(array.size()):
@@ -578,7 +576,6 @@ func get_closest_notes_of_type(note_type: int) -> Array:
 	for note_c in notes_on_screen:
 		var note = get_note_drawer(note_c).note_data
 		if note.note_type == note_type:
-			var time_diff = abs(note.time + note.get_duration() - time * 1000.0)
 			if closest_notes.size() > 0:
 				if closest_notes[0].time > note.time:
 					closest_notes = [note]
@@ -663,7 +660,6 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 # todo: generalize this
 func _on_notes_judged(notes: Array, judgement, wrong):
 	#print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
-	var note = notes[0] as HBBaseNote 
 	
 	# Simultaneous slides are a special case...
 	# we have to process each note individually

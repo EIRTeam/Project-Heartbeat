@@ -76,28 +76,28 @@ func update_lobby_data_display():
 	lobby_name_label.text = lobby.lobby_name
 	select_song(lobby.get_song(), lobby.song_difficulty)
 	
-func connect_lobby(lobby: HBLobby):
-	lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
-	lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
-	lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
-	lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
-	lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
-	lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
+func connect_lobby(_lobby: HBLobby):
+	_lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
+	_lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
+	_lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
+	_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
+	_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
+	_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
 	
-func disconnect_lobby(lobbby: HBLobby):
-	lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
-	lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
-	lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
-	lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
-	lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
-	lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
+func disconnect_lobby(_lobby: HBLobby):
+	_lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
+	_lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
+	_lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
+	_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+	_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
+	_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
 	
-func set_lobby(lobby: HBLobby):
+func set_lobby(_lobby: HBLobby):
 	if self.lobby:
-		disconnect_lobby(lobby)
-	self.lobby = lobby
+		disconnect_lobby(_lobby)
+	self.lobby = _lobby
 
-	connect_lobby(lobby)
+	connect_lobby(_lobby)
 
 	update_member_list()
 	update_lobby_data_display()

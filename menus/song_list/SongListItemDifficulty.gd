@@ -19,15 +19,15 @@ func _ready():
 	arcade_texture.hide()
 	console_texture.hide()
 
-func set_song_difficulty(value: HBSong, difficulty: String):
+func set_song_difficulty(value: HBSong, _difficulty: String):
 	song = value
 	song_title.song = song
+	difficulty = _difficulty
 	if fmod(song.charts[difficulty].stars, floor(song.charts[difficulty].stars)) != 0:
 		stars_label.text = "x%.1f " % [song.charts[difficulty].stars]
 	else:
 		stars_label.text = "x%d " % [song.charts[difficulty].stars]
 	difficulty_label.text = " " + difficulty.to_upper() + " "
-	self.difficulty = difficulty
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
 		var pass_percentage = result.get_percentage()

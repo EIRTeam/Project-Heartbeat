@@ -15,9 +15,17 @@ func hover():
 	buttons_container._on_focus_entered()
 
 func _ready():
-	settings_button.connect("pressed", self, "emit_signal", ["edit_modifier"])
+	settings_button.connect("pressed", self, "_on_settings_button_pressed")
 	connect("pressed", self, "_on_pressed")
-	remove_button.connect("pressed", self, "emit_signal", ["remove_modifier"])
+	remove_button.connect("pressed", self, "_on_remove_button_pressed")
+	
+func _on_settings_button_pressed():
+	emit_signal("edit_modifier")
+	
+func _on_remove_button_pressed():
+	emit_signal("remove_modifier")
+	
+	
 func _on_pressed():
 	buttons_container.selected_button.emit_signal("pressed")
 func stop_hover():

@@ -48,6 +48,10 @@ func _on_quit():
 func _on_restart():
 	emit_signal("restarted")
 	hide()
+	
+func resume():
+	emit_signal("resumed")
+	
 func disable_restart():
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton.queue_free()
 

@@ -16,8 +16,11 @@ var implements_leaderboards = false
 var implements_leaderboard_auth = false
 var implements_ugc = false
 
+# warning-ignore:unused_signal
 signal run_mp_callbacks
+# warning-ignore:unused_signal
 signal ticket_ready
+# warning-ignore:unused_signal
 signal ticket_failed
 
 func _init():

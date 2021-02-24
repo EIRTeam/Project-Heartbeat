@@ -36,7 +36,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	disable_restart()
 	add_child(video_pause_timer)
 	video_player.play()
-	for i in range(6):
+	for _i in range(6):
 		yield(get_tree(), 'idle_frame')
 	video_player.paused = false
 	game._process(0)
@@ -71,7 +71,6 @@ func _unhandled_input(event: InputEvent):
 			game.set_process(true)
 			game._process(0)
 			video_player.paused = false
-			var song = SongLoader.songs[current_game_info.song_id] as HBSong
 			video_player.stream_position = game.time
 		
 func _on_video_pause():
@@ -90,10 +89,6 @@ func _process(delta):
 		if Input.is_action_just_pressed("contextual_option"):
 			quit_confirmation.popup_centered_ratio(0.35)
 		if not quit_confirmation.visible:
-			var latency_compensation = UserSettings.user_settings.lag_compensation
-			if current_game_info:
-				if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
-					latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 			if Input.is_action_pressed("gui_left") or Input.is_action_pressed("gui_right"):
 				var dir = Input.get_action_strength("gui_right") - Input.get_action_strength("gui_left")
 				go_to_time(game.time + dir * delta * 10.0)
@@ -200,7 +195,6 @@ func _on_note_judged(judgement_info):
 	#		var judgement_info = {"judgement": judgement, "target_time": notes[0].time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
 	var judgement = judgement_info.judgement
 	var target_time = judgement_info.target_time
-	var hit_time = judgement_info.time
 	stats_total_notes += 1
 	last_notes.append(target_time)
 	if judgement >= HBJudge.JUDGE_RATINGS.FINE and not judgement_info.wrong:

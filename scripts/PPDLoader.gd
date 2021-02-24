@@ -12,8 +12,8 @@ static func _get_marks_from_ppd_pack(path: String):
 # obtains notes and parameters from a ppd file
 static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPDPack):
 	file.seek(file_offset)
-	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
-	var u = 0
+	var _signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
+	#var u = 0
 	var marks = []
 	
 	var params = {}
@@ -66,7 +66,7 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 		var id = 0
 		if with_ID:
 			id = file.get_32()
-		u+=1
+		#u+=1
 		if prev_time:
 			if abs(prev_time - time) < 0.010:
 				time = prev_time
@@ -178,9 +178,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	
 	var evd_file = data.evd_file as PPDEVDFile
 
-	# For when multiple notes are on screen, to count how many layers
-	# deep we are going to ensure they don't overlap
-	var same_position_note_count = 0
 	var i = 0
 	while i < marks.size():
 		var note = marks[i]

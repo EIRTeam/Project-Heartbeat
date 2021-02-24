@@ -25,8 +25,8 @@ func set_lobby_max_members(val):
 	lobby_member_count_label.text = "%d/%d" % [lobby_members, lobby_max_members]
 
 
-func set_lobby(lobby: HBLobby):
-	self.lobby = lobby
+func set_lobby(_lobby: HBLobby):
+	lobby = _lobby
 	if lobby.get_song() == null or not lobby.get_song().has_audio():
 		song_status_icon.texture = NOTE_ERR_ICON
 	else:

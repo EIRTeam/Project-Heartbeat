@@ -2,6 +2,7 @@ extends Object
 
 class_name HBTask
 
+# warning-ignore:unused_signal
 signal task_done(data)
 
 var _aborted := false

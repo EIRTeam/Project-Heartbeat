@@ -242,9 +242,6 @@ func update_modifiers():
 		button.queue_free()
 	add_buttons()
 
-	var last_modifier
-	for modifier_id in game_info.modifiers:
-		last_modifier = add_modifier_control(modifier_id)
 	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
 	modifier_selector.popup()

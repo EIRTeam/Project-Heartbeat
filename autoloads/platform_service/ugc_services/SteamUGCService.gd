@@ -120,10 +120,6 @@ func _on_item_downloaded(result, item_id, app_id):
 		
 
 		if result != 1:
-			if item_id in cached_items_data:
-				var item_name = str(item_id)
-				item_name = cached_items_data[item_id]
-			
 			var result_notification = DOWNLOAD_PROGRESS_THING.instance()
 			result_notification.life_timer = 2.0
 			DownloadProgress.add_notification(result_notification, true)

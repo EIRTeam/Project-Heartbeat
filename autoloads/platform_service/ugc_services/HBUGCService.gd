@@ -1,11 +1,15 @@
 class_name HBUGCService
 
+# warning-ignore:unused_signal
 signal item_created(result, file_id, tos)
+# warning-ignore:unused_signal
 signal item_update_result(result, tos)
+# warning-ignore:unused_signal
 signal ugc_details_request_done(result, details)
+# warning-ignore:unused_signal
 signal ugc_item_installed(type, item)
+# warning-ignore:unused_signal
 signal ugc_item_deleted(type, item)
-signal ugc
 
 const UGC_DATA_PATH = "user://ugc.json"
 var LOG_NAME = "HBUGCService"

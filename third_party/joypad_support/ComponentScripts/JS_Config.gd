@@ -64,44 +64,10 @@ func reset_savefile():
 
 func save() -> void:
 	return
-	_serialized_data = _build_serialized_data()
-	var error = _file.open(_full_path,File.WRITE)
-	if error != OK:
-		_push_reading_file_error(error)
-		return
-	
-	_file.store_var(_serialized_data)
-	_file.close()
 
 
 func read() -> void:
 	return
-	var error = _file.open(_full_path,File.READ)
-	if error != OK:
-		_push_reading_file_error(error)
-		return
-	
-	var old_settings = _file.get_var()
-	
-	if old_settings.has("version") and old_settings["version"] >= _version:
-		_serialized_data = old_settings
-	else:
-		push_error("Missing Methods to convert old save data")
-		assert(false)
-	
-	_file.close()
-	
-	_translate_serialized_data(_serialized_data)
-	if OS.is_debug_build():
-		printraw(var2str(_serialized_data))
-		printraw("\n")
-	
-	# this call would go on the extended script from a Future BaseSaveFile
-	# it woul probably be something like:
-	#	func read() -> void:
-	#		.read()
-	#		_restore_actions()
-	_restore_actions()
 
 
 # Bellow Here things would go into the extended script if you change this to extend a Futur BaseSaveFile

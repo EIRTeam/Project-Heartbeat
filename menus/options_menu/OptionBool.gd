@@ -1,7 +1,5 @@
 extends "Option.gd"
 
-signal changed(value)
-
 var options = ["No", "Yes"]
 var options_pretty = []
 var selected_option = 0
@@ -28,9 +26,9 @@ func _ready():
 	options = ["No", "Yes"]
 func _on_changed(val):
 	if val == "Yes":
-		emit_signal("changed", true)
+		change_value(true)
 	else:
-		emit_signal("changed", false)
+		change_value(false)
 
 func _gui_input(event):
 	var option_change = 0
@@ -47,5 +45,5 @@ func _gui_input(event):
 		var result = true
 		if selected_option == 0:
 			result = false
-		emit_signal("changed", result)
+		change_value(result)
 

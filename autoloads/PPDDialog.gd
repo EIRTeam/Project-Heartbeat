@@ -11,8 +11,12 @@ signal file_selector_hidden
 func _ready():
 	use_youtube_button.connect("pressed", self, "_on_use_youtube_button_pressed")
 	file_dialog.connect("file_selected", self, "_on_file_selected")
-	file_dialog.connect("popup_hide", self, "emit_signal", ["file_selector_hidden"])
+	file_dialog.connect("popup_hide", self, "_on_file_selector_hidden")
 	connect("about_to_show", self, "_on_about_to_show")
+	
+func _on_file_selector_hidden():
+	emit_signal("file_selector_hidden")
+	
 func _on_use_youtube_button_pressed():
 	if YoutubeDL.get_video_id(youtube_url_line_edit.text):
 		emit_signal("youtube_url_selected", youtube_url_line_edit.text)

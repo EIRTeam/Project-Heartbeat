@@ -13,6 +13,8 @@ var scale_tween = Tween.new()
 var hover_style = preload("res://styles/SongListItemHover.tres")
 var normal_style = preload("res://styles/SongListItemNormal.tres")
 
+# warning-ignore:unused_signal
+# emitted by song list, TODO: fix this?
 signal pressed
 
 func get_scale():

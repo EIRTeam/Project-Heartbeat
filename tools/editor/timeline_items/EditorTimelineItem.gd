@@ -2,6 +2,8 @@ extends Control
 
 class_name EditorTimelineItem
 
+# Emitted by children
+# warning-ignore:unused_signal
 signal property_changed(property_name, old_value, new_value)
 
 var data = HBTimingPoint.new()

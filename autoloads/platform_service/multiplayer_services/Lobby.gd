@@ -68,23 +68,38 @@ enum PACKET_TYPE {
 }
 
 # when we joined a lobby
+# warning-ignore:unused_signal
 signal lobby_joined(response)
 # reception of chat message
+# warning-ignore:unused_signal
 signal lobby_chat_message(member, message, type)
 # lobby data changed
+# warning-ignore:unused_signal
 signal lobby_data_updated()
+# warning-ignore:unused_signal
 signal lobby_user_data_updated(user)
+# warning-ignore:unused_signal
 signal lobby_created(result)
+# warning-ignore:unused_signal
 signal lobby_left
+# warning-ignore:unused_signal
 signal lobby_chat_update(changed, making_change, state)
+# warning-ignore:unused_signal
 signal member_left(member)
 
+# warning-ignore:unused_signal
 signal lobby_loading_start # sent by authority
+# warning-ignore:unused_signal
 signal game_member_loading_finished(member)
+# warning-ignore:unused_signal
 signal game_start # sent by authority
+# warning-ignore:unused_signal
 signal game_note_hit(member, score, rating)
+# warning-ignore:unused_signal
 signal game_done(results, game_info) # sent when we realise that all other members have finished
+# warning-ignore:unused_signal
 signal user_song_availability_update(user, song_id, available)
+# warning-ignore:unused_signal
 signal check_songs_request_received(song_id)
 var _lobby_id
 

@@ -194,8 +194,6 @@ margin_right = 275.0
 margin_left = -275.0
 margin_right = 275.0
 
-[connection signal="back" from="Panel/MarginContainer/VBoxContainer" to="." method="_on_folder_options_back"]
-
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]

@@ -1,8 +1,8 @@
 extends "Option.gd"
-signal changed(value)
 
 var text = "" setget set_text
 var sound_name = ""
+# warning-ignore:unused_signal
 signal pressed
 
 onready var selected_text = get_node("HBoxContainer/Control/Label2")

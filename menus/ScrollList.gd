@@ -11,7 +11,6 @@ var scroll_target = 0.0
 # Vertical scroll is separate because we need it to be a float
 var current_scroll = 0.0
 var selected_child
-signal selected_child_changed
 const BOTTOM_MARGIN = 50
 const TOP_MARGIN = 50
 

@@ -104,7 +104,6 @@ class DSCGameFSAccess:
 		var dir = Directory.new()
 		if not dir.dir_exists(_game_location):
 			is_valid = false
-		var file = File.new()
 		for mdata_name in mdata_loader.mdatas:
 			var mdata_rom_dir = mdata_loader.mdatas[mdata_name]
 			if dir.dir_exists(mdata_rom_dir):
@@ -161,7 +160,6 @@ class MDATALoader:
 				var mdata_dir_path = mdatas[mdata_name]
 				var info_path = HBUtils.join_path(mdata_dir_path, "info.txt")
 				if file.open(info_path, File.READ) == OK:
-					var has_dependencies = true
 					while not file.eof_reached():
 						var line = file.get_line()
 						if line.begins_with("depend"):
@@ -172,7 +170,6 @@ class MDATALoader:
 									if spl.size() > 1:
 										var val = spl[1]
 										if not val in mdatas:
-											has_dependencies = false
 											break
 					
 func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
@@ -235,19 +232,16 @@ func load_songs() -> Array:
 		Log.log(self, "Error loading DSC songs from %s" % [GAME_LOCATION], Log.LogLevel.ERROR)
 		return []
 	
-	var dir := Directory.new()
 	
 	var pv_datas = {}
 	for pvdb_path in ["rom/pv_db.txt", "rom/mdata_pv_db.txt"]:
 		var PVDB_LOCATION = fs_access.get_file_path(pvdb_path)
-		var file = File.new()
 		if not PVDB_LOCATION:
 			Log.log(self, "Error loading DSC songs from %s PVDB does not exist (%s)" % [GAME_LOCATION, pvdb_path], Log.LogLevel.ERROR)
 			continue
 		var datas = load_pv_datas_from_pvdb(PVDB_LOCATION)
 		pv_datas = HBUtils.merge_dict(pv_datas, datas)
 	var songs = []
-	var pvs_str = ""
 	for pv_id in pv_datas:
 		var pv_data := pv_datas[pv_id] as DSCPVData
 		# Not entirely sure why but pv_755 in m39s is broken?

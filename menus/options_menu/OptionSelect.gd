@@ -5,8 +5,6 @@ var options_pretty = []
 var selected_option = 0
 var text setget set_text
 
-signal changed(option)
-
 func set_text(value):
 	text = value
 	$HBoxContainer/Label.text = value
@@ -39,4 +37,4 @@ func _gui_input(event):
 	if option_change != 0:
 		get_tree().set_input_as_handled()
 		select(clamp(selected_option+option_change, 0, options.size()-1))
-		emit_signal("changed", options[selected_option])
+		change_value(options[selected_option])

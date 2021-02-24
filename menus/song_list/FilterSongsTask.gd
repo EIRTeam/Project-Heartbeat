@@ -25,7 +25,7 @@ func sort_and_filter_songs():
 	prints("Filtering by", filter_by)
 	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	if filter_by != "all":
-		var filtered_songs = []
+		var _filtered_songs = []
 		for song in songs:
 			var should_add_song = false
 			match filter_by:
@@ -44,8 +44,8 @@ func sort_and_filter_songs():
 				"workshop":
 					should_add_song = song.comes_from_ugc()
 			if should_add_song:
-				filtered_songs.append(song)
-		return filtered_songs
+				_filtered_songs.append(song)
+		return _filtered_songs
 	else:
 		return songs
 		

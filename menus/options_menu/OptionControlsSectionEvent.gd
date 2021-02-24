@@ -8,11 +8,8 @@ signal pressed
 onready var icon_panel = get_node("HBoxContainer/HBoxContainer/Panel")
 
 func set_event(val):
-	event = val	
+	event = val
 	if event is InputEventJoypadMotion:
-		var axis_sign = "+"
-		if event.axis_value < 0:
-			axis_sign = "-"
 		$HBoxContainer/Label.text = UserSettings.get_axis_name(event)
 	elif event is InputEventJoypadButton:
 		$HBoxContainer/Label.text = UserSettings.get_button_name(event)
@@ -31,7 +28,7 @@ func stop_hover():
 	add_stylebox_override("panel", normal_style)
 	icon_panel.add_stylebox_override("panel", normal_style)
 
-func _gui_input(event):
-	if event.is_action_pressed("gui_accept"):
+func _gui_input(_i_event):
+	if _i_event.is_action_pressed("gui_accept"):
 		get_tree().set_input_as_handled()
 		emit_signal("pressed")

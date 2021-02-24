@@ -105,5 +105,8 @@ margin_right = 275.0
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"
-[connection signal="accept" from="RestartPopup" to="." method="emit_signal" binds= [ "restart" ]]
-[connection signal="accept" from="QuitPopup" to="." method="emit_signal" binds= [ "quit" ]]
+
+[connection signal="accept" from="RestartPopup" to="." method="restart"]
+[connection signal="accept" from="QuitPopup" to="." method="quit"]
+
+[editable path="ViewportLeft/MarginContainer"]

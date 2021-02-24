@@ -64,7 +64,6 @@ func _fade_in_done():
 	# this is why we do a single game cycle, to get the timing right
 	game.play_song()
 	game._process(0.0)
-	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	video_player.stream_position = game.time
 	rescale_video_player()
 	
@@ -193,7 +192,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					video_player.stream_position = -1
 					video_player.stream_position = 0
 				video_player.paused = false # VideoPlayer only pulls frames when it's unpaused
-				for i in range(5):
+				for _i in range(5):
 					yield(get_tree(), 'idle_frame')
 				video_player.stream_position = song.start_time  / 1000.0
 				video_player.paused = true
@@ -240,7 +239,6 @@ func _on_resumed():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		var song = SongLoader.songs[current_game_info.song_id] as HBSong
 		video_player.stream_position = game.time
 	else:
 		# Called when resuming with rollback
@@ -301,8 +299,11 @@ func _on_RhythmGame_song_cleared(result: HBResult):
 	current_game_info.result = result
 	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
-	fade_out_tween.connect("tween_all_completed", self, "emit_signal", ["fade_out_finished", current_game_info])
+	fade_out_tween.connect("tween_all_completed", self, "_on_fade_out_finished")
 	fade_out_tween.start()
+	
+func _on_fade_out_finished():
+	emit_signal("fade_out_finished", current_game_info)
 
 var _last_time = 0.0
 
@@ -366,7 +367,6 @@ func _on_PauseMenu_restarted():
 		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
 	last_pause_time = 0.0
-	var song = SongLoader.songs[current_game_info.song_id]
 	rollback_on_resume = false
 	game.restart()
 	game.cache_note_drawers()

@@ -4,6 +4,7 @@ var normal_style
 var hover_style
 var value setget set_value
 signal hover
+signal changed(value)
 
 func set_value(val):
 	value = val
@@ -17,3 +18,6 @@ func hover():
 
 func stop_hover():
 	add_stylebox_override("panel", normal_style)
+
+func change_value(new_value):
+	emit_signal("changed", new_value)

@@ -3,7 +3,9 @@ class_name HBNoteDrawer
 var note_data: HBBaseNote = HBNoteData.new() setget set_note_data
 var game
 
+# warning-ignore:unused_signal
 signal notes_judged(notes, judgement, wrong)
+# warning-ignore:unused_signal
 signal note_removed
 
 var connected_notes = [] setget set_connected_notes

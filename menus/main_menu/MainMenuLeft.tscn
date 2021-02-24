@@ -26,8 +26,10 @@ signal navigate_to_menu(menu)
 func _ready():
 	for child in get_children():
 		if child is HBMenuChangeButton:
-			child.connect(\"pressed\", self, \"emit_signal\", [\"navigate_to_menu\", child.next_menu])
+			child.connect(\"pressed\", self, \"_on_child_pressed\", [child.next_menu])
 
+func _on_child_pressed(next_menu):
+	emit_signal(\"navigate_to_menu\", next_menu)
 
 func _on_ExitButton_pressed():
 	get_tree().quit()
@@ -108,7 +110,6 @@ script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-stop_hover_on_focus_exit = true
 orientation = 1
 
 [node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
@@ -167,7 +168,6 @@ rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Discord Server"
 icon = ExtResource( 14 )
-next_menu = ""
 
 [node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
@@ -200,7 +200,6 @@ rect_min_size = Vector2( 430, 60 )
 enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
-next_menu = ""
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 visible = false

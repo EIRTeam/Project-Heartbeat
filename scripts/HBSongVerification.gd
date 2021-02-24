@@ -179,7 +179,7 @@ func verify_chart(song: HBSong, difficulty: String):
 				"type": CHART_ERROR.FILE_INVALID_JSON,
 				"string": "Chart JSON Invalid:\n " + result.error + " at line " + str(result.error_line)
 			}
-			result.error_line
+			errors.append(error)
 		else:
 			var chart = HBChart.new()
 			chart.deserialize(result.result)

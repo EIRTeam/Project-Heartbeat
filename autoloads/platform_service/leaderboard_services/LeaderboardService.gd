@@ -1,7 +1,10 @@
 class_name HBLeaderboardService
 
+# warning-ignore:unused_signal
 signal leaderboard_entries_downloaded(leaderboard_handle, entries)
+# warning-ignore:unused_signal
 signal leaderboard_found(name, handle, found)
+# warning-ignore:unused_signal
 signal score_uploaded(success, lb_name, score, score_changed, new_rank, old_rank)
 enum LEADERBOARD_DATA_REQUEST_TYPE {
 	GLOBAL = 0,

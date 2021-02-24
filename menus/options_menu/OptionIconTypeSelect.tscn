@@ -40,7 +40,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 316.0
+margin_right = 317.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
@@ -49,16 +49,16 @@ align = 1
 valign = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 320.0
-margin_right = 1240.0
+margin_left = 321.0
+margin_right = 1880.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="IconPackPreview" parent="HBoxContainer/Control" instance=ExtResource( 3 )]
-margin_left = 419.0
+margin_left = 1058.0
 margin_top = 0.0
-margin_right = 920.0
+margin_right = 1559.0
 margin_bottom = 64.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

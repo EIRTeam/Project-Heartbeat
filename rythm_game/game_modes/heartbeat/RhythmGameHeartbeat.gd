@@ -374,7 +374,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 		var note_sfx_name = "note_hit"
 		if notes[0].note_type == HBNoteData.NOTE_TYPE.HEART:
 			note_sfx_name = "slide_hit"
-		for i in range(2):
+		for _i in range(2):
 			if sfx_pool.playing_effects[note_sfx_name].size() > 0:
 				var sfx_player = sfx_pool.playing_effects[note_sfx_name][sfx_pool.playing_effects[note_sfx_name].size()-1]
 				sfx_pool.stop_sfx(sfx_player)

@@ -34,7 +34,6 @@ func _unhandled_input(event):
 		change_to_menu("main_menu")
 	
 func _on_get_lobby_list(lobbies):
-	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	var first_child
 	for lobby in lobbies:
 			

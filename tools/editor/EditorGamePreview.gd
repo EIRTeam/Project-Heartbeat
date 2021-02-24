@@ -47,7 +47,6 @@ func _process(delta):
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
 	$Label.text += "\nVP:%s" % [video_player.stream_position]
 func set_visualizer_processing_enabled(enabled):
-	return
 	if UserSettings.user_settings.visualizer_enabled:
 		visualizer.set_physics_process(enabled)
 	
@@ -60,7 +59,7 @@ func play_video_from_pos(pos: float, pause_after = false):
 		video_player.play()
 		video_player.stream_position = pos
 		video_player.paused = false
-		for i in range(5):
+		for _i in range(5):
 			yield(get_tree(), 'idle_frame')
 		if pause_after:
 			video_player.paused = true
@@ -109,7 +108,7 @@ func set_song(song: HBSong):
 				video_player.stream_position = -1
 				video_player.stream_position = 0
 				video_player.paused = false # VideoPlayer only pulls frames when it's unpaused
-				for i in range(5):
+				for _i in range(5):
 					yield(get_tree(), 'idle_frame')
 				video_player.stream_position = song.start_time  / 1000.0
 				video_player.paused = true

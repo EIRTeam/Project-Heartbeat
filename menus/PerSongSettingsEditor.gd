@@ -42,10 +42,14 @@ func set_current_song(val):
 	editor.section_data = section_data
 
 func _ready():
-	editor.connect("back", self, "emit_signal", ["back"])
+	editor.connect("back", self, "_on_back")
 	editor.connect("back", editor, "hide")
 	editor.connect("changed", self, "_on_per_song_setting_changed")
 	editor.hide()
+	
+func _on_back():
+	emit_signal("back")
+	
 func show_editor():
 	editor.show()
 	editor.grab_focus()
