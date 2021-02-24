@@ -8,7 +8,6 @@ onready var button_container = get_node("VBoxContainer/Panel/MarginContainer/VBo
 
 func _ready():
 	hide()
-	button_container.connect("back", self, "_on_back")
 
 func popup():
 	show()
