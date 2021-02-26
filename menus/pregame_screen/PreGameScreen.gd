@@ -160,7 +160,6 @@ func _on_StartButton_pressed():
 		scene.load_song(game_info, false, current_assets)
 
 func add_modifier_control(modifier_id: String):
-	
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
 	var button = preload("res://menus/pregame_screen/ModifierButton.tscn").instance()
 	modifier_button_container.add_child(button)
@@ -184,7 +183,6 @@ func _on_open_modifier_settings_selected(modifier_id: String):
 	modifier_settings_editor.grab_focus()
 	
 func select_song(s: HBSong):
-	print("SELECTING ", s.title)
 	current_song = s
 	
 func _on_modify_song_settings_pressed():
@@ -241,6 +239,9 @@ func update_modifiers():
 		modifier_button_container.remove_child(button)
 		button.queue_free()
 	add_buttons()
+
+	for modifier_id in game_info.modifiers:
+		add_modifier_control(modifier_id)
 
 	draw_leaderboard_legality()
 func _on_add_modifier_pressed():
