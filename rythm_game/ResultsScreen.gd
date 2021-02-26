@@ -87,8 +87,9 @@ func _on_lobby_loading_start():
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
-	var inv = 0.1 / (rect_size.y / BASE_HEIGHT)
-	button_panel.size_flags_stretch_ratio = inv
+	if (rect_size.y / BASE_HEIGHT) > 0:
+		var inv = 0.1 / (rect_size.y / BASE_HEIGHT)
+		button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
 	connect("resized", self, "_on_resized")
