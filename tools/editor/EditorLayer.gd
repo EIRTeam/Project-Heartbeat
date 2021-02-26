@@ -43,7 +43,7 @@ func place_all_children():
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)
 	preview.rect_position = Vector2(x_pos, 0)
-	preview.rect_size = Vector2(editor.scale_msec(duration), preview.rect_size.y)
+	preview.set_deferred("rect_size", Vector2(editor.scale_msec(duration), preview.rect_size.y))
 	
 	
 func add_item(item: EditorTimelineItem):

@@ -14,7 +14,7 @@ func set_texture():
 	.set_texture()
 	if data is HBSustainNote:
 		$TextureRect2.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
-	$TextureRect2.rect_size = Vector2(get_size().y, get_size().y)
+	$TextureRect2.set_deferred("rect_size", Vector2(get_size().y, get_size().y))
 	_on_end_time_changed()
 
 func _draw():

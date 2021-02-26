@@ -165,7 +165,6 @@ margin_top = 210.0
 margin_right = 435.0
 margin_bottom = 270.0
 rect_min_size = Vector2( 430, 60 )
-enabled_focus_mode = 0
 text = "Discord Server"
 icon = ExtResource( 14 )
 
@@ -197,7 +196,6 @@ margin_top = 420.0
 margin_right = 435.0
 margin_bottom = 480.0
 rect_min_size = Vector2( 430, 60 )
-enabled_focus_mode = 0
 text = "Exit"
 icon = ExtResource( 5 )
 

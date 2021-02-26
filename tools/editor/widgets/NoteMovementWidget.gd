@@ -21,21 +21,20 @@ func set_note_data(val):
 	angle_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
 	arrange_gizmo()
 func _ready():
-	arrange_gizmo()
 	get_viewport().connect("size_changed", self, "_on_resized")
-	
+	_on_resized()
 	
 func _on_resized():
 	yield(get_tree(), "idle_frame")
-	arrange_gizmo()
+	call_deferred("arrange_gizmo")
 	
 func arrange_gizmo():
 	if note_data:
 		var note_scale = editor.rhythm_game.get_note_scale()
-		movement_gizmo.rect_size = texture_rect.texture.get_size() * note_scale
+		movement_gizmo.set_deferred("rect_size", texture_rect.texture.get_size() * note_scale)
 		movement_gizmo.set_deferred("rect_position", rect_size / 2 - movement_gizmo.rect_size/2)
 		texture_rect.set_deferred("rect_position", movement_gizmo.rect_position)
-		texture_rect.rect_size = movement_gizmo.rect_size
+		texture_rect.set_deferred("rect_size", movement_gizmo.rect_size)
 		internal_pos = rect_position
 	
 func _on_dragged(movement: Vector2):

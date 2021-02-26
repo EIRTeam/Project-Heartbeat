@@ -260,7 +260,6 @@ func move_note_button_down():
 				editor.deselect_all()
 				editor.select_item(new_item)
 func _unhandled_input(event):
-	var editor = get_editor()
 	if event is InputEventKey:
 		if event.is_action_pressed("gui_up") and event.control:
 			move_note_button_up()

@@ -16,7 +16,7 @@ func set_texture():
 			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "target")
 		else:
 			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "note")
-	$TextureRect.rect_size = Vector2(get_size().y, get_size().y)
+	$TextureRect.set_deferred("rect_size", Vector2(get_size().y, get_size().y))
 	$TextureRect.rect_position = Vector2(-get_size().y / 2, 0)
 func get_size():
 	return Vector2(WIDTH, rect_size.y)
