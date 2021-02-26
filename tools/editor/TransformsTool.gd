@@ -150,7 +150,7 @@ func make_button(button_text, transformation: EditorTransformation, disable_pres
 	button.connect("mouse_entered", self, "emit_signal", ["show_transform", transformation])
 	button.connect("mouse_exited", self, "hide_transform")
 	if not disable_pressed:
-		button.connect("pressed", self, "apply_transform")
+		button.connect("pressed", self, "apply_transform", [transformation])
 	return button
 	
 func apply_transform(transformation):
