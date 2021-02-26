@@ -53,13 +53,14 @@ func _ready():
 			force_disable_async_textures = true
 			
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
-	get_preferred_joypad()
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
 	# fallback to controller 0
 	if is_connected and Input.get_joy_guid(device_idx) == user_settings.controller_guid:
 		print("Known controller connected, remapping...")
 		map_actions_to_controller()
+	if Input.get_connected_joypads().size() == 0:
+		current_mode = PROMPT_MODE.KEYBOARD
 
 func get_input_map():
 	var map = {}
@@ -204,6 +205,7 @@ func load_input_map():
 			if preferred_joypad != -1:
 				user_settings.controller_guid = Input.get_joy_guid(preferred_joypad)
 	map_actions_to_controller()
+	current_mode = PROMPT_MODE.JOYPAD
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
 		if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
@@ -239,8 +241,6 @@ func _input(event):
 	elif event is InputEventKey:
 		if current_mode != PROMPT_MODE.KEYBOARD:
 			current_mode = PROMPT_MODE.KEYBOARD
-			JoypadSupport.set_autodetect_to(true)
-			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
 			JoypadSupport.force_keyboard_prompts()
 func load_user_settings():
 	var file := File.new()

@@ -170,7 +170,7 @@ func get_chosen_skin() -> int:
 
 
 func get_joypad_type() -> int:
-	if not get_autodetect():
+	if not get_autodetect() and not _joypad_identifier.joypad_type == JS_JoypadIdentifier.JoyPads.NO_JOYPAD:
 		return get_chosen_skin()
 	
 	return _joypad_identifier.joypad_type
