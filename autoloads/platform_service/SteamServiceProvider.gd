@@ -91,11 +91,15 @@ func write_remote_file(file_name: String, data: PoolByteArray):
 	Log.log(self, "Writing to remote file: %s" % [file_name])
 	return Steam.fileWrite(file_name, data, data.size())
 
+# HACK because Steam and Godot are dumb, idk which one is dumber
+func _wait_for_thread_HACK(thread: Thread):
+	thread.wait_to_finish()
+
 func _write_remote_file_async(userdata):
 	var result = Steam.fileWrite(userdata.file_name, userdata.data, userdata.data.size())
 	if result:
 		Log.log(self, "Wrote succesfully to remote file (asynchronously): %s" % [userdata.file_name])
-	userdata.thread.call_deferred("wait_to_finish")
+	call_deferred("_wait_for_thread_HACK", userdata.thread)
 func write_remote_file_async(file_name: String, data: PoolByteArray):
 	var thread = Thread.new()
 	Log.log(self, "Writing to remote file (asynchronously): %s" % [file_name])	
