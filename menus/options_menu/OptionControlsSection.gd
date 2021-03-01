@@ -17,13 +17,14 @@ func _unhandled_input(event):
 			if event is InputEventJoypadMotion and action_being_bound in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 				return
 			if InputMap.action_has_event(action_being_bound, event):
+				action_being_bound = ""
+				bind_popup.hide()
+				scroll_container.grab_focus()
 				return
 			if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
 				get_tree().set_input_as_handled()
 				if event.is_pressed() and not event.is_echo():
-					if not event.is_action_pressed("gui_cancel"):
-						# We find the action control and add the new event
-						add_event_user(action_being_bound, event)
+					add_event_user(action_being_bound, event)
 					bind_popup.hide()
 					action_being_bound = ""
 					scroll_container.grab_focus()
