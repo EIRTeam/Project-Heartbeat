@@ -169,10 +169,13 @@ func force_scroll():
 	
 func _input(event):
 	# Stop debouncing when buttons are released
+	var all_released = true
 	for action in ["gui_up", "gui_down", "gui_left", "gui_right"]:
-		if event.is_action_released(action):
-			initial_input_debounce_timer.stop()
-			input_debounce_timer.stop()
+		if Input.is_action_pressed(action):
+			all_released = false
+	if all_released:
+		initial_input_debounce_timer.stop()
+		input_debounce_timer.stop()
 
 # Receives position change input, select items as needed & plays back sounds
 func _position_change_input(position_change: int):
