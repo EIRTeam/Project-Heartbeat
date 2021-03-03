@@ -2,19 +2,22 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.stex"
+path.s3tc="res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.s3tc.stex"
+path.etc2="res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.etc2.stex"
+path.etc="res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.etc.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2", "etc" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://menus/tutorial/page1/notes_example.png"
-dest_files=[ "res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.stex" ]
+dest_files=[ "res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.s3tc.stex", "res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.etc2.stex", "res://.import/notes_example.png-1263d53d1c7fd1bb5c0e90bd4ee23f05.etc.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

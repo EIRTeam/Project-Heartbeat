@@ -2,19 +2,22 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/heart.png-bcfa7618f331eb400579343d3262e007.stex"
+path.s3tc="res://.import/heart.png-bcfa7618f331eb400579343d3262e007.s3tc.stex"
+path.etc2="res://.import/heart.png-bcfa7618f331eb400579343d3262e007.etc2.stex"
+path.etc="res://.import/heart.png-bcfa7618f331eb400579343d3262e007.etc.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2", "etc" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://menus/tutorial/page6/heart.png"
-dest_files=[ "res://.import/heart.png-bcfa7618f331eb400579343d3262e007.stex" ]
+dest_files=[ "res://.import/heart.png-bcfa7618f331eb400579343d3262e007.s3tc.stex", "res://.import/heart.png-bcfa7618f331eb400579343d3262e007.etc2.stex", "res://.import/heart.png-bcfa7618f331eb400579343d3262e007.etc.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
