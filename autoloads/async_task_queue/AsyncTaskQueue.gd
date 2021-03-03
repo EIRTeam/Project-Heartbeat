@@ -69,7 +69,6 @@ func _thread_function(_userdata):
 				var task = queue[i]
 				if task._aborted:
 					queue.erase(task)
-					task.free()
 				else:
 					current_task = task
 					break
@@ -86,7 +85,6 @@ func _thread_function(_userdata):
 		if current_task:
 			if current_task._aborted:
 				queue.erase(current_task)
-				current_task.free()
 		mutex.unlock()
 		
 func _end_thread():

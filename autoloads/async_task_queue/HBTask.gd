@@ -1,5 +1,3 @@
-extends Object
-
 class_name HBTask
 
 # warning-ignore:unused_signal
