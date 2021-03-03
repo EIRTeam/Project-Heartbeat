@@ -18,7 +18,7 @@ func set_entry_angle(val):
 func set_note_data(val):
 	note_data = val
 	texture_rect.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
-	angle_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	angle_color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	arrange_gizmo()
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_resized")
@@ -65,7 +65,7 @@ func _draw():
 		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle)
 		draw_line(note_center, note_center + rotated_n_v * 1000, angle_color, 3.0, true)
 	# draw sine wave
-	var sine_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var sine_color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	sine_color.a = 0.75
 	
 	var trail_points = PoolVector2Array()

@@ -7,6 +7,21 @@ var game_modes: Array
 var rich_presence: HBRichPresence
 var song_stats: HBSongStatsLoader
 var platform_settings: HBPlatformSettings
+
+# hack...
+
+var NOTE_TYPE_TO_STRING_MAP = {
+	HBNoteData.NOTE_TYPE.UP: "up",
+	HBNoteData.NOTE_TYPE.LEFT: "left",
+	HBNoteData.NOTE_TYPE.DOWN: "down",
+	HBNoteData.NOTE_TYPE.RIGHT: "right",
+	HBNoteData.NOTE_TYPE.SLIDE_LEFT: "slide_left",
+	HBNoteData.NOTE_TYPE.SLIDE_RIGHT: "slide_right",
+	HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT: "slide_chain_piece_left",
+	HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT: "slide_chain_piece_right",
+	HBNoteData.NOTE_TYPE.HEART: "heart"
+}
+
 var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.RIGHT: ["note_right"],
 	HBNoteData.NOTE_TYPE.LEFT: ["note_left"],
@@ -44,7 +59,9 @@ var serializable_types = {
 	"PhraseEnd": load("res://rythm_game/lyrics/HBLyricsPhraseEnd.gd"),
 	"Lyric": load("res://rythm_game/lyrics/HBLyricsLyric.gd"),
 	"TimingModifierSettings": load("res://rythm_game/modifiers/timing/timing_settings.gd"),
-	"IntroSkipMarker": load("res://scripts/timing_points/HBIntroSkipMarker.gd")
+	"IntroSkipMarker": load("res://scripts/timing_points/HBIntroSkipMarker.gd"),
+	"HBResourcePack": load("res://tools/resource_pack_editor/HBResourcePack.gd"),
+	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd")
 }
 
 func _ready():
@@ -79,7 +96,7 @@ func _game_init():
 				SongLoader.add_song_loader("dsc", dsc_loader)
 			else:
 				push_error("Argument game_location requires an input")
-	IconPackLoader._init_icon_pack_loader()
+	ResourcePackLoader._init_resource_pack_loader()
 	UserSettings._init_user_settings()
 	# Switch specific stuff
 	if platform_settings is HBPlatformSettingsSwitch:

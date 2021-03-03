@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image"
+
+[deps]
+
+source_file="res://graphics/resource_packs/xbox/atlases/notes_atlas.png"
+dest_files=[ "res://.import/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image" ]
+
+[params]
+

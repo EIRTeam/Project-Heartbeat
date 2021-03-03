@@ -1,0 +1,94 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" type="Script" id=1]
+[ext_resource path="res://graphics/hold_text.png" type="Texture" id=2]
+[ext_resource path="res://rythm_game/note_drawers/SustainNoteGraphic.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+func _ready():
+	$TextureRect.set_atlas({
+		\"atlas_textures\": ResourcePackLoader.final_textures,
+		\"texture\": ResourcePackLoader._final_atlases[\"notes\"]
+	})
+	ResourcePackLoader._final_atlases[\"notes\"].get_data().save_png(\"user://dab.png\")
+	$TextureRect2.texture = ResourcePackLoader.get_graphic(\"hold_text.png\")
+	$Note.set_note_type(HBNoteData.NOTE_TYPE.RIGHT)
+	$Sprite.texture = ResourcePackLoader.get_graphic(\"right_sustain_note.png\")
+"
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec2 offset = vec2(8.0, 8.0);
+uniform vec4 modulate : hint_color;
+
+void fragment() {
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+
+	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, UV - offset * ps).a * modulate.a);
+	vec4 col = texture(TEXTURE, UV);
+
+	COLOR = mix(shadow, col, col.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/offset = Vector2( 8, 8 )
+shader_param/modulate = Color( 0, 0, 0, 0.8 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 757.638
+margin_top = 172.332
+margin_right = 757.638
+margin_bottom = 172.332
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect3" type="TextureRect" parent="TextureRect2"]
+self_modulate = Color( 1, 0, 0, 1 )
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Note" type="Sprite" parent="."]
+material = SubResource( 3 )
+position = Vector2( 226.752, 847.33 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 400.281, 916.742 )
+scale = Vector2( 0.5, 0.5 )

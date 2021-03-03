@@ -1,0 +1,326 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=2]
+[ext_resource path="res://tools/resource_pack_editor/ResourcePackEditor.gd" type="Script" id=3]
+[ext_resource path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" type="Script" id=4]
+[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=5]
+[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=6]
+[ext_resource path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" type="Script" id=7]
+
+[sub_resource type="InputEventAction" id=1]
+action = "editor_save"
+pressed = true
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_left = -0.00116924
+anchor_right = 0.998831
+anchor_bottom = 1.0
+margin_top = -1.49832
+margin_bottom = -1.49829
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 1900.0
+margin_bottom = 1060.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+margin_right = 1880.0
+margin_bottom = 25.0
+
+[node name="BackButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 20.0
+margin_bottom = 25.0
+icon = ExtResource( 2 )
+
+[node name="OpenButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 24.0
+margin_right = 52.0
+margin_bottom = 25.0
+shortcut_in_tooltip = false
+icon = ExtResource( 6 )
+
+[node name="SaveButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 56.0
+margin_right = 84.0
+margin_bottom = 25.0
+shortcut_in_tooltip = false
+shortcut = SubResource( 2 )
+icon = ExtResource( 5 )
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+size_flags_vertical = 3
+
+[node name="Tree" type="Tree" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer"]
+margin_right = 936.0
+margin_bottom = 1011.0
+size_flags_horizontal = 3
+columns = 2
+
+[node name="TabContainer" type="TabContainer" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer"]
+margin_left = 944.0
+margin_right = 1880.0
+margin_bottom = 1011.0
+size_flags_horizontal = 3
+
+[node name="Atlas Preview" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 911.0
+margin_bottom = 959.0
+
+[node name="AtlasPreviewLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+margin_right = 896.0
+margin_bottom = 25.0
+
+[node name="RegnerateAtlasButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+margin_top = 29.0
+margin_right = 896.0
+margin_bottom = 54.0
+text = "Regenerate atlas"
+
+[node name="RegenerateAtlasFromDisk" type="Button" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+margin_top = 58.0
+margin_right = 896.0
+margin_bottom = 83.0
+hint_tooltip = "Regenerates the atlast but first reloads note graphics from disk"
+text = "Regenerate atlas (reload from disk)"
+
+[node name="AtlasPreviewTextureRect" type="Control" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
+margin_top = 87.0
+margin_right = 896.0
+margin_bottom = 944.0
+size_flags_vertical = 3
+script = ExtResource( 7 )
+
+[node name="Metadata" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 911.0
+margin_bottom = 959.0
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer"]
+margin_right = 896.0
+margin_bottom = 25.0
+text = "Icon Pack Title"
+
+[node name="TitleLineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer"]
+margin_top = 29.0
+margin_right = 896.0
+margin_bottom = 54.0
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer"]
+margin_top = 58.0
+margin_right = 896.0
+margin_bottom = 83.0
+text = "Author"
+
+[node name="PackCreatorLineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer"]
+margin_top = 87.0
+margin_right = 896.0
+margin_bottom = 112.0
+
+[node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
+margin_left = 550.0
+margin_top = 346.0
+margin_right = 1087.0
+margin_bottom = 639.0
+popup_exclusive = true
+window_title = "Por favor, Confirma..."
+dialog_hide_on_ok = false
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 529.0
+margin_bottom = 252.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
+margin_right = 344.0
+margin_bottom = 244.0
+size_flags_horizontal = 3
+
+[node name="Tree" type="Tree" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer"]
+margin_right = 344.0
+margin_bottom = 244.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
+margin_left = 348.0
+margin_right = 521.0
+margin_bottom = 244.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="CreateResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+margin_right = 173.0
+margin_bottom = 25.0
+text = "Create Resource Pack"
+
+[node name="DeleteResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+margin_top = 29.0
+margin_right = 173.0
+margin_bottom = 54.0
+text = "Delete Resource Pack"
+
+[node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog"]
+visible = true
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 529.0
+margin_bottom = 252.0
+window_title = "Por favor, Confirma..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 513.0
+margin_bottom = 203.0
+placeholder_text = "EIREXE's super awesome icon pack"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_right = 656.0
+margin_bottom = 368.0
+custom_colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png ; Portable Network Graphics" )
+current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
+current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+
+[node name="RemoveGraphicConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 74.0
+popup_exclusive = true
+window_title = "Por favor, Confirma..."
+dialog_text = "This will delete the file for this graphic, do you want to do this?"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+margin_right = 92.0
+margin_bottom = 74.0
+popup_exclusive = true
+window_title = "¡Alerta!"
+
+[node name="ResizeConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 74.0
+popup_exclusive = true
+window_title = "Por favor, Confirma..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPickerPopup" type="PopupPanel" parent="."]
+visible = true
+margin_left = 1059.31
+margin_top = 271.301
+margin_right = 1365.31
+margin_bottom = 779.301
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPicker" type="ColorPicker" parent="ColorPickerPopup"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 298.0
+margin_bottom = 500.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+visible = true
+margin_left = 684.702
+margin_top = 432.148
+margin_right = 884.702
+margin_bottom = 506.148
+window_title = "Por favor, Confirma..."
+dialog_text = "Do you really want to quit? Any unsaved progress will be lost."
+
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HBoxContainer/BackButton" to="ConfirmationDialog" method="popup_centered"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="OpenResourcePackDialog" method="popup_centered"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegnerateAtlasButton" to="." method="_user_regenerate_atlas"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegenerateAtlasFromDisk" to="." method="_user_regenerate_atlas" binds= [ true ]]
+[connection signal="confirmed" from="OpenResourcePackDialog" to="OpenResourcePackDialog" method="_on_OpenResourcePackDialog_confirmed"]
+[connection signal="pressed" from="OpenResourcePackDialog/VBoxContainer/VBoxContainer2/CreateResourcePackButton" to="OpenResourcePackDialog/CreateIconPackDialog" method="popup_centered"]
+[connection signal="confirmed" from="OpenResourcePackDialog/CreateIconPackDialog" to="OpenResourcePackDialog" method="_on_CreateIconPackDialog_confirmed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="confirmed" from="RemoveGraphicConfirmationDialog" to="." method="_on_RemoveGraphicConfirmationDialog_confirmed"]
+[connection signal="confirmed" from="ResizeConfirmationDialog" to="." method="_on_ResizeConfirmationDialog_confirmed"]
+[connection signal="color_changed" from="ColorPickerPopup/ColorPicker" to="." method="_on_ColorPicker_color_changed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

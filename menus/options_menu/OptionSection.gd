@@ -4,7 +4,6 @@ onready var section_data = {} setget _set_section_data
 
 const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
-const OptionIconTypeSelect = preload("res://menus/options_menu/OptionIconTypeSelect.tscn")
 const OptionSelect = preload("res://menus/options_menu/OptionSelect.tscn")
 const OptionSoundSelect = preload("res://menus/options_menu/OptionCustomSoundSelect.tscn")
 const OptionControllerSelect = preload("res://menus/options_menu/OptionControllerSelect.tscn")
@@ -30,8 +29,6 @@ func _set_section_data(val):
 		var option_scene
 		if option.has('type'):
 			match option.type:
-				"icon_type_selector":
-					option_scene = OptionIconTypeSelect.instance()
 				"sound_type_selector":
 					option_scene = OptionSoundSelect.instance()
 					option_scene.sound_name = option.sound_name

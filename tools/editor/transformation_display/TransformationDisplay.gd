@@ -86,7 +86,7 @@ func _draw_note_graphic(center_pos: Vector2, note_type: int, target_graphic: Str
 	
 	draw_texture_rect(texture, Rect2(draw_pos, note_texture_size), false, note_modulate)
 	# draw timing arm
-	var timing_arm_texture = IconPackLoader.timing_arm_atlas
+	var timing_arm_texture = ResourcePackLoader.get_graphic("timing_arm.png")
 	var timing_arm_texture_size = timing_arm_texture.get_size() * get_note_scale()
 	var timing_arm_draw_pos = center_pos - Vector2(timing_arm_texture_size.x / 2.0 + 2 * get_note_scale(), timing_arm_texture_size.y - (31 * get_note_scale()))
 	draw_texture_rect(timing_arm_texture, Rect2(timing_arm_draw_pos, timing_arm_texture_size), false, note_modulate)
@@ -151,13 +151,13 @@ func _draw_transformation():
 			var p = remap_coords(Vector2(distance, 0))
 			p = p.rotated(deg2rad(entry_angle))
 			l2.points[1] = note_center_pos + p
-			l2.default_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_type))
+			l2.default_color = ResourcePackLoader.get_note_trail_color(note_type)
 			l2.default_color.a = 0.75
 			l2.width = 25*get_note_scale()
 			l2.show()
 		# draw sine wave
 		
-		var sine_color = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_type))
+		var sine_color = ResourcePackLoader.get_note_trail_color(note_type)
 		sine_color.a = 0.75
 		
 		for point_i in range(TRAIL_RESOLUTION):

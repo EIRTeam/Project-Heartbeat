@@ -23,8 +23,8 @@ class SlideChain:
 	var pieces_hit: int = 0
 func _populate_layers():
 	var disabled_types = [
-		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE),
-		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE),
+		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT),
+		HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT),
 	]
 	for NOTE_TYPE in HBNoteData.NOTE_TYPE:
 		if not NOTE_TYPE in disabled_types:
@@ -142,12 +142,12 @@ static func get_slide_hold_chains_for_points(timing_points):
 				slide_hold_chains[point] = SlideChain.new()
 				slide_hold_chains[point].slide = point
 				
-			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE:
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
 				if last_left_slide:
 					slide_hold_chains[last_left_slide].pieces.append(point)
 				else:
 					print("Left slide hold piece found before left slide, this shouldn't happen")
-			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE:
+			if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
 				if last_right_slide:
 					slide_hold_chains[last_right_slide].pieces.append(point)
 				else:

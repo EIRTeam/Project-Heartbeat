@@ -2,19 +2,22 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.stex"
+path.s3tc="res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.s3tc.stex"
+path.etc2="res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.etc2.stex"
+path.etc="res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.etc.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2", "etc" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://graphics/predarkenedbg.png"
-dest_files=[ "res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.stex" ]
+dest_files=[ "res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.s3tc.stex", "res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.etc2.stex", "res://.import/predarkenedbg.png-37ebff1e6aab62f744df1942401a66a2.etc.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

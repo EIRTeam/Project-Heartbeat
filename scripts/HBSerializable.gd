@@ -23,7 +23,16 @@ func serialize(serialize_defaults = false):
 					else:
 						r.append(item)
 				serialized_data[field] = r
-			elif _field is int or _field is float or _field is String or _field is Dictionary or _field is bool:
+			elif _field is Dictionary:
+				var out_dict: Dictionary = {}
+				for key in _field:
+					var value = _field[key]
+					if value is Object and value.has_method("serialize"):
+						out_dict[key] = value.serialize()
+					else:
+						out_dict[key] = value
+				serialized_data[field] = out_dict
+			elif _field is int or _field is float or _field is String or _field is bool:
 				serialized_data[field] = get(field)
 			else:
 				serialized_data[field] = var2str(get(field))
@@ -56,9 +65,19 @@ static func deserialize(data: Dictionary):
 								result_field[int(key)] = dict[key]
 							object.set(field, result_field)
 							continue
+
 					if field in object.merge_dict_fields:
 						data[field] = HBUtils.merge_dict(_field, data[field])
-					object.set(field, data[field])
+						
+					var out_dict = data[field]
+					for key in out_dict:
+						var value = out_dict[key]
+						if value is Dictionary:
+							if "type" in out_dict[key]:
+								var o = deserialize(value)
+								if o:
+									out_dict[key] = o
+					object.set(field, out_dict)
 				elif _field is Array:
 					var r = []
 					for item in data[field]:
@@ -101,11 +120,11 @@ static func from_file(path: String):
 func save_to_file(path: String):
 	var file := File.new()
 	var data = serialize()
-	var err = file.open(path, File.WRITE) == OK
-	if err:
+	var err = file.open(path, File.WRITE)
+	if err == OK:
 		file.store_string(JSON.print(data, "  "))
 	else:
-		Log.log(self, "Error when saving serialized object %s, error: %d" % [get_serialized_type(), err], Log.LogLevel.ERROR)
+		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), err])
 	return err
 static func can_show_in_editor():
 	return false

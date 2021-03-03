@@ -24,30 +24,30 @@ func set_arm2_position(value):
 			progress_circle_rect.self_modulate.a = arm2_position
 
 func _ready():
-	$TimingArm.texture = IconPackLoader.timing_arm_atlas
-	$TimingArm2.texture = IconPackLoader.timing_arm_atlas
+	$TimingArm.texture = ResourcePackLoader.get_graphic("timing_arm.png")
+	$TimingArm2.texture = ResourcePackLoader.get_graphic("timing_arm.png")
 
 func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 	# set the texture to the correct one
 	if note_data.get_serialized_type() == "SustainNote":
-		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "sustain_target")
+		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type ,"sustain_note_target")
 	elif note_data.get_serialized_type() == "DoubleNote":
-		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_target")
+		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_note_target")
 	else:
 		if blue:
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
-			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite_multi
+			$Sprite/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text_multi.png")
 			$Sprite/HoldTextSprite.visible = note_data.hold
 		else:
 			$Sprite/HoldTextSprite.visible = note_data.hold
-			$Sprite/HoldTextSprite.texture = IconPackLoader.hold_icon_sprite
+			$Sprite/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text.png")
 			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [
-		HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-		HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+		HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+		HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 	]
 	if note_data.note_type in arm_disabled_types:
 		$TimingArm.hide()
@@ -66,5 +66,5 @@ func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 			$TimingArm.hide()
 			$TimingArm2.hide()
 			progress_circle_rect.show()
-			progress_circle_rect.tint_progress = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+			progress_circle_rect.tint_progress = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	

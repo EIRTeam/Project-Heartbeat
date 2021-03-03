@@ -147,7 +147,7 @@ func draw_trail(time: float):
 		# the trail from leaking into notes with holes in the middle
 
 		var t = clamp((time_out_distance / time_out), 0.0, 1.25)
-		var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+		var trail_margin = ResourcePackLoader.get_trail_margin(note_data.note_type)
 		if disable_trail_margin:
 			trail_margin = 0.0
 		sine_drawer.time = t-trail_margin

@@ -295,10 +295,10 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				var note_time = starting_time + ((ii+1) * time_interval)
 				var note_position = note_data.position
 				var position_increment = initial_x_offset + interval_x_offset * ii
-				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 					position_increment *= -1
-					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE
+					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
 				note_position.x += position_increment
 				var new_note = note_data.clone()
 				new_note.note_type = new_note_type

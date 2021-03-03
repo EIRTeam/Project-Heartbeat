@@ -169,11 +169,6 @@ var OPTIONS = {
 		}
 	},
 	tr("Visual"): {
-		"icon_pack": {
-			"name": tr("Icons"),
-			"description": tr("Switches between available Icon-Sets."),
-			"type": "icon_type_selector"
-		},
 		"button_prompt_override": {
 			"name": tr("Button prompts"),
 			"description": tr("Overrides the button prompts shown for your controller to the specified type."),
@@ -332,10 +327,10 @@ func _on_value_changed(property_name, new_value):
 	
 	if property_name == "background_dim":
 		get_tree().call_group("song_backgrounds", "_background_dim_changed", new_value)
-	if property_name == "icon_pack":
-		IconPackLoader.set_current_pack(new_value)
+#	if property_name == "icon_pack":
+#		IconPackLoader.set_current_pack(new_value)
 	if property_name.ends_with("_arrow_override_enabled"):
-		IconPackLoader.regenerate_direction_overrides()
+		ResourcePackLoader.soft_rebuild_final_atlas()
 	if property_name == "button_prompt_override":
 		UserSettings.set_joypad_prompts()
 	UserSettings.apply_user_settings()

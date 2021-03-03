@@ -201,8 +201,8 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 		var type_to_layer_name_map = {}
 		for type_name in HBNoteData.NOTE_TYPE:
 			type_to_layer_name_map[HBNoteData.NOTE_TYPE[type_name]] = type_name
-		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE] = "SLIDE_LEFT"
-		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE] = "SLIDE_RIGHT"
+		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT] = "SLIDE_LEFT"
+		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT] = "SLIDE_RIGHT"
 		
 		for item in current_items:
 			var note = item.data

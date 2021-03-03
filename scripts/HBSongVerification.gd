@@ -193,14 +193,14 @@ func verify_chart(song: HBSong, difficulty: String):
 						found_left_slide = true
 					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 						found_right_slide = true
-					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE and not found_left_slide:
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT and not found_left_slide:
 						var error = {
 							"type": CHART_ERROR.HOLD_CHAIN_PIECE_WITHOUT_PARENT,
 							"string": "Found a left slide chain piece that didn't come after a slide of the same direction at time " + str(point.time)
 						}
 						errors.append(error)
 						break
-					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE and not found_right_slide:
+					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT and not found_right_slide:
 						var error = {
 							"type": CHART_ERROR.HOLD_CHAIN_PIECE_WITHOUT_PARENT,
 							"string": "Found a right slide chain piece that didn't come after a slide of the same direction at time " + str(point.time)

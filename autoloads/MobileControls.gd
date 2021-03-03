@@ -10,16 +10,16 @@ func set_input_manager(val):
 
 func _ready():
 	HBGame.NOTE_TYPE_TO_ACTIONS_MAP = HBGame.NOTE_TYPE_TO_ACTIONS_MAP
-	var buttons = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
-	for button in buttons:
-		var temp = button_template.duplicate()
-		temp.get_node("ColorRect/TextureRect").texture = IconPackLoader.get_graphic(HBUtils.find_key(HBNoteData.NOTE_TYPE, button), "note")
-		var col = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, button))
-		col.a = 0.1
-		temp.get_node("ColorRect").color = col
-		temp.connect("pressed", self, "_on_button_pressed", [button])
-		temp.show()
-		$HBoxContainer.add_child(temp)
+#	var buttons = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+#	for button in buttons:
+#		var temp = button_template.duplicate()
+#		temp.get_node("ColorRect/TextureRect").texture = IconPackLoader.get_graphic(HBUtils.find_key(HBNoteData.NOTE_TYPE, button), "note")
+#		var col = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, button))
+#		col.a = 0.1
+#		temp.get_node("ColorRect").color = col
+#		temp.connect("pressed", self, "_on_button_pressed", [button])
+#		temp.show()
+#		$HBoxContainer.add_child(temp)
 	$NoteDetector.set_process_input(false)
 
 func simulate_action(action, pressed = false):

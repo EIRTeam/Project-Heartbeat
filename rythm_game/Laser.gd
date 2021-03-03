@@ -23,7 +23,7 @@ func set_positions(val):
 	positions = val
 	while line_2ds.size() < positions.size():
 		var line_2d = Line2D.new()
-		line_2d.texture = preload("res://graphics/multi_line.png")
+		line_2d.texture = ResourcePackLoader.get_graphic("multi_laser.png")
 		line_2d.points = PoolVector2Array([Vector2.ZERO, Vector2.ZERO])
 		line_2d.texture_mode = Line2D.LINE_TEXTURE_STRETCH
 		

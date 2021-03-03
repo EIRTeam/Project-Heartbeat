@@ -35,7 +35,7 @@ func is_slide_note():
 	return note_type == NOTE_TYPE.SLIDE_LEFT or note_type == NOTE_TYPE.SLIDE_RIGHT
 
 func get_inspector_properties():
-	return HBUtils.merge_dict(.get_inspector_properties(), 	{"hold": {
+	return HBUtils.merge_dict(.get_inspector_properties(), {"hold": {
 			"type": "bool" 
 		}})
 
@@ -45,4 +45,4 @@ func is_auto_freed():
 
 # if true this note is a slide note hold piece
 func is_slide_hold_piece():
-	return note_type == NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE or note_type == NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	return note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT or note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT

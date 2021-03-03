@@ -70,10 +70,10 @@ func _show_note_usage():
 			if global_note_type_usage.size() >= HBChart.ChartNoteUsage.size():
 				break
 	if HBChart.ChartNoteUsage.ARCADE in global_note_type_usage:
-		arcade_texture_rect.texture = IconPackLoader.final_atlas.atlas_textures["SLIDE_RIGHT"]["note"]
+		arcade_texture_rect.texture = ResourcePackLoader.get_graphic("slide_right_note.png")
 		arcade_texture_rect.show()
 	if HBChart.ChartNoteUsage.CONSOLE in global_note_type_usage:
-		console_texture_rect.texture = IconPackLoader.final_atlas.atlas_textures["HEART"]["note"]
+		console_texture_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
 		console_texture_rect.show()
 	note_usage_shown = true
 func _on_note_usage_loaded(assets):

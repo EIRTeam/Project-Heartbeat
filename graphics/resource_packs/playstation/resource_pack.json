@@ -1,0 +1,123 @@
+{
+  "pack_name": "PlayStation™",
+  "pack_author_name": "EIRTeam",
+  "notes_atlas_data": {
+    "up_note.png": {
+      "region": "Rect2( 336, 510, 106, 92 )",
+      "margin": "Rect2( 14, 16, 22, 36 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_target.png": {
+      "region": "Rect2( 1, 1, 128, 126 )",
+      "margin": "Rect2( 0, 0, 0, 2 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note.png": {
+      "region": "Rect2( 229, 510, 106, 92 )",
+      "margin": "Rect2( 14, 16, 22, 36 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note_target.png": {
+      "region": "Rect2( 259, 1, 128, 126 )",
+      "margin": "Rect2( 0, 0, 0, 2 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note.png": {
+      "region": "Rect2( 259, 128, 128, 128 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note_target.png": {
+      "region": "Rect2( 122, 386, 116, 92 )",
+      "margin": "Rect2( 6, 14, 12, 36 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_note.png": {
+      "region": "Rect2( 167, 698, 78, 78 )",
+      "margin": "Rect2( 28, 28, 50, 50 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_target.png": {
+      "region": "Rect2( 380, 385, 120, 120 )",
+      "margin": "Rect2( 4, 4, 8, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note.png": {
+      "region": "Rect2( 88, 673, 78, 78 )",
+      "margin": "Rect2( 28, 28, 50, 50 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note_target.png": {
+      "region": "Rect2( 1, 384, 120, 120 )",
+      "margin": "Rect2( 4, 4, 8, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note.png": {
+      "region": "Rect2( 255, 385, 124, 124 )",
+      "margin": "Rect2( 4, 4, 4, 4 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note_target.png": {
+      "region": "Rect2( 1, 594, 86, 80 )",
+      "margin": "Rect2( 21, 24, 42, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_note.png": {
+      "region": "Rect2( 379, 603, 90, 90 )",
+      "margin": "Rect2( 22, 22, 38, 38 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_target.png": {
+      "region": "Rect2( 128, 259, 126, 126 )",
+      "margin": "Rect2( 1, 1, 2, 2 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note.png": {
+      "region": "Rect2( 288, 603, 90, 90 )",
+      "margin": "Rect2( 22, 22, 38, 38 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note_target.png": {
+      "region": "Rect2( 1, 257, 126, 126 )",
+      "margin": "Rect2( 1, 1, 2, 2 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note.png": {
+      "region": "Rect2( 259, 257, 127, 127 )",
+      "margin": "Rect2( 1, 1, 1, 1 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note_target.png": {
+      "region": "Rect2( 1, 505, 96, 88 )",
+      "margin": "Rect2( 16, 20, 32, 40 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_note.png": {
+      "region": "Rect2( 98, 578, 94, 94 )",
+      "margin": "Rect2( 20, 20, 34, 34 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_target.png": {
+      "region": "Rect2( 130, 130, 128, 128 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note.png": {
+      "region": "Rect2( 193, 603, 94, 94 )",
+      "margin": "Rect2( 20, 20, 34, 34 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note_target.png": {
+      "region": "Rect2( 1, 128, 128, 128 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note.png": {
+      "region": "Rect2( 130, 1, 128, 128 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note_target.png": {
+      "region": "Rect2( 122, 479, 106, 98 )",
+      "margin": "Rect2( 11, 15, 22, 30 )",
+      "type": "HBAtlasEntry"
+    }
+  },
+  "type": "HBResourcePack"
+}

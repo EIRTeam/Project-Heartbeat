@@ -272,7 +272,7 @@ func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	set_fullscreen(user_settings.fullscreen)
 	Engine.target_fps = int(user_settings.fps_limit)
-	IconPackLoader.set_current_pack(user_settings.icon_pack)
+#	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	set_volumes()

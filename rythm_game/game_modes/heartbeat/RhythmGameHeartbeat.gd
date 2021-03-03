@@ -76,7 +76,6 @@ func _precalculate_note_trail(note_data: HBBaseNote):
 	points.resize(TRAIL_RESOLUTION)
 	points2.resize(TRAIL_RESOLUTION)
 	
-	#var trail_margin = IconPackLoader.get_trail_margin(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)) * (note_data.distance/1200.0)
 	var offset = -note_data.position
 	
 	var time_out = note_data.get_time_out(get_bpm_at_time(note_data.time))

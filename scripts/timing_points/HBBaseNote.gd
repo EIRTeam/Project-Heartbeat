@@ -12,28 +12,28 @@ enum NOTE_TYPE {
 	RIGHT,
 	SLIDE_LEFT,
 	SLIDE_RIGHT,
-	SLIDE_LEFT_HOLD_PIECE,
-	SLIDE_RIGHT_HOLD_PIECE,
+	SLIDE_CHAIN_PIECE_LEFT,
+	SLIDE_CHAIN_PIECE_RIGHT,
 	HEART
 }
 
 # List of notes that should NEVER EVER be considered multinotes
 const NO_MULTI_LIST = [
-	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 ]
 
 # List of notes that do not accept input by themselves, instead it's handled 
 # somewhere else
 const NO_INPUT_LIST = [
-	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 ]
 
 # List of notes that should not be automatically judged
 const NO_JUDGE_LIST = [
-	NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-	NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 ]
 
 # Judge ratings mapped to their scores
@@ -68,7 +68,7 @@ func get_time_out(bpm):
 
 # returns the list of graphics for this note
 static func get_note_graphic(type, variation):
-	var graphics = IconPackLoader.get_graphic(HBUtils.find_key(NOTE_TYPE, type), variation)
+	var graphics = ResourcePackLoader.get_graphic("%s_%s.png" % [HBGame.NOTE_TYPE_TO_STRING_MAP[type], variation])
 	return graphics
 
 func get_inspector_properties():
@@ -124,4 +124,4 @@ func is_auto_freed():
 	return true
 	
 func is_multi_allowed():
-	return not note_type == NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE and not note_type == NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE
+	return not note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT and not note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT

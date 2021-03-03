@@ -7,6 +7,7 @@ func _ready():
 	$ToolsList/OpenLogsDirectoryButton.connect("pressed", self, "_on_OpenLogsDirectoryButton_pressed")
 	$ToolsList/OpenUserDirectoryButton.connect("pressed", self, "_on_OpenUserDirectoryButton_pressed")
 	$ToolsList/PPDManagerButton.connect("pressed", self, "_on_PPDDownloaderButton_pressed")
+	$ToolsList/ResourcePackEditorButton.connect("pressed", self, "_on_ResourcePackEditorButton_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -16,7 +17,7 @@ func _unhandled_input(event):
 		change_to_menu("main_menu")
 
 func _on_SongMetaEditorButton_pressed():
-	var new_scene = preload("res://tools/editor/Editor.tscn")
+	var new_scene = load("res://tools/editor/Editor.tscn")
 	var scene = new_scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
@@ -34,3 +35,6 @@ func _on_OpenUserDirectoryButton_pressed():
 
 func _on_PPDDownloaderButton_pressed():
 	get_tree().change_scene_to(load("res://tools/PPDManager/PPDManager.tscn"))
+
+func _on_ResourcePackEditorButton_pressed():
+	get_tree().change_scene_to(load("res://tools/resource_pack_editor/ResourcePackEditor.tscn"))

@@ -169,16 +169,19 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	
 # Loads images from FS properly (although it breaks in single-threaded render mode...)
 static func image_from_fs(path: String):
+	var out
 	if path.begins_with("res://"):
 		var src = load(path)
 		if src is Texture:
-			return src.get_data()
+			out = src.get_data()
 		else:
-			return src
+			out = src
 	else:
 		var image = Image.new()
 		image.load(path)
-		return image
+		out = image
+	out.resource_path = path + str(rand_range(0, 200000))
+	return out
 
 static func _wrap_image_texture(img: Image):
 	var text = ImageTexture.new()
@@ -186,16 +189,19 @@ static func _wrap_image_texture(img: Image):
 	return text
 
 static func texture_from_fs(path: String):
+	var out
 	if path.begins_with("res://"):
 		var src = load(path)
 		if src is Texture:
-			return src
+			out =  src
 		else:
-			return _wrap_image_texture(src)
+			out = _wrap_image_texture(src)
 	else:
 		var image = Image.new()
 		image.load(path)
-		return _wrap_image_texture(image)
+		out = _wrap_image_texture(image)
+	out.resource_path = path + str(rand_range(0, 200000))
+	return out
 
 # same as image_from_fs but async?
 # static func image_from_fs_async(path: String):
@@ -217,6 +223,7 @@ static func texture_from_fs_image(path: String) -> Texture:
 		
 	var texture = ImageTexture.new()
 	texture.create_from_image(img, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
+	texture.resource_path = path + str(rand_range(0, 200000))
 	return texture
 	
 
@@ -261,3 +268,63 @@ static func array2texture(body: PoolByteArray) -> Texture:
 
 	tex.create_from_image(img, 0)
 	return tex
+
+static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true):
+	var time_start = OS.get_ticks_usec()
+	
+	var _image_sizes = PoolVector2Array()
+	
+	_image_sizes.resize(images.size())
+	for i in range(images.size()):
+		var image_name := images.keys()[i] as String
+		var image := images[image_name] as Image
+		var image_used_rect := image.get_used_rect()
+		if not strip_transparent:
+			image_used_rect = Rect2(Vector2.ZERO, image.get_size())
+		_image_sizes[i] = image_used_rect.size + Vector2(margin, margin)
+		
+	var atlas = Geometry.make_atlas(_image_sizes)
+	
+	var atlas_size := atlas.size as Vector2
+	
+	atlas_size.x = nearest_po2(atlas_size.x)
+	atlas_size.y = nearest_po2(atlas_size.y)
+	
+	var output_image = Image.new()
+	output_image.create(atlas_size.x, atlas_size.y, false, Image.FORMAT_RGBA8)
+	
+	var texture := ImageTexture.new()
+	var atlas_textures = {}
+	
+	var atlas_data = {}
+	
+	for i in range(images.size()):
+		var image := images.values()[i] as Image
+		var image_name := images.keys()[i] as String
+		var point = (atlas.points[i] as Vector2)
+		var image_used_rect = image.get_used_rect()
+		if not strip_transparent:
+			image_used_rect = Rect2(Vector2.ZERO, image.get_size())
+		output_image.blit_rect(image, image_used_rect, point + Vector2(margin, margin))
+		var atlas_texture = AtlasTexture.new()
+		atlas_texture.atlas = texture
+		atlas_texture.margin = Rect2(image_used_rect.position, image.get_size() - image_used_rect.size)
+		atlas_texture.region = image_used_rect
+		atlas_texture.region.position = point + Vector2(margin, margin)
+		atlas_textures[image_name] = atlas_texture
+		# hack af
+		var atlas_entry = load("res://tools/resource_pack_editor/HBAtlasEntry.gd").new()
+		atlas_entry.region = atlas_texture.region
+		atlas_entry.margin = atlas_texture.margin
+		atlas_data[image_name] = atlas_entry
+		
+	texture.create_from_image(output_image)
+	
+	var time_end = OS.get_ticks_usec()
+	print("pack_images_turbo16 took %d microseconds" % [(time_end - time_start)])
+	
+	return {
+		"texture": texture,
+		"atlas_textures": atlas_textures,
+		"atlas_data": atlas_data
+	}

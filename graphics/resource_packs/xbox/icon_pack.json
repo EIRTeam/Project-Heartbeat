@@ -1,0 +1,199 @@
+{
+    "name": "Xbox™",
+    "graphics": {
+        "LEFT": {
+            "color": "#4296f3",
+            "shadow_color": "#a3ccf8",
+            "uses_custom_shadow": true,
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_note"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_target"
+                },
+
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_left",
+                    "target_path": "notes/left_double_note_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_left",
+                    "target_path": "notes/left_double_note"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/X",
+                    "target_path": "notes/left_sustain_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/X_sustain",
+                    "target_path": "notes/left_sustain_note"
+                }
+            }
+        },
+        "DOWN": {
+            "color": "#87d639",
+            "uses_custom_shadow": true,
+            "shadow_color": "#bbe88e",
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/A",
+                    "target_path": "notes/down_note"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/A_target",
+                    "target_path": "notes/down_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/A",
+                    "target_path": "notes/down_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/A_target",
+                    "target_path": "notes/down_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_down",
+                    "target_path": "notes/down_double_note_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_down",
+                    "target_path": "notes/down_double_note"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/A",
+                    "target_path": "notes/down_sustain_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/A_sustain",
+                    "target_path": "notes/down_sustain_note"
+                }
+            }
+        },
+        "RIGHT": {
+            "color": "#e02828",
+            "shadow_color": "#ec7b7b",
+            "uses_custom_shadow": true,
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/B",
+                    "target_path": "notes/right_note"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/B_target",
+                    "target_path": "notes/right_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/B",
+                    "target_path": "notes/right_multi_note"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/B_sustain",
+                    "target_path": "notes/right_sustain_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/B_target",
+                    "target_path": "notes/right_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_right",
+                    "target_path": "notes/right_double_note_target"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/B",
+                    "target_path": "notes/right_sustain_note_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_right",
+                    "target_path": "notes/right_double_note"
+                }
+            }
+        },
+        "UP": {
+            "color": "#eeb136",
+            "shadow_color": "#f2c76e",
+            "uses_custom_shadow": true,
+            "src": {
+                "note": {
+                    "style": "normal",
+                    "src_path": "notes/Y"
+                    ,"target_path": "notes/up_note"
+                },
+                "target": {
+                    "style": "target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_target"
+                },
+                "hold_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_hold_target"
+                },
+                "multi_note": {
+                    "style": "multi_note",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_multi_note"
+                },
+                "multi_note_target": {
+                    "style": "multi_note_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_multi_note_target"
+                },
+                "double_target": {
+                    "style": "target_with_fill_color",
+                    "src_path": "notes/Double_up",
+                    "target_path": "notes/up_double_note_target"
+                },
+                "sustain_note": {
+                    "style": "target",
+                    "src_path": "notes/Y_sustain",
+                    "target_path": "notes/up_sustain_note"
+                },
+                "sustain_target": {
+                    "style": "hold_target",
+                    "src_path": "notes/Y",
+                    "target_path": "notes/up_sustain_note_target"
+                },
+                "double_note": {
+                    "style": "normal",
+                    "src_path": "notes/Double_up",
+                    "target_path": "notes/up_double_note"
+                }
+            }
+        }
+    }
+}

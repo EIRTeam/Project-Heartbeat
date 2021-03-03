@@ -12,8 +12,8 @@ func _on_resized():
 	scale = game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)
 func setup():
 	.setup()
-	line.texture = preload("res://graphics/Sustain_trail.png")
+	line.texture = ResourcePackLoader.get_graphic("sustain_trail.png")
 	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
 	line.default_color = Color.white
 	line.material.shader = preload("res://rythm_game/SustainTrailShader.shader")
-	line.material.set_shader_param("trail_color", IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)))
+	line.material.set_shader_param("trail_color", ResourcePackLoader.get_note_trail_color(note_data.note_type))

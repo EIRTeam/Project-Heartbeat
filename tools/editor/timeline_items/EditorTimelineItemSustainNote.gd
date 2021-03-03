@@ -21,7 +21,7 @@ func _draw():
 	if data is HBSustainNote:
 		var y = $TextureRect.rect_size.y/2.0
 		var target = Vector2(editor.scale_msec(data.get_duration()), y)
-		draw_line(Vector2(0.0, y), target, IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, data.note_type)))
+		draw_line(Vector2(0.0, y), target, ResourcePackLoader.get_note_trail_color(data.note_type))
 		
 func _on_view_port_size_changed():
 	if get_viewport():

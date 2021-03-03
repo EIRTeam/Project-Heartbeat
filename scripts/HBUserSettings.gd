@@ -8,6 +8,9 @@ var visualizer_resolution = 32
 var lag_compensation = 0
 var note_size = 1.0
 var icon_pack = "playstation"
+var resource_pack = "playstation"
+# User can select a resource pack to get icons from instead of the selected one
+var note_icon_override = "__resource_pack"
 var romanized_titles_enabled = false
 var left_arrow_override_enabled = false
 var right_arrow_override_enabled = false
@@ -133,7 +136,7 @@ func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
-	"icon_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
+	"icon_pack", "resource_pack", "note_icon_override", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"note_size", "controller_guid", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
@@ -189,9 +192,9 @@ static func deserialize(data: Dictionary):
 	if data.has("last_game_info"):
 		result.last_game_info = HBGameInfo.deserialize(data.last_game_info)
 	var pss = {}
-	if data.has("per_song_settings"):
-		for song in data.per_song_settings:
-			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
+#	if data.has("per_song_settings"):
+#		for song in data.per_song_settings:
+#			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
 	result.per_song_settings = pss
 	
 	result.root_folder.folder_name = "Root"

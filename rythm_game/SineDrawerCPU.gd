@@ -26,8 +26,9 @@ func _init():
 func generate_trail_points():
 	var points = game.get_note_trail_points(note_data)
 	line.points = points.points1
-	var color_late = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)).contrasted()
-	var color_early = IconPackLoader.get_color(HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type))
+	var color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
+	var color_late = color.contrasted()
+	var color_early = color
 	color_late.a = 0.0
 	color_early.a = 0.7
 
@@ -50,7 +51,7 @@ func setup():
 	new_material.shader = preload("res://rythm_game/CPUTrailShader.shader")
 	line.material = new_material
 	
-	line.texture = preload("res://graphics/sine_wave.svg")
+	line.texture = ResourcePackLoader.get_graphic("note_trail.png")
 	
 	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
 	if not line in get_children():

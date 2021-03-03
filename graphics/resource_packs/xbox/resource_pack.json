@@ -1,0 +1,167 @@
+{
+  "pack_name": "Xbox™",
+  "pack_author_name": "EIRTeam",
+  "notes_atlas_data": {
+    "up_note.png": {
+      "region": "Rect2( 209, 760, 100, 80 )",
+      "margin": "Rect2( 17, 27, 28, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_target.png": {
+      "region": "Rect2( 134, 3, 128, 122 )",
+      "margin": "Rect2( 0, 3, 0, 6 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note.png": {
+      "region": "Rect2( 106, 760, 100, 80 )",
+      "margin": "Rect2( 17, 27, 28, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note_target.png": {
+      "region": "Rect2( 3, 126, 128, 122 )",
+      "margin": "Rect2( 0, 3, 0, 6 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note.png": {
+      "region": "Rect2( 300, 843, 96, 89 )",
+      "margin": "Rect2( 19, 13, 32, 39 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note_target.png": {
+      "region": "Rect2( 134, 128, 128, 120 )",
+      "margin": "Rect2( 0, 0, 0, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note.png": {
+      "region": "Rect2( 134, 251, 128, 125 )",
+      "margin": "Rect2( 0, 3, 0, 3 )",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note_target.png": {
+      "region": "Rect2( 247, 635, 108, 82 )",
+      "margin": "Rect2( 10, 23, 20, 46 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_note.png": {
+      "region": "Rect2( 201, 843, 96, 78 )",
+      "margin": "Rect2( 19, 28, 32, 50 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_target.png": {
+      "region": "Rect2( 3, 251, 128, 120 )",
+      "margin": "Rect2( 0, 4, 0, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note.png": {
+      "region": "Rect2( 102, 843, 96, 78 )",
+      "margin": "Rect2( 19, 28, 32, 50 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note_target.png": {
+      "region": "Rect2( 265, 256, 128, 120 )",
+      "margin": "Rect2( 0, 4, 0, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note.png": {
+      "region": "Rect2( 399, 812, 89, 96 )",
+      "margin": "Rect2( 13, 19, 39, 32 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note_target.png": {
+      "region": "Rect2( 380, 379, 120, 128 )",
+      "margin": "Rect2( 0, 0, 8, 0 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note.png": {
+      "region": "Rect2( 3, 374, 128, 124 )",
+      "margin": "Rect2( 0, 4, 0, 4 )",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note_target.png": {
+      "region": "Rect2( 3, 628, 100, 78 )",
+      "margin": "Rect2( 14, 25, 28, 50 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_note.png": {
+      "region": "Rect2( 3, 709, 96, 80 )",
+      "margin": "Rect2( 19, 27, 32, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_target.png": {
+      "region": "Rect2( 134, 379, 128, 122 )",
+      "margin": "Rect2( 0, 3, 0, 6 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note.png": {
+      "region": "Rect2( 411, 720, 96, 80 )",
+      "margin": "Rect2( 19, 27, 32, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note_target.png": {
+      "region": "Rect2( 265, 3, 128, 122 )",
+      "margin": "Rect2( 0, 3, 0, 6 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_double_note.png": {
+      "region": "Rect2( 312, 720, 96, 89 )",
+      "margin": "Rect2( 19, 32, 32, 39 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_double_note_target.png": {
+      "region": "Rect2( 3, 3, 128, 120 )",
+      "margin": "Rect2( 0, 8, 0, 8 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note.png": {
+      "region": "Rect2( 265, 128, 128, 125 )",
+      "margin": "Rect2( 0, 3, 0, 3 )",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note_target.png": {
+      "region": "Rect2( 358, 635, 104, 82 )",
+      "margin": "Rect2( 12, 23, 24, 46 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_note.png": {
+      "region": "Rect2( 183, 924, 78, 80 )",
+      "margin": "Rect2( 32, 27, 50, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_target.png": {
+      "region": "Rect2( 3, 501, 119, 124 )",
+      "margin": "Rect2( 8, 2, 9, 4 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note.png": {
+      "region": "Rect2( 264, 935, 78, 80 )",
+      "margin": "Rect2( 32, 27, 50, 48 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note_target.png": {
+      "region": "Rect2( 125, 633, 119, 124 )",
+      "margin": "Rect2( 8, 2, 9, 4 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note.png": {
+      "region": "Rect2( 3, 792, 89, 96 )",
+      "margin": "Rect2( 32, 19, 39, 32 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note_target.png": {
+      "region": "Rect2( 257, 504, 120, 128 )",
+      "margin": "Rect2( 8, 0, 8, 0 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note.png": {
+      "region": "Rect2( 134, 504, 120, 126 )",
+      "margin": "Rect2( 8, 2, 8, 2 )",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note_target.png": {
+      "region": "Rect2( 95, 924, 85, 82 )",
+      "margin": "Rect2( 25, 23, 43, 46 )",
+      "type": "HBAtlasEntry"
+    }
+  },
+  "type": "HBResourcePack"
+}

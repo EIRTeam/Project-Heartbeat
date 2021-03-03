@@ -56,8 +56,8 @@ const AFT2PHButtonMap = {
 	AFTButtons.SQUARE_HOLD: HBBaseNote.NOTE_TYPE.LEFT,
 	AFTButtons.SLIDE_L: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
 	AFTButtons.SLIDE_R: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
-	AFTButtons.CHAIN_L: HBBaseNote.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE,
-	AFTButtons.CHAIN_R: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT_HOLD_PIECE,
+	AFTButtons.CHAIN_L: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	AFTButtons.CHAIN_R: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT,
 }
 
 static func is_hold(button: int):
@@ -124,7 +124,7 @@ static func convert_dsc_to_chart(path: String) -> HBChart:
 				note_d.auto_time_out = false
 				var search_type = note_d.note_type
 				if note_d.is_slide_hold_piece():
-					if note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT_HOLD_PIECE:
+					if note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_LEFT
 					else:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
