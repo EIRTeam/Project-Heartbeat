@@ -119,5 +119,13 @@
       "type": "HBAtlasEntry"
     }
   },
+  "up_trail_margin": 0.01,
+  "left_trail_margin": 0.02,
+  "right_trail_margin": 0.02,
+  "property_overrides": [
+    "left_trail_margin",
+    "right_trail_margin",
+    "up_trail_margin"
+  ],
   "type": "HBResourcePack"
 }

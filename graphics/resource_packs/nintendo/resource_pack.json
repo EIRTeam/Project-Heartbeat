@@ -3,165 +3,175 @@
   "pack_author_name": "EIRTeam",
   "notes_atlas_data": {
     "up_note.png": {
-      "region": "Rect2( 807, 298, 96, 78 )",
+      "region": "Rect2( 789, 290, 96, 78 )",
       "margin": "Rect2( 19, 28, 32, 50 )",
       "type": "HBAtlasEntry"
     },
     "up_target.png": {
-      "region": "Rect2( 3, 3, 128, 120 )",
+      "region": "Rect2( 1, 1, 128, 120 )",
       "margin": "Rect2( 0, 4, 0, 8 )",
       "type": "HBAtlasEntry"
     },
     "up_multi_note.png": {
-      "region": "Rect2( 708, 258, 96, 78 )",
+      "region": "Rect2( 692, 252, 96, 78 )",
       "margin": "Rect2( 19, 28, 32, 50 )",
       "type": "HBAtlasEntry"
     },
     "up_multi_note_target.png": {
-      "region": "Rect2( 265, 3, 128, 120 )",
+      "region": "Rect2( 259, 1, 128, 120 )",
       "margin": "Rect2( 0, 4, 0, 8 )",
       "type": "HBAtlasEntry"
     },
     "up_double_note.png": {
-      "region": "Rect2( 609, 384, 96, 89 )",
+      "region": "Rect2( 595, 376, 96, 89 )",
       "margin": "Rect2( 19, 13, 32, 39 )",
       "type": "HBAtlasEntry"
     },
     "up_double_note_target.png": {
-      "region": "Rect2( 396, 3, 128, 120 )",
+      "region": "Rect2( 388, 1, 128, 120 )",
       "margin": "Rect2( 0, 0, 0, 8 )",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note.png": {
-      "region": "Rect2( 396, 126, 128, 124 )",
+      "region": "Rect2( 388, 122, 128, 124 )",
       "margin": "Rect2( 0, 4, 0, 4 )",
       "type": "HBAtlasEntry"
     },
     "up_sustain_note_target.png": {
-      "region": "Rect2( 209, 378, 100, 78 )",
+      "region": "Rect2( 203, 370, 100, 78 )",
       "margin": "Rect2( 14, 25, 28, 50 )",
       "type": "HBAtlasEntry"
     },
     "left_note.png": {
-      "region": "Rect2( 106, 256, 100, 80 )",
+      "region": "Rect2( 102, 250, 100, 80 )",
       "margin": "Rect2( 17, 27, 28, 48 )",
       "type": "HBAtlasEntry"
     },
     "left_target.png": {
-      "region": "Rect2( 789, 3, 128, 122 )",
+      "region": "Rect2( 775, 1, 128, 122 )",
       "margin": "Rect2( 0, 3, 0, 6 )",
       "type": "HBAtlasEntry"
     },
     "left_multi_note.png": {
-      "region": "Rect2( 3, 251, 100, 80 )",
+      "region": "Rect2( 1, 245, 100, 80 )",
       "margin": "Rect2( 17, 27, 28, 48 )",
       "type": "HBAtlasEntry"
     },
     "left_multi_note_target.png": {
-      "region": "Rect2( 3, 126, 128, 122 )",
+      "region": "Rect2( 1, 122, 128, 122 )",
       "margin": "Rect2( 0, 3, 0, 6 )",
       "type": "HBAtlasEntry"
     },
     "left_double_note.png": {
-      "region": "Rect2( 906, 298, 89, 96 )",
+      "region": "Rect2( 886, 290, 89, 96 )",
       "margin": "Rect2( 13, 19, 39, 32 )",
       "type": "HBAtlasEntry"
     },
     "left_double_note_target.png": {
-      "region": "Rect2( 388, 253, 120, 128 )",
+      "region": "Rect2( 380, 247, 120, 128 )",
       "margin": "Rect2( 0, 0, 8, 0 )",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note.png": {
-      "region": "Rect2( 658, 3, 128, 125 )",
+      "region": "Rect2( 646, 1, 128, 125 )",
       "margin": "Rect2( 0, 3, 0, 3 )",
       "type": "HBAtlasEntry"
     },
     "left_sustain_note_target.png": {
-      "region": "Rect2( 878, 128, 108, 82 )",
+      "region": "Rect2( 862, 124, 108, 82 )",
       "margin": "Rect2( 10, 23, 20, 46 )",
       "type": "HBAtlasEntry"
     },
     "down_note.png": {
-      "region": "Rect2( 176, 459, 78, 80 )",
+      "region": "Rect2( 170, 449, 78, 80 )",
       "margin": "Rect2( 32, 27, 50, 48 )",
       "type": "HBAtlasEntry"
     },
     "down_target.png": {
-      "region": "Rect2( 634, 131, 119, 124 )",
+      "region": "Rect2( 622, 127, 119, 124 )",
       "margin": "Rect2( 8, 2, 9, 4 )",
       "type": "HBAtlasEntry"
     },
     "down_multi_note.png": {
-      "region": "Rect2( 95, 424, 78, 80 )",
+      "region": "Rect2( 91, 414, 78, 80 )",
       "margin": "Rect2( 32, 27, 50, 48 )",
       "type": "HBAtlasEntry"
     },
     "down_multi_note_target.png": {
-      "region": "Rect2( 756, 131, 119, 124 )",
+      "region": "Rect2( 742, 127, 119, 124 )",
       "margin": "Rect2( 8, 2, 9, 4 )",
       "type": "HBAtlasEntry"
     },
     "down_double_note.png": {
-      "region": "Rect2( 510, 384, 96, 89 )",
+      "region": "Rect2( 498, 376, 96, 89 )",
       "margin": "Rect2( 19, 32, 32, 39 )",
       "type": "HBAtlasEntry"
     },
     "down_double_note_target.png": {
-      "region": "Rect2( 265, 126, 128, 120 )",
+      "region": "Rect2( 259, 122, 128, 120 )",
       "margin": "Rect2( 0, 8, 0, 8 )",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note.png": {
-      "region": "Rect2( 265, 249, 120, 126 )",
+      "region": "Rect2( 259, 243, 120, 126 )",
       "margin": "Rect2( 8, 2, 8, 2 )",
       "type": "HBAtlasEntry"
     },
     "down_sustain_note_target.png": {
-      "region": "Rect2( 95, 339, 85, 82 )",
+      "region": "Rect2( 91, 331, 85, 82 )",
       "margin": "Rect2( 25, 23, 43, 46 )",
       "type": "HBAtlasEntry"
     },
     "right_note.png": {
-      "region": "Rect2( 411, 384, 96, 80 )",
+      "region": "Rect2( 401, 376, 96, 80 )",
       "margin": "Rect2( 19, 27, 32, 48 )",
       "type": "HBAtlasEntry"
     },
     "right_target.png": {
-      "region": "Rect2( 527, 3, 128, 122 )",
+      "region": "Rect2( 517, 1, 128, 122 )",
       "margin": "Rect2( 0, 3, 0, 6 )",
       "type": "HBAtlasEntry"
     },
     "right_multi_note.png": {
-      "region": "Rect2( 312, 384, 96, 80 )",
+      "region": "Rect2( 304, 376, 96, 80 )",
       "margin": "Rect2( 19, 27, 32, 48 )",
       "type": "HBAtlasEntry"
     },
     "right_multi_note_target.png": {
-      "region": "Rect2( 134, 131, 128, 122 )",
+      "region": "Rect2( 130, 127, 128, 122 )",
       "margin": "Rect2( 0, 3, 0, 6 )",
       "type": "HBAtlasEntry"
     },
     "right_double_note.png": {
-      "region": "Rect2( 3, 334, 89, 96 )",
+      "region": "Rect2( 1, 326, 89, 96 )",
       "margin": "Rect2( 32, 19, 39, 32 )",
       "type": "HBAtlasEntry"
     },
     "right_double_note_target.png": {
-      "region": "Rect2( 511, 253, 120, 128 )",
+      "region": "Rect2( 501, 247, 120, 128 )",
       "margin": "Rect2( 8, 0, 8, 0 )",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note.png": {
-      "region": "Rect2( 134, 3, 128, 125 )",
+      "region": "Rect2( 130, 1, 128, 125 )",
       "margin": "Rect2( 0, 3, 0, 3 )",
       "type": "HBAtlasEntry"
     },
     "right_sustain_note_target.png": {
-      "region": "Rect2( 878, 213, 104, 82 )",
+      "region": "Rect2( 862, 207, 104, 82 )",
       "margin": "Rect2( 12, 23, 24, 46 )",
       "type": "HBAtlasEntry"
     }
   },
+  "up_trail_color": "Color( 0, 0.654902, 0.921569, 1 )",
+  "down_trail_color": "Color( 0.945098, 0.882353, 0.027451, 1 )",
+  "left_trail_color": "Color( 0.431373, 0.72549, 0.168627, 1 )",
+  "right_trail_color": "Color( 0.901961, 0, 0.0705882, 1 )",
+  "property_overrides": [
+    "up_trail_color",
+    "right_trail_color",
+    "down_trail_color",
+    "left_trail_color"
+  ],
   "type": "HBResourcePack"
 }
