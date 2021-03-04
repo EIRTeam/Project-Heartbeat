@@ -31,7 +31,7 @@ var slide_chain_piece_left_trail_margin: float = 0.0
 var slide_chain_piece_right_trail_margin: float = 0.0
 var heart_trail_margin: float = 0.0
 
-var up_trail_color: Color = Color("#24E438")
+var up_trail_color = Color("#24E438")
 var down_trail_color: Color = Color("#2996f8")
 var left_trail_color: Color = Color("#f971d3")
 var right_trail_color: Color = Color("#ff0c5c")
@@ -40,6 +40,8 @@ var slide_right_trail_color: Color = Color("#ed8a2e")
 var slide_chain_piece_left_trail_color: Color = Color("#ed8a2e")
 var slide_chain_piece_right_trail_color: Color = Color("#ed8a2e")
 var heart_trail_color: Color = Color("#4a2ac9")
+
+var property_overrides = []
 
 func _init():
 	serializable_fields += [
@@ -54,7 +56,10 @@ func _init():
 	# Trail colors
 	"up_trail_color", "down_trail_color", "left_trail_color", "right_trail_color",
 	"slide_left_trail_color", "slide_right_trail_color", "slide_chain_piece_left_trail_color",
-	"slide_chain_piece_right_trail_color", "heart_trail_color"
+	"slide_chain_piece_right_trail_color", "heart_trail_color",
+	
+	#misc
+	"property_overrides"
 	]
 
 func get_note_graphic_file_name(note_i: int, subgraphic_i: int) -> String:
@@ -112,3 +117,7 @@ func get_graphic_image(graphic_name: String) -> Image:
 		img.load(file_path)
 		return img
 	return null
+
+func get_preview_image() -> Image:
+	var f := File.new()
+	return Image.new()

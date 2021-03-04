@@ -184,13 +184,15 @@ func get_graphic(graphic_name: String) -> Texture:
 	return final_textures.get(graphic_name, missing_texture)
 
 func get_note_trail_color(note_i: int) -> Color:
-	if note_i in note_override_list_i:
-		return fallback_pack.get(HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color")
+	var trail_color_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color"
+	if note_i in note_override_list_i or not trail_color_property_name in note_pack.property_overrides:
+		return fallback_pack.get(trail_color_property_name)
 	else:
-		return note_pack.get(HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color")
+		return note_pack.get(trail_color_property_name)
 
 func get_note_trail_margin(note_i) -> float:
-	if note_i in note_override_list_i:
-		return fallback_pack.get(HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_margin")
+	var trail_margin_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color"
+	if note_i in note_override_list_i or not trail_margin_property_name in note_pack.property_overrides:
+		return fallback_pack.get(trail_margin_property_name)
 	else:
-		return note_pack.get(HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_margin")
+		return note_pack.get(trail_margin_property_name)

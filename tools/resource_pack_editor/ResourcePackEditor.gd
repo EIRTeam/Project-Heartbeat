@@ -103,12 +103,17 @@ func add_graphic_item(parent: TreeItem, text: String, resource_name: String, atl
 	
 func add_range_item(parent: TreeItem, text: String, property_name: String, minimum: float, maximum: float, step: float):
 	var item := tree.create_item(parent)
-	item.set_text(0, text)
+	item.set_suffix(0, text)
+	item.set_cell_mode(0, TreeItem.CELL_MODE_CHECK)
 	item.set_meta("property_name", property_name)
 	item.set_meta("item_type", ITEM_TYPES.RANGE)
+	item.set_tooltip(0, "Override this property")
 	item.set_cell_mode(1, TreeItem.CELL_MODE_RANGE)
+	tree.set_block_signals(true)
 	item.set_range_config(1, minimum, maximum, step)
 	item.set_range(1, current_pack.get(property_name))
+	item.set_checked(0, property_name in current_pack.property_overrides)
+	tree.set_block_signals(false)
 	item.set_editable(1, true)
 	var is_property_default_value = current_pack.get(property_name) == _default_pack.get(property_name)
 	item.add_button(1, preload("res://tools/icons/icon_close.svg"), ITEM_BUTTONS.RESET_PROPERTY, is_property_default_value, "Reset to default value")
@@ -117,7 +122,15 @@ func add_range_item(parent: TreeItem, text: String, property_name: String, minim
 	
 func add_color_item(parent: TreeItem, text: String, property_name: String):
 	var item := tree.create_item(parent)
-	item.set_text(0, text)
+	item.set_suffix(0, text)
+	item.set_editable(0, true)
+	item.set_cell_mode(0, TreeItem.CELL_MODE_CHECK)
+	
+	tree.set_block_signals(true)
+	item.set_checked(0, property_name in current_pack.property_overrides)
+	tree.set_block_signals(false)
+	
+	item.set_tooltip(0, "Override this property")
 	item.set_meta("property_name", property_name)
 	item.set_meta("item_type", ITEM_TYPES.COLOR_PICKER)
 	item.add_button(1, preload("res://tools/icons/ColorPick.svg"), ITEM_BUTTONS.PICK_COLOR, false, "Pick color")
@@ -193,7 +206,11 @@ func _on_button_pressed(item: TreeItem, _column: int, id: int):
 					item.set_range(1, default_val)
 				ITEM_TYPES.COLOR_PICKER:
 					item.set_custom_bg_color(1, default_val)
-
+			tree.set_block_signals(true)
+			item.set_checked(0, false)
+			if _currently_editing_property in current_pack.property_overrides:
+				current_pack.property_overrides.erase(_currently_editing_property)
+			tree.set_block_signals(false)
 
 func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	first_time_save_atlases = []
@@ -322,8 +339,19 @@ func _on_item_edited():
 			TreeItem.CELL_MODE_RANGE:
 				current_pack.set(property_name, selected.get_range(1))
 				var is_property_default_value = current_pack.get(property_name) == _default_pack.get(property_name)
+				prints(current_pack.get(property_name), _default_pack.get(property_name))
 				var item := property_items[property_name] as TreeItem
-				item.set_button_disabled(1, ITEM_BUTTONS.RESET_PROPERTY, is_property_default_value)
+				item.set_button_disabled(1, item.get_meta("reset_button_i"), is_property_default_value)
+				if not property_name in current_pack.property_overrides:
+					current_pack.property_overrides.append(property_name)
+				item.set_checked(0, true)
+		match selected.get_cell_mode(0):
+			TreeItem.CELL_MODE_CHECK:
+				if selected.is_checked(0):
+					if not property_name in current_pack.property_overrides:
+						current_pack.property_overrides.append(property_name)
+				elif property_name in current_pack.property_overrides:
+					current_pack.property_overrides.erase(property_name)
 
 func _on_ResizeConfirmationDialog_confirmed():
 	var resource_item := resource_items[_currently_opening_resource] as TreeItem
@@ -338,6 +366,11 @@ func _on_ColorPicker_color_changed(color: Color):
 	var is_property_default_value = current_pack.get(_currently_editing_property) == _default_pack.get(_currently_editing_property)
 	item.set_button_disabled(1, item.get_meta("reset_button_i"), is_property_default_value)
 	item.set_custom_bg_color(1, color)
+	tree.set_block_signals(true)
+	if not _currently_editing_property in current_pack.property_overrides:
+		current_pack.property_overrides.append(_currently_editing_property)
+	item.set_checked(0, true)
+	tree.set_block_signals(false)
 
 
 func _on_ConfirmationDialog_confirmed():
