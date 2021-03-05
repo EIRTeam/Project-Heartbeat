@@ -184,7 +184,7 @@ func _position_change_input(position_change: int):
 				select_item(new_pos)
 				sfx_audio_player.play()
 
-func _gui_input(_event):
+func _gui_input(_event: InputEvent):
 	var position_change = 0
 	
 	if Input.is_action_pressed("gui_down"):
@@ -199,9 +199,10 @@ func _gui_input(_event):
 	if Input.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step
-	if Input.is_action_just_pressed("gui_accept"):
+	if _event.is_action_pressed("gui_accept"):
 		var selected_child = get_selected_item()
 		if selected_child and selected_child.has_signal("pressed"):
+			get_tree().set_input_as_handled()
 			selected_child.emit_signal("pressed")
 	if initial_input_debounce_timer.is_stopped() and input_debounce_timer.is_stopped():
 		_position_change_input(position_change)
