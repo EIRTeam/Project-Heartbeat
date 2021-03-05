@@ -327,3 +327,19 @@ static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=
 		"atlas_textures": atlas_textures,
 		"atlas_data": atlas_data
 	}
+
+static func is_gui_directional_press(action: String, event):
+	var gui_press = false
+	
+	# This is so the d-pad doesn't trigger the order by list
+	for mapped_event in InputMap.get_action_list(action):
+		if mapped_event.device == event.device:
+			if mapped_event is InputEventKey and event is InputEventKey:
+				if mapped_event.scancode == event.scancode:
+					gui_press = true
+					break
+			if mapped_event is InputEventJoypadButton and event is InputEventJoypadButton:
+				if mapped_event.button_index == event.button_index:
+					gui_press = true
+					break
+	return gui_press

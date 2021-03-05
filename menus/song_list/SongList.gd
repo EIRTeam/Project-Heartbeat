@@ -193,22 +193,6 @@ func _on_song_hovered(song: HBSong):
 func should_receive_input():
 	return song_container.has_focus()
 	
-
-func is_gui_directional_press(action: String, event):
-	var gui_press = false
-	
-	# This is so the d-pad doesn't trigger the order by list
-	for mapped_event in InputMap.get_action_list(action):
-		if mapped_event.device == event.device:
-			if mapped_event is InputEventKey and event is InputEventKey:
-				if mapped_event.scancode == event.scancode:
-					gui_press = true
-					break
-			if mapped_event is InputEventJoypadButton and event is InputEventJoypadButton:
-				if mapped_event.button_index == event.button_index:
-					gui_press = true
-					break
-	return gui_press
 func _unhandled_input(event):
 	if should_receive_input():
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
@@ -218,7 +202,7 @@ func _unhandled_input(event):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
 		if event.is_action_pressed("note_up"):
-			if not is_gui_directional_press("gui_up", event):
+			if not HBUtils.is_gui_directional_press("gui_up", event):
 				get_tree().set_input_as_handled()
 				show_order_by_list()
 		if event.is_action_pressed("contextual_option"):

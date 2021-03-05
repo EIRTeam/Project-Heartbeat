@@ -219,8 +219,12 @@ func _on_focus_lost():
 	if current_item:
 		current_item.stop_hover()
 	set_process(false)
+	input_debounce_timer.stop()
+	initial_input_debounce_timer.stop()
 func _on_focus_entered():
 	var current_item = get_selected_item()
 	if current_item:
 		current_item.hover()
 	set_process(true)
+	input_debounce_timer.stop()
+	initial_input_debounce_timer.stop()
