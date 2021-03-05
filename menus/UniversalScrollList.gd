@@ -103,7 +103,8 @@ func _on_resized():
 			mat.set_shader_param("enabled", get_v_scrollbar().visible)
 			mat.set_shader_param("size", rect_size)
 			mat.set_shader_param("pos", rect_global_position)
-			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
+			if rect_size.x > 0:
+				mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
 		var item = item_container.get_child(current_selected_item)
@@ -198,7 +199,7 @@ func _process(delta):
 	if Input.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step
-	if Input.is_action_pressed("gui_accept"):
+	if Input.is_action_just_pressed("gui_accept"):
 		var selected_child = get_selected_item()
 		if selected_child and selected_child.has_signal("pressed"):
 			selected_child.emit_signal("pressed")
