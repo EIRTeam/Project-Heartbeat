@@ -103,19 +103,21 @@ func get_atlas_path(atlas_name: String) -> String:
 func get_atlas_image(atlas_name: String) -> Image:
 	var path := get_atlas_path(atlas_name)
 	var file := File.new()
-	if file.file_exists(path):
-		var img = Image.new()
-		img.load(path)
-		return img
+	if file.file_exists(path) or ResourceLoader.exists(path):
+		var img := HBUtils.image_from_fs(path) as Image
+		if img:
+			return img
 	return null
 
 func get_graphic_image(graphic_name: String) -> Image:
 	var file := File.new()
 	var file_path = HBUtils.join_path(_path, HBUtils.join_path("graphics", graphic_name))
-	if file.file_exists(file_path):
-		var img = Image.new()
-		img.load(file_path)
-		return img
+	if file.file_exists(file_path) or ResourceLoader.exists(file_path):
+		var img := HBUtils.image_from_fs(file_path) as Image
+		if img:
+			return img
+	else:
+		print("DOesn't exist!!", file_path)
 	return null
 
 func get_pack_icon_path() -> String:
@@ -124,8 +126,8 @@ func get_pack_icon_path() -> String:
 func get_pack_icon() -> Image:
 	var f := File.new()
 	var pack_icon_path := get_pack_icon_path()
-	if f.file_exists(pack_icon_path):
-		var img = Image.new()
-		if img.load(pack_icon_path) == OK:
+	if f.file_exists(pack_icon_path) or ResourceLoader.exists(pack_icon_path):
+		var img := HBUtils.image_from_fs(pack_icon_path) as Image
+		if img:
 			return img
 	return null

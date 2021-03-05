@@ -178,9 +178,8 @@ static func image_from_fs(path: String):
 			out = src
 	else:
 		var image = Image.new()
-		image.load(path)
-		out = image
-	out.resource_path = path + str(rand_range(0, 200000))
+		if image.load(path) == OK:
+			out = image
 	return out
 
 static func _wrap_image_texture(img: Image):
