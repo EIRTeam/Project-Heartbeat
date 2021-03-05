@@ -184,7 +184,7 @@ func _position_change_input(position_change: int):
 				select_item(new_pos)
 				sfx_audio_player.play()
 
-func _process(delta):
+func _gui_input(_event):
 	var position_change = 0
 	
 	if Input.is_action_pressed("gui_down"):
