@@ -1,6 +1,6 @@
 extends Node
 
-const ICON_PACK_LOCATIONS = ["user://editor_resource_packs", "user://resource_packs", "res://graphics/resource_packs"]
+const ICON_PACK_LOCATIONS = ["res://graphics/resource_packs", "user://editor_resource_packs", "user://resource_packs"]
 
 var resource_packs = {}
 
@@ -118,6 +118,7 @@ func rebuild_final_atlases():
 	
 func rebuild_final_atlas(atlas_name: String) -> int:
 	var time_start = OS.get_ticks_usec()
+	print(UserSettings.user_settings.resource_pack)
 	var selected_pack := resource_packs.get(UserSettings.user_settings.resource_pack, null) as HBResourcePack
 	if atlas_name == "notes":
 		if UserSettings.user_settings.note_icon_override != "__resource_pack":
@@ -125,6 +126,7 @@ func rebuild_final_atlas(atlas_name: String) -> int:
 				selected_pack = resource_packs.get(UserSettings.user_settings.note_icon_override, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
+		print(selected_pack.pack_name)
 		var selected_pack_atlas := selected_pack.get_atlas_image("notes")
 		if selected_pack_atlas:
 			var at = HBUtils.pack_images_turbo16({
@@ -191,8 +193,8 @@ func get_note_trail_color(note_i: int) -> Color:
 		return note_pack.get(trail_color_property_name)
 
 func get_note_trail_margin(note_i) -> float:
-	var trail_margin_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color"
+	var trail_margin_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_margin"
 	if note_i in note_override_list_i or not trail_margin_property_name in note_pack.property_overrides:
-		return fallback_pack.get(trail_margin_property_name)
+		return fallback_pack.get(trail_margin_property_name) as float
 	else:
-		return note_pack.get(trail_margin_property_name)
+		return note_pack.get(trail_margin_property_name) as float

@@ -1,6 +1,7 @@
 {
-  "pack_name": "PlayStation™",
+  "pack_name": "PlayStation™ note icons",
   "pack_author_name": "EIRTeam",
+  "pack_description": "Resource Pack with note icons for use with PlayStation™ controllers.",
   "notes_atlas_data": {
     "up_note.png": {
       "region": "Rect2( 336, 510, 106, 92 )",

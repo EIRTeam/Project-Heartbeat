@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/icon.png-0fcddca3d3ada1cb67a0037192e9d4ca.image"
+
+[deps]
+
+source_file="res://graphics/resource_packs/xbox/icon.png"
+dest_files=[ "res://.import/icon.png-0fcddca3d3ada1cb67a0037192e9d4ca.image" ]
+
+[params]
+

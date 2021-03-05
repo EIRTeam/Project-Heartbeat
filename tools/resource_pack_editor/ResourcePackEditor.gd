@@ -11,14 +11,22 @@ onready var atlas_preview_texture_rect := get_node("Panel/MarginContainer/VBoxCo
 onready var atlas_preview_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
 onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
 
-onready var icon_pack_title_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer/TitleLineEdit")
-onready var icon_pack_creator_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/VBoxContainer/PackCreatorLineEdit")
 
 onready var error_dialog := get_node("ErrorDialog")
 onready var resize_confirmation_dialog := get_node("ResizeConfirmationDialog")
 
 onready var color_picker_popup := get_node("ColorPickerPopup")
 onready var color_picker_popup_color_picker := get_node("ColorPickerPopup/ColorPicker")
+
+# Meta data
+onready var icon_pack_title_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/TitleLineEdit")
+onready var icon_pack_creator_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/PackCreatorLineEdit")
+
+onready var pack_icon_texture_rect := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect")
+onready var no_pack_icon_image_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect/NoPreviewImageLabel")
+
+onready var description_text_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel")
+onready var description_text_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel/DescriptionTextEdit")
 
 enum ITEM_BUTTONS {
 	BROWSE,
@@ -231,6 +239,16 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	if open_resource_pack_dialog.get_cancel().is_connected("pressed", self, "_exit"):
 		open_resource_pack_dialog.get_cancel().disconnect("pressed", self, "_exit")
 		open_resource_pack_dialog.get_close_button().disconnect("pressed", self, "_exit")
+	pack_icon_texture_rect.texture = null
+	no_pack_icon_image_label.show()
+	var pack_icon := current_pack.get_pack_icon()
+	if pack_icon:
+		var pack_icon_tex := ImageTexture.new()
+		pack_icon_tex.create_from_image(pack_icon)
+		no_pack_icon_image_label.hide()
+		pack_icon_texture_rect.texture = pack_icon_tex
+	description_text_edit.text = current_pack.pack_description
+	description_text_edit.show()
 
 func _generate_atlas(atlas_name: String, save=true):
 	if atlas_name == "__no_atlas":
@@ -248,7 +266,9 @@ func _generate_atlas(atlas_name: String, save=true):
 		if not d.dir_exists(atlas_path.get_base_dir()):
 			d.make_dir_recursive(atlas_path.get_base_dir())
 		if texture.get_size().length() > 0:
-			texture.get_data().save_png(atlas_path)
+			var err := texture.get_data().save_png(atlas_path)
+			if err != OK:
+				show_error("Error saving atlas, error code %d" % [err])
 	var time_end = OS.get_ticks_usec()
 	print("_generate_atlas took %d microseconds" % [(time_end - time_start)])
 
@@ -325,6 +345,7 @@ func _on_RemoveGraphicConfirmationDialog_confirmed():
 func _on_SaveButton_pressed():
 	current_pack.pack_name = icon_pack_title_line_edit.text
 	current_pack.pack_author_name = icon_pack_creator_line_edit.text
+	current_pack.pack_description = description_text_edit.text
 	current_pack.save_pack()
 	_generate_atlas("notes")
 
@@ -372,6 +393,31 @@ func _on_ColorPicker_color_changed(color: Color):
 	item.set_checked(0, true)
 	tree.set_block_signals(false)
 
+func show_error_code(text: String, error_code: int):
+	if error_code != OK:
+		show_error("%s: %s" % [text, HBError.ERR2STR[error_code]])
+	return error_code
 
 func _on_ConfirmationDialog_confirmed():
 	_exit()
+
+func _replace_preview_image(path: String):
+	var img := Image.new()
+	var err := img.load(path)
+	if show_error_code("Error loading image", err) == OK:
+		if img.get_size().x  > 512 and img.get_size.y > 512:
+			show_error("Maximum image size is 512x512")
+		else:
+			var err_img := img.save_png(current_pack.get_pack_icon_path())
+			if show_error_code("Error saving resource pack image", err_img) == OK:
+				var texture := ImageTexture.new()
+				texture.create_from_image(img)
+				pack_icon_texture_rect.texture = texture
+				no_pack_icon_image_label.hide()
+
+
+func _on_PreviewBBCodeCheckbox_toggled(button_pressed):
+	if button_pressed:
+		description_text_label.bbcode_text = description_text_edit.text
+		description_text_label.bbcode_enabled = true
+	description_text_edit.visible = !button_pressed

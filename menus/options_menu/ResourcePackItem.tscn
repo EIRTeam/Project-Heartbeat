@@ -1,0 +1,208 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://menus/options_menu/ResourcePackItem.gd" type="Script" id=1]
+[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=4]
+[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=5]
+[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=7]
+[ext_resource path="res://graphics/no_preview_texture.png" type="Texture" id=8]
+[ext_resource path="res://styles/PanelStyleTransparentIconPress.tres" type="StyleBox" id=9]
+[ext_resource path="res://graphics/icons/check-circle.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+use_filter = true
+font_data = ExtResource( 2 )
+fallback/0 = ExtResource( 3 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[node name="Control" type="Button"]
+use_parent_material = true
+anchor_right = 1.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 0, 250 )
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/normal = ExtResource( 5 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 250 )
+mouse_filter = 2
+custom_constants/margin_right = 3
+custom_constants/margin_top = 15
+custom_constants/margin_left = 89
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+use_parent_material = true
+margin_left = 89.0
+margin_top = 15.0
+margin_right = 1917.0
+margin_bottom = 235.0
+mouse_filter = 2
+custom_constants/separation = 69
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 244.0
+margin_bottom = 220.0
+size_flags_stretch_ratio = 0.75
+custom_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 244.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 244, 0 )
+mouse_filter = 2
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+use_parent_material = true
+margin_left = 313.0
+margin_right = 1828.0
+margin_bottom = 220.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 51.0
+margin_right = 1515.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 7 )
+text = "No vea loco peaso pack de testura"
+
+[node name="AuthorLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 108.0
+margin_right = 1515.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 1 )
+text = "by EIREXE"
+autowrap = true
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+use_parent_material = true
+margin_top = 136.0
+margin_right = 1515.0
+margin_bottom = 168.0
+mouse_filter = 2
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/normal_font = ExtResource( 6 )
+bbcode_enabled = true
+bbcode_text = "No vea ermano peaso [rainbow]descripsión[/rainbow]"
+text = "No vea ermano peaso descripsión"
+fit_content_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = 0.989
+anchor_top = 0.039
+anchor_right = 0.995
+anchor_bottom = 0.039
+margin_left = -74.88
+margin_top = 0.25
+margin_right = -0.400024
+margin_bottom = 40.25
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckedPanel" type="Panel" parent="HBoxContainer"]
+use_parent_material = true
+margin_left = 2.0
+margin_right = 42.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/CheckedPanel"]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/CheckedPanel/MarginContainer"]
+use_parent_material = true
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 35.0
+margin_bottom = 35.0
+mouse_filter = 2
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckedPanel2" type="Panel" parent="HBoxContainer"]
+use_parent_material = true
+margin_left = 46.0
+margin_right = 86.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/CheckedPanel2"]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/CheckedPanel2/MarginContainer"]
+use_parent_material = true
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 35.0
+margin_bottom = 35.0
+mouse_filter = 2
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}

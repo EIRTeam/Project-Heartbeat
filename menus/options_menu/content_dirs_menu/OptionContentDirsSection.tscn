@@ -97,37 +97,25 @@ valign = 1
 [node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
 margin_top = -119.36
 margin_bottom = 116.64
-has_cancel = true
-has_accept = true
 text = "Selecting a new content directory requires using the mouse, would you like to continue?"
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
 margin_top = -119.36
 margin_bottom = 116.64
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to reset the content directory to the default?"
-accept_text = "Yes"
-cancel_text = "No"
 
 [node name="ContentReloadSuccessPopup" parent="." instance=ExtResource( 3 )]
 margin_top = -119.36
 margin_bottom = 116.64
 has_cancel = false
-has_accept = true
 text = "Songs reloaded succesfully"
 accept_text = "Alright"
-cancel_text = "No"
 
 [node name="CacheClearSucccessPopup" parent="." instance=ExtResource( 3 )]
 margin_top = -119.36
 margin_bottom = 116.64
 has_cancel = false
-has_accept = true
 text = "Cache cleared succesfully, please re-run the game."
 accept_text = "Alright"
-cancel_text = "No"
 
 [editable path="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]

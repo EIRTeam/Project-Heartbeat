@@ -65,6 +65,11 @@ _global_script_classes=[ {
 "path": "res://autoloads/async_task_queue/AsyncTaskQueue.gd"
 }, {
 "base": "HBSerializable",
+"class": "HBAtlasEntry",
+"language": "GDScript",
+"path": "res://tools/resource_pack_editor/HBAtlasEntry.gd"
+}, {
+"base": "HBSerializable",
 "class": "HBAudioLoudnessCacheEntry",
 "language": "GDScript",
 "path": "res://autoloads/HBAudioLoudnessCacheEntry.gd"
@@ -147,7 +152,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "HBError",
 "language": "GDScript",
-"path": "res://scripts/extended_gdscript/Error.gd"
+"path": "res://scripts/Error.gd"
 }, {
 "base": "HBTask",
 "class": "HBFilterSongsTask",
@@ -344,6 +349,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_settings/PlatformSettingsSwitch.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBResourcePack",
+"language": "GDScript",
+"path": "res://tools/resource_pack_editor/HBResourcePack.gd"
+}, {
 "base": "Reference",
 "class": "HBResourceQueue",
 "language": "GDScript",
@@ -469,7 +479,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/tabbed_container/TabbedContainer.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "HBTask",
 "language": "GDScript",
 "path": "res://autoloads/async_task_queue/HBTask.gd"
@@ -585,11 +595,6 @@ _global_script_classes=[ {
 "path": "res://rythm_game/NoteGroup.gd"
 }, {
 "base": "Reference",
-"class": "Ok",
-"language": "GDScript",
-"path": "res://scripts/extended_gdscript/Ok.gd"
-}, {
-"base": "Reference",
 "class": "PPDEVDFile",
 "language": "GDScript",
 "path": "res://scripts/PPDEVDFile.gd"
@@ -608,16 +613,6 @@ _global_script_classes=[ {
 "class": "PlatformServiceProvider",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
-}, {
-"base": "Reference",
-"class": "Result",
-"language": "GDScript",
-"path": "res://scripts/extended_gdscript/Result.gd"
-}, {
-"base": "Reference",
-"class": "ResultF",
-"language": "GDScript",
-"path": "res://scripts/extended_gdscript/ResultFactory.gd"
 }, {
 "base": "Reference",
 "class": "SMFLoader",
@@ -701,6 +696,7 @@ _global_script_class_icons={
 "EditorTransformationTemplate": "",
 "FolderManagerFolderButton": "",
 "HBAsyncTaskQueue": "",
+"HBAtlasEntry": "",
 "HBAudioLoudnessCacheEntry": "",
 "HBAudioNormalizer": "",
 "HBAudioUtils": "",
@@ -757,6 +753,7 @@ _global_script_class_icons={
 "HBPlatformSettingsDesktop": "",
 "HBPlatformSettingsMobile": "",
 "HBPlatformSettingsSwitch": "",
+"HBResourcePack": "",
 "HBResourceQueue": "",
 "HBResult": "",
 "HBRhythmGame": "",
@@ -805,13 +802,10 @@ _global_script_class_icons={
 "LeaderboardView": "",
 "MPPlayer": "",
 "NoteGroup": "",
-"Ok": "",
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
 "PlatformServiceProvider": "",
-"Result": "",
-"ResultF": "",
 "SMFLoader": "",
 "ScriptRunnerScript": "",
 "SineDrawerCPU": "",
@@ -839,8 +833,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1614029803
-config/build_commit="ed7eb31a09d878756bb7029a13c274350a0ef380"
+config/build_time=1614577366
+config/build_commit="60666284570a20436014021736e7595a5cded354"
 config/service_environment="production"
 
 [autoload]
@@ -860,12 +854,12 @@ HBGame="*res://autoloads/HBGame.gd"
 HBBackend="*res://autoloads/HBBackend.gd"
 DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
-IconPackLoader="*res://autoloads/IconPackLoader.gd"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 MobileControls="*res://autoloads/MobileControls.tscn"
 HTTPRequestQueue="*res://autoloads/HTTPRequestQueue.gd"
+ResourcePackLoader="*res://autoloads/ResourcePackLoader.gd"
 
 [debug]
 

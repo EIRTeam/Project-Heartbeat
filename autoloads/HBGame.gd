@@ -96,8 +96,8 @@ func _game_init():
 				SongLoader.add_song_loader("dsc", dsc_loader)
 			else:
 				push_error("Argument game_location requires an input")
-	ResourcePackLoader._init_resource_pack_loader()
 	UserSettings._init_user_settings()
+	ResourcePackLoader._init_resource_pack_loader()
 	# Switch specific stuff
 	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"

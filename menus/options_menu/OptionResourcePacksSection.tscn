@@ -1,0 +1,89 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://menus/options_menu/OptionResourcePacksSection.gd" type="Script" id=1]
+[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=3]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=4]
+[ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=5]
+
+[node name="MarginContainer" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1905.0
+margin_bottom = 1065.0
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+margin_right = 1890.0
+margin_bottom = 998.0
+focus_mode = 2
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+container_path = NodePath("VBoxContainer")
+horizontal_step = 0
+enable_fade = true
+enable_wrap_around = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/ScrollContainer"]
+use_parent_material = true
+margin_right = 1890.0
+margin_bottom = 998.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 1010.0
+margin_right = 1890.0
+margin_bottom = 1050.0
+rect_min_size = Vector2( 0, 40 )
+alignment = 1
+
+[node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 626.0
+margin_right = 1264.0
+rect_min_size = Vector2( 638, 31 )
+action_name = "contextual_option"
+text = "Toggle override notes with selected pack"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 1905.0
+margin_bottom = 1065.0
+
+[node name="Label" type="Label" parent="CenterContainer"]
+margin_left = 671.0
+margin_top = 507.0
+margin_right = 1219.0
+margin_bottom = 543.0
+custom_fonts/font = ExtResource( 5 )
+text = "Rebuilding note atlas..."
+align = 1

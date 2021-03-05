@@ -4,7 +4,7 @@ extends Node
 class_name HBVersion
 
 const MAJOR = 0
-const MINOR = 9
+const MINOR = 10
 const PATCH = 0
 
 const status = "Early Access"

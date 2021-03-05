@@ -118,6 +118,14 @@ func get_graphic_image(graphic_name: String) -> Image:
 		return img
 	return null
 
-func get_preview_image() -> Image:
+func get_pack_icon_path() -> String:
+	return HBUtils.join_path(_path, "icon.png")
+
+func get_pack_icon() -> Image:
 	var f := File.new()
-	return Image.new()
+	var pack_icon_path := get_pack_icon_path()
+	if f.file_exists(pack_icon_path):
+		var img = Image.new()
+		if img.load(pack_icon_path) == OK:
+			return img
+	return null

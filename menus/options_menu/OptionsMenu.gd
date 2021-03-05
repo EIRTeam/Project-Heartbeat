@@ -252,6 +252,9 @@ var OPTIONS = {
 			"percentage": true,
 			"postfix": " %"
 		},
+	},
+	tr("Res. Packs"): {
+		"__section_override": preload("res://menus/options_menu/OptionResourcePacksSection.tscn").instance()
 	}
 }
 
