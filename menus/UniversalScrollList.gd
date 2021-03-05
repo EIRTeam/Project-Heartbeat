@@ -83,9 +83,10 @@ func _on_scroll_changed():
 				break
 	
 func _on_initial_input_debounce_timeout():
-	_position_change_input(debounce_step)
-	input_debounce_timer.stop()
-	input_debounce_timer.start()
+	if has_focus():
+		_position_change_input(debounce_step)
+		input_debounce_timer.stop()
+		input_debounce_timer.start()
 	
 func _on_input_debounce_timeout():
 	_position_change_input(debounce_step)
