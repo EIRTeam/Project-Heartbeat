@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
 [ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=6]
 [ext_resource path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" type="Script" id=7]
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=8]
+[ext_resource path="res://tools/editor/WorkshopUploadForm.tscn" type="PackedScene" id=9]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_save"
@@ -275,10 +276,11 @@ size_flags_horizontal = 0
 text = "Select Image"
 
 [node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
-margin_left = 550.0
-margin_top = 346.0
-margin_right = 1087.0
-margin_bottom = 639.0
+visible = true
+margin_left = 1057.91
+margin_top = 494.835
+margin_right = 1594.91
+margin_bottom = 787.835
 popup_exclusive = true
 window_title = "Por favor, Confirma..."
 dialog_hide_on_ok = false
@@ -291,25 +293,25 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 529.0
-margin_bottom = 252.0
+margin_bottom = 410.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
 margin_right = 344.0
-margin_bottom = 244.0
+margin_bottom = 402.0
 size_flags_horizontal = 3
 
 [node name="Tree" type="Tree" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer"]
 margin_right = 344.0
-margin_bottom = 244.0
+margin_bottom = 402.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
 margin_left = 348.0
 margin_right = 521.0
-margin_bottom = 244.0
+margin_bottom = 402.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
@@ -324,12 +326,18 @@ margin_right = 173.0
 margin_bottom = 54.0
 text = "Delete Resource Pack"
 
+[node name="UploadToWorkshopButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
+margin_top = 58.0
+margin_right = 173.0
+margin_bottom = 83.0
+text = "Upload to Workshop"
+
 [node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog"]
 visible = true
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 529.0
-margin_bottom = 252.0
+margin_bottom = 410.0
 window_title = "Por favor, Confirma..."
 __meta__ = {
 "_edit_use_anchors_": false
@@ -339,11 +347,18 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 513.0
-margin_bottom = 203.0
+margin_bottom = 361.0
 placeholder_text = "EIREXE's super awesome icon pack"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="WorkshopUploadDialog" parent="OpenResourcePackDialog" instance=ExtResource( 9 )]
+visible = true
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 529.0
+margin_bottom = 410.0
 
 [node name="FileDialog" type="FileDialog" parent="."]
 margin_right = 656.0
@@ -427,7 +442,10 @@ __meta__ = {
 [connection signal="toggled" from="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/PreviewBBCodeCheckbox" to="." method="_on_PreviewBBCodeCheckbox_toggled"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/Button" to="FileDialogPackIcon" method="popup_centered"]
 [connection signal="confirmed" from="OpenResourcePackDialog" to="OpenResourcePackDialog" method="_on_OpenResourcePackDialog_confirmed"]
+[connection signal="item_selected" from="OpenResourcePackDialog/VBoxContainer/VBoxContainer/Tree" to="OpenResourcePackDialog" method="_on_Tree_item_selected"]
+[connection signal="nothing_selected" from="OpenResourcePackDialog/VBoxContainer/VBoxContainer/Tree" to="OpenResourcePackDialog" method="_on_Tree_nothing_selected"]
 [connection signal="pressed" from="OpenResourcePackDialog/VBoxContainer/VBoxContainer2/CreateResourcePackButton" to="OpenResourcePackDialog/CreateIconPackDialog" method="popup_centered"]
+[connection signal="pressed" from="OpenResourcePackDialog/VBoxContainer/VBoxContainer2/UploadToWorkshopButton" to="OpenResourcePackDialog" method="_on_UploadToWorkshopButton_pressed"]
 [connection signal="confirmed" from="OpenResourcePackDialog/CreateIconPackDialog" to="OpenResourcePackDialog" method="_on_CreateIconPackDialog_confirmed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
 [connection signal="file_selected" from="FileDialogPackIcon" to="." method="_replace_preview_image"]

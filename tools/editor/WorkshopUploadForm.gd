@@ -1,6 +1,7 @@
 extends WindowDialog
 
 var current_song: HBSong
+var current_resource_pack: HBResourcePack
 onready var compliance_checkbox = get_node("MarginContainer/VBoxContainer/CheckBox")
 onready var upload_button = get_node("MarginContainer/VBoxContainer/UploadButton")
 onready var data_label = get_node("MarginContainer/VBoxContainer/DataLabel")
@@ -20,6 +21,13 @@ const LOG_NAME = "WorkshopUploadForm"
 var uploading_new = false
 var uploading_id = null
 
+enum MODE {
+	SONG,
+	RESOURCE_PACK
+}
+
+export(MODE) var mode = MODE.SONG
+
 const UGC_STATUS_TEXTS = {
 	0: "Invalid, BUG?",
 	1: "Processing configuration data",
@@ -27,6 +35,15 @@ const UGC_STATUS_TEXTS = {
 	3: "Uploading content to Steam",
 	4: "Uploading preview image file",
 	5: "Committing changes"
+}
+
+const ERR_MAP = {
+	Steam.RESULT_OK: "",
+	Steam.RESULT_FAIL: "Generic failure",
+	Steam.RESULT_INVALID_PARAM: "Invalid parameter",
+	Steam.RESULT_ACCESS_DENIED: "The user doesn't own a license for the provided app ID.",
+	Steam.RESULT_FILE_NOT_FOUND: "The provided content folder is not valid.",
+	Steam.RESULT_LIMIT_EXCEEDED: "The preview image is too large, it must be less than 1 Megabyte; or there is not enough space available on your Steam Cloud."
 }
 
 func _ready():
@@ -37,7 +54,7 @@ func _ready():
 		ugc.connect("ugc_details_request_done", self, "_on_ugc_details_request_done")
 	compliance_checkbox.connect("toggled", self, "_on_compliance_checkbox_toggled")
 	post_upload_dialog.connect("confirmed", self, "_on_post_upload_accepted")
-	upload_button.connect("pressed", self, "start_upload_song")
+	upload_button.connect("pressed", self, "start_upload")
 	file_not_found_dialog.connect("confirmed", self, "_on_file_not_found_confirmed")
 	file_not_found_dialog.get_close_button().hide()
 	file_not_found_dialog.get_cancel().connect("pressed", self, "hide")
@@ -45,11 +62,44 @@ func _on_compliance_checkbox_toggled(pressed):
 	upload_button.disabled = !pressed
 	
 func _on_file_not_found_confirmed():
-	current_song.ugc_id = 0
-	current_song.ugc_service_name = ""
-	set_song(current_song)
+	match mode:
+		MODE.SONG:
+			current_song.ugc_id = 0
+			current_song.ugc_service_name = ""
+			set_song(current_song)
+		MODE.RESOURCE_PACK:
+			current_resource_pack.ugc_id = 0
+			current_resource_pack.ugc_service_name = ""
+	
+func set_resource_pack(resource_pack: HBResourcePack):
+	mode = MODE.RESOURCE_PACK
+	current_resource_pack = resource_pack
+	
+	var ugc = PlatformService.service_provider.ugc_provider
+	changelog_line_edit.text = ""
+	description_line_edit.text = ""
+	
+	var f = File.new()
+	if not f.file_exists(resource_pack.get_pack_icon_path()):
+		error_dialog.dialog_text = "Your pack needs an icon to be uploaded to the workshop!"
+		error_dialog.popup_centered()
+		yield(error_dialog, "hide")
+		hide()
+		return
+	
+	if resource_pack.ugc_service_name == ugc.get_ugc_service_name():
+		changelog_label.show()
+		changelog_line_edit.show()
+		ugc.get_item_details(resource_pack.ugc_id)
+		Log.log(self, "Song has been uploaded previously, requesting data.")
+	else:
+		Log.log(self, "Song hasn't been uploaded before to UGC.")
+		changelog_label.hide()
+		changelog_line_edit.hide()
+		title_line_edit.text = resource_pack.pack_name
 	
 func set_song(song: HBSong):
+	mode = MODE.SONG
 	current_song = song
 	var ugc = PlatformService.service_provider.ugc_provider
 	changelog_line_edit.text = ""
@@ -65,22 +115,37 @@ func set_song(song: HBSong):
 		changelog_line_edit.hide()
 		title_line_edit.text = song.title
 		
-func start_upload_song():
+func start_upload():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider
-		if current_song.ugc_service_name == ugc.get_ugc_service_name():
-			uploading_new = false
-			upload_song(current_song, current_song.ugc_id)
-		else:
+		var has_service_name = false
+		match mode:
+			MODE.RESOURCE_PACK:
+				if current_resource_pack.ugc_service_name == ugc.get_ugc_service_name():
+					has_service_name = true
+					uploading_new = false
+					upload_resource_pack(current_resource_pack, current_resource_pack.ugc_id)
+			MODE.SONG:
+				if current_song.ugc_service_name == ugc.get_ugc_service_name():
+					has_service_name = true
+					uploading_new = false
+					upload_song(current_song, current_song.ugc_id)
+		if not has_service_name:
 			uploading_new = true
 			ugc.create_item()
 func _on_item_created(result, file_id, tos):
 	var ugc = PlatformService.service_provider.ugc_provider
 	if result == 1:
-		current_song.ugc_id = file_id
 		print("UGC ", file_id)
-		current_song.ugc_service_name = ugc.get_ugc_service_name()
-		upload_song(current_song, file_id)
+		match mode:
+			MODE.SONG:
+				current_song.ugc_id = file_id
+				current_song.ugc_service_name = ugc.get_ugc_service_name()
+				upload_song(current_song, file_id)
+			MODE.RESOURCE_PACK:
+				current_resource_pack.ugc_id = file_id
+				current_resource_pack.ugc_service_name = ugc.get_ugc_service_name()
+				upload_resource_pack(current_resource_pack, file_id)
 	else:
 		print("CREATION ERR!", result)
 		pass
@@ -120,6 +185,26 @@ func upload_song(song: HBSong, ugc_id):
 	else:
 		ugc.submit_item_update(update_id, changelog_line_edit.text)
 	upload_dialog.popup_centered()
+	
+func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
+	var ugc = PlatformService.service_provider.ugc_provider
+	var update_id = ugc.start_item_update(ugc_id)
+	uploading_id = update_id
+	ugc.set_item_title(update_id, title_line_edit.text)
+	ugc.set_item_description(update_id, description_line_edit.text)
+	ugc.set_item_metadata(update_id, JSON.print(resource_pack.serialize()))
+	print("PATH: ", ProjectSettings.globalize_path(resource_pack._path))
+	print("PREVIEW: ", ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
+	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(resource_pack._path))
+	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
+
+	Steam.setItemTags(update_id, ["Resource Packs"])
+	if uploading_new:
+		ugc.submit_item_update(update_id, "Initial upload")
+	else:
+		ugc.submit_item_update(update_id, changelog_line_edit.text)
+	upload_dialog.popup_centered()
+	
 func _on_item_updated(result, tos):
 	upload_dialog.hide()
 	uploading_id = null
@@ -129,17 +214,35 @@ func _on_item_updated(result, tos):
 		a workshop item before you will need to accept the workshop's terms of service.'"""
 		post_upload_dialog.dialog_text = text
 		post_upload_dialog.popup_centered()
-		current_song.save_song()
+		match mode:
+			MODE.SONG:
+				current_song.save_song()
+			MODE.RESOURCE_PACK:
+				current_resource_pack.save_pack()
 	else:
 		var ugc = PlatformService.service_provider.ugc_provider
-		error_dialog.dialog_text = "There was an error uploading your item, error code %d" % [result]
+		error_dialog.dialog_text = "There was an error uploading your item, %s" % [ERR_MAP.get(result, "Unknown Error")]
 		if uploading_new:
-			ugc.delete_item(current_song.ugc_id)
-			current_song.ugc_id = 0
-			current_song.ugc_service_name = ""
+			match mode:
+				MODE.SONG:
+					current_song.ugc_id = 0
+					current_song.ugc_service_name = ""
+					current_song.save_song()
+					ugc.delete_item(current_song.ugc_id)
+					
+					
+				MODE.RESOURCE_PACK:
+					current_resource_pack.ugc_id = 0
+					current_resource_pack.ugc_service_name = ""
+					current_resource_pack.save_pack()
+					ugc.delete_item(current_resource_pack.ugc_id)
 		error_dialog.popup_centered()
-		current_song.save_song()
 	
 func _on_post_upload_accepted():
-	Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_song.ugc_id])
+	match mode:
+		MODE.SONG:
+			Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_song.ugc_id])
+		MODE.RESOURCE_PACK:
+			Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_resource_pack.ugc_id])
+			
 	hide()

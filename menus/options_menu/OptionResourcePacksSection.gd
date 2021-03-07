@@ -11,6 +11,14 @@ func _ready():
 	rebuilding_note_atlas_container.hide()
 	selected_resource_pack_scene = null
 	note_override_resource_pack_scene = null
+
+	
+	connect("focus_entered", scroll_container, "grab_focus")
+	
+func show_section():
+	populate()
+	
+func populate():
 	for pack_id in ResourcePackLoader.resource_packs:
 		var resource_pack := ResourcePackLoader.resource_packs[pack_id] as HBResourcePack
 		var pack_scene = preload("res://menus/options_menu/ResourcePackItem.tscn").instance()
@@ -25,8 +33,6 @@ func _ready():
 
 		pack_scene.connect("pressed", self, "_on_resource_pack_pressed", [resource_pack, pack_scene])
 	
-	connect("focus_entered", scroll_container, "grab_focus")
-
 func _input(event):
 	if scroll_container.has_focus():
 		if event.is_action_pressed("gui_cancel"):

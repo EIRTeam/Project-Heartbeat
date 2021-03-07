@@ -116,14 +116,14 @@ func rebuild_final_atlases():
 				selected_pack_textures[file_name] = texture
 	soft_rebuild_final_atlas()
 	
-func rebuild_final_atlas(atlas_name: String) -> int:
+func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_settings.resource_pack) -> int:
 	var time_start = OS.get_ticks_usec()
-	print(UserSettings.user_settings.resource_pack)
-	var selected_pack := resource_packs.get(UserSettings.user_settings.resource_pack, null) as HBResourcePack
-	if atlas_name == "notes":
-		if UserSettings.user_settings.note_icon_override != "__resource_pack":
-			if UserSettings.user_settings.note_icon_override in resource_packs:
-				selected_pack = resource_packs.get(UserSettings.user_settings.note_icon_override, null) as HBResourcePack
+	var selected_pack := resource_packs.get(pack_to_use, null) as HBResourcePack
+	if pack_to_use == UserSettings.user_settings.resource_pack:
+		if atlas_name == "notes":
+			if UserSettings.user_settings.note_icon_override != "__resource_pack":
+				if UserSettings.user_settings.note_icon_override in resource_packs:
+					selected_pack = resource_packs.get(pack_to_use, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
 		print(selected_pack.pack_name)
@@ -149,15 +149,21 @@ func rebuild_final_atlas(atlas_name: String) -> int:
 	else:
 		use_fallback = true
 	if use_fallback:
-		# If the resource pack used for this atlas is not present, we use the fallback only
-		var fallback_image := fallback_images[atlas_name] as Image
-		var fallback_image_tex := ImageTexture.new()
-		fallback_image_tex.create_from_image(fallback_image)
-		fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(rand_range(0, 200000))
-		
-		fallback_textures = HBUtils.merge_dict(fallback_textures, fallback_pack.create_atlas_textures(fallback_image_tex, atlas_name))
-		_final_atlases[atlas_name] = fallback_image_tex
-		return ERR_FILE_MISSING_DEPENDENCIES
+		if atlas_name == "notes":
+			note_pack = resource_packs["playstation"]
+			rebuild_final_atlas("notes", "playstation")
+			print("Resource pack note issue, falling back to playstation atlas...")
+		else:
+			# If the resource pack used for this atlas is not present, we use the fallback only
+			var fallback_image := fallback_images[atlas_name] as Image
+			var fallback_image_tex := ImageTexture.new()
+
+			fallback_image_tex.create_from_image(fallback_image)
+			fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(rand_range(0, 200000))
+			
+			fallback_textures = HBUtils.merge_dict(fallback_textures, fallback_pack.create_atlas_textures(fallback_image_tex, atlas_name))
+			_final_atlases[atlas_name] = fallback_image_tex
+			return ERR_FILE_MISSING_DEPENDENCIES
 	var time_end = OS.get_ticks_usec()
 	print("atlas rebuild took %d microseconds" % [(time_end - time_start)])
 	return OK
@@ -181,20 +187,20 @@ func _load_icon_packs_from_path(path: String):
 #				value[dir_name] = load_icon_pack(pack_path)
 			dir_name = dir.get_next()
 	return value
-
+	
 func get_graphic(graphic_name: String) -> Texture:
 	return final_textures.get(graphic_name, missing_texture)
 
 func get_note_trail_color(note_i: int) -> Color:
 	var trail_color_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_color"
-	if note_i in note_override_list_i or not trail_color_property_name in note_pack.property_overrides:
+	if not note_pack or note_i in note_override_list_i or not trail_color_property_name in note_pack.property_overrides:
 		return fallback_pack.get(trail_color_property_name)
 	else:
 		return note_pack.get(trail_color_property_name)
 
 func get_note_trail_margin(note_i) -> float:
 	var trail_margin_property_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_i] + "_trail_margin"
-	if note_i in note_override_list_i or not trail_margin_property_name in note_pack.property_overrides:
+	if not note_pack or note_i in note_override_list_i or not trail_margin_property_name in note_pack.property_overrides:
 		return fallback_pack.get(trail_margin_property_name) as float
 	else:
 		return note_pack.get(trail_margin_property_name) as float

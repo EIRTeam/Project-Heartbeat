@@ -43,6 +43,9 @@ var heart_trail_color: Color = Color("#4a2ac9")
 
 var property_overrides = []
 
+var ugc_id: int = 0
+var ugc_service_name: String = ""
+
 func _init():
 	serializable_fields += [
 	# Meta
@@ -58,8 +61,11 @@ func _init():
 	"slide_left_trail_color", "slide_right_trail_color", "slide_chain_piece_left_trail_color",
 	"slide_chain_piece_right_trail_color", "heart_trail_color",
 	
-	#misc
-	"property_overrides"
+	# misc
+	"property_overrides",
+	
+	# UGC
+	"ugc_id", "ugc_service_name"
 	]
 
 func get_note_graphic_file_name(note_i: int, subgraphic_i: int) -> String:

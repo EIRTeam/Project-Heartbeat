@@ -3,6 +3,11 @@ extends ConfirmationDialog
 onready var tree: Tree = get_node("VBoxContainer/VBoxContainer/Tree")
 onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/TextEdit")
 
+onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
+
+onready var workshop_upload_button = get_node("VBoxContainer/VBoxContainer2/UploadToWorkshopButton")
+onready var delete_resource_pack_button = get_node("VBoxContainer/VBoxContainer2/DeleteResourcePackButton")
+
 signal pack_opened(pack)
 
 func populate_list(allow_builtin=false):
@@ -22,6 +27,8 @@ func populate_list(allow_builtin=false):
 
 func _ready():
 	connect("about_to_show", self, "_on_about_to_show")
+	workshop_upload_button.disabled = true
+	delete_resource_pack_button.disabled = true
 func _on_about_to_show():
 	populate_list()
 
@@ -48,3 +55,16 @@ func _on_OpenResourcePackDialog_confirmed():
 func _unhandled_input(event):
 	if event.is_action_pressed("free_friends"):
 		populate_list(true)
+
+
+func _on_UploadToWorkshopButton_pressed():
+	workshop_upload_dialog.set_resource_pack(tree.get_selected().get_meta("pack"))
+	workshop_upload_dialog.popup_centered()
+
+func _on_Tree_item_selected():
+	workshop_upload_button.disabled = false
+	delete_resource_pack_button.disabled = false
+
+func _on_Tree_nothing_selected():
+	workshop_upload_button.disabled = true
+	delete_resource_pack_button.disabled = true

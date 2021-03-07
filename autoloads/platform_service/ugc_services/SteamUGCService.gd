@@ -26,7 +26,8 @@ var query_id_to_item = {}
 var success_install_things = {}
 
 const FILE_TO_UGC_TYPE = {
-	"song.json": "song"
+	"song.json": "song",
+	"resource_pack.json": "resource_pack"
 }
 
 const DOWNLOAD_PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
@@ -43,6 +44,7 @@ func _init_ugc():
 	pass
 
 func reload_ugc_songs():
+	var atlas_rebuild_needed = false
 	for item_id in Steam.getSubscribedItems():
 		var state = Steam.getItemState(item_id)
 		if state & UGC_STATES.DOWNLOADING:
@@ -52,7 +54,13 @@ func reload_ugc_songs():
 			if r:
 				updating_items.append(item_id)
 		elif state & UGC_STATES.INSTALLED:
-			_add_downloaded_item(item_id)
+			var o = _add_downloaded_item(item_id)
+			if o == "resource_pack":
+				var ugc_n = "ugc_%s" % [str(item_id)]
+				if ugc_n == UserSettings.user_settings.resource_pack or ugc_n == UserSettings.user_settings.note_icon_override:
+					atlas_rebuild_needed = true
+	if atlas_rebuild_needed:
+		ResourcePackLoader.rebuild_final_atlases()
 
 func _track_item_download(item_id):
 	var notification = DOWNLOAD_PROGRESS_THING.instance()
@@ -71,9 +79,9 @@ func _process(delta):
 			text = text % [item_name, progress*100, p.downloaded*1000000.0, p.total*1000000.0]
 			text += "%"
 
-func _add_downloaded_item(item_id, fire_signal=false):
+func _add_downloaded_item(item_id, fire_signal=false) -> String:
 	if Steam.getItemState(item_id) == 0:
-		return
+		return ""
 	var install_info = Steam.getItemInstallInfo(item_id)
 	var folder = install_info.folder
 	var file = File.new()
@@ -94,8 +102,19 @@ func _add_downloaded_item(item_id, fire_signal=false):
 #				if not song.is_cached():
 #					song.cache_data()
 				break
+			if type == "resource_pack":
+				var meta_path := folder as String
+				var id := "ugc_" + str(item_id)
+				var pack := HBResourcePack.load_from_directory(folder) as HBResourcePack
+				pack._id = id
+				if pack:
+					pack.ugc_id = item_id
+					pack.ugc_service_name = get_ugc_service_name()
+					ResourcePackLoader.resource_packs[id] = pack
+					
 	if item and fire_signal:
 		emit_signal("ugc_item_installed", item_type, item)
+	return item_type
 func _on_item_installed(app_id, item_id):
 	if app_id == Steam.getAppID():
 		_add_downloaded_item(item_id, true)
@@ -138,7 +157,7 @@ func _on_show_success(item_id):
 	var thing = success_install_things[item_id]
 	DownloadProgress.add_notification(thing, true)
 	var data = cached_items_data[item_id]
-	thing.text = "Succesfully installed %s!" % [data.title]
+	thing.text = "Succesfully installed  %s!" % [data.title]
 	success_install_things.erase(item_id)
 	
 func _on_ugc_query_completed(update_handle, result, number_of_results, number_of_matching_results, cached):

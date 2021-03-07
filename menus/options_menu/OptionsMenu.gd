@@ -316,6 +316,8 @@ func _show_section(section_name):
 		var section = section_name_to_section_control[section_n]
 		if section_name == section_n:
 			section.show()
+			if section.has_method("show_section"):
+				section.show_section()
 		else:
 			section.hide()
 
