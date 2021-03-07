@@ -35,6 +35,10 @@ const HIDE_KB_REMAPS_ACTIONS = [
 const DISABLE_ANALOG_FOR_ACTION = [
 	"gui_accept",
 	"gui_cancel",
+	"gui_up",
+	"gui_down",
+	"gui_left",
+	"gui_right",
 ]
 
 var controller_device_idx = -1
@@ -192,6 +196,8 @@ func load_input_map():
 		if InputMap.has_action(action_name):
 			InputMap.action_erase_events(action_name)
 			for action in user_settings.input_map[action_name]:
+				if action is InputEventJoypadMotion and action_name in UserSettings.DISABLE_ANALOG_FOR_ACTION:
+					continue
 				InputMap.action_add_event(action_name, action)
 	var found_stored_guid_device = false
 	for _device_idx in Input.get_connected_joypads():
