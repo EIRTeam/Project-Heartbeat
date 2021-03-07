@@ -67,7 +67,6 @@ func _ready():
 		material = fade_mat
 	
 	call_deferred("_on_resized")
-	set_process(false)
 	
 func _on_scroll_changed():
 	if not tween.is_active():
@@ -83,10 +82,8 @@ func _on_scroll_changed():
 				break
 	
 func _on_initial_input_debounce_timeout():
-	if has_focus():
-		_position_change_input(debounce_step)
-		input_debounce_timer.stop()
-		input_debounce_timer.start()
+	_position_change_input(debounce_step)
+	input_debounce_timer.start()
 	
 func _on_input_debounce_timeout():
 	_position_change_input(debounce_step)
@@ -104,8 +101,7 @@ func _on_resized():
 			mat.set_shader_param("enabled", get_v_scrollbar().visible)
 			mat.set_shader_param("size", rect_size)
 			mat.set_shader_param("pos", rect_global_position)
-			if rect_size.x > 0:
-				mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
+			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
 		var item = item_container.get_child(current_selected_item)
@@ -170,6 +166,16 @@ func select_item(item_i: int):
 func force_scroll():
 	if get_selected_item():
 		select_item(current_selected_item)
+	
+func _input(event):
+	# Stop debouncing when buttons are released
+	var all_released = true
+	for action in ["gui_up", "gui_down", "gui_left", "gui_right"]:
+		if Input.is_action_pressed(action):
+			all_released = false
+	if all_released:
+		initial_input_debounce_timer.stop()
+		input_debounce_timer.stop()
 
 # Receives position change input, select items as needed & plays back sounds
 func _position_change_input(position_change: int):
@@ -185,48 +191,45 @@ func _position_change_input(position_change: int):
 				select_item(new_pos)
 				sfx_audio_player.play()
 
-func _gui_input(_event: InputEvent):
+func _gui_input(event):
 	var position_change = 0
 	
-	if Input.is_action_pressed("gui_down"):
+	if event.is_action_pressed("gui_down"):
 		if vertical_step != 0:
 			position_change += vertical_step
-	if Input.is_action_pressed("gui_up"):
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_up"):
 		if vertical_step != 0:
 			position_change -= vertical_step
-	if Input.is_action_pressed("gui_right"):
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_right"):
 		if horizontal_step != 0:
 			position_change += horizontal_step
-	if Input.is_action_pressed("gui_left"):
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step
-	if _event.is_action_pressed("gui_accept"):
+			get_tree().set_input_as_handled()
+	if event.is_action_pressed("gui_accept"):
 		var selected_child = get_selected_item()
 		if selected_child and selected_child.has_signal("pressed"):
 			get_tree().set_input_as_handled()
 			selected_child.emit_signal("pressed")
-	if initial_input_debounce_timer.is_stopped() and input_debounce_timer.is_stopped():
-		_position_change_input(position_change)
-		if position_change != 0:
-			debounce_step = position_change
-			initial_input_debounce_timer.stop()
-			input_debounce_timer.stop()
-			initial_input_debounce_timer.start()
-	if position_change == 0:
+	_position_change_input(position_change)
+	if position_change != 0:
+		debounce_step = position_change
 		initial_input_debounce_timer.stop()
 		input_debounce_timer.stop()
+		initial_input_debounce_timer.start()
 
 func _on_focus_lost():
 	var current_item = get_selected_item()
 	if current_item:
 		current_item.stop_hover()
-	set_process(false)
-	input_debounce_timer.stop()
 	initial_input_debounce_timer.stop()
+	input_debounce_timer.stop()
+
 func _on_focus_entered():
 	var current_item = get_selected_item()
 	if current_item:
 		current_item.hover()
-	set_process(true)
-	input_debounce_timer.stop()
-	initial_input_debounce_timer.stop()
