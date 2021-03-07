@@ -19,6 +19,9 @@ func show_section():
 	populate()
 	
 func populate():
+	for item in item_container.get_children():
+		item.queue_free()
+		item_container.remove_child(item)
 	for pack_id in ResourcePackLoader.resource_packs:
 		var resource_pack := ResourcePackLoader.resource_packs[pack_id] as HBResourcePack
 		var pack_scene = preload("res://menus/options_menu/ResourcePackItem.tscn").instance()
