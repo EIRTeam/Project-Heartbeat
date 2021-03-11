@@ -17,6 +17,9 @@ var max_score = 1
 var failed = false # if user failed, currently unused
 var used_cheats = false # if user used autoplay
 
+var _percentage_graph = []
+var _ideal_percentage_graph = []
+
 var note_ratings = {
 	HBJudge.JUDGE_RATINGS.WORST: 0,
 	HBJudge.JUDGE_RATINGS.SAD: 0,

@@ -1,0 +1,300 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
+[ext_resource path="res://graphics/icons/chevron-double-up.svg" type="Texture" id=4]
+[ext_resource path="res://graphics/icons/plus-thick.svg" type="Texture" id=5]
+[ext_resource path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://fonts/Roboto-Black.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 70
+use_filter = true
+font_data = SubResource( 1 )
+fallback/0 = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+outline_size = 2
+outline_color = Color( 1, 1, 1, 0.2 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = 7
+font_data = ExtResource( 2 )
+
+[node name="VBoxContainer" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
+custom_constants/separation = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 838.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.77
+custom_constants/separation = 15
+
+[node name="Panel" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+margin_right = 952.0
+margin_bottom = 838.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 3 )
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = 2.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+margin_left = 967.0
+margin_right = 1920.0
+margin_bottom = 838.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 3 )
+
+[node name="Label2" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 2 )
+text = "No points were granted!"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 1
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
+margin_left = 1.0
+margin_top = 15.0
+margin_right = 938.0
+margin_bottom = 823.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelUpContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+margin_right = 937.0
+margin_bottom = 404.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
+margin_left = 205.0
+margin_right = 445.0
+margin_bottom = 404.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
+margin_left = 449.0
+margin_top = 160.0
+margin_right = 732.0
+margin_bottom = 243.0
+custom_fonts/font = SubResource( 2 )
+text = "Level up!"
+
+[node name="ExperienceContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
+margin_top = 404.0
+margin_right = 937.0
+margin_bottom = 808.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+margin_right = 374.0
+margin_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.67
+texture = ExtResource( 5 )
+stretch_mode = 4
+
+[node name="ExperienceLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
+margin_left = 378.0
+margin_top = 117.0
+margin_right = 937.0
+margin_bottom = 286.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 2 )
+text = "1000 Experience points!"
+align = 1
+autowrap = true
+
+[node name="Panel2" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
+margin_top = 853.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.75
+custom_styles/panel = ExtResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 0
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
+margin_left = 10.0
+margin_right = 1910.0
+margin_bottom = 227.0
+custom_constants/margin_right = 15
+custom_constants/margin_top = 0
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer"]
+margin_left = 15.0
+margin_right = 1885.0
+margin_bottom = 227.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 60.0
+margin_right = 1870.0
+margin_bottom = 93.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_right = 1696.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+text = "TOTAL NOTES"
+
+[node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 1700.0
+margin_right = 1870.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = SubResource( 3 )
+text = "(NT)700"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 97.0
+margin_right = 1870.0
+margin_bottom = 130.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 1696.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+text = "COMBO"
+
+[node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1700.0
+margin_right = 1870.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = SubResource( 3 )
+text = "(NT)700"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 134.0
+margin_right = 1870.0
+margin_bottom = 167.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 1670.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+text = "SCORE"
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 1674.0
+margin_right = 1870.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+custom_fonts/font = SubResource( 3 )
+text = "(NT)131231412"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

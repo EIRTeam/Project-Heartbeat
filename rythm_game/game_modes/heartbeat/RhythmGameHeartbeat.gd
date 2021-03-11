@@ -378,6 +378,21 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 				var sfx_player = sfx_pool.playing_effects[note_sfx_name][sfx_pool.playing_effects[note_sfx_name].size()-1]
 				sfx_pool.stop_sfx(sfx_player)
 		sfx_pool.play_sfx("double_note_hit")
+	
+	var start_time = current_song.start_time / 1000.0
+	var end_time = audio_stream_player.stream.get_length()
+	if current_song.end_time > 0:
+		end_time = current_song.end_time / 1000.0
+		
+	var current_duration = audio_stream_player.stream.get_length()
+	current_duration -= start_time
+	current_duration -= audio_stream_player.stream.get_length() - end_time
+	
+	var progress = time - start_time
+	progress = progress / current_duration
+	
+	result._percentage_graph.append(Vector2(progress * 100.0, result.get_percentage() * 100.0))
+	
 # called when the initial slide is done, to swap it out for a slide loop
 func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
 	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
