@@ -143,7 +143,6 @@ func _on_game_time_changed(time: float):
 						game.show_slide_hold_score(piece.position, accumulated_score, i >= slide_chain.pieces.size() - 1)
 						piece_drawer.hide()
 						if i >= slide_chain.pieces.size() - 1:
-							print("OK!")
 							kill_note()
 							game.sfx_pool.play_sfx("slide_chain_ok")
 				if piece_drawer.visible:
