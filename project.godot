@@ -839,6 +839,7 @@ config/service_environment="production"
 
 [autoload]
 
+ColorBlindOverlay="*res://autoloads/ColorBlindOverlay.tscn"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
 AsyncTaskQueue="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"

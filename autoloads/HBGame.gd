@@ -64,6 +64,10 @@ var serializable_types = {
 	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd")
 }
 
+const EXCELLENT_THRESHOLD = 0.95
+const GREAT_THRESHOLD = 0.90
+const PASS_THRESHOLD = 0.75
+
 func _ready():
 	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():

@@ -14,7 +14,7 @@
 [sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="CanvasLayer" type="CanvasLayer"]
-layer = 128
+layer = 120
 script = ExtResource( 1 )
 
 [node name="MouseTrap" type="Control" parent="."]

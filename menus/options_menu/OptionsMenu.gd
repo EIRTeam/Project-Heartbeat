@@ -176,6 +176,13 @@ var OPTIONS = {
 			"options_pretty": ["Auto-detect", "Xbox™", "PlayStation™", "Nintendo™"],
 			"type": "options"
 		},
+		"color_remap": {
+			"name": tr("Color remap"),
+			"description": tr("For color-blindness, remaps colors on the screen with others, it's an imperfect solution but it might be useful."),
+			"options": [HBUserSettings.COLORBLIND_COLOR_REMAP.NONE, HBUserSettings.COLORBLIND_COLOR_REMAP.GBR, HBUserSettings.COLORBLIND_COLOR_REMAP.BRG, HBUserSettings.COLORBLIND_COLOR_REMAP.BGR],
+			"options_pretty": ["None (Red/Green/Blue)", "Red/Green/Blue -> Green/Blue/Red", "Red/Green/Blue -> Blue/Red/Green", "Red/Green/Blue -> Blue/Green/Red"],
+			"type": "options"
+		},
 		"lyrics_enabled": {
 			"name": tr("Enable lyrics"),
 			"description": tr("Enables showing lyrics in-game.")
@@ -338,6 +345,8 @@ func _on_value_changed(property_name, new_value):
 		ResourcePackLoader.soft_rebuild_final_atlas()
 	if property_name == "button_prompt_override":
 		UserSettings.set_joypad_prompts()
+	if property_name == "color_remap":
+		ColorBlindOverlay.update_overlay()
 	UserSettings.apply_user_settings()
 	UserSettings.save_user_settings()
 
