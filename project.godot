@@ -469,7 +469,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/tabbed_container/TabbedContainer.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "HBTask",
 "language": "GDScript",
 "path": "res://autoloads/async_task_queue/HBTask.gd"
@@ -839,8 +839,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1614029803
-config/build_commit="ed7eb31a09d878756bb7029a13c274350a0ef380"
+config/build_time=1615426126
+config/build_commit="88876609a678d524c9067139b8c74ae0850f53ec"
 config/service_environment="production"
 
 [autoload]
