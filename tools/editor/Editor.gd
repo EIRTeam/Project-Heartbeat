@@ -33,7 +33,6 @@ onready var auto_multi_checkbox = get_node("VBoxContainer/Panel2/MarginContainer
 onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
 onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
-onready var stop_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/StopButton")
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
@@ -722,12 +721,6 @@ func _on_PlayButton_pressed():
 	game_preview.set_visualizer_processing_enabled(true)
 	game_preview.widget_area.hide()
 	obscure_ui()
-
-func _on_StopButton_pressed():
-	game_playback.seek(0)
-	pause()
-	play_button.show()
-	pause_button.hide()
 	
 # Fired when any timing point is changed, gives the game the new data
 func _on_timing_points_changed():

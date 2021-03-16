@@ -833,8 +833,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1614577366
-config/build_commit="60666284570a20436014021736e7595a5cded354"
+config/build_time=1615657912
+config/build_commit="cc19222c40e749439b51f445a3fb7acb0eb5efa8"
 config/service_environment="production"
 
 [autoload]
@@ -880,7 +880,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11"
+main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading"
 
 [editor_plugins]
 
