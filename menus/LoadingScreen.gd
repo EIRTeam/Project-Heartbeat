@@ -47,7 +47,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 		show_epilepsy_warning()
 	
 	is_loading_practice_mode = practice
-	var assets_to_get = ["audio", "voice", "do_dsc_audio_split"]
+	var assets_to_get = ["audio", "voice"]
 	if not SongDataCache.is_song_audio_loudness_cached(song):
 		assets_to_get.append("audio_loudness")
 	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)

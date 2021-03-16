@@ -114,6 +114,11 @@ func get_song_preview_res_path():
 func is_visible_in_editor():
 	return true
 		
+# Some songs might put vocals in the same file as they put instrumental, in a non-standard
+# ogg channel layout of [instrumental_l, instrumental_r, voice_l, voice_r] enabling this
+# will make the game attempt to extract a voice when loading the oggs
+func uses_dsc_style_channels() -> bool:
+	return false
 func get_song_background_image_res_path():
 	if background_image != "":
 		return path.plus_file("/%s" % [background_image])

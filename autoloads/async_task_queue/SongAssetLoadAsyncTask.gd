@@ -79,19 +79,15 @@ func _task_process() -> bool:
 		"audio":
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream()
-				var audio_ogg = loaded_asset
-				if "do_dsc_audio_split" in requested_assets_queue and not song.youtube_url:
-					if loaded_asset is AudioStreamOGGVorbis:
-						var channel_count = HBUtils.get_ogg_channel_count(song.get_song_audio_res_path())
-						if channel_count >= 4:
-							var audio_utils = HBAudioUtils.new()
-							audio_utils.split_audio(loaded_asset)
-							loaded_asset = audio_utils.get_split_instrumental()
-							loaded_assets_mutex.lock()
-							loaded_assets["voice"] = audio_utils.get_split_voice()
-							loaded_assets_mutex.unlock()
-							requested_assets_queue.erase("voice")
-					requested_assets_queue.erase("do_dsc_audio_split")
+				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
+				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
+					var channel_count = audio_ogg.get_channel_count()
+					if channel_count >= 4:
+						var voice_stream := loaded_asset.duplicate() as AudioStreamOGGVorbis
+						voice_stream.get_channel_count()
+						voice_stream.dsc_voice_remap = true
+						loaded_assets["voice"] = voice_stream
+						requested_assets_queue.erase("voice")
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)
 					requested_assets_queue.erase("audio_loudness")

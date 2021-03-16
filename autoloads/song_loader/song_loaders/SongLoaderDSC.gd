@@ -16,6 +16,7 @@ class HBSongDSC:
 	extends HBSong
 	var pv_data: DSCPVData
 	var game_fs_access: DSCGameFSAccess
+	var _audio_cache: WeakRef
 	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess):
 		self.pv_data = _pv_data
 		for diff in pv_data.charts:
@@ -28,6 +29,9 @@ class HBSongDSC:
 	func get_song_audio_res_path():
 		var p = game_fs_access.get_file_path(pv_data.song_file_name)
 		return p
+		
+	func uses_dsc_style_channels() -> bool:
+		return true
 	func has_audio():
 		return pv_data.song_file_name != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:

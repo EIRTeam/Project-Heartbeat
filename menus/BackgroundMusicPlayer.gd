@@ -113,8 +113,6 @@ func play_song(song: HBSong, force = false):
 		AsyncTaskQueue.abort_task(current_load_task)
 	var assets_to_load = ["audio", "voice", "preview", "background", "circle_logo"]
 	#do_dsc_audio_split
-	if song is SongLoaderDSC.HBSongDSC:
-		assets_to_load.append("do_dsc_audio_split")
 	current_load_task = SongAssetLoadAsyncTask.new(assets_to_load, song)
 	current_song = song
 	current_load_task.connect("assets_loaded", self, "_on_song_assets_loaded")
