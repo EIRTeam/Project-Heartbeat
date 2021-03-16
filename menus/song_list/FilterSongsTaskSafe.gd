@@ -34,11 +34,15 @@ func sort_and_filter_songs():
 				"local":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
 										and not song is HBPPDSong and not song.comes_from_ugc() \
-										and not song.path.begins_with(editor_songs_path)
+										and not song.path.begins_with(editor_songs_path) \
+										and not song is SongLoaderDSC.HBSongDSC
 				"editor":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
 										and not song is HBPPDSong and not song.comes_from_ugc() \
-										and song.path.begins_with(editor_songs_path)
+										and song.path.begins_with(editor_songs_path) \
+										and not song is SongLoaderDSC.HBSongDSC
+				"dsc":
+					should_add_song = song is SongLoaderDSC.HBSongDSC
 				"workshop":
 					should_add_song = song.comes_from_ugc()
 			if should_add_song:

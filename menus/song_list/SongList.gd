@@ -140,6 +140,7 @@ func populate_buttons():
 			break
 	var has_local = false
 	var has_editor = false
+	var has_dsc = false
 	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
@@ -147,10 +148,13 @@ func populate_buttons():
 			if song.path.begins_with(editor_songs_path):
 				has_editor = true
 				filter_types["editor"] = "Editor"
+			elif song is SongLoaderDSC.HBSongDSC:
+				has_dsc = true
+				filter_types["dsc"] = "DSC"
 			else:
 				has_local = true
 				filter_types["local"] = "Local"
-			if has_editor and has_local:
+			if has_editor and has_local and has_dsc:
 				break
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong
