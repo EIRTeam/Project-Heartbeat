@@ -51,9 +51,11 @@ static func deserialize(data: Dictionary):
 			var _field = object.get(field)
 			if data.has(field):
 				if _field is Object and _field.has_method("serialize"):
-					if data[field].has("type"):
+					if data[field] is Dictionary and data[field].has("type"):
 						# Fixes cloning...
 						object.set(field, deserialize(data[field]))
+					elif not data[field] is Dictionary:
+						push_error("Error deserializing %s, field %s was expected to be a dictionary but it wasn't, it was instead a %d" % [data.type, field, typeof(data[field])])
 				elif _field is Dictionary:
 					if _field.size() > 0:
 						# Support for enums

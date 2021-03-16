@@ -198,8 +198,6 @@ static func deserialize(data: Dictionary):
 			result.input_map[action_name] = []
 			for action in data.input_map[action_name]:
 				result.input_map[action_name].append(str2var(action))
-	if data.has("last_game_info"):
-		result.last_game_info = HBGameInfo.deserialize(data.last_game_info)
 	var pss = {}
 #	if data.has("per_song_settings"):
 #		for song in data.per_song_settings:
