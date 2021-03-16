@@ -41,6 +41,16 @@ class HBSongDSC:
 			var line = "%s: %s" % [key.capitalize(), pv_data.metadata[key]]
 			meta.append(line)
 		return meta
+
+
+	func is_chart_note_usage_known(difficulty: String):
+		return true
+
+	func is_chart_note_usage_known_all():
+		return true
+		
+	func get_chart_note_usage(difficulty: String):
+		return []
 	func is_visible_in_editor():
 		return false
 func _init_loader():
