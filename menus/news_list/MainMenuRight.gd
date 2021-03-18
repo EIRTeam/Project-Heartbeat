@@ -16,14 +16,20 @@ onready var twitter_button = get_node("VBoxContainer/SocialButtons/TwitterButton
 
 func _ready():
 	request.connect("request_completed", self, "_on_request_completed")
-	request.request("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=1216230&count=4")
+	request.request("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=1216230&count=20")
 	twitter_button.connect("pressed", OS, "shell_open", ["https://twitter.com/PHeartbeatGame"])
 	discord_button.connect("pressed", OS, "shell_open", ["https://discord.com/invite/qGMdbez"])
 	
 func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		var json = JSON.parse(body.get_string_from_utf8()).result
+		var news_items = []
 		for item in json.appnews.newsitems:
+			if not "tags" in item or not "patchnotes" in item.tags:
+				news_items.append(item)
+				if news_items.size() == 4:
+					break
+		for item in news_items:
 			var button = NEWS_ITEM.instance()
 			news_container.add_child(button)
 			var date_time = OS.get_datetime_from_unix_time(item.date)
