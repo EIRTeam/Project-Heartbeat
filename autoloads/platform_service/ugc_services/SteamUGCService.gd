@@ -42,6 +42,24 @@ func _init().():
 	_init_ugc()
 func _init_ugc():
 	pass
+	
+# we get the item add time on startup, this is what this variable and method below do
+var update_handles = {}
+
+func _make_user_song_ugc_request(page: int) -> int:
+	var u = Steam.createQueryUserUGCRequest(Steam.getSteamID() & Steam.STEAM_ACCOUNT_ID_MASK,
+		Steam.USER_UGC_LIST_SUBSCRIBED,
+		Steam.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE, 0, 
+		Steam.getAppID(), Steam.getAppID(), page)
+	Steam.addRequiredTag(u, "Charts")
+	Steam.sendQueryUGCRequest(u)
+	if u != Steam.UGC_QUERY_HANDLE_INVALID:
+		update_handles[u] = page
+	return u
+
+func _reload_ugc_item_added_dates():
+	_make_user_song_ugc_request(1)
+	
 
 func reload_ugc_songs():
 	var atlas_rebuild_needed = false
@@ -59,6 +77,7 @@ func reload_ugc_songs():
 				var ugc_n = "ugc_%s" % [str(item_id)]
 				if ugc_n == UserSettings.user_settings.resource_pack or ugc_n == UserSettings.user_settings.note_icon_override:
 					atlas_rebuild_needed = true
+	_reload_ugc_item_added_dates()
 	if atlas_rebuild_needed:
 		ResourcePackLoader.rebuild_final_atlases()
 
@@ -97,6 +116,9 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 				song._comes_from_ugc = true
 				song.ugc_id = item_id
 				song.ugc_service_name = get_ugc_service_name()
+				# We give UGC songs the highest value possible, so that new downloads show up on top.
+				# since godot dictionaries hold order properly, this is all we need
+				song._added_time = 0x7FFFFFFFFFFFFFFF
 				SongLoader.add_song(song)
 				item = song
 #				if not song.is_cached():
@@ -126,7 +148,6 @@ func _on_item_installed(app_id, item_id):
 			_on_show_success(item_id)
 		else:
 			get_item_details(item_id)
-		print("DOWNLOADED ITEM!")
 		
 		
 
@@ -161,6 +182,18 @@ func _on_show_success(item_id):
 	success_install_things.erase(item_id)
 	
 func _on_ugc_query_completed(update_handle, result, number_of_results, number_of_matching_results, cached):
+	if update_handle in update_handles:
+		var page = update_handles[update_handle]
+		update_handles.erase(update_handle)
+		var total_results_until_now = page * 50
+		if total_results_until_now < number_of_matching_results:
+			_make_user_song_ugc_request(page+1)
+		for result_i in range(number_of_results):
+			var details = Steam.getQueryUGCResult(update_handle, result_i)
+			var f_name = "ugc_" + str(details.fileID)
+			if f_name in SongLoader.songs:
+				var song = SongLoader.songs[f_name] as HBSong
+				song._added_time = details.timeAddedToUserList
 	if update_handle in query_id_to_item:
 		var details = Steam.getQueryUGCResult(update_handle, 0)
 		var item_id = query_id_to_item[update_handle]

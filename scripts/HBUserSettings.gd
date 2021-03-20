@@ -36,7 +36,8 @@ var filter_mode__possibilities = [
 	"local",
 	"workshop",
 	"ppd",
-	"folders"
+	"folders",
+	"dsc"
 ]
 var sort_mode = "title"
 var leading_trail_enabled = false

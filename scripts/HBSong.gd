@@ -54,6 +54,7 @@ var id: String
 var path: String
 var _note_usage_cache = {}
 var _note_usage_cache_lock = Mutex.new()
+var _added_time: int = 0
 
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty

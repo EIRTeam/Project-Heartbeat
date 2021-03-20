@@ -56,7 +56,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		"title": "Title",
 		"artist": "Artist",
 		"score": "Difficulty",
-		"creator": "Chart Creator"
+		"creator": "Chart Creator",
+		"_added_time": "Last Subscribed"
 	}
 	
 	for button in sort_by_list_container.get_children():

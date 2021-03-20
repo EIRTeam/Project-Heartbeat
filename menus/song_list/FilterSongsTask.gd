@@ -21,11 +21,9 @@ func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_sele
 	song_id_to_select = _song_id_to_select
 	difficulty_to_select = _difficulty_to_select
 func sort_and_filter_songs():
-	songs.sort_custom(self, "sort_array")
-	prints("Filtering by", filter_by)
-	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	if filter_by != "all":
 		var _filtered_songs = []
+		var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 		for song in songs:
 			var should_add_song = false
 			match filter_by:
@@ -49,8 +47,10 @@ func sort_and_filter_songs():
 					should_add_song = song.comes_from_ugc()
 			if should_add_song:
 				_filtered_songs.append(song)
+		_filtered_songs.sort_custom(self, "sort_array")
 		return _filtered_songs
 	else:
+		songs.sort_custom(self, "sort_array")
 		return songs
 		
 func sort_array(a: HBSong, b: HBSong):
@@ -70,7 +70,10 @@ func sort_array(a: HBSong, b: HBSong):
 		a_prop = a_prop.to_lower()
 	if b_prop is String:
 		b_prop = b_prop.to_lower()
-	return a_prop < b_prop
+	if sort_by_prop != "_added_time":
+		return a_prop < b_prop
+	else:
+		return b_prop < a_prop
 		
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instance()
