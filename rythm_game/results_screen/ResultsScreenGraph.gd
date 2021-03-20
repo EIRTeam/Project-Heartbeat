@@ -9,7 +9,9 @@ var _draw_points_internal = PoolVector2Array()
 
 const X_MARGIN = 0
 
-const fnt = preload("res://fonts/new_fonts/roboto_black_25.tres")
+const fnt = preload("res://fonts/new_fonts/roboto_black_35.tres")
+
+onready var point_nodes_node = get_node("PointNodes")
 
 var points = [
 	Vector2(0, 10),
@@ -20,6 +22,15 @@ var points = [
 	Vector2(60, 80),
 	Vector2(100, 90),
 ] setget set_points
+
+var dots = [
+] setget set_dots
+
+const DOT_TEXTURE = preload("res://graphics/graph_dot.png")
+
+func set_dots(val):
+	dots = val
+	update()
 
 func set_points(val):
 	points = val
@@ -55,7 +66,6 @@ func draw_rating_rects():
 	var pass_y = rect_size.y - ((HBGame.PASS_THRESHOLD * 100.0 / value_max_y) * rect_size.y)
 	
 	# pass rect
-	prints(pass_y, great_y, excellent_y)
 	draw_rect(Rect2(Vector2(X_MARGIN, great_y), Vector2(rect_size.x - X_MARGIN, pass_y - great_y)), pass_line_rect_color)
 	draw_rect(Rect2(Vector2(X_MARGIN, excellent_y), Vector2(rect_size.x - X_MARGIN, great_y - excellent_y)), great_line_rect_color)
 	draw_rect(Rect2(Vector2(X_MARGIN, 0), Vector2(rect_size.x - X_MARGIN, excellent_y)), excellent_line_rect_color)
@@ -72,7 +82,7 @@ func draw_rating_rects():
 func _draw():
 	
 	var colors = []
-	_draw_points_internal = PoolVector2Array([Vector2(0, 0)] + points)
+	_draw_points_internal = PoolVector2Array(points)
 	var col = Color.royalblue
 	col.a = 0.25
 	var max_x = 0
@@ -102,3 +112,7 @@ func _draw():
 	
 	draw_polyline(_draw_points_internal, Color.royalblue, 4.0, true)
 	draw_rating_rects()
+	for i in range(dots.size()):
+		var dot := dots[i] as Vector2
+		var pos = val_to_rect_pos(dot) - DOT_TEXTURE.get_size() / 2.0
+		draw_texture(DOT_TEXTURE, pos, Color.crimson)
