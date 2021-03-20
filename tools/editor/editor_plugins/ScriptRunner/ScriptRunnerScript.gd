@@ -43,3 +43,6 @@ func get_points_at_time(time: int):
 			if note.time == time:
 				notes.append(note)
 	return notes
+
+func get_bpm_at_time(time: int) -> int:
+	return _editor.game.get_bpm_at_time(time)
