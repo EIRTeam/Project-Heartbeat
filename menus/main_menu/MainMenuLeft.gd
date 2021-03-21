@@ -2,9 +2,14 @@ extends HBMenu
 
 onready var start_menu = get_node("VBoxContainer/StartMenu")
 
+const APRIL_FOOLS_LOGO = preload("res://graphics/logo_april.png")
+
 signal right
 
 func _ready():
+	var date_time = OS.get_datetime()
+	if date_time.day == 1 and date_time.month == 4:
+		$TextureRect2.texture = APRIL_FOOLS_LOGO
 	start_menu.connect("navigate_to_menu", self, "change_to_menu")
 	if not PlatformService.service_provider.implements_lobby_list or HBGame.demo_mode:
 		get_tree().call_group("mponly", "free")
