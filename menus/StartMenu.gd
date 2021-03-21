@@ -1,7 +1,11 @@
 extends HBMenu
 
+const APRIL_FOOLS_LOGO = preload("res://graphics/logo_april.png")
+
 func _ready():
-	pass
+	var date_time := OS.get_datetime()
+	if date_time.day == 1 and date_time.month == 4:
+		$PressStart/VBoxContainer/TextureRect3.texture = APRIL_FOOLS_LOGO
 
 
 func _on_PressStart_start_pressed():
