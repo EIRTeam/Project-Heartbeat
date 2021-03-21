@@ -107,6 +107,7 @@ const DEFAULT_SOUNDS = {
 }
 
 var custom_sounds = {}
+var custom_sound_volumes = {}
 
 var locale = "auto-detect"
 var locale__possibilities = [
@@ -153,16 +154,19 @@ func _init():
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
-	"custom_sounds", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
+	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 	"lyrics_color", "locale", "timing_method", "enable_multi_threaded_texture_loading", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap"]
 	
 	merge_dict_fields += [
-		"custom_sounds"
+		"custom_sounds",
+		"custom_sound_volumes"
 	]
 
 	for sound_name in DEFAULT_SOUNDS:
 		custom_sounds[sound_name] = "default"
+	for sound_name in DEFAULT_SOUNDS:
+		custom_sound_volumes[sound_name] = 1.0
 
 func get_lyrics_color() -> Color:
 	var color = Color("#ffaa00")
@@ -243,3 +247,6 @@ func serialize(serialize_defaults=false):
 	return base_data
 func get_serialized_type():
 	return "UserSettings"
+
+func get_sound_volume_db(sound_name: String) -> float:
+	return linear2db(UserSettings.user_settings.custom_sound_volumes[sound_name])

@@ -60,10 +60,19 @@ func _set_section_data(val):
 					if option.has("percentage"):
 						option_scene.percentage = option.percentage
 		if option_scene:
+			var sett_src = settings_source
+			if "value_source" in option:
+				sett_src = option.value_source
 			options_container.add_child(option_scene)
-			option_scene.value = settings_source.get(option_name)
+			option_scene.value = sett_src.get(option_name)
 			option_scene.text = section_data[option_name].name
-			option_scene.connect("changed", self, "_on_value_changed", [option_name])
+			if not "signal_method" in section_data[option_name]:
+				option_scene.connect("changed", self, "_on_value_changed", [option_name])
+			else:
+				var binds = []
+				if "signal_binds" in section_data[option_name]:
+					binds = section_data[option_name].signal_binds
+				option_scene.connect("changed", section_data[option_name].signal_object, section_data[option_name].signal_method, binds)
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
 		if section_data.size() > 0:
 			# We force a hover on the first section data to make sure the description

@@ -273,6 +273,10 @@ const OptionSection = preload("res://menus/options_menu/OptionSection.tscn")
 
 var section_name_to_section_control = {}
 
+func _set_sound_volume(volume, sound: String):
+	UserSettings.user_settings.custom_sound_volumes[sound] = volume
+	UserSettings.save_user_settings()
+
 func _ready():
 	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
@@ -282,6 +286,20 @@ func _ready():
 			"description": tr("Sound to use. (Place custom sounds inside the custom_sounds folder in your user folder, only 16-bit WAV files are supported)"),
 			"sound_name": sound_type,
 			"type": "sound_type_selector"
+		}
+		OPTIONS[OPTIONS.keys()[4]][sound_type] = {
+			"name": tr(sound_pretty_name + " sound volume"),
+			"description": tr("Volume for this sound effect"),
+			"minimum": 0.0,
+			"maximum": 1.5,
+			"step": 0.05,
+			"percentage": true,
+			"postfix": " %",
+			"signal_method": "_set_sound_volume",
+			"signal_object": self,
+			"default_value": 1.0,
+			"signal_binds": [sound_type],
+			"value_source": UserSettings.user_settings.custom_sound_volumes
 		}
 	add_default_values()
 	buttons.connect("hover", self, "_on_button_hover")
@@ -315,7 +333,7 @@ func add_default_values():
 		var section = OPTIONS[section_name]
 		for option_name in section:
 			# Section overrides manage all themselves
-			if not OPTIONS[section_name].has("__section_override"):
+			if not OPTIONS[section_name].has("__section_override") and not "default_value" in OPTIONS[section_name][option_name]:
 				OPTIONS[section_name][option_name]["default_value"] = UserSettings.user_settings.get(option_name)
 			
 func _show_section(section_name):
