@@ -113,17 +113,18 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 			if type == "song":
 #				Log.log(self, "Loading workshop song from %s" % folder)
 				var song = SongLoader.load_song_meta(folder + "/%s" % [file_name], "ugc_" + str(item_id))
-				song._comes_from_ugc = true
-				song.ugc_id = item_id
-				song.ugc_service_name = get_ugc_service_name()
-				# We give UGC songs the highest value possible, so that new downloads show up on top.
-				# since godot dictionaries hold order properly, this is all we need
-				song._added_time = 0x7FFFFFFFFFFFFFFF
-				SongLoader.add_song(song)
-				item = song
-#				if not song.is_cached():
-#					song.cache_data()
-				break
+				if song:
+					song._comes_from_ugc = true
+					song.ugc_id = item_id
+					song.ugc_service_name = get_ugc_service_name()
+					# We give UGC songs the highest value possible, so that new downloads show up on top.
+					# since godot dictionaries hold order properly, this is all we need
+					song._added_time = 0x7FFFFFFFFFFFFFFF
+					SongLoader.add_song(song)
+					item = song
+	#				if not song.is_cached():
+	#					song.cache_data()
+					break
 			if type == "resource_pack":
 				var meta_path := folder as String
 				var id := "ugc_" + str(item_id)
