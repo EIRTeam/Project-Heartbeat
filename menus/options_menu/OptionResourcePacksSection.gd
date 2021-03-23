@@ -14,6 +14,7 @@ func _ready():
 
 	
 	connect("focus_entered", scroll_container, "grab_focus")
+	connect("focus_entered", scroll_container, "select_item", [0])
 	
 func show_section():
 	populate()
