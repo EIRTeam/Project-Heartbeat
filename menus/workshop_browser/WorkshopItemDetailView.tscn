@@ -246,7 +246,6 @@ text = "Back"
 
 [node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource( 10 )]
 has_cancel = false
-has_accept = true
 text = "Item unsubscribed succesfully, will be removed after you restart the game."
 accept_text = "Alright"
 cancel_text = ""
