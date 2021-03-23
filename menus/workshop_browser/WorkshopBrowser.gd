@@ -22,6 +22,7 @@ onready var search_prompt = get_node("HBConfirmationWindow")
 onready var search_title_label = get_node("MarginContainer/Control/HBoxContainer2/SearchTitle")
 onready var sort_by_container = get_node("Panel/MarginContainer/VBoxContainer")
 onready var sort_by_popup = get_node("Panel")
+onready var tag_button_container = get_node("MarginContainer/Control/HBoxContainer4/HBoxContainer3")
 
 var current_page = 1
 
@@ -31,37 +32,61 @@ var total_items = 0
 
 var _debounced_page = 1
 
-var current_query: HBWorkshopBrowserQuery = QueryRequestAll.get_default()
+var current_query: HBWorkshopBrowserQuery
+
+var filter_tag setget set_filter_tag
+
+func set_filter_tag(val):
+	filter_tag = val
+	navigate_to_page(1, QueryRequestAll.get_default(filter_tag))
 
 class QueryRequestAll:
 	extends HBWorkshopBrowserQuery
 	var sort_mode: int
-	func _init(_sort_mode: int):
+	var tag: String
+	func _init(_sort_mode: int, _tag: String):
 		sort_mode = _sort_mode
+		tag = _tag
 	func make_query(page: int) -> int:
 		var handle = Steam.createQueryAllUGCRequest(sort_mode, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
+		if tag:
+			Steam.addRequiredTag(handle, tag)
 		Steam.setReturnLongDescription(handle, true)
 		return handle
-	static func get_default():
-		return QueryRequestAll.new(HBWorkshopBrowserQuery.SORT_BY_MODES.k_EUGCQuery_RankedByTrend)
+	static func get_default(_tag: String):
+		return QueryRequestAll.new(HBWorkshopBrowserQuery.SORT_BY_MODES.k_EUGCQuery_RankedByTrend, _tag)
 	func get_query_title() -> String:
 		return sort_by_mode_to_string(sort_mode)
 class QueryRequestSearch:
 	extends HBWorkshopBrowserQuery
 	var search_text: String
-	
-	func _init(_search_text: String):
+	var tag: String
+	func _init(_search_text: String, _tag: String):
 		search_text = _search_text
-	
+		tag = _tag
 	func make_query(page: int) -> int:
 		var handle = Steam.createQueryAllUGCRequest(k_EUGCQuery_RankedByTextSearch, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
 		Steam.setSearchText(handle, search_text)
+		if tag:
+			Steam.addRequiredTag(handle, tag)
 		Steam.setReturnLongDescription(handle, true)
 		return handle
 	func get_query_title() -> String:
 		return "Search: \"%s\"" % [search_text]
 		
 func _ready():
+	var button_filter_songs = HBHovereableButton.new()
+	button_filter_songs.text = tr("Charts")
+	button_filter_songs.connect("hovered", self, "set_filter_tag", ["Charts"])
+	var button_filter_resource_packs = HBHovereableButton.new()
+	button_filter_resource_packs.text = tr("Resource Packs")
+	button_filter_resource_packs.connect("hovered", self, "set_filter_tag", ["Resource Packs"])
+	tag_button_container.add_child(button_filter_songs)
+	tag_button_container.add_child(button_filter_resource_packs)
+	
+	tag_button_container.next_action = "gui_tab_right"
+	tag_button_container.prev_action = "gui_tab_left"
+	
 	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
 	scroll_container.vertical_step = grid_container.columns
 	pagination_back_button.connect("pressed", self, "_on_user_navigate_button_pressed", [-1])
@@ -86,8 +111,10 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
 	current_page = _debounced_page
+	tag_button_container.select_button(0, false)
+	filter_tag = "Charts"
 	if not "no_fetch" in args or args.no_fetch == false:
-		navigate_to_page(current_page, QueryRequestAll.get_default())
+		navigate_to_page(current_page, QueryRequestAll.get_default(filter_tag))
 	scroll_container.grab_focus()
 
 func _on_pagination_debounce_timeout():
@@ -174,11 +201,13 @@ func _unhandled_input(event):
 		sort_by_container.grab_focus()
 	if event.is_action_pressed("contextual_option") and not search_prompt.visible:
 		search_prompt.popup_centered()
+	if event.is_action("gui_tab_right") or event.is_action("gui_tab_left"):
+		tag_button_container._gui_input(event)
 
 
 func _on_text_search_entered(text: String):
 	if text.strip_edges() != "":
-		navigate_to_page(1, QueryRequestSearch.new(text))
+		navigate_to_page(1, QueryRequestSearch.new(text, filter_tag))
 	search_prompt.hide()
 
 func _on_ScrollContainer_out_from_bottom():
@@ -186,7 +215,7 @@ func _on_ScrollContainer_out_from_bottom():
 		pagination_container.grab_focus()
 
 func _on_sort_by_button_pressed(sort_by_mode: int):
-	var query = QueryRequestAll.new(sort_by_mode)
+	var query = QueryRequestAll.new(sort_by_mode, filter_tag)
 	sort_by_popup.hide()
 	navigate_to_page(1, query)
 	scroll_container.grab_focus()

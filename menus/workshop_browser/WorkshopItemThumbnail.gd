@@ -45,4 +45,4 @@ func _on_persona_state_changed(steam_id: int, flags: int):
 	if steam_id == data.steam_id_owner and e != 0:
 		update_author_label()
 func _on_resized():
-	rect_min_size.y = rect_size.x * 1.0
+	rect_min_size.y = rect_size.x * 0.9
