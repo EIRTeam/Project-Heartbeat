@@ -8,7 +8,8 @@ onready var author_label = get_node("MarginContainer/VBoxContainer/VBoxContainer
 onready var subscribed_tick = get_node("MarginContainer/VBoxContainer/TextureRect/Panel")
 onready var stars_progress = get_node("MarginContainer/VBoxContainer/TextureRect/Panel2/TextureRect")
 onready var stars_panel = get_node("MarginContainer/VBoxContainer/TextureRect/Panel2")
-
+onready var difficulty_panel = get_node("MarginContainer/VBoxContainer/TextureRect/Panel3")
+onready var difficulty_label = get_node("MarginContainer/VBoxContainer/TextureRect/Panel3/HBoxContainer/Label")
 var data: HBWorkshopPreviewData
 
 func _ready():
@@ -34,6 +35,22 @@ func set_data(_data: HBWorkshopPreviewData):
 	else:
 		var score = data.up_votes / float(data.down_votes + data.up_votes)
 		stars_progress.value = score
+	if _data.tag == "Charts":
+		difficulty_panel.show()
+		difficulty_label.text = "x?"
+		if _data.metadata is HBSong:
+			var song := _data.metadata as HBSong
+			var min_stars = 100000000
+			var max_stars = 0
+			for difficulty in song.charts:
+				var stars = song.charts[difficulty].stars
+				min_stars = min(stars, min_stars)
+				max_stars = max(stars, max_stars)
+			difficulty_label.text = "x%d" % [min_stars]
+			if min_stars != max_stars:
+				difficulty_label.text += "-x%d" % [max_stars]
+	else:
+		difficulty_panel.hide()
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	if result == OK and response_code == 200:
 		texture_rect.texture = HBUtils.array2texture(body)
@@ -46,3 +63,9 @@ func _on_persona_state_changed(steam_id: int, flags: int):
 		update_author_label()
 func _on_resized():
 	rect_min_size.y = rect_size.x * 0.9
+
+
+func _on_HBoxContainer_minimum_size_changed():
+	difficulty_panel.rect_min_size = $MarginContainer/VBoxContainer/TextureRect/Panel3/HBoxContainer.get_combined_minimum_size()
+	difficulty_panel.rect_min_size.x += 5
+	difficulty_panel.rect_size.x = 0

@@ -51,6 +51,7 @@ class QueryRequestAll:
 		var handle = Steam.createQueryAllUGCRequest(sort_mode, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
 		if tag:
 			Steam.addRequiredTag(handle, tag)
+		Steam.setReturnMetadata(handle, true)
 		Steam.setReturnLongDescription(handle, true)
 		return handle
 	static func get_default(_tag: String):
@@ -67,6 +68,7 @@ class QueryRequestSearch:
 	func make_query(page: int) -> int:
 		var handle = Steam.createQueryAllUGCRequest(k_EUGCQuery_RankedByTextSearch, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
 		Steam.setSearchText(handle, search_text)
+		Steam.setReturnMetadata(handle, true)
 		if tag:
 			Steam.addRequiredTag(handle, tag)
 		Steam.setReturnLongDescription(handle, true)
@@ -167,7 +169,12 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 				child.queue_free()
 			for i in range(total_results):
 				var data = Steam.getQueryUGCResult(handle, i)
-
+				var metadata = Steam.getQueryUGCMetadata(handle, i)
+				var item = null
+				if metadata:
+					var parsed_json = parse_json(metadata)
+					if parsed_json:
+						item = HBSerializable.deserialize(parsed_json)
 				if data.result == 1:
 					var url = Steam.getQueryUGCPreviewURL(handle, i)
 					var prev_data = HBWorkshopPreviewData.new()
@@ -179,6 +186,8 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 					prev_data.item_id = data.fileID
 					prev_data.up_votes = data.votesUp
 					prev_data.down_votes = data.votesDown
+					prev_data.metadata = item
+					prev_data.tag = filter_tag
 					grid_container.add_child(scene)
 					scene.connect("pressed", self, "_on_item_selected", [scene])
 					scene.set_data(prev_data)

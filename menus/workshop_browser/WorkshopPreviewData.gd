@@ -7,3 +7,5 @@ var item_id: int
 var up_votes: int
 var down_votes: int
 var description: String
+var metadata: HBSerializable
+var tag: String
