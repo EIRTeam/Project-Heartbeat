@@ -282,6 +282,21 @@ orientation = 1
 [node name="FolderManager" parent="." instance=ExtResource( 11 )]
 visible = false
 
+[node name="SongCountIndicator" type="Label" parent="."]
+anchor_left = 0.015
+anchor_top = 0.945
+anchor_right = 0.015
+anchor_bottom = 1.0
+margin_left = 0.200001
+margin_top = 12.4
+margin_right = 290.2
+custom_fonts/font = ExtResource( 18 )
+text = "123/123"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
 [connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]

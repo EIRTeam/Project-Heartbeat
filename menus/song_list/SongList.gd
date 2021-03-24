@@ -16,6 +16,8 @@ onready var folder_manager = get_node("FolderManager")
 onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
 onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel9")
 onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
+onready var song_count_indicator = get_node("SongCountIndicator")
+
 var force_next_song_update = false
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -194,6 +196,7 @@ func _on_song_hovered(song: HBSong):
 	if UserSettings.user_settings.filter_mode == "folders":
 		manage_folders_prompt.hide()
 		remove_item_prompt.show()
+	song_count_indicator.text = "%d/%d" % [song_container.current_selected_item+1, song_container.item_container.get_child_count()]
 
 func should_receive_input():
 	return song_container.has_focus()
