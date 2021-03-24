@@ -115,10 +115,19 @@ func set_song(song: HBSong):
 		changelog_line_edit.hide()
 		title_line_edit.text = song.title
 		
+func do_metadata_size_check(dict: Dictionary) -> bool:
+	if to_json(dict).to_utf8().size() > 5000:
+		error_dialog.dialog_text = "There was an error uploading your item, %s" % ["Metadata encoding failed, maybe make the title or difficulty names smaller?"]
+		error_dialog.popup_centered()
+		return false
+	return true
+		
 func start_upload():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider
 		var has_service_name = false
+		if not do_metadata_size_check(get_song_meta_dict()):
+			return
 		match mode:
 			MODE.RESOURCE_PACK:
 				if current_resource_pack.ugc_service_name == ugc.get_ugc_service_name():
@@ -165,17 +174,21 @@ func _process(delta):
 		upload_status_label.text = UGC_STATUS_TEXTS[progress.status]
 		if progress.total > 0:
 			upload_progress_bar.value = progress.processed/float(progress.total)
+			
+func get_song_meta_dict() -> Dictionary:
+	var serialized = current_song.serialize()
+	var out_dir = {}
+	for field in ["title", "charts", "type"]:
+		if field in serialized:
+			out_dir[field] = serialized[field]
+	return out_dir
 func upload_song(song: HBSong, ugc_id):
 	var ugc = PlatformService.service_provider.ugc_provider
 	var update_id = ugc.start_item_update(ugc_id)
 	uploading_id = update_id
 	ugc.set_item_title(update_id, title_line_edit.text)
 	ugc.set_item_description(update_id, description_line_edit.text)
-	var serialized = current_song.serialize()
-	var out_dir = {}
-	for field in ["title", "charts", "type"]:
-		if field in serialized:
-			out_dir[field] = serialized[field]
+	var out_dir = get_song_meta_dict()
 	ugc.set_item_metadata(update_id, JSON.print(out_dir))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	if uploading_new:
