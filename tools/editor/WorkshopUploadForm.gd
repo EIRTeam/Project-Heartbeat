@@ -171,7 +171,12 @@ func upload_song(song: HBSong, ugc_id):
 	uploading_id = update_id
 	ugc.set_item_title(update_id, title_line_edit.text)
 	ugc.set_item_description(update_id, description_line_edit.text)
-	ugc.set_item_metadata(update_id, JSON.print(current_song.serialize()))
+	var serialized = current_song.serialize()
+	var out_dir = {}
+	for field in ["title", "charts", "type"]:
+		if field in serialized:
+			out_dir[field] = serialized[field]
+	ugc.set_item_metadata(update_id, JSON.print(out_dir))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	if uploading_new:
 		var video_id = YoutubeDL.get_video_id(song.youtube_url)
