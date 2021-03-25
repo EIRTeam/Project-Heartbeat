@@ -95,16 +95,8 @@ static func load_wav(path: String):
 	var audio_data_chunk_size_enc = buffer.subarray(audio_data_chunk_start+4, audio_data_chunk_start+7)
 	var audio_data_chunk_size = audio_data_chunk_size_enc[0] + (audio_data_chunk_size_enc[1] << 8)
 	audio_data_chunk_size += (audio_data_chunk_size_enc[2] << 16) + (audio_data_chunk_size_enc[3] << 24)
-
-#		breakpoint
-
-	stream.data = buffer.subarray(audio_data_chunk_start+8, audio_data_chunk_start+7+audio_data_chunk_size)
 	
-	if "button" in path:
-		print(buffer.subarray(36, 39).get_string_from_utf8())
-		var f = File.new()
-		f.open("user://test.wav", File.WRITE)
-		f.store_buffer(stream.data)
+	stream.data = buffer.subarray(audio_data_chunk_start+8, audio_data_chunk_start+7+audio_data_chunk_size)
 	
 	if bits_per_sample == 16:
 		stream.format = AudioStreamSample.FORMAT_16_BITS
