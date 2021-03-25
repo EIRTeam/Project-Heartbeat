@@ -72,9 +72,8 @@ static func load_ogg(path: String) -> AudioStreamOGGVorbis:
 static func load_wav(path: String):
 	var file = File.new()
 	file.open(path, file.READ)
-	var buffer = file.get_buffer(file.get_len())
+	var buffer := file.get_buffer(file.get_len()) as PoolByteArray
 	var stream = AudioStreamSample.new()
-	
 	
 	var mix_rate_encoded = buffer.subarray(24, 27)
 	var mix_rate = mix_rate_encoded[0] + (mix_rate_encoded[1] << 8)
@@ -88,14 +87,24 @@ static func load_wav(path: String):
 	var bits_per_sample = bits_per_sample_encoded[0] + (bits_per_sample_encoded[1] << 8)
 	
 	# we strip anything after the data chunk to prevent clicking sounds
-	var audio_data_chunk_size_enc = buffer.subarray(40, 43)
-	
+	var audio_data_chunk_start = 36
+	if buffer.subarray(36, 39).get_string_from_utf8() == "LIST":
+		var list_data_chunk_size_enc = buffer.subarray(40, 43)
+		var list_data_chunk_size = list_data_chunk_size_enc[0] + (list_data_chunk_size_enc[1] << 8)
+		audio_data_chunk_start = 44+list_data_chunk_size
+	var audio_data_chunk_size_enc = buffer.subarray(audio_data_chunk_start+4, audio_data_chunk_start+7)
 	var audio_data_chunk_size = audio_data_chunk_size_enc[0] + (audio_data_chunk_size_enc[1] << 8)
 	audio_data_chunk_size += (audio_data_chunk_size_enc[2] << 16) + (audio_data_chunk_size_enc[3] << 24)
+
+#		breakpoint
+
+	stream.data = buffer.subarray(audio_data_chunk_start+8, audio_data_chunk_start+7+audio_data_chunk_size)
 	
-	buffer = buffer.subarray(0, audio_data_chunk_size + 43)
-	
-	stream.data = buffer
+	if "button" in path:
+		print(buffer.subarray(36, 39).get_string_from_utf8())
+		var f = File.new()
+		f.open("user://test.wav", File.WRITE)
+		f.store_buffer(stream.data)
 	
 	if bits_per_sample == 16:
 		stream.format = AudioStreamSample.FORMAT_16_BITS
