@@ -196,7 +196,7 @@ func _on_song_hovered(song: HBSong):
 	if UserSettings.user_settings.filter_mode == "folders":
 		manage_folders_prompt.hide()
 		remove_item_prompt.show()
-	song_count_indicator.text = "%d/%d" % [song_container.current_selected_item+1, song_container.item_container.get_child_count()]
+	song_count_indicator.text = "%d/%d" % [song_container.filtered_song_items.keys().find(song)+1, song_container.filtered_song_items.size()]
 
 func should_receive_input():
 	return song_container.has_focus()

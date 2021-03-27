@@ -7,7 +7,7 @@ const SongListItemDifficulty = preload("res://menus/song_list/SongListItemDiffic
 
 var folder_stack = []
 
-var song_items_map = {}
+var song_difficulty_items_map = {}
 
 var sort_by_prop = "title" # title, chart creator, difficulty
 var filter_by = "" # choices are: all, official, community and ppd
@@ -22,6 +22,8 @@ signal song_hovered(song)
 signal difficulty_selected(song, difficulty)
 signal show_no_folder_label
 signal hide_no_folder_label
+
+var filtered_song_items = {}
 
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	if path.size() == 0:
@@ -72,7 +74,7 @@ func update_items():
 		emit_signal("updated_folders", folder_stack)
 		return
 
-	song_items_map = {}
+	song_difficulty_items_map = {}
 	var current_folder = folder_stack[folder_stack.size()-1] as HBFolder
 	
 	if folder_stack.size() > 1:
@@ -113,24 +115,24 @@ func update_items():
 	emit_signal("hide_no_folder_label")
 
 func _on_song_selected(song: HBSong):
-	if song_items_map.has(song):
-		for difficulty in song_items_map[song]:
-			var item = song_items_map[song][difficulty]
+	if song_difficulty_items_map.has(song):
+		for difficulty in song_difficulty_items_map[song]:
+			var item = song_difficulty_items_map[song][difficulty]
 			item_container.remove_child(item)
 			item.queue_free()
 			
-		song_items_map.erase(song)
+		song_difficulty_items_map.erase(song)
 	else:
-		var vals = song_items_map.values()
-		for i in range(song_items_map.size() - 1, -1, -1):
+		var vals = song_difficulty_items_map.values()
+		for i in range(song_difficulty_items_map.size() - 1, -1, -1):
 			for difficulty in vals[i]:
 				var item = vals[i][difficulty]
 				item_container.remove_child(item)
 				item.queue_free()
 		select_song_by_id(song.id, null)
 
-		song_items_map = {}
-		song_items_map[song] = {}
+		song_difficulty_items_map = {}
+		song_difficulty_items_map[song] = {}
 		var selected_item = get_selected_item()
 		var pos = selected_item.get_position_in_parent()
 		#prevent_hard_arrange = true
@@ -154,7 +156,7 @@ func _on_song_selected(song: HBSong):
 					else:
 						print("Error connecting note usage task, BUG?")
 			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
-			song_items_map[song][difficulty] = item
+			song_difficulty_items_map[song][difficulty] = item
 
 func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(item_container.get_child_count()):
@@ -164,9 +166,9 @@ func select_song_by_id(song_id: String, difficulty=null):
 				if difficulty:
 					var song = SongLoader.songs[song_id]
 					select_item(child_i)
-					if not song in song_items_map:
+					if not song in song_difficulty_items_map:
 						_on_song_selected(song)
-					select_item(song_items_map[song][difficulty].get_position_in_parent())
+					select_item(song_difficulty_items_map[song][difficulty].get_position_in_parent())
 				else:
 					select_item(child_i)
 
@@ -222,11 +224,12 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 		if selected_item is HBSongListItemDifficulty:
 			previously_selected_difficulty = selected_item.difficulty
 		
-	song_items_map = {}
+	song_difficulty_items_map = {}
 			
 	for child in item_container.get_children():
 		item_container.remove_child(child)
 		child.queue_free()
+	filtered_song_items = song_items
 	for song in song_items:
 		var item = song_items[song]
 		item_container.add_child(item)
