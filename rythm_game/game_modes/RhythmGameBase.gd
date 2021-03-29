@@ -326,12 +326,6 @@ func _input(event):
 					_process(0)
 					# call ui on intro skip
 					emit_signal("intro_skipped", time)
-	if event.is_action_pressed("free_friends"):
-		for group in timing_points:
-			var res = ""
-			for note in group.hit_notes:
-				res += str(note)
-			print(res)
 func _process_note_group(group: NoteGroup):
 	var multi_notes = []
 	for i in range(group.notes.size()):

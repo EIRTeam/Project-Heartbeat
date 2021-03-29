@@ -73,10 +73,6 @@ func _on_lobby_button_pressed(lobby: HBLobby):
 	else:
 		show_error("You do not have this song")
 
-func _input(event):
-	if event.is_action("free_friends"):
-		print(get_focus_owner().name)
-
 func show_error(error: String):
 	error_prompt.connect("accept", self, "_on_error_prompt_accepted", [get_focus_owner()], CONNECT_ONESHOT)
 	error_prompt.text = error

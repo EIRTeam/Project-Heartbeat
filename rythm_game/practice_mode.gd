@@ -44,8 +44,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	practice_gui.hide()
 	game.game_ui.disable_score_processing = true
 func _unhandled_input(event: InputEvent):
-	if event.is_action_pressed("free_friends"):
-		video_player.play()
 	if event.is_action_pressed("pause"):
 		get_tree().set_input_as_handled()
 		get_tree().paused = !get_tree().paused
