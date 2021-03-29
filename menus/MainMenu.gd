@@ -104,6 +104,7 @@ var player = HBBackgroundMusicPlayer.new()
 
 var user_info_ui
 func _ready():
+	DebugSystemInfo.enable_label()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	DownloadProgress.holding_back_notifications = false
 	connect("change_to_menu", self, "_on_change_to_menu")

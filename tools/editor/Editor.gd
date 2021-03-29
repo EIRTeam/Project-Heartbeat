@@ -12,7 +12,7 @@ const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/Ed
 const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
-onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline")
+onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RhythmGame")
 
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
@@ -108,6 +108,7 @@ func load_plugins():
 			dir_name = dir.get_next()
 	
 func _ready():
+	DebugSystemInfo.disable_label()
 	add_child(game_playback)
 	add_child(contextual_menu)
 	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
+[ext_resource path="res://tools/editor/EditorBottomBar.gd" type="Script" id=6]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=7]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=9]
@@ -309,13 +310,13 @@ size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer"]
 margin_right = 1920.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="Control" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_right = 358.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -356,7 +357,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 338.0
-margin_bottom = 633.0
+margin_bottom = 621.0
 
 [node name="Label4" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_right = 328.0
@@ -548,11 +549,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 338.0
-margin_bottom = 633.0
+margin_bottom = 621.0
 
 [node name="SyncButtonContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Transforms/TransformsTool/ScrollContainer"]
 margin_right = 328.0
-margin_bottom = 623.0
+margin_bottom = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -581,11 +582,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 338.0
-margin_bottom = 633.0
+margin_bottom = 621.0
 
 [node name="SyncButtonContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool/ScrollContainer"]
 margin_right = 328.0
-margin_bottom = 623.0
+margin_bottom = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -614,7 +615,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 338.0
-margin_bottom = 633.0
+margin_bottom = 621.0
 
 [node name="Tools" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2"]
 visible = false
@@ -640,12 +641,12 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 343.0
-margin_bottom = 633.0
+margin_bottom = 621.0
 scroll_horizontal_enabled = false
 
 [node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer"]
 margin_right = 333.0
-margin_bottom = 623.0
+margin_bottom = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -658,7 +659,7 @@ margin_bottom = 0.0
 [node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_left = 362.0
 margin_right = 1557.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
@@ -819,7 +820,7 @@ rect_clip_content = true
 [node name="Control2" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer"]
 margin_left = 1561.0
 margin_right = 1920.0
-margin_bottom = 680.0
+margin_bottom = 668.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
@@ -909,22 +910,72 @@ margin_bottom = 0.0
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color( 1, 1, 1, 0.5 )
-margin_top = 688.0
+margin_top = 676.0
 margin_right = 1920.0
 margin_bottom = 1026.0
-rect_min_size = Vector2( 0, 200 )
+rect_min_size = Vector2( 0, 350 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer" instance=ExtResource( 14 )]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer" instance=ExtResource( 14 )]
 self_modulate = Color( 1, 1, 1, 1 )
-margin_left = -1.16632
-margin_top = -1.29236
-margin_right = -1.16626
-margin_bottom = -1.29236
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1920.0
+margin_bottom = 321.0
+rect_min_size = Vector2( 0, 0 )
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer"]
+margin_top = 325.0
+margin_right = 1920.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 0, 25 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_left = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer"]
+margin_left = 5.0
+margin_right = 1915.0
+margin_bottom = 25.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPSLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_right = 8.0
+margin_bottom = 25.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 12.0
+margin_right = 1910.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1736.0
+margin_right = 1898.0
+margin_bottom = 25.0
+text = "Project Kokoro Doki UwU"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 31 )
@@ -973,9 +1024,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_playhead_position_changed"]
-[connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_Editor_scale_changed"]
-[connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/EditorTimeline" method="_on_timing_information_changed"]
+[connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_playhead_position_changed"]
+[connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_Editor_scale_changed"]
+[connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="Popups/ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="Popups/OpenChartPopupDialog" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
