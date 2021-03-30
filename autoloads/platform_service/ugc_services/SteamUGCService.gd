@@ -126,7 +126,6 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 	#					song.cache_data()
 					break
 			if type == "resource_pack":
-				var meta_path := folder as String
 				var id := "ugc_" + str(item_id)
 				var pack := HBResourcePack.load_from_directory(folder) as HBResourcePack
 				pack._id = id

@@ -73,7 +73,6 @@ func _redraw_items():
 			var base_item := layer.timing_points[0] as HBBaseNote
 			if base_item:
 				var note_color := ResourcePackLoader.get_note_trail_color(base_item.note_type) as Color
-				var song_length_ms: int = int(game_info.result._song_end_time * 1000.0)
 				
 				for item in layer.timing_points:
 					if item is HBBaseNote:

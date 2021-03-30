@@ -11,7 +11,6 @@ func set_game_info(_game_info: HBGameInfo):
 func _enter_tab():
 	var points = game_info.result._percentage_graph
 	var max_y = 0
-	var max_x = 0
 	for point in points:
 		max_y = max(point.y, max_y)
 	max_y = max(max_y, 100.0)
