@@ -28,7 +28,7 @@ func _on_resize():
 func _ready():
 	connect("resized", self, "_on_resize")
 	add_child(scale_tween)
-	_on_resize()
+	call_deferred("_on_resize")
 
 func update_scale(to: Vector2, no_animation=false):
 	node_to_scale.rect_pivot_offset = node_to_scale.rect_size / 2.0

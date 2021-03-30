@@ -92,7 +92,7 @@ func _ready():
 	connect("resized", self, "_on_resized")
 	ScoreHistory.connect("score_entered", self, "_on_score_entered")
 	ScoreHistory.connect("score_uploaded", self, "_on_score_uploaded")
-	call_deferred("_on_resized")
+	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
 	tabbed_container.add_tab("graph", tr("Graph"), chart_tab)

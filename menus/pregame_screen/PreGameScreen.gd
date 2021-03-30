@@ -31,7 +31,7 @@ var leaderboard_tab_modifiers = LEADERBOARD_TAB.instance()
 
 func _ready():
 	connect("resized", self, "_on_resized")
-	call_deferred("_on_resized")
+	_on_resized()
 	
 	# Hacky af...
 	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instance()

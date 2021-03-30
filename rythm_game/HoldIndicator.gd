@@ -46,8 +46,8 @@ func _on_resized():
 	for texture_rect in icon_nodes.values():
 		texture_rect = texture_rect as TextureRect
 		texture_rect.rect_min_size.x = panel.rect_size.y
-		texture_rect.set_deferred("rect_size:x", panel.rect_size.y)
-	$Panel/MarginContainer.set_deferred("rect_size", $Panel.rect_size)
+		texture_rect.rect_size.x = panel.rect_size.y
+	$Panel/MarginContainer.rect_size = $Panel.rect_size
 
 func set_current_holds(val):
 	current_holds = val

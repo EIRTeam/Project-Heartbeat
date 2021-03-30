@@ -11,7 +11,7 @@ func set_action_name(val):
 func set_text(val):
 	text = val
 	$HBoxContainer/Label.text = val
-	_on_resize()
+	call_deferred("_on_resize")
 
 func _ready():
 	connect("resized", self, "_on_resize")
@@ -22,4 +22,4 @@ func _ready():
 	
 func _on_resize():
 	rect_min_size = $HBoxContainer.get_minimum_size() + Vector2(10, 0)
-	set_deferred("rect_size:x", 0)
+	rect_size.x = 0

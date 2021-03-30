@@ -60,7 +60,7 @@ func _ready():
 	add_child(movement_tween)
 	movement_tween.connect("tween_all_completed", self, "_on_tween_all_completed")
 	movement_tween.connect("tween_step", self, "_on_tween_step")
-	call_deferred("_on_resized")
+	_on_resized()
 func _on_tween_step(object, key, elapsed, value):
 	update()
 	

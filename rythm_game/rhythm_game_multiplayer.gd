@@ -38,11 +38,11 @@ func _ready():
 	rhythm_game_controller.disable_restart()
 	rhythm_game_controller.allow_modifiers = false
 	rhythm_game_controller.disable_intro_skip = false
-	call_deferred("_on_resized")
+	_on_resized()
 	connect("resized", self, "_on_resized")
 func _on_resized():
-	mp_scoreboard.set_deferred("rect_size:y", rect_size.y)
-	mp_scoreboard.set_deferred("rect_size:x", rect_size.x - mp_scoreboard.rect_size.x)
+	mp_scoreboard.rect_size.y = rect_size.y
+	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
 	var task = SongAssetLoadAsyncTask.new(["circle_logo", "background", "audio", "voice", "audio_loudness"], lobby.get_song())
 	AsyncTaskQueue.queue_task(task)

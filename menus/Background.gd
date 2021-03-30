@@ -2,7 +2,7 @@ extends MeshInstance
 export(NodePath) var viewport_path
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_resized")
-	call_deferred("_on_resized")
+	_on_resized()
 func _on_resized():
 	var viewport = get_node(viewport_path) as Viewport
 	var base_width = ProjectSettings.get("display/window/size/width")
