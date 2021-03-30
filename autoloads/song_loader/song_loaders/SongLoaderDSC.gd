@@ -11,19 +11,24 @@ const DSCConverter = preload("DSCConverter.gd")
 
 var fs_access: DSCGameFSAccess
 
+var opcode_map: DSCOpcodeMap
+
+var game_type = "FT"
 
 class HBSongDSC:
 	extends HBSong
 	var pv_data: DSCPVData
 	var game_fs_access: DSCGameFSAccess
 	var _audio_cache: WeakRef
-	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess):
+	var opcode_map: DSCOpcodeMap
+	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
 		self.pv_data = _pv_data
 		for diff in pv_data.charts:
 			charts[diff] = pv_data.charts[diff]
 		title = pv_data.title
 		romanized_title = pv_data.title_en
 		game_fs_access = _game_fs_access
+		opcode_map = _opcode_map
 		if "music" in pv_data.metadata:
 			artist = pv_data.metadata.music
 	func get_song_audio_res_path():
@@ -36,7 +41,7 @@ class HBSongDSC:
 		return pv_data.song_file_name != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var p = game_fs_access.get_file_path(pv_data.charts[difficulty].dsc_path)
-		return DSCConverter.convert_dsc_to_chart(p)
+		return DSCConverter.convert_dsc_to_chart(p, opcode_map)
 	func is_cached():
 		return true
 	func get_meta_string():
@@ -57,8 +62,9 @@ class HBSongDSC:
 		return []
 	func is_visible_in_editor():
 		return false
+		
 func _init_loader():
-	pass
+	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
 
 # If true this loader manages discovery by itself
 func uses_custom_load_paths():
@@ -72,6 +78,7 @@ class DSCPVData:
 	var pv_id: int
 	var metadata = {}
 	var tutorial = false
+	var bpm: int
 	func _init(_pv_id: int):
 		self.pv_id = _pv_id
 
@@ -102,6 +109,20 @@ func dsc_diff_to_hb_diff(diff: String):
 			result = "EXTREME"
 		"extreme1":
 			result = "EXTRA EXTREME"
+		"easyscript_file_name":
+			result = "EASY"
+		"normalscript_file_name":
+			result = "NORMAL"
+		"hardscript_file_name":
+			result = "HARD"
+		"extremescript_file_name":
+			result = "EXTREME"
+		"dt1_easyscript_file_name":
+			result = "EASY (DSC1)"
+		"dt1_normalscript_file_name":
+			result = "NORMAL (DSC1)"
+		"dt1_hardscript_file_name":
+			result = "HARD (DSC1)"
 	return result
 
 class DSCGameFSAccess:
@@ -220,6 +241,8 @@ func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
 			if key.ends_with("level"):
 				var difficulty = key.split(".")[2] + key.split(".")[3]
 				pv_data.set_star_count_from_str(dsc_diff_to_hb_diff(difficulty), value)
+			if key.ends_with("bpm"):
+				pv_data.bpm = int(value)
 			if key.ends_with("tutorial"):
 				if value == "1":
 					pv_data.tutorial = true
@@ -267,7 +290,7 @@ func load_songs() -> Array:
 			var chart_name = pv_data.charts.keys()[i]
 			if not pv_data.charts[chart_name].dsc_path:
 				pv_data.charts.erase(chart_name)
-		var song := HBSongDSC.new(pv_data, fs_access)
+		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
 		songs.append(song)
 		

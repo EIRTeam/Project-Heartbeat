@@ -87,8 +87,16 @@ func _game_init():
 	SongDataCache.load_cache()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
-	var args = OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() as Array
 	# --phplugin:dscloader:game_location=""
+	var dsc_game_type = "FT"
+	var dsc_g_i = args.find("--phplugin:dscloader:game_type")
+	if dsc_g_i != -1 and dsc_g_i < args.size()-1:
+		var candidate_gt = args[dsc_g_i+1]
+		if not candidate_gt in ["FT", "f"]:
+			push_error("Argument game_type must be FT or f")
+		else:
+			dsc_game_type = candidate_gt
 	for i in range(args.size()):
 		if args[i].begins_with("--phplugin:dscloader:game_location"):
 			if args.size() > i+1:
@@ -97,6 +105,7 @@ func _game_init():
 					aft_location = aft_location.substr(1, aft_location.length()-2)
 				var dsc_loader = preload("res://autoloads/song_loader/song_loaders/SongLoaderDSC.gd").new() as SongLoaderDSC
 				dsc_loader.GAME_LOCATION = aft_location
+				dsc_loader.game_type = dsc_game_type
 				SongLoader.add_song_loader("dsc", dsc_loader)
 			else:
 				push_error("Argument game_location requires an input")

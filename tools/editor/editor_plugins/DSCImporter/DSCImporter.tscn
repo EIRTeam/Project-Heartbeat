@@ -52,3 +52,15 @@ margin_top = 28.0
 margin_right = 1920.0
 margin_bottom = 48.0
 text = "Import from DSC (FT)..."
+
+[node name="Button2" type="Button" parent="."]
+margin_top = 52.0
+margin_right = 1920.0
+margin_bottom = 72.0
+text = "Import from DSC (F)..."
+
+[node name="Button3" type="Button" parent="."]
+margin_top = 76.0
+margin_right = 1920.0
+margin_bottom = 96.0
+text = "Import from DSC (F2)..."

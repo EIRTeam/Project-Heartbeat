@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "DSCOpcodeMap",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/DSCOpcodeMap.gd"
+}, {
 "base": "",
 "class": "EditorLyricPhraseTimelineItem",
 "language": "GDScript",
@@ -685,6 +690,7 @@ _global_script_classes=[ {
 "path": "res://menus/tabbed_container/TabbedContainerTab.gd"
 } ]
 _global_script_class_icons={
+"DSCOpcodeMap": "",
 "EditorLyricPhraseTimelineItem": "",
 "EditorPlayback": "",
 "EditorTimelineItem": "",

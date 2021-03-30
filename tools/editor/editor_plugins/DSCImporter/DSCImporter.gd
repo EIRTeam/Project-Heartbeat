@@ -6,7 +6,9 @@ var options_button: OptionButton
 const DSC_LOADER = preload("res://autoloads/song_loader/song_loaders/DSCConverter.gd")
 
 enum DSC_OPTIONS {
-	FT
+	FT,
+	F,
+	F2
 }
 
 func _init(_editor).(_editor):
@@ -31,6 +33,8 @@ func _init(_editor).(_editor):
 	
 	options_button = OptionButton.new()
 	options_button.add_item("Future Tone/M39s")
+	options_button.add_item("F/DT2")
+	options_button.add_item("F2nd")
 	
 	vbox_container.add_child(options_button)
 	
@@ -48,11 +52,16 @@ func _init(_editor).(_editor):
 	
 	add_tool_to_tools_tab(vbox_container, "DSC Importer")
 func _on_file_selected(file_path: String):
-	var dsc_loader = DSC_LOADER.new()
 	var chart: HBChart
+	var game = "FT"
 	match options_button.get_selected_id():
 		DSC_OPTIONS.FT:
-			chart = dsc_loader.convert_dsc_to_chart(file_path)
-			
+			game = "FT"
+		DSC_OPTIONS.F:
+			game = "f"
+		DSC_OPTIONS.F2:
+			game = "F2"
+	var opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game)
+	chart = DSC_LOADER.convert_dsc_to_chart(file_path, opcode_map)
 	if chart:
 		get_editor().from_chart(chart, true)
