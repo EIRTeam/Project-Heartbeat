@@ -10,6 +10,8 @@ static func unsigned32_to_signed(unsigned):
 
 static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	var file = File.new()
+	if file.open(path, File.READ) != OK:
+		return []
 	file.seek(4)
 	var opcodes = []
 	while !file.eof_reached():
