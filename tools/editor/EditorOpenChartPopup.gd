@@ -164,6 +164,7 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 		song.save_song()
 		
 		var chart = HBChart.new()
+		chart.editor_settings.bpm = song.bpm
 		if not uses_console_style:
 			chart.editor_settings.hidden_layers.erase("SLIDE_LEFT2")
 			chart.editor_settings.hidden_layers.erase("SLIDE_RIGHT2")
