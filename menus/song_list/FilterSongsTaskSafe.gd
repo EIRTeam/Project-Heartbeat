@@ -27,7 +27,7 @@ func sort_and_filter_songs():
 			var should_add_song = false
 			match filter_by:
 				"ppd":
-					should_add_song = song is HBPPDSong
+					should_add_song = song is HBPPDSong and not (UserSettings.user_settings.hide_ppd_ex_songs and song is HBPPDSongEXT)
 				"official":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
 				"local":

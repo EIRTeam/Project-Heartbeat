@@ -10,6 +10,9 @@ onready var button = get_node("Control")
 #onready var star_texture_rect = get_node("TextureRect")
 signal folder_selected(folder)
 
+func _ready():
+	button.connect("pressed", self, "emit_signal", ["pressed"])
+
 func set_folder(val: HBFolder):
 	folder = val
 	$Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/FolderName.text = folder.folder_name

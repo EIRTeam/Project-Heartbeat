@@ -106,6 +106,7 @@ func update_items():
 		
 	# TODO: HARD ARRANGE
 	select_item(0)
+	force_scroll()
 #	hard_arrange_all()
 	UserSettings.user_settings.last_folder_path = []
 	for f in folder_stack:

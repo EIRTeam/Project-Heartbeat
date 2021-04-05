@@ -165,6 +165,7 @@ func select_item(item_i: int):
 	
 func force_scroll():
 	if get_selected_item():
+		yield(get_tree(), "idle_frame")
 		select_item(current_selected_item)
 	
 func _input(event):

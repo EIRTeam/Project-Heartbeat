@@ -10,10 +10,14 @@ onready var button = get_node("Control")
 #onready var star_texture_rect = get_node("TextureRect")
 signal folder_selected(folder)
 
+func _ready():
+	button.connect("pressed", self, "emit_signal", ["pressed"])
+
 func set_folder(val: HBFolder):
 	folder = val
 	$Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/FolderName.text = folder.folder_name
-	$Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/SongCount.text = "%d Song(s)" % folder.songs.size()
+	
+	$Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/SongCount.text = "%d Song(s) %d Folder(s)" % [folder.songs.size(), folder.subfolders.size()]
 	emit_signal("folder_selected", folder)
 #	stars_texture_rect.rect_position = Vector2(-88, -25)
 #	star_texture_rect.rect_position = Vector2(-(star_texture_rect.rect_size.x/2.0), (rect_size.y / 2.0) - ((star_texture_rect.rect_size.y) / 2.0))
