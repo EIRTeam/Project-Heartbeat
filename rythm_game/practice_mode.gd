@@ -36,8 +36,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	disable_restart()
 	add_child(video_pause_timer)
 	video_player.play()
-	for _i in range(6):
-		yield(get_tree(), 'idle_frame')
 	video_player.paused = false
 	game._process(0)
 	video_player.stream_position = game.time

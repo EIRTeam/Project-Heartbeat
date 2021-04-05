@@ -7,6 +7,7 @@ onready var wait_dialog_label = get_node("WaitDialog/Label")
 onready var PPD_folders_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
 onready var PPD_ogg_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDOGGCheckbox")
 onready var PPD_folder_name_line_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+onready var PPD_hide_songs_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
 func _on_import_pressed():
 	pass
 
@@ -33,6 +34,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 		show_error("PPD Folder needs a name")
 	var predir = UserSettings.user_settings.ppd_songs_directory
 	UserSettings.user_settings.ppd_songs_directory = dir
+	UserSettings.user_settings.hide_ppd_ex_songs = PPD_hide_songs_checkbox.pressed
 	var sl = SongLoaderPPDEXT.new()
 	var err = sl._init_loader()
 	if err != OK:
@@ -68,9 +70,13 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 				var folder := create_folder_path(song_path)
 				folder.songs.append(song.id)
 		wait_dialog.hide()
-	show_error("ALL OK!")
+	$RestartAcceptDialog.popup_centered()
 	UserSettings.save_user_settings()
 
 
 func show_panel():
 	$WindowDialog.popup_centered()
+
+
+func _on_RestartAcceptDialog_confirmed():
+	get_tree().quit(0)

@@ -39,7 +39,7 @@ func play_random_song():
 		var song = current_song
 		var possible_songs = []
 		for possible_song in SongLoader.songs.values():
-			if possible_song.has_audio() and not possible_song == current_song:
+			if possible_song.has_audio() and possible_song.is_cached() and not possible_song == current_song:
 				possible_songs.append(possible_song)
 		if possible_songs.size() > 0:
 			randomize()
@@ -101,6 +101,8 @@ func _on_song_assets_loaded(assets):
 			emit_signal("song_started", song, assets)
 			
 func play_song(song: HBSong, force = false):
+	if not song.has_audio() or not song.is_cached():
+		return
 	waiting_for_song_assets = true
 	if song == current_song and not force:
 		return
