@@ -706,6 +706,7 @@ func pause():
 	game_preview.set_visualizer_processing_enabled(false)
 	game_preview.widget_area.show()
 	playhead_position = snap_time_to_timeline(playhead_position)
+	game_preview.pause()
 	emit_signal("playhead_position_changed")
 	reveal_ui()
 func _on_PauseButton_pressed():

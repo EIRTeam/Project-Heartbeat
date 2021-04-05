@@ -88,5 +88,6 @@ filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Po
 show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeBackgroundButton" to="ChangeBackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeCoverButton" to="ChangeCoverFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]

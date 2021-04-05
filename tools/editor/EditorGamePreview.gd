@@ -42,32 +42,33 @@ func _on_resized():
 	visualizer.rect_size.x = width
 	visualizer.rect_position.x = offset_X
 	rescale_video_player()
+func pause():
+	video_player.paused = true
 func _process(delta):
 	$Label.text = HBUtils.format_time(game.time * 1000.0)
 	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
 	$Label.text += "\nVP:%s" % [video_player.stream_position]
+	$Label.text += "\nDIFF:%.2f" % [video_player.stream_position - game.time]
+	
+
 func set_visualizer_processing_enabled(enabled):
 	if UserSettings.user_settings.visualizer_enabled:
 		visualizer.set_physics_process(enabled)
 	
 func _video_player_debounce():
-	play_video_from_pos(video_time, true)
+	#video_player.paused = true
+	video_player.stream_position = video_time
+	#play_video_from_pos(video_time, true)
 	
-func play_video_from_pos(pos: float, pause_after = false):
+func play_video_from_pos(pos: float):
 	if video_player.stream and video_player.visible:
 		video_player.paused = false
-		video_player.play()
-		video_player.stream_position = pos
-		video_player.paused = false
-		for _i in range(5):
-			yield(get_tree(), 'idle_frame')
-		if pause_after:
-			video_player.paused = true
+		video_player.stream_position = pos-0.05
 	
 func set_time(time: float):
 	if video_player.stream and video_player.visible:
 		video_time = time
-		video_pause_timer.start()
+		_video_player_debounce()
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()
 	if video_texture:
@@ -104,13 +105,8 @@ func set_song(song: HBSong):
 				# wait another 5 frames and only then can we pause the player
 				# yeah I don't know why I bother either
 				video_player.stream = stream
-				video_player.play()
-				video_player.stream_position = -1
-				video_player.stream_position = 0
-				video_player.paused = false # VideoPlayer only pulls frames when it's unpaused
-				for _i in range(5):
-					yield(get_tree(), 'idle_frame')
 				video_player.stream_position = song.start_time  / 1000.0
+				video_player.play()
 				video_player.paused = true
 				if visualizer:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video

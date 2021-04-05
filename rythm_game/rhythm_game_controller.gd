@@ -188,14 +188,11 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				# yeah I don't know why I bother either
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.play()
 					video_player.stream_position = -1
 					video_player.stream_position = 0
-				video_player.paused = false # VideoPlayer only pulls frames when it's unpaused
-				for _i in range(5):
-					yield(get_tree(), 'idle_frame')
+					video_player.paused = true
+				video_player.play()
 				video_player.stream_position = song.start_time  / 1000.0
-				video_player.paused = true
 				$Node2D/Panel.show()
 				if visualizer and UserSettings.user_settings.visualizer_enabled:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
@@ -248,6 +245,7 @@ func _on_resumed():
 		game.time = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
+		video_player.stream_position = last_pause_time - ROLLBACK_TIME
 		vhs_panel.show()
 		
 func _input(event):
