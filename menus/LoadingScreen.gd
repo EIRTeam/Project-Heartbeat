@@ -52,7 +52,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 		assets_to_get.append("audio_loudness")
 	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)
 	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
-	AsyncTaskQueueLight.queue_task(asset_task)
+	AsyncTaskQueue.queue_task(asset_task)
 	
 	if "background" in assets:
 		$TextureRect.texture = assets.background
