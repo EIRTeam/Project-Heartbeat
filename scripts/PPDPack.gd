@@ -12,6 +12,7 @@ var file_offsets = []
 var header_offset = 0
 var path
 var file
+var valid = true
 const SIGNATURE = "PPDPACKV1"
 func _init(_path: String):
 	path = _path
@@ -21,6 +22,7 @@ func _init(_path: String):
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_ascii()
 	if signature != SIGNATURE:
 		Log.log(self, "Erorr when loading pack, signature doesn't match", Log.LogLevel.ERROR)
+		valid = false
 		return ERR_FILE_CORRUPT
 	
 	var length = file.get_8()

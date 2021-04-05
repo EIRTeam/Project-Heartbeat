@@ -5,6 +5,8 @@ const SIGNATURE = "PPD"
 
 static func _get_marks_from_ppd_pack(path: String):
 	var pack := PPDPack.new(path)
+	if not pack.valid:
+		return null
 	var index = pack.get_file_index("ppd")
 	var data = _get_data_from_ppd_file(pack.file, pack.file_sizes[index], pack.file_offsets[index], pack)
 	return data
@@ -172,6 +174,8 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	
 	var chart = HBChart.new()
 	var data = _get_marks_from_ppd_pack(path)
+	if not data:
+		return chart
 	var marks = data.marks
 	var params = data.params
 	var prev_note
