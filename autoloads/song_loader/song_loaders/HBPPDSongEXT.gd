@@ -12,19 +12,24 @@ func get_serialized_type():
 # audio extracted from video
 func has_audio():
 	var f = File.new()
-	return f.file_exists(get_song_video_res_path())
+	return (video and f.file_exists(get_song_video_res_path())) or f.file_exists(get_song_audio_res_path())
 		
 func is_cached():
 	var f = File.new()
-	return f.file_exists(get_song_video_res_path()) and f.file_exists(get_song_audio_res_path())
+	return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
 
 func get_audio_stream():
 	var f = File.new()
 	var audio_path = get_song_audio_res_path()
+	var source_path = get_song_video_res_path()
+	if audio_path.ends_with(".wav"):
+		source_path = get_song_audio_res_path()
+		audio_path = audio_path.get_basename() + ".ogg"
+		
 	var found_audio = f.file_exists(audio_path)
 	# extract audio to ogg if it doesn't exist
 	if not found_audio:
-		var arguments = ["-i", get_song_video_res_path(), "-vn", "-acodec", "libvorbis", "-y", get_song_audio_res_path()]
+		var arguments = ["-i", source_path, "-vn", "-acodec", "libvorbis", "-y", audio_path]
 		var out = []
 		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, true, out, true)
 		if err != OK:
@@ -32,7 +37,7 @@ func get_audio_stream():
 			print(out)
 		found_audio = f.file_exists(audio_path)
 	if found_audio:
-		return HBUtils.load_ogg(get_song_audio_res_path())
+		return HBUtils.load_ogg(audio_path)
 	else:
 		return null
 	

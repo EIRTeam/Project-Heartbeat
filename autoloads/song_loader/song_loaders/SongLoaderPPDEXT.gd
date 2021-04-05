@@ -32,18 +32,23 @@ static func load_ppd_meta(path: String, id: String):
 			# Audio file discovery
 			var dir := Directory.new()
 			var found_mp4 = false
+			var found_wav = false
 			if dir.open(song.path) == OK:
 				dir.list_dir_begin()
 				var dir_name = dir.get_next()
 				while dir_name != "":
 					if not dir.current_is_dir():
-						if dir_name.ends_with(".mp4"):
+
+						if dir_name.ends_with(".mp4") or dir_name.ends_with(".flv") or dir_name.ends_with(".avi"):
 							song.video = dir_name
 							song.audio = dir_name.get_basename() + ".ogg"
 							found_mp4 = true
 							break
+						if dir_name.ends_with(".wav"):
+							song.audio = dir_name
+							found_wav = true
 					dir_name = dir.get_next()
-			if found_mp4:
+			if found_mp4 or found_wav:
 				return song
 		return null
 
@@ -59,9 +64,11 @@ func _discover_songs_recursive(path: String, base_path = "") -> Array:
 				var data_ini_path = i_path.plus_file("data.ini")
 				if dir.file_exists(data_ini_path):
 					var meta = load_ppd_meta(data_ini_path, "PPDEXT+" + base_path.plus_file(dir_name))
-					meta.title = dir_name
 					if meta:
+						meta.title = dir_name
 						songs.append(meta)
+					else:
+						print("Error loading PPD EXT song %s" % [dir_name])
 				else:
 					songs.append_array(_discover_songs_recursive(i_path, base_path.plus_file(dir_name)))
 			dir_name = dir.get_next()
