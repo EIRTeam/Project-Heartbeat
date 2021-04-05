@@ -63,9 +63,9 @@ class HBSongDSC:
 	func is_visible_in_editor():
 		return false
 		
-func _init_loader():
+func _init_loader() -> int:
 	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
-
+	return OK
 # If true this loader manages discovery by itself
 func uses_custom_load_paths():
 	return true
