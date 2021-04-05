@@ -13,6 +13,7 @@ const SAFE_AREA_SIZE = Vector2(192, 108)
 onready var video_pause_timer = Timer.new()
 var video_time = 0.0
 func _ready():
+	video_player.volume_db = 0
 	game.size = rect_size
 	game.editing = true
 	game.set_game_ui(game_ui)
