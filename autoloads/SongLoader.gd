@@ -148,7 +148,9 @@ func get_songs_with_difficulty(difficulty: String):
 
 func add_song_loader(id: String, loader: SongLoaderImpl):
 	song_loaders[id] = loader
-	loader._init_loader()
+	var err = loader._init_loader()
+	if err != OK:
+		song_loaders.erase(id)
 
 func get_song_loader(loader_name: String) -> SongLoaderImpl:
 	if song_loaders.has(loader_name):

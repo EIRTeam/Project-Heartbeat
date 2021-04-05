@@ -319,6 +319,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBPPDSong.gd"
 }, {
+"base": "HBPPDSong",
+"class": "HBPPDSongEXT",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/HBPPDSongEXT.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBPerSongEditorSettings",
 "language": "GDScript",
@@ -659,6 +664,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/song_loader/song_loaders/SongLoaderPPD.gd"
 }, {
+"base": "SongLoaderImpl",
+"class": "SongLoaderPPDEXT",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd"
+}, {
 "base": "HBLeaderboardService",
 "class": "SteamLeaderboardService",
 "language": "GDScript",
@@ -752,6 +762,7 @@ _global_script_class_icons={
 "HBNoteDrawer": "",
 "HBOptionControlsSectionAction": "",
 "HBPPDSong": "",
+"HBPPDSongEXT": "",
 "HBPerSongEditorSettings": "",
 "HBPerSongSettings": "",
 "HBPlatformAchievment": "",
@@ -820,6 +831,7 @@ _global_script_class_icons={
 "SongLoaderHB": "",
 "SongLoaderImpl": "",
 "SongLoaderPPD": "",
+"SongLoaderPPDEXT": "",
 "SteamLeaderboardService": "",
 "SteamLobby": "",
 "SteamMultiplayerService": "",
@@ -839,8 +851,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1615657912
-config/build_commit="cc19222c40e749439b51f445a3fb7acb0eb5efa8"
+config/build_time=1617232288
+config/build_commit="bfb76a6fb5c96749a569040eede68aa08553f125"
 config/service_environment="production"
 
 [autoload]
@@ -886,7 +898,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading"
+main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR\" --phplugin:dscloader:game_type f"
 
 [editor_plugins]
 

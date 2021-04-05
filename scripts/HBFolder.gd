@@ -14,3 +14,15 @@ func _init():
 
 func get_serialized_type():
 	return "Folder"
+
+func has_subfolder(name: String):
+	for folder in subfolders:
+		if folder.folder_name == name:
+			return true
+	return false
+
+func get_subfolder(name: String):
+	for folder in subfolders:
+		if folder.folder_name == name:
+			return folder
+	return null

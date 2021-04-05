@@ -238,8 +238,7 @@ func show_order_by_list():
 	sort_by_list_container.grab_focus()
 	
 func _on_difficulty_selected(song: HBSong, difficulty):
-	print("select ", song.title, " with diff ", difficulty)
-	if song is HBPPDSong and not song.has_audio() and not song.youtube_url:
+	if song is HBPPDSong and not song is HBPPDSongEXT and not song.has_audio() and not song.youtube_url:
 		$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 		return
 	if song.is_cached():

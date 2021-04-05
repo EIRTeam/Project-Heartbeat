@@ -142,6 +142,8 @@ enum COLORBLIND_COLOR_REMAP {
 
 var color_remap: int = COLORBLIND_COLOR_REMAP.NONE
 
+var ppd_songs_directory: String = ""
+
 func _init():
 
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -156,7 +158,7 @@ func _init():
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
 	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 	"lyrics_color", "locale", "timing_method", "enable_multi_threaded_texture_loading", "workshop_download_audio_only", "multi_laser_opacity",
-	"show_note_types_before_playing", "color_remap"]
+	"show_note_types_before_playing", "color_remap", "ppd_songs_directory"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

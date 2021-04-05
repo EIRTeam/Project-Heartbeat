@@ -13,9 +13,9 @@ func _init():
 	serializable_fields += ["ppd_offset", "guid", "ppd_website_id"]
 	LOG_NAME = "HBPPDSong"
 # Returns a HBPPDSong meta from an ini file
-static func from_ini(content: String, id: String, ext_data=null) -> HBSong:
+static func from_ini(content: String, id: String, ext_data=null, script="res://scripts/HBPPDSong.gd") -> HBSong:
 	var dict = HBINIParser.parse(content)
-	var song := load("res://scripts/HBPPDSong.gd").new() as HBSong
+	var song := load(script).new() as HBSong
 	song.title = id
 	song.artist = "[PPD]"
 	if dict.setting.has("authorname"):

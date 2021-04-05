@@ -1,0 +1,42 @@
+extends HBPPDSong
+
+class_name HBPPDSongEXT
+
+
+func _init().():
+	LOG_NAME = "HBPPDSongEXT"
+
+func get_serialized_type():
+	return "PPDSongEXT"
+
+# audio extracted from video
+func has_audio():
+	var f = File.new()
+	return f.file_exists(get_song_video_res_path())
+		
+func is_cached():
+	var f = File.new()
+	return f.file_exists(get_song_video_res_path()) and f.file_exists(get_song_audio_res_path())
+
+func get_audio_stream():
+	var f = File.new()
+	var audio_path = get_song_audio_res_path()
+	var found_audio = f.file_exists(audio_path)
+	# extract audio to ogg if it doesn't exist
+	if not found_audio:
+		var arguments = ["-i", get_song_video_res_path(), "-vn", "-acodec", "libvorbis", "-y", get_song_audio_res_path()]
+		var out = []
+		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, true, out, true)
+		if err != OK:
+			print("ERROR CONVERTING!")
+			print(out)
+		found_audio = f.file_exists(audio_path)
+	if found_audio:
+		return HBUtils.load_ogg(get_song_audio_res_path())
+	else:
+		return null
+	
+func get_video_stream():
+	var video_stream = VideoStreamGDNative.new()
+	video_stream.set_file(get_song_video_res_path())
+	return video_stream

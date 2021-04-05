@@ -12,7 +12,7 @@ static func get_game_mode_name() -> String:
 	return "Base Game Mode"
 
 static func get_serializable_song_types() -> Array:
-	return ["Song", "PPDSong"]
+	return ["Song", "PPDSong", "PPDSongEXT"]
 
 static func get_input_manager() -> HBGameInputManager:
 	return HeartbeatInputManager.new()

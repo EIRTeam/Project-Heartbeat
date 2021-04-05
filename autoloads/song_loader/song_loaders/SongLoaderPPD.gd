@@ -11,13 +11,14 @@ var ppd_youtube_url_list = {}
 # Extra data json file that is used by the PPD manager tool
 const OPT_META_FILE_NAME = "ph_ext.json"
 
-func _init_loader():
+func _init_loader() -> int:
 	var dir := Directory.new()
 	
 	PPD_YOUTUBE_URL_LIST_PATH = HBGame.platform_settings.user_dir_redirect(PPD_YOUTUBE_URL_LIST_PATH)
 		
 	if dir.file_exists(PPD_YOUTUBE_URL_LIST_PATH):
 		load_ppd_youtube_url_list()
+	return OK
 
 func get_meta_file_name() -> String:
 	return "data.ini"
@@ -25,7 +26,7 @@ func get_meta_file_name() -> String:
 func get_optional_meta_files() -> Array:
 	return [OPT_META_FILE_NAME]
 
-func load_opt_file(path: String) -> Dictionary:
+static func load_opt_file(path: String) -> Dictionary:
 	var data := {}
 	
 	var file := File.new()

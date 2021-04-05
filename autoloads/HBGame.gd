@@ -61,12 +61,15 @@ var serializable_types = {
 	"TimingModifierSettings": load("res://rythm_game/modifiers/timing/timing_settings.gd"),
 	"IntroSkipMarker": load("res://scripts/timing_points/HBIntroSkipMarker.gd"),
 	"HBResourcePack": load("res://tools/resource_pack_editor/HBResourcePack.gd"),
-	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd")
+	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd"),
+	"PPDSongEXT": load("res://autoloads/song_loader/song_loaders/HBPPDSongEXT.gd")
 }
 
 const EXCELLENT_THRESHOLD = 0.95
 const GREAT_THRESHOLD = 0.90
 const PASS_THRESHOLD = 0.75
+
+onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_for_type('VideoStreamGDNative')
 
 func _ready():
 	_game_init()
@@ -82,11 +85,8 @@ func _game_init():
 		platform_settings = HBPlatformSettingsDesktop.new()
 	PlatformService._initialize_platform()
 	
-
-	
 	SongDataCache.load_cache()
-	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
-	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
+
 	var args := OS.get_cmdline_args() as Array
 	# --phplugin:dscloader:game_location=""
 	var dsc_game_type = "FT"
@@ -109,7 +109,11 @@ func _game_init():
 				SongLoader.add_song_loader("dsc", dsc_loader)
 			else:
 				push_error("Argument game_location requires an input")
+
 	UserSettings._init_user_settings()
+	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
+	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
+	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
 	ResourcePackLoader._init_resource_pack_loader()
 	# Switch specific stuff
 	if platform_settings is HBPlatformSettingsSwitch:

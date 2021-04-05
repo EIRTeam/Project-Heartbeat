@@ -5,8 +5,8 @@ class_name SongLoaderImpl
 func get_meta_file_name() -> String:
 	return ""
 
-func _init_loader():
-	pass
+func _init_loader() -> int:
+	return OK
 
 func load_song_meta_from_folder(path: String, id: String):
 	pass
