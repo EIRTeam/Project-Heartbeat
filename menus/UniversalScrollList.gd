@@ -131,15 +131,17 @@ func update_fade():
 			mat.set_shader_param("bottom_enabled", target_scroll < max_scroll)
 	
 func select_item(item_i: int):
+	if item_container.get_child_count() == 0:
+		return
+	
 	var current_item = get_selected_item()
 	
 	var old_selected_item = current_selected_item
 	
 	if current_item:
 		item_container.get_child(current_selected_item).stop_hover()
-	
-	var child = item_container.get_child(item_i)
 
+	var child = item_container.get_child(item_i)
 	current_selected_item = item_i
 	match scroll_mode:
 		SCROLL_MODE.PAGE:
