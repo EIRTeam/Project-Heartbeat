@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=1]
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=1]
 code = "// credit: https://www.shadertoy.com/view/4tGXzt
 shader_type canvas_item;
 
@@ -50,7 +50,7 @@ vec3 doHalo(vec2 fragment, float radius, float t) {
 	float angle = atan(fragment.x, fragment.y);
 	col += hsv2rgb( vec3( ( angle + t * 0.25 ) / (PI * 2.0), 0.6, 0.5 ) ) * ring * b;
 	
-	float frequency = max(getfrequency(abs(angle / PI)) - 0.02, 0.0);
+	float frequency = max(getfrequency_smooth(abs(angle / PI)) - 0.02, 0.0);
 	col *= frequency * 0.5;
 	
 	// Black halo
@@ -91,24 +91,23 @@ void fragment() {
     
 	COLOR = vec4(color*0.5, 0.75);
 }"
-custom_defines = ""
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 render_priority = -128
-shader = SubResource( 2 )
+shader = SubResource( 1 )
 shader_param/FREQ_RANGE = 16.0
 shader_param/size = Vector2( 1920, 1080 )
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
 [node name="Control" type="Panel"]
-material = SubResource( 3 )
+material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fallback_stylebox = SubResource( 1 )
+fallback_stylebox = SubResource( 3 )
