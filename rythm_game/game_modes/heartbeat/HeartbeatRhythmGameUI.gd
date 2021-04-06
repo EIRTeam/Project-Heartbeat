@@ -52,8 +52,8 @@ func _ready():
 	connect("resized", self, "_on_size_changed")
 	call_deferred("_on_size_changed")
 	
-	add_drawing_layer("Trails")
 	add_drawing_layer("Laser")
+	add_drawing_layer("Trails")
 	add_drawing_layer("StarParticles")
 	add_drawing_layer("HitParticles")
 	add_drawing_layer("AppearParticles")
