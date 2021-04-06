@@ -305,7 +305,7 @@ func _process_game(_delta):
 			else:
 				MobileControls.set_input_mode(0)
 	# autoplay code
-	if Diagnostics.enable_autoplay or previewing:
+	if (Diagnostics.enable_autoplay and not editing) or previewing:
 		if not result.used_cheats:
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
