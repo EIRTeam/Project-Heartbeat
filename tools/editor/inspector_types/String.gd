@@ -17,6 +17,7 @@ func emit_value_changed_signal():
 
 func _on_lineedit_value_changed(value):
 	emit_value_changed_signal()
+	line_edit.release_focus()
 
 func set_params(params):
 	pass

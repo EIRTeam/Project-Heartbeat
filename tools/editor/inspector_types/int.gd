@@ -16,6 +16,7 @@ func emit_value_changed_signal():
 
 func _on_Spinbox_value_changed(value):
 	emit_value_changed_signal()
+	spinbox.release_focus()
 
 func set_params(params):
 	if params.has("min"):

@@ -23,6 +23,7 @@ func _on_Spinbox_value_changed(value):
 	angle_edit.angle = value
 	emit_value_changed_signal()
 	emit_signal("value_change_committed")
+	spinbox.release_focus()
 
 func _on_AngleEdit_angle_finished_changing():
 	emit_signal("value_change_committed")

@@ -14,6 +14,7 @@ func emit_value_changed_signal():
 	emit_signal("value_change_committed")
 
 func _on_Spinbox_value_changed(value):
+	spin_box.release_focus()
 	emit_value_changed_signal()
 
 
