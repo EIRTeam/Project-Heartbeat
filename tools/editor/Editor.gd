@@ -37,6 +37,8 @@ onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/
 onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
 onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Transforms/TransformsTool")
+onready var message_shower = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/MessageShower")
+
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -272,7 +274,6 @@ func _unhandled_input(event):
 		if event.is_action_pressed("editor_scale_up"):
 			get_tree().set_input_as_handled()
 			change_scale(scale-0.5)
-	
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
 			if event.scancode > KEY_0 and event.scancode < KEY_9:
@@ -300,11 +301,15 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("gui_undo"):
 		get_tree().set_input_as_handled()
 		apply_fine_position()
-		undo_redo.undo()
+		if undo_redo.has_undo():
+			message_shower._show_notification("Undo " + undo_redo.get_current_action_name().to_lower())
+			undo_redo.undo()
 	elif event.is_action_pressed("gui_redo"):
 		get_tree().set_input_as_handled()
 		apply_fine_position()
-		undo_redo.redo()
+		if undo_redo.has_redo():
+			undo_redo.redo()
+			message_shower._show_notification("Redo " + undo_redo.get_current_action_name().to_lower())
 	elif event.is_action_pressed("editor_delete"):
 		if selected.size() != 0:
 			get_tree().set_input_as_handled()
@@ -490,7 +495,7 @@ func _change_selected_property(property_name: String, new_value):
 	_on_timing_points_params_changed()
 	
 func _commit_selected_property_change(property_name: String):
-	var action_name = "Note " + property_name + " change commited"
+	var action_name = "Note " + property_name + " changed"
 	
 	print(action_name)
 	undo_redo.create_action(action_name)
@@ -609,6 +614,7 @@ func copy_selected():
 func paste(time: int):
 	if copied_points.size() > 0:
 		undo_redo.create_action("Paste timing points")
+		message_shower._show_notification("Paste notes")
 		var min_point = copied_points[0].data as HBTimingPoint
 		for item in copied_points:
 			var timing_point := item.data as HBTimingPoint
@@ -634,19 +640,21 @@ func delete_selected():
 	if selected.size() > 0:
 		if inspector.inspecting_item in selected:
 			inspector.stop_inspecting()
-	undo_redo.create_action("Delete notes")
-	
-	for selected_item in selected:
-		selected_item.deselect()
-		undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
-		undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+		undo_redo.create_action("Delete notes")
 		
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
-	undo_redo.add_do_method(self, "sync_lyrics")
-	undo_redo.add_undo_method(self, "sync_lyrics")
-	selected = []
-	undo_redo.commit_action()
+		message_shower._show_notification("Delete notes")
+		
+		for selected_item in selected:
+			selected_item.deselect()
+			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
+			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+			
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self, "sync_lyrics")
+		undo_redo.add_undo_method(self, "sync_lyrics")
+		selected = []
+		undo_redo.commit_action()
 
 func deselect_all():
 	for item in selected:
@@ -954,6 +962,7 @@ func _on_SaveButton_pressed():
 	current_song.lyrics = get_lyrics()
 	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
 	current_song.save_song()
+	message_shower._show_notification("Chart saved")
 	
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
