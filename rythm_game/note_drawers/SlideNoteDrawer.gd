@@ -66,10 +66,6 @@ func is_slide_direction_pressed():
 		return true
 	var direction_pressed = false
 	for action in note_data.get_input_actions():
-		if OS.has_feature("mobile"):
-			if Input.is_action_pressed(action):
-				direction_pressed = true
-				break
 		if game.game_input_manager.is_action_held(action):
 			direction_pressed = true
 			break
@@ -158,6 +154,9 @@ func kill_note():
 	emit_signal("note_removed")
 	queue_free()
 	kill_loop_sfx_player()
+
+func is_sliding():
+	return hit_first
 
 func kill_loop_sfx_player():
 	if current_sfx_player:
