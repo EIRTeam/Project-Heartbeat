@@ -285,7 +285,7 @@ func _handle_unhandled_input(event):
 							get_tree().set_input_as_handled()
 							break
 						elif not note.is_slide_note():
-							return
+							continue
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating
 		# else, the final rating will be the rating that's been obtained the most
