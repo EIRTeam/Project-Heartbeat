@@ -188,6 +188,10 @@ func populate_items():
 	add_graphic_item(misc_item, "Hold Text", "hold_text.png", "notes")
 	add_graphic_item(misc_item, "Hold Text Multi", "hold_text_multi.png", "notes")
 	add_graphic_item(misc_item, "Note Trail", "note_trail.png", "__no_atlas", false, Vector2(256, 64))
+	if OS.has_feature("editor"):
+		add_graphic_item(misc_item, "Note Hit Bubble", "bubble.png", "effects", true, Vector2(496, 496))
+		add_graphic_item(misc_item, "Note Hit Flare", "flare.png", "effects", true, Vector2(800, 800))
+		add_graphic_item(misc_item, "Note Hit Loop", "loop.png", "effects", true, Vector2(310, 310))
 	add_graphic_item(misc_item, "Sustain Trail", "sustain_trail.png", "__no_atlas", true, Vector2(128, 128))
 func _on_button_pressed(item: TreeItem, _column: int, id: int):
 	if item.has_meta("resource_name"):
@@ -226,10 +230,16 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	resource_images_per_atlas = {
 		"__no_atlas": {}
 	}
-	for atlas_name in ResourcePackLoader.ATLASES:
+	
+	var atlases = ResourcePackLoader.ATLASES
+	
+	if not OS.has_feature("editor"):
+		atlases.erase("effects")
+	
+	for atlas_name in atlases:
 		resource_images_per_atlas[atlas_name] = {}
 	populate_items()
-	for atlas_name in ResourcePackLoader.ATLASES:
+	for atlas_name in atlases:
 		_generate_atlas(atlas_name, atlas_name in first_time_save_atlases)
 	
 	icon_pack_title_line_edit.text = pack.pack_name
@@ -255,13 +265,13 @@ func _generate_atlas(atlas_name: String, save=true):
 		return
 	var time_start = OS.get_ticks_usec()
 	var out = HBUtils.pack_images_turbo16(resource_images_per_atlas[atlas_name], 1)
-	current_pack.notes_atlas_data = out.atlas_data
+	current_pack.set(atlas_name + "_atlas_data", out.atlas_data)
 	var texture := out.texture as Texture
 	atlas_preview_texture_rect.set_atlas(out)
 	atlas_preview_label.text = "Atlas size: %s" % [str(texture.get_size())]
 	if save:
 		current_pack.save_pack()
-		var atlas_path := current_pack.get_atlas_path("notes")
+		var atlas_path := current_pack.get_atlas_path(atlas_name)
 		var d = Directory.new()
 		if not d.dir_exists(atlas_path.get_base_dir()):
 			d.make_dir_recursive(atlas_path.get_base_dir())
@@ -348,6 +358,8 @@ func _on_SaveButton_pressed():
 	current_pack.pack_description = description_text_edit.text
 	current_pack.save_pack()
 	_generate_atlas("notes")
+	if OS.has_feature("editor"):
+		_generate_atlas("effects")
 
 func show_error(error: String):
 	error_dialog.dialog_text = error

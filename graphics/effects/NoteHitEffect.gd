@@ -7,6 +7,9 @@ onready var note_flare = get_node("Flare")
 onready var tween = Tween.new()
 
 func _ready():
+	$NoteIcon.texture = ResourcePackLoader.get_graphic("bubble.png")
+	$Flare.texture = ResourcePackLoader.get_graphic("flare.png")
+	$Loop.texture = ResourcePackLoader.get_graphic("loop.png")
 	tween.connect("tween_all_completed", self, "queue_free")
 	add_child(tween)
 	play_effect()

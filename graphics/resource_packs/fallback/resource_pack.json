@@ -288,5 +288,21 @@
       "type": "HBAtlasEntry"
     }
   },
+  "effects_atlas_data": {
+    "bubble.png": {
+      "region": "Rect2( 513, 1, 496, 496 )",
+      "type": "HBAtlasEntry"
+    },
+    "flare.png": {
+      "region": "Rect2( 1, 1, 511, 458 )",
+      "margin": "Rect2( 172, 182, 289, 342 )",
+      "type": "HBAtlasEntry"
+    },
+    "loop.png": {
+      "region": "Rect2( 1, 460, 310, 309 )",
+      "margin": "Rect2( 0, 0, 0, 1 )",
+      "type": "HBAtlasEntry"
+    }
+  },
   "type": "HBResourcePack"
 }

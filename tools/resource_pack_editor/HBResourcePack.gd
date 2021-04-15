@@ -18,6 +18,7 @@ var pack_name: String = ""
 var pack_description: String = ""
 var pack_author_name: String = ""
 var notes_atlas_data: Dictionary = {}
+var effects_atlas_data: Dictionary = {}
 var _path: String = ""
 var _id: String = ""
 
@@ -51,7 +52,8 @@ func _init():
 	# Meta
 	"pack_name", "pack_author_name", "pack_description",
 	# Atlases
-	"notes_atlas_data", 
+	"notes_atlas_data",
+	"effects_atlas_data",
 	# Trail margins
 	"up_trail_margin", "down_trail_margin", "left_trail_margin", "right_trail_margin",
 	"slide_left_trail_margin", "slide_right_trail_margin", "slide_chain_piece_left_trail_margin",

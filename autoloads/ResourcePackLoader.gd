@@ -20,7 +20,8 @@ var note_override_list_i := []
 var note_override_list_str := []
 
 const ATLASES = [
-	"notes"
+	"notes",
+	"effects"
 ]
 
 # Ordinary graphics that aren't loaded from an atlas
@@ -126,7 +127,6 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 					selected_pack = resource_packs.get(pack_to_use, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
-		print(selected_pack.pack_name)
 		var selected_pack_atlas := selected_pack.get_atlas_image("notes")
 		if selected_pack_atlas:
 			var at = HBUtils.pack_images_turbo16({
