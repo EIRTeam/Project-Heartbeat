@@ -12,12 +12,12 @@
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.3, 1 )
 colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
 
 [sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 7 )
+gradient = SubResource( 2 )
 
 [sub_resource type="StyleBoxTexture" id=4]
 texture = SubResource( 3 )
@@ -167,9 +167,7 @@ percent_visible = 0.0
 [node name="EpilepsyWarning" type="Panel" parent="LoadingScreenElements"]
 anchor_top = 0.26
 anchor_right = 1.0
-anchor_bottom = 0.31
-margin_top = 270.4
-margin_bottom = 420.4
+anchor_bottom = 0.441
 rect_min_size = Vector2( 0, 150 )
 rect_pivot_offset = Vector2( 0, 102 )
 custom_styles/panel = SubResource( 4 )
@@ -209,14 +207,14 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 1880.0
-margin_bottom = 184.0
+margin_bottom = 175.0
 custom_constants/separation = 21
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 394.0
 margin_right = 547.0
-margin_bottom = 164.0
+margin_bottom = 155.0
 rect_min_size = Vector2( 153, 0 )
 texture = ExtResource( 7 )
 expand = true
@@ -224,9 +222,9 @@ stretch_mode = 6
 
 [node name="Label" type="Label" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 568.0
-margin_top = 49.0
+margin_top = 45.0
 margin_right = 1466.0
-margin_bottom = 114.0
+margin_bottom = 110.0
 custom_fonts/font = ExtResource( 6 )
 text = "This chart's video contains scenes with rapidly flashing colours.
 Please take caution if you are affected by epilepsy."
