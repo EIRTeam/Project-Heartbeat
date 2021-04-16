@@ -23,6 +23,7 @@ margin_left = -128.0
 margin_top = -128.0
 margin_right = 128.0
 margin_bottom = 128.0
+mouse_filter = 2
 max_value = 1.0
 step = 0.0
 texture_progress = ExtResource( 5 )
