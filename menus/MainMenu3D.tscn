@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://menus/MainMenu3D.gd" type="Script" id=1]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=8]
 [ext_resource path="res://menus/MainMenuUserInfo.tscn" type="PackedScene" id=9]
 [ext_resource path="res://menus/music_player/MainMenuMusicPlayer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://menus/ScaledViewport.gd" type="Script" id=11]
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 1.6, 0.9 )
@@ -104,13 +105,12 @@ transparent_bg = true
 disable_3d = true
 usage = 0
 render_target_v_flip = true
+script = ExtResource( 11 )
 
 [node name="MenuLeftContainer" type="MarginContainer" parent="ViewportLeft"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 margin_left = 100.0
 margin_right = -59.9999
-rect_min_size = Vector2( 1000, 0 )
+rect_min_size = Vector2( 1760, 1080 )
 size_flags_horizontal = 3
 theme = ExtResource( 2 )
 custom_constants/margin_left = 0
@@ -125,12 +125,12 @@ transparent_bg = true
 disable_3d = true
 usage = 0
 render_target_v_flip = true
+script = ExtResource( 11 )
 
 [node name="MenuRightContainer" type="Control" parent="ViewportRight"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 margin_right = 6.10352e-05
 margin_bottom = 0.00012207
+rect_min_size = Vector2( 720, 1440 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
