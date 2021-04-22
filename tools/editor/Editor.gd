@@ -38,6 +38,8 @@ onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
 onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Transforms/TransformsTool")
 onready var message_shower = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/MessageShower")
+onready var quick_lyric_dialog := get_node("QuickLyricDialog")
+onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
 
 const LOG_NAME = "HBEditor"
 
@@ -157,6 +159,17 @@ func _ready():
 	transforms_tools.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
+	quick_lyric_dialog_line_edit.connect("text_entered", self, "_on_create_quick_lyric")
+	
+func _on_create_quick_lyric(lyric_text: String):
+	var lyric := HBLyricsLyric.new()
+	lyric.value = lyric_text
+	lyric.time = playhead_position
+	create_lyrics_event(lyric)
+	quick_lyric_dialog_line_edit.release_focus()
+	quick_lyric_dialog.hide()
+	
+	
 func get_items_at_time_or_selected(time: int):
 	if selected.size() > 0:
 		return selected
@@ -253,7 +266,18 @@ func _input(event: InputEvent):
 				var off = Vector2(int(diff_x), int(diff_y))
 				fine_position_selected(off)
 				get_tree().set_input_as_handled()
-	
+	if event.is_action_pressed("editor_quick_lyric"):
+		quick_lyric_dialog.popup_centered()
+		quick_lyric_dialog_line_edit.grab_focus()
+		quick_lyric_dialog_line_edit.text = ""
+	if event.is_action_pressed("editor_quick_phrase_start"):
+		var ev := HBLyricsPhraseStart.new()
+		ev.time = playhead_position
+		create_lyrics_event(ev)
+	if event.is_action_pressed("editor_quick_phrase_end"):
+		var ev := HBLyricsPhraseEnd.new()
+		ev.time = playhead_position
+		create_lyrics_event(ev)
 func get_items_at_time(time: int):
 	var items = []
 	for item in current_notes:
@@ -584,7 +608,8 @@ func add_event_timing_point(timing_point_class: GDScript):
 			break
 		
 	user_create_timing_point(ev_layer, timing_point.get_timeline_item())
-
+	
+	return timing_point
 func _on_game_playback_time_changed(time: float):
 	playhead_position = max(time * 1000.0, 0.0)
 	timeline.update()

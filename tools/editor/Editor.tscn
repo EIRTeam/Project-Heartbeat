@@ -854,6 +854,7 @@ __meta__ = {
 }
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer" instance=ExtResource( 12 )]
+visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -863,7 +864,6 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -1044,6 +1044,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="QuickLyricDialog" type="WindowDialog" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -164.0
+margin_top = -26.0
+margin_right = 164.0
+margin_bottom = 26.0
+window_title = "Quick lyric"
+
+[node name="MarginContainer" type="MarginContainer" parent="QuickLyricDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_top = 15
+custom_constants/margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="QuickLyricDialog/MarginContainer"]
+margin_top = 15.0
+margin_right = 328.0
+margin_bottom = 40.0
+
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_timing_information_changed"]
@@ -1073,8 +1099,8 @@ __meta__ = {
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
