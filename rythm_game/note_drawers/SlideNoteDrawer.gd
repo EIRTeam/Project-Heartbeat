@@ -163,7 +163,8 @@ func kill_loop_sfx_player():
 		if is_audio_looping:
 			game.sfx_pool.stop_looping_sfx(current_sfx_player)
 		else:
-			game.sfx_pool.stop_sfx(current_sfx_player)
+			if is_instance_valid(current_sfx_player):
+				game.sfx_pool.stop_sfx(current_sfx_player)
 		is_audio_looping = false
 		current_sfx_player = null
 
