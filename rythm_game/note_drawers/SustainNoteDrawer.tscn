@@ -4,7 +4,7 @@
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteDrawer.gd" type="Script" id=3]
 [ext_resource path="res://rythm_game/note_drawers/SustainNoteGraphic.gd" type="Script" id=8]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 length = 0.34
 step = 0.17
 tracks/0/type = "value"
@@ -24,9 +24,11 @@ tracks/0/keys = {
 script = ExtResource( 3 )
 
 [node name="NoteTarget" parent="." instance=ExtResource( 1 )]
+z_index = -1
+z_as_relative = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/note_appear = SubResource( 3 )
+anims/note_appear = SubResource( 1 )
 
 [node name="Note" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
