@@ -59,7 +59,8 @@ func setup():
 
 	generate_trail_points()
 	line.material.set_shader_param("leading", float(int(UserSettings.user_settings.leading_trail_enabled)))
-	z_index = 0
+	z_index = -2
+	z_as_relative = false
 func _ready():
 	setup()
 	
