@@ -19,6 +19,8 @@ func set_color(val):
 func _ready():
 	set_color(color)
 	modulate.a = UserSettings.user_settings.multi_laser_opacity
+	z_index = -2
+	z_as_relative = false
 func set_positions(val):
 	positions = val
 	while line_2ds.size() < positions.size():
