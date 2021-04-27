@@ -29,6 +29,12 @@ func _ready():
 	add_child(video_pause_timer)
 	transform_preview.game = game
 	visualizer.ingame = true
+	video_player.connect("finished", self, "_on_video_player_finished")
+	
+func _on_video_player_finished():
+	video_player.play()
+	video_player.paused = true 
+	video_player.stream_position = 0.0
 func _on_resized():
 	game.size = rect_size
 	game._on_viewport_size_changed()
