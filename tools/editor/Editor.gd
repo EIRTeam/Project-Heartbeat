@@ -143,9 +143,8 @@ func _ready():
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
 	
 	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
+	editor_help_button.get_popup().connect("index_pressed", self, "_on_editor_help_button_pressed")
 	
-	editor_help_button.connect("pressed", OS, "shell_open", ["https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718"])
-
 	inspector.connect("note_pasted", self, "paste_note_data")
 	
 	MouseTrap.disable_mouse_trap()
@@ -160,6 +159,14 @@ func _ready():
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
 	quick_lyric_dialog_line_edit.connect("text_entered", self, "_on_create_quick_lyric")
+	
+const HELP_URLS = [
+	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
+	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
+]
+	
+func _on_editor_help_button_pressed(button_idx: int):
+	OS.shell_open(HELP_URLS[button_idx])
 	
 func _on_create_quick_lyric(lyric_text: String):
 	var lyric := HBLyricsLyric.new()

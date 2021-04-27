@@ -298,13 +298,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EditorHelpButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="EditorHelpButton" type="MenuButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 850.0
 margin_right = 878.0
 margin_bottom = 25.0
 hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
-flat = true
+items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="UIFade" parent="VBoxContainer/Panel2" instance=ExtResource( 38 )]
 margin_top = 0.0
@@ -854,7 +854,6 @@ __meta__ = {
 }
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer" instance=ExtResource( 12 )]
-visible = false
 margin_left = 5.0
 margin_top = 32.0
 margin_right = -5.0
@@ -864,6 +863,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -1099,8 +1099,8 @@ margin_bottom = 40.0
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
