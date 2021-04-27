@@ -206,14 +206,14 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
 			if not event is InputEventJoypadMotion:
 				filter_type_container._gui_input(event)
-		if event.is_action_pressed("gui_cancel"):
+		elif event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
-		if event.is_action_pressed("note_up"):
+		elif event.is_action_pressed("note_up"):
 			if not HBUtils.is_gui_directional_press("gui_up", event):
 				get_tree().set_input_as_handled()
 				show_order_by_list()
-		if event.is_action_pressed("contextual_option"):
+		elif event.is_action_pressed("contextual_option"):
 			if UserSettings.user_settings.filter_mode == "folders":
 				var item = song_container.get_selected_item()
 				if item and item is HBSongListItem:
