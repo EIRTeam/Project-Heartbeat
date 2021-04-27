@@ -215,6 +215,29 @@ margin_left = -275.0
 margin_right = 275.0
 margin_bottom = 101.0
 
+[node name="VBoxContainer" parent="HBConfirmationWindow/Panel/MarginContainer" index="0"]
+margin_bottom = 194.0
+
+[node name="Label" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="0"]
+margin_top = 59.0
+margin_bottom = 90.0
+text = "Enter your search:"
+
+[node name="LineEdit" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="1"]
+margin_top = 100.0
+margin_bottom = 135.0
+
+[node name="Panel4" parent="HBConfirmationWindow/Panel/HBoxContainer" index="0"]
+margin_left = 114.0
+margin_right = 268.0
+
+[node name="Label" parent="HBConfirmationWindow/Panel/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 144.0
+
+[node name="CancelButton" parent="HBConfirmationWindow/Panel/HBoxContainer" index="1"]
+margin_left = 283.0
+margin_right = 435.0
+
 [node name="Panel" type="Panel" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -258,3 +281,6 @@ __meta__ = {
 [connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="cancel" from="HBConfirmationWindow" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]
+
+[editable path="HBConfirmationWindow"]
+[editable path="HBConfirmationWindow/Panel/HBoxContainer/Panel4"]
