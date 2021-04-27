@@ -125,6 +125,13 @@ func do_metadata_size_check(dict: Dictionary) -> bool:
 func start_upload():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider
+		if Steam.getAppOwner() != Steam.getSteamID():
+			error_dialog.dialog_text = """
+			There was an error uploading your item:
+			Content can't be uploaded to the Steam workshop from a family shared copy of the game, this is a limitation imposed by Steam.
+			"""
+			error_dialog.popup_centered()
+			return
 		var has_service_name = false
 		if not do_metadata_size_check(get_song_meta_dict()):
 			return
