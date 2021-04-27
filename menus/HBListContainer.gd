@@ -37,6 +37,7 @@ func _ready():
 	connect("focus_exited", self, "_on_focus_exited")
 	move_sound_player.stream = MOVE_SOUND
 	move_sound_player.pause_mode = PAUSE_MODE_PROCESS
+	move_sound_player.bus = "SFX"
 	get_tree().root.call_deferred("add_child", move_sound_player)
 	focus_mode = FOCUS_ALL
 	connect("resized", self, "hard_arrange_all")
