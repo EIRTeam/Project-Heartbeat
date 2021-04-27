@@ -47,6 +47,7 @@ var serializable_types = {
 	"GameInfo": load("res://scripts/HBGameInfo.gd"),
 	"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
 	"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
+	"HiddenSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
 	"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
 	"SongStats": load("res://scripts/HBSongStats.gd"),
 	"Folder": load("res://scripts/HBFolder.gd"),

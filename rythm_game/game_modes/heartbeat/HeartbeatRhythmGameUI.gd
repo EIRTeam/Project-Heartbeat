@@ -57,6 +57,7 @@ func _ready():
 	add_drawing_layer("StarParticles")
 	add_drawing_layer("HitParticles")
 	add_drawing_layer("AppearParticles")
+	add_drawing_layer("SlideChainPieces")
 	add_drawing_layer("Notes")
 	latency_display_container.visible = UserSettings.user_settings.show_latency
 

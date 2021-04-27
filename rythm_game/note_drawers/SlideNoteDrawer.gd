@@ -1,5 +1,7 @@
 extends "res://rythm_game/note_drawers/SingleNoteDrawer.gd"
 
+class_name SlideNoteDrawer
+
 var slide_chain
 var slide_chain_drawers = {}
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
@@ -26,7 +28,8 @@ func _ready():
 			note_drawer.game = game
 			slide_chain_drawers[slide_piece] = note_drawer
 			note_drawer._note_init()
-			add_child(note_drawer)
+			bind_node_to_layer(note_drawer, "SlideChainPieces")
+			#add_child(note_drawer)
 			accumulated_score = 0
 			note_drawer.hide()
 

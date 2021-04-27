@@ -405,8 +405,14 @@ func _process_game(_delta):
 				break
 			if time * 1000.0 >= (group.time - time_out):
 				_process_note_group(group)
-#				if not editing or previewing:
-#					timing_points.remove(i)
+				for modifier in modifiers:
+					if modifier.processing_notes:
+						var drawers = []
+						for note in group.notes:
+							var drw = get_note_drawer(note)
+							if drw:
+								drawers.append(drw)
+						modifier._process_note(drawers, time, get_bpm_at_time(time))
 	emit_signal("time_changed", time)
 	
 	var new_closest_multi_notes = []

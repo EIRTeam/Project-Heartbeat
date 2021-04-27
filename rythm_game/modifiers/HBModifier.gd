@@ -4,6 +4,7 @@ class_name HBModifier
 var options = {}
 var modifier_settings: HBSerializable
 var disables_video = false
+var processing_notes = false
 
 func _pre_game(song: HBSong, game: HBRhythmGame):
 	pass
