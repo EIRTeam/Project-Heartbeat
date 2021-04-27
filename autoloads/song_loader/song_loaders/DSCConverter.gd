@@ -174,7 +174,6 @@ static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap) -> HBCh
 					elif is_sustain(opcode.params[0]):
 						note_d = HBSustainNote.new()
 						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0)
-					var is_hold = opcode.params[1] != -1
 					# F note coords are in 50:15 aspect ratio
 					var diva_width = 500_000.0
 					var diva_height = 250_000.0

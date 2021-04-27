@@ -10,6 +10,7 @@ var already_have_result = false
 
 onready var leaderboard = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer/Panel") as LeaderboardView
 onready var scroll_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer")
+onready var margin_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer")
 var scroll_pos = 0.0
 const SCROLL_SPEED = 1000.0
 
@@ -44,9 +45,10 @@ func _ready():
 func _on_entries_received(handle, entries, _total_pages):
 	pagination_buttons.visible = _total_pages > 1
 	total_pages = _total_pages
-	
 	update_pages_label()
-	
+	# HACK: If we don't do this scroll bars break randomly
+	margin_container.hide()
+	margin_container.show()
 func update_pages_label():
 	next_page_button.show()
 	prev_page_button.show()
