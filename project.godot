@@ -639,6 +639,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/SineDrawerCPU.gd"
 }, {
+"base": "Node2D",
+"class": "SlideNoteDrawer",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/SlideNoteDrawer.gd"
+}, {
 "base": "HBTask",
 "class": "SongAssetLoadAsyncTask",
 "language": "GDScript",
@@ -826,6 +831,7 @@ _global_script_class_icons={
 "SMFLoader": "",
 "ScriptRunnerScript": "",
 "SineDrawerCPU": "",
+"SlideNoteDrawer": "",
 "SongAssetLoadAsyncTask": "",
 "SongLoaderDSC": "",
 "SongLoaderHB": "",
@@ -851,8 +857,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1618626234
-config/build_commit="2b63f87aed6303a0bf408cdf9149c7feb146900d"
+config/build_time=1619672661
+config/build_commit="1ad21d64c47c293d99e7970c74e6709bf5af5315"
 config/service_environment="production"
 
 [autoload]

@@ -1022,6 +1022,7 @@ dialog_text = "Any unsaved progress will be lost."
 dialog_autowrap = true
 
 [node name="OpenChartPopupDialog" parent="Popups" instance=ExtResource( 1 )]
+visible = false
 margin_left = 334.997
 margin_top = 141.999
 margin_right = 950.997
@@ -1033,6 +1034,58 @@ margin_bottom = 80.0
 window_title = "Plugin Error"
 dialog_text = "Plugin ERROR!"
 dialog_autowrap = true
+
+[node name="FirstTimeMessageDialog" type="AcceptDialog" parent="Popups"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -37.0
+margin_right = 308.0
+margin_bottom = 148.0
+theme = ExtResource( 16 )
+popup_exclusive = true
+window_title = ""
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="VBoxContainer" parent="Popups/FirstTimeMessageDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 400.0
+margin_bottom = 144.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Popups/FirstTimeMessageDialog/Label2"]
+margin_right = 392.0
+margin_bottom = 45.0
+text = "This appears to be your first time using the editor, here are some resources you might find useful:"
+autowrap = true
+
+[node name="LinkButton" type="LinkButton" parent="Popups/FirstTimeMessageDialog/Label2"]
+margin_top = 49.0
+margin_right = 392.0
+margin_bottom = 66.0
+text = "Community charting guide"
+
+[node name="LinkButton2" type="LinkButton" parent="Popups/FirstTimeMessageDialog/Label2"]
+margin_top = 70.0
+margin_right = 392.0
+margin_bottom = 87.0
+focus_mode = 2
+text = "Editor manual"
+
+[node name="Label2" type="Label" parent="Popups/FirstTimeMessageDialog/Label2"]
+margin_top = 91.0
+margin_right = 392.0
+margin_bottom = 136.0
+text = "You can find these again by clicking in the book icon on the top right corner of the editor!"
+autowrap = true
 
 [node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource( 15 )]
 visible = false
@@ -1113,3 +1166,5 @@ margin_bottom = 40.0
 [connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="chart_selected" from="Popups/SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
 [connection signal="confirmed" from="Popups/ExitDialog" to="." method="_on_ExitDialog_confirmed"]
+[connection signal="pressed" from="Popups/FirstTimeMessageDialog/Label2/LinkButton" to="." method="open_link" binds= [ "https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098" ]]
+[connection signal="pressed" from="Popups/FirstTimeMessageDialog/Label2/LinkButton2" to="." method="open_link" binds= [ "https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718" ]]

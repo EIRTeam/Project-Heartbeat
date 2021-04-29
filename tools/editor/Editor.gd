@@ -40,6 +40,7 @@ onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HBoxConta
 onready var message_shower = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/MessageShower")
 onready var quick_lyric_dialog := get_node("QuickLyricDialog")
 onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
+onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 
 const LOG_NAME = "HBEditor"
 
@@ -135,7 +136,6 @@ func _ready():
 	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	load_plugins()
-	_show_open_chart_dialog()
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
@@ -160,10 +160,22 @@ func _ready():
 	
 	quick_lyric_dialog_line_edit.connect("text_entered", self, "_on_create_quick_lyric")
 	
+	if not UserSettings.user_settings.editor_first_time_message_acknowledged:
+		first_time_message_dialog.popup_centered()
+	else:
+		_show_open_chart_dialog()
+	first_time_message_dialog.get_ok().text = "Got it!"
+	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
+	
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
 ]
+	
+func _on_acknowledge_first_time_message():
+	UserSettings.user_settings.editor_first_time_message_acknowledged = true
+	UserSettings.save_user_settings()
+	_show_open_chart_dialog()
 	
 func _on_editor_help_button_pressed(button_idx: int):
 	OS.shell_open(HELP_URLS[button_idx])
@@ -1248,3 +1260,7 @@ func _notification(what):
 
 func _on_CreateIntroSkipMarkerButton_pressed():
 	add_event_timing_point(HBIntroSkipMarker)
+
+
+func open_link(link: String):
+	OS.shell_open(link)

@@ -27,7 +27,7 @@ func _ready():
 	edit_data_button.connect("pressed", self, "_show_meta_editor")
 	new_song_button.connect("pressed", create_song_dialog, "popup_centered")
 	create_song_dialog.connect("confirmed", self, "_on_CreateSongDialog_confirmed")
-	call_deferred("popup_centered")
+#	call_deferred("popup_centered")
 	connect("confirmed", self, "_on_confirmed")
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
 	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
