@@ -14,6 +14,10 @@ var action_being_bound = ""
 func _unhandled_input(event):
 	if visible:
 		if action_being_bound:
+			# we can only bind inputs from the selected controller device
+			if (event is InputEventJoypadButton or event is InputEventJoypadMotion) \
+					and event.device != UserSettings.controller_device_idx:
+				return
 			if event is InputEventJoypadMotion and action_being_bound in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 				return
 			if InputMap.action_has_event(action_being_bound, event):
