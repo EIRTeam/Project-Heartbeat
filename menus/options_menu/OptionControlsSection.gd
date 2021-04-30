@@ -15,6 +15,8 @@ onready var action_bind_debounce := Timer.new()
 func _unhandled_input(event):
 	if visible:
 		if action_being_bound and action_bind_debounce.is_stopped():
+			if not event.is_pressed() or event.is_echo():
+				return
 			# we can only bind inputs from the selected controller device
 			if (event is InputEventJoypadButton or event is InputEventJoypadMotion) \
 					and event.device != UserSettings.controller_device_idx:
