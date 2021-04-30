@@ -10,10 +10,11 @@ onready var bind_popup = get_node("Popup")
 onready var reset_confirmation_window = get_node("ResetConfirmationWindow")
 onready var category_container = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/CategoryContainer")
 var action_being_bound = ""
+onready var action_bind_debounce := Timer.new()
 
 func _unhandled_input(event):
 	if visible:
-		if action_being_bound:
+		if action_being_bound and action_bind_debounce.is_stopped():
 			# we can only bind inputs from the selected controller device
 			if (event is InputEventJoypadButton or event is InputEventJoypadMotion) \
 					and event.device != UserSettings.controller_device_idx:
@@ -54,6 +55,9 @@ func _ready():
 	focus_mode = Control.FOCUS_ALL
 	reset_confirmation_window.connect("accept", self, "_on_reset_bindings_confirmed")
 	reset_confirmation_window.connect("cancel", self, "grab_focus")
+	add_child(action_bind_debounce)
+	action_bind_debounce.one_shot = true
+	action_bind_debounce.wait_time = 0.15
 func populate():
 	for child in category_container.get_children():
 		category_container.remove_child(child)
@@ -94,7 +98,8 @@ func show_category(category: String, prevent_selection=false):
 	if not prevent_selection:
 		scroll_container.select_child(scroll_container.vbox_container.get_child(0))
 func _on_action_add_press(action_name):
-	
+	# To prevent double presses from being picked up
+	action_bind_debounce.start()
 	bind_popup.popup_centered()
 	action_being_bound = action_name
 	grab_focus()
