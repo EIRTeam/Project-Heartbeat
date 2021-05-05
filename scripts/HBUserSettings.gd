@@ -208,11 +208,11 @@ static func deserialize(data: Dictionary):
 			result.input_map[action_name] = []
 			for action in data.input_map[action_name]:
 				result.input_map[action_name].append(str2var(action))
-	var pss = {}
+#	var pss = {}
 #	if data.has("per_song_settings"):
 #		for song in data.per_song_settings:
 #			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
-	result.per_song_settings = pss
+#	result.per_song_settings = pss
 	
 	result.root_folder.folder_name = "Root"
 	
