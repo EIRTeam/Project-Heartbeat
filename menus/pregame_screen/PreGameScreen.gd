@@ -135,9 +135,9 @@ func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
 	var highest_score_string = tr("Never played")
 	if ScoreHistory.has_result(current_song.id, current_difficulty):
-		var result := ScoreHistory.get_result(current_song.id, current_difficulty) as HBResult
-		var pass_percentage = result.get_percentage()
-		var thousands_sep_score = HBUtils.thousands_sep(result.score)
+		var result := ScoreHistory.get_result(current_song.id, current_difficulty) as HBHistoryEntry
+		var pass_percentage = result.highest_score_info.result.get_percentage()
+		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
 		highest_score_string = "%s (%.2f %%)" % [thousands_sep_score, pass_percentage*100]
 	var text = tr("Times Played: %d\n\nHighest score:\n%s") % [stats.times_played, highest_score_string]
 	stats_label.text = text

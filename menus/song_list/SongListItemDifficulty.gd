@@ -29,10 +29,10 @@ func set_song_difficulty(value: HBSong, _difficulty: String):
 		stars_label.text = "x%d " % [song.charts[difficulty].stars]
 	difficulty_label.text = " " + difficulty.to_upper() + " "
 	if ScoreHistory.has_result(value.id, difficulty):
-		var result := ScoreHistory.get_result(value.id, difficulty) as HBResult
-		var pass_percentage = result.get_percentage()
-		var thousands_sep_score = HBUtils.thousands_sep(result.score)
-		var score_text = "%s - %.2f %% - %s" % [HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating()), pass_percentage * 100.0, thousands_sep_score]
+		var result := ScoreHistory.get_result(value.id, difficulty) as HBHistoryEntry
+		var pass_percentage = result.highest_percentage
+		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
+		var score_text = "%s - %.2f %% - %s" % [HBUtils.find_key(HBResult.RESULT_RATING, result.highest_rating), pass_percentage * 100.0, thousands_sep_score]
 		score_label.text = score_text
 	else:
 		score_label.hide()

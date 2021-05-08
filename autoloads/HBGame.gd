@@ -63,7 +63,8 @@ var serializable_types = {
 	"IntroSkipMarker": load("res://scripts/timing_points/HBIntroSkipMarker.gd"),
 	"HBResourcePack": load("res://tools/resource_pack_editor/HBResourcePack.gd"),
 	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd"),
-	"PPDSongEXT": load("res://autoloads/song_loader/song_loaders/HBPPDSongEXT.gd")
+	"PPDSongEXT": load("res://autoloads/song_loader/song_loaders/HBPPDSongEXT.gd"),
+	"HBHistoryEntry": load("res://scripts/HBHistoryEntry.gd")
 }
 
 const EXCELLENT_THRESHOLD = 0.95

@@ -36,22 +36,28 @@ func load_history():
 
 func history_from_dict(data: Dictionary):
 	var found_error = false
+	var found_legacy_result = false
 	for song_name in data:
 		scores[song_name] = {}
 		for difficulty in data[song_name]:
-			var result = HBGameInfo.deserialize(data[song_name][difficulty])
-			if not result is HBGameInfo:
+			var result = HBHistoryEntry.deserialize(data[song_name][difficulty])
+			if result is HBGameInfo:
+				var r = HBHistoryEntry.new()
+				r.update(result)
+				scores[song_name][difficulty] = r
+				found_legacy_result = true
+			elif not result is HBHistoryEntry:
 				found_error = true
 			else:
 				scores[song_name][difficulty] = result
-	if found_error:
+	if found_error or found_legacy_result:
 		save_history()
 func history_to_dict() -> Dictionary:
 	var result_dict = {}
 	for song_name in scores:
 		result_dict[song_name] = {}
 		for difficulty in scores[song_name]:
-			var result := scores[song_name][difficulty] as HBGameInfo
+			var result := scores[song_name][difficulty] as HBHistoryEntry
 			result_dict[song_name][difficulty] = result.serialize()
 	return result_dict
 
@@ -72,14 +78,16 @@ func add_result_to_history(game_info: HBGameInfo):
 		if not scores.has(game_info.song_id):
 			scores[game_info.song_id] = {}
 			emit_signal("score_entered", game_info.song_id, game_info.difficulty)
-		var found_higher_score = false
+		var found_previous_entry: HBHistoryEntry = null
 		if scores[game_info.song_id].has(game_info.difficulty):
-			var existing_result = scores[game_info.song_id][game_info.difficulty].result as HBResult
-			if existing_result.score > result.score:
+			found_previous_entry = scores[game_info.song_id][game_info.difficulty]
+			found_previous_entry.update(game_info)
+			if (scores[game_info.song_id][game_info.difficulty] as HBHistoryEntry).is_result_better(result):
 				Log.log(self, "Attempted to add a smaller score than what the current one is", Log.LogLevel.ERROR)
-				found_higher_score = true
-		if not found_higher_score:
-			scores[game_info.song_id][game_info.difficulty] = game_info
+		if not found_previous_entry:
+			found_previous_entry = HBHistoryEntry.new()
+			found_previous_entry.update(game_info)
+			scores[game_info.song_id][game_info.difficulty] = found_previous_entry
 		var song = SongLoader.songs[game_info.song_id] as HBSong
 		if HBBackend.can_have_scores_uploaded(song):
 			last_song_uploaded = game_info
@@ -97,9 +105,9 @@ func has_result(song_id: String, difficulty: String):
 			
 	return r
 		
-func get_result(song_id: String, difficulty: String) -> HBResult:
+func get_result(song_id: String, difficulty: String) -> HBHistoryEntry:
 	var r = null
 	if scores.has(song_id):
 		if scores[song_id].has(difficulty):
-			r = scores[song_id][difficulty].result
+			r = scores[song_id][difficulty]
 	return r

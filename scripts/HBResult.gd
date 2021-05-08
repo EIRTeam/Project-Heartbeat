@@ -54,7 +54,7 @@ enum RESULT_RATING {
 	PERFECT
 }
 
-func get_percentage():
+func get_percentage() -> float:
 	return get_capped_score()/max_score
 # Capped score is the score with the capped hold and slide bonuses
 # used for computing percentage
@@ -63,7 +63,7 @@ func get_capped_score():
 	var capped_hold_bonus = clamp(hold_bonus, 0, MAX_SCORE_FROM_HOLD_BONUS*max_score)
 	var capped_slide_bonus = clamp(slide_bonus, 0, MAX_SCORE_FROM_SLIDE_BONUS*max_score)
 	return base_score + capped_hold_bonus + capped_slide_bonus
-func get_result_rating():
+func get_result_rating() -> int:
 	# All ratings except perfect are score based
 	
 	var failure = note_ratings[HBJudge.JUDGE_RATINGS.SAD]
