@@ -17,10 +17,6 @@ var OPTIONS = {
 			"name": tr("Show note types before playing"),
 			"description": tr("Shows a list of notes and how to hit them before the song starts")
 		},
-		"enable_multi_threaded_texture_loading": {
-			"name": tr("Enable multi-threaded texture loading"),
-			"description": tr("Allows loading of textures from multiple threads, this might cause crashes to happen randomly on some systems.")
-		},
 		"locale": {
 			"name": tr("Language"),
 			"description": tr("Selects the language to use (requires restart)"),

@@ -43,7 +43,6 @@ const DISABLE_ANALOG_FOR_ACTION = [
 
 var controller_device_idx = -1
 
-var force_disable_async_textures = false
 
 func _ready():
 	add_child(debounce_timer)
@@ -51,11 +50,6 @@ func _ready():
 	debounce_timer.one_shot = true
 	debounce_timer.connect("timeout", self, "_save_user_settings")
 
-	if OS.get_name() == "Windows":
-		var video_adapter_name = VisualServer.get_video_adapter_name().to_lower()
-		if not "angle" in video_adapter_name:
-			force_disable_async_textures = true
-			
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
@@ -337,9 +331,3 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 			if f:
 				return f
 	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
-
-func get_async_texture_loading_enabled() -> bool:
-	if force_disable_async_textures:
-		return false
-	else:
-		return user_settings.enable_multi_threaded_texture_loading

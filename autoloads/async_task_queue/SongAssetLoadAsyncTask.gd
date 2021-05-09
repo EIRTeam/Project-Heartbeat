@@ -17,7 +17,6 @@ func _init(_requested_assets: Array, _song: HBSong).():
 	requested_assets = _requested_assets
 	requested_assets_queue = _requested_assets.duplicate(true)
 	song = _song
-	safe_texture_loading = !UserSettings.get_async_texture_loading_enabled()
 
 func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	var audio_normalizer = HBAudioNormalizer.new()
@@ -29,10 +28,7 @@ func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	loaded_assets["audio_loudness"] = audio_normalizer.get_normalization_result()
 
 func _image_from_fs(path):
-	if not safe_texture_loading:
-		return HBUtils.texture_from_fs_image(path)
-	else:
-		return HBUtils.image_from_fs(path)
+	return HBUtils.image_from_fs(path)
 
 # HACK to allow case insensitive naming of files, fairly expensive so use sparingly
 func _case_sensitivity_hack(path: String):
@@ -113,8 +109,6 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
-	if not safe_texture_loading:
-		VisualServer.force_sync()
 	for asset_name in data:
 		if data[asset_name] is Image:
 			var texture = ImageTexture.new()

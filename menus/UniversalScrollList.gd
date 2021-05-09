@@ -72,15 +72,17 @@ func _on_scroll_changed():
 	if not tween.is_active():
 		for i in range(item_container.get_child_count()):
 			var child = item_container.get_child(i)
+			var found_visible_item = false
 			if child.rect_position.y + child.rect_size.y >= scroll_vertical:
-				for ii in range(child.get_position_in_parent() + items_to_report_visibility_to*2):
-					if ii >= item_container.get_child_count():
+				for ii in range(items_to_report_visibility_to*2):
+					if child.get_position_in_parent() + ii >= item_container.get_child_count():
 						break
-					var child2 = item_container.get_child(ii) as HBUniversalListItem
+					var child2 = item_container.get_child(child.get_position_in_parent() + ii) as HBUniversalListItem
 					if child2:
 						child2._become_visible()
+				found_visible_item = true
+			if found_visible_item:
 				break
-	
 func _on_initial_input_debounce_timeout():
 	_position_change_input(debounce_step)
 	input_debounce_timer.start()

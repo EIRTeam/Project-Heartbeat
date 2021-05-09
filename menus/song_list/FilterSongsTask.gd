@@ -4,7 +4,7 @@ class_name HBFilterSongsTask
 
 const SongListItem = preload("res://menus/song_list/SongListItem.tscn")
 
-signal songs_filtered(song_items, songs, song_id_to_select, difficulty_to_select)
+signal songs_filtered(songs, song_id_to_select, difficulty_to_select)
 
 var out_mutex := Mutex.new()
 var songs: Array
@@ -13,7 +13,6 @@ var filtered_songs: Array
 var sort_by_prop: String
 var song_id_to_select
 var difficulty_to_select
-var out_song_items: Dictionary = {}
 func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null).():
 	songs = _songs
 	filter_by = _filter_by
@@ -28,7 +27,7 @@ func sort_and_filter_songs():
 			var should_add_song = false
 			match filter_by:
 				"ppd":
-					should_add_song = song is HBPPDSong
+					should_add_song = song is HBPPDSong and not (UserSettings.user_settings.hide_ppd_ex_songs and song is HBPPDSongEXT)
 				"official":
 					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
 				"local":
@@ -85,15 +84,11 @@ func _task_process() -> bool:
 	out_mutex.lock()
 	filtered_songs = sort_and_filter_songs()
 	out_mutex.unlock()
-	
-	for song in filtered_songs:
-		var item = _create_song_item(song)
-		out_song_items[song] = item
 
 	return true
 	
 func get_task_output_data():
-	return {"filtered_songs": filtered_songs, "song_items": out_song_items}
+	return {"filtered_songs": filtered_songs}
 	
 func _on_task_finished_processing(data):
-	emit_signal("songs_filtered", data.song_items, data.filtered_songs, song_id_to_select, difficulty_to_select)
+	emit_signal("songs_filtered", data.filtered_songs, song_id_to_select, difficulty_to_select)

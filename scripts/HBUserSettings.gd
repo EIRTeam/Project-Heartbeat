@@ -125,8 +125,6 @@ enum TIMING_METHOD {
 
 var timing_method = TIMING_METHOD.SYSTEM_CLOCK
 
-var enable_multi_threaded_texture_loading = false
-
 var workshop_download_audio_only = false
 
 var multi_laser_opacity = 1.0
@@ -160,7 +158,7 @@ func _init():
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
 	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
-	"lyrics_color", "locale", "timing_method", "enable_multi_threaded_texture_loading", "workshop_download_audio_only", "multi_laser_opacity",
+	"lyrics_color", "locale", "timing_method", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged"]
 	
 	merge_dict_fields += [

@@ -25,6 +25,23 @@ signal hide_no_folder_label
 
 var filtered_song_items = {}
 
+class DummySongListEntry:
+	extends HBUniversalListItem
+
+	signal dummy_sighted
+
+	func _init():
+		set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+		rect_min_size.y = 100
+	func _draw():
+		draw_rect(get_rect(), Color.white)
+	func hover():
+		pass
+	func stop_hover():
+		pass
+	func _become_visible():
+		emit_signal("dummy_sighted")
+
 func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	if path.size() == 0:
 		return starting_folders
@@ -38,10 +55,13 @@ func _ready():
 	sort_by_prop = UserSettings.user_settings.sort_mode
 	connect("selected_item_changed", self, "_on_selected_item_changed")
 	focus_mode = Control.FOCUS_ALL
+
 func _on_selected_item_changed():
 	var selected_item = get_selected_item()
 	if selected_item:
-		if selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
+		if selected_item is DummySongListEntry:
+			pass
+		elif selected_item is HBSongListItem or selected_item is HBSongListItemDifficulty:
 			emit_signal("song_hovered", selected_item.song)
 		else:
 			emit_signal("hover_nonsong")
@@ -58,11 +78,11 @@ func go_to_root():
 	navigate_folder(UserSettings.user_settings.root_folder)
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instance()
-	item_container.add_child(item)
 	item.use_parent_material = true
 	item.set_song(song)
 	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
 	item.connect("pressed", self, "_on_song_selected", [song])
+	return item
 func update_items():
 	for i in item_container.get_children():
 		item_container.remove_child(i)
@@ -214,7 +234,16 @@ func set_filter(filter_name: String):
 				set_songs(songs)
 #				hard_arrange_all()
 		
-func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
+func _on_dummy_sighted(song: HBSong):
+	var dummy = filtered_song_items[song]
+	var item = _create_song_item(song)
+	item_container.add_child_below_node(dummy, item)
+	item_container.remove_child(dummy)
+	dummy.queue_free()
+	filtered_song_items[song] = item
+	
+		
+func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
 	var previously_selected_song_id = null
 	var previously_selected_difficulty = null
 	var selected_item = get_selected_item()
@@ -230,15 +259,26 @@ func _on_songs_filtered(song_items: Dictionary, filtered_songs: Array, song_id_t
 	for child in item_container.get_children():
 		item_container.remove_child(child)
 		child.queue_free()
-	filtered_song_items = song_items
-	for song in song_items:
-		var item = song_items[song]
-		item_container.add_child(item)
-		item.update_scale(item.get_scale(), true)
-		item.use_parent_material = true
-		item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-		item.connect("pressed", self, "_on_song_selected", [song])
+#	filtered_song_items = song_items
+#	for song in song_items:
+#		var item = song_items[song]
+#		item_container.add_child(item)
+#		item.update_scale(item.get_scale(), true)
+#		item.use_parent_material = true
+#		item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+#		item.connect("pressed", self, "_on_song_selected", [song])
 #	selected_option = null
+
+	filtered_song_items = {}
+
+	var base_dummy := DummySongListEntry.new()
+	for song in filtered_songs:
+		var dummy := base_dummy.duplicate()
+		item_container.add_child(dummy)
+		dummy.connect("dummy_sighted", self, "_on_dummy_sighted", [song])
+		filtered_song_items[song] = dummy
+	
+
 	select_item(0)
 	if previously_selected_song_id:
 		var found_child = false
@@ -291,10 +331,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	if UserSettings.get_async_texture_loading_enabled():
-		current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
-	else:
-		current_filter_task = HBFilterSongsTaskSafe.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
+	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
 #	selected_option = null

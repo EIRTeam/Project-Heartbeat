@@ -46,11 +46,9 @@ func set_difficulty(value):
 func _on_resized():
 	if circle_text_rect:
 		if circle_text_rect.texture and circle_text_rect.texture.get_data():
-			var image = circle_text_rect.texture.get_data() as Image
-			var ratio = image.get_width() / image.get_height()
-			var new_size = Vector2(rect_size.y * ratio, rect_size.y)
-			new_size.x = clamp(new_size.x, 0, 350)
-			circle_text_rect.rect_min_size = new_size
+			var ratio = circle_text_rect.texture.get_width() / float(circle_text_rect.texture.get_height())
+			circle_text_rect.rect_min_size.x = min(rect_size.y * ratio, 350)
+			circle_text_rect.rect_min_size.y = rect_size.y
 		else:
 			circle_text_rect.rect_min_size = Vector2.ZERO
 			circle_text_rect.rect_size = Vector2.ZERO

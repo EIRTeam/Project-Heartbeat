@@ -104,6 +104,7 @@ func _on_ResetButton_pressed():
 	_max_fps = 0.0
 
 func show_log_messages():
+	return
 	yield(get_tree(), "idle_frame")
 	var messages_to_show = []
 	var selected_log_filter = log_filter_option_button.get_item_text(log_filter_option_button.selected)
