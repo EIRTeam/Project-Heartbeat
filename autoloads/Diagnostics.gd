@@ -38,6 +38,11 @@ func _ready():
 	HBBackend.connect("diagnostics_response_received", self, "_on_response_received")
 	HBBackend.connect("diagnostics_created_request", self, "_on_request_created")
 	auth_token_button.connect("pressed", self, "_on_auth_token_button_pressed")
+	$WindowDialog.connect("visibility_changed", self, "_on_visibility_changed")
+	
+func _on_visibility_changed():
+	if $WindowDialog.visible:
+		show_log_messages()
 	
 func _on_auth_token_button_pressed():
 	OS.clipboard = HBBackend.jwt_token
@@ -104,7 +109,8 @@ func _on_ResetButton_pressed():
 	_max_fps = 0.0
 
 func show_log_messages():
-	return
+	if not $WindowDialog.visible:
+		return
 	yield(get_tree(), "idle_frame")
 	var messages_to_show = []
 	var selected_log_filter = log_filter_option_button.get_item_text(log_filter_option_button.selected)

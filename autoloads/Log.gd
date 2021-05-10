@@ -16,7 +16,6 @@ const LogLevel2String = {
 }
 
 func log(caller: Object, message: String, log_level = LogLevel.INFO) -> void:
-	return
 	var caller_name = caller.get_class()
 	if caller.LOG_NAME:
 		caller_name = caller.LOG_NAME
