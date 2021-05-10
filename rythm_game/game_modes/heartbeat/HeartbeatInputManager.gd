@@ -13,7 +13,7 @@ const BIDIRECTIONAL_ACTIONS = [
 ]
 
 var current_event: InputEvent # Current event being converted to action
-
+var current_actions: Array = []
 var last_axis_values = {}
 
 var current_sending_actions_count = 0
@@ -114,6 +114,9 @@ func _input_received(event):
 					if not event.is_pressed():
 						releases_to_send.append(action)
 		var event_uid = get_event_uid(event)
+		current_actions = []
+		for action_data in actions_to_send:
+			current_actions.append(action_data.action)
 		for action_data in actions_to_send:
 			current_event = action_data.event
 			current_sending_actions_count = actions_to_send.size()

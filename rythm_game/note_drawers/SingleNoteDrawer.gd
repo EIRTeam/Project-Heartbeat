@@ -220,10 +220,32 @@ func _handle_unhandled_input(event):
 		# get a list of actions that can happen amongst these connected notes, this
 		# is used for wrong note detection
 		var allowed_actions = []
+		var have_slider = false
+		var have_heart = false
+		var input_manager = game.game_input_manager as HeartbeatInputManager
+		var triggered_actions_count = input_manager.current_actions.size()
+		# Hearts sliders and normal notes ignore eachother
 		for note in conn_notes:
 			if note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				for action in note.get_input_actions():
 					allowed_actions.append(action)
+			if note.is_slide_note():
+				have_slider = true
+			if note.note_type == HBNoteData.NOTE_TYPE.HEART:
+				have_heart = true
+				
+		if not have_slider:
+			if "slide_left" in input_manager.current_actions:
+				triggered_actions_count -= 1
+			if "slide_right" in input_manager.current_actions:
+				triggered_actions_count -= 1
+		if not have_heart:
+			if "heart_note" in input_manager.current_actions:
+				triggered_actions_count -= 1
+		if event is InputEventHB and event.is_pressed():
+			if event.action == "heart" and not have_heart \
+					or (not have_slider and event.action in ["slide_left", "slide_right"]):
+				return
 		for note in conn_notes:
 			if event.is_pressed():
 				if note in game.get_closest_notes():
@@ -232,9 +254,8 @@ func _handle_unhandled_input(event):
 					var input_judgement = game.get_note_drawer(note).judge_note_input(event, game.time) as JudgeInputResult
 					# This ensures macro can't be bound to many buttons and still be used to hit multi notes
 					var event_had_too_many_actions = false
-					if event is InputEventHB:
-						if event.triggered_actions_count > conn_notes.size():
-							event_had_too_many_actions = true
+					if triggered_actions_count > conn_notes.size():
+						event_had_too_many_actions = true
 					if (note is HBNoteData and note.is_slide_note()) or \
 						note.note_type == HBBaseNote.NOTE_TYPE.HEART:
 							event_had_too_many_actions = false
