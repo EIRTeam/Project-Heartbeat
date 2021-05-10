@@ -229,7 +229,7 @@ func _handle_unhandled_input(event):
 			if note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				for action in note.get_input_actions():
 					allowed_actions.append(action)
-			if note.is_slide_note():
+			if note is HBNoteData and note.is_slide_note():
 				have_slider = true
 			if note.note_type == HBNoteData.NOTE_TYPE.HEART:
 				have_heart = true
