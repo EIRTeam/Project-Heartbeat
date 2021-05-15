@@ -78,6 +78,8 @@ func handle_input(event: InputEvent, time: float):
 					game.play_note_sfx()
 				set_process_unhandled_input(false)
 		
+var last_time: float
+		
 func _on_game_time_changed(time: float):
 	if not is_queued_for_deletion():
 		if not pressed:
@@ -88,7 +90,11 @@ func _on_game_time_changed(time: float):
 				emit_signal("notes_judged", [note_data], HBJudge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
 				queue_free()
-				
+		if game.editing or game.previewing:
+			if last_time * 1000.0 > note_data.time:
+				if time * 1000.0 < note_data.time:
+					reset_note_state()
+			last_time = time
 func _handle_unhandled_input(event: InputEvent):
 	if not pressed:
 		._handle_unhandled_input(event)
@@ -97,3 +103,4 @@ func _handle_unhandled_input(event: InputEvent):
 
 func reset_note_state():
 	pressed = false
+	note_graphic.show()
