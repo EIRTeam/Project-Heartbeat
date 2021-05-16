@@ -93,7 +93,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1905.0
-margin_bottom = 993.0
+margin_bottom = 1318.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -126,31 +126,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AuthorInfo" type="HBoxContainer" parent="SongListPreview/VBoxContainer"]
+[node name="AuthorInfo" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
 margin_top = 106.0
 margin_right = 1905.0
-margin_bottom = 142.0
+margin_bottom = 177.0
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-margin_left = 762.0
-margin_top = 2.0
-margin_right = 803.0
-margin_bottom = 33.0
+margin_right = 1905.0
+margin_bottom = 31.0
 custom_fonts/font = ExtResource( 10 )
 text = "by"
+align = 1
 
 [node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-margin_left = 807.0
-margin_right = 1143.0
-margin_bottom = 36.0
+margin_top = 35.0
+margin_right = 1905.0
+margin_bottom = 71.0
 custom_fonts/font = ExtResource( 11 )
 text = "(NT)DRAGONFORCE"
+align = 1
+valign = 1
+autowrap = true
 
 [node name="CirclePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
-margin_top = 154.0
+margin_top = 189.0
 margin_right = 1905.0
-margin_bottom = 224.0
+margin_bottom = 259.0
 rect_min_size = Vector2( 0, 70 )
 custom_styles/panel = SubResource( 3 )
 
@@ -179,9 +181,9 @@ __meta__ = {
 
 [node name="SongCoverPanel" type="MarginContainer" parent="SongListPreview/VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 236.0
+margin_top = 271.0
 margin_right = 1905.0
-margin_bottom = 608.0
+margin_bottom = 788.0
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 custom_constants/margin_right = 30
@@ -192,7 +194,7 @@ custom_constants/margin_bottom = 15
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 30.0
 margin_right = 1875.0
-margin_bottom = 357.0
+margin_bottom = 502.0
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 expand = true
@@ -215,9 +217,9 @@ __meta__ = {
 }
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 620.0
+margin_top = 800.0
 margin_right = 1905.0
-margin_bottom = 993.0
+margin_bottom = 1318.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
