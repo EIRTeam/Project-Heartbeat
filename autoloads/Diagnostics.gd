@@ -27,6 +27,9 @@ onready var network_body_RTL = get_node("WindowDialog/TabContainer/Network/VBoxC
 onready var auth_token_button = get_node("WindowDialog/TabContainer/Network/VBoxContainer/AuthTokenButton")
 onready var instance_id_spinbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
 onready var property_name_line_edit = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
+
+var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
+
 func _ready():
 	Log.connect("message_logged", self, "_on_message_logged")
 	autoplay_checkbox.connect("toggled", self, "set_autoplay")
