@@ -33,8 +33,6 @@ class DummySongListEntry:
 	func _init():
 		set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
 		rect_min_size.y = 100
-	func _draw():
-		draw_rect(get_rect(), Color.white)
 	func hover():
 		pass
 	func stop_hover():
@@ -72,10 +70,11 @@ func navigate_folder(folder: HBFolder):
 func navigate_back():
 	folder_stack.pop_back()
 	update_items()
-		
+	
 func go_to_root():
 	folder_stack = []
 	navigate_folder(UserSettings.user_settings.root_folder)
+
 func _create_song_item(song: HBSong):
 	var item = SongListItem.instance()
 	item.use_parent_material = true
