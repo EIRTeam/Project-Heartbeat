@@ -127,7 +127,7 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 					selected_pack = resource_packs.get(pack_to_use, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
-		var selected_pack_atlas := selected_pack.get_atlas_image("notes")
+		var selected_pack_atlas := selected_pack.get_atlas_image(atlas_name)
 		if selected_pack_atlas:
 			var at = HBUtils.pack_images_turbo16({
 				"fallback": fallback_images[atlas_name],
