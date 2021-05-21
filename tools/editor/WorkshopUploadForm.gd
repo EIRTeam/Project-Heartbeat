@@ -133,8 +133,6 @@ func start_upload():
 			error_dialog.popup_centered()
 			return
 		var has_service_name = false
-		if not do_metadata_size_check(get_song_meta_dict()):
-			return
 		match mode:
 			MODE.RESOURCE_PACK:
 				if current_resource_pack.ugc_service_name == ugc.get_ugc_service_name():
@@ -142,6 +140,8 @@ func start_upload():
 					uploading_new = false
 					upload_resource_pack(current_resource_pack, current_resource_pack.ugc_id)
 			MODE.SONG:
+				if not do_metadata_size_check(get_song_meta_dict()):
+					return
 				if current_song.ugc_service_name == ugc.get_ugc_service_name():
 					has_service_name = true
 					uploading_new = false
