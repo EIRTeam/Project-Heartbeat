@@ -101,8 +101,10 @@ func _on_resized():
 		var mat = material as ShaderMaterial
 		if mat:
 			mat.set_shader_param("enabled", get_v_scrollbar().visible)
-			mat.set_shader_param("size", rect_size)
-			mat.set_shader_param("pos", rect_global_position)
+			# HACK: Makes the fade work inside scaled controls!!
+			mat.set_shader_param("size", get_global_transform().get_scale() * rect_size)
+			mat.set_shader_param("pos", get_global_transform().origin)
+			
 			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
