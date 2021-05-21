@@ -210,7 +210,7 @@ func _unhandled_input(event):
 		sort_by_container.grab_focus()
 	elif event.is_action_pressed("contextual_option") and not search_prompt.visible:
 		search_prompt.popup_centered()
-	elif event.is_action("gui_tab_right") or event.is_action("gui_tab_left"):
+	elif (event.is_action("gui_tab_right") or event.is_action("gui_tab_left")) and not search_prompt.visible:
 		tag_button_container._gui_input(event)
 
 
