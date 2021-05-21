@@ -40,7 +40,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	game._process(0)
 	video_player.stream_position = game.time
 	practice_gui.hide()
-	game.game_ui.disable_score_processing = true
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("pause"):
 		get_tree().set_input_as_handled()
@@ -137,6 +136,10 @@ func reset_stats():
 	stats_total_notes = 0
 	stats_diffs = []
 	last_notes = []
+	game.result = HBResult.new()
+	game._potential_result = HBResult.new()
+	game.game_ui.score_counter.score = 0
+	game.game_ui._update_clear_bar_value()
 	update_stats_label()
 func update_progress_bar():
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
