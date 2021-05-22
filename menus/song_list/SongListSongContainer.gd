@@ -29,6 +29,8 @@ class DummySongListEntry:
 	extends HBUniversalListItem
 
 	signal dummy_sighted
+	
+	var song: HBSong
 
 	func _init():
 		set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
@@ -276,6 +278,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 	for song in filtered_songs:
 		var dummy := base_dummy.duplicate()
 		item_container.add_child(dummy)
+		dummy.song = song
 		dummy.connect("dummy_sighted", self, "_on_dummy_sighted", [song])
 		filtered_song_items[song] = dummy
 	
