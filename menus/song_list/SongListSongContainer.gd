@@ -121,7 +121,9 @@ func update_items():
 	sort_by_prop = old_sort_by_mode
 		
 	for song in folder_songs:
-		_create_song_item(song)
+		var item = _create_song_item(song)
+		item_container.add_child(item)
+		
 		
 	# TODO: HARD ARRANGE
 	select_item(0)
