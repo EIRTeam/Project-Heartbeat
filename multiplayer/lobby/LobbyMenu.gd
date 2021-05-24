@@ -31,7 +31,6 @@ func select_song(song: HBSong, difficulty: String):
 	
 func _on_menu_exit(force_hard_transition=false):
 	._on_menu_exit(force_hard_transition)
-	disconnect_lobby(lobby)
 	
 func _on_menu_enter(force_hard_transition=false, args={}):
 	._on_menu_enter(force_hard_transition, args)
@@ -186,7 +185,6 @@ func _options_vertical_menu_from_bottom():
 func _on_SelectSongButton_pressed():
 	change_to_menu("song_list_lobby", false, {"lobby": lobby, "song": lobby.get_song_id(), "song_difficulty": lobby.get_song_difficulty()})
 
-
 func _on_LineEdit_gui_input(event: InputEvent):
 	if event.is_action_pressed("gui_up") and not event.is_echo():
 		get_tree().set_input_as_handled()
@@ -209,9 +207,6 @@ func _on_StartGameButton_pressed():
 	song_availabilities = {lobby.get_lobby_owner(): true}
 	checking_song_availabilities = true
 	waiting_for_song_confirmation_prompt.popup_centered()
-
-	
-
 	
 # called when authority sends a game start packet, sets up mp and starts loading
 func _on_lobby_loading_start():
