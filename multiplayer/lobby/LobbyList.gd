@@ -67,7 +67,8 @@ func _on_create_lobby_menu_down():
 		scroll_list.grab_focus()
 
 func _on_lobby_button_pressed(lobby: HBLobby):
-	if lobby.song_id in SongLoader.songs:
+	
+	if lobby.song_id in SongLoader.songs or lobby.song_id.begins_with("ugc_"):
 		lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
 		lobby.join_lobby()
 	else:

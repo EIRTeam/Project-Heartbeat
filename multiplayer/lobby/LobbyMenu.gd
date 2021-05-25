@@ -51,7 +51,8 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		lobby.song_difficulty = args.difficulty
 		lobby.send_game_info_update()
 	else:
-		select_song(lobby.get_song(), lobby.song_difficulty)
+		if lobby.get_song():
+			select_song(lobby.get_song(), lobby.song_difficulty)
 	# HACK! Else we select the wrong button when we don't do this
 	yield(get_tree(), "idle_frame")
 	options_vertical_menu.grab_focus()
