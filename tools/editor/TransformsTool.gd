@@ -144,6 +144,7 @@ class InterpolateAngleTransform:
 					"entry_angle": new_angle
 				}
 		return transformation_result
+
 func make_button(button_text, transformation: EditorTransformation, disable_pressed = false) -> Button:
 	var button = Button.new()
 	button.text = button_text
@@ -194,7 +195,7 @@ func _ready():
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
 	var spinbox = SpinBox.new()
-	spinbox.editable = false
+	spinbox.editable = true
 	spinbox.max_value = 180.0
 	spinbox.min_value = -180.0
 	spinbox.suffix = "º"
