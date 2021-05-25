@@ -101,6 +101,9 @@ signal game_done(results, game_info) # sent when we realise that all other membe
 signal user_song_availability_update(user, song_id, available)
 # warning-ignore:unused_signal
 signal check_songs_request_received(song_id)
+# warning-ignore:unused_signal
+signal reported_ugc_song_downloaded(user, ugc_id)
+
 var _lobby_id
 
 var lobby_name := "How can my little lobby can be this cute" setget set_lobby_name, get_lobby_name

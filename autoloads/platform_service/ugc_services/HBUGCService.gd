@@ -10,6 +10,7 @@ signal ugc_details_request_done(result, details)
 signal ugc_item_installed(type, item)
 # warning-ignore:unused_signal
 signal ugc_item_deleted(type, item)
+signal ugc_item_downloaded(item)
 
 const UGC_DATA_PATH = "user://ugc.json"
 var LOG_NAME = "HBUGCService"
@@ -43,6 +44,8 @@ func reload_ugc_songs():
 func get_ugc_service_name():
 	return null
 
+func download_item(item_id: int):
+	return
 func create_item():
 	return
 func set_item_title(update_id, title: String):

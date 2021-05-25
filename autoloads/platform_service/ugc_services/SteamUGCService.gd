@@ -167,6 +167,7 @@ func _on_item_downloaded(result, item_id, app_id):
 			result_notification.text = "Error downloading item id %d, error: %d" % [item_id, result]
 			Log.log(self, "Error downloading UGC item id %d, error: %d" % [item_id, result])
 		updating_items.erase(item_id)
+		_add_downloaded_item(item_id, true)
 
 func _on_item_created(result, file_id, tos):
 	emit_signal("item_created", result, file_id, tos)
@@ -209,6 +210,8 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 				_on_show_success(item_id)
 		emit_signal("ugc_details_request_done", details.result, details)
 		Steam.releaseQueryUGCRequest(update_handle)
+func download_item(item_id: int):
+	return Steam.downloadItem(item_id, true)
 func create_item():
 	Steam.createItem(Steam.getAppID(), WORKSHOP_FILE_TYPES.COMMUNITY)
 func set_item_title(update_id, title: String):

@@ -25,6 +25,7 @@ var tracked_video_downloads = {}
 signal youtube_dl_status_updated
 
 signal video_downloaded(id, result)
+signal song_cached(song)
 var cache_meta_mutex = Mutex.new()
 var cache_meta: Dictionary = {
 	"cache": {},
@@ -296,6 +297,8 @@ func _video_downloaded(thread: Thread, result):
 		tracked_video_downloads.erase(result.video_id)
 	for song in caching_queue:
 		if get_video_id(song.youtube_url) == result.video_id:
+			if not has_error:
+				emit_signal("song_cached", song)
 			caching_queue.erase(song)
 			break
 	if caching_queue.size() > 0:

@@ -257,6 +257,19 @@ has_cancel = false
 text = "Song not owned by:"
 accept_text = "Okay"
 cancel_text = ""
+
+[node name="DownloadingMesssage" parent="." instance=ExtResource( 7 )]
+visible = true
+margin_left = -509.0
+margin_top = -201.0
+margin_right = 430.0
+margin_bottom = 202.0
+has_cancel = false
+has_accept = false
+text = "Downloading song data..."
+accept_text = "Okay"
+cancel_text = ""
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/SelectSongButton" to="." method="_on_SelectSongButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/InviteFriendButton" to="." method="_on_InviteFriendButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer/StartGameButton" to="." method="_on_StartGameButton_pressed"]

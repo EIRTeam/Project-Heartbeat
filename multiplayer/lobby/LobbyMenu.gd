@@ -7,6 +7,7 @@ onready var chat_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContain
 onready var options_vertical_menu = get_node ("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer")
 onready var waiting_for_song_confirmation_prompt = get_node("WaitingForSongConfirmation")
 onready var song_confirmation_error_prompt = get_node("SongConfirmationError")
+onready var downloading_message_prompt = get_node("DownloadingMesssage")
 
 var lobby: HBLobby
 var selected_song: HBSong
@@ -16,6 +17,7 @@ signal song_selected(song)
 
 var song_availabilities = {}
 var checking_song_availabilities = false
+var waiting_for_ugc_downloads_to_complete = false
 
 func _ready():
 	var starting_song = SongLoader.songs.values()[0]
@@ -73,7 +75,8 @@ func update_member_list():
 
 func update_lobby_data_display():
 	lobby_name_label.text = lobby.lobby_name
-	select_song(lobby.get_song(), lobby.song_difficulty)
+	if lobby.get_song():
+		select_song(lobby.get_song(), lobby.song_difficulty)
 	
 func connect_lobby(_lobby: HBLobby):
 	if not _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
@@ -83,6 +86,7 @@ func connect_lobby(_lobby: HBLobby):
 		_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
 		_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
 		_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
+		_lobby.connect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
 	
 func disconnect_lobby(_lobby: HBLobby):
 	if _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
@@ -92,6 +96,7 @@ func disconnect_lobby(_lobby: HBLobby):
 		_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
 		_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
 		_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
+		_lobby.disconnect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
 	
 func set_lobby(_lobby: HBLobby):
 	if self.lobby:
@@ -143,8 +148,20 @@ func _on_LeaveLobbyButton_pressed():
 	lobby.leave_lobby()
 	change_to_menu("lobby_list")
 
+func _on_ugc_song_downloaded(user: HBServiceMember, ugc_id: int):
+	var song_id = "ugc_" + str(ugc_id)
+	if ugc_id == selected_song.ugc_id:
+		song_availabilities[user] = true
+	var found_false = false
+	for user in song_availabilities:
+		if not song_availabilities[user]:
+			found_false = true
+	if not found_false:
+		start_multiplayer_session_authority()
 func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, available: bool):
 	if not checking_song_availabilities:
+		return
+	if song_id != selected_song.id:
 		return
 	song_availabilities[sender_user] = available
 	var not_owned_by_users = []
@@ -153,7 +170,10 @@ func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, av
 			var owned = song_availabilities[user]
 			if not owned:
 				not_owned_by_users.append(user)
-	if not_owned_by_users.size() > 0:
+				
+	
+				
+	if song_availabilities.size() >= lobby.get_lobby_member_count():
 		var struwu = ""
 		for i in range(not_owned_by_users.size()):
 			var user = not_owned_by_users[i]
@@ -161,23 +181,41 @@ func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, av
 				struwu += ","
 			struwu += " %s" % user.get_member_name()
 		waiting_for_song_confirmation_prompt.hide()
-		
-		song_confirmation_error_prompt.text = "ERROR: The following users don't have this song: %s" % [struwu]
-		song_confirmation_error_prompt.popup_centered()
-		checking_song_availabilities = false
-	else:
-		checking_song_availabilities = false
-		start_multiplayer_session_authority()
+		if not_owned_by_users.size() > 0:
+			song_confirmation_error_prompt.text = "ERROR: The following users don't have this song: %s" % [struwu]
+			checking_song_availabilities = false
+			waiting_for_ugc_downloads_to_complete = true
+			if selected_song.comes_from_ugc():
+				downloading_message_prompt.text = song_confirmation_error_prompt.text
+				downloading_message_prompt.text += "\nwaiting for song to be downloaded automatically by their game..."
+			else:
+				song_confirmation_error_prompt.popup_centered()
+		else:
+			start_multiplayer_session_authority()
 
-func _on_check_songs_request_received(song_id):
+func _on_check_songs_request_received(song_id: String):
 	if not song_id in SongLoader.songs:
-		song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the currently selected song."
-		song_confirmation_error_prompt.popup_centered()
+		if song_id.begins_with("ugc_"):
+			downloading_message_prompt.text = "Downloading song..."
+			downloading_message_prompt.popup_centered()
+			var o = PlatformService.service_provider.ugc_provider.download_item(int(song_id.substr(4, -1)))
+			if not o:
+				downloading_message_prompt.hide()
+				song_confirmation_error_prompt.text = "ERROR STARTING GAME: Error downloading workshop song."
+				song_confirmation_error_prompt.popup_centered()
+		else:
+			song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the currently selected song."
+			song_confirmation_error_prompt.popup_centered()
 	else:
 		var song = SongLoader.songs[song_id] as HBSong
 		if not song.is_cached():
-			song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
-			song_confirmation_error_prompt.popup_centered()
+			song.cache_data()
+			if song_id.begins_with("ugc_"):
+				downloading_message_prompt.text = "Downloading song media..."
+				downloading_message_prompt.popup_centered()
+			else:
+				song_confirmation_error_prompt.text = "ERROR STARTING GAME: You don't seem to have the video/audio for the song currently selected, please return to the free play song list and download it."
+				song_confirmation_error_prompt.popup_centered()
 func _on_InviteFriendButton_pressed():
 	lobby.invite_friend_to_lobby()
 
@@ -206,7 +244,9 @@ func start_multiplayer_session_authority():
 
 func _on_StartGameButton_pressed():
 	lobby.check_if_lobby_members_have_song()
-	song_availabilities = {lobby.get_lobby_owner(): true}
+	song_availabilities = {lobby.get_lobby_owner(): selected_song.is_cached()}
+	if not selected_song.is_cached():
+		selected_song.cache_data()
 	checking_song_availabilities = true
 	waiting_for_song_confirmation_prompt.popup_centered()
 	

@@ -86,12 +86,32 @@ func _on_lobby_joined(lobby_id, permissions, locked, response):
 			Steam.connect("lobby_data_update", self, "_on_lobby_data_updated")
 			Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
 			Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
+			PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", self, "_on_ugc_item_downloaded")
+			YoutubeDL.connect("song_cached", self, "_on_song_cached")
 			PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
 			update_lobby_members()
 			if not is_owned_by_local_user():
 				obtain_game_info()
 		emit_signal("lobby_joined", response)
 		
+func _on_ugc_item_downloaded(_item_type, item):
+	if item is HBSong and item.id == get_song_id():
+		if not is_owned_by_local_user():
+			if UserSettings.user_settings.workshop_download_audio_only:
+				if not UserSettings.user_settings.per_song_settings.has(item.id):
+					UserSettings.user_settings.per_song_settings[item.id] = HBPerSongSettings.new()
+				UserSettings.user_settings.per_song_settings[item.id].video_enabled = false
+				UserSettings.save_user_settings()
+		if not item.is_cached():
+			item.cache_data()
+		else:
+			report_ugc_downloaded(item.ugc_id)
+func report_ugc_downloaded(ugc_id: int):
+	if is_owned_by_local_user():
+		emit_signal("reported_ugc_song_downloaded", get_lobby_owner(), ugc_id)
+	else:
+		send_chat_message("/report_ugc_downloaded %d" % [ugc_id])
+	
 func execute_command_message(user: HBServiceMember, message: String):
 	var command = message.substr(1, -1).split(" ")[0]
 	if is_owned_by_local_user():
@@ -102,6 +122,9 @@ func execute_command_message(user: HBServiceMember, message: String):
 
 			if song_id == get_song_id():
 				emit_signal("user_song_availability_update", user, song_id, song_available)
+		elif command == "report_ugc_downloaded":
+			var ugc_id = message.split(" ", true, 1)[1]
+			emit_signal("reported_ugc_song_downloaded", user, int(ugc_id))
 	elif user == get_lobby_owner():
 		if command == "check_songs_request":
 			var song_id_b64 = message.split(" ", true, 1)[1]
@@ -200,6 +223,8 @@ func leave_lobby():
 	Steam.disconnect("lobby_data_update", self, "_on_lobby_data_updated")
 	Steam.disconnect("p2p_session_request", self, "_on_p2p_session_request")
 	Steam.disconnect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
+	PlatformService.service_provider.ugc_provider.disconnect("ugc_item_downloaded", self, "_on_ugc_item_downloaded")
+	YoutubeDL.disconnect("song_cached", self, "_on_song_cached")
 	PlatformService.service_provider.disconnect("run_mp_callbacks", self, "_on_p2p_packet_received")
 	emit_signal("lobby_left")
 
@@ -207,6 +232,9 @@ func is_owned_by_local_user():
 	var owner = get_lobby_owner() as HBServiceMember
 	return owner.member_id == Steam.getSteamID()
 
+func _on_song_cached(song: HBSong):
+	if song.ugc_id == get_song().ugc_id:
+		report_ugc_downloaded(song.ugc_id)
 func invite_friend_to_lobby():
 	Steam.activateGameOverlayInviteDialog(_lobby_id)
 
