@@ -157,7 +157,7 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 		return
 	if diff:
 		song.charts[difficulty.to_lower()] = {
-			"file": difficulty.to_lower() + ".json",
+			"file": diff.to_lower() + ".json",
 			"stars": stars,
 			"note_usage": []
 		}
