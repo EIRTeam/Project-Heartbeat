@@ -76,20 +76,22 @@ func update_lobby_data_display():
 	select_song(lobby.get_song(), lobby.song_difficulty)
 	
 func connect_lobby(_lobby: HBLobby):
-	_lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
-	_lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
-	_lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
-	_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
-	_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
-	_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
+	if not _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
+		_lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
+		_lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
+		_lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
+		_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
+		_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
+		_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
 	
 func disconnect_lobby(_lobby: HBLobby):
-	_lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
-	_lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
-	_lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
-	_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
-	_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
-	_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
+	if _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
+		_lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
+		_lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
+		_lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
+		_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+		_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
+		_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
 	
 func set_lobby(_lobby: HBLobby):
 	if self.lobby:
