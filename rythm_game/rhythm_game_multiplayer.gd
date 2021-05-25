@@ -51,7 +51,10 @@ func start_loading():
 	lobby.connect("game_done", self, "_on_game_done")
 	lobby.connect("member_left", mp_scoreboard, "remove_member")
 
+var _assets = {}
+
 func _on_song_assets_loaded(assets):
+	_assets = assets
 	# Authority doesn't have to send a packet...
 	if lobby.is_owned_by_local_user():
 		for member in lobby.members.values():
@@ -61,7 +64,7 @@ func _on_song_assets_loaded(assets):
 		lobby.notify_game_loaded()
 		
 func _on_game_started(game_info: HBGameInfo):
-	rhythm_game_controller.start_session(game_info)
+	rhythm_game_controller.start_session(game_info, _assets)
 	mp_scoreboard.members = lobby.members.values()
 	mp_loading_label.hide()
 	lobby.connect("game_note_hit", self, "_on_game_note_hit")
