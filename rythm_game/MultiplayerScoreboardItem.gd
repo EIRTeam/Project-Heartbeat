@@ -12,7 +12,7 @@ func set_member(val):
 	avatar_texture_rect.texture = member.avatar
 
 var last_rating setget set_last_rating
-var score setget set_score
+var score = 0 setget set_score
 func set_last_rating(val):
 	last_rating = val
 	rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[last_rating]))
