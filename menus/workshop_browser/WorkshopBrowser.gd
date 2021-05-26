@@ -113,9 +113,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
 	current_page = _debounced_page
-	tag_button_container.select_button(0, false)
 	filter_tag = "Charts"
 	if not "no_fetch" in args or args.no_fetch == false:
+		tag_button_container.select_button(0, false)
 		navigate_to_page(current_page, QueryRequestAll.get_default(filter_tag))
 	scroll_container.grab_focus()
 
