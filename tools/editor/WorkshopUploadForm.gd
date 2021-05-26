@@ -185,7 +185,7 @@ func _process(delta):
 func get_song_meta_dict() -> Dictionary:
 	var serialized = current_song.serialize()
 	var out_dir = {}
-	for field in ["title", "charts", "type"]:
+	for field in ["title", "charts", "type", "romanized_title"]:
 		if field in serialized:
 			out_dir[field] = serialized[field]
 	return out_dir
