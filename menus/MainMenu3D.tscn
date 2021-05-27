@@ -247,4 +247,6 @@ mouse_filter = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 anims/1to2 = SubResource( 14 )
 
-[node name="MainMenuMusicPlayer" parent="CanvasLayer" instance=ExtResource( 10 )]
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="MainMenuMusicPlayer" parent="CanvasLayer2" instance=ExtResource( 10 )]
