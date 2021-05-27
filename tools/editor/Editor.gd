@@ -908,6 +908,8 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	file.store_string(JSON.print(serialize_chart(), "  "))
 
 func load_song(song: HBSong, difficulty: String):
+	deselect_all()
+	
 	rhythm_game.base_bpm = song.bpm
 	copied_points = []
 	var chart_path = song.get_chart_path(difficulty)
