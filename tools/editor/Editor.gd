@@ -367,6 +367,8 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("editor_cut"):
 		copy_selected()
 		delete_selected()
+	elif event.is_action_pressed("editor_select_all"):
+		select_all()
 	elif not game_playback.is_playing():
 		if event is InputEventKey:
 			if not event.shift and not event.control:
@@ -466,6 +468,18 @@ func select_item(item: EditorTimelineItem, add = false):
 		item.connect_widget(widget_instance)
 	inspector.inspect(item)
 	selected.sort_custom(self, "_sort_current_items_impl")
+	
+func select_all():
+	if selected.size() > 0:
+		deselect_all()
+	selected = current_notes.duplicate()
+	inspector.stop_inspecting()
+	if selected.size() > 0:
+		for item in selected:
+			item.select()
+		inspector.inspect(selected[0])
+		release_owned_focus()
+	
 func add_item(layer_n: int, item: EditorTimelineItem):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
