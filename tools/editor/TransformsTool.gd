@@ -329,8 +329,6 @@ func _ready():
 	circle_size_spinbox.step = 0.1
 	circle_size_spinbox.value = 2.5
 	circle_size_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_size")
-	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_size")
 	
 	circle_settings_hbox_container.add_child(circle_size_label)
 	circle_settings_hbox_container.add_child(circle_size_spinbox)
@@ -348,9 +346,26 @@ func _ready():
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
 	
+	var circle_size_slider = HSlider.new()
+	circle_size_slider.min_value = 1
+	circle_size_slider.max_value = 5
+	circle_size_slider.step = 0.1
+	circle_size_slider.value = 2.5
+	circle_size_slider.tick_count = 9
+	circle_size_slider.ticks_on_borders = true
+	circle_size_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	circle_size_slider.share(circle_size_spinbox)
+	
+	circle_size_slider.connect("value_changed", make_circle_transform_left, "set_size")
+	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_size")
+	
+	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_size")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_size")
+	
 	circle_settings_hbox_container.add_child(circle_separation_label)
 	circle_settings_hbox_container.add_child(circle_separation_spinbox)
 	button_container.add_child(circle_settings_hbox_container)
+	button_container.add_child(circle_size_slider)
 	
 	var circle_use_inside_button = CheckBox.new()
 	circle_use_inside_button.text = "From inside"
