@@ -138,6 +138,7 @@ func fill_localized_arrays():
 		"gui_tab_right": tr("Tab right"),
 		"gui_accept": tr("Menu accept"),
 		"gui_cancel": tr("Menu cancel"),
+		"gui_show_song": tr("Show song"),
 		"contextual_option": tr("Contextual option"),
 		"practice_set_waypoint": tr("Practice mode: Set waypoint"),
 		"practice_go_to_waypoint": tr("Practice mode: Go to waypoint"),
@@ -150,7 +151,7 @@ func fill_localized_arrays():
 	ACTION_CATEGORIES = {
 		tr("Notes"): ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
 		tr("Game"): ["pause", "practice_set_waypoint", "practice_go_to_waypoint"],
-		tr("GUI"): ["gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "contextual_option"]
+		tr("GUI"): ["gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "gui_show_song", "contextual_option"]
 	}
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;

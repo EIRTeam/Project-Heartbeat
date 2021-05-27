@@ -147,6 +147,10 @@ msgstr "Menú dreta"
 msgid "Menu up"
 msgstr "Menú amunt"
 
+#: UserSettings.gd:141
+msgid "Show song"
+msgstr "Mostra cançó"
+
 #: HBConfirmationWindow.tscn:108 OptionContentDirsSection.tscn:104
 #: OptionContentDirsSection.tscn:113 OptionContentDirsSection.tscn:122
 #: OptionContentDirsSection.tscn:131 PreGameScreen.tscn:80
