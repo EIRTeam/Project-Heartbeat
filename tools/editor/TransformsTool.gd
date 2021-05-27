@@ -152,6 +152,19 @@ class InterpolateAngleTransform:
 				}
 		return transformation_result
 
+class FlipAngleTransform:
+	extends EditorTransformation
+		
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+
+		for note in notes:
+			transformation_result[note] = {
+				"entry_angle": fmod(note.entry_angle + 180.0, 360.0),
+				"oscillation_frequency": -note.oscillation_frequency
+			}
+		return transformation_result
+
 class MakeCircleTransform:
 	extends EditorTransformation
 	
@@ -311,6 +324,10 @@ func _ready():
 	
 	button_container.add_child(make_button("Interpolate positions", InterpolatePositionsTransform.new()))
 	button_container.add_child(make_button("Interpolate angle", InterpolateAngleTransform.new()))
+	
+	button_container.add_child(HSeparator.new())
+	
+	button_container.add_child(make_button("Flip angle", FlipAngleTransform.new()))
 	
 	button_container.add_child(HSeparator.new())
 	
