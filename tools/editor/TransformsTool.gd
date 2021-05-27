@@ -333,7 +333,7 @@ func _ready():
 	circle_settings_hbox_container.add_child(circle_size_spinbox)
 	
 	var circle_separation_label = Label.new()
-	circle_separation_label.text = "Note separation: "
+	circle_separation_label.text = "Separation: "
 	
 	var circle_separation_spinbox = SpinBox.new()
 	circle_separation_spinbox.editable = true
@@ -345,16 +345,16 @@ func _ready():
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
 	
+	circle_settings_hbox_container.add_child(circle_separation_label)
+	circle_settings_hbox_container.add_child(circle_separation_spinbox)
+	button_container.add_child(circle_settings_hbox_container)
+	
 	var circle_use_inside_button = CheckBox.new()
 	circle_use_inside_button.text = "From inside"
 	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
 	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
 	
-	circle_settings_hbox_container.add_child(circle_separation_label)
-	circle_settings_hbox_container.add_child(circle_separation_spinbox)
-	circle_settings_hbox_container.add_child(circle_use_inside_button)
-	
-	button_container.add_child(circle_settings_hbox_container)
+	button_container.add_child(circle_use_inside_button)
 	
 	var make_circle_left_button = make_button("Make circle left", make_circle_transform_left)
 	var make_circle_right_button = make_button("Make circle right", make_circle_transform_right)
