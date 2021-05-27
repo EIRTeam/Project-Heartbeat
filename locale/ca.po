@@ -148,8 +148,8 @@ msgid "Menu up"
 msgstr "Menú amunt"
 
 #: UserSettings.gd:141
-msgid "Show song"
-msgstr "Mostra cançó"
+msgid "Show currently playing song"
+msgstr "Mostrar cançó"
 
 #: HBConfirmationWindow.tscn:108 OptionContentDirsSection.tscn:104
 #: OptionContentDirsSection.tscn:113 OptionContentDirsSection.tscn:122

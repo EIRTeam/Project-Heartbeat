@@ -138,7 +138,7 @@ func fill_localized_arrays():
 		"gui_tab_right": tr("Tab right"),
 		"gui_accept": tr("Menu accept"),
 		"gui_cancel": tr("Menu cancel"),
-		"gui_show_song": tr("Show song"),
+		"gui_show_song": tr("Show currently playing song"),
 		"contextual_option": tr("Contextual option"),
 		"practice_set_waypoint": tr("Practice mode: Set waypoint"),
 		"practice_go_to_waypoint": tr("Practice mode: Go to waypoint"),
