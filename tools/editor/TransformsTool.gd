@@ -197,9 +197,12 @@ class MakeCircleTransform:
 			# Calculate the angle and oscillation
 			var a = atan2(y - center.y, x - center.x) 
 			a *= (180 / PI)
+			var o = abs(n.oscillation_frequency) * -direction
+			
 			if inside:
 				a += 180
-			var o = abs(n.oscillation_frequency) * direction
+				o = -o
+			
 
 			# Populate the transformation matrix
 			transformation_result[n] = {
