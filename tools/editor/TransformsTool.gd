@@ -8,6 +8,13 @@ onready var vertical_transform
 
 onready var button_container = get_node("ScrollContainer/SyncButtonContainer")
 
+var use_stage_center := false setget set_use_stage_center
+
+var editor
+
+func set_use_stage_center(val):
+	use_stage_center = val
+
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
 	
@@ -145,10 +152,67 @@ class InterpolateAngleTransform:
 				}
 		return transformation_result
 
+class MakeCircleTransform:
+	extends EditorTransformation
+	
+	var direction: int
+	var separation: int = 96 setget set_separation
+	var size := 2.5 setget set_size
+	var inside = false setget set_inside
+	
+	func set_separation(val):
+		separation = val
+	
+	func set_size(val):
+		size = val
+		
+	func set_inside(val):
+		inside = val
+	
+	func _init(_direction: int):
+		direction = _direction
+	func transform_notes(notes: Array):
+		# Amplitude = Spacing * Circle Size
+		var amp = separation * size
+		# Every 4 quarter time is a full Circle on 240000 frq.
+		var frq = 180000 * size
+		# get_center_for_notes() drifts for this use case. hmmm.
+		var center = get_center_for_notes(notes)
+
+		var sustain_compensation = 0
+
+		var transformation_result = {}
+
+		for n in notes:
+			# Idk ask neo
+			var t = n.time - sustain_compensation
+			var z = t * TAU
+			var x = amp * cos(z * direction * bpm / frq) + center.x
+			var y = amp * sin(z * direction * bpm / frq) + center.y
+
+			# Compensate for sustain notes
+			if n is HBSustainNote:
+				sustain_compensation += n.end_time - n.time
+
+			# Calculate the angle and oscillation
+			var a = atan2(y - center.y, x - center.x) 
+			a *= (180 / PI)
+			if inside:
+				a += 180
+			var o = abs(n.oscillation_frequency) * direction
+
+			# Populate the transformation matrix
+			transformation_result[n] = {
+				"position": Vector2(x, y),
+				"entry_angle": a,
+				"oscillation_frequency": o
+			}
+
+		return transformation_result
 func make_button(button_text, transformation: EditorTransformation, disable_pressed = false) -> Button:
 	var button = Button.new()
 	button.text = button_text
-	button.connect("mouse_entered", self, "emit_signal", ["show_transform", transformation])
+	button.connect("mouse_entered", self, "_show_transform", [transformation])
 	button.connect("mouse_exited", self, "hide_transform")
 	if not disable_pressed:
 		button.connect("pressed", self, "apply_transform", [transformation])
@@ -188,6 +252,13 @@ func _ready():
 	
 	button_container.add_child(HSeparator.new())
 	
+	var use_stage_center_cb = CheckBox.new()
+	use_stage_center_cb.text = "Use stage center"
+	use_stage_center_cb.connect("toggled", self, "set_use_stage_center")
+	button_container.add_child(use_stage_center_cb)
+	
+	button_container.add_child(HSeparator.new())
+	
 	var rotate_label_hbox_container = HBoxContainer.new()
 	
 	var label = Label.new()
@@ -199,6 +270,8 @@ func _ready():
 	spinbox.max_value = 180.0
 	spinbox.min_value = -180.0
 	spinbox.suffix = "º"
+	angle_slider.share(spinbox)
+	
 	spinbox.connect("value_changed", self, "set_rotation")
 
 	rotate_label_hbox_container.add_child(label)
@@ -210,10 +283,8 @@ func _ready():
 	angle_slider.ticks_on_borders = true
 	angle_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
-	angle_slider.connect("mouse_entered", self, "emit_signal", ["show_transform", rotate_transformation])
+	angle_slider.connect("mouse_entered", self, "emit_signal", ["_show_transform", rotate_transformation])
 	angle_slider.connect("mouse_exited", self, "emit_signal", ["hide_transform"])
-	
-	angle_slider.share(spinbox)
 	
 	button_container.add_child(rotate_label_hbox_container)
 	button_container.add_child(angle_slider)
@@ -238,15 +309,70 @@ func _ready():
 	button_container.add_child(make_button("Interpolate positions", InterpolatePositionsTransform.new()))
 	button_container.add_child(make_button("Interpolate angle", InterpolateAngleTransform.new()))
 	
+	button_container.add_child(HSeparator.new())
 	
+	var make_circle_transform_left = MakeCircleTransform.new(-1)
+	var make_circle_transform_right = MakeCircleTransform.new(1)
+	
+	var circle_settings_hbox_container = HBoxContainer.new()
+	
+	var circle_size_label = Label.new()
+	circle_size_label.text = "Circle size: "
+	
+	var circle_size_spinbox = SpinBox.new()
+	circle_size_spinbox.editable = true
+	circle_size_spinbox.max_value = 123213123123
+	circle_size_spinbox.min_value = 0.1
+	circle_size_spinbox.step = 0.1
+	circle_size_spinbox.value = 2.5
+	circle_size_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_size")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_size")
+	
+	circle_settings_hbox_container.add_child(circle_size_label)
+	circle_settings_hbox_container.add_child(circle_size_spinbox)
+	
+	var circle_separation_label = Label.new()
+	circle_separation_label.text = "Note separation: "
+	
+	var circle_separation_spinbox = SpinBox.new()
+	circle_separation_spinbox.editable = true
+	circle_separation_spinbox.max_value = 123213123123
+	circle_separation_spinbox.min_value = 1
+	circle_separation_spinbox.value = 96
+	circle_separation_spinbox.step = 1.0
+	circle_separation_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
+	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
+	
+	var circle_use_inside_button = CheckBox.new()
+	circle_use_inside_button.text = "From inside"
+	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
+	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
+	
+	circle_settings_hbox_container.add_child(circle_separation_label)
+	circle_settings_hbox_container.add_child(circle_separation_spinbox)
+	circle_settings_hbox_container.add_child(circle_use_inside_button)
+	
+	button_container.add_child(circle_settings_hbox_container)
+	
+	var make_circle_left_button = make_button("Make circle left", make_circle_transform_left)
+	var make_circle_right_button = make_button("Make circle right", make_circle_transform_right)
+	
+	add_button_row(make_circle_left_button, make_circle_right_button)
 	
 func set_rotation(value):
 	rotate_transformation.rotation = value
-	emit_signal("show_transform", rotate_transformation)
+	_show_transform(rotate_transformation)
 
 func _on_negate_angle_pressed():
 	angle_slider.value = -angle_slider.value
 
 func _toggle_angle_absolute_pivot(pressed: bool):
 	rotate_transformation.absolute_pivot = pressed
-	emit_signal("show_transform", rotate_transformation)
+	_show_transform(rotate_transformation)
+
+func _show_transform(transform: EditorTransformation):
+	transform.use_stage_center = use_stage_center
+	transform.bpm = editor.get_bpm()
+	emit_signal("show_transform", transform)

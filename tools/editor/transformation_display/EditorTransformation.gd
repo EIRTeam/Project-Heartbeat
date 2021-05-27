@@ -1,9 +1,14 @@
 class_name EditorTransformation
 
+var use_stage_center := false
+var bpm: float
+
 func transform_notes(notes: Array):
 	pass
 
 func get_center_for_notes(notes: Array) -> Vector2:
+	if use_stage_center:
+		return Vector2(1920, 1080) / 2.0
 	var average_position = Vector2(0, 0)
 	var average_count = 0
 	for note in notes:

@@ -167,6 +167,8 @@ func _ready():
 	first_time_message_dialog.get_ok().text = "Got it!"
 	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
 	
+	transforms_tools.editor = self
+	
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
