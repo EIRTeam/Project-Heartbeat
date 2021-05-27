@@ -25,6 +25,11 @@ func _ready():
 	exit_timer.connect("timeout", self, "_on_exit_timer_timeout")
 	exit_timer.one_shot = true
 
+func _unhandled_input(event):
+	if event.is_action_pressed("gui_show_song"):
+		_on_show_title_press()
+	elif event.is_action_released("gui_show_song"):
+		_on_exit_timer_timeout()
 
 func format_time(secs: float) -> String:
 	return HBUtils.format_time(secs*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
@@ -54,6 +59,11 @@ func _on_exit_timer_timeout():
 	entry_tween.remove_all()
 	entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
 	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x * 0.517, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	entry_tween.start()
+func _on_show_title_press():
+	entry_tween.remove_all()
+	entry_tween.interpolate_property(main_container, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
+	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * 0.517, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	entry_tween.start()
 func set_time(time: float):
 	var playback_current_time_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
