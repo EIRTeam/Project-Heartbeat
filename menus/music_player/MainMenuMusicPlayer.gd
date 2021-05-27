@@ -15,6 +15,8 @@ const TIME_ON_SCREEN = 8.0
 
 var current_task
 
+onready var music_player_anchor_point: float = main_container.anchor_left
+
 func _ready():
 	if UserSettings.user_settings.disable_menu_music:
 		hide()
@@ -29,6 +31,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_show_song"):
 		_on_show_title_press()
 	elif event.is_action_released("gui_show_song"):
+		exit_timer.stop()
 		entry_tween.remove_all()
 		entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
 		entry_tween.interpolate_property(main_container, "rect_position:x", main_container.rect_position.x, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
@@ -47,7 +50,7 @@ func set_song(song: HBSong, length: float, do_animation=true):
 	playback_max_label.text = format_time(length)
 	if exit_timer.is_stopped():
 		entry_tween.remove_all()
-		entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * 0.517, 0.5, Tween.TRANS_BOUNCE)
+		entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * music_player_anchor_point, 0.5, Tween.TRANS_BOUNCE)
 		entry_tween.interpolate_property(main_container, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
 		entry_tween.start()
 	exit_timer.start()
@@ -60,13 +63,13 @@ func set_song(song: HBSong, length: float, do_animation=true):
 	AsyncTaskQueue.queue_task(preview_load_task)
 func _on_exit_timer_timeout():
 	entry_tween.remove_all()
-	entry_tween.interpolate_property(main_container, "modulate:a", 1.0, 0.0, 0.5, Tween.TRANS_LINEAR)
-	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x * 0.517, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	entry_tween.interpolate_property(main_container, "modulate:a", main_container.modulate.a, 0.0, 0.5, Tween.TRANS_LINEAR)
+	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x * music_player_anchor_point, rect_size.x, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	entry_tween.start()
 func _on_show_title_press():
 	entry_tween.remove_all()
-	entry_tween.interpolate_property(main_container, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
-	entry_tween.interpolate_property(main_container, "rect_position:x", rect_size.x, rect_size.x * 0.517, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	entry_tween.interpolate_property(main_container, "modulate:a", main_container.modulate.a, 1.0, 0.5, Tween.TRANS_LINEAR)
+	entry_tween.interpolate_property(main_container, "rect_position:x", main_container.rect_position.x, rect_size.x * music_player_anchor_point, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	entry_tween.start()
 func set_time(time: float):
 	var playback_current_time_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
