@@ -233,6 +233,8 @@ func _on_LineEdit_gui_input(event: InputEvent):
 		options_vertical_menu.select_button(options_vertical_menu.get_child_count()-1)
 	if event.is_action_pressed("gui_accept") and not event.is_echo():
 		send_chat_message()
+	if event is InputEventKey:
+		get_tree().set_input_as_handled()
 
 func start_multiplayer_session_authority():
 	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
