@@ -19,6 +19,9 @@ var note_scale = 1.0
 
 var appear_particles_node = preload("res://menus/AppearParticles.tscn").instance()
 
+const NOTE_HIT_SFX = "note_hit"
+const HEART_HIT_SFX = "heart_hit"
+
 func set_connected_notes(val):
 	.set_connected_notes(val)
 	if connected_notes.size() > 1:
@@ -177,6 +180,13 @@ func _on_note_judged(judgement, prevent_freeing = false):
 		if game.is_connected("time_changed", self, "_on_game_time_changed"):
 			game.disconnect("time_changed", self, "_on_game_time_changed")
 		set_process_unhandled_input(false)
+
+func handles_hit_sfx_playback():
+	return (note_data.time - (game.time * 1000.0)) <= game.judge.get_target_window_msec() and \
+			note_data.note_type == HBBaseNote.NOTE_TYPE.HEART
+
+func get_hit_sfx():
+	return HEART_HIT_SFX
 
 func _unhandled_input(event):
 	# HACK: Because godot is dumb, it seems to treat built in node methods differently

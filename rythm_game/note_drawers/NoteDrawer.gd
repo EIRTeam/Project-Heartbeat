@@ -43,6 +43,14 @@ func add_bind_to_tree(data):
 	if data.remote_transform:
 		data.remote_transform.remote_path = data.node.get_path()
 
+# If true, this note drawer takes care of playing the SFX by itself
+func handles_hit_sfx_playback() -> bool:
+	return false
+
+# see handles_hit_sfx_playback
+func get_hit_sfx() -> String:
+	return ""
+
 func show_note_hit_effect():
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
 	var effect = effect_scene.instance()
