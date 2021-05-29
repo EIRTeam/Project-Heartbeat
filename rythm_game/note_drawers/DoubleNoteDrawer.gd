@@ -1,5 +1,7 @@
 extends "res://rythm_game/note_drawers/SingleNoteDrawer.gd"
 
+const DOUBLE_NOTE_HIT_SFX = "double_note_hit"
+
 func _init():
 	note_scale = 1.1
 
@@ -19,3 +21,18 @@ func judge_note_input(event: InputEvent, time: float):
 
 func handle_input(event: InputEvent, time: float):
 	pass
+
+func handles_hit_sfx_playback() -> bool:
+	var judgement = game.judge.judge_note(game.time, note_data.time / 1000.0)
+	if judgement:
+		return judgement >= HBJudge.JUDGE_RATINGS.FINE
+	return false
+	
+func get_hit_sfx() -> String:
+	var total = 0
+	for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
+		total += game.game_input_manager.get_action_press_count(action)
+	if total >= 2:
+		return DOUBLE_NOTE_HIT_SFX
+	else:
+		return ""

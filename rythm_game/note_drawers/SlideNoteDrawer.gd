@@ -10,8 +10,16 @@ var hit_first = false
 var current_sfx_player: AudioStreamPlayer
 var is_audio_looping = false
 
+const SLIDE_HIT_SFX_NAME = "slide_hit"
+
 func set_note_data(data):
 	.set_note_data(data)
+
+func handles_hit_sfx_playback():
+	return (note_data.time - (game.time * 1000.0)) <= game.judge.get_target_window_msec()
+	
+func get_hit_sfx():
+	return SLIDE_HIT_SFX_NAME
 
 func _ready():
 	if note_data in game.slide_hold_chains:

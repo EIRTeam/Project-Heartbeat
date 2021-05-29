@@ -99,6 +99,8 @@ var lyrics_color__possibilities = [
 const DEFAULT_SOUNDS = {
 	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
 	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
+	"slide_empty": preload("res://sounds/sfx/360835__tec-studio__fantasy-sfx-006.wav"),
+	"heart_hit": preload("res://sounds/sfx/slide_note.wav"),
 	"slide_chain_start": preload("res://sounds/sfx/slide_hold_start.wav"),
 	"slide_chain_loop": preload("res://sounds/sfx/slide_hold_loop.wav"),
 	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_ok.wav"),

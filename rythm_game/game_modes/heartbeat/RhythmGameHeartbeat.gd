@@ -168,6 +168,8 @@ func _game_ready():
 	._game_ready()
 	sfx_pool.add_sfx("note_hit", UserSettings.get_sound_by_name("note_hit"), UserSettings.user_settings.get_sound_volume_db("note_hit"))
 	sfx_pool.add_sfx("slide_hit", UserSettings.get_sound_by_name("slide_hit"), UserSettings.user_settings.get_sound_volume_db("slide_hit"))
+	sfx_pool.add_sfx("slide_empty", UserSettings.get_sound_by_name("slide_empty"), UserSettings.user_settings.get_sound_volume_db("slide_empty"))
+	sfx_pool.add_sfx("heart_hit", UserSettings.get_sound_by_name("heart_hit"), UserSettings.user_settings.get_sound_volume_db("heart_hit"))
 	sfx_pool.add_looping_sfx("slide_chain_loop", UserSettings.get_sound_by_name("slide_chain_loop"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_loop"), get_bus_for_sfx("slide_chain_loop"))
 	sfx_pool.add_sfx("slide_chain_ok", UserSettings.get_sound_by_name("slide_chain_ok"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_ok"), get_bus_for_sfx("slide_chain_ok"))
 	sfx_pool.add_sfx("slide_chain_start", UserSettings.get_sound_by_name("slide_chain_start"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_start"), get_bus_for_sfx("slide_chain_start"))
@@ -201,21 +203,43 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 #	audio_stream_player.play()
 #	audio_stream_player_voice.play()
 
+# This is cleared after every frame, to ensure we don't play two sounds coming from the same button
+var _processed_event_uids = []
+
 func _input(event):
 	if event is InputEventHB:
-		
-		# Note SFX
-		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-			var action_pressed = false
-			var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
-			for action in actions:
-				if event.action == action and event.pressed and not event.is_echo():
-					var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
-					play_note_sfx(type in slide_types)
-					action_pressed = true
-					break
-			if action_pressed:
-				break
+		if not event.event_uid in _processed_event_uids:
+			var use_fallback_sound = true
+			var closest_notes = get_closest_notes()
+			for note in closest_notes:
+				if note is HBBaseNote:
+					var drawer = get_note_drawer(note)
+					var found_ac = false
+					for ac in game_input_manager.current_actions:
+						if ac in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
+							found_ac = true
+					if found_ac and event.pressed and not event.is_echo():
+						if drawer.handles_hit_sfx_playback():
+							var hit_sfx = drawer.get_hit_sfx()
+							use_fallback_sound = false
+							if hit_sfx != "":
+								sfx_pool.play_sfx(hit_sfx)
+							_processed_event_uids.append(event.event_uid)
+							break # remove this to allow more than 1 sfx to be played back in multis
+			if use_fallback_sound:
+				# Note SFX
+				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+					var action_pressed = false
+					var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
+					for action in actions:
+						if event.action == action and event.pressed and not event.is_echo():
+							var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
+							play_note_sfx(type in slide_types)
+							_processed_event_uids.append(event.event_uid)
+							action_pressed = true
+							break
+					if action_pressed:
+						break
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
 				if not event.event_uid in held_note_event_map[type]:
@@ -254,7 +278,7 @@ func play_note_sfx(slide = false):
 	if not slide:
 		sfx_pool.play_sfx("note_hit")
 	else:
-		sfx_pool.play_sfx("slide_hit")
+		sfx_pool.play_sfx("slide_empty")
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer = .create_note_drawer(timing_point)
 	if timing_point is HBNoteData:
@@ -340,7 +364,7 @@ func _process_game(_delta):
 			a.action = action
 			a.pressed = true
 			Input.parse_input_event(a)
-
+	_processed_event_uids = []
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
@@ -370,15 +394,6 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					held_note_event_map[n.note_type].clear()
 					held_note_event_map[n.note_type].append(event.event_uid)
 					start_hold(n.note_type)
-	if notes[0] is HBDoubleNote and judgement >= HBJudge.JUDGE_RATINGS.FINE:
-		var note_sfx_name = "note_hit"
-		if notes[0].note_type == HBNoteData.NOTE_TYPE.HEART:
-			note_sfx_name = "slide_hit"
-		for _i in range(2):
-			if sfx_pool.playing_effects[note_sfx_name].size() > 0:
-				var sfx_player = sfx_pool.playing_effects[note_sfx_name][sfx_pool.playing_effects[note_sfx_name].size()-1]
-				sfx_pool.stop_sfx(sfx_player)
-		sfx_pool.play_sfx("double_note_hit")
 	if not editing:
 		var start_time = current_song.start_time / 1000.0
 		var end_time = audio_stream_player.stream.get_length()
