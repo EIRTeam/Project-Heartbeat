@@ -97,6 +97,7 @@ func set_resource_pack(resource_pack: HBResourcePack):
 		changelog_label.hide()
 		changelog_line_edit.hide()
 		title_line_edit.text = resource_pack.pack_name
+		data_label.text = "Updating new item: %s" % resource_pack.pack_name
 	
 func set_song(song: HBSong):
 	mode = MODE.SONG
@@ -114,6 +115,7 @@ func set_song(song: HBSong):
 		changelog_label.hide()
 		changelog_line_edit.hide()
 		title_line_edit.text = song.title
+		data_label.text = "Updating new item: %s" % song.title
 		
 func do_metadata_size_check(dict: Dictionary) -> bool:
 	if to_json(dict).to_utf8().size() > 5000:
