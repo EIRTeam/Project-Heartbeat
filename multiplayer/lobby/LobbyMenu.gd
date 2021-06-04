@@ -42,7 +42,6 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		set_lobby(args.lobby)
 	_check_ownership_changed()
 	chat_line_edit.clear()
-	chat_box.clear()
 	# Sets the song wen returning from lobby song select, or not if we are just joining
 	if args.has("song"):
 		var song = args.song as HBSong
@@ -115,13 +114,15 @@ func _on_chat_message_received(member: HBServiceMember, message, type):
 		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:
 			chat_box.bbcode_text += "\n" + member.get_member_name() + ": " + str(message)
 
-func append_service_message(message: String):
-	chat_box.bbcode_text += "\n[color=#FF0000]" + message + "[/color]"
+func append_service_message(message: String, color=Color.red):
+	chat_box.bbcode_text += "\n[color=#%s]%s[/color]" % [color.to_html(false).to_upper(), message]
 
 func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMember, state):
 	var msg
+	var color = Color.red
 	if state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.JOINED:
 		msg = " has joined."
+		color = Color.green
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.LEFT:
 		msg = " has left."
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.DISCONNECTED:
@@ -131,10 +132,11 @@ func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMem
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.BANNED:
 		msg = " has been banned."
 	else:
+		color = Color.purple
 		msg = " has managed to break space-time."
 	
 	msg = str(changed.member_name) + msg
-	append_service_message(msg)
+	append_service_message(msg, color)
 	update_member_list()
 	_check_ownership_changed()
 	
