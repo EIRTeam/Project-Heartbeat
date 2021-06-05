@@ -169,59 +169,87 @@ class MakeCircleTransform:
 	extends EditorTransformation
 	
 	var direction: int
-	var separation: int = 96 setget set_separation
-	var size := 2.5 setget set_size
-	var inside = false setget set_inside
+	var separation := 96 setget set_separation
+	var eigths_per_circle := 16 setget set_epr
+	var entry_angle_offset := 0.0
+	var start_note := 0 setget set_start_note
+	var start_rev := 0.0 setget set_start_rev
+	# -1 for outside, 1 for inside
+	var inside = -1
 	
 	func set_separation(val):
 		separation = val
 	
-	func set_size(val):
-		size = val
-		
+	func set_epr(val):
+		eigths_per_circle = val
+	
+	func set_start_note(val):
+		start_note = val
+	
+	func set_start_rev(val):
+		start_rev = val
+	
 	func set_inside(val):
-		inside = val
+		if val:
+			entry_angle_offset = 0.5 * TAU
+			inside = 1
+		else:
+			entry_angle_offset = 0
+			inside = -1
 	
 	func _init(_direction: int):
 		direction = _direction
+	
+	# Revolutions to degrees
+	func rev2deg(revs):
+		return revs * TAU / 360
+	
 	func transform_notes(notes: Array):
-		# Amplitude = Spacing * Circle Size
-		var amp = separation * size
-		# Every 4 quarter time is a full Circle on 240000 frq.
-		var frq = 180000 * size
-		# get_center_for_notes() drifts for this use case. hmmm.
-		var center = get_center_for_notes(notes)
-
-		var sustain_compensation = 0
-
+		notes.invert()
+		
 		var transformation_result = {}
-
+		
+		var center = get_center_for_notes(notes)
+		
+		var sustain_compensation = 0
+		
+		var time_offset
+		
+		if start_note < notes.size():
+			time_offset = notes[start_note].time if notes else 0
+		else:
+			time_offset = notes[notes.size() - 1].time if notes else 0
+		
+		var angle_offset = (start_rev + 0.75) * TAU
+		var radius = separation * eigths_per_circle / TAU
+		
+		var beats_per_circle = eigths_per_circle / 2
+		var ms_per_beat = 60 * 1000 / bpm
+		
 		for n in notes:
-			# Idk ask neo
-			var t = n.time - sustain_compensation
-			var z = t * TAU
-			var x = amp * cos(z * direction * bpm / frq) + center.x
-			var y = amp * sin(z * direction * bpm / frq) + center.y
-
+			# Beat of the current note
+			var t = n.time - time_offset - sustain_compensation
+			var beat = t / ms_per_beat
+			
 			# Compensate for sustain notes
 			if n is HBSustainNote:
 				sustain_compensation += n.end_time - n.time
-
-			# Calculate the angle and oscillation
-			var a = atan2(y - center.y, x - center.x) 
-			a *= (180 / PI)
-			var o = abs(n.oscillation_frequency) * -direction
 			
-			if inside:
-				a += 180
-				o = -o
+			# Angle in the circle (in revolutions)
+			var angle = beat / beats_per_circle * TAU
+			angle *= direction
+			angle += angle_offset
 			
-
+			# Position of the note
+			var pos = Vector2((cos(angle) * radius) + center.x, (sin(angle) * radius) + center.y)
+			
+			var entry_angle = (angle + entry_angle_offset) / TAU * 360
+			
 			# Populate the transformation matrix
 			transformation_result[n] = {
-				"position": Vector2(x, y),
-				"entry_angle": a,
-				"oscillation_frequency": o
+				"position": pos,
+				"entry_angle": fmod(entry_angle, 360),
+				"oscillation_frequency": abs(n.oscillation_frequency) * direction * inside
 			}
 
 		return transformation_result
@@ -251,6 +279,8 @@ func add_button_row(button, button2):
 var rotate_transformation = RotateTransformation.new()
 	
 var angle_slider = HSlider.new()
+
+var advanced_settings_hbox_container = HBoxContainer.new()
 
 func _ready():
 	var flip_label = Label.new()
@@ -341,10 +371,10 @@ func _ready():
 	
 	var circle_size_spinbox = SpinBox.new()
 	circle_size_spinbox.editable = true
-	circle_size_spinbox.max_value = 123213123123
-	circle_size_spinbox.min_value = 0.1
-	circle_size_spinbox.step = 0.1
-	circle_size_spinbox.value = 2.5
+	circle_size_spinbox.max_value = 64
+	circle_size_spinbox.min_value = 1
+	circle_size_spinbox.step = 1
+	circle_size_spinbox.value = 16
 	circle_size_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
 	circle_settings_hbox_container.add_child(circle_size_label)
@@ -365,37 +395,86 @@ func _ready():
 	
 	var circle_size_slider = HSlider.new()
 	circle_size_slider.min_value = 1
-	circle_size_slider.max_value = 5
-	circle_size_slider.step = 0.1
-	circle_size_slider.value = 2.5
+	circle_size_slider.max_value = 64
+	circle_size_slider.step = 1
+	circle_size_slider.value = 16
 	circle_size_slider.tick_count = 9
 	circle_size_slider.ticks_on_borders = true
 	circle_size_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	circle_size_slider.share(circle_size_spinbox)
 	
-	circle_size_slider.connect("value_changed", make_circle_transform_left, "set_size")
-	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_size")
+	circle_size_slider.connect("value_changed", make_circle_transform_left, "set_epr")
+	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_epr")
 	
-	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_size")
-	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_size")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_epr")
 	
 	circle_settings_hbox_container.add_child(circle_separation_label)
 	circle_settings_hbox_container.add_child(circle_separation_spinbox)
 	button_container.add_child(circle_settings_hbox_container)
 	button_container.add_child(circle_size_slider)
 	
+	var other_settings_hbox_container = HBoxContainer.new()
+	
 	var circle_use_inside_button = CheckBox.new()
 	circle_use_inside_button.text = "From inside"
 	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
 	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
 	
-	button_container.add_child(circle_use_inside_button)
+	var advanced_settings_button = CheckBox.new()
+	advanced_settings_button.text = "I know what I'm doing"
+	advanced_settings_button.connect("toggled", self, "_toggle_advanced_options")
+	
+	other_settings_hbox_container.add_child(circle_use_inside_button)
+	other_settings_hbox_container.add_child(advanced_settings_button)
+	
+	button_container.add_child(other_settings_hbox_container)
+	
+	var starting_note_label = Label.new()
+	starting_note_label.text = "Starting note: "
+	
+	var starting_note_spinbox = SpinBox.new()
+	starting_note_spinbox.editable = true
+	starting_note_spinbox.max_value = 123213123123
+	starting_note_spinbox.min_value = 1
+	starting_note_spinbox.value = 1
+	starting_note_spinbox.step = 1.0
+	starting_note_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	starting_note_spinbox.connect("value_changed", make_circle_transform_left, "set_start_note")
+	starting_note_spinbox.connect("value_changed", make_circle_transform_right, "set_start_note")
+	
+	var starting_rev_label = Label.new()
+	starting_rev_label.text = "Starting turn: "
+	
+	var starting_rev_spinbox = SpinBox.new()
+	starting_rev_spinbox.editable = true
+	starting_rev_spinbox.max_value = 1.0
+	starting_rev_spinbox.min_value = 0.0
+	starting_rev_spinbox.value = 0.0
+	starting_rev_spinbox.step = 0.01
+	starting_rev_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	starting_rev_spinbox.connect("value_changed", make_circle_transform_left, "set_start_rev")
+	starting_rev_spinbox.connect("value_changed", make_circle_transform_right, "set_start_rev")
+	
+	advanced_settings_hbox_container.add_child(starting_note_label)
+	advanced_settings_hbox_container.add_child(starting_note_spinbox)
+	advanced_settings_hbox_container.add_child(starting_rev_label)
+	advanced_settings_hbox_container.add_child(starting_rev_spinbox)
+	advanced_settings_hbox_container.hide()
+	
+	button_container.add_child(advanced_settings_hbox_container)
 	
 	var make_circle_left_button = make_button("Make circle left", make_circle_transform_left)
 	var make_circle_right_button = make_button("Make circle right", make_circle_transform_right)
 	
 	add_button_row(make_circle_left_button, make_circle_right_button)
-	
+
+func _toggle_advanced_options(pressed: bool):
+	if pressed:
+		advanced_settings_hbox_container.show()
+	else:
+		advanced_settings_hbox_container.hide()
+
 func set_rotation(value):
 	rotate_transformation.rotation = value
 	_show_transform(rotate_transformation)
