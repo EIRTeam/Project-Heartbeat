@@ -65,7 +65,7 @@ func _process(delta):
 				voice_player.stream = null
 	if player.stream and not waiting_for_song_assets:
 		emit_signal("stream_time_changed", player.get_playback_position())
-	if not waiting_for_song_assets and current_song:
+	if not waiting_for_song_assets and current_song and not song_queued:
 		if current_song.preview_end != -1:
 			var end_time = current_song.preview_end / 1000.0
 			if player.get_playback_position() > end_time:
