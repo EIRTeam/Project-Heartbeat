@@ -16,13 +16,14 @@ func get_action_press_count(action):
 	
 func is_action_held(action):
 	return false
-func send_input(action, pressed, count = 1, event_uid=0b0):
+func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
 	if not get_tree().paused:
 		var a = InputEventHB.new()
 		a.action = action
 		a.triggered_actions_count = count
 		a.pressed = pressed
 		a.event_uid = event_uid
+		a.actions = current_actions
 		Input.parse_input_event(a)
 
 func _input_received(event):

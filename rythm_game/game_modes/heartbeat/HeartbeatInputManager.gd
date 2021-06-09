@@ -121,6 +121,6 @@ func _input_received(event):
 			current_event = action_data.event
 			current_sending_actions_count = actions_to_send.size()
 			
-			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid)
+			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions)
 		for action in releases_to_send:
 			emit_signal("unhandled_release", action, event_uid)

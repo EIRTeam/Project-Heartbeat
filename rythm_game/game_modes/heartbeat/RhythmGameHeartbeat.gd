@@ -215,7 +215,7 @@ func _input(event):
 				if note is HBBaseNote:
 					var drawer = get_note_drawer(note)
 					var found_ac = false
-					for ac in game_input_manager.current_actions:
+					for ac in event.actions:
 						if ac in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
 							found_ac = true
 					if found_ac and event.pressed and not event.is_echo():
@@ -344,10 +344,10 @@ func _process_game(_delta):
 				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
 					if time * 1000.0 > note.end_time:
 						actions_to_release.append(note.get_input_actions()[0])
-						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+#						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
 				elif time * 1000 > note.time:
 					actions_to_press.append(note.get_input_actions()[0])
-					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+#					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
 		var a = InputEventHB.new()
 		
 		for action in actions_to_release:
@@ -362,6 +362,7 @@ func _process_game(_delta):
 			game_input_manager.digital_action_tracking[action][-1][0] = true
 			game_input_manager.digital_action_tracking[action][-1][1] = true
 			a.action = action
+			a.actions = actions_to_press
 			a.pressed = true
 			Input.parse_input_event(a)
 	_processed_event_uids = []
