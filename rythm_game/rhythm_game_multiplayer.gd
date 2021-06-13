@@ -96,7 +96,7 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 func _on_game_done(results, game_info):
 	var scene = MainMenu.instance()
 	get_tree().current_scene.queue_free()
-	scene.starting_menu = "results"
+	scene.starting_menu = "results_mp"
 	scene.starting_menu_args = {
 		"game_info": game_info,
 		"hide_retry": true,

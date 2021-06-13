@@ -24,6 +24,7 @@ const BASE_HEIGHT = 720.0
 
 signal show_song_results(song_id, difficulty)
 signal show_song_results_mp(entries)
+signal select_song(song)
 
 var mp_lobby: HBLobby
 var mp_entries = {}
@@ -151,6 +152,8 @@ func set_game_info(val: HBGameInfo):
 	hi_score_label.hide()
 	var result = game_info.result as HBResult
 	
+	var previous_entry = ScoreHistory.get_result(game_info.song_id, game_info.difficulty)
+	
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
 		rating_scene.percentage = 0
@@ -165,23 +168,31 @@ func set_game_info(val: HBGameInfo):
 	var score_percentage = 0
 	if result.total_notes > 0:
 		score_percentage = result.get_percentage()
-	percentage_label.text = "%.2f" % (score_percentage * 100.0)
-	percentage_label.text += " %"
+	var percentage_text = "%.2f" % (score_percentage * 100.0)
+	percentage_text += " %"
+	percentage_label.text = percentage_text
 	
 	results_tab.combo_label.text = str(result.max_combo)
-	results_tab.score_label.text = str(result.score)
 	results_tab.total_notes_label.text = str(result.total_notes)
+	
+	var highest_percentage = previous_entry.highest_percentage if previous_entry else 0.0
+	var highest_score = previous_entry.highest_score if previous_entry else 0
+	
+	results_tab.current_percent_label.text = percentage_text
+	results_tab.current_score_label.text = str(result.score)
+	results_tab.hiscore_percent_label.text = ("%.2f" % (highest_percentage * 100.0)) + " %"
+	results_tab.hiscore_score_label.text = str(highest_score)
+	
+	if score_percentage > highest_percentage and game_info.is_leaderboard_legal():
+		results_tab.current_percent_label.bbcode_text = "[word_rainbow]" + results_tab.current_percent_label.text + "[/word_rainbow]"
+	if result.score > highest_score and game_info.is_leaderboard_legal():
+		results_tab.current_score_label.bbcode_text = "[word_rainbow]" + results_tab.current_score_label.text + "[/word_rainbow]"
 
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
-	hi_score_label.hide()
-	results_tab.no_point_label.hide()
-	results_tab.experience_container.hide()
-	results_tab.level_up_container.hide()
 	if game_info.is_leaderboard_legal():
 		# add result to history
 		ScoreHistory.add_result_to_history(game_info)
 	else:
-		results_tab.no_point_label.show()
 		_on_score_entered(game_info.song_id, game_info.difficulty)
 	
 	if SongLoader.songs.has(game_info.song_id):
@@ -215,6 +226,8 @@ func set_game_info(val: HBGameInfo):
 		
 		title_label.set_song(song)
 		title_label.difficulty = game_info.difficulty
+		if not mp_lobby:
+			emit_signal("select_song", song)
 		
 		if PlatformService.service_provider.implements_ugc:
 
@@ -230,10 +243,12 @@ func set_game_info(val: HBGameInfo):
 	
 func _on_score_uploaded(result):
 	if "experience_change" in result:
-		results_tab.experience_container.show()
-		results_tab.experience_label.text = "Gained %d experience points!" % [result.experience_change]
-	if "level_change" in result and result.level_change > 0:
-		results_tab.level_up_container.show()
+		if "level_change" in result and result.level_change > 0:
+			results_tab.level_up_container.show()
+		else:
+			results_tab.experience_container.show()
+			results_tab.experience_label.text = "Gained\n%dxp!" % [result.experience_change]
+	
 	if "beat_previous_record" in result and result.beat_previous_record:
 		hi_score_label.show()
 	else:
