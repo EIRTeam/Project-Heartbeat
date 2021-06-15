@@ -168,8 +168,8 @@ func change_note_button(new_button_name):
 			changed_buttons.append(new_item)
 		undo_redo.add_do_method(editor, "_on_timing_points_changed")
 		undo_redo.add_undo_method(editor, "_on_timing_points_changed")
-		undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
-		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+		undo_redo.add_undo_method(editor, "deselect_all")
+		undo_redo.add_do_method(editor, "deselect_all")
 		undo_redo.commit_action()
 	return changed_buttons
 		
