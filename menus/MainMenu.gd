@@ -93,7 +93,7 @@ func _init():
 		}
 	}
 
-
+var result_menus = ["results", "results_mp"]
 
 var fullscreen_menu
 var left_menu
@@ -214,7 +214,7 @@ func _on_song_started(song, assets):
 		if assets.audio:
 			pass
 			music_player_control.set_song(song, assets.audio.get_length())
-	if not iflag:
+	if (starting_menu in result_menus) or (not iflag):
 		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
 			change_to_background(assets.background)
 		else:
