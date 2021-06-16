@@ -9,7 +9,6 @@ func _init():
 	Steam.connect("leaderboard_find_result", self, "_on_leaderboard_found_internal", [])
 	Steam.connect("leaderboard_scores_downloaded", self, "_on_leaderboard_entries_downloaded")
 	Steam.connect("leaderboard_score_uploaded", self, "_on_leaderboard_uploaded")
-	Steam.setLeaderboardDetailsMax(1)
 func find_leadeboard(leaderboard_name: String):
 	print("finding leaderboard ", leaderboard_name)
 	Steam.findLeaderboard(leaderboard_name)
