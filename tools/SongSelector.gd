@@ -21,7 +21,7 @@ func popullate_tree():
 	create_item()
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		if not song is HBPPDSong and not song.comes_from_ugc():
+		if not song is HBPPDSong and not song.comes_from_ugc() and song.get_fs_origin() != song.SONG_FS_ORIGIN.BUILT_IN:
 			var item := create_item()
 			item.set_text(0, song.get_visible_title())
 			
