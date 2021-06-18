@@ -565,6 +565,9 @@ func _commit_selected_property_change(property_name: String):
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
+					
+					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name])
+				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
@@ -691,6 +694,9 @@ func paste(time: int):
 			
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
 			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
+			
+			check_for_multi_changes(timing_point, -1)
+			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(self, "sync_lyrics")
@@ -706,8 +712,11 @@ func delete_selected():
 		
 		for selected_item in selected:
 			selected_item.deselect()
+			
 			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
 			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+			
+			check_for_multi_changes(selected_item.data, selected_item.data.time)
 			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -715,6 +724,64 @@ func delete_selected():
 		undo_redo.add_undo_method(self, "sync_lyrics")
 		selected = []
 		undo_redo.commit_action()
+
+func check_for_multi_changes(item: HBBaseNote, old_time: int):
+	if song_editor_settings.auto_multi:
+		if item is HBBaseNote:
+			var notes = get_notes_at_time(item.time)
+			
+			if notes.size() > 0:
+				var found_any_note = false
+				
+				for note in notes:
+					if note == item:
+						continue
+					
+					if note is HBBaseNote:
+						found_any_note = true
+					else:
+						continue
+					
+					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
+					undo_redo.add_do_property(note, "distance", 880)
+				
+					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+					undo_redo.add_undo_property(note, "distance", note.distance)
+				
+				if found_any_note:
+					undo_redo.add_do_property(item, "oscillation_amplitude", 0)
+					undo_redo.add_do_property(item, "distance", 880)
+				
+					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
+					undo_redo.add_undo_property(item, "distance", item.distance)
+				elif item.oscillation_amplitude == 0 and item.distance == 880:
+					undo_redo.add_do_property(item, "oscillation_amplitude", 500)
+					undo_redo.add_do_property(item, "distance", 1200)
+				
+					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
+					undo_redo.add_undo_property(item, "distance", item.distance)
+			
+			if old_time != -1:
+				var previous_notes = get_notes_at_time(old_time)
+				var previous_note
+				
+				for note in previous_notes:
+					if note == item:
+						continue
+					
+					if note is HBBaseNote:
+						if previous_note:
+							previous_note = null
+							break
+						else:
+							previous_note = note
+				
+				if previous_note:
+					undo_redo.add_do_property(previous_note, "oscillation_amplitude", 500)
+					undo_redo.add_do_property(previous_note, "distance", 1200)
+					
+					undo_redo.add_undo_property(previous_note, "oscillation_amplitude", previous_note.oscillation_amplitude)
+					undo_redo.add_undo_property(previous_note, "distance", previous_note.distance)
 
 func deselect_all():
 	for item in selected:
@@ -739,28 +806,14 @@ func get_notes_at_time(time: int):
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
-	if song_editor_settings.auto_multi:
-		if item.data is HBBaseNote:
-			var notes = get_notes_at_time(item.data.time)
-			if notes.size() > 0:
-				var found_any_note = false
-				for note in notes:
-					if note is HBBaseNote:
-						found_any_note = true
-					else:
-						continue
-					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
-					undo_redo.add_do_property(note, "distance", 880)
-					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
-					undo_redo.add_undo_property(note, "distance", note.distance)
-				if found_any_note:
-					item.data.oscillation_amplitude = 0
-					item.data.distance = 880
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	check_for_multi_changes(item.data, -1)
+	
 	undo_redo.commit_action()
 			
 func remove_item_from_layer(layer, item: EditorTimelineItem):
