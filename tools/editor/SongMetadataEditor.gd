@@ -113,6 +113,12 @@ func save_meta():
 	song_meta.volume = volume_spinbox.value
 	song_meta.show_epilepsy_warning = epilepsy_warning_checkbox.pressed
 	chart_ed.apply_to(song_meta)
+	
+	# sanitize
+	
+	song_meta.title = song_meta.get_sanitized_field("title")
+	song_meta.romanized_title = song_meta.get_sanitized_field("romanized_title")
+	
 	song_meta.save_song()
 	
 	emit_signal("song_meta_saved")

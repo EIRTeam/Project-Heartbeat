@@ -114,8 +114,8 @@ func set_song(song: HBSong):
 		Log.log(self, "Song hasn't been uploaded before to UGC.")
 		changelog_label.hide()
 		changelog_line_edit.hide()
-		title_line_edit.text = song.title
-		data_label.text = "Updating new item: %s" % song.title
+		title_line_edit.text = song.get_sanitized_field("title")
+		data_label.text = "Updating new item: %s" % song.get_sanitized_field("title")
 		
 func do_metadata_size_check(dict: Dictionary) -> bool:
 	if to_json(dict).to_utf8().size() > 5000:

@@ -137,6 +137,10 @@ func convert_to_type(target_type: String) -> HBSerializable:
 	var new_note = deserialize(new_data_ser)
 	return new_note
 
+func get_sanitized_field(field_name: String) -> String:
+	assert(get(field_name) is String, "get_sanitized_field is only for String fields")
+	return (get(field_name) as String).strip_edges()
+
 # Returns a clone of itself
 func clone() -> HBSerializable:
 	var c = get_script().new()

@@ -232,9 +232,9 @@ func has_audio():
 
 func get_visible_title() -> String:
 	if UserSettings.user_settings.romanized_titles_enabled and romanized_title:
-		return romanized_title
+		return get_sanitized_field("romanized_title")
 	else:
-		return title
+		return get_sanitized_field("title")
 
 func comes_from_ugc():
 	return _comes_from_ugc
