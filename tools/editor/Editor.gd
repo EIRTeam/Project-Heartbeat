@@ -312,13 +312,6 @@ func _unhandled_input(event):
 	if rhythm_game_playtest_popup in get_children():
 		return
 	
-	if timeline.get_global_rect().has_point(get_global_mouse_position()):
-		if event.is_action_pressed("editor_scale_down"):
-			get_tree().set_input_as_handled()
-			change_scale(scale+0.5)
-		if event.is_action_pressed("editor_scale_up"):
-			get_tree().set_input_as_handled()
-			change_scale(scale-0.5)
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
 			if event.scancode > KEY_0 and event.scancode < KEY_9:

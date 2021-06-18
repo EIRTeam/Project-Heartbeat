@@ -4,7 +4,7 @@
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
@@ -21,14 +21,24 @@ var _scroll = 0.0
 var _prevent_next_scroll = false
 signal zoom_in
 signal zoom_out
+signal offset_left
+signal offset_right
 func _gui_input(event):
 	if event is InputEventMouseButton:
+		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.shift:
+			_prevent_next_scroll = true
 		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.control:
 			_prevent_next_scroll = true
 			if event.is_action_pressed(\"editor_scale_up\"):
 				emit_signal(\"zoom_in\")
 			elif event.is_action_pressed(\"editor_scale_down\"):
 				emit_signal(\"zoom_out\")
+		elif (event.is_action_released(\"editor_scale_up\") or event.is_action_released(\"editor_scale_down\")) and event.shift:
+			_prevent_next_scroll = true
+			if event.is_action_released(\"editor_scale_up\"):
+				emit_signal(\"offset_right\")
+			elif event.is_action_released(\"editor_scale_down\"):
+				emit_signal(\"offset_left\")
 func _process(delta):
 	if _prevent_next_scroll:
 		scroll_vertical = _scroll
@@ -37,7 +47,7 @@ func _process(delta):
 		_scroll = scroll_vertical
 "
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [node name="EditorTimeline" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -104,7 +114,7 @@ margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 3 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
@@ -150,7 +160,7 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="LayerControl" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
 margin_right = 1160.0

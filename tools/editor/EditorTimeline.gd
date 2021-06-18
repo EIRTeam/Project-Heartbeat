@@ -32,12 +32,20 @@ func _ready():
 	connect("resized", self, "_on_viewport_size_changed")
 	scroll_container.connect("zoom_in", self, "_on_zoom_in")
 	scroll_container.connect("zoom_out", self, "_on_zoom_out")
+	scroll_container.connect("offset_left", self, "_on_offset_left")
+	scroll_container.connect("offset_right", self, "_on_offset_right")
+	
 	connect("time_cull_changed", minimap, "_on_time_cull_changed")
 	minimap.connect("offset_changed", self, "set_layers_offset")
 func _on_zoom_in():
 	editor.change_scale(editor.scale-0.5)
 func _on_zoom_out():
 	editor.change_scale(editor.scale+0.5)
+func _on_offset_left():
+	set_layers_offset(_offset - 200)
+	
+func _on_offset_right():
+	set_layers_offset(_offset + 200)
 	
 func send_time_cull_changed_signal():
 	_cull_start_time = _offset
@@ -49,6 +57,7 @@ func _on_viewport_size_changed():
 	# get applied on time, user should not notice this
 	yield(get_tree(), "idle_frame")
 	update()
+	set_layers_offset(_offset)
 	send_time_cull_changed_signal()
 	
 func _draw_bars(interval, offset=0):
@@ -163,8 +172,10 @@ func _on_playhead_position_changed():
 	$VBoxContainer/HBoxContainer/PlayheadPosText/Label.text = HBUtils.format_time(editor.playhead_position)
 var _prev_layers_rect_position
 func set_layers_offset(ms: int):
+	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
+	_offset = min(song_length_ms - editor.scale_pixels(playhead_area.rect_size.x), ms)
 	_offset = max(ms, 0)
-	layers.rect_position.x = -editor.scale_msec(ms)
+	layers.rect_position.x = -editor.scale_msec(_offset)
 	#print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
