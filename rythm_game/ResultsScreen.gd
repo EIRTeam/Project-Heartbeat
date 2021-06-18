@@ -178,8 +178,8 @@ func set_game_info(val: HBGameInfo):
 	var highest_percentage = previous_entry.highest_percentage if previous_entry else 0.0
 	var highest_score = previous_entry.highest_score if previous_entry else 0
 	
-	results_tab.current_percent_label.text = percentage_text
-	results_tab.current_score_label.text = str(result.score)
+	results_tab.current_percent_label.bbcode_text = percentage_text
+	results_tab.current_score_label.bbcode_text = str(result.score)
 	results_tab.hiscore_percent_label.text = ("%.2f" % (highest_percentage * 100.0)) + " %"
 	results_tab.hiscore_score_label.text = str(highest_score)
 	
