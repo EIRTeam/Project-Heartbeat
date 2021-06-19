@@ -62,9 +62,10 @@ func _ready():
 
 func _on_assets_loaded(assets):
 #	author_label.hide()
-	if assets.circle_logo:
+	if "circle_logo" in assets:
 		circle_text_rect.show()
 		circle_text_rect.texture = assets.circle_logo
 	else:
-		circle_text_rect = null
+		circle_text_rect.hide()
+		circle_text_rect.texture = null
 	_on_resized()
