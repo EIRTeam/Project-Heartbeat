@@ -277,8 +277,12 @@ func add_button_row(button, button2):
 	button_container.add_child(hbox_container)
 	
 var rotate_transformation = RotateTransformation.new()
-	
+var make_circle_transform_left = MakeCircleTransform.new(-1)
+var make_circle_transform_right = MakeCircleTransform.new(1)
+
 var angle_slider = HSlider.new()
+var circle_size_spinbox = SpinBox.new()
+var circle_use_inside_button = CheckBox.new()
 
 var advanced_settings_hbox_container = HBoxContainer.new()
 
@@ -361,15 +365,11 @@ func _ready():
 	
 	button_container.add_child(HSeparator.new())
 	
-	var make_circle_transform_left = MakeCircleTransform.new(-1)
-	var make_circle_transform_right = MakeCircleTransform.new(1)
-	
 	var circle_settings_hbox_container = HBoxContainer.new()
 	
 	var circle_size_label = Label.new()
 	circle_size_label.text = "Circle size: "
 	
-	var circle_size_spinbox = SpinBox.new()
 	circle_size_spinbox.editable = true
 	circle_size_spinbox.max_value = 64
 	circle_size_spinbox.min_value = 1
@@ -416,7 +416,6 @@ func _ready():
 	
 	var other_settings_hbox_container = HBoxContainer.new()
 	
-	var circle_use_inside_button = CheckBox.new()
 	circle_use_inside_button.text = "From inside"
 	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
 	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
@@ -490,3 +489,26 @@ func _show_transform(transform: EditorTransformation):
 	transform.use_stage_center = use_stage_center
 	transform.bpm = editor.get_bpm()
 	emit_signal("show_transform", transform)
+
+
+func _input(event):
+	if event is InputEventKey:
+		if event.is_action_pressed("editor_flip_h"):
+			emit_signal("apply_transform", FlipHorizontallyTransformation.new())
+		if event.is_action_pressed("editor_flip_v"):
+			emit_signal("apply_transform", FlipVerticallyTransformation.new())
+		
+		if event.is_action_pressed("editor_make_circle_c"):
+			make_circle_transform_right.bpm = editor.get_bpm()
+			emit_signal("apply_transform", make_circle_transform_right)
+		if event.is_action_pressed("editor_make_circle_cc"):
+			make_circle_transform_left.bpm = editor.get_bpm()
+			emit_signal("apply_transform", make_circle_transform_left)
+		
+		if event.is_action("editor_circle_size_bigger") and event.pressed:
+			circle_size_spinbox.value += 1
+		if event.is_action("editor_circle_size_smaller") and event.pressed:
+			circle_size_spinbox.value -= 1
+		
+		if event.is_action_pressed("editor_circle_inside"):
+			circle_use_inside_button.set_pressed(not circle_use_inside_button.is_pressed())
