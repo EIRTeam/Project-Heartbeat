@@ -304,8 +304,17 @@ func get_event_name(event: InputEvent):
 	
 func set_fullscreen(fullscreen = false):
 	yield(get_tree(), "idle_frame")
-	OS.window_borderless = fullscreen
-	OS.window_fullscreen = fullscreen
+	if fullscreen:
+		OS.window_borderless = true
+		OS.window_position = Vector2.ZERO
+		# HACK! adding one to the pixel height prevents godot
+		# from going into exclusive FS mode on Windows
+		if OS.get_name() == "Windows":
+			OS.window_size = OS.get_screen_size() + Vector2(0, 1)
+		else:
+			OS.window_size = OS.get_screen_size()
+	else:
+		OS.window_borderless = false
 	
 func set_volumes():
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(user_settings.master_volume * 0.186209))
