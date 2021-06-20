@@ -80,7 +80,7 @@ func _init_user_settings():
 	
 	base_input_map = get_input_map()
 
-	apply_user_settings()
+	apply_user_settings(true)
 	# Set the controller to be the first one if we have none
 	if Input.get_connected_joypads().size() > 0:
 		if not user_settings.controller_guid:
@@ -269,9 +269,10 @@ func set_joypad_prompts():
 		"nintendo":
 			JoypadSupport.set_autodetect_to(false)
 			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
-func apply_user_settings():
+func apply_user_settings(apply_display := false):
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
-	apply_display_mode()
+	if apply_display:
+		apply_display_mode()
 	Engine.target_fps = int(user_settings.fps_limit)
 #	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
