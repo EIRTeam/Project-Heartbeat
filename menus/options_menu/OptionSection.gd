@@ -20,7 +20,7 @@ func _ready():
 
 func _set_section_data(val):
 	section_data = val
-	scroll_container.selected_child = null
+	scroll_container.current_selected_item = -1
 	for child in options_container.get_children():
 		options_container.remove_child(child)
 		child.queue_free()
@@ -78,18 +78,18 @@ func _set_section_data(val):
 			# We force a hover on the first section data to make sure the description
 			# text is completely filled
 			_on_option_hovered(section_data.keys()[0])
-
+			scroll_container.select_item(0)
 func _input(event):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
 				emit_signal("back")
-				if scroll_container.selected_child:
-					scroll_container.selected_child.stop_hover()
+				if scroll_container.get_selected_item():
+					scroll_container.get_selected_item().stop_hover()
 		else:
-			if scroll_container.selected_child:
-				scroll_container.selected_child._gui_input(event)
+			if scroll_container.get_selected_item():
+				scroll_container.get_selected_item()._gui_input(event)
 			
 				
 func _on_value_changed(value, property_name):
@@ -100,6 +100,4 @@ func _on_option_hovered(option_name):
 		$VBoxContainer/Panel/MarginContainer/HBoxContainer/DescriptionLabel.text = section_data[option_name].description
 
 func _on_focus_entered():
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
 	scroll_container.grab_focus()

@@ -6,6 +6,7 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 rect_min_size = Vector2( 0, 64 )
+mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -13,24 +14,5 @@ __meta__ = {
 
 [node name="OptionRange" parent="." instance=ExtResource( 1 )]
 script = null
-
-[node name="Label" parent="OptionRange/HBoxContainer" index="0"]
-margin_right = 317.0
-
-[node name="Control" parent="OptionRange/HBoxContainer" index="1"]
-margin_left = 321.0
-margin_right = 1880.0
-
-[node name="TextureRect" parent="OptionRange/HBoxContainer/Control" index="0"]
-margin_left = 1389.0
-margin_right = 1405.0
-
-[node name="OptionLabel" parent="OptionRange/HBoxContainer/Control" index="1"]
-margin_left = 1409.0
-margin_right = 1539.0
-
-[node name="TextureRect2" parent="OptionRange/HBoxContainer/Control" index="2"]
-margin_left = 1543.0
-margin_right = 1559.0
 
 [editable path="OptionRange"]

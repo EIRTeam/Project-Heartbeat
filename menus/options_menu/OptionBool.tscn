@@ -6,24 +6,29 @@
 [ext_resource path="res://tools/icons/icon_back_options.svg" type="Texture" id=4]
 
 [node name="Control" type="Panel"]
+use_parent_material = true
 anchor_right = 1.0
 rect_min_size = Vector2( 0, 64 )
+mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
 margin_right = -20.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 316.0
+use_parent_material = true
+margin_right = 317.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
@@ -32,22 +37,27 @@ align = 1
 valign = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 320.0
-margin_right = 1240.0
+use_parent_material = true
+margin_left = 321.0
+margin_right = 1880.0
 margin_bottom = 64.0
+mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Control"]
-margin_left = 750.0
-margin_right = 766.0
+use_parent_material = true
+margin_left = 1389.0
+margin_right = 1405.0
 margin_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="OptionLabel" type="Label" parent="HBoxContainer/Control"]
-margin_left = 770.0
-margin_right = 900.0
+use_parent_material = true
+margin_left = 1409.0
+margin_right = 1539.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
@@ -59,8 +69,10 @@ __meta__ = {
 }
 
 [node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Control"]
-margin_left = 904.0
-margin_right = 920.0
+use_parent_material = true
+margin_left = 1543.0
+margin_right = 1559.0
 margin_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource( 3 )
 stretch_mode = 4

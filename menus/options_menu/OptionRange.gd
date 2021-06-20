@@ -25,6 +25,10 @@ signal hover
 var text setget set_text
 var text_overrides = {}
 var percentage = false
+
+onready var minimum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect")
+onready var maximum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect2")
+
 func _init():
 	normal_style = StyleBoxEmpty.new()
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
@@ -48,7 +52,12 @@ func set_value(val):
 			option_label.text = ("%.1f" % (val*100.0)) + postfix
 		else:
 			option_label.text = str(value) + postfix
-
+	minimum_arrow.modulate = Color.white
+	maximum_arrow.modulate = Color.white
+	if value == minimum:
+		minimum_arrow.modulate = Color.transparent
+	if value == maximum:
+		maximum_arrow.modulate = Color.transparent
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 	grab_focus()

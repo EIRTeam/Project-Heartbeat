@@ -371,7 +371,7 @@ func _on_value_changed(property_name, new_value):
 		UserSettings.set_joypad_prompts()
 	if property_name == "color_remap":
 		ColorBlindOverlay.update_overlay()
-	UserSettings.apply_user_settings()
+	UserSettings.apply_user_settings(property_name in ["display_mode", "display"])
 	UserSettings.save_user_settings()
 
 func _on_back():
