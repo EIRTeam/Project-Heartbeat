@@ -491,7 +491,7 @@ func _show_transform(transform: EditorTransformation):
 	emit_signal("show_transform", transform)
 
 
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.is_action_pressed("editor_flip_h"):
 			emit_signal("apply_transform", FlipHorizontallyTransformation.new())

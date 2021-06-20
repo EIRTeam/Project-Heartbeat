@@ -287,7 +287,19 @@ func change_scale(new_scale):
 	scale = max(new_scale, 0.1)
 	emit_signal("scale_changed", prev_scale, new_scale)
 	
-func _input(event: InputEvent):
+func get_items_at_time(time: int):
+	var items = []
+	for item in current_notes:
+		if item.data.time == time:
+			items.append(item)
+		elif item.data.time > time:
+			break
+	return items
+	
+func _unhandled_input(event: InputEvent):
+	if rhythm_game_playtest_popup in get_children():
+		return
+	
 	if event.is_action("editor_playtest") or \
 		event.is_action("editor_playtest_at_time"):
 		if not event.shift and not event.control and event.is_pressed():
@@ -399,19 +411,6 @@ func _input(event: InputEvent):
 			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 			
 			undo_redo.commit_action()
-	
-func get_items_at_time(time: int):
-	var items = []
-	for item in current_notes:
-		if item.data.time == time:
-			items.append(item)
-		elif item.data.time > time:
-			break
-	return items
-	
-func _unhandled_input(event):
-	if rhythm_game_playtest_popup in get_children():
-		return
 	
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
