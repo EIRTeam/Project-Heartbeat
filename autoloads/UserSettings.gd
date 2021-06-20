@@ -271,12 +271,15 @@ func set_joypad_prompts():
 			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
 func apply_user_settings():
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
-	set_fullscreen(user_settings.fullscreen)
+	apply_display_mode()
 	Engine.target_fps = int(user_settings.fps_limit)
 #	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	set_volumes()
+
+func get_current_display():
+	return min(UserSettings.user_settings.display, OS.get_screen_count()-1)
 
 func save_user_settings():
 	debounce_timer.start(0)
@@ -302,19 +305,29 @@ func get_event_name(event: InputEvent):
 		ret = OS.get_scancode_string(event.scancode)
 	return ret
 	
-func set_fullscreen(fullscreen = false):
+func apply_display_mode():
 	yield(get_tree(), "idle_frame")
-	if fullscreen:
-		OS.window_borderless = true
-		OS.window_position = Vector2.ZERO
-		# HACK! adding one to the pixel height prevents godot
-		# from going into exclusive FS mode on Windows
-		if OS.get_name() == "Windows":
-			OS.window_size = OS.get_screen_size() + Vector2(0, 1)
-		else:
-			OS.window_size = OS.get_screen_size()
-	else:
-		OS.window_borderless = false
+	var curr_display = get_current_display()
+	match UserSettings.user_settings.display_mode:
+		"fullscreen":
+			OS.window_borderless = true
+			OS.window_fullscreen = true
+			
+		"borderless":
+			OS.window_borderless = true
+			OS.window_fullscreen = false
+			OS.window_position = OS.get_screen_position(curr_display)
+			# HACK! adding one to the pixel height prevents godot
+			# from going into exclusive FS mode on Windows
+			if OS.get_name() == "Windows":
+				OS.window_size = OS.get_screen_size(curr_display) + Vector2(0, 1)
+			else:
+				OS.window_size = OS.get_screen_size(curr_display)
+		"windowed":
+			OS.window_borderless = false
+			OS.window_fullscreen = false
+			OS.window_position = OS.get_screen_position(curr_display) + (OS.get_screen_size(curr_display) / 2.0) - OS.window_size / 2.0
+			
 	
 func set_volumes():
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(user_settings.master_volume * 0.186209))

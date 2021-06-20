@@ -108,9 +108,19 @@ var OPTIONS = {
 		},
 	},
 	tr("Video"): {
-		"fullscreen": {
-			"name": tr("Fullscreen"),
-			"description": tr("Whether or not the game should use all the available screen, this should have no difference in performance from windowed mode.")
+		"display_mode": {
+			"name": tr("Display mode"),
+			"description": tr("Whether or not the game should use all the available screen, this should have no difference in performance, except on Windows."),
+			"options": ["borderless", "fullscreen", "windowed"],
+			"options_pretty": [tr("Borderless fullscreen"), tr("Fullscreen"), tr("Windowed")],
+			"type": "options"
+		},
+		"display": {
+			"name": tr("Display"),
+			"description": tr("Display to display the game in"),
+			"minimum": 0,
+			"maximum": OS.get_screen_count(),
+			"step": 1,
 		},
 		"vsync_enabled": {
 			"name": tr("Enable VSync"),

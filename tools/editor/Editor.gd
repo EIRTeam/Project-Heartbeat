@@ -1155,7 +1155,7 @@ func _on_ExitDialog_confirmed():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
-	UserSettings.set_fullscreen(UserSettings.user_settings.fullscreen)
+	UserSettings.apply_display_mode()
 	
 const OPTION_TO_BEATS_PER_BAR = {
 	0: 4,

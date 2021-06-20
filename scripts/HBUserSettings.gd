@@ -22,7 +22,13 @@ var controller_guid = ""
 var input_poll_more_than_once_per_frame = true
 var input_map = {}
 var fps_limit: int = 180 # 0 is unlimited
-var fullscreen = true
+var display_mode = "borderless"
+var display_mode__possibilities = [
+	"borderless",
+	"fullscreen",
+	"windowed"
+]
+var display := 0
 var desired_video_resolution = 1080
 var desired_video_fps = 60
 var show_visualizer_on_video = true
@@ -154,7 +160,7 @@ func _init():
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
 	"icon_pack", "resource_pack", "note_icon_override", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"note_size", "controller_guid", "input_map", "input_poll_more_than_once_per_frame",
-	"fps_limit", "fullscreen", "desired_video_fps", "desired_video_resolution", "disable_video",
+	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
