@@ -11,7 +11,6 @@ signal hold_started(held_notes)
 
 const LOG_NAME = "RhythmGameHeartbeat"
 const MAX_HOLD = 3300  # miliseconds
-const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
 const TRAIL_RESOLUTION = 60
 

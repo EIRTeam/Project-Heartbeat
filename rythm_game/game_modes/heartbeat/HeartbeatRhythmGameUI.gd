@@ -74,14 +74,12 @@ func _on_note_judged(judgement_info):
 	latency_display._on_note_judged(judgement_info)
 	rating_label.show_rating()
 	rating_label.get_node("AnimationPlayer").play("rating_appear")
-	if not judgement_info.wrong:
-		rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement_info.judgement]))
-		rating_label.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement_info.judgement])
-		rating_label.text = HBJudge.JUDGE_RATINGS.keys()[judgement_info.judgement]
+	rating_label.add_color_override("font_color", Color(HBJudge.RATING_TO_COLOR[judgement_info.judgement]))
+	rating_label.add_color_override("font_outline_modulate", HBJudge.RATING_TO_COLOR[judgement_info.judgement])
+	if judgement_info.wrong:
+		rating_label.text = "WRONG"
 	else:
-		rating_label.add_color_override("font_color", Color(game.WRONG_COLOR))
-		rating_label.add_color_override("font_outline_modulate", game.WRONG_COLOR)
-		rating_label.text = HBJudge.RATING_TO_WRONG_TEXT_MAP[judgement_info.judgement]
+		rating_label.text = HBJudge.JUDGE_RATINGS.keys()[judgement_info.judgement]
 	if game.current_combo > 1:
 		rating_label.text += " " + str(game.current_combo)
 	rating_label.rect_position = game.remap_coords(judgement_info.avg_pos) - rating_label.rect_size / 2
