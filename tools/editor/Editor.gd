@@ -67,6 +67,18 @@ onready var fine_position_timer = Timer.new()
 
 var current_notes = []
 
+var autoarrange_angle_shortcuts = [
+	["editor_arrange_l", Vector2(-1.0, 0.0), 180.0],
+	["editor_arrange_r", Vector2(1.0, 0.0), 0.0],
+	["editor_arrange_u", Vector2(0.0, -1.0), -90.0],
+	["editor_arrange_d", Vector2(0.0, 1.0), 90.0],
+	["editor_arrange_ul", Vector2(-1.0, -1.0), -135.0],
+	["editor_arrange_ur", Vector2(1.0, -1.0), -45.0],
+	["editor_arrange_dl", Vector2(-1.0, 1.0), 135.0],
+	["editor_arrange_dr", Vector2(1.0, 1.0), 45.0],
+	["editor_arrange_center", Vector2(0.0, 0.0), 0.0]
+]
+
 # Fades that obscure some UI elements while playing
 
 onready var ui_fades = [
@@ -275,7 +287,29 @@ func change_scale(new_scale):
 	scale = max(new_scale, 0.1)
 	emit_signal("scale_changed", prev_scale, new_scale)
 	
-func _input(event: InputEvent):
+func get_items_at_time(time: int):
+	var items = []
+	for item in current_notes:
+		if item.data.time == time:
+			items.append(item)
+		elif item.data.time > time:
+			break
+	return items
+	
+func _unhandled_input(event: InputEvent):
+	if rhythm_game_playtest_popup in get_children():
+		return
+	
+	if event.is_action("editor_playtest") or \
+		event.is_action("editor_playtest_at_time"):
+		if not event.shift and not event.control and event.is_pressed():
+			var at_time = false
+		
+			if event.is_action("editor_playtest_at_time"):
+				at_time = true
+		
+			_on_PlaytestButton_pressed(at_time)
+	
 	if event.is_action("gui_left") or \
 		event.is_action("gui_right") or \
 		event.is_action("gui_up") or \
@@ -287,6 +321,35 @@ func _input(event: InputEvent):
 				var off = Vector2(int(diff_x), int(diff_y))
 				fine_position_selected(off)
 				get_tree().set_input_as_handled()
+	
+	if event is InputEventKey:
+		for action in autoarrange_angle_shortcuts:
+			if event.is_action_pressed(action[0]) and not event.echo:
+				if not event.control:
+					arrange_selected_notes_by_time(action[1])
+				else:
+					undo_redo.create_action("Change note angle to " + str(action[2]))
+			
+					for note in selected:
+						if note.data is HBBaseNote:
+							undo_redo.add_do_property(note.data, "entry_angle", action[2])
+							undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+							
+							undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
+							undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+							
+							undo_redo.add_do_method(note, "update_widget_data")
+							undo_redo.add_do_method(note, "sync_value", "entry_angle")
+							undo_redo.add_undo_method(note, "update_widget_data")
+							undo_redo.add_undo_method(note, "sync_value", "entry_angle")
+							
+							undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+							undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+					
+					undo_redo.commit_action()
+				get_tree().set_input_as_handled()
+				break
+	
 	if event.is_action_pressed("editor_quick_lyric"):
 		quick_lyric_dialog.popup_centered()
 		quick_lyric_dialog_line_edit.grab_focus()
@@ -299,37 +362,61 @@ func _input(event: InputEvent):
 		var ev := HBLyricsPhraseEnd.new()
 		ev.time = playhead_position
 		create_lyrics_event(ev)
-func get_items_at_time(time: int):
-	var items = []
-	for item in current_notes:
-		if item.data.time == time:
-			items.append(item)
-		elif item.data.time > time:
-			break
-	return items
 	
-func _unhandled_input(event):
-	if rhythm_game_playtest_popup in get_children():
-		return
+	if event.is_action_pressed("editor_flip_angle"):
+		if not event.control and not event.shift and not event.echo:
+			undo_redo.create_action("Flip angle")
+			
+			for note in selected:
+				if note.data is HBBaseNote:
+					undo_redo.add_do_property(note.data, "entry_angle", fmod(note.data.entry_angle + 180.0, 360.0))
+					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
+					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_do_method(note, "update_widget_data")
+					undo_redo.add_do_method(note, "sync_value", "entry_angle")
+					undo_redo.add_undo_method(note, "update_widget_data")
+					undo_redo.add_undo_method(note, "sync_value", "entry_angle")
+			
+			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+			
+			undo_redo.commit_action()
+	if event.is_action_pressed("editor_flip_oscillation"):
+		if not event.control and not event.shift and not event.echo:
+			undo_redo.create_action("Flip oscillation")
+			
+			for note in selected:
+				if note.data is HBBaseNote:
+					undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+					
+					undo_redo.add_do_method(note, "update_widget_data")
+					undo_redo.add_do_method(note, "sync_value", "oscillation_amplitude")
+					undo_redo.add_undo_method(note, "update_widget_data")
+					undo_redo.add_undo_method(note, "sync_value", "oscillation_amplitude")
+					
+			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+			
+			undo_redo.commit_action()
 	
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
-			if event.scancode > KEY_0 and event.scancode < KEY_9:
-				var layer_i = event.scancode - KEY_1
-				var visible_layers = timeline.get_visible_layers()
-				for i in range(visible_layers.size()):
-					var layer = visible_layers[i]
-					if i == layer_i:
-						
-						for item in get_items_at_time(playhead_position):
-							if item._layer == layer:
-								if not event.shift and selected.size() > 1:
-									deselect_all()
-								if item in selected:
-									deselect_item(item)
-								else:
-									select_item(item, event.shift)
-								break
+			if event.scancode >= KEY_1 and event.scancode <= KEY_5:
+				var tab = event.scancode - KEY_1
+				$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2.set_current_tab(tab)
 				return
 	if event.is_action_pressed("editor_play"):
 		if not game_playback.is_playing():
@@ -381,6 +468,54 @@ func _unhandled_input(event):
 					seek(playhead_position)
 	if event is InputEventKey:
 		if not event.shift and not event.control and not event.is_action_pressed("editor_play"):
+			if selected:
+				var changed_buttons = []
+				
+				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+					for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+						if event.is_action_pressed(action):
+							undo_redo.create_action("Change selected notes button to " + HBGame.NOTE_TYPE_TO_STRING_MAP[type])
+							
+							var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, type)
+							
+							var new_layer = timeline.find_layer_by_name(layer_name)
+							
+							for item in selected:
+								var data = item.data as HBBaseNote
+								if not data:
+									continue
+								var new_data_ser = data.serialize()
+								
+								new_data_ser["note_type"] = type
+								
+								# Fallbacks when converting illegal note types
+								if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+									new_data_ser["type"] = "Note"
+								
+								if type == HBBaseNote.NOTE_TYPE.HEART:
+									if new_data_ser["type"] == "SustainNote":
+										new_data_ser["type"] = "Note"
+								var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+								
+								var new_item = new_data.get_timeline_item()
+								
+								undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
+								undo_redo.add_do_method(item, "deselect")
+								undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
+								
+								undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+								undo_redo.add_undo_method(new_item, "deselect")
+								undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+								changed_buttons.append(new_item)
+							
+							undo_redo.add_do_method(self, "_on_timing_points_changed")
+							undo_redo.add_undo_method(self, "_on_timing_points_changed")
+							undo_redo.add_undo_method(self, "deselect_all")
+							undo_redo.add_do_method(self, "deselect_all")
+							undo_redo.commit_action()
+							
+							return
+			
 			for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 				var found_note = false
 				for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
@@ -558,6 +693,9 @@ func _commit_selected_property_change(property_name: String):
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
+					
+					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name])
+				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
@@ -684,6 +822,9 @@ func paste(time: int):
 			
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
 			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
+			
+			check_for_multi_changes(timing_point, -1)
+			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(self, "sync_lyrics")
@@ -699,8 +840,11 @@ func delete_selected():
 		
 		for selected_item in selected:
 			selected_item.deselect()
+			
 			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
 			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+			
+			check_for_multi_changes(selected_item.data, selected_item.data.time)
 			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -708,6 +852,64 @@ func delete_selected():
 		undo_redo.add_undo_method(self, "sync_lyrics")
 		selected = []
 		undo_redo.commit_action()
+
+func check_for_multi_changes(item: HBBaseNote, old_time: int):
+	if song_editor_settings.auto_multi:
+		if item is HBBaseNote:
+			var notes = get_notes_at_time(item.time)
+			
+			if notes.size() > 0:
+				var found_any_note = false
+				
+				for note in notes:
+					if note == item:
+						continue
+					
+					if note is HBBaseNote:
+						found_any_note = true
+					else:
+						continue
+					
+					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
+					undo_redo.add_do_property(note, "distance", 880)
+				
+					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+					undo_redo.add_undo_property(note, "distance", note.distance)
+				
+				if found_any_note:
+					undo_redo.add_do_property(item, "oscillation_amplitude", 0)
+					undo_redo.add_do_property(item, "distance", 880)
+				
+					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
+					undo_redo.add_undo_property(item, "distance", item.distance)
+				elif item.oscillation_amplitude == 0 and item.distance == 880:
+					undo_redo.add_do_property(item, "oscillation_amplitude", 500)
+					undo_redo.add_do_property(item, "distance", 1200)
+				
+					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
+					undo_redo.add_undo_property(item, "distance", item.distance)
+			
+			if old_time != -1:
+				var previous_notes = get_notes_at_time(old_time)
+				var previous_note
+				
+				for note in previous_notes:
+					if note == item:
+						continue
+					
+					if note is HBBaseNote:
+						if previous_note:
+							previous_note = null
+							break
+						else:
+							previous_note = note
+				
+				if previous_note:
+					undo_redo.add_do_property(previous_note, "oscillation_amplitude", 500)
+					undo_redo.add_do_property(previous_note, "distance", 1200)
+					
+					undo_redo.add_undo_property(previous_note, "oscillation_amplitude", previous_note.oscillation_amplitude)
+					undo_redo.add_undo_property(previous_note, "distance", previous_note.distance)
 
 func deselect_all():
 	for item in selected:
@@ -732,28 +934,14 @@ func get_notes_at_time(time: int):
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
-	if song_editor_settings.auto_multi:
-		if item.data is HBBaseNote:
-			var notes = get_notes_at_time(item.data.time)
-			if notes.size() > 0:
-				var found_any_note = false
-				for note in notes:
-					if note is HBBaseNote:
-						found_any_note = true
-					else:
-						continue
-					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
-					undo_redo.add_do_property(note, "distance", 880)
-					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
-					undo_redo.add_undo_property(note, "distance", note.distance)
-				if found_any_note:
-					item.data.oscillation_amplitude = 0
-					item.data.distance = 880
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	check_for_multi_changes(item.data, -1)
+	
 	undo_redo.commit_action()
 			
 func remove_item_from_layer(layer, item: EditorTimelineItem):
@@ -968,7 +1156,7 @@ func _on_ExitDialog_confirmed():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
-	UserSettings.set_fullscreen(UserSettings.user_settings.fullscreen)
+	UserSettings.apply_display_mode()
 	
 const OPTION_TO_BEATS_PER_BAR = {
 	0: 4,
@@ -1277,7 +1465,6 @@ func _on_CreateIntroSkipMarkerButton_pressed():
 
 func open_link(link: String):
 	OS.shell_open(link)
-
 
 func _on_WaveformButton_toggled(button_pressed):
 	if button_pressed:
