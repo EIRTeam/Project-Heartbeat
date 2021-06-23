@@ -21,7 +21,7 @@ var _cull_start_time = 0
 var _cull_end_time = 0
 const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
-onready var stream_editor = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/PHAudioStreamEditor")
+onready var stream_editor = get_node("PHAudioStreamEditor")
 
 func set_editor(ed):
 	editor = ed
@@ -49,6 +49,8 @@ func send_time_cull_changed_signal():
 	stream_editor.end_point = _cull_end_time / 1000.0
 	stream_editor.rect_size.x = rect_size.x - layer_names.rect_size.x
 	stream_editor.rect_size.y = scroll_container.rect_size.y
+	stream_editor.rect_global_position.y = scroll_container.rect_global_position.y
+	stream_editor.rect_global_position.x = layer_names.rect_size.x
 	emit_signal("time_cull_changed", _cull_start_time, _cull_end_time)
 	
 func _on_viewport_size_changed():
@@ -119,7 +121,6 @@ func _draw():
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
 	_draw_playhead()
-	
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 

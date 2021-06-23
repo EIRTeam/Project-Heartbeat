@@ -174,13 +174,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PHAudioStreamEditor" type="PHAudioStreamEditor" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
+[node name="PHAudioStreamEditor" type="PHAudioStreamEditor" parent="."]
+show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 174.0
+margin_top = 80.0
+margin_right = 174.0
+margin_bottom = 80.0
 mouse_filter = 2
 color = Color( 1, 1, 1, 0 )
 color = Color( 1, 1, 1, 0 )
 rms_size_multiplier = 0.25
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
