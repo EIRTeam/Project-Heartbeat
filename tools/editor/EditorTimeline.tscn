@@ -4,7 +4,7 @@
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
 content_margin_right = 6.0
 content_margin_top = 4.0
@@ -47,7 +47,7 @@ func _process(delta):
 		_scroll = scroll_vertical
 "
 
-[sub_resource type="StyleBoxEmpty" id=4]
+[sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="EditorTimeline" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -114,7 +114,7 @@ margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
@@ -160,11 +160,11 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="LayerControl" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
-margin_right = 1160.0
-margin_bottom = 553.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -173,6 +173,14 @@ custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PHAudioStreamEditor" type="PHAudioStreamEditor" parent="VBoxContainer/ScrollContainer/HBoxContainer/Layers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 1, 1, 1, 0 )
+color = Color( 1, 1, 1, 0 )
+rms_size_multiplier = 0.25
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0

@@ -43,7 +43,7 @@
 [ext_resource path="res://tools/editor/TransformsTool.gd" type="Script" id=41]
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=42]
 [ext_resource path="res://tools/editor/MessageShower.gd" type="Script" id=43]
-[ext_resource path="res://tools/editor/QuickLyricDialog.gd" type="Script" id=44]
+[ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=44]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"
@@ -731,7 +731,7 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -289.0
+margin_left = -321.0
 margin_top = -28.0001
 margin_bottom = -6.10352e-05
 __meta__ = {
@@ -741,13 +741,24 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -1.0
+margin_bottom = -1.00006
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="WaveformButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
 margin_right = 28.0
+margin_bottom = 27.0
+hint_tooltip = "Toggle waveform"
+toggle_mode = true
+pressed = true
+shortcut = SubResource( 6 )
+icon = ExtResource( 44 )
+flat = true
+
+[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+margin_left = 32.0
+margin_right = 60.0
 margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
@@ -757,8 +768,8 @@ icon = ExtResource( 18 )
 flat = true
 
 [node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 32.0
-margin_right = 60.0
+margin_left = 64.0
+margin_right = 92.0
 margin_bottom = 27.0
 hint_tooltip = "Show background image"
 toggle_mode = true
@@ -767,8 +778,8 @@ icon = ExtResource( 34 )
 flat = true
 
 [node name="ShowVideoButton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 64.0
-margin_right = 92.0
+margin_left = 96.0
+margin_right = 124.0
 margin_bottom = 27.0
 hint_tooltip = "Show video"
 toggle_mode = true
@@ -777,8 +788,8 @@ icon = ExtResource( 37 )
 flat = true
 
 [node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 96.0
-margin_right = 124.0
+margin_left = 128.0
+margin_right = 156.0
 margin_bottom = 27.0
 hint_tooltip = "Show grid"
 toggle_mode = true
@@ -788,8 +799,8 @@ icon = ExtResource( 20 )
 flat = true
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 128.0
-margin_right = 192.0
+margin_left = 160.0
+margin_right = 224.0
 margin_bottom = 27.0
 value = 20.0
 __meta__ = {
@@ -797,15 +808,15 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 196.0
+margin_left = 228.0
 margin_top = 1.0
-margin_right = 211.0
+margin_right = 243.0
 margin_bottom = 26.0
 text = "x"
 
 [node name="SpinBox2" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 215.0
-margin_right = 279.0
+margin_left = 247.0
+margin_right = 311.0
 margin_bottom = 27.0
 value = 40.0
 __meta__ = {
@@ -930,7 +941,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
-self_modulate = Color( 1, 1, 1, 0.5 )
+self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 688.0
 margin_right = 1920.0
 margin_bottom = 1026.0
@@ -1109,10 +1120,6 @@ margin_top = -26.0
 margin_right = 164.0
 margin_bottom = 26.0
 window_title = "Quick lyric"
-script = ExtResource( 44 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="QuickLyricDialog"]
 anchor_right = 1.0
@@ -1155,6 +1162,7 @@ margin_bottom = 40.0
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 1 ) ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]

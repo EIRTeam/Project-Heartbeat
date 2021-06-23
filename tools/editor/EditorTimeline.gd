@@ -21,6 +21,8 @@ var _cull_start_time = 0
 var _cull_end_time = 0
 const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
+onready var stream_editor = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/PHAudioStreamEditor")
+
 func set_editor(ed):
 	editor = ed
 	minimap.editor = ed
@@ -32,8 +34,6 @@ func _ready():
 	connect("resized", self, "_on_viewport_size_changed")
 	scroll_container.connect("zoom_in", self, "_on_zoom_in")
 	scroll_container.connect("zoom_out", self, "_on_zoom_out")
-	scroll_container.connect("offset_left", self, "_on_offset_left")
-	scroll_container.connect("offset_right", self, "_on_offset_right")
 	
 	connect("time_cull_changed", minimap, "_on_time_cull_changed")
 	minimap.connect("offset_changed", self, "set_layers_offset")
@@ -41,15 +41,14 @@ func _on_zoom_in():
 	editor.change_scale(editor.scale-0.5)
 func _on_zoom_out():
 	editor.change_scale(editor.scale+0.5)
-func _on_offset_left():
-	set_layers_offset(_offset - 200)
-	
-func _on_offset_right():
-	set_layers_offset(_offset + 200)
 	
 func send_time_cull_changed_signal():
 	_cull_start_time = _offset
 	_cull_end_time = _offset + editor.scale_pixels(rect_size.x - layer_names.rect_size.x)
+	stream_editor.start_point = _cull_start_time / 1000.0
+	stream_editor.end_point = _cull_end_time / 1000.0
+	stream_editor.rect_size.x = rect_size.x - layer_names.rect_size.x
+	stream_editor.rect_size.y = scroll_container.rect_size.y
 	emit_signal("time_cull_changed", _cull_start_time, _cull_end_time)
 	
 func _on_viewport_size_changed():
@@ -57,7 +56,6 @@ func _on_viewport_size_changed():
 	# get applied on time, user should not notice this
 	yield(get_tree(), "idle_frame")
 	update()
-	set_layers_offset(_offset)
 	send_time_cull_changed_signal()
 	
 func _draw_bars(interval, offset=0):
@@ -76,7 +74,7 @@ func _draw_bars(interval, offset=0):
 			break
 		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 0.0, 0.5), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("warning_color", "Editor"), 1.0, false)
 		if fmod(line, draw_every) == 0:
 			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 35), time_string)
@@ -101,7 +99,7 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
 				continue
 			
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), Color(1.0, 1.0, 1.0, 0.25), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("contrast_color_2", "Editor"), 1.0, false)
 	
 func _draw_timing_lines():
 	var bars_per_minute = editor.bpm / float(editor.get_beats_per_bar())
@@ -114,12 +112,14 @@ func _draw_timing_lines():
 	_draw_interval(interval, editor.get_note_snap_offset(), seconds_per_bar)
 	_draw_bars(seconds_per_bar, editor.get_note_snap_offset())
 	#_draw_timing_line_interval(5, 0.75, 2.5)
+	#_draw_timing_line_interval(5, 0.75, 2.5)
 	
 func _draw():
 	_draw_area_select()
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
 	_draw_playhead()
+	
 func calculate_playhead_position():
 	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
 
@@ -172,9 +172,9 @@ func _on_playhead_position_changed():
 	$VBoxContainer/HBoxContainer/PlayheadPosText/Label.text = HBUtils.format_time(editor.playhead_position)
 var _prev_layers_rect_position
 func set_layers_offset(ms: int):
+	_offset = max(ms, 0)
 	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
 	_offset = min(song_length_ms - editor.scale_pixels(playhead_area.rect_size.x), ms)
-	_offset = max(ms, 0)
 	layers.rect_position.x = -editor.scale_msec(_offset)
 	#print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
@@ -299,6 +299,13 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 			layer_n.visible = visibility
 	update_layer_styles()
 	minimap.update()
+	
+func hide_waveform():
+	stream_editor.hide()
+func show_waveform():
+	stream_editor.show()
+func set_audio_stream(stream: AudioStream):
+	stream_editor.edit(stream)
 
 func find_layer_by_name(name):
 	var r = null
