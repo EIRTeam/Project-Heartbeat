@@ -40,6 +40,10 @@ var OPTIONS = {
 		"load_all_notes_on_song_start": {
 			"name": tr("Load all notes when song starts"),
 			"description": tr("Makes the game pre-generate all notes before the song starts playing, this increases loadtimes but will increase performance once loaded."),
+		},
+		"show_console": {
+			"name": tr("Show console"),
+			"description": tr("Shows the engine console."),
 		}
 	},
 	tr("Input"): {

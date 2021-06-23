@@ -273,6 +273,8 @@ func apply_user_settings(apply_display := false):
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	if apply_display:
 		apply_display_mode()
+	if not OS.has_feature("editor"):
+		OS.console_visible = user_settings.show_console
 	Engine.target_fps = int(user_settings.fps_limit)
 #	IconPackLoader.set_current_pack(user_settings.icon_pack)
 	OS.vsync_enabled = user_settings.vsync_enabled
