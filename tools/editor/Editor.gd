@@ -153,6 +153,8 @@ func _ready():
 	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
 	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	
+	sync_presets_tool.set_editor(self)
+	
 	transforms_tools.connect("show_transform", self, "_show_transform_on_current_notes")
 	transforms_tools.connect("hide_transform", game_preview.transform_preview, "hide")
 	transforms_tools.connect("apply_transform", self, "_apply_transform_on_current_notes")
