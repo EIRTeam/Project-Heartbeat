@@ -606,120 +606,189 @@ var dual_presets = {
 }
 
 var dynamic_presets = {
-	###
-	### Left vertical quad
-	###
-	"-> |" : {
-		HBNoteData.NOTE_TYPE.UP: {
-			"position": Vector2(0, -144),
-			"entry_angle": -135.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.LEFT: {
-			"position": Vector2(0, -48),
-			"entry_angle": -135.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.DOWN: {
-			"position": Vector2(0, 48),
-			"entry_angle": -225.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.RIGHT: {
-			"position": Vector2(0, 144),
-			"entry_angle": -225.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		}
-	},
-	###
-	### Right vertical quad
-	###
-	"| <-" : {
-		HBNoteData.NOTE_TYPE.UP: {
-			"position": Vector2(0, -144),
-			"entry_angle": -45.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.LEFT: {
-			"position": Vector2(0, -48),
-			"entry_angle": -45.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.DOWN: {
-			"position": Vector2(0, 48),
-			"entry_angle": 45.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.RIGHT: {
-			"position": Vector2(0, 144),
-			"entry_angle": 45.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		}
-	},
-	###
-	### Horizontal quad top
-	###
-	"Horizontal quad top" : {
-		HBNoteData.NOTE_TYPE.UP: {
-			"position": Vector2(-720, 0),
-			"entry_angle": -110.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.LEFT: {
-			"position": Vector2(-240, 0),
-			"entry_angle": -110.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.DOWN: {
-			"position": Vector2(240, 0),
-			"entry_angle": -70.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.RIGHT: {
-			"position": Vector2(720, 0),
-			"entry_angle": -70.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		}
-	},
-	###
-	### Horizontal quad top
-	###
-	"Horizontal quad bottom" : {
-		HBNoteData.NOTE_TYPE.UP: {
-			"position": Vector2(-720, 0),
-			"entry_angle": -250.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.LEFT: {
-			"position": Vector2(-240, 0),
-			"entry_angle": -250.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.DOWN: {
-			"position": Vector2(240, 0),
-			"entry_angle": 70.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		},
-		HBNoteData.NOTE_TYPE.RIGHT: {
-			"position": Vector2(720, 0),
-			"entry_angle": 70.0,
-			"oscillation_frequency": 0.0,
-			"distance": 880
-		}
-	},
+	"-> |" : VerticalMultiPreset.new(-1),
+	"| <-" : VerticalMultiPreset.new(1),
+	"Horizontal multi top" : HorizontalMultiPreset.new(1),
+	"Horizontal multi bottom" : HorizontalMultiPreset.new(-1),
+	"Slider multi top" : SliderMultiPreset.new(1, false),
+	"Slider multi bottom" : SliderMultiPreset.new(-1, false),
+	"Inner slider multi top" : SliderMultiPreset.new(1, true),
+	"Inner slider multi bottom" : SliderMultiPreset.new(-1, true)
 }
+
+
+class MultiPresetTemplate:
+	extends EditorTransformation
+	
+	var direction = 1
+	var editor: HBEditor
+	
+	func _init(dir):
+		direction = dir
+	
+	static func sort_by_note_type(a, b):
+		return a.note_type < b.note_type
+	
+	func check_note_is_valid(n):
+		pass
+	
+	func process_type(n, notes):
+		pass
+	
+	func process_position(n, type, notes):
+		var pos = n.position as Vector2
+		pos.x = 240 + 480 * type
+		
+		return pos
+	
+	func modify_angle(a):
+		if direction == 1:
+			return -a
+		else:
+			return a
+	
+	func process_angle(n, type, notes_at_time):
+		var angle: float
+			
+		if notes_at_time.size() == 2:
+			var index = notes_at_time.find(n)
+			
+			angle = 110.0 if index == 0 else 70.0
+		else:
+			angle = 110.0 if type < 2 else 70.0
+		
+		return angle
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		notes.sort_custom(self, "sort_by_note_type")
+		
+		for n in notes:
+			if not check_note_is_valid(n):
+				continue
+			
+			var notes_at_time = editor.get_notes_at_time(n.time)
+			notes_at_time.sort_custom(self, "sort_by_note_type")
+			
+			if notes_at_time.size() == 1:
+				continue
+			
+			var type = process_type(n, notes)
+			
+			var pos = process_position(n, type, notes)
+			
+			var angle = process_angle(n, type, notes_at_time)
+			
+			angle = modify_angle(angle)
+			
+			transformation_result[n] = {
+				"position": pos,
+				"entry_angle": angle,
+				"oscillation_frequency": 0.0,
+				"distance": 880
+			}
+		
+		return transformation_result
+
+
+class VerticalMultiPreset:
+	extends MultiPresetTemplate
+	
+	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+	
+	func _init(dir).(dir):
+		pass
+	
+	func check_note_is_valid(n):
+		return n.note_type in note_map
+	
+	func process_type(n, notes):
+		var pos = Vector2(n.position.x, notes[0].position.y)
+		var relative_type = n.note_type - notes[0].note_type
+		
+		return relative_type
+	
+	func process_position(n, type, notes):
+		var pos = Vector2(n.position.x, notes[0].position.y)
+		pos.y += 96 * type
+		
+		return pos
+	
+	func process_angle(n, type, notes_at_time):
+		var angle: float
+			
+		if notes_at_time.size() == 2:
+			var index = notes_at_time.find(n)
+			
+			angle = -45.0 if index == 0 else 45.0
+		else:
+			angle = -45.0 if type < 2 else 45.0
+		
+		return angle
+	
+	func modify_angle(a):
+		if self.direction == -1:
+			a = fmod((-a + 180.0), 360.0)
+		
+		return a
+
+
+class HorizontalMultiPreset:
+	extends MultiPresetTemplate
+	
+	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+	
+	func _init(dir).(dir):
+		pass
+	
+	func check_note_is_valid(n):
+		return n.note_type in note_map
+	
+	func process_type(n, notes):
+		return note_map.find(n.note_type)
+
+
+class SliderMultiPreset:
+	extends MultiPresetTemplate
+	
+	# Dont ask
+	var note_map_normal = [0, 1, 3, 2]
+	var note_map_inner = [3, 2, 0, 1]
+	var note_map
+	var inner = 0
+	
+	func _init(dir, inr).(dir):
+		inner = inr
+		note_map = note_map_inner if inner else note_map_normal
+	
+	func check_note_is_valid(n):
+		return n.is_slide_note()
+	
+	func process_type(n, notes):
+		var point
+		for p in editor.selected:
+			if p.data == n:
+				point = p
+				break
+		
+		var layer = 1 if "2" in point._layer.layer_name else 0
+		
+		var type = (n.note_type - 4) * 2
+		type += layer
+		
+		var index = note_map.find(type)
+		
+		return index
+	
+	func process_angle(n, type, notes_at_time):
+		return 110.0 if type < 2 else 70.0
+	
+	func modify_angle(a):
+		if direction == 1:
+			a = -a
+		
+		if inner:
+			return a
+		else:
+			return fmod((-a + 180), 360)

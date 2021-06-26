@@ -1,5 +1,11 @@
 extends MarginContainer
 
+var editor: HBEditor setget set_editor
+
+func set_editor(value):
+	for preset in dynamic_sync_presets:
+		dynamic_sync_presets[preset].editor = value
+
 var static_sync_presets = preload("res://tools/editor/sync_presets_tool/SyncPresets.gd").new().static_presets
 # presets presented as two buttons side by side
 var static_sync_presets_dual = preload("res://tools/editor/sync_presets_tool/SyncPresets.gd").new().dual_presets
@@ -11,18 +17,28 @@ signal show_transform(transform_data)
 signal hide_transform()
 signal apply_transform(transform_data)
 
-func make_button(preset_name: String, preset_list, dynamic_preset = false) -> Button:
+func make_button(preset_name: String, preset_list) -> Button:
 	var button = Button.new()
 	button.text = preset_name
 	var transformation = EditorTransformationTemplate.new()
-	transformation.dynamic = dynamic_preset
 	transformation.template = preset_list[preset_name]
+	
 	button.connect("mouse_entered", self, "_show_preset_preview", [transformation])
 	button.connect("pressed", self, "_apply_transform", [transformation])
 	button.connect("mouse_exited", self, "_hide_preset_preview")
 
 	return button
+
+func make_dynamic_button(preset_name: String, transformation: EditorTransformation) -> Button:
+	var button = Button.new()
+	button.text = preset_name
 	
+	button.connect("mouse_entered", self, "_show_preset_preview", [transformation])
+	button.connect("pressed", self, "_apply_transform", [transformation])
+	button.connect("mouse_exited", self, "_hide_preset_preview")
+	
+	return button
+
 func add_button_row(button, button2):
 	var hbox_container = HBoxContainer.new()
 	button.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -53,9 +69,10 @@ func _ready():
 	for i in range(0, dynamic_sync_presets.size(), 2):
 		var preset_name = dynamic_sync_presets.keys()[i]
 		var preset_name2 = dynamic_sync_presets.keys()[i+1]
-		var button = make_button(preset_name, dynamic_sync_presets, true)
-		var button2 = make_button(preset_name2, dynamic_sync_presets, true)
+		var button = make_dynamic_button(preset_name, dynamic_sync_presets[preset_name])
+		var button2 = make_dynamic_button(preset_name2, dynamic_sync_presets[preset_name2])
 		add_button_row(button, button2)
+	
 func _show_preset_preview(transformation):
 	emit_signal("show_transform", transformation)
 func _hide_preset_preview():
