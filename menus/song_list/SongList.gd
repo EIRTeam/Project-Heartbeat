@@ -198,11 +198,11 @@ func _on_song_hovered(song: HBSong):
 		remove_item_prompt.show()
 	song_count_indicator.text = "%d/%d" % [song_container.filtered_song_items.keys().find(song)+1, song_container.filtered_song_items.size()]
 
-func should_receive_input():
-	return song_container.has_focus()
+func should_receive_input(event):
+	return song_container.has_focus() and not event.shift
 	
 func _unhandled_input(event):
-	if should_receive_input():
+	if should_receive_input(event):
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
 			if not event is InputEventJoypadMotion:
 				filter_type_container._gui_input(event)
