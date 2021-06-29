@@ -35,8 +35,9 @@ class FlipSlideChainsTransformation:
 	func _get_chains(notes: Array):
 		var chains = []
 		var current_chain = []
-		for i in range(notes.size()-1, -1, -1):
-			var note = notes[i]
+		
+		notes.invert()
+		for note in notes:
 			if note is HBNoteData:
 				if note.is_slide_note():
 					if current_chain.size() >= 1:
@@ -45,12 +46,13 @@ class FlipSlideChainsTransformation:
 				elif note.is_slide_hold_piece():
 					if current_chain.size() > 0:
 						current_chain.append(note)
-		if current_chain.size() > 1:
+		if current_chain.size() > 0:
 			chains.append(current_chain)
 		return chains
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		var chains = _get_chains(notes)
+		var center = get_center_for_notes(notes)
 		var note_type_change_map = {
 			HBBaseNote.NOTE_TYPE.SLIDE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
 			HBBaseNote.NOTE_TYPE.SLIDE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
@@ -58,19 +60,15 @@ class FlipSlideChainsTransformation:
 			HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
 		}
 		
-		if chains.size() > 0:
-			for chain in chains:
-				var chain_slide_note_pos = chain[0].position
-				for note in chain:
-					if note is HBNoteData:
-						if note.is_slide_note() or note.is_slide_hold_piece():
-							var new_note_x = note.position.x - (note.position.x - chain_slide_note_pos.x) * 2
-							transformation_result[note] = {
-								"position": Vector2(new_note_x, note.position.y),
-								"entry_angle": fmod((180 - note.entry_angle), 360),
-								"oscillation_frequency": -note.oscillation_frequency,
-								"note_type": note_type_change_map[note.note_type]
-							}
+		for chain in chains:
+			for note in chain:
+				var relative_x = center.x - note.position.x
+				transformation_result[note] = {
+					"position": Vector2(center.x + relative_x, note.position.y),
+					"entry_angle": fmod((180 - note.entry_angle), 360),
+					"oscillation_frequency": -note.oscillation_frequency,
+					"note_type": note_type_change_map[note.note_type]
+				}
 		return transformation_result
 
 class FlipVerticallyTransformation:
