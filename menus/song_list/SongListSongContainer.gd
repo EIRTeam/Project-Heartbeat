@@ -347,7 +347,7 @@ func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)
 
 func _input(event):
-	if event is InputEventKey:
+	if event is InputEventKey and event.shift:
 		var c = char(event.unicode)
 		if c.length() == 1:
 			for song in songs:
