@@ -41,7 +41,7 @@ onready var message_shower = get_node("VBoxContainer/VSplitContainer/HBoxContain
 onready var quick_lyric_dialog := get_node("QuickLyricDialog")
 onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
-
+onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -579,6 +579,9 @@ func scale_msec(msec: int) -> float:
 func scale_pixels(pixels: float) -> float:
 	return (pixels * scale / 500) * 1000.0
 
+func notify_selected_changed():
+	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
+
 func select_item(item: EditorTimelineItem, add = false):
 	if selected.size() > 0 and not add:
 		for selected_item in selected:
@@ -598,7 +601,7 @@ func select_item(item: EditorTimelineItem, add = false):
 		item.connect_widget(widget_instance)
 	inspector.inspect(item)
 	selected.sort_custom(self, "_sort_current_items_impl")
-	
+	notify_selected_changed()
 func select_all():
 	if selected.size() > 0:
 		deselect_all()
@@ -609,6 +612,7 @@ func select_all():
 			item.select()
 		inspector.inspect(selected[0])
 		release_owned_focus()
+	notify_selected_changed()
 	
 func add_item(layer_n: int, item: EditorTimelineItem):
 	var layers = timeline.get_layers()
@@ -918,6 +922,7 @@ func deselect_all():
 		item.deselect()
 	selected = []
 	inspector.stop_inspecting()
+	notify_selected_changed()
 func deselect_item(item):
 	if item in selected:
 		selected.erase(item)
@@ -1034,7 +1039,6 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	selected = []
 	layer_manager.clear_layers()
 	current_notes = []
-	deselect_all()
 	timeline.send_time_cull_changed_signal()
 	for layer in chart.layers:
 		var layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1081,7 +1085,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
-	
+	deselect_all()
 	sync_lyrics()
 func paste_note_data(note_data: HBBaseNote):
 	undo_redo.create_action("Paste note data")

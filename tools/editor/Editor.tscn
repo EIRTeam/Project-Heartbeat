@@ -1003,6 +1003,20 @@ margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
+[node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1591.0
+margin_right = 1724.0
+margin_bottom = 25.0
+text = "Timing points 0/100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1728.0
+margin_right = 1732.0
+margin_bottom = 25.0
+
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
 margin_left = 1736.0
 margin_right = 1898.0
