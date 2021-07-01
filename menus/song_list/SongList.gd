@@ -199,7 +199,11 @@ func _on_song_hovered(song: HBSong):
 	song_count_indicator.text = "%d/%d" % [song_container.filtered_song_items.keys().find(song)+1, song_container.filtered_song_items.size()]
 
 func should_receive_input(event):
-	return song_container.has_focus() and not event.shift
+	var shift = false
+	if event is InputEventKey:
+		shift = event.shift
+	
+	return song_container.has_focus() and not shift
 	
 func _unhandled_input(event):
 	if should_receive_input(event):
