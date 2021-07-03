@@ -15,6 +15,7 @@ var task: SongAssetLoadAsyncTask
 
 onready var arcade_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
 onready var console_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect2")
+onready var download_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect")
 #HBNoteData.get_note_graphic(data.note_type, "note")
 
 func _ready():
@@ -23,7 +24,7 @@ func _ready():
 
 func set_song(value: HBSong):
 	song = value
-
+	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
 	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2").song = song
 	var max_stars = value.get_max_score()
 	for chart in value.charts:
