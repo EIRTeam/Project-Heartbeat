@@ -67,9 +67,6 @@ var _song_volume = 0.0
 
 var disable_ending = false
 
-var cached_note_drawers = {}
-var restart_cached_note_drawers = {}
-
 const SFX_DEBOUNCE_TIME = 0.016*2.0
 
 var _sfx_debounce_t = SFX_DEBOUNCE_TIME
@@ -93,8 +90,24 @@ var current_assets
 
 var intro_skip_marker: HBIntroSkipMarker
 
+var cached_note_drawers = {}
+
 func _init():
 	name = "RhythmGameBase"
+
+var _cached_notes = false
+
+func cache_note_drawers():
+	if UserSettings.user_settings.load_all_notes_on_song_start:
+		for drawer in cached_note_drawers.values():
+			if drawer and not drawer.is_queued_for_deletion():
+				drawer.free()
+		cached_note_drawers = {}
+		for group in timing_points:
+			for note in group.notes:
+				var drawer = _create_note_drawer_impl(note)
+				cached_note_drawers[note] = drawer
+		_cached_notes = true
 
 func _game_ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -458,7 +471,10 @@ func remove_note_from_screen(i, update_last_hit = true):
 			if notes_on_screen[i].has_meta("group_position"):
 				var group = notes_on_screen[i].get_meta("group")
 				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
-		game_ui.get_notes_node().remove_child(get_note_drawer(notes_on_screen[i]))
+		var drawer = get_note_drawer(notes_on_screen[i])
+		game_ui.get_notes_node().remove_child(drawer)
+		if is_connected("time_changed", drawer, "_on_game_time_changed"):
+			disconnect("time_changed", drawer, "_on_game_time_changed")
 		notes_on_screen.remove(i)
 
 # Used by editor to reset hit notes and allow them to appear again
@@ -538,18 +554,10 @@ func get_note_drawer(timing_point):
 	return drawer
 		
 func remove_all_notes_from_screen():
-	for i in range(notes_on_screen.size() - 1, -1, -1):
-		var drawer = get_note_drawer(notes_on_screen[i])
-		if drawer:
-			game_ui.get_notes_node().remove_child(get_note_drawer(notes_on_screen[i]))
-			get_note_drawer(notes_on_screen[i]).free()
-	for note in game_ui.get_notes_node().get_children():
-		game_ui.get_notes_node().remove_child(note)
-		note.queue_free()
 	notes_on_screen = []
 	for point in timing_point_to_drawer_map:
 		if point in timing_point_to_drawer_map:
-			if timing_point_to_drawer_map[point] and is_instance_valid(timing_point_to_drawer_map[point]):
+			if timing_point_to_drawer_map[point]:
 				if not timing_point_to_drawer_map[point].is_queued_for_deletion():
 					timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
@@ -600,18 +608,6 @@ func inv_map_coords(coords: Vector2):
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
 
-func cache_note_drawers():
-	if UserSettings.user_settings.load_all_notes_on_song_start:
-		for drawer in cached_note_drawers.values():
-			if is_instance_valid(drawer):
-				if drawer and not drawer.is_queued_for_deletion():
-					drawer.free()
-		cached_note_drawers = {}
-		for group in timing_points:
-			for note in group.notes:
-				var drawer = _create_note_drawer_impl(note)
-				cached_note_drawers[note] = drawer
-
 func _create_note_drawer_impl(timing_point: HBBaseNote):
 	var note_drawer
 	note_drawer = timing_point.get_drawer().instance()
@@ -628,17 +624,19 @@ func bsearch_time(a, b):
 # creates and connects a new note drawer
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer
-	if cached_note_drawers.size() > 0:
-		note_drawer = cached_note_drawers[timing_point]
-	else:
+	if not _cached_notes:
+		print("NOT CACHED!")
 		note_drawer = _create_note_drawer_impl(timing_point)
+	else:
+		print("CACHE HIT!")
+		note_drawer = cached_note_drawers[timing_point]
 	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
 	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
 	if timing_point in timing_point_to_drawer_map:
-		if is_instance_valid(timing_point_to_drawer_map[timing_point]):
-			if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
-				timing_point_to_drawer_map[timing_point].free()
+		if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
+			timing_point_to_drawer_map[timing_point].free()
+			timing_point_to_drawer_map.erase(timing_point)
 	timing_point_to_drawer_map[timing_point] = note_drawer
 	var pos = notes_on_screen.bsearch_custom(timing_point, self, "bsearch_time")
 	notes_on_screen.insert(pos, timing_point)
@@ -709,7 +707,10 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		for c in [cached_note_drawers, restart_cached_note_drawers]:
+		var shit_to_delete = [timing_point_to_drawer_map]
+		if _cached_notes:
+			shit_to_delete = [cached_note_drawers]
+		for c in shit_to_delete:
 			for note in c:
-				if is_instance_valid(c[note]) and not c[note].is_queued_for_deletion():
+				if not c[note].is_queued_for_deletion():
 					c[note].queue_free()

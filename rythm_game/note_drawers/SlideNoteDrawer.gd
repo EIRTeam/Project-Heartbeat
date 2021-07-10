@@ -24,10 +24,6 @@ func get_hit_sfx():
 func _ready():
 	if note_data in game.slide_hold_chains:
 		slide_chain = game.slide_hold_chains[note_data]
-		for drawer in slide_chain_drawers:
-			if drawer in get_children():
-				remove_child(drawer)
-			drawer.queue_free()
 		slide_chain_drawers = {}
 
 		for slide_piece in slide_chain.pieces:
@@ -160,10 +156,7 @@ func _on_game_time_changed(time: float):
 		else:
 			._on_game_time_changed(time)
 func kill_note():
-	for drawer in slide_chain_drawers.values():
-		drawer.queue_free()
 	emit_signal("note_removed")
-	queue_free()
 	kill_loop_sfx_player()
 
 func is_sliding():

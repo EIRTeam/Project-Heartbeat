@@ -45,5 +45,4 @@ func play_effect():
 #	$AnimationPlayer.play("COOL")
 
 func _notification(what):
-	if what == NOTIFICATION_EXIT_TREE:
-		queue_free()
+	pass

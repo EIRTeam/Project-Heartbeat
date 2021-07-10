@@ -67,6 +67,9 @@ onready var fine_position_timer = Timer.new()
 
 var current_notes = []
 
+var _removed_items = [] # So we can queue_free removed nodes when freeing the editor
+
+
 var autoarrange_angle_shortcuts = [
 	["editor_arrange_l", Vector2(-1.0, 0.0), 180.0],
 	["editor_arrange_r", Vector2(1.0, 0.0), 0.0],
@@ -768,6 +771,8 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
 	insert_note_at_time(item)
 	layer.add_item(item)
+	if item in _removed_items:
+		_removed_items.erase(item)
 	
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -954,7 +959,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
-			
+	_removed_items.append(item)
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 func pause():
@@ -1463,6 +1468,8 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		if is_instance_valid(rhythm_game_playtest_popup) and not rhythm_game_playtest_popup.is_queued_for_deletion():
 			rhythm_game_playtest_popup.queue_free()
+		for item in _removed_items:
+			item.queue_free()
 
 
 func _on_CreateIntroSkipMarkerButton_pressed():

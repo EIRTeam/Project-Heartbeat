@@ -42,6 +42,8 @@ func add_bind_to_tree(data):
 	ui_node.add_child(data.node)
 	if data.remote_transform:
 		data.remote_transform.remote_path = data.node.get_path()
+		var trg = get_node(data.source_transform)
+		trg.add_child(data.remote_transform)
 
 # If true, this note drawer takes care of playing the SFX by itself
 func handles_hit_sfx_playback() -> bool:
@@ -214,3 +216,26 @@ func _on_unhandled_action_released(event, event_uid):
 
 func reset_note_state():
 	pass
+
+func remove_bind_from_tree(data: LayerBoundNodeData):
+	var ui_node = game.game_ui.get_drawing_layer_node(data.layer_name)
+	ui_node.remove_child(data.node)
+	if data.remote_transform:
+		var target_node = get_node(data.source_transform)
+		target_node.remove_child(data.remote_transform)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		if not is_inside_tree():
+			for data in layer_bound_node_datas:
+				if not data.node.is_queued_for_deletion():
+					data.node.queue_free()
+				if data.remote_transform:
+					if not data.remote_transform.is_queued_for_deletion():
+						data.remote_transform.queue_free()
+	elif what == NOTIFICATION_POST_ENTER_TREE:
+		for data in layer_bound_node_datas:
+			add_bind_to_tree(data)
+	elif what == NOTIFICATION_EXIT_TREE:
+		for data in layer_bound_node_datas:
+			remove_bind_from_tree(data)

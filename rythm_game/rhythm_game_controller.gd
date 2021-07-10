@@ -367,7 +367,6 @@ func _on_PauseMenu_restarted():
 	last_pause_time = 0.0
 	rollback_on_resume = false
 	game.restart()
-	game.cache_note_drawers()
 	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)

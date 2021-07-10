@@ -2,7 +2,7 @@ extends HBEditorPlugin
 
 var script_name_line_edit: LineEdit
 var script_add_dialog: ConfirmationDialog
-var script_item_list: ItemList
+onready var script_item_list: ItemList
 var script_template = ""
 
 const EDITOR_SCRIPTS_PATH = "user://editor_scripts"
@@ -10,7 +10,6 @@ const EDITOR_SCRIPTS_PATH = "user://editor_scripts"
 func _init(_editor).(_editor):
 	script_name_line_edit = LineEdit.new()
 	script_add_dialog = ConfirmationDialog.new()
-	script_item_list = ItemList.new()
 	
 	var dir = Directory.new()
 	if not dir.dir_exists(EDITOR_SCRIPTS_PATH):

@@ -444,8 +444,6 @@ func delete_rogue_notes(pos_override = null):
 				notes_to_remove.append(notes_on_screen[i])
 	for note in notes_to_remove:
 		var dr = get_note_drawer(note)
-		if dr and not dr.is_queued_for_deletion():
-			dr.queue_free()
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note), false)
 

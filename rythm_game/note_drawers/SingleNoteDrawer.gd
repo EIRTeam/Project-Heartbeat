@@ -53,23 +53,8 @@ func _notification(what):
 		sine_drawer.note_data = note_data
 		sine_drawer.time_out = get_time_out()
 		sine_drawer.game = game
-		
-		for data in layer_bound_node_datas:
-			add_bind_to_tree(data)
-	elif what == NOTIFICATION_EXIT_TREE:
-		for data in layer_bound_node_datas:
-			var ui_node = game.game_ui.get_drawing_layer_node(data.layer_name)
-			ui_node.remove_child(data.node)
 	elif what == NOTIFICATION_PREDELETE:
-		for data in layer_bound_node_datas:
-			if is_instance_valid(data.node) and not data.node.is_queued_for_deletion():
-				data.node.queue_free()
-			if is_instance_valid(data.remote_transform) and not data.remote_transform.is_queued_for_deletion():
-				data.remote_transform.queue_free()
-		for node in [appear_particles_node, sine_drawer]:
-			if is_instance_valid(node) and not node.is_queued_for_deletion():
-				node.queue_free()
-
+		pass
 func _on_visibility_changed():
 	for data in layer_bound_node_datas:
 		data.node.set_block_signals(true)
@@ -85,11 +70,6 @@ func _ready():
 	play_appear_animation()
 	#move_child(sine_drawer, 0)
 	_on_game_size_changed()
-	for data in layer_bound_node_datas:
-		if data.remote_transform:
-			var target_node = get_node(data.source_transform)
-			data.remote_transform.use_global_coordinates = true
-			target_node.add_child(data.remote_transform)
 #	target_remote_transform.use_global_coordinates = true
 #	$NoteTarget.add_child(target_remote_transform)
 	appear_particles_node.get_node("AnimationPlayer").connect("animation_finished", self, "_on_appear_particles_node_animation_finished")
@@ -174,11 +154,8 @@ func _on_note_judged(judgement, prevent_freeing = false):
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
 			show_note_hit_effect()
 	if not prevent_freeing:
-		queue_free()
 		emit_signal("note_removed")
 		
-		if game.is_connected("time_changed", self, "_on_game_time_changed"):
-			game.disconnect("time_changed", self, "_on_game_time_changed")
 		set_process_unhandled_input(false)
 
 func handles_hit_sfx_playback():
@@ -402,7 +379,6 @@ func _on_game_time_changed(time: float):
 					if drawer:
 						if not drawer.is_queued_for_deletion():
 							drawer.emit_signal("note_removed")
-							drawer.queue_free()
 		update_graphic_positions_and_scale(time)
 				
 func get_note_graphic():
