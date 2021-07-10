@@ -625,10 +625,8 @@ func bsearch_time(a, b):
 func create_note_drawer(timing_point: HBBaseNote):
 	var note_drawer
 	if not _cached_notes:
-		print("NOT CACHED!")
 		note_drawer = _create_note_drawer_impl(timing_point)
 	else:
-		print("CACHE HIT!")
 		note_drawer = cached_note_drawers[timing_point]
 	game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.connect("notes_judged", self, "_on_notes_judged")
