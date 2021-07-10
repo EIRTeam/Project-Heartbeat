@@ -42,7 +42,9 @@ func play_effect():
 	tween.interpolate_property(note_flare, "modulate:a", 0.4, 0.0, 0.4, transparent_trans, transparent_ease)
 	
 	tween.start()
+	
 #	$AnimationPlayer.play("COOL")
 
 func _notification(what):
-	pass
+	if what == NOTIFICATION_EXIT_TREE:
+		queue_free()
