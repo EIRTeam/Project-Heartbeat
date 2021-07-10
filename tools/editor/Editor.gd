@@ -1164,6 +1164,8 @@ func reveal_ui():
 		fade.reveal()
 func _on_ExitDialog_confirmed():
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
+	if not rhythm_game_playtest_popup in get_children():
+		rhythm_game_playtest_popup.queue_free()
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
@@ -1363,6 +1365,7 @@ func _on_auto_multi_toggled(button_pressed):
 func _on_PlaytestButton_pressed(at_time):
 	print("PRESSED")
 	_on_PauseButton_pressed()
+	rhythm_game.set_process_input(false)
 	add_child(rhythm_game_playtest_popup)
 	$VBoxContainer.hide()
 	var play_time = 0.0
@@ -1378,6 +1381,8 @@ func _on_playtest_quit():
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
+	rhythm_game.set_process_input(true)
+	
 
 func create_lyrics_event(event_obj: HBTimingPoint):
 	var ev_layer = null
@@ -1466,8 +1471,6 @@ func sync_lyrics():
 	
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		if is_instance_valid(rhythm_game_playtest_popup) and not rhythm_game_playtest_popup.is_queued_for_deletion():
-			rhythm_game_playtest_popup.queue_free()
 		for item in _removed_items:
 			item.queue_free()
 
