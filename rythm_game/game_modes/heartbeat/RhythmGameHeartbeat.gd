@@ -153,7 +153,6 @@ func kill_active_slide_chains():
 			if drawer:
 				if drawer.is_slide_chain_active():
 					drawer.kill_note()
-	delete_rogue_notes()
 func _set_timing_points(points):
 	._set_timing_points(points)
 	
@@ -430,11 +429,8 @@ func restart():
 
 # used by the editor and practice mode to delete slide chain pieces that have no
 # parent and sustain notes
-func delete_rogue_notes(pos_override = null):
-	.delete_rogue_notes(pos_override)
-	var pos = time
-	if pos_override:
-		pos = pos_override
+func delete_rogue_notes(pos = time):
+	.delete_rogue_notes(pos)
 	var notes_to_remove = []
 	
 	for i in range(notes_on_screen.size() - 1, -1, -1):

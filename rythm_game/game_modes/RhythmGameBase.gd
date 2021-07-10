@@ -98,11 +98,14 @@ func _init():
 var _cached_notes = false
 
 func cache_note_drawers():
+	timing_point_to_drawer_map = {}
+	_cached_notes = false
+	for drawer in cached_note_drawers.values():
+		drawer.free()
+	
+	cached_note_drawers = {}
+	
 	if UserSettings.user_settings.load_all_notes_on_song_start:
-		for drawer in cached_note_drawers.values():
-			if drawer and not drawer.is_queued_for_deletion():
-				drawer.free()
-		cached_note_drawers = {}
 		for group in timing_points:
 			for note in group.notes:
 				var drawer = _create_note_drawer_impl(note)
@@ -486,17 +489,18 @@ func reset_hit_notes():
 		for i in range(array.size()):
 			array.set(i, 0)
 		group.hit_notes = array
-func delete_rogue_notes(pos_override = null):
+func delete_rogue_notes(pos = time):
 	pass
 		
 func restart():
-	remove_all_notes_from_screen()
 	_prevent_finishing = true
 	get_tree().paused = false
 	set_song(SongLoader.songs[current_song.id], current_difficulty, current_assets, modifiers)
+	time = current_song.start_time / 1000.0
+	cache_note_drawers()
+	timing_point_to_drawer_map = {}
 	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
 	set_current_combo(0)
-	time = current_song.start_time / 1000.0
 	audio_stream_player.stream_paused = true
 	audio_stream_player_voice.stream_paused = true
 	reset_hit_notes()
@@ -559,6 +563,8 @@ func remove_all_notes_from_screen():
 		if point in timing_point_to_drawer_map:
 			if timing_point_to_drawer_map[point]:
 				if not timing_point_to_drawer_map[point].is_queued_for_deletion():
+					if _cached_notes:
+						cached_note_drawers.erase(point)
 					timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
 	
