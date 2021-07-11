@@ -288,6 +288,8 @@ func _set_sound_volume(volume, sound: String):
 	UserSettings.save_user_settings()
 
 func _ready():
+	if HBGame.platform_settings is HBPlatformSettingsSwitch:
+		OPTIONS[tr("Game")].erase("timing_method")
 	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
 		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)

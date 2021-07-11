@@ -869,13 +869,13 @@ config/service_environment="production"
 
 [autoload]
 
+Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 ColorBlindOverlay="*res://autoloads/ColorBlindOverlay.tscn"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
 AsyncTaskQueue="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
 AsyncTaskQueueLight="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
 PlatformService="*res://autoloads/platform_service/PlatformService.gd"
-Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
 JoypadSupport="*res://third_party/joypad_support/JoypadSupport.tscn"
 UserSettings="*res://autoloads/UserSettings.gd"
 SongDataCache="*res://autoloads/SongDataCache.gd"

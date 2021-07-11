@@ -8,6 +8,7 @@ func _ready():
 	$ToolsList/OpenUserDirectoryButton.connect("pressed", self, "_on_OpenUserDirectoryButton_pressed")
 	$ToolsList/PPDManagerButton.connect("pressed", self, "_on_PPDDownloaderButton_pressed")
 	$ToolsList/ResourcePackEditorButton.connect("pressed", self, "_on_ResourcePackEditorButton_pressed")
+	$ToolsList/SwitchExporterButton.connect("pressed", self, "_on_SwitchExporterButton_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -38,3 +39,7 @@ func _on_PPDDownloaderButton_pressed():
 
 func _on_ResourcePackEditorButton_pressed():
 	get_tree().change_scene_to(load("res://tools/resource_pack_editor/ResourcePackEditor.tscn"))
+
+func _on_SwitchExporterButton_pressed():
+	get_tree().change_scene_to(load("res://tools/SwitchExporter/SwitchExporter.tscn"))
+	

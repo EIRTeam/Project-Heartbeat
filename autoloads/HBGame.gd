@@ -121,7 +121,9 @@ func _game_init():
 	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"
 		UserSettings.set_joypad_prompts()
+		UserSettings.user_settings.load_all_notes_on_song_start = false
 		UserSettings.user_settings.visualizer_enabled = false
+		UserSettings.user_settings.timing_method = HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK
 		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
 	if "--disable-async-loading" in OS.get_cmdline_args():
@@ -135,9 +137,8 @@ func _game_init():
 	if not OS.has_feature("mobile") or OS.get_name() == "Switch":
 		MobileControls.get_child(0).hide()
 		
-	if OS.has_feature("no_rich_presence"):
-		rich_presence = HBRichPresence.new()
-	else:
+	rich_presence = HBRichPresence.new()
+	if not OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresenceDiscord.new()
 	var res = rich_presence.init_presence()
 	if res != OK:

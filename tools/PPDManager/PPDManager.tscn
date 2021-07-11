@@ -220,7 +220,7 @@ anchor_bottom = 0.5
 margin_left = -353.0
 margin_top = -70.0
 margin_right = 354.0
-margin_bottom = 120.0
+margin_bottom = 148.0
 popup_exclusive = true
 window_title = "PPD Importer"
 __meta__ = {
@@ -242,7 +242,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 697.0
-margin_bottom = 180.0
+margin_bottom = 209.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -296,12 +296,19 @@ margin_right = 687.0
 margin_bottom = 170.0
 text = "Select PPD Songs Directory & Import"
 
+[node name="CloseButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
+margin_top = 174.0
+margin_right = 687.0
+margin_bottom = 199.0
+text = "Close"
+
 [node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
 margin_right = 427.0
 margin_bottom = 152.0
 window_title = "Abrir un Directorio"
 mode = 2
 access = 2
+show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
