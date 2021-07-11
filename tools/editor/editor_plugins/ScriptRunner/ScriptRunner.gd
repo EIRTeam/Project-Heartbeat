@@ -161,6 +161,8 @@ func _process_changed_values(inst: ScriptRunnerScript):
 
 		_editor.undo_redo.add_do_method(_editor, "_on_timing_points_changed")
 		_editor.undo_redo.add_undo_method(_editor, "_on_timing_points_changed")
+		_editor.undo_redo.add_do_method(_editor.inspector, "sync_visible_values_with_data")
+		_editor.undo_redo.add_undo_method(_editor.inspector, "sync_visible_values_with_data")
 		_editor.undo_redo.commit_action()
 func run_script(script_path: String):
 	if script_item_list.is_anything_selected():
