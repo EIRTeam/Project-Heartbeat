@@ -77,7 +77,7 @@ func _get_analog_action_held_count(action):
 		if action in last_axis_values[device]:
 			for axis in last_axis_values[device][action]:
 				if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
-					if not UserSettings.should_use_direct_joystick_access() and not axis in DIRECT_AXIS:
+					if not UserSettings.should_use_direct_joystick_access() or not axis in DIRECT_AXIS:
 						count += 1
 	return count
 func _is_action_held_analog(action):
