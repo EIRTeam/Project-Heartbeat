@@ -53,6 +53,7 @@ var per_song_settings = {}
 var analog_deadzone = 0.75
 var enable_multi_hint = true
 var disable_menu_music = false
+var use_explicit_rating = true
 
 var master_volume = 1.0
 var music_volume = 1.0
@@ -172,7 +173,7 @@ func _init():
 	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 	"lyrics_color", "locale", "timing_method", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
-	"show_console", "use_direct_joystick_access"]
+	"show_console", "use_direct_joystick_access", "use_explicit_rating"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

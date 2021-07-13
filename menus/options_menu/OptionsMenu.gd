@@ -273,6 +273,10 @@ var OPTIONS = {
 			"percentage": true,
 			"postfix": " %"
 		},
+		"use_explicit_rating": {
+			"name": tr("Explicit ratings"),
+			"description": tr("Show the full name of the rating on the song list (Doesn't apply for a CHEAP rating).")
+		},
 	},
 	tr("Res. Packs"): {
 		"__section_override": preload("res://menus/options_menu/OptionResourcePacksSection.tscn").instance()

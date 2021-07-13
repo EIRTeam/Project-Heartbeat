@@ -4,16 +4,25 @@ class_name HBSongListItemDifficulty
 
 var difficulty: String
 
-onready var score_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/ScoreLabel")
-onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
-onready var stars_container = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer")
-onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StarTextureRect")
-onready var stars_label = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StarsLabel")
-onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2")
-onready var arcade_texture = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/ArcadeTexture")
-onready var console_texture = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/ConsoleTexture")
+onready var score_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ScoreLabel")
+onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
+onready var stars_container = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer")
+onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarTextureRect")
+onready var stars_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarsLabel")
+onready var arcade_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ArcadeTexture")
+onready var console_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ConsoleTexture")
+onready var badge_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BadgeTexture")
 var song: HBSong
 #onready var star_texture_rect = get_node("TextureRect")
+
+
+const clear_badges = {
+	2: "clearBadge-Pass.png",
+	3: "clearBadge-Great.png",
+	4: "clearBadge-Excellent.png",
+	5: "clearBadge-Perfect.png"
+}
+
 
 func _ready():
 	arcade_texture.hide()
@@ -21,19 +30,28 @@ func _ready():
 
 func set_song_difficulty(value: HBSong, _difficulty: String):
 	song = value
-	song_title.song = song
 	difficulty = _difficulty
 	if fmod(song.charts[difficulty].stars, floor(song.charts[difficulty].stars)) != 0:
-		stars_label.text = "x%.1f " % [song.charts[difficulty].stars]
+		stars_label.text = "%.1f " % [song.charts[difficulty].stars]
 	else:
-		stars_label.text = "x%d " % [song.charts[difficulty].stars]
-	difficulty_label.text = " " + difficulty.to_upper() + " "
+		stars_label.text = "%d " % [song.charts[difficulty].stars]
+	difficulty_label.text = difficulty.to_upper() + "  "
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBHistoryEntry
 		var pass_percentage = result.highest_percentage
 		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
-		var score_text = "%s - %.2f %% - %s" % [HBUtils.find_key(HBResult.RESULT_RATING, result.highest_rating), pass_percentage * 100.0, thousands_sep_score]
+		var rating = HBUtils.find_key(HBResult.RESULT_RATING, result.highest_rating)
+		
+		var score_text = "  "
+		if UserSettings.user_settings.use_explicit_rating or result.highest_rating == 1:
+			score_text += "%s | " % rating
+		
+		score_text += "%.2f %% | %s pts" % [pass_percentage * 100.0, thousands_sep_score]
 		score_label.text = score_text
+		
+		if result.highest_rating > 1:
+			var badge = "res://graphics/icons/" + clear_badges[result.highest_rating]
+			badge_texture.texture = load(badge)
 	else:
 		score_label.hide()
 		
