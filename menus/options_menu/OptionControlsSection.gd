@@ -95,6 +95,7 @@ func show_category(category: String, prevent_selection=false):
 				continue
 			var event_scene = EVENT_SCENE.instance()
 			scroll_container.vbox_container.add_child(event_scene)
+			event_scene.action = action_name
 			event_scene.event = event
 			event_scene.connect("pressed", self, "_on_event_delete", [event_scene, action_name, event])
 	if not prevent_selection:

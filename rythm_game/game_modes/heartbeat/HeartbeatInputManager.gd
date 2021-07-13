@@ -8,6 +8,11 @@ var digital_action_tracking = {}
 
 const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"]
 
+const DIRECT_AXIS = [JOY_AXIS_0, JOY_AXIS_1, JOY_AXIS_2, JOY_AXIS_3]
+const DIRECT_AXIS_ACTIONS = ["heart_note", "slide_left", "slide_right"]
+
+var last_direct_axis_values = [0, 0, 0, 0]
+
 const BIDIRECTIONAL_ACTIONS = [
 	"heart_note"
 ]
@@ -44,14 +49,78 @@ func _get_action_deadzone(action: String):
 	return deadzone
 func _get_analog_action_held_count(action):
 	var count = 0
+	if UserSettings.should_use_direct_joystick_access() and action in DIRECT_AXIS_ACTIONS:
+		var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_0)
+		var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_1)
+		var x2 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_2)
+		var y2 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_3)
+		
+		var v1 = Vector2(x1, y1)
+		var v2 = Vector2(x2, y2)
+		var deadzone = _get_action_deadzone(action)
+		if action == "heart_note":
+			if v1.length() > deadzone:
+				count += 1
+			if v2.length() > deadzone:
+				count += 1
+		elif action == "slide_left":
+			if v1.x < -deadzone:
+				count += 1
+			if v2.x < -deadzone:
+				count += 1
+		elif action == "slide_right":
+			if v1.x > deadzone:
+				count += 1
+			if v2.x > deadzone:
+				count += 1
 	for device in last_axis_values:
 		if action in last_axis_values[device]:
 			for axis in last_axis_values[device][action]:
 				if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
-					count += 1
+					if not UserSettings.should_use_direct_joystick_access() and not axis in DIRECT_AXIS:
+						count += 1
 	return count
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
+
+func _handle_direct_axis_input(event: InputEventJoypadMotion):
+	var deadzone = _get_action_deadzone("heart_note")
+
+	current_sending_actions_count = 1
+	
+	var event_uid = get_event_uid(event)
+
+	for axis in range(2):
+		var off = 2 * axis
+		var axis_x = JOY_AXIS_0 + off
+		var axis_y = JOY_AXIS_1 + off
+		if event.axis in [axis_x, axis_y]:
+			var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
+			var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
+			var length1 = Vector2(x1, y1).length()
+			var old_length = Vector2(last_direct_axis_values[axis_x], last_direct_axis_values[axis_y]).length()
+			
+			var slide_action = "slide_right" if sign(x1) == 1 else "slide_left"
+			
+			current_actions = ["heart_note"]
+			
+			if old_length < deadzone and length1 > deadzone:
+				if abs(x1) > deadzone:
+					current_actions.append(slide_action)
+					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
+				send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
+
+			elif old_length > deadzone and length1 < deadzone:
+				current_actions = [slide_action, "heart_note"]
+				send_input(slide_action, false, current_actions.size(), event_uid, current_actions)
+				emit_signal("unhandled_release", slide_action, event_uid)
+				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
+
+
+			last_direct_axis_values[axis_x] = x1
+			last_direct_axis_values[axis_y] = y1
+
+
 
 func _input_received(event):
 	var actions_to_send = []
@@ -62,9 +131,20 @@ func _input_received(event):
 		for action in TRACKED_ACTIONS:
 			if event.is_action(action):
 				found_actions.append(action)
+				if event is InputEventJoypadMotion:
+					if action in DIRECT_AXIS_ACTIONS:
+						if event.axis in DIRECT_AXIS:
+							if UserSettings.should_use_direct_joystick_access():
+								if event.axis in DIRECT_AXIS:
+									_handle_direct_axis_input(event)
+							
 		for action in found_actions:
 			if event is InputEventJoypadMotion:
 				var digital_action = action
+				if UserSettings.should_use_direct_joystick_access() \
+					and action in DIRECT_AXIS_ACTIONS \
+					and event.axis in DIRECT_AXIS:
+					continue
 				
 				if not last_axis_values.has(event.device):
 					last_axis_values[event.device] = {}

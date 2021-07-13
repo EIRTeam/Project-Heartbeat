@@ -27,6 +27,8 @@ func show_current():
 		for controller_idx in Input.get_connected_joypads():
 			if Input.get_joy_guid(controller_idx) == UserSettings.user_settings.controller_guid:
 				selected_text.text = Input.get_joy_name(controller_idx)
+				if Input.is_joy_known(controller_idx):
+					selected_text.text += tr(" (known)")
 				break
 var _old_focus
 	
@@ -40,6 +42,8 @@ func show_list():
 	for controller in Input.get_connected_joypads():
 		var button = HBHovereableButton.new()
 		button.text = Input.get_joy_name(controller)
+		if Input.is_joy_known(controller):
+			button.text += tr(" (known)")
 		button.connect("pressed", self, "_on_controller_button_pressed", [controller])
 		controller_item_container.add_child(button)
 		if Input.get_joy_guid(controller) == UserSettings.user_settings.controller_guid:

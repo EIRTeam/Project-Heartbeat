@@ -2,6 +2,7 @@ extends Panel
 
 var normal_style
 var hover_style
+var action
 var event setget set_event
 signal hover
 signal pressed
@@ -11,6 +12,9 @@ func set_event(val):
 	event = val
 	if event is InputEventJoypadMotion:
 		$HBoxContainer/Label.text = UserSettings.get_axis_name(event)
+		if UserSettings.should_use_direct_joystick_access():
+			if event.axis <= JOY_AXIS_3 and action in ["heart_note", "slide_left", "slide_right"]:
+				$HBoxContainer/Label.text += tr(" (Disabled due to Input -> Use direct joystick access)")
 	elif event is InputEventJoypadButton:
 		$HBoxContainer/Label.text = UserSettings.get_button_name(event)
 	elif event is InputEventKey:

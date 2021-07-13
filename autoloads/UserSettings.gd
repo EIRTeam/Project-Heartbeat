@@ -369,3 +369,6 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 			if f:
 				return f
 	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
+
+func should_use_direct_joystick_access() -> bool:
+	return user_settings.use_direct_joystick_access and Input.is_joy_known(controller_device_idx)
