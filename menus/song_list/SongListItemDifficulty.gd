@@ -17,10 +17,10 @@ var song: HBSong
 
 
 const clear_badges = {
-	2: "clearBadge-Pass.png",
-	3: "clearBadge-Great.png",
-	4: "clearBadge-Excellent.png",
-	5: "clearBadge-Perfect.png"
+	HBResult.RESULT_RATING.STANDARD: "clearBadge-Pass.png",
+	HBResult.RESULT_RATING.GREAT: "clearBadge-Great.png",
+	HBResult.RESULT_RATING.EXCELLENT: "clearBadge-Excellent.png",
+	HBResult.RESULT_RATING.PERFECT: "clearBadge-Perfect.png"
 }
 
 
@@ -32,9 +32,9 @@ func set_song_difficulty(value: HBSong, _difficulty: String):
 	song = value
 	difficulty = _difficulty
 	if fmod(song.charts[difficulty].stars, floor(song.charts[difficulty].stars)) != 0:
-		stars_label.text = "%.1f " % [song.charts[difficulty].stars]
+		stars_label.text = "x %.1f " % [song.charts[difficulty].stars]
 	else:
-		stars_label.text = "%d " % [song.charts[difficulty].stars]
+		stars_label.text = "x %d " % [song.charts[difficulty].stars]
 	difficulty_label.text = difficulty.to_upper() + "  "
 	if ScoreHistory.has_result(value.id, difficulty):
 		var result := ScoreHistory.get_result(value.id, difficulty) as HBHistoryEntry
