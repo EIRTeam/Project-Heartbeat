@@ -89,7 +89,6 @@ func _on_game_time_changed(time: float):
 			if time >= (note_data.end_time + game.judge.get_target_window_msec()) / 1000.0:
 				emit_signal("notes_judged", [note_data], HBJudge.JUDGE_RATINGS.WORST, false)
 				emit_signal("note_removed")
-				queue_free()
 		if game.editing or game.previewing:
 			if last_time * 1000.0 > note_data.time:
 				if time * 1000.0 < note_data.time:
