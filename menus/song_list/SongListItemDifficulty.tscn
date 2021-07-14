@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://menus/SongTitle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=5]
@@ -11,7 +10,7 @@
 [ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=9]
 
 [sub_resource type="DynamicFont" id=1]
-size = 30
+size = 36
 use_mipmaps = true
 use_filter = true
 extra_spacing_top = 7
@@ -19,7 +18,7 @@ font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 30
+size = 36
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_mipmaps = true
 use_filter = true
@@ -54,8 +53,9 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
-anchor_right = 1.0
+anchor_right = 0.935
 anchor_bottom = 1.0
+margin_right = -0.825073
 mouse_filter = 2
 custom_constants/margin_top = 0
 custom_constants/margin_left = 30
@@ -65,7 +65,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 margin_left = 30.0
-margin_right = 1695.0
+margin_right = 1583.0
 margin_bottom = 100.0
 mouse_filter = 2
 custom_constants/separation = -15
@@ -73,39 +73,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-margin_right = 795.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer"]
+margin_right = 706.0
 margin_bottom = 100.0
-mouse_filter = 2
-custom_constants/margin_top = 7
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
-margin_top = 7.0
-margin_right = 795.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_right = 706.0
 margin_bottom = 100.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
-margin_top = 13.0
-margin_right = 795.0
-margin_bottom = 37.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 706.0
+margin_bottom = 100.0
 mouse_filter = 2
-size_flags_vertical = 1
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 41.0
-margin_right = 795.0
-margin_bottom = 79.0
-mouse_filter = 2
-
-[node name="StarTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 35.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 35, 35 )
+[node name="StarTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+use_parent_material = true
+margin_right = 48.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 48, 35 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
@@ -116,69 +105,80 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StarsLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 39.0
-margin_right = 105.0
-margin_bottom = 38.0
+[node name="StarsLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 52.0
+margin_right = 106.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 1 )
-text = "x10 "
+text = "10 "
 valign = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 use_parent_material = true
-margin_left = 109.0
-margin_right = 195.0
-margin_bottom = 38.0
+margin_left = 110.0
+margin_right = 196.0
+margin_bottom = 100.0
 custom_constants/separation = -10
 
-[node name="ArcadeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ArcadeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 use_parent_material = true
 margin_right = 48.0
-margin_bottom = 38.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 48, 35 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 5 )
 expand = true
-stretch_mode = 7
+stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConsoleTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="ConsoleTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 use_parent_material = true
 margin_left = 38.0
 margin_right = 86.0
-margin_bottom = 38.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 48, 35 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource( 5 )
 expand = true
-stretch_mode = 7
+stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DifficultyLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 199.0
-margin_right = 449.0
-margin_bottom = 38.0
+[node name="DifficultyLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 200.0
+margin_right = 403.0
+margin_bottom = 100.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
-text = "CHEAP - 100%"
+text = "EXTREME"
 valign = 1
 
-[node name="ScoreLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 453.0
-margin_right = 699.0
-margin_bottom = 38.0
+[node name="BadgeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 407.0
+margin_right = 407.0
+margin_bottom = 100.0
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 411.0
+margin_right = 706.0
+margin_bottom = 100.0
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 1 )
 text = "CHEAP - 100%"
+align = 2
 valign = 1
 
 [connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]
