@@ -458,12 +458,12 @@ func _unhandled_input(event: InputEvent):
 		if event is InputEventKey:
 			if not event.shift and not event.control:
 				var old_pos = playhead_position
-				if event.is_action_pressed("gui_left"):
+				if event.is_action_pressed("gui_left", true):
 					playhead_position -= get_timing_interval()
 					playhead_position = snap_time_to_timeline(playhead_position)
 					emit_signal("playhead_position_changed")
 					timeline.ensure_playhead_is_visible()
-				elif event.is_action_pressed("gui_right"):
+				elif event.is_action_pressed("gui_right", true):
 					playhead_position += get_timing_interval()
 					playhead_position = snap_time_to_timeline(playhead_position)
 					emit_signal("playhead_position_changed")
