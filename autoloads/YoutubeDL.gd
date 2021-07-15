@@ -298,6 +298,7 @@ func _video_downloaded(thread: Thread, result):
 	for song in caching_queue:
 		if get_video_id(song.youtube_url) == result.video_id:
 			if not has_error:
+				song.emit_signal("song_cached")
 				emit_signal("song_cached", song)
 			caching_queue.erase(song)
 			break

@@ -22,8 +22,14 @@ func _ready():
 	arcade_texture_rect.hide()
 	console_texture_rect.hide()
 
+func _on_song_cached():
+	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
+
 func set_song(value: HBSong):
+	if song:
+		song.disconnect("song_cached", self, "_on_song_cached")
 	song = value
+	song.connect("song_cached", self, "_on_song_cached")
 	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
 	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2").song = song
 	var max_stars = value.get_max_score()
