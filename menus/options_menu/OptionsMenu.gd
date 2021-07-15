@@ -83,7 +83,7 @@ var OPTIONS = {
 			"name": tr("Master volume"),
 			"description": tr("Global game volume"),
 			"minimum": 0.1,
-			"maximum": 1.5,
+			"maximum": 7.5,
 			"step": 0.05,
 			"percentage": true,
 			"postfix": " %"
