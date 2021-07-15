@@ -59,6 +59,7 @@ func send_time_cull_changed_signal():
 	stream_editor.rect_size.y = scroll_container.rect_size.y
 	stream_editor.rect_global_position.y = scroll_container.rect_global_position.y
 	stream_editor.rect_global_position.x = layer_names.rect_size.x
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "hide")
 	emit_signal("time_cull_changed", _cull_start_time, _cull_end_time)
 	
 func _on_viewport_size_changed():
@@ -186,7 +187,7 @@ func set_layers_offset(ms: int):
 	_offset = min(song_length_ms - editor.scale_pixels(playhead_area.rect_size.x), ms)
 	_offset = max(ms, 0)
 	layers.rect_position.x = -editor.scale_msec(_offset)
-	#print("pos", layers.rect_position.x)
+	#print(print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
 	update()

@@ -27,7 +27,7 @@ func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
 	child.rect_position = Vector2(x_pos, 0)
-	child.set_deferred("rect_size", child.get_editor_size())
+	child.rect_size = child.get_editor_size()
 	child.sync_value("end_time")
 
 func place_all_children():
@@ -97,25 +97,13 @@ func _on_time_cull_changed(start_time, end_time):
 		var early_note_i = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
 		_cull_start_note_i = early_note_i
 		# From the earlierst note forward
-		for i in range(early_note_i, timing_points.size()):
-			var item = timing_points[i]
-			_cull_end_note_i = i
-			if item.data.time < end_time:
-				if item.visible:
-					continue
-				item.set_process_input(true)
+		for i in range(_cull_start_note_i, timing_points.size()):
+			var item = timing_points[i] as EditorTimelineItem
+			if (item.data as HBTimingPoint).time <= _cull_end_time:
 				item.show()
-				place_child(item)
-			elif not item.visible:
-				break
 			else:
-				item.hide()
-		if early_note_i > 0:
-			for i in range(early_note_i-1, -1, -1):
-				var item = timing_points[i]
-				if not item.visible:
-					break
-				item.hide()
+				break
+			_cull_end_note_i = i
 	else:
 		for point in timing_points:
 			point.show()

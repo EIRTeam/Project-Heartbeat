@@ -33,6 +33,7 @@ func _ready():
 	set_process(false)
 	update()
 	VisualServer.canvas_item_set_z_index(get_canvas_item(), 1)
+	add_to_group("editor_timeline_items")
 
 func set_start(value: int):
 	if data.time != value:
