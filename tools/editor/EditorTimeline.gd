@@ -311,10 +311,11 @@ func change_layer_visibility(visibility: bool, layer_name: String):
 	update_layer_styles()
 	minimap.update()
 	
-func hide_waveform():
-	stream_editor.hide()
-func show_waveform():
-	stream_editor.show()
+func set_waveform(state):
+	if state:
+		stream_editor.show()
+	else:
+		stream_editor.hide()
 func set_audio_stream(stream: AudioStream):
 	stream_editor.edit(stream)
 

@@ -9,11 +9,12 @@ var offset = 0.0
 var note_resolution = 16
 var beats_per_bar = 4
 var auto_multi = false
+var waveform = false
 func get_serialized_type():
 	return "PerSongEditorSettings"
 
 func _init():
-	serializable_fields += ["hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "auto_multi"]
+	serializable_fields += ["hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "auto_multi", "waveform"]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.HEART))

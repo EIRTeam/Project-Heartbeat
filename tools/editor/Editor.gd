@@ -42,6 +42,7 @@ onready var quick_lyric_dialog := get_node("QuickLyricDialog")
 onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
+onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -1032,6 +1033,7 @@ func load_settings(settings: HBPerSongEditorSettings):
 	set_note_snap_offset(settings.offset)
 	set_beats_per_bar(settings.beats_per_bar)
 	auto_multi_checkbox.pressed = settings.auto_multi
+	waveform_button.pressed = settings.waveform
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1483,7 +1485,5 @@ func open_link(link: String):
 	OS.shell_open(link)
 
 func _on_WaveformButton_toggled(button_pressed):
-	if button_pressed:
-		timeline.show_waveform()
-	else:
-		timeline.hide_waveform()
+	song_editor_settings.waveform = button_pressed
+	timeline.set_waveform(song_editor_settings.waveform)
