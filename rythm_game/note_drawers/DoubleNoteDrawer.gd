@@ -25,7 +25,7 @@ func handle_input(event: InputEvent, time: float):
 func handles_hit_sfx_playback() -> bool:
 	var judgement = game.judge.judge_note(game.time, note_data.time / 1000.0)
 	if judgement:
-		return judgement >= HBJudge.JUDGE_RATINGS.FINE
+		return judgement >= HBJudge.JUDGE_RATINGS.SAFE
 	return false
 	
 func get_hit_sfx() -> String:
