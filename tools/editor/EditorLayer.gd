@@ -101,6 +101,7 @@ func _on_time_cull_changed(start_time, end_time):
 			var item = timing_points[i] as EditorTimelineItem
 			if (item.data as HBTimingPoint).time <= _cull_end_time:
 				item.show()
+				place_child(item)
 			else:
 				break
 			_cull_end_note_i = i
