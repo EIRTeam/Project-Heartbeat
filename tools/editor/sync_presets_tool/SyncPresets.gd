@@ -626,6 +626,16 @@ class MultiPresetTemplate:
 	func _init(dir):
 		direction = dir
 	
+	func get_notes_at_time(t: int):
+		var points = editor.get_notes_at_time(t)
+		var result = []
+		
+		for point in points:
+			if point is HBBaseNote:
+				result.append(point)
+		
+		return result
+	
 	static func sort_by_note_type(a, b):
 		return a.note_type < b.note_type
 	
@@ -668,7 +678,7 @@ class MultiPresetTemplate:
 			if not check_note_is_valid(n):
 				continue
 			
-			var notes_at_time = editor.get_notes_at_time(n.time)
+			var notes_at_time = get_notes_at_time(n.time)
 			notes_at_time.sort_custom(self, "sort_by_note_type")
 			
 			if notes_at_time.size() == 1:
