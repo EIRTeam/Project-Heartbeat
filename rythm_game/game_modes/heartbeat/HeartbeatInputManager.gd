@@ -97,6 +97,10 @@ func _handle_direct_axis_input(event: InputEventJoypadMotion):
 		if event.axis in [axis_x, axis_y]:
 			var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
 			var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
+			var prev_x = last_direct_axis_values[axis_x]
+			var prev_y = last_direct_axis_values[axis_y]
+			var change_x = x1 - prev_x
+			var change_y = y1 - prev_y
 			var length1 = Vector2(x1, y1).length()
 			var old_length = Vector2(last_direct_axis_values[axis_x], last_direct_axis_values[axis_y]).length()
 			
@@ -104,7 +108,7 @@ func _handle_direct_axis_input(event: InputEventJoypadMotion):
 			
 			current_actions = ["heart_note"]
 			
-			if old_length < deadzone and length1 > deadzone:
+			if (abs(change_x) > deadzone or abs(change_y) > deadzone) or (old_length < deadzone and length1 > deadzone):
 				if abs(x1) > deadzone:
 					current_actions.append(slide_action)
 					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
