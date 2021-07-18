@@ -156,7 +156,7 @@ var editor_first_time_message_acknowledged: bool = false
 
 var show_console: bool = false
 
-var use_direct_joystick_access: bool = true
+var use_direct_joystick_access: bool = false
 
 func _init():
 
