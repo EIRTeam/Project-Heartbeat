@@ -60,6 +60,7 @@ func send_time_cull_changed_signal():
 	stream_editor.rect_global_position.y = scroll_container.rect_global_position.y
 	stream_editor.rect_global_position.x = layer_names.rect_size.x
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "hide")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "set_rect_position", Vector2(-1000.0, 0.0))
 	emit_signal("time_cull_changed", _cull_start_time, _cull_end_time)
 	
 func _on_viewport_size_changed():
@@ -203,9 +204,6 @@ func _on_Editor_scale_changed(prev_scale, scale):
 	scale_layers()
 	
 	set_layers_offset(max(new_offset - editor.scale_pixels(diff), 0))
-
-	for layer in layers.get_children():
-		layer.place_all_children()
 	
 	update()
 	
