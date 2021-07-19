@@ -1166,8 +1166,6 @@ func reveal_ui():
 		fade.reveal()
 func _on_ExitDialog_confirmed():
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
-	if not rhythm_game_playtest_popup in get_children():
-		rhythm_game_playtest_popup.queue_free()
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
@@ -1475,6 +1473,8 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		for item in _removed_items:
 			item.queue_free()
+		if not rhythm_game_playtest_popup.is_queued_for_deletion() and not rhythm_game_playtest_popup.is_inside_tree():
+			rhythm_game_playtest_popup.queue_free()
 
 
 func _on_CreateIntroSkipMarkerButton_pressed():
