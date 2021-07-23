@@ -33,7 +33,8 @@ func populate_tree():
 				song_item = tree.create_item(workshop_item)
 			elif song.path.begins_with(editor_songs_path):
 				song_item = tree.create_item(editor_item)
-			elif not song is HBPPDSong and not song is SongLoaderDSC.HBSongDSC:
+			elif not song is HBPPDSong and not song is SongLoaderDSC.HBSongDSC and \
+					not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN:
 				song_item = tree.create_item(editor_item)
 			
 			if song_item:
