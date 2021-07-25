@@ -48,6 +48,8 @@ var volume = 1.0
 var hide_artist_name = false
 var lyrics = []
 var show_epilepsy_warning = false
+var has_audio_loudness := false
+var audio_loudness := 0.0
 
 # not serialized
 var loader = ""
@@ -69,7 +71,8 @@ func _init():
 	"preview_start", "preview_end", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
-	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning"]
+	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
+	"audio_loudness"]
 
 func get_meta_string():
 	var song_meta = []

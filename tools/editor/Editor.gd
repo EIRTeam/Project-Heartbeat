@@ -1220,6 +1220,8 @@ func _on_SaveButton_pressed():
 	
 	current_song.lyrics = get_lyrics()
 	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
+	current_song.has_audio_loudness = true
+	current_song.audio_loudness = SongDataCache.audio_normalization_cache[current_song.id].loudness
 	current_song.save_song()
 	message_shower._show_notification("Chart saved")
 	
@@ -1364,7 +1366,7 @@ func _on_auto_multi_toggled(button_pressed):
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
-	print("PRESSED")
+	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
 	playtesting = true
@@ -1380,6 +1382,7 @@ func _on_PlaytestButton_pressed(at_time):
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
 func _on_playtest_quit():
+	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	playtesting = false
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)

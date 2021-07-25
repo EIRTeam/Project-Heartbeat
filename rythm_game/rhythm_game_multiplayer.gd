@@ -44,7 +44,11 @@ func _on_resized():
 	mp_scoreboard.rect_size.y = rect_size.y
 	mp_scoreboard.rect_position.x = rect_size.x - mp_scoreboard.rect_size.x
 func start_loading():
-	var task = SongAssetLoadAsyncTask.new(["circle_logo", "background", "audio", "voice", "audio_loudness"], lobby.get_song())
+	var assets_to_load = ["circle_logo", "background", "audio", "voice", "audio_loudness"]
+	var song: HBSong = lobby.get_song()
+	if not SongDataCache.is_song_audio_loudness_cached(SongLoader.songs[song.id]) or song.has_audio_loudness:
+		assets_to_load.append("audio_loudness")
+	var task = SongAssetLoadAsyncTask.new(assets_to_load, lobby.get_song())
 	AsyncTaskQueue.queue_task(task)
 	task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	lobby.connect("game_start", self, "_on_game_started")
@@ -55,6 +59,11 @@ var _assets = {}
 
 func _on_song_assets_loaded(assets):
 	_assets = assets
+	var song: HBSong = lobby.get_song()
+	if song.has_audio_loudness:
+		assets["audio_loudness"] = song.audio_loudness
+	elif SongDataCache.is_song_audio_loudness_cached(SongLoader.songs[song.id]):
+		assets["audio_loudness"] = SongDataCache.audio_normalization_cache[song.id].loudness
 	# Authority doesn't have to send a packet...
 	if lobby.is_owned_by_local_user():
 		for member in lobby.members.values():
