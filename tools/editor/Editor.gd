@@ -70,6 +70,7 @@ var current_notes = []
 
 var _removed_items = [] # So we can queue_free removed nodes when freeing the editor
 
+var playtesting := false
 
 var autoarrange_angle_shortcuts = [
 	["editor_arrange_l", Vector2(-1.0, 0.0), 180.0],
@@ -1366,6 +1367,7 @@ func _on_PlaytestButton_pressed(at_time):
 	print("PRESSED")
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
+	playtesting = true
 	add_child(rhythm_game_playtest_popup)
 	$VBoxContainer.hide()
 	var play_time = 0.0
@@ -1378,6 +1380,7 @@ func _on_PlaytestButton_pressed(at_time):
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
 func _on_playtest_quit():
+	playtesting = false
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
@@ -1473,8 +1476,9 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		for item in _removed_items:
 			item.queue_free()
-		if not rhythm_game_playtest_popup.is_queued_for_deletion() and not rhythm_game_playtest_popup.is_inside_tree():
-			rhythm_game_playtest_popup.queue_free()
+		if not playtesting:
+			if not rhythm_game_playtest_popup.is_queued_for_deletion() and not rhythm_game_playtest_popup.is_inside_tree():
+				rhythm_game_playtest_popup.queue_free()
 
 
 func _on_CreateIntroSkipMarkerButton_pressed():
