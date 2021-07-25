@@ -309,8 +309,8 @@ func _process_game(_delta):
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + (MAX_HOLD / 1000.0)
-		current_hold_score = ((time - current_hold_start_time) * 1000.0) * held_notes.size()
-
+		var curr_hold_time = min(time, max_time)
+		current_hold_score = max(((curr_hold_time - current_hold_start_time) * 1000.0) * held_notes.size(), 0)
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			emit_signal("max_hold")
@@ -393,7 +393,7 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 						held_note_event_map[n.note_type] = []
 					held_note_event_map[n.note_type].clear()
 					held_note_event_map[n.note_type].append(event.event_uid)
-					start_hold(n.note_type)
+					start_hold(n.note_type, false, n.time / 1000.0)
 	if not editing:
 		var start_time = current_song.start_time / 1000.0
 		var end_time = audio_stream_player.stream.get_length()
@@ -488,13 +488,13 @@ func hold_release():
 	emit_signal("hold_released")
 
 
-func start_hold(note_type, auto_juggle=false):
+func start_hold(note_type, auto_juggle=false, hold_start_time := time):
 	if note_type in held_notes:
 		hold_release()
 	if held_notes.size() > 0:
 		accumulated_hold_score += current_hold_score
 	current_hold_score = 0
-	current_hold_start_time = time
+	current_hold_start_time = hold_start_time
 	held_notes.append(note_type)
 	emit_signal("hold_started", held_notes)
 	
