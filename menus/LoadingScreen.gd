@@ -48,7 +48,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	
 	is_loading_practice_mode = practice
 	var assets_to_get = ["audio", "voice"]
-	if not SongDataCache.is_song_audio_loudness_cached(song):
+	if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
 		assets_to_get.append("audio_loudness")
 	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)
 	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
@@ -86,6 +86,7 @@ func load_into_game():
 	else:
 		new_scene = preload("res://rythm_game/practice_mode.tscn")
 	game_info.time = OS.get_unix_time()
+	var song := game_info.get_song() as HBSong
 	var scene = new_scene.instance()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
@@ -94,6 +95,8 @@ func load_into_game():
 		current_assets["audio_loudness"] = 0.0
 		if SongDataCache.is_song_audio_loudness_cached(SongLoader.songs[game_info.song_id]):
 			current_assets["audio_loudness"] = SongDataCache.audio_normalization_cache[game_info.song_id].loudness
+		elif song.has_audio_loudness:
+			current_assets["audio_loudness"] = song.audio_loudness
 	scene.start_session(game_info, HBUtils.merge_dict(base_assets, current_assets))
 	
 var visible_chars := 0.0
