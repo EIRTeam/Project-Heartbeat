@@ -25,6 +25,8 @@ var query_id_to_item = {}
 
 var success_install_things = {}
 
+var added_time_map = {}
+
 const FILE_TO_UGC_TYPE = {
 	"song.json": "song",
 	"resource_pack.json": "resource_pack"
@@ -120,6 +122,8 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 					# We give UGC songs the highest value possible, so that new downloads show up on top.
 					# since godot dictionaries hold order properly, this is all we need
 					song._added_time = 0x7FFFFFFFFFFFFFFF
+					if song.ugc_id in added_time_map:
+						song._added_time = added_time_map[song.ugc_id]
 					SongLoader.add_song(song)
 					item = song
 	#				if not song.is_cached():
@@ -195,6 +199,7 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 			if f_name in SongLoader.songs:
 				var song = SongLoader.songs[f_name] as HBSong
 				song._added_time = details.timeAddedToUserList
+				added_time_map[song.ugc_id] = details.timeAddedToUserList
 	if update_handle in query_id_to_item:
 		var details = Steam.getQueryUGCResult(update_handle, 0)
 		var item_id = query_id_to_item[update_handle]
