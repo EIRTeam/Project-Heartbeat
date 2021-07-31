@@ -25,7 +25,7 @@ func is_result_better(result: HBResult):
 
 func update(game_info: HBGameInfo):
 	if game_info.result.score > highest_score_info.result.score:
-		highest_score_info = game_info
+		highest_score_info = game_info.clone()
 		highest_score = game_info.result.score
 	highest_percentage = max(highest_percentage, game_info.result.get_percentage())
 	highest_rating = max(highest_rating, game_info.result.get_result_rating())
