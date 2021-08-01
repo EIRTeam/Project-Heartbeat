@@ -11,7 +11,7 @@ var exit_thread := false
 
 var queue = []
 func _ready() -> void:
-	var err = thread.start(self, "_thread_function")
+	var err = thread.start(self, "_thread_function", {})
 	if err != OK:
 		Log.log(self, "Error creating async task queue (%d)" % [err], Log.LogLevel.ERROR)
 	assert(err == OK, "Error creating async task queue")
