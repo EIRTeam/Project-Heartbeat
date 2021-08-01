@@ -244,7 +244,8 @@ func _on_dummy_sighted(song: HBSong):
 	item_container.remove_child(dummy)
 	dummy.queue_free()
 	filtered_song_items[song] = item
-	
+	if item.get_position_in_parent() == current_selected_item:
+		force_scroll()
 		
 func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
 	var previously_selected_song_id = null

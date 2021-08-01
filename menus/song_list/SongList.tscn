@@ -152,6 +152,7 @@ container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_fade = true
 enable_wrap_around = true
+items_to_report_visibility_to = 9
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
@@ -196,44 +197,44 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 495.0
-margin_right = 611.0
+margin_left = 497.0
+margin_right = 613.0
 rect_min_size = Vector2( 116, 31 )
 action_name = "note_up"
 text = "Sort"
 
 [node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 621.0
-margin_right = 781.0
+margin_left = 623.0
+margin_right = 783.0
 rect_min_size = Vector2( 160, 31 )
 action_name = "contextual_option"
 text = "Add to..."
 
 [node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 791.0
-margin_right = 953.0
-rect_min_size = Vector2( 162, 31 )
+margin_left = 793.0
+margin_right = 954.0
+rect_min_size = Vector2( 161, 31 )
 action_name = "contextual_option"
 text = "Manage"
 
 [node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 963.0
+margin_left = 964.0
 margin_right = 1133.0
-rect_min_size = Vector2( 170, 31 )
+rect_min_size = Vector2( 169, 31 )
 action_name = "contextual_option"
 text = "Remove"
 
 [node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
 margin_left = 1143.0
-margin_right = 1289.0
-rect_min_size = Vector2( 146, 31 )
+margin_right = 1288.0
+rect_min_size = Vector2( 145, 31 )
 action_name = "gui_accept"
 text = "Select"
 
 [node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1299.0
-margin_right = 1424.0
-rect_min_size = Vector2( 125, 31 )
+margin_left = 1298.0
+margin_right = 1422.0
+rect_min_size = Vector2( 124, 31 )
 action_name = "gui_cancel"
 text = "Back"
 
@@ -297,9 +298,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
+[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
 [connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]
 [connection signal="show_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="show"]
-[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
+[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
