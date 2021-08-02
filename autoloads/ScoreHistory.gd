@@ -40,7 +40,14 @@ func history_from_dict(data: Dictionary):
 	for song_name in data:
 		scores[song_name] = {}
 		for difficulty in data[song_name]:
-			var result = HBHistoryEntry.deserialize(data[song_name][difficulty])
+			var result = HBHistoryEntry.deserialize(data[song_name][difficulty]) as HBHistoryEntry
+			# Fixes invalid entries from 0.11.0...
+			if result.highest_score_info.song_id != song_name:
+				result.highest_score_info.song_id = song_name
+				result.highest_score_info.result.score = result.highest_score
+			elif result.highest_score < result.highest_score_info.result.score:
+				result.highest_score = result.highest_score_info.result.score
+			
 			if result is HBGameInfo:
 				var r = HBHistoryEntry.new()
 				r.update(result)
