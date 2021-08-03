@@ -2,6 +2,7 @@ extends Control
 
 var horizontal := 20 setget set_horizontal
 var vertical := 40 setget set_vertical
+var settings: HBPerSongEditorSettings
 
 onready var game = get_node("../../RhythmGame")
 
@@ -32,7 +33,9 @@ func draw_cross(cross_center: Vector2):
 	draw_line(cross_horizontal_start, cross_horizontal_end, Color.white,1.0)
 func set_horizontal(value):
 	horizontal = value
+	settings.grid_resolution.x = value
 	update()
 func set_vertical(value):
 	vertical = value
+	settings.grid_resolution.y = value
 	update()

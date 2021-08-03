@@ -14,7 +14,6 @@ onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RhythmGame")
-
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
@@ -43,6 +42,13 @@ onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginCon
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
 onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
+onready var timeline_snap_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton")
+onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
+onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
+onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
+onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
+onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
+onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -1029,12 +1035,31 @@ func load_settings(settings: HBPerSongEditorSettings):
 	for layer in timeline.get_layers():
 		var layer_visible = not layer.layer_name in settings.hidden_layers
 		timeline.change_layer_visibility(layer_visible, layer.layer_name)
+	
 	set_bpm(settings.bpm)
 	set_note_resolution(settings.note_resolution)
 	set_note_snap_offset(settings.offset)
 	set_beats_per_bar(settings.beats_per_bar)
+	timeline_snap_button.pressed = settings.timeline_snap
+	
 	auto_multi_checkbox.pressed = settings.auto_multi
 	waveform_button.pressed = settings.waveform
+	game_preview.settings = settings
+	show_bg_button.pressed = settings.show_bg
+	show_video_button.pressed = settings.show_video
+	
+	grid_renderer.settings = settings
+	grid_snap_button.pressed = settings.grid_snap
+	show_grid_button.pressed = settings.show_grid
+	grid_x_spinbox.value = settings.grid_resolution.x
+	grid_y_spinbox.value = settings.grid_resolution.y
+	
+	time_arrange_hv_spinbox.value = settings.hv_separation
+	time_arrange_diagonal_separation_x_spinbox.value = settings.diagonal_separation.x
+	time_arrange_diagonal_separation_y_spinbox.value = settings.diagonal_separation.y
+	
+	transforms_tools.load_settings()
+	
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1227,9 +1252,11 @@ func _on_SaveButton_pressed():
 	
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
+	song_editor_settings.show_grid = button_pressed
 
 func _on_GridSnapButton_toggled(button_pressed):
 	snap_to_grid_enabled = button_pressed
+	song_editor_settings.grid_snap = button_pressed
 
 func snap_position_to_grid(new_pos: Vector2):
 	var final_position = new_pos
@@ -1244,6 +1271,7 @@ func snap_position_to_grid(new_pos: Vector2):
 
 func _on_TimelineGridSnapButton_toggled(button_pressed):
 	timeline_snap_enabled = button_pressed
+	song_editor_settings.timeline_snap = button_pressed
 
 func get_timing_interval():
 	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
@@ -1494,3 +1522,15 @@ func open_link(link: String):
 func _on_WaveformButton_toggled(button_pressed):
 	song_editor_settings.waveform = button_pressed
 	timeline.set_waveform(song_editor_settings.waveform)
+
+
+func _on_TimeArrangeHVSeparationSpinbox_value_changed(value):
+	song_editor_settings.hv_separation = value
+
+
+func _on_TimeArrangeDiagonalSeparationXSpinbox_value_changed(value):
+	song_editor_settings.diagonal_separation.x = value
+
+
+func _on_TimeArrangeDiagonalSeparationYSpinbox_value_changed(value):
+	song_editor_settings.diagonal_separation.y = value

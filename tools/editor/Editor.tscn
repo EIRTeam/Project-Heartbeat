@@ -1034,14 +1034,17 @@ bus = "Vocals"
 [node name="Popups" type="CanvasLayer" parent="."]
 
 [node name="SongSelector" parent="Popups" instance=ExtResource( 13 )]
+rect_min_size = Vector2( 150, 52.5 )
 from_ppd_allowed = true
 
 [node name="SaveAsSongSelector" parent="Popups" instance=ExtResource( 13 )]
+rect_min_size = Vector2( 150, 52.5 )
 save_mode = 1
 
 [node name="ExitDialog" type="ConfirmationDialog" parent="Popups"]
 margin_right = 227.0
 margin_bottom = 94.0
+rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
 window_title = "Are you sure about that?"
 dialog_text = "Any unsaved progress will be lost."
@@ -1174,13 +1177,16 @@ margin_bottom = 40.0
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, 1 ) ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, 1 ) ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, 1 ) ]]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox" to="." method="_on_TimeArrangeHVSeparationSpinbox_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox" to="." method="_on_TimeArrangeDiagonalSeparationXSpinbox_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox" to="." method="_on_TimeArrangeDiagonalSeparationYSpinbox_value_changed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]

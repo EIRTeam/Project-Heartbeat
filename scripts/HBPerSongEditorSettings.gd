@@ -4,17 +4,44 @@ extends HBSerializable
 class_name HBPerSongEditorSettings
 
 var hidden_layers = []
+
 var bpm = 180.0
 var offset = 0.0
 var note_resolution = 16
 var beats_per_bar = 4
+var timeline_snap := true
+
 var auto_multi = false
+
 var waveform = false
+var show_video := true
+var show_bg := true
+
+var grid_snap := true
+var show_grid := true
+var grid_resolution = {"x": 20, "y": 40}
+
+var hv_separation := 96
+var diagonal_separation := {"x": 80, "y": 54}
+
+var transforms_use_center := false
+var circle_from_inside := false
+var circle_advanced_mode := false
+var circle_size := 16
+var circle_separation := 96
+
+
 func get_serialized_type():
 	return "PerSongEditorSettings"
 
 func _init():
-	serializable_fields += ["hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "auto_multi", "waveform"]
+	serializable_fields += [
+		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
+		"auto_multi", "waveform", "show_video", "show_bg",
+		"grid_snap", "show_grid", "grid_resolution",
+		"hv_separation", "diagonal_separation",
+		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
+	]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.HEART))

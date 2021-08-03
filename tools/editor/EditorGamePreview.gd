@@ -8,6 +8,7 @@ onready var visualizer = get_node("Node2D/Visualizer")
 onready var video_player: VideoPlayer = get_node("Node2D/VideoPlayer")
 onready var grid_renderer = get_node("Node2D/GridRenderer")
 onready var transform_preview = get_node("TransformPreview")
+var settings: HBPerSongEditorSettings
 const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
 onready var video_pause_timer = Timer.new()
@@ -144,6 +145,8 @@ func _draw_safe_area(origin, size):
 func show_bg(show):
 	if not video_player.stream:
 		background_rect.visible = show
+	
+	settings.show_bg = show
 
 func show_video(show):
 	if video_player.stream:
@@ -151,3 +154,5 @@ func show_video(show):
 			video_player.paused = true
 			video_pause_timer.stop()
 		video_player.visible = show
+	
+	settings.show_video = show

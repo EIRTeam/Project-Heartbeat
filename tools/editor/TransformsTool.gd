@@ -10,10 +10,11 @@ onready var button_container = get_node("ScrollContainer/SyncButtonContainer")
 
 var use_stage_center := false setget set_use_stage_center
 
-var editor
+var editor: HBEditor
 
 func set_use_stage_center(val):
 	use_stage_center = val
+	editor.song_editor_settings.transforms_use_center = val
 
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
@@ -273,7 +274,9 @@ func add_button_row(button, button2):
 	hbox_container.add_child(button)
 	hbox_container.add_child(button2)
 	button_container.add_child(hbox_container)
-	
+
+var use_stage_center_cb = CheckBox.new()
+
 var rotate_transformation = RotateTransformation.new()
 var make_circle_transform_left = MakeCircleTransform.new(-1)
 var make_circle_transform_right = MakeCircleTransform.new(1)
@@ -281,7 +284,9 @@ var make_circle_transform_right = MakeCircleTransform.new(1)
 var angle_slider = HSlider.new()
 var circle_size_spinbox = SpinBox.new()
 var circle_use_inside_button = CheckBox.new()
+var circle_separation_spinbox = SpinBox.new()
 
+var advanced_settings_button = CheckBox.new()
 var advanced_settings_hbox_container = HBoxContainer.new()
 
 func _ready():
@@ -300,7 +305,6 @@ func _ready():
 	
 	button_container.add_child(HSeparator.new())
 	
-	var use_stage_center_cb = CheckBox.new()
 	use_stage_center_cb.text = "Use stage center"
 	use_stage_center_cb.connect("toggled", self, "set_use_stage_center")
 	button_container.add_child(use_stage_center_cb)
@@ -381,7 +385,6 @@ func _ready():
 	var circle_separation_label = Label.new()
 	circle_separation_label.text = "Separation: "
 	
-	var circle_separation_spinbox = SpinBox.new()
 	circle_separation_spinbox.editable = true
 	circle_separation_spinbox.max_value = 123213123123
 	circle_separation_spinbox.min_value = 1
@@ -389,7 +392,8 @@ func _ready():
 	circle_separation_spinbox.step = 1.0
 	circle_separation_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
-	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
+	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
+	circle_separation_spinbox.connect("value_changed", self, "_set_separation")
 	
 	var circle_size_slider = HSlider.new()
 	circle_size_slider.min_value = 1
@@ -405,7 +409,8 @@ func _ready():
 	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_epr")
 	
 	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
-	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_epr")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
+	circle_size_spinbox.connect("value_changed", self, "_set_size")
 	
 	circle_settings_hbox_container.add_child(circle_separation_label)
 	circle_settings_hbox_container.add_child(circle_separation_spinbox)
@@ -416,9 +421,9 @@ func _ready():
 	
 	circle_use_inside_button.text = "From inside"
 	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
-	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
+	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
+	circle_use_inside_button.connect("toggled", self, "_set_inside")
 	
-	var advanced_settings_button = CheckBox.new()
 	advanced_settings_button.text = "I know what I'm doing"
 	advanced_settings_button.connect("toggled", self, "_toggle_advanced_options")
 	
@@ -471,6 +476,8 @@ func _toggle_advanced_options(pressed: bool):
 		advanced_settings_hbox_container.show()
 	else:
 		advanced_settings_hbox_container.hide()
+	
+	editor.song_editor_settings.circle_advanced_mode = pressed
 
 func set_rotation(value):
 	rotate_transformation.rotation = value
@@ -488,6 +495,14 @@ func _show_transform(transform: EditorTransformation):
 	transform.bpm = editor.get_bpm()
 	emit_signal("show_transform", transform)
 
+func _set_size(value):
+	editor.song_editor_settings.circle_size = value
+
+func _set_inside(value):
+	editor.song_editor_settings.circle_from_inside = value
+
+func _set_separation(value):
+	editor.song_editor_settings.circle_separation = value
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -510,3 +525,11 @@ func _unhandled_input(event):
 		
 		if event.is_action_pressed("editor_circle_inside"):
 			circle_use_inside_button.set_pressed(not circle_use_inside_button.is_pressed())
+
+
+func load_settings():
+	use_stage_center_cb.pressed = editor.song_editor_settings.transforms_use_center
+	circle_use_inside_button.pressed = editor.song_editor_settings.circle_from_inside
+	circle_size_spinbox.value = editor.song_editor_settings.circle_size
+	circle_separation_spinbox.value = editor.song_editor_settings.circle_separation
+	advanced_settings_button.pressed = editor.song_editor_settings.circle_advanced_mode
