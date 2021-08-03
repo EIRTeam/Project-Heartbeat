@@ -802,6 +802,7 @@ flat = true
 margin_left = 160.0
 margin_right = 224.0
 margin_bottom = 27.0
+step = 0.05
 value = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -818,6 +819,7 @@ text = "x"
 margin_left = 247.0
 margin_right = 311.0
 margin_bottom = 27.0
+step = 0.05
 value = 40.0
 __meta__ = {
 "_edit_use_anchors_": false

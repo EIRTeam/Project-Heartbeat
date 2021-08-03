@@ -1,7 +1,7 @@
 extends Control
 
-var horizontal := 20 setget set_horizontal
-var vertical := 40 setget set_vertical
+var horizontal := 20.0 setget set_horizontal
+var vertical := 40.0 setget set_vertical
 var settings: HBPerSongEditorSettings
 
 onready var game = get_node("../../RhythmGame")

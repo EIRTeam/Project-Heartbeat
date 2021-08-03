@@ -19,7 +19,7 @@ var show_bg := true
 
 var grid_snap := true
 var show_grid := true
-var grid_resolution = {"x": 20, "y": 40}
+var grid_resolution := {"x": 20.0, "y": 40.0}
 
 var hv_separation := 96
 var diagonal_separation := {"x": 80, "y": 54}
