@@ -26,6 +26,8 @@ func _on_note_judged(judgement, prevent_free = false):
 		pressed = true
 		connected_notes = [note_data]
 		show_note_hit_effect()
+		for renderer in multi_note_line_renderers:
+			renderer.hide()
 		note_graphic.hide()
 		set_process_unhandled_input(true)
 	else:
@@ -103,3 +105,5 @@ func _handle_unhandled_input(event: InputEvent):
 func reset_note_state():
 	pressed = false
 	note_graphic.show()
+	for renderer in multi_note_line_renderers:
+		renderer.show()
