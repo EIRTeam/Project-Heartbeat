@@ -90,6 +90,8 @@ func _on_game_time_changed(time: float):
 		last_time = time
 		if time * 1000.0 < note_data.time:
 			kill_loop_sfx_player()
+	if game.editing and not game.previewing:
+		._on_game_time_changed(time)
 	if not is_queued_for_deletion():
 		if not hit_first and (not game.editing or game.previewing):
 			._on_game_time_changed(time)
