@@ -44,6 +44,8 @@ func _on_note_judged(judgement, prevent_free = false):
 	if slide_chain:
 		if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 			hit_first = true
+			for renderer in multi_note_line_renderers:
+				renderer.hide()
 			connected_notes = [note_data]
 			show_note_hit_effect()
 			note_graphic.hide()
@@ -183,6 +185,8 @@ func reset_note_state():
 	note_graphic.scale = Vector2(game.get_note_scale(), game.get_note_scale())
 	target_graphic.show()
 	kill_loop_sfx_player()
+	for renderer in multi_note_line_renderers:
+		renderer.show()
 
 
 func is_slide_chain_active():
