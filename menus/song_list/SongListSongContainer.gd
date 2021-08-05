@@ -160,8 +160,16 @@ func _on_song_selected(song: HBSong):
 		var selected_item = get_selected_item()
 		var pos = selected_item.get_position_in_parent()
 		#prevent_hard_arrange = true
+		
+		
+		var difficulty_map = []
 		for difficulty in song.charts:
-
+			difficulty_map.append({"diff": difficulty, "stars": song.charts[difficulty]["stars"]})
+		
+		difficulty_map.sort_custom(self, "_sort_by_difficulty")
+		
+		for entry in difficulty_map:
+			
 			var item = SongListItemDifficulty.instance()
 			item_container.add_child(item)
 			pos += 1
@@ -170,7 +178,7 @@ func _on_song_selected(song: HBSong):
 			# TODO: ITEM SCALES!
 #			item.rect_scale = Vector2(scale_factor, scale_factor)
 			item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-			item.set_song_difficulty(song, difficulty)
+			item.set_song_difficulty(song, entry["diff"])
 			if selected_item is HBSongListItem:
 				if song.is_chart_note_usage_known_all():
 					item.show_note_usage()
@@ -179,8 +187,11 @@ func _on_song_selected(song: HBSong):
 						selected_item.task.connect("assets_loaded", item, "_on_note_usage_loaded")
 					else:
 						print("Error connecting note usage task, BUG?")
-			item.connect("pressed", self, "_on_difficulty_selected", [song, difficulty])
-			song_difficulty_items_map[song][difficulty] = item
+			item.connect("pressed", self, "_on_difficulty_selected", [song, entry["diff"]])
+			song_difficulty_items_map[song][entry["diff"]] = item
+
+static func _sort_by_difficulty(a, b):
+	return a["stars"] >= b["stars"]
 
 func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(item_container.get_child_count()):
