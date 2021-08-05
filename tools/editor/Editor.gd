@@ -49,6 +49,7 @@ onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HBoxConta
 onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
+onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -1060,6 +1061,8 @@ func load_settings(settings: HBPerSongEditorSettings):
 	
 	transforms_tools.load_settings()
 	
+	autoslide_checkbox.pressed = settings.autoslide
+	
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1333,15 +1336,20 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var diagonal_separation_x = time_arrange_diagonal_separation_x_spinbox.value
 	var diagonal_separation_y = time_arrange_diagonal_separation_y_spinbox.value
 	
+	var autoslide = autoslide_checkbox.pressed
+	
 	if abs(direction.x) > 0 and abs(direction.y) > 0:
 		# We got a diagonal boi
 		separation = Vector2(diagonal_separation_x, diagonal_separation_y)
+		autoslide = false
 	else:
 		separation = Vector2(hv_separation, hv_separation)
 	separation *= Vector2(sign(direction.x), sign(direction.y))
 	
-	var first_note_position : Vector2
-	var first_note_time : int
+	var slide_separation = Vector2(32, 32) * Vector2(sign(direction.x), sign(direction.y))
+	
+	var pos_compensation: Vector2
+	var time_compensation := 0
 	
 	
 	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
@@ -1350,22 +1358,42 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	var beat_length = seconds_per_bar / float(get_beats_per_bar())
 	var note_length = 1.0/4.0 # a quarter of a beat
 	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
-
+	
+	var slide_index := 0
+	
 	print("ARRANGE", selected.size())
 
 	undo_redo.create_action("Arrange selected notes by time")
 	selected.sort_custom(self, "_order_items")
 	
+	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
-			if not first_note_position:
-				first_note_position = selected_item.data.position
-				first_note_time = selected_item.data.time
-				continue
+			if not pos_compensation:
+				pos_compensation = selected_item.data.position
+				time_compensation = selected_item.data.time
 				
+				if selected_item.data.is_slide_note() and autoslide:
+					slide_index = 1
+				
+				continue
+			
+			if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
+				slide_index = 1
+			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
+				slide_index += 1
+			elif slide_index:
+				slide_index = 0
+			
 			# Real snapping hours
-			var diff = selected_item.data.time - first_note_time
-			var new_pos = first_note_position + (separation * (float(diff) / float(interval * 1000.0)))
+			var diff = selected_item.data.time - time_compensation
+			var new_pos = pos_compensation + (separation * (float(diff) / float(interval * 1000.0)))
+			
+			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
+				if slide_index == 2:
+					new_pos = pos_compensation + separation / 2
+				else:
+					new_pos = pos_compensation + slide_separation
 			
 			undo_redo.add_do_property(selected_item.data, "position", new_pos)
 			undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -1374,6 +1402,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
 			undo_redo.add_undo_method(self, "_on_timing_points_changed")
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
+			
+			pos_compensation = new_pos
+			time_compensation = selected_item.data.time
 	undo_redo.commit_action()
 #	inspector.update_value()
 
@@ -1534,3 +1565,7 @@ func _on_TimeArrangeDiagonalSeparationXSpinbox_value_changed(value):
 
 func _on_TimeArrangeDiagonalSeparationYSpinbox_value_changed(value):
 	song_editor_settings.diagonal_separation.y = value
+
+
+func _on_AutoSlideCheckBox_toggled(button_pressed):
+	song_editor_settings.autoslide = button_pressed

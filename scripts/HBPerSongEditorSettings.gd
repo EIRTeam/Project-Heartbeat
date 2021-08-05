@@ -23,6 +23,8 @@ var grid_resolution := {"x": 20.0, "y": 40.0}
 
 var hv_separation := 96
 var diagonal_separation := {"x": 80, "y": 54}
+var autoslide := true
+
 
 var transforms_use_center := false
 var circle_from_inside := false
@@ -39,7 +41,7 @@ func _init():
 		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
 		"auto_multi", "waveform", "show_video", "show_bg",
 		"grid_snap", "show_grid", "grid_resolution",
-		"hv_separation", "diagonal_separation",
+		"hv_separation", "diagonal_separation", "autoslide",
 		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
 	]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
