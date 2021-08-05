@@ -41,3 +41,4 @@ __meta__ = {
 
 [connection signal="dragged" from="MovementGizmo" to="." method="_on_dragged"]
 [connection signal="finish_dragging" from="MovementGizmo" to="." method="_on_finish_dragging"]
+[connection signal="start_dragging" from="MovementGizmo" to="." method="_on_start_dragging"]

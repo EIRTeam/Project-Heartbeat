@@ -4,7 +4,9 @@ extends Control
 class_name HBEditorMovementGizmo
 
 signal dragged(relative_movement)
+signal start_dragging()
 signal finish_dragging()
+
 var hovering = false
 func _draw():
 	var border_color = Color.yellow
@@ -21,6 +23,8 @@ func _ready():
 	
 func _input(event):
 	if hovering:
+		if event.is_action_pressed("editor_select") and not event.is_echo():
+			emit_signal("start_dragging")
 		if event is InputEventMouseMotion and Input.is_action_pressed("editor_select"):
 			emit_signal("dragged", event.relative)
 		if event.is_action_released("editor_select") and not event.is_echo():

@@ -3,6 +3,7 @@ extends HBEditorWidget
 onready var movement_gizmo = get_node("MovementGizmo")
 var internal_pos : Vector2
 var starting_pos
+var drag_origin: Vector2
 var entry_angle = 0.0 setget set_entry_angle
 var starting_entry_angle = 0.0
 var show_angle = false
@@ -39,7 +40,13 @@ func arrange_gizmo():
 	
 func _on_dragged(movement: Vector2):
 	internal_pos += movement
-	var snapped_pos = editor.snap_position_to_grid(editor.rhythm_game.inv_map_coords(internal_pos + rect_size/2))
+	
+	var snapped_pos = editor.snap_position_to_grid(
+		editor.rhythm_game.inv_map_coords(internal_pos + rect_size/2),
+		editor.rhythm_game.inv_map_coords(drag_origin + rect_size/2),
+		Input.is_key_pressed(KEY_SHIFT)
+	)
+	
 	editor._change_selected_property_delta("position", snapped_pos - starting_pos)
 	rect_position = editor.rhythm_game.remap_coords(snapped_pos) - rect_size / 2
 
@@ -77,8 +84,9 @@ func _draw():
 		trail_points[point_i] = editor.rhythm_game.remap_coords(wave_point) - rect_position
 		
 	draw_polyline(trail_points, sine_color, 4.0, true)
+
 func _on_start_dragging():
-	internal_pos = rect_position
+	drag_origin = rect_position
 
 func _on_finish_dragging():
 	editor._commit_selected_property_change("position")

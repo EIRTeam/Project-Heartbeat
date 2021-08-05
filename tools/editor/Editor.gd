@@ -1261,14 +1261,28 @@ func _on_GridSnapButton_toggled(button_pressed):
 	snap_to_grid_enabled = button_pressed
 	song_editor_settings.grid_snap = button_pressed
 
-func snap_position_to_grid(new_pos: Vector2):
+func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: bool):
+	new_pos /= rhythm_game.BASE_SIZE
+	prev_pos /= rhythm_game.BASE_SIZE
 	var final_position = new_pos
 	
 	if snap_to_grid_enabled:
-		new_pos = new_pos / rhythm_game.BASE_SIZE
 		final_position.x = round(grid_renderer.vertical * new_pos.x) / float(grid_renderer.vertical)
 		final_position.y = round(grid_renderer.horizontal * new_pos.y) / float(grid_renderer.horizontal)
-		final_position = final_position * rhythm_game.BASE_SIZE
+	
+	var diff = new_pos - prev_pos
+	var direction = 1 if max(abs(diff.x), abs(diff.y)) == abs(diff.x) else 0
+	
+	# (Yandevs ghost)
+	if one_direction:
+		if direction:
+			# X snap
+			final_position.y = prev_pos.y
+		else:
+			# Y snap
+			final_position.x = prev_pos.x
+	
+	final_position *= rhythm_game.BASE_SIZE
 	return final_position
 
 
