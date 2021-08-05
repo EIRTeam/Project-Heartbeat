@@ -1,12 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/editor/EditorRhythmGamePopup.gd" type="Script" id=3]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 19
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -982.881, -511.008 )
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -44,3 +54,27 @@ text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ExtraUI" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ExtraUI"]
+margin_right = 1895.0
+margin_bottom = 1080.0
+mouse_filter = 2
+alignment = 2
+
+[node name="StatsLabel" type="Label" parent="ExtraUI/HBoxContainer"]
+margin_left = 1822.0
+margin_top = 526.0
+margin_right = 1895.0
+margin_bottom = 554.0
+custom_fonts/font = SubResource( 1 )
+text = "asdad"
+align = 2
