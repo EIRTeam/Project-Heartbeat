@@ -191,7 +191,7 @@ func _on_song_selected(song: HBSong):
 			song_difficulty_items_map[song][entry["diff"]] = item
 
 static func _sort_by_difficulty(a, b):
-	return a["stars"] >= b["stars"]
+	return a["stars"] > b["stars"]
 
 func select_song_by_id(song_id: String, difficulty=null):
 	for child_i in range(item_container.get_child_count()):
