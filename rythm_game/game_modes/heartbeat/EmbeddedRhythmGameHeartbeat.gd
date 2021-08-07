@@ -48,6 +48,7 @@ func set_audio(audio, voice = null):
 
 func _ready():
 	connect("resized", self, "_on_resized")
+	rhythm_game_ui._set_ui_visible(false)
 	
 	add_child(rhythm_game)
 	rhythm_game.connect("note_judged", self, "_on_note_judged")

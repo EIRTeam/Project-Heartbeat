@@ -226,6 +226,10 @@ func _input(event):
 		_on_toggle_ui()
 		get_tree().set_input_as_handled()
 
+func _set_ui_visible(ui_visible):
+	$UnderNotesUI/Control.visible = ui_visible
+	$AboveNotesUI/Control.visible = ui_visible
+	$Control.visible = ui_visible
 func _on_toggle_ui():
 	$UnderNotesUI/Control.visible = !$UnderNotesUI/Control.visible
 	$AboveNotesUI/Control.visible = !$UnderNotesUI/Control.visible

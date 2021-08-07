@@ -2,7 +2,7 @@
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.gd" type="Script" id=2]
-[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameEmbeddedUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=3]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -14,8 +14,3 @@ __meta__ = {
 }
 
 [node name="RhythmGame" parent="." instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1925.0
-margin_bottom = 1083.0
-size_flags_vertical = 3
