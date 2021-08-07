@@ -11,6 +11,7 @@ var next_voice: AudioStream
 var current_song: HBSong
 var song_queued = false
 var waiting_for_song_assets = false
+var paused = false
 onready var player = AudioStreamPlayer.new()
 onready var voice_player = AudioStreamPlayer.new()
 
@@ -101,6 +102,10 @@ func _on_song_assets_loaded(assets):
 			emit_signal("song_started", song, assets)
 			
 func play_song(song: HBSong, force = false):
+	if paused:
+		current_song = song
+		return
+	
 	if not song.has_audio() or not song.is_cached():
 		return
 	waiting_for_song_assets = true
@@ -122,3 +127,12 @@ func play_song(song: HBSong, force = false):
 		
 func get_song_length():
 	return player.stream.get_length()
+
+func pause():
+	player.playing = false
+	voice_player.playing = false
+	paused = true
+func resume():
+	player.playing = true
+	voice_player.playing = true
+	paused = false

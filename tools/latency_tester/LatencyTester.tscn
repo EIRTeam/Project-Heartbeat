@@ -1,0 +1,276 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=2]
+[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphics/icons/icon_add.svg" type="Texture" id=4]
+[ext_resource path="res://Theme_Game.tres" type="Theme" id=5]
+[ext_resource path="res://tools/latency_tester/LatencyTester.gd" type="Script" id=6]
+[ext_resource path="res://graphics/icons/icon_substract.svg" type="Texture" id=7]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/EmbeddedRhythmGameHeartbeat.tscn" type="PackedScene" id=8]
+[ext_resource path="res://graphics/icons/undo-variant-small.svg" type="Texture" id=9]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://fonts/orbitron-black.otf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+extra_spacing_top = 4
+font_data = SubResource( 1 )
+
+[node name="HBMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 2.0
+rect_pivot_offset = Vector2( -23.25, -146.25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 1.0
+margin_right = -2.0
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 1918.0
+margin_bottom = 1069.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+margin_left = 831.0
+margin_right = 1087.0
+margin_bottom = 122.0
+size_flags_horizontal = 6
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.15
+custom_constants/margin_top = 32
+custom_constants/margin_bottom = -32
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 154.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 154.0
+custom_constants/margin_right = 16
+custom_constants/margin_left = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer"]
+margin_left = 16.0
+margin_right = 240.0
+margin_bottom = 122.0
+custom_constants/separation = 16
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer"]
+margin_top = 38.0
+margin_right = 224.0
+margin_bottom = 83.0
+custom_constants/separation = 16
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 38.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+icon = ExtResource( 9 )
+script = ExtResource( 2 )
+
+[node name="ChangeTestButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 54.0
+margin_right = 224.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+text = "Active test"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EmbeddedRhythmGame" parent="MarginContainer/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 126.0
+margin_right = 1918.0
+margin_bottom = 942.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+margin_left = 723.0
+margin_top = 946.0
+margin_right = 1194.0
+margin_bottom = 1069.0
+size_flags_horizontal = 6
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.15
+custom_constants/margin_top = -32
+custom_constants/margin_bottom = 32
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer"]
+margin_top = -32.0
+margin_right = 471.0
+margin_bottom = 91.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+margin_top = -32.0
+margin_right = 471.0
+margin_bottom = 91.0
+custom_constants/margin_right = 16
+custom_constants/margin_left = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+margin_left = 16.0
+margin_right = 455.0
+margin_bottom = 123.0
+custom_constants/separation = 16
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 8.0
+margin_right = 439.0
+margin_bottom = 53.0
+alignment = 1
+
+[node name="SubstractButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 117.0
+margin_right = 147.0
+margin_bottom = 45.0
+size_flags_vertical = 3
+theme = ExtResource( 5 )
+icon = ExtResource( 7 )
+script = ExtResource( 2 )
+texture_normal = ExtResource( 7 )
+expand = true
+stretch_mode = 4
+
+[node name="OffsetLabel" type="LineEdit" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 151.0
+margin_right = 288.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+custom_fonts/font = SubResource( 2 )
+text = " +0 ms"
+editable = false
+expand_to_text_length = true
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 292.0
+margin_right = 322.0
+margin_bottom = 45.0
+size_flags_vertical = 3
+theme = ExtResource( 5 )
+icon = ExtResource( 4 )
+script = ExtResource( 2 )
+texture_normal = ExtResource( 4 )
+expand = true
+stretch_mode = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+margin_top = 69.0
+margin_right = 439.0
+margin_bottom = 114.0
+custom_constants/separation = 16
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ApplyButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 95.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+text = "Apply"
+script = ExtResource( 2 )
+
+[node name="ResetButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 111.0
+margin_right = 300.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+text = "Reset offset"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TutorialButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 316.0
+margin_right = 439.0
+margin_bottom = 45.0
+theme = ExtResource( 5 )
+text = "Tutorial"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TutorialPopup" parent="." instance=ExtResource( 3 )]
+pause_mode = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 721.0
+margin_top = 345.0
+margin_right = 1248.0
+margin_bottom = 677.0
+has_cancel = false
+text = "(NT)asdas"
+accept_text = "Okay"
+cancel_text = ""
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton" to="." method="_on_ChangeTestButton_pressed"]
+[connection signal="update_stats" from="MarginContainer/VBoxContainer/EmbeddedRhythmGame" to="." method="_on_stats_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton" to="." method="_on_SubstractButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton" to="." method="_on_AddButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ApplyButton" to="." method="_on_ApplyButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/TutorialButton" to="." method="_on_TutorialButton_pressed"]
+[connection signal="popup_hide" from="TutorialPopup" to="." method="_on_TutorialPopup_hide"]

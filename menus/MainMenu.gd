@@ -90,6 +90,10 @@ func _init():
 		"workshop_browser_detail_view": {
 			"left": preload("res://menus/workshop_browser/WorkshopItemDetailView.tscn").instance(),
 			"right": "empty"
+		},
+		"latency_tester": {
+			"fullscreen": preload("res://tools/latency_tester/LatencyTester.tscn").instance(),
+			"right": "empty"
 		}
 	}
 
@@ -142,6 +146,10 @@ func _ready():
 	menu_setup()
 	
 	music_player_control.connect("ready", self, "_on_music_player_ready")
+	
+	# Mute bg music when using the latency tester
+	MENUS["latency_tester"].fullscreen.connect("pause_background_player", player, "pause")
+	MENUS["latency_tester"].fullscreen.connect("resume_background_player", player, "resume")
 	
 	SongLoader.connect("all_songs_loaded", MENUS["song_list"].left, "_on_songs_reloaded")
 	SongLoader.connect("all_songs_loaded", MENUS["song_list_lobby"].left, "_on_songs_reloaded")

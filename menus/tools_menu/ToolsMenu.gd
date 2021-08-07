@@ -9,6 +9,7 @@ func _ready():
 	$ToolsList/PPDManagerButton.connect("pressed", self, "_on_PPDDownloaderButton_pressed")
 	$ToolsList/ResourcePackEditorButton.connect("pressed", self, "_on_ResourcePackEditorButton_pressed")
 	$ToolsList/SwitchExporterButton.connect("pressed", self, "_on_SwitchExporterButton_pressed")
+	$ToolsList/LatencyCalculatorButton.connect("pressed", self, "_on_LatencyCalculatorButton_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -42,4 +43,6 @@ func _on_ResourcePackEditorButton_pressed():
 
 func _on_SwitchExporterButton_pressed():
 	get_tree().change_scene_to(load("res://tools/SwitchExporter/SwitchExporter.tscn"))
-	
+
+func _on_LatencyCalculatorButton_pressed():
+	change_to_menu("latency_tester")
