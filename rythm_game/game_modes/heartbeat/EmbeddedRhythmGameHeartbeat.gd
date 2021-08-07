@@ -47,7 +47,7 @@ func set_audio(audio, voice = null):
 	rhythm_game.audio_stream_player_voice.stream = voice
 
 func _ready():
-	connect("resized", self, "set_game_size")
+	connect("resized", self, "_on_resized")
 	
 	add_child(rhythm_game)
 	rhythm_game.connect("note_judged", self, "_on_note_judged")
@@ -55,6 +55,10 @@ func _ready():
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
+
+func _on_resized():
+	set_game_size()
+	rhythm_game._on_viewport_size_changed()
 
 func set_game_size():
 	rhythm_game.size = rect_size
