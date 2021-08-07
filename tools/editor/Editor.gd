@@ -1387,7 +1387,7 @@ func arrange_selected_notes_by_time(direction: Vector2):
 				pos_compensation = selected_item.data.position
 				time_compensation = selected_item.data.time
 				
-				if selected_item.data.is_slide_note() and autoslide:
+				if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
 					slide_index = 1
 				
 				continue
