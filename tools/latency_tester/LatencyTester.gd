@@ -6,6 +6,8 @@ onready var tutorial_popup = get_node("TutorialPopup")
 onready var substract_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton")
 onready var add_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
 onready var next_test_button = get_node("MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton")
+onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction2")
+onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
 
 var offset := 0
 var player = AudioStreamPlayer.new()
@@ -81,9 +83,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 func update_mode():
 	substract_button.visible = (mode == 0)
 	add_button.visible = (mode == 0)
+	add_button_prompt.visible = (mode == 0)
+	substract_button_prompt.visible = (mode == 0)
 	
 	tutorial_popup.text = tutorials[mode]
-	next_test_button.text = next_test[mode]
+	next_test_button.button_text = next_test[mode]
 	
 	Diagnostics.autoplay_checkbox.pressed = (mode == 0)
 	
@@ -112,13 +116,18 @@ func _on_AddButton_pressed():
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		_on_BackButton_pressed()
-	if event.is_action("gui_left") and event.pressed:
+	if event.is_action_pressed("gui_left", true):
 		_on_SubstractButton_pressed()
-	if event.is_action("gui_right") and event.pressed:
+	if event.is_action_pressed("gui_right", true):
 		_on_AddButton_pressed()
+	if event.is_action_pressed("practice_go_to_waypoint"):
+		_on_ResetButton_pressed()
+	if event.is_action_pressed("gui_accept"):
+		_on_ApplyButton_pressed()
 	if event.is_action_pressed("contextual_option"):
 		_on_TutorialButton_pressed()
-
+	if event.is_action_pressed("practice_set_waypoint"):
+		_on_ChangeTestButton_pressed()
 
 func _on_menu_exit(force_hard_transition = false):
 	._on_menu_exit(force_hard_transition)
@@ -131,12 +140,13 @@ func _on_menu_exit(force_hard_transition = false):
 func _on_ApplyButton_pressed():
 	UserSettings.user_settings.lag_compensation = offset
 	rhythm_game.restart()
+	UserSettings.save_user_settings()
 
 func _on_ResetButton_pressed():
 	offset = UserSettings.user_settings.lag_compensation
 	update_latency()
 	rhythm_game.restart()
-
+	UserSettings.save_user_settings()
 
 func _on_BackButton_pressed():
 	change_to_menu(PREVIOUS_MENU)
