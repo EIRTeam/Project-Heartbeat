@@ -5,7 +5,6 @@ class_name SlideNoteDrawer
 var slide_chain
 var slide_chain_drawers = {}
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
-var accumulated_score = 0
 var hit_first = false
 var current_sfx_player: AudioStreamPlayer
 var is_audio_looping = false
@@ -34,7 +33,6 @@ func _ready():
 			note_drawer._note_init()
 			bind_node_to_layer(note_drawer, "SlideChainPieces")
 			#add_child(note_drawer)
-			accumulated_score = 0
 			note_drawer.hide()
 
 func _on_note_judged(judgement, prevent_free = false):
@@ -138,19 +136,19 @@ func _on_game_time_changed(time: float):
 							piece_drawer.play_appear_animation()
 				else:
 					piece_drawer.hide()
-
 				if piece_drawer.visible and (hit_first or game.editing):
 					if time * 1000.0 >= piece.time:
+						var current_score = (i + 1) * game.SLIDE_HOLD_PIECE_SCORE
 						if not piece_drawer.blue and not direction_pressed and not game.previewing:
 							chain_failed = true
+							game.add_slide_chain_score(current_score)
 							break
-						game.add_slide_chain_score(game.SLIDE_HOLD_PIECE_SCORE)
-						accumulated_score += game.SLIDE_HOLD_PIECE_SCORE
 						piece_drawer.show_note_hit_effect()
-						game.show_slide_hold_score(piece.position, accumulated_score, i >= slide_chain.pieces.size() - 1)
+						game.show_slide_hold_score(piece.position, current_score, i >= slide_chain.pieces.size() - 1)
 						piece_drawer.hide()
 						if i >= slide_chain.pieces.size() - 1:
 							kill_note()
+							game.add_slide_chain_score(current_score)
 							game.sfx_pool.play_sfx("slide_chain_ok")
 				if piece_drawer.visible:
 					piece_drawer.update_graphic_positions_and_scale(time)
