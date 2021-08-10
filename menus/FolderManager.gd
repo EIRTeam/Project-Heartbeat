@@ -22,6 +22,9 @@ signal folder_selected(folder)
 var no_root_buttons = []
 
 func _ready():
+	text_input_window_create.text_input_description = tr("Enter the new folder name")
+	text_input_window_rename.text_input_description = tr("Enter the new folder name")
+	
 	delete_confirmation_window.connect("accept", self, "delete_selected_folder")
 	delete_confirmation_window.connect("cancel", scroll_list, "grab_focus")
 	

@@ -8,6 +8,8 @@ var rich_presence: HBRichPresence
 var song_stats: HBSongStatsLoader
 var platform_settings: HBPlatformSettings
 
+var force_steam_deck_mode := "--force-steam-deck" in OS.get_cmdline_args()
+
 # hack...
 
 var NOTE_TYPE_TO_STRING_MAP = {
@@ -161,3 +163,5 @@ func get_game_mode_for_song(song: HBSong):
 			return game_mode
 	return ERR_FILE_NOT_FOUND
 
+func is_on_steam_deck() -> bool:
+	return force_steam_deck_mode or PlatformService.service_provider.is_big_picture()

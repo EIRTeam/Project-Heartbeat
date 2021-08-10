@@ -154,6 +154,7 @@ text = "Cancel"
 
 [connection signal="about_to_show" from="." to="." method="_on_Control_about_to_show"]
 [connection signal="cancel" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="emit_signal" binds= [ "cancel" ]]
+[connection signal="focus_entered" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_focus_entered"]
 [connection signal="text_entered" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
 
 [editable path="Panel/HBoxContainer/Panel4"]

@@ -22,6 +22,8 @@ signal run_mp_callbacks
 signal ticket_ready
 # warning-ignore:unused_signal
 signal ticket_failed
+# warning-ignore:unused_signal
+signal gamepad_input_dismissed(submitted, text)
 
 func _init():
 	name = "PlatformServiceProvider"
@@ -65,3 +67,7 @@ func unlock_achievement(achievement_name: String):
 	pass
 func save_achievements():
 	pass
+func is_big_picture():
+	return false
+func show_gamepad_text_input(existing_text := "", multi_line := false, description := "Enter text") -> bool:
+	return false

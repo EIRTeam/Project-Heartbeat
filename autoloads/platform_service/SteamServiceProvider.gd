@@ -8,6 +8,10 @@ func _init():
 	implements_ugc = true
 	implements_leaderboard_auth = true
 	Steam.connect("get_auth_session_ticket_response", self, "_on_get_auth_session_ticket_response")
+	Steam.connect("gamepad_text_input_dismissed", self, "_on_gamepad_input_dismissed")
+	
+func _on_gamepad_input_dismissed(submitted: bool, text: String):
+	emit_signal("gamepad_input_dismissed", submitted, text)
 	
 func _on_get_auth_session_ticket_response(auth_id, result):
 	if result == 1:
@@ -118,6 +122,9 @@ func write_remote_file_from_path(file_name: String, path: String):
 	else:
 		Log.log(self, "Error reading file to write in remote: %s" % [path])
 	
+func is_big_picture():
+	return Steam.isSteamInBigPictureMode()
+	
 func read_remote_file(file_name: String):
 	var result = {}
 	if not Steam.fileExists(file_name):
@@ -156,3 +163,8 @@ func save_achievements():
 	var store_stats_result = Steam.storeStats()
 	if not store_stats_result:
 		Log.log(self, "Error storing achievement stats", Log.LogLevel.ERROR)
+
+func show_gamepad_text_input(existing_text := "", multi_line := false, description := "Enter text") -> bool:
+	var line_mode = Steam.GAMEPAD_TEXT_INPUT_LINE_MODE_MULTIPLE_LINES if \
+		multi_line else Steam.GAMEPAD_TEXT_INPUT_LINE_MODE_SINGLE_LINE
+	return Steam.showGamepadTextInput(Steam.GAMEPAD_TEXT_INPUT_MODE_NORMAL, line_mode, description, 1024, existing_text)
