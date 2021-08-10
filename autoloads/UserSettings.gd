@@ -91,15 +91,15 @@ func _init_user_settings():
 	base_input_map = get_input_map()
 
 	# Correct switch default mapping
-
-	for action_name in base_input_map:
-		if action_name in ["gui_accept", "gui_cancel"]:
-			for event in base_input_map[action_name]:
-				if event is InputEventJoypadButton:
-					if event.button_index == JOY_SONY_X:
-						event.button_index = JOY_SONY_CIRCLE
-					elif event.button_index == JOY_SONY_CIRCLE:
-						event.button_index = JOY_SONY_X
+	if OS.get_name() == "Switch":
+		for action_name in base_input_map:
+			if action_name in ["gui_accept", "gui_cancel"]:
+				for event in base_input_map[action_name]:
+					if event is InputEventJoypadButton:
+						if event.button_index == JOY_SONY_X:
+							event.button_index = JOY_SONY_CIRCLE
+						elif event.button_index == JOY_SONY_CIRCLE:
+							event.button_index = JOY_SONY_X
 
 	apply_user_settings(true)
 	load_input_map()
