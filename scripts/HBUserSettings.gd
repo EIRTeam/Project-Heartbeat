@@ -18,7 +18,6 @@ var up_arrow_override_enabled = false
 var down_arrow_override_enabled = false
 var show_latency = true
 var enable_voice_fade = true
-var controller_guid = ""
 var input_poll_more_than_once_per_frame = true
 var input_map = {}
 var fps_limit: int = 180 # 0 is unlimited
@@ -164,7 +163,7 @@ func _init():
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
 	"icon_pack", "resource_pack", "note_icon_override", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
-	"note_size", "controller_guid", "input_map", "input_poll_more_than_once_per_frame",
+	"note_size", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",

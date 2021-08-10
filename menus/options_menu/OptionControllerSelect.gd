@@ -22,10 +22,10 @@ func _gui_input(event: InputEvent):
 	pass
 	
 func show_current():
-	selected_text.text = "None Connected"
-	if UserSettings.user_settings.controller_guid:
+	selected_text.text = "None Selected"
+	if UserSettings.controller_guid:
 		for controller_idx in Input.get_connected_joypads():
-			if Input.get_joy_guid(controller_idx) == UserSettings.user_settings.controller_guid:
+			if Input.get_joy_guid(controller_idx) == UserSettings.controller_guid:
 				selected_text.text = Input.get_joy_name(controller_idx)
 				if Input.is_joy_known(controller_idx):
 					selected_text.text += tr(" (known)")
@@ -46,7 +46,7 @@ func show_list():
 			button.text += tr(" (known)")
 		button.connect("pressed", self, "_on_controller_button_pressed", [controller])
 		controller_item_container.add_child(button)
-		if Input.get_joy_guid(controller) == UserSettings.user_settings.controller_guid:
+		if Input.get_joy_guid(controller) == UserSettings.controller_guid:
 			button_to_select = button.get_position_in_parent()
 	controller_select_dropdown.show()
 	controller_select_list.grab_focus()
@@ -56,7 +56,8 @@ func _on_pressed():
 	show_list()
 	
 func _on_controller_button_pressed(device: int):
-	UserSettings.user_settings.controller_guid = Input.get_joy_guid(device)
+	UserSettings.controller_guid = Input.get_joy_guid(device)
+	UserSettings.controller_device_idx
 	show_current()
 	close_dropdown()
 	UserSettings.map_actions_to_controller()
