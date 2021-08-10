@@ -9,6 +9,8 @@ var base_input_map = {}
 var CUSTOM_SOUND_PATH = "user://custom_sounds" setget , _get_custom_sounds_path
 
 var debounce_timer = Timer.new()
+# when in controller mode, this counts down to hide the mouse
+var mouse_hide_timer = Timer.new()
 
 func _get_custom_sounds_path():
 	return HBGame.platform_settings.user_dir_redirect(CUSTOM_SOUND_PATH)
@@ -43,6 +45,9 @@ const DISABLE_ANALOG_FOR_ACTION = [
 
 var controller_device_idx = -1
 
+var controller_guid := ""
+
+const MOUSE_HIDE_TIME = 0.5
 
 func _ready():
 	add_child(debounce_timer)
@@ -50,13 +55,18 @@ func _ready():
 	debounce_timer.one_shot = true
 	debounce_timer.connect("timeout", self, "_save_user_settings")
 
+	add_child(mouse_hide_timer)
+	mouse_hide_timer.connect("timeout", Input, "set_mouse_mode", [Input.MOUSE_MODE_HIDDEN])
+	# Godot simulates joy connections on startup, this makes sure we skip them
+	yield(get_tree(), "idle_frame")
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
-	# fallback to controller 0
-	if is_connected and Input.get_joy_guid(device_idx) == user_settings.controller_guid:
-		print("Known controller connected, remapping...")
-		map_actions_to_controller()
+	if controller_device_idx != -1:
+		# fallback to controller 0
+		if is_connected and Input.get_joy_guid(device_idx) == controller_guid:
+			print("Known controller reconnected, remapping...")
+			map_actions_to_controller()
 	if Input.get_connected_joypads().size() == 0:
 		current_mode = PROMPT_MODE.KEYBOARD
 
@@ -92,13 +102,6 @@ func _init_user_settings():
 						event.button_index = JOY_SONY_X
 
 	apply_user_settings(true)
-	# Set the controller to be the first one if we have none
-	if Input.get_connected_joypads().size() > 0:
-		if not user_settings.controller_guid:
-			print("No information on last connected controller found, falling back to %s" % [Input.get_joy_guid(Input.get_connected_joypads()[0])])
-			var joypad_pref = get_preferred_joypad()
-			if joypad_pref != -1:
-				user_settings.controller_guid = Input.get_joy_guid(get_preferred_joypad())
 	load_input_map()
 	set_joypad_prompts()
 
@@ -176,26 +179,6 @@ func get_axis_name(event: InputEventJoypadMotion):
 func get_button_name(event: InputEventJoypadButton):
 	return button_names[event.button_index]
 
-const JOYPAD_PRIORITIES = ["xbox", "ps4", "steam"]
-
-# Gets the preferred joystick with priorities (Xbox, PS4, Steam Input, others in that order)
-func get_preferred_joypad() -> int:
-	var connected_joypads = Input.get_connected_joypads()
-	var preferred_joypad = -1
-	var preferred_joypad_priority = JOYPAD_PRIORITIES.size()
-	if connected_joypads.size() > 0:
-		preferred_joypad = connected_joypads[0]
-		for joypad_i in connected_joypads:
-			var joy_name_l = Input.get_joy_name(joypad_i).to_lower()
-			for i in range(JOYPAD_PRIORITIES.size()):
-				var pr = JOYPAD_PRIORITIES[i]
-				if pr in joy_name_l:
-					if i < preferred_joypad_priority:
-						preferred_joypad = joypad_i
-						preferred_joypad_priority = i
-	return preferred_joypad
-			
-
 func load_input_map():
 	# Loads input map from the user's settings
 	for action_name in user_settings.input_map:
@@ -205,22 +188,12 @@ func load_input_map():
 				if action is InputEventJoypadMotion and action_name in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 					continue
 				InputMap.action_add_event(action_name, action)
-	var found_stored_guid_device = false
-	for _device_idx in Input.get_connected_joypads():
-		if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
-			found_stored_guid_device = true
-			break
-	if not found_stored_guid_device:
-		if Input.get_connected_joypads().size() > 0:
-			controller_device_idx = Input.get_connected_joypads()[0]
-			var preferred_joypad = get_preferred_joypad()
-			if preferred_joypad != -1:
-				user_settings.controller_guid = Input.get_joy_guid(preferred_joypad)
-	map_actions_to_controller()
 	current_mode = PROMPT_MODE.JOYPAD
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
-		if Input.get_joy_guid(_device_idx) == user_settings.controller_guid:
+		if Input.get_joy_guid(_device_idx) == controller_guid:
 			Log.log(self, "Swapping main controller device from " + str(controller_device_idx) + " to " + str(_device_idx))
 			controller_device_idx = _device_idx
 			break
@@ -246,14 +219,28 @@ enum PROMPT_MODE {
 var current_mode = PROMPT_MODE.KEYBOARD
 func _input(event):
 	if event is InputEventJoypadButton:
+		if controller_device_idx == -1:
+			controller_device_idx = event.device
+			controller_guid = Input.get_joy_guid(controller_device_idx)
+			map_actions_to_controller()
 		if current_mode != PROMPT_MODE.JOYPAD:
 			current_mode = PROMPT_MODE.JOYPAD
+			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 			JoypadSupport._set_joypad(event.device, true)
 			set_joypad_prompts()
-	elif event is InputEventKey:
+	elif event is InputEventKey or event is InputEventMouseButton:
 		if current_mode != PROMPT_MODE.KEYBOARD:
 			current_mode = PROMPT_MODE.KEYBOARD
+			mouse_hide_timer.stop()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			JoypadSupport.force_keyboard_prompts()
+	if event is InputEventMouseMotion:
+		mouse_hide_timer.stop()
+	if current_mode == PROMPT_MODE.JOYPAD:
+		if event is InputEventMouseMotion:
+			if not event.relative.is_equal_approx(Vector2.ZERO):
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				mouse_hide_timer.start()
 func load_user_settings():
 	var file := File.new()
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
