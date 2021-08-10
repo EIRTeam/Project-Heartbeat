@@ -15,12 +15,12 @@ var audio_path
 var chart: HBChart
 
 
-func _init(pattern: Dictionary, audio_path: String, loudness: float, offset: int = 0):
+func _init(_pattern: Dictionary, _audio_path: String, _loudness: float, _offset: int = 0):
 	._init()
-	self.pattern = pattern
-	self.audio_path = audio_path
-	self.loudness = loudness
-	self.offset = offset
+	pattern = _pattern
+	audio_path = _audio_path
+	loudness = _loudness
+	offset = _offset
 	
 	generate_chart()
 
@@ -35,7 +35,7 @@ func generate_chart():
 			
 			for point in layer.timing_points:
 				point = HBTimingPoint.deserialize(point)
-				point.time = offset + (pattern["spacing"] * i) + (point.time * i)
+				point.time = offset + (pattern.spacing * i) + (point.time * i)
 				
 				timing_points.append(point)
 			
