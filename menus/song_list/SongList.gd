@@ -17,6 +17,7 @@ onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxCo
 onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel9")
 onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
 onready var song_count_indicator = get_node("SongCountIndicator")
+onready var search_text_input = get_node("SearchTextInput")
 
 var force_next_song_update = false
 func _on_menu_enter(force_hard_transition=false, args = {}):
@@ -46,7 +47,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("song"):
 		song_to_select = args.song
 	update_songs(song_to_select, difficulty_to_select)
-	
 	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
@@ -61,7 +61,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		"creator": "Chart Creator",
 		"_added_time": "Last Subscribed"
 	}
-	
 	for button in sort_by_list_container.get_children():
 		sort_by_list_container.remove_child(button)
 		button.queue_free()
@@ -78,6 +77,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
+	
 func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
@@ -109,6 +109,17 @@ func _ready():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
+	search_text_input.connect("entered", self, "_on_search_entered")
+	search_text_input.connect("cancel", song_container, "grab_focus")
+	
+func _on_search_entered(text: String):
+	song_container.search_term = text.to_lower()
+	force_next_song_update = true
+	update_songs()
+	search_text_input.hide()
+	song_container.grab_focus()
+	update_path_label()
+	
 func _on_folder_path_updated(folders):
 	var folder_str := "/"
 	var ignore = true # we ignore the root
@@ -175,20 +186,28 @@ func populate_buttons():
 		button.connect("hovered", self, "set_filter", [filter_type])
 		
 func set_filter(filter_name, save=true):
+	song_container.search_term = ""
 	song_container.set_filter(filter_name)
 	UserSettings.user_settings.filter_mode = filter_name
 	if save:
 		UserSettings.save_user_settings()
-	if filter_name == "folders":
+	update_path_label()
+func update_path_label():
+	if UserSettings.user_settings.filter_mode == "folders":
 		add_to_prompt.hide()
 		manage_folders_prompt.show()
 		remove_item_prompt.hide()
-		folder_path.show()
 	else:
 		add_to_prompt.show()
 		manage_folders_prompt.hide()
 		remove_item_prompt.hide()
-		folder_path.hide()
+		folder_path.text_1 = ""
+	if song_container.search_term:
+		folder_path.text_2 = tr("Search: \"%s\"" % [song_container.search_term])
+		if folder_path.text_1:
+			folder_path.text_2 = " |  " + folder_path.text_2
+	else:
+		folder_path.text_2 = ""
 
 func _on_song_hovered(song: HBSong):
 	current_song = song
@@ -210,9 +229,19 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):
 			if not event is InputEventJoypadMotion:
 				filter_type_container._gui_input(event)
+		elif event.is_action_pressed("gui_search"):
+			search_text_input.line_edit.text = song_container.search_term
+			search_text_input.line_edit.caret_position = song_container.search_term.length()
+			search_text_input.popup_centered()
 		elif event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
-			change_to_menu("main_menu")
+			if song_container.search_term:
+				song_container.search_term = ""
+				update_path_label()
+				force_next_song_update = true
+				update_songs()
+			else:
+				change_to_menu("main_menu")
 		elif event.is_action_pressed("note_up"):
 			if not HBUtils.is_gui_directional_press("gui_up", event):
 				get_tree().set_input_as_handled()
@@ -274,6 +303,8 @@ func _on_folder_manager_closed():
 func update_songs(song_to_select=null, difficulty_to_select=null):
 	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select, force_next_song_update)
 	force_next_song_update = false
+	if song_container.filter_by == "folders":
+		song_container.update_items()
 
 func _on_folder_selected(folder: HBFolder):
 	if not current_song.id in folder.songs:

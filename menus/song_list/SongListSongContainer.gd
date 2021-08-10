@@ -12,6 +12,7 @@ var song_difficulty_items_map = {}
 var sort_by_prop = "title" # title, chart creator, difficulty
 var filter_by = "" # choices are: all, official, community and ppd
 var songs = []
+var search_term = ""
 
 signal updated_folders(folder_stack)
 signal create_new_folder(parent)
@@ -123,8 +124,9 @@ func update_items():
 	sort_by_prop = old_sort_by_mode
 		
 	for song in folder_songs:
-		var item = _create_song_item(song)
-		item_container.add_child(item)
+		if not search_term or (search_term in song.title.to_lower() or search_term in song.romanized_title.to_lower()):
+			var item = _create_song_item(song)
+			item_container.add_child(item)
 		
 		
 	# TODO: HARD ARRANGE
@@ -347,7 +349,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 	if current_filter_task:
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
-	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty)
+	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty, search_term)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
 
 #	selected_option = null

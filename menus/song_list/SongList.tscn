@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
 [ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
+[ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
@@ -197,44 +198,51 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 495.0
-margin_right = 611.0
+margin_left = 415.0
+margin_right = 531.0
 rect_min_size = Vector2( 116, 31 )
 action_name = "note_up"
 text = "Sort"
 
+[node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 541.0
+margin_right = 696.0
+rect_min_size = Vector2( 155, 31 )
+action_name = "gui_search"
+text = "Search"
+
 [node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 621.0
-margin_right = 781.0
+margin_left = 706.0
+margin_right = 866.0
 rect_min_size = Vector2( 160, 31 )
 action_name = "contextual_option"
 text = "Add to..."
 
 [node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 791.0
-margin_right = 953.0
-rect_min_size = Vector2( 162, 31 )
+margin_left = 876.0
+margin_right = 1037.0
+rect_min_size = Vector2( 161, 31 )
 action_name = "contextual_option"
 text = "Manage"
 
 [node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 963.0
-margin_right = 1133.0
-rect_min_size = Vector2( 170, 31 )
+margin_left = 1047.0
+margin_right = 1216.0
+rect_min_size = Vector2( 169, 31 )
 action_name = "contextual_option"
 text = "Remove"
 
 [node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1143.0
-margin_right = 1289.0
-rect_min_size = Vector2( 146, 31 )
+margin_left = 1226.0
+margin_right = 1371.0
+rect_min_size = Vector2( 145, 31 )
 action_name = "gui_accept"
 text = "Select"
 
 [node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1299.0
-margin_right = 1424.0
-rect_min_size = Vector2( 125, 31 )
+margin_left = 1381.0
+margin_right = 1505.0
+rect_min_size = Vector2( 124, 31 )
 action_name = "gui_cancel"
 text = "Back"
 
@@ -297,6 +305,11 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SearchTextInput" parent="." instance=ExtResource( 3 )]
+margin_left = -275.0
+margin_right = 275.0
+text = "Enter the search term:"
 
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]

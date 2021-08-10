@@ -13,44 +13,48 @@ var filtered_songs: Array
 var sort_by_prop: String
 var song_id_to_select
 var difficulty_to_select
-func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null).():
+var search_term: String
+func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null, _search_term := "").():
 	songs = _songs
 	filter_by = _filter_by
 	sort_by_prop = _sort_by
 	song_id_to_select = _song_id_to_select
 	difficulty_to_select = _difficulty_to_select
+	search_term = _search_term.to_lower()
 func sort_and_filter_songs():
-	if filter_by != "all":
-		var _filtered_songs = []
-		var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
-		for song in songs:
-			var should_add_song = false
-			match filter_by:
-				"ppd":
-					should_add_song = song is HBPPDSong and not (UserSettings.user_settings.hide_ppd_ex_songs and song is HBPPDSongEXT)
-				"official":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
-				"local":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
-										and not song is HBPPDSong and not song.comes_from_ugc() \
-										and not song.path.begins_with(editor_songs_path) \
-										and not song is SongLoaderDSC.HBSongDSC
-				"editor":
-					should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
-										and not song is HBPPDSong and not song.comes_from_ugc() \
-										and song.path.begins_with(editor_songs_path) \
-										and not song is SongLoaderDSC.HBSongDSC
-				"dsc":
-					should_add_song = song is SongLoaderDSC.HBSongDSC
-				"workshop":
-					should_add_song = song.comes_from_ugc()
-			if should_add_song:
+	var _filtered_songs = []
+	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
+	for song in songs:
+		var should_add_song = false
+		match filter_by:
+			"ppd":
+				should_add_song = song is HBPPDSong and not (UserSettings.user_settings.hide_ppd_ex_songs and song is HBPPDSongEXT)
+			"official":
+				should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN
+			"local":
+				should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
+									and not song is HBPPDSong and not song.comes_from_ugc() \
+									and not song.path.begins_with(editor_songs_path) \
+									and not song is SongLoaderDSC.HBSongDSC
+			"editor":
+				should_add_song = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.USER \
+									and not song is HBPPDSong and not song.comes_from_ugc() \
+									and song.path.begins_with(editor_songs_path) \
+									and not song is SongLoaderDSC.HBSongDSC
+			"dsc":
+				should_add_song = song is SongLoaderDSC.HBSongDSC
+			"workshop":
+				should_add_song = song.comes_from_ugc()
+			"all":
+				should_add_song = true
+		if should_add_song:
+			if search_term:
+				if search_term in song.title.to_lower() or search_term in song.romanized_title.to_lower():
+					_filtered_songs.append(song)
+			else:
 				_filtered_songs.append(song)
-		_filtered_songs.sort_custom(self, "sort_array")
-		return _filtered_songs
-	else:
-		songs.sort_custom(self, "sort_array")
-		return songs
+	_filtered_songs.sort_custom(self, "sort_array")
+	return _filtered_songs
 		
 func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop
