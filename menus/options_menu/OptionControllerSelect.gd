@@ -57,7 +57,6 @@ func _on_pressed():
 	
 func _on_controller_button_pressed(device: int):
 	UserSettings.controller_guid = Input.get_joy_guid(device)
-	UserSettings.controller_device_idx
 	show_current()
 	close_dropdown()
 	UserSettings.map_actions_to_controller()

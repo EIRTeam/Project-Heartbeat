@@ -440,7 +440,6 @@ func delete_rogue_notes(pos = time):
 			if group.time - group.precalculated_timeout > pos * 1000.0:
 				notes_to_remove.append(notes_on_screen[i])
 	for note in notes_to_remove:
-		var dr = get_note_drawer(note)
 		if note in notes_on_screen:
 			remove_note_from_screen(notes_on_screen.find(note), false)
 
