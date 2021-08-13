@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 
 onready var combination_label: Label = get_node("WindowDialog/VBoxContainer/Label2")
