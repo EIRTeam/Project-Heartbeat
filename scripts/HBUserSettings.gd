@@ -82,7 +82,7 @@ var button_prompt_override__possibilities = [
 
 var lyrics_enabled: bool = true
 
-var lyrics_position = "top_center"
+var lyrics_position = "bottom_left"
 var lyrics_position__possibilities = [
 	"top_left",
 	"top_center",
@@ -92,7 +92,7 @@ var lyrics_position__possibilities = [
 	"bottom_right",
 ]
 
-var lyrics_color = "orange"
+var lyrics_color = "blue"
 
 var lyrics_color__possibilities = [
 	"orange",
