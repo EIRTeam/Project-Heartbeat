@@ -58,8 +58,6 @@ func _ready():
 	add_child(mouse_hide_timer)
 	mouse_hide_timer.connect("timeout", Input, "set_mouse_mode", [Input.MOUSE_MODE_HIDDEN])
 	# Godot simulates joy connections on startup, this makes sure we skip them
-	yield(get_tree(), "idle_frame")
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
 	if controller_device_idx != -1:
@@ -104,6 +102,8 @@ func _init_user_settings():
 	apply_user_settings(true)
 	load_input_map()
 	set_joypad_prompts()
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+
 
 func fill_localized_arrays():
 	button_names = [
@@ -187,6 +187,8 @@ func load_input_map():
 			for action in user_settings.input_map[action_name]:
 				if action is InputEventJoypadMotion and action_name in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 					continue
+				if action is InputEventJoypadMotion or action is InputEventJoypadButton:
+					action.device = controller_device_idx
 				InputMap.action_add_event(action_name, action)
 	current_mode = PROMPT_MODE.JOYPAD
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -198,12 +200,7 @@ func map_actions_to_controller():
 			controller_device_idx = _device_idx
 			break
 	# Remap actions to new device id
-	for action_name in action_names:
-		for event in InputMap.get_action_list(action_name):
-			if event is InputEventJoypadButton or event is InputEventJoypadMotion:
-				InputMap.action_erase_event(action_name, event)
-				event.device = controller_device_idx
-				InputMap.action_add_event(action_name, event)
+	load_input_map()
 	JoypadSupport._set_joypad(controller_device_idx, true)
 	
 	if Input.get_connected_joypads().size() == 0:
