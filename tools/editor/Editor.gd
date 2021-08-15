@@ -1400,7 +1400,7 @@ func arrange_selected_notes_by_time(direction: Vector2):
 				slide_index = 0
 			
 			# Real snapping hours
-			var diff = selected_item.data.time - time_compensation
+			var diff = max(selected_item.data.time - time_compensation, 0)
 			var new_pos = pos_compensation + (separation * (float(diff) / float(interval * 1000.0)))
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
@@ -1418,7 +1418,10 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
 			
 			pos_compensation = new_pos
-			time_compensation = selected_item.data.time
+			if selected_item.data is HBSustainNote:
+				time_compensation = selected_item.data.end_time
+			elif diff > 0:
+				time_compensation = selected_item.data.time
 	undo_redo.commit_action()
 #	inspector.update_value()
 
