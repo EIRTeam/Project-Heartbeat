@@ -16,14 +16,14 @@ size = 35
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=90]
 bg_color = Color( 1, 1, 1, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_bottom = 5
 border_color = Color( 0.890196, 0.890196, 0.890196, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=89]
 bg_color = Color( 1, 1, 1, 0.501961 )
 border_width_left = 5
 border_width_top = 5
@@ -125,7 +125,7 @@ margin_right = 1771.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
-custom_styles/fg = SubResource( 3 )
-custom_styles/bg = SubResource( 4 )
+custom_styles/fg = SubResource( 90 )
+custom_styles/bg = SubResource( 89 )
 value = 50.0
 percent_visible = false

@@ -1352,6 +1352,7 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	
 	var autoslide = autoslide_checkbox.pressed
 	
+	# Never remove these, it makes the mikuphile mad
 	if abs(direction.x) > 0 and abs(direction.y) > 0:
 		# We got a diagonal boi
 		separation = Vector2(diagonal_separation_x, diagonal_separation_y)

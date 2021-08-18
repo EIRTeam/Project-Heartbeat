@@ -87,7 +87,7 @@ func _draw_bars(interval, offset=0):
 			break
 		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
 			continue
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("warning_color", "Editor"), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("timeline_separator_bar", "PHEditor"), 1.0, false)
 		if fmod(line, draw_every) == 0:
 			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 35), time_string)
@@ -112,7 +112,7 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
 				continue
 			
-		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("contrast_color_2", "Editor"), 1.0, false)
+		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("timeline_separator", "PHEditor"), 1.0, false)
 	
 func _draw_timing_lines():
 	var bars_per_minute = editor.bpm / float(editor.get_beats_per_bar())
