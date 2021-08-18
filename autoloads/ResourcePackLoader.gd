@@ -39,6 +39,9 @@ const NOTE_ICON_GRAPHICS_FILE_NAMES = [
 	"sustain_trail.png"
 ]
 
+# incrementing value used to ensure a unique resource_path for all PH resources
+var atlas_increment := 0
+
 func _init_resource_pack_loader():
 	var dir = Directory.new()
 	for location in ICON_PACK_LOCATIONS:
@@ -55,7 +58,8 @@ func _setup_fallback_pack(fallback: HBResourcePack):
 		if image:
 			var texture = ImageTexture.new()
 			texture.create_from_image(image)
-			texture.resource_path = "PH_RPL_" + file_name + "_" + str(rand_range(0, 200000))
+			atlas_increment += 1
+			texture.resource_path = "PH_RPL_" + file_name + "_" + str(atlas_increment)
 			
 			fallback_textures[file_name] = texture
 		else:
@@ -99,7 +103,7 @@ func rebuild_final_atlases():
 	for atlas_name in ATLASES:
 		var err = rebuild_final_atlas(atlas_name)
 		if err != OK:
-			push_error("Error rebuilding atlas \"%s\", pack missing?" % [atlas_name])
+			print("Using fallback for %s" % [atlas_name])
 	var selected_pack := resource_packs.get(UserSettings.user_settings.resource_pack, null) as HBResourcePack
 	note_pack = selected_pack
 	if UserSettings.user_settings.note_icon_override != "__resource_pack":
@@ -134,7 +138,8 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 				"selected": selected_pack_atlas
 			}, 1, true)
 			var atlas_texture := at.texture as Texture
-			at.texture.resource_path = "PH_RESOURCE_PACK_LOADER_ATLAS_" + str(rand_range(0, 200000))
+			atlas_increment += 1
+			at.texture.resource_path = "PH_RESOURCE_PACK_LOADER_ATLAS_" + str(atlas_increment)
 			var fallback_region_pos := at.atlas_data.fallback.region.position as Vector2
 			var fallback_offset := at.atlas_data.fallback.margin.position as Vector2
 			var selected_region_pos := at.atlas_data.selected.region.position as Vector2
@@ -159,7 +164,8 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 			var fallback_image_tex := ImageTexture.new()
 
 			fallback_image_tex.create_from_image(fallback_image)
-			fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(rand_range(0, 200000))
+			atlas_increment += 1
+			fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(atlas_increment)
 			
 			fallback_textures = HBUtils.merge_dict(fallback_textures, fallback_pack.create_atlas_textures(fallback_image_tex, atlas_name))
 			_final_atlases[atlas_name] = fallback_image_tex
