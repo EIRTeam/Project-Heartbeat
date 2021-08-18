@@ -62,9 +62,8 @@ func _on_apply_button_pressed():
 	
 	if get_editor().selected.size() > 0:
 		var outputs = {}
-	
+		expression.parse(value, ["note"])
 		for timeline_item in get_editor().selected:
-			expression.parse(value, ["note"])
 			var note_data = timeline_item.data as HBBaseNote
 			
 			var result = expression.execute([note_data])
