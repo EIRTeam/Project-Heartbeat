@@ -152,7 +152,6 @@ func _on_LeaveLobbyButton_pressed():
 	change_to_menu("lobby_list")
 
 func _on_ugc_song_downloaded(user: HBServiceMember, ugc_id: int):
-	var song_id = "ugc_" + str(ugc_id)
 	if ugc_id == selected_song.ugc_id:
 		song_availabilities[user] = true
 	var found_false = false

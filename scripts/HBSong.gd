@@ -3,6 +3,7 @@ extends HBSerializable
 
 class_name HBSong
 
+# warning-ignore:unused_signal
 signal song_cached
 
 var LOG_NAME = "HBSong"

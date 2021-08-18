@@ -10,6 +10,7 @@ signal ugc_details_request_done(result, details)
 signal ugc_item_installed(type, item)
 # warning-ignore:unused_signal
 signal ugc_item_deleted(type, item)
+# warning-ignore:unused_signal
 signal ugc_item_downloaded(item)
 
 const UGC_DATA_PATH = "user://ugc.json"

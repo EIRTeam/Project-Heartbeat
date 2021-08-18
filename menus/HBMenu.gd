@@ -27,8 +27,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	var starting_scale = Vector2(0.90, 0.90)
 	var target_scale = Vector2.ONE
 	
-	var starting_position = (rect_size - rect_size*starting_scale) /2
-	var target_position = Vector2(0.0, 0.0)
 	show()
 	rect_pivot_offset = rect_size / 2.0
 	
@@ -47,9 +45,6 @@ func _on_menu_exit(force_hard_transition = false):
 	target_color.a = 0.0
 	var target_scale = Vector2(1.1, 1.1)
 	var starting_scale = Vector2.ONE
-	
-	var starting_position = rect_position
-	var target_position = (rect_size - rect_size*target_scale)/2
 	
 	rect_pivot_offset = rect_size / 2.0
 	
