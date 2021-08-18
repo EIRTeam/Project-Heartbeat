@@ -3,6 +3,7 @@ extends ScrollContainer
 class_name HBUniversalScrollList
 
 signal out_from_bottom
+signal out_from_top
 signal selected_item_changed
 
 export(NodePath) var container_path
@@ -192,6 +193,8 @@ func _position_change_input(position_change: int):
 			 new_pos = wrapi(new_pos, 0, item_container.get_child_count())
 		if new_pos > item_container.get_child_count() - 1:
 			emit_signal("out_from_bottom")
+		if new_pos < 0:
+			emit_signal("out_from_top")
 		else:
 			new_pos = clamp(new_pos, 0, item_container.get_child_count() - 1)
 			if new_pos != current_selected_item:

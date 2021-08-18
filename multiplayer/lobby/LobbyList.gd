@@ -38,7 +38,7 @@ func _on_get_lobby_list(lobbies):
 	for lobby in lobbies:
 			
 		var item = LobbyListItem.instance()
-		scroll_list.vbox_container.add_child(item)
+		scroll_list.item_container.add_child(item)
 		item.set_lobby(lobby)
 		item.connect("pressed", self, "_on_lobby_button_pressed", [lobby])
 		if not first_child:
@@ -54,7 +54,9 @@ func _on_get_lobby_list(lobbies):
 #	if lobbies.size() <= 0:
 #		create_lobby_menu.grab_focus()
 func refresh_lobby_list():
-	scroll_list.clear_children()
+	for child in scroll_list.item_container.get_children():
+		scroll_list.item_container.remove_child(child)
+		child.queue_free()
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	mp_provider.request_lobby_list()
 	loadingu.show()
@@ -63,7 +65,7 @@ func _on_out_from_top():
 	create_lobby_menu.grab_focus()
 	
 func _on_create_lobby_menu_down():
-	if scroll_list.vbox_container.get_child_count() > 0:
+	if scroll_list.item_container.get_child_count() > 0:
 		scroll_list.grab_focus()
 
 func _on_lobby_button_pressed(lobby: HBLobby):

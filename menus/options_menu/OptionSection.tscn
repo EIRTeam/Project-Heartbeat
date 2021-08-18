@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://menus/options_menu/OptionSection.gd" type="Script" id=1]
-[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=4]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=5]
@@ -43,25 +42,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer" instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer"]
 margin_left = 30.0
 margin_top = 15.0
 margin_right = 1900.0
 margin_bottom = 830.0
+focus_mode = 2
 script = ExtResource( 6 )
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
-enable_fade = true
 enable_wrap_around = true
 scroll_mode = 1
 
-[node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer" index="1"]
-use_parent_material = true
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]
 margin_right = 1870.0
 margin_bottom = 815.0
-mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 margin_top = 864.0
@@ -102,5 +99,3 @@ text = "(NT)description uwu"
 align = 1
 valign = 1
 autowrap = true
-
-[editable path="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]

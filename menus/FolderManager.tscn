@@ -1,12 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/ScrollList.gd" type="Script" id=4]
+[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=4]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
 [ext_resource path="res://menus/FolderManager.gd" type="Script" id=6]
-[ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=7]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
 [ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=9]
 
@@ -69,17 +68,15 @@ margin_bottom = 441.0
 focus_mode = 2
 size_flags_vertical = 3
 script = ExtResource( 4 )
+container_path = NodePath("VBoxContainer")
+horizontal_step = 0
+scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBScrollList"]
 margin_right = 724.0
 margin_bottom = 441.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 10
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MarginContainer/VBoxContainer/HBScrollList"]
-stream = ExtResource( 7 )
-bus = "SFX"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 451.0
@@ -90,9 +87,9 @@ custom_constants/separation = 15
 alignment = 1
 
 [node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 73.0
-margin_right = 208.0
-rect_min_size = Vector2( 135, 31 )
+margin_left = 59.0
+margin_right = 201.0
+rect_min_size = Vector2( 142, 39 )
 action_name = "gui_left"
 text = "Close"
 
@@ -100,13 +97,13 @@ text = "Close"
 input_action = "gui_left"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 125.0
+margin_right = 132.0
 text = "Close"
 
 [node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 223.0
-margin_right = 349.0
-rect_min_size = Vector2( 126, 31 )
+margin_left = 216.0
+margin_right = 350.0
+rect_min_size = Vector2( 134, 39 )
 action_name = "gui_right"
 text = "Open"
 
@@ -114,13 +111,13 @@ text = "Open"
 input_action = "gui_right"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-margin_right = 116.0
+margin_right = 124.0
 text = "Open"
 
 [node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 364.0
-margin_right = 510.0
-rect_min_size = Vector2( 146, 31 )
+margin_left = 365.0
+margin_right = 518.0
+rect_min_size = Vector2( 153, 39 )
 action_name = "gui_accept"
 text = "Select"
 
@@ -128,13 +125,13 @@ text = "Select"
 input_action = "gui_accept"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
-margin_right = 136.0
+margin_right = 143.0
 text = "Select"
 
 [node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 525.0
-margin_right = 650.0
-rect_min_size = Vector2( 125, 31 )
+margin_left = 533.0
+margin_right = 665.0
+rect_min_size = Vector2( 132, 39 )
 action_name = "gui_cancel"
 text = "Back"
 
@@ -142,7 +139,7 @@ text = "Back"
 input_action = "gui_cancel"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
-margin_right = 115.0
+margin_right = 122.0
 text = "Back"
 
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource( 8 )]

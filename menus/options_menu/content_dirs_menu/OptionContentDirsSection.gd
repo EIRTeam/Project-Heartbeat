@@ -22,12 +22,12 @@ func _unhandled_input(event):
 				get_tree().set_input_as_handled()
 				file_dialog.hide()
 				emit_signal("back")
-				if scroll_container.selected_child:
-					scroll_container.selected_child.stop_hover()
+				if scroll_container.get_selected_item():
+					scroll_container.get_selected_item().stop_hover()
 		else:
-			if scroll_container.selected_child:
+			if scroll_container.get_selected_item():
 				if not event is InputEventMouse:
-					scroll_container.selected_child._gui_input(event)
+					scroll_container.get_selected_item()._gui_input(event)
 
 func _ready():
 	populate()
@@ -40,13 +40,12 @@ func _ready():
 	content_reload_success_popup.connect("accept", self, "grab_focus")
 	cache_clear_success_popup.connect("accept", get_tree(), "quit")
 	file_dialog.connect("dir_selected", self, "_on_path_selected")
-	file_dialog.get_close_button().connect("pressed", self, "grab_focus")
+	file_dialog.connect("popup_hide", self, "grab_focus")
 	SongLoader.connect("all_songs_loaded", self, "_on_content_reload_complete")
 func populate():
-	scroll_container.selected_child = null
-	var children = scroll_container.vbox_container.get_children()
+	var children = scroll_container.item_container.get_children()
 	for child in children:
-		scroll_container.vbox_container.remove_child(child)
+		scroll_container.item_container.remove_child(child)
 		child.queue_free()
 		
 	var add_content_path_button = HBHovereableButton.new()
@@ -64,14 +63,14 @@ func populate():
 	clear_cache_button.expand_icon = true
 	clear_cache_button.connect("pressed", self, "_on_cache_cleared")
 	
-	scroll_container.vbox_container.add_child(reload_content_button)
-	scroll_container.vbox_container.add_child(add_content_path_button)
-	scroll_container.vbox_container.add_child(clear_cache_button)
+	scroll_container.item_container.add_child(reload_content_button)
+	scroll_container.item_container.add_child(add_content_path_button)
+	scroll_container.item_container.add_child(clear_cache_button)
 	
 	content_directory_control = PATH_SCENE.instance()
 	content_directory_control.dir = UserSettings.user_settings.content_path
 	content_directory_control.connect("pressed", set_directory_confirmation_window, "popup_centered")
-	scroll_container.vbox_container.add_child(content_directory_control)
+	scroll_container.item_container.add_child(content_directory_control)
 	
 	
 func _on_path_selected(path):

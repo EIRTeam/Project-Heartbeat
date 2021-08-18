@@ -76,7 +76,7 @@ func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
 		game_info.add_new_modifier(modifier_id)
 		var button = add_modifier_control(modifier_id)
-		modifier_scroll_container.select_child(button)
+		modifier_scroll_container.select_item(button.get_position_in_parent())
 	modifier_scroll_container.grab_focus()
 	UserSettings.save_user_settings()
 	draw_leaderboard_legality()
@@ -144,7 +144,7 @@ func update_song_stats_label():
 	
 func _on_button_list_out_from_top():
 	modifier_scroll_container.grab_focus()
-	modifier_scroll_container.select_child(modifier_button_container.get_child(modifier_button_container.get_child_count()-1))
+	modifier_scroll_container.select_item(modifier_button_container.get_child_count()-1)
 	
 func _on_StartButton_pressed():
 	if current_song_assets == current_song:
@@ -194,7 +194,7 @@ func _on_remove_modifier_selected(modifier_id: String, modifier_button):
 	var current_button_i = modifier_button.get_position_in_parent()
 	var new_button_i = current_button_i-1
 	new_button_i = clamp(new_button_i, 0, modifier_button_container.get_child_count()-1)
-	modifier_scroll_container.select_child(modifier_button_container.get_child(new_button_i))
+	modifier_scroll_container.select_item(new_button_i)
 	
 	modifier_button_container.remove_child(modifier_button)
 	modifier_buttons.erase(modifier_id)
@@ -234,7 +234,6 @@ func add_buttons():
 	modifier_button_container.add_child(add_modifier_button)
 func update_modifiers():
 	modifier_buttons = {}
-	modifier_scroll_container.selected_child = null
 	for button in modifier_button_container.get_children():
 		modifier_button_container.remove_child(button)
 		button.queue_free()

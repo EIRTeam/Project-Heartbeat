@@ -5,7 +5,7 @@
 [ext_resource path="res://menus/pregame_screen/PregameStartTab.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=5]
-[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=6]
+[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]
 [ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=8]
 
 [sub_resource type="StyleBoxFlat" id=4]
@@ -90,14 +90,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer" instance=ExtResource( 6 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1267.0
 margin_bottom = 601.0
-maintain_selected_child = true
+focus_mode = 2
+script = ExtResource( 6 )
+container_path = NodePath("VBoxContainer")
+horizontal_step = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]
+margin_right = 1257.0
+margin_bottom = 591.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Panel2" type="Panel" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1281.0
@@ -192,10 +199,10 @@ orientation = 1
 margin_top = 74.0
 margin_right = 1900.0
 margin_bottom = 118.0
+custom_fonts/font = ExtResource( 1 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 1 )
 text = "Start"
 align = 0
 script = ExtResource( 4 )
@@ -209,10 +216,10 @@ hover_style = SubResource( 4 )
 margin_top = 122.0
 margin_right = 1900.0
 margin_bottom = 166.0
+custom_fonts/font = ExtResource( 1 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 1 )
 text = "Start Practice"
 align = 0
 script = ExtResource( 4 )
@@ -226,10 +233,10 @@ hover_style = SubResource( 4 )
 margin_top = 170.0
 margin_right = 1900.0
 margin_bottom = 214.0
+custom_fonts/font = ExtResource( 1 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 1 )
 text = "Back"
 align = 0
 script = ExtResource( 4 )
@@ -239,4 +246,5 @@ __meta__ = {
 }
 normal_style = SubResource( 3 )
 hover_style = SubResource( 4 )
+
 [connection signal="out_from_bottom" from="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" to="Panel2/MarginContainer/VBoxContainer" method="grab_focus"]

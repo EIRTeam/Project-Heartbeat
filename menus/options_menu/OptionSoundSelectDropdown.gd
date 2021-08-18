@@ -39,10 +39,9 @@ func _on_focus_grabbed():
 	scroll_container.grab_focus()
 	for button in pack_container.get_children():
 		if button.get_meta("sound_name") == UserSettings.user_settings.custom_sounds[sound_name]:
-			scroll_container.select_child(button, true)
+			scroll_container.select_item(button.get_position_in_parent())
 func _on_sound_selected(selected_sound):
 	emit_signal("selected_sound_changed", selected_sound)
-
 
 func _on_Control_back():
 	_on_sound_selected(null)
