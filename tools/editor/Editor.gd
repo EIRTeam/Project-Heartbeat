@@ -1434,9 +1434,9 @@ func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 
 func show_error(error: String):
-	$PluginErrorDialog.rect_size = Vector2.ZERO
-	$PluginErrorDialog.dialog_text = error
-	$PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
+	$Popups/PluginErrorDialog.rect_size = Vector2.ZERO
+	$Popups/PluginErrorDialog.dialog_text = error
+	$Popups/PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
 
 func _on_auto_multi_toggled(button_pressed):
 	song_editor_settings.auto_multi = button_pressed
