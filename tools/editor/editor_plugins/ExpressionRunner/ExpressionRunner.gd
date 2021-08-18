@@ -64,7 +64,7 @@ func _on_apply_button_pressed():
 		var outputs = {}
 		expression.parse(value, ["note"])
 		for timeline_item in get_editor().selected:
-			var note_data = timeline_item.data as HBBaseNote
+			var note_data = timeline_item.data as HBTimingPoint
 			
 			var result = expression.execute([note_data])
 			
