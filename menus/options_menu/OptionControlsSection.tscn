@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
-[ext_resource path="res://menus/ScrollList.tscn" type="PackedScene" id=2]
+[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/options_menu/OptionControlsSection.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
@@ -59,17 +59,23 @@ rect_min_size = Vector2( 0, 45 )
 alignment = 1
 script = ExtResource( 6 )
 
-[node name="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_top = 65.0
 margin_right = 1870.0
 margin_bottom = 1035.0
-rect_clip_content = true
+focus_mode = 2
+size_flags_vertical = 3
+script = ExtResource( 2 )
+container_path = NodePath("VBoxContainer")
+horizontal_step = 0
+enable_wrap_around = true
+scroll_mode = 1
 
-[node name="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer" index="1"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 1870.0
 margin_bottom = 970.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Popup" type="PopupDialog" parent="."]
 margin_left = 444.0
@@ -91,5 +97,3 @@ valign = 1
 [node name="ResetConfirmationWindow" parent="." instance=ExtResource( 5 )]
 visible = true
 text = "Are you sure you want to reset all controls to default?"
-
-[editable path="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer"]

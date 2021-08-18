@@ -39,16 +39,17 @@ func _unhandled_input(event):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
 				emit_signal("back")
-				if scroll_container.selected_child:
-					scroll_container.selected_child.stop_hover()
+				if scroll_container.get_selected_item():
+					scroll_container.get_selected_item().stop_hover()
 				populate()
 				show_category(UserSettings.ACTION_CATEGORIES.keys()[0], true)
 		elif (event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right")) and scroll_container.has_focus():
 			get_tree().set_input_as_handled()
 			category_container._gui_input(event)
 		else:
-			if scroll_container.selected_child:
-				scroll_container.selected_child._gui_input(event)
+			var si = scroll_container.get_selected_item()
+			if si:
+				si._gui_input(event)
 
 func _ready():
 	populate()
@@ -74,32 +75,31 @@ func populate():
 var current_category = ""
 		
 func show_category(category: String, prevent_selection=false):
-	scroll_container.selected_child = null
-	var children = scroll_container.vbox_container.get_children()
+	var children = scroll_container.item_container.get_children()
 	for child in children:
-		scroll_container.vbox_container.remove_child(child)
+		scroll_container.item_container.remove_child(child)
 		child.queue_free()
 		
 	var reset_scene = RESET_SCENE.instance()
 	reset_scene.connect("pressed", self, "_on_reset_bindings")
-	scroll_container.vbox_container.add_child(reset_scene)
+	scroll_container.item_container.add_child(reset_scene)
 	var input_map = UserSettings.get_input_map()
 	current_category = category
 	for action_name in UserSettings.ACTION_CATEGORIES[category]:
 		var action_scene = ACTION_SCENE.instance()
 		action_scene.action = UserSettings.action_names[action_name]
-		scroll_container.vbox_container.add_child(action_scene)
+		scroll_container.item_container.add_child(action_scene)
 		action_scene.connect("pressed", self, "_on_action_add_press", [action_name])
 		for event in input_map[action_name]:
 			if event is InputEventKey and action_name in UserSettings.HIDE_KB_REMAPS_ACTIONS:
 				continue
 			var event_scene = EVENT_SCENE.instance()
-			scroll_container.vbox_container.add_child(event_scene)
+			scroll_container.item_container.add_child(event_scene)
 			event_scene.action = action_name
 			event_scene.event = event
 			event_scene.connect("pressed", self, "_on_event_delete", [event_scene, action_name, event])
 	if not prevent_selection:
-		scroll_container.select_child(scroll_container.vbox_container.get_child(0))
+		scroll_container.select_item(0)
 func _on_action_add_press(action_name):
 	# To prevent double presses from being picked up
 	action_bind_debounce.start()
@@ -111,7 +111,7 @@ func _on_event_delete(control, action, event):
 	if InputMap.action_has_event(action, event):
 		InputMap.action_erase_event(action, event)
 		var position = control.get_position_in_parent() -1
-		scroll_container.select_child(scroll_container.vbox_container.get_child(position))
+		scroll_container.select_item(position)
 		control.queue_free()
 		UserSettings.save_user_settings()
 func _on_focus_entered():
@@ -122,19 +122,19 @@ func _on_focus_entered():
 		scroll_container.grab_focus()
 
 func add_event_user(action_name, event):
-	var action_control = scroll_container.selected_child
+	var action_control = scroll_container.get_selected_item()
 	var action_control_i = action_control.get_position_in_parent()
-	var child_count = scroll_container.vbox_container.get_child_count()
+	var child_count = scroll_container.item_container.get_child_count()
 	var event_scene = EVENT_SCENE.instance()
 
 	event_scene.event = event
 	event_scene.connect("pressed", self, "_on_event_delete", [event_scene, action_name, event])
-	scroll_container.vbox_container.add_child(event_scene)
+	scroll_container.item_container.add_child(event_scene)
 	if action_control_i < child_count-2: # -2 because we just added the event scene
 		for control_i in range(action_control_i+1, child_count):
-			var control = scroll_container.vbox_container.get_child(control_i)
+			var control = scroll_container.item_container.get_child(control_i)
 			if control is HBOptionControlsSectionAction:
-				scroll_container.vbox_container.move_child(event_scene, control_i)
+				scroll_container.item_container.move_child(event_scene, control_i)
 				break
 	InputMap.action_add_event(action_name, event)
 	UserSettings.save_user_settings()
@@ -145,6 +145,6 @@ func _on_reset_bindings_confirmed():
 	UserSettings.reset_to_default_input_map()
 	populate()
 	show_category(current_category)
-	scroll_container.select_child(scroll_container.vbox_container.get_child(0))
+	scroll_container.select_item(0)
 	grab_focus()
 	UserSettings.save_user_settings()
