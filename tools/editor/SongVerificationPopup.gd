@@ -36,13 +36,13 @@ func show_song_verification(errors, for_ugc=true, text=""):
 					var color = "#FFFFFF"
 					var error_type = ""
 					if for_ugc and error.fatal_ugc:
-						error_type = "FATAL (Workshop)"
+						error_type = "[u]FATAL (Workshop)[/u]"
 						color = "#FF5555"
 					elif error.fatal:
-						error_type = "FATAL"
+						error_type = "[u]FATAL[/u]"
 						color = "#FF5555"
 					elif error.warning:
-						error_type = "WARNING"
+						error_type = "[u]WARNING[/u]"
 						color = "#FFFF00"
-					rich_text_label.bbcode_text += "[color=%s]%s: %s[/color]\n" % [color, error_type, error.string]
+					rich_text_label.bbcode_text += "[color=%s]%s: %s[/color]\n\n" % [color, error_type, error.string]
 			

@@ -25,14 +25,18 @@ enum META_ERROR {
 	VOICE_NOT_FOUND,
 	PREVIEW_MISSING,
 	PREVIEW_FILE_MISSING,
-	PREVIEW_FILE_TOO_BIG
+	PREVIEW_FILE_TOO_BIG,
+	ILLEGAL_FILES,
+	ILLEGAL_FOLDERS
 }
+
+const LEGAL_FILE_EXTENSIONS = ["json", "png", "jpg"]
 
 var META_ERROR_SEVERITY = {
 	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.PREVIEW_FILE_MISSING, META_ERROR.AUDIO_NOT_FOUND ],
-	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.PREVIEW_MISSING ],
+	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.PREVIEW_MISSING, META_ERROR.ILLEGAL_FILES, META_ERROR.ILLEGAL_FOLDERS ],
 	# Some things are only mandatory for UGC songs and will still allow the song to be played
-	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG ]
+	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.ILLEGAL_FILES, META_ERROR.ILLEGAL_FOLDERS ]
 }
 # Meta fields that MUST be set to something 
 const MANDATORY_META_FIELDS = [
@@ -108,6 +112,38 @@ func verify_meta(song: HBSong):
 				var error = {
 					"type": META_ERROR.PREVIEW_FILE_TOO_BIG,
 					"string": "The song preview image file is too big (should be under 1 MB!), it currently is %.2f MB" % [file.get_len() / 1000000.0],
+				}
+				errors.append(error)
+		
+		var dir := Directory.new()
+		
+		if dir.dir_exists(song.path):
+			var found_folder = false
+			var found_illegal_files := PoolStringArray()
+			if dir.open(song.path) == OK:
+				dir.list_dir_begin(true)
+				var dir_name = dir.get_next()
+				while dir_name != "":
+					if not dir.current_is_dir():
+						var ext = dir_name.to_lower().get_extension()
+						if not ext in LEGAL_FILE_EXTENSIONS:
+							found_illegal_files.append(dir_name)
+					else:
+						found_folder = true
+					dir_name = dir.get_next()
+			if found_illegal_files.size() > 0:
+				var legal_shit = PoolStringArray()
+				for extension in LEGAL_FILE_EXTENSIONS:
+					legal_shit.append(".%s" % [extension])
+				var error = {
+					"type": META_ERROR.ILLEGAL_FILES,
+					"string": "The song's folder contained files that aren't allowed, allowed types are: %s.\nWe found the following disallowed files: %s.\nPlease remove them before uploading to the workshop." % [legal_shit.join(", "), found_illegal_files.join(",\n")],
+				}
+				errors.append(error)
+			if found_folder:
+				var error = {
+					"type": META_ERROR.ILLEGAL_FILES,
+					"string": "The song's folder contained subfolders, which aren't allowed, please remove them before uploading to the workshop.",
 				}
 				errors.append(error)
 	for error in errors:
