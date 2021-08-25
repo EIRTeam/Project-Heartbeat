@@ -918,6 +918,7 @@ window/stretch/aspect="expand"
 [editor]
 
 main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR\" --phplugin:dscloader:game_type f"
+convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
 
