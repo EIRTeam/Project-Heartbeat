@@ -137,6 +137,7 @@ func _on_user_navigate_button_pressed(page_offset: int):
 	_debounced_page = new_page
 	
 func navigate_to_page(page_n: int, query = null):
+	HTTPRequestQueue.cancel_all_requests()
 	if query:
 		current_query = query
 	scroll_container.release_focus()
@@ -204,6 +205,7 @@ func _unhandled_input(event):
 			sort_by_popup.hide()
 			scroll_container.grab_focus()
 		else:
+			HTTPRequestQueue.cancel_all_requests()
 			change_to_menu("main_menu")
 	elif event.is_action_pressed("note_up") and not search_prompt.visible and not HBUtils.is_gui_directional_press("gui_up", event):
 		sort_by_popup.show()

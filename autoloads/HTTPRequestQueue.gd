@@ -4,6 +4,13 @@ const MAX_CONCURRENT_REQUESTS = 4
 
 var queue = []
 var current_requests = []
+
+func cancel_all_requests():
+	for request in current_requests:
+		request.cancel_request()
+	queue = []
+	current_requests = []
+
 func add_request(url: String) -> HTTPRequest:
 	var req = HTTPRequest.new()
 	req.set_meta("url", url)
