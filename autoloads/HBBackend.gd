@@ -256,21 +256,19 @@ func _on_entries_received(result, params):
 	
 	var page = params.page
 	
-	var pos_i = (page - 1) * LEADERBOARD_ENTRIES_PER_PAGE
-	
 	var entries = []
-	
+	var ranks = {}
 	for item in result.leaderboard_entries:
-		pos_i += 1
-		var entry_data = item.entry_data
+		var entry_data = item.entry.entry_data
+		var rank = item.rank
 		entry_data.result.note_ratings = _convert_note_ratings(entry_data.result.note_ratings)
 		entry_data.result.wrong_note_ratings = _convert_note_ratings(entry_data.result.wrong_note_ratings)
 		var game_info = HBGameInfo.deserialize(entry_data)
 		
 		for user in result.users:
-			if user.id == item.user_id:
+			if user.id == item.entry.user_id:
 				var member = SteamServiceMember.new(int(user.steam_id))
-				entries.append(BackendLeaderboardEntry.new(member, pos_i, game_info))
+				entries.append(BackendLeaderboardEntry.new(member, rank, game_info))
 				break
 	
 	emit_signal("entries_received", params.handle, entries, result.total_pages)
