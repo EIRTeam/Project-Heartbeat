@@ -11,8 +11,8 @@ signal connection_status_changed
 var enable_diagnostics = false
 
 const SERVICE_ENVIRONMENTS = {
-	"production": { "url": "https://projectheartbeat.eirteam.moe", "validate_domain": true },
-	"testing": { "url": "https://testing.projectheartbeat.eirteam.moe:8000/version", "validate_domain": false },
+	"production": { "url": "https://ph.eirteam.moe", "validate_domain": true },
+	"testing": { "url": "https://testing.projectheartbeat.eirteam.moe:8000", "validate_domain": false },
 	"dev": { "url": "https://127.0.0.1:8000", "validate_domain": false }
 }
 
