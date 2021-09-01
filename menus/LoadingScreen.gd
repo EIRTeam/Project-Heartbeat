@@ -41,15 +41,15 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	game_info = new_game_info
 	current_diff = game_info.difficulty
 	var song: HBSong = new_game_info.get_song()
-	min_load_time_timer.start(5)
 	if song.show_epilepsy_warning:
-		min_load_time_timer.start(5)
+		min_load_time_timer.start(3)
 		show_epilepsy_warning()
 	
 	is_loading_practice_mode = practice
 	var assets_to_get = ["audio", "voice"]
-	if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
-		assets_to_get.append("audio_loudness")
+	if not song.has_audio_loudness:
+		if not SongDataCache.is_song_audio_loudness_cached(song):
+			assets_to_get.append("audio_loudness")
 	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)
 	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	AsyncTaskQueue.queue_task(asset_task)
