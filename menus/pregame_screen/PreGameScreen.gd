@@ -226,6 +226,15 @@ func add_buttons():
 		change_video_link_button.connect("pressed", self, "_on_ppd_video_change_button_pressed")
 		modifier_button_container.add_child(change_video_link_button)
 	
+	if current_song is HBPPDSong \
+			or current_song.ugc_service_name == "Steam Workshop":
+		var open_leaderboard_button = HBHovereableButton.new()
+		open_leaderboard_button.expand_icon = true
+		open_leaderboard_button.text = tr("View web leaderboards")
+		open_leaderboard_button.connect("pressed", self, "_on_open_leaderboard_pressed")
+		open_leaderboard_button.icon = preload("res://graphics/icons/table.svg")
+		modifier_button_container.add_child(open_leaderboard_button)
+	
 	var add_modifier_button = HBHovereableButton.new()
 	add_modifier_button.text = "Add modifier"
 	add_modifier_button.expand_icon = true
@@ -263,7 +272,11 @@ func _on_ppd_video_url_confirmed():
 		}
 	change_to_menu("song_list", false, args)
 	
-
+func _on_open_leaderboard_pressed():
+	var song_ugc_type = "steam"
+	if current_song is HBPPDSong:
+		song_ugc_type = "ppd"
+	OS.shell_open("https://ph.eirteam.moe/leaderboard/%s/%s/%s/1" % [song_ugc_type, str(current_song.ugc_id), current_difficulty])
 
 func _on_StartPractice_pressed():
 	if current_song_assets == current_song:

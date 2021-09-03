@@ -13,12 +13,15 @@ onready var news_container = get_node("VBoxContainer/NewsButtons")
 onready var discord_button = get_node("VBoxContainer/SocialButtons/DiscordButton")
 onready var social_container = get_node("VBoxContainer/SocialButtons")
 onready var twitter_button = get_node("VBoxContainer/SocialButtons/TwitterButton")
+onready var open_profile_button = get_node("VBoxContainer/SocialButtons/OpenProfileButton")
 
 func _ready():
 	request.connect("request_completed", self, "_on_request_completed")
 	request.request("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=1216230&count=20")
 	twitter_button.connect("pressed", OS, "shell_open", ["https://twitter.com/PHeartbeatGame"])
 	discord_button.connect("pressed", OS, "shell_open", ["https://discord.com/invite/qGMdbez"])
+	if not PlatformService.service_provider.ugc_provider is SteamUGCService:
+		open_profile_button.queue_free()
 	
 func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
@@ -27,7 +30,7 @@ func _on_request_completed(result, response_code, headers, body):
 		for item in json.appnews.newsitems:
 			if not "tags" in item or not "patchnotes" in item.tags:
 				news_items.append(item)
-				if news_items.size() == 4:
+				if news_items.size() == 3:
 					break
 		for item in news_items:
 			var button = NEWS_ITEM.instance()
@@ -49,3 +52,8 @@ func _input(event):
 			get_tree().set_input_as_handled()
 			emit_signal("left")
 			social_container.sfx_player.play()
+
+
+func _on_OpenProfileButton_pressed():
+	var steam_id = PlatformService.service_provider.user_id
+	OS.shell_open("https://ph.eirteam.moe/leaderboards/user/%s/1" % [steam_id])

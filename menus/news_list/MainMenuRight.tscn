@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://menus/news_list/MainMenuRight.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=10]
+[ext_resource path="res://graphics/icons/account_main.svg" type="Texture" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 25.0
@@ -77,32 +78,59 @@ alignment = 1
 script = ExtResource( 10 )
 orientation = 1
 
-[node name="DiscordButton" type="Button" parent="VBoxContainer/SocialButtons"]
-margin_top = 254.0
+[node name="OpenProfileButton" type="Button" parent="VBoxContainer/SocialButtons"]
+margin_top = 184.0
 margin_right = 1920.0
-margin_bottom = 379.0
+margin_bottom = 309.0
 rect_min_size = Vector2( 0, 125 )
-focus_mode = 0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 6 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
-custom_fonts/font = ExtResource( 6 )
+text = "My profile"
+icon = ExtResource( 11 )
+script = ExtResource( 4 )
+normal_style = SubResource( 2 )
+hover_style = SubResource( 1 )
+
+[node name="DiscordButton" type="Button" parent="VBoxContainer/SocialButtons"]
+margin_top = 324.0
+margin_right = 1920.0
+margin_bottom = 449.0
+rect_min_size = Vector2( 0, 125 )
+focus_mode = 0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Join the Discord server!"
+custom_fonts/font = ExtResource( 6 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 icon = ExtResource( 5 )
 script = ExtResource( 4 )
 normal_style = SubResource( 2 )
 hover_style = SubResource( 1 )
 
+[node name="Label" type="Label" parent="VBoxContainer/SocialButtons/DiscordButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 123.0
+custom_fonts/font = ExtResource( 6 )
+text = "Join the Discord server!"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TwitterButton" type="Button" parent="VBoxContainer/SocialButtons"]
-margin_top = 394.0
+margin_top = 464.0
 margin_right = 1920.0
-margin_bottom = 519.0
+margin_bottom = 589.0
 rect_min_size = Vector2( 0, 125 )
 focus_mode = 0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 6 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
-custom_fonts/font = ExtResource( 6 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 icon = ExtResource( 7 )
 script = ExtResource( 4 )
 normal_style = SubResource( 2 )
@@ -178,3 +206,5 @@ orientation = 1
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 use_threads = true
+
+[connection signal="pressed" from="VBoxContainer/SocialButtons/OpenProfileButton" to="." method="_on_OpenProfileButton_pressed"]
