@@ -277,6 +277,7 @@ func _show_results(game_info: HBGameInfo):
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
 			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets}
+			scene.starting_song = current_game_info.get_song()
 			get_tree().root.add_child(scene)
 			get_tree().current_scene = scene
 #	scene.set_result(results)
