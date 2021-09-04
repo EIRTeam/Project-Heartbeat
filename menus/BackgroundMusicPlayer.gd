@@ -60,6 +60,13 @@ class SongPlayer:
 			audio_stream_player.bus = "MenuMusic"
 			audio_stream_player_voice.bus = "MenuMusic"
 		
+	func pause():
+		audio_stream_player.stream_paused = true 
+		audio_stream_player_voice.stream_paused = true
+	func resume():
+		audio_stream_player.stream_paused = false 
+		audio_stream_player_voice.stream_paused = false 
+		
 	func _process(_delta):
 		emit_signal("stream_time_changed", audio_stream_player.get_playback_position())
 		var end_time = audio_stream_player.stream.get_length()
@@ -114,6 +121,9 @@ class SongPlayer:
 var current_song_player: SongPlayer
 
 func play_song(song: HBSong):
+	if current_song_player:
+		if song == current_song_player.song:
+			return
 	var song_player = SongPlayer.new(song)
 	add_child(song_player)
 	song_player.connect("song_assets_loaded", self, "_on_song_assets_loaded")
@@ -134,7 +144,7 @@ func _on_stream_time_changed(time: float):
 	emit_signal("stream_time_changed", time)
 	
 func _on_song_ended():
-	pass
+	play_random_song()
 	
 func _on_song_assets_loaded(assets):
 	emit_signal("song_started", current_song_player.song, assets)
@@ -148,3 +158,8 @@ func play_random_song():
 			found_song = song
 	if found_song:
 		play_song(found_song)
+
+func pause():
+	current_song_player.pause()
+func resume():
+	current_song_player.resume()
