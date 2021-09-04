@@ -72,10 +72,11 @@ func _on_show_title_press():
 	entry_tween.interpolate_property(main_container, "rect_position:x", main_container.rect_position.x, rect_size.x * music_player_anchor_point, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	entry_tween.start()
 func set_time(time: float):
-	var playback_current_time_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
-	playback_current_time_label.text = format_time(time)
-	var playback_progress_bar = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
-	playback_progress_bar.value = time / current_song_length
+	if current_song_length:
+		var playback_current_time_label = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackCurrentTimeLabel")
+		playback_current_time_label.text = format_time(time)
+		var playback_progress_bar = get_node("MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
+		playback_progress_bar.value = time / current_song_length
 
 func _on_assets_loaded(assets):
 	if "preview" in assets:

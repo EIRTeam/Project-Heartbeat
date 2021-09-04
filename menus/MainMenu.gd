@@ -10,6 +10,7 @@ var second_background_texrect: TextureRect
 var music_player_control
 var default_bg: Texture = preload("res://graphics/predarkenedbg.png")
 var last_bg = 1
+var starting_song: HBSong
 
 const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
 
@@ -136,7 +137,6 @@ func _ready():
 	MENUS["pre_game"].left.connect("begin_loading", self, "_on_loading_begun")
 	player.connect("song_started", self, "_on_song_started")
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
-	player.play_random_song()
 	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game"].left, "set_current_assets")
 	
 	# Connect main menu list changes
@@ -145,7 +145,10 @@ func _ready():
 	
 	menu_setup()
 	
-	music_player_control.connect("ready", self, "_on_music_player_ready")
+	if starting_song:
+		player.play_song(starting_song)
+	else:
+		player.play_random_song()
 	
 	# Mute bg music when using the latency tester
 	MENUS["latency_tester"].fullscreen.connect("pause_background_player", player, "pause")
@@ -209,12 +212,6 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 
 		left_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		left_menu._on_menu_enter(force_hard_transition, args)
-
-func _on_music_player_ready():
-	call_deferred("play_first_song")
-
-#func play_first_song():
-#	MENUS.music_player.right.set_song(current_song, next_audio.get_length())
 
 var iflag = true # Flag that tells it to ignore the first background change
 func _on_song_started(song, assets):
