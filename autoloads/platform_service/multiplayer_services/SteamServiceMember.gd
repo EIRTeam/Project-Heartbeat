@@ -20,7 +20,8 @@ func _persona_state_change(steam_id, flags):
 func cache_steam_avatar():
 	var img_handle = Steam.getMediumFriendAvatar(member_id)
 	var size = Steam.getImageSize(img_handle)
-	var buffer = Steam.getImageRGBA(img_handle).buffer
+	var dict = Steam.getImageRGBA(img_handle)
+	var buffer = dict.buffer
 	var avatar_image = Image.new()
 	var avatar_texture = ImageTexture.new()
 	avatar_image.create(size.width, size.height, false, Image.FORMAT_RGBAF)

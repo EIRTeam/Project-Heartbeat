@@ -104,43 +104,46 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 	if Steam.getItemState(item_id) == 0:
 		return ""
 	var install_info = Steam.getItemInstallInfo(item_id)
-	var folder = install_info.folder
-	var file = File.new()
-	var item
-	var item_type
-	for file_name in FILE_TO_UGC_TYPE:
-		item_type = FILE_TO_UGC_TYPE[file_name]
-		if file.file_exists(folder + "/%s" % [file_name]):
-			var type = FILE_TO_UGC_TYPE[file_name]
-			if type == "song":
-#				Log.log(self, "Loading workshop song from %s" % folder)
-				var song = SongLoader.load_song_meta(folder + "/%s" % [file_name], "ugc_" + str(item_id))
-				if song:
-					song._comes_from_ugc = true
-					song.ugc_id = item_id
-					song.ugc_service_name = get_ugc_service_name()
-					# We give UGC songs the highest value possible, so that new downloads show up on top.
-					# since godot dictionaries hold order properly, this is all we need
-					song._added_time = 0x7FFFFFFFFFFFFFFF
-					if song.ugc_id in added_time_map:
-						song._added_time = added_time_map[song.ugc_id]
-					SongLoader.add_song(song)
-					item = song
-	#				if not song.is_cached():
-	#					song.cache_data()
-					break
-			if type == "resource_pack":
-				var id := "ugc_" + str(item_id)
-				var pack := HBResourcePack.load_from_directory(folder) as HBResourcePack
-				pack._id = id
-				if pack:
-					pack.ugc_id = item_id
-					pack.ugc_service_name = get_ugc_service_name()
-					ResourcePackLoader.resource_packs[id] = pack
-					
-	if item and fire_signal:
-		emit_signal("ugc_item_installed", item_type, item)
-	return item_type
+	if install_info.ret:
+		var folder = install_info.folder
+		var file = File.new()
+		var item
+		var item_type
+		for file_name in FILE_TO_UGC_TYPE:
+			item_type = FILE_TO_UGC_TYPE[file_name]
+			if file.file_exists(folder + "/%s" % [file_name]):
+				var type = FILE_TO_UGC_TYPE[file_name]
+				if type == "song":
+	#				Log.log(self, "Loading workshop song from %s" % folder)
+					var song = SongLoader.load_song_meta(folder + "/%s" % [file_name], "ugc_" + str(item_id))
+					if song:
+						song._comes_from_ugc = true
+						song.ugc_id = item_id
+						song.ugc_service_name = get_ugc_service_name()
+						# We give UGC songs the highest value possible, so that new downloads show up on top.
+						# since godot dictionaries hold order properly, this is all we need
+						song._added_time = 0x7FFFFFFFFFFFFFFF
+						if song.ugc_id in added_time_map:
+							song._added_time = added_time_map[song.ugc_id]
+						SongLoader.add_song(song)
+						item = song
+		#				if not song.is_cached():
+		#					song.cache_data()
+						break
+				if type == "resource_pack":
+					var id := "ugc_" + str(item_id)
+					var pack := HBResourcePack.load_from_directory(folder) as HBResourcePack
+					pack._id = id
+					if pack:
+						pack.ugc_id = item_id
+						pack.ugc_service_name = get_ugc_service_name()
+						ResourcePackLoader.resource_packs[id] = pack
+						
+		if item and fire_signal:
+			emit_signal("ugc_item_installed", item_type, item)
+		return item_type
+	prints("Error adding item", item_id)
+	return ""
 func _on_item_installed(app_id, item_id):
 	if app_id == Steam.getAppID():
 		_add_downloaded_item(item_id, true)
