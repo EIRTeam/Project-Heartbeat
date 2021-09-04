@@ -1,0 +1,9 @@
+[ignore: tools/**]
+[ignore: third_party/**]
+[ignore: addons/**]
+
+[python: **.gd]
+encoding = utf-8
+
+[godot_scene: **.tscn]
+encoding = utf-8

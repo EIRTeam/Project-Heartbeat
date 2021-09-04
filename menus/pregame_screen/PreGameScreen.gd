@@ -230,7 +230,7 @@ func add_buttons():
 			or current_song.ugc_service_name == "Steam Workshop":
 		var open_leaderboard_button = HBHovereableButton.new()
 		open_leaderboard_button.expand_icon = true
-		open_leaderboard_button.text = tr("View web leaderboards")
+		open_leaderboard_button.text = tr("View leaderboards on the website")
 		open_leaderboard_button.connect("pressed", self, "_on_open_leaderboard_pressed")
 		open_leaderboard_button.icon = preload("res://graphics/icons/table.svg")
 		modifier_button_container.add_child(open_leaderboard_button)
