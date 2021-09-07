@@ -180,7 +180,7 @@ static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequen
 	
 # Loads images from FS properly (although it breaks in single-threaded render mode...)
 static func image_from_fs(path: String):
-	var out
+	var out: Image
 	if path.begins_with("res://"):
 		var src = load(path)
 		if src is Texture:
@@ -191,6 +191,7 @@ static func image_from_fs(path: String):
 		var image = Image.new()
 		if image.load(path) == OK:
 			out = image
+	out.fix_alpha_edges()
 	return out
 
 static func _wrap_image_texture(img: Image):

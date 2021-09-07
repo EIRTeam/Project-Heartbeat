@@ -112,7 +112,7 @@ func _on_task_finished_processing(data):
 	for asset_name in data:
 		if data[asset_name] is Image:
 			var texture = ImageTexture.new()
-			texture.create_from_image(data[asset_name], Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
+			texture.create_from_image(data[asset_name], Texture.FLAGS_DEFAULT)
 			data[asset_name] = texture
 	data["song"] = song
 	emit_signal("assets_loaded", data)
