@@ -802,10 +802,10 @@ margin_bottom = 344.0
 rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 334, 139 )
 size_flags_vertical = 0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.5 )
 custom_constants/shadow_offset_x = 4
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = ExtResource( 5 )
 text = "WORST"
 align = 1
 valign = 1
@@ -897,31 +897,31 @@ __meta__ = {
 anchor_left = 0.07
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1.2907
+margin_left = -14.2907
 margin_right = -1.01001
 margin_bottom = 2.462
 rect_scale = Vector2( 1, 0.996064 )
-custom_constants/margin_top = 7
+custom_constants/margin_top = 4
 custom_constants/margin_left = 0
-custom_constants/margin_bottom = 7
+custom_constants/margin_bottom = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
-margin_top = 7.0
-margin_right = 1160.0
-margin_bottom = 79.0
+margin_top = 4.0
+margin_right = 1173.0
+margin_bottom = 82.0
 size_flags_horizontal = 3
-custom_constants/separation = 0
+custom_constants/separation = -7
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_right = 1160.0
-margin_bottom = 38.0
+margin_right = 1173.0
+margin_bottom = 46.0
 size_flags_vertical = 3
 custom_constants/separation = 15
 __meta__ = {
@@ -929,12 +929,12 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_bottom = 38.0
+margin_bottom = 46.0
 custom_constants/margin_top = 3
 
 [node name="CircleImage" type="TextureRect" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
 margin_top = 3.0
-margin_bottom = 38.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
@@ -945,8 +945,8 @@ __meta__ = {
 
 [node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 15.0
-margin_right = 229.0
-margin_bottom = 38.0
+margin_right = 237.0
+margin_bottom = 46.0
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 11 )
 text = "(NT)NOSONG"
@@ -954,26 +954,25 @@ valign = 1
 uppercase = true
 
 [node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 244.0
+margin_left = 252.0
 margin_top = 1.0
-margin_right = 456.0
-margin_bottom = 37.0
+margin_right = 472.0
+margin_bottom = 45.0
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 3 )
 text = "(NT)LOADED"
 valign = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_top = 38.0
-margin_right = 1160.0
-margin_bottom = 72.0
+margin_top = 39.0
+margin_right = 1173.0
+margin_bottom = 78.0
 rect_clip_content = true
 size_flags_vertical = 3
 
 [node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_top = 1.0
-margin_right = 237.0
-margin_bottom = 32.0
+margin_right = 245.0
+margin_bottom = 39.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 21 )
 text = "(NT)[DIFFICULTY]"
@@ -984,10 +983,9 @@ __meta__ = {
 }
 
 [node name="ModifierLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 241.0
-margin_top = 1.0
-margin_right = 377.0
-margin_bottom = 32.0
+margin_left = 249.0
+margin_right = 392.0
+margin_bottom = 39.0
 text = "Nightcore"
 valign = 1
 
@@ -1094,9 +1092,9 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -123.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
+custom_fonts/font = SubResource( 24 )
 text = "HEART POWER AVAILABLE!"
 autowrap = true
 __meta__ = {
@@ -1114,9 +1112,9 @@ margin_top = -207.478
 margin_right = -65.0077
 margin_bottom = -124.478
 rect_scale = Vector2( 0.8, 0.8 )
-custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 0.75 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
+custom_fonts/font = SubResource( 25 )
 text = "HEART POWER!!!"
 autowrap = true
 __meta__ = {
