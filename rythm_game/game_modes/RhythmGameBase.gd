@@ -525,7 +525,7 @@ func play_from_pos(position: float):
 	audio_stream_player_voice.seek(position)
 	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-	
+	time = position
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
