@@ -16,10 +16,9 @@ func _connect_button_signals():
 	return
 
 func _on_LineEdit_focus_entered():
-	if HBGame.is_on_steam_deck():
-		var text_entry_shown: bool = PlatformService.service_provider.show_gamepad_text_input(line_edit.text, false, text_input_description)
-		if text_entry_shown:
-			PlatformService.service_provider.connect("gamepad_input_dismissed", self, "_on_gamepad_input_dismissed", [], CONNECT_ONESHOT)
+	var text_entry_shown: bool = PlatformService.service_provider.show_gamepad_text_input(line_edit.text, false, text_input_description)
+	if text_entry_shown:
+		PlatformService.service_provider.connect("gamepad_input_dismissed", self, "_on_gamepad_input_dismissed", [], CONNECT_ONESHOT)
 
 func _on_gamepad_input_dismissed(submitted: bool, text: String):
 	if submitted:
