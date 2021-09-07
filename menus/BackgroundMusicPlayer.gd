@@ -72,7 +72,7 @@ class SongPlayer:
 		var end_time = audio_stream_player.stream.get_length()
 		if song.end_time != -1:
 			end_time = song.end_time / 1000.0
-		if audio_stream_player.get_playback_position() > end_time:
+		if audio_stream_player.get_playback_position() >= end_time:
 			fade_out()
 			emit_signal("song_ended")
 		
