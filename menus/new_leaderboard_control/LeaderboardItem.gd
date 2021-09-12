@@ -6,7 +6,7 @@ const style_even = preload("res://styles/ResultRatingStyleEven.tres")
 
 var odd = false
 var entry : HBBackend.BackendLeaderboardEntry
-onready var percentage_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/ValueLabel3/PercentageLabel")
+onready var percentage_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/PercentageLabel")
 onready var username_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/UserName")
 onready var user_avatar_texture_rect = get_node("MarginContainer/HBoxContainer/UserAvatar")
 onready var rank_label = get_node("MarginContainer/HBoxContainer/Rank")

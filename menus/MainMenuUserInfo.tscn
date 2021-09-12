@@ -114,6 +114,20 @@ custom_fonts/font = SubResource( 2 )
 text = "Level 1"
 valign = 1
 
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 321.0
+margin_right = 325.0
+margin_bottom = 53.0
+
+[node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 350.0
+margin_right = 462.0
+margin_bottom = 53.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Level 1"
+valign = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 73.0
 margin_right = 1771.0
