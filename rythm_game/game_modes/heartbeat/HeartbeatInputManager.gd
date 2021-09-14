@@ -112,7 +112,7 @@ func _handle_direct_axis_input(event: InputEventJoypadMotion):
 				if abs(x1) > deadzone:
 					current_actions.append(slide_action)
 					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-				if abs(x1) > deadzone or abs(y1) > deadzone:
+				if length1 > deadzone:
 					send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
 
 			elif old_length > deadzone and length1 < deadzone:
