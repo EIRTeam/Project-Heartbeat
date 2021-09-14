@@ -293,3 +293,31 @@ func get_chart_note_usage(difficulty: String):
 	cache.update_note_usage(difficulty, notes_used)
 	SongDataCache.save_cache()
 	return notes_used
+
+func generate_chart_hash(chart: String) -> String:
+	if chart in charts:
+		var chart_p := get_chart_path(chart) as String
+		var f := File.new()
+		if f.open(chart_p, File.READ) == OK:
+			return f.get_as_text().sha1_text()
+	return ""
+
+func save_chart_info():
+	if not SongDataCache.is_song_audio_loudness_cached(self):
+		var norm = HBAudioNormalizer.new()
+		norm.set_target_ogg(get_audio_stream())
+		print("Loudness cache not found, normalizing...")
+		while not norm.work_on_normalization():
+			pass
+		var res = norm.get_normalization_result()
+		SongDataCache.update_loudness_for_song(self, res)
+	
+	has_audio_loudness = true
+	audio_loudness = SongDataCache.audio_normalization_cache[id].loudness
+	
+	for difficulty in charts:
+		charts[difficulty]["hash"] = generate_chart_hash(difficulty)
+		var curr_chart = get_chart_for_difficulty(difficulty) as HBChart
+		charts[difficulty]["max_score"] = curr_chart.get_max_score()
+		charts[difficulty]["note_usage"] = curr_chart.get_note_usage()
+	save_song()
