@@ -256,6 +256,7 @@ func _on_dummy_sighted(song: HBSong):
 	item_container.add_child_below_node(dummy, item)
 	item_container.remove_child(dummy)
 	dummy.queue_free()
+	item.rect_position = dummy.rect_position
 	filtered_song_items[song] = item
 	if item.get_position_in_parent() == current_selected_item:
 		force_scroll()

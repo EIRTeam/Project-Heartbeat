@@ -129,7 +129,6 @@ func update_fade():
 			var selected_item = get_selected_item()
 			if selected_item and selected_item.get_position_in_parent() == 0:
 				# This ensures that if the target is at the top the fade is disabled so it's visible
-				prints(target_scroll, get_selected_item().rect_position.y)
 				mat.set_shader_param("top_enabled", clamp(target_scroll, 0, max_scroll) > get_selected_item().rect_position.y)
 			else:
 				mat.set_shader_param("top_enabled", target_scroll > 0)
