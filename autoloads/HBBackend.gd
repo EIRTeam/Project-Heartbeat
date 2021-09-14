@@ -226,6 +226,9 @@ func upload_result(song: HBSong, game_info: HBGameInfo):
 			Log.log(self, "Only UGC songs can have scores uploaded")
 			return
 		request.song_ugc_id = str(song.ugc_id)
+	var chart_hash = song.generate_chart_hash(game_info.difficulty)
+	if not chart_hash.empty():
+		request["chart_hash"] = chart_hash
 
 	# HACKISH format conversion and data insertion
 
