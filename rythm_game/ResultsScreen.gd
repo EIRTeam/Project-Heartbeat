@@ -205,7 +205,9 @@ func set_game_info(val: HBGameInfo):
 				if result_rating == HBResult.RESULT_RATING.PERFECT:
 					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_WORKSHOP")
 			else:
-				if result_rating == HBResult.RESULT_RATING.PERFECT and game_info.difficulty.to_lower() == "extreme":
+				if current_song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN  and \
+						result_rating == HBResult.RESULT_RATING.PERFECT and \
+						game_info.difficulty.to_lower() == "extreme":
 					PlatformService.service_provider.unlock_achievement("ACHIEVEMENT_PERFECT_BUILTIN")
 			
 			if result_rating != HBResult.RESULT_RATING.PERFECT:
