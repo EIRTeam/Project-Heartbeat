@@ -1217,9 +1217,16 @@ func _on_SaveButton_pressed():
 	file.open(chart_path, File.WRITE)
 	var chart = get_chart()
 	file.store_string(JSON.print(chart.serialize(), "  "))
+	file.close()
 	
 	current_song.lyrics = get_lyrics()
 	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
+	current_song.has_audio_loudness = true
+	current_song.audio_loudness = SongDataCache.audio_normalization_cache[current_song.id].loudness
+	for difficulty in current_song.charts:
+		current_song.charts[difficulty]["hash"] = current_song.generate_chart_hash(difficulty)
+		var curr_chart = current_song.get_chart_for_difficulty(difficulty) as HBChart
+		current_song.charts[difficulty]["max_score"] = curr_chart.get_max_score()
 	current_song.save_song()
 	message_shower._show_notification("Chart saved")
 	
