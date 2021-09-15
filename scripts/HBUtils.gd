@@ -355,3 +355,53 @@ static func is_gui_directional_press(action: String, event):
 					gui_press = true
 					break
 	return gui_press
+
+static func sj2utf(input: PoolByteArray) -> PoolByteArray:
+	var output = PoolByteArray()
+	output.resize(input.size()*3)
+	
+	var index_input = 0
+	var index_output = 0
+	
+	while index_input < input.size():
+		var array_section = input[index_input] >> 4
+		
+		var array_offset
+		if array_section == 0x8:
+			array_offset = 0x100
+		elif array_section == 0x9:
+			array_offset = 0x1100
+		elif array_section == 0xE:
+			array_offset = 0x2100
+		else:
+			array_offset = 0
+		
+		if array_offset:
+			array_offset += (input[index_input] & 0xF) << 8
+			index_input += 1
+			if index_input >= input.size():
+				break
+		
+		array_offset += input[index_input]
+		index_input += 1
+		array_offset = array_offset << 1
+		
+		var unicode_value = (ShiftJISTable.conv_table[array_offset] << 8) | ShiftJISTable.conv_table[array_offset + 1]
+
+		if unicode_value < 0x80:
+			output[index_output] = unicode_value
+			index_output += 1
+		elif unicode_value < 0x800:
+			output[index_output] = 0xC0 | (unicode_value >> 6)
+			index_output += 1
+			output[index_output] = 0x80 | (unicode_value & 0x3F)
+			index_output += 1
+		else:
+			output[index_output] = 0xE0 | (unicode_value >> 12)
+			index_output += 1
+			output[index_output] = 0x80 | ((unicode_value & 0xFFF) >> 6)
+			index_output += 1
+			output[index_output] = 0x80 | (unicode_value & 0x3F)
+			index_output += 1
+	output.resize(index_output)
+	return output
