@@ -239,11 +239,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/leaderboard_services/LeaderboardService.gd"
 }, {
-"base": "Control",
-"class": "HBListContainer",
-"language": "GDScript",
-"path": "res://menus/HBListContainer.gd"
-}, {
 "base": "HBTask",
 "class": "HBLoadMainMenuTask",
 "language": "GDScript",
@@ -403,11 +398,6 @@ _global_script_classes=[ {
 "class": "HBRichPresenceDiscord",
 "language": "GDScript",
 "path": "res://autoloads/rich_presence/HBRichPresenceDiscord.gd"
-}, {
-"base": "ScrollContainer",
-"class": "HBScrollList",
-"language": "GDScript",
-"path": "res://menus/ScrollList.gd"
 }, {
 "base": "Reference",
 "class": "HBSerializable",
@@ -644,6 +634,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/editor_plugins/ScriptRunner/ScriptRunnerScript.gd"
 }, {
+"base": "Reference",
+"class": "ShiftJISTable",
+"language": "GDScript",
+"path": "res://scripts/ShiftJISTable.gd"
+}, {
 "base": "Node2D",
 "class": "SineDrawerCPU",
 "language": "GDScript",
@@ -761,7 +756,6 @@ _global_script_class_icons={
 "HBLeaderboardItem": "",
 "HBLeaderboardItemNew": "",
 "HBLeaderboardService": "",
-"HBListContainer": "",
 "HBLoadMainMenuTask": "",
 "HBLobby": "",
 "HBLyricsLyric": "",
@@ -794,7 +788,6 @@ _global_script_class_icons={
 "HBRhythmGameUIBase": "",
 "HBRichPresence": "",
 "HBRichPresenceDiscord": "",
-"HBScrollList": "",
 "HBSerializable": "",
 "HBServiceMember": "",
 "HBSimpleMenu": "",
@@ -842,6 +835,7 @@ _global_script_class_icons={
 "RichTextWordRainbow": "",
 "SMFLoader": "",
 "ScriptRunnerScript": "",
+"ShiftJISTable": "",
 "SineDrawerCPU": "",
 "SlideNoteDrawer": "",
 "SongAssetLoadAsyncTask": "",
