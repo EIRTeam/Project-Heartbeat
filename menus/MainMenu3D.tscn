@@ -146,12 +146,10 @@ custom_constants/separation = 30
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 720.0
-margin_bottom = 131.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
+margin_bottom = 0.0
 
 [node name="Control" type="Control" parent="ViewportRight/MenuRightContainer/VBoxContainer"]
-margin_top = 161.0
+margin_top = 30.0
 margin_right = 720.0
 margin_bottom = 1480.0
 size_flags_horizontal = 3
