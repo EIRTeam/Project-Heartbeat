@@ -93,7 +93,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
 margin_right = 1905.0
-margin_bottom = 1318.0
+margin_bottom = 993.0
 size_flags_vertical = 3
 custom_constants/separation = 12
 
@@ -107,6 +107,7 @@ text = "(NT)THE TOP"
 align = 1
 valign = 1
 autowrap = true
+max_lines_visible = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -183,7 +184,7 @@ __meta__ = {
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 271.0
 margin_right = 1905.0
-margin_bottom = 788.0
+margin_bottom = 626.0
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 custom_constants/margin_right = 30
@@ -194,7 +195,7 @@ custom_constants/margin_bottom = 15
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 30.0
 margin_right = 1875.0
-margin_bottom = 502.0
+margin_bottom = 340.0
 rect_min_size = Vector2( 0, 330.04 )
 size_flags_vertical = 3
 expand = true
@@ -217,9 +218,9 @@ __meta__ = {
 }
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-margin_top = 800.0
+margin_top = 638.0
 margin_right = 1905.0
-margin_bottom = 1318.0
+margin_bottom = 993.0
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]

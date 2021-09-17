@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -34,6 +34,7 @@
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=32]
 [ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
 [ext_resource path="res://rythm_game/lyrics/lyrics.tscn" type="PackedScene" id=34]
+[ext_resource path="res://menus/DynamicallyResizingLabel.gd" type="Script" id=35]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -956,12 +957,15 @@ uppercase = true
 [node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 252.0
 margin_top = 1.0
-margin_right = 472.0
+margin_right = 1173.0
 margin_bottom = 45.0
+size_flags_horizontal = 3
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 3 )
 text = "(NT)LOADED"
 valign = 1
+clip_text = true
+script = ExtResource( 35 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 39.0
