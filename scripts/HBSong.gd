@@ -20,9 +20,9 @@ var title := ""
 var romanized_title := ""
 var artist := ""
 var artist_alias := ""
-var composers = []
-var writers = []
-var vocals = []
+var composers = [] setget set_composers
+var writers = [] setget set_writers
+var vocals = [] setget set_vocals
 var audio = ""
 var video = ""
 var voice = ""
@@ -321,3 +321,21 @@ func save_chart_info():
 		charts[difficulty]["max_score"] = curr_chart.get_max_score()
 		charts[difficulty]["note_usage"] = curr_chart.get_note_usage()
 	save_song()
+
+func set_writers(value):
+	writers = value
+	for i in range(writers.size()-1, -1, -1):
+		if (writers[i] as String).strip_edges().empty():
+			writers.remove(i)
+			
+func set_composers(value):
+	composers = value
+	for i in range(composers.size()-1, -1, -1):
+		if (composers[i] as String).strip_edges().empty():
+			composers.remove(i)
+			
+func set_vocals(value):
+	vocals = value
+	for i in range(vocals.size()-1, -1, -1):
+		if (vocals[i] as String).strip_edges().empty():
+			vocals.remove(i)
