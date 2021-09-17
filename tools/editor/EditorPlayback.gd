@@ -31,6 +31,7 @@ func _process(delta):
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		# Compensate for latency.
 		time -= time_delay
+		time -= UserSettings.user_settings.lag_compensation / 1000.0
 		# May be below 0 (did not being yet).
 		time = max(0, time)
 		
