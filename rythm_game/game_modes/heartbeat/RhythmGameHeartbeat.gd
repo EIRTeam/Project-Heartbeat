@@ -486,6 +486,13 @@ func hold_release():
 		current_hold_score = 0
 	emit_signal("hold_released")
 
+func _on_game_finished():
+	if not _finished:
+		if not disable_ending:
+			if not _prevent_finishing:
+				hold_release()
+				emit_signal("hold_released_early")
+	._on_game_finished()
 
 func start_hold(note_type, auto_juggle=false, hold_start_time := time):
 	if note_type in held_notes:
