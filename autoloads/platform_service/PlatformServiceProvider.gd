@@ -69,5 +69,9 @@ func save_achievements():
 	pass
 func is_big_picture():
 	return false
+func is_steam_deck():
+	return false
 func show_gamepad_text_input(existing_text := "", multi_line := false, description := "Enter text") -> bool:
+	return false
+func show_floating_gamepad_text_input(multiline := false) -> bool:
 	return false

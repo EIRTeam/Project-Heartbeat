@@ -125,6 +125,9 @@ func write_remote_file_from_path(file_name: String, path: String):
 func is_big_picture():
 	return Steam.isSteamInBigPictureMode()
 	
+func is_steam_deck():
+	return Steam.isSteamRunningOnSteamDeck()
+	
 func read_remote_file(file_name: String):
 	var result = {}
 	if not Steam.fileExists(file_name):
@@ -168,3 +171,13 @@ func show_gamepad_text_input(existing_text := "", multi_line := false, descripti
 	var line_mode = Steam.GAMEPAD_TEXT_INPUT_LINE_MODE_MULTIPLE_LINES if \
 		multi_line else Steam.GAMEPAD_TEXT_INPUT_LINE_MODE_SINGLE_LINE
 	return Steam.showGamepadTextInput(Steam.GAMEPAD_TEXT_INPUT_MODE_NORMAL, line_mode, description, 1024, existing_text)
+
+func show_floating_gamepad_text_input(multi_line := false) -> bool:
+	var ws := OS.window_size
+	var height = ws.y
+	var position_y = (height / 3.0) * 2.0
+	var input_height = (height / 3.0)
+	var type = Steam.FLOATING_GAMEPAD_TEXT_INPUT_MODE_SINGLE_LINE
+	if multi_line:
+		type = Steam.FLOATING_GAMEPAD_TEXT_INPUT_MODE_MULTIPLE_LINES
+	return Steam.showFloatingGamepadTextInput(type, position_y, 0, ws.x, input_height)

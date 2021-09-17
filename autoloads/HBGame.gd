@@ -153,7 +153,6 @@ func _game_init():
 	if not dir.dir_exists(UserSettings.CUSTOM_SOUND_PATH):
 		dir.make_dir_recursive(UserSettings.CUSTOM_SOUND_PATH)
 	
-
 func register_game_mode(game_mode: HBGameMode):
 	game_modes.append(game_mode)
 	
@@ -164,4 +163,4 @@ func get_game_mode_for_song(song: HBSong):
 	return ERR_FILE_NOT_FOUND
 
 func is_on_steam_deck() -> bool:
-	return force_steam_deck_mode or PlatformService.service_provider.is_big_picture()
+	return force_steam_deck_mode or PlatformService.service_provider.is_steam_deck()
