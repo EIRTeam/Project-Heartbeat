@@ -188,7 +188,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				# yeah I don't know why I bother either
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.stream_position = -1
 					video_player.stream_position = 0
 					video_player.paused = true
 				video_player.play()
