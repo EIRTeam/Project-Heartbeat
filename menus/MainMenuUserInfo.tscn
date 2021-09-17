@@ -46,18 +46,18 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 15
-custom_constants/margin_top = 15
+custom_constants/margin_top = 10
 custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 margin_left = 15.0
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 1905.0
-margin_bottom = 119.0
+margin_bottom = 125.0
 custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
@@ -65,7 +65,7 @@ __meta__ = {
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 margin_right = 104.0
-margin_bottom = 104.0
+margin_bottom = 115.0
 rect_min_size = Vector2( 104, 0 )
 texture = ExtResource( 3 )
 expand = true
@@ -84,7 +84,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 119.0
 margin_right = 1890.0
-margin_bottom = 104.0
+margin_bottom = 115.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
@@ -94,35 +94,20 @@ margin_bottom = 53.0
 custom_constants/separation = 25
 
 [node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 130.0
+margin_right = 1634.0
 margin_bottom = 53.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
 custom_fonts/font = ExtResource( 4 )
 text = "Player"
-valign = 1
-
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 155.0
-margin_right = 159.0
-margin_bottom = 53.0
-
-[node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 184.0
-margin_right = 296.0
-margin_bottom = 53.0
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
-text = "Level 1"
-valign = 1
-
-[node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 321.0
-margin_right = 325.0
-margin_bottom = 53.0
+valign = 2
+clip_text = true
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 350.0
-margin_right = 462.0
+margin_left = 1659.0
+margin_right = 1771.0
 margin_bottom = 53.0
+size_flags_horizontal = 8
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 2 )
 text = "Level 1"
@@ -131,15 +116,27 @@ valign = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 73.0
 margin_right = 1771.0
-margin_bottom = 93.0
+margin_bottom = 115.0
 size_flags_horizontal = 3
+custom_constants/separation = 10
 
 [node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1771.0
-margin_bottom = 20.0
+margin_top = 11.0
+margin_right = 1649.0
+margin_bottom = 31.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
+size_flags_vertical = 4
 custom_styles/fg = SubResource( 90 )
 custom_styles/bg = SubResource( 89 )
 value = 50.0
 percent_visible = false
+
+[node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1659.0
+margin_right = 1771.0
+margin_bottom = 42.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 2 )
+text = "Level 1"
+valign = 1
