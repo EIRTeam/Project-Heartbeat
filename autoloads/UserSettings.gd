@@ -331,7 +331,11 @@ func get_event_name(event: InputEvent):
 func apply_display_mode():
 	yield(get_tree(), "idle_frame")
 	var curr_display = get_current_display()
-	match UserSettings.user_settings.display_mode:
+	var display_mode = UserSettings.user_settings.display_mode
+	if HBGame.is_on_steam_deck():
+		display_mode = "fullscreen"
+		
+	match display_mode:
 		"fullscreen":
 			OS.window_borderless = true
 			OS.window_fullscreen = true
