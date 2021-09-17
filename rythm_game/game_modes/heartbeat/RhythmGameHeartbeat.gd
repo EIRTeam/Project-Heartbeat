@@ -393,7 +393,9 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 						held_note_event_map[n.note_type] = []
 					held_note_event_map[n.note_type].clear()
 					held_note_event_map[n.note_type].append(event.event_uid)
-					start_hold(n.note_type, false, n.time / 1000.0)
+					# Holds start at (note time-FINE window) regardless of at what time you hit them
+					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
+					start_hold(n.note_type, false, (n.time - fine_window_ms) / 1000.0)
 	if not editing:
 		var start_time = current_song.start_time / 1000.0
 		var end_time = audio_stream_player.stream.get_length()
