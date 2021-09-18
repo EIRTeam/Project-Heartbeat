@@ -2,6 +2,8 @@ extends "res://menus/MainMenu.gd"
 
 const SLIDE_PARTICLES = preload("res://graphics/effects/SlideParticles.tscn")
 
+
+
 func _ready():
 	# We have to do this to force a shader compile beforehand because godot is
 	# stupid
@@ -12,6 +14,16 @@ func _ready():
 	HBGame.rich_presence.update_activity({
 		"state": "On main menu"
 	})
+	
+	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	_on_viewport_size_changed()
+
+func _on_viewport_size_changed():
+	# this scales shit for more squareish resolutions, it's a bit hacky so you might need
+	# to adjust the 0.90 magic number
+	var default_169 = 16/9.0
+	var ratio = get_viewport().size.x / get_viewport().size.y
+	$Camera.fov = 47.0 * max(default_169/ratio, 0.90)
 
 func menu_setup():
 	fullscreen_menu_container = get_node("FullscreenMenuContainer")
