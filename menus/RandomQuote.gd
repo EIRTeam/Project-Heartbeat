@@ -53,6 +53,19 @@ const QUOTES = [
 	"In loving memory of Paçoca the rat, forever in our hearts",
 	"In loving memory of Haru the cat",
 	"In loving memory of Jose Luis, que la tierra te sea leve amigo",
+	"Steam Deck compatible!",
+	"Now featuring a fancy website!",
+	"Always blame lino",
+	"Better on Linux (tm)",
+	"I'm sorry, I hate to interrupt this. But this is quite honestly the biggest load of limp wristed twaddle I ever heard during my five weeks on television.", # James may quote
+	"Illo Illo Illo",
+	"I really love Rustle's work /that/ floor man, that floor", # Reference to hentai artist Rustle
+	"You're winner!", # Big rigs reference
+	"DIVALLER compatible",
+	"Powered by Godot",
+	"Project Heartbeat 72.5",
+	"Made with love, from Spain",
+	"↑ ↑ ↓ ↓ ← → ← → X O"
 ]
 
 const BIRTHDAYS = {
