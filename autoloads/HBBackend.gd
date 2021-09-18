@@ -7,6 +7,7 @@ signal user_data_received
 signal diagnostics_response_received(response_data)
 signal diagnostics_created_request(request_data)
 signal request_failed(handle, code, total_pages)
+signal score_enter_failed(handle, reason)
 signal connection_status_changed
 var enable_diagnostics = false
 
@@ -130,6 +131,13 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		if request_type == REQUEST_TYPE.LOGIN:
 			timer.start()
 			print("TIMER ON!!!")
+		if request_type == REQUEST_TYPE.ENTER_RESULT:
+			var failure_reason = "Unknown error (%d)" % [response_code]
+			var json = JSON.parse(body.get_string_from_utf8()) as JSONParseResult
+			if json.error == OK:
+				if "error_message" in json.result:
+					failure_reason = json.result.error_message
+			emit_signal("score_enter_failed", failure_reason)
 		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
 	jwt_token = json.token

@@ -18,6 +18,7 @@ onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContain
 onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
 onready var hi_score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/Label")
 onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
+onready var error_window = get_node("HBConfirmationWindow")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 const BASE_HEIGHT = 720.0
@@ -90,9 +91,12 @@ func _on_resized():
 		button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
+	error_window.connect("accept", buttons, "grab_focus")
+	
 	connect("resized", self, "_on_resized")
 	ScoreHistory.connect("score_entered", self, "_on_score_entered")
 	ScoreHistory.connect("score_uploaded", self, "_on_score_uploaded")
+	ScoreHistory.connect("score_upload_failed", self, "_on_score_upload_failed")
 	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
@@ -256,6 +260,11 @@ func _on_score_uploaded(result):
 	else:
 		hi_score_label.hide()
 	HBBackend.refresh_user_info()
+	
+func _on_score_upload_failed(reason):
+	error_window.text = tr("There was an issue ulpoading your score:\n%s" % [reason])
+	error_window.popup_centered()
+	
 func _on_score_entered(song, difficulty):
 	if not mp_lobby:
 		emit_signal("show_song_results", song, difficulty, game_info.modifiers.size() != 0)

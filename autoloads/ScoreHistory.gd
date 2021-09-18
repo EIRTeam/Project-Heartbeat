@@ -7,6 +7,7 @@ const LOG_NAME = "ScoreHistory"
 
 signal score_entered(song, difficulty)
 signal score_uploaded(score_result)
+signal score_upload_failed(reason)
 var games_queued_for_upload = []
 
 var last_song_uploaded
@@ -14,10 +15,13 @@ var last_song_uploaded
 func _ready():
 	load_history()
 	HBBackend.connect("result_entered", self, "_on_leaderboard_score_uploaded")
+	HBBackend.connect("score_enter_failed", self, "_on_score_enter_failed")
 	if PlatformService.service_provider.implements_leaderboards:
 		var lb_provider = PlatformService.service_provider.leaderboard_provider
 		lb_provider.connect("score_uploaded", self, "_on_leaderboard_score_uploaded")
 	
+func _on_score_enter_failed(reason):
+	emit_signal("score_upload_failed", reason)
 		
 func _on_leaderboard_score_uploaded(result):
 	emit_signal("score_entered", last_song_uploaded.song_id, last_song_uploaded.difficulty)
