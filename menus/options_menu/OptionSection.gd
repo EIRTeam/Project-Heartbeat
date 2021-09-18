@@ -16,7 +16,9 @@ var settings_source
 var postfix = ""
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
+	connect("focus_exited", self, "_on_focus_exited")
 	focus_mode = Control.FOCUS_ALL
+	set_process_input(false)
 
 func _set_section_data(val):
 	section_data = val
@@ -100,3 +102,6 @@ func _on_option_hovered(option_name):
 
 func _on_focus_entered():
 	scroll_container.grab_focus()
+	set_process_input(true)
+func _on_focus_exited():
+	set_process_input(false)
