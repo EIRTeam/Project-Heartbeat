@@ -392,7 +392,7 @@ func _ready():
 	circle_separation_spinbox.step = 1.0
 	circle_separation_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
-	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
+	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
 	circle_separation_spinbox.connect("value_changed", self, "_set_separation")
 	
 	var circle_size_slider = HSlider.new()
@@ -421,7 +421,7 @@ func _ready():
 	
 	circle_use_inside_button.text = "From inside"
 	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
-	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
+	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
 	circle_use_inside_button.connect("toggled", self, "_set_inside")
 	
 	advanced_settings_button.text = "I know what I'm doing"
