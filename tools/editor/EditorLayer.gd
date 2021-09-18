@@ -82,14 +82,6 @@ func bsearch_time(a, b):
 func _on_time_cull_changed(start_time, end_time):
 	var early_note_i_prev = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
 	
-	for i in range(early_note_i_prev, timing_points.size()):
-		var item = timing_points[i] as EditorTimelineItem
-		if (item.data as HBTimingPoint).time <= _cull_end_time:
-			item.hide()
-			item.set_process_input(false)
-		else:
-			break
-	
 	_cull_start_time = start_time
 	_cull_end_time = end_time
 
