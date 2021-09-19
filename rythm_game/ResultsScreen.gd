@@ -262,7 +262,7 @@ func _on_score_uploaded(result):
 	HBBackend.refresh_user_info()
 	
 func _on_score_upload_failed(reason):
-	error_window.text = tr("There was an issue ulpoading your score:\n%s" % [reason])
+	error_window.text = tr("There was an issue uploading your score:\n%s" % [reason])
 	error_window.popup_centered()
 	
 func _on_score_entered(song, difficulty):

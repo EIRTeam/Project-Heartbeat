@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-04 14:36+0200\n"
-"PO-Revision-Date: 2021-09-04 14:55+0200\n"
+"POT-Creation-Date: 2021-09-19 06:38+0200\n"
+"PO-Revision-Date: 2021-09-19 06:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -311,8 +311,9 @@ msgstr "Pausa"
 msgid "Notes"
 msgstr "Notas"
 
-#: autoloads/UserSettings.gd:191 menus/options_menu/OptionsMenu.gd:4
-#: menus/options_menu/OptionsMenu.gd:300
+#: autoloads/UserSettings.gd:191
+#: menus/options_menu/OptionCreditsSection.tscn:45
+#: menus/options_menu/OptionsMenu.gd:4 menus/options_menu/OptionsMenu.gd:303
 msgid "Game"
 msgstr "Juego"
 
@@ -396,17 +397,20 @@ msgid ""
 "This chart's video contains scenes with rapidly flashing colours.\n"
 "Please take caution if you are affected by epilepsy."
 msgstr ""
+"El video de este mapa puede contener escenas que afecten a personas "
+"fotosensibles.\n"
+"Tenga cuidado si se ve afectado por la epilepsia."
 
 #: menus/MainMenuUserInfo.gd:15
 #, python-format
-msgid "Level %d"
-msgstr "Nivel %d"
+msgid "Lvl. %d"
+msgstr "Nv. %d"
 
-#: menus/MainMenuUserInfo.tscn:100
+#: menus/MainMenuUserInfo.tscn:103
 msgid "Player"
 msgstr "Jugador"
 
-#: menus/MainMenuUserInfo.tscn:114
+#: menus/MainMenuUserInfo.tscn:114 menus/MainMenuUserInfo.tscn:142
 msgid "Level 1"
 msgstr "Nivel 1"
 
@@ -676,19 +680,19 @@ msgid "Leaderboard not available for this song"
 msgstr "Tabla de clasificación no disponible para esta canción"
 
 #: menus/leaderboard_control/LeaderboardItem.tscn:78
-#: menus/new_leaderboard_control/LeaderboardItem.tscn:84
+#: menus/new_leaderboard_control/LeaderboardItem.tscn:75
 #: menus/workshop_browser/WorkshopItemDetailView.tscn:158
 #: menus/workshop_browser/WorkshopItemDetailView.tscn:173
 msgid "1"
 msgstr ""
 
 #: menus/leaderboard_control/LeaderboardItem.tscn:105
-#: menus/new_leaderboard_control/LeaderboardItem.tscn:117
+#: menus/new_leaderboard_control/LeaderboardItem.tscn:109
 msgid "Eirewe"
 msgstr ""
 
 #: menus/leaderboard_control/LeaderboardItem.tscn:127
-#: menus/new_leaderboard_control/LeaderboardItem.tscn:143
+#: menus/new_leaderboard_control/LeaderboardItem.tscn:124
 msgid "1.100.000 (100%)"
 msgstr ""
 
@@ -736,11 +740,11 @@ msgstr ""
 msgid "@PHeartbeatGame"
 msgstr ""
 
-#: menus/music_player/MainMenuMusicPlayer.tscn:139
+#: menus/music_player/MainMenuMusicPlayer.tscn:145
 msgid "(NT)1:02/"
 msgstr ""
 
-#: menus/music_player/MainMenuMusicPlayer.tscn:163
+#: menus/music_player/MainMenuMusicPlayer.tscn:169
 msgid "(NT)4:00"
 msgstr ""
 
@@ -759,7 +763,7 @@ msgstr ""
 "Aún no hay entradas para esta canción, soyez le premier! (¡sé el primero!)"
 
 #: menus/new_leaderboard_control/LeaderboardViewTab.tscn:103
-#: menus/workshop_browser/WorkshopBrowser.tscn:174
+#: menus/workshop_browser/WorkshopBrowser.tscn:176
 msgid "1/1"
 msgstr ""
 
@@ -825,10 +829,16 @@ msgstr ""
 #: menus/options_menu/OptionControlsSectionEvent.gd:17
 msgid " (Disabled due to Input -> Use direct joystick access)"
 msgstr ""
+" (Desactivado debido a Entrada -> Acceder directamente al joystick con "
+"mandos conocidos)"
 
 #: menus/options_menu/OptionControlsSectionReset.tscn:28
 msgid "Reset default settings"
 msgstr "Restablecer a la configuración predeterminada"
+
+#: menus/options_menu/OptionCreditsSection.tscn:52
+msgid "Engine"
+msgstr "Motor"
 
 #: menus/options_menu/OptionMenuButton.tscn:15
 msgid "(NT)Controls"
@@ -933,10 +943,8 @@ msgstr ""
 "una vez cargada."
 
 #: menus/options_menu/OptionsMenu.gd:45
-#, fuzzy
-#| msgid "Show song"
 msgid "Show console"
-msgstr "Mostrar cancion"
+msgstr "Mostrar la consola"
 
 #: menus/options_menu/OptionsMenu.gd:46
 msgid "Shows the engine console."
@@ -1419,12 +1427,16 @@ msgstr ""
 msgid "Res. Packs"
 msgstr "Paq. de Rec."
 
-#: menus/options_menu/OptionsMenu.gd:305
+#: menus/options_menu/OptionsMenu.gd:284
+msgid "Credits"
+msgstr "Creditos"
+
+#: menus/options_menu/OptionsMenu.gd:308
 #, python-format
 msgid "%s sound"
 msgstr "Sonido de %s"
 
-#: menus/options_menu/OptionsMenu.gd:306
+#: menus/options_menu/OptionsMenu.gd:309
 msgid ""
 "Sound to use. (Place custom sounds inside the custom_sounds folder in your "
 "user folder, only 16-bit WAV files are supported)"
@@ -1433,17 +1445,14 @@ msgstr ""
 "custom_sounds en su carpeta de usuario, solo se admiten archivos WAV de 16 "
 "bits)"
 
-#: menus/options_menu/OptionsMenu.gd:311
-#, fuzzy, python-format
-#| msgid "Song volume"
+#: menus/options_menu/OptionsMenu.gd:314
+#, python-format
 msgid "%s sound volume"
-msgstr "Volumen de canción"
+msgstr "Volumen del sonido %s"
 
-#: menus/options_menu/OptionsMenu.gd:312
-#, fuzzy
-#| msgid "Volume for the sound effects"
+#: menus/options_menu/OptionsMenu.gd:315
 msgid "Volume for this sound effect"
-msgstr "Volumen de los efectos de sonido"
+msgstr "Volumen para este efecto de sonido"
 
 #: menus/options_menu/ResourcePackItem.tscn:96
 msgid "No vea loco peaso pack de testura"
@@ -1616,19 +1625,19 @@ msgstr "Crear nueva carpeta"
 msgid "(NT)THE TOP"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:121
+#: menus/song_list/SongListPreview.tscn:122
 msgid "(NT)Original title: "
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:139
+#: menus/song_list/SongListPreview.tscn:140
 msgid "by"
 msgstr "por"
 
-#: menus/song_list/SongListPreview.tscn:147
+#: menus/song_list/SongListPreview.tscn:148
 msgid "(NT)DRAGONFORCE"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:247
+#: menus/song_list/SongListPreview.tscn:248
 msgid "(NT)160 BPM"
 msgstr ""
 
@@ -1661,10 +1670,8 @@ msgid "Switch Exporter"
 msgstr "Exportador de Switch"
 
 #: menus/tools_menu/ToolsMenu.tscn:107
-#, fuzzy
-#| msgid "Latency compensation"
 msgid "Latency Tester"
-msgstr "Compensación de latencia"
+msgstr "Comprobador de latencia"
 
 #: menus/tutorial/page1/page1.tscn:30
 msgid "How to play: Normal notes"
@@ -1809,15 +1816,15 @@ msgstr "Mapas"
 msgid "Resource Packs"
 msgstr "Paq. de Recursos"
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:110
+#: menus/workshop_browser/WorkshopBrowser.tscn:111
 msgid "Most popular for the last week"
 msgstr "Mas popular en la ultima semana"
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:123
+#: menus/workshop_browser/WorkshopBrowser.tscn:124
 msgid "Sort by..."
 msgstr "Ordenar por..."
 
-#: menus/workshop_browser/WorkshopBrowser.tscn:222
+#: menus/workshop_browser/WorkshopBrowser.tscn:224
 msgid "Enter your search:"
 msgstr "Introduce tu búsqueda:"
 
@@ -1867,20 +1874,16 @@ msgid "(NT)LOBBY_NAME"
 msgstr ""
 
 #: multiplayer/lobby/LobbyMenu.tscn:130
-#, fuzzy
-#| msgid "Load Song..."
 msgid "Select Song..."
-msgstr "Cargar canción ..."
+msgstr "Seleccionar canción..."
 
 #: multiplayer/lobby/LobbyMenu.tscn:146
 msgid "Invite friend..."
-msgstr ""
+msgstr "Invitar amigo..."
 
 #: multiplayer/lobby/LobbyMenu.tscn:161
-#, fuzzy
-#| msgid "Start Practice"
 msgid "Start Game"
-msgstr "Iniciar práctica"
+msgstr "Iniciar partida"
 
 #: multiplayer/lobby/LobbyMenu.tscn:174
 msgid "Leave This Lobby"
@@ -1899,10 +1902,8 @@ msgid "Song not owned by:"
 msgstr "Los siguientes usuarios no tienen la canción:"
 
 #: multiplayer/lobby/LobbyMenu.tscn:269
-#, fuzzy
-#| msgid "Reloading content..."
 msgid "Downloading song data..."
-msgstr "Recargando contenido ..."
+msgstr "Descargando datos de canción..."
 
 #: multiplayer/lobby/LobbySongSelector.tscn:14
 msgid "Selecting song for"
@@ -1916,7 +1917,7 @@ msgstr ""
 
 #: rythm_game/MultiplayerScoreboardItem.tscn:110
 #: rythm_game/MultiplayerSidebarUser.tscn:95
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1008
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1010
 msgid "(NT)0000000"
 msgstr ""
 
@@ -1925,15 +1926,22 @@ msgstr ""
 msgid "(NT)COOL"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:98
-#, fuzzy
-#| msgid "Resume"
+#: rythm_game/ResultsScreen.gd:102
 msgid "Results"
-msgstr "Continuar"
+msgstr "Resultados"
 
-#: rythm_game/ResultsScreen.gd:99
+#: rythm_game/ResultsScreen.gd:103
 msgid "Graph"
 msgstr "Grafico"
+
+#: rythm_game/ResultsScreen.gd:265
+#, python-format
+msgid ""
+"There was an issue uploading your score:\n"
+"%s"
+msgstr ""
+"Ha ocurrido un problema subiendo tu puntuación:\n"
+"%s"
 
 #: rythm_game/ResultsScreen.tscn:119
 msgid "(NT)PERFECT"
@@ -1943,31 +1951,31 @@ msgstr ""
 msgid "HI-SCORE!!!"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:141
+#: rythm_game/ResultsScreen.tscn:140
 msgid "(NT)100.00%"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:194
+#: rythm_game/ResultsScreen.tscn:193
 msgid "Retry"
 msgstr "Reintentar"
 
-#: rythm_game/ResultsScreen.tscn:209
+#: rythm_game/ResultsScreen.tscn:208
 msgid "Share"
 msgstr "Compartir"
 
-#: rythm_game/ResultsScreen.tscn:225
+#: rythm_game/ResultsScreen.tscn:224
 msgid "Return"
 msgstr "Volver"
 
-#: rythm_game/ResultsScreen.tscn:276
+#: rythm_game/ResultsScreen.tscn:275
 msgid "What did you think of the song you just played?"
 msgstr "¿Qué pensaste de la canción que acabas de jugar?"
 
-#: rythm_game/ResultsScreen.tscn:309
+#: rythm_game/ResultsScreen.tscn:308
 msgid "No opinion"
 msgstr "Sin opinión"
 
-#: rythm_game/ResultsScreen.tscn:317
+#: rythm_game/ResultsScreen.tscn:316
 msgid "Don't ask me again"
 msgstr "No me vuelvas a preguntar"
 
@@ -2024,71 +2032,71 @@ msgstr "¡Retrocediendo!"
 msgid "Waiting for other players to load!"
 msgstr "¡Esperando a que otros jugadores carguen!"
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:507
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:508
 msgid "QUADRUPLE BONUS"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:529
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:530
 msgid "+1000"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:540
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:541
 msgid "2"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:582
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:583
 msgid "(NT)Max Hold Bonus! +3300"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:634
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:635
 msgid "Press "
 msgstr "Pulsa "
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:653
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:654
 msgid "+"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:672
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:673
 msgid "to skip the intro"
 msgstr "para omitir la introducción"
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:693
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:694
 msgid "Fast forward!"
 msgstr "¡Avance rápido!"
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:751
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:752
 msgid "(NT)esss"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:809
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:810
 msgid "WORST"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:952
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:953
 msgid "(NT)NOSONG"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:963
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:965
 msgid "(NT)LOADED"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:979
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:982
 msgid "(NT)[DIFFICULTY]"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:991
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:993
 msgid "Nightcore"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1030
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1032
 msgid "(NT)0.00 %"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1100
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1102
 msgid "HEART POWER AVAILABLE!"
 msgstr ""
 
-#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1120
+#: rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn:1122
 msgid "HEART POWER!!!"
 msgstr ""
 
@@ -2220,6 +2228,10 @@ msgstr ""
 #: scripts/PPDLoaderTest.tscn:124
 msgid "EVD"
 msgstr ""
+
+#, python-format
+#~ msgid "Level %d"
+#~ msgstr "Nivel %d"
 
 #~ msgid "Add subfolder"
 #~ msgstr "Añadir subdirectorio"
