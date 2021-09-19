@@ -25,6 +25,13 @@ const PH_AUTHORS = {
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor)"]
 	},
+	"Charting": {
+		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night"],
+		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
+		"Starbeat": ["Getaway"],
+		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
+		"Snail": ["ETERNAL"]
+	},
 	"Music": {
 		"SuganoMusic": [
 			"Sands of Time",
@@ -122,6 +129,10 @@ func show_ph_credits(label: RichTextLabel):
 	make_credits_list(label, PH_AUTHORS.Music)
 
 	label.bbcode_text += "\n"
+	make_title(label, "Charting")
+	make_credits_list(label, PH_AUTHORS.Charting)
+
+	label.bbcode_text += "\n"
 	make_title(label, "Licenses")
 	make_credits_dumb(label, PH_AUTHORS.Licenses)
 
@@ -149,8 +160,10 @@ func _ready():
 	var player_name = PlatformService.service_provider.friendly_username
 	if player_name == "Player":
 		player_name = "You"
-	PH_AUTHORS.Others[player_name] = "Thanks to who this game is possible"
+	PH_AUTHORS.Others[player_name] = "Thanks to whom this game is possible"
+	engine_tab_button.connect("pressed", self, "show_engine_credits", [rich_text_label])
 	engine_tab_button.connect("hovered", self, "show_engine_credits", [rich_text_label])
+	game_tab_button.connect("pressed", self, "show_ph_credits", [rich_text_label])
 	game_tab_button.connect("hovered", self, "show_ph_credits", [rich_text_label])
 	button_container.connect("focus_exited", self, "_on_focus_exited")
 	show_ph_credits(rich_text_label)
