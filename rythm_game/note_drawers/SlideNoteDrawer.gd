@@ -51,7 +51,7 @@ func _on_note_judged(judgement, prevent_free = false):
 			sine_drawer.hide()
 			set_process_unhandled_input(false)
 			if not game.editing and not game.previewing:
-				if UserSettings.user_settings.vibration_enabled:
+				if UserSettings.user_settings.enable_vibration:
 					Input.start_joy_vibration(UserSettings.controller_device_idx, 1.0, 1.0)
 				
 			if not game.editing or game.previewing:

@@ -71,7 +71,7 @@ var root_folder = HBFolder.new()
 var last_folder_path = []
 
 var button_prompt_override = "default"
-var vibration_enabled = true
+var enable_vibration = true
 
 var button_prompt_override__possibilities = [
 	"default",
