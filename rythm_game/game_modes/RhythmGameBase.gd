@@ -323,7 +323,11 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 
 # Stores playing field size in memory to mape remap_coords faster
 func cache_playing_field_size():
-	playing_field_size = Vector2(size.y * 16.0 / 9.0, size.y)
+	var ratio = size.x / size.y
+	if ratio < 16.0/9.0:
+		playing_field_size = Vector2(size.x, size.x * 9/16.0)
+	else:
+		playing_field_size = Vector2(size.y * 16.0/9.0, size.y)
 	playing_field_size_length = playing_field_size.length()
 
 # Called when the game size is changed
@@ -613,8 +617,13 @@ func get_note_scale():
 func remap_coords(coords: Vector2):
 	coords = coords / BASE_SIZE
 	var pos = coords * playing_field_size
-	coords.x = (size.x - playing_field_size.x) * 0.5 + pos.x
-	coords.y = pos.y
+	var ratio = size.x / size.y
+	if ratio > 16.0/9.0:
+		coords.x = (size.x - playing_field_size.x) * 0.5 + pos.x
+		coords.y = pos.y
+	else:
+		coords.x = pos.x
+		coords.y = (size.y - playing_field_size.y) * 0.5 + pos.y
 	return coords
 func inv_map_coords(coords: Vector2):
 	var x = (coords.x - ((size.x - playing_field_size.x) / 2.0)) / playing_field_size.x * BASE_SIZE.x
