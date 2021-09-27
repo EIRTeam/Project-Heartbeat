@@ -26,6 +26,8 @@ signal hide_no_folder_label
 
 var filtered_song_items = {}
 
+var selected_index_stack = []
+
 class DummySongListEntry:
 	extends HBUniversalListItem
 
@@ -66,16 +68,23 @@ func _on_selected_item_changed():
 			emit_signal("song_hovered", selected_item.song)
 		else:
 			emit_signal("hover_nonsong")
+	
+	if selected_index_stack:
+		selected_index_stack[-1] = current_selected_item
+
 func navigate_folder(folder: HBFolder):
 	folder_stack.append(folder)
+	selected_index_stack.append(0)
 	update_items()
-		
+
 func navigate_back():
+	selected_index_stack.pop_back()
 	folder_stack.pop_back()
 	update_items()
-	
+
 func go_to_root():
 	folder_stack = []
+	selected_index_stack = []
 	navigate_folder(UserSettings.user_settings.root_folder)
 
 func _create_song_item(song: HBSong):
@@ -127,10 +136,12 @@ func update_items():
 		if not search_term or (search_term in song.title.to_lower() or search_term in song.romanized_title.to_lower()):
 			var item = _create_song_item(song)
 			item_container.add_child(item)
-		
-		
-	# TODO: HARD ARRANGE
-	select_item(0)
+	
+	var prev_selected_item := 0
+	if selected_index_stack:
+		prev_selected_item = selected_index_stack[-1]
+	
+	select_item(prev_selected_item)
 	force_scroll()
 #	hard_arrange_all()
 	UserSettings.user_settings.last_folder_path = []
