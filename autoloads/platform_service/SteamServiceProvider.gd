@@ -46,7 +46,7 @@ func init_platform() -> int:
 		var init = Steam.steamInit()
 		
 		Log.log(self, init.verbal)
-		if init.status != 1:
+		if init.status != 1 and init.status != Steam.RESULT_NOT_LOGGED_ON:
 			return init.status
 		
 		friendly_username = Steam.getPersonaName()
