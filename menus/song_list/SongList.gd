@@ -303,8 +303,6 @@ func _on_folder_manager_closed():
 func update_songs(song_to_select=null, difficulty_to_select=null):
 	$VBoxContainer/MarginContainer/VBoxContainer.set_songs(SongLoader.songs.values(), song_to_select, difficulty_to_select, force_next_song_update)
 	force_next_song_update = false
-	if song_container.filter_by == "folders":
-		song_container.update_items()
 
 func _on_folder_selected(folder: HBFolder):
 	if not current_song.id in folder.songs:
