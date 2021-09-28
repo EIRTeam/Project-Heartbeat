@@ -1391,7 +1391,11 @@ func arrange_selected_notes_by_time(direction: Vector2):
 		if selected_item.data is HBBaseNote:
 			if not pos_compensation:
 				pos_compensation = selected_item.data.position
-				time_compensation = selected_item.data.time
+				
+				if selected_item.data is HBSustainNote:
+					time_compensation = selected_item.data.end_time
+				else: 
+					time_compensation = selected_item.data.time
 				
 				if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
 					slide_index = 1
@@ -1416,11 +1420,9 @@ func arrange_selected_notes_by_time(direction: Vector2):
 					new_pos = pos_compensation + slide_separation
 			
 			undo_redo.add_do_property(selected_item.data, "position", new_pos)
-			undo_redo.add_do_method(self, "_on_timing_points_changed")
-			undo_redo.add_do_method(selected_item, "update_widget_data")
-			
 			undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
-			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+			
+			undo_redo.add_do_method(selected_item, "update_widget_data")
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
 			
 			pos_compensation = new_pos
@@ -1428,6 +1430,10 @@ func arrange_selected_notes_by_time(direction: Vector2):
 				time_compensation = selected_item.data.end_time
 			elif diff > 0:
 				time_compensation = selected_item.data.time
+	
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
 	undo_redo.commit_action()
 #	inspector.update_value()
 
