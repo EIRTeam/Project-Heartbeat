@@ -409,7 +409,7 @@ func _ready():
 	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_epr")
 	
 	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
-	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
+	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_epr")
 	circle_size_spinbox.connect("value_changed", self, "_set_size")
 	
 	circle_settings_hbox_container.add_child(circle_separation_label)
