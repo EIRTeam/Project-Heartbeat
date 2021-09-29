@@ -155,8 +155,6 @@ func _on_game_time_changed(time: float):
 			if chain_failed:
 				kill_note()
 				game.sfx_pool.play_sfx("slide_chain_fail")
-		else:
-			._on_game_time_changed(time)
 func kill_note():
 	emit_signal("note_removed")
 	kill_loop_sfx_player()
