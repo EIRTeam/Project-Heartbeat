@@ -4,11 +4,11 @@ extends Node
 class_name HBVersion
 
 const MAJOR = 0
-const MINOR = 12
+const MINOR = 13
 const PATCH = 0
 
 const status = "Early Access"
-const ver_name = "Project Heartbeat: Highly Responsive to Goth Girls"
+const ver_name = "Project Heartbeat: Goth Girl Supremacy"
 
 static func get_version_string():
 	var result = "{ver_name} - {status} ({video_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - ({user_id}, {friendly_username})"
