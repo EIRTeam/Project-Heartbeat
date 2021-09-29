@@ -23,6 +23,8 @@ var last_axis_values = {}
 
 var current_sending_actions_count = 0
 
+const DJA_SLIDE_DOT_THRESHOLD = 0.5
+
 func get_action_press_count(action):
 	return _get_analog_action_held_count(action) + _get_digital_action_held_count(action)
 
@@ -64,14 +66,14 @@ func _get_analog_action_held_count(action):
 			if v2.length() > deadzone:
 				count += 1
 		elif action == "slide_left":
-			if v1.x < -deadzone:
+			if v1.length() > deadzone and _is_in_slide_range(v1, Vector2.LEFT):
 				count += 1
-			if v2.x < -deadzone:
+			if v2.length() > deadzone and _is_in_slide_range(v2, Vector2.LEFT):
 				count += 1
 		elif action == "slide_right":
-			if v1.x > deadzone:
+			if v1.length() > deadzone and _is_in_slide_range(v1, Vector2.RIGHT):
 				count += 1
-			if v2.x > deadzone:
+			if v2.length() > deadzone and _is_in_slide_range(v2, Vector2.RIGHT):
 				count += 1
 	for device in last_axis_values:
 		if action in last_axis_values[device]:
@@ -83,48 +85,55 @@ func _get_analog_action_held_count(action):
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
 
-func _handle_direct_axis_input(event: InputEventJoypadMotion):
+func _is_in_slide_range(value: Vector2, direction: Vector2):
+	return value.normalized().dot(direction) > DJA_SLIDE_DOT_THRESHOLD
+
+func _handle_direct_axis_input():
 	var deadzone = _get_action_deadzone("heart_note")
 
 	current_sending_actions_count = 1
 	
-	var event_uid = get_event_uid(event)
 
 	for axis in range(2):
+		var event_uid = get_dja_event_uid(axis)
 		var off = 2 * axis
 		var axis_x = JOY_AXIS_0 + off
 		var axis_y = JOY_AXIS_1 + off
-		if event.axis in [axis_x, axis_y]:
-			var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
-			var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
-			var prev_x = last_direct_axis_values[axis_x]
-			var prev_y = last_direct_axis_values[axis_y]
-			var change_x = x1 - prev_x
-			var change_y = y1 - prev_y
-			var length1 = Vector2(x1, y1).length()
-			var old_length = Vector2(last_direct_axis_values[axis_x], last_direct_axis_values[axis_y]).length()
+		var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
+		var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
+		var current_value = Vector2(x1, y1)
+		var prev_value = Vector2(last_direct_axis_values[axis_x], last_direct_axis_values[axis_y])
+		last_direct_axis_values[axis_x] = current_value.x
+		last_direct_axis_values[axis_y] = current_value.y
+		
+		current_actions = ["heart_note"]
+		if prev_value.length() > deadzone and current_value.normalized().dot(prev_value.normalized()) < 0.0:
+			#prints("REBOUND IGNORE!!!", current_value, prev_value, current_value.normalized().dot(prev_value.normalized()), current_value.length())
+			current_value = Vector2.ZERO
+		if current_value.length() > deadzone and prev_value.length() < deadzone and current_value.normalized().dot(prev_value.normalized()) > 0.0:
+			# Ignores rebound
+			#print(current_value.normalized().dot(prev_value.normalized()))
+			#print("SEND!!!", current_value)
+#
+			var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
+			var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
 			
-			var slide_action = "slide_right" if sign(x1) == 1 else "slide_left"
+			if _is_in_slide_range(current_value, slide_direction):
+				current_actions.append(slide_action)
+				send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
+			send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
 			
-			current_actions = ["heart_note"]
-			
-			if (abs(change_x) > deadzone*2.0 or abs(change_y) > deadzone*2.0) or (old_length < deadzone and length1 > deadzone):
-				if abs(x1) > deadzone:
-					current_actions.append(slide_action)
-					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-				if length1 > deadzone:
-					send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
-
-			elif old_length > deadzone and length1 < deadzone:
-				current_actions = [slide_action, "heart_note"]
-				send_input(slide_action, false, current_actions.size(), event_uid, current_actions)
-				emit_signal("unhandled_release", slide_action, event_uid)
-				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
+		elif prev_value.length() > deadzone and current_value.length() < deadzone:
+			var prev_slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
+			var prev_slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
+			send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
 
 
-			last_direct_axis_values[axis_x] = x1
-			last_direct_axis_values[axis_y] = y1
 
+
+func _process(delta):
+	if UserSettings.should_use_direct_joystick_access():
+		_handle_direct_axis_input()
 
 
 func _input_received(event):
@@ -136,12 +145,6 @@ func _input_received(event):
 		for action in TRACKED_ACTIONS:
 			if event.is_action(action):
 				found_actions.append(action)
-				if event is InputEventJoypadMotion:
-					if action in DIRECT_AXIS_ACTIONS:
-						if event.axis in DIRECT_AXIS:
-							if UserSettings.should_use_direct_joystick_access():
-								if event.axis in DIRECT_AXIS:
-									_handle_direct_axis_input(event)
 							
 		for action in found_actions:
 			if event is InputEventJoypadMotion:

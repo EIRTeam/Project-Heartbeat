@@ -33,8 +33,16 @@ func _input(event):
 	_input_received(event)
 
 enum EVENT_FLAGS {
-	IS_AXIS = 1 << 0
+	IS_AXIS = 1 << 0,
+	IS_DJA = 2 << 0
 }
+
+func get_dja_event_uid(axis: int):
+	var flags = EVENT_FLAGS.IS_DJA
+	var ev_device = UserSettings.controller_device_idx
+	var ev_scancode = axis
+	var flags_size = 2
+	return (ev_device << 8 + flags_size) + (ev_scancode << 16 + flags_size) + flags
 
 func get_event_uid(event):
 	var flags = 0
@@ -48,5 +56,5 @@ func get_event_uid(event):
 	elif event is InputEventJoypadMotion:
 		flags += EVENT_FLAGS.IS_AXIS
 		ev_scancode = event.axis
-	var flags_size = 1
+	var flags_size = 2
 	return (ev_device << 8 + flags_size) + (ev_scancode << 16 + flags_size) + flags
