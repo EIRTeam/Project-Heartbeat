@@ -24,6 +24,7 @@ var last_axis_values = {}
 var current_sending_actions_count = 0
 
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
+var dja_prev_status = [false, false]
 
 func get_action_press_count(action):
 	return _get_analog_action_held_count(action) + _get_digital_action_held_count(action)
@@ -107,27 +108,29 @@ func _handle_direct_axis_input():
 		last_direct_axis_values[axis_y] = current_value.y
 		
 		current_actions = ["heart_note"]
-		if prev_value.length() > deadzone and current_value.normalized().dot(prev_value.normalized()) < 0.0:
-			#prints("REBOUND IGNORE!!!", current_value, prev_value, current_value.normalized().dot(prev_value.normalized()), current_value.length())
-			current_value = Vector2.ZERO
-		if current_value.length() > deadzone and prev_value.length() < deadzone and current_value.normalized().dot(prev_value.normalized()) > 0.0:
-			# Ignores rebound
-			#print(current_value.normalized().dot(prev_value.normalized()))
-			#print("SEND!!!", current_value)
-#
-			var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
-			var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
-			
-			if _is_in_slide_range(current_value, slide_direction):
-				current_actions.append(slide_action)
-				send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-			send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
-			
-		elif prev_value.length() > deadzone and current_value.length() < deadzone:
-			var prev_slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
-			var prev_slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
-			send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
-
+		if not prev_value.is_equal_approx(current_value):
+			if prev_value.length() > deadzone and current_value.normalized().dot(prev_value.normalized()) < 0.0:
+#				prints("REBOUND IGNORE!!!", current_value, prev_value, current_value.normalized().dot(prev_value.normalized()), current_value.length())
+				current_value = Vector2.ZERO
+				dja_prev_status[axis] = false
+			if current_value.length() > deadzone and (prev_value.length() < deadzone or not dja_prev_status[axis]):
+				# Ignores rebound
+				#print(current_value.normalized().dot(prev_value.normalized()))
+#				print("SEND!!!", current_value)
+	#
+				var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
+				var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
+				
+				if _is_in_slide_range(current_value, slide_direction):
+					current_actions.append(slide_action)
+					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
+				send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
+				dja_prev_status[axis] = true
+			elif (prev_value.length() > deadzone or dja_prev_status[axis]) and current_value.length() < deadzone:
+				var prev_slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
+				var prev_slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
+				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
+				dja_prev_status[axis] = false
 
 
 
