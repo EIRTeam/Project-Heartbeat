@@ -54,11 +54,11 @@ class SongPlayer:
 		set_process(false)
 		
 		if has_audio_normalization_data:
-			audio_stream_player.bus = "Music"
-			audio_stream_player_voice.bus = "Music"
-		else:
 			audio_stream_player.bus = "MenuMusic"
 			audio_stream_player_voice.bus = "MenuMusic"
+		else:
+			audio_stream_player.bus = "MenuMusicCompressor"
+			audio_stream_player_voice.bus = "MenuMusicCompressor"
 		
 	func pause():
 		audio_stream_player.stream_paused = true 

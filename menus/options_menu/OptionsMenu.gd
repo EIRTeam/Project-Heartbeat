@@ -112,7 +112,7 @@ var OPTIONS = {
 		},
 		"disable_menu_music": {
 			"name": tr("Disable menu music"),
-			"description": tr("Disables all music in menus (requires restart)")
+			"description": tr("Disables all music in menus")
 		},
 	},
 	tr("Video"): {

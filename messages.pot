@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-19 06:38+0200\n"
+"POT-Creation-Date: 2021-10-01 04:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1017,7 +1017,7 @@ msgid "Disable menu music"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd:115
-msgid "Disables all music in menus (requires restart)"
+msgid "Disables all music in menus"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd:118

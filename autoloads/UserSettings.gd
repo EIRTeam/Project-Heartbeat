@@ -359,6 +359,7 @@ func apply_display_mode():
 func set_volumes():
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(user_settings.master_volume * 0.186209))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(user_settings.music_volume))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("MenuMusic"), -80 if user_settings.disable_menu_music else linear2db(user_settings.music_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear2db(user_settings.sfx_volume))
 	
 func reset_to_default_input_map():
