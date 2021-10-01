@@ -127,10 +127,10 @@ func _handle_direct_axis_input():
 				send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
 				dja_prev_status[axis] = true
 			elif (prev_value.length() > deadzone or dja_prev_status[axis]) and current_value.length() < deadzone:
-				var prev_slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
-				var prev_slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
+				send_input("slide_right", false, current_actions.size(), event_uid, current_actions)
+				send_input("slide_left", false, current_actions.size(), event_uid, current_actions)
 				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
-				dja_prev_status[axis] = false
+				
 
 
 
