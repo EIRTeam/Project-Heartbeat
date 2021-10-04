@@ -34,6 +34,7 @@ func _on_game_time_changed(time: int):
 				hide()
 				break
 			else:
+				set_current_phrase(c_phrase)
 				show()
 		else:
 			# case 2: in the middle of a phrase
