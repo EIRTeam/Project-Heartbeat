@@ -111,7 +111,8 @@ const DEFAULT_SOUNDS = {
 	"slide_chain_loop": preload("res://sounds/sfx/slide_hold_loop.wav"),
 	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_ok.wav"),
 	"slide_chain_fail": preload("res://sounds/sfx/slide_hold_fail.wav"),
-	"double_note_hit": preload("res://sounds/sfx/double_note.wav")
+	"double_note_hit": preload("res://sounds/sfx/double_note.wav"),
+	"double_heart_note_hit": preload("res://sounds/sfx/double_note.wav")
 }
 
 var custom_sounds = {}

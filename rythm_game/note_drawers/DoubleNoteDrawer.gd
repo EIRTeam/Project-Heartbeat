@@ -1,6 +1,7 @@
 extends "res://rythm_game/note_drawers/SingleNoteDrawer.gd"
 
 const DOUBLE_NOTE_HIT_SFX = "double_note_hit"
+const DOUBLE_HEART_NOTE_HIT_SFX = "double_heart_note_hit"
 
 func _init():
 	note_scale = 1.1
@@ -33,6 +34,9 @@ func get_hit_sfx() -> String:
 	for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type]:
 		total += game.game_input_manager.get_action_press_count(action)
 	if total >= 2:
-		return DOUBLE_NOTE_HIT_SFX
+		if note_data.note_type == HBNoteData.NOTE_TYPE.HEART:
+			return DOUBLE_HEART_NOTE_HIT_SFX
+		else:
+			return DOUBLE_NOTE_HIT_SFX
 	else:
 		return ""

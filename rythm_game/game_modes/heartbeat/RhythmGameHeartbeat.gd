@@ -174,6 +174,7 @@ func _game_ready():
 	sfx_pool.add_sfx("slide_chain_start", UserSettings.get_sound_by_name("slide_chain_start"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_start"), get_bus_for_sfx("slide_chain_start"))
 	sfx_pool.add_sfx("slide_chain_fail", UserSettings.get_sound_by_name("slide_chain_fail"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_fail"), get_bus_for_sfx("slide_chain_fail"))
 	sfx_pool.add_sfx("double_note_hit", UserSettings.get_sound_by_name("double_note_hit"), 2.0 * UserSettings.user_settings.get_sound_volume_db("double_note_hit"), get_bus_for_sfx("double_note_hit"))
+	sfx_pool.add_sfx("double_heart_note_hit", UserSettings.get_sound_by_name("double_heart_note_hit"), 2.0 * UserSettings.user_settings.get_sound_volume_db("double_heart_note_hit"), get_bus_for_sfx("double_heart_note_hit"))
 	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
 	# hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
 	# hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
