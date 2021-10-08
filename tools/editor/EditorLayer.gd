@@ -80,16 +80,29 @@ func bsearch_time(a, b):
 	return a_t < b_t
 
 func _on_time_cull_changed(start_time, end_time):
-	var early_note_i_prev = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
+	var early_note_i = timing_points.bsearch_custom(start_time, self, "bsearch_time")
+	var late_note_i = timing_points.bsearch_custom(end_time, self, "bsearch_time")
 	
 	_cull_start_time = start_time
 	_cull_end_time = end_time
-
+	
+	_cull_start_note_i = early_note_i
+	_cull_end_note_i = late_note_i
+		
+	
+	var orig_cull_start_time = _cull_start_time
+	
+	# this is a hack to allow sustains to be visible all the time, as fast as possible
+	for i in range(_cull_start_note_i-1, -1, -1):
+		var point = timing_points[i]
+		if point is EditorTimelineItemSustainNote:
+			if point.data.end_time > orig_cull_start_time and point.data.time < orig_cull_start_time:
+				_cull_start_note_i = i
+				_cull_start_time = point.data.time
+	
 	if timing_points.size() > 1:
-		var early_note_i = timing_points.bsearch_custom(_cull_start_time, self, "bsearch_time")
-		_cull_start_note_i = early_note_i
 		# From the earlierst note forward
-		for i in range(_cull_start_note_i, timing_points.size()):
+		for i in range(_cull_start_note_i, late_note_i):
 			var item = timing_points[i] as EditorTimelineItem
 			if (item.data as HBTimingPoint).time <= _cull_end_time:
 				item.show()
@@ -100,6 +113,7 @@ func _on_time_cull_changed(start_time, end_time):
 			_cull_end_note_i = i
 	else:
 		for point in timing_points:
+			place_child(point)
 			point.show()
 
 			

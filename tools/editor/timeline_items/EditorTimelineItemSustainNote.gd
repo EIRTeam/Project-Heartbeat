@@ -10,6 +10,8 @@ var _end_time_drag_moving = false
 var _end_time_dragging = false
 var _end_time_drag_last
 
+onready var hack = get_node("TextureRect2/Control")
+
 func set_texture():
 	.set_texture()
 	if data is HBSustainNote:
@@ -21,15 +23,20 @@ func _draw():
 	if data is HBSustainNote:
 		var y = $TextureRect.rect_size.y/2.0
 		var target = Vector2(editor.scale_msec(data.get_duration()), y)
-		draw_line(Vector2(0.0, y), target, ResourcePackLoader.get_note_trail_color(data.note_type))
+		var color = ResourcePackLoader.get_note_trail_color(data.note_type)
+		draw_line(Vector2(0.0, y), target, color)
+		hack.set_enable_hack(false)
+		if rect_global_position.x <= 0.0:
+			hack.set_enable_hack(true)
+			hack.run_uwu_hack(target.x, color)
 		
 func _on_view_port_size_changed():
 	if get_viewport():
 		_on_end_time_changed()
 		
 func _on_end_time_changed():
-	update()
 	$TextureRect2.rect_position.x = editor.scale_msec(data.get_duration())-get_size().y / 2
+	update()
 
 func _process(delta):
 	if _end_time_dragging:
