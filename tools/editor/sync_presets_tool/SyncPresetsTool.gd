@@ -79,3 +79,35 @@ func _hide_preset_preview():
 	emit_signal("hide_transform")
 func _apply_transform(transformation):
 	emit_signal("apply_transform", transformation)
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if not event.control and event.shift:
+			if event.is_action_pressed("editor_arrange_l"):
+				emit_signal("apply_transform", dynamic_sync_presets["Vertical multi left"])
+			if event.is_action_pressed("editor_arrange_r"):
+				emit_signal("apply_transform", dynamic_sync_presets["Vertical multi right"])
+			
+			if event.is_action_pressed("editor_arrange_u"):
+				emit_signal("apply_transform", dynamic_sync_presets["Horizontal multi top"])
+			if event.is_action_pressed("editor_arrange_d"):
+				emit_signal("apply_transform", dynamic_sync_presets["Horizontal multi bottom"])
+			
+			if event.is_action_pressed("editor_arrange_dl"):
+				emit_signal("apply_transform", dynamic_sync_presets["Slider multi top"])
+			if event.is_action_pressed("editor_arrange_dr"):
+				emit_signal("apply_transform", dynamic_sync_presets["Slider multi bottom"])
+			
+			if event.is_action_pressed("editor_arrange_center"):
+				var transformation = EditorTransformationTemplate.new()
+				transformation.template = static_sync_presets["Quad"]
+				emit_signal("apply_transform", transformation)
+			
+			if event.is_action_pressed("editor_arrange_ul"):
+				var transformation = EditorTransformationTemplate.new()
+				transformation.template = static_sync_presets_dual["Triangle left"]
+				emit_signal("apply_transform", transformation)
+			if event.is_action_pressed("editor_arrange_ur"):
+				var transformation = EditorTransformationTemplate.new()
+				transformation.template = static_sync_presets_dual["Triangle right"]
+				emit_signal("apply_transform", transformation)

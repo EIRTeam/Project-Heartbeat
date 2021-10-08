@@ -50,6 +50,7 @@ onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HBoxConta
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
 onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox")
+onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -309,10 +310,23 @@ func get_items_at_time(time: int):
 		elif item.data.time > time:
 			break
 	return items
-	
+
+
+var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
+var konami_index = 0
+
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
 		return
+	
+	if event is InputEventKey and event.pressed and not sex_button.visible:
+		if event.scancode == konami_sequence[konami_index]:
+			konami_index += 1
+			
+			if konami_index == konami_sequence.size():
+				sex_button.show()
+		else:
+			konami_index = 0
 	
 	if event.is_action("editor_playtest") or \
 		event.is_action("editor_playtest_at_time"):
@@ -335,10 +349,20 @@ func _unhandled_input(event: InputEvent):
 				var off = Vector2(int(diff_x), int(diff_y))
 				fine_position_selected(off)
 				get_tree().set_input_as_handled()
+			if event.control and not event.echo:
+				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
+				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
+				
+				var spacing_x = 1920 / grid_renderer.horizontal
+				var spacing_y = 1080 / grid_renderer.vertical
+				var off = Vector2(int(diff_x * spacing_x), int(diff_y * spacing_y))
+				
+				fine_position_selected(off)
+				get_tree().set_input_as_handled()
 	
 	if event is InputEventKey:
 		for action in autoarrange_angle_shortcuts:
-			if event.is_action_pressed(action[0]) and not event.echo:
+			if event.is_action_pressed(action[0]) and not event.echo and not event.shift:
 				if not event.control:
 					arrange_selected_notes_by_time(action[1])
 				else:
@@ -361,6 +385,7 @@ func _unhandled_input(event: InputEvent):
 							undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 					
 					undo_redo.commit_action()
+				
 				get_tree().set_input_as_handled()
 				break
 	
@@ -423,6 +448,22 @@ func _unhandled_input(event: InputEvent):
 					
 			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+			
+			undo_redo.commit_action()
+	
+	if event.is_action_pressed("editor_toggle_hold"):
+		if not event.control and not event.shift and not event.echo:
+			undo_redo.create_action("Toggle hold")
+			
+			for note in selected:
+				if note.data is HBNoteData:
+					undo_redo.add_do_property(note.data, "hold", not note.data.hold)
+					undo_redo.add_undo_property(note.data, "hold", note.data.hold)
+			
+			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_undo_method(self, "_on_timing_points_changed")
 			
 			undo_redo.commit_action()
 	
@@ -1598,3 +1639,7 @@ func _on_TimeArrangeDiagonalSeparationYSpinbox_value_changed(value):
 
 func _on_AutoSlideCheckBox_toggled(button_pressed):
 	song_editor_settings.autoslide = button_pressed
+
+
+func _on_SexButton_pressed():
+	$SexDialog.popup_centered()

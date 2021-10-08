@@ -525,6 +525,11 @@ func _unhandled_input(event):
 		
 		if event.is_action_pressed("editor_circle_inside"):
 			circle_use_inside_button.set_pressed(not circle_use_inside_button.is_pressed())
+		
+		if event.is_action_pressed("editor_interpolate_angle"):
+			emit_signal("apply_transform", InterpolateAngleTransform.new())
+		
+		
 
 
 func load_settings():

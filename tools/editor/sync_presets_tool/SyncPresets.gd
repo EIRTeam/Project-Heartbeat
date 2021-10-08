@@ -606,8 +606,8 @@ var dual_presets = {
 }
 
 var dynamic_presets = {
-	"-> |" : VerticalMultiPreset.new(-1),
-	"| <-" : VerticalMultiPreset.new(1),
+	"Vertical multi left" : VerticalMultiPreset.new(-1),
+	"Vertical multi right" : VerticalMultiPreset.new(1),
 	"Horizontal multi top" : HorizontalMultiPreset.new(1),
 	"Horizontal multi bottom" : HorizontalMultiPreset.new(-1),
 	"Slider multi top" : SliderMultiPreset.new(1, false),

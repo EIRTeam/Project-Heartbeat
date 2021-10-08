@@ -911,7 +911,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR\" --phplugin:dscloader:game_type f"
+main_run_args="--audio-driver ALSA --enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR\" --phplugin:dscloader:game_type f"
 convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]
@@ -1380,6 +1380,16 @@ gui_search={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+editor_toggle_hold={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+editor_interpolate_angle={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

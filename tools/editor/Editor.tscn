@@ -317,6 +317,13 @@ hint_tooltip = "Editor settings"
 icon = ExtResource( 46 )
 flat = true
 
+[node name="SexButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 914.0
+margin_right = 948.0
+margin_bottom = 25.0
+text = "Sex"
+
 [node name="UIFade" parent="VBoxContainer/Panel2" instance=ExtResource( 38 )]
 margin_top = 0.0
 margin_right = -116.0
@@ -1181,6 +1188,12 @@ margin_top = -200.0
 margin_right = 355.0
 margin_bottom = 200.0
 
+[node name="SexDialog" type="AcceptDialog" parent="."]
+margin_right = 48.0
+margin_bottom = 40.0
+dialog_text = "You're not allowed to cum
+inside Rin Kagamine."
+
 [connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_playhead_position_changed"]
 [connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_Editor_scale_changed"]
 [connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_timing_information_changed"]
@@ -1199,6 +1212,7 @@ margin_bottom = 200.0
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( -1, -1 ) ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 0, -1 ) ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="arrange_selected_notes_by_time" binds= [ Vector2( 1, -1 ) ]]

@@ -35,6 +35,8 @@ const EDITOR_EVENTS = [
 	"editor_circle_size_bigger",
 	"editor_circle_size_smaller",
 	"editor_circle_inside",
+	"editor_toggle_hold",
+	"editor_interpolate_angle",
 ]
 
 var tree_items = {}
