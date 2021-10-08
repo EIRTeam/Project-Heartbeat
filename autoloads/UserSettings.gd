@@ -60,11 +60,12 @@ func _ready():
 	# Godot simulates joy connections on startup, this makes sure we skip them
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
-	if controller_device_idx != -1:
-		# fallback to controller 0
-		if is_connected and Input.get_joy_guid(device_idx) == controller_guid:
-			print("Known controller reconnected, remapping...")
-			map_actions_to_controller()
+#	TODO: This hangs the game, why? God knows
+#	if controller_device_idx != -1:
+#		# fallback to controller 0
+#		if is_connected and Input.get_joy_guid(device_idx) == controller_guid:
+#			print("Known controller reconnected, remapping...")
+#			map_actions_to_controller()
 	if Input.get_connected_joypads().size() == 0:
 		current_mode = PROMPT_MODE.KEYBOARD
 
