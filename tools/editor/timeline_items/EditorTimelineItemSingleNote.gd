@@ -46,3 +46,9 @@ func _on_view_port_size_changed():
 
 func connect_widget(widget: HBEditorWidget):
 	.connect_widget(widget)
+
+func _draw():
+	if data is HBNoteData and data.hold:
+		var y = $TextureRect.rect_size.y/2.0
+		var target = Vector2(editor.scale_msec(editor.get_hold_size(data)), y)
+		draw_line(Vector2(0.0, y), target, ResourcePackLoader.get_note_trail_color(data.note_type))

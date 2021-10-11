@@ -14,6 +14,7 @@ var timeline_snap := true
 var auto_multi = false
 
 var waveform = false
+var hold_calculator = true
 var show_video := true
 var show_bg := true
 

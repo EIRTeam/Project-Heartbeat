@@ -51,6 +51,8 @@ onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContain
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
 onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
+onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
+
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
@@ -91,6 +93,8 @@ var autoarrange_angle_shortcuts = [
 	["editor_arrange_dr", Vector2(1.0, 1.0), 45.0],
 	["editor_arrange_center", Vector2(0.0, 0.0), 0.0]
 ]
+
+var hold_ends = []
 
 # Fades that obscure some UI elements while playing
 
@@ -195,6 +199,8 @@ func _ready():
 	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
 	
 	transforms_tools.editor = self
+	
+	connect("timing_points_changed", self, "_cache_hold_ends")
 	
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -624,7 +630,14 @@ func get_timing_points():
 		points += layer.get_timing_points()
 	points.sort_custom(self, "_note_comparison")
 	return points
-	
+
+func get_timeline_items():
+	var items = []
+	var layers = timeline.get_layers()
+	for layer in layers:
+		items += layer.get_editor_items()
+	return items
+
 func scale_msec(msec: int) -> float:
 	return ((msec/1000.0)/scale)*500.0
 
@@ -1085,6 +1098,7 @@ func load_settings(settings: HBPerSongEditorSettings):
 	timeline_snap_button.pressed = settings.timeline_snap
 	
 	auto_multi_checkbox.pressed = settings.auto_multi
+	hold_calculator_checkbox.pressed = settings.hold_calculator
 	waveform_button.pressed = settings.waveform
 	game_preview.settings = settings
 	show_bg_button.pressed = settings.show_bg
@@ -1613,6 +1627,52 @@ func _notification(what):
 				rhythm_game_playtest_popup.queue_free()
 
 
+func get_hold_size(data):
+	if not data is HBNoteData or not data.hold or not song_editor_settings.hold_calculator:
+		return 0
+	
+	var size = HBRhythmGame.MAX_HOLD
+	
+	for hold in hold_ends:
+		var dt = hold.end - data.time
+		
+		if dt > 0 and dt < size:
+			if hold.start < data.time:
+				if hold.end - hold.start < size:
+					size = dt
+			elif hold.start > data.time:
+				size = dt
+			else:
+				size = hold.end - hold.start
+	
+	return size
+
+
+func _cache_hold_ends():
+	if not song_editor_settings.hold_calculator:
+		return
+	
+	var points = get_timing_points()
+	points.invert()
+	hold_ends = []
+	
+	for point in points:
+		if point is HBNoteData and point.hold:
+			var end = {"start": point.time, "end": point.time + HBRhythmGame.MAX_HOLD}
+			
+			for note in points:
+				if note is HBBaseNote and note.note_type == point.note_type:
+					if note.time - point.time > 0 and note.time - point.time < HBRhythmGame.MAX_HOLD:
+						end = {"start": point.time, "end": note.time}
+						break
+			
+			hold_ends.append(end)
+	
+	for item in get_timeline_items():
+		if item.data is HBNoteData and item.data.hold:
+			item.update()
+
+
 func _on_CreateIntroSkipMarkerButton_pressed():
 	add_event_timing_point(HBIntroSkipMarker)
 
@@ -1643,3 +1703,10 @@ func _on_AutoSlideCheckBox_toggled(button_pressed):
 
 func _on_SexButton_pressed():
 	$SexDialog.popup_centered()
+
+
+func _on_HoldCalculatorCheckBox_toggled(button_pressed):
+	song_editor_settings.hold_calculator = button_pressed
+	for item in get_timeline_items():
+		if item.data is HBNoteData and item.data.hold:
+			item.update()

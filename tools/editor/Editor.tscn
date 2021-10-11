@@ -168,13 +168,13 @@ text = "Save As"
 
 [node name="CurrentTitleButton" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 153.0
-margin_right = 986.0
+margin_right = 858.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 990.0
+margin_left = 862.0
 margin_right = 1900.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
@@ -186,14 +186,20 @@ margin_bottom = 25.0
 hint_tooltip = "Automatically set canonical parameters for multi-notes"
 text = "Auto-multi"
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="HoldCalculatorCheckBox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 97.0
-margin_right = 101.0
+margin_right = 221.0
+margin_bottom = 25.0
+text = "Hold Calculator"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 225.0
+margin_right = 229.0
 margin_bottom = 25.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 105.0
-margin_right = 133.0
+margin_left = 233.0
+margin_right = 261.0
 margin_bottom = 25.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
@@ -202,8 +208,8 @@ icon = ExtResource( 18 )
 flat = true
 
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 137.0
-margin_right = 201.0
+margin_left = 265.0
+margin_right = 329.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
@@ -213,14 +219,14 @@ align = 1
 suffix = "s"
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 205.0
-margin_right = 227.0
+margin_left = 333.0
+margin_right = 355.0
 margin_bottom = 25.0
 text = "1/"
 
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 231.0
-margin_right = 386.42
+margin_left = 359.0
+margin_right = 514.42
 margin_bottom = 25.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
@@ -230,8 +236,8 @@ value = 16.0
 suffix = "th of a note"
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 390.0
-margin_right = 500.0
+margin_left = 518.0
+margin_right = 628.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
@@ -241,8 +247,8 @@ value = 160.0
 suffix = "bpm"
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 504.0
-margin_right = 671.0
+margin_left = 632.0
+margin_right = 799.0
 margin_bottom = 25.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
@@ -250,37 +256,37 @@ items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", n
 selected = 0
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 675.0
-margin_right = 679.0
+margin_left = 803.0
+margin_right = 807.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 683.0
-margin_right = 711.0
+margin_left = 811.0
+margin_right = 839.0
 margin_bottom = 25.0
 icon = ExtResource( 10 )
 
 [node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 715.0
-margin_right = 798.0
+margin_left = 843.0
+margin_right = 926.0
 margin_bottom = 25.0
 text = "(at time)"
 icon = ExtResource( 10 )
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 802.0
-margin_right = 806.0
+margin_left = 930.0
+margin_right = 934.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 810.0
-margin_right = 838.0
+margin_left = 938.0
+margin_right = 966.0
 margin_bottom = 25.0
 icon = ExtResource( 11 )
 flat = true
@@ -294,24 +300,24 @@ icon = ExtResource( 9 )
 flat = true
 
 [node name="VSeparator4" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 842.0
-margin_right = 846.0
+margin_left = 970.0
+margin_right = 974.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EditorHelpButton" type="MenuButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 850.0
-margin_right = 878.0
+margin_left = 978.0
+margin_right = 1006.0
 margin_bottom = 25.0
 hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 882.0
-margin_right = 910.0
+margin_left = 1010.0
+margin_right = 1038.0
 margin_bottom = 25.0
 hint_tooltip = "Editor settings"
 icon = ExtResource( 46 )
@@ -1202,6 +1208,7 @@ inside Rin Kagamine."
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="Popups/SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
 [connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox" to="." method="_on_auto_multi_toggled"]
+[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox" to="." method="_on_HoldCalculatorCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
@@ -1230,8 +1237,8 @@ inside Rin Kagamine."
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
