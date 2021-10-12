@@ -1040,6 +1040,7 @@ func _on_PauseButton_pressed():
 	pause_button.hide()
 
 func _on_PlayButton_pressed():
+	_on_SaveButton_pressed()
 	game_preview.play_at_pos(playhead_position/1000.0)
 	game_playback.play_from_pos(playhead_position)
 	play_button.hide()
@@ -1509,6 +1510,7 @@ func _on_auto_multi_toggled(button_pressed):
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
+	_on_SaveButton_pressed()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
