@@ -228,40 +228,73 @@ func _on_contextual_menu_about_to_show():
 		if selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
 			contextual_menu.set_contextual_item_disabled("make_sustain", true)
 
-# Changes a note type up or down
-func move_note_button_up():
+
+# Change note type by an amount.
+func change_note_button_by(amount):
 	var editor = get_editor()
-	if editor.selected.size() == 1:
-		var item = editor.selected[0]
+	var undo_redo = get_editor().undo_redo as UndoRedo
+	var new_items = []
+	# Yes, its flipped. Blame the editor layer order.
+	if amount < 0:
+		undo_redo.create_action("Increase note type")
+	else:
+		undo_redo.create_action("Decrease note type")
+	
+	for item in editor.selected:
 		if item is EditorTimelineItemNote:
-			if item.data.note_type > HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
-				for editor_item in editor.get_items_at_time(item.data.time):
-					if editor_item is EditorTimelineItemNote:
-						if editor_item.data.note_type == item.data.note_type - 1:
-							return
-				var new_button_name = HBUtils.find_key(HBNoteData.NOTE_TYPE, item.data.note_type - 1)
-				var new_item = change_note_button(new_button_name)[0]
-				editor.deselect_all()
-				editor.select_item(new_item)
-# Changes a note type up or down
-func move_note_button_down():
-	var editor = get_editor()
-	if editor.selected.size() == 1:
-		var item = editor.selected[0]
-		if item is EditorTimelineItemNote:
-			if item.data.note_type < HBNoteData.NOTE_TYPE.RIGHT:
-				for editor_item in editor.get_items_at_time(item.data.time):
-					if editor_item is EditorTimelineItemNote:
-						if editor_item.data.note_type == item.data.note_type + 1:
-							return
+			if check_valid_change(amount, item):
+				# Use mod 4 so that all values range from 0 to 3, add 4 so that we only ever deal with naturals.
+				var new_note_type = (item.data.note_type + amount + 4) % 4
 				
-				var new_button_name = HBUtils.find_key(HBNoteData.NOTE_TYPE, item.data.note_type + 1)
-				var new_item = change_note_button(new_button_name)[0]
-				editor.deselect_all()
-				editor.select_item(new_item)
+				var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_note_type)
+				var new_layer = get_editor().timeline.find_layer_by_name(layer_name)
+				
+				var data = item.data as HBBaseNote
+				if not data:
+					continue
+				
+				var new_data_ser = data.serialize()
+				new_data_ser["note_type"] = new_note_type
+				
+				var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+				var new_item = new_data.get_timeline_item()
+				new_items.append(new_item)
+				
+				undo_redo.add_do_method(editor, "add_item_to_layer", new_layer, new_item)
+				undo_redo.add_undo_method(editor, "remove_item_from_layer", new_layer, new_item)
+				
+				undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+				undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+			else:
+				new_items.append(item)
+	
+	undo_redo.add_do_method(editor, "_on_timing_points_changed")
+	undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+	
+	undo_redo.add_do_method(editor, "deselect_all")
+	undo_redo.add_undo_method(editor, "deselect_all")
+	for i in new_items.size():
+		undo_redo.add_do_method(editor, "select_item", new_items[i], true)
+		undo_redo.add_undo_method(editor, "select_item", editor.selected[i], true)
+	
+	undo_redo.commit_action()
+
+func check_valid_change(amount, item):
+	var editor = get_editor()
+	var new_type = item.data.note_type + amount
+	
+	for editor_item in editor.get_items_at_time(item.data.time):
+		if editor_item is EditorTimelineItemNote:
+			if editor_item.data.note_type == new_type:
+				if not editor_item in editor.selected or not check_valid_change(amount, editor_item):
+					return false
+	
+	return item.data.note_type >= HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT
+
+
 func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.is_action_pressed("gui_up") and event.control:
-			move_note_button_up()
-		elif event.is_action_pressed("gui_down") and event.control:
-			move_note_button_down()
+		if event.is_action_pressed("gui_up") and not event.control and not event.shift:
+			change_note_button_by(-1)
+		elif event.is_action_pressed("gui_down") and not event.control and not event.shift:
+			change_note_button_by(1)

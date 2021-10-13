@@ -359,8 +359,8 @@ func _unhandled_input(event: InputEvent):
 				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
 				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
 				
-				var spacing_x = 1920 / grid_renderer.horizontal
-				var spacing_y = 1080 / grid_renderer.vertical
+				var spacing_x = 1920 / grid_renderer.vertical
+				var spacing_y = 1080 / grid_renderer.horizontal
 				var off = Vector2(int(diff_x * spacing_x), int(diff_y * spacing_y))
 				
 				fine_position_selected(off)
