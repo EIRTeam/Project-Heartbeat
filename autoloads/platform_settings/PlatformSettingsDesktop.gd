@@ -12,7 +12,7 @@ onready var angle_backend = ANGLE_BACKEND.NO_ANGLE
 
 func _init():
 	var args = OS.get_cmdline_args()
-	if "angle" in OS.get_video_driver_name(OS.get_current_video_driver()).to_lower():
+	if "angle" in VisualServer.get_video_adapter_name().to_lower():
 		angle_backend = ANGLE_BACKEND.VULKAN
 		for i in range(args.size()):
 			var arg = args[i]
