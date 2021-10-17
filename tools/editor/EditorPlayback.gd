@@ -118,7 +118,7 @@ func play_from_pos(position: float):
 		voice_audio_stream_player.play()
 		voice_audio_stream_player.seek(position / 1000.0)
 		time_begin = OS.get_ticks_usec()
-		time_delay = AudioServer.get_time_to_next_mix()
+		time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		_audio_play_offset = position / 1000.0
 		game.play_from_pos(position / 1000.0)
 		game.delete_rogue_notes(position / 1000.0)

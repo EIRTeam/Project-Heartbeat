@@ -382,7 +382,7 @@ func _process_game(_delta):
 	if audio_stream_player.playing and (not editing or previewing):
 		if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK \
 				or UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK:
-			var t = audio_stream_player.get_playback_position()
+			var t = audio_stream_player.get_playback_position() +  - AudioServer.get_output_latency()
 			if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK:
 				t += AudioServer.get_time_since_last_mix()
 			t *= audio_stream_player.pitch_scale
@@ -524,7 +524,7 @@ func play_from_pos(position: float):
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
 	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
-	time_delay = AudioServer.get_time_to_next_mix()
+	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	time = position
 func add_score(score_to_add):
 	if not previewing:
