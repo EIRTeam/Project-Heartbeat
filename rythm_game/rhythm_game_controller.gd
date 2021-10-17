@@ -371,4 +371,5 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
+	video_player.stream_position = current_game_info.get_song().start_time / 1000.0
 	start_fade_in()
