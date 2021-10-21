@@ -11,3 +11,4 @@ corner_detail = 1
 expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
+anti_aliasing = false
