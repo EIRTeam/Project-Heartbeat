@@ -11,11 +11,6 @@ border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 shadow_color = Color( 0.94902, 0.239216, 0.819608, 0.501961 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=2]
-size = 35
-use_filter = true
-font_data = ExtResource( 2 )
-
 [sub_resource type="StyleBoxFlat" id=90]
 bg_color = Color( 1, 1, 1, 1 )
 border_width_left = 5
@@ -30,6 +25,11 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0.890196, 0.890196, 0.890196, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+use_filter = true
+font_data = ExtResource( 2 )
 
 [node name="Panel" type="Panel"]
 anchor_right = 1.0
@@ -95,7 +95,7 @@ margin_bottom = 53.0
 custom_constants/separation = 25
 
 [node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 1624.0
+margin_right = 1761.0
 margin_bottom = 53.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -103,16 +103,6 @@ custom_fonts/font = ExtResource( 4 )
 text = "Player"
 valign = 2
 clip_text = true
-
-[node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 1649.0
-margin_right = 1761.0
-margin_bottom = 53.0
-size_flags_horizontal = 8
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
-text = "Level 1"
-valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 73.0
