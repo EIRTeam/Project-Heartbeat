@@ -7,7 +7,8 @@ enum CHART_ERROR {
 	OK,
 	FILE_NOT_FOUND,
 	FILE_INVALID_JSON,
-	HOLD_CHAIN_PIECE_WITHOUT_PARENT
+	HOLD_CHAIN_PIECE_WITHOUT_PARENT,
+	AUDIO_NOT_DOWNLOADED
 }
 
 
@@ -36,7 +37,7 @@ var META_ERROR_SEVERITY = {
 	"fatal": [ META_ERROR.AUDIO_FIELD_MISSING, META_ERROR.VOICE_NOT_FOUND, META_ERROR.PREVIEW_FILE_MISSING, META_ERROR.AUDIO_NOT_FOUND ],
 	"warning": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.PREVIEW_MISSING, META_ERROR.ILLEGAL_FILES, META_ERROR.ILLEGAL_FOLDERS ],
 	# Some things are only mandatory for UGC songs and will still allow the song to be played
-	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.ILLEGAL_FILES, META_ERROR.ILLEGAL_FOLDERS ]
+	"fatal_ugc": [ META_ERROR.MANDATORY_FIELD_MISSING, META_ERROR.PREVIEW_MISSING, META_ERROR.PREVIEW_FILE_TOO_BIG, META_ERROR.ILLEGAL_FILES, META_ERROR.ILLEGAL_FOLDERS, CHART_ERROR.AUDIO_NOT_DOWNLOADED ]
 }
 # Meta fields that MUST be set to something 
 const MANDATORY_META_FIELDS = [
@@ -114,6 +115,13 @@ func verify_meta(song: HBSong):
 					"string": "The song preview image file is too big (should be under 1 MB!), it currently is %.2f MB" % [file.get_len() / 1000000.0],
 				}
 				errors.append(error)
+		
+		if not song.is_cached():
+			var error = {
+				"type": META_ERROR.AUDIO_NOT_FOUND,
+				"string": "The song's audio file cannot be found on this disk, you must have them on disk before uploading a song to the workshop, please download it.",
+			}
+			errors.append(error)
 		
 		var dir := Directory.new()
 		
