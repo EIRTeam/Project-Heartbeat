@@ -314,7 +314,7 @@ func _process_game(_delta):
 		if time >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			emit_signal("max_hold")
-			emit_signal("hold_score_changed", current_hold_score + MAX_HOLD)
+			emit_signal("hold_score_changed", accumulated_hold_score + current_hold_score + MAX_HOLD)
 			hold_release()
 			add_hold_score(MAX_HOLD)
 		else:
