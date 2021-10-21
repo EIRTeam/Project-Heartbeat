@@ -8,15 +8,21 @@ onready var queue_song_count: Label = get_node("VBoxContainer/HBoxContainer2/Lab
 
 var song_map = {}
 
-func _ready():
-	YoutubeDL.connect("song_cached", self, "_on_song_cached")
-	YoutubeDL.connect("song_queued", self, "_on_song_queued")
-	YoutubeDL.connect("song_download_start", self, "_on_song_download_start")
 	
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	
+	YoutubeDL.connect("song_cached", self, "_on_song_cached")
+	YoutubeDL.connect("song_queued", self, "_on_song_queued")
+	YoutubeDL.connect("song_download_start", self, "_on_song_download_start")
+	
 	populate()
+	
+func _on_menu_exit(force_hard_transition = false):
+	._on_menu_exit(force_hard_transition)
+	YoutubeDL.disconnect("song_cached", self, "_on_song_cached")
+	YoutubeDL.disconnect("song_queued", self, "_on_song_queued")
+	YoutubeDL.disconnect("song_download_start", self, "_on_song_download_start")
 	
 func populate():
 	for child in vbox_container.get_children():

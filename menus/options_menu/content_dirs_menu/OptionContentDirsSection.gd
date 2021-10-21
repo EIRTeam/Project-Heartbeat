@@ -63,9 +63,15 @@ func populate():
 	clear_cache_button.expand_icon = true
 	clear_cache_button.connect("pressed", self, "_on_cache_cleared")
 	
+	var download_all_song_media = HBHovereableButton.new()
+	download_all_song_media.text = "Download all song media"
+	download_all_song_media.expand_icon = true
+	download_all_song_media.connect("pressed", self, "_on_download_all_song_media")
+	
 	scroll_container.item_container.add_child(reload_content_button)
 	scroll_container.item_container.add_child(add_content_path_button)
 	scroll_container.item_container.add_child(clear_cache_button)
+	scroll_container.item_container.add_child(download_all_song_media)
 	
 	content_directory_control = PATH_SCENE.instance()
 	content_directory_control.dir = UserSettings.user_settings.content_path
@@ -104,3 +110,10 @@ func _on_content_directory_reset():
 	file_dialog.hide()
 	_on_content_reload()
 	content_directory_control.dir = UserSettings.user_settings.content_path
+
+func _on_download_all_song_media():
+	for song_id in SongLoader.songs:
+		var song := SongLoader.songs[song_id] as HBSong
+		if song.youtube_url != "":
+			if not song.is_cached():
+				song.cache_data()
