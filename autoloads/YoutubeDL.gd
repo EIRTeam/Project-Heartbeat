@@ -26,6 +26,9 @@ signal youtube_dl_status_updated
 
 signal video_downloaded(id, result)
 signal song_cached(song)
+signal song_queued(song)
+signal song_download_start(song)
+
 var cache_meta_mutex = Mutex.new()
 var cache_meta: Dictionary = {
 	"cache": {},
@@ -176,7 +179,7 @@ func _download_video(userdata):
 	var download_audio = userdata.download_audio
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta.cache[userdata.video_id] = {}
-	var result = {"video_id": userdata.video_id}
+	var result = {"video_id": userdata.video_id, "song": userdata.song}
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = ["--ignore-config", "--no-cache-dir", "--force-ipv4", "--compat-options", "youtube-dl"]
 	
@@ -297,14 +300,14 @@ func _video_downloaded(thread: Thread, result):
 		tracked_video_downloads.erase(result.video_id)
 	for song in caching_queue:
 		if get_video_id(song.youtube_url) == result.video_id:
+			caching_queue.erase(song)
 			if not has_error:
 				song.emit_signal("song_cached")
 				emit_signal("song_cached", song)
-			caching_queue.erase(song)
 			break
 	if caching_queue.size() > 0:
 		cache_song(caching_queue[0])
-	emit_signal("video_downloaded", result.video_id, result)
+	emit_signal("video_downloaded",  result.video_id, result)
 	
 func video_exists(video_id):
 	var file = File.new()
@@ -312,7 +315,7 @@ func video_exists(video_id):
 func audio_exists(video_id):
 	var file = File.new()
 	return file.file_exists(get_audio_path(video_id))
-func download_video(url: String, download_video = true, download_audio = true):
+func download_video(song: HBSong, url: String, download_video = true, download_audio = true):
 	var thread = Thread.new()
 	var video_id = get_video_id(url)
 	if video_id in songs_being_cached:
@@ -345,7 +348,8 @@ func download_video(url: String, download_video = true, download_audio = true):
 				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
 				tracked_video_downloads.erase(video_id)
 			return
-	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio})
+	emit_signal("song_download_start", song)
+	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song})
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
 	
@@ -391,7 +395,7 @@ func cache_song(song: HBSong):
 			if video_url_ok:
 				var video_id = get_video_id(song.youtube_url)
 				if not video_id in songs_being_cached:
-					var result = download_video(song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
+					var result = download_video(song, song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
 					if not video_id in tracked_video_downloads:
 						var progress_thing = PROGRESS_THING.instance()
 						DownloadProgress.add_notification(progress_thing)
@@ -402,6 +406,7 @@ func cache_song(song: HBSong):
 							"progress_thing": progress_thing,
 							"song": song
 						}
+						emit_signal("song_queued", song)
 					return result
 			else:
 				var progress_thing = PROGRESS_THING.instance()
@@ -412,3 +417,8 @@ func cache_song(song: HBSong):
 			
 func is_already_downloading(song):
 	return get_video_id(song.youtube_url) in songs_being_cached or song in caching_queue
+
+func cancel_song(song: HBSong):
+	if not get_video_id(song.youtube_url) in songs_being_cached:
+		if song in caching_queue:
+			caching_queue.erase(song)

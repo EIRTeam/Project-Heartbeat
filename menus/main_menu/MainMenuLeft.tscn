@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://graphics/icons/discord_main.svg" type="Texture" id=14]
 [ext_resource path="res://menus/main_menu/NetworkStatus.gd" type="Script" id=15]
 [ext_resource path="res://graphics/icons/steam.svg" type="Texture" id=16]
+[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=17]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -87,7 +88,7 @@ valign = 2
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 margin_left = 2.0
-margin_top = 131.636
+margin_top = 62.0
 margin_right = 805.0
 margin_bottom = 454.636
 rect_min_size = Vector2( 0, 175 )
@@ -109,15 +110,15 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 170.0
+margin_top = 135.0
 margin_right = 435.0
-margin_bottom = 420.0
+margin_bottom = 385.0
 rect_min_size = Vector2( 0, 250 )
 
 [node name="StartMenu" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 445.0
+margin_top = 410.0
 margin_right = 435.0
-margin_bottom = 925.0
+margin_bottom = 960.0
 focus_mode = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -138,9 +139,7 @@ text = "Free Play"
 icon = ExtResource( 2 )
 next_menu = "song_list"
 
-[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=[
-"mponly",
-] instance=ExtResource( 4 )]
+[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 70.0
 margin_right = 435.0
@@ -160,9 +159,7 @@ text = "How to play"
 icon = ExtResource( 12 )
 next_menu = "tutorial"
 
-[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=[
-"mponly",
-] instance=ExtResource( 4 )]
+[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 210.0
 margin_right = 435.0
@@ -172,9 +169,17 @@ text = "Multiplayer"
 icon = ExtResource( 7 )
 next_menu = "lobby_list"
 
-[node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=[
-"demo_only",
-] instance=ExtResource( 4 )]
+[node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_top = 280.0
+margin_right = 435.0
+margin_bottom = 340.0
+rect_min_size = Vector2( 430, 60 )
+text = "Downloads"
+icon = ExtResource( 17 )
+next_menu = "download_queue"
+
+[node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=["demo_only"] instance=ExtResource( 4 )]
 visible = false
 margin_left = 0.0
 margin_top = 210.0
@@ -186,21 +191,19 @@ icon = ExtResource( 14 )
 
 [node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 280.0
+margin_top = 350.0
 margin_right = 435.0
-margin_bottom = 340.0
+margin_bottom = 410.0
 rect_min_size = Vector2( 430, 60 )
 text = "Options"
 icon = ExtResource( 3 )
 next_menu = "options_menu"
 
-[node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=[
-"nodemo",
-] instance=ExtResource( 4 )]
+[node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=["nodemo"] instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 350.0
+margin_top = 420.0
 margin_right = 435.0
-margin_bottom = 410.0
+margin_bottom = 480.0
 rect_min_size = Vector2( 430, 60 )
 text = "Tools"
 icon = ExtResource( 6 )
@@ -208,9 +211,9 @@ next_menu = "tools_menu"
 
 [node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
 margin_left = 0.0
-margin_top = 420.0
+margin_top = 490.0
 margin_right = 435.0
-margin_bottom = 480.0
+margin_bottom = 550.0
 rect_min_size = Vector2( 430, 60 )
 text = "Exit"
 icon = ExtResource( 5 )
@@ -231,9 +234,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" groups=[
-"nodemo",
-]]
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" groups=["nodemo"]]
 margin_right = 456.0
 margin_bottom = 36.0
 custom_constants/separation = 12

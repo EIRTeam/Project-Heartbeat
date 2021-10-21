@@ -40,6 +40,10 @@ func _init():
 			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance(),
 			"right": "mp_leaderboard"
 		},
+		"download_queue" : {
+			"left": preload("res://menus/media_download_queue/MediaDownloadQueue.tscn").instance(),
+			"right": "empty"
+		},
 		"lobby": {
 			"left": preload("res://multiplayer/lobby/LobbyMenu.tscn").instance(),
 			"right": "song_list_preview"
