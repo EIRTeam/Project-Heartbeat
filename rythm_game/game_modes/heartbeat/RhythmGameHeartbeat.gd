@@ -348,11 +348,13 @@ func _process_game(_delta):
 				elif time * 1000 > note.time:
 					actions_to_press.append(note.get_input_actions()[0])
 #					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-		var a = InputEventHB.new()
 		
 		for action in actions_to_release:
+			var a = InputEventHB.new()
 			a.action = action
 			a.pressed = false
+			a.event_uid = game_input_manager.get_event_uid(a)
+			a.triggered_actions_count = 1
 			Input.parse_input_event(a)
 			#game_input_manager.send_input(action, false)
 		for action in actions_to_press:
@@ -361,9 +363,12 @@ func _process_game(_delta):
 			game_input_manager.digital_action_tracking[action][-1] = {}
 			game_input_manager.digital_action_tracking[action][-1][0] = true
 			game_input_manager.digital_action_tracking[action][-1][1] = true
+			var a = InputEventHB.new()
 			a.action = action
 			a.actions = actions_to_press
 			a.pressed = true
+			a.triggered_actions_count = 1
+			a.event_uid = game_input_manager.get_event_uid(a)
 			Input.parse_input_event(a)
 	_processed_event_uids = []
 
