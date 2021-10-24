@@ -65,6 +65,7 @@ func _on_button_pressed(song: HBSong):
 
 func _on_song_queued(song: HBSong):
 	no_song_label.visible = false
+	populate()
 
 func _on_song_download_start(song: HBSong):
 	if song in song_map:
