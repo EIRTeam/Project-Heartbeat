@@ -82,6 +82,8 @@ var _removed_items = [] # So we can queue_free removed nodes when freeing the ed
 
 var playtesting := false
 
+var _playhead_traveling := false
+
 var autoarrange_angle_shortcuts = [
 	["editor_arrange_l", Vector2(-1.0, 0.0), 180.0],
 	["editor_arrange_r", Vector2(1.0, 0.0), 0.0],
@@ -851,11 +853,25 @@ func add_event_timing_point(timing_point_class: GDScript):
 	
 	return timing_point
 func _on_game_playback_time_changed(time: float):
+	var prev_time = playhead_position
 	playhead_position = max(time * 1000.0, 0.0)
 	timeline.update()
 	if game_playback.is_playing():
 		timeline.ensure_playhead_is_visible()
+		var playback_offset_with_ln = (timeline.rect_size.x / 2.0)
+		var current_playhead_offset = playback_offset_with_ln - timeline.calculate_playhead_position().x
+		var target_offset = timeline._offset - current_playhead_offset
 		emit_signal("playhead_position_changed")
+		if _playhead_traveling:
+			var prev_diff = timeline._offset-target_offset
+			if timeline._offset < target_offset:
+				var new_offset = move_toward(timeline._offset, target_offset, scale_msec(playhead_position - prev_time)*6.0)
+				timeline.set_layers_offset(new_offset)
+				if is_equal_approx(target_offset, new_offset) or sign(prev_diff) != sign(timeline._offset-target_offset):
+					_playhead_traveling = false
+		if not _playhead_traveling:
+			timeline.set_layers_offset(target_offset)
+		
 
 func seek(value: int, snapped = false):
 	if snapped:
@@ -1041,6 +1057,7 @@ func _on_PauseButton_pressed():
 
 func _on_PlayButton_pressed():
 	_on_SaveButton_pressed()
+	_playhead_traveling = true
 	game_preview.play_at_pos(playhead_position/1000.0)
 	game_playback.play_from_pos(playhead_position)
 	play_button.hide()
