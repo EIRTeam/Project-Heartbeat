@@ -92,6 +92,8 @@ var intro_skip_marker: HBIntroSkipMarker
 
 var cached_note_drawers = {}
 
+var current_variant = -1
+
 func _init():
 	name = "RhythmGameBase"
 
@@ -119,10 +121,10 @@ func _game_ready():
 	
 	# Despite using end time audio stream player's finished signal is used as fallback just in case
 	
-	audio_stream_player = AudioStreamPlayer.new()
+	audio_stream_player = AudioStreamPlayerOffset.new()
 	audio_stream_player.bus = "Music"
 	
-	audio_stream_player_voice = AudioStreamPlayer.new()
+	audio_stream_player_voice = AudioStreamPlayerOffset.new()
 	audio_stream_player_voice.bus = "Vocals"
 	
 	add_child(audio_stream_player)
@@ -178,6 +180,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		audio_stream_player.stream = song.get_audio_stream()
 		if song.voice:
 			audio_stream_player_voice.stream = song.get_voice_stream()
+
+	if current_variant != -1:
+		_volume_offset = song.get_variant_data(current_variant).variant_normalization
 
 	var chart: HBChart
 	
@@ -390,7 +395,7 @@ func _process_game(_delta):
 			if t > time:
 				time = t
 				time -= latency_compensation / 1000.0
-			time = max(time, 0)
+			time = time
 		else:
 			# Obtain current time from ticks, offset by the time we began playing music.
 			time = (OS.get_ticks_usec() - time_begin) / 1000000.0
@@ -402,9 +407,8 @@ func _process_game(_delta):
 			time -= latency_compensation / 1000.0
 	
 			# May be below 0 (did not being yet).
-			time = max(0, time)
+			time = time
 		
-
 		
 		if not editing:
 			var end_time = audio_stream_player.stream.get_length() * 1000.0
@@ -521,6 +525,9 @@ func play_from_pos(position: float):
 	audio_stream_player_voice.stream_paused = false
 	audio_stream_player.play()
 	audio_stream_player_voice.play()
+	if audio_stream_player is AudioStreamPlayerOffset:
+		audio_stream_player.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+		audio_stream_player_voice.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
 	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
@@ -569,7 +576,7 @@ func remove_all_notes_from_screen():
 	timing_point_to_drawer_map = {}
 	
 func play_song():
-	play_from_pos(max(current_song.start_time/1000.0, 0.0))
+	play_from_pos(current_song.start_time / 1000.0)
 func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:

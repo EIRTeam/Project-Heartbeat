@@ -138,7 +138,7 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 				circle_margin_container.show()
 				circle_text_rect.texture = assets.circle_logo
 				_on_size_changed()
-	song_name_label.text = song.get_visible_title()
+	song_name_label.text = song.get_visible_title(game.current_variant)
 	author_label.visible = !song.hide_artist_name
 	if song.artist_alias != "":
 		author_label.text = song.artist_alias

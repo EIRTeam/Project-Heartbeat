@@ -42,7 +42,7 @@ class HBSongDSC:
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var p = game_fs_access.get_file_path(pv_data.charts[difficulty].dsc_path)
 		return DSCConverter.convert_dsc_to_chart(p, opcode_map)
-	func is_cached():
+	func is_cached(variant := ""):
 		return true
 	func get_meta_string():
 		var meta = []

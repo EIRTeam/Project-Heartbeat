@@ -3,6 +3,11 @@ extends Panel
 var song_meta: HBSong setget set_song_meta
 signal song_meta_saved
 
+var current_downloading_id = ""
+
+onready var add_variant_dialog_youtube_url = get_node("AddVariantDialog/VBoxContainer/LineEdit2")
+onready var add_variant_dialog_name = get_node("AddVariantDialog/VBoxContainer/LineEdit")
+
 onready var title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongTitle")
 onready var romanized_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongRomanizedTitle")
 onready var artist_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtist")
@@ -42,6 +47,10 @@ onready var chart_ed = get_node("TabContainer/Charts")
 onready var hide_artist_name_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HideArtistName")
 onready var epilepsy_warning_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/EpilepsyWarning")
 
+onready var alternative_video_container = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/VBoxContainer")
+
+const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
+
 func set_song_meta(value):
 	song_meta = value
 	
@@ -74,10 +83,21 @@ func set_song_meta(value):
 	volume_spinbox.value = song_meta.volume
 	epilepsy_warning_checkbox.pressed = song_meta.show_epilepsy_warning
 	
+	for child in alternative_video_container.get_children():
+		child.queue_free()
+	
+	for variant in song_meta.song_variants:
+		var variant_editor = VARIANT_EDITOR.instance()
+		alternative_video_container.add_child(variant_editor)
+		variant_editor.set_variant(variant)
+		variant_editor.song = song_meta
+		variant_editor.connect("deleted", variant_editor, "queue_free")
+		variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+	
 	chart_ed.populate(value)
 	
 func _ready():
-	pass
+	YoutubeDL.connect("video_downloaded", self, "_on_video_downloaded")
 
 
 func save_meta():
@@ -118,6 +138,14 @@ func save_meta():
 	
 	song_meta.title = song_meta.get_sanitized_field("title")
 	song_meta.romanized_title = song_meta.get_sanitized_field("romanized_title")
+	
+	var variants = []
+	
+	for variant_editor in alternative_video_container.get_children():
+		variant_editor.save_variant()
+		variants.append(variant_editor.variant)
+		
+	song_meta.song_variants = variants
 	
 	song_meta.save_song()
 	
@@ -190,3 +218,63 @@ func _on_CircleLogoFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	save_meta()
+
+
+func _on_AddVariantButton_pressed():
+	var variant_editor = VARIANT_EDITOR.instance()
+	alternative_video_container.add_child(variant_editor)
+	variant_editor.song = song_meta
+	variant_editor.connect("deleted", variant_editor, "queue_free")
+	variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+
+func _on_show_download_prompt(variant: int):
+	save_meta()
+	var v = song_meta.get_variant_data(variant)
+	MouseTrap.cache_song_overlay.show_download_prompt(song_meta, variant)
+
+func show_error(err: String):
+	$ErrorDialog.dialog_text = err
+	$ErrorDialog.popup_centered()
+
+func _on_AddVariantDialog_confirmed():
+	var url = add_variant_dialog_youtube_url.text
+	if not YoutubeDL.validate_video_url(url):
+		show_error("Invalid youtube URL")
+	else:
+		if YoutubeDL.get_cache_status(url, false) != YoutubeDL.CACHE_STATUS.OK:
+			current_downloading_id = YoutubeDL.get_video_id(url)
+			# HACK...
+			var v = HBSongVariantData.new()
+			v.variant_name = add_variant_dialog_name.text
+			v.variant_url = url
+			v.audio_only = true
+			song_meta.song_variants.append(v)
+			song_meta.cache_data(song_meta.song_variants.size()-1)
+			$DownloadingSongPopup.popup_centered()
+		else:
+			user_add_variant(YoutubeDL.get_video_id(url))
+
+func _on_video_downloaded(id, result):
+	if id == current_downloading_id:
+		$DownloadingSongPopup.hide()
+		song_meta.song_variants.pop_back()
+		if result.has("audio") and not result.audio:
+			show_error("There was an error downloading the audio...")
+		else:
+			user_add_variant(id)
+
+func user_add_variant(id: String):
+	var variant_editor = VARIANT_EDITOR.instance()
+	alternative_video_container.add_child(variant_editor)
+	variant_editor.song = song_meta
+	variant_editor.connect("deleted", variant_editor, "queue_free")
+	variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+	var norm = HBAudioNormalizer.new()
+	norm.set_target_ogg(HBUtils.load_ogg(YoutubeDL.get_audio_path(id)))
+	while not norm.work_on_normalization():
+		pass
+	var res = norm.get_normalization_result()
+	variant_editor.variant.variant_url = "https://www.youtube.com/watch?v=%s" % [id]
+	variant_editor.variant.variant_normalization = res
+	variant_editor.variant.variant_name = add_variant_dialog_name.text
+	variant_editor.set_variant(variant_editor.variant)

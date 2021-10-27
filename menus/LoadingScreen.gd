@@ -50,7 +50,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	if not song.has_audio_loudness:
 		if not SongDataCache.is_song_audio_loudness_cached(song):
 			assets_to_get.append("audio_loudness")
-	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song)
+	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song, new_game_info.variant)
 	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
 	AsyncTaskQueueLight.queue_task(asset_task)
 	
@@ -62,7 +62,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 		album_cover.texture = assets.preview
 	else:
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
-	title_label.text = song.get_visible_title()
+	title_label.text = song.get_visible_title(new_game_info.variant)
 	meta_label.text = PoolStringArray(song.get_meta_string()).join('\n')
 func _on_song_assets_loaded(assets):
 	print("LOADED")

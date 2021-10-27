@@ -16,6 +16,7 @@ var modifiers = {}
 var used_autoplay = false
 var song_id = ""
 var difficulty = ""
+var variant = -1
 func _init():
 	._init()
 	time = OS.get_unix_time()

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AudioStreamPlayer",
+"class": "AudioStreamPlayerOffset",
+"language": "GDScript",
+"path": "res://scripts/AudioStreamPlayerOffset.gd"
+}, {
 "base": "Reference",
 "class": "DSCOpcodeMap",
 "language": "GDScript",
@@ -464,6 +469,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/SongStatsLoader.gd"
 }, {
+"base": "HBSerializable",
+"class": "HBSongVariantData",
+"language": "GDScript",
+"path": "res://scripts/HBSongVariantData.gd"
+}, {
 "base": "Node",
 "class": "HBSongVerification",
 "language": "GDScript",
@@ -710,6 +720,7 @@ _global_script_classes=[ {
 "path": "res://menus/tabbed_container/TabbedContainerTab.gd"
 } ]
 _global_script_class_icons={
+"AudioStreamPlayerOffset": "",
 "DSCOpcodeMap": "",
 "EditorLyricPhraseTimelineItem": "",
 "EditorPlayback": "",
@@ -801,6 +812,7 @@ _global_script_class_icons={
 "HBSongListMenu": "",
 "HBSongStats": "",
 "HBSongStatsLoader": "",
+"HBSongVariantData": "",
 "HBSongVerification": "",
 "HBSoundEffectPool": "",
 "HBSustainNote": "",

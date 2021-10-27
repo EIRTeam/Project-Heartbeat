@@ -29,8 +29,8 @@ func populate():
 		vbox_container.remove_child(child)
 		child.queue_free()
 		
-	for song in YoutubeDL.caching_queue:
-		add_download_item(song)
+	for entry in YoutubeDL.caching_queue:
+		add_download_item(entry)
 	update_count_label()
 	no_song_label.visible = YoutubeDL.caching_queue.size() <= 0
 	
@@ -42,26 +42,27 @@ func populate():
 func update_count_label():
 	queue_song_count.text = "%d songs queued" % [YoutubeDL.caching_queue.size()]
 	
-func _on_song_cached(song: HBSong):
+func _on_song_cached(entry: YoutubeDL.CachingQueueEntry):
 	populate()
 
-func add_download_item(song: HBSong):
+func add_download_item(entry: YoutubeDL.CachingQueueEntry):
 	var button = QUEUE_BUTTON.instance()
 	vbox_container.add_child(button)
-	song_map[song] = button
-	button.connect("pressed", self, "_on_button_pressed", [song])
-	button.set_song(song)
+	song_map[entry] = button
+	button.connect("pressed", self, "_on_button_pressed", [entry])
+	button.set_entry(entry)
 
-func _on_button_pressed(song: HBSong):
-	var video_id = YoutubeDL.get_video_id(song.youtube_url)
+func _on_button_pressed(entry: YoutubeDL.CachingQueueEntry):
+	var video_id = YoutubeDL.get_video_id(entry.song.get_variant_data(entry.variant).variant_url)
 	if not video_id in YoutubeDL.songs_being_cached:
-		var item = song_map[song]
-		song_map.erase(song)
+		var item = song_map[entry]
+		song_map.erase(entry)
 		vbox_container.remove_child(item)
 		no_song_label.visible = YoutubeDL.caching_queue.size() <= 0
 		if vbox_container.get_child_count() > 0:
 			scroll_list.select_item(clamp(scroll_list.current_selected_item-1, 0, vbox_container.get_child_count()))
 		YoutubeDL.songs_being_cached.erase(video_id)
+		YoutubeDL.caching_queue.erase(entry)
 
 func _on_song_queued(song: HBSong):
 	no_song_label.visible = false

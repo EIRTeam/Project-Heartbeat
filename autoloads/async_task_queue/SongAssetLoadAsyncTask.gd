@@ -13,10 +13,13 @@ var loaded_assets_mutex := Mutex.new()
 
 var safe_texture_loading = false
 
-func _init(_requested_assets: Array, _song: HBSong).():
+var variant := -1
+
+func _init(_requested_assets: Array, _song: HBSong, _variant := -1).():
 	requested_assets = _requested_assets
 	requested_assets_queue = _requested_assets.duplicate(true)
 	song = _song
+	variant = _variant
 
 func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	var audio_normalizer = HBAudioNormalizer.new()
@@ -74,7 +77,7 @@ func _task_process() -> bool:
 				loaded_asset[difficulty] = song.get_chart_note_usage(difficulty)
 		"audio":
 			if song.has_audio():
-				loaded_asset = song.get_audio_stream()
+				loaded_asset = song.get_audio_stream(variant)
 				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
 					var channel_count = audio_ogg.get_channel_count()

@@ -67,8 +67,8 @@ func get_time_out(bpm):
 		return time_out
 
 # returns the list of graphics for this note
-static func get_note_graphic(type, variation):
-	var graphics = ResourcePackLoader.get_graphic("%s_%s.png" % [HBGame.NOTE_TYPE_TO_STRING_MAP[type], variation])
+static func get_note_graphic(type, variant):
+	var graphics = ResourcePackLoader.get_graphic("%s_%s.png" % [HBGame.NOTE_TYPE_TO_STRING_MAP[type], variant])
 	return graphics
 
 func get_inspector_properties():

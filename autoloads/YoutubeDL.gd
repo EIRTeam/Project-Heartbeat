@@ -39,6 +39,11 @@ var status = YOUTUBE_DL_STATUS.COPYING
 var songs_being_cached = []
 var caching_queue = []
 const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
+
+class CachingQueueEntry:
+	var song: HBSong
+	var variant: int
+
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
 	
@@ -179,7 +184,7 @@ func _download_video(userdata):
 	var download_audio = userdata.download_audio
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta.cache[userdata.video_id] = {}
-	var result = {"video_id": userdata.video_id, "song": userdata.song}
+	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata.entry}
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = ["--ignore-config", "--no-cache-dir", "--force-ipv4", "--compat-options", "youtube-dl"]
 	
@@ -281,6 +286,7 @@ func _video_downloaded(thread: Thread, result):
 	songs_being_cached.erase(result.video_id)
 	var has_error = false
 	var current_song := tracked_video_downloads[result.video_id].song as HBSong
+	var song = current_song
 	if result.has("video"):
 		if not result.video:
 			has_error = true
@@ -298,15 +304,12 @@ func _video_downloaded(thread: Thread, result):
 	if result.video_id in tracked_video_downloads:
 		DownloadProgress.remove_notification(tracked_video_downloads[result.video_id].progress_thing)
 		tracked_video_downloads.erase(result.video_id)
-	for song in caching_queue:
-		if get_video_id(song.youtube_url) == result.video_id:
-			caching_queue.erase(song)
-			if not has_error:
-				song.emit_signal("song_cached")
-				emit_signal("song_cached", song)
-			break
+	caching_queue.erase(result.cache_entry)
+	if not has_error:
+		song.emit_signal("song_cached")
+		emit_signal("song_cached", song)
 	if caching_queue.size() > 0:
-		cache_song(caching_queue[0])
+		cache_song_internal(caching_queue[0])
 	emit_signal("video_downloaded",  result.video_id, result)
 	
 func video_exists(video_id):
@@ -315,8 +318,13 @@ func video_exists(video_id):
 func audio_exists(video_id):
 	var file = File.new()
 	return file.file_exists(get_audio_path(video_id))
-func download_video(song: HBSong, url: String, download_video = true, download_audio = true):
+func download_video(entry: CachingQueueEntry):
+	var variant = entry.song.get_variant_data(entry.variant)
+	var download_video = entry.song.use_youtube_for_video and not variant.audio_only
+	var download_audio = entry.song.use_youtube_for_audio
+	var song := entry.song
 	var thread = Thread.new()
+	var url = variant.variant_url
 	var video_id = get_video_id(url)
 	if video_id in songs_being_cached:
 		Log.log(self, "We are already caching this: " + url)
@@ -343,13 +351,13 @@ func download_video(song: HBSong, url: String, download_video = true, download_a
 				download_video = false
 		if all_found:
 			Log.log(self, "Already cached, no need to download again")
-			emit_signal("video_downloaded", video_id)
+			emit_signal("video_downloaded", video_id, {})
 			if video_id in tracked_video_downloads:
 				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
 				tracked_video_downloads.erase(video_id)
 			return
 	emit_signal("song_download_start", song)
-	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song})
+	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry})
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
 	
@@ -384,29 +392,39 @@ func get_cache_status(url: String, video=true, audio=true):
 	cache_meta_mutex.unlock()
 	return cache_status
 
-func cache_song(song: HBSong):
+func cache_song(song: HBSong, variant := -1):
+	var entry = CachingQueueEntry.new()
+	entry.song = song
+	entry.variant = variant
+	cache_song_internal(entry)
+
+func cache_song_internal(entry: CachingQueueEntry):
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
 		yield(self, "youtube_dl_status_updated")
-	if not song in caching_queue:
-		caching_queue.append(song)
-	if caching_queue[0] == song:
+	caching_queue.append(entry)
+	if caching_queue[0] == entry:
 		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-			var video_url_ok = validate_video_url(song.youtube_url)
+			var song := entry.song as HBSong
+			var variant = song.get_variant_data(entry.variant)
+			var video_url_ok = validate_video_url(variant.variant_url)
 			if video_url_ok:
-				var video_id = get_video_id(song.youtube_url)
+				var video_id = get_video_id(variant.variant_url)
 				if not video_id in songs_being_cached:
-					var result = download_video(song, song.youtube_url, song.use_youtube_for_video and song.has_video_enabled(), song.use_youtube_for_audio)
+					var result = download_video(entry)
 					if not video_id in tracked_video_downloads:
 						var progress_thing = PROGRESS_THING.instance()
 						DownloadProgress.add_notification(progress_thing)
 						progress_thing.spinning = true
 						progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
 						progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+						if entry.variant != -1:
+							progress_thing.text += " (%s)" % [variant.variant_name]
 						tracked_video_downloads[video_id] = {
 							"progress_thing": progress_thing,
-							"song": song
+							"song": song,
+							"entry": entry
 						}
-						emit_signal("song_queued", song)
+						emit_signal("song_queued", entry)
 					return result
 			else:
 				var progress_thing = PROGRESS_THING.instance()
@@ -415,10 +433,17 @@ func cache_song(song: HBSong):
 				progress_thing.life_timer = 2.0
 				progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
 			
-func is_already_downloading(song):
-	return get_video_id(song.youtube_url) in songs_being_cached or song in caching_queue
+func is_already_downloading(song, variant := -1):
+	var in_queue = false
+	for entry in caching_queue:
+		if entry.song == song and entry.variant == variant:
+			in_queue = true
+			break
+	return get_video_id(song.get_variant_data(variant).variant_url) in songs_being_cached or in_queue
 
-func cancel_song(song: HBSong):
+func cancel_song(song: HBSong, variant := -1):
 	if not get_video_id(song.youtube_url) in songs_being_cached:
-		if song in caching_queue:
-			caching_queue.erase(song)
+		for entry in caching_queue:
+			if entry.song == song and entry.variant == variant:
+				caching_queue.erase(entry)
+				break

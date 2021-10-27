@@ -42,5 +42,5 @@ func generate_chart():
 			chart.layers[j].timing_points.append_array(timing_points)
 
 
-func get_audio_stream():
+func get_audio_stream(variant := -1):
 	return load(audio_path)

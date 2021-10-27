@@ -14,11 +14,11 @@ func has_audio():
 	var f = File.new()
 	return (video and f.file_exists(get_song_video_res_path())) or f.file_exists(get_song_audio_res_path())
 		
-func is_cached():
+func is_cached(variant := ""):
 	var f = File.new()
 	return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
 
-func get_audio_stream():
+func get_audio_stream(variant := -1):
 	var f = File.new()
 	var audio_path = get_song_audio_res_path()
 	var source_path = get_song_video_res_path()
@@ -41,7 +41,7 @@ func get_audio_stream():
 	else:
 		return null
 	
-func get_video_stream():
+func get_video_stream(variant := -1):
 	var video_stream = VideoStreamGDNative.new()
 	video_stream.set_file(get_song_video_res_path())
 	return video_stream

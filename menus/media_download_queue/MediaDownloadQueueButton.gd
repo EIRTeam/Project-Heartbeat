@@ -5,16 +5,17 @@ onready var cancel_texture: TextureRect = get_node("Button/HBoxContainer/Texture
 onready var spinner_texture: TextureRect = get_node("Button/HBoxContainer/TextureRect")
 onready var animation_player: AnimationPlayer = get_node("Button/AnimationPlayer")
 
-var song: HBSong
+var entry: YoutubeDL.CachingQueueEntry
 
 func _ready():
 	connect("resized", self, "_on_resized")
 	call_deferred("_on_resized")
 
-func set_song(_song: HBSong):
-	song = _song
-	title_label.text = song.get_visible_title()
-	set_downloading(YoutubeDL.get_video_id(song.youtube_url) in YoutubeDL.songs_being_cached)
+func set_entry(_entry: YoutubeDL.CachingQueueEntry):
+	entry = _entry
+	var song = entry.song
+	title_label.text = song.get_visible_title(_entry.variant)
+	set_downloading(YoutubeDL.get_video_id(song.get_variant_data(entry.variant).variant_url) in YoutubeDL.songs_being_cached)
 	
 func set_downloading(_downloading: bool):
 	spinner_texture.visible = _downloading

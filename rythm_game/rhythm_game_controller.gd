@@ -54,7 +54,9 @@ func _ready():
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 	$Label.visible = false
 func _on_intro_skipped(new_time):
-	video_player.stream_position = new_time
+	video_player.stream_position = max(new_time, 0)
+	if game.time < 0.0:
+		video_player.paused = true
 
 func _fade_in_done():
 	video_player.paused = false
@@ -64,7 +66,9 @@ func _fade_in_done():
 	# this is why we do a single game cycle, to get the timing right
 	game.play_song()
 	game._process(0.0)
-	video_player.stream_position = game.time
+	video_player.stream_position = max(game.time, 0)
+	if game.time < 0.0:
+		video_player.paused = true
 	rescale_video_player()
 	
 	pause_menu_disabled = false
@@ -111,6 +115,7 @@ func start_session(game_info: HBGameInfo, assets=null):
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
 		modifier.modifier_settings = game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
+	game.current_variant = game_info.variant
 	set_song(song, game_info.difficulty, modifiers, false, assets)
 	set_process(true)
 
@@ -179,7 +184,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	start_fade_in()
 	if song.has_video_enabled() and not modifier_disables_video and video_enabled_for_song:
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
-			var stream = song.get_video_stream()
+			var stream = song.get_video_stream(current_game_info.variant)
 			if stream:
 				video_player.hide()
 				# HACK HACK HACK: vp9 decoder requires us to set the stream position
@@ -191,7 +196,9 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					video_player.stream_position = 0
 					video_player.paused = true
 				video_player.play()
-				video_player.stream_position = song.start_time  / 1000.0
+				video_player.stream_position = max(song.get_video_start_time(current_game_info.variant) / 1000.0, 0)
+				if game.time < 0.0:
+					video_player.paused = true
 				$Node2D/Panel.show()
 				if visualizer and UserSettings.user_settings.visualizer_enabled:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
@@ -221,7 +228,6 @@ func set_game_size():
 	#$Node2D/VHS.rect_size = rect_size
 	$Node2D/TextureRect.rect_size = rect_size
 	$Node2D/Panel.rect_size = rect_size
-	print("RECT SIZE", rect_size)
 	#game_.rect_size = rect_size
 	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
@@ -236,6 +242,8 @@ func _on_resumed():
 		game._process(0)
 		video_player.paused = false
 		video_player.stream_position = game.time
+		if game.time < 0.0:
+			video_player.paused = true
 	else:
 		# Called when resuming with rollback
 		$RollbackAudioStreamPlayer.play()
@@ -245,6 +253,8 @@ func _on_resumed():
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		video_player.stream_position = last_pause_time - ROLLBACK_TIME
+		if game.time < 0.0:
+			video_player.paused = true
 		vhs_panel.show()
 		
 func _input(event):
@@ -284,7 +294,7 @@ func _show_results(game_info: HBGameInfo):
 func _on_paused():
 	get_tree().paused = true
 	set_process(false)
-	if game.time - last_pause_time >= ROLLBACK_TIME:
+	if game.time - last_pause_time >= ROLLBACK_TIME and game.time > 0:
 		last_pause_time = game.time
 		rollback_on_resume = true
 		game.set_process(false)
@@ -338,6 +348,9 @@ func _process(delta):
 			rollback_label_animation_player.play("disappear")
 			game.editing = false
 			_on_resumed()
+	if game.time > 0 and video_player.paused and not get_tree().paused and not rollback_on_resume:
+		video_player.paused = false
+		video_player.stream_position = game.time
 			
 func seek(pos: float):
 	var latency_compensation = UserSettings.user_settings.lag_compensation
@@ -371,5 +384,7 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
-	video_player.stream_position = current_game_info.get_song().start_time / 1000.0
+	if game.time < 0.0:
+		video_player.paused = true
+	video_player.stream_position = max(current_game_info.get_song().get_video_start_time(current_game_info.variant) / 1000.0, 0)
 	start_fade_in()

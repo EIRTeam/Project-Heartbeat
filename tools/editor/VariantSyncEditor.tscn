@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/editor/VariantSyncEditor.gd" type="Script" id=1]
+
+[node name="Control" type="Control"]
+margin_right = 383.0
+margin_bottom = 173.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PHAudioStreamEditor" type="PHAudioStreamEditor" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_vertical = 3
+start_point = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="PHAudioStreamEditor"]
+margin_right = 70.0
+margin_bottom = 25.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PHAudioStreamEditor/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Original"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

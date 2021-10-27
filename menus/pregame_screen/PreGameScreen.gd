@@ -66,6 +66,7 @@ func _ready():
 
 var current_assets
 var current_song_assets
+var variant_select: Control
 
 func set_current_assets(song, assets):
 	if song == current_song:
@@ -103,6 +104,11 @@ func _on_resized():
 	var inv = 1.0 / (rect_size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
+func _on_menu_exit(force_hard_transition=false):
+	._on_menu_exit(force_hard_transition)
+	MouseTrap.cache_song_overlay.disconnect("done", button_container, "grab_focus")
+	
+
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if args.has("song"):
@@ -131,6 +137,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	update_modifiers()
 	update_song_stats_label()
 	tabbed_container.show_tab("Song")
+	
+	MouseTrap.cache_song_overlay.connect("done", button_container, "grab_focus")
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
 	var highest_score_string = tr("Never played")
@@ -147,6 +155,16 @@ func _on_button_list_out_from_top():
 	modifier_scroll_container.select_item(modifier_button_container.get_child_count()-1)
 	
 func _on_StartButton_pressed():
+	var selected_variant = -1
+	if variant_select:
+		selected_variant = variant_select.options[variant_select.selected_option]
+		if selected_variant != -1:
+			if not current_song.is_cached(selected_variant):
+				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
+				return
+		HBGame.song_stats.get_song_stats(current_song.id).selected_variant = selected_variant
+		HBGame.song_stats.save_song_stats()
+	game_info.variant = selected_variant
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = OS.get_unix_time()
@@ -241,6 +259,22 @@ func add_buttons():
 	add_modifier_button.icon = preload("res://graphics/icons/icon_add.svg")
 	add_modifier_button.connect("pressed", self, "_on_add_modifier_pressed")
 	modifier_button_container.add_child(add_modifier_button)
+	
+	variant_select = null
+	
+	if current_song.song_variants.size() > 0:
+		var last_variant = HBGame.song_stats.get_song_stats(current_song.id).selected_variant
+		variant_select = preload("res://menus/options_menu/OptionSelect.tscn").instance()
+		variant_select.options = [-1]
+		variant_select.text = tr("Video/Audio variant")
+		variant_select.options_pretty = ["Default"]
+		for i in range(current_song.song_variants.size()):
+			variant_select.options.append(i)
+			variant_select.options_pretty.append(current_song.get_variant_data(i).variant_name)
+		modifier_button_container.add_child(variant_select)
+		variant_select.select(0)
+		if last_variant != -1 and last_variant < current_song.song_variants.size():
+			variant_select.select(last_variant+1)
 func update_modifiers():
 	modifier_buttons = {}
 	for button in modifier_button_container.get_children():
@@ -258,6 +292,10 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
 		_on_BackButton_pressed()
+	else:
+		if modifier_scroll_container.has_focus():
+			if variant_select:
+				variant_select._gui_input(event)
 
 func _on_BackButton_pressed():
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
@@ -279,6 +317,16 @@ func _on_open_leaderboard_pressed():
 	OS.shell_open("https://ph.eirteam.moe/leaderboard/%s/%s/%s/1" % [song_ugc_type, str(current_song.ugc_id), current_difficulty])
 
 func _on_StartPractice_pressed():
+	var selected_variant = -1
+	if variant_select:
+		selected_variant = variant_select.options[variant_select.selected_option]
+		if selected_variant != -1:
+			if not current_song.is_cached(selected_variant):
+				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
+				return
+		HBGame.song_stats.get_song_stats(current_song.id).selected_variant = selected_variant
+		HBGame.song_stats.save_song_stats()
+	game_info.variant = selected_variant
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = OS.get_unix_time()

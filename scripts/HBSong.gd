@@ -51,6 +51,7 @@ var lyrics = []
 var show_epilepsy_warning = false
 var has_audio_loudness := false
 var audio_loudness := 0.0
+var song_variants = []
 
 # not serialized
 var loader = ""
@@ -73,7 +74,7 @@ func _init():
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
 	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
-	"audio_loudness"]
+	"audio_loudness", "song_variants"]
 
 func get_meta_string():
 	var song_meta = []
@@ -159,10 +160,12 @@ func has_video_enabled():
 		return false
 	return not UserSettings.user_settings.disable_video
 		
-func is_cached():
+func is_cached(variant=-1):
 	var use_video = use_youtube_for_video
 	if not has_video_enabled():
 		use_video = false
+	if variant != -1:
+		return (song_variants[variant] as HBSongVariantData).is_cached()
 	if youtube_url:
 		return YoutubeDL.get_cache_status(youtube_url, use_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK
 	elif audio:
@@ -174,15 +177,16 @@ func is_cached():
 func get_cache_status():
 	return YoutubeDL.get_cache_status(youtube_url, use_youtube_for_video, use_youtube_for_audio)
 
-func get_audio_stream():
+func get_audio_stream(variant := -1):
 	var audio_path = get_song_audio_res_path()
 	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
 		return load(audio_path)
 	else:
 		if youtube_url:
 			if use_youtube_for_audio:
-				if YoutubeDL.get_cache_status(youtube_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
-					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(youtube_url))
+				var variant_url = get_variant_data(variant).variant_url
+				if YoutubeDL.get_cache_status(get_variant_data(variant).variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
+					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(variant_url))
 				else:
 					Log.log(self, "Tried to get audio stream from an uncached song!!")
 		return HBUtils.load_ogg(audio_path)
@@ -199,11 +203,14 @@ func get_artist_sort_text():
 		return artist
 	else:
 		return ""
-func get_video_stream():
+func get_video_stream(variant := -1):
 	var video_path = get_song_video_res_path()
 	if use_youtube_for_video:
-		if is_cached():
-			video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
+		if is_cached(variant):
+			if variant == -1 or song_variants[variant].audio_only:
+				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
+			else:
+				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(song_variants[variant].variant_url))
 		else:
 			Log.log(self, "Tried to get video stream from an uncached song!!")
 			return null
@@ -226,9 +233,9 @@ func save_song():
 	
 	save_to_file(get_meta_path())
 
-func cache_data():
+func cache_data(variant := -1):
 	if youtube_url:
-		return YoutubeDL.cache_song(self)
+		return YoutubeDL.cache_song(self, variant)
 
 func has_audio():
 	if audio != "" or (use_youtube_for_audio and is_cached()):
@@ -236,11 +243,15 @@ func has_audio():
 	else:
 		return false
 
-func get_visible_title() -> String:
+func get_visible_title(variant := -1) -> String:
+	var rt = ""
 	if UserSettings.user_settings.romanized_titles_enabled and romanized_title:
-		return get_sanitized_field("romanized_title")
+		rt = get_sanitized_field("romanized_title")
 	else:
-		return get_sanitized_field("title")
+		rt = get_sanitized_field("title")
+	if variant != -1:
+		rt += " (%s)" % [get_variant_data(variant).variant_name]
+	return rt
 
 func comes_from_ugc():
 	return _comes_from_ugc
@@ -339,3 +350,31 @@ func set_vocals(value):
 	for i in range(vocals.size()-1, -1, -1):
 		if (vocals[i] as String).strip_edges().empty():
 			vocals.remove(i)
+
+func get_variant_offset(variant := -1) -> int:
+	if variant == -1:
+		return 0
+	else:
+		return (song_variants[variant] as HBSongVariantData).variant_offset - start_time
+
+func get_variant_data(variant := -1):
+	if variant < 0:
+		var d = HBSongVariantData.new()
+		d.variant_url = youtube_url
+		d.variant_normalization = audio_loudness
+		d.audio_only = !use_youtube_for_video
+		return d
+	else:
+		return song_variants[variant]
+
+func get_audio_stream_start_time(variant := -1):
+	if variant == -1:
+		return start_time
+	else:
+		return song_variants[variant].variant_offset - start_time
+		
+func get_video_start_time(variant := -1):
+	if variant == -1 or song_variants[variant].audio_only:
+		return start_time
+	else:
+		return song_variants[variant].variant_offset

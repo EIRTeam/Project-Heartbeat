@@ -7,6 +7,7 @@ onready var accept_button_audio = get_node("DownloadConfirmPopup/Panel/HBoxConta
 onready var button_menu = get_node("DownloadConfirmPopup/Panel/HBoxContainer")
 signal done
 var current_song_downloading: HBSong
+var current_variant = -1
 
 func _ready():
 	download_confirm_popup.connect("accept", self, "_on_download_prompt_accepted")
@@ -14,18 +15,20 @@ func _ready():
 	error_prompt.connect("accept", self, "_on_error_prompt_accepted")
 	accept_button_audio.connect("pressed", download_confirm_popup, "hide")
 	accept_button_audio.connect("pressed", self, "_on_download_prompt_accepted", [true])
-func show_download_prompt(song: HBSong):
-	if YoutubeDL.is_already_downloading(song):
+func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_option = false):
+	var variant = song.get_variant_data(variant_n)
+	if YoutubeDL.is_already_downloading(song, variant_n):
 		error_prompt.popup_centered_ratio(0.5)
 		return
 	current_song_downloading = song
+	current_variant = variant_n
 	var messages = {
 		YoutubeDL.CACHE_STATUS.MISSING: "This song requires downloading video/audio files from YouTube, would you like to download them?",
 		YoutubeDL.CACHE_STATUS.VIDEO_MISSING: "The video for this song appears to be missing, would you like to download it?",
 		YoutubeDL.CACHE_STATUS.AUDIO_MISSING: "The audio for this song appears to be missing, would you like to download it?"
 	}
-	download_confirm_popup.text = messages[song.get_cache_status()]
-	accept_button_audio.visible = song.use_youtube_for_video
+	download_confirm_popup.text = messages[variant.get_cache_status()]
+	accept_button_audio.visible = !variant.audio_only and not force_disable_audio_option
 	download_confirm_popup.popup_centered_ratio(0.5)
 	button_menu.select_button(0)
 	
@@ -38,6 +41,6 @@ func _on_download_prompt_accepted(audio_only=false):
 			UserSettings.user_settings.per_song_settings[current_song_downloading.id] = HBPerSongSettings.new()
 		UserSettings.user_settings.per_song_settings[current_song_downloading.id].video_enabled = false
 		UserSettings.save_user_settings()
-	current_song_downloading.cache_data()
+	current_song_downloading.cache_data(current_variant)
 	download_confirm_popup.hide()
 	emit_signal("done")
