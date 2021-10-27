@@ -4,6 +4,7 @@ onready var download_confirm_popup = get_node("DownloadConfirmPopup")
 onready var downloading_prompt = get_node("DownloadingPrompt")
 onready var error_prompt = get_node("ErrorPrompt")
 onready var accept_button_audio = get_node("DownloadConfirmPopup/Panel/HBoxContainer/AcceptButtonAudio")
+onready var button_menu = get_node("DownloadConfirmPopup/Panel/HBoxContainer")
 signal done
 var current_song_downloading: HBSong
 
@@ -26,6 +27,8 @@ func show_download_prompt(song: HBSong):
 	download_confirm_popup.text = messages[song.get_cache_status()]
 	accept_button_audio.visible = song.use_youtube_for_video
 	download_confirm_popup.popup_centered_ratio(0.5)
+	button_menu.select_button(0)
+	
 func _on_error_prompt_accepted():
 	emit_signal("done")
 	
