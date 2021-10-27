@@ -225,8 +225,6 @@ func _on_contextual_menu_about_to_show():
 			contextual_menu.set_contextual_item_disabled("make_double", true)
 			contextual_menu.set_contextual_item_disabled("make_normal", true)
 			contextual_menu.set_contextual_item_disabled("make_sustain", true)
-		if selected.data.note_type == HBBaseNote.NOTE_TYPE.HEART:
-			contextual_menu.set_contextual_item_disabled("make_sustain", true)
 
 
 # Change note type by an amount.
