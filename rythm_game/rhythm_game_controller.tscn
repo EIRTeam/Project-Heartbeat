@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=1]
 [ext_resource path="res://rythm_game/rhythm_game_controller.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://graphics/icons/fast-forward.svg" type="Texture" id=8]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -153,7 +154,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 volume_db = -80.0
 autoplay = true
-script = ExtResource( 1 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -38,7 +38,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	video_player.play()
 	video_player.paused = false
 	game._process(0)
-	video_player.stream_position = game.time
+	video_player.set_stream_position(game.time)
 	practice_gui.hide()
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("pause"):
@@ -66,7 +66,7 @@ func _unhandled_input(event: InputEvent):
 			game.set_process(true)
 			game._process(0)
 			video_player.paused = false
-			video_player.stream_position = game.time
+			video_player.set_stream_position(game.time)
 		
 func _on_video_pause():
 	video_player.paused = true
@@ -119,7 +119,7 @@ func go_to_time(time: float):
 		game._process(0)
 		game.delete_rogue_notes(game.time)
 		video_player.paused = false
-		video_player.stream_position = game.time
+		video_player.set_stream_position(game.time)
 	else:
 		game.reset_hit_notes()
 		game.time = time
@@ -127,7 +127,7 @@ func go_to_time(time: float):
 		game._process(0)
 		update_progress_bar()
 		video_player.paused = false
-		video_player.stream_position = game.time
+		video_player.set_stream_position(game.time)
 		video_pause_timer.start()
 
 func reset_stats():

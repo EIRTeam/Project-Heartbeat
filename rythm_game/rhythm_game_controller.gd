@@ -54,9 +54,7 @@ func _ready():
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 	$Label.visible = false
 func _on_intro_skipped(new_time):
-	video_player.stream_position = max(new_time, 0)
-	if game.time < 0.0:
-		video_player.paused = true
+	video_player.set_stream_position(new_time)
 
 func _fade_in_done():
 	video_player.paused = false
@@ -66,9 +64,7 @@ func _fade_in_done():
 	# this is why we do a single game cycle, to get the timing right
 	game.play_song()
 	game._process(0.0)
-	video_player.stream_position = max(game.time, 0)
-	if game.time < 0.0:
-		video_player.paused = true
+	video_player.set_stream_position(game.time)
 	rescale_video_player()
 	
 	pause_menu_disabled = false
@@ -110,6 +106,8 @@ func start_session(game_info: HBGameInfo, assets=null):
 		return
 	
 	current_game_info = game_info
+	var offset = game_info.get_song().get_variant_data(game_info.variant).variant_offset
+	video_player.offset = -offset / 1000.0
 	var modifiers = []
 	for modifier_id in game_info.modifiers:
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
@@ -193,10 +191,10 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				# yeah I don't know why I bother either
 				if not video_player.stream:
 					video_player.stream = stream
-					video_player.stream_position = 0
+					video_player.set_stream_position(0)
 					video_player.paused = true
 				video_player.play()
-				video_player.stream_position = max(song.get_video_start_time(current_game_info.variant) / 1000.0, 0)
+				video_player.set_stream_position(max(song.get_video_start_time(current_game_info.variant) / 1000.0, 0))
 				if game.time < 0.0:
 					video_player.paused = true
 				$Node2D/Panel.show()
@@ -241,7 +239,7 @@ func _on_resumed():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		video_player.stream_position = game.time
+		video_player.set_stream_position(game.time)
 		if game.time < 0.0:
 			video_player.paused = true
 	else:
@@ -252,7 +250,7 @@ func _on_resumed():
 		game.time = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
-		video_player.stream_position = last_pause_time - ROLLBACK_TIME
+		video_player.set_stream_position(last_pause_time - ROLLBACK_TIME)
 		if game.time < 0.0:
 			video_player.paused = true
 		vhs_panel.show()
@@ -348,10 +346,6 @@ func _process(delta):
 			rollback_label_animation_player.play("disappear")
 			game.editing = false
 			_on_resumed()
-	if game.time > 0 and video_player.paused and not get_tree().paused and not rollback_on_resume:
-		video_player.paused = false
-		video_player.stream_position = game.time
-			
 func seek(pos: float):
 	var latency_compensation = UserSettings.user_settings.lag_compensation
 	if current_game_info:
@@ -384,7 +378,4 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
-	if game.time < 0.0:
-		video_player.paused = true
-	video_player.stream_position = max(current_game_info.get_song().get_video_start_time(current_game_info.variant) / 1000.0, 0)
 	start_fade_in()
