@@ -373,8 +373,8 @@ func get_audio_stream_start_time(variant := -1):
 	else:
 		return song_variants[variant].variant_offset - start_time
 		
-func get_video_start_time(variant := -1):
+func get_video_offset(variant := -1):
 	if variant == -1 or song_variants[variant].audio_only:
-		return start_time
+		return -0.0
 	else:
 		return song_variants[variant].variant_offset

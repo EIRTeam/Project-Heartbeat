@@ -106,7 +106,7 @@ func start_session(game_info: HBGameInfo, assets=null):
 		return
 	
 	current_game_info = game_info
-	var offset = game_info.get_song().get_variant_data(game_info.variant).variant_offset
+	var offset = game_info.get_song().get_video_offset(game_info.variant)
 	video_player.offset = -offset / 1000.0
 	var modifiers = []
 	for modifier_id in game_info.modifiers:
@@ -194,7 +194,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					video_player.set_stream_position(0)
 					video_player.paused = true
 				video_player.play()
-				video_player.set_stream_position(max(song.get_video_start_time(current_game_info.variant) / 1000.0, 0))
+				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
 				if game.time < 0.0:
 					video_player.paused = true
 				$Node2D/Panel.show()
