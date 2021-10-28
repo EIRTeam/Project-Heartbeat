@@ -68,3 +68,9 @@ func _on_SpinBox_value_changed(value):
 
 func _on_WindowDialog_confirmed():
 	emit_signal("offset_changed", -variant_editor.start)
+
+func _on_WindowDialog_about_to_show():
+	set_process_input(true)
+func _on_WindowDialog_popup_hide():
+	set_process_input(false)
+	

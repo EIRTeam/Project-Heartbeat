@@ -15,6 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 size_flags_vertical = 3
+color = Color( 0.0980392, 0.113725, 0.156863, 1 )
+color = Color( 0.0980392, 0.113725, 0.156863, 1 )
 start_point = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
