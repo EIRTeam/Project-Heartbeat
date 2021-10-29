@@ -185,6 +185,9 @@ func fill_localized_arrays():
 		"editor_circle_size_bigger": "Circle size bigger",
 		"editor_circle_size_smaller": "Circle size smaller",
 		"editor_circle_inside": "Circle inside",
+		"editor_toggle_hold": tr("Toggle hold"),
+		"editor_interpolate_angle": tr("Interpolate angles"),
+		"editor_show_arrange_menu": tr("Show arrange menu"),
 	}
 	
 	ACTION_CATEGORIES = {

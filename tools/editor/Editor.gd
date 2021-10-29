@@ -20,9 +20,8 @@ onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer")
 onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Inspector")
 onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_hv_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeHVSeparationSpinbox")
-onready var time_arrange_diagonal_separation_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationXSpinbox")
-onready var time_arrange_diagonal_separation_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/HBoxContainer/TimeArrangeDiagonalSeparationYSpinbox")
+onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
+onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
@@ -52,6 +51,8 @@ onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContain
 onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
 onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
+onready var arrange_menu = get_node("ArrangeMenu")
+onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
 
 const LOG_NAME = "HBEditor"
 
@@ -85,15 +86,15 @@ var playtesting := false
 var _playhead_traveling := false
 
 var autoarrange_angle_shortcuts = [
-	["editor_arrange_l", Vector2(-1.0, 0.0), 180.0],
-	["editor_arrange_r", Vector2(1.0, 0.0), 0.0],
-	["editor_arrange_u", Vector2(0.0, -1.0), -90.0],
-	["editor_arrange_d", Vector2(0.0, 1.0), 90.0],
-	["editor_arrange_ul", Vector2(-1.0, -1.0), -135.0],
-	["editor_arrange_ur", Vector2(1.0, -1.0), -45.0],
-	["editor_arrange_dl", Vector2(-1.0, 1.0), 135.0],
-	["editor_arrange_dr", Vector2(1.0, 1.0), 45.0],
-	["editor_arrange_center", Vector2(0.0, 0.0), 0.0]
+	["editor_arrange_l", PI],
+	["editor_arrange_r", 0],
+	["editor_arrange_u", -PI/2],
+	["editor_arrange_d", PI/2],
+	["editor_arrange_ul", -3*PI/4],
+	["editor_arrange_ur", -PI/4],
+	["editor_arrange_dl", 3*PI/4],
+	["editor_arrange_dr", PI/4],
+	["editor_arrange_center", null]
 ]
 
 var hold_ends = []
@@ -203,6 +204,13 @@ func _ready():
 	transforms_tools.editor = self
 	
 	connect("timing_points_changed", self, "_cache_hold_ends")
+	
+	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time", [true])
+	
+	var button_ids = ["3", "", "7", "9"]
+	for i in range(4):
+		var node = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
+		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
 	
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -323,9 +331,48 @@ func get_items_at_time(time: int):
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
 
+var arranging = false
+
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
 		return
+	
+	if event.is_action_pressed("editor_show_arrange_menu"):
+		if selected and game_preview.get_global_rect().has_point(get_global_mouse_position()):
+			arrange_menu.backup_selected(selected)
+			
+			for item in selected:
+				remove_item_from_layer(item._layer, item)
+			deselect_all()
+			
+			for item in arrange_menu.get_selected_backup():
+				var data = item.data as HBBaseNote
+				if not data:
+					continue
+				
+				var new_data_ser = data.serialize()
+				var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+				var new_item = new_data.get_timeline_item()
+				
+				add_item_to_layer(item._layer, new_item)
+				select_item(new_item, true)
+			
+			arranging = true
+			arrange_menu.popup()
+			arrange_menu.set_global_position(get_global_mouse_position())
+	elif event.is_action_released("editor_show_arrange_menu") and arranging:
+		arranging = false
+		arrange_menu.hide()
+		
+		for item in selected:
+			remove_item_from_layer(item._layer, item)
+		deselect_all()
+		
+		for item in arrange_menu.get_selected_backup():
+			add_item_to_layer(item._layer, item)
+			select_item(item, true)
+		
+		arrange_selected_notes_by_time(arrange_menu.get_angle())
 	
 	if event is InputEventKey and event.pressed and not sex_button.visible:
 		if event.scancode == konami_sequence[konami_index]:
@@ -374,11 +421,14 @@ func _unhandled_input(event: InputEvent):
 				if not event.control:
 					arrange_selected_notes_by_time(action[1])
 				else:
-					undo_redo.create_action("Change note angle to " + str(action[2]))
+					if not action[1]:
+						return
+					
+					undo_redo.create_action("Change note angle to " + str(rad2deg(action[1])))
 			
 					for note in selected:
 						if note.data is HBBaseNote:
-							undo_redo.add_do_property(note.data, "entry_angle", action[2])
+							undo_redo.add_do_property(note.data, "entry_angle", rad2deg(action[1]))
 							undo_redo.add_do_method(self, "_on_timing_points_params_changed")
 							
 							undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
@@ -1128,9 +1178,9 @@ func load_settings(settings: HBPerSongEditorSettings):
 	grid_x_spinbox.value = settings.grid_resolution.x
 	grid_y_spinbox.value = settings.grid_resolution.y
 	
-	time_arrange_hv_spinbox.value = settings.hv_separation
-	time_arrange_diagonal_separation_x_spinbox.value = settings.diagonal_separation.x
-	time_arrange_diagonal_separation_y_spinbox.value = settings.diagonal_separation.y
+	time_arrange_separation_spinbox.value = settings.separation
+	time_arrange_diagonal_angle_spinbox.value = settings.diagonal_angle
+	time_arrange_snaps_spinbox.value = settings.arranger_snaps
 	
 	transforms_tools.load_settings()
 	
@@ -1422,24 +1472,23 @@ func _order_items(a, b):
 	return a.data.time < b.data.time
 
 # Arranges the selected notes in the playarea by a certain distances
-func arrange_selected_notes_by_time(direction: Vector2):
+func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 	var separation : Vector2 = Vector2.ZERO
-	var hv_separation = time_arrange_hv_spinbox.value
-	var diagonal_separation_x = time_arrange_diagonal_separation_x_spinbox.value
-	var diagonal_separation_y = time_arrange_diagonal_separation_y_spinbox.value
+	var slide_separation : Vector2 = Vector2.ZERO
+	var eight_separation = time_arrange_separation_spinbox.value
 	
 	var autoslide = autoslide_checkbox.pressed
 	
-	# Never remove these, it makes the mikuphile mad
-	if abs(direction.x) > 0 and abs(direction.y) > 0:
-		# We got a diagonal boi
-		separation = Vector2(diagonal_separation_x, diagonal_separation_y)
-		autoslide = false
-	else:
-		separation = Vector2(hv_separation, hv_separation)
-	separation *= Vector2(sign(direction.x), sign(direction.y))
+	if angle != null:
+		separation.x = eight_separation * cos(angle)
+		separation.y = eight_separation * sin(angle)
+		slide_separation.x = 32 * cos(angle)
+		slide_separation.y = 32 * sin(angle)
 	
-	var slide_separation = Vector2(32, 32) * Vector2(sign(direction.x), sign(direction.y))
+	# Never remove these, it makes the mikuphile mad
+	var direction = Vector2.ZERO
+	if abs(direction.x) > 0 and abs(direction.y) > 0:
+		pass
 	
 	var pos_compensation: Vector2
 	var time_compensation := 0
@@ -1454,9 +1503,10 @@ func arrange_selected_notes_by_time(direction: Vector2):
 	
 	var slide_index := 0
 	
-	print("ARRANGE", selected.size())
-
-	undo_redo.create_action("Arrange selected notes by time")
+	if not preview_only:
+		print("ARRANGE", selected.size())
+		undo_redo.create_action("Arrange selected notes by time")
+	
 	selected.sort_custom(self, "_order_items")
 	
 	
@@ -1492,11 +1542,15 @@ func arrange_selected_notes_by_time(direction: Vector2):
 				else:
 					new_pos = pos_compensation + slide_separation
 			
-			undo_redo.add_do_property(selected_item.data, "position", new_pos)
-			undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
+			if not preview_only:
+				undo_redo.add_do_property(selected_item.data, "position", new_pos)
+				undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
 			
-			undo_redo.add_do_method(selected_item, "update_widget_data")
-			undo_redo.add_undo_method(selected_item, "update_widget_data")
+				undo_redo.add_do_method(selected_item, "update_widget_data")
+				undo_redo.add_undo_method(selected_item, "update_widget_data")
+			else:
+				selected_item.data.position = new_pos
+				selected_item.update_widget_data()
 			
 			pos_compensation = new_pos
 			if selected_item.data is HBSustainNote:
@@ -1504,10 +1558,11 @@ func arrange_selected_notes_by_time(direction: Vector2):
 			elif diff > 0:
 				time_compensation = selected_item.data.time
 	
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	if not preview_only:
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
-	undo_redo.commit_action()
+		undo_redo.commit_action()
 #	inspector.update_value()
 
 func add_button_to_tools_tab(button: BaseButton):
@@ -1704,16 +1759,12 @@ func _on_WaveformButton_toggled(button_pressed):
 	timeline.set_waveform(song_editor_settings.waveform)
 
 
-func _on_TimeArrangeHVSeparationSpinbox_value_changed(value):
-	song_editor_settings.hv_separation = value
+func _on_TimeArrangeSeparationSpinbox_value_changed(value):
+	song_editor_settings.separation = value
 
 
-func _on_TimeArrangeDiagonalSeparationXSpinbox_value_changed(value):
-	song_editor_settings.diagonal_separation.x = value
-
-
-func _on_TimeArrangeDiagonalSeparationYSpinbox_value_changed(value):
-	song_editor_settings.diagonal_separation.y = value
+func _on_TimeArrangeDiagonalAngleSpinbox_value_changed(value):
+	song_editor_settings.diagonal_angle = value
 
 
 func _on_AutoSlideCheckBox_toggled(button_pressed):
@@ -1729,3 +1780,16 @@ func _on_HoldCalculatorCheckBox_toggled(button_pressed):
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
+
+
+func  _on_arrange_diagonals_pressed(quadrant):
+	var angle_offset = 180 if quadrant in [1, 2] else 0
+	var _sign = 1 if quadrant in [1, 3] else -1
+	var angle = deg2rad(angle_offset + _sign * time_arrange_diagonal_angle_spinbox.value)
+	
+	arrange_selected_notes_by_time(angle)
+
+
+func _on_TimeArrangeSnapsSpinbox_value_changed(value):
+	song_editor_settings.arranger_snaps = value
+	arrange_menu.rotation_snaps = value
