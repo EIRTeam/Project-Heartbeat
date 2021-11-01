@@ -182,7 +182,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 			audio_stream_player_voice.stream = song.get_voice_stream()
 
 	if current_variant != -1:
-		_volume_offset = song.get_variant_data(current_variant).variant_normalization
+		_volume_offset = song.get_variant_data(current_variant).get_volume()
 
 	var chart: HBChart
 	

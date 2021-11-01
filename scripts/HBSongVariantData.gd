@@ -26,3 +26,6 @@ func get_serialized_type():
 
 func get_cache_status():
 	return YoutubeDL.get_cache_status(variant_url, !audio_only, true)
+
+func get_volume() -> float:
+	return HBAudioNormalizer.get_offset_from_loudness(variant_normalization)
