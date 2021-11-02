@@ -1454,7 +1454,7 @@ func arrange_selected_by_angle(diff):
 		var mult = 0
 		for i in range(notes.size()-1, -1, -1):
 			var note = notes[i] as HBBaseNote
-			undo_redo.add_do_property(note, "entry_angle", int(first_angle + diff * mult))
+			undo_redo.add_do_property(note, "entry_angle", int(fmod(first_angle + diff * mult, 360.0)))
 			undo_redo.add_do_method(self, "_on_timing_points_changed")
 			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
 			undo_redo.add_undo_method(self, "_on_timing_points_changed")
