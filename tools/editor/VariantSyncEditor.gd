@@ -17,6 +17,8 @@ var _drag_start_time = 0.0
 var _drag_start_size = 0.0
 var dragging = false
 var queued_update = false
+var shared_control
+var red_line_x = -1.0
 
 func set_start(val):
 	start = val
@@ -29,6 +31,17 @@ func set_siz(val):
 func set_offset(val):
 	offset = val
 	queue_update_stream_editor()
+
+func share_red_line(ctrl: Control):
+	shared_control = ctrl
+	
+func draw_red_line(x: float):
+	if shared_control:
+		shared_control.draw_red_line(x)
+	red_line_x = -1
+	if x > 0.0:
+		red_line_x = x
+	update()
 
 func queue_update_stream_editor():
 	if not queued_update:
@@ -48,11 +61,18 @@ func _gui_input(event):
 					_drag_start_size = size
 					_drag_start_time = start
 					dragging = true
+					draw_red_line(stream_editor.get_local_mouse_position().x)
 				else:
 					dragging = false
+					draw_red_line(-1)
 		if event is InputEventMouseMotion:
 			if dragging:
 				var time_delta = _drag_start_x - stream_editor.get_local_mouse_position().x
 				time_delta /= stream_editor.rect_size.x
 				time_delta *= _drag_start_size
 				set_start(_drag_start_time + time_delta)
+				draw_red_line(stream_editor.get_local_mouse_position().x)
+
+func _draw():
+	if red_line_x > 0.0:
+		draw_line(Vector2(red_line_x, 0.0), Vector2(red_line_x, rect_size.y), Color.red, 1.0)

@@ -12,6 +12,9 @@ var _drag_offset_start = 0.0
 var _drag_x_start = 0.0
 var dragging = false
 
+func _ready():
+	variant_editor.share_red_line(base_editor)
+
 func set_siz(val):
 	size = val
 	base_editor.size = val
