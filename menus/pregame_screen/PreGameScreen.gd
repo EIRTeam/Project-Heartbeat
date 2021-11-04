@@ -258,6 +258,11 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		get_tree().set_input_as_handled()
 		_on_BackButton_pressed()
+	else:
+		if modifier_scroll_container.has_focus():
+			var selected = modifier_scroll_container.get_selected_item()
+			if selected:
+				selected._gui_input(event)
 
 func _on_BackButton_pressed():
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
