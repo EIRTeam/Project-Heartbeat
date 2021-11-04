@@ -26,6 +26,7 @@ var separation := 96
 var diagonal_angle := 45
 var autoslide := true
 var arranger_snaps := 16
+var autoplace := true
 
 
 var transforms_use_center := false

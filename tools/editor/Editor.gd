@@ -53,6 +53,7 @@ onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCont
 onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
 onready var arrange_menu = get_node("ArrangeMenu")
 onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
+onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoPlaceCheckBox")
 
 const LOG_NAME = "HBEditor"
 
@@ -1075,6 +1076,25 @@ func get_notes_at_time(time: int):
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
+	if item.data is HBBaseNote and song_editor_settings.autoplace:
+		var eights_per_minute = get_bpm() / 8
+		var seconds_per_bar = 60.0 / eights_per_minute
+		
+		var beat_length = seconds_per_bar / float(get_beats_per_bar())
+		var note_length = 1.0/4.0 # a quarter of a beat
+		var interval = (get_note_resolution() / note_length) * beat_length * 1000
+		
+		var time_as_eight = stepify((item.data.time - offset_box.value * 1000) / interval, 0.01)
+		time_as_eight = fmod(time_as_eight, 15.5)
+		if time_as_eight < 0:
+			time_as_eight = fmod(15.5 - abs(time_as_eight), 15.5)
+		
+		item.data.position.x = 242 + 96 * time_as_eight
+		item.data.position.y = 918
+		
+		item.data.oscillation_frequency = -2
+		item.data.entry_angle = -90
+	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
@@ -1185,6 +1205,7 @@ func load_settings(settings: HBPerSongEditorSettings):
 	transforms_tools.load_settings()
 	
 	autoslide_checkbox.pressed = settings.autoslide
+	autoplace_checkbox.pressed = settings.autoplace
 	
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1793,3 +1814,7 @@ func  _on_arrange_diagonals_pressed(quadrant):
 func _on_TimeArrangeSnapsSpinbox_value_changed(value):
 	song_editor_settings.arranger_snaps = value
 	arrange_menu.rotation_snaps = value
+
+
+func _on_AutoPlaceCheckBox_toggled(button_pressed):
+	song_editor_settings.autoplace = button_pressed

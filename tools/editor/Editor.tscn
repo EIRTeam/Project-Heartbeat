@@ -492,46 +492,56 @@ margin_bottom = 240.0
 pressed = true
 text = "Automatically handle slide chains"
 
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="AutoPlaceCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 244.0
 margin_right = 328.0
 margin_bottom = 269.0
-text = "Separation per 8th"
+pressed = true
+text = "Automatically place notes in a line"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="TimeArrangeSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 273.0
 margin_right = 328.0
 margin_bottom = 298.0
+text = "Separation per 8th"
+
+[node name="TimeArrangeSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 302.0
+margin_right = 328.0
+margin_bottom = 327.0
 max_value = 2.14748e+09
 value = 96.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 302.0
-margin_right = 328.0
-margin_bottom = 327.0
-text = "Diagonal slope"
-
-[node name="TimeArrangeDiagonalAngleSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 331.0
 margin_right = 328.0
 margin_bottom = 356.0
+text = "Diagonal slope"
+
+[node name="TimeArrangeDiagonalAngleSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 360.0
+margin_right = 328.0
+margin_bottom = 385.0
 max_value = 90.0
 value = 45.0
 suffix = "º"
 
 [node name="Label5" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 360.0
+margin_top = 389.0
 margin_right = 328.0
-margin_bottom = 385.0
+margin_bottom = 414.0
 text = "Arrange wheel snaps"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TimeArrangeSnapsSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 389.0
+margin_top = 418.0
 margin_right = 328.0
-margin_bottom = 414.0
+margin_bottom = 443.0
 min_value = 1.0
 value = 16.0
 __meta__ = {
@@ -539,15 +549,15 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
-margin_top = 418.0
-margin_right = 328.0
-margin_bottom = 443.0
-text = "Arrange angles"
-
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
 margin_top = 447.0
 margin_right = 328.0
 margin_bottom = 472.0
+text = "Arrange angles"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer"]
+margin_top = 476.0
+margin_right = 328.0
+margin_bottom = 501.0
 
 [node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer"]
 margin_right = 23.0
@@ -1232,6 +1242,7 @@ inside Rin Kagamine."
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="arrange_selected_notes_by_time" binds= [ 0.0 ]]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ 1.571 ]]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox" to="." method="_on_AutoSlideCheckBox_toggled"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoPlaceCheckBox" to="." method="_on_AutoPlaceCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSeparationSpinbox" to="." method="_on_TimeArrangeSeparationSpinbox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox" to="." method="_on_TimeArrangeDiagonalAngleSpinbox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSnapsSpinbox" to="." method="_on_TimeArrangeSnapsSpinbox_value_changed"]
