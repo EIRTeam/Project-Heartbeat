@@ -12,6 +12,8 @@ signal ugc_item_installed(type, item)
 signal ugc_item_deleted(type, item)
 # warning-ignore:unused_signal
 signal ugc_item_downloaded(item)
+# warning-ignore:unused_signal
+signal ugc_item_added_times_updated()
 
 const UGC_DATA_PATH = "user://ugc.json"
 var LOG_NAME = "HBUGCService"
