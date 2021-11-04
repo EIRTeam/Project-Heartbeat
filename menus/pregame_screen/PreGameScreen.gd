@@ -294,8 +294,9 @@ func _unhandled_input(event):
 		_on_BackButton_pressed()
 	else:
 		if modifier_scroll_container.has_focus():
-			if variant_select:
-				variant_select._gui_input(event)
+			var selected = modifier_scroll_container.get_selected_item()
+			if selected:
+				selected._gui_input(event)
 
 func _on_BackButton_pressed():
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
