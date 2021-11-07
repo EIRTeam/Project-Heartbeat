@@ -102,9 +102,9 @@ func _on_size_changed():
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_text_rect_margin_container.rect_min_size = new_size
 	if game:
-		$UnderNotesUI/Control.set_deferred("rect_size", game.size)
-		$AboveNotesUI/Control.set_deferred("rect_size", game.size)
-		$Lyrics/Control.set_deferred("rect_size", game.size)
+		$UnderNotesUI/Control.set_deferred("rect_size", Vector2(1920, 1080))
+		$AboveNotesUI/Control.set_deferred("rect_size", Vector2(1920, 1080))
+		$Lyrics/Control.set_deferred("rect_size", Vector2(1920, 1080))
 func _on_reset():
 	clear_bar.value = 0.0
 	clear_bar.potential_score = 0.0

@@ -21,7 +21,7 @@ func _ready():
 	var input_manager = HeartbeatInputManager.new()
 	game.set_game_input_manager(input_manager)
 	input_manager.set_process_input(false)
-	game.toggle_ui()
+	#game.toggle_ui()
 	connect("resized", self, "_on_resized")
 	_on_resized()
 	video_pause_timer.connect("timeout", self, "_video_player_debounce")
@@ -50,13 +50,25 @@ func _on_resized():
 	visualizer.rect_size.x = width
 	visualizer.rect_position.x = offset_X
 	rescale_video_player()
+	game_ui.rect_size = Vector2(1920, 1080)
+	var height_scale = rect_size.y / 1080.0
+	game_ui.rect_scale.y = height_scale
+	game_ui.rect_scale.x = height_scale
+	game_ui.rect_position.x = (rect_size.x - ((1920.0/1080.0) * rect_size.y)) / 2.0
+	game_ui.game_layer_node.scale.x = 1.0/height_scale
+	game_ui.game_layer_node.scale.y = 1.0/height_scale
+	game_ui.game_layer_node.position.x = -game_ui.rect_position.x * 1.0/height_scale
+	print(-game_ui.rect_position.x * 1.0/height_scale)
 func pause():
 	video_player.paused = true
 func _process(delta):
-	$Label.text = HBUtils.format_time(game.time * 1000.0)
-	$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
-	$Label.text += "\nVP:%s" % [video_player.stream_position]
-	$Label.text += "\nDIFF:%.2f" % [video_player.stream_position - game.time]
+	if Diagnostics.fps_label.visible:
+		$Label.text = HBUtils.format_time(game.time * 1000.0)
+		$Label.text += "\n BPM: " + str(game.get_bpm_at_time(game.time*1000.0))
+		$Label.text += "\nVP:%s" % [video_player.stream_position]
+		$Label.text += "\nDIFF:%.2f" % [video_player.stream_position - game.time]
+	else:
+		$Label.text = ""
 	
 
 func set_visualizer_processing_enabled(enabled):
@@ -93,7 +105,7 @@ func rescale_video_player():
 		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
 		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
 	
-func set_song(song: HBSong):
+func set_song(song: HBSong, difficulty: String):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
 	var image_texture = ImageTexture.new()
@@ -122,7 +134,7 @@ func set_song(song: HBSong):
 				background_rect.hide()
 			else:
 				Log.log(self, "Video Stream failed to load")
-
+	game_ui._on_song_set(song, difficulty)
 func play_at_pos(pos: float):
 	video_time = pos
 	video_pause_timer.stop()

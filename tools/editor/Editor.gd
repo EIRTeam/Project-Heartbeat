@@ -1299,7 +1299,7 @@ func load_song(song: HBSong, difficulty: String):
 	var file = File.new()
 	var dir = Directory.new()
 	var chart = HBChart.new()
-	game_preview.set_song(song)
+	game_preview.set_song(song, difficulty)
 	chart.editor_settings.bpm = song.bpm
 	if dir.file_exists(chart_path):
 		file.open(chart_path, File.READ)
