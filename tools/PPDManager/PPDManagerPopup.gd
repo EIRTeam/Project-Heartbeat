@@ -64,8 +64,8 @@ func get_current_song_meta() -> HBPPDSong:
 	var file = File.new()
 	var meta = HBPPDSong.new()
 	if file.file_exists(meta_path):
-		if file.open(meta_path, File.READ):
-			var parse_result = JSON.parse(meta_path)
+		if file.open(meta_path, File.READ) == OK:
+			var parse_result = JSON.parse(file.get_as_text())
 			if parse_result.error == OK:
 				meta = HBPPDSong.deserialize(parse_result.result)
 	meta.path = curr_song_path
