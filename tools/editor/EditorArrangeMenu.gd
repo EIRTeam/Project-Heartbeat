@@ -21,7 +21,7 @@ func _input(event):
 		if event is InputEventMouseMotion:
 			var new_rotation : float = get_global_mouse_position().angle_to_point(rect_position)
 			
-			if not Input.is_key_pressed(KEY_SHIFT):
+			if not Input.is_key_pressed(KEY_CONTROL):
 				new_rotation /= PI / (rotation_snaps / 2.0)
 				new_rotation = round(new_rotation) * (PI / (rotation_snaps / 2.0))
 			

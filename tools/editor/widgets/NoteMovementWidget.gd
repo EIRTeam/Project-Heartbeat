@@ -63,6 +63,11 @@ func _widget_area_input(event: InputEvent):
 				get_tree().set_input_as_handled()
 				var note_center = rect_size/2
 				entry_angle = note_center.angle_to_point(get_local_mouse_position())
+				
+				if Input.is_key_pressed(KEY_CONTROL):
+					entry_angle /= PI / (editor.song_editor_settings.angle_snaps / 2.0)
+					entry_angle = round(entry_angle) * (PI / (editor.song_editor_settings.angle_snaps / 2.0))
+				
 				editor._change_selected_property("entry_angle", rad2deg(entry_angle) - 180)
 				show_angle = true
 				update()

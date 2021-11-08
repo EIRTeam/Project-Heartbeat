@@ -54,6 +54,7 @@ onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginCont
 onready var arrange_menu = get_node("ArrangeMenu")
 onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
 onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoPlaceCheckBox")
+onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AngleSnapsSpinbox")
 
 const LOG_NAME = "HBEditor"
 
@@ -1201,6 +1202,7 @@ func load_settings(settings: HBPerSongEditorSettings):
 	time_arrange_separation_spinbox.value = settings.separation
 	time_arrange_diagonal_angle_spinbox.value = settings.diagonal_angle
 	time_arrange_snaps_spinbox.value = settings.arranger_snaps
+	angle_snaps_spinbox.value = settings.angle_snaps
 	
 	transforms_tools.load_settings()
 	
@@ -1818,3 +1820,7 @@ func _on_TimeArrangeSnapsSpinbox_value_changed(value):
 
 func _on_AutoPlaceCheckBox_toggled(button_pressed):
 	song_editor_settings.autoplace = button_pressed
+
+
+func _on_AngleSnapsSpinbox_value_changed(value):
+	song_editor_settings.angle_snaps = value

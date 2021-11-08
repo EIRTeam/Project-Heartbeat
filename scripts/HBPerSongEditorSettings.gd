@@ -26,6 +26,7 @@ var separation := 96
 var diagonal_angle := 45
 var autoslide := true
 var arranger_snaps := 16
+var angle_snaps := 32
 var autoplace := true
 
 
@@ -44,7 +45,7 @@ func _init():
 		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
 		"auto_multi", "waveform", "show_video", "show_bg",
 		"grid_snap", "show_grid", "grid_resolution",
-		"separation", "diagonal_angle", "autoslide", "arranger_snaps",
+		"separation", "diagonal_angle", "autoslide", "autoplace", "arranger_snaps", "angle_snaps",
 		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
 	]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
