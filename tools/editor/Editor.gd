@@ -1078,12 +1078,12 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
 	if item.data is HBBaseNote and song_editor_settings.autoplace:
-		var eights_per_minute = get_bpm() / 8
+		var eights_per_minute = get_bpm() / float(get_beats_per_bar())
 		var seconds_per_bar = 60.0 / eights_per_minute
 		
 		var beat_length = seconds_per_bar / float(get_beats_per_bar())
 		var note_length = 1.0/4.0 # a quarter of a beat
-		var interval = (get_note_resolution() / note_length) * beat_length * 1000
+		var interval = (1.0/16.0 / note_length) * beat_length * 1000 * 2
 		
 		var time_as_eight = stepify((item.data.time - offset_box.value * 1000) / interval, 0.01)
 		time_as_eight = fmod(time_as_eight, 15.5)
@@ -1522,7 +1522,7 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 	
 	var beat_length = seconds_per_bar / float(get_beats_per_bar())
 	var note_length = 1.0/4.0 # a quarter of a beat
-	var interval = (get_note_resolution() / note_length) * beat_length * 2.0
+	var interval = (1.0/16.0 / note_length) * beat_length * 2.0
 	
 	var slide_index := 0
 	
