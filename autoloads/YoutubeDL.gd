@@ -308,8 +308,7 @@ func _video_downloaded(thread: Thread, result):
 	if not has_error:
 		song.emit_signal("song_cached")
 		emit_signal("song_cached", song)
-	if caching_queue.size() > 0:
-		cache_song_internal(caching_queue[0])
+	process_queue()
 	emit_signal("video_downloaded",  result.video_id, result)
 	
 func video_exists(video_id):
@@ -396,13 +395,14 @@ func cache_song(song: HBSong, variant := -1):
 	var entry = CachingQueueEntry.new()
 	entry.song = song
 	entry.variant = variant
-	cache_song_internal(entry)
+	caching_queue.append(entry)
+	process_queue()
 
-func cache_song_internal(entry: CachingQueueEntry):
+func process_queue():
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
 		yield(self, "youtube_dl_status_updated")
-	caching_queue.append(entry)
-	if caching_queue[0] == entry:
+	if caching_queue.size() > 0:
+		var entry = caching_queue[0]
 		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
 			var song := entry.song as HBSong
 			var variant = song.get_variant_data(entry.variant)
