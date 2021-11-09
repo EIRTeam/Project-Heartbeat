@@ -458,7 +458,6 @@ anchor_bottom = 1.0
 margin_left = 0.950073
 margin_right = 1920.95
 margin_bottom = 1080.0
-mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -824,7 +823,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.735077
 margin_bottom = -0.735107
-mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

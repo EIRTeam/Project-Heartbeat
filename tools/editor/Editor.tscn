@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
@@ -59,8 +59,6 @@ action = "editor_save"
 
 [sub_resource type="ShortCut" id=4]
 shortcut = SubResource( 3 )
-
-[sub_resource type="Theme" id=10]
 
 [sub_resource type="InputEventAction" id=5]
 action = "editor_grid_snap"
@@ -750,28 +748,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
-show_behind_parent = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1209.04
-margin_bottom = 680.0
-mouse_filter = 2
-theme = SubResource( 10 )
-
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
-show_behind_parent = true
-margin_right = 8.0
-margin_bottom = 31.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RhythmGame" type="Node" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
-script = ExtResource( 33 )
-
 [node name="Node2D" type="Node2D" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
-show_behind_parent = true
 z_index = -2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D"]
@@ -912,8 +889,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 8 )]
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
+margin_right = 8.0
+margin_bottom = 31.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RhythmGame" type="Node" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview"]
+script = ExtResource( 33 )
+
 [node name="TransformPreview" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" instance=ExtResource( 40 )]
-show_behind_parent = true
 rect_clip_content = true
 
 [node name="MessageShower" type="Control" parent="VBoxContainer/VSplitContainer/HBoxContainer/Preview"]
@@ -1142,6 +1131,7 @@ dialog_text = "Plugin ERROR!"
 dialog_autowrap = true
 
 [node name="FirstTimeMessageDialog" type="AcceptDialog" parent="Popups"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1203,6 +1193,7 @@ __meta__ = {
 }
 
 [node name="QuickLyricDialog" type="WindowDialog" parent="."]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1240,7 +1231,6 @@ margin_bottom = 200.0
 [node name="SexDialog" type="AcceptDialog" parent="."]
 margin_right = 48.0
 margin_bottom = 40.0
-window_title = "¡Alerta!"
 dialog_text = "You're not allowed to cum
 inside Rin Kagamine."
 
