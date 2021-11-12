@@ -19,9 +19,9 @@ onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer")
 onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Inspector")
-onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
-onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
+onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
+onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
+onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
@@ -48,13 +48,13 @@ onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HBoxConta
 onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
-onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoSlideCheckBox")
+onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
 onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
 onready var arrange_menu = get_node("ArrangeMenu")
-onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
-onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AutoPlaceCheckBox")
-onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/AngleSnapsSpinbox")
+onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
+onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox")
+onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
 
 const LOG_NAME = "HBEditor"
 
@@ -211,7 +211,7 @@ func _ready():
 	
 	var button_ids = ["3", "", "7", "9"]
 	for i in range(4):
-		var node = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
+		var node = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
 		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
 	
 const HELP_URLS = [
