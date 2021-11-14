@@ -23,7 +23,8 @@ var force_next_song_update = false
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
-	PlatformService.service_provider.ugc_provider.connect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
+	if PlatformService.service_provider.implements_ugc:
+		PlatformService.service_provider.ugc_provider.connect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
 #	populate_difficulties()
 	song_container.grab_focus()
 #	if args.has("song_difficulty"):
@@ -102,7 +103,8 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
-	PlatformService.service_provider.ugc_provider.disconnect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
+	if PlatformService.service_provider.implements_ugc:
+		PlatformService.service_provider.ugc_provider.disconnect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
 
 func _ready():
 	song_container.connect("song_hovered", self, "_on_song_hovered")
