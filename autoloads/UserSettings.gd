@@ -389,3 +389,7 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 
 func should_use_direct_joystick_access() -> bool:
 	return user_settings.use_direct_joystick_access and Input.is_joy_known(controller_device_idx)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		Input.stop_joy_vibration(controller_device_idx)

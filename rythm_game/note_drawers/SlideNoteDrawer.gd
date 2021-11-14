@@ -191,4 +191,3 @@ func is_slide_chain_active():
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_EXIT_TREE:
 		kill_loop_sfx_player()
-		Input.stop_joy_vibration(UserSettings.controller_device_idx)
