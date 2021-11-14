@@ -90,6 +90,11 @@ func _on_apply_button_pressed():
 					undo_redo.add_undo_property(note, "position", note.position)
 					undo_redo.add_do_property(note, "entry_angle", fmod(new_angle, 360.0))
 					undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
+					
+					if pos_offset:
+						undo_redo.add_do_property(note, "pos_modified", true)
+						undo_redo.add_undo_property(note, "pos_modified", note.pos_modified)
+					
 					undo_redo.add_do_method(item, "update_widget_data")
 					undo_redo.add_undo_method(item, "update_widget_data")
 		

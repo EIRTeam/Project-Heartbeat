@@ -158,6 +158,9 @@ func _process_changed_values(inst: ScriptRunnerScript):
 							_editor.undo_redo.add_do_method(_editor, "add_item_to_layer", target_layer, target_item)
 							_editor.undo_redo.add_undo_method(_editor, "remove_item_from_layer", target_layer, target_item)
 							_editor.undo_redo.add_undo_method(_editor, "add_item_to_layer", source_layer, target_item)
+					if property_name == "position":
+						_editor.undo_redo.add_do_property(target_item.data, "pos_modified", true)
+						_editor.undo_redo.add_undo_property(target_item.data, "pos_modified", target_item.data.pos_modified)
 
 		_editor.undo_redo.add_do_method(_editor, "_on_timing_points_changed")
 		_editor.undo_redo.add_undo_method(_editor, "_on_timing_points_changed")

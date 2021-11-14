@@ -306,6 +306,9 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 								undo_redo.add_do_method(self, "add_item_to_layer", target_layer, item)
 								undo_redo.add_undo_method(self, "remove_item_from_layer", target_layer, item)
 								undo_redo.add_undo_method(self, "add_item_to_layer", source_layer, item)
+						if property_name == "position":
+							undo_redo.add_do_property(item.data, "pos_modified", true)
+							undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.commit_action()
@@ -762,7 +765,7 @@ func fine_position_selected(diff: Vector2):
 	for selected_item in selected:
 		if "position" in selected_item.data:
 			if not selected_item in fine_position_originals:
-				fine_position_originals[selected_item] = selected_item.data.position
+				fine_position_originals[selected_item] = [selected_item.data.position, selected_item.data.pos_modified]
 			selected_item.data.position += diff
 			selected_item.update_widget_data()
 	fine_position_timer.start()
@@ -772,10 +775,12 @@ func apply_fine_position():
 	if fine_position_originals.size() > 0:
 		undo_redo.create_action("Fine position notes")
 		for item in fine_position_originals:
-			undo_redo.add_undo_property(item.data, "position", fine_position_originals[item])
+			undo_redo.add_undo_property(item.data, "position", fine_position_originals[item][0])
+			undo_redo.add_undo_property(item.data, "pos_modified", fine_position_originals[item][1])
 			undo_redo.add_undo_method(item, "update_widget_data")
 			undo_redo.add_undo_method(item, "sync_value", "position")
 			undo_redo.add_do_property(item.data, "position", item.data.position)
+			undo_redo.add_do_property(item.data, "pos_modified", true)
 			undo_redo.add_do_method(item, "update_widget_data")
 			undo_redo.add_do_method(item, "sync_value", "position")
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -821,6 +826,16 @@ func _commit_selected_property_change(property_name: String):
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
 					
 					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name])
+					
+					if not selected_item.data.pos_modified:
+						var new_data = autoplace(selected_item.data)
+						
+						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
+						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
+				
+				if property_name == "position":
+					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
+					undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
 				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
@@ -1078,23 +1093,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
 	if item.data is HBBaseNote and song_editor_settings.autoplace:
-		var eights_per_minute = get_bpm() / float(get_beats_per_bar())
-		var seconds_per_bar = 60.0 / eights_per_minute
-		
-		var beat_length = seconds_per_bar / float(get_beats_per_bar())
-		var note_length = 1.0/4.0 # a quarter of a beat
-		var interval = (1.0/16.0 / note_length) * beat_length * 1000 * 2
-		
-		var time_as_eight = stepify((item.data.time - offset_box.value * 1000) / interval, 0.01)
-		time_as_eight = fmod(time_as_eight, 15.5)
-		if time_as_eight < 0:
-			time_as_eight = fmod(15.5 - abs(time_as_eight), 15.5)
-		
-		item.data.position.x = 242 + 96 * time_as_eight
-		item.data.position.y = 918
-		
-		item.data.oscillation_frequency = -2
-		item.data.entry_angle = -90
+		item.data = autoplace(item.data)
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -1441,7 +1440,10 @@ func _on_TimelineGridSnapButton_toggled(button_pressed):
 	timeline_snap_enabled = button_pressed
 	song_editor_settings.timeline_snap = button_pressed
 
-func get_timing_interval():
+func get_timing_interval(note_resolution=null):
+	if not note_resolution:
+		note_resolution = get_note_resolution()
+	
 	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
 	var seconds_per_bar = 60.0/bars_per_minute
 	
@@ -1515,16 +1517,8 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 	
 	var pos_compensation: Vector2
 	var time_compensation := 0
-	
-	
-	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
-	var seconds_per_bar = 60/bars_per_minute
-	
-	var beat_length = seconds_per_bar / float(get_beats_per_bar())
-	var note_length = 1.0/4.0 # a quarter of a beat
-	var interval = (1.0/16.0 / note_length) * beat_length * 2.0
-	
 	var slide_index := 0
+	var interval = get_timing_interval(1.0/16.0) * 2
 	
 	if not preview_only:
 		print("ARRANGE", selected.size())
@@ -1557,7 +1551,7 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 			
 			# Real snapping hours
 			var diff = max(selected_item.data.time - time_compensation, 0)
-			var new_pos = pos_compensation + (separation * (float(diff) / float(interval * 1000.0)))
+			var new_pos = pos_compensation + (separation * (float(diff) / float(interval)))
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
 				if slide_index == 2:
@@ -1567,8 +1561,10 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 			
 			if not preview_only:
 				undo_redo.add_do_property(selected_item.data, "position", new_pos)
+				undo_redo.add_do_property(selected_item.data, "pos_modified", true)
 				undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
-			
+				undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
+				
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 			else:
@@ -1768,6 +1764,24 @@ func _cache_hold_ends():
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
+
+
+func autoplace(data):
+	var new_data = data.clone() as HBNoteData
+	
+	var interval = get_timing_interval(1.0/16.0) * 2
+	var time_as_eight = stepify((data.time - offset_box.value * 1000) / interval, 0.01)
+	time_as_eight = fmod(time_as_eight, 15.5)
+	if time_as_eight < 0:
+		time_as_eight = fmod(15.5 - abs(time_as_eight), 15.5)
+	
+	new_data.position.x = 242 + 96 * time_as_eight
+	new_data.position.y = 918
+	
+	new_data.oscillation_frequency = -2
+	new_data.entry_angle = -90
+	
+	return new_data
 
 
 func _on_CreateIntroSkipMarkerButton_pressed():
