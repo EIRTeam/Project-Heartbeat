@@ -11,6 +11,7 @@ var GDUnzip = preload("gdunzip.gd")
 const UA = "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 
 var current_yt_url = ""
+var current_title := ""
 
 signal error(error)
 
@@ -46,6 +47,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 		var found_yt_url = false
 		var download_url = ""
 		var yt_url = ""
+		current_title = ""
 		while parser.read() == OK:
 			if parser.get_node_type() != XMLParser.NODE_ELEMENT:
 				continue
@@ -63,6 +65,13 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 						if parser.get_attribute_value(i).begins_with("/score-library/download/id/"):
 							download_url = parser.get_attribute_value(i)
 							found_download_url = true
+			if parser.get_node_name() == "h3" and current_title.empty():
+				if parser.has_attribute("class"):
+					for i in range(parser.get_attribute_count()):
+						if parser.get_attribute_name(i) == "class":
+							if "panel-title" in parser.get_attribute_value(i):
+								parser.read()
+								current_title = parser.get_node_data().strip_edges()
 			if found_yt_url and found_download_url:
 				break
 				
@@ -94,39 +103,43 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		var songs_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "songs")
 		var dir = Directory.new()
 		
-		var chart_dir = ""
-		var chart_name = ""
-		var found_chart_dir = false
+		var chart_name = current_title
+		var found_chart_data = !chart_name.empty()
+		
+		if chart_name.empty():
+			wait_dialog.hide()
+			show_error("Error gathering song metadata")
+			return
+		
 		for f in zip.files:
 			if f.ends_with("/data.ini"):
-				chart_dir = f.get_base_dir()
-				chart_name = chart_dir.split("/")[-1]
-				found_chart_dir = true
+				found_chart_data = true
 				
-		if not found_chart_dir:
+		if not found_chart_data:
 			wait_dialog.hide()
 			show_error("Error installing chart: data.ini not found")
 			return
 			
 		if dir.dir_exists(HBUtils.join_path(songs_folder, chart_name)):
 			wait_dialog.hide()
+			print(HBUtils.join_path(songs_folder, chart_name))
 			show_error("Cannot install %s, a chart with that folder name already exists!" % [chart_name])
 			return
 		for f in zip.files:
-			if f.begins_with(chart_dir):
-				var extraction_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, f.split("/")[-1]))
-				if f.ends_with(".ppd") or f.ends_with("data.ini"):
-					var extraction_dir = extraction_path.get_base_dir()
-					# ensure path to extract to exists
-					if not dir.dir_exists(extraction_dir):
-						dir.make_dir_recursive(extraction_dir)
-					var uncompressed = zip.uncompress(f)
-					if uncompressed:
-						var file = File.new()
-						file.open(extraction_path, File.WRITE)
-						file.store_buffer(uncompressed)
-					else:
-						print("FAILED TO DECOMPRESS ", f)
+			var extraction_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, f.split("/")[-1]))
+			print("Extract to: %s" % extraction_path)
+			if f.ends_with(".ppd") or f.ends_with("data.ini"):
+				var extraction_dir = extraction_path.get_base_dir()
+				# ensure path to extract to exists
+				if not dir.dir_exists(extraction_dir):
+					dir.make_dir_recursive(extraction_dir)
+				var uncompressed = zip.uncompress(f)
+				if uncompressed:
+					var file = File.new()
+					file.open(extraction_path, File.WRITE)
+					file.store_buffer(uncompressed)
+				else:
+					print("FAILED TO DECOMPRESS ", f)
 		var chart_meta_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, "data.ini"))
 		var ppd_ldr = SongLoader.song_loaders["ppd"] as SongLoaderPPD
 		var song = ppd_ldr.load_song_meta_from_folder(chart_meta_path, chart_name)
