@@ -126,9 +126,12 @@ var OPTIONS = {
 		"display": {
 			"name": tr("Display"),
 			"description": tr("Display to display the game in"),
-			"minimum": 0,
+			"minimum": -1,
 			"maximum": OS.get_screen_count(),
 			"step": 1,
+			"text_overrides": {
+				-1: tr("Current")
+			}
 		},
 		"vsync_enabled": {
 			"name": tr("Enable VSync"),

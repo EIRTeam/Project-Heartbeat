@@ -27,7 +27,7 @@ var display_mode__possibilities = [
 	"fullscreen",
 	"windowed"
 ]
-var display := 0
+var display := -1
 var desired_video_resolution = 1080
 var desired_video_fps = 60
 var show_visualizer_on_video = true
