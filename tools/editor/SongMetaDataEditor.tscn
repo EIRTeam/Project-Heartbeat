@@ -230,8 +230,11 @@ text = "BPM"
 margin_top = 18.0
 margin_right = 588.0
 margin_bottom = 42.0
+min_value = 1.0
 max_value = 2.14748e+09
 step = 0.01
+value = 1.0
+arrow_step = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
