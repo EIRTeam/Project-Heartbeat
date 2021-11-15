@@ -189,5 +189,8 @@ func is_slide_chain_active():
 	return not note_graphic.visible
 
 func _notification(what):
+	if what == NOTIFICATION_UNPARENTED:
+		Input.stop_joy_vibration(UserSettings.controller_device_idx)
 	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_EXIT_TREE:
 		kill_loop_sfx_player()
+	
