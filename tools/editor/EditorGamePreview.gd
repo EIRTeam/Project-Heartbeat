@@ -71,7 +71,7 @@ func _video_player_debounce():
 func play_video_from_pos(pos: float):
 	if video_player.stream and video_player.visible:
 		video_player.paused = false
-		video_player.stream_position = pos-0.05
+		video_player.stream_position = pos
 	
 func set_time(time: float):
 	if video_player.stream and video_player.visible:
