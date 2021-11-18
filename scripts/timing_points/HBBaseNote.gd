@@ -53,6 +53,8 @@ var oscillation_amplitude = 500.0
 var oscillation_frequency = 2.0
 var distance = 1200.0 # The distance the note travels from spawn point to target
 
+var pos_modified: bool = false # whether or not the user has modified the note's position on the editor
+
 export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
 
 func set_note_type(value):

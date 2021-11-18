@@ -107,5 +107,9 @@ func _on_apply_button_pressed():
 					undo_redo.add_do_method(selected_item, "update_widget_data")
 					undo_redo.add_undo_method(selected_item, "update_widget_data")
 				
+				if property_name == "position":
+					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
+					undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
+				
 			undo_redo.commit_action()
 			get_editor().inspector.sync_visible_values_with_data()
