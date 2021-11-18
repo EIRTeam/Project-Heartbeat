@@ -825,13 +825,15 @@ func _commit_selected_property_change(property_name: String):
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
 					
-					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name])
-					
+					var autoplaced_position = null
 					if not selected_item.data.pos_modified:
 						var new_data = autoplace(selected_item.data)
+						autoplaced_position = new_data.position
 						
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
 						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
+					
+					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name], autoplaced_position)
 				
 				if property_name == "position":
 					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
@@ -995,13 +997,14 @@ func delete_selected():
 		
 		message_shower._show_notification("Delete notes")
 		
+		var deleted_items = selected
 		for selected_item in selected:
 			selected_item.deselect()
 			
 			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
 			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
 			
-			check_for_multi_changes(selected_item.data, selected_item.data.time)
+			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
 			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -1010,63 +1013,92 @@ func delete_selected():
 		selected = []
 		undo_redo.commit_action()
 
-func check_for_multi_changes(item: HBBaseNote, old_time: int):
+func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = null):
 	if song_editor_settings.auto_multi:
+		if not autoplaced_pos:
+			autoplaced_pos = item.position
+		
 		if item is HBBaseNote:
-			var notes = get_notes_at_time(item.time)
+			var notes_at_time = get_notes_at_time(item.time)
+			var notes_at_previous_time = get_notes_at_time(old_time) if old_time != -1 else []
 			
-			if notes.size() > 0:
-				var found_any_note = false
-				
-				for note in notes:
-					if note == item:
-						continue
-					
-					if note is HBBaseNote:
-						found_any_note = true
-					else:
-						continue
-					
-					undo_redo.add_do_property(note, "oscillation_amplitude", 0)
-					undo_redo.add_do_property(note, "distance", 880)
-				
-					undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
-					undo_redo.add_undo_property(note, "distance", note.distance)
-				
-				if found_any_note:
-					undo_redo.add_do_property(item, "oscillation_amplitude", 0)
-					undo_redo.add_do_property(item, "distance", 880)
-				
-					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
-					undo_redo.add_undo_property(item, "distance", item.distance)
-				elif item.oscillation_amplitude == 0 and item.distance == 880:
-					undo_redo.add_do_property(item, "oscillation_amplitude", 500)
-					undo_redo.add_do_property(item, "distance", 1200)
-				
-					undo_redo.add_undo_property(item, "oscillation_amplitude", item.oscillation_amplitude)
-					undo_redo.add_undo_property(item, "distance", item.distance)
+			if not item in notes_at_time:
+				# The item hasnt changed time just yet
+				notes_at_time.append(item)
+				notes_at_previous_time.erase(item)
 			
-			if old_time != -1:
-				var previous_notes = get_notes_at_time(old_time)
-				var previous_note
-				
-				for note in previous_notes:
-					if note == item:
-						continue
-					
-					if note is HBBaseNote:
-						if previous_note:
-							previous_note = null
-							break
-						else:
-							previous_note = note
-				
-				if previous_note:
-					undo_redo.add_do_property(previous_note, "oscillation_amplitude", 500)
-					undo_redo.add_do_property(previous_note, "distance", 1200)
-					
-					undo_redo.add_undo_property(previous_note, "oscillation_amplitude", previous_note.oscillation_amplitude)
-					undo_redo.add_undo_property(previous_note, "distance", previous_note.distance)
+			if notes_at_time.size() > 1:
+				# The item has joined in with a multi
+				for note in notes_at_time:
+					_set_multi_params(note, autoplaced_pos)
+			elif notes_at_time.size() == 1:
+				if notes_at_previous_time.size() > 0:
+					# The note is leaving a multi
+					_clear_multi_params(item, autoplaced_pos)
+			
+			if notes_at_previous_time.size() == 1:
+				# There is only 1 note left behind
+				_clear_multi_params(notes_at_previous_time[0])
+			
+			_set_multi_angles(notes_at_time)
+			_set_multi_angles(notes_at_previous_time)
+
+func check_for_multi_changes_upon_deletion(time: int, deleted_items: Array):
+	if song_editor_settings.auto_multi:
+		var notes_at_time = get_notes_at_time(time)
+		for item in deleted_items:
+			notes_at_time.erase(item.data)
+		
+		if notes_at_time.size() == 1:
+			# 1 note is left, arrange it and set travel params.
+			_clear_multi_params(notes_at_time[0])
+		
+		_set_multi_angles(notes_at_time)
+
+func _set_multi_params(note, position):
+	undo_redo.add_do_property(note, "oscillation_amplitude", 0)
+	undo_redo.add_do_property(note, "distance", 880)
+	
+	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+	undo_redo.add_undo_property(note, "distance", note.distance)
+	
+	if song_editor_settings.autoplace and not note.pos_modified:
+		var multi_pos = 3 - note.note_type
+		
+		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
+		undo_redo.add_undo_property(note, "position", note.position)
+func _clear_multi_params(note, position=null):
+	position = note.position if not position else position
+	
+	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
+	undo_redo.add_do_property(note, "distance", 1200)
+	
+	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+	undo_redo.add_undo_property(note, "distance", note.distance)
+	
+	if song_editor_settings.autoplace and not note.pos_modified:
+		undo_redo.add_do_property(note, "position", Vector2(position.x, 918))
+		undo_redo.add_undo_property(note, "position", note.position)
+
+func _sort_by_note_type(a, b):
+	return a.note_type < b.note_type
+func _set_multi_angles(notes: Array):
+	notes.sort_custom(self, "_sort_by_note_type")
+	
+	for note in notes:
+		if song_editor_settings.autoplace and not note.pos_modified:
+			var angle = -90
+		
+			if notes.size() == 2:
+				var index = notes.find(note)
+			
+				angle = -45.0 if index == 0 else 45.0
+			elif notes.size() > 2:
+				angle = -45.0 if note.note_type < 2 else 45.0
+		
+			undo_redo.add_do_property(note, "entry_angle", angle)
+			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
+
 
 func deselect_all():
 	for item in selected:
@@ -1775,11 +1807,25 @@ func autoplace(data):
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.5 - abs(time_as_eight), 15.5)
 	
-	new_data.position.x = 242 + 96 * time_as_eight
-	new_data.position.y = 918
+	var multi_pos = 0
+	var place_at_note = null
+	var notes_at_time = get_notes_at_time(data.time)
 	
-	new_data.oscillation_frequency = -2
-	new_data.entry_angle = -90
+	for note in notes_at_time:
+		if note.pos_modified:
+			place_at_note = note
+			break
+	
+	if not place_at_note:
+		new_data.position.x = 242 + 96 * time_as_eight
+		new_data.position.y = 918
+		
+		new_data.oscillation_frequency = -2
+		new_data.entry_angle = -90
+	else:
+		new_data.position = place_at_note.position
+		new_data.entry_angle = place_at_note.entry_angle
+		new_data.pos_modified = true
 	
 	return new_data
 
