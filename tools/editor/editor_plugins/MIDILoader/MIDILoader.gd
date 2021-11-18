@@ -123,6 +123,7 @@ func _on_track_import_accepted(smf: SMFLoader.SMF, note_range=[0, 255], tracks=[
 				if note_range[0] <= event.event.note and event.event.note <= note_range[1]:
 					var timing_point = HBNoteData.new()
 					timing_point.time = event_time_ms
+					timing_point = _editor.autoplace(timing_point)
 					chart.layers[HBNoteData.NOTE_TYPE.RIGHT].timing_points.append(timing_point)
 					found_times.append(event_time_ms)
 	get_editor().from_chart(chart, true)
