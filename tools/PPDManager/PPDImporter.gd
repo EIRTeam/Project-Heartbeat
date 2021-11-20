@@ -4,12 +4,20 @@ signal error(error)
 
 onready var wait_dialog = get_node("WaitDialog")
 onready var wait_dialog_label = get_node("WaitDialog/Label")
+onready var window_dialog = get_node("WindowDialog")
 onready var PPD_folders_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
 onready var PPD_ogg_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDOGGCheckbox")
 onready var PPD_folder_name_line_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
 onready var PPD_hide_songs_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
+onready var close_button = get_node("WindowDialog/MarginContainer/VBoxContainer/CloseButton")
+onready var current_install_label = get_node("WindowDialog/MarginContainer/VBoxContainer/Label2")
+onready var remove_installation_button = get_node("WindowDialog/MarginContainer/VBoxContainer/RemoveInstallationButton")
+
 func _on_import_pressed():
 	pass
+
+func _ready():
+	close_button.connect("pressed", window_dialog, "hide")
 
 func show_error(err):
 	emit_signal("error", err)
@@ -76,7 +84,20 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 
 func show_panel():
 	$WindowDialog.popup_centered()
+	current_install_label.visible = false
+	remove_installation_button.disabled = true
+	if UserSettings.user_settings.ppd_songs_directory:
+		remove_installation_button.disabled = false
+		current_install_label.visible = true
+		current_install_label.text = "Current installation path: %s" % [UserSettings.user_settings.ppd_songs_directory]
 
 
 func _on_RestartAcceptDialog_confirmed():
 	get_tree().quit(0)
+
+
+func _on_RemoveInstallationConfirmationDialog_confirmed():
+	UserSettings.user_settings.ppd_songs_directory = ""
+	UserSettings.user_settings.hide_ppd_ex_songs = false
+	UserSettings.save_user_settings()
+	$RestartAcceptDialog.popup_centered()

@@ -147,8 +147,8 @@ __meta__ = {
 margin_right = 557.0
 margin_bottom = 44.0
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 1 )
 custom_colors/default_color = Color( 1, 1, 0, 1 )
+custom_styles/normal = SubResource( 1 )
 text = "WARNING: This is an experimental feature, it may be slow on some computers, performance will be improved in a future update."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
@@ -217,10 +217,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -353.0
-margin_top = -70.0
-margin_right = 354.0
-margin_bottom = 148.0
+margin_left = -353.5
+margin_top = -141.5
+margin_right = 353.5
+margin_bottom = 141.5
 popup_exclusive = true
 window_title = "PPD Importer"
 __meta__ = {
@@ -242,7 +242,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 697.0
-margin_bottom = 209.0
+margin_bottom = 273.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -296,10 +296,24 @@ margin_right = 687.0
 margin_bottom = 170.0
 text = "Select PPD Songs Directory & Import"
 
-[node name="CloseButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
 margin_top = 174.0
 margin_right = 687.0
 margin_bottom = 199.0
+text = "Current installation path: %s"
+autowrap = true
+
+[node name="RemoveInstallationButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
+margin_top = 203.0
+margin_right = 687.0
+margin_bottom = 228.0
+disabled = true
+text = "Remove install"
+
+[node name="CloseButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
+margin_top = 232.0
+margin_right = 687.0
+margin_bottom = 257.0
 text = "Close"
 
 [node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
@@ -347,11 +361,26 @@ popup_exclusive = true
 window_title = ""
 dialog_text = "Import complete, please restart the game."
 
+[node name="RemoveInstallationConfirmationDialog" type="ConfirmationDialog" parent="PPDImporter"]
+visible = true
+margin_left = 184.0
+margin_top = 225.0
+margin_right = 484.0
+margin_bottom = 339.0
+popup_exclusive = true
+dialog_text = "Do you want to remove your existing PPD install? This will remove the songs from the game but not from the hard drive."
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDDownloaderButton" to="PPDDownloader" method="show_panel"]
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDManagerSongs" to="PPDManagerPopup" method="popup_centered"]
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDImporter" to="PPDImporter" method="show_panel"]
 [connection signal="toggled" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/PPDFoldersCheckbox" to="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
 [connection signal="toggled" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox" to="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
 [connection signal="pressed" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/Button" to="PPDImporter/PPDImporterFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/RemoveInstallationButton" to="PPDImporter/RemoveInstallationConfirmationDialog" method="popup_centered"]
 [connection signal="dir_selected" from="PPDImporter/PPDImporterFileDialog" to="PPDImporter" method="_on_PPDImporterFileDialog_dir_selected"]
 [connection signal="confirmed" from="PPDImporter/RestartAcceptDialog" to="PPDImporter" method="_on_RestartAcceptDialog_confirmed"]
+[connection signal="confirmed" from="PPDImporter/RemoveInstallationConfirmationDialog" to="PPDImporter" method="_on_RemoveInstallationConfirmationDialog_confirmed"]
