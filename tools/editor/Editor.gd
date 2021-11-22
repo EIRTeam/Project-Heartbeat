@@ -55,6 +55,7 @@ onready var arrange_menu = get_node("ArrangeMenu")
 onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
 onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox")
 onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
+onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox")
 
 const LOG_NAME = "HBEditor"
 
@@ -1239,7 +1240,8 @@ func load_settings(settings: HBPerSongEditorSettings):
 	
 	autoslide_checkbox.pressed = settings.autoslide
 	autoplace_checkbox.pressed = settings.autoplace
-	
+	autoangle_checkbox.pressed = settings.autoangle
+
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1609,12 +1611,85 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 			elif diff > 0:
 				time_compensation = selected_item.data.time
 	
+	for selected_item in selected:
+		if selected_item.data is HBBaseNote:
+			var new_angle_params = autoangle(selected_item.data, selected[0].data.position, angle)
+			
+			if not preview_only:
+				undo_redo.add_do_property(selected_item.data, "entry_angle", new_angle_params[0])
+				undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
+				undo_redo.add_do_property(selected_item.data, "oscillation_frequency", new_angle_params[1])
+				undo_redo.add_undo_property(selected_item.data, "oscillation_frequency", selected_item.data.oscillation_frequency)
+				
+				undo_redo.add_do_method(selected_item, "update_widget_data")
+				undo_redo.add_undo_method(selected_item, "update_widget_data")
+			else:
+				selected_item.data.entry_angle = new_angle_params[0]
+				selected_item.data.oscillation_frequency = new_angle_params[1]
+				selected_item.update_widget_data()
+	
 	if not preview_only:
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
 		undo_redo.commit_action()
-#	inspector.update_value()
+
+func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
+	if song_editor_settings.autoangle:
+		var new_angle: float
+		var oscillation_frequency = abs(note.oscillation_frequency)
+		var vertical := false
+		
+		# Normalize the arrange angle to be between 0 and 2PI
+		arrange_angle = fmod(fmod(arrange_angle, 2*PI) + 2*PI, 2*PI)
+		
+		# Get the quadrant and rotated quadrant
+		var quadrant = int(arrange_angle / (PI/2.0))
+		var rotated_quadrant = int((arrange_angle + PI/4.0) / (PI/2.0)) % 4
+		
+		new_angle = arrange_angle + PI/2.0
+		
+		if rotated_quadrant in [1, 3]:
+			new_angle += PI if quadrant in [0, 1] else 0
+			
+			var left_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(0, 1080))
+			var right_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
+			
+			var left_distance = new_pos.distance_to(left_point)
+			var right_distance = new_pos.distance_to(right_point)
+			
+			# Point towards closest side
+			new_angle += PI if right_distance > left_distance else 0
+		else:
+			new_angle += PI if quadrant in [1, 2] else 0
+			
+			var top_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(1920, 0))
+			var bottom_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
+			
+			var top_distance = new_pos.distance_to(top_point)
+			var bottom_distance = new_pos.distance_to(bottom_point)
+			
+			# Point towards furthest side
+			new_angle += PI if top_distance > bottom_distance else 0
+		
+		var positive_quadrants = []
+		
+		if new_pos.x > 960:
+			positive_quadrants.append(3)
+		else:
+			positive_quadrants.append(1)
+		
+		if new_pos.y > 540:
+			positive_quadrants.append(2)
+		else:
+			positive_quadrants.append(0)
+		
+		if not rotated_quadrant in positive_quadrants:
+			oscillation_frequency = -oscillation_frequency
+		
+		return [rad2deg(new_angle), oscillation_frequency]
+	else:
+		return [note.entry_angle, note.oscillation_frequency]
 
 func add_button_to_tools_tab(button: BaseButton):
 	$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
@@ -1884,3 +1959,7 @@ func _on_AutoPlaceCheckBox_toggled(button_pressed):
 
 func _on_AngleSnapsSpinbox_value_changed(value):
 	song_editor_settings.angle_snaps = value
+
+
+func _on_AutoAngleCheckBox_toggled(button_pressed):
+	song_editor_settings.autoangle = button_pressed

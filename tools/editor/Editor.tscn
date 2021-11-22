@@ -391,7 +391,7 @@ scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer"]
 margin_right = 348.0
-margin_bottom = 559.0
+margin_bottom = 588.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -502,46 +502,56 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="AutoAngleCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 273.0
 margin_right = 348.0
 margin_bottom = 298.0
-text = "Separation per 8th"
+pressed = true
+text = "Automatically angle notes when arranging"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="TimeArrangeSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 302.0
 margin_right = 348.0
 margin_bottom = 327.0
+text = "Separation per 8th"
+
+[node name="TimeArrangeSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 331.0
+margin_right = 348.0
+margin_bottom = 356.0
 max_value = 2.14748e+09
 value = 96.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 331.0
-margin_right = 348.0
-margin_bottom = 356.0
-text = "Diagonal slope"
-
-[node name="TimeArrangeDiagonalAngleSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 360.0
 margin_right = 348.0
 margin_bottom = 385.0
+text = "Diagonal slope"
+
+[node name="TimeArrangeDiagonalAngleSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 389.0
+margin_right = 348.0
+margin_bottom = 414.0
 max_value = 90.0
 value = 45.0
 suffix = "º"
 
 [node name="Label5" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 389.0
+margin_top = 418.0
 margin_right = 348.0
-margin_bottom = 414.0
+margin_bottom = 443.0
 text = "Arrange wheel snaps"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TimeArrangeSnapsSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 418.0
+margin_top = 447.0
 margin_right = 348.0
-margin_bottom = 443.0
+margin_bottom = 472.0
 min_value = 1.0
 value = 16.0
 __meta__ = {
@@ -549,18 +559,18 @@ __meta__ = {
 }
 
 [node name="Label6" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 447.0
+margin_top = 476.0
 margin_right = 348.0
-margin_bottom = 472.0
+margin_bottom = 501.0
 text = "Angle snaps"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AngleSnapsSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 476.0
+margin_top = 505.0
 margin_right = 348.0
-margin_bottom = 501.0
+margin_bottom = 530.0
 min_value = 1.0
 value = 32.0
 __meta__ = {
@@ -568,15 +578,15 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 505.0
-margin_right = 348.0
-margin_bottom = 530.0
-text = "Arrange angles"
-
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 534.0
 margin_right = 348.0
 margin_bottom = 559.0
+text = "Arrange angles"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 563.0
+margin_right = 348.0
+margin_bottom = 588.0
 
 [node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 margin_right = 23.0
@@ -1262,6 +1272,7 @@ inside Rin Kagamine."
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="arrange_selected_notes_by_time" binds= [ 1.571 ]]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox" to="." method="_on_AutoSlideCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox" to="." method="_on_AutoPlaceCheckBox_toggled"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox" to="." method="_on_AutoAngleCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox" to="." method="_on_TimeArrangeSeparationSpinbox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox" to="." method="_on_TimeArrangeDiagonalAngleSpinbox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox" to="." method="_on_TimeArrangeSnapsSpinbox_value_changed"]
@@ -1271,8 +1282,8 @@ inside Rin Kagamine."
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_video"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
