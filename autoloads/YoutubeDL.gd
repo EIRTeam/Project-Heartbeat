@@ -97,6 +97,16 @@ func ensure_perms():
 		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
 		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
 		OS.execute("chmod", ["+x", get_ffprobe_executable()], true)
+		OS.execute("chmod", ["+x", get_aria2_executable()], true)
+
+func get_aria2_executable():
+	var path
+	if OS.get_name() == "Windows":
+		path = YOUTUBE_DL_DIR + "/aria2c.exe"
+	elif OS.get_name() == "X11":
+		path = YOUTUBE_DL_DIR + "/aria2c"
+	return ProjectSettings.globalize_path(path)
+
 func _init_ytdl():
 	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
 	CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
@@ -179,6 +189,19 @@ func get_audio_path(video_id, global=false, temp=false):
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
+	
+func get_ytdl_shared_params():
+	var shared_params = ["--ignore-config",
+	"--no-cache-dir",
+	"--force-ipv4",
+	"--compat-options", "youtube-dl",
+	# aria2 seems good at preventing throttling from Niconico
+	"--external-downloader", YoutubeDL.get_aria2_executable()]
+	
+	if OS.get_name() == "X11":
+		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
+	
+	return shared_params
 func _download_video(userdata):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
@@ -186,10 +209,7 @@ func _download_video(userdata):
 		cache_meta.cache[userdata.video_id] = {}
 	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata.entry}
 	# we have to ignroe the cache dir because youtube-dl is stupid
-	var shared_params = ["--ignore-config", "--no-cache-dir", "--force-ipv4", "--compat-options", "youtube-dl"]
-	
-	if OS.get_name() == "X11":
-		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
+	var shared_params = get_ytdl_shared_params()
 	var audio_download_ok = true
 	if download_audio:
 		# Step 1: Download audio
