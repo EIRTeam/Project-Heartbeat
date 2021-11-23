@@ -13,6 +13,7 @@ const UA = "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/53
 var current_yt_url = ""
 var current_title := ""
 var current_thumbnail_url := ""
+var current_ppd_id := ""
 
 signal error(error)
 
@@ -31,9 +32,16 @@ func show_panel():
 
 func download_from_url():
 	var url = url_line_edit.text.strip_edges()
-	if not url.begins_with("https://projectdxxx.me"):
+	if not url.begins_with("https://projectdxxx.me/score/index/id/"):
+
 		show_error("Invalid URL entered")
 		return
+	var s = url.split("id/")
+	if s.size() <= 1:
+		show_error("Invalid URL entered")
+		return
+	else:
+		current_ppd_id = s[1]
 	wait_dialog_label.text = "Downloading chart information, please wait..."
 	wait_dialog.popup_centered()
 	current_thumbnail_url = ""
@@ -117,7 +125,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		var songs_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "songs")
 		var dir = Directory.new()
 		
-		var chart_name = current_title
+		var chart_name = "ppd_%s" % [current_ppd_id]
 		var found_chart_data = !chart_name.empty()
 		
 		if chart_name.empty():
@@ -193,6 +201,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		var ppd_ldr = SongLoader.song_loaders["ppd"] as SongLoaderPPD
 		var song = ppd_ldr.load_song_meta_from_folder(chart_meta_path, chart_name)
 		song.uses_native_video = true
+		song.title = current_title
 		song.video = "video.mp4"
 		song.audio = "audio.ogg"
 		# song_ext
@@ -203,11 +212,27 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		if thumbnail_downloaded:
 			song.preview_image = "thumbnail.png"
 			song_ext.preview_image = "thumbnail.png"
+		song_ext.title = current_title
+		
+		wait_dialog_label.text = "Calculating audio normalization..."
+		wait_dialog.popup_centered()
+		yield(get_tree(), "idle_frame")
+		
+		var norm = HBAudioNormalizer.new()
+		norm.set_target_ogg(song.get_audio_stream())
+		while not norm.work_on_normalization():
+			pass
+		var res = norm.get_normalization_result()
+		song.has_audio_loudness = true
+		song.audio_loudness = res
+		song_ext.has_audio_loudness = true
+		song_ext.audio_loudness = res
+		
 		song_ext.save_to_file(HBUtils.join_path(songs_folder, chart_name).plus_file("ph_ext.json"))
 		ppd_ldr.set_ppd_youtube_url(song, current_yt_url)
 		SongLoader.songs[chart_name] = song
 		wait_dialog.hide()
-		show_error("Downloaded %s succesfully!" % [chart_name])
+		show_error("Downloaded %s succesfully!" % [current_title])
 		#get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	else:
 		show_error("Error downloading chart (%d, %d)" % [result, response_code])
