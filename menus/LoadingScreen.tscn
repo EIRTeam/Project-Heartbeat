@@ -158,6 +158,7 @@ margin_right = 1860.0
 margin_bottom = 159.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "Loadingu..."
 align = 2
@@ -212,8 +213,8 @@ custom_constants/separation = 21
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
-margin_left = 394.0
-margin_right = 547.0
+margin_left = 400.0
+margin_right = 553.0
 margin_bottom = 155.0
 rect_min_size = Vector2( 153, 0 )
 texture = ExtResource( 7 )
@@ -221,9 +222,9 @@ expand = true
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer/HBoxContainer"]
-margin_left = 568.0
+margin_left = 574.0
 margin_top = 45.0
-margin_right = 1466.0
+margin_right = 1460.0
 margin_bottom = 110.0
 custom_fonts/font = ExtResource( 6 )
 text = "This chart's video contains scenes with rapidly flashing colours.
