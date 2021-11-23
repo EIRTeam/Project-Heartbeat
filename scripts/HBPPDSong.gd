@@ -29,13 +29,31 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 	
 	var song_settings = dict["setting"]
 	
+	# For stars we match the first floating point number we can find, fun...
+	var star_regex := RegEx.new()
+	star_regex.compile("[+-]?([0-9]*[.])?[0-9]+")
+	
 	for key in song_settings:
 		for difficulty in difficulties:
 			if key == "difficulty " + difficulty:
+				var stars = song_settings[key]
+				# The things I have to do...
+				var regex_result := star_regex.search(song_settings[key])
+				var stars_f = 0.0
+				if regex_result and regex_result.strings.size() > 0:
+					if regex_result.strings[0].is_valid_float():
+						stars_f = float(regex_result.strings[0])
+				else:
+					# Special case for star counts
+					for star_char in ["★", "☆"]:
+						var stc = song_settings[key].count(star_char)
+						if stc == song_settings[key].length():
+							stars_f = stc
+							break
 				if song_settings[key].length() > 0:
 					song.charts[difficulty] = {
 						"file": difficulty.capitalize() + ".ppd",
-						"stars": float(song_settings[key].substr(1, song_settings[key].length()-1))
+						"stars": stars_f
 					}
 
 #	if dict.setting.has("start"):
