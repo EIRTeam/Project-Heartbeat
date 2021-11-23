@@ -176,6 +176,12 @@ func get_ffprobe_executable():
 	elif OS.get_name() == "X11":
 		path = YOUTUBE_DL_DIR + "/ffprobe"
 	return ProjectSettings.globalize_path(path)
+
+func get_certificates_path():
+	var path = YOUTUBE_DL_DIR + "/ca-certificates.crt"
+	return ProjectSettings.globalize_path(path)
+
+
 func get_video_path(video_id, global=false):
 	var path = get_cache_dir() + "/" + video_id + ".webm"
 	if global:
@@ -196,7 +202,9 @@ func get_ytdl_shared_params():
 	"--force-ipv4",
 	"--compat-options", "youtube-dl",
 	# aria2 seems good at preventing throttling from Niconico
-	"--external-downloader", YoutubeDL.get_aria2_executable()]
+	"--external-downloader", YoutubeDL.get_aria2_executable(),
+	"--external-downloader-args", "--ca-certificate '%s'" % [get_certificates_path()]
+	]
 	
 	if OS.get_name() == "X11":
 		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
@@ -472,9 +480,7 @@ func get_video_info_json(video_url: String):
 	var shared_params = get_ytdl_shared_params()
 	shared_params += ["--dump-json", video_url]
 	var cmd_out = []
-	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, true)
-	if err != OK:
-		breakpoint
+	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, false)
 	var out_dict = {}
 	if cmd_out.size() > 0:
 		var parse_result := JSON.parse(cmd_out[0])
