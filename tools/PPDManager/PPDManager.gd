@@ -12,6 +12,7 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	
 	tools_panel.popup_centered()
+	tools_panel.connect("popup_hide", tools_panel, "popup_centered")
 	tools_panel.get_close_button().connect("pressed", self, "_on_exit")
 	ppd_manager_panel.connect("error", self, "show_error")
 	ppd_downloader_panel.connect("error", self, "show_error")
