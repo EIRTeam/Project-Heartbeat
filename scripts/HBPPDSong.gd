@@ -143,4 +143,4 @@ func get_video_stream(variant := -1):
 		video_stream.set_file(get_song_video_res_path())
 		return video_stream
 	else:
-		.get_video_stream(-1)
+		return .get_video_stream(variant)
