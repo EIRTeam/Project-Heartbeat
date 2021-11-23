@@ -12,6 +12,7 @@ const UA = "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/53
 
 var current_yt_url = ""
 var current_title := ""
+var current_thumbnail_url := ""
 
 signal error(error)
 
@@ -35,6 +36,7 @@ func download_from_url():
 		return
 	wait_dialog_label.text = "Downloading chart information, please wait..."
 	wait_dialog.popup_centered()
+	current_thumbnail_url = ""
 	request.request(url, [UA], true, HTTPClient.METHOD_GET)
 func show_error(error: String):
 	emit_signal("error", error)
@@ -47,6 +49,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 		var found_yt_url = false
 		var download_url = ""
 		var yt_url = ""
+		var video_info_json = {}
 		current_title = ""
 		while parser.read() == OK:
 			if parser.get_node_type() != XMLParser.NODE_ELEMENT:
@@ -56,9 +59,11 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 					for i in range(parser.get_attribute_count()):
 						if parser.get_attribute_name(i) == "value":
 							var potential_url = parser.get_attribute_value(i)
-							if YoutubeDL.validate_video_url(potential_url):
-								yt_url = potential_url
-								found_yt_url = true
+							if potential_url != "":
+								video_info_json = YoutubeDL.get_video_info_json(potential_url)
+								if not video_info_json.empty():
+									yt_url = potential_url
+									found_yt_url = true
 			if parser.get_node_name() == "a":
 				if parser.has_attribute("href"):
 					for i in range(parser.get_attribute_count()):
@@ -78,9 +83,18 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 		if not found_download_url:
 			show_error("Couldn't find chart download, did you input the correct URL?")
 		if not found_yt_url:
-			show_error("Only charts with YouTube target movies are supported")
-				
-		if found_yt_url and found_download_url:
+			show_error("Couldn't find song video URL!")
+		
+		var proper_format_found = false
+		
+		if "formats" in video_info_json:
+			if "thumbnail" in video_info_json:
+				current_thumbnail_url = video_info_json.thumbnail
+			for format in video_info_json.formats:
+				if format.ext in ["mp4"]:
+					proper_format_found = true
+		
+		if found_yt_url and found_download_url and proper_format_found:
 			current_yt_url = yt_url
 			wait_dialog_label.text = "Downloading chart, please wait..."
 			wait_dialog.popup_centered()
@@ -140,9 +154,56 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 					file.store_buffer(uncompressed)
 				else:
 					print("FAILED TO DECOMPRESS ", f)
+					
+		wait_dialog_label.text = "Downloading video..."
+		wait_dialog.popup_centered()
+		yield(get_tree(), "idle_frame")
+		if perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name)) != OK:
+			wait_dialog.hide()
+			show_error("Error downloading video, ask on the discord for troubleshooting")
+			var f = Directory.new()
+			f.remove(HBUtils.join_path(songs_folder, chart_name))
+			return
+			
+		var thumbnail_downloaded = false
+		if current_thumbnail_url:
+			wait_dialog_label.text = "Downloading video thumbnail..."
+			wait_dialog.popup_centered()
+			yield(get_tree(), "idle_frame")
+			var request = HTTPRequest.new()
+			request.use_threads = true
+			add_child(request)
+			if request.request(current_thumbnail_url) == OK:
+				var request_result = yield(request, "request_completed")
+				var req_result_err = request_result[0]
+				var req_body = request_result[3]
+				if req_result_err == OK:
+					var texture = HBUtils.array2texture(req_body)
+					if texture.get_size() != Vector2.ZERO:
+						texture.get_data().save_png(HBUtils.join_path(songs_folder, chart_name).plus_file("thumbnail.png"))
+						thumbnail_downloaded = true
+				if not thumbnail_downloaded:
+					wait_dialog.hide()
+					show_error("Error downloading video thumbnail, ask on the discord for troubleshooting")
+					var f = Directory.new()
+					f.remove(HBUtils.join_path(songs_folder, chart_name))
+					return
+			
 		var chart_meta_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, "data.ini"))
 		var ppd_ldr = SongLoader.song_loaders["ppd"] as SongLoaderPPD
 		var song = ppd_ldr.load_song_meta_from_folder(chart_meta_path, chart_name)
+		song.uses_native_video = true
+		song.video = "video.mp4"
+		song.audio = "audio.ogg"
+		# song_ext
+		var song_ext = HBPPDSong.new()
+		song_ext.uses_native_video = true
+		song_ext.video = "video.mp4"
+		song_ext.audio = "audio.ogg"
+		if thumbnail_downloaded:
+			song.preview_image = "thumbnail.png"
+			song_ext.preview_image = "thumbnail.png"
+		song_ext.save_to_file(HBUtils.join_path(songs_folder, chart_name).plus_file("ph_ext.json"))
 		ppd_ldr.set_ppd_youtube_url(song, current_yt_url)
 		SongLoader.songs[chart_name] = song
 		wait_dialog.hide()
@@ -150,3 +211,35 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		#get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	else:
 		show_error("Error downloading chart (%d, %d)" % [result, response_code])
+
+func perform_ytdl_direct_download(folder: String) -> int:
+	var shared_params = YoutubeDL.get_ytdl_shared_params()
+	var video_height = UserSettings.user_settings.desired_video_resolution
+	var video_fps = UserSettings.user_settings.desired_video_fps
+	shared_params += ["-f", "best[ext=mp4][height<=?%d][fps<=?%d]" % [video_height, video_fps]]
+	
+	var video_file_location = folder.plus_file("video.mp4")
+	
+	var o = []
+	
+	shared_params += [current_yt_url, "-o", ProjectSettings.globalize_path(video_file_location)]
+	
+	var ee = ""
+	
+	ee = PoolStringArray(shared_params).join(" ")
+	print(ee)
+	
+	OS.execute(YoutubeDL.get_ytdl_executable(), shared_params, true, o, true)
+	
+	var f = File.new()
+	if not f.file_exists(video_file_location):
+		print(o)
+		return ERR_BUG
+	else:
+		var audio_target = ProjectSettings.globalize_path(folder.plus_file("audio.ogg"))
+		var arguments = ["-i", ProjectSettings.globalize_path(video_file_location), "-vn", "-acodec", "libvorbis", "-y", audio_target]
+		var out = []
+		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, true, out, true)
+		if err != OK:
+			return ERR_BUG
+	return OK

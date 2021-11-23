@@ -8,9 +8,10 @@ const ALLOWED_EXTENDED_PROPERTIES = ["title", "author", "preview_image", "backgr
 var ppd_offset = 0
 var guid = ""
 var ppd_website_id = ""
+var uses_native_video = false
 
 func _init():
-	serializable_fields += ["ppd_offset", "guid", "ppd_website_id"]
+	serializable_fields += ["ppd_offset", "guid", "ppd_website_id", "uses_native_video"]
 	LOG_NAME = "HBPPDSong"
 # Returns a HBPPDSong meta from an ini file
 static func from_ini(content: String, id: String, ext_data=null, script="res://scripts/HBPPDSong.gd") -> HBSong:
@@ -58,6 +59,15 @@ func has_video_enabled():
 	if .has_video_enabled():
 		return not UserSettings.user_settings.disable_ppd_video
 
+func get_song_video_res_path():
+	if uses_native_video:
+		if video != "":
+			return path.plus_file("/%s" % [video])
+		else:
+			return null
+	else:
+		return .get_song_video_res_path()
+
 func line2phrase(line: String):
 	var split_l = line.split(":")
 	var time = int(float(split_l[0]) * 1000.0)
@@ -103,3 +113,16 @@ func get_serialized_type():
 	return "PPDSong"
 func is_visible_in_editor():
 	return false
+func is_cached(variant := -1):
+	if uses_native_video:
+		var f = File.new()
+		return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
+	else:
+		return .is_cached(variant)
+func get_video_stream(variant := -1):
+	if uses_native_video:
+		var video_stream = VideoStreamGDNative.new()
+		video_stream.set_file(get_song_video_res_path())
+		return video_stream
+	else:
+		.get_video_stream(-1)

@@ -238,7 +238,7 @@ func add_buttons():
 	modify_song_settings_option.connect("pressed", self, "_on_modify_song_settings_pressed")
 	modifier_button_container.add_child(modify_song_settings_option)
 	
-	if current_song is HBPPDSong:
+	if current_song is HBPPDSong and not current_song.uses_native_video:
 		var change_video_link_button = HBHovereableButton.new()
 		change_video_link_button.text = "Change PPD video URL"
 		change_video_link_button.connect("pressed", self, "_on_ppd_video_change_button_pressed")

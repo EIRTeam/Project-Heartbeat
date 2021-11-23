@@ -467,3 +467,18 @@ func cancel_song(song: HBSong, variant := -1):
 			if entry.song == song and entry.variant == variant:
 				caching_queue.erase(entry)
 				break
+
+func get_video_info_json(video_url: String):
+	var shared_params = get_ytdl_shared_params()
+	shared_params += ["--dump-json", video_url]
+	var cmd_out = []
+	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, true)
+	if err != OK:
+		breakpoint
+	var out_dict = {}
+	if cmd_out.size() > 0:
+		var parse_result := JSON.parse(cmd_out[0])
+		if parse_result.error == OK:
+			out_dict = parse_result.result
+	
+	return out_dict
