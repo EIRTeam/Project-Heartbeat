@@ -14,7 +14,7 @@ func has_audio():
 	var f = File.new()
 	return (video and f.file_exists(get_song_video_res_path())) or f.file_exists(get_song_audio_res_path())
 		
-func is_cached(variant := ""):
+func is_cached(variant := -1):
 	var f = File.new()
 	return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
 
