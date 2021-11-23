@@ -39,6 +39,8 @@ var status = YOUTUBE_DL_STATUS.COPYING
 var songs_being_cached = []
 var caching_queue = []
 const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
+# We use a fake user agent for privacy and to fool google drivez
+const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0"
 
 class CachingQueueEntry:
 	var song: HBSong
@@ -201,9 +203,10 @@ func get_ytdl_shared_params():
 	"--no-cache-dir",
 	"--force-ipv4",
 	"--compat-options", "youtube-dl",
+	"--user-agent", USER_AGENT,
 	# aria2 seems good at preventing throttling from Niconico
 	"--external-downloader", YoutubeDL.get_aria2_executable(),
-	"--external-downloader-args", "--ca-certificate '%s'" % [get_certificates_path()]
+	"--external-downloader-args", "--ca-certificate '%s' --user-agent '%s'" % [get_certificates_path(), USER_AGENT]
 	]
 	
 	if OS.get_name() == "X11":
