@@ -51,6 +51,15 @@ func show_error(error: String):
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
+		var body_str = body.get_string_from_utf8()
+		# Possibly the ugliest HACK in the whole codebase
+		# I'm so so sorry
+		# This is because the PPD website doesn't produce valid XML,
+		# and this attribute having no value is the reason why apparently, so
+		# we just get rid of it
+		body_str = body_str.replace("allowfullscreen>", ">")
+		body = body_str.to_utf8()
+		
 		var parser = XMLParser.new()
 		parser.open_buffer(body)
 		var found_download_url = false
