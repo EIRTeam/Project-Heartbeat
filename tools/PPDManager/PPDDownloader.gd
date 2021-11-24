@@ -250,7 +250,7 @@ func perform_ytdl_direct_download(folder: String) -> int:
 	var video_fps = UserSettings.user_settings.desired_video_fps
 	shared_params += [
 		"--merge-output-format", "mp4",
-		"-f", "bestvideo[ext=mp4][height<=?{height}][fps<=?{fps}]+bestaudio[ext=m4a]/best[ext=mp4][height<=?{height}][fps<=?{fps}]".format({"height": video_height, "fps": video_fps})
+		"-f", "bestvideo[vcodec^=avc1][ext=mp4][height<=?{height}][fps<=?{fps}]+bestaudio[ext=m4a]/best[ext=mp4][height<=?{height}][fps<=?{fps}]".format({"height": video_height, "fps": video_fps})
 	]
 	
 	var video_file_location = folder.plus_file("video.mp4")
