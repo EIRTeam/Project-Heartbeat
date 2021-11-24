@@ -178,8 +178,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		if perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name)) != OK:
 			wait_dialog.hide()
 			show_error("Error downloading video, ask on the discord for troubleshooting")
-			var f = Directory.new()
-			f.remove(HBUtils.join_path(songs_folder, chart_name))
+			HBUtils.remove_recursive(HBUtils.join_path(songs_folder, chart_name))
 			return
 			
 		var thumbnail_downloaded = false
@@ -202,8 +201,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 				if not thumbnail_downloaded:
 					wait_dialog.hide()
 					show_error("Error downloading video thumbnail, ask on the discord for troubleshooting")
-					var f = Directory.new()
-					f.remove(HBUtils.join_path(songs_folder, chart_name))
+					HBUtils.remove_recursive(HBUtils.join_path(songs_folder, chart_name))
 					return
 			
 		var chart_meta_path = HBUtils.join_path(songs_folder, HBUtils.join_path(chart_name, "data.ini"))
