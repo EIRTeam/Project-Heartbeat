@@ -77,6 +77,7 @@ func start_fade_in():
 	var target_color = Color.white
 	target_color.a = 0.0
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	game.time = song.start_time / 1000.0
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
@@ -352,6 +353,7 @@ func seek(pos: float):
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	game.time = pos
+	print("SEEK To %.2f", pos)
 	game.audio_stream_player.stream_paused = true
 	game.audio_stream_player_voice.stream_paused = true
 	game.audio_stream_player.seek(game.time + latency_compensation)
@@ -374,6 +376,7 @@ func _on_PauseMenu_restarted():
 	last_pause_time = 0.0
 	rollback_on_resume = false
 	game.restart()
+	video_player.stream_position = current_game_info.get_song().start_time / 1000.0
 	#set_song(song, current_game_info.difficulty, modifiers)
 	set_process(true)
 	game.set_process(true)
