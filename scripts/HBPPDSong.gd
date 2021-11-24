@@ -56,8 +56,8 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 						"stars": stars_f
 					}
 
-#	if dict.setting.has("start"):
-#		song.ppd_offset = -int(float(dict.setting.start) * 1000.0)
+	if dict.setting.has("start"):
+		song.start_time = int(float(dict.setting.start) * 1000.0)
 	if dict.setting.has("end"):
 		song.end_time = int(float(dict.setting.end) * 1000.0)
 	if dict.setting.has("guid"):
