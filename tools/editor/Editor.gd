@@ -1873,7 +1873,12 @@ func _cache_hold_ends():
 			item.update()
 
 
-func autoplace(data):
+func autoplace(data: HBBaseNote):
+	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540):
+		# Safeguard against modifying old charts
+		data.pos_modified = true
+		return data.clone()
+	
 	var new_data = data.clone() as HBNoteData
 	
 	var interval = get_timing_interval(1.0/16.0) * 2
