@@ -3,6 +3,7 @@
 [ext_resource path="res://tools/PPDManager/PPDManagerPopup.gd" type="Script" id=1]
 
 [node name="PPDManagerPopup" type="WindowDialog"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -65,6 +66,12 @@ margin_right = 179.0
 margin_bottom = 74.0
 text = "Change cover image"
 
+[node name="DeleteSongButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 81.0
+margin_right = 179.0
+margin_bottom = 101.0
+text = "Delete song"
+
 [node name="ChangeBackgroundFileDialog" type="FileDialog" parent="."]
 margin_right = 315.0
 margin_bottom = 130.0
@@ -89,5 +96,18 @@ show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
+[node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="."]
+visible = true
+margin_right = 283.0
+margin_bottom = 105.0
+popup_exclusive = true
+dialog_text = "Are you sure you want to remove this song? This will delete it from your hard drive. "
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeBackgroundButton" to="ChangeBackgroundFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/ChangeCoverButton" to="ChangeCoverFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/DeleteSongButton" to="DeleteConfirmationDialog" method="popup_centered"]
+[connection signal="confirmed" from="DeleteConfirmationDialog" to="." method="_on_DeleteConfirmationDialog_confirmed"]

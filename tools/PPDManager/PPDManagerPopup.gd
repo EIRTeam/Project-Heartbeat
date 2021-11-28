@@ -8,6 +8,7 @@ onready var change_background_button = get_node("MarginContainer/HBoxContainer/V
 
 onready var change_background_dialog = get_node("ChangeBackgroundFileDialog")
 onready var change_cover_dialog = get_node("ChangeCoverFileDialog")
+onready var delete_song_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/DeleteSongButton")
 
 signal error(message)
 
@@ -38,10 +39,11 @@ func populate_tree():
 	change_URL_button.disabled = true
 	change_cover_button.disabled = true
 	change_background_button.disabled = true
+	delete_song_button.disabled = true
 	
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		if song is HBPPDSong:
+		if song is HBPPDSong and not song is HBPPDSongEXT:
 			var item = tree.create_item(root)
 			item.set_text(0, song.title)
 			item.set_meta("song_id", song_id)
@@ -52,6 +54,7 @@ func _on_item_selected():
 	change_URL_button.disabled = false
 	change_cover_button.disabled = false
 	change_background_button.disabled = false
+	delete_song_button.disabled = false
 	
 func get_current_meta_path():
 	var meta_path = SongLoader.songs[tree.get_selected().get_meta("song_id")].path
@@ -101,3 +104,14 @@ func _on_cover_selected(path: String):
 	SongLoader.songs[tree.get_selected().get_meta("song_id")].preview_image = song_meta.preview_image
 
 	show_error("Succesfully changed cover image")
+
+
+func _on_DeleteConfirmationDialog_confirmed():
+	var song_id = tree.get_selected().get_meta("song_id")
+	var song := SongLoader.songs[song_id] as HBSong
+	SongLoader.songs.erase(song_id)
+	var song_path = song.path
+	HBUtils.remove_recursive(song_path)
+	show_error("Succesfully removed song from %s!" % [ProjectSettings.globalize_path(song_path)])
+	
+	populate_tree()
