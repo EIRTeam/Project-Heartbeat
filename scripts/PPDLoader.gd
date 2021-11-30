@@ -35,7 +35,15 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 				var temp = file.get_buffer(length)
 				
 				var xml = XMLParser.new()
-				xml.open_buffer(temp)
+				
+				# Because PPD downloader is bad
+				if file_offset + file_len > file.get_len():
+					# Guard against incomplete downloads
+					return
+				
+				if xml.open_buffer(temp) != OK:
+					# Something clearly went south
+					return
 			
 
 				while xml.read() == OK:
