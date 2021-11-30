@@ -16,6 +16,7 @@ func _init(_editor).(_editor):
 	var x_label = Label.new()
 	x_label.text = "x:"
 	x_spinbox = SpinBox.new()
+	x_spinbox.size_flags_horizontal = x_spinbox.SIZE_EXPAND_FILL	
 	x_spinbox.step = 1
 	x_spinbox.max_value = 10000
 	x_spinbox.min_value = -10000
@@ -23,6 +24,7 @@ func _init(_editor).(_editor):
 	var y_label = Label.new()
 	y_label.text = "y:"
 	y_spinbox = SpinBox.new()
+	y_spinbox.size_flags_horizontal = y_spinbox.SIZE_EXPAND_FILL
 	y_spinbox.step = 1
 	y_spinbox.max_value = 10000
 	y_spinbox.min_value = -10000
@@ -40,6 +42,7 @@ func _init(_editor).(_editor):
 	var degrees_label = Label.new()
 	degrees_label.text = "Degrees:"
 	angle_spinbox = SpinBox.new()
+	angle_spinbox.size_flags_horizontal = angle_spinbox.SIZE_EXPAND_FILL
 	angle_spinbox.step = 1
 	angle_spinbox.max_value = 360
 	angle_spinbox.min_value = -360

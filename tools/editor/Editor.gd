@@ -13,16 +13,16 @@ const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
-onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/RhythmGame")
-onready var game_preview = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview")
+onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/RhythmGame")
+onready var game_preview = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview")
 onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
-onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/GridRenderer")
-onready var inspector = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/TabContainer/Inspector")
-onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
-onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
-onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Layers/LayerManager")
+onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
+onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
+onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
+onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
+onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
+onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
 onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
@@ -33,29 +33,30 @@ onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
-onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Presets/SyncPresetsTool")
-onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Transforms/TransformsTool")
-onready var message_shower = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/MessageShower")
+onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool")
+onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Transforms/TransformsTool")
+onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
 onready var quick_lyric_dialog := get_node("QuickLyricDialog")
 onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
-onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
+onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
 onready var timeline_snap_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton")
-onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
-onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
-onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
-onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
-onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
-onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
-onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox")
+onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
+onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
+onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
+onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
+onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
+onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
+onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
 onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
 onready var arrange_menu = get_node("ArrangeMenu")
-onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
-onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox")
-onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
-onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox")
+onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
+onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox")
+onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
+onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox")
+onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 
 const LOG_NAME = "HBEditor"
 
@@ -105,8 +106,8 @@ var hold_ends = []
 # Fades that obscure some UI elements while playing
 
 onready var ui_fades = [
-	get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/UIFade"),
-	get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control2/UIFade"),
+	get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/UIFade"),
+	get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/UIFade"),
 	get_node("VBoxContainer/Panel2/UIFade")
 ]
 
@@ -212,7 +213,7 @@ func _ready():
 	
 	var button_ids = ["3", "", "7", "9"]
 	for i in range(4):
-		var node = get_node("VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
+		var node = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
 		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
 	
 const HELP_URLS = [
@@ -535,7 +536,7 @@ func _unhandled_input(event: InputEvent):
 		if event.pressed and not event.echo:
 			if event.scancode >= KEY_1 and event.scancode <= KEY_5:
 				var tab = event.scancode - KEY_1
-				$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2.set_current_tab(tab)
+				$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2.set_current_tab(tab)
 				return
 	if event.is_action_pressed("editor_play"):
 		if not game_playback.is_playing():
@@ -1483,7 +1484,7 @@ func get_timing_interval(note_resolution=null):
 	
 	var beat_length = seconds_per_bar / float(get_beats_per_bar())
 	var note_length = 1.0/4.0 # a quarter of a beat
-	var interval = (get_note_resolution() / note_length) * beat_length
+	var interval = (note_resolution / note_length) * beat_length
 	interval = interval * 1000.0
 	
 	return interval
@@ -1692,9 +1693,9 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
 		return [note.entry_angle, note.oscillation_frequency]
 
 func add_button_to_tools_tab(button: BaseButton):
-	$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
+	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
 func add_tool_to_tools_tab(tool_control: Control):
-	$VBoxContainer/VSplitContainer/HBoxContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
+	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 
@@ -1968,3 +1969,9 @@ func _on_AngleSnapsSpinbox_value_changed(value):
 
 func _on_AutoAngleCheckBox_toggled(button_pressed):
 	song_editor_settings.autoangle = button_pressed
+
+func _on_parent_HSplitContainer_dragged(offset):
+	if offset < -320:
+		toolbox_tab_container.mouse_filter = MOUSE_FILTER_IGNORE
+	else:
+		toolbox_tab_container.mouse_filter = MOUSE_FILTER_STOP
