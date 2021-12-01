@@ -828,7 +828,7 @@ func _commit_selected_property_change(property_name: String):
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
 					
 					var autoplaced_position = null
-					if not selected_item.data.pos_modified:
+					if song_editor_settings.autoplace and not selected_item.data.pos_modified:
 						var new_data = autoplace(selected_item.data)
 						autoplaced_position = new_data.position
 						
@@ -1880,7 +1880,7 @@ func autoplace(data: HBBaseNote):
 		data.pos_modified = true
 		return data.clone()
 	
-	var new_data = data.clone() as HBNoteData
+	var new_data = data.clone() as HBBaseNote
 	
 	var interval = get_timing_interval(1.0/16.0) * 2
 	var time_as_eight = stepify((data.time - offset_box.value * 1000) / interval, 0.01)
