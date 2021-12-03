@@ -5,13 +5,16 @@ class_name EditorPlayback
 
 var audio_stream_player := AudioStreamPlayer.new()
 var voice_audio_stream_player := AudioStreamPlayer.new()
+var pitch_shift_effect := AudioEffectPitchShift.new()
 var game: HBRhythmGame
 var time_begin
 var time_delay
 var _audio_play_offset
+var playback_speed := 1.0
 var chart: HBChart setget set_chart
 var current_song: HBSong
 signal time_changed
+signal playback_speed_changed(speed)
 
 func set_chart(val):
 	chart = val
@@ -29,6 +32,7 @@ func _process(delta):
 	var time = 0.0
 	if audio_stream_player.playing:
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
+		time *= playback_speed
 		# Compensate for latency.
 		time -= time_delay
 		time -= UserSettings.user_settings.lag_compensation / 1000.0
@@ -36,6 +40,7 @@ func _process(delta):
 		time = max(0, time)
 		
 		time = time + _audio_play_offset
+		
 		game.time = time
 	if audio_stream_player.playing and not audio_stream_player.stream_paused:
 		emit_signal("time_changed", time)
@@ -128,3 +133,42 @@ func play_from_pos(position: float):
 func set_lyrics(phrases: Array):
 	var lyrics_view = game.game_ui.get_lyrics_view()
 	lyrics_view.set_phrases(phrases)
+
+
+func set_speed(value: float, correction: bool):
+	playback_speed = value
+	
+	audio_stream_player.pitch_scale = playback_speed
+	voice_audio_stream_player.pitch_scale = playback_speed
+	
+	if correction:
+		pitch_shift_effect.pitch_scale = 1.0 / playback_speed
+	else:
+		pitch_shift_effect.pitch_scale = 1.0
+	
+	if pitch_shift_effect.pitch_scale != 1.0:
+		add_bus_effects()
+	else:
+		remove_bus_effects()
+	
+	emit_signal("playback_speed_changed", value)
+
+
+func _get_all_effects(bus):
+	var bus_effects = []
+	for i in range(AudioServer.get_bus_effect_count(bus)):
+		bus_effects.append(AudioServer.get_bus_effect(bus, i))
+	
+	return bus_effects
+
+
+func add_bus_effects():
+	var music_bus = AudioServer.get_bus_index(audio_stream_player.bus)
+	
+	if not pitch_shift_effect in _get_all_effects(music_bus):
+		AudioServer.add_bus_effect(music_bus, pitch_shift_effect)
+
+func remove_bus_effects():
+	var music_bus = AudioServer.get_bus_index(audio_stream_player.bus)
+	
+	AudioServer.remove_bus_effect(music_bus, _get_all_effects(music_bus).find(pitch_shift_effect))
