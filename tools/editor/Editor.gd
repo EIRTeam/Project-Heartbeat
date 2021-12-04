@@ -831,7 +831,7 @@ func _commit_selected_property_change(property_name: String):
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
 					
 					var autoplaced_position = null
-					if song_editor_settings.autoplace and not selected_item.data.pos_modified:
+					if selected_item.data is HBBaseNote and song_editor_settings.autoplace and not selected_item.data.pos_modified:
 						var new_data = autoplace(selected_item.data)
 						autoplaced_position = new_data.position
 						
@@ -1020,10 +1020,10 @@ func delete_selected():
 
 func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = null):
 	if song_editor_settings.auto_multi:
-		if not autoplaced_pos:
-			autoplaced_pos = item.position
-		
 		if item is HBBaseNote:
+			if not autoplaced_pos:
+				autoplaced_pos = item.position
+			
 			var notes_at_time = get_notes_at_time(item.time)
 			var notes_at_previous_time = get_notes_at_time(old_time) if old_time != -1 else []
 			
@@ -1639,7 +1639,9 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 	if not preview_only:
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-	
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
 		undo_redo.commit_action()
 
 func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
@@ -1695,7 +1697,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
 		if not rotated_quadrant in positive_quadrants:
 			oscillation_frequency = -oscillation_frequency
 		
-		return [rad2deg(new_angle), oscillation_frequency]
+		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
 	else:
 		return [note.entry_angle, note.oscillation_frequency]
 
