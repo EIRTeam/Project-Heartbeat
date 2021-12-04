@@ -57,6 +57,8 @@ onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitC
 onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
 onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox")
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
+onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
+onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
 
 const LOG_NAME = "HBEditor"
 
@@ -152,6 +154,7 @@ func _ready():
 	DebugSystemInfo.disable_label()
 	add_child(game_playback)
 	add_child(contextual_menu)
+	game_playback.connect("playback_speed_changed", self, "_on_playback_speed_changed")
 	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")
 	Input.set_use_accumulated_input(true)
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
@@ -1152,6 +1155,7 @@ func pause():
 	playhead_position = snap_time_to_timeline(playhead_position)
 	game_preview.pause()
 	emit_signal("playhead_position_changed")
+	playback_speed_slider.editable = true
 	reveal_ui()
 func _on_PauseButton_pressed():
 	pause()
@@ -1168,6 +1172,7 @@ func _on_PlayButton_pressed():
 	pause_button.show()
 	game_preview.set_visualizer_processing_enabled(true)
 	game_preview.widget_area.hide()
+	playback_speed_slider.editable = false
 	obscure_ui()
 	
 # Fired when any timing point is changed, gives the game the new data
@@ -1354,6 +1359,7 @@ func load_song(song: HBSong, difficulty: String):
 	})
 	
 	game_playback.set_song(current_song)
+	playback_speed_slider.value = 1.0
 
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
@@ -1374,6 +1380,7 @@ func reveal_ui():
 	for fade in ui_fades:
 		fade.reveal()
 func _on_ExitDialog_confirmed():
+	game_playback.remove_bus_effects()
 	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
@@ -1975,3 +1982,17 @@ func _on_parent_HSplitContainer_dragged(offset):
 		toolbox_tab_container.mouse_filter = MOUSE_FILTER_IGNORE
 	else:
 		toolbox_tab_container.mouse_filter = MOUSE_FILTER_STOP
+
+
+func _on_PlaybackSpeedSlider_value_changed(value):
+	playback_speed_label.text = "x %.2f" % [value]
+	game_playback.set_speed(value, true)
+
+func _on_playback_speed_changed(speed: float):
+	if not speed == 1.0:
+		if show_video_button.pressed:
+			game_preview.show_video(false)
+	else:
+		if show_video_button.pressed:
+			game_preview.video_player.stream_position = playhead_position / 1000.0
+			game_preview.show_video(true)
