@@ -39,7 +39,13 @@ func run_script() -> int:
 			# You can set the values of any point property using the set_timing_point_property
 			# method, refer to the editor documentation to know which properties are available
 			set_timing_point_property(point, "time", 1000)
-	
+
+	# We can also create a new note or timing point
+	var new_note = HBNoteData.new()
+	new_note.note_type = HBBaseNote.NOTE_TYPE.UP
+	new_note.time = 1000	# In ms
+	create_timing_point(new_note)
+
 	# Return OK to apply the script's changes, return anything else (such as -1)
 	# to cancel it
 	return OK

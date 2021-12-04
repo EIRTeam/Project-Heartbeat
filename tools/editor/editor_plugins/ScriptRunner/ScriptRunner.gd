@@ -124,7 +124,7 @@ func _on_run_script_button_pressed():
 	run_script(script_path)
 
 func _process_changed_values(inst: ScriptRunnerScript):
-	if inst._timing_point_changed_properties.size() > 0:
+	if inst._timing_point_changed_properties or inst.new_timing_points:
 		_editor.undo_redo.create_action("Run Script")
 
 		# Some transforms might change the note type and thus the layer
@@ -161,7 +161,18 @@ func _process_changed_values(inst: ScriptRunnerScript):
 					if property_name == "position":
 						_editor.undo_redo.add_do_property(target_item.data, "pos_modified", true)
 						_editor.undo_redo.add_undo_property(target_item.data, "pos_modified", target_item.data.pos_modified)
-
+		
+		for timing_point in inst.new_timing_points:
+			var layer_name
+			if "note_type" in timing_point:
+				layer_name = type_to_layer_name_map[timing_point.note_type]
+			else:
+				layer_name = "Events"
+			
+			var layer = _editor.timeline.find_layer_by_name(layer_name)
+			
+			_editor.user_create_timing_point(layer, timing_point.get_timeline_item())
+		
 		_editor.undo_redo.add_do_method(_editor, "_on_timing_points_changed")
 		_editor.undo_redo.add_undo_method(_editor, "_on_timing_points_changed")
 		_editor.undo_redo.add_do_method(_editor.inspector, "sync_visible_values_with_data")

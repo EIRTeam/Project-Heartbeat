@@ -5,6 +5,7 @@ var _editor
 var selected_timing_points = []
 var _timing_point_changed_properties = {}
 var _clone_to_original_timing_point_map = {}
+var new_timing_points = []
 
 func init_script():
 	selected_timing_points = []
@@ -46,3 +47,6 @@ func get_points_at_time(time: int):
 
 func get_bpm_at_time(time: int) -> int:
 	return _editor.rhythm_game.get_bpm_at_time(time)
+
+func create_timing_point(timing_point: HBTimingPoint):
+	new_timing_points.append(timing_point)
