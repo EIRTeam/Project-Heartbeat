@@ -1076,17 +1076,18 @@ __meta__ = {
 }
 
 [node name="FPSLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_right = 8.0
+margin_right = 70.0
 margin_bottom = 25.0
+rect_min_size = Vector2( 70, 0 )
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 12.0
-margin_right = 16.0
+margin_left = 74.0
+margin_right = 78.0
 margin_bottom = 25.0
 
 [node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 20.0
-margin_right = 220.0
+margin_left = 82.0
+margin_right = 282.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 1
@@ -1098,22 +1099,22 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="PlaybackSpeedLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 224.0
-margin_right = 267.0
+margin_left = 286.0
+margin_right = 329.0
 margin_bottom = 25.0
 text = "x1.00"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 271.0
+margin_left = 333.0
 margin_right = 1910.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1332.0
-margin_right = 1465.0
+margin_left = 1270.0
+margin_right = 1403.0
 margin_bottom = 25.0
 text = "Timing points 0/100"
 __meta__ = {
@@ -1121,13 +1122,13 @@ __meta__ = {
 }
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1469.0
-margin_right = 1473.0
+margin_left = 1407.0
+margin_right = 1411.0
 margin_bottom = 25.0
 
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1477.0
-margin_right = 1639.0
+margin_left = 1415.0
+margin_right = 1577.0
 margin_bottom = 25.0
 text = "Project Kokoro Doki UwU"
 
@@ -1273,6 +1274,7 @@ margin_bottom = 200.0
 [node name="SexDialog" type="AcceptDialog" parent="."]
 margin_right = 48.0
 margin_bottom = 40.0
+window_title = "¡Alerta!"
 dialog_text = "You're not allowed to cum
 inside Rin Kagamine."
 
@@ -1315,8 +1317,8 @@ inside Rin Kagamine."
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_video"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
