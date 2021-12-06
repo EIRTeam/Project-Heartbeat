@@ -72,13 +72,18 @@ func _on_viewport_size_changed():
 	set_layers_offset(_offset)
 	send_time_cull_changed_signal()
 	
+# Draw timeline yellow bars and time positions
 func _draw_bars(interval, offset=0):
 	var lines = int(editor.get_song_length() / interval)
 	lines -= ceil(offset / interval)
 	var draw_every = 1.0
 	if editor.scale > 5.0:
 		draw_every = 2.0
-	for line in range(lines):
+	var start_time = _offset / 1000.0
+	start_time -= offset
+	
+	var start_line = max(int(start_time / interval), 0)
+	for line in range(start_line, lines):
 		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
 
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
@@ -93,10 +98,15 @@ func _draw_bars(interval, offset=0):
 			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
 			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 35), time_string)
 	
+# Draw timeline grey bars
 func _draw_interval(interval, offset=0, ignore_interval=null):
 	var lines = int(editor.get_song_length() / interval)
 	lines -= ceil(offset / interval)
-	for line in range(lines):
+	var start_time = _offset / 1000.0
+	start_time -= offset
+	
+	var start_line = max(int(start_time / interval), 0)
+	for line in range(start_line, lines):
 		var starting_rect_pos = playhead_area.rect_position + Vector2(0, 10) + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
 		
