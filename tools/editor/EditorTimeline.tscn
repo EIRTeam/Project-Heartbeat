@@ -23,6 +23,7 @@ signal zoom_in
 signal zoom_out
 signal offset_left
 signal offset_right
+signal scrolled_vertically
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if (event.is_action_pressed(\"editor_scale_up\") or event.is_action_pressed(\"editor_scale_down\")) and event.shift:
@@ -43,8 +44,10 @@ func _process(delta):
 	if _prevent_next_scroll:
 		scroll_vertical = _scroll
 		_prevent_next_scroll = false
+		emit_signal(\"scrolled_vertically\")
 	if scroll_vertical != _scroll:
 		_scroll = scroll_vertical
+		emit_signal(\"scrolled_vertically\")
 "
 
 [sub_resource type="StyleBoxEmpty" id=3]
@@ -195,4 +198,5 @@ margin_right = 20.0
 margin_bottom = 20.0
 items = [ "Elemento 0", null, 0, false, false, 0, 0, null, "", false, "Elemento 1", null, 0, false, false, 1, 0, null, "", false, "Elemento 2", null, 0, false, false, 2, 0, null, "", false ]
 
+[connection signal="item_rect_changed" from="VBoxContainer/HBoxContainer" to="." method="_on_HBoxContainer_item_rect_changed"]
 [connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]

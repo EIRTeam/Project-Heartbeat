@@ -1,33 +1,36 @@
 extends Control
 
-var editor setget set_editor
+signal offset_changed(offset)
+signal time_cull_changed(start_time, end_time)
+
+const LOG_NAME = "Editor"
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
+const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
+const TRIANGLE_HEIGHT = 15
+const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
+
 onready var layers = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/LayerControl")
 onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/LayerNames")
-signal offset_changed(offset)
-const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
 onready var scroll_container = get_node("VBoxContainer/ScrollContainer")
 onready var minimap = get_node("VBoxContainer/Minimap")
+onready var playhead_container = get_node("VBoxContainer/HBoxContainer")
+onready var stream_editor = get_node("PHAudioStreamEditor")
+
+var editor: HBEditor setget set_editor
 var _offset = 0
 var _prev_playhead_position = Vector2()
 signal layers_changed
-const LOG_NAME = "Editor"
 var _area_select_start = Vector2()
 var _area_selecting = false
-const TRIANGLE_HEIGHT = 15
-
 var _cull_start_time = 0
 var _cull_end_time = 0
-const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
-onready var stream_editor = get_node("PHAudioStreamEditor")
 
 func set_editor(ed):
 	editor = ed
 	minimap.editor = ed
 
-signal time_cull_changed(start_time, end_time)
 
 func _ready():
 	update()
@@ -84,7 +87,8 @@ func _draw_bars(interval, offset=0):
 	
 	var start_line = max(int(start_time / interval), 0)
 	for line in range(start_line, lines):
-		var starting_rect_pos = playhead_area.rect_position + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
+		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos())
+		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
 
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
 		if starting_rect_pos.x < 0:
@@ -107,7 +111,8 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 	
 	var start_line = max(int(start_time / interval), 0)
 	for line in range(start_line, lines):
-		var starting_rect_pos = playhead_area.rect_position + Vector2(0, 10) + Vector2(layers.rect_position.x, 0) + Vector2(editor.scale_msec((offset)*1000), 0)
+		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos() + 10)
+		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
 		
 		var pos_sec = line*interval
@@ -143,8 +148,13 @@ func _draw():
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
 	_draw_playhead()
+	_draw_sections()
+
+func get_playhead_area_y_pos():
+	return playhead_container.rect_position.y - playhead_area.rect_size.y
 func calculate_playhead_position():
-	return Vector2((playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)), 0.0)
+	var x_pos = playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)
+	return Vector2(x_pos, get_playhead_area_y_pos())
 
 func _draw_playhead():
 	if editor.playhead_position > _offset-1:
@@ -159,6 +169,36 @@ func _draw_playhead():
 		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
 		
 		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red, PoolVector2Array(), null, null, true)
+func _draw_sections():
+	if not editor.current_song:
+		return
+	for layer in get_layers():
+		if layer.layer_name == "Sections" and not layer.visible:
+			return
+	
+	for section in editor.get_sections():
+		var x_pos = playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(section.time)
+		if x_pos < playhead_area.rect_position.x or x_pos > playhead_area.rect_position.x + playhead_area.rect_size.x:
+			continue
+		
+		var top = playhead_container.rect_position.y
+		var bottom = playhead_container.rect_position.y + scroll_container.rect_size.y
+		
+		draw_line(Vector2(x_pos, top), Vector2(x_pos, bottom), section.color, 1.0)
+		
+		# Draw upper triangle
+		var point1 = Vector2(x_pos, top + TRIANGLE_HEIGHT)
+		var point2 = Vector2(x_pos + TRIANGLE_HEIGHT/2.0, top)
+		var point3 = Vector2(x_pos - TRIANGLE_HEIGHT/2.0, top)
+		
+		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), section.color, PoolVector2Array(), null, null, true)
+		
+		# Draw lower triangle
+		point1 = Vector2(x_pos, bottom - TRIANGLE_HEIGHT)
+		point2 = Vector2(x_pos + TRIANGLE_HEIGHT/2.0, bottom)
+		point3 = Vector2(x_pos - TRIANGLE_HEIGHT/2.0, bottom)
+		
+		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), section.color, PoolVector2Array(), null, null, true)
 
 func add_layer(layer):
 	layer.editor = editor
@@ -335,3 +375,7 @@ func find_layer_by_name(name):
 			r = layer
 			break
 	return r
+
+
+func _on_HBoxContainer_item_rect_changed():
+	update()

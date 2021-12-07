@@ -67,7 +67,8 @@ var serializable_types = {
 	"HBAtlasEntry": load("res://tools/resource_pack_editor/HBAtlasEntry.gd"),
 	"PPDSongEXT": load("res://autoloads/song_loader/song_loaders/HBPPDSongEXT.gd"),
 	"HBHistoryEntry": load("res://scripts/HBHistoryEntry.gd"),
-	"HBSongVariantData": load("res://scripts/HBSongVariantData.gd")
+	"HBSongVariantData": load("res://scripts/HBSongVariantData.gd"),
+	"ChartSection": load("res://scripts/timing_points/HBChartSection.gd"),
 }
 
 const EXCELLENT_THRESHOLD = 0.95

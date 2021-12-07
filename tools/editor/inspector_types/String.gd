@@ -3,7 +3,6 @@ extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 onready var line_edit = get_node("LineEdit")
 
 func sync_value(value):
-	print("SYNC TO ", value)
 	line_edit.set_block_signals(true)
 	line_edit.text = value
 	line_edit.set_block_signals(false)
