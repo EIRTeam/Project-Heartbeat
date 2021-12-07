@@ -987,6 +987,10 @@ func paste(time: int):
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
 			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
 			
+			if item is EditorSectionTimelineItem:
+				undo_redo.add_do_method(timeline, "update")
+				undo_redo.add_undo_method(timeline, "update")
+			
 			check_for_multi_changes(timing_point, -1)
 			
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -1008,6 +1012,10 @@ func delete_selected():
 			
 			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
 			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+			
+			if selected_item is EditorSectionTimelineItem:
+				undo_redo.add_do_method(timeline, "update")
+				undo_redo.add_undo_method(timeline, "update")
 			
 			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
 			
@@ -1138,6 +1146,10 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.add_undo_method(item, "deselect")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
+	if item is EditorSectionTimelineItem:
+		undo_redo.add_do_method(timeline, "update")
+		undo_redo.add_undo_method(timeline, "update")
+	
 	check_for_multi_changes(item.data, -1)
 	
 	undo_redo.commit_action()
@@ -1146,6 +1158,7 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
 	_removed_items.append(item)
+	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 func pause():
@@ -1197,7 +1210,7 @@ func get_chart():
 	chart.editor_settings = song_editor_settings
 	var layers = []
 	for layer in layer_items:
-		if layer.layer_name == "Lyrics":
+		if layer.layer_name in ["Lyrics", "Sections"]:
 			continue
 		layers.append({
 			"name": layer.layer_name,
@@ -1278,12 +1291,21 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		layer_manager.add_layer(layer.name, layer_visible)
 		
 	# Lyrics layer
-	var layer_scene = EDITOR_LAYER_SCENE.instance()
-	layer_scene.layer_name = "Lyrics"
-	timeline.add_layer(layer_scene)
-	layer_manager.add_layer("Lyrics", false)
+	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
+	lyrics_layer_scene.layer_name = "Lyrics"
+	var lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
+	timeline.add_layer(lyrics_layer_scene)
+	layer_manager.add_layer("Lyrics", lyrics_layer_visible)
 	
-	var lyrics_layer_n = timeline.get_layers().size()-1
+	# Sections layer
+	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
+	sections_layer_scene.layer_name = "Sections"
+	var sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
+	timeline.add_layer(sections_layer_scene)
+	layer_manager.add_layer("Sections", sections_layer_visible)
+	
+	var lyrics_layer_n = timeline.get_layers().size() - 1
+	var sections_layer_n = timeline.get_layers().size() - 2
 	
 	for phrase in current_song.lyrics:
 		if phrase is HBLyricsPhrase:
@@ -1298,7 +1320,11 @@ func from_chart(chart: HBChart, ignore_settings=false):
 			var end_item = HBLyricsPhraseEnd.new()
 			end_item.time = phrase.end_time
 			add_item(lyrics_layer_n, end_item.get_timeline_item())
-		
+	
+	for section in current_song.sections:
+		if section is HBChartSection:
+			add_item(sections_layer_n, section.get_timeline_item())
+	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
 	_on_timing_points_changed()
@@ -1436,6 +1462,7 @@ func _on_SaveButton_pressed():
 	file.close()
 	
 	current_song.lyrics = get_lyrics()
+	current_song.sections = get_sections()
 	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
 	current_song.has_audio_loudness = true
 	current_song.audio_loudness = SongDataCache.audio_normalization_cache[current_song.id].loudness
@@ -1708,6 +1735,8 @@ func add_tool_to_tools_tab(tool_control: Control):
 	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
+	if layer_name == "Sections":
+		timeline.update()
 
 func show_error(error: String):
 	$Popups/PluginErrorDialog.rect_size = Vector2.ZERO
@@ -1828,7 +1857,21 @@ func get_lyrics():
 	return phrases
 func sync_lyrics():
 	game_playback.set_lyrics(get_lyrics())
+
+func get_sections():
+	var sections = []
 	
+	for layer in timeline.get_layers():
+		if layer.layer_name == "Sections":
+			var points = layer.get_timing_points()
+			points.sort_custom(self, "_chronological_compare")
+			
+			for point in points:
+				if point is HBChartSection:
+					sections.append(point)
+	
+	return sections
+
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		for item in _removed_items:
@@ -1890,6 +1933,8 @@ func autoplace(data: HBBaseNote):
 		data.pos_modified = true
 		return data.clone()
 	
+	if not data is HBBaseNote:
+		return
 	var new_data = data.clone() as HBBaseNote
 	
 	var interval = get_timing_interval(1.0/16.0) * 2
@@ -1903,7 +1948,7 @@ func autoplace(data: HBBaseNote):
 	var notes_at_time = get_notes_at_time(data.time)
 	
 	for note in notes_at_time:
-		if note.pos_modified:
+		if note is HBBaseNote and note.pos_modified:
 			place_at_note = note
 			break
 	
@@ -1999,3 +2044,16 @@ func _on_playback_speed_changed(speed: float):
 		if show_video_button.pressed:
 			game_preview.video_player.stream_position = playhead_position / 1000.0
 			game_preview.show_video(true)
+
+
+func _create_chart_section():
+	var timing_point := HBChartSection.new()
+	timing_point.time = playhead_position
+	
+	var section_layer = null
+	for layer in timeline.get_layers():
+		if layer.layer_name == "Sections":
+			section_layer = layer
+			break
+		
+	user_create_timing_point(section_layer, timing_point.get_timeline_item())

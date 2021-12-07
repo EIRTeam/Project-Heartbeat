@@ -52,6 +52,7 @@ var show_epilepsy_warning = false
 var has_audio_loudness := false
 var audio_loudness := 0.0
 var song_variants = []
+var sections = []
 
 # not serialized
 var loader = ""

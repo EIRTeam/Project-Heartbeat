@@ -1017,6 +1017,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CreateChartSectionButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
+margin_top = 116.0
+margin_right = 349.0
+margin_bottom = 141.0
+text = "Create chart section"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="UIFade" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2" instance=ExtResource( 38 )]
 visible = false
 margin_top = 0.0
@@ -1327,6 +1336,7 @@ inside Rin Kagamine."
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseStartButton" to="." method="_create_lyrics_phrase_start"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricButton" to="." method="_create_lyric"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseEndButton" to="." method="_create_lyrics_phrase_end"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateChartSectionButton" to="." method="_create_chart_section"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]

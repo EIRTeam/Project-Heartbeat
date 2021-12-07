@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/editor/inspector_types/Color.gd" type="Script" id=1]
+
+[sub_resource type="StreamTexture" id=1]
+
+[node name="Vector2" type="HBoxContainer"]
+margin_right = 26.0
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+margin_right = 36.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Sex"
+icon = SubResource( 1 )
+edit_alpha = false
