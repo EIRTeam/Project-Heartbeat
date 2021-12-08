@@ -193,8 +193,13 @@ func _handle_unhandled_input(event):
 		var wrong = false
 		var wrong_rating
 		
-		# HACK: Slides ignore ordinary notes, and vice-versa, unless it's a multi!
-		if conn_notes.size() <= 1:
+		# HACK: Slides/hearts ignore ordinary notes, and vice-versa, including multis
+		var only_slides_or_hearts = true
+		for note in conn_notes:
+			if not (note is HBNoteData and note.is_slide_note()) and not note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+				only_slides_or_hearts = false
+				break
+		if only_slides_or_hearts:
 			if (note_data is HBNoteData and note_data.is_slide_note()) or note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
 				if not event.is_action("slide_left") and not event.is_action("slide_right") \
 						and not event.is_action("heart_note"):
