@@ -297,7 +297,7 @@ func _handle_unhandled_input(event):
 							connected_note_events[note] = event
 							get_tree().set_input_as_handled()
 							break
-						elif not note.is_slide_note():
+						elif note is HBNoteData and not note.is_slide_note():
 							continue
 		# Note priority is the following:
 		# If any of the notes hit returns worse, sad, or safe, that's the final rating
