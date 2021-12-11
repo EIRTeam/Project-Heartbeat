@@ -84,6 +84,8 @@ func _on_scroll_changed():
 				found_visible_item = true
 			if found_visible_item:
 				break
+		target_scroll = scroll_vertical
+		update_fade()
 func _on_initial_input_debounce_timeout():
 	_position_change_input(debounce_step)
 	input_debounce_timer.start()
@@ -127,7 +129,7 @@ func update_fade():
 		if mat:
 			var max_scroll = get_v_scrollbar().max_value - rect_size.y
 			var selected_item = get_selected_item()
-			if selected_item and selected_item.get_position_in_parent() == 0:
+			if selected_item and selected_item.rect_position.y <= target_scroll:
 				# This ensures that if the target is at the top the fade is disabled so it's visible
 				mat.set_shader_param("top_enabled", clamp(target_scroll, 0, max_scroll) > get_selected_item().rect_position.y)
 			else:
