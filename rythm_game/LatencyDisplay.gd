@@ -4,7 +4,7 @@ var max_latency = 128
 const JUDGEMENTS_TO_COUNT = 40
 var last_judgements = []
 
-const RATING_LINE_WIDTH = 1.5
+const RATING_LINE_WIDTH = 3
 
 const GRADIENT_COLOR_COOL = Color.deepskyblue
 const GRADIENT_COLOR_FINE = Color.green
