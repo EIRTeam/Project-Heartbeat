@@ -3,6 +3,7 @@ var value = 90.0 setget set_value
 var max_value = 100.0 setget set_max_value
 var potential_score = 0.0
 const PROGRESS_COLOR = Color("a877f0")
+const CLEAR_LINE_THICKNESS = 1.5
 
 export(Color) var CLEAR_COLOR = Color("000")
 
@@ -52,11 +53,11 @@ func _draw():
 	draw_rating_line(HBGame.EXCELLENT_THRESHOLD)
 	draw_rating_line(HBGame.GREAT_THRESHOLD)
 	draw_rating_line(HBGame.PASS_THRESHOLD)
-	draw_line(origin+Vector2(rect_size.x * CLEAR_POINT, -12), origin+Vector2(rect_size.x * CLEAR_POINT, rect_size.y), Color.red, 3)
+	draw_line(origin+Vector2(rect_size.x * CLEAR_POINT, -12), origin+Vector2(rect_size.x * CLEAR_POINT, rect_size.y), Color.red, CLEAR_LINE_THICKNESS)
 	$PercentageLabel.rect_position = Vector2(rect_size.x * CLEAR_POINT, 0)
 	$PercentageLabel.rect_size = Vector2(rect_size.x * (1.0-CLEAR_POINT), rect_size.y)
 func draw_rating_line(val, color=Color.white, height=10):
 	var val_r = round(potential_score) / max_value
 	var origin = Vector2(rect_size.x * (val_r * val), -height)
 	var end = Vector2(origin.x, rect_size.y)
-	draw_line(origin, end, color, 3)
+	draw_line(origin, end, color, CLEAR_LINE_THICKNESS)
