@@ -198,7 +198,7 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 			_make_user_song_ugc_request(page+1)
 		for result_i in range(number_of_results):
 			var details = Steam.getQueryUGCResult(update_handle, result_i)
-			var f_name = "ugc_" + str(details.fileID)
+			var f_name = "ugc_" + str(details.file_id)
 			if f_name in SongLoader.songs:
 				var song = SongLoader.songs[f_name] as HBSong
 				song._added_time = details.timeAddedToUserList
