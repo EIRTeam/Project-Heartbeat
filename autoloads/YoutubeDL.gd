@@ -113,6 +113,10 @@ func _init_ytdl():
 	YOUTUBE_DL_DIR = HBGame.platform_settings.user_dir_redirect(YOUTUBE_DL_DIR)
 	CACHE_FILE = HBGame.platform_settings.user_dir_redirect(CACHE_FILE)
 	var dir = Directory.new()
+	# A few versions ago we shipped certs with ytdl, but we don't do that anymore
+	var old_cert_file = YOUTUBE_DL_DIR + "/ca-certificates.crt"
+	if dir.file_exists(old_cert_file):
+		dir.remove(old_cert_file)
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)
 	if not dir.dir_exists(get_cache_dir()):
@@ -146,11 +150,6 @@ func _init_ytdl():
 			emit_signal("youtube_dl_status_updated")
 	else:
 		update_youtube_dl()
-		
-	
-#	download_video("https://www.youtube.com/watch?v=0jgrCKhxE1s")
-func ytdl_download():
-	pass
 
 func save_cache():
 	var file = File.new()
@@ -179,10 +178,6 @@ func get_ffprobe_executable():
 		path = YOUTUBE_DL_DIR + "/ffprobe"
 	return ProjectSettings.globalize_path(path)
 
-func get_certificates_path():
-	var path = YOUTUBE_DL_DIR + "/ca-certificates.crt"
-	return ProjectSettings.globalize_path(path)
-
 
 func get_video_path(video_id, global=false):
 	var path = get_cache_dir() + "/" + video_id + ".webm"
@@ -206,7 +201,7 @@ func get_ytdl_shared_params():
 	"--user-agent", USER_AGENT,
 	# aria2 seems good at preventing throttling from Niconico
 	"--external-downloader", YoutubeDL.get_aria2_executable(),
-	"--external-downloader-args", "--ca-certificate '%s' --user-agent '%s'" % [get_certificates_path(), USER_AGENT]
+	"--external-downloader-args", "--user-agent '%s'" % [USER_AGENT]
 	]
 	
 	if OS.get_name() == "X11":
@@ -236,6 +231,7 @@ func _download_video(userdata):
 			audio_download_ok = false
 			result["audio"] = false
 			result["audio_out"] = out_ytdl[0]
+			print(result["audio_out"])
 		else:
 			# Step 2: Audio conversion
 			# We bring the ogg down back to stereo because godot is stupid and can't do selective channel playback
