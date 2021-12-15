@@ -155,7 +155,7 @@ func get_member_by_id(id) -> HBServiceMember:
 func get_lobby_owner() -> HBServiceMember:
 	return members[Steam.getLobbyOwner(_lobby_id)]
 
-func _on_lobby_data_updated(success, lobby_id, id, key):
+func _on_lobby_data_updated(success, lobby_id, id):
 	if lobby_id == _lobby_id:
 		if id == lobby_id:
 			obtain_game_info()
@@ -267,17 +267,17 @@ func _on_p2p_packet_received():
 		if is_owned_by_local_user():
 			match packet_type:
 				PACKET_TYPE.LOADED:
-					emit_signal("game_member_loading_finished", get_member_by_id(packet.steamIDRemote))
+					emit_signal("game_member_loading_finished", get_member_by_id(packet.steam_id_remote))
 		match packet_type:
 			PACKET_TYPE.HANDSHAKE:
 				emit_signal("lobby_loading_start")
 			PACKET_TYPE.NOTE_HIT:
-				emit_signal("game_note_hit", get_member_by_id(packet.steamIDRemote), packet_data.score, packet_data.rating)
+				emit_signal("game_note_hit", get_member_by_id(packet.steam_id_remote), packet_data.score, packet_data.rating)
 			PACKET_TYPE.START_GAME:
 				obtain_game_info() # We should already have the latest but just to be sure...
 				emit_signal("game_start", game_info)
 			PACKET_TYPE.GAME_DONE:
-				var member = get_member_by_id(packet.steamIDRemote)
+				var member = get_member_by_id(packet.steam_id_remote)
 				game_results[member] = HBResult.deserialize(packet_data)
 				for _member in game_results:
 					if not _member.member_id in members:
