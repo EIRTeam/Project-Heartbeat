@@ -357,6 +357,8 @@ func _process_game(_delta):
 			a.triggered_actions_count = 1
 			Input.parse_input_event(a)
 			#game_input_manager.send_input(action, false)
+		game_input_manager.current_input_handled = false
+
 		for action in actions_to_press:
 			# Double note device emulation
 			game_input_manager.digital_action_tracking[action] = {}
