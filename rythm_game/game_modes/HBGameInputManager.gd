@@ -44,6 +44,11 @@ func get_dja_event_uid(axis: int):
 	var flags_size = 2
 	return (ev_device << 8 + flags_size) + (ev_scancode << 16 + flags_size) + flags
 
+var current_input_handled = false
+
+func set_input_as_handled():
+	current_input_handled = true
+
 func get_event_uid(event):
 	var flags = 0
 	var ev_device = 0

@@ -149,6 +149,8 @@ func _input_received(event):
 			if event.is_action(action):
 				found_actions.append(action)
 							
+		current_input_handled = false
+							
 		for action in found_actions:
 			if event is InputEventJoypadMotion:
 				var digital_action = action

@@ -215,6 +215,8 @@ func _handle_unhandled_input(event):
 		var have_slider = false
 		var have_heart = false
 		var input_manager = game.game_input_manager as HeartbeatInputManager
+		if input_manager.current_input_handled:
+			return
 		var triggered_actions_count = input_manager.current_actions.size()
 		# Hearts sliders and normal notes ignore eachother
 		for note in conn_notes:
@@ -331,6 +333,7 @@ func _handle_unhandled_input(event):
 			# Make multinotes count
 			if not wrong:
 				game.add_score(HBNoteData.NOTE_SCORES[result_judgement])
+			input_manager.set_input_as_handled()
 			emit_signal("notes_judged", conn_notes, result_judgement, wrong, connected_note_events)
 			for note in conn_notes:
 				var drawer = game.get_note_drawer(note)
