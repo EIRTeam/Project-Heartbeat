@@ -1164,7 +1164,8 @@ func _on_PauseButton_pressed():
 	pause_button.hide()
 
 func _on_PlayButton_pressed():
-	_on_SaveButton_pressed()
+	if UserSettings.user_settings.editor_autosave_enabled:
+		_on_SaveButton_pressed()
 	_playhead_traveling = true
 	game_preview.play_at_pos(playhead_position/1000.0)
 	game_playback.play_from_pos(playhead_position)

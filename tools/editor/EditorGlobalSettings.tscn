@@ -5,6 +5,7 @@
 [ext_resource path="res://tools/editor/EditorGlobalSettingsShortcuts.gd" type="Script" id=3]
 
 [node name="EditorGlobalSettings" type="WindowDialog"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 655.0
@@ -26,7 +27,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="General" type="MarginContainer" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="Tree" type="Tree" parent="TabContainer/General"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 690.0
+margin_bottom = 353.0
+columns = 2
+hide_root = true
+
 [node name="Shortcuts" type="MarginContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -61,7 +83,7 @@ __meta__ = {
 
 [node name="Tree" type="Tree" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
 margin_right = 680.0
-margin_bottom = 314.0
+margin_bottom = 308.0
 size_flags_vertical = 3
 columns = 2
 hide_root = true
@@ -82,6 +104,7 @@ margin_top = -32.0
 margin_right = 310.0
 margin_bottom = 104.0
 popup_exclusive = true
+window_title = "Por favor, Confirma..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -122,6 +145,7 @@ visible = true
 margin_right = 200.0
 margin_bottom = 74.0
 popup_exclusive = true
+window_title = "Por favor, Confirma..."
 dialog_text = "Do you want to reset all shortcuts to default?"
 __meta__ = {
 "_edit_use_anchors_": false
