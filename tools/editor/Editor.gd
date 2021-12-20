@@ -219,6 +219,8 @@ func _ready():
 		var node = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
 		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
 	
+	$SyncToolboxDialog.set_editor(self)
+
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
@@ -1392,6 +1394,8 @@ func load_song(song: HBSong, difficulty: String):
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm
 	from_chart(chart)
+	$SyncToolboxDialog._reset(BPM_spinbox.value, offset_box.value)
+	current_difficulty = difficulty
 	current_difficulty = difficulty
 	save_button.disabled = false
 	save_as_button.disabled = false

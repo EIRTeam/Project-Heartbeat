@@ -13,6 +13,13 @@ var _audio_play_offset
 var playback_speed := 1.0
 var chart: HBChart setget set_chart
 var current_song: HBSong
+
+var metronome_enabled := false
+var metronome_offset := 0
+var metronome_separation := 0.0
+var metronome_timer := 0.0
+var first_after_seek := false
+
 signal time_changed
 signal playback_speed_changed(speed)
 
@@ -30,7 +37,7 @@ func _ready():
 
 func _process(delta):
 	var time = 0.0
-	if audio_stream_player.playing:
+	if is_playing():
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		time *= playback_speed
 		# Compensate for latency.
@@ -42,8 +49,29 @@ func _process(delta):
 		time = time + _audio_play_offset
 		
 		game.time = time
-	if audio_stream_player.playing and not audio_stream_player.stream_paused:
+	if is_playing() and not audio_stream_player.stream_paused:
 		emit_signal("time_changed", time)
+	
+	if is_playing() and metronome_enabled:
+		if time * 1000 >= metronome_offset:
+			if first_after_seek:
+				first_after_seek = false
+			else:
+				metronome_timer += delta * 1000
+			
+			if metronome_timer >= metronome_separation:
+				game.play_note_sfx()
+				metronome_timer -= metronome_separation
+
+func toggle_metronome(offset: int, separation: float):
+	metronome_enabled = not metronome_enabled
+	metronome_offset = offset
+	metronome_separation = separation
+	
+	if game.time * 1000.0 > metronome_offset:
+		metronome_timer = fmod((game.time * 1000.0) - metronome_offset, metronome_separation)
+	else:
+		metronome_timer = metronome_separation
 
 func get_song_volume():
 	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
@@ -129,6 +157,12 @@ func play_from_pos(position: float):
 		game.delete_rogue_notes(position / 1000.0)
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)
+		
+		if position > metronome_offset:
+			metronome_timer = fmod(position - metronome_offset, metronome_separation)
+			first_after_seek = true
+		else:
+			metronome_timer = metronome_separation
 
 func set_lyrics(phrases: Array):
 	var lyrics_view = game.game_ui.get_lyrics_view()
