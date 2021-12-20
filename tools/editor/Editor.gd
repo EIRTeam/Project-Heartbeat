@@ -1306,8 +1306,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	timeline.add_layer(sections_layer_scene)
 	layer_manager.add_layer("Sections", sections_layer_visible)
 	
-	var lyrics_layer_n = timeline.get_layers().size() - 1
-	var sections_layer_n = timeline.get_layers().size() - 2
+	var lyrics_layer_n = timeline.get_layers().size() - 2
+	var sections_layer_n = timeline.get_layers().size() - 1
 	
 	for phrase in current_song.lyrics:
 		if phrase is HBLyricsPhrase:
