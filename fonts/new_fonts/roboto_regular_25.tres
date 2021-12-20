@@ -5,6 +5,7 @@
 
 [resource]
 size = 25
+use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
 fallback/0 = ExtResource( 1 )

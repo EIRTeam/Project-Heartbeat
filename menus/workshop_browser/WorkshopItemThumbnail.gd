@@ -2,14 +2,14 @@ extends HBHovereableButton
 
 var request: HTTPRequest
 
-onready var texture_rect = get_node("MarginContainer/VBoxContainer/TextureRect")
-onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer/Label")
-onready var author_label = get_node("MarginContainer/VBoxContainer/VBoxContainer/Label2")
-onready var subscribed_tick = get_node("MarginContainer/VBoxContainer/TextureRect/Panel")
-onready var stars_progress = get_node("MarginContainer/VBoxContainer/TextureRect/Panel2/TextureRect")
-onready var stars_panel = get_node("MarginContainer/VBoxContainer/TextureRect/Panel2")
-onready var difficulty_panel = get_node("MarginContainer/VBoxContainer/TextureRect/Panel3")
-onready var difficulty_label = get_node("MarginContainer/VBoxContainer/TextureRect/Panel3/HBoxContainer/Label")
+onready var texture_rect = get_node("MarginContainer/HBoxContainer/TextureRect")
+onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label")
+onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label2")
+onready var subscribed_tick = get_node("MarginContainer/HBoxContainer/TextureRect/Panel")
+onready var stars_progress = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel2/TextureRect")
+onready var stars_panel = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel2")
+onready var difficulty_panel = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel3")
+onready var difficulty_label = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer/Label")
 var data: HBWorkshopPreviewData
 
 func _ready():
@@ -54,6 +54,7 @@ func set_data(_data: HBWorkshopPreviewData):
 func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	if result == OK and response_code == 200:
 		texture_rect.texture = HBUtils.array2texture(body)
+		$TextureRect.texture = texture_rect.texture
 func update_author_label():
 	var pers = Steam.getFriendPersonaName(data.steam_id_owner)
 	author_label.text = pers
@@ -62,10 +63,12 @@ func _on_persona_state_changed(steam_id: int, flags: int):
 	if steam_id == data.steam_id_owner and e != 0:
 		update_author_label()
 func _on_resized():
-	rect_min_size.y = rect_size.x * 0.9
+	pass
+#	rect_min_size.y = rect_size.x * 0.9
 
 
 func _on_HBoxContainer_minimum_size_changed():
-	difficulty_panel.rect_min_size = $MarginContainer/VBoxContainer/TextureRect/Panel3/HBoxContainer.get_combined_minimum_size()
-	difficulty_panel.rect_min_size.x += 5
-	difficulty_panel.rect_size.x = 0
+#	difficulty_panel.rect_min_size = $MarginContainer/VBoxContainer/TextureRect/Panel3/HBoxContainer.get_combined_minimum_size()
+#	difficulty_panel.rect_min_size.x += 5
+#	difficulty_panel.rect_size.x = 0
+	pass

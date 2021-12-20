@@ -90,7 +90,7 @@ func _ready():
 	tag_button_container.prev_action = "gui_tab_left"
 	
 	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
-	scroll_container.vertical_step = grid_container.columns
+#	scroll_container.vertical_step = grid_container.columns
 	pagination_back_button.connect("pressed", self, "_on_user_navigate_button_pressed", [-1])
 	pagination_forward_button.connect("pressed", self, "_on_user_navigate_button_pressed", [1])
 	pagination_debounce_timer.connect("timeout", self, "_on_pagination_debounce_timeout")

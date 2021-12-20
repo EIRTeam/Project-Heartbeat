@@ -66,65 +66,64 @@ __meta__ = {
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Control"]
 margin_right = 1890.0
-margin_bottom = 23.0
+margin_bottom = 31.0
 custom_constants/separation = 10
 alignment = 1
 
 [node name="PromptInputAction2" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource( 13 )]
-margin_left = 935.0
+margin_left = 927.0
 margin_right = 935.0
-margin_bottom = 23.0
+margin_bottom = 31.0
 input_action = "gui_tab_left"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer4"]
 margin_left = 945.0
 margin_right = 945.0
-margin_bottom = 23.0
+margin_bottom = 31.0
 custom_constants/separation = 10
 alignment = 1
 script = ExtResource( 3 )
 
 [node name="PromptInputAction" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource( 13 )]
 margin_left = 955.0
-margin_right = 955.0
-margin_bottom = 23.0
+margin_right = 963.0
+margin_bottom = 31.0
 input_action = "gui_tab_right"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control"]
-margin_top = 33.0
+margin_top = 41.0
 margin_right = 1890.0
-margin_bottom = 73.0
+margin_bottom = 81.0
 rect_min_size = Vector2( 0, 40 )
 
 [node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource( 11 )]
-margin_right = 156.0
-rect_min_size = Vector2( 156, 31 )
+margin_right = 163.0
+rect_min_size = Vector2( 163, 39 )
 action_name = "contextual_option"
 text = "Search"
 
 [node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
-margin_left = 160.0
-margin_top = 4.0
-margin_right = 1713.0
-margin_bottom = 35.0
+margin_left = 167.0
+margin_right = 1705.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 text = "Most popular for the last week"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
-margin_left = 1717.0
+margin_left = 1709.0
 margin_right = 1890.0
 margin_bottom = 40.0
 alignment = 2
 
 [node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource( 11 )]
-margin_right = 173.0
-rect_min_size = Vector2( 173, 31 )
+margin_right = 181.0
+rect_min_size = Vector2( 181, 39 )
 action_name = "note_up"
 text = "Sort by..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control"]
-margin_top = 83.0
+margin_top = 91.0
 margin_right = 1890.0
 margin_bottom = 978.0
 focus_mode = 2
@@ -134,20 +133,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 container_path = NodePath("GridContainer")
+horizontal_step = 0
 enable_fade = true
+enable_wrap_around = true
+scroll_mode = 1
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/Control/ScrollContainer"]
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer"]
 use_parent_material = true
 margin_right = 1890.0
-margin_bottom = 895.0
+margin_bottom = 887.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/vseparation = 15
-custom_constants/hseparation = 15
-columns = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control"]
 margin_top = 988.0
@@ -161,23 +157,22 @@ alignment = 1
 script = ExtResource( 3 )
 
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 820.0
-margin_right = 882.0
+margin_left = 816.0
+margin_right = 878.0
 margin_bottom = 62.0
 icon = ExtResource( 4 )
 script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 911.0
-margin_top = 4.0
-margin_right = 979.0
-margin_bottom = 57.0
+margin_left = 907.0
+margin_right = 983.0
+margin_bottom = 61.0
 custom_fonts/font = ExtResource( 6 )
 text = "1/1"
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 1008.0
-margin_right = 1070.0
+margin_left = 1012.0
+margin_right = 1074.0
 margin_bottom = 62.0
 icon = ExtResource( 5 )
 script = ExtResource( 2 )
@@ -219,24 +214,26 @@ margin_bottom = 101.0
 margin_bottom = 194.0
 
 [node name="Label" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="0"]
-margin_top = 59.0
-margin_bottom = 90.0
+margin_top = 55.0
+margin_bottom = 94.0
 text = "Enter your search:"
 
 [node name="LineEdit" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="1"]
-margin_top = 100.0
-margin_bottom = 135.0
+margin_top = 104.0
+margin_bottom = 139.0
 
 [node name="Panel4" parent="HBConfirmationWindow/Panel/HBoxContainer" index="0"]
-margin_left = 114.0
-margin_right = 268.0
+margin_left = 109.0
+margin_right = 269.0
+rect_min_size = Vector2( 160, 39 )
 
 [node name="Label" parent="HBConfirmationWindow/Panel/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 144.0
+margin_right = 150.0
 
 [node name="CancelButton" parent="HBConfirmationWindow/Panel/HBoxContainer" index="1"]
-margin_left = 283.0
-margin_right = 435.0
+margin_left = 284.0
+margin_right = 441.0
+rect_min_size = Vector2( 157, 39 )
 
 [node name="Panel" type="Panel" parent="."]
 anchor_left = 0.5
