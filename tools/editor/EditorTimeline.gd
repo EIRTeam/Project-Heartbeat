@@ -86,7 +86,7 @@ func _draw_bars(interval, offset=0):
 	start_time -= offset
 	
 	var start_line = max(int(start_time / interval), 0)
-	for line in range(start_line, lines):
+	for line in range(start_line, lines+1):
 		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos())
 		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
 
@@ -110,7 +110,7 @@ func _draw_interval(interval, offset=0, ignore_interval=null):
 	start_time -= offset
 	
 	var start_line = max(int(start_time / interval), 0)
-	for line in range(start_line, lines):
+	for line in range(start_line, lines+1):
 		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos() + 10)
 		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
 		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
@@ -236,8 +236,7 @@ func _on_playhead_position_changed():
 var _prev_layers_rect_position
 func set_layers_offset(ms: int):
 	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
-	_offset = min(song_length_ms - editor.scale_pixels(playhead_area.rect_size.x), ms)
-	_offset = max(ms, 0)
+	_offset = clamp(ms, 0, song_length_ms - editor.scale_pixels(playhead_area.rect_size.x))
 	layers.rect_position.x = -editor.scale_msec(_offset)
 	#print(print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position

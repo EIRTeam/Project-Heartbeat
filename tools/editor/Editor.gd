@@ -768,6 +768,11 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 			
 			if not property_name in old_property_values[selected_item]:
 				old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
+			
+			if property_name == "time":
+				var new_time = min(selected_item.data.time + new_value, (get_song_length() * 1000.0-1))
+				new_value = new_time - selected_item.data.time
+			
 			selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
 			selected_item.update_widget_data()
 	_on_timing_points_params_changed()

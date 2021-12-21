@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tools/editor/EditorMinimap.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
@@ -51,6 +51,10 @@ func _process(delta):
 "
 
 [sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="Theme" id=4]
+Editor/colors/contrast_color_1 = Color( 0.4, 0.42, 0.48, 0.5 )
+Editor/colors/contrast_color_2 = Color( 0.5, 0.52, 0.57, 0.5 )
 
 [node name="EditorTimeline" type="Control"]
 self_modulate = Color( 1, 1, 1, 0.5 )
@@ -186,6 +190,7 @@ margin_top = 80.0
 margin_right = 174.0
 margin_bottom = 80.0
 mouse_filter = 2
+theme = SubResource( 4 )
 color = Color( 1, 1, 1, 0 )
 color = Color( 1, 1, 1, 0 )
 rms_size_multiplier = 0.25
