@@ -105,6 +105,8 @@ var autoarrange_angle_shortcuts = [
 
 var hold_ends = []
 
+var timing_point_creation_queue := []
+
 # Fades that obscure some UI elements while playing
 
 onready var ui_fades = [
@@ -676,8 +678,12 @@ func _unhandled_input(event: InputEvent):
 							# Event layer is the last one
 								
 							timing_point.note_type = type
-								
-							user_create_timing_point(layer, timing_point.get_timeline_item())
+							
+							if not game_playback.is_playing():
+								user_create_timing_point(layer, timing_point.get_timeline_item())
+							else:
+								queue_timing_point_creation(layer, timing_point)
+								game_playback.game.play_note_sfx()
 						found_note = true
 						break
 				if found_note:
@@ -1177,6 +1183,7 @@ func _on_PauseButton_pressed():
 	game_preview.set_time(playhead_position/1000.0)
 	play_button.show()
 	pause_button.hide()
+	create_queued_timing_points()
 
 func _on_PlayButton_pressed():
 	if UserSettings.user_settings.editor_autosave_enabled:
@@ -2061,3 +2068,19 @@ func _create_chart_section():
 			break
 		
 	user_create_timing_point(section_layer, timing_point.get_timeline_item())
+
+
+func queue_timing_point_creation(layer, timing_point):
+	for entry in timing_point_creation_queue:
+		if entry.timing_point == timing_point:
+			return
+	
+	var item = timing_point.get_timeline_item()
+	timing_point_creation_queue.append({"layer": layer, "timing_point": timing_point, "item": item})
+	add_item_to_layer(layer, item)
+
+func create_queued_timing_points():
+	for entry in timing_point_creation_queue:
+		remove_item_from_layer(entry.layer, entry.item)
+		user_create_timing_point(entry.layer, entry.item)
+	timing_point_creation_queue.clear()
