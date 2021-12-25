@@ -5,8 +5,6 @@ extends Node
 
 class_name HBGameInputManager
 
-var paused := false
-
 func _init():
 	name = "GameInputManager"
 
@@ -32,9 +30,7 @@ func _input_received(event):
 	pass
 
 func _input(event):
-	# mini HACK: since multiplayer pause doesnt actually pause the game, we ignore inputs
-	if not paused:
-		_input_received(event)
+	_input_received(event)
 
 enum EVENT_FLAGS {
 	IS_AXIS = 1 << 0,
