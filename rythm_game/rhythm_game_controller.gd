@@ -232,8 +232,6 @@ func set_game_size():
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
 	get_tree().paused = false
-	paused = false
-	game.game_input_manager.paused = false
 	$PauseMenu.hide()
 	
 	set_process(true)
@@ -262,19 +260,17 @@ func _input(event):
 	if event.is_action_pressed("hide_ui") and event.shift and event.control:
 		game_ui._on_toggle_ui()
 		$Node2D.visible = game_ui.is_ui_visible()
-var paused := false
 func _unhandled_input(event):
 	if not pause_menu_disabled:
 		if event.is_action_pressed("pause") and not event.is_echo():
-			if not paused:
+			if not get_tree().paused:
 				if not pause_disabled:
 					_on_paused()
 					video_player.paused = true
 					game.pause_game()
-				paused = true
-				game.game_input_manager.paused = true
 				Input.stop_joy_vibration(UserSettings.controller_device_idx)
 				$PauseMenu.show_pause(current_game_info.song_id)
+	
 			else:
 				_on_resumed()
 				$PauseMenu._on_resumed()
