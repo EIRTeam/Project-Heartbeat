@@ -20,7 +20,7 @@ onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
 onready var pause_menu = get_node("PauseMenu")
-var pause_disabled = false
+var pause_disabled = true
 var last_pause_time = 0.0
 var pause_menu_disabled = false
 var prevent_showing_results = false
@@ -58,6 +58,7 @@ func _on_intro_skipped(new_time):
 
 func _fade_in_done():
 	video_player.paused = false
+	game.game_input_manager.set_process_input(true)
 	video_player.show()
 	$FadeIn.hide()
 	# HACK HACK: This makes sync very good and makes it effectively target 0
@@ -83,6 +84,8 @@ func start_fade_in():
 	pause_menu_disabled = true
 	HBGame.song_stats.song_played(song.id)
 	HBGame.song_stats.save_song_stats()
+	game.game_input_manager.set_process_input(false)
+
 
 func start_session(game_info: HBGameInfo, assets=null):
 	current_assets = assets
@@ -232,6 +235,7 @@ func set_game_size():
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
 	get_tree().paused = false
+	game.game_input_manager.set_process_input(true)
 	$PauseMenu.hide()
 	
 	set_process(true)
@@ -269,6 +273,7 @@ func _unhandled_input(event):
 					video_player.paused = true
 					game.pause_game()
 				Input.stop_joy_vibration(UserSettings.controller_device_idx)
+				game.game_input_manager.set_process_input(false)
 				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
@@ -381,4 +386,5 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
+	game.game_input_manager.set_process_input(true)
 	start_fade_in()
