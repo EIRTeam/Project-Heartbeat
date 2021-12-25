@@ -86,6 +86,8 @@ signal lobby_left
 signal lobby_chat_update(changed, making_change, state)
 # warning-ignore:unused_signal
 signal member_left(member)
+# warning-ignore:unused_signal
+signal host_changed()
 
 # warning-ignore:unused_signal
 signal lobby_loading_start # sent by authority
@@ -159,6 +161,8 @@ func _init(lobby_id):
 		
 func get_lobby_owner() -> HBServiceMember:
 	return members.values()[0]
+func set_lobby_owner(val):
+	pass
 func join_lobby():
 	pass
 

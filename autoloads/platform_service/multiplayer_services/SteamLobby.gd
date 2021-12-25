@@ -132,6 +132,9 @@ func execute_command_message(user: HBServiceMember, message: String):
 				if song.is_cached():
 					dict.available = true
 			send_chat_message("/song_available_update %s" % [JSON.print(dict)])
+	
+	if command == "update_lobby_host":
+		emit_signal("host_changed")
 
 func check_if_lobby_members_have_song():
 	if is_owned_by_local_user():
@@ -154,6 +157,9 @@ func get_member_by_id(id) -> HBServiceMember:
 
 func get_lobby_owner() -> HBServiceMember:
 	return members[Steam.getLobbyOwner(_lobby_id)]
+func set_lobby_owner(val):
+	Steam.setLobbyOwner(_lobby_id, val)
+	send_chat_message("/update_lobby_host")
 
 func _on_lobby_data_updated(success, lobby_id, id):
 	if lobby_id == _lobby_id:

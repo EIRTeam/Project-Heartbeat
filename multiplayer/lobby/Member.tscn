@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://graphics/default_avatar.png" type="Texture" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://multiplayer/lobby/Member.gd" type="Script" id=3]
 [ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://graphics/icons/crown.svg" type="Texture" id=5]
+[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -14,7 +15,7 @@ font_data = ExtResource( 4 )
 fallback/0 = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer"]
-margin_right = 300.0
+margin_right = 327.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 300, 50 )
 size_flags_horizontal = 0
@@ -28,12 +29,14 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 10.0
-margin_right = 300.0
+margin_right = 327.0
 margin_bottom = 50.0
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 290.0
+margin_right = 317.0
 margin_bottom = 50.0
+size_flags_horizontal = 3
 custom_constants/separation = 27
 __meta__ = {
 "_edit_use_anchors_": false
@@ -49,8 +52,9 @@ stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 77.0
-margin_right = 208.0
+margin_right = 317.0
 margin_bottom = 50.0
+size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_right = 103.0
@@ -73,3 +77,17 @@ margin_right = 131.0
 margin_bottom = 50.0
 texture = ExtResource( 5 )
 stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 135.0
+margin_right = 240.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="SetAsHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 11.0
+margin_right = 93.0
+margin_bottom = 50.0
+text = "Set as host"
+script = ExtResource( 6 )

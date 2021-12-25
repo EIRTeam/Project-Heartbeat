@@ -71,13 +71,19 @@ func update_member_list():
 		var is_owner = false
 		if lobby.get_lobby_owner() == member:
 			is_owner = true
-		member_list.add_member(member, is_owner)
+		member_list.add_member(member, is_owner, lobby.is_owned_by_local_user())
 
 func update_lobby_data_display():
 	lobby_name_label.text = lobby.lobby_name
 	if lobby.get_song():
 		select_song(lobby.get_song(), lobby.song_difficulty)
-	
+
+func _on_host_changed():
+	update_member_list()
+	_check_ownership_changed()
+	var msg = lobby.get_lobby_owner().member_name + " is the new host."
+	append_service_message(msg, Color.green)
+
 func connect_lobby(_lobby: HBLobby):
 	if not _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
 		_lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
@@ -87,6 +93,7 @@ func connect_lobby(_lobby: HBLobby):
 		_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
 		_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
 		_lobby.connect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
+		_lobby.connect("host_changed", self, "_on_host_changed")
 	
 func disconnect_lobby(_lobby: HBLobby):
 	if _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
@@ -97,6 +104,7 @@ func disconnect_lobby(_lobby: HBLobby):
 		_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
 		_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
 		_lobby.disconnect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
+		_lobby.disconnect("host_changed", self, "_on_host_changed")
 	
 func set_lobby(_lobby: HBLobby):
 	if self.lobby:
@@ -104,7 +112,8 @@ func set_lobby(_lobby: HBLobby):
 	self.lobby = _lobby
 
 	connect_lobby(_lobby)
-
+	
+	member_list.lobby = self.lobby
 	update_member_list()
 	update_lobby_data_display()
 #	if not lobby is SteamLobby:
