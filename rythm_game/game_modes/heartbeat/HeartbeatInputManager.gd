@@ -135,7 +135,7 @@ func _handle_direct_axis_input():
 
 
 func _process(delta):
-	if UserSettings.should_use_direct_joystick_access():
+	if UserSettings.should_use_direct_joystick_access() and is_processing_input():
 		_handle_direct_axis_input()
 
 
