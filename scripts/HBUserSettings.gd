@@ -155,8 +155,6 @@ var hide_ppd_ex_songs: bool = false
 var editor_first_time_message_acknowledged: bool = false
 var editor_autosave_enabled: bool = true
 
-var show_console: bool = false
-
 var use_direct_joystick_access: bool = false
 
 func _init():
@@ -174,7 +172,7 @@ func _init():
 	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 	"lyrics_color", "locale", "timing_method", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
-	"show_console", "use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled"]
+	"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

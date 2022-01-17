@@ -882,8 +882,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1619672661
-config/build_commit="1ad21d64c47c293d99e7970c74e6709bf5af5315"
+config/build_time=1642694497
+config/build_commit="59d92fd85c5c1b20be430b14bb2509870c95ab1b"
 config/service_environment="production"
 
 [autoload]
@@ -1434,7 +1434,7 @@ quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32
-gles3/shaders/shader_compilation_mode=1
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"
+gles3/shaders/shader_compilation_mode=1
 quality/2d/use_nvidia_rect_flicker_workaround=true
