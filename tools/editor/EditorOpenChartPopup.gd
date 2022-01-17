@@ -1,6 +1,6 @@
 extends ConfirmationDialog
 
-onready var tree = get_node("MarginContainer/VBoxContainer/HBoxContainer/Tree")
+onready var tree = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tree")
 onready var new_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/NewSongButton")
 onready var add_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/AddDifficultyButton")
 onready var edit_data_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/EditDataButton")
@@ -14,6 +14,7 @@ onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxCon
 onready var verify_song_popup = get_node("SongVerificationPopup")
 onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
 onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
+onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
 signal chart_selected(song, difficulty)
 
 const LOG_NAME = "EditorOpenChartPopup"
@@ -35,6 +36,10 @@ func _ready():
 	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
 	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
 	upload_button.connect("pressed", self, "_on_upload_to_workshop_pressed")
+	search_line_edit.connect("text_changed", self, "_on_search_text_changed")
+	
+func _on_search_text_changed(_new_text: String):
+	populate_tree()
 	
 func _on_upload_to_workshop_pressed():
 	var item = tree.get_selected()
@@ -75,6 +80,9 @@ func populate_tree():
 		# PPD charts cannot be edited...
 		if song.is_visible_in_editor() and not song.comes_from_ugc():
 			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
+				if not search_line_edit.text.empty():
+					if not search_line_edit.text.to_lower() in song.title.to_lower():
+						continue
 				var item = tree.create_item()
 				item.set_text(0, song.title)
 				item.set_meta("song", song)
