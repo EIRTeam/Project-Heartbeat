@@ -3,65 +3,149 @@ extends Control
 
 onready var combination_label: Label = get_node("WindowDialog/VBoxContainer/Label2")
 onready var bind_window: ConfirmationDialog = get_node("WindowDialog")
-onready var reset_to_default_button: Button = get_node("WindowDialog/VBoxContainer/ResetToDefaultButton")
+onready var reset_to_default_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ResetToDefaultButton")
+onready var clear_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ClearButton")
 onready var reset_confirmation_dialog: ConfirmationDialog = get_node("ResetConfirmationDialog")
 
 onready var tree: Tree = get_node("VBoxContainer/Tree")
 
-var temp_event: InputEvent
+var temp_event: InputEventKey
 var current_item: TreeItem
 
-const EDITOR_EVENTS = [
-	"editor_quick_lyric",
-	"editor_quick_phrase_start",
-	"editor_quick_phrase_end",
-	"editor_select_all",
-	"editor_playtest",
-	"editor_arrange_l",
-	"editor_arrange_r",
-	"editor_arrange_u",
-	"editor_arrange_d",
-	"editor_arrange_ul",
-	"editor_arrange_ur",
-	"editor_arrange_dl",
-	"editor_arrange_dr",
-	"editor_arrange_center",
-	"editor_flip_v",
-	"editor_flip_h",
-	"editor_flip_angle",
-	"editor_flip_oscillation",
-	"editor_make_circle_c",
-	"editor_make_circle_cc",
-	"editor_circle_size_bigger",
-	"editor_circle_size_smaller",
-	"editor_circle_inside",
-	"editor_toggle_hold",
-	"editor_interpolate_angle",
-	"editor_show_arrange_menu",
-]
+const EDITOR_EVENTS = {
+	"General": [
+		"editor_play",
+		"editor_playtest",
+		"editor_playtest_at_time",
+		"editor_move_playhead_left",
+		"editor_move_playhead_right",
+		"editor_quick_lyric",
+		"editor_quick_phrase_start",
+		"editor_quick_phrase_end",
+		"gui_undo",
+		"gui_redo",
+	],
+	"Selection": [
+		"editor_select_all",
+		"editor_cut",
+		"editor_copy",
+		"editor_paste",
+		"editor_delete",
+	],
+	"Sync": [
+		"editor_toggle_hold",
+		"editor_toggle_sustain",
+		"editor_toggle_double",
+		"editor_change_note_up",
+		"editor_change_note_down",
+		"editor_resolution_4",
+		"editor_resolution_6",
+		"editor_resolution_8",
+		"editor_resolution_12",
+		"editor_resolution_16",
+		"editor_resolution_24",
+		"editor_resolution_32",
+		"editor_timeline_snap",
+		"editor_increase_resolution",
+		"editor_decrease_resolution",
+	],
+	"Placements": [
+		"editor_grid",
+		"editor_grid_snap",
+		"editor_show_arrange_menu",
+		"editor_arrange_l",
+		"editor_arrange_r",
+		"editor_arrange_u",
+		"editor_arrange_d",
+		"editor_arrange_ul",
+		"editor_arrange_ur",
+		"editor_arrange_dl",
+		"editor_arrange_dr",
+		"editor_arrange_center",
+		"editor_fine_position_left",
+		"editor_fine_position_right",
+		"editor_fine_position_up",
+		"editor_fine_position_down",
+		"editor_move_left",
+		"editor_move_right",
+		"editor_move_up",
+		"editor_move_down",
+	],
+	"Angles": [
+		"editor_flip_angle",
+		"editor_flip_oscillation",
+		"editor_interpolate_angle",
+		"editor_angle_l",
+		"editor_angle_r",
+		"editor_angle_u",
+		"editor_angle_d",
+		"editor_angle_ul",
+		"editor_angle_ur",
+		"editor_angle_dl",
+		"editor_angle_dr",
+	],
+	"Transforms": [
+		"editor_flip_h",
+		"editor_flip_v",
+		"editor_make_circle_c",
+		"editor_make_circle_cc",
+		"editor_circle_size_bigger",
+		"editor_circle_size_smaller",
+		"editor_circle_inside",
+	],
+	"Presets": [
+		"editor_vertical_multi_left",
+		"editor_vertical_multi_right",
+		"editor_horizontal_multi_top",
+		"editor_horizontal_multi_bottom",
+		"editor_slider_multi_top",
+		"editor_slider_multi_bottom",
+		"editor_inner_slider_multi_top",
+		"editor_inner_slider_multi_bottom",
+		"editor_quad",
+		"editor_triangle_left",
+		"editor_triangle_right",
+	],
+}
 
 var tree_items = {}
 
 func _ready():
 	set_process_input(false)
 	var root_item = tree.create_item()
-	for event_name in EDITOR_EVENTS:
-		var item := tree.create_item(root_item)
-		var event: InputEventKey = InputMap.get_action_list(event_name)[0]
-		item.set_meta("event", event)
-		item.set_meta("action_name", event_name)
-		set_item_text(item, event_name, event)
-		tree_items[event_name] = item
+	
+	for category in EDITOR_EVENTS:
+		var category_item = tree.create_item(root_item)
+		category_item.set_text(0, category)
+		
+		for event_name in EDITOR_EVENTS[category]:
+			var item := tree.create_item(category_item)
+			
+			var action_list = InputMap.get_action_list(event_name)
+			var event = action_list[0] if action_list else InputEventKey.new()
+			
+			item.set_meta("event", event)
+			item.set_meta("action_name", event_name)
+			set_item_text(item, event_name, event)
+			tree_items[event_name] = item
+	
 	tree.connect("item_activated", self, "_on_item_double_clicked")
 	bind_window.connect("confirmed", self, "_on_bind_window_confirmed")
 	bind_window.get_cancel().connect("pressed", self, "set_process_input", [false])
 	reset_to_default_button.connect("pressed", self, "_on_reset_to_default_button_pressed")
+	clear_button.connect("pressed", self, "_on_clear_button_pressed")
 	reset_confirmation_dialog.connect("confirmed", self, "reset_all_to_default")
-	
+
 func _on_reset_to_default_button_pressed():
-	var ev = UserSettings.base_input_map[current_item.get_meta("action_name")][0]
-	set_temp_event(ev)
+	var event_list = UserSettings.base_input_map[current_item.get_meta("action_name")]
+	var ev = event_list[0] if event_list else InputEventKey.new()
 	
+	set_temp_event(ev)
+
+func _on_clear_button_pressed():
+	var ev = InputEventKey.new()
+	set_temp_event(ev)
+
 func _on_bind_window_confirmed():
 	set_process_input(false)
 	if temp_event:
@@ -71,12 +155,13 @@ func _on_bind_window_confirmed():
 		InputMap.action_erase_event(action_name, event)
 		item.set_meta("event", temp_event)
 		set_item_text(item, action_name, temp_event)
-		InputMap.action_add_event(action_name, temp_event)
+		if temp_event.scancode:
+			InputMap.action_add_event(action_name, temp_event)
 		UserSettings.save_user_settings()
 		
 func set_item_text(item: TreeItem, action: String, event: InputEvent):
 	var ev_text = event.as_text()
-	if ev_text.begins_with("Kp "):
+	if "Kp " in ev_text:
 		ev_text = ev_text.replace("Kp ", "Keypad ")
 	if action in UserSettings.action_names:
 		item.set_text(0, UserSettings.action_names[action])
@@ -91,8 +176,10 @@ func _on_item_double_clicked():
 		current_item = tree.get_selected()
 		bind_window.popup_centered()
 		set_process_input(true)
-		temp_event = null
-		combination_label.text = ""
+		
+		var action_list = InputMap.get_action_list(current_item.get_meta("action_name"))
+		var ev = action_list[0] if action_list else InputEventKey.new()
+		combination_label.text = ev.as_text()
 		
 func set_temp_event(event: InputEventKey):
 	temp_event = event
@@ -105,9 +192,14 @@ func _input(event):
 			set_temp_event(event)
 
 func reset_all_to_default():
-	for action_name in EDITOR_EVENTS:
-		var item: TreeItem = tree_items[action_name]
-		InputMap.action_erase_event(action_name, item.get_meta("event"))
-		InputMap.action_add_event(action_name, UserSettings.base_input_map[action_name][0])
-		set_item_text(item, action_name, UserSettings.base_input_map[action_name][0])
+	for section in EDITOR_EVENTS:
+		for action_name in EDITOR_EVENTS[section]:
+			var item: TreeItem = tree_items[action_name]
+			InputMap.action_erase_event(action_name, item.get_meta("event"))
+			
+			var event_list = UserSettings.base_input_map[action_name]
+			var event = event_list[0] if event_list else InputEventKey.new()
+			
+			InputMap.action_add_event(action_name, event)
+			set_item_text(item, action_name, event)
 		

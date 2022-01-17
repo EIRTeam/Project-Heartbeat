@@ -92,7 +92,7 @@ var playtesting := false
 
 var _playhead_traveling := false
 
-var autoarrange_angle_shortcuts = [
+var autoarrange_shortcuts = [
 	["editor_arrange_l", PI],
 	["editor_arrange_r", 0],
 	["editor_arrange_u", -PI/2],
@@ -101,7 +101,18 @@ var autoarrange_angle_shortcuts = [
 	["editor_arrange_ur", -PI/4],
 	["editor_arrange_dl", 3*PI/4],
 	["editor_arrange_dr", PI/4],
-	["editor_arrange_center", null]
+	["editor_arrange_center", null],
+]
+
+var angle_shortcuts = [
+	["editor_angle_l", PI],
+	["editor_angle_r", 0],
+	["editor_angle_u", -PI/2],
+	["editor_angle_d", PI/2],
+	["editor_angle_ul", -3*PI/4],
+	["editor_angle_ur", -PI/4],
+	["editor_angle_dl", 3*PI/4],
+	["editor_angle_dr", PI/4],
 ]
 
 var hold_ends = []
@@ -347,8 +358,9 @@ func get_items_at_time(time: int):
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
 
-var arranging = false
+const standard_resolutions = [4, 6, 8, 12, 16, 24, 32]
 
+var arranging = false
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
 		return
@@ -399,9 +411,9 @@ func _unhandled_input(event: InputEvent):
 		else:
 			konami_index = 0
 	
-	if event.is_action("editor_playtest") or \
-		event.is_action("editor_playtest_at_time"):
-		if not event.shift and not event.control and event.is_pressed():
+	if event.is_action("editor_playtest", true) or \
+		event.is_action("editor_playtest_at_time", true):
+		if event.is_pressed() and not event.echo:
 			var at_time = false
 		
 			if event.is_action("editor_playtest_at_time"):
@@ -409,192 +421,204 @@ func _unhandled_input(event: InputEvent):
 		
 			_on_PlaytestButton_pressed(at_time)
 	
-	if event.is_action("gui_left") or \
-		event.is_action("gui_right") or \
-		event.is_action("gui_up") or \
-		event.is_action("gui_down"):
-		if event is InputEventKey:
-			if event.shift:
-				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
-				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
-				var off = Vector2(int(diff_x), int(diff_y))
-				fine_position_selected(off)
-				get_tree().set_input_as_handled()
-			if event.control and not event.echo:
-				var diff_x = event.get_action_strength("gui_right") - event.get_action_strength("gui_left")
-				var diff_y = event.get_action_strength("gui_down") - event.get_action_strength("gui_up")
-				
-				var spacing_x = 1920 / grid_renderer.vertical
-				var spacing_y = 1080 / grid_renderer.horizontal
-				var off = Vector2(int(diff_x * spacing_x), int(diff_y * spacing_y))
-				
-				fine_position_selected(off)
-				get_tree().set_input_as_handled()
+	if event.is_action("editor_fine_position_left", true) or \
+		event.is_action("editor_fine_position_right", true) or \
+		event.is_action("editor_fine_position_up", true) or \
+		event.is_action("editor_fine_position_down", true):
+		if event.pressed:
+			var diff_x = event.get_action_strength("editor_fine_position_right") - event.get_action_strength("editor_fine_position_left")
+			var diff_y = event.get_action_strength("editor_fine_position_down") - event.get_action_strength("editor_fine_position_up")
+			var off = Vector2(int(diff_x), int(diff_y))
+			fine_position_selected(off)
+			get_tree().set_input_as_handled()
 	
-	if event is InputEventKey:
-		for action in autoarrange_angle_shortcuts:
-			if event.is_action_pressed(action[0]) and not event.echo and not event.shift:
-				if not event.control:
-					arrange_selected_notes_by_time(action[1])
-				else:
-					if not action[1]:
-						return
-					
-					undo_redo.create_action("Change note angle to " + str(rad2deg(action[1])))
+	if event.is_action("editor_move_left", true) or \
+		event.is_action("editor_move_right", true) or \
+		event.is_action("editor_move_up", true) or \
+		event.is_action("editor_move_down", true):
+		if event.pressed and not event.echo:
+			var diff_x = event.get_action_strength("editor_move_right") - event.get_action_strength("editor_move_left")
+			var diff_y = event.get_action_strength("editor_move_down") - event.get_action_strength("editor_move_up")
 			
-					for note in selected:
-						if note.data is HBBaseNote:
-							undo_redo.add_do_property(note.data, "entry_angle", rad2deg(action[1]))
-							undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-							
-							undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
-							undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-							
-							undo_redo.add_do_method(note, "update_widget_data")
-							undo_redo.add_do_method(note, "sync_value", "entry_angle")
-							undo_redo.add_undo_method(note, "update_widget_data")
-							undo_redo.add_undo_method(note, "sync_value", "entry_angle")
-							
-							undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-							undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-					
-					undo_redo.commit_action()
-				
-				get_tree().set_input_as_handled()
-				break
+			var spacing_x = 1920 / grid_renderer.vertical
+			var spacing_y = 1080 / grid_renderer.horizontal
+			var off = Vector2(int(diff_x * spacing_x), int(diff_y * spacing_y))
+			
+			fine_position_selected(off)
+			get_tree().set_input_as_handled()
 	
-	if event.is_action_pressed("editor_quick_lyric"):
-		quick_lyric_dialog.popup_centered()
-		quick_lyric_dialog_line_edit.grab_focus()
-		quick_lyric_dialog_line_edit.text = ""
-	if event.is_action_pressed("editor_quick_phrase_start"):
-		var ev := HBLyricsPhraseStart.new()
-		ev.time = playhead_position
-		create_lyrics_event(ev)
-	if event.is_action_pressed("editor_quick_phrase_end"):
-		var ev := HBLyricsPhraseEnd.new()
-		ev.time = playhead_position
-		create_lyrics_event(ev)
+	for action in autoarrange_shortcuts:
+		if event.is_action(action[0], true) and event.pressed and not event.echo:
+			arrange_selected_notes_by_time(action[1])
+			
+			get_tree().set_input_as_handled()
+			break
 	
-	if event.is_action_pressed("editor_flip_angle"):
-		if not event.control and not event.shift and not event.echo:
-			undo_redo.create_action("Flip angle")
+	for action in angle_shortcuts:
+		if event.is_action(action[0], true) and event.pressed and not event.echo:
+			undo_redo.create_action("Change note angle to " + str(rad2deg(action[1])))
 			
 			for note in selected:
 				if note.data is HBBaseNote:
-					undo_redo.add_do_property(note.data, "entry_angle", fmod(note.data.entry_angle + 180.0, 360.0))
+					undo_redo.add_do_property(note.data, "entry_angle", rad2deg(action[1]))
 					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
 					
 					undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
-					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
-					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
 					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
 					
 					undo_redo.add_do_method(note, "update_widget_data")
 					undo_redo.add_do_method(note, "sync_value", "entry_angle")
 					undo_redo.add_undo_method(note, "update_widget_data")
 					undo_redo.add_undo_method(note, "sync_value", "entry_angle")
-			
-			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+					
+					undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+					undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 			
 			undo_redo.commit_action()
-	if event.is_action_pressed("editor_flip_oscillation"):
-		if not event.control and not event.shift and not event.echo:
-			undo_redo.create_action("Flip oscillation")
 			
-			for note in selected:
-				if note.data is HBBaseNote:
-					undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
-					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
-					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_do_method(note, "update_widget_data")
-					undo_redo.add_do_method(note, "sync_value", "oscillation_amplitude")
-					undo_redo.add_undo_method(note, "update_widget_data")
-					undo_redo.add_undo_method(note, "sync_value", "oscillation_amplitude")
-					
-			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-			
-			undo_redo.commit_action()
+			get_tree().set_input_as_handled()
+			break
 	
-	if event.is_action_pressed("editor_toggle_hold"):
-		if not event.control and not event.shift and not event.echo:
-			undo_redo.create_action("Toggle hold")
-			
-			for note in selected:
-				if note.data is HBNoteData:
-					undo_redo.add_do_property(note.data, "hold", not note.data.hold)
-					undo_redo.add_undo_property(note.data, "hold", note.data.hold)
-			
-			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-			undo_redo.add_do_method(self, "_on_timing_points_changed")
-			undo_redo.add_undo_method(self, "_on_timing_points_changed")
-			
-			undo_redo.commit_action()
+	if event.is_action("editor_quick_lyric", true) and event.pressed and not event.echo:
+		quick_lyric_dialog.popup_centered()
+		quick_lyric_dialog_line_edit.grab_focus()
+		quick_lyric_dialog_line_edit.text = ""
+	if event.is_action("editor_quick_phrase_start", true) and event.pressed and not event.echo:
+		var ev := HBLyricsPhraseStart.new()
+		ev.time = playhead_position
+		create_lyrics_event(ev)
+	if event.is_action("editor_quick_phrase_end", true) and event.pressed and not event.echo:
+		var ev := HBLyricsPhraseEnd.new()
+		ev.time = playhead_position
+		create_lyrics_event(ev)
 	
-	if event is InputEventKey:
-		if event.pressed and not event.echo:
-			if event.scancode >= KEY_1 and event.scancode <= KEY_5:
-				var tab = event.scancode - KEY_1
-				$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2.set_current_tab(tab)
-				return
-	if event.is_action_pressed("editor_play"):
+	if event.is_action("editor_flip_angle", true) and event.pressed and not event.echo:
+		undo_redo.create_action("Flip angle")
+		
+		for note in selected:
+			if note.data is HBBaseNote:
+				undo_redo.add_do_property(note.data, "entry_angle", fmod(note.data.entry_angle + 180.0, 360.0))
+				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
+				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_do_method(note, "update_widget_data")
+				undo_redo.add_do_method(note, "sync_value", "entry_angle")
+				undo_redo.add_undo_method(note, "update_widget_data")
+				undo_redo.add_undo_method(note, "sync_value", "entry_angle")
+		
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
+		undo_redo.commit_action()
+	if event.is_action("editor_flip_oscillation", true) and event.pressed and not event.echo:
+		undo_redo.create_action("Flip oscillation")
+		
+		for note in selected:
+			if note.data is HBBaseNote:
+				undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
+				
+				undo_redo.add_do_method(note, "update_widget_data")
+				undo_redo.add_do_method(note, "sync_value", "oscillation_amplitude")
+				undo_redo.add_undo_method(note, "update_widget_data")
+				undo_redo.add_undo_method(note, "sync_value", "oscillation_amplitude")
+				
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
+		undo_redo.commit_action()
+	
+	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
+		undo_redo.create_action("Toggle hold")
+		
+		for note in selected:
+			if note.data is HBNoteData:
+				undo_redo.add_do_property(note.data, "hold", not note.data.hold)
+				undo_redo.add_undo_property(note.data, "hold", note.data.hold)
+		
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		
+		undo_redo.commit_action()
+	
+	for resolution in standard_resolutions:
+		if event.is_action("editor_resolution_" + str(resolution), true) and event.pressed and not event.echo:
+			set_note_resolution(resolution)
+			get_tree().set_input_as_handled()
+			return
+	
+	if event.is_action("editor_increase_resolution", true) and event.pressed:
+		set_note_resolution(increase_resolution_by(1))
+	if event.is_action("editor_decrease_resolution", true) and event.pressed:
+		set_note_resolution(increase_resolution_by(-1))
+	
+	if event.is_action("editor_play", true) and event.pressed and not event.echo:
 		if not game_playback.is_playing():
 			_on_PlayButton_pressed()
 		else:
 			_on_PauseButton_pressed()
-	elif event.is_action_pressed("gui_undo"):
+	
+	if event.is_action("gui_undo", true) and event.pressed:
 		get_tree().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_undo():
 			message_shower._show_notification("Undo " + undo_redo.get_current_action_name().to_lower())
 			undo_redo.undo()
-	elif event.is_action_pressed("gui_redo"):
+	if event.is_action("gui_redo", true) and event.pressed:
 		get_tree().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_redo():
 			undo_redo.redo()
 			message_shower._show_notification("Redo " + undo_redo.get_current_action_name().to_lower())
-	elif event.is_action_pressed("editor_delete"):
+	
+	if event.is_action("editor_delete", true) and event.pressed and not event.echo:
 		if selected.size() != 0:
 			get_tree().set_input_as_handled()
 			delete_selected()
-	elif event.is_action_pressed("editor_paste"):
+	if event.is_action("editor_paste", true) and event.pressed and not event.echo:
 		var time = timeline.get_time_being_hovered()
 		paste(time)
-	elif event.is_action_pressed("editor_copy"):
+	if event.is_action("editor_copy", true) and event.pressed and not event.echo:
 		copy_selected()
-	elif event.is_action_pressed("editor_cut"):
+	if event.is_action("editor_cut", true) and event.pressed and not event.echo:
 		copy_selected()
 		delete_selected()
-	elif event.is_action_pressed("editor_select_all"):
+	
+	if event.is_action("editor_select_all", true) and event.pressed and not event.echo:
 		select_all()
-	elif not game_playback.is_playing():
-		if event is InputEventKey:
-			if not event.shift and not event.control:
-				var old_pos = playhead_position
-				if event.is_action_pressed("gui_left", true):
-					playhead_position -= get_timing_interval()
-					playhead_position = snap_time_to_timeline(playhead_position)
-					emit_signal("playhead_position_changed")
-					timeline.ensure_playhead_is_visible()
-				elif event.is_action_pressed("gui_right", true):
-					playhead_position += get_timing_interval()
-					playhead_position = snap_time_to_timeline(playhead_position)
-					emit_signal("playhead_position_changed")
-					timeline.ensure_playhead_is_visible()
-					
-				if old_pos != playhead_position:
-					seek(playhead_position)
+	
+	if not game_playback.is_playing():
+		var old_pos = playhead_position
+		
+		if event.is_action("editor_move_playhead_left", true) and event.pressed:
+			playhead_position -= get_timing_interval()
+			playhead_position = snap_time_to_timeline(playhead_position)
+			
+			emit_signal("playhead_position_changed")
+			timeline.ensure_playhead_is_visible()
+		elif event.is_action("editor_move_playhead_right", true) and event.pressed:
+			playhead_position += get_timing_interval()
+			playhead_position = snap_time_to_timeline(playhead_position)
+			
+			emit_signal("playhead_position_changed")
+			timeline.ensure_playhead_is_visible()
+			
+		if old_pos != playhead_position:
+			seek(playhead_position)
+	
 	if event is InputEventKey:
 		if not event.shift and not event.control and not event.is_action_pressed("editor_play"):
 			if selected:
@@ -2104,3 +2128,22 @@ func create_queued_timing_points():
 		remove_item_from_layer(entry.layer, entry.item)
 		user_create_timing_point(entry.layer, entry.item)
 	timing_point_creation_queue.clear()
+
+func increase_resolution_by(amount: int):
+	if note_resolution_box.value in standard_resolutions:
+		var index = standard_resolutions.bsearch(note_resolution_box.value)
+		index += amount
+		index = clamp(index, 0, standard_resolutions.size()-1)
+		
+		return standard_resolutions[index]
+	else:
+		var insertion_index = standard_resolutions.bsearch(note_resolution_box.value)
+		var next = insertion_index
+		var prev = max(insertion_index-1, 0)
+		
+		if amount > 0 and next < standard_resolutions.size():
+			return standard_resolutions[next]
+		elif amount < 0 and prev > 0:
+			return standard_resolutions[prev]
+		
+		return note_resolution_box.value

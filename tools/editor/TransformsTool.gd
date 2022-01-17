@@ -506,27 +506,27 @@ func _set_separation(value):
 
 func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.is_action_pressed("editor_flip_h"):
+		if event.is_action("editor_flip_h", true) and event.pressed and not event.echo:
 			emit_signal("apply_transform", FlipHorizontallyTransformation.new())
-		if event.is_action_pressed("editor_flip_v"):
+		if event.is_action("editor_flip_v", true) and event.pressed and not event.echo:
 			emit_signal("apply_transform", FlipVerticallyTransformation.new())
 		
-		if event.is_action_pressed("editor_make_circle_c"):
+		if event.is_action("editor_make_circle_c", true) and event.pressed and not event.echo:
 			make_circle_transform_right.bpm = editor.get_bpm()
 			emit_signal("apply_transform", make_circle_transform_right)
-		if event.is_action_pressed("editor_make_circle_cc"):
+		if event.is_action("editor_make_circle_cc", true) and event.pressed and not event.echo:
 			make_circle_transform_left.bpm = editor.get_bpm()
 			emit_signal("apply_transform", make_circle_transform_left)
 		
-		if event.is_action("editor_circle_size_bigger") and event.pressed:
+		if event.is_action("editor_circle_size_bigger", true) and event.pressed:
 			circle_size_spinbox.value += 1
-		if event.is_action("editor_circle_size_smaller") and event.pressed:
+		if event.is_action("editor_circle_size_smaller", true) and event.pressed:
 			circle_size_spinbox.value -= 1
 		
-		if event.is_action_pressed("editor_circle_inside"):
+		if event.is_action("editor_circle_inside", true) and event.pressed and not event.echo:
 			circle_use_inside_button.set_pressed(not circle_use_inside_button.is_pressed())
 		
-		if event.is_action_pressed("editor_interpolate_angle"):
+		if event.is_action("editor_interpolate_angle", true) and event.pressed and not event.echo:
 			emit_signal("apply_transform", InterpolateAngleTransform.new())
 		
 		

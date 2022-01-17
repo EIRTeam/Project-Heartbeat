@@ -120,7 +120,7 @@ func _on_contextual_menu_item_pressed(item_name: String):
 		"make_double":
 			change_note_type("DoubleNote")
 		"make_sustain":
-			change_note_type("SustainNote")
+			make_sustain()
 
 		
 func _on_button_change_submenu_index_pressed(index: int):
@@ -174,7 +174,6 @@ func change_note_button(new_button_name):
 	return changed_buttons
 		
 func change_note_type(new_type: String):
-	
 	var editor = get_editor()
 	var undo_redo = get_editor().undo_redo as UndoRedo
 	
@@ -186,7 +185,7 @@ func change_note_type(new_type: String):
 			var new_data_ser = data.serialize()
 			new_data_ser["type"] = new_type
 			if new_type == "SustainNote":
-				new_data_ser["end_time"] = data.time + 1000
+				new_data_ser["end_time"] = data.time + get_sustain_size(editor)
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 			
 			var new_item = new_data.get_timeline_item()
@@ -204,6 +203,7 @@ func change_note_type(new_type: String):
 		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
 		undo_redo.add_do_method(editor, "deselect_all")
 		undo_redo.add_undo_method(editor, "deselect_all")
+		
 		undo_redo.commit_action()
 func _on_contextual_menu_about_to_show():
 	hovered_time = get_editor().timeline.get_time_being_hovered()
@@ -290,9 +290,207 @@ func check_valid_change(amount, item):
 	return item.data.note_type >= HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT
 
 
+func make_sustain(toggle = false):
+	var editor = get_editor() as HBEditor
+	var undo_redo = editor.undo_redo
+	var open_sustains = []
+	var closed_sustains = []
+	var existing_sustains = []
+	
+	if editor.selected.size() < 1:
+		return
+	
+	var selected = editor.selected
+	selected.sort_custom(self, "_sort_by_data_time")
+	
+	for item in selected:
+		if item.data is HBBaseNote and not item.data is HBSustainNote:
+			var found = false
+			for open_sustain in open_sustains:
+				if item.data.note_type == open_sustain.data.note_type:
+					open_sustains.erase(open_sustain)
+					closed_sustains.append([open_sustain, item])
+					found = true
+					break
+			
+			if not found:
+				open_sustains.append(item)
+		elif item.data is HBSustainNote:
+			existing_sustains.append(item)
+	
+	if not toggle:
+		undo_redo.create_action("Convert note to SustainNote")
+	else:
+		undo_redo.create_action("Toggle sustain")
+	
+	for pair in closed_sustains:
+		var start = pair[0]
+		var end = pair[1]
+		
+		if pair[0].data is HBNoteData and pair[0].data.is_slide_note():
+			# It will say convert to sustain but it will create a slide instead
+			# This will trigger my ocd but at least the shortcut will be the same ig
+			var start_data = start.data as HBNoteData
+			var notes_per_note = editor.get_note_resolution() / 2.0
+			var beats = (end.data.time - start_data.time) / (editor.get_note_resolution() * editor.note_resolution_box.value) 
+			
+			var time_interval = (7500 / float(editor.bpm)) * ((1.0/32.0) / notes_per_note)
+			time_interval = time_interval
+			var notes_to_create = ceil(beats * (notes_per_note/4.0)) * 2
+			
+			var initial_x_offset = 48
+			var interval_x_offset = 32
+			
+			for i in range(notes_to_create):
+				var note_time = start_data.time + ((i+1) * time_interval)
+				var note_position = start_data.position
+				var position_increment = initial_x_offset + interval_x_offset * i
+				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
+				if start_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					position_increment *= -1
+					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+				note_position.x += position_increment
+				var new_note = HBNoteData.new()
+				new_note.note_type = new_note_type
+				new_note.time = note_time
+				new_note.position = note_position
+				new_note.oscillation_amplitude = start_data.oscillation_amplitude
+				new_note.oscillation_frequency = start_data.oscillation_frequency
+				new_note.entry_angle = start_data.entry_angle
+				var new_item = new_note.get_timeline_item()
+				editor.undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
+				editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", start._layer, new_item)
+				editor.undo_redo.add_undo_method(new_item, "deselect")
+			
+			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, end)
+			undo_redo.add_undo_method(editor, "add_item_to_layer", end._layer, end)
+			
+			editor.undo_redo.add_do_method(start, "deselect")
+			editor.undo_redo.add_do_method(end, "deselect")
+			editor.undo_redo.add_undo_method(start, "deselect")
+			editor.undo_redo.add_undo_method(end, "deselect")
+		else:
+			var start_data = start.data as HBBaseNote
+			var new_data_ser = start_data.serialize()
+			new_data_ser["type"] = "SustainNote"
+			new_data_ser["end_time"] = end.data.time
+			
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			var new_item = new_data.get_timeline_item()
+			
+			undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
+			undo_redo.add_do_method(start, "deselect")
+			undo_redo.add_do_method(end, "deselect")
+			undo_redo.add_undo_method(start._layer, "remove_item", new_item)
+			
+			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, start)
+			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, end)
+			undo_redo.add_undo_method(new_item, "deselect")
+			undo_redo.add_undo_method(editor, "add_item_to_layer", start._layer, start)
+			undo_redo.add_undo_method(editor, "add_item_to_layer", end._layer, end)
+	
+	for item in open_sustains:
+		if item.data is HBNoteData and item.data.is_slide_note():
+			continue
+		
+		var data = item.data as HBBaseNote
+		
+		var new_data_ser = data.serialize()
+		new_data_ser["type"] = "SustainNote"
+		new_data_ser["end_time"] = data.time + get_sustain_size(editor)
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+		var new_item = new_data.get_timeline_item()
+		
+		undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+		undo_redo.add_do_method(item, "deselect")
+		undo_redo.add_undo_method(item._layer, "remove_item", new_item)
+		
+		undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+		undo_redo.add_undo_method(new_item, "deselect")
+		undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+	
+	for item in existing_sustains:
+		if toggle:
+			var data = item.data as HBBaseNote
+		
+			var new_data_ser = data.serialize()
+			new_data_ser["type"] = "Note"
+			
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			var new_item = new_data.get_timeline_item()
+			
+			undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+			undo_redo.add_do_method(item, "deselect")
+			undo_redo.add_undo_method(item._layer, "remove_item", new_item)
+			
+			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+			undo_redo.add_undo_method(new_item, "deselect")
+			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+	
+	undo_redo.add_do_method(editor, "_on_timing_points_changed")
+	undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+	undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
+	undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+	undo_redo.add_do_method(editor, "deselect_all")
+	undo_redo.add_undo_method(editor, "deselect_all")
+	
+	undo_redo.commit_action()
+
+func get_sustain_size(editor: HBEditor):
+	var timing_interval = editor.get_timing_interval()
+	return timing_interval * editor.note_resolution_box.value / 2.0
+
+func toggle_double():
+	var editor = get_editor() as HBEditor
+	var undo_redo = editor.undo_redo
+	
+	if editor.selected.size() < 1:
+		return
+	
+	undo_redo.create_action("Toggle sustain")
+	
+	for item in editor.selected:
+		var new_type = "DoubleNote"
+		if item.data is HBDoubleNote:
+			new_type = "Note"
+		
+		var data = item.data as HBBaseNote
+		
+		var new_data_ser = data.serialize()
+		new_data_ser["type"] = new_type
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+		var new_item = new_data.get_timeline_item()
+		
+		undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+		undo_redo.add_do_method(item, "deselect")
+		undo_redo.add_undo_method(item._layer, "remove_item", new_item)
+		
+		undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+		undo_redo.add_undo_method(new_item, "deselect")
+		undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
+	
+	undo_redo.add_do_method(editor, "_on_timing_points_changed")
+	undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+	undo_redo.add_undo_method(editor.inspector, "stop_inspecting")
+	undo_redo.add_do_method(editor.inspector, "stop_inspecting")
+	undo_redo.add_do_method(editor, "deselect_all")
+	undo_redo.add_undo_method(editor, "deselect_all")
+	
+	undo_redo.commit_action()
+
+func _sort_by_data_time(a, b):
+	return a.data.time < b.data.time
+
+
 func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.is_action_pressed("gui_up") and not event.control and not event.shift:
-			change_note_button_by(-1)
-		elif event.is_action_pressed("gui_down") and not event.control and not event.shift:
-			change_note_button_by(1)
+	if event.is_action("editor_change_note_up", true) and event.pressed:
+		change_note_button_by(-1)
+	elif event.is_action("editor_change_note_down", true) and event.pressed:
+		change_note_button_by(1)
+		
+	if event.is_action("editor_toggle_sustain", true) and event.pressed and not event.echo:
+		make_sustain(true)
+	if event.is_action("editor_toggle_double", true) and event.pressed and not event.echo:
+		toggle_double()

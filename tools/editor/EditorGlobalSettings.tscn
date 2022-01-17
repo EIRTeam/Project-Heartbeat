@@ -71,7 +71,6 @@ columns = 2
 hide_root = true
 
 [node name="Shortcuts" type="MarginContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -158,14 +157,28 @@ margin_right = 299.0
 margin_bottom = 56.0
 align = 1
 
-[node name="ResetToDefaultButton" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
 margin_top = 60.0
 margin_right = 299.0
 margin_bottom = 85.0
+
+[node name="ClearButton" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer/HBoxContainer"]
+margin_right = 147.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Clear"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResetToDefaultButton" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer/HBoxContainer"]
+margin_left = 151.0
+margin_right = 299.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
 text = "Reset to default"
 
 [node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-visible = true
 margin_right = 200.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 150, 52.5 )
