@@ -5,7 +5,7 @@ var drawer = load("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
 var slide_drawer = load("res://rythm_game/note_drawers/SlideNoteDrawer.tscn")
 class_name HBNoteData
 
-var hold = false # If this is a modern-style hold note
+var hold = false setget set_hold # If this is a modern-style hold note
 
 func _init():
 	serializable_fields += ["hold"]
@@ -54,3 +54,7 @@ func is_auto_freed():
 # if true this note is a slide note hold piece
 func is_slide_hold_piece():
 	return note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT or note_type == NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
+
+func set_hold(val):
+	hold = val
+	emit_signal("hold_toggled")

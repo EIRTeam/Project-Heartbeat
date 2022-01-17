@@ -5,19 +5,32 @@ const WIDTH = 5.0
 func _ready():
 	set_texture()
 	data.connect("note_type_changed", self, "set_texture")
+	data.connect("hold_toggled", self, "set_texture")
+	data.connect("hold_toggled", self, "update")
 	get_viewport().connect("size_changed", self, "_on_view_port_size_changed")
 func set_texture():
 	if data is HBSustainNote:
 		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
-	elif data is HBDoubleNote or data is HBSustainNote:
+	elif data is HBDoubleNote:
 		$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "double_note")
 	else:
 		if data.is_slide_hold_piece():
 			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "target")
 		else:
 			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "note")
+	
+	if $HoldTextureRect:
+		if data is HBNoteData and data.hold:
+			$HoldTextureRect.show()
+		else:
+			$HoldTextureRect.hide()
+		
+		$HoldTextureRect.set_deferred("rect_size", Vector2(get_size().y, get_size().y))
+		$HoldTextureRect.rect_position = Vector2(-get_size().y / 2, 0)
+	
 	$TextureRect.set_deferred("rect_size", Vector2(get_size().y, get_size().y))
 	$TextureRect.rect_position = Vector2(-get_size().y / 2, 0)
+
 func get_size():
 	return Vector2(WIDTH, rect_size.y)
 
