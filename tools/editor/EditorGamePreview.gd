@@ -94,7 +94,7 @@ func rescale_video_player():
 		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
 		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
 	
-func set_song(song: HBSong):
+func set_song(song: HBSong, variant=-1):
 	var bg_path = song.get_song_background_image_res_path()
 	var image = HBUtils.image_from_fs(bg_path)
 	var image_texture = ImageTexture.new()
@@ -106,7 +106,7 @@ func set_song(song: HBSong):
 	visualizer.show()
 	if song.has_video_enabled():
 		if song.get_song_video_res_path() or (song.youtube_url and song.use_youtube_for_video and song.is_cached()):
-			var stream = song.get_video_stream()
+			var stream = song.get_video_stream(variant)
 			if stream:
 				video_player.show()
 				# HACK HACK HACK: vp9 decoder requires us to set the stream position

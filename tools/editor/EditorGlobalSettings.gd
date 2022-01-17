@@ -5,6 +5,7 @@ const GENERAL_OPTIONS = [
 ]
 
 onready var general_tab_tree: Tree = get_node("TabContainer/General/Tree")
+onready var song_settings_tab = get_node("TabContainer/Song")
 
 func _ready():
 	connect("about_to_show", self, "_on_about_to_show")

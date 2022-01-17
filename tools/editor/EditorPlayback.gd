@@ -13,6 +13,7 @@ var _audio_play_offset
 var playback_speed := 1.0
 var chart: HBChart setget set_chart
 var current_song: HBSong
+var selected_variant := -1
 
 var metronome_enabled := false
 var metronome_offset := 0
@@ -48,6 +49,11 @@ func _process(delta):
 		
 		time = time + _audio_play_offset
 		
+		var variant_offset = 0
+		if current_song:
+			variant_offset = current_song.get_variant_offset(selected_variant) / 1000.0
+		time += variant_offset
+		
 		game.time = time
 	if is_playing() and not audio_stream_player.stream_paused:
 		emit_signal("time_changed", time)
@@ -76,9 +82,10 @@ func toggle_metronome(offset: int, separation: float):
 func get_song_volume():
 	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
 
-func set_song(song: HBSong):
+func set_song(song: HBSong, variant=-1):
 	current_song = song
-	audio_stream_player.stream = song.get_audio_stream()
+	selected_variant = variant
+	audio_stream_player.stream = song.get_audio_stream(variant)
 	
 	if not SongDataCache.is_song_audio_loudness_cached(song):
 		var norm = HBAudioNormalizer.new()

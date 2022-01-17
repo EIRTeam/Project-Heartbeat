@@ -14,7 +14,7 @@ var editor: HBEditor
 
 func set_use_stage_center(val):
 	use_stage_center = val
-	editor.song_editor_settings.transforms_use_center = val
+	editor.song_editor_settings.set("transforms_use_center", val)
 
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
@@ -477,7 +477,7 @@ func _toggle_advanced_options(pressed: bool):
 	else:
 		advanced_settings_hbox_container.hide()
 	
-	editor.song_editor_settings.circle_advanced_mode = pressed
+	editor.song_editor_settings.set("circle_advanced_mode", pressed)
 
 func set_rotation(value):
 	rotate_transformation.rotation = value
@@ -496,13 +496,13 @@ func _show_transform(transform: EditorTransformation):
 	emit_signal("show_transform", transform)
 
 func _set_size(value):
-	editor.song_editor_settings.circle_size = value
+	editor.song_editor_settings.set("circle_size", value)
 
 func _set_inside(value):
-	editor.song_editor_settings.circle_from_inside = value
+	editor.song_editor_settings.set("circle_from_inside", value)
 
 func _set_separation(value):
-	editor.song_editor_settings.circle_separation = value
+	editor.song_editor_settings.set("circle_separation", value)
 
 func _unhandled_input(event):
 	if event is InputEventKey:

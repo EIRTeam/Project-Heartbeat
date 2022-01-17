@@ -56,12 +56,18 @@ func _on_zoom_out():
 func send_time_cull_changed_signal():
 	_cull_start_time = _offset
 	_cull_end_time = _offset + editor.scale_pixels(rect_size.x - layer_names.rect_size.x)
-	stream_editor.start_point = _cull_start_time / 1000.0
-	stream_editor.end_point = _cull_end_time / 1000.0
+	
+	var variant_offset = 0
+	if editor.current_song:
+		variant_offset = editor.current_song.get_variant_offset(editor.song_editor_settings.selected_variant) / 1000.0
+	
+	stream_editor.start_point = _cull_start_time / 1000.0 - variant_offset
+	stream_editor.end_point = _cull_end_time / 1000.0 - variant_offset
 	stream_editor.rect_size.x = rect_size.x - layer_names.rect_size.x
 	stream_editor.rect_size.y = scroll_container.rect_size.y
 	stream_editor.rect_global_position.y = scroll_container.rect_global_position.y
 	stream_editor.rect_global_position.x = layer_names.rect_size.x
+	
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "hide")
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "set_process_input", false)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "editor_timeline_items", "set_rect_position", Vector2(-1000.0, 0.0))

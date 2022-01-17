@@ -7,6 +7,7 @@ signal playhead_position_changed
 signal load_song(song)
 signal timing_information_changed
 signal timing_points_changed
+signal song_editor_settings_changed
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
@@ -117,7 +118,7 @@ onready var ui_fades = [
 
 func set_bpm(value):
 	BPM_spinbox.value = value
-	song_editor_settings.bpm = value
+	song_editor_settings.set("bpm", value)
 func get_bpm():
 	return BPM_spinbox.value
 	
@@ -222,6 +223,7 @@ func _ready():
 		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
 	
 	$SyncToolboxDialog.set_editor(self)
+	$EditorGlobalSettings.song_settings_tab.set_editor(self)
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -1235,12 +1237,13 @@ func get_chart():
 func serialize_chart():
 	return get_chart().serialize()
 
-func load_settings(settings: HBPerSongEditorSettings):
+func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	offset_box.disconnect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.disconnect("value_changed", self, "_on_timing_information_changed")
 	BPM_spinbox.disconnect("value_changed", self, "_on_timing_information_changed")
 	metre_option_button.disconnect("item_selected", self, "_on_timing_information_changed")
 	auto_multi_checkbox.disconnect("toggled", self, "_on_auto_multi_toggled")
+	song_editor_settings.disconnect("property_changed", self, "emit_signal")
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
 		var layer_visible = not layer.layer_name in settings.hidden_layers
@@ -1282,6 +1285,10 @@ func load_settings(settings: HBPerSongEditorSettings):
 	BPM_spinbox.connect("value_changed", self, "_on_timing_information_changed")
 	metre_option_button.connect("item_selected", self, "_on_timing_information_changed")
 	auto_multi_checkbox.connect("toggled", self, "_on_auto_multi_toggled")
+	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
+	
+	if not skip_settings_menu:
+		emit_signal("song_editor_settings_changed")
 func from_chart(chart: HBChart, ignore_settings=false):
 	timeline.clear_layers()
 	undo_redo.clear_history()
@@ -1381,7 +1388,6 @@ func load_song(song: HBSong, difficulty: String):
 	var file = File.new()
 	var dir = Directory.new()
 	var chart = HBChart.new()
-	game_preview.set_song(song)
 	chart.editor_settings.bpm = song.bpm
 	if dir.file_exists(chart_path):
 		file.open(chart_path, File.READ)
@@ -1399,9 +1405,11 @@ func load_song(song: HBSong, difficulty: String):
 		"start_timestamp": OS.get_unix_time()
 	})
 	
-	game_playback.set_song(current_song)
+	update_media()
+	seek(0)
+	timeline.set_layers_offset(0)
 	playback_speed_slider.value = 1.0
-
+	
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	BPM_spinbox.value = song.bpm
@@ -1412,9 +1420,16 @@ func load_song(song: HBSong, difficulty: String):
 	save_button.disabled = false
 	save_as_button.disabled = false
 	emit_signal("load_song", song)
-	timeline.set_audio_stream(game_playback.audio_stream_player.stream)
-	timeline.set_layers_offset(0)
+	
 	reveal_ui()
+
+func update_media():
+	game_preview.set_song(current_song, song_editor_settings.selected_variant)
+	game_playback.set_song(current_song, song_editor_settings.selected_variant)
+	timeline.set_audio_stream(game_playback.audio_stream_player.stream)
+	seek(playhead_position)
+	timeline.send_time_cull_changed_signal()
+
 func obscure_ui():
 	for fade in ui_fades:
 		fade.obscure()
@@ -1454,17 +1469,17 @@ func set_note_resolution(note_res):
 	note_resolution_box.value = note_res
 	
 func get_note_snap_offset():
-	return $VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value
+	return offset_box.value
 
 func set_note_snap_offset(offset):
 	print("SET OFFSET TO ", offset)
-	$VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset.value = offset
+	offset_box.value = offset
 	release_owned_focus()
 func _on_timing_information_changed(f=null):
-	song_editor_settings.offset = get_note_snap_offset()
-	song_editor_settings.bpm = get_bpm()
-	song_editor_settings.beats_per_bar = get_beats_per_bar()
-	song_editor_settings.note_resolution = note_resolution_box.value
+	song_editor_settings.set("offset", get_note_snap_offset())
+	song_editor_settings.set("bpm", get_bpm())
+	song_editor_settings.set("beats_per_bar", get_beats_per_bar())
+	song_editor_settings.set("note_resolution", note_resolution_box.value)
 	release_owned_focus()
 	emit_signal("timing_information_changed")
 
@@ -1491,11 +1506,11 @@ func _on_SaveButton_pressed():
 	
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
-	song_editor_settings.show_grid = button_pressed
+	song_editor_settings.set("show_grid", button_pressed)
 
 func _on_GridSnapButton_toggled(button_pressed):
 	snap_to_grid_enabled = button_pressed
-	song_editor_settings.grid_snap = button_pressed
+	song_editor_settings.set("grid_snap", button_pressed)
 
 func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: bool):
 	new_pos /= rhythm_game.BASE_SIZE
@@ -1524,7 +1539,7 @@ func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: b
 
 func _on_TimelineGridSnapButton_toggled(button_pressed):
 	timeline_snap_enabled = button_pressed
-	song_editor_settings.timeline_snap = button_pressed
+	song_editor_settings.set("timeline_snap", button_pressed)
 
 func get_timing_interval(note_resolution=null):
 	if not note_resolution:
@@ -1760,7 +1775,7 @@ func show_error(error: String):
 	$Popups/PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
 
 func _on_auto_multi_toggled(button_pressed):
-	song_editor_settings.auto_multi = button_pressed
+	song_editor_settings.set("auto_multi", button_pressed)
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
@@ -1990,20 +2005,20 @@ func open_link(link: String):
 	OS.shell_open(link)
 
 func _on_WaveformButton_toggled(button_pressed):
-	song_editor_settings.waveform = button_pressed
+	song_editor_settings.set("waveform", button_pressed)
 	timeline.set_waveform(song_editor_settings.waveform)
 
 
 func _on_TimeArrangeSeparationSpinbox_value_changed(value):
-	song_editor_settings.separation = value
+	song_editor_settings.set("separation", value)
 
 
 func _on_TimeArrangeDiagonalAngleSpinbox_value_changed(value):
-	song_editor_settings.diagonal_angle = value
+	song_editor_settings.set("diagonal_angle", value)
 
 
 func _on_AutoSlideCheckBox_toggled(button_pressed):
-	song_editor_settings.autoslide = button_pressed
+	song_editor_settings.set("autoslide", button_pressed)
 
 
 func _on_SexButton_pressed():
@@ -2011,7 +2026,7 @@ func _on_SexButton_pressed():
 
 
 func _on_HoldCalculatorCheckBox_toggled(button_pressed):
-	song_editor_settings.hold_calculator = button_pressed
+	song_editor_settings.set("hold_calculator", button_pressed)
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
@@ -2026,20 +2041,20 @@ func  _on_arrange_diagonals_pressed(quadrant):
 
 
 func _on_TimeArrangeSnapsSpinbox_value_changed(value):
-	song_editor_settings.arranger_snaps = value
+	song_editor_settings.set("arranger_snaps", value)
 	arrange_menu.rotation_snaps = value
 
 
 func _on_AutoPlaceCheckBox_toggled(button_pressed):
-	song_editor_settings.autoplace = button_pressed
+	song_editor_settings.set("autoplace", button_pressed)
 
 
 func _on_AngleSnapsSpinbox_value_changed(value):
-	song_editor_settings.angle_snaps = value
+	song_editor_settings.set("angle_snaps", value)
 
 
 func _on_AutoAngleCheckBox_toggled(button_pressed):
-	song_editor_settings.autoangle = button_pressed
+	song_editor_settings.set("autoangle", button_pressed)
 
 func _on_parent_HSplitContainer_dragged(offset):
 	if offset < -320:

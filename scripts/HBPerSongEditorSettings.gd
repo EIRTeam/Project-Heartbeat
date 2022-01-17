@@ -3,20 +3,23 @@ extends HBSerializable
 
 class_name HBPerSongEditorSettings
 
+signal property_changed
+
 var hidden_layers = []
 
-var bpm = 180.0
-var offset = 0.0
-var note_resolution = 16
-var beats_per_bar = 4
+var bpm := 180.0
+var offset := 0.0
+var note_resolution := 16
+var beats_per_bar := 4
 var timeline_snap := true
 
-var auto_multi = false
+var auto_multi := false
 
-var waveform = false
-var hold_calculator = true
+var waveform := true
+var hold_calculator := true
 var show_video := true
 var show_bg := true
+var selected_variant := -1
 
 var grid_snap := true
 var show_grid := true
@@ -44,7 +47,7 @@ func get_serialized_type():
 func _init():
 	serializable_fields += [
 		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
-		"auto_multi", "waveform", "show_video", "show_bg",
+		"auto_multi", "waveform", "show_video", "show_bg", "selected_variant", 
 		"grid_snap", "show_grid", "grid_resolution",
 		"separation", "diagonal_angle", "autoslide", "autoplace", "autoangle", "arranger_snaps", "angle_snaps",
 		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
@@ -59,3 +62,7 @@ func set_layer_visibility(visibility: bool, layer_name: String):
 			hidden_layers.erase(layer_name)
 	else:
 		hidden_layers.append(layer_name)
+
+func set(property, value):
+	.set(property, value)
+	emit_signal("property_changed")
