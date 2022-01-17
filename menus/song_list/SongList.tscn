@@ -167,9 +167,9 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
 visible = false
-margin_top = 463.0
+margin_top = 459.0
 margin_right = 1920.0
-margin_bottom = 510.0
+margin_bottom = 514.0
 custom_fonts/font = ExtResource( 18 )
 text = "No folders found, add some!"
 align = 1
@@ -198,51 +198,51 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 415.0
-margin_right = 531.0
-rect_min_size = Vector2( 116, 31 )
+margin_left = 387.0
+margin_right = 511.0
+rect_min_size = Vector2( 124, 39 )
 action_name = "note_up"
 text = "Sort"
 
 [node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 541.0
-margin_right = 696.0
-rect_min_size = Vector2( 155, 31 )
+margin_left = 521.0
+margin_right = 684.0
+rect_min_size = Vector2( 163, 39 )
 action_name = "gui_search"
 text = "Search"
 
 [node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 706.0
-margin_right = 866.0
-rect_min_size = Vector2( 160, 31 )
+margin_left = 694.0
+margin_right = 862.0
+rect_min_size = Vector2( 168, 39 )
 action_name = "contextual_option"
 text = "Add to..."
 
 [node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 876.0
-margin_right = 1037.0
-rect_min_size = Vector2( 161, 31 )
+margin_left = 872.0
+margin_right = 1041.0
+rect_min_size = Vector2( 169, 39 )
 action_name = "contextual_option"
 text = "Manage"
 
 [node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1047.0
-margin_right = 1216.0
-rect_min_size = Vector2( 169, 31 )
+margin_left = 1051.0
+margin_right = 1228.0
+rect_min_size = Vector2( 177, 39 )
 action_name = "contextual_option"
 text = "Remove"
 
 [node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1226.0
-margin_right = 1371.0
-rect_min_size = Vector2( 145, 31 )
+margin_left = 1238.0
+margin_right = 1391.0
+rect_min_size = Vector2( 153, 39 )
 action_name = "gui_accept"
 text = "Select"
 
 [node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1381.0
-margin_right = 1505.0
-rect_min_size = Vector2( 124, 31 )
+margin_left = 1401.0
+margin_right = 1533.0
+rect_min_size = Vector2( 132, 39 )
 action_name = "gui_cancel"
 text = "Back"
 
@@ -311,9 +311,9 @@ margin_left = -275.0
 margin_right = 275.0
 text = "Enter the search term:"
 
-[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
+[connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="stop"]
 [connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]
 [connection signal="show_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="show"]
-[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
+[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]

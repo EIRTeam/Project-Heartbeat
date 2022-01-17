@@ -62,7 +62,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		"artist": "Artist",
 		"score": "Difficulty",
 		"creator": "Chart Creator",
-		"_added_time": "Last Subscribed"
+		"bpm": "BPM",
+		"_added_time": "Last Subscribed",
+		"_times_played": "Times played",
 	}
 	for button in sort_by_list_container.get_children():
 		sort_by_list_container.remove_child(button)
@@ -89,7 +91,7 @@ func set_sort(sort_by):
 	UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
 	song_container.sort_by_prop = sort_by
-	song_container.set_songs(SongLoader.songs.values())
+	song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	song_container.grab_focus()
 	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):

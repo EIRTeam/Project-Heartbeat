@@ -60,19 +60,26 @@ func sort_array(a: HBSong, b: HBSong):
 	var prop = sort_by_prop
 	var a_prop = a.get(prop)
 	var b_prop = b.get(prop)
-	if prop == "title":
-		a_prop = a.get_visible_title()
-		b_prop = b.get_visible_title()
-	elif prop == "artist":
-		a_prop = a.get_artist_sort_text()
-		b_prop = b.get_artist_sort_text()
-	elif prop == "score":
-		a_prop = b.get_max_score()
-		b_prop = a.get_max_score()
+	
+	match prop:
+		"title":
+			a_prop = a.get_visible_title()
+			b_prop = b.get_visible_title()
+		"artist":
+			a_prop = a.get_artist_sort_text()
+			b_prop = b.get_artist_sort_text()
+		"score":
+			a_prop = b.get_max_score()
+			b_prop = a.get_max_score()
+		"_times_played":
+			a_prop = HBGame.song_stats.get_song_stats(a.id).times_played
+			b_prop = HBGame.song_stats.get_song_stats(b.id).times_played
+	
 	if a_prop is String:
 		a_prop = a_prop.to_lower()
 	if b_prop is String:
 		b_prop = b_prop.to_lower()
+	
 	if sort_by_prop != "_added_time":
 		return a_prop < b_prop
 	else:
