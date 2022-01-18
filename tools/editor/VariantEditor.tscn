@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=1]
 [ext_resource path="res://tools/editor/VariantEditor.gd" type="Script" id=2]
 [ext_resource path="res://tools/editor/VariantSync.tscn" type="PackedScene" id=3]
+[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=4]
+[ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=5]
 
 [node name="PanelContainer" type="VBoxContainer"]
 margin_right = 588.0
@@ -43,6 +45,7 @@ margin_right = 588.0
 margin_bottom = 96.0
 caret_blink = true
 caret_blink_speed = 0.5
+script = ExtResource( 5 )
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 margin_top = 100.0
@@ -57,6 +60,7 @@ margin_bottom = 142.0
 editable = false
 caret_blink = true
 caret_blink_speed = 0.5
+script = ExtResource( 5 )
 
 [node name="Label3" type="Label" parent="VBoxContainer"]
 margin_top = 146.0
@@ -71,6 +75,7 @@ margin_bottom = 188.0
 min_value = -2e+10
 max_value = 2e+10
 arrow_step = 0.1
+script = ExtResource( 4 )
 
 [node name="ButtonSync" type="Button" parent="VBoxContainer"]
 margin_top = 192.0
@@ -93,6 +98,7 @@ margin_left = 0.0
 margin_top = 170.0
 margin_right = 588.0
 margin_bottom = 240.0
+rect_min_size = Vector2( 150, 52.5 )
 
 [connection signal="pressed" from="VBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonSync" to="." method="_on_ButtonSync_pressed"]

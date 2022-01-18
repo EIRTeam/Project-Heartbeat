@@ -4,7 +4,7 @@
 
 [sub_resource type="StreamTexture" id=1]
 
-[node name="Vector2" type="HBoxContainer"]
+[node name="Color" type="HBoxContainer"]
 margin_right = 26.0
 size_flags_horizontal = 3
 alignment = 1

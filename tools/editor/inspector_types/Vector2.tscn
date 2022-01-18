@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/editor/inspector_types/EditorInspectorTypeVector2.gd" type="Script" id=1]
+[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=2]
 
 [node name="Vector2" type="HBoxContainer"]
 margin_right = 26.0
@@ -22,6 +23,7 @@ margin_right = 86.0
 margin_bottom = 24.0
 max_value = 1920.0
 align = 3
+script = ExtResource( 2 )
 
 [node name="Label2" type="Label" parent="."]
 margin_left = 90.0
@@ -36,3 +38,4 @@ margin_right = 175.0
 margin_bottom = 24.0
 max_value = 1080.0
 align = 3
+script = ExtResource( 2 )

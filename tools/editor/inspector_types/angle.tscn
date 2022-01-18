@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://tools/editor/inspector_types/angle.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/inspector_types/AngleEdit.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=3]
 
-[node name="HBoxContainer" type="HBoxContainer"]
+[node name="Angle" type="HBoxContainer"]
 margin_right = 151.0
 margin_bottom = 64.0
 script = ExtResource( 1 )
@@ -30,5 +31,7 @@ size_flags_vertical = 4
 min_value = -360.0
 max_value = 360.0
 align = 1
+script = ExtResource( 3 )
+
 [connection signal="angle_changed" from="AngleEdit" to="." method="_on_angle_changed"]
 [connection signal="angle_finished_changing" from="AngleEdit" to="." method="_on_AngleEdit_angle_finished_changing"]

@@ -9,7 +9,7 @@ func _init(_editor).(_editor):
 	var  hbox_container = HBoxContainer.new()
 	var offset_label = Label.new()
 	offset_label.text = tr("Offset (in milliseconds)")
-	offset_spinbox = SpinBox.new()
+	offset_spinbox = HBEditorSpinBox.new()
 	offset_spinbox.step = 1
 	offset_spinbox.max_value = 10000
 	offset_spinbox.min_value = -10000

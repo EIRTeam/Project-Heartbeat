@@ -49,6 +49,7 @@
 [ext_resource path="res://tools/editor/EditorArrangeMenu.tscn" type="PackedScene" id=47]
 [ext_resource path="res://tools/editor/SyncToolbox.tscn" type="PackedScene" id=48]
 [ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=49]
+[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=50]
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"
@@ -228,6 +229,7 @@ min_value = -100.0
 step = 0.001
 align = 1
 suffix = "s"
+script = ExtResource( 50 )
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 333.0
@@ -246,6 +248,7 @@ min_value = 1.0
 max_value = 300.0
 value = 16.0
 suffix = "th of a note"
+script = ExtResource( 50 )
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 518.0
@@ -257,6 +260,7 @@ max_value = 1000.0
 step = 0.01
 value = 160.0
 suffix = "bpm"
+script = ExtResource( 50 )
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 632.0
@@ -549,6 +553,7 @@ margin_right = 429.0
 margin_bottom = 385.0
 max_value = 2.14748e+09
 value = 96.0
+script = ExtResource( 50 )
 
 [node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 389.0
@@ -563,6 +568,7 @@ margin_bottom = 443.0
 max_value = 90.0
 value = 45.0
 suffix = "º"
+script = ExtResource( 50 )
 
 [node name="Label5" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 447.0
@@ -579,9 +585,7 @@ margin_right = 429.0
 margin_bottom = 501.0
 min_value = 1.0
 value = 16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 50 )
 
 [node name="Label6" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 505.0
@@ -598,9 +602,7 @@ margin_right = 429.0
 margin_bottom = 559.0
 min_value = 1.0
 value = 32.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 50 )
 
 [node name="Label3" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 563.0
@@ -627,6 +629,7 @@ max_value = 360.0
 value = 15.0
 align = 1
 suffix = "º"
+script = ExtResource( 50 )
 
 [node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 margin_left = 406.0
@@ -912,9 +915,7 @@ margin_right = 224.0
 margin_bottom = 27.0
 step = 0.05
 value = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 50 )
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
 margin_left = 228.0
@@ -929,9 +930,7 @@ margin_right = 311.0
 margin_bottom = 27.0
 step = 0.05
 value = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 50 )
 
 [node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 mouse_filter = 2

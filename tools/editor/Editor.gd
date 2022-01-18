@@ -2040,11 +2040,11 @@ func _on_WaveformButton_toggled(button_pressed):
 	timeline.set_waveform(song_editor_settings.waveform)
 
 
-func _on_TimeArrangeSeparationSpinbox_value_changed(value):
+func _on_TimeArrangeSeparationSpinBox_value_changed(value):
 	song_editor_settings.set("separation", value)
 
 
-func _on_TimeArrangeDiagonalAngleSpinbox_value_changed(value):
+func _on_TimeArrangeDiagonalAngleSpinBox_value_changed(value):
 	song_editor_settings.set("diagonal_angle", value)
 
 
@@ -2067,7 +2067,7 @@ func  _on_arrange_pressed(angle):
 	arrange_selected_notes_by_time(angle, reverse_arrange_checkbox.pressed)
 
 
-func _on_TimeArrangeSnapsSpinbox_value_changed(value):
+func _on_TimeArrangeSnapsSpinBox_value_changed(value):
 	song_editor_settings.set("arranger_snaps", value)
 	arrange_menu.rotation_snaps = value
 
@@ -2076,7 +2076,7 @@ func _on_AutoPlaceCheckBox_toggled(button_pressed):
 	song_editor_settings.set("autoplace", button_pressed)
 
 
-func _on_AngleSnapsSpinbox_value_changed(value):
+func _on_AngleSnapsSpinBox_value_changed(value):
 	song_editor_settings.set("angle_snaps", value)
 
 

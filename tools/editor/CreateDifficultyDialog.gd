@@ -3,7 +3,7 @@ extends ConfirmationDialog
 onready var custom_difficulty_checkbox = get_node("VBoxContainer/HBoxContainer2/CustomDifficultyCheckbox")
 onready var custom_difficulty_line_edit = get_node("VBoxContainer/HBoxContainer2/CustomDifficultyLineEdit")
 onready var difficulty_select_option_button = get_node("VBoxContainer/HBoxContainer/DifficultySelectOptionButton")
-onready var stars_spinbox = get_node("VBoxContainer/HBoxContainer3/StarsSpinbox")
+onready var stars_spinbox = get_node("VBoxContainer/HBoxContainer3/StarsSpinBox")
 onready var chart_style_option_button = get_node("VBoxContainer/OptionButton")
 signal difficulty_created(difficulty, stars, uses_console_style)
 

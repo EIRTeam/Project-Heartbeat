@@ -282,9 +282,9 @@ var make_circle_transform_left = MakeCircleTransform.new(-1)
 var make_circle_transform_right = MakeCircleTransform.new(1)
 
 var angle_slider = HSlider.new()
-var circle_size_spinbox = SpinBox.new()
+var circle_size_spinbox = HBEditorSpinBox.new()
 var circle_use_inside_button = CheckBox.new()
-var circle_separation_spinbox = SpinBox.new()
+var circle_separation_spinbox = HBEditorSpinBox.new()
 
 var advanced_settings_button = CheckBox.new()
 var advanced_settings_hbox_container = HBoxContainer.new()
@@ -317,7 +317,7 @@ func _ready():
 	label.text = "Rotate targets: "
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
-	var spinbox = SpinBox.new()
+	var spinbox = HBEditorSpinBox.new()
 	spinbox.editable = true
 	spinbox.max_value = 180.0
 	spinbox.min_value = -180.0
@@ -435,7 +435,7 @@ func _ready():
 	var starting_note_label = Label.new()
 	starting_note_label.text = "Starting note: "
 	
-	var starting_note_spinbox = SpinBox.new()
+	var starting_note_spinbox = HBEditorSpinBox.new()
 	starting_note_spinbox.editable = true
 	starting_note_spinbox.max_value = 123213123123
 	starting_note_spinbox.min_value = 1
@@ -448,7 +448,7 @@ func _ready():
 	var starting_rev_label = Label.new()
 	starting_rev_label.text = "Starting turn: "
 	
-	var starting_rev_spinbox = SpinBox.new()
+	var starting_rev_spinbox = HBEditorSpinBox.new()
 	starting_rev_spinbox.editable = true
 	starting_rev_spinbox.max_value = 1.0
 	starting_rev_spinbox.min_value = 0.0

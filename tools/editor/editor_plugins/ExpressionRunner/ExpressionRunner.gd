@@ -39,7 +39,7 @@ func _init(_editor).(_editor):
 	
 	var expression_label = Label.new()
 	expression_label.text = tr("Expression:")
-	line_edit = LineEdit.new()
+	line_edit = HBEditorLineEdit.new()
 	
 	vbox_container.add_child(output_label)
 	vbox_container.add_child(output_selector)
