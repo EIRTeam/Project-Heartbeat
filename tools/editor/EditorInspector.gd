@@ -23,6 +23,7 @@ var inspecting_properties = {}
 signal property_changed(property, value)
 signal property_change_committed(property)
 signal note_pasted(note_data)
+signal reset_pos()
 
 var copied_note: HBBaseNote
 
@@ -104,9 +105,20 @@ func inspect(item: EditorTimelineItem):
 		inspector_editor.connect("value_change_committed", self, "_on_property_value_commited_by_user", [property])
 		property_container.add_child(inspector_editor)
 		inspecting_properties[property] = inspector_editor
+		
+		if property == "position":
+			var reset_position_button = Button.new()
+			reset_position_button.text = "Reset to default"
+			reset_position_button.connect("pressed", self, "_on_reset_pos_pressed")
+			reset_position_button.size_flags_horizontal = reset_position_button.SIZE_EXPAND_FILL
+			property_container.add_child(reset_position_button)
+	
 	sync_visible_values_with_data()
 
 func _on_property_value_changed_by_user(value, property_name):
 	emit_signal("property_changed", property_name, value)
 func _on_property_value_commited_by_user(property_name):
 	emit_signal("property_change_committed", property_name)
+
+func _on_reset_pos_pressed():
+	emit_signal("reset_pos")

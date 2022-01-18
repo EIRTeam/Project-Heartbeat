@@ -184,6 +184,7 @@ func _ready():
 #	seek(0)
 	inspector.connect("property_changed", self, "_change_selected_property")
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
+	inspector.connect("reset_pos", self, "reset_note_position")
 	
 	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
 	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
@@ -1982,8 +1983,8 @@ func _cache_hold_ends():
 			item.update()
 
 
-func autoplace(data: HBBaseNote):
-	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540):
+func autoplace(data: HBBaseNote, force=false):
+	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540) and not force:
 		# Safeguard against modifying old charts
 		data.pos_modified = true
 		return data.clone()
@@ -2003,7 +2004,7 @@ func autoplace(data: HBBaseNote):
 	var notes_at_time = get_notes_at_time(data.time)
 	
 	for note in notes_at_time:
-		if note is HBBaseNote and note.pos_modified:
+		if note is HBBaseNote and note.pos_modified and not force:
 			place_at_note = note
 			break
 	
@@ -2129,6 +2130,7 @@ func create_queued_timing_points():
 		user_create_timing_point(entry.layer, entry.item)
 	timing_point_creation_queue.clear()
 
+
 func increase_resolution_by(amount: int):
 	if note_resolution_box.value in standard_resolutions:
 		var index = standard_resolutions.bsearch(note_resolution_box.value)
@@ -2147,3 +2149,42 @@ func increase_resolution_by(amount: int):
 			return standard_resolutions[prev]
 		
 		return note_resolution_box.value
+
+
+func reset_note_position():
+	undo_redo.create_action("Reset note position")
+	
+	for item in selected:
+		if not item.data is HBBaseNote:
+			continue
+		
+		var new_pos := Vector2(960, 540)
+		var new_angle := 0
+		var new_freq := 2.0
+		
+		if song_editor_settings.autoplace:
+			var new_data = autoplace(item.data, true)
+			new_pos = new_data.position
+			new_angle = new_data.entry_angle
+			new_freq = new_data.oscillation_frequency
+		
+		undo_redo.add_do_property(item.data, "position", new_pos)
+		undo_redo.add_do_property(item.data, "entry_angle", new_angle)
+		undo_redo.add_do_property(item.data, "oscillation_frequency", new_freq)
+		undo_redo.add_do_property(item.data, "pos_modified", false)
+		undo_redo.add_undo_property(item.data, "position", item.data.position)
+		undo_redo.add_undo_property(item.data, "entry_angle", item.data.entry_angle)
+		undo_redo.add_undo_property(item.data, "oscillation_frequency", item.data.oscillation_frequency)
+		undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
+		
+		check_for_multi_changes(item.data, -1)
+		
+		undo_redo.add_do_method(item, "update_widget_data")
+		undo_redo.add_undo_method(item, "update_widget_data")
+	
+	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	undo_redo.commit_action()
