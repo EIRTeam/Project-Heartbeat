@@ -60,6 +60,7 @@ onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitC
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
+onready var reverse_arrange_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/ReverseArrangeCheckBox")
 
 const LOG_NAME = "HBEditor"
 
@@ -228,11 +229,7 @@ func _ready():
 	connect("timing_points_changed", self, "_cache_hold_ends")
 	
 	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time", [true])
-	
-	var button_ids = ["3", "", "7", "9"]
-	for i in range(4):
-		var node = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" + button_ids[i])
-		node.connect("pressed", self, "_on_arrange_diagonals_pressed", [i])
+	arrange_menu.set_editor(self)
 	
 	$SyncToolboxDialog.set_editor(self)
 	$EditorGlobalSettings.song_settings_tab.set_editor(self)
@@ -368,40 +365,25 @@ func _unhandled_input(event: InputEvent):
 	
 	if event.is_action_pressed("editor_show_arrange_menu"):
 		if selected and game_preview.get_global_rect().has_point(get_global_mouse_position()):
-			arrange_menu.backup_selected(selected)
-			
-			for item in selected:
-				remove_item_from_layer(item._layer, item)
-			deselect_all()
-			
-			for item in arrange_menu.get_selected_backup():
-				var data = item.data as HBBaseNote
-				if not data:
-					continue
-				
-				var new_data_ser = data.serialize()
-				var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
-				var new_item = new_data.get_timeline_item()
-				
-				add_item_to_layer(item._layer, new_item)
-				select_item(new_item, true)
-			
 			arranging = true
 			arrange_menu.popup()
 			arrange_menu.set_global_position(get_global_mouse_position())
+			
+			selected.sort_custom(self, "_order_items")
+			first_note = selected[0].data.clone()
+			last_note = selected[-1].data.clone()
 	elif event.is_action_released("editor_show_arrange_menu") and arranging:
 		arranging = false
 		arrange_menu.hide()
 		
-		for item in selected:
-			remove_item_from_layer(item._layer, item)
-		deselect_all()
+		undo_redo.create_action("Arrange selected notes by time")
+		_commit_selected_property_change("position", false)
+		_commit_selected_property_change("entry_angle", false)
+		_commit_selected_property_change("oscillation_frequency", false)
+		undo_redo.commit_action()
 		
-		for item in arrange_menu.get_selected_backup():
-			add_item_to_layer(item._layer, item)
-			select_item(item, true)
-		
-		arrange_selected_notes_by_time(arrange_menu.get_angle())
+		first_note = null
+		last_note = null
 	
 	if event is InputEventKey and event.pressed and not sex_button.visible:
 		if event.scancode == konami_sequence[konami_index]:
@@ -450,7 +432,7 @@ func _unhandled_input(event: InputEvent):
 	
 	for action in autoarrange_shortcuts:
 		if event.is_action(action[0], true) and event.pressed and not event.echo:
-			arrange_selected_notes_by_time(action[1])
+			arrange_selected_notes_by_time(action[1], reverse_arrange_checkbox.pressed)
 			
 			get_tree().set_input_as_handled()
 			break
@@ -469,11 +451,16 @@ func _unhandled_input(event: InputEvent):
 					
 					undo_redo.add_do_method(note, "update_widget_data")
 					undo_redo.add_do_method(note, "sync_value", "entry_angle")
+					undo_redo.add_do_method(note, "sync_value", "oscillation_frequency")
 					undo_redo.add_undo_method(note, "update_widget_data")
 					undo_redo.add_undo_method(note, "sync_value", "entry_angle")
+					undo_redo.add_undo_method(note, "sync_value", "oscillation_frequency")
 					
 					undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 					undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+			
+			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 			
 			undo_redo.commit_action()
 			
@@ -504,10 +491,10 @@ func _unhandled_input(event: InputEvent):
 				undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
 				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
 				
-				undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+				undo_redo.add_do_property(note.data, "oscillation_frequency", -note.data.oscillation_frequency)
 				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
 				
-				undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+				undo_redo.add_undo_property(note.data, "oscillation_frequency", note.data.oscillation_frequency)
 				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
 				
 				undo_redo.add_do_method(note, "update_widget_data")
@@ -524,16 +511,16 @@ func _unhandled_input(event: InputEvent):
 		
 		for note in selected:
 			if note.data is HBBaseNote:
-				undo_redo.add_do_property(note.data, "oscillation_amplitude", -note.data.oscillation_amplitude)
+				undo_redo.add_do_property(note.data, "oscillation_frequency", -note.data.oscillation_frequency)
 				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
 				
-				undo_redo.add_undo_property(note.data, "oscillation_amplitude", note.data.oscillation_amplitude)
+				undo_redo.add_undo_property(note.data, "oscillation_frequency", note.data.oscillation_frequency)
 				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
 				
 				undo_redo.add_do_method(note, "update_widget_data")
-				undo_redo.add_do_method(note, "sync_value", "oscillation_amplitude")
+				undo_redo.add_do_method(note, "sync_value", "oscillation_frequency")
 				undo_redo.add_undo_method(note, "update_widget_data")
-				undo_redo.add_undo_method(note, "sync_value", "oscillation_amplitude")
+				undo_redo.add_undo_method(note, "sync_value", "oscillation_frequency")
 				
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
@@ -846,22 +833,28 @@ func show_contextual_menu():
 # actions like changing a note angle requires a single control+z
 func _change_selected_property(property_name: String, new_value):
 	for selected_item in selected:
-		if not selected_item in old_property_values:
-			old_property_values[selected_item] = {}
-		
-		if not property_name in old_property_values[selected_item]:
-			old_property_values[selected_item][property_name] = selected_item.data.get(property_name)
-		selected_item.data.set(property_name, new_value)
-
-		selected_item.update_widget_data()
-		selected_item.sync_value(property_name)
+		_change_selected_property_single_item(selected_item, property_name, new_value)
 	_on_timing_points_params_changed()
+
+func _change_selected_property_single_item(item, property_name: String, new_value):
+	if not item in old_property_values:
+		old_property_values[item] = {}
 	
-func _commit_selected_property_change(property_name: String):
+	if not property_name in old_property_values[item]:
+		old_property_values[item][property_name] = item.data.get(property_name)
+	item.data.set(property_name, new_value)
+	
+	item.update_widget_data()
+	item.sync_value(property_name)
+
+
+func _commit_selected_property_change(property_name: String, create_action: bool = true):
 	var action_name = "Note " + property_name + " changed"
 	
-	print(action_name)
-	undo_redo.create_action(action_name)
+	if create_action:
+		print(action_name)
+		undo_redo.create_action(action_name)
+	
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data:
@@ -893,7 +886,8 @@ func _commit_selected_property_change(property_name: String):
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
-				
+			
+			old_property_values[selected_item].erase(property_name)
 
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
@@ -905,10 +899,10 @@ func _commit_selected_property_change(property_name: String):
 	if property_name == "time":
 		undo_redo.add_do_method(self, "sort_current_items")
 	
-	undo_redo.commit_action()
+	if create_action:
+		undo_redo.commit_action()
 	inspector.sync_value(property_name)
 	release_owned_focus()
-	old_property_values = {}
 # Handles when a user changes a timing point's property, this is used for properties
 # that won't constantly change
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
@@ -1623,7 +1617,18 @@ func _order_items(a, b):
 	return a.data.time < b.data.time
 
 # Arranges the selected notes in the playarea by a certain distances
-func arrange_selected_notes_by_time(angle, preview_only: bool = false):
+var first_note: HBBaseNote
+var last_note: HBBaseNote
+func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = false):
+	if reverse:
+		angle += PI
+	
+	selected.sort_custom(self, "_order_items")
+	if not preview_only:
+		first_note = selected[0].data
+		last_note = selected[-1].data
+		undo_redo.create_action("Arrange selected notes by time")
+	
 	var separation : Vector2 = Vector2.ZERO
 	var slide_separation : Vector2 = Vector2.ZERO
 	var eight_separation = time_arrange_separation_spinbox.value
@@ -1646,28 +1651,18 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 	var slide_index := 0
 	var interval = get_timing_interval(1.0/16.0) * 2
 	
-	if not preview_only:
-		print("ARRANGE", selected.size())
-		undo_redo.create_action("Arrange selected notes by time")
+	var anchor = first_note
+	if reverse:
+		anchor = last_note
 	
-	selected.sort_custom(self, "_order_items")
-	
+	pos_compensation = anchor.position
+	if anchor is HBSustainNote:
+		time_compensation = anchor.end_time
+	else: 
+		time_compensation = anchor.time
 	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
-			if not pos_compensation:
-				pos_compensation = selected_item.data.position
-				
-				if selected_item.data is HBSustainNote:
-					time_compensation = selected_item.data.end_time
-				else: 
-					time_compensation = selected_item.data.time
-				
-				if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
-					slide_index = 1
-				
-				continue
-			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
 				slide_index = 1
 			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
@@ -1676,7 +1671,13 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 				slide_index = 0
 			
 			# Real snapping hours
-			var diff = max(selected_item.data.time - time_compensation, 0)
+			var diff
+			if not reverse:
+				diff = selected_item.data.time - time_compensation
+			else:
+				diff = time_compensation - selected_item.data.time
+				diff = selected_item.data.time - time_compensation
+			
 			var new_pos = pos_compensation + (separation * (float(diff) / float(interval)))
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
@@ -1694,13 +1695,12 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 			else:
-				selected_item.data.position = new_pos
-				selected_item.update_widget_data()
+				_change_selected_property_single_item(selected_item, "position", new_pos)
 			
 			pos_compensation = new_pos
 			if selected_item.data is HBSustainNote:
 				time_compensation = selected_item.data.end_time
-			elif diff > 0:
+			else:
 				time_compensation = selected_item.data.time
 	
 	for selected_item in selected:
@@ -1716,9 +1716,8 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 			else:
-				selected_item.data.entry_angle = new_angle_params[0]
-				selected_item.data.oscillation_frequency = new_angle_params[1]
-				selected_item.update_widget_data()
+				_change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
+				_change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
 	
 	if not preview_only:
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -1727,9 +1726,14 @@ func arrange_selected_notes_by_time(angle, preview_only: bool = false):
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 		
 		undo_redo.commit_action()
+		
+		first_note = null
+		last_note = null
+	else:
+		_on_timing_points_params_changed()
 
-func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
-	if song_editor_settings.autoangle:
+func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
+	if song_editor_settings.autoangle and arrange_angle != null:
 		var new_angle: float
 		var oscillation_frequency = abs(note.oscillation_frequency)
 		var vertical := false
@@ -1780,6 +1784,8 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle: float):
 		
 		if not rotated_quadrant in positive_quadrants:
 			oscillation_frequency = -oscillation_frequency
+		
+		oscillation_frequency *= sign(note.oscillation_amplitude)
 		
 		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
 	else:
@@ -1995,9 +2001,9 @@ func autoplace(data: HBBaseNote, force=false):
 	
 	var interval = get_timing_interval(1.0/16.0) * 2
 	var time_as_eight = stepify((data.time - offset_box.value * 1000) / interval, 0.01)
-	time_as_eight = fmod(time_as_eight, 15.5)
+	time_as_eight = fmod(time_as_eight, 15.0)
 	if time_as_eight < 0:
-		time_as_eight = fmod(15.5 - abs(time_as_eight), 15.5)
+		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
 	
 	var multi_pos = 0
 	var place_at_note = null
@@ -2057,12 +2063,8 @@ func _on_HoldCalculatorCheckBox_toggled(button_pressed):
 			item.update()
 
 
-func  _on_arrange_diagonals_pressed(quadrant):
-	var angle_offset = 180 if quadrant in [1, 2] else 0
-	var _sign = 1 if quadrant in [1, 3] else -1
-	var angle = deg2rad(angle_offset + _sign * time_arrange_diagonal_angle_spinbox.value)
-	
-	arrange_selected_notes_by_time(angle)
+func  _on_arrange_pressed(angle):
+	arrange_selected_notes_by_time(angle, reverse_arrange_checkbox.pressed)
 
 
 func _on_TimeArrangeSnapsSpinbox_value_changed(value):
