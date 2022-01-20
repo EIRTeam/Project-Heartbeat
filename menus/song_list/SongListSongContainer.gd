@@ -5,6 +5,8 @@ const SongListItemFolder = preload("res://menus/song_list/SongListFolder.tscn")
 const SongListItemFolderBack = preload("res://menus/song_list/SongListFolderBack.tscn")
 const SongListItemDifficulty = preload("res://menus/song_list/SongListItemDifficulty.tscn")
 
+const RANDOM_SELECT_BUTTON_SCENE = preload("res://menus/song_list/SongListItemRandom.tscn")
+
 var folder_stack = []
 
 var song_difficulty_items_map = {}
@@ -281,6 +283,7 @@ func _on_dummy_sighted(song: HBSong):
 	filtered_song_items[song] = item
 	if item.get_position_in_parent() == current_selected_item:
 		force_scroll()
+		_on_selected_item_changed()
 		
 func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_difficulty_to_select=null):
 	var previously_selected_song_id = null
@@ -309,6 +312,10 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 #	selected_option = null
 
 	filtered_song_items = {}
+	
+	var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
+	rand.connect("pressed", self, "_on_random_pressed")
+	item_container.add_child(rand)
 
 	var base_dummy := DummySongListEntry.new()
 	for song in filtered_songs:
@@ -348,6 +355,9 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		
 		
 	emit_signal("end_loading")
+		
+func _on_random_pressed():
+	select_item(1 + (randi() % item_container.get_child_count()-1))
 		
 var current_filter_task: HBTask
 		

@@ -96,7 +96,6 @@ func _gui_input(event):
 			else:
 				get_tree().set_input_as_handled()
 				var i = wrapi(selected_button_i-1, 0, get_child_count())
-				print(i)
 				while i >= 0:
 					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
