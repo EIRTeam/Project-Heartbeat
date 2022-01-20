@@ -299,6 +299,8 @@ func _unhandled_input(event):
 				selected._gui_input(event)
 
 func _on_BackButton_pressed():
+	per_song_settings_editor.hide()
+	modifier_selector.hide()
 	change_to_menu("song_list", false, {"song": current_song.id, "song_difficulty": current_difficulty})
 
 func _on_ppd_video_change_button_pressed():
