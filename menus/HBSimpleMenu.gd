@@ -21,6 +21,8 @@ var sfx_player = AudioStreamPlayer.new()
 var prev_action = "gui_left"
 var next_action = "gui_right"
 
+export var enable_wrap_around := false
+
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
@@ -78,7 +80,7 @@ func _gui_input(event):
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:
-			if selected_button_i == 0:
+			if selected_button_i == 0 and not enable_wrap_around:
 				get_tree().set_input_as_handled()
 				if orientation == ORIENTATION.HORIZONTAL:
 					if focus_neighbour_left:
@@ -93,7 +95,8 @@ func _gui_input(event):
 				emit_signal("out_from_top")
 			else:
 				get_tree().set_input_as_handled()
-				var i = selected_button_i-1
+				var i = wrapi(selected_button_i-1, 0, get_child_count())
+				print(i)
 				while i >= 0:
 					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
@@ -103,7 +106,7 @@ func _gui_input(event):
 
 	elif event.is_action_pressed(next_action):
 		if selected_button:
-			if selected_button_i == get_child_count()-1:
+			if selected_button_i == get_child_count()-1 and not enable_wrap_around:
 				get_tree().set_input_as_handled()
 				if orientation == ORIENTATION.HORIZONTAL:
 					if focus_neighbour_right:
@@ -117,7 +120,7 @@ func _gui_input(event):
 						sfx_player.play()
 			else:
 				get_tree().set_input_as_handled()
-				var i = selected_button_i+1
+				var i = wrapi(selected_button_i+1, 0, get_child_count())
 				while i <= get_child_count()-1:
 					if get_child(i) != sfx_player and get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
