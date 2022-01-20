@@ -10,23 +10,18 @@ const YELLOW_STAR = preload("res://graphics/icons/menu_star.png")
 const WHITE_STAR = preload("res://graphics/icons/menu_star_white.png")
 
 func _ready():
-	set_process(false)
+	$Control/RainbowOverlay.hide()
+	$Control/TextureRect/StarRainbow.hide()
 
 func hover(no_animation = false):
 	.hover(no_animation)
-	set_process(true)
-	$Control/TextureRect.texture = WHITE_STAR
+	$Control/RainbowOverlay.show()
+	$Control/TextureRect/StarRainbow.show()
+	$Control.self_modulate.a = 0.0
 
 func stop_hover(no_animation = false):
 	.stop_hover(no_animation)
-	set_process(false)
-	$Control.self_modulate = Color.white
-	$Control/TextureRect.self_modulate = Color.white
-	$Control/TextureRect.texture = YELLOW_STAR
-
-func _process(delta):
-	t += delta
-	current_color = current_color.from_hsv(fmod(t*0.25, 1), 1.0, 1.0)
-	$Control.self_modulate = current_color
-	$Control/TextureRect.self_modulate = current_color.inverted()
+	$Control/RainbowOverlay.hide()
+	$Control/TextureRect/StarRainbow.hide()
+	$Control.self_modulate.a = 1.0
 
