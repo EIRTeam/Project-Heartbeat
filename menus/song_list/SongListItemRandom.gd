@@ -6,9 +6,6 @@ var t = 0.0
 
 var current_color := Color()
 
-const YELLOW_STAR = preload("res://graphics/icons/menu_star.png")
-const WHITE_STAR = preload("res://graphics/icons/menu_star_white.png")
-
 func _ready():
 	$Control/RainbowOverlay.hide()
 	$Control/TextureRect/StarRainbow.hide()

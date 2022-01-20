@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/menu_star_white.svg-20909c4154235f6b2603c898c7d610e5.stex"
+path="res://.import/menu_heart_white.svg-4449f2c431c7411aa737f75ffcc6dd0a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/menu_star_white.svg"
-dest_files=[ "res://.import/menu_star_white.svg-20909c4154235f6b2603c898c7d610e5.stex" ]
+source_file="res://graphics/icons/menu_heart_white.svg"
+dest_files=[ "res://.import/menu_heart_white.svg-4449f2c431c7411aa737f75ffcc6dd0a.stex" ]
 
 [params]
 

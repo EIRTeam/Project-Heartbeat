@@ -1,9 +1,9 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=1]
-[ext_resource path="res://graphics/icons/menu_star_white.png" type="Texture" id=2]
+[ext_resource path="res://graphics/icons/menu_heart.png" type="Texture" id=2]
 [ext_resource path="res://menus/song_list/SongListItemRandom.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=4]
+[ext_resource path="res://graphics/icons/menu_heart_white.png" type="Texture" id=4]
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=7]
 
@@ -95,7 +95,7 @@ void fragment() {
 shader = SubResource( 8 )
 
 [sub_resource type="DynamicFont" id=1]
-size = 30
+size = 40
 outline_size = 4
 outline_color = Color( 0, 0, 0, 0.486275 )
 use_mipmaps = true
@@ -209,7 +209,7 @@ rect_min_size = Vector2( 175, 125 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 __meta__ = {
@@ -224,7 +224,7 @@ rect_min_size = Vector2( 175, 125 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 __meta__ = {
@@ -234,7 +234,7 @@ __meta__ = {
 [node name="StarsLabel" type="Label" parent="Control/TextureRect"]
 use_parent_material = true
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.918
 margin_left = 0.397217
 margin_right = 0.397217
 custom_fonts/font = SubResource( 1 )
