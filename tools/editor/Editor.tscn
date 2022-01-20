@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
@@ -1356,7 +1356,7 @@ margin_bottom = 412.0
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox" to="." method="_on_AutoAngleCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox" to="." method="_on_TimeArrangeSeparationSpinbox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox" to="." method="_on_TimeArrangeDiagonalAngleSpinbox_value_changed"]
-[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox" to="." method="_on_TimeArrangeSnapsSpinbox_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox" to="." method="_on_TimeArrangeSnapsSpinBox_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox" to="." method="_on_AngleSnapsSpinbox_value_changed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]

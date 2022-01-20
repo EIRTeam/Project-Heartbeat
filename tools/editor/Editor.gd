@@ -1066,13 +1066,22 @@ func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = n
 			if not autoplaced_pos:
 				autoplaced_pos = item.position
 			
-			var notes_at_time = get_notes_at_time(item.time)
-			var notes_at_previous_time = get_notes_at_time(old_time) if old_time != -1 else []
+			var _notes_at_time = get_notes_at_time(item.time)
+			var _notes_at_previous_time = get_notes_at_time(old_time) if old_time != -1 else []
 			
-			if not item in notes_at_time:
+			if not item in _notes_at_time:
 				# The item hasnt changed time just yet
-				notes_at_time.append(item)
-				notes_at_previous_time.erase(item)
+				_notes_at_time.append(item)
+				_notes_at_previous_time.erase(item)
+			
+			var notes_at_time = []
+			var notes_at_previous_time = []
+			for note in _notes_at_time:
+				if note is HBBaseNote:
+					notes_at_time.append(note)
+			for note in _notes_at_previous_time:
+				if note is HBBaseNote:
+					notes_at_previous_time.append(note)
 			
 			if notes_at_time.size() > 1:
 				# The item has joined in with a multi
@@ -1092,9 +1101,14 @@ func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = n
 
 func check_for_multi_changes_upon_deletion(time: int, deleted_items: Array):
 	if song_editor_settings.auto_multi:
-		var notes_at_time = get_notes_at_time(time)
+		var _notes_at_time = get_notes_at_time(time)
 		for item in deleted_items:
-			notes_at_time.erase(item.data)
+			_notes_at_time.erase(item.data)
+		
+		var notes_at_time = []
+		for note in _notes_at_time:
+			if note is HBBaseNote:
+				notes_at_time.append(note)
 		
 		if notes_at_time.size() == 1:
 			# 1 note is left, arrange it and set travel params.
@@ -1575,7 +1589,6 @@ func get_timing_interval(note_resolution=null):
 	return interval
 
 func snap_time_to_timeline(time):
-
 	if timeline_snap_enabled:
 		var interval = get_timing_interval()
 		time -= get_note_snap_offset()*1000.0
