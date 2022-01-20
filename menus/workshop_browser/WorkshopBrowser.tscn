@@ -135,7 +135,6 @@ __meta__ = {
 container_path = NodePath("GridContainer")
 horizontal_step = 0
 enable_fade = true
-enable_wrap_around = true
 scroll_mode = 1
 
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer"]
@@ -275,6 +274,8 @@ __meta__ = {
 }
 
 [connection signal="out_from_bottom" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
+[connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
+[connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="select_item" binds= [ 0 ]]
 [connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="cancel" from="HBConfirmationWindow" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]
