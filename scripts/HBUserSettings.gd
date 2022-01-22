@@ -45,6 +45,22 @@ var filter_mode__possibilities = [
 	"dsc"
 ]
 var sort_mode = "title"
+var sort_mode__possibilities = [
+	"title",
+	"artist",
+	"score",
+	"creator",
+	"bpm",
+	"_times_played",
+]
+var workshop_tab_sort_mode = "title"
+var workshop_tab_sort_mode__possibilities = sort_mode__possibilities + [
+	"_added_time",
+	"_released_time",
+	"_updated_time"
+]
+
+
 var leading_trail_enabled = false
 var use_timing_arm = true
 var last_game_info: HBGameInfo = HBGameInfo.new()
@@ -167,7 +183,7 @@ func _init():
 	"icon_pack", "resource_pack", "note_icon_override", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"note_size", "input_map", "input_poll_more_than_once_per_frame",
 	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
-	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "leading_trail_enabled",
+	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 

@@ -202,6 +202,8 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 			if f_name in SongLoader.songs:
 				var song = SongLoader.songs[f_name] as HBSong
 				song._added_time = details.timeAddedToUserList
+				song._released_time = details.timeCreated
+				song._updated_time = details.timeUpdated
 				added_time_map[song.ugc_id] = details.timeAddedToUserList
 		if number_of_results > 0:
 			emit_signal("ugc_item_added_times_updated")

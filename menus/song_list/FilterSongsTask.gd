@@ -80,7 +80,7 @@ func sort_array(a: HBSong, b: HBSong):
 	if b_prop is String:
 		b_prop = b_prop.to_lower()
 	
-	if sort_by_prop != "_added_time":
+	if not sort_by_prop in ["_added_time", "_released_time", "_updated_time"]:
 		return a_prop < b_prop
 	else:
 		return b_prop < a_prop

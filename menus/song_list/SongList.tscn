@@ -7,7 +7,6 @@
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=9]
 [ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=10]
 [ext_resource path="res://menus/FolderManager.tscn" type="PackedScene" id=11]
 [ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=12]
@@ -63,6 +62,25 @@ shader_param/pos = null
 shader_param/size = null
 shader_param/enabled = null
 shader_param/fade_size = null
+
+[sub_resource type="StyleBoxFlat" id=4]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.74902 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_size = 10
 
 [node name="SongListMenu" type="Control"]
 anchor_right = 1.0
@@ -252,41 +270,38 @@ margin_right = 257.0
 margin_bottom = 162.0
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -152.0
-margin_top = -105.0
-margin_right = 152.0
-margin_bottom = 286.0
-custom_styles/panel = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="SortByPanel" type="PanelContainer" parent="CenterContainer"]
+margin_left = 950.0
+margin_top = 530.0
+margin_right = 970.0
+margin_bottom = 550.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/SortByPanel"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 294.0
-margin_bottom = 381.0
+margin_right = 10.0
+margin_bottom = 10.0
 focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 10
 script = ExtResource( 7 )
 orientation = 1
+enable_wrap_around = true
 
 [node name="FolderManager" parent="." instance=ExtResource( 11 )]
 visible = false

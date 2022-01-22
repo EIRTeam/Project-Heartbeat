@@ -58,6 +58,8 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 	return starting_folders
 func _ready():
 	sort_by_prop = UserSettings.user_settings.sort_mode
+	if UserSettings.user_settings.filter_mode == "workshop":
+		sort_by_prop = UserSettings.user_settings.workshop_tab_sort_mode
 	connect("selected_item_changed", self, "_on_selected_item_changed")
 	focus_mode = Control.FOCUS_ALL
 

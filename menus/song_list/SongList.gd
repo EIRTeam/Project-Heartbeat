@@ -9,8 +9,8 @@ var pevent_pregame_screen = false
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
 onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
-onready var sort_by_list = get_node("Panel")
-onready var sort_by_list_container = get_node("Panel/MarginContainer/VBoxContainer")
+onready var sort_by_list = get_node("CenterContainer/SortByPanel")
+onready var sort_by_list_container = get_node("CenterContainer/SortByPanel/VBoxContainer")
 onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/FolderPath")
 onready var folder_manager = get_node("FolderManager")
 onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
@@ -20,6 +20,39 @@ onready var song_count_indicator = get_node("SongCountIndicator")
 onready var search_text_input = get_node("SearchTextInput")
 
 var force_next_song_update = false
+
+func populate_sort_by_list():
+	var allowed_sort_by = {
+		"title": "Title",
+		"artist": "Artist",
+		"score": "Difficulty",
+		"creator": "Chart Creator",
+		"bpm": "BPM",
+		"_added_time": "Last Subscribed",
+		"_times_played": "Times played",
+		"_released_time": "Last released",
+		"_updated_time": "Last updated"
+	}
+	
+	var workshop_only_sort_by = ["_added_time", "_released_time", "_updated_time"]
+	
+	for button in sort_by_list_container.get_children():
+		sort_by_list_container.remove_child(button)
+		button.queue_free()
+	
+	for sort_by in allowed_sort_by:
+		if sort_by in workshop_only_sort_by and not UserSettings.user_settings.filter_mode == "workshop":
+			continue
+		var button = HBHovereableButton.new()
+		button.text = allowed_sort_by[sort_by]
+		button.connect("pressed", self, "set_sort", [sort_by])
+		sort_by_list_container.add_child(button)
+		# We ensure the current sort mode is selected by default
+		var current_sort_mode = UserSettings.user_settings.sort_mode
+		if UserSettings.user_settings.filter_mode == "workshop":
+			current_sort_mode = UserSettings.user_settings.workshop_tab_sort_mode
+		if sort_by == current_sort_mode:
+			sort_by_list_container.select_button(button.get_position_in_parent())
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -40,6 +73,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		UserSettings.save_user_settings()
 	populate_buttons()
 		
+	sort_by_list.hide()
+		
 	set_filter(UserSettings.user_settings.filter_mode, false)
 	
 	var song_to_select = null
@@ -56,39 +91,21 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus")
 #	song_container.hard_arrange_all()
-	
-	var allowed_sort_by = {
-		"title": "Title",
-		"artist": "Artist",
-		"score": "Difficulty",
-		"creator": "Chart Creator",
-		"bpm": "BPM",
-		"_added_time": "Last Subscribed",
-		"_times_played": "Times played",
-	}
-	for button in sort_by_list_container.get_children():
-		sort_by_list_container.remove_child(button)
-		button.queue_free()
-	
-	for sort_by in allowed_sort_by:
-		var button = HBHovereableButton.new()
-		button.text = allowed_sort_by[sort_by]
-		button.connect("pressed", self, "set_sort", [sort_by])
-		sort_by_list_container.add_child(button)
-		# We ensure the current sort mode is selected by default
-		if sort_by == UserSettings.user_settings.sort_mode:
-			sort_by_list_container.select_button(button.get_position_in_parent())
 	#sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
 	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
 	
 func _on_ugc_item_added_times_updated():
-	if UserSettings.user_settings.sort_mode == "_added_time":
+	if UserSettings.user_settings.workshop_tab_sort_mode in ["_added_time", "_updated_time", "_released_time"] \
+			and UserSettings.user_settings.filter_mode == "workshop":
 		song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	
 func set_sort(sort_by):
-	UserSettings.user_settings.sort_mode = sort_by
+	if UserSettings.user_settings.filter_mode == "workshop":
+		UserSettings.user_settings.workshop_tab_sort_mode = sort_by
+	else:
+		UserSettings.user_settings.sort_mode = sort_by
 	UserSettings.save_user_settings()
 	song_container.sort_by_prop = sort_by
 	song_container.set_songs(SongLoader.songs.values(), null, null, true)
@@ -203,6 +220,10 @@ func set_filter(filter_name, save=true):
 	UserSettings.user_settings.filter_mode = filter_name
 	if save:
 		UserSettings.save_user_settings()
+	if filter_name == "workshop":
+		set_sort(UserSettings.user_settings.workshop_tab_sort_mode)
+	else:
+		set_sort(UserSettings.user_settings.sort_mode)
 	update_path_label()
 func update_path_label():
 	if UserSettings.user_settings.filter_mode == "folders":
@@ -279,6 +300,7 @@ func _unhandled_input(event):
 			song_container.grab_focus()
 
 func show_order_by_list():
+	populate_sort_by_list()
 	sort_by_list.show()
 	sort_by_list_container.grab_focus()
 	
