@@ -139,16 +139,23 @@ class InterpolateAngleTransform:
 		if notes.size() > 2:
 			var min_angle = notes[-1].entry_angle as float
 			var max_angle = notes[0].entry_angle as float
+			min_angle = fmod(min_angle + 360, 360.0)
+			max_angle = fmod(max_angle + 360, 360.0)
+			
 			var min_time = notes[-1].time
 			var max_time = notes[0].time
+			
 			for note in notes:
 				var t = 0
 				if float(max_time-min_time) > 0:
 					t = (note.time - min_time) / float(max_time - min_time)
+				
 				var new_angle = lerp(min_angle, max_angle, t)
+				new_angle = fmod(new_angle + 360, 360.0)
 				transformation_result[note] = {
 					"entry_angle": new_angle
 				}
+		
 		return transformation_result
 
 class FlipAngleTransform:

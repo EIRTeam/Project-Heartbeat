@@ -857,7 +857,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
-			if property_name in selected_item.data:
+			if property_name in selected_item.data and property_name in old_property_values[selected_item]:
 				if property_name == "time":
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
@@ -1669,10 +1669,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 		anchor = last_note
 	
 	pos_compensation = anchor.position
-	if anchor is HBSustainNote:
-		time_compensation = anchor.end_time
-	else: 
-		time_compensation = anchor.time
+	time_compensation = anchor.time
 	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
@@ -1717,7 +1714,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 				time_compensation = selected_item.data.time
 	
 	for selected_item in selected:
-		if selected_item.data is HBBaseNote:
+		if selected_item.data is HBBaseNote and selected.size() > 2:
 			var new_angle_params = autoangle(selected_item.data, selected[0].data.position, angle)
 			
 			if not preview_only:
@@ -2076,8 +2073,20 @@ func _on_HoldCalculatorCheckBox_toggled(button_pressed):
 			item.update()
 
 
-func  _on_arrange_pressed(angle):
-	arrange_selected_notes_by_time(angle, reverse_arrange_checkbox.pressed)
+func  _on_arrange_pressed(direction: int):
+	if direction % 2:
+		var angle = time_arrange_diagonal_angle_spinbox.value
+		
+		if direction > 3:
+			angle = -angle 
+		
+		if direction in [3, 5]:
+			angle = -angle
+			angle += 180
+		
+		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed)
+	else:
+		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed)
 
 
 func _on_TimeArrangeSnapsSpinBox_value_changed(value):

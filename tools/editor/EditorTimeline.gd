@@ -267,7 +267,7 @@ func _on_Editor_scale_changed(prev_scale, scale):
 func _input(event):
 	if event is InputEventMouseMotion:
 		if get_global_rect().has_point(get_global_mouse_position()):
-			if event.is_action("editor_pan", true) and event.pressed:
+			if Input.is_action_pressed("editor_pan"):
 				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
 				set_layers_offset(new_offset)
 		if _area_selecting:
