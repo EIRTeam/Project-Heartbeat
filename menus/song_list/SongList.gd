@@ -57,7 +57,7 @@ func populate_sort_by_list():
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	if PlatformService.service_provider.implements_ugc:
-		PlatformService.service_provider.ugc_provider.connect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
+		PlatformService.service_provider.ugc_provider.connect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
 #	populate_difficulties()
 	song_container.grab_focus()
 #	if args.has("song_difficulty"):
@@ -96,7 +96,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
 	
-func _on_ugc_item_added_times_updated():
+func _on_ugc_song_meta_updated():
 	if UserSettings.user_settings.workshop_tab_sort_mode in ["_added_time", "_updated_time", "_released_time"] \
 			and UserSettings.user_settings.filter_mode == "workshop":
 		song_container.set_songs(SongLoader.songs.values(), null, null, true)
@@ -123,7 +123,7 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", song_container, "grab_focus")
 	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
 	if PlatformService.service_provider.implements_ugc:
-		PlatformService.service_provider.ugc_provider.disconnect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
+		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
 
 func _ready():
 	song_container.connect("song_hovered", self, "_on_song_hovered")
@@ -217,13 +217,15 @@ func populate_buttons():
 func set_filter(filter_name, save=true):
 	song_container.search_term = ""
 	song_container.set_filter(filter_name)
+	var old_filter_mode = UserSettings.user_settings.filter_mode
 	UserSettings.user_settings.filter_mode = filter_name
 	if save:
 		UserSettings.save_user_settings()
-	if filter_name == "workshop":
-		set_sort(UserSettings.user_settings.workshop_tab_sort_mode)
-	else:
-		set_sort(UserSettings.user_settings.sort_mode)
+	if old_filter_mode != filter_name:
+		if filter_name == "workshop":
+			set_sort(UserSettings.user_settings.workshop_tab_sort_mode)
+		else:
+			set_sort(UserSettings.user_settings.sort_mode)
 	update_path_label()
 func update_path_label():
 	if UserSettings.user_settings.filter_mode == "folders":

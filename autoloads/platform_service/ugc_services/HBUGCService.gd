@@ -13,7 +13,7 @@ signal ugc_item_deleted(type, item)
 # warning-ignore:unused_signal
 signal ugc_item_downloaded(item)
 # warning-ignore:unused_signal
-signal ugc_item_added_times_updated()
+signal ugc_song_meta_updated()
 
 const UGC_DATA_PATH = "user://ugc.json"
 var LOG_NAME = "HBUGCService"

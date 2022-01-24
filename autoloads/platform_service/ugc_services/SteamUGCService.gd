@@ -206,7 +206,7 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 				song._updated_time = details.timeUpdated
 				added_time_map[song.ugc_id] = details.timeAddedToUserList
 		if number_of_results > 0:
-			emit_signal("ugc_item_added_times_updated")
+			emit_signal("ugc_song_meta_updated")
 	if update_handle in query_id_to_item:
 		var details = Steam.getQueryUGCResult(update_handle, 0)
 		var item_id = query_id_to_item[update_handle]
