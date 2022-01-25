@@ -18,10 +18,11 @@ onready var latency_display_container = get_node("Control/LatencyDisplay")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var modifiers_label = get_node("Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/ModifierLabel")
 onready var multi_hint = get_node("UnderNotesUI/Control/MultiHint")
-onready var intro_skip_info_animation_player = get_node("UnderNotesUI/Control/SkipContainer/AnimationPlayer")
+onready var intro_skip_control = get_node("UnderNotesUI/Control/SkipIntroIndicator")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 onready var lyrics_view = get_node("Lyrics/Control/LyricsView")
 onready var under_notes_node = get_node("UnderNotesUI")
+onready var intro_skip_tween := Tween.new()
 
 var drawing_layer_nodes = {}
 
@@ -47,7 +48,7 @@ func _on_game_time_changed(time: float):
 	progress_indicator.value = time
 	lyrics_view._on_game_time_changed(int(time*1000.0))
 func _ready():
-	$UnderNotesUI/Control/SkipContainer.hide()
+	intro_skip_control.rect_position.x = -100000
 	rating_label.hide()
 	connect("resized", self, "_on_size_changed")
 	call_deferred("_on_size_changed")
@@ -60,6 +61,8 @@ func _ready():
 	add_drawing_layer("SlideChainPieces")
 	add_drawing_layer("Notes")
 	latency_display_container.visible = UserSettings.user_settings.show_latency
+	
+	add_child(intro_skip_tween)
 
 func add_drawing_layer(layer_name: String):
 	var layer_node = Node2D.new()
@@ -159,13 +162,19 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 		modifiers_label.text = ""
 	if song.allows_intro_skip and not game.disable_intro_skip:
 		if game.earliest_note_time / 1000.0 > song.intro_skip_min_time:
-			intro_skip_info_animation_player.play("appear")
+			intro_skip_tween.reset_all()
+			intro_skip_tween.interpolate_property(intro_skip_control, "rect_position:x", -intro_skip_control.rect_size.x, 0, 1.0, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+			intro_skip_tween.start()
+			
 		else:
 			Log.log(self, "Disabling intro skip")
 	lyrics_view.set_phrases(song.lyrics)
 
 func _on_intro_skipped(time):
-	intro_skip_info_animation_player.play("disappear")
+	intro_skip_tween.reset_all()
+	intro_skip_tween.interpolate_property(intro_skip_control, "rect_position:x", 0, -intro_skip_control.rect_size.x, 1.0, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	intro_skip_tween.start()
+
 	intro_skip_ff_animation_player.play("animate")
 
 func _on_hold_released():
@@ -193,7 +202,9 @@ func _on_hide_multi_hint():
 	multi_hint.hide()
 	
 func _on_end_intro_skip_period():
-	intro_skip_info_animation_player.play("disappear")
+	intro_skip_tween.reset_all()
+	intro_skip_tween.interpolate_property(intro_skip_control, "rect_position:x", 0, -intro_skip_control.rect_size.x, 1.0, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	intro_skip_tween.start()
 
 func _update_clear_bar_value():
 	if disable_score_processing:
