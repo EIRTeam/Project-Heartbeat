@@ -210,7 +210,7 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("note_up") and not search_prompt.visible and not HBUtils.is_gui_directional_press("gui_up", event):
 		sort_by_popup.show()
 		sort_by_container.grab_focus()
-	elif event.is_action_pressed("contextual_option") and not search_prompt.visible:
+	elif event.is_action_pressed("gui_search") and not search_prompt.visible:
 		search_prompt.popup_centered()
 	elif (event.is_action("gui_tab_right") or event.is_action("gui_tab_left")) and not search_prompt.visible:
 		tag_button_container._gui_input(event)

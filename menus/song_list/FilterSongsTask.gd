@@ -47,12 +47,13 @@ func sort_and_filter_songs():
 				should_add_song = song.comes_from_ugc()
 			"all":
 				should_add_song = true
+		
 		if should_add_song:
-			if search_term:
-				if search_term in song.title.to_lower() or search_term in song.romanized_title.to_lower():
+			for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
+				if search_term.empty() or search_term in field:
 					_filtered_songs.append(song)
-			else:
-				_filtered_songs.append(song)
+					break
+	
 	_filtered_songs.sort_custom(self, "sort_array")
 	return _filtered_songs
 		

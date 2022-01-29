@@ -80,17 +80,19 @@ func populate_tree():
 		# PPD charts cannot be edited...
 		if song.is_visible_in_editor() and not song.comes_from_ugc():
 			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
-				if not search_line_edit.text.empty():
-					if not search_line_edit.text.to_lower() in song.title.to_lower():
-						continue
-				var item = tree.create_item()
-				item.set_text(0, song.title)
-				item.set_meta("song", song)
-				for difficulty in song.charts:
-					var diff_item = tree.create_item(item)
-					diff_item.set_text(0, difficulty.capitalize())
-					diff_item.set_meta("song", song)
-					diff_item.set_meta("difficulty", difficulty)
+				for field in [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]:
+					if search_line_edit.text.empty() or search_line_edit.text.to_lower() in field:
+						var item = tree.create_item()
+						item.set_text(0, song.title)
+						item.set_meta("song", song)
+						
+						for difficulty in song.charts:
+							var diff_item = tree.create_item(item)
+							diff_item.set_text(0, difficulty.capitalize())
+							diff_item.set_meta("song", song)
+							diff_item.set_meta("difficulty", difficulty)
+						
+						break
 	
 func _on_item_selected():
 	var item = tree.get_selected()

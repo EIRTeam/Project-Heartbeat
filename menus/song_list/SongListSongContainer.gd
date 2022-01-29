@@ -137,9 +137,11 @@ func update_items():
 	sort_by_prop = old_sort_by_mode
 		
 	for song in folder_songs:
-		if not search_term or (search_term in song.title.to_lower() or search_term in song.romanized_title.to_lower()):
-			var item = _create_song_item(song)
-			item_container.add_child(item)
+		for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
+			if search_term.empty() or search_term in field:
+				var item = _create_song_item(song)
+				item_container.add_child(item)
+				break
 	
 	var prev_selected_item := 0
 	if selected_index_stack:

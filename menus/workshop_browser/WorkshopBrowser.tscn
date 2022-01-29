@@ -99,7 +99,7 @@ rect_min_size = Vector2( 0, 40 )
 [node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource( 11 )]
 margin_right = 163.0
 rect_min_size = Vector2( 163, 39 )
-action_name = "contextual_option"
+action_name = "gui_search"
 text = "Search"
 
 [node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
