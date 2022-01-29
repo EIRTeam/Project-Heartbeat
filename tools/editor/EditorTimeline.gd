@@ -273,7 +273,7 @@ func _input(event):
 		if _area_selecting:
 			update()
 	if get_global_rect().has_point(get_global_mouse_position()):
-		if event.is_action_pressed("editor_contextual_menu"):
+		if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("EditorGlobalSettings").visible:
 			editor.show_contextual_menu()
 func _gui_input(event):
 	if event is InputEventMouseButton:

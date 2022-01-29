@@ -133,14 +133,15 @@ func _draw():
 	var origin = game.remap_coords(Vector2())
 	var size = game.playing_field_size
 	_draw_game_area(origin, size)
-	_draw_safe_area(origin, size)
+	_draw_safe_area()
 func _draw_game_area(origin, size):
 	draw_rect(Rect2(origin, size), Color(1.0, 1.0, 1.0), false, 1.0, true)
 
-func _draw_safe_area(origin, size):
+func _get_safe_area_rect():
 	var GAME_AREA_START = game.remap_coords(Vector2.ZERO)
-	var safe_area_rect = Rect2(game.remap_coords(SAFE_AREA_SIZE), game.remap_coords(game.BASE_SIZE) + GAME_AREA_START - game.remap_coords(SAFE_AREA_SIZE) * 2)
-	draw_rect(safe_area_rect, Color(1.0, 0.0, 0.0), false, 1.0, true)
+	return Rect2(game.remap_coords(SAFE_AREA_SIZE), game.remap_coords(game.BASE_SIZE) + GAME_AREA_START - game.remap_coords(SAFE_AREA_SIZE) * 2)
+func _draw_safe_area():
+	draw_rect(_get_safe_area_rect(), Color(1.0, 0.0, 0.0), false, 1.0, true)
 
 
 func show_bg(show):

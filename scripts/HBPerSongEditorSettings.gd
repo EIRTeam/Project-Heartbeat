@@ -23,7 +23,6 @@ var selected_variant := -1
 
 var grid_snap := true
 var show_grid := true
-var grid_resolution := {"x": 20.0, "y": 40.0}
 
 var separation := 96
 var diagonal_angle := 30
@@ -48,7 +47,7 @@ func _init():
 	serializable_fields += [
 		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
 		"auto_multi", "waveform", "show_video", "show_bg", "selected_variant", 
-		"grid_snap", "show_grid", "grid_resolution",
+		"grid_snap", "show_grid",
 		"separation", "diagonal_angle", "autoslide", "autoplace", "autoangle", "arranger_snaps", "angle_snaps",
 		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
 	]

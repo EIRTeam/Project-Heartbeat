@@ -63,25 +63,25 @@ action = "editor_save"
 [sub_resource type="ShortCut" id=4]
 shortcut = SubResource( 3 )
 
-[sub_resource type="InputEventAction" id=10]
-action = "editor_timeline_snap"
-
-[sub_resource type="ShortCut" id=11]
-shortcut = SubResource( 10 )
-
 [sub_resource type="InputEventAction" id=5]
-action = "editor_grid_snap"
+action = "editor_timeline_snap"
 
 [sub_resource type="ShortCut" id=6]
 shortcut = SubResource( 5 )
 
 [sub_resource type="InputEventAction" id=7]
-action = "editor_grid"
+action = "editor_grid_snap"
 
 [sub_resource type="ShortCut" id=8]
 shortcut = SubResource( 7 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="InputEventAction" id=9]
+action = "editor_grid"
+
+[sub_resource type="ShortCut" id=10]
+shortcut = SubResource( 9 )
+
+[sub_resource type="DynamicFont" id=11]
 size = 17
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
@@ -215,7 +215,7 @@ margin_bottom = 32.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
 pressed = true
-shortcut = SubResource( 11 )
+shortcut = SubResource( 6 )
 icon = ExtResource( 18 )
 flat = true
 
@@ -863,7 +863,7 @@ margin_bottom = 27.0
 hint_tooltip = "Toggle waveform"
 toggle_mode = true
 pressed = true
-shortcut = SubResource( 6 )
+shortcut = SubResource( 8 )
 icon = ExtResource( 44 )
 flat = true
 
@@ -874,7 +874,7 @@ margin_bottom = 27.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
 pressed = true
-shortcut = SubResource( 6 )
+shortcut = SubResource( 8 )
 icon = ExtResource( 18 )
 flat = true
 
@@ -905,7 +905,7 @@ margin_bottom = 27.0
 hint_tooltip = "Show grid"
 toggle_mode = true
 pressed = true
-shortcut = SubResource( 8 )
+shortcut = SubResource( 10 )
 icon = ExtResource( 20 )
 flat = true
 
@@ -913,9 +913,14 @@ flat = true
 margin_left = 160.0
 margin_right = 224.0
 margin_bottom = 27.0
-step = 0.05
-value = 20.0
+min_value = 1.0
+max_value = 368.0
+value = 48.0
+suffix = "px"
 script = ExtResource( 50 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
 margin_left = 228.0
@@ -928,9 +933,14 @@ text = "x"
 margin_left = 247.0
 margin_right = 311.0
 margin_bottom = 27.0
-step = 0.05
-value = 40.0
+min_value = 1.0
+max_value = 368.0
+value = 48.0
+suffix = "px"
 script = ExtResource( 50 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource( 8 )]
 mouse_filter = 2
@@ -956,7 +966,7 @@ script = ExtResource( 43 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-font = SubResource( 9 )
+font = SubResource( 11 )
 
 [node name="Control2" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer"]
 margin_left = 1137.0
@@ -1321,9 +1331,6 @@ margin_top = 157.0
 margin_right = 1166.0
 margin_bottom = 412.0
 
-[connection signal="playhead_position_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_playhead_position_changed"]
-[connection signal="scale_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_Editor_scale_changed"]
-[connection signal="timing_information_changed" from="." to="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline" method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="Popups/ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="Popups/OpenChartPopupDialog" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]

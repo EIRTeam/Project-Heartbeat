@@ -3,6 +3,8 @@ extends HBSerializable
 
 class_name HBUserSettings
 
+signal editor_grid_resolution_changed
+
 var visualizer_enabled = true
 var visualizer_resolution = 32
 var lag_compensation = 0
@@ -175,8 +177,28 @@ var use_direct_joystick_access: bool = false
 
 var color_presets = []
 
-func _init():
+var editor_grid_resolution := {"x": 48, "y": 48}
+var editor_grid_subdivisions := 0
+var editor_dashes_per_grid_space := 3
+var editor_grid_safe_area_only := true
+var editor_multinote_crosses_enabled := true
+var editor_grid_type := 0
 
+var editor_grid_type__possibilities = [
+	"full",
+	"dashed",
+	"subdivided",
+]
+
+var editor_main_grid_color := Color(0.5, 0.5, 0.5)
+var editor_main_grid_width := 2.0
+var editor_secondary_grid_color := Color(0.5, 0.5, 0.5)
+var editor_secondary_grid_width := 1.0
+var editor_multinote_cross_color := Color.white
+var editor_multinote_cross_width := 1.0
+
+
+func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
@@ -191,6 +213,8 @@ func _init():
 	"lyrics_color", "locale", "timing_method", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
 	"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled",
+	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
+	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"color_presets"]
 	
 	merge_dict_fields += [

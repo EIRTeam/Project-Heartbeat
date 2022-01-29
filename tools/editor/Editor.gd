@@ -233,6 +233,9 @@ func _ready():
 	
 	$SyncToolboxDialog.set_editor(self)
 	$EditorGlobalSettings.song_settings_tab.set_editor(self)
+	$EditorGlobalSettings.general_settings_tab.set_editor(self)
+	
+	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -423,9 +426,8 @@ func _unhandled_input(event: InputEvent):
 			var diff_x = event.get_action_strength("editor_move_right") - event.get_action_strength("editor_move_left")
 			var diff_y = event.get_action_strength("editor_move_down") - event.get_action_strength("editor_move_up")
 			
-			var spacing_x = 1920 / grid_renderer.vertical
-			var spacing_y = 1080 / grid_renderer.horizontal
-			var off = Vector2(int(diff_x * spacing_x), int(diff_y * spacing_y))
+			var grid_size = grid_renderer.get_grid_size()
+			var off = Vector2(int(diff_x * grid_size.x), int(diff_y * grid_size.y))
 			
 			fine_position_selected(off)
 			get_tree().set_input_as_handled()
@@ -1295,11 +1297,10 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	show_bg_button.pressed = settings.show_bg
 	show_video_button.pressed = settings.show_video
 	
-	grid_renderer.settings = settings
 	grid_snap_button.pressed = settings.grid_snap
 	show_grid_button.pressed = settings.show_grid
-	grid_x_spinbox.value = settings.grid_resolution.x
-	grid_y_spinbox.value = settings.grid_resolution.y
+	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
+	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
 	time_arrange_separation_spinbox.value = settings.separation
 	time_arrange_diagonal_angle_spinbox.value = settings.diagonal_angle
@@ -1546,13 +1547,17 @@ func _on_GridSnapButton_toggled(button_pressed):
 	song_editor_settings.set("grid_snap", button_pressed)
 
 func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: bool):
-	new_pos /= rhythm_game.BASE_SIZE
 	prev_pos /= rhythm_game.BASE_SIZE
-	var final_position = new_pos
+	var final_position = new_pos / rhythm_game.BASE_SIZE
 	
 	if snap_to_grid_enabled:
-		final_position.x = round(grid_renderer.vertical * new_pos.x) / float(grid_renderer.vertical)
-		final_position.y = round(grid_renderer.horizontal * new_pos.y) / float(grid_renderer.horizontal)
+		var grid_size = grid_renderer.get_grid_size()
+		
+		final_position.x = floor(new_pos.x / grid_size.x) * grid_size.x
+		final_position.y = floor(new_pos.y / grid_size.y) * grid_size.y
+		final_position += grid_renderer.get_grid_offset()
+		
+		final_position /= rhythm_game.BASE_SIZE
 	
 	var diff = new_pos - prev_pos
 	var direction = 1 if max(abs(diff.x), abs(diff.y)) == abs(diff.x) else 0
@@ -2212,3 +2217,8 @@ func reset_note_position():
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
 	undo_redo.commit_action()
+
+
+func _update_grid_resolution():
+	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
+	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
