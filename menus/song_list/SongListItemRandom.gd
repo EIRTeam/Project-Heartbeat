@@ -7,8 +7,7 @@ var t = 0.0
 var current_color := Color()
 
 func _ready():
-	$Control/RainbowOverlay.hide()
-	$Control/TextureRect/StarRainbow.hide()
+	stop_hover()
 
 func hover(no_animation = false):
 	.hover(no_animation)

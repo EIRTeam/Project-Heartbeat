@@ -118,6 +118,10 @@ func update_items():
 		back_item.connect("pressed", self, "update_items")
 		item_container.add_child(back_item)
 	
+	var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
+	rand.connect("pressed", self, "_on_random_pressed")
+	item_container.add_child(rand)
+	
 	for subfolder in current_folder.subfolders:
 		var item = SongListItemFolder.instance()
 		item.connect("pressed", self, "navigate_folder", [subfolder])
@@ -316,10 +320,6 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 #	selected_option = null
 
 	filtered_song_items = {}
-	
-	var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
-	rand.connect("pressed", self, "_on_random_pressed")
-	item_container.add_child(rand)
 
 	var base_dummy := DummySongListEntry.new()
 	for song in filtered_songs:
