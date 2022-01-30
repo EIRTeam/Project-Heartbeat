@@ -254,7 +254,7 @@ func set_layers_offset(ms: int):
 func scale_layers():
 	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
 
-func _on_Editor_scale_changed(prev_scale, scale):
+func _on_editor_scale_changed(prev_scale, scale):
 	var new_offset = _offset * (scale/prev_scale)
 	var diff = _prev_playhead_position.x - calculate_playhead_position().x
 	

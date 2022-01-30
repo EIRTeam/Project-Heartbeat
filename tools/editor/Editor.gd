@@ -237,6 +237,8 @@ func _ready():
 	
 	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
 
+	connect("scale_changed", timeline, "_on_editor_scale_changed")
+
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
