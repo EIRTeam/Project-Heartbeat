@@ -201,7 +201,7 @@ func get_ytdl_shared_params():
 	"--user-agent", USER_AGENT,
 	# aria2 seems good at preventing throttling from Niconico
 	"--external-downloader", YoutubeDL.get_aria2_executable(),
-	"--external-downloader-args", "--user-agent '%s'" % [USER_AGENT]
+	"--external-downloader-args", "--disable-ipv6 --user-agent '%s'" % [USER_AGENT]
 	]
 	
 	if OS.get_name() == "X11":
