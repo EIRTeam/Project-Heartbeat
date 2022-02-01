@@ -236,8 +236,10 @@ func _ready():
 	$EditorGlobalSettings.general_settings_tab.set_editor(self)
 	
 	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
-
+	
 	connect("scale_changed", timeline, "_on_editor_scale_changed")
+	
+	game_preview.connect("resized", self, "_on_preview_size_changed")
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -429,7 +431,7 @@ func _unhandled_input(event: InputEvent):
 			var diff_y = event.get_action_strength("editor_move_down") - event.get_action_strength("editor_move_up")
 			
 			var grid_size = grid_renderer.get_grid_size()
-			var off = Vector2(int(diff_x * grid_size.x), int(diff_y * grid_size.y))
+			var off = Vector2(int(diff_x * grid_size.y), int(diff_y * grid_size.x))
 			
 			fine_position_selected(off)
 			get_tree().set_input_as_handled()
@@ -1549,17 +1551,15 @@ func _on_GridSnapButton_toggled(button_pressed):
 	song_editor_settings.set("grid_snap", button_pressed)
 
 func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: bool):
-	prev_pos /= rhythm_game.BASE_SIZE
-	var final_position = new_pos / rhythm_game.BASE_SIZE
+	var final_position = new_pos
 	
 	if snap_to_grid_enabled:
 		var grid_size = grid_renderer.get_grid_size()
-		
-		final_position.x = floor(new_pos.x / grid_size.x) * grid_size.x
-		final_position.y = floor(new_pos.y / grid_size.y) * grid_size.y
+		print(grid_size)
+		final_position.x = floor(new_pos.x / grid_size.y) * grid_size.y
+		final_position.y = floor(new_pos.y / grid_size.x) * grid_size.x
 		final_position += grid_renderer.get_grid_offset()
 		
-		final_position /= rhythm_game.BASE_SIZE
 	
 	var diff = new_pos - prev_pos
 	var direction = 1 if max(abs(diff.x), abs(diff.y)) == abs(diff.x) else 0
@@ -1573,7 +1573,6 @@ func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: b
 			# Y snap
 			final_position.x = prev_pos.x
 	
-	final_position *= rhythm_game.BASE_SIZE
 	return final_position
 
 
@@ -1753,7 +1752,6 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 	if song_editor_settings.autoangle and arrange_angle != null:
 		var new_angle: float
 		var oscillation_frequency = abs(note.oscillation_frequency)
-		var vertical := false
 		
 		# Normalize the arrange angle to be between 0 and 2PI
 		arrange_angle = fmod(fmod(arrange_angle, 2*PI) + 2*PI, 2*PI)
@@ -1765,7 +1763,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 		new_angle = arrange_angle + PI/2.0
 		
 		if rotated_quadrant in [1, 3]:
-			new_angle += PI if quadrant in [0, 1] else 0
+			new_angle += PI if quadrant in [0, 1] else 0.0
 			
 			var left_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(0, 1080))
 			var right_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
@@ -1774,9 +1772,9 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 			var right_distance = new_pos.distance_to(right_point)
 			
 			# Point towards closest side
-			new_angle += PI if right_distance > left_distance else 0
+			new_angle += PI if right_distance > left_distance else 0.0
 		else:
-			new_angle += PI if quadrant in [1, 2] else 0
+			new_angle += PI if quadrant in [1, 2] else 0.0
 			
 			var top_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(1920, 0))
 			var bottom_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
@@ -1785,7 +1783,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 			var bottom_distance = new_pos.distance_to(bottom_point)
 			
 			# Point towards furthest side
-			new_angle += PI if top_distance > bottom_distance else 0
+			new_angle += PI if top_distance > bottom_distance else 0.0
 		
 		var positive_quadrants = []
 		
@@ -2022,7 +2020,6 @@ func autoplace(data: HBBaseNote, force=false):
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
 	
-	var multi_pos = 0
 	var place_at_note = null
 	var notes_at_time = get_notes_at_time(data.time)
 	
@@ -2224,3 +2221,8 @@ func reset_note_position():
 func _update_grid_resolution():
 	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
 	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
+
+func _on_preview_size_changed():
+	for item in selected:
+		item.update_widget_data()
+		item.widget.arrange_gizmo()

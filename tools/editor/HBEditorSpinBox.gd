@@ -4,8 +4,10 @@ class_name HBEditorSpinBox
 
 func _input(event):
 	if event.is_action_pressed("gui_accept") or event.is_action_pressed("gui_cancel"):
-		apply()
-		get_line_edit().release_focus()
+		if get_focus_owner() == get_line_edit():
+			apply()
+			get_line_edit().release_focus()
+			get_tree().set_input_as_handled()
 	
 	if event is InputEventMouseButton and not get_global_rect().has_point(get_global_mouse_position()):
 		if event.button_index == BUTTON_LEFT and event.pressed:
