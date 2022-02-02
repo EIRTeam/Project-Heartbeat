@@ -1519,6 +1519,7 @@ func _on_timing_information_changed(f=null):
 	song_editor_settings.set("beats_per_bar", get_beats_per_bar())
 	song_editor_settings.set("note_resolution", note_resolution_box.value)
 	release_owned_focus()
+	timeline.update()
 	emit_signal("timing_information_changed")
 
 
@@ -1555,7 +1556,7 @@ func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: b
 	
 	if snap_to_grid_enabled:
 		var grid_size = grid_renderer.get_grid_size()
-		print(grid_size)
+		
 		final_position.x = floor(new_pos.x / grid_size.y) * grid_size.y
 		final_position.y = floor(new_pos.y / grid_size.x) * grid_size.x
 		final_position += grid_renderer.get_grid_offset()

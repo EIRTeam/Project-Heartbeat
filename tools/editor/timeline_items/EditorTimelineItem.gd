@@ -137,8 +137,7 @@ func update_widget_data():
 		widget.entry_angle = deg2rad(data.entry_angle)
 		if not widget.note_data:
 			widget.note_data = data
-		widget.arrange_gizmo()
-	
+
 func get_duration():
 	return 1000
 
