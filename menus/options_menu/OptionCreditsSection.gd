@@ -19,14 +19,14 @@ const PH_AUTHORS = {
 	"Art": {
 		"Izayoi": ["Background artwork (Cloudy Sky)"],
 		"Mariale": ["Background artwork (Sands of Time, Connected, Core Creation)"],
-		"Joanna Salguero (guinii)": ["Background artwork (Through the Night, ETERNAL)"],
+		"Joanna Salguero (guinii)": ["Background artwork (Through the Night, ETERNAL, Love Sacrifice)"],
 		"Emmilly Lima (sadnesswaifu)": ["Background artwork (Imademo, Blossoming Spell, Getaway)"],
 		"Albert Navarro (Reixart)": ["Background artwork (Going my way)"],
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
 		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor)"]
 	},
 	"Charting": {
-		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night"],
+		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
 		"Starbeat": ["Getaway"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
@@ -46,6 +46,11 @@ const PH_AUTHORS = {
 			],
 		"Galaxian Recordings": [
 			"Blossoming Spell"
+		],
+		"Takanashi Koubou": [
+			"ETERNAL",
+			"Love Sacrifice",
+			"Going my way"
 		],
 		"TORAV4": [
 			"Connected"
