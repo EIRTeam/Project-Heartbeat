@@ -321,6 +321,10 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 
 	filtered_song_items = {}
 
+	var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
+	rand.connect("pressed", self, "_on_random_pressed")
+	item_container.add_child(rand)
+
 	var base_dummy := DummySongListEntry.new()
 	for song in filtered_songs:
 		var dummy := base_dummy.duplicate()
