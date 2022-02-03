@@ -142,8 +142,11 @@ func _on_note_type_changed():
 func _on_note_judged(judgement, prevent_freeing = false):
 	if note_data is HBNoteData and note_data.is_slide_note():
 		if judgement >= game.judge.JUDGE_RATINGS.FINE:
-			
-			var particles = preload("res://graphics/effects/SlideParticles.tscn").instance()
+			var particles
+			if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+				particles = preload("res://graphics/effects/SlideParticlesCPU.tscn").instance()
+			else:
+				particles = preload("res://graphics/effects/SlideParticles.tscn").instance()
 			
 			if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 				particles.scale = Vector2(-1.0, 1.0)
