@@ -16,8 +16,12 @@ func set_min_db(value):
 func _ready():
 	add_to_group("song_backgrounds")
 	spectrum = AudioServer.get_bus_effect_instance(1,0)
-	spectrum_image.create(VU_COUNT,1,false,Image.FORMAT_R8)
-	spectrum_image_texture.create_from_image(spectrum_image, ImageTexture.FLAG_FILTER)
+	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
+		# GLES2 doesn't like R8
+		spectrum_image.create(VU_COUNT, 1, false, Image.FORMAT_RGB8)
+	else:
+		spectrum_image.create(VU_COUNT, 1, false, Image.FORMAT_R8)
+	spectrum_image_texture.create_from_image(spectrum_image, Texture.FLAG_FILTER)
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("audio", spectrum_image_texture)
 	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
@@ -46,7 +50,7 @@ func _physics_process(delta):
 		var f = spectrum.get_magnitude_for_frequency_range(prev_hz,hz, 1)
 		var energy = clamp((MIN_DB + linear2db(f.length()))/MIN_DB,0,1)
 		
-		spectrum_image.set_pixel(i-1, 0, Color(energy, 1.0, 1.0))
+		spectrum_image.set_pixel(i-1, 0, Color(energy, 0.0, 0.0))
 		
 		prev_hz = hz
 	#spectrum_image.set_pixel(0, 0, Color(1.0, 0.0, 0.0))
