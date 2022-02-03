@@ -219,17 +219,20 @@ tracks/0/keys = {
 code = "shader_type canvas_item;
 
 uniform sampler2D bg: hint_albedo;
+uniform vec2 texture_size;
 
 void fragment() {
 	vec2 siz = 1.0 / TEXTURE_PIXEL_SIZE;
 	vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
-	vec2 scale = vec2(textureSize(bg, 0)) / res;
+	vec2 scale = vec2(texture_size) / res;
 	COLOR = texture(bg, SCREEN_UV/scale);
 	COLOR.a = COLOR.a * UV.x;
 }"
 
 [sub_resource type="ShaderMaterial" id=18]
 shader = SubResource( 17 )
+shader_param/texture_size = Vector2( 128, 128 )
+shader_param/bg = ExtResource( 33 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 content_margin_left = 77.0
