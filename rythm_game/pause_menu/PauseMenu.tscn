@@ -1,30 +1,117 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://rythm_game/pause_menu/PauseMenu3D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/pause_menu/PauseMenu.gd" type="Script" id=2]
 [ext_resource path="res://menus/PerSongSettingsEditor.tscn" type="PackedScene" id=3]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=4]
 code = "shader_type canvas_item;
-uniform float amount : hint_range(0,10);
+
+uniform float radius = 9.0;
+
 void fragment() {
-    COLOR.rgb = textureLod(SCREEN_TEXTURE,SCREEN_UV,amount).rgb;
-//	COLOR.rgb = COLOR.rgb * 0.5;
+	vec2 px = SCREEN_PIXEL_SIZE;
+	float i = -radius;
+	vec4 col = vec4(0.0);
+	float n = 0.0015;
+	float weight;
+	float norm;
+	
+	for (i = -radius; i <= radius; i++) {
+		col += texture(SCREEN_TEXTURE, SCREEN_UV + px * vec2(i, 0.0)) * n;
+		if (i <= 0.0) {
+			n += 0.0015;
+		}
+		if (i > 0.0) {
+			n -= 0.0015;
+		}
+		weight += n;
+	}
+	norm = 1.0/weight;
+	
+	COLOR = col * norm;
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/amount = 3.0
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/radius = 9.0
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+uniform float radius = 9.0;
+
+void fragment() {
+	vec2 px = SCREEN_PIXEL_SIZE;
+	float i = -radius;
+	vec4 col = vec4(0.0);
+	float n = 0.0015;
+	float weight;
+	float norm;
+	
+	for (i = -radius; i <= radius; i++) {
+		col += texture(SCREEN_TEXTURE, SCREEN_UV + px * vec2(0.0, i)) * n;
+		if (i <= 0.0) {
+			n += 0.0015;
+		}
+		if (i > 0.0) {
+			n -= 0.0015;
+		}
+		weight += n;
+	}
+	norm = 1.0/weight;
+	
+	COLOR = col * norm;
+}"
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/radius = 9.0
 
 [sub_resource type="ViewportTexture" id=3]
 flags = 5
 viewport_path = NodePath("ViewportContainer/Viewport")
 
-[node name="Control" type="Panel"]
-material = SubResource( 2 )
+[node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+position = Vector2( 619.77, 412.459 )
+scale = Vector2( 7.1977, 5.13459 )
+copy_mode = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="BackBufferCopy"]
+material = SubResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -100.0
+margin_top = -100.0
+margin_right = -100.0
+margin_bottom = -100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
+position = Vector2( 0, -1 )
+copy_mode = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="BackBufferCopy2"]
+material = SubResource( 7 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 788.0
+margin_bottom = 564.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

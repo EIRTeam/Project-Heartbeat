@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 var current_song: HBSong
 
@@ -21,6 +21,11 @@ func _ready():
 	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
 		var tex = $TextureRect.texture as ViewportTexture
 		tex.flags = tex.FLAG_FILTER
+	connect("resized", self, "_on_resized")
+
+func _on_resized():
+	$BackBufferCopy.rect = get_rect()
+	$BackBufferCopy2.rect = get_rect()
 	
 func _on_resumed():
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()
