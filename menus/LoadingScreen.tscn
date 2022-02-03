@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://menus/LoadingScreen.gd" type="Script" id=1]
 [ext_resource path="res://fonts/new_fonts/Comforta.tres" type="DynamicFont" id=2]
@@ -22,13 +22,6 @@ gradient = SubResource( 2 )
 [sub_resource type="StyleBoxTexture" id=4]
 texture = SubResource( 3 )
 region_rect = Rect2( 0, 0, 2048, 1 )
-
-[sub_resource type="StyleBoxTexture" id=5]
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 128, 128 )
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-modulate_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -80,14 +73,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="LoadingScreenElements/Panel2"]
+[node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2"]
+self_modulate = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 2
 
 [node name="Panel3" type="Panel" parent="LoadingScreenElements/Panel2"]
 anchor_right = 1.0
@@ -176,11 +169,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="LoadingScreenElements/EpilepsyWarning"]
+[node name="Panel2" type="TextureRect" parent="LoadingScreenElements/EpilepsyWarning"]
+self_modulate = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 5 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
