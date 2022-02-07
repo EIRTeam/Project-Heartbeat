@@ -206,7 +206,14 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 # This is cleared after every frame, to ensure we don't play two sounds coming from the same button
 var _processed_event_uids = []
 
-func _input(event):
+# This is to prevent the empty slide sound from being played when it shouldn't, the reason
+# why it's not a bool is that we use the frame the heart hack was triggered (by a heart/slide
+# sound being played from a note) and ignore all empty sound playbacks in that frame and the next one
+# istg 
+var _heart_hack_frame = 0
+const HEART_HACK_TYPES = [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT, HBBaseNote.NOTE_TYPE.HEART]
+
+func _process_input(event):
 	if event is InputEventHB:
 		if not event.event_uid in _processed_event_uids:
 			var use_fallback_sound = true
@@ -215,6 +222,7 @@ func _input(event):
 				if note is HBBaseNote:
 					var drawer = get_note_drawer(note)
 					var found_ac = false
+
 					for ac in event.actions:
 						if ac in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
 							found_ac = true
@@ -222,11 +230,20 @@ func _input(event):
 						if drawer.handles_hit_sfx_playback():
 							var hit_sfx = drawer.get_hit_sfx()
 							use_fallback_sound = false
+							
 							if hit_sfx != "":
 								sfx_pool.play_sfx(hit_sfx)
+								if note.note_type in HEART_HACK_TYPES:
+									# This is why my went to buy marlborro and never came back
+									_heart_hack_frame = Engine.get_frames_drawn()
 							_processed_event_uids.append(event.event_uid)
 							break # remove this to allow more than 1 sfx to be played back in multis
-			if use_fallback_sound:
+			var heart_or_slide_judged_this_frame := false
+			for note in notes_judged_this_frame:
+				if note.note_type in HEART_HACK_TYPES:
+					heart_or_slide_judged_this_frame = true
+					break
+			if use_fallback_sound: 
 				# Note SFX
 				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 					var action_pressed = false
@@ -234,8 +251,11 @@ func _input(event):
 					for action in actions:
 						if event.action == action and event.pressed and not event.is_echo():
 							var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
-							play_note_sfx(type in slide_types)
 							_processed_event_uids.append(event.event_uid)
+							if type in slide_types and (Engine.get_frames_drawn() <= _heart_hack_frame+1 or heart_or_slide_judged_this_frame):
+								return
+									
+							play_note_sfx(type in slide_types)
 							action_pressed = true
 							break
 					if action_pressed:
@@ -244,7 +264,7 @@ func _input(event):
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
 				if not event.event_uid in held_note_event_map[type]:
 					held_note_event_map[type].append(event.event_uid)
-
+	._process_input(event)
 
 func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
@@ -302,9 +322,10 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 func show_slide_hold_score(piece_position, accumulated_score, is_end):
 	emit_signal("show_slide_hold_score", piece_position, accumulated_score, is_end)
 
+func _pre_process_game():
+	._pre_process_game()
 
 func _process_game(_delta):
-
 	._process_game(_delta)
 
 	# Hold combo increasing and shit
