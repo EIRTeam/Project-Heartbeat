@@ -173,7 +173,7 @@ var hide_ppd_ex_songs: bool = false
 var editor_first_time_message_acknowledged: bool = false
 var editor_autosave_enabled: bool = true
 
-var use_direct_joystick_access: bool = false
+var use_direct_joystick_access: bool = true
 
 var color_presets = []
 
