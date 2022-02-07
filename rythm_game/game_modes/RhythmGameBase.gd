@@ -94,6 +94,8 @@ var cached_note_drawers = {}
 
 var current_variant = -1
 
+var notes_judged_this_frame = []
+
 func _init():
 	name = "RhythmGameBase"
 
@@ -339,7 +341,9 @@ func _on_viewport_size_changed():
 	cache_playing_field_size()
 	emit_signal("size_changed")
 
-func _input(event):
+var _on_frame = false
+
+func _process_input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
@@ -351,6 +355,8 @@ func _input(event):
 					_process(0)
 					# call ui on intro skip
 					emit_signal("intro_skipped", time)
+func _input(event):
+	_process_input(event)
 func _process_note_group(group: NoteGroup):
 	var multi_notes = []
 	for i in range(group.notes.size()):
@@ -466,8 +472,14 @@ func _process_game(_delta):
 			emit_signal("end_intro_skip_period")
 			_intro_skip_enabled = false
 			
+func _pre_process_game():
+	game_input_manager.flush_inputs()
+
 func _process(delta):
+	_pre_process_game()
 	_process_game(delta)
+	notes_judged_this_frame = []
+	game_input_manager._frame_end()
 
 func toggle_ui():
 	emit_signal("toggle_ui")
@@ -686,6 +698,7 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 #			if n != note and n.is_slide_note():
 #				_on_notes_judged([n], judgement, wrong)
 	# Some notes might be considered more than 1 at the same time? connected ones aren't
+	notes_judged_this_frame += notes
 
 	var notes_hit = 1
 	if not editing or previewing:

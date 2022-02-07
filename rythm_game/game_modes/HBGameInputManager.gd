@@ -5,6 +5,8 @@ extends Node
 
 class_name HBGameInputManager
 
+var _buffered_inputs = []
+
 func _init():
 	name = "GameInputManager"
 
@@ -24,7 +26,16 @@ func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
 		a.pressed = pressed
 		a.event_uid = event_uid
 		a.actions = current_actions
-		Input.parse_input_event(a)
+		_buffered_inputs.append(a)
+
+func _frame_end():
+	_buffered_inputs.clear()
+
+func flush_inputs():
+	for input in _buffered_inputs:
+		current_input_handled = false
+		Input.parse_input_event(input)
+	current_input_handled = false
 
 func _input_received(event):
 	pass

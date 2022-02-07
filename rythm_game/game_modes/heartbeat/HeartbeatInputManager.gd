@@ -107,13 +107,13 @@ func _handle_direct_axis_input():
 		last_direct_axis_values[axis_x] = current_value.x
 		last_direct_axis_values[axis_y] = current_value.y
 		
-		current_actions = ["heart_note"]
 		if not prev_value.is_equal_approx(current_value):
 			if prev_value.length() > deadzone and current_value.normalized().dot(prev_value.normalized()) < 0.0:
 #				prints("REBOUND IGNORE!!!", current_value, prev_value, current_value.normalized().dot(prev_value.normalized()), current_value.length())
 				current_value = Vector2.ZERO
 				dja_prev_status[axis] = false
 			if current_value.length() > deadzone and (prev_value.length() < deadzone or not dja_prev_status[axis]):
+				current_actions = ["heart_note"]
 				# Ignores rebound
 				#print(current_value.normalized().dot(prev_value.normalized()))
 #				print("SEND!!!", current_value)
@@ -142,6 +142,8 @@ func _process(delta):
 func _input_received(event):
 	var actions_to_send = []
 	var releases_to_send = []
+	if event is InputEventHB:
+		return
 	if not event is InputEventAction and not event is InputEventMouseMotion:
 		var found_actions = []
 		
@@ -213,7 +215,6 @@ func _input_received(event):
 		for action_data in actions_to_send:
 			current_event = action_data.event
 			current_sending_actions_count = actions_to_send.size()
-			
 			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions)
 		for action in releases_to_send:
 			emit_signal("unhandled_release", action, event_uid)
