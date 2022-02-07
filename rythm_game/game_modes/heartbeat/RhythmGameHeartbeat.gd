@@ -234,7 +234,7 @@ func _process_input(event):
 							if hit_sfx != "":
 								sfx_pool.play_sfx(hit_sfx)
 								if note.note_type in HEART_HACK_TYPES:
-									# This is why my went to buy marlborro and never came back
+									# This is why my dad went to buy marlboro and never came back
 									_heart_hack_frame = Engine.get_frames_drawn()
 							_processed_event_uids.append(event.event_uid)
 							break # remove this to allow more than 1 sfx to be played back in multis
@@ -254,7 +254,6 @@ func _process_input(event):
 							_processed_event_uids.append(event.event_uid)
 							if type in slide_types and (Engine.get_frames_drawn() <= _heart_hack_frame+1 or heart_or_slide_judged_this_frame):
 								return
-									
 							play_note_sfx(type in slide_types)
 							action_pressed = true
 							break
@@ -399,6 +398,10 @@ func _process_game(_delta):
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 	._on_notes_judged(notes, judgement, wrong)
+	
+	for note in notes:
+		if note.note_type in HEART_HACK_TYPES:
+			_heart_hack_frame = Engine.get_frames_drawn()
 	
 	if not notes[0] is HBNoteData or (notes[0] is HBNoteData and not notes[0].is_slide_hold_piece()):
 		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
