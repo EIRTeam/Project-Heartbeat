@@ -52,10 +52,6 @@ var OPTIONS = {
 			"name": tr("Use direct joystick access with known controllers"),
 			"description": tr("Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known")
 		},
-		"input_poll_more_than_once_per_frame": {
-			"name": tr("Poll for input more than once per frame"),
-			"description": tr("If this is enabled the game polls for input more than once per frame, it can reduce input lag but it will increase CPU usage.")
-		},
 		"enable_vibration": {
 			"name": tr("Enable vibration"),
 			"description": tr("If enabled allows the controller to vibrate.")

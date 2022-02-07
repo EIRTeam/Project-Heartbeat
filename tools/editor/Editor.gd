@@ -1477,7 +1477,6 @@ func reveal_ui():
 		fade.reveal()
 func _on_ExitDialog_confirmed():
 	game_playback.remove_bus_effects()
-	Input.set_use_accumulated_input(!UserSettings.user_settings.input_poll_more_than_once_per_frame)
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false

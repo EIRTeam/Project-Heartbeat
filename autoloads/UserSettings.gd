@@ -358,7 +358,6 @@ func set_joypad_prompts():
 			JoypadSupport.set_autodetect_to(false)
 			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
 func apply_user_settings(apply_display := false):
-	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	if apply_display:
 		apply_display_mode()
 	Engine.target_fps = int(user_settings.fps_limit)
