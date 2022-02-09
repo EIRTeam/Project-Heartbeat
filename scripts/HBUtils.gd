@@ -223,19 +223,6 @@ static func texture_from_fs(path: String):
 # 		var image = Image.new()
 # 		image.load(path)
 # 		return image
-		
-static func texture_from_fs_image(path: String) -> Texture:
-	var img: Image
-	if path.begins_with("res://"):
-		img = load(path) as Image
-	else:
-		img = Image.new()
-		img.load(path)
-		
-	var texture = ImageTexture.new()
-	texture.create_from_image(img, Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS))
-	texture.resource_path = path + str(rand_range(0, 200000))
-	return texture
 	
 
 # Adds a thousands separator to the number given

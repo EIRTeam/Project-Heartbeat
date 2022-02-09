@@ -31,7 +31,12 @@ func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
 	loaded_assets["audio_loudness"] = audio_normalizer.get_normalization_result()
 
 func _image_from_fs(path):
-	return HBUtils.image_from_fs(path)
+	if resource_is_cached(path):
+		return ResourceLoader.load(path)
+	else:
+		var res = HBUtils.image_from_fs(path)
+		res.take_over_path(path)
+		return res
 
 # HACK to allow case insensitive naming of files, fairly expensive so use sparingly
 func _case_sensitivity_hack(path: String):
@@ -57,6 +62,12 @@ func _case_sensitivity_hack(path: String):
 	else:
 		return path
 
+func resource_is_cached(path) -> bool:
+	return ResourceLoader.has_cached(path)
+	
+func get_cached_resource(path):
+	return ResourceLoader.load(path)
+	
 func _task_process() -> bool:
 	var asset = requested_assets_queue[0]
 	var loaded_asset
