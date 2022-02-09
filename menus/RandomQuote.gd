@@ -75,7 +75,8 @@ const BIRTHDAYS = {
 	[04, 05]: "Aiko",
 	[28, 08]: "Alex",
 	[13, 10]: "Kami",
-	[8, 2]: "Yahoo",
+	[8, 02]: "Yahoo",
+	[31, 03]: "Lino",
 }
 
 func _ready():
