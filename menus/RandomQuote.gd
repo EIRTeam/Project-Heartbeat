@@ -79,10 +79,14 @@ const BIRTHDAYS = {
 }
 
 func _ready():
-	text = QUOTES[randi() % QUOTES.size()]
 	var date_time = OS.get_datetime()
-	for birthday in BIRTHDAYS:
-		if birthday[0] == date_time.day and birthday[1] == date_time.month:
-			emit_signal("birthday_triggered")
-			text = "Happy birthday %s!" % [BIRTHDAYS[birthday]]
-	#text = QUOTES[52-6]
+	if date_time.day == 14 and date_time.month == 2:
+		text = "Love is in the air!"
+	else:
+		text = QUOTES[randi() % QUOTES.size()]
+		for birthday in BIRTHDAYS:
+			if birthday[0] == date_time.day and birthday[1] == date_time.month:
+				emit_signal("birthday_triggered")
+				text = "Happy birthday %s!" % [BIRTHDAYS[birthday]]
+	text = "Love is in the air!"
+	
