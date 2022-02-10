@@ -296,12 +296,25 @@ func apply_user_settings(apply_display := false):
 	Input.set_use_accumulated_input(!user_settings.input_poll_more_than_once_per_frame)
 	if apply_display:
 		apply_display_mode()
-	Engine.target_fps = int(user_settings.fps_limit)
-#	IconPackLoader.set_current_pack(user_settings.icon_pack)
-	OS.vsync_enabled = user_settings.vsync_enabled
+	_update_fps_limits()
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	set_volumes()
 
+var enable_menu_fps_limits := false setget set_enable_menu_fps_limits
+
+func set_enable_menu_fps_limits(val):
+	enable_menu_fps_limits = val
+	_update_fps_limits()
+
+func _update_fps_limits():
+	OS.vsync_enabled = user_settings.vsync_enabled
+	Engine.target_fps = 0
+	if not user_settings.vsync_enabled:
+		if enable_menu_fps_limits:
+			Engine.target_fps = 0
+			OS.vsync_enabled = true
+		else:
+			Engine.target_fps = int(user_settings.fps_limit)
 func get_current_display():
 	return min(UserSettings.user_settings.display, OS.get_screen_count()-1)
 

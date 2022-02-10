@@ -72,6 +72,7 @@ func _fade_in_done():
 	game.play_song()
 func start_fade_in():
 #	video_player.hide()
+	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
 	$FadeIn.show()
 	var original_color = Color.white
@@ -234,6 +235,7 @@ func set_game_size():
 	rescale_video_player()
 #	$Node2D/VideoPlayer.rect_size = rect_size
 func _on_resumed():
+	UserSettings.enable_menu_fps_limits = false
 	get_tree().paused = false
 	game.game_input_manager.set_process_input(true)
 	$PauseMenu.hide()
@@ -370,7 +372,8 @@ func _on_PauseMenu_quit():
 	scene.starting_menu_args = {"song": current_game_info.song_id, "song_difficulty": current_game_info.difficulty}
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
-	_on_resumed()
+	get_tree().paused = false
+#	_on_resumed()
 	
 func _on_PauseMenu_restarted():
 	var modifiers = []

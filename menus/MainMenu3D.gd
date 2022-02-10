@@ -17,6 +17,7 @@ func _ready():
 	
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
+	UserSettings.enable_menu_fps_limits = true
 
 func _on_viewport_size_changed():
 	# this scales shit for more squareish resolutions, it's a bit hacky so you might need
