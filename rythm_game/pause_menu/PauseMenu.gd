@@ -44,6 +44,7 @@ func show_pause(song_id):
 	song_preview.select_song(current_song)
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.show()
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.grab_focus()
+	UserSettings.enable_menu_fps_limits = true
 
 
 func _on_quit():
@@ -56,6 +57,7 @@ func _on_restart():
 	
 func resume():
 	emit_signal("resumed")
+	
 	
 func disable_restart():
 	$ViewportContainer/Viewport/Spatial/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton.queue_free()
