@@ -886,6 +886,10 @@ config/build_time=1642694497
 config/build_commit="59d92fd85c5c1b20be430b14bb2509870c95ab1b"
 config/service_environment="production"
 
+[audio]
+
+output_latency=3
+
 [autoload]
 
 Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
