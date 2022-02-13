@@ -39,6 +39,8 @@ signal resume_background_player
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	
+	UserSettings.enable_menu_fps_limits = false
+	
 	emit_signal("pause_background_player")
 	
 	mode = 0
@@ -78,7 +80,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	rhythm_game.play_song(song, song.chart)
 	
 	update_mode()
-
 
 func update_mode():
 	substract_button.visible = (mode == 0)
@@ -134,7 +135,7 @@ func _on_menu_exit(force_hard_transition = false):
 	player.stop()
 	emit_signal("resume_background_player")
 	Diagnostics.autoplay_checkbox.pressed = false
-	
+	UserSettings.enable_menu_fps_limits = true
 
 
 func _on_ApplyButton_pressed():
