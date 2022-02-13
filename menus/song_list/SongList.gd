@@ -26,7 +26,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.connect("ugc_item_added_times_updated", self, "_on_ugc_item_added_times_updated")
 #	populate_difficulties()
-	song_container.grab_focus()
 #	if args.has("song_difficulty"):
 ##		_select_difficulty(args.song_difficulty)
 #		for i in range(difficulty_list.get_child_count()):
@@ -80,6 +79,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
+	song_container.grab_focus()
+	song_container.call_deferred("grab_focus")
+
 	
 func _on_ugc_item_added_times_updated():
 	if UserSettings.user_settings.sort_mode == "_added_time":
