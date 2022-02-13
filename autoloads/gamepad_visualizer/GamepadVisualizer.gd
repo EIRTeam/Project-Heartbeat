@@ -52,7 +52,7 @@ func create_controller_map(joypad):
 	
 	item_controls.add_child(button_control)
 	
-	for i in range(JOY_BUTTON_MAX):
+	for i in range(min(JOY_BUTTON_MAX, 30)):
 		var bv = BUTTON_VISUALIZER.instance()
 		bv.device = joypad
 		bv.button = i
