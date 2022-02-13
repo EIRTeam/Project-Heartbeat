@@ -74,14 +74,14 @@ func _on_network_item_selected():
 		var body = item.get_meta("response_body")
 		network_body_RTL.text = body
 func _input(event):
-	if event.is_action_pressed("toggle_diagnostics", false, true):
+	if event.is_action_pressed("toggle_diagnostics"):
 		var window_size = get_viewport().size * 0.75
 		$WindowDialog.rect_size = window_size
 		$WindowDialog.rect_position = get_viewport().size / 8.0
 		$WindowDialog.visible = !$WindowDialog.visible
-	if event.is_action_pressed("toggle_fps", false, true):
+	if event.is_action_pressed("toggle_fps"):
 		fps_label.visible = !fps_label.visible
-	if event.is_action_pressed("take_screenshot", false, true):
+	if event.is_action_pressed("take_screenshot"):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
@@ -90,7 +90,7 @@ func _input(event):
 		if not dir.dir_exists("user://debug_screenshot"):
 			dir.make_dir("user://debug_screenshot")
 		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
-	if event.is_action_pressed("toggle_gamepad_view", false, true):
+	if event.is_action_pressed("toggle_gamepad_view"):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
 func _process(delta):
 	_seconds_since_startup += delta
