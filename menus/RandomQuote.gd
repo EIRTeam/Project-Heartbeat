@@ -89,5 +89,4 @@ func _ready():
 			if birthday[0] == date_time.day and birthday[1] == date_time.month:
 				emit_signal("birthday_triggered")
 				text = "Happy birthday %s!" % [BIRTHDAYS[birthday]]
-	text = "Love is in the air!"
 	
