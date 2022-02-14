@@ -388,7 +388,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 		i.queue_free()
 	
 	if current_filter_task:
-		AsyncTaskQueue.abort_task(current_filter_task)
+		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
 	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty, search_term)
 	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
@@ -396,7 +396,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 #	selected_option = null
 	
 	emit_signal("start_loading")
-	AsyncTaskQueue.queue_task(current_filter_task)
+	AsyncTaskQueueLight.queue_task(current_filter_task)
 	
 func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)

@@ -13,6 +13,7 @@ func _task_process() -> bool:
 	return false
 	
 func _on_task_finished_processing(data):
-	pass
+	call_deferred("free")
+
 func get_task_output_data():
 	return null

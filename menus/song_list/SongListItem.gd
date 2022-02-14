@@ -95,5 +95,5 @@ func _become_visible():
 		else:
 			task = SongAssetLoadAsyncTask.new(["note_usage"], song)
 			task.connect("assets_loaded", self, "_on_note_usage_loaded")
-			AsyncTaskQueue.queue_task(task)
+			AsyncTaskQueueLight.queue_task(task)
 		
