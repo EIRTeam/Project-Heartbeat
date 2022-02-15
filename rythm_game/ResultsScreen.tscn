@@ -184,9 +184,24 @@ focus_mode = 2
 alignment = 1
 script = ExtResource( 3 )
 
+[node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
+margin_left = 745.0
+margin_right = 884.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 1 )
+custom_styles/normal = ExtResource( 8 )
+text = "Continue"
+align = 0
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+normal_style = ExtResource( 8 )
+hover_style = SubResource( 4 )
+
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 758.0
-margin_right = 853.0
+margin_left = 888.0
+margin_right = 983.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 1 )
 custom_styles/normal = ExtResource( 8 )
@@ -200,28 +215,13 @@ normal_style = ExtResource( 8 )
 hover_style = SubResource( 4 )
 
 [node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 857.0
-margin_right = 985.0
+margin_left = 987.0
+margin_right = 1115.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 1 )
 custom_styles/normal = ExtResource( 8 )
 text = "Share"
 icon = ExtResource( 11 )
-align = 0
-script = ExtResource( 5 )
-__meta__ = {
-"_editor_description_": ""
-}
-normal_style = ExtResource( 8 )
-hover_style = SubResource( 4 )
-
-[node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 989.0
-margin_right = 1102.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/normal = ExtResource( 8 )
-text = "Return"
 align = 0
 script = ExtResource( 5 )
 __meta__ = {

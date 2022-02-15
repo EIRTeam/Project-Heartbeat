@@ -44,8 +44,8 @@ var filter_mode__possibilities = [
 	"folders",
 	"dsc"
 ]
+var sort_mode = "creator"
 var filter_has_media := false
-var sort_mode = "title"
 var sort_mode__possibilities = [
 	"title",
 	"artist",
@@ -147,7 +147,7 @@ var workshop_download_audio_only = false
 
 var multi_laser_opacity = 1.0
 
-var show_note_types_before_playing = true
+var show_note_types_before_playing = false
 
 enum COLORBLIND_COLOR_REMAP {
 	NONE,
@@ -197,6 +197,24 @@ var last_midi_dir := ProjectSettings.globalize_path("user://")
 var last_edit_dir := ProjectSettings.globalize_path("user://")
 
 var audio_buffer_size := 10
+var event_minimum_load_time: float = 3
+var event_single_controller_mode: bool = false
+var event_thank_you_duration: float = 10.0
+
+enum EVENT_LOGO {
+	NONE,
+	JAPAN_WEEKEND,
+	CUSTOM
+}
+
+var event_logo: int = EVENT_LOGO.NONE
+
+var event_bg_display_in_start_menu := true
+
+var event_ugly_bg_songs := [
+	"getaway",
+	"connected"
+]
 
 var enable_health := false
 
@@ -219,7 +237,8 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size", "enable_health"]
+	"color_presets", "audio_buffer_size", "enable_health",
+	"event_minimum_load_time", "event_single_controller_mode", "event_logo", "event_bg_display_in_start_menu", "event_ugly_bg_songs"]
 	
 	merge_dict_fields += [
 		"custom_sounds",
@@ -230,6 +249,24 @@ func _init():
 		custom_sounds[sound_name] = "default"
 	for sound_name in DEFAULT_SOUNDS:
 		custom_sound_volumes[sound_name] = 1.0
+
+const BUILT_IN_EVENT_LOGO_PATHS = {
+	EVENT_LOGO.JAPAN_WEEKEND: "res://graphics/logo-japan.png"
+}
+
+func get_event_logo() -> Texture:
+	var text: Texture
+	match event_logo:
+		EVENT_LOGO.CUSTOM:
+			var img := Image.new()
+			img.load("user://custom_event.png")
+			text = ImageTexture.new()
+			text.create_from_image(img)
+		EVENT_LOGO.NONE:
+			text = ImageTexture.new()
+		_:
+			text = load(BUILT_IN_EVENT_LOGO_PATHS[event_logo])
+	return text
 
 func get_lyrics_color() -> Color:
 	var color = Color("#ffaa00")

@@ -89,6 +89,10 @@ const GAME_OVER_SFX = "game_over"
 
 const BUTTON_SFX_TYPE_FORWARD = 0
 const BUTTON_SFX_TYPE_BACK = 0
+const UGLY_BG_SONGS = [
+	"connected",
+	"getaway"
+]
 
 var ui_components := {}
 

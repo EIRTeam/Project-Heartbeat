@@ -333,35 +333,33 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		dummy.song = song
 		dummy.connect("dummy_sighted", self, "_on_dummy_sighted", [song])
 		filtered_song_items[song] = dummy
-	
-
-	select_item(0)
-	if previously_selected_song_id:
-		var found_child = false
-		for child_i in range(item_container.get_child_count()):
-			var child = item_container.get_child(child_i)
-			if child.song.id == previously_selected_song_id:
-				select_item(child_i)
-				found_child = true
-				break
-		if not found_child:
-			select_item(0)
-		else:
-			if previously_selected_difficulty:
-				select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
-	else:
-		if filtered_songs.size() <= 3:
-			if filtered_songs.size() > 0:
-				select_item(ceil((filtered_songs.size()-1)/2.0))
-		else:
-			var initial_item = clamp(3, 0, get_child_count())
-			select_item(initial_item)
 #	hard_arrange_all()
 		
 		
 	if song_id_to_select:
-		call_deferred("select_song_by_id", song_id_to_select, song_difficulty_to_select)
-		
+		select_song_by_id(song_id_to_select, song_difficulty_to_select)
+	else:
+		select_item(0)
+		if previously_selected_song_id:
+			var found_child = false
+			for child_i in range(item_container.get_child_count()):
+				var child = item_container.get_child(child_i)
+				if child.song.id == previously_selected_song_id:
+					select_item(child_i)
+					found_child = true
+					break
+			if not found_child:
+				select_item(0)
+			else:
+				if previously_selected_difficulty:
+					select_song_by_id(previously_selected_song_id, previously_selected_difficulty)
+		else:
+			if filtered_songs.size() <= 3:
+				if filtered_songs.size() > 0:
+					select_item(ceil((filtered_songs.size()-1)/2.0))
+			else:
+				var initial_item = clamp(3, 0, get_child_count())
+				select_item(initial_item)
 		
 	emit_signal("end_loading")
 		

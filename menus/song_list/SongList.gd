@@ -56,6 +56,7 @@ func populate_sort_by_list():
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
+	filter_type_container.hide()
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.connect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
 #	populate_difficulties()
@@ -191,7 +192,6 @@ func populate_buttons():
 	var filter_types = {
 		"all": "All",
 		"official": "Official",
-
 	}
 
 	for child in filter_type_container.get_children():
@@ -228,6 +228,9 @@ func populate_buttons():
 	if not UserSettings.user_settings.filter_mode in filter_types and not UserSettings.user_settings.filter_mode == "folders":
 		UserSettings.user_settings.filter_mode = "all"
 	filter_types["folders"] = "Folders"
+	filter_types = {
+		"all": "All"
+	}
 	for filter_type in filter_types:
 		var button = HBHovereableButton.new()
 		button.text = filter_types[filter_type]
@@ -255,11 +258,9 @@ func set_filter(filter_name, save=true):
 	update_path_label()
 func update_path_label():
 	if UserSettings.user_settings.filter_mode == "folders":
-		add_to_prompt.hide()
 		manage_folders_prompt.show()
 		remove_item_prompt.hide()
 	else:
-		add_to_prompt.show()
 		manage_folders_prompt.hide()
 		remove_item_prompt.hide()
 		folder_path.text_1 = ""
@@ -295,7 +296,7 @@ func _unhandled_input(event):
 			search_text_input.line_edit.caret_position = song_container.search_term.length()
 			search_text_input.popup_centered()
 		elif event.is_action_pressed("gui_cancel"):
-			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+			change_to_menu("event_thank_you")
 			get_tree().set_input_as_handled()
 			if song_container.search_term:
 				song_container.search_term = ""
@@ -339,7 +340,7 @@ func _on_difficulty_selected(song: HBSong, difficulty):
 		$PPDAudioBrowseWindow.popup_centered_ratio(0.5)
 		return
 	if song.is_cached() or (song is HBPPDSongEXT and song.has_audio()):
-		change_to_menu("pre_game", false, {"song": song, "difficulty": difficulty})
+		change_to_menu("pre_game_event", false, {"song": song, "difficulty": difficulty})
 	else:
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 	

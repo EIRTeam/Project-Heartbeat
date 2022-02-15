@@ -49,6 +49,10 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		retry_button.hide()
 	else:
 		retry_button.show()
+	if args.has("hide_twitter"):
+		share_on_twitter_button.hide()
+	else:
+		share_on_twitter_button.show()
 	if args.has("mp_entries"):
 		mp_entries = args.mp_entries
 		var lb_entries = []
@@ -145,7 +149,7 @@ func _on_retry_button_pressed():
 	
 func _on_return_button_pressed():
 	if not mp_lobby:
-		change_to_menu("song_list", false, {"song": game_info.song_id, "song_difficulty": game_info.difficulty})
+		change_to_menu("event_thank_you")
 	else:
 		change_to_menu("lobby", false, {"lobby": mp_lobby})
 func set_game_info(val: HBGameInfo):

@@ -72,7 +72,7 @@ func _fade_in_done():
 	video_player.set_stream_position(game.time)
 	rescale_video_player()
 	
-	pause_menu_disabled = false
+	pause_menu_disabled = true
 func start_fade_in():
 #	video_player.hide()
 	ShinobuGodot.set_dsp_time(0)
@@ -311,7 +311,7 @@ func _show_results(game_info: HBGameInfo):
 			var old_scene = get_tree().current_scene
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
-			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets}
+			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets, "hide_retry": true, "hide_twitter": true}
 			scene.starting_song = current_game_info.get_song()
 			get_tree().root.add_child(scene)
 			get_tree().current_scene = scene

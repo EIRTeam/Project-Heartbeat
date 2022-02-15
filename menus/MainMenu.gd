@@ -42,6 +42,9 @@ func _init():
 			"left": preload("res://menus/pregame_screen/PreGameScreen.tscn").instance(),
 			"right": "mp_leaderboard"
 		},
+		"pre_game_event": {
+			"fullscreen": preload("res://menus/pre_game_screen_event.tscn").instance(),
+		},
 		"download_queue" : {
 			"left": preload("res://menus/media_download_queue/MediaDownloadQueue.tscn").instance(),
 			"right": "empty"
@@ -101,6 +104,9 @@ func _init():
 		"latency_tester": {
 			"fullscreen": preload("res://tools/latency_tester/LatencyTester.tscn").instance(),
 			"right": "empty"
+		},
+		"event_thank_you": {
+			"fullscreen": preload("res://menus/event_thank_you.tscn").instance(),
 		}
 	}
 
@@ -132,6 +138,7 @@ func _ready():
 	
 	MENUS["song_list"].left.connect("song_hovered", MENUS["song_list_preview"].right, "select_song")
 	MENUS["song_list"].left.connect("song_hovered", MENUS["pre_game"].left, "select_song")
+	MENUS["song_list"].left.connect("song_hovered", self, "_on_song_hovered")
 	MENUS["lobby"].left.connect("song_selected", MENUS["song_list_preview"].right, "select_song")
 	#MENUS["results"].left.connect("show_song_results", MENUS["leaderboard"].right.get_leadearboard_control(), "fetch_entries")
 	
@@ -144,6 +151,7 @@ func _ready():
 	player.connect("song_started", self, "_on_song_started")
 	player.connect("stream_time_changed", self, "_on_song_time_changed")
 	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game"].left, "set_current_assets")
+	MENUS["song_list_preview"].right.connect("song_assets_loaded", MENUS["pre_game_event"].fullscreen, "set_current_assets")
 	
 	# Connect main menu list changes
 	MENUS["main_menu"].left.connect("right", MENUS["main_menu_right"].right, "_on_right_from_MainMenu")
@@ -198,7 +206,7 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		fullscreen_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		fullscreen_menu._on_menu_enter(force_hard_transition, args)
 	else:
-		user_info_ui.show()
+		user_info_ui.hide()
 		music_player_control.show()
 	if menu_data.has("right"):
 		right_menu = MENUS[menu_data.right].right as HBMenu
@@ -223,19 +231,34 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		left_menu.connect("change_to_menu", self, "change_to_menu", [], CONNECT_ONESHOT)
 		left_menu._on_menu_enter(force_hard_transition, args)
 
-var iflag = true # Flag that tells it to ignore the first background change
+var iflag = false # Flag that tells it to ignore the first background change
+var curr_assets
+var curr_song_assets
 func _on_song_started(song, assets):
 	HBGame.spectrum_snapshot.set_volume(player.current_song_player.target_volume)
 	if "audio" in assets:
 		if assets.audio:
 			music_player_control.set_song(song, assets.audio.get_length())
+			MENUS["start_menu"].fullscreen.song = song
+	curr_assets = assets
+	curr_song_assets = song
 	if (starting_menu in result_menus) or (not iflag):
-		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
+		if fullscreen_menu == MENUS["start_menu"].fullscreen or fullscreen_menu == MENUS["event_thank_you"].fullscreen:
+			if not UserSettings.user_settings.event_bg_display_in_start_menu:
+				iflag = false
+				return
+			if song.id in HBGame.UGLY_BG_SONGS:
+				return
+		if song.background_image and "background" in assets:
 			change_to_background(assets.background)
 		else:
 			change_to_background(null, true)
 	else:
 		iflag = false
+	
+func _on_song_hovered(song):
+	iflag = false
+	_on_song_started(curr_song_assets, curr_assets)
 	
 func change_to_background(background: Texture, use_default = false):
 	if use_default:

@@ -25,7 +25,7 @@ func _on_viewport_size_changed():
 	$Camera.fov = 47.0 * max(default_169/ratio, 0.90)
 
 func menu_setup():
-	fullscreen_menu_container = get_node("FullscreenMenuContainer")
+	fullscreen_menu_container = get_node("CanvasLayer/FullscreenMenuContainer")
 	left_menu_container = get_node("ViewportLeft/MenuLeftContainer")
 	right_menu_container = get_node("ViewportRight/MenuRightContainer/VBoxContainer/Control")
 	first_background_texrect = get_node("CanvasLayer/Background1")

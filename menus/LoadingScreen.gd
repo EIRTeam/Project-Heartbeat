@@ -45,8 +45,8 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	game_info = new_game_info
 	current_diff = game_info.difficulty
 	var song: HBSong = new_game_info.get_song()
+	min_load_time_timer.start(5)
 	if song.show_epilepsy_warning:
-		min_load_time_timer.start(3)
 		show_epilepsy_warning()
 	
 	is_loading_practice_mode = practice

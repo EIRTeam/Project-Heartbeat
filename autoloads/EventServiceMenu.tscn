@@ -1,0 +1,116 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://autoloads/EventServiceMenu.gd" type="Script" id=2]
+
+[node name="Panel" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+color = Color( 0.12549, 0.145098, 0.192157, 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 25.0
+text = "Funny service menu"
+align = 1
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+margin_top = 29.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="General" type="Control" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/General"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="Button" parent="VBoxContainer/TabContainer/General/VBoxContainer"]
+margin_right = 1910.0
+margin_bottom = 25.0
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenNormalSettingsButton" type="Button" parent="VBoxContainer/TabContainer/General/VBoxContainer"]
+margin_top = 29.0
+margin_right = 1910.0
+margin_bottom = 54.0
+text = "Open retail settings"
+
+[node name="Visual" type="Control" parent="VBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Visual"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Visual/VBoxContainer"]
+margin_right = 1910.0
+margin_bottom = 25.0
+text = "Event logo"
+
+[node name="EventLogoOptionButton" type="OptionButton" parent="VBoxContainer/TabContainer/Visual/VBoxContainer"]
+margin_top = 29.0
+margin_right = 1910.0
+margin_bottom = 54.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Visual/VBoxContainer"]
+margin_top = 58.0
+margin_right = 1910.0
+margin_bottom = 83.0
+text = "Note: Custom logos should be under user://custom_event.png"
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Visual/VBoxContainer"]
+margin_top = 87.0
+margin_right = 1910.0
+margin_bottom = 112.0
+text = "Ugly BG songs (removed from the random queue)"
+
+[node name="UglyBGSongTextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Visual/VBoxContainer"]
+margin_top = 116.0
+margin_right = 1910.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 0, 100 )
+
+[connection signal="pressed" from="VBoxContainer/TabContainer/General/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/General/VBoxContainer/OpenNormalSettingsButton" to="." method="_on_OpenNormalSettingsButton_pressed"]
+[connection signal="item_selected" from="VBoxContainer/TabContainer/Visual/VBoxContainer/EventLogoOptionButton" to="." method="_on_EventLogoOptionButton_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/TabContainer/Visual/VBoxContainer/UglyBGSongTextEdit" to="." method="_on_UglyBGSongTextEdit_text_changed"]

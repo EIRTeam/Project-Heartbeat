@@ -191,14 +191,6 @@ anims/def = SubResource( 9 )
 anims/fade_in = SubResource( 10 )
 anims/fade_out = SubResource( 11 )
 
-[node name="FullscreenMenuContainer" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 12 )
 
@@ -255,6 +247,14 @@ margin_bottom = 1080.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 anims/1to2 = SubResource( 14 )
+
+[node name="FullscreenMenuContainer" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 

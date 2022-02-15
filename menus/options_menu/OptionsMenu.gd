@@ -289,6 +289,24 @@ var OPTIONS = {
 	},
 	tr("Credits"): {
 		"__section_override": preload("res://menus/options_menu/OptionCreditsSection.tscn").instance()
+	},
+	tr("Event"): {
+		"event_minimum_load_time": {
+			"name": "Minimum load time",
+			"description": "Gotta go fast, adjust depending on demand",
+			"minimum": 0.0,
+			"maximum": 10.0,
+			"step": 1.0,
+			"postfix": " s"
+		},
+		"event_single_controller_mode": {
+			"name": tr("Single controller mode"),
+			"description": tr("Enable if one of the controllers has decided to give up and abandon this world")
+		},
+		"event_bg_display_in_start_menu": {
+			"name": tr("BG display in start menu"),
+			"description": tr("When enabled allows the start menu to cycle through the playing song backgrounds, exceptions apply to songs with ugly or less fitting artworks")
+		}
 	}
 }
 

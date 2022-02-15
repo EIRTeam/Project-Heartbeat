@@ -7,8 +7,8 @@ const MAJOR = 0
 const MINOR = 15
 const PATCH = 0
 
-const status = "Early Access"
-const ver_name = "Project Heartbeat: Goth Girl School Idol Club"
+const status = ""
+const ver_name = "Project Heartbeat: Event Edition"
 
 static func get_version_string(with_line_breaks := false):
 	var result = "{ver_name} - {status} ({video_driver}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time})"

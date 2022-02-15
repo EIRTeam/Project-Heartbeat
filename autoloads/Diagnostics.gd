@@ -92,6 +92,12 @@ func _input(event):
 		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
 	if event.is_action_pressed("toggle_gamepad_view"):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
+	if event.is_action_pressed("service_menu_open"):
+		var scene = load("res://autoloads/EventServiceMenu.tscn").instance()
+		get_tree().current_scene.queue_free()
+		get_tree().root.add_child(scene)
+		get_tree().current_scene = scene
+		get_tree().paused = false
 func _process(delta):
 	_seconds_since_startup += delta
 	frame_rate_label.text = "FPS: %f" % Engine.get_frames_per_second()

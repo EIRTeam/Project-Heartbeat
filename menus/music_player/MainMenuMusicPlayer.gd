@@ -41,6 +41,9 @@ func format_time(secs: float) -> String:
 func set_song(song: HBSong, length: float, do_animation=true):
 	var playback_max_label = get_node("HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlaybackMaxLabel")
 
+	if current_song == song:
+		return
+
 	current_song = song
 
 	var song_title_label = get_node("HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle")

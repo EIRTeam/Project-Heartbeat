@@ -196,8 +196,11 @@ func _on_song_assets_loaded(assets):
 func play_random_song():
 	randomize()
 	var found_song: HBSong
+	var song_candidates = SongLoader.songs.duplicate(true)
+	for song_id in HBGame.UGLY_BG_SONGS:
+		song_candidates.erase(song_id)
 	while not found_song:
-		var song = SongLoader.songs.values()[randi() % SongLoader.songs.size()]
+		var song = song_candidates.values()[randi() % song_candidates.size()]
 		var is_current_song = false
 		if current_song_player:
 			is_current_song = current_song_player.song == song

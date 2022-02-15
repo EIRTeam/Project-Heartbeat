@@ -1181,7 +1181,7 @@ _global_script_class_icons={
 config/name="Project Heartbeat"
 run/main_scene="res://base_scene.tscn"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="Project Heartbeat"
+config/custom_user_dir_name="Project HeartbeatEE"
 config/project_settings_override="user://ph_override.cfg"
 run/delta_sync_after_draw=true
 boot_splash/image="res://splash.png"
@@ -1212,6 +1212,7 @@ SongLoader="*res://autoloads/SongLoader.gd"
 ModifierLoader="*res://autoloads/ModifierLoader.gd"
 HBGame="*res://autoloads/HBGame.gd"
 HBBackend="*res://autoloads/HBBackend.gd"
+DebugSystemInfo="*res://autoloads/DebugSystemInfo.tscn"
 MouseTrap="*res://autoloads/MouseTrap.tscn"
 ScoreHistory="*res://autoloads/ScoreHistory.gd"
 DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
@@ -1958,10 +1959,9 @@ practice_apply_latency={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-gui_sort_by={
+service_menu_open={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":0,"physical_scancode":83,"unicode":0,"echo":false,"script":null)
  ]
 }
 

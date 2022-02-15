@@ -280,50 +280,43 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 377.0
-margin_right = 501.0
+margin_left = 476.0
+margin_right = 600.0
 rect_min_size = Vector2( 124, 39 )
 action_name = "note_up"
 text = "Sort"
 
 [node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 511.0
-margin_right = 674.0
+margin_left = 610.0
+margin_right = 773.0
 rect_min_size = Vector2( 163, 39 )
 action_name = "gui_search"
 text = "Search"
 
-[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 684.0
-margin_right = 852.0
-rect_min_size = Vector2( 168, 39 )
-action_name = "contextual_option"
-text = "Add to..."
-
 [node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 862.0
-margin_right = 1031.0
+margin_left = 783.0
+margin_right = 952.0
 rect_min_size = Vector2( 169, 39 )
 action_name = "contextual_option"
 text = "Manage"
 
 [node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1041.0
-margin_right = 1218.0
+margin_left = 962.0
+margin_right = 1139.0
 rect_min_size = Vector2( 177, 39 )
 action_name = "contextual_option"
 text = "Remove"
 
 [node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1228.0
-margin_right = 1381.0
+margin_left = 1149.0
+margin_right = 1302.0
 rect_min_size = Vector2( 153, 39 )
 action_name = "gui_accept"
 text = "Select"
 
 [node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1391.0
-margin_right = 1523.0
+margin_left = 1312.0
+margin_right = 1444.0
 rect_min_size = Vector2( 132, 39 )
 action_name = "gui_cancel"
 text = "Back"
