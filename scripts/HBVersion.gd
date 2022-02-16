@@ -5,7 +5,7 @@ class_name HBVersion
 
 const MAJOR = 0
 const MINOR = 13
-const PATCH = 9
+const PATCH = 10
 
 const status = "Early Access"
 const ver_name = "Project Heartbeat: Goth Girl Supremacy"
