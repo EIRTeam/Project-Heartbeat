@@ -118,3 +118,4 @@ func set_phrases(array: Array):
 	if phrases.size() > 0:
 		set_current_phrase(phrases[0])
 	_on_game_time_changed(last_time)
+	update_labels()
