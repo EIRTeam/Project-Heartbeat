@@ -3,7 +3,8 @@ extends HBHovereableButton
 var request: HTTPRequest
 
 onready var texture_rect = get_node("MarginContainer/HBoxContainer/TextureRect")
-onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label")
+onready var title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label/TitleLabel")
+onready var romanized_title_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label/RomanizedTitleLabel")
 onready var author_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label2")
 onready var subscribed_tick = get_node("MarginContainer/HBoxContainer/TextureRect/Panel")
 onready var stars_progress = get_node("MarginContainer/HBoxContainer/VBoxContainer2/Panel2/TextureRect")
@@ -21,6 +22,11 @@ func set_data(_data: HBWorkshopPreviewData):
 	request = HTTPRequestQueue.add_request(data.preview_url)
 	request.connect("request_completed", self, "_on_request_completed")
 	title_label.text = data.title
+	romanized_title_label.text = ""
+	if data.metadata is HBSong:
+		if UserSettings.user_settings.romanized_titles_enabled:
+			if not data.metadata.romanized_title.empty():
+				romanized_title_label.text = data.metadata.romanized_title
 	if not Steam.requestUserInformation(data.steam_id_owner, true):
 		update_author_label()
 	else:

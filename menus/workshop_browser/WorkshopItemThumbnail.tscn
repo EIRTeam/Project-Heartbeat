@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://menus/workshop_browser/WorkshopItemThumbnail.gd" type="Script" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=2]
@@ -52,6 +52,13 @@ shader_param/radius = 2.0
 
 [sub_resource type="DynamicFont" id=2]
 size = 35
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+fallback/0 = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 25
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 3 )
@@ -169,15 +176,36 @@ margin_bottom = 73.0
 mouse_filter = 2
 custom_constants/separation = -5
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="Label" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 use_parent_material = true
 margin_right = 1594.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label"]
+use_parent_material = true
+margin_right = 38.0
+margin_bottom = 42.0
+size_flags_vertical = 7
+size_flags_stretch_ratio = 0.15
 custom_fonts/font = SubResource( 2 )
-autowrap = true
+text = "ds"
+
+[node name="RomanizedTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label"]
+use_parent_material = true
+margin_left = 42.0
+margin_right = 1594.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+size_flags_stretch_ratio = 0.15
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "asdadsadsadada"
+valign = 2
+clip_text = true
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 use_parent_material = true
