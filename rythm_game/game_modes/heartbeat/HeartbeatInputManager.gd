@@ -26,6 +26,16 @@ var current_sending_actions_count = 0
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
 var dja_prev_status = [false, false]
 
+func reset():
+	.reset()
+	dja_prev_status = [false, false]
+	current_sending_actions_count = 0
+	last_axis_values = {}
+	current_actions = []
+	last_direct_axis_values = [0, 0, 0, 0]
+	digital_action_tracking = {}
+	
+
 func get_action_press_count(action):
 	return _get_analog_action_held_count(action) + _get_digital_action_held_count(action)
 
@@ -137,7 +147,6 @@ func _handle_direct_axis_input():
 func _process(delta):
 	if UserSettings.should_use_direct_joystick_access() and is_processing_input():
 		_handle_direct_axis_input()
-
 
 func _input_received(event):
 	var actions_to_send = []
