@@ -16,6 +16,9 @@ func _ready():
 func get_action_press_count(action):
 	return 0
 	
+func reset():
+	_buffered_inputs.clear()
+	
 func is_action_held(action):
 	return false
 func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
