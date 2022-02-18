@@ -52,10 +52,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	var pattern = {
 		"layers": [
 			{
-				"name": "RIGHT",
+				"name": "LEFT",
 				"timing_points": [
 					{
 						"time": 0,
+						"note_type": HBNoteData.NOTE_TYPE.LEFT,
 						"type": "Note"
 					}
 				]
