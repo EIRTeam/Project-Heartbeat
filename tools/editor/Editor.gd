@@ -151,6 +151,7 @@ func load_plugins():
 			dir_name = dir.get_next()
 	
 func _ready():
+	UserSettings.enable_menu_fps_limits = false
 	DebugSystemInfo.disable_label()
 	add_child(game_playback)
 	add_child(contextual_menu)
