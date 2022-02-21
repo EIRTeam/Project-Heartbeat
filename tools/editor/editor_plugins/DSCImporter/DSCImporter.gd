@@ -15,13 +15,13 @@ func _init(_editor).(_editor):
 	var vbox_container = VBoxContainer.new()
 	vbox_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
-	var ppd_file_select_dialog = FileDialog.new()
-	ppd_file_select_dialog.mode = FileDialog.MODE_OPEN_FILE
-	ppd_file_select_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	ppd_file_select_dialog.current_dir = ProjectSettings.globalize_path("user://songs")
-	ppd_file_select_dialog.filters = ["*.dsc ; DSC chart"]
-	ppd_file_select_dialog.connect("file_selected", self, "_on_file_selected")
-	vbox_container.add_child(ppd_file_select_dialog)
+	var file_select_dialog = FileDialog.new()
+	file_select_dialog.mode = FileDialog.MODE_OPEN_FILE
+	file_select_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	file_select_dialog.current_dir = UserSettings.user_settings.last_dsc_dir
+	file_select_dialog.filters = ["*.dsc ; DSC chart"]
+	file_select_dialog.connect("file_selected", self, "_on_file_selected")
+	vbox_container.add_child(file_select_dialog)
 	
 	var  hbox_container = HBoxContainer.new()
 	var offset_label = Label.new()
@@ -46,7 +46,7 @@ func _init(_editor).(_editor):
 	var import_button = Button.new()
 	import_button.text = "Import DSC chart"
 	import_button.clip_text = true
-	import_button.connect("pressed", ppd_file_select_dialog, "popup_centered_ratio", [0.75])
+	import_button.connect("pressed", file_select_dialog, "popup_centered_ratio", [0.75])
 	
 	vbox_container.add_child(import_button)
 	
@@ -65,3 +65,6 @@ func _on_file_selected(file_path: String):
 	chart = DSC_LOADER.convert_dsc_to_chart(file_path, opcode_map)
 	if chart:
 		get_editor().from_chart(chart, true)
+	
+	UserSettings.user_settings.last_dsc_dir = file_path.get_base_dir()
+	UserSettings.save_user_settings()

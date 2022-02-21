@@ -28,12 +28,14 @@ func _init(editor).(editor):
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.mid ; Standard MIDI File"]
+	file_dialog.set_current_dir(UserSettings.user_settings.last_midi_dir)
 	file_dialog.connect("file_selected", self, "_on_mid_file_selected")
 	vbox_container.add_child(file_dialog)
 	
 	file_dialog_gh.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog_gh.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog_gh.filters = ["*.mid ; Guitar Hero MIDI File"]
+	file_dialog.set_current_dir(UserSettings.user_settings.last_midi_dir)
 	file_dialog_gh.connect("file_selected", self, "_on_gh_mid_file_selected")
 	vbox_container.add_child(file_dialog_gh)
 	
@@ -48,10 +50,18 @@ func _on_mid_file_selected(file_path: String):
 	midi_loader_popup.load_smf(file_path)
 	midi_loader_popup.popup_centered_ratio(0.25)
 	
+	UserSettings.user_settings.last_midi_dir = file_path.get_base_dir()
+	UserSettings.save_user_settings()
+	file_dialog_gh.set_current_dir(UserSettings.user_settings.last_midi_dir)
+
 func _on_gh_mid_file_selected(file_path: String):
 	midi_loader_popup_gh.load_smf(file_path)
 	midi_loader_popup_gh.popup_centered_ratio(0.25)
 	
+	UserSettings.user_settings.last_midi_dir = file_path.get_base_dir()
+	UserSettings.save_user_settings()
+	file_dialog.set_current_dir(UserSettings.user_settings.last_midi_dir)
+
 # mix multiple tracks to single track
 # taken from the midi player code, by Yui Kinomoto @arlez80
 # how this works is beyond me, I am not a musician

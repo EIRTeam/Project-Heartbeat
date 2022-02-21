@@ -35,11 +35,17 @@ func _on_file_selected(file):
 		else:
 			error_dialog.dialog_text = "The file you selected is an OGG file, but it doesn't use the vorbis codec."
 		error_dialog.popup_centered()
+	
+	UserSettings.user_settings.last_audio_dir = file.get_base_dir()
+	UserSettings.save_user_settings()
+	
+	
 
 func ask_for_file(youtube_only=false):
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.ogg ; OGG"]
+	file_dialog.set_current_dir(UserSettings.user_settings.last_audio_dir)
 	$MarginContainer/VBoxContainer/Button.disabled = youtube_only
 	popup_centered()
 func _on_about_to_show():

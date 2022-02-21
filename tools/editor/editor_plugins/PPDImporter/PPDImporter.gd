@@ -16,7 +16,7 @@ func _init(_editor).(_editor):
 	var ppd_file_select_dialog = FileDialog.new()
 	ppd_file_select_dialog.mode = FileDialog.MODE_OPEN_FILE
 	ppd_file_select_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	ppd_file_select_dialog.current_dir = ProjectSettings.globalize_path("user://songs")
+	ppd_file_select_dialog.current_dir = UserSettings.user_settings.last_ppd_dir
 	ppd_file_select_dialog.filters = ["*.ppd ; PPD chart"]
 	ppd_file_select_dialog.connect("file_selected", self, "_on_file_selected")
 	vbox_container.add_child(ppd_file_select_dialog)
@@ -50,3 +50,6 @@ func _init(_editor).(_editor):
 func _on_file_selected(file_path: String):
 	var charter = PPDLoader.PPD2HBChart(file_path, _editor.get_bpm(), offset_spinbox.value)
 	get_editor().from_chart(charter, true)
+	
+	UserSettings.user_settings.last_ppd_dir = file_path.get_base_dir()
+	UserSettings.save_user_settings()

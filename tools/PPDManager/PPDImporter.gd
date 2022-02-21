@@ -12,12 +12,14 @@ onready var PPD_hide_songs_checkbox = get_node("WindowDialog/MarginContainer/VBo
 onready var close_button = get_node("WindowDialog/MarginContainer/VBoxContainer/CloseButton")
 onready var current_install_label = get_node("WindowDialog/MarginContainer/VBoxContainer/Label2")
 onready var remove_installation_button = get_node("WindowDialog/MarginContainer/VBoxContainer/RemoveInstallationButton")
+onready var PPD_importer_file_dialog = get_node("PPDImporterFileDialog")
 
 func _on_import_pressed():
 	pass
 
 func _ready():
 	close_button.connect("pressed", window_dialog, "hide")
+	PPD_importer_file_dialog.set_current_dir(UserSettings.user_settings.ppd_songs_directory)
 
 func show_error(err):
 	emit_signal("error", err)

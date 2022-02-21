@@ -72,6 +72,9 @@ func _ready():
 	tree.set_column_expand(1, false)
 	tree.set_column_min_width(1, 150)
 	
+	$FileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$FileDialogPackIcon.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	
 func _exit():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 
@@ -329,6 +332,10 @@ func _on_FileDialog_file_selected(path):
 		set_resource_image(resource_item.get_meta("atlas_name"), _currently_opening_resource, img)
 	else:
 		show_error("Error loading image, error code %d" % [img_err])
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	$FileDialogPackIcon.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 
 
 func _user_regenerate_atlas(from_disk = false):
@@ -417,7 +424,7 @@ func _replace_preview_image(path: String):
 	var img := Image.new()
 	var err := img.load(path)
 	if show_error_code("Error loading image", err) == OK:
-		if img.get_size().x  > 512 and img.get_size.y > 512:
+		if img.get_size().x  > 512 and img.get_size().y > 512:
 			show_error("Maximum image size is 512x512")
 		else:
 			var err_img := img.save_png(current_pack.get_pack_icon_path())
@@ -426,6 +433,10 @@ func _replace_preview_image(path: String):
 				texture.create_from_image(img)
 				pack_icon_texture_rect.texture = texture
 				no_pack_icon_image_label.hide()
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	$FileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 
 
 func _on_PreviewBBCodeCheckbox_toggled(button_pressed):

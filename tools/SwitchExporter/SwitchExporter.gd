@@ -52,6 +52,8 @@ func _ready():
 	window_dialog.popup_centered()
 	window_dialog.get_close_button().connect("pressed", self, "_return_to_main_menu")
 	close_button.connect("pressed", self, "_return_to_main_menu")
+	
+	$FileDialog.set_current_dir(UserSettings.user_settings.last_switch_export_dir)
 
 func _on_item_edited():
 	var item: TreeItem = tree.get_edited()
@@ -96,6 +98,9 @@ func _on_FileDialog_dir_selected(dir_path: String):
 			f.open(song_dir.plus_file("song.json"), File.WRITE)
 			f.store_string(to_json(song_meta))
 			dir.copy(YoutubeDL.get_audio_path(YoutubeDL.get_video_id(song.youtube_url)), song_dir.plus_file("audio.ogg"))
+	
+	UserSettings.user_settings.last_switch_export_dir = dir_path
+	UserSettings.save_user_settings()
 
 
 func _on_Label_meta_clicked(meta):

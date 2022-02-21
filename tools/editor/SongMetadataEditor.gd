@@ -98,7 +98,7 @@ func set_song_meta(value):
 	
 func _ready():
 	YoutubeDL.connect("video_downloaded", self, "_on_video_downloaded")
-
+	_update_paths()
 
 func save_meta():
 	song_meta.title = title_edit.text
@@ -160,6 +160,10 @@ func _on_AudioFileDialog_file_selected(path: String):
 	song_meta.audio = audio_path.get_file()
 	audio_filename_edit.text = song_meta.audio
 	save_meta()
+	
+	UserSettings.user_settings.last_audio_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
 
 
 func _on_BackgroundFileDialog_file_selected(path):
@@ -172,6 +176,10 @@ func _on_BackgroundFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	background_image_filename_edit.text = song_meta.background_image
 	save_meta()
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
 
 
 func _on_PreviewFileDialog_file_selected(path):
@@ -184,6 +192,10 @@ func _on_PreviewFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	preview_image_filename_edit.text = song_meta.preview_image
 	save_meta()
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
 
 
 func _on_VoiceAudioFileDialog_file_selected(path):
@@ -194,6 +206,10 @@ func _on_VoiceAudioFileDialog_file_selected(path):
 	song_meta.voice = audio_path.get_file()
 	voice_audio_filename_edit.text = song_meta.voice
 	save_meta()
+	
+	UserSettings.user_settings.last_audio_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
 
 
 func _on_CircleFileDialog_file_selected(path):
@@ -206,6 +222,10 @@ func _on_CircleFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	circle_image_line_edit.text = song_meta.circle_image
 	save_meta()
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
 
 
 func _on_CircleLogoFileDialog_file_selected(path):
@@ -218,6 +238,19 @@ func _on_CircleLogoFileDialog_file_selected(path):
 	dir.copy(path, image_path)
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	save_meta()
+	
+	UserSettings.user_settings.last_graphics_dir = path.get_base_dir()
+	UserSettings.save_user_settings()
+	_update_paths()
+
+
+func _update_paths():
+	$PreviewFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$BackgroundFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$CircleFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$CircleLogoFileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
+	$AudioFileDialog.set_current_dir(UserSettings.user_settings.last_audio_dir)
+	$VoiceAudioFileDialog.set_current_dir(UserSettings.user_settings.last_audio_dir)
 
 
 func _on_AddVariantButton_pressed():
