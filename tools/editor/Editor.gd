@@ -1346,21 +1346,30 @@ func from_chart(chart: HBChart, ignore_settings=false):
 			add_item(layer_n, item)
 			if item_d is HBSustainNote:
 				item.sync_value("end_time")
-		var layer_visible = not layer.name in chart.editor_settings.hidden_layers
+		
+		var layer_visible = not layer.name in song_editor_settings.hidden_layers
+		if not ignore_settings:
+			layer_visible = not layer.name in chart.editor_settings.hidden_layers
 		
 		layer_manager.add_layer(layer.name, layer_visible)
 		
 	# Lyrics layer
 	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
 	lyrics_layer_scene.layer_name = "Lyrics"
-	var lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
+	var lyrics_layer_visible = not "Lyrics" in song_editor_settings.hidden_layers
+	if not ignore_settings:
+		lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
+	
 	timeline.add_layer(lyrics_layer_scene)
 	layer_manager.add_layer("Lyrics", lyrics_layer_visible)
 	
 	# Sections layer
 	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
 	sections_layer_scene.layer_name = "Sections"
-	var sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
+	var sections_layer_visible = not "Sections" in song_editor_settings.hidden_layers
+	if not ignore_settings:
+		sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
+	
 	timeline.add_layer(sections_layer_scene)
 	layer_manager.add_layer("Sections", sections_layer_visible)
 	

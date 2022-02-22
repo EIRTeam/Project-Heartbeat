@@ -183,13 +183,6 @@ var editor_grid_safe_area_only := true
 var editor_multinote_crosses_enabled := true
 var editor_grid_type := 0
 
-var last_graphics_dir := ProjectSettings.globalize_path("user://")
-var last_audio_dir := ProjectSettings.globalize_path("user://")
-var last_switch_export_dir := ProjectSettings.globalize_path("user://")
-var last_dsc_dir := ProjectSettings.globalize_path("user://")
-var last_ppd_dir := ProjectSettings.globalize_path("user://")
-var last_midi_dir := ProjectSettings.globalize_path("user://")
-
 var editor_grid_type__possibilities = [
 	"full",
 	"dashed",
@@ -202,6 +195,14 @@ var editor_secondary_grid_color := Color(0.5, 0.5, 0.5)
 var editor_secondary_grid_width := 1.0
 var editor_multinote_cross_color := Color.white
 var editor_multinote_cross_width := 1.0
+
+var last_graphics_dir := ProjectSettings.globalize_path("user://")
+var last_audio_dir := ProjectSettings.globalize_path("user://")
+var last_switch_export_dir := ProjectSettings.globalize_path("user://")
+var last_dsc_dir := ProjectSettings.globalize_path("user://")
+var last_ppd_dir := ProjectSettings.globalize_path("user://")
+var last_midi_dir := ProjectSettings.globalize_path("user://")
+var last_edit_dir := ProjectSettings.globalize_path("user://")
 
 
 func _init():
@@ -221,7 +222,7 @@ func _init():
 	"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled",
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
-	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir",
+	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
 	"color_presets"]
 	
 	merge_dict_fields += [

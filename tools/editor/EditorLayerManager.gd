@@ -13,8 +13,8 @@ func add_layer(layer_name: String, layer_visibility: bool):
 	var layer = EditorLayerManagerLayer.instance()
 	layer_container.add_child(layer)
 	layer.layer_name = layer_name
-	layer.layer_visible = layer_visibility
 	layer.connect("layer_visibility_changed", self, "_on_layer_visibility_changed", [layer_name])
+	layer.layer_visible = layer_visibility
 	layer_container.add_child(HSeparator.new())
 	
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
