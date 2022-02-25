@@ -35,6 +35,7 @@ func _ready():
 				sound_select_button.set_meta("sound_name", dir_name)
 			dir_name = dir.get_next()
 	connect("focus_entered", self, "_on_focus_grabbed")
+	scroll_container.connect("focus_exited", self, "hide")
 func _on_focus_grabbed():
 	scroll_container.grab_focus()
 	for button in pack_container.get_children():
