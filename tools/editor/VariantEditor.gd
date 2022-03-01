@@ -29,7 +29,7 @@ func save_variant():
 	variant.variant_offset = offset_spinbox.value
 
 func _on_ButtonSync_pressed():
-	if YoutubeDL.get_cache_status(variant.variant_url, !checkbox_audio_only.pressed, true) != YoutubeDL.CACHE_STATUS.OK:
+	if YoutubeDL.get_cache_status(variant.variant_url, false, true) != YoutubeDL.CACHE_STATUS.OK:
 		emit_signal("show_download_prompt", get_position_in_parent())
 	else:
 		sync_window.show_comparison(song, variant, offset_spinbox.value / 1000.0)

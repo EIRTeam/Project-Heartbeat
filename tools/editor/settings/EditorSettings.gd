@@ -178,8 +178,9 @@ func create_item(option, parent):
 			var value = settings_base[option.var]
 			
 			var popup_menu := PopupMenu.new()
-			for name in data:
-				popup_menu.add_item(name)
+			for item_name in data:
+				popup_menu.add_item(item_name)
+				popup_menu.set_item_disabled(popup_menu.get_item_count()-1, !data[item_name])
 			popup_menu.connect("index_pressed", self, "_on_list_item_selected", [item])
 			editor.add_child(popup_menu)
 			item.set_meta("popup_menu", popup_menu)
@@ -192,7 +193,7 @@ func create_item(option, parent):
 					item.set_meta("update_affects_conditions", option.options.update_affects_conditions)
 			
 			item.set_cell_mode(1, TreeItem.CELL_MODE_CUSTOM)
-			item.set_text(1, data[value])
+			item.set_text(1, data.keys()[value])
 			item.set_meta("value", value)
 			item.set_editable(1, true)
 			
@@ -261,9 +262,10 @@ func update(ignore = []):
 				var data = call(item.get_meta("data_callback"))
 				for name in data:
 					popup_menu.add_item(name)
+					popup_menu.set_item_disabled(popup_menu.get_item_count()-1, !data[name])
 				
 				item.set_meta("value", value)
-				item.set_text(1, data[value])
+				item.set_text(1, data.keys()[value])
 			"Color":
 				item.set_text(1, "#" + value.to_html(false))
 				var color_picker = item.get_meta("color_picker")
@@ -314,7 +316,7 @@ func _on_custom_popup_edited(_arrow_pressed: bool):
 func _on_list_item_selected(idx: int, edited: TreeItem):
 	var data = call(edited.get_meta("data_callback"))
 	edited.set_meta("value", idx)
-	edited.set_text(1, data[idx])
+	edited.set_text(1, data.keys()[idx])
 	_on_tree_item_edited()
 
 

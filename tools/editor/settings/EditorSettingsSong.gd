@@ -58,11 +58,17 @@ func _grid_column_spacing_parser(value, _mode):
 	return new_value
 
 func _get_variants():
-	var variants = ["Default"]
+	var variants = {"Default": true}
 	if editor.current_song:
 		for variant in editor.current_song.song_variants:
-			if YoutubeDL.get_cache_status(variant.variant_url, !variant.audio_only, true) == YoutubeDL.CACHE_STATUS.OK:
-				variants.append(variant.variant_name)
+			var display_name = variant.variant_name
+			var audio_status = YoutubeDL.get_cache_status(variant.variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK
+			if not audio_status:
+				display_name += " (audio not downloaded)"
+			elif not variant.audio_only:
+				if not YoutubeDL.get_cache_status(variant.variant_url, true, true) == YoutubeDL.CACHE_STATUS.OK:
+					display_name += " (video not downloaded)"
+			variants[display_name] = audio_status
 	
 	return variants
 

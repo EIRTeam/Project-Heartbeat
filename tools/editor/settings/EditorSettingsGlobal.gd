@@ -41,7 +41,10 @@ func update_setting(property_name: String, new_value):
 
 
 func _get_grid_types():
-	return UserSettings.user_settings.editor_grid_type__possibilities
+	var types := {}
+	for possibility in UserSettings.user_settings.editor_grid_type__possibilities:
+		types[possibility] = true
+	return types
 
 func _grid_is_dashes():
 	return UserSettings.user_settings.editor_grid_type == 1
