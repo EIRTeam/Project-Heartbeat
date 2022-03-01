@@ -49,11 +49,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("song"):
 		song_to_select = args.song
 	update_songs(song_to_select, difficulty_to_select)
-	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus")
+	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus", [], CONNECT_DEFERRED)
 	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
 	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
-	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus")
-	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus")
+	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus", [], CONNECT_DEFERRED)
+	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus", [], CONNECT_DEFERRED)
 #	song_container.hard_arrange_all()
 	
 	var allowed_sort_by = {
