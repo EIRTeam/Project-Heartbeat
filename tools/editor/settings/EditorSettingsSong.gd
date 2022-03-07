@@ -40,9 +40,12 @@ func _ready():
 
 func set_editor(val):
 	editor = val
-	settings_base = editor.song_editor_settings
+	load_settings(editor.song_editor_settings)
 	editor.connect("song_editor_settings_changed", self, "update")
 	populate()
+
+func load_settings(settings):
+	settings_base = settings
 
 func update_setting(property_name: String, new_value):
 	editor.disconnect("song_editor_settings_changed", self, "update")

@@ -646,7 +646,7 @@ class MultiPresetTemplate:
 		pass
 	
 	func process_position(n, type, notes):
-		var pos = n.position as Vector2
+		var pos = notes[0].position as Vector2
 		pos.x = 240 + 480 * type
 		
 		return pos
@@ -720,7 +720,7 @@ class VerticalMultiPreset:
 		return relative_type
 	
 	func process_position(n, type, notes):
-		var pos = Vector2(n.position.x, notes[0].position.y)
+		var pos = Vector2(notes[0].position.x, notes[0].position.y)
 		pos.y += 96 * type
 		
 		return pos

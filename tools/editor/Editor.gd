@@ -614,103 +614,91 @@ func _unhandled_input(event: InputEvent):
 		if old_pos != playhead_position:
 			seek(playhead_position)
 	
-	if event is InputEventKey:
-		if not event.shift and not event.control and not event.is_action_pressed("editor_play"):
-			if selected:
-				var changed_buttons = []
-				
-				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-					for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
-						if event.is_action_pressed(action):
-							undo_redo.create_action("Change selected notes button to " + HBGame.NOTE_TYPE_TO_STRING_MAP[type])
-							
-							var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, type)
-							
-							var new_layer = timeline.find_layer_by_name(layer_name)
-							
-							for item in selected:
-								var data = item.data as HBBaseNote
-								if not data:
-									continue
-								var new_data_ser = data.serialize()
-								
-								new_data_ser["note_type"] = type
-								
-								# Fallbacks when converting illegal note types
-								if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
-									new_data_ser["type"] = "Note"
-								
-								if type == HBBaseNote.NOTE_TYPE.HEART:
-									if new_data_ser["type"] == "SustainNote":
-										new_data_ser["type"] = "Note"
-								var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
-								
-								var new_item = new_data.get_timeline_item()
-								
-								undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
-								undo_redo.add_do_method(item, "deselect")
-								undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
-								
-								undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-								undo_redo.add_undo_method(new_item, "deselect")
-								undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
-								changed_buttons.append(new_item)
-							
-							undo_redo.add_do_method(self, "_on_timing_points_changed")
-							undo_redo.add_undo_method(self, "_on_timing_points_changed")
-							undo_redo.add_undo_method(self, "deselect_all")
-							undo_redo.add_do_method(self, "deselect_all")
-							undo_redo.commit_action()
-							
-							return
-			
-			for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-				var found_note = false
-				for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+	if event is InputEventKey and not event.is_action_pressed("editor_play"):
+		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+			var found_note = false
+			for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
+				if (event.is_action(action, true) and event.pressed and not event.echo) or (type in [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT] and event.is_action_pressed(action)):
 					var layer = null
 					for layer_c in timeline.get_visible_layers():
-						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type):
+						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type) + ("2" if event.shift else ""):
 							layer = layer_c
 							break
+					
 					if not layer:
 						continue
-					if event.is_action_pressed(action):
-						var items_at_time = get_items_at_time(playhead_position)
+					
+					if selected and not game_playback.is_playing():
+						undo_redo.create_action("Change selected notes button to " + HBGame.NOTE_TYPE_TO_STRING_MAP[type])
 						
+						for item in selected:
+							var data = item.data as HBBaseNote
+							if not data:
+								continue
+							var new_data_ser = data.serialize()
+							
+							new_data_ser["note_type"] = type
+							
+							# Fallbacks when converting illegal note types
+							if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+								new_data_ser["type"] = "Note"
+							
+							if type == HBBaseNote.NOTE_TYPE.HEART:
+								if new_data_ser["type"] == "SustainNote":
+									new_data_ser["type"] = "Note"
+							var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+							
+							var new_item = new_data.get_timeline_item()
+							
+							undo_redo.add_do_method(self, "add_item_to_layer", layer, new_item)
+							undo_redo.add_do_method(item, "deselect")
+							undo_redo.add_undo_method(self, "remove_item_from_layer", layer, new_item)
+							
+							undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+							undo_redo.add_undo_method(new_item, "deselect")
+							undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+						
+						undo_redo.add_do_method(self, "_on_timing_points_changed")
+						undo_redo.add_undo_method(self, "_on_timing_points_changed")
+						undo_redo.add_undo_method(self, "deselect_all")
+						undo_redo.add_do_method(self, "deselect_all")
+						undo_redo.commit_action()
+					else:
 						var item_erased = false
-						for item in items_at_time:
+						for item in get_items_at_time(playhead_position):
 							if item is EditorTimelineItemNote:
-								if item.data.note_type == type:
+								if item.data.note_type == type and item._layer == layer:
 									item_erased = true
-									
-									deselect_all()
 									
 									undo_redo.create_action("Remove note")
 									
 									undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
 									undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
-										
+									
+									check_for_multi_changes_upon_deletion(item.data.time, [item])
+									
 									undo_redo.add_do_method(self, "_on_timing_points_changed")
 									undo_redo.add_undo_method(self, "_on_timing_points_changed")
 									undo_redo.commit_action()
 						if not item_erased:
 							var timing_point := HBNoteData.new()
 							timing_point.time = snap_time_to_timeline(playhead_position)
-							# Event layer is the last one
-								
 							timing_point.note_type = type
 							
 							if not game_playback.is_playing():
 								user_create_timing_point(layer, timing_point.get_timeline_item())
 							else:
 								queue_timing_point_creation(layer, timing_point)
-								game_playback.game.play_note_sfx()
-						found_note = true
-						break
-				if found_note:
+							
+							game_playback.game.play_note_sfx()
+					
+					found_note = true
 					break
-							
-							
+			if found_note:
+				get_tree().set_input_as_handled()
+				break
+
+
 func _note_comparison(a, b):
 	return a.time > b.time
 
@@ -996,7 +984,8 @@ func seek(value: int, snapped = false):
 		game_preview.set_time(value / 1000.0)
 	else:
 		game_preview.play_at_pos(value / 1000.0)
-	
+
+
 func copy_selected():
 	if selected.size() > 0:
 		copied_points = []
@@ -1004,31 +993,41 @@ func copy_selected():
 			var timing_point_timeline_item = item as EditorTimelineItem
 			var cloned_item = timing_point_timeline_item.data.clone().get_timeline_item()
 			cloned_item._layer = timing_point_timeline_item._layer
-			copied_points.append(cloned_item)
-			
-	
+			copied_points.append({"item": cloned_item, "layer_name": cloned_item._layer.layer_name})
+
 func paste(time: int):
 	if copied_points.size() > 0:
 		undo_redo.create_action("Paste timing points")
 		message_shower._show_notification("Paste notes")
-		var min_point = copied_points[0].data as HBTimingPoint
-		for item in copied_points:
-			var timing_point := item.data as HBTimingPoint
+		
+		var min_point = copied_points[0].item.data as HBTimingPoint
+		for copy in copied_points:
+			var timing_point := copy.item.data as HBTimingPoint
 			if timing_point.time < min_point.time:
 				min_point = timing_point
-		for item in copied_points:
-			var timeline_item := item as EditorTimelineItem
-			var timing_point := item.data.clone() as HBTimingPoint
+		
+		for copy in copied_points:
+			for l in timeline.get_layers():
+				if l.layer_name == copy.layer_name:
+					copy.item._layer = l
+					break
+			
+			var timeline_item := copy.item as EditorTimelineItem
+			var timing_point := copy.item.data.clone() as HBTimingPoint
 			
 			timing_point.time = time + timing_point.time - min_point.time
 			if timing_point is HBSustainNote:
-				timing_point.end_time = timing_point.time + item.data.get_duration()
+				timing_point.end_time = timing_point.time + copy.item.data.get_duration()
+			
+			if timing_point is HBBaseNote and song_editor_settings.autoplace:
+				timing_point = autoplace(timing_point)
+			
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
 			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
 			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
 			
-			if item is EditorSectionTimelineItem:
+			if copy.item is EditorSectionTimelineItem:
 				undo_redo.add_do_method(timeline, "update")
 				undo_redo.add_undo_method(timeline, "update")
 			
@@ -1326,6 +1325,8 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	auto_multi_checkbox.connect("toggled", self, "_on_auto_multi_toggled")
 	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
 	
+	$EditorGlobalSettings.song_settings_tab.load_settings(settings)
+	
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
 func from_chart(chart: HBChart, ignore_settings=false):
@@ -1431,7 +1432,7 @@ func load_song(song: HBSong, difficulty: String):
 	deselect_all()
 	
 	rhythm_game.base_bpm = song.bpm
-	copied_points = []
+#	copied_points = []
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
 	var dir = Directory.new()

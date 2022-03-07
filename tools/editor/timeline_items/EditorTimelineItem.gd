@@ -73,7 +73,7 @@ func get_click_rect():
 
 func _gui_input(event: InputEvent):
 	var global_rect = get_click_rect()
-		
+	
 	if global_rect.has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_select") and not editor.game_playback.is_playing(): 
 			if event is InputEventWithModifiers:
@@ -92,7 +92,11 @@ func _gui_input(event: InputEvent):
 					set_process(true)
 					_dragging = true
 	
-	if event.is_action_released("editor_select") and not event.is_echo() and _dragging:
+	if event.is_action_released("editor_select"):
+		stop_dragging()
+
+func stop_dragging():
+	if _dragging:
 		_drag_moving = false
 		if is_processing():
 			get_tree().set_input_as_handled()

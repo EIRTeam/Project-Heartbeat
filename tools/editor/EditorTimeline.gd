@@ -275,6 +275,11 @@ func _input(event):
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("EditorGlobalSettings").visible:
 			editor.show_contextual_menu()
+	
+	if event.is_action_released("editor_select"):
+		for note in editor.selected:
+			note.stop_dragging()
+
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("editor_select") and not event.shift:
