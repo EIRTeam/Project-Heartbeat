@@ -69,9 +69,10 @@ class SongPlayer:
 		
 	func _process(_delta):
 		emit_signal("stream_time_changed", audio_stream_player.get_playback_position())
-		var end_time = audio_stream_player.stream.get_length()
-		if song.end_time != -1:
-			end_time = song.end_time / 1000.0
+		var end_time = (song.preview_start + 10_000) / 1000.0
+		if song.preview_end != -1:
+			end_time = song.preview_end / 1000.0
+		end_time = min(audio_stream_player.stream.get_length(), end_time)
 		if audio_stream_player.get_playback_position() >= end_time:
 			fade_out()
 			emit_signal("song_ended")
