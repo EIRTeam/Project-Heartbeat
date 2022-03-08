@@ -5,8 +5,8 @@ var OPTIONS = {
 		"timing_method": {
 			"name": tr("Timing method"),
 			"description": tr("Selects the timing method to use, using the system clock is the recommended option for most people, use the alternatives only if you are having issues."),
-			"options": [HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK],
-			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)"],
+			"options": [HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK, HBUserSettings.TIMING_METHOD.HYBRID_INTERPOLATED],
+			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)", "Hybrid"],
 			"type": "options"
 		},
 		"workshop_download_audio_only": {

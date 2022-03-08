@@ -96,6 +96,10 @@ var current_variant = -1
 
 var notes_judged_this_frame = []
 
+var prev_hardware_time = 0
+var last_hardware_sync = 0
+var hardware_interp = 0
+
 func _init():
 	name = "RhythmGameBase"
 
@@ -406,6 +410,16 @@ func _process_game(_delta):
 				time = t
 				time -= latency_compensation / 1000.0
 			time = time
+		elif UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.HYBRID_INTERPOLATED:
+			var current_hardware_time := audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
+			if current_hardware_time > prev_hardware_time:
+				prev_hardware_time = current_hardware_time
+				last_hardware_sync = OS.get_ticks_usec()
+				hardware_interp = 0
+			hardware_interp = OS.get_ticks_usec() - last_hardware_sync
+			time = current_hardware_time + hardware_interp / 1_000_000.0
+			
+			time -= latency_compensation / 1000.0
 		else:
 			# Obtain current time from ticks, offset by the time we began playing music.
 			time = (OS.get_ticks_usec() - time_begin) / 1000000.0
@@ -548,6 +562,9 @@ func play_from_pos(position: float):
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
 	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
+	last_hardware_sync = OS.get_ticks_usec()
+	hardware_interp = 0
+	prev_hardware_time = -100000000
 	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	time = position
 func add_score(score_to_add):
