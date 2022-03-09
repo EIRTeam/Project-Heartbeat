@@ -173,8 +173,6 @@ func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, av
 			if not owned:
 				not_owned_by_users.append(user)
 				
-	
-				
 	if song_availabilities.size() >= lobby.get_lobby_member_count():
 		var struwu = ""
 		for i in range(not_owned_by_users.size()):
@@ -190,6 +188,7 @@ func _on_user_song_availability_update(sender_user: HBServiceMember, song_id, av
 			if selected_song.comes_from_ugc():
 				downloading_message_prompt.text = song_confirmation_error_prompt.text
 				downloading_message_prompt.text += "\nwaiting for song to be downloaded automatically by their game..."
+				downloading_message_prompt.popup_centered()
 			else:
 				song_confirmation_error_prompt.popup_centered()
 		else:
@@ -211,7 +210,8 @@ func _on_check_songs_request_received(song_id: String):
 	else:
 		var song = SongLoader.songs[song_id] as HBSong
 		if not song.is_cached():
-			song.cache_data()
+			if not YoutubeDL.is_already_downloading(song):
+				song.cache_data() 
 			if song_id.begins_with("ugc_"):
 				downloading_message_prompt.text = "Downloading song media..."
 				downloading_message_prompt.popup_centered()
