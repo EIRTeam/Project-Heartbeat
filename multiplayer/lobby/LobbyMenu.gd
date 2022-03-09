@@ -40,7 +40,6 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		connect_lobby(lobby)
 	if args.has("lobby"):
 		set_lobby(args.lobby)
-	_check_ownership_changed()
 	chat_line_edit.clear()
 	# Sets the song wen returning from lobby song select, or not if we are just joining
 	if args.has("song"):
@@ -55,23 +54,27 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 	# HACK! Else we select the wrong button when we don't do this
 	yield(get_tree(), "idle_frame")
 	options_vertical_menu.grab_focus()
+	update_member_list()
+	_check_ownership_changed()
 
 func _check_ownership_changed():
-	if lobby.is_owned_by_local_user():
-		get_tree().call_group("owner_only", "show")
-	else:
-		get_tree().call_group("owner_only", "hide")
+	if is_inside_tree():
+		if lobby.is_owned_by_local_user():
+			get_tree().call_group("owner_only", "show")
+		else:
+			get_tree().call_group("owner_only", "hide")
 
 func _on_song_availability_check_cancelled():
 	checking_song_availabilities = false
 
 func update_member_list():
-	member_list.clear_members()
-	for member in lobby.members.values():
-		var is_owner = false
-		if lobby.get_lobby_owner() == member:
-			is_owner = true
-		member_list.add_member(member, is_owner, lobby.is_owned_by_local_user())
+	if is_inside_tree():
+		member_list.clear_members()
+		for member in lobby.members.values():
+			var is_owner = false
+			if lobby.get_lobby_owner() == member:
+				is_owner = true
+			member_list.add_member(member, is_owner, lobby.is_owned_by_local_user())
 
 func update_lobby_data_display():
 	lobby_name_label.text = lobby.lobby_name
