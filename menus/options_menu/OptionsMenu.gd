@@ -147,9 +147,9 @@ var OPTIONS = {
 		},
 		"desired_video_resolution": {
 			"name": tr("Desired Video Resolution"),
-			"description": tr("The desired video resolution for downloaded videos."),
-			"options": [480, 720, 1080, 2160],
-			"options_pretty": ["480p", "720p", "1080p", "4K"],
+			"description": tr("The desired video resolution for downloaded videos, if the exact resolution you requested is not available the next smallest resolution will be used instead."),
+			"options": [480, 720, 1080, 1440, 2160],
+			"options_pretty": ["480p", "720p", "1080p", "1440p", "4K"],
 			"type": "options"
 		},
 		"use_visualizer_with_video": {
