@@ -95,9 +95,9 @@ func _on_ugc_item_downloaded(_item_type, item):
 					UserSettings.user_settings.per_song_settings[item.id] = HBPerSongSettings.new()
 				UserSettings.user_settings.per_song_settings[item.id].video_enabled = false
 				UserSettings.save_user_settings()
-		if not item.is_cached():
+		if not YoutubeDL.is_already_downloading(item) and not item.is_cached():
 			item.cache_data()
-		else:
+		elif not YoutubeDL.is_already_downloading(item):
 			report_ugc_downloaded(item.ugc_id)
 func report_ugc_downloaded(ugc_id: int):
 	if is_owned_by_local_user():

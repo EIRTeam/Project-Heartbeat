@@ -50,7 +50,7 @@ func _ready():
 	game.connect("intro_skipped", self, "_on_intro_skipped")
 	
 	set_process(false)
-	
+	game.set_process(false)
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 	$Label.visible = false
 func _on_intro_skipped(new_time):
@@ -90,6 +90,7 @@ func start_fade_in():
 
 func start_session(game_info: HBGameInfo, assets=null):
 	current_assets = assets
+	game.set_process(true)
 	if not SongLoader.songs.has(game_info.song_id):
 		Log.log(self, "Error starting session: Song not found %s" % [game_info.song_id])
 		return

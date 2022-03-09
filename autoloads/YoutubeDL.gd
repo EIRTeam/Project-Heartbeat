@@ -212,7 +212,9 @@ func _download_video(userdata):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
 	if not userdata.video_id in cache_meta.cache:
+		cache_meta_mutex.lock()
 		cache_meta.cache[userdata.video_id] = {}
+		cache_meta_mutex.unlock()
 	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata.entry}
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = get_ytdl_shared_params()
