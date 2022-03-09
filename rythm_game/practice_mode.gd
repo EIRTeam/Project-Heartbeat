@@ -139,6 +139,7 @@ func reset_stats():
 	game.result = HBResult.new()
 	game._potential_result = HBResult.new()
 	game.game_ui.score_counter.score = 0
+	game.current_combo = 0
 	game.game_ui._update_clear_bar_value()
 	update_stats_label()
 func update_progress_bar():
@@ -171,7 +172,6 @@ func update_progress_bar_waypoint():
 	waypoint_pos = waypoint_pos / current_duration
 	progess_bar_waypoint.value = waypoint_pos
 func update_stats_label():
-	
 	for i in range(last_notes.size()-1, -1, -1):
 		var n_time = last_notes[i]
 		if n_time < (game.time * 1000.0) - 1000.0:
