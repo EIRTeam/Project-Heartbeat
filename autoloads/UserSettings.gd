@@ -251,8 +251,8 @@ func _input(event):
 		if current_mode != PROMPT_MODE.JOYPAD:
 			current_mode = PROMPT_MODE.JOYPAD
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-			JoypadSupport._set_joypad(event.device, true)
 			set_joypad_prompts()
+			JoypadSupport._set_joypad(event.device, true)
 	elif event is InputEventKey or event is InputEventMouseButton:
 		if current_mode != PROMPT_MODE.KEYBOARD:
 			current_mode = PROMPT_MODE.KEYBOARD
