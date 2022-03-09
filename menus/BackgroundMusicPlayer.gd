@@ -6,6 +6,8 @@ signal stream_time_changed
 signal song_started(song, assets)
 
 
+const DEFAULT_PREVIEW_DURATION = 20_000 # milliseconds
+
 class SongPlayer:
 	extends Node
 	
@@ -69,7 +71,7 @@ class SongPlayer:
 		
 	func _process(_delta):
 		emit_signal("stream_time_changed", audio_stream_player.get_playback_position())
-		var end_time = (song.preview_start + 10_000) / 1000.0
+		var end_time = (song.preview_start + DEFAULT_PREVIEW_DURATION) / 1000.0
 		if song.preview_end != -1:
 			end_time = song.preview_end / 1000.0
 		end_time = min(audio_stream_player.stream.get_length(), end_time)
