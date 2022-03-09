@@ -283,6 +283,7 @@ func set_joypad_prompts():
 		"default":
 			JoypadSupport.set_autodetect_to(true)
 			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
+			JoypadSupport.force_keyboard_prompts()
 		"xbox":
 			JoypadSupport.set_autodetect_to(false)
 			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.XBOX)
