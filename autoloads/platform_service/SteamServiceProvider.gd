@@ -130,6 +130,8 @@ func is_steam_deck():
 	
 func read_remote_file(file_name: String):
 	var result = {}
+	result["result"] = false
+	return {}
 	if not Steam.fileExists(file_name):
 		Log.log(self, "Attempted to read a remote file that does not exist: %s" % [file_name])
 		result["result"] = false
@@ -142,6 +144,7 @@ func read_remote_file(file_name: String):
 		result["result"] = read_result.ret != 0
 	return result
 func read_remote_file_to_path(file_name: String, target_path: String):
+	return
 	var result = read_remote_file(file_name)
 	var file = File.new()
 	if result.result:
@@ -152,7 +155,7 @@ func read_remote_file_to_path(file_name: String, target_path: String):
 			Log.log(self, "Error opening file to write remote data: %s (Error: %d)" % [file_name, err])
 
 func is_remote_storage_enabled():
-	return Steam.isCloudEnabledForApp()
+	return false
 
 # Leaderboard auth token
 func get_leaderboard_auth_token():

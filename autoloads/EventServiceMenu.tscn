@@ -59,6 +59,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TestThankYouButton" type="Button" parent="VBoxContainer/TabContainer/General/VBoxContainer"]
+margin_right = 1910.0
+margin_bottom = 25.0
+text = "Test thank you screen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="OpenNormalSettingsButton" type="Button" parent="VBoxContainer/TabContainer/General/VBoxContainer"]
 margin_top = 29.0
 margin_right = 1910.0
@@ -111,6 +119,7 @@ margin_bottom = 216.0
 rect_min_size = Vector2( 0, 100 )
 
 [connection signal="pressed" from="VBoxContainer/TabContainer/General/VBoxContainer/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/General/VBoxContainer/TestThankYouButton" to="." method="_on_TestThankYouButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/General/VBoxContainer/OpenNormalSettingsButton" to="." method="_on_OpenNormalSettingsButton_pressed"]
 [connection signal="item_selected" from="VBoxContainer/TabContainer/Visual/VBoxContainer/EventLogoOptionButton" to="." method="_on_EventLogoOptionButton_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/TabContainer/Visual/VBoxContainer/UglyBGSongTextEdit" to="." method="_on_UglyBGSongTextEdit_text_changed"]

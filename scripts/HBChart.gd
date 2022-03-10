@@ -84,6 +84,9 @@ func deserialize(data: Dictionary):
 		var timing_points = []
 		for point in layer.timing_points:
 			var _point = HBTimingPoint.deserialize(point)
+			if UserSettings.user_settings.event_song_max_duration != -1:
+				if _point.time > UserSettings.user_settings.event_song_max_duration * 1000.0:
+					continue 
 			timing_points.append(_point)
 			
 		var found_matching_layer = false
@@ -110,6 +113,9 @@ func get_max_score():
 #	var notes = 0
 	
 	for point in tp:
+		if UserSettings.user_settings.event_song_max_duration != -1:
+			if point.time > UserSettings.user_settings.event_song_max_duration * 1000.0:
+				continue 
 		if point is HBSustainNote:
 			max_score += point.get_score(HBJudge.JUDGE_RATINGS.COOL)
 #			notes += 1

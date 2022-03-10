@@ -29,18 +29,12 @@ fallback/0 = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 4 )
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+stretch_mode = 7
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0

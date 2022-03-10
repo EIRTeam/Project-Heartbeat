@@ -25,8 +25,6 @@ size = 80
 use_filter = true
 font_data = SubResource( 3 )
 
-[sub_resource type="StyleBoxEmpty" id=5]
-
 [sub_resource type="DynamicFontData" id=6]
 font_path = "res://fonts/Roboto-Black.ttf"
 
@@ -36,6 +34,8 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 6 )
 fallback/0 = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
 
 [sub_resource type="RichTextEffect" id=8]
 script = ExtResource( 7 )
@@ -79,7 +79,7 @@ size_flags_stretch_ratio = 2.77
 custom_constants/separation = 15
 
 [node name="Panel" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
-margin_right = 952.0
+margin_right = 1920.0
 margin_bottom = 838.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -97,6 +97,7 @@ __meta__ = {
 }
 
 [node name="Panel2" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 967.0
 margin_right = 1920.0
 margin_bottom = 838.0
@@ -214,8 +215,8 @@ margin_left = 522.0
 margin_right = 937.0
 margin_bottom = 128.0
 size_flags_horizontal = 3
-custom_styles/normal = SubResource( 5 )
 custom_fonts/normal_font = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[word_rainbow](NT) %[/word_rainbow]"
 text = "(NT) %"
@@ -257,8 +258,8 @@ margin_left = 522.0
 margin_right = 937.0
 margin_bottom = 128.0
 size_flags_horizontal = 3
-custom_styles/normal = SubResource( 5 )
 custom_fonts/normal_font = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[word_rainbow](NT)[/word_rainbow]"
 text = "(NT)"

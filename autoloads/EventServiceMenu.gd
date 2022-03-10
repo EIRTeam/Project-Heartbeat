@@ -36,10 +36,18 @@ func _on_RestartButton_pressed():
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	get_tree().paused = false
-
-
+	
 func _on_EventLogoOptionButton_item_selected(_index):
 	save_settings()
 
 func _on_UglyBGSongTextEdit_text_changed():
 	save_settings()
+
+
+func _on_TestThankYouButton_pressed():
+	var scene = load("res://menus/MainMenu3D.tscn").instance()
+	scene.starting_menu = "event_thank_you"
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	get_tree().paused = false

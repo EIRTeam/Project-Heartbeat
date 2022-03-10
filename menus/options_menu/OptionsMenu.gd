@@ -306,6 +306,13 @@ var OPTIONS = {
 		"event_bg_display_in_start_menu": {
 			"name": tr("BG display in start menu"),
 			"description": tr("When enabled allows the start menu to cycle through the playing song backgrounds, exceptions apply to songs with ugly or less fitting artworks")
+		},
+		"event_song_max_duration": {
+			"name": tr("Song max duration"),
+			"description": tr("Allows you to set how long a player can play a song for, it will be automatically ended at that point"),
+			"options": [-1, 60, 90, 120, 180],
+			"options_pretty": [tr("Default"), "60s", "90s", "120s", "180s"],
+			"type": "options"
 		}
 	}
 }

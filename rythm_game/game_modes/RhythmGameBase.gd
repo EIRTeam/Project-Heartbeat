@@ -435,6 +435,11 @@ func _process_game(_delta):
 
 			# -1 is required for safety
 			if audio_playback.get_playback_position_msec() >= end_time-1 and not _finished:
+				end_time = float(current_song.end_time)
+			if UserSettings.user_settings.event_song_max_duration != -1:
+				end_time = min(end_time, UserSettings.user_settings.event_song_max_duration*1000)
+			
+			if audio_playback.get_playback_position_msec() >= end_time and not _finished:
 				_on_game_finished()
 	for i in range(timing_points.size() - 1 - (timing_points.size() - last_hit_index), -1, -1):
 		var group = timing_points[i]

@@ -3,12 +3,15 @@
 [ext_resource path="res://menus/controller_prompt.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menus/pre_game_screen_event.gd" type="Script" id=2]
 
-[node name="Control" type="Control"]
+[node name="Control" type="AspectRatioContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+ratio = 1.778
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ControllerPrompt" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 0.0675049
+margin_right = 1920.0
+margin_bottom = 1079.93

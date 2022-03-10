@@ -34,7 +34,7 @@ var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
 var use_visualizer_with_video = true
-var filter_mode = "all"
+var filter_mode = "official"
 var filter_mode__possibilities = [
 	"all",
 	"official",
@@ -217,6 +217,7 @@ var event_ugly_bg_songs := [
 ]
 
 var enable_health := false
+var event_song_max_duration := -1
 
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -237,8 +238,8 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size", "enable_health",
-	"event_minimum_load_time", "event_single_controller_mode", "event_logo", "event_bg_display_in_start_menu", "event_ugly_bg_songs"]
+	"color_presets", "audio_buffer_size", "enable_health", "event_minimum_load_time", "event_single_controller_mode", "event_logo", "event_bg_display_in_start_menu", "event_ugly_bg_songs",
+	"event_song_max_duration"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

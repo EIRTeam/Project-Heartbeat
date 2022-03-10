@@ -296,7 +296,6 @@ func _unhandled_input(event):
 			search_text_input.line_edit.caret_position = song_container.search_term.length()
 			search_text_input.popup_centered()
 		elif event.is_action_pressed("gui_cancel"):
-			change_to_menu("event_thank_you")
 			get_tree().set_input_as_handled()
 			if song_container.search_term:
 				song_container.search_term = ""
