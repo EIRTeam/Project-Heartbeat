@@ -203,8 +203,9 @@ var event_thank_you_duration: float = 10.0
 
 enum EVENT_LOGO {
 	NONE,
+	CUSTOM,
 	JAPAN_WEEKEND,
-	CUSTOM
+	SARRIA_MANGA
 }
 
 var event_logo: int = EVENT_LOGO.NONE
@@ -252,7 +253,8 @@ func _init():
 		custom_sound_volumes[sound_name] = 1.0
 
 const BUILT_IN_EVENT_LOGO_PATHS = {
-	EVENT_LOGO.JAPAN_WEEKEND: "res://graphics/logo-japan.png"
+	EVENT_LOGO.JAPAN_WEEKEND: "res://graphics/logo-japan.png",
+	EVENT_LOGO.SARRIA_MANGA: "res://graphics/logo-sarria-manga.png"
 }
 
 func get_event_logo() -> Texture:
