@@ -106,6 +106,36 @@ msgstr ""
 msgid "asdasdsadsadsa"
 msgstr ""
 
+#: autoloads/EventServiceMenu.tscn:26
+msgid "Funny service menu"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:57
+#: rythm_game/pause_menu/PauseMenuLeft.tscn:82
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: autoloads/EventServiceMenu.tscn:65
+msgid "Test thank you screen"
+msgstr "Probar pantalla de gracias"
+
+#: autoloads/EventServiceMenu.tscn:74
+msgid "Open retail settings"
+msgstr "Abrir menu retail"
+
+#: autoloads/EventServiceMenu.tscn:96
+msgid "Event logo"
+msgstr "Logo de evento"
+
+#: autoloads/EventServiceMenu.tscn:107
+msgid "Note: Custom logos should be under user://custom_event.png"
+msgstr "Note: Los logos custom deberian estar en user://custom_event.png"
+
+#: autoloads/EventServiceMenu.tscn:113
+msgid "Ugly BG songs (removed from the random queue)"
+msgstr ""
+"Canciones con fondos feos (quitados de la cola de reproducción aleatoria)"
+
 #: autoloads/MouseTrap.tscn:46 autoloads/MouseTrap.tscn:51
 msgid ""
 "This song requires downloading video/audio files from YouTube, would you "
@@ -657,6 +687,19 @@ msgstr "Juego"
 msgid "GUI"
 msgstr "Interfaz"
 
+#: menus/EventSocials.tscn:31 menus/main_menu/MainMenuLeft.tscn:277
+#: menus/news_list/MainMenuRight.tscn:166
+msgid "@PHeartbeatGame"
+msgstr ""
+
+#: menus/EventSocials.tscn:48 menus/main_menu/MainMenuLeft.tscn:256
+msgid "discord.gg/qGMdbez"
+msgstr ""
+
+#: menus/EventSocials.tscn:65
+msgid "eirteam.moe/buyph"
+msgstr ""
+
 #: menus/FolderManager.gd:25 menus/FolderManager.gd:26
 msgid "Enter the new folder name"
 msgstr "Introduce el nombre del nuevo directorio"
@@ -870,16 +913,17 @@ msgstr "¡Golpea en cualquier dirección!"
 msgid "This chart includes:"
 msgstr "Este mapa incluye:"
 
-#: menus/PreGameChartFeaturesDisplay.tscn:106
+#: menus/PreGameChartFeaturesDisplay.tscn:106 menus/StartMenu.gd:13
+#: menus/controller_prompt.tscn:1114
 msgid "Press"
 msgstr "Pulsa"
 
-#: menus/PreGameChartFeaturesDisplay.tscn:123
+#: menus/PreGameChartFeaturesDisplay.tscn:123 menus/controller_prompt.tscn:1131
 #: menus/workshop_browser/WorkshopItemDetailView.tscn:165
 msgid "/"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:140
+#: menus/PreGameChartFeaturesDisplay.tscn:140 menus/controller_prompt.tscn:1148
 msgid "to continue"
 msgstr "para continuar"
 
@@ -995,16 +1039,32 @@ msgid ""
 "The Modding 2nd community"
 msgstr ""
 
-#: menus/StartMenu.tscn:89
-msgid "(NT)On the wings of a dream"
-msgstr ""
+#: menus/StartMenu.tscn:98
+msgid "Take your preferred controller and press"
+msgstr "Toma tu mando preferido y pulsa"
 
-#: menus/StartMenu.tscn:99
-msgid "Press any key"
-msgstr "Presiona cualquier botón"
+#: menus/controller_prompt.tscn:1160 menus/options_menu/OptionsMenu.gd:67
+msgid "Controls"
+msgstr "Controles"
+
+#: menus/event_thank_you.tscn:66
+msgid "Thank you for playing!"
+msgstr "Gracias por jugar!"
+
+#: menus/event_thank_you.tscn:74
+msgid ""
+"If you enjoyed it, you can get the game on Steam, follow us on our social "
+"media or join our discord server!"
+msgstr ""
+"Si te ha gustado ¡puedes conseguir el juego en Steam, seguirnos en nuestras "
+"redes sociales o unirte a nuestro servidor de discord!"
+
+#: menus/event_thank_you.tscn:93
+msgid "Please let way for the next player!"
+msgstr "Por favor, deja paso al siguiente jugador!"
 
 #: menus/demo_screen/DemoScreen.tscn:86 menus/demo_screen/SwitchScreen.tscn:166
-#: menus/tutorial/TutorialScreen.tscn:143
+#: menus/tutorial/TutorialScreen.tscn:140
 msgid "1/6"
 msgstr ""
 
@@ -1397,10 +1457,6 @@ msgid ""
 msgstr ""
 "De 0 a 1, cuánto recorrido se requiere para que los sticks analógicos (y "
 "otras entradas analógicas) se consideren activadas / no activadas."
-
-#: menus/options_menu/OptionsMenu.gd:67
-msgid "Controls"
-msgstr "Controles"
 
 #: menus/options_menu/OptionsMenu.gd:70
 msgid "Content"
@@ -1950,7 +2006,7 @@ msgstr "Ver tablas de clasificación en la web"
 msgid "Video/Audio variant"
 msgstr "Variante de vídeo/audio"
 
-#: menus/pregame_screen/PreGameScreen.tscn:78
+#: menus/pregame_screen/PreGameScreen.tscn:76
 msgid ""
 "Are you sure you want to change this song's video URL? this requires you use "
 "the mouse."
@@ -2091,23 +2147,23 @@ msgstr ""
 msgid "Create new folder"
 msgstr "Crear nueva carpeta"
 
-#: menus/song_list/SongListPreview.tscn:106
+#: menus/song_list/SongListPreview.tscn:100
 msgid "(NT)THE TOP"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:122
+#: menus/song_list/SongListPreview.tscn:116
 msgid "(NT)Original title: "
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:140
+#: menus/song_list/SongListPreview.tscn:134
 msgid "by"
 msgstr "por"
 
-#: menus/song_list/SongListPreview.tscn:148
+#: menus/song_list/SongListPreview.tscn:142
 msgid "(NT)DRAGONFORCE"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:248
+#: menus/song_list/SongListPreview.tscn:240
 msgid "(NT)160 BPM"
 msgstr ""
 
@@ -2403,15 +2459,15 @@ msgstr ""
 msgid "(NT)COOL"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:102
+#: rythm_game/ResultsScreen.gd:106
 msgid "Results"
 msgstr "Resultados"
 
-#: rythm_game/ResultsScreen.gd:103
+#: rythm_game/ResultsScreen.gd:107
 msgid "Graph"
 msgstr "Grafico"
 
-#: rythm_game/ResultsScreen.gd:265
+#: rythm_game/ResultsScreen.gd:269
 #, python-format
 msgid ""
 "There was an issue uploading your score:\n"
@@ -2433,16 +2489,18 @@ msgid "(NT)100.00%"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn:193
+#, fuzzy
+#| msgid "to continue"
+msgid "Continue"
+msgstr "para continuar"
+
+#: rythm_game/ResultsScreen.tscn:208
 msgid "Retry"
 msgstr "Reintentar"
 
-#: rythm_game/ResultsScreen.tscn:208
+#: rythm_game/ResultsScreen.tscn:223
 msgid "Share"
 msgstr "Compartir"
-
-#: rythm_game/ResultsScreen.tscn:224
-msgid "Return"
-msgstr "Volver"
 
 #: rythm_game/ResultsScreen.tscn:275
 msgid "What did you think of the song you just played?"
@@ -2611,10 +2669,6 @@ msgstr "¿Estás seguro de que quieres reiniciar?"
 msgid "PAUSED"
 msgstr "PAUSADA"
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:82
-msgid "Restart"
-msgstr "Reiniciar"
-
 #: rythm_game/pause_menu/PauseMenuLeft.tscn:96
 msgid "Song Settings"
 msgstr "Configuración de canción"
@@ -2632,36 +2686,36 @@ msgstr ""
 msgid "(NT)407/"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:150
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:151
 msgid "Level up!"
 msgstr "¡Subida de nivel!"
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:178
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:179
 msgid ""
 "Gained \n"
 "1000xp!"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:201
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:221
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:202
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:222
 msgid "(NT) %"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:244
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:264
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:245
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:265
 msgid "(NT)"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:322
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:323
 msgid "TOTAL NOTES"
 msgstr "TOTAL DE NOTAS"
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:330
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:358
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:331
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:359
 msgid "(NT)700"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:350
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:351
 msgid "COMBO"
 msgstr ""
 

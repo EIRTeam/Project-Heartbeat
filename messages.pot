@@ -105,6 +105,35 @@ msgstr ""
 msgid "asdasdsadsadsa"
 msgstr ""
 
+#: autoloads/EventServiceMenu.tscn:26
+msgid "Funny service menu"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:57
+#: rythm_game/pause_menu/PauseMenuLeft.tscn:82
+msgid "Restart"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:65
+msgid "Test thank you screen"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:74
+msgid "Open retail settings"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:96
+msgid "Event logo"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:107
+msgid "Note: Custom logos should be under user://custom_event.png"
+msgstr ""
+
+#: autoloads/EventServiceMenu.tscn:113
+msgid "Ugly BG songs (removed from the random queue)"
+msgstr ""
+
 #: autoloads/MouseTrap.tscn:46 autoloads/MouseTrap.tscn:51
 msgid ""
 "This song requires downloading video/audio files from YouTube, would you "
@@ -617,7 +646,9 @@ msgid "Inner slider multi top"
 msgstr ""
 
 #: autoloads/UserSettings.gd:260
-msgid "Inner slider multi bottom"
+#: menus/options_menu/OptionCreditsSection.tscn:45
+#: menus/options_menu/OptionsMenu.gd:4 menus/options_menu/OptionsMenu.gd:323
+msgid "Game"
 msgstr ""
 
 #: autoloads/UserSettings.gd:261
@@ -644,6 +675,19 @@ msgstr ""
 
 #: autoloads/UserSettings.gd:269
 msgid "GUI"
+msgstr ""
+
+#: menus/EventSocials.tscn:31 menus/main_menu/MainMenuLeft.tscn:277
+#: menus/news_list/MainMenuRight.tscn:166
+msgid "@PHeartbeatGame"
+msgstr ""
+
+#: menus/EventSocials.tscn:48 menus/main_menu/MainMenuLeft.tscn:256
+msgid "discord.gg/qGMdbez"
+msgstr ""
+
+#: menus/EventSocials.tscn:65
+msgid "eirteam.moe/buyph"
 msgstr ""
 
 #: menus/FolderManager.gd:25 menus/FolderManager.gd:26
@@ -851,16 +895,17 @@ msgstr ""
 msgid "This chart includes:"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:106
+#: menus/PreGameChartFeaturesDisplay.tscn:106 menus/StartMenu.gd:13
+#: menus/controller_prompt.tscn:1114
 msgid "Press"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:123
+#: menus/PreGameChartFeaturesDisplay.tscn:123 menus/controller_prompt.tscn:1131
 #: menus/workshop_browser/WorkshopItemDetailView.tscn:165
 msgid "/"
 msgstr ""
 
-#: menus/PreGameChartFeaturesDisplay.tscn:140
+#: menus/PreGameChartFeaturesDisplay.tscn:140 menus/controller_prompt.tscn:1148
 msgid "to continue"
 msgstr ""
 
@@ -974,16 +1019,30 @@ msgid ""
 "The Modding 2nd community"
 msgstr ""
 
-#: menus/StartMenu.tscn:89
-msgid "(NT)On the wings of a dream"
+#: menus/StartMenu.tscn:98
+msgid "Take your preferred controller and press"
 msgstr ""
 
-#: menus/StartMenu.tscn:99
-msgid "Press any key"
+#: menus/controller_prompt.tscn:1160 menus/options_menu/OptionsMenu.gd:67
+msgid "Controls"
+msgstr ""
+
+#: menus/event_thank_you.tscn:66
+msgid "Thank you for playing!"
+msgstr ""
+
+#: menus/event_thank_you.tscn:74
+msgid ""
+"If you enjoyed it, you can get the game on Steam, follow us on our social"
+" media or join our discord server!"
+msgstr ""
+
+#: menus/event_thank_you.tscn:93
+msgid "Please let way for the next player!"
 msgstr ""
 
 #: menus/demo_screen/DemoScreen.tscn:86 menus/demo_screen/SwitchScreen.tscn:166
-#: menus/tutorial/TutorialScreen.tscn:143
+#: menus/tutorial/TutorialScreen.tscn:140
 msgid "1/6"
 msgstr ""
 
@@ -1351,10 +1410,6 @@ msgstr ""
 msgid ""
 "From 0 to 1, how much travel is required for the analog sticks (and other"
 " analog inputs) to be considered on/off."
-msgstr ""
-
-#: menus/options_menu/OptionsMenu.gd:67
-msgid "Controls"
 msgstr ""
 
 #: menus/options_menu/OptionsMenu.gd:70
@@ -1754,7 +1809,41 @@ msgstr ""
 msgid "Credits"
 msgstr ""
 
-#: menus/options_menu/OptionsMenu.gd:312
+#: menus/options_menu/OptionsMenu.gd:282
+msgid "Event"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:292
+msgid "Single controller mode"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:293
+msgid ""
+"Enable if one of the controllers has decided to give up and abandon this "
+"world"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:296
+msgid "BG display in start menu"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:297
+msgid ""
+"When enabled allows the start menu to cycle through the playing song "
+"backgrounds, exceptions apply to songs with ugly or less fitting artworks"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:300
+msgid "Song max duration"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:301
+msgid ""
+"Allows you to set how long a player can play a song for, it will be "
+"automatically ended at that point"
+msgstr ""
+
+#: menus/options_menu/OptionsMenu.gd:328
 #, python-format
 msgid "%s sound"
 msgstr ""
@@ -1849,7 +1938,7 @@ msgstr ""
 msgid "Video/Audio variant"
 msgstr ""
 
-#: menus/pregame_screen/PreGameScreen.tscn:78
+#: menus/pregame_screen/PreGameScreen.tscn:76
 msgid ""
 "Are you sure you want to change this song's video URL? this requires you "
 "use the mouse."
@@ -1985,23 +2074,23 @@ msgstr ""
 msgid "Create new folder"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:106
+#: menus/song_list/SongListPreview.tscn:100
 msgid "(NT)THE TOP"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:122
+#: menus/song_list/SongListPreview.tscn:116
 msgid "(NT)Original title: "
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:140
+#: menus/song_list/SongListPreview.tscn:134
 msgid "by"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:148
+#: menus/song_list/SongListPreview.tscn:142
 msgid "(NT)DRAGONFORCE"
 msgstr ""
 
-#: menus/song_list/SongListPreview.tscn:248
+#: menus/song_list/SongListPreview.tscn:240
 msgid "(NT)160 BPM"
 msgstr ""
 
@@ -2267,15 +2356,15 @@ msgstr ""
 msgid "(NT)COOL"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:102
+#: rythm_game/ResultsScreen.gd:106
 msgid "Results"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:103
+#: rythm_game/ResultsScreen.gd:107
 msgid "Graph"
 msgstr ""
 
-#: rythm_game/ResultsScreen.gd:265
+#: rythm_game/ResultsScreen.gd:269
 #, python-format
 msgid ""
 "There was an issue uploading your score:\n"
@@ -2295,15 +2384,15 @@ msgid "(NT)100.00%"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn:193
-msgid "Retry"
+msgid "Continue"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn:208
-msgid "Share"
+msgid "Retry"
 msgstr ""
 
-#: rythm_game/ResultsScreen.tscn:224
-msgid "Return"
+#: rythm_game/ResultsScreen.tscn:223
+msgid "Share"
 msgstr ""
 
 #: rythm_game/ResultsScreen.tscn:275
@@ -2471,10 +2560,6 @@ msgstr ""
 msgid "PAUSED"
 msgstr ""
 
-#: rythm_game/pause_menu/PauseMenuLeft.tscn:82
-msgid "Restart"
-msgstr ""
-
 #: rythm_game/pause_menu/PauseMenuLeft.tscn:96
 msgid "Song Settings"
 msgstr ""
@@ -2492,36 +2577,36 @@ msgstr ""
 msgid "(NT)407/"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:150
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:151
 msgid "Level up!"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:178
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:179
 msgid ""
 "Gained \n"
 "1000xp!"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:201
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:221
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:202
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:222
 msgid "(NT) %"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:244
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:264
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:245
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:265
 msgid "(NT)"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:322
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:323
 msgid "TOTAL NOTES"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:330
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:358
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:331
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:359
 msgid "(NT)700"
 msgstr ""
 
-#: rythm_game/results_screen/ResultsScreenResultTab.tscn:350
+#: rythm_game/results_screen/ResultsScreenResultTab.tscn:351
 msgid "COMBO"
 msgstr ""
 
