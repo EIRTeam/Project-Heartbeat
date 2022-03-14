@@ -12,15 +12,15 @@
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0745098, 0.0392157, 0.14902, 0.501961 )
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=29]
 offsets = PoolRealArray( 0.3, 1 )
 colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=30]
+gradient = SubResource( 29 )
 
-[sub_resource type="StyleBoxTexture" id=4]
-texture = SubResource( 3 )
+[sub_resource type="StyleBoxTexture" id=31]
+texture = SubResource( 30 )
 region_rect = Rect2( 0, 0, 2048, 1 )
 
 [sub_resource type="StyleBoxFlat" id=6]
@@ -68,10 +68,7 @@ anchor_bottom = 0.714
 margin_top = 0.0799561
 margin_bottom = 155.88
 rect_min_size = Vector2( 0, 150 )
-custom_styles/panel = SubResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_styles/panel = SubResource( 31 )
 
 [node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2"]
 self_modulate = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
@@ -164,7 +161,7 @@ anchor_right = 1.0
 anchor_bottom = 0.441
 rect_min_size = Vector2( 0, 150 )
 rect_pivot_offset = Vector2( 0, 102 )
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 31 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -196,9 +193,6 @@ custom_constants/margin_right = 40
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LoadingScreenElements/EpilepsyWarning/Panel3/MarginContainer"]
 margin_left = 20.0

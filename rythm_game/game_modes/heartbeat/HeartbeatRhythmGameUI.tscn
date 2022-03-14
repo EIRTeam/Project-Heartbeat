@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
 [ext_resource path="res://rythm_game/lyrics/lyrics.tscn" type="PackedScene" id=34]
 [ext_resource path="res://menus/DynamicallyResizingLabel.gd" type="Script" id=35]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=37]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -222,6 +223,26 @@ use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 1 )
 
+[sub_resource type="Gradient" id=29]
+offsets = PoolRealArray( 0.3, 1 )
+colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
+
+[sub_resource type="GradientTexture" id=30]
+gradient = SubResource( 29 )
+
+[sub_resource type="StyleBoxTexture" id=31]
+texture = SubResource( 30 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+
+[sub_resource type="DynamicFont" id=32]
+size = 50
+outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_bottom = -7
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 4 )
+
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -255,9 +276,6 @@ anchor_bottom = 1.0
 margin_left = 0.950073
 margin_right = 1920.95
 margin_bottom = 1080.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HoldIndicator" type="VBoxContainer" parent="UnderNotesUI/Control"]
 anchor_left = 0.25
@@ -594,8 +612,42 @@ texture_over = ExtResource( 18 )
 texture_progress = ExtResource( 14 )
 fill_mode = 4
 tint_under = Color( 0.176471, 0.105882, 0.380392, 1 )
-tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_over = Color( 0.1012, 0.0616, 0.22, 1 )
 tint_progress = Color( 0.658824, 0.466667, 0.941176, 1 )
+
+[node name="HealthTextureProgressGreen" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 100 )
+step = 0.0
+texture_progress = ExtResource( 18 )
+fill_mode = 3
+tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
+tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_progress = Color( 0.33, 0.18, 0.73, 0.5 )
+
+[node name="HealthTextureProgressRed" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 100 )
+step = 0.0
+texture_progress = ExtResource( 18 )
+fill_mode = 3
+tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
+tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_progress = Color( 0.729412, 0.184314, 0.4, 0.501961 )
+
+[node name="HealthTextureProgress" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 100 )
+step = 0.0
+value = 50.0
+texture_progress = ExtResource( 18 )
+fill_mode = 3
+tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
+tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
+tint_progress = Color( 0.309804, 0.188235, 0.682353, 1 )
 
 [node name="VBoxContainer" type="Control" parent="Control/HBoxContainer"]
 show_behind_parent = true
@@ -819,3 +871,89 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="GameOverMessage" type="VBoxContainer" parent="CanvasLayer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = -1.0
+alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
+margin_top = 371.0
+margin_right = 1920.0
+margin_bottom = 709.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 31 )
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
+margin_right = 1920.0
+margin_bottom = 338.0
+mouse_filter = 2
+custom_constants/margin_top = 100
+custom_constants/margin_bottom = 100
+
+[node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
+margin_top = 100.0
+margin_right = 1920.0
+margin_bottom = 238.0
+custom_fonts/font = SubResource( 32 )
+text = "ASSIGNMENT: TERMINATED
+SUBJECT: AIKO
+REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
+align = 1
+valign = 1
+autowrap = true
+script = ExtResource( 37 )
+
+[node name="GameOverTurnOff" type="Control" parent="CanvasLayer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="GameOverTurnOffTop" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
+margin_right = 1920.0
+margin_bottom = 540.0
+mouse_filter = 2
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
+margin_top = 540.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="GameOverTurnOffBottom" type="VBoxContainer" parent="CanvasLayer2/GameOverTurnOff"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/separation = 0
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
+margin_right = 1920.0
+margin_bottom = 540.0
+mouse_filter = 2
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
+margin_top = 540.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )

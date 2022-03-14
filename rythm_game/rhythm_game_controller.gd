@@ -20,6 +20,7 @@ onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
 onready var pause_menu = get_node("PauseMenu")
+onready var game_over_tween := Tween.new()
 var pause_disabled = false
 var last_pause_time = 0.0
 var pause_menu_disabled = false
@@ -36,6 +37,7 @@ signal fade_out_finished(game_info)
 signal user_quit()
 
 var current_assets = {}
+var playing_game_over_animation := false
 
 func _ready():
 	connect("resized", self, "set_game_size")
@@ -52,6 +54,8 @@ func _ready():
 	set_process(false)
 	game.set_process(false)
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
+	game.connect("game_over", self, "_on_RhythmGame_game_over")
+	add_child(game_over_tween)
 	$Label.visible = false
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
@@ -273,6 +277,8 @@ func _input(event):
 		game_ui._on_toggle_ui()
 		$Node2D.visible = game_ui.is_ui_visible()
 func _unhandled_input(event):
+	if playing_game_over_animation:
+		return
 	if not pause_menu_disabled:
 		if event.is_action_pressed("pause") and not event.is_echo():
 			if not get_tree().paused:
@@ -295,12 +301,14 @@ func _show_results(game_info: HBGameInfo):
 	if not prevent_scene_changes:
 		if not prevent_showing_results:
 			var scene = MainMenu.instance()
+			var old_scene = get_tree().current_scene
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
 			scene.starting_menu_args = {"game_info": game_info, "assets": current_assets}
 			scene.starting_song = current_game_info.get_song()
 			get_tree().root.add_child(scene)
 			get_tree().current_scene = scene
+			get_tree().root.remove_child(old_scene)
 #	scene.set_result(results)
 
 func _on_paused():
@@ -390,3 +398,27 @@ func _on_PauseMenu_restarted():
 	game.editing = false
 	game.game_input_manager.set_process_input(true)
 	start_fade_in()
+
+func _on_RhythmGame_game_over():
+	playing_game_over_animation = true
+	game.audio_playback.volume = 0
+	game.audio_playback.stop()
+	if game.voice_audio_playback:
+		game.voice_audio_playback.volume = 0
+		game.voice_audio_playback.stop()
+	vhs_panel.show()
+	vhs_panel.material.set_shader_param("desaturation", 0.5)
+	game_ui.play_game_over()
+	game_over_tween.interpolate_property(game_ui.game_layer_node, "rotation", 0, deg2rad(90), 1.0, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+	game_over_tween.interpolate_property(game_ui.game_layer_node, "position", game_ui.game_layer_node.position, rect_size, 1.0, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+	game_over_tween.start()
+	get_tree().paused = true
+	game.pause_game()
+	yield(game_over_tween, "tween_all_completed")
+	yield(get_tree().create_timer(2.0), "timeout")
+	game_ui.play_tv_off_animation()
+	yield(game_ui, "tv_off_animation_finished")
+	current_game_info.result = game.result
+	current_game_info.result.failed = true
+	_show_results(current_game_info)
+	vhs_panel.material.set_shader_param("desaturation", 0.25)

@@ -49,6 +49,7 @@ func _ready():
 	rhythm_game.connect("note_judged", self, "_on_note_judged")
 	connect("resized", self, "set_game_size")
 	add_child(rhythm_game)
+	rhythm_game.health_system_enabled = false
 	rhythm_game.set_game_ui(rhythm_game_ui)
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
 	rhythm_game.game_input_manager.set_process_input(false)

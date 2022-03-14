@@ -22,7 +22,17 @@ onready var intro_skip_control = get_node("UnderNotesUI/Control/SkipIntroIndicat
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 onready var lyrics_view = get_node("Lyrics/Control/LyricsView")
 onready var under_notes_node = get_node("UnderNotesUI")
+onready var health_progress = get_node("Control/HBoxContainer/TimeTextureProgress/HealthTextureProgress")
+onready var health_progress_green = get_node("Control/HBoxContainer/TimeTextureProgress/HealthTextureProgressGreen")
+onready var health_progress_red = get_node("Control/HBoxContainer/TimeTextureProgress/HealthTextureProgressRed")
 onready var intro_skip_tween := Tween.new()
+onready var health_tween := Tween.new()
+
+onready var game_over_turn_off_node: Control = get_node("CanvasLayer2/GameOverTurnOff")
+onready var game_over_turn_off_top: Control = get_node("CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop")
+onready var game_over_turn_off_bottom: Control = get_node("CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom")
+
+onready var game_over_message_node: Control = get_node("CanvasLayer2/GameOverMessage")
 
 var drawing_layer_nodes = {}
 
@@ -32,6 +42,11 @@ var start_time = 0.0
 var end_time = 0.0
 
 var game setget set_game
+
+signal tv_off_animation_finished
+
+onready var tv_animation_tween := Tween.new()
+onready var game_over_message_tween := Tween.new()
 
 func set_game(new_game):
 	game = new_game
@@ -63,6 +78,16 @@ func _ready():
 	latency_display_container.visible = UserSettings.user_settings.show_latency
 	
 	add_child(intro_skip_tween)
+	health_progress_red.hide()
+	
+	add_child(health_tween)
+	
+	game_over_turn_off_node.hide()
+	add_child(tv_animation_tween)
+	
+	tv_animation_tween.connect("tween_all_completed", self, "emit_signal", ["tv_off_animation_finished"])
+	add_child(game_over_message_tween)
+	game_over_message_node.hide()
 
 func add_drawing_layer(layer_name: String):
 	var layer_node = Node2D.new()
@@ -248,3 +273,44 @@ func _on_toggle_ui():
 
 func is_ui_visible():
 	return $Control.visible
+
+func play_game_over():
+	game_over_message_node.show()
+	ShinobuGodot.fire_and_forget_sound(HBGame.GAME_OVER_SFX, "sfx")
+	game_over_message_node.rect_pivot_offset = game_over_message_node.rect_size * 0.5
+	game_over_message_node.rect_scale.x = 0.0
+	game_over_message_tween.interpolate_property(game_over_message_node, "rect_scale:x", 0.0, 1.0, 0.5, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+	game_over_message_tween.start()
+	
+
+func set_health(health_value: float, animated := false, old_health := -1):
+	if old_health == health_value:
+		return
+	health_tween.remove_all()
+	if not health_progress_red.visible:
+		health_progress_red.value = old_health
+	health_progress_red.hide()
+	health_progress_green.hide()
+	if animated:
+		if old_health != -1:
+			if old_health < health_value:
+				health_progress_green.show()
+				health_progress_green.value = health_value
+				health_tween.interpolate_property(health_progress, "value", health_progress.value, health_value, 0.2, 0, 2, 0.5)
+			if health_value < old_health:
+				health_progress_red.show()
+				health_progress.value = health_value
+				health_tween.interpolate_property(health_progress_red, "value", health_progress_red.value, health_value, 0.2, 0, 2, 0.5)
+		else:
+				health_tween.interpolate_property(health_progress, "value", health_progress.value, health_value, 0.2)
+		health_tween.start()
+	else:
+		health_progress.value = health_value
+
+func play_tv_off_animation():
+	game_over_turn_off_top.rect_position.y = -game_over_turn_off_top.rect_size.y / 2.0
+	game_over_turn_off_bottom.rect_position.y = game_over_turn_off_bottom.rect_size.y / 2.0
+	game_over_turn_off_node.show()
+	tv_animation_tween.interpolate_property(game_over_turn_off_top, "rect_position:y", game_over_turn_off_top.rect_position.y, 0, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tv_animation_tween.interpolate_property(game_over_turn_off_bottom, "rect_position:y", game_over_turn_off_bottom.rect_position.y, 0, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tv_animation_tween.start()

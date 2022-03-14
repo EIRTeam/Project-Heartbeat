@@ -82,6 +82,7 @@ const ROLLBACK_SFX = "rollback"
 const MENU_FORWARD_SFX = "menu_forward"
 const MENU_BACK_SFX = "menu_back"
 const MENU_VALIDATE_SFX = "menu_validate"
+const GAME_OVER_SFX = "game_over"
 
 const BUTTON_SFX_TYPE_FORWARD = 0
 const BUTTON_SFX_TYPE_BACK = 0
@@ -104,6 +105,7 @@ func _register_basic_sfx():
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_select.wav", MENU_FORWARD_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_back.wav", MENU_BACK_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_validate.wav", MENU_VALIDATE_SFX)
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/game_over.ogg", GAME_OVER_SFX)
 	
 func _game_init():
 	if OS.get_name() == "Switch":

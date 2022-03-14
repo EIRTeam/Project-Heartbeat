@@ -62,6 +62,7 @@ func _ready():
 	update_stats_label()
 	practice_seek_gui.hide()
 	game.disable_ending = true
+	game.health_system_enabled = false
 	Diagnostics.gamepad_visualizer.show()
 	song_settings_editor.connect("back", self, "pause")
 

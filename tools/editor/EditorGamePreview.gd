@@ -15,6 +15,7 @@ onready var video_pause_timer = Timer.new()
 var video_time = 0.0
 func _ready():
 	video_player.volume_db = 0
+	game.health_system_enabled = false
 	game.size = rect_size
 	game.editing = true
 	game.set_game_ui(game_ui)

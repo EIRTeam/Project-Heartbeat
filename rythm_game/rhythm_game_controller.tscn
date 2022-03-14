@@ -24,6 +24,7 @@ const float noiseQuality = 250.0;
 const float noiseIntensity = 0.0044;
 const float offsetIntensity = 0.01;
 const float colorOffsetIntensity = 1.3;
+uniform float desaturation = 0.25;
 
 vec3 desaturate(vec3 color, float Desaturation)
 {
@@ -76,12 +77,13 @@ void fragment()
 
 
 
-    vec4 tex = vec4(desaturate(vec3(r, g, b), 0.25), 1.0);
+    vec4 tex = vec4(desaturate(vec3(r, g, b), desaturation), 1.0);
     COLOR = tex;
 }"
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 3 )
+shader_param/desaturation = 0.25
 
 [sub_resource type="Animation" id=5]
 resource_name = "appear"

@@ -8,6 +8,7 @@ signal show_slide_hold_score
 signal hold_released
 signal hold_released_early
 signal hold_started(held_notes)
+signal game_over
 
 const LOG_NAME = "RhythmGameHeartbeat"
 const MAX_HOLD = 3300  # miliseconds
@@ -26,6 +27,10 @@ var current_hold_score = 0.0
 var current_hold_start_time = 0.0
 var accumulated_hold_score = 0.0  # for when you hit another hold note after already holding
 
+const STARTING_HEALTH_VALUE = 50
+var health := STARTING_HEALTH_VALUE
+var fail_combo := 0
+
 # List of slide hold note chains
 # It's a list key, contains an array of slide notes
 # hold pieces.
@@ -40,6 +45,8 @@ var slide_hold_chains = {}
 var active_slide_hold_chains = []
 
 var precalculated_note_trails = {}
+
+var health_system_enabled := true
 
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
@@ -306,6 +313,8 @@ func set_game_input_manager(manager: HBGameInputManager):
 
 func set_game_ui(ui: HBRhythmGameUIBase):
 	.set_game_ui(ui)
+	if not health_system_enabled:
+		ui.set_health(100, false)
 	connect("hold_started", ui, "_on_hold_started")
 	connect("hold_released_early", ui, "_on_hold_released_early")
 	connect("hold_released", ui, "_on_hold_released")
@@ -389,10 +398,32 @@ func _process_game(_delta):
 			Input.parse_input_event(a)
 	_processed_event_uids = []
 
+func remove_health():
+	var old_health := health
+	var fail_reduction = min(fail_combo, 4)
+	health -= 5-fail_reduction
+	health = max(health, 0)
+	game_ui.set_health(health, true, old_health)
+	fail_combo += 1
+	if old_health == 0 and health == 0:
+		emit_signal("game_over")
+func increase_health():
+	var old_health := health
+	health += 1
+	health = min(health, 100)
+	game_ui.set_health(health, true, old_health)
+	fail_combo = 0
+
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
 func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 	._on_notes_judged(notes, judgement, wrong)
+	
+	if health_system_enabled:
+		if judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
+			remove_health()
+		else:
+			increase_health()
 	
 	for note in notes:
 		if note.note_type in HEART_HACK_TYPES:
@@ -448,6 +479,10 @@ func restart():
 	hold_release()
 	held_note_event_map = {}
 	_potential_result = HBResult.new()
+	fail_combo = 0
+	if health_system_enabled:
+		health = 50
+		game_ui.set_health(50, false)
 	.restart()
 
 # used by the editor and practice mode to delete slide chain pieces that have no

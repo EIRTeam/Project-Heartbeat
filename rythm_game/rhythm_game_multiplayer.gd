@@ -32,6 +32,7 @@ func _on_all_members_finished_loading():
 
 func _ready():
 	rhythm_game_controller.pause_disabled = true
+	rhythm_game_controller.game.health_system_enabled = false
 	rhythm_game_controller.prevent_showing_results = true
 	rhythm_game_controller.game.connect("note_judged", self, "_on_note_judged")
 	rhythm_game_controller.connect("fade_out_finished", self, "_on_fade_out_finished")
