@@ -134,6 +134,7 @@ func _on_folder_selected(folder_button):
 	folder_options.grab_focus()
 	
 func delete_selected_folder():
+	delete_confirmation_window.hide()
 	var parent = UserSettings.user_settings.root_folder as HBFolder
 	var parent_item = null
 	var current_folder_item = scroll_list.get_selected_item()
@@ -157,9 +158,9 @@ func delete_selected_folder():
 	if parent_item:
 		parent_item.text = get_folder_name(parent, parent_item.depth)
 	
-	scroll_list.select_item(new_selection)
-	
 	scroll_list.grab_focus()
+	
+	scroll_list.select_item(new_selection)
 	
 	scroll_list_container.remove_child(current_folder_item)
 	
