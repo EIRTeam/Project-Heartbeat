@@ -100,6 +100,8 @@ var prev_hardware_time = 0
 var last_hardware_sync = 0
 var hardware_interp = 0
 
+var section_changes = {}
+
 func _init():
 	name = "RhythmGameBase"
 
@@ -189,7 +191,11 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 
 	if current_variant != -1:
 		_volume_offset = song.get_variant_data(current_variant).get_volume()
-
+	
+	section_changes = {}
+	for section in current_song.sections:
+		section_changes[section.time] = section
+	
 	var chart: HBChart
 	
 	current_difficulty = difficulty
@@ -295,27 +301,41 @@ func get_time_to_intro_skip_to():
 func _set_timing_points(points):
 	timing_points = points
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
+	
 	# When timing points change, we might introduce new BPM change events
 	bpm_changes = {}
 	intro_skip_marker = null
+	
 	for point in timing_points:
 		if point is HBBPMChange:
 			bpm_changes[point.time] = point.bpm
 			print("FOUND BPM CHANGE at ", point.time)
 		if point is HBIntroSkipMarker:
 			intro_skip_marker = point
+	
 	timing_points = _process_timing_points_into_groups(points)
 	last_hit_index = timing_points.size()
 	remove_all_notes_from_screen()
+
 func get_bpm_at_time(bpm_time):
 	var current_time = null
 	for c_t in bpm_changes:
 		if (current_time == null and c_t <= bpm_time) or (c_t <= bpm_time and c_t > current_time):
 			current_time = c_t
-	if current_time == null:
-		return base_bpm
-	return bpm_changes[current_time]
 	
+	return bpm_changes[current_time] if current_time else base_bpm
+
+func get_section_at_time(section_time):
+	var current_time = null
+	for c_t in section_changes:
+		if (current_time == null and c_t <= section_time) or (c_t <= section_time and c_t > current_time):
+			current_time = c_t
+	
+	if current_time:
+		print(current_time)
+	
+	return section_changes[current_time] if current_time else null
+
 func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 	var ta = 0
 	var tb = 0

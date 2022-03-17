@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://rythm_game/rhythm_game_controller.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/practice_mode.gd" type="Script" id=2]
@@ -6,6 +6,15 @@
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=5]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://menus/PerSongSettingsEditor.tscn" type="PackedScene" id=7]
+
+[sub_resource type="DynamicFont" id=8]
+size = 19
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 35
@@ -69,203 +78,13 @@ corner_radius_bottom_left = 5
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=8]
-size = 19
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 5 )
-
 [node name="RhythmGame" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="PauseMenu" parent="." index="4"]
 visible = false
 
-[node name="MarginContainer" type="MarginContainer" parent="." index="11"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 50
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 100
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" index="0"]
-margin_left = 50.0
-margin_right = 1870.0
-margin_bottom = 980.0
-size_flags_vertical = 3
-custom_constants/separation = 50
-alignment = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" index="0"]
-margin_top = 803.0
-margin_right = 1820.0
-margin_bottom = 880.0
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer" index="0"]
-margin_right = 1820.0
-margin_bottom = 43.0
-custom_fonts/font = SubResource( 1 )
-text = "1:20/1:23"
-align = 1
-valign = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/VBoxContainer" index="1"]
-margin_top = 47.0
-margin_right = 1820.0
-margin_bottom = 77.0
-rect_min_size = Vector2( 0, 30 )
-custom_styles/fg = SubResource( 2 )
-custom_styles/bg = SubResource( 3 )
-max_value = 1.0
-step = 0.0
-percent_visible = false
-
-[node name="ProgresBarWaypoint" type="ProgressBar" parent="MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="0"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 30 )
-custom_styles/fg = SubResource( 4 )
-custom_styles/bg = SubResource( 5 )
-max_value = 1.0
-step = 0.0
-value = 0.5
-percent_visible = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SeekButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
-pause_mode = 2
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = SubResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" index="1"]
-margin_top = 930.0
-margin_right = 1820.0
-margin_bottom = 980.0
-rect_min_size = Vector2( 0, 50 )
-alignment = 1
-
-[node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
-margin_left = 303.0
-margin_right = 494.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 191, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "gui_left"
-text = "Seek Left"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "gui_left"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-margin_right = 181.0
-margin_bottom = 50.0
-text = "Seek Left"
-
-[node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
-margin_left = 498.0
-margin_right = 703.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 205, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "gui_right"
-text = "Seek Right"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "gui_right"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 195.0
-margin_bottom = 50.0
-text = "Seek Right"
-
-[node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
-margin_left = 707.0
-margin_right = 949.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 242, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "practice_set_waypoint"
-text = "Set Waypoint"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "practice_set_waypoint"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
-margin_right = 232.0
-margin_bottom = 50.0
-text = "Set Waypoint"
-
-[node name="Panel9" parent="MarginContainer/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
-margin_left = 953.0
-margin_right = 1217.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 264, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "practice_go_to_waypoint"
-text = "Go to waypoint"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel9/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "practice_go_to_waypoint"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel9/HBoxContainer" index="1"]
-margin_right = 254.0
-margin_bottom = 50.0
-text = "Go to waypoint"
-
-[node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
-margin_left = 1221.0
-margin_right = 1388.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 167, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "pause"
-text = "Resume"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "pause"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
-margin_right = 157.0
-margin_bottom = 50.0
-text = "Resume"
-
-[node name="Panel6" parent="MarginContainer/VBoxContainer/HBoxContainer" index="5" instance=ExtResource( 4 )]
-margin_left = 1392.0
-margin_right = 1517.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 125, 31 )
-custom_styles/panel = SubResource( 7 )
-action_name = "contextual_option"
-text = "Back"
-
-[node name="PromptInputAction" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
-margin_bottom = 50.0
-input_action = "contextual_option"
-
-[node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
-margin_right = 115.0
-margin_bottom = 50.0
-text = "Back"
-
-[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="12"]
+[node name="PracticeModeUIIngame" type="MarginContainer" parent="." index="11"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -289,18 +108,727 @@ custom_fonts/font = SubResource( 8 )
 text = "asdad"
 align = 2
 
-[node name="QuitConfirmation" parent="." index="13" instance=ExtResource( 6 )]
-has_cancel = true
-has_accept = true
+[node name="QuitConfirmation" parent="." index="12" instance=ExtResource( 6 )]
 text = "Are you sure you want to quit?"
-accept_text = "Yes"
-cancel_text = "No"
 
-[connection signal="seeked" from="MarginContainer/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]
+[node name="SeekGUI" type="MarginContainer" parent="." index="14"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel8"]
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel9"]
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel7"]
-[editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel6"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI" index="0"]
+margin_left = 50.0
+margin_right = 1870.0
+margin_bottom = 980.0
+size_flags_vertical = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SeekGUI/VBoxContainer" index="0"]
+margin_top = 803.0
+margin_right = 1820.0
+margin_bottom = 880.0
+
+[node name="Label" type="Label" parent="SeekGUI/VBoxContainer/VBoxContainer" index="0"]
+margin_right = 1820.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 1 )
+text = "1:20/1:23"
+align = 1
+valign = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer" index="1"]
+margin_top = 47.0
+margin_right = 1820.0
+margin_bottom = 77.0
+rect_min_size = Vector2( 0, 30 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+max_value = 1.0
+step = 0.0
+percent_visible = false
+
+[node name="ProgresBarWaypoint" type="ProgressBar" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 30 )
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
+max_value = 1.0
+step = 0.0
+value = 0.5
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeekButton" type="Button" parent="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SeekGUI/VBoxContainer" index="1"]
+margin_top = 930.0
+margin_right = 1820.0
+margin_bottom = 980.0
+rect_min_size = Vector2( 0, 50 )
+alignment = 1
+
+[node name="Panel1" parent="SeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
+margin_left = 78.0
+margin_right = 339.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 261, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_last_mode"
+text = "Previous mode"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_last_mode"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
+margin_right = 251.0
+margin_bottom = 50.0
+text = "Previous mode"
+
+[node name="Panel2" parent="SeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
+margin_left = 343.0
+margin_right = 533.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 190, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_left"
+text = "Seek Left"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_left"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
+margin_right = 180.0
+margin_bottom = 50.0
+text = "Seek Left"
+
+[node name="Panel3" parent="SeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
+margin_left = 537.0
+margin_right = 778.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 241, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_set_waypoint"
+text = "Set Waypoint"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_set_waypoint"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
+margin_right = 231.0
+margin_bottom = 50.0
+text = "Set Waypoint"
+
+[node name="Panel4" parent="SeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
+margin_left = 782.0
+margin_right = 1046.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 264, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_go_to_waypoint"
+text = "Go to waypoint"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_go_to_waypoint"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 254.0
+margin_bottom = 50.0
+text = "Go to waypoint"
+
+[node name="Panel5" parent="SeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
+margin_left = 1050.0
+margin_right = 1215.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 165, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "pause"
+text = "Resume"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "pause"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
+margin_right = 155.0
+margin_bottom = 50.0
+text = "Resume"
+
+[node name="Panel6" parent="SeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource( 4 )]
+margin_left = 1219.0
+margin_right = 1329.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 110, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "contextual_option"
+text = "Quit"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "contextual_option"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
+margin_right = 100.0
+margin_bottom = 50.0
+text = "Quit"
+
+[node name="Panel7" parent="SeekGUI/VBoxContainer/HBoxContainer" index="6" instance=ExtResource( 4 )]
+margin_left = 1333.0
+margin_right = 1537.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 204, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_right"
+text = "Seek Right"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_right"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
+margin_right = 194.0
+margin_bottom = 50.0
+text = "Seek Right"
+
+[node name="Panel8" parent="SeekGUI/VBoxContainer/HBoxContainer" index="7" instance=ExtResource( 4 )]
+margin_left = 1541.0
+margin_right = 1742.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 201, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_next_mode"
+text = "Next mode"
+
+[node name="PromptInputAction" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_next_mode"
+
+[node name="Label" parent="SeekGUI/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
+margin_right = 191.0
+margin_bottom = 50.0
+text = "Next mode"
+
+[node name="SectionSeekGUI" type="MarginContainer" parent="." index="15"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI" index="0"]
+margin_left = 50.0
+margin_right = 1870.0
+margin_bottom = 980.0
+size_flags_vertical = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="0"]
+margin_top = 756.0
+margin_right = 1820.0
+margin_bottom = 880.0
+
+[node name="Label" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="0"]
+margin_right = 1820.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 1 )
+text = "1:20/1:23"
+align = 1
+valign = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="1"]
+margin_top = 47.0
+margin_right = 1820.0
+margin_bottom = 77.0
+rect_min_size = Vector2( 0, 30 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+max_value = 1.0
+step = 0.0
+percent_visible = false
+
+[node name="ProgresBarWaypoint" type="ProgressBar" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="0"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 30 )
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
+max_value = 1.0
+step = 0.0
+value = 0.5
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeekButton" type="Button" parent="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar" index="1"]
+pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="SectionSeekGUI/VBoxContainer/VBoxContainer" index="2"]
+margin_top = 81.0
+margin_right = 1820.0
+margin_bottom = 124.0
+custom_fonts/font = SubResource( 1 )
+text = "Default"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SectionSeekGUI/VBoxContainer" index="1"]
+margin_top = 930.0
+margin_right = 1820.0
+margin_bottom = 980.0
+rect_min_size = Vector2( 0, 50 )
+alignment = 1
+
+[node name="Panel1" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
+margin_left = 273.0
+margin_right = 534.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 261, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_last_mode"
+text = "Previous mode"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_last_mode"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
+margin_right = 251.0
+margin_bottom = 50.0
+text = "Previous mode"
+
+[node name="Panel2" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
+margin_left = 538.0
+margin_right = 826.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 288, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_left"
+text = "Previous section"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_left"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
+margin_right = 278.0
+margin_bottom = 50.0
+text = "Previous section"
+
+[node name="Panel3" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
+margin_left = 830.0
+margin_right = 995.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 165, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "pause"
+text = "Resume"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "pause"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
+margin_right = 155.0
+margin_bottom = 50.0
+text = "Resume"
+
+[node name="Panel4" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
+margin_left = 999.0
+margin_right = 1109.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 110, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "contextual_option"
+text = "Quit"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "contextual_option"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 100.0
+margin_bottom = 50.0
+text = "Quit"
+
+[node name="Panel5" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
+margin_left = 1113.0
+margin_right = 1341.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 228, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_right"
+text = "Next section"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_right"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
+margin_right = 218.0
+margin_bottom = 50.0
+text = "Next section"
+
+[node name="Panel6" parent="SectionSeekGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource( 4 )]
+margin_left = 1345.0
+margin_right = 1546.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 201, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_next_mode"
+text = "Next mode"
+
+[node name="PromptInputAction" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_next_mode"
+
+[node name="Label" parent="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
+margin_right = 191.0
+margin_bottom = 50.0
+text = "Next mode"
+
+[node name="SettingsGUI" type="MarginContainer" parent="." index="16"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_top = 100.0
+margin_right = -256.0
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsGUI" index="0"]
+margin_left = 50.0
+margin_right = 1358.0
+margin_bottom = 880.0
+size_flags_vertical = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsGUI/VBoxContainer" index="0"]
+margin_right = 1308.0
+margin_bottom = 780.0
+size_flags_vertical = 3
+
+[node name="PerSongSettingsEditor" parent="SettingsGUI/VBoxContainer/MarginContainer" index="0" instance=ExtResource( 7 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 1308.0
+margin_bottom = 780.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsGUI/VBoxContainer" index="1"]
+margin_top = 830.0
+margin_right = 1308.0
+margin_bottom = 880.0
+rect_min_size = Vector2( 0, 50 )
+alignment = 1
+
+[node name="Panel1" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
+margin_left = 154.0
+margin_right = 415.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 261, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_last_mode"
+text = "Previous mode"
+
+[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_last_mode"
+
+[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
+margin_right = 251.0
+margin_bottom = 50.0
+text = "Previous mode"
+
+[node name="Panel2" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
+margin_left = 419.0
+margin_right = 584.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 165, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "pause"
+text = "Resume"
+
+[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "pause"
+
+[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
+margin_right = 155.0
+margin_bottom = 50.0
+text = "Resume"
+
+[node name="Panel3" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
+margin_left = 588.0
+margin_right = 698.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 110, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "contextual_option"
+text = "Quit"
+
+[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "contextual_option"
+
+[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
+margin_right = 100.0
+margin_bottom = 50.0
+text = "Quit"
+
+[node name="Panel4" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
+margin_left = 702.0
+margin_right = 949.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 247, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_apply_latency"
+text = "Apply latency"
+
+[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_apply_latency"
+
+[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 237.0
+margin_bottom = 50.0
+text = "Apply latency"
+
+[node name="Panel5" parent="SettingsGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
+margin_left = 953.0
+margin_right = 1154.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 201, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_next_mode"
+text = "Next mode"
+
+[node name="PromptInputAction" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_next_mode"
+
+[node name="Label" parent="SettingsGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
+margin_right = 191.0
+margin_bottom = 50.0
+text = "Next mode"
+
+[node name="SpeedControlGUI" type="MarginContainer" parent="." index="17"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI" index="0"]
+margin_left = 50.0
+margin_right = 1870.0
+margin_bottom = 980.0
+size_flags_vertical = 3
+custom_constants/separation = 50
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="0"]
+margin_top = 837.0
+margin_right = 1820.0
+margin_bottom = 880.0
+
+[node name="Label" type="Label" parent="SpeedControlGUI/VBoxContainer/VBoxContainer" index="0"]
+margin_right = 1820.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 1 )
+text = "1x"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SpeedControlGUI/VBoxContainer" index="1"]
+margin_top = 930.0
+margin_right = 1820.0
+margin_bottom = 980.0
+rect_min_size = Vector2( 0, 50 )
+alignment = 1
+
+[node name="Panel1" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 4 )]
+margin_left = 335.0
+margin_right = 596.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 261, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_last_mode"
+text = "Previous mode"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_last_mode"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1/HBoxContainer" index="1"]
+margin_right = 251.0
+margin_bottom = 50.0
+text = "Previous mode"
+
+[node name="Panel2" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="1" instance=ExtResource( 4 )]
+margin_left = 600.0
+margin_right = 809.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 209, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_left"
+text = "Slow down"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_left"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2/HBoxContainer" index="1"]
+margin_right = 199.0
+margin_bottom = 50.0
+text = "Slow down"
+
+[node name="Panel3" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="2" instance=ExtResource( 4 )]
+margin_left = 813.0
+margin_right = 978.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 165, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "pause"
+text = "Resume"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "pause"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3/HBoxContainer" index="1"]
+margin_right = 155.0
+margin_bottom = 50.0
+text = "Resume"
+
+[node name="Panel4" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="3" instance=ExtResource( 4 )]
+margin_left = 982.0
+margin_right = 1092.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 110, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "contextual_option"
+text = "Quit"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "contextual_option"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
+margin_right = 100.0
+margin_bottom = 50.0
+text = "Quit"
+
+[node name="Panel5" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="4" instance=ExtResource( 4 )]
+margin_left = 1096.0
+margin_right = 1280.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 184, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "gui_right"
+text = "Speed up"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "gui_right"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
+margin_right = 174.0
+margin_bottom = 50.0
+text = "Speed up"
+
+[node name="Panel6" parent="SpeedControlGUI/VBoxContainer/HBoxContainer" index="5" instance=ExtResource( 4 )]
+margin_left = 1284.0
+margin_right = 1485.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 201, 31 )
+custom_styles/panel = SubResource( 7 )
+action_name = "practice_next_mode"
+text = "Next mode"
+
+[node name="PromptInputAction" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="0"]
+margin_bottom = 50.0
+input_action = "practice_next_mode"
+
+[node name="Label" parent="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6/HBoxContainer" index="1"]
+margin_right = 191.0
+margin_bottom = 50.0
+text = "Next mode"
+
+[connection signal="seeked" from="SeekGUI/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]
+[connection signal="seeked" from="SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar/SeekButton" to="." method="_on_SeekButton_seeked"]
+
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel1"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel2"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel3"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel4"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel5"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel6"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel7"]
+[editable path="SeekGUI/VBoxContainer/HBoxContainer/Panel8"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel1"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel2"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel3"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel4"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel5"]
+[editable path="SectionSeekGUI/VBoxContainer/HBoxContainer/Panel6"]
+[editable path="SettingsGUI/VBoxContainer/HBoxContainer/Panel1"]
+[editable path="SettingsGUI/VBoxContainer/HBoxContainer/Panel2"]
+[editable path="SettingsGUI/VBoxContainer/HBoxContainer/Panel3"]
+[editable path="SettingsGUI/VBoxContainer/HBoxContainer/Panel4"]
+[editable path="SettingsGUI/VBoxContainer/HBoxContainer/Panel5"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel1"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel2"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel3"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel4"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel5"]
+[editable path="SpeedControlGUI/VBoxContainer/HBoxContainer/Panel6"]

@@ -151,6 +151,9 @@ func fill_localized_arrays():
 		"heart_note": tr("Heart note"),
 		"practice_set_waypoint": tr("Practice mode: Set waypoint"),
 		"practice_go_to_waypoint": tr("Practice mode: Go to waypoint"),
+		"practice_last_mode": tr("Practice mode: Last mode"),
+		"practice_next_mode": tr("Practice mode: Next mode"),
+		"practice_apply_latency": tr("Practice mode: Apply calculated latency"),
 		"pause": tr("Pause"),
 		
 		# GUI
@@ -257,7 +260,7 @@ func fill_localized_arrays():
 	
 	ACTION_CATEGORIES = {
 		tr("Notes"): ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
-		tr("Game"): ["pause", "practice_set_waypoint", "practice_go_to_waypoint"],
+		tr("Game"): ["pause", "practice_set_waypoint", "practice_go_to_waypoint", "practice_last_mode", "practice_next_mode", "practice_apply_latency"],
 		tr("GUI"): ["gui_search", "gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "gui_show_song", "contextual_option"]
 	}
 func get_axis_name(event: InputEventJoypadMotion):

@@ -80,8 +80,21 @@ func _set_section_data(val):
 			# text is completely filled
 			_on_option_hovered(section_data.keys()[0])
 			scroll_container.select_item(0)
+
+var input_disabled = false
+var last_selected_item
+func toggle_input():
+	input_disabled = not input_disabled
+	if input_disabled:
+		if scroll_container.get_selected_item():
+			last_selected_item = scroll_container.get_selected_item()
+	else:
+		if last_selected_item:
+			last_selected_item.hover()
+			grab_focus()
+
 func _input(event):
-	if visible:
+	if visible and not input_disabled:
 		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
@@ -91,8 +104,8 @@ func _input(event):
 		else:
 			if scroll_container.get_selected_item():
 				scroll_container.get_selected_item()._gui_input(event)
-			
-				
+
+
 func _on_value_changed(value, property_name):
 	emit_signal("changed", property_name, value)
 	
