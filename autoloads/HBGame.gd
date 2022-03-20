@@ -127,7 +127,6 @@ func _game_init():
 		UserSettings.set_joypad_prompts()
 		UserSettings.user_settings.load_all_notes_on_song_start = false
 		UserSettings.user_settings.visualizer_enabled = false
-		UserSettings.user_settings.timing_method = HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK
 		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
 	if "--disable-async-loading" in OS.get_cmdline_args():

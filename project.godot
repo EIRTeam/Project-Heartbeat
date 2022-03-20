@@ -928,6 +928,10 @@ config/build_time=1645340448
 config/build_commit="315602f49f15910224ef01f7ee66b8597d027e91"
 config/service_environment="production"
 
+[audio]
+
+single_threaded_mode=true
+
 [autoload]
 
 Steam="res://autoloads/platform_service/SteamPlaceholder.gd"

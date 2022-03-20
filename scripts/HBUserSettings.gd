@@ -143,15 +143,6 @@ var locale__possibilities = [
 	"ca"
 ]
 
-enum TIMING_METHOD {
-	SYSTEM_CLOCK,
-	SOUND_HARDWARE_CLOCK,
-	SOUND_HARDWARE_CLOCK_FALLBACK,
-	HYBRID_INTERPOLATED
-}
-
-var timing_method = TIMING_METHOD.SYSTEM_CLOCK
-
 var workshop_download_audio_only = false
 
 var multi_laser_opacity = 1.0
@@ -218,7 +209,7 @@ func _init():
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
 	"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
 	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
-	"lyrics_color", "locale", "timing_method", "workshop_download_audio_only", "multi_laser_opacity",
+	"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
 	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
 	"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled",
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",

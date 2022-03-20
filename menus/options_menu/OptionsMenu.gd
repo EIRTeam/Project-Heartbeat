@@ -2,13 +2,6 @@ extends HBMenu
 
 var OPTIONS = {
 	tr("Game"): {
-		"timing_method": {
-			"name": tr("Timing method"),
-			"description": tr("Selects the timing method to use, using the system clock is the recommended option for most people, use the alternatives only if you are having issues."),
-			"options": [HBUserSettings.TIMING_METHOD.SYSTEM_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK, HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK, HBUserSettings.TIMING_METHOD.HYBRID_INTERPOLATED],
-			"options_pretty": ["System clock", "Sound hardware clock", "Sound hardware clock (alternative)", "Hybrid"],
-			"type": "options"
-		},
 		"workshop_download_audio_only": {
 			"name": tr("Download audio only from workshop"),
 			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")
@@ -294,8 +287,6 @@ func _set_sound_volume(volume, sound: String):
 	UserSettings.save_user_settings()
 
 func _ready():
-	if HBGame.platform_settings is HBPlatformSettingsSwitch:
-		OPTIONS[tr("Game")].erase("timing_method")
 	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
 		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)

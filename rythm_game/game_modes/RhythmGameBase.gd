@@ -23,8 +23,6 @@ var timing_points = [] setget _set_timing_points
 var last_hit_index = 0
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
-var time_begin: int
-var time_delay: float
 var time: float
 var current_combo = 0
 var disable_intro_skip = false
@@ -95,10 +93,6 @@ var cached_note_drawers = {}
 var current_variant = -1
 
 var notes_judged_this_frame = []
-
-var prev_hardware_time = 0
-var last_hardware_sync = 0
-var hardware_interp = 0
 
 var section_changes = {}
 
@@ -419,40 +413,8 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if audio_stream_player.playing and (not editing or previewing):
-		if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK \
-				or UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK_FALLBACK:
-			var t = audio_stream_player.get_playback_position() +  - AudioServer.get_output_latency()
-			if UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.SOUND_HARDWARE_CLOCK:
-				t += AudioServer.get_time_since_last_mix()
-			t *= audio_stream_player.pitch_scale
-			
-			if t > time:
-				time = t
-				time -= latency_compensation / 1000.0
-			time = time
-		elif UserSettings.user_settings.timing_method == HBUserSettings.TIMING_METHOD.HYBRID_INTERPOLATED:
-			var current_hardware_time := audio_stream_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
-			if current_hardware_time > prev_hardware_time:
-				prev_hardware_time = current_hardware_time
-				last_hardware_sync = OS.get_ticks_usec()
-				hardware_interp = 0
-			hardware_interp = OS.get_ticks_usec() - last_hardware_sync
-			time = current_hardware_time + hardware_interp / 1_000_000.0
-			
-			time -= latency_compensation / 1000.0
-		else:
-			# Obtain current time from ticks, offset by the time we began playing music.
-			time = (OS.get_ticks_usec() - time_begin) / 1000000.0
-			time = time * audio_stream_player.pitch_scale
-			# Compensate for latency.
-			time -= time_delay
-	
-			# User entered compensation
-			time -= latency_compensation / 1000.0
-	
-			# May be below 0 (did not being yet).
-			time = time
-		
+		time = audio_stream_player.get_playback_position()
+		time -= latency_compensation / 1000.0
 		
 		if not editing:
 			var end_time = audio_stream_player.stream.get_length() * 1000.0
@@ -581,11 +543,6 @@ func play_from_pos(position: float):
 		audio_stream_player_voice.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
 	audio_stream_player.seek(position)
 	audio_stream_player_voice.seek(position)
-	time_begin = OS.get_ticks_usec() - int((position / audio_stream_player.pitch_scale) * 1000000.0)
-	last_hardware_sync = OS.get_ticks_usec()
-	hardware_interp = 0
-	prev_hardware_time = -100000000
-	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 	time = position
 func add_score(score_to_add):
 	if not previewing:
