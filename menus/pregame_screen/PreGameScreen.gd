@@ -138,7 +138,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	update_song_stats_label()
 	tabbed_container.show_tab("Song")
 	
-	MouseTrap.cache_song_overlay.connect("done", button_container, "grab_focus")
+	MouseTrap.cache_song_overlay.connect("done", button_container, "grab_focus", [], CONNECT_DEFERRED)
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
 	var highest_score_string = tr("Never played")
