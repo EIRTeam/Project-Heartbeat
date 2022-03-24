@@ -1,21 +1,3 @@
 [remap]
 
-importer="wav"
-type="AudioStreamSample"
-path="res://.import/slide_hold_ok.wav-d89df2923252b0a9e72996e93373411a.sample"
-
-[deps]
-
-source_file="res://sounds/sfx/slide_hold_ok.wav"
-dest_files=[ "res://.import/slide_hold_ok.wav-d89df2923252b0a9e72996e93373411a.sample" ]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop=false
-compress/mode=0
+importer="keep"

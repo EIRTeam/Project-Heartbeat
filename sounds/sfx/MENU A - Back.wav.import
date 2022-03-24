@@ -1,21 +1,3 @@
 [remap]
 
-importer="wav"
-type="AudioStreamSample"
-path="res://.import/MENU A - Back.wav-cfbd50d290e5e0a318b3f8f71b4a022c.sample"
-
-[deps]
-
-source_file="res://sounds/sfx/MENU A - Back.wav"
-dest_files=[ "res://.import/MENU A - Back.wav-cfbd50d290e5e0a318b3f8f71b4a022c.sample" ]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop=false
-compress/mode=0
+importer="keep"

@@ -1,21 +1,3 @@
 [remap]
 
-importer="wav"
-type="AudioStreamSample"
-path="res://.import/menu_validate.wav-319081dfb6dbe91f3a71e526277d654e.sample"
-
-[deps]
-
-source_file="res://sounds/sfx/menu_validate.wav"
-dest_files=[ "res://.import/menu_validate.wav-319081dfb6dbe91f3a71e526277d654e.sample" ]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop=false
-compress/mode=0
+importer="keep"
