@@ -182,17 +182,14 @@ func get_cache_status():
 
 func get_audio_stream(variant := -1):
 	var audio_path = get_song_audio_res_path()
-	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(audio_path)
-	else:
-		if youtube_url:
-			if use_youtube_for_audio:
-				var variant_url = get_variant_data(variant).variant_url
-				if YoutubeDL.get_cache_status(get_variant_data(variant).variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
-					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(variant_url))
-				else:
-					Log.log(self, "Tried to get audio stream from an uncached song!!")
-		return HBUtils.load_ogg(audio_path)
+	if youtube_url:
+		if use_youtube_for_audio:
+			var variant_url = get_variant_data(variant).variant_url
+			if YoutubeDL.get_cache_status(get_variant_data(variant).variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
+				audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(variant_url))
+			else:
+				Log.log(self, "Tried to get audio stream from an uncached song!!")
+	return HBUtils.load_ogg(audio_path)
 	
 func get_shinobu_audio_data(variant := -1):
 	var audio_path = get_song_audio_res_path()
@@ -247,10 +244,7 @@ func get_video_stream(variant := -1):
 	
 	return video_stream
 func get_voice_stream():
-	if get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		return load(get_song_voice_res_path())
-	else:
-		return HBUtils.load_ogg(get_song_voice_res_path())
+	return HBUtils.load_ogg(get_song_voice_res_path())
 	
 func save_song():
 	# Ensure song directory exists

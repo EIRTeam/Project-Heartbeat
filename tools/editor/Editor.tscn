@@ -1,7 +1,6 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
-[ext_resource path="res://songs/imademo_2012/voice.ogg" type="AudioStream" id=2]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
@@ -30,7 +29,6 @@
 [ext_resource path="res://tools/icons/arrow-bottom-left-thick.svg" type="Texture" id=28]
 [ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
-[ext_resource path="res://songs/imademo_2012/imademo_2012.ogg" type="AudioStream" id=31]
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
 [ext_resource path="res://tools/icons/TextureRect.svg" type="Texture" id=34]
@@ -1178,14 +1176,6 @@ margin_left = 1415.0
 margin_right = 1577.0
 margin_bottom = 25.0
 text = "Project Kokoro Doki UwU"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 31 )
-bus = "Music"
-
-[node name="AudioStreamPlayerVoice" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
-bus = "Vocals"
 
 [node name="Popups" type="CanvasLayer" parent="."]
 

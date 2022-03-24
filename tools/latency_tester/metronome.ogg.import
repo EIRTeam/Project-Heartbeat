@@ -1,15 +1,3 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/metronome.ogg-9bc5c42cd32f72d0beb0c018e8b6c42c.oggstr"
-
-[deps]
-
-source_file="res://tools/latency_tester/metronome.ogg"
-dest_files=[ "res://.import/metronome.ogg-9bc5c42cd32f72d0beb0c018e8b6c42c.oggstr" ]
-
-[params]
-
-loop=false
-loop_offset=0
+importer="keep"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -18,7 +18,6 @@
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=16]
 [ext_resource path="res://graphics/hold_hint.png" type="Texture" id=17]
 [ext_resource path="res://graphics/heart.png" type="Texture" id=18]
-[ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=21]
 [ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=24]
 [ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=25]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
@@ -222,128 +221,6 @@ use_mipmaps = true
 use_filter = true
 extra_spacing_top = 4
 font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=24]
-size = 25
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=25]
-size = 40
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="Animation" id=26]
-length = 5.0
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("HeartPowerAvailableLabel:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0.8, 0.8 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("HeartPowerAvailableLabel:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 3, 3.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("HeartPowerEnabledLabel:self_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=27]
-length = 3.0
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("HeartPowerAvailableLabel:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("HeartPowerEnabledLabel:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 2.7, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("HeartPowerEnabledLabel:rect_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("HeartPowerEnabledLabel:rect_scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0.8, 0.8 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath("HeartPowerPromptAnimationPlayer/HeartPowerEnabledSFX")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0.0 ],
-"method": "play"
-} ]
-}
 
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
@@ -937,66 +814,6 @@ rect_min_size = Vector2( 0, 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Prompts" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.99561
-margin_top = 1.58344
-margin_right = 1.99561
-margin_bottom = 1.58344
-mouse_filter = 2
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="HeartPowerAvailableLabel" type="Label" parent="Prompts"]
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.04
-anchor_top = 0.5
-anchor_right = 0.224
-anchor_bottom = 0.5
-margin_left = -38.8077
-margin_top = -207.478
-margin_right = -65.0077
-margin_bottom = -123.478
-rect_scale = Vector2( 0.8, 0.8 )
-custom_colors/font_color = Color( 1, 1, 1, 0.75 )
-custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
-custom_fonts/font = SubResource( 24 )
-text = "HEART POWER AVAILABLE!"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HeartPowerEnabledLabel" type="Label" parent="Prompts"]
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.04
-anchor_top = 0.5
-anchor_right = 0.224
-anchor_bottom = 0.5
-margin_left = -38.4877
-margin_top = -207.478
-margin_right = -65.0077
-margin_bottom = -124.478
-rect_scale = Vector2( 0.8, 0.8 )
-custom_colors/font_color = Color( 1, 1, 1, 0.75 )
-custom_colors/font_outline_modulate = Color( 1, 1, 1, 0.5 )
-custom_fonts/font = SubResource( 25 )
-text = "HEART POWER!!!"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
-anims/HeartPowerAvailable = SubResource( 26 )
-anims/HeartPowerEnabled = SubResource( 27 )
-
-[node name="HeartPowerEnabledSFX" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
-stream = ExtResource( 21 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
