@@ -51,7 +51,7 @@ func _input(event):
 		if news_container.has_focus() or social_container.has_focus():
 			get_tree().set_input_as_handled()
 			emit_signal("left")
-			social_container.sfx_player.play()
+			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 
 
 func _on_OpenProfileButton_pressed():

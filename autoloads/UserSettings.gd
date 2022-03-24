@@ -99,6 +99,9 @@ func _init_user_settings():
 							event.button_index = JOY_SONY_CIRCLE
 						elif event.button_index == JOY_SONY_CIRCLE:
 							event.button_index = JOY_SONY_X
+	print("Shinobu: Setting buffer size to %d ms" % [user_settings.audio_buffer_size])
+	ShinobuGodot.buffer_size = user_settings.audio_buffer_size
+	ShinobuGodot.initialize()
 
 	apply_user_settings(true)
 	load_input_map()
@@ -367,6 +370,7 @@ func apply_user_settings(apply_display := false):
 	_update_fps_limits()
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	set_volumes()
+	register_user_fx()
 
 var enable_menu_fps_limits := false setget set_enable_menu_fps_limits
 
@@ -439,10 +443,14 @@ func apply_display_mode():
 			
 	
 func set_volumes():
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(user_settings.master_volume * 0.186209))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(user_settings.music_volume))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("MenuMusic"), -80 if user_settings.disable_menu_music else linear2db(user_settings.music_volume))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear2db(user_settings.sfx_volume))
+	ShinobuGodot.set_master_volume(user_settings.master_volume)
+	ShinobuGodot.set_group_volume("music", user_settings.music_volume)
+	ShinobuGodot.set_group_volume("menu_music", 0.0 if user_settings.disable_menu_music else user_settings.music_volume)
+	ShinobuGodot.set_group_volume("sfx", user_settings.sfx_volume)
+	
+func register_user_fx():
+	for sound in user_settings.DEFAULT_SOUNDS:
+		ShinobuGodot.register_sound_from_path(get_sound_path(sound), sound)
 	
 func reset_to_default_input_map():
 	user_settings.input_map = base_input_map
@@ -463,6 +471,14 @@ func get_sound_by_name(sound_name: String) -> AudioStream:
 		if file.file_exists(file_path):
 			if f:
 				return f
+	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
+
+func get_sound_path(sound_name: String) -> String:
+	var file := File.new()
+	if user_settings.custom_sounds[sound_name] != "default":
+		var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, user_settings.custom_sounds[sound_name]]
+		if file.file_exists(file_path):
+			return file_path
 	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
 
 func should_use_direct_joystick_access() -> bool:

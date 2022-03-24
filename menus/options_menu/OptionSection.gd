@@ -56,6 +56,8 @@ func _set_section_data(val):
 						option_scene.debounce_step = option.debounce_step
 					if option.has("postfix"):
 						option_scene.postfix = option.postfix
+					if option.has("postfix_callback"):
+						option_scene.postfix_callback = option.postfix_callback
 					if option.has("text_overrides"):
 						option_scene.text_overrides = option.text_overrides
 					if option.has("percentage"):

@@ -16,8 +16,6 @@ signal out_from_top
 var plays_sfx = true
 var ignore_down = false # Ignore down action
 
-var sfx_player = AudioStreamPlayer.new()
-
 var prev_action = "gui_left"
 var next_action = "gui_right"
 
@@ -26,14 +24,6 @@ export var enable_wrap_around := false
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
-	sfx_player.stream = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
-	sfx_player.pause_mode = PAUSE_MODE_PROCESS
-	sfx_player.bus = "SFX"
-	get_tree().get_root().call_deferred("add_child", sfx_player)
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		if is_instance_valid(sfx_player) and not sfx_player.is_queued_for_deletion():
-			sfx_player.queue_free()
 func select_button(i: int, fire_event=true):
 	var child = get_child(i)
 	if selected_button:
@@ -76,7 +66,7 @@ func _gui_input(event):
 			if focus_neighbour_top:
 				var neighbor_up = get_node(focus_neighbour_top) as Control
 				neighbor_up.grab_focus()
-				sfx_player.play()
+				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:
@@ -86,12 +76,12 @@ func _gui_input(event):
 					if focus_neighbour_left:
 						var neighbor_left = get_node(focus_neighbour_left) as Control
 						neighbor_left.grab_focus()
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 				else:
 					if focus_neighbour_top:
 						var neighbor_up = get_node(focus_neighbour_top) as Control
 						neighbor_up.grab_focus()
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 				emit_signal("out_from_top")
 			else:
 				get_tree().set_input_as_handled()
@@ -99,7 +89,7 @@ func _gui_input(event):
 				while i >= 0:
 					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 						break
 					i -= 1
 
@@ -111,19 +101,19 @@ func _gui_input(event):
 					if focus_neighbour_right:
 						var neighbor_right = get_node(focus_neighbour_right) as Control
 						neighbor_right.grab_focus()
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 				else:
 					if focus_neighbour_bottom:
 						var neighbor_bottom = get_node(focus_neighbour_bottom) as Control
 						neighbor_bottom.grab_focus()
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 			else:
 				get_tree().set_input_as_handled()
 				var i = wrapi(selected_button_i+1, 0, get_child_count())
 				while i <= get_child_count()-1:
-					if get_child(i) != sfx_player and get_child(i).visible and get_child(i) is BaseButton:
+					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
-						sfx_player.play()
+						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 						break
 					i += 1
 	elif event.is_action_pressed("gui_accept"):

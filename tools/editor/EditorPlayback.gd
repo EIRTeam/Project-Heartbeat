@@ -3,9 +3,6 @@ extends Node
 
 class_name EditorPlayback
 
-var audio_stream_player := AudioStreamPlayer.new()
-var voice_audio_stream_player := AudioStreamPlayer.new()
-var pitch_shift_effect := AudioEffectPitchShift.new()
 var game: HBRhythmGame
 var time_begin
 var time_delay
@@ -24,21 +21,17 @@ var first_after_seek := false
 signal time_changed
 signal playback_speed_changed(speed)
 
+var godot_audio_stream: AudioStream
+
 func set_chart(val):
 	chart = val
 	game.set_chart(chart)
 func _init(_game: HBRhythmGame):
 	self.game = _game
 
-func _ready():
-	add_child(audio_stream_player)
-	add_child(voice_audio_stream_player)
-	audio_stream_player.bus = "Music"
-	voice_audio_stream_player.bus = "Music"
-
 func _process(delta):
 	var time = 0.0
-	if is_playing():
+	if is_playing() and false:
 		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
 		time *= playback_speed
 		# Compensate for latency.
@@ -55,8 +48,8 @@ func _process(delta):
 		time += variant_offset
 		
 		game.time = time
-	if is_playing() and not audio_stream_player.stream_paused:
-		emit_signal("time_changed", time)
+	if is_playing() and game.audio_playback.is_playing():
+		emit_signal("time_changed", game.time)
 	
 	if is_playing() and metronome_enabled:
 		if time * 1000 >= metronome_offset:
@@ -85,49 +78,56 @@ func get_song_volume():
 func set_song(song: HBSong, variant=-1):
 	current_song = song
 	selected_variant = variant
-	audio_stream_player.stream = song.get_audio_stream(variant)
+	game.audio_playback = null
+	game.voice_audio_playback = null
+	
+	godot_audio_stream = song.get_audio_stream()
 	
 	if not SongDataCache.is_song_audio_loudness_cached(song):
 		var norm = HBAudioNormalizer.new()
-		norm.set_target_ogg(song.get_audio_stream())
+		norm.set_target_ogg(godot_audio_stream)
 		print("Loudness cache not found, normalizing...")
 		while not norm.work_on_normalization():
 			pass
 		var res = norm.get_normalization_result()
 		SongDataCache.update_loudness_for_song(song, res)
+		
+	ShinobuGodot.register_sound(song.get_shinobu_audio_data(variant), "song")
+	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+	game.audio_playback.offset = current_song.get_variant_data(variant).variant_offset
 	
 	var volume_db = get_song_volume()
 	
-	audio_stream_player.volume_db = volume_db
+	game.audio_playback.volume = db2linear(volume_db)
 	if song.voice:
-		voice_audio_stream_player.volume_db = volume_db
-		voice_audio_stream_player.stream = song.get_voice_stream()
-	else:
-		voice_audio_stream_player.volume_db = -100
+		ShinobuGodot.register_sound(song.get_shinobu_voice_audio_data(variant), "song_voice")
+		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
+		game.voice_audio_playback.volume = db2linear(volume_db)
 
 func pause():
 	game.reset_hit_notes()
-	audio_stream_player.stream_paused = true
-	audio_stream_player.volume_db = -100
-	audio_stream_player.stop()
-	voice_audio_stream_player.stream_paused = true
-	voice_audio_stream_player.volume_db = -100
-	voice_audio_stream_player.stop()
+	game.pause_game()
 #	_on_timing_points_changed()
 	game.previewing = false
 	game.sfx_pool.stop_all_sfx()
+	game.set_process(false)
 
 func is_playing():
-	return audio_stream_player.playing
+	if not game.audio_playback:
+		return false
+	return game.audio_playback.is_playing()
 
 func seek(value: int):
 	#game.remove_all_notes_from_screen()
-	if not audio_stream_player.playing:
+	game.seek(value)
+	if not game.audio_playback.is_playing():
 		pause()
 	else:
 		play_from_pos(value)
 		
 	game.time = value / 1000.0
+	game._process(0.0)
 	emit_signal("time_changed", game.time)
 	game.reset_hit_notes()
 	#_on_timing_points_changed()
@@ -142,28 +142,28 @@ func _on_timing_params_changed():
 #	game.set_chart(chart)
 #	game.delete_rogue_notes(game.time)
 
+func start():
+	game.set_process(true)
+	game.previewing = true
+	game.start()
+
 func play_from_pos(position: float):
 	if current_song:
 		game.previewing = true
-		audio_stream_player.stream_paused = false
-		audio_stream_player.play()
-		audio_stream_player.seek(position / 1000.0)
-		voice_audio_stream_player.stream_paused = false
+		game.seek(position)
+		game.start()
 		
 		var song_volume = get_song_volume()
-		audio_stream_player.volume_db = song_volume
-		if current_song.voice:
-			voice_audio_stream_player.volume_db = song_volume
 		
-		voice_audio_stream_player.play()
-		voice_audio_stream_player.seek(position / 1000.0)
 		time_begin = OS.get_ticks_usec()
 		time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		_audio_play_offset = position / 1000.0
-		game.play_from_pos(position / 1000.0)
+		game.seek(position)
+		game.start()
 		game.delete_rogue_notes(position / 1000.0)
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)
+		game.set_process(true)
 		
 		if position > metronome_offset:
 			metronome_timer = fmod(position - metronome_offset, metronome_separation)
@@ -179,37 +179,10 @@ func set_lyrics(phrases: Array):
 func set_speed(value: float, correction: bool):
 	playback_speed = value
 	
-	audio_stream_player.pitch_scale = playback_speed
-	voice_audio_stream_player.pitch_scale = playback_speed
+	game.audio_playback.set_pitch_scale(playback_speed)
+	if game.voice_audio_playback:
+		game.voice_audio_playback.set_pitch_scale(playback_speed)
 	
-	if correction:
-		pitch_shift_effect.pitch_scale = 1.0 / playback_speed
-	else:
-		pitch_shift_effect.pitch_scale = 1.0
-	
-	if pitch_shift_effect.pitch_scale != 1.0:
-		add_bus_effects()
-	else:
-		remove_bus_effects()
+	# TODO: READD PITCH CORRECT
 	
 	emit_signal("playback_speed_changed", value)
-
-
-func _get_all_effects(bus):
-	var bus_effects = []
-	for i in range(AudioServer.get_bus_effect_count(bus)):
-		bus_effects.append(AudioServer.get_bus_effect(bus, i))
-	
-	return bus_effects
-
-
-func add_bus_effects():
-	var music_bus = AudioServer.get_bus_index(audio_stream_player.bus)
-	
-	if not pitch_shift_effect in _get_all_effects(music_bus):
-		AudioServer.add_bus_effect(music_bus, pitch_shift_effect)
-
-func remove_bus_effects():
-	var music_bus = AudioServer.get_bus_index(audio_stream_player.bus)
-	
-	AudioServer.remove_bus_effect(music_bus, _get_all_effects(music_bus).find(pitch_shift_effect))

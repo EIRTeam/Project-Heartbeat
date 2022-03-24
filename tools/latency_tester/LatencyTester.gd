@@ -10,7 +10,7 @@ onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginCo
 onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
 
 var offset := 0
-var player = AudioStreamPlayer.new()
+var player: ShinobuGodotSoundPlayback
 var mode = 0
 const PREVIOUS_MENU = "tools_menu"
 const tutorials = [
@@ -44,7 +44,6 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	emit_signal("pause_background_player")
 	
 	mode = 0
-	update_mode()
 	
 	offset = UserSettings.user_settings.lag_compensation
 	update_latency()
@@ -73,11 +72,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		-29.576157,
 		1000
 	)
+	ShinobuGodot.register_sound_from_path(song.audio_path, "song")
+	player = ShinobuGodot.instantiate_sound("song", "music")
+	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
 	
-	player.stream = song.get_audio_stream()
-	player.volume_db = HBAudioNormalizer.get_offset_from_loudness(song.loudness)
-	
-	rhythm_game.set_audio(player.stream, null)
+	rhythm_game.set_audio(player, null)
 	rhythm_game.play_song(song, song.chart)
 	
 	update_mode()

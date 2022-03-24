@@ -23,7 +23,6 @@ var frequency: float = 2.0
 func get_scaled_thickness():
 	var max_height = amplitude
 	var thick_scale = 1.0 - (max_height / 1080.0)
-	print("AMP ", amplitude, " thick_scale ", thick_scale, "thick", thickness)
 	return thick_scale*thickness
 func update_shader_values():
 	var mat = material as ShaderMaterial

@@ -120,16 +120,16 @@ var lyrics_color__possibilities = [
 ]
 
 const DEFAULT_SOUNDS = {
-	"note_hit": preload("res://sounds/sfx/tmb3.wav"),
-	"slide_hit": preload("res://sounds/sfx/slide_note.wav"),
-	"slide_empty": preload("res://sounds/sfx/360835__tec-studio__fantasy-sfx-006.wav"),
-	"heart_hit": preload("res://sounds/sfx/slide_note.wav"),
-	"slide_chain_start": preload("res://sounds/sfx/slide_hold_start.wav"),
-	"slide_chain_loop": preload("res://sounds/sfx/slide_hold_loop.wav"),
-	"slide_chain_ok": preload("res://sounds/sfx/slide_hold_ok.wav"),
-	"slide_chain_fail": preload("res://sounds/sfx/slide_hold_fail.wav"),
-	"double_note_hit": preload("res://sounds/sfx/double_note.wav"),
-	"double_heart_note_hit": preload("res://sounds/sfx/double_note.wav")
+	"note_hit": "res://sounds/sfx/tmb3.wav",
+	"slide_hit": "res://sounds/sfx/slide_note.wav",
+	"slide_empty": "res://sounds/sfx/360835__tec-studio__fantasy-sfx-006.wav",
+	"heart_hit": "res://sounds/sfx/slide_note.wav",
+	"slide_chain_start": "res://sounds/sfx/slide_hold_start.wav",
+	"slide_chain_loop": "res://sounds/sfx/slide_hold_loop.wav",
+	"slide_chain_ok": "res://sounds/sfx/slide_hold_ok.wav",
+	"slide_chain_fail": "res://sounds/sfx/slide_hold_fail.wav",
+	"double_note_hit": "res://sounds/sfx/double_note.wav",
+	"double_heart_note_hit": "res://sounds/sfx/double_note.wav"
 }
 
 var custom_sounds = {}
@@ -196,6 +196,7 @@ var last_ppd_dir := ProjectSettings.globalize_path("user://")
 var last_midi_dir := ProjectSettings.globalize_path("user://")
 var last_edit_dir := ProjectSettings.globalize_path("user://")
 
+var audio_buffer_size := 10
 
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -215,7 +216,7 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets"]
+	"color_presets", "audio_buffer_size"]
 	
 	merge_dict_fields += [
 		"custom_sounds",
@@ -309,3 +310,6 @@ func get_serialized_type():
 
 func get_sound_volume_db(sound_name: String) -> float:
 	return linear2db(UserSettings.user_settings.custom_sound_volumes[sound_name])
+
+func get_sound_volume_linear(sound_name: String) -> float:
+	return UserSettings.user_settings.custom_sound_volumes[sound_name]

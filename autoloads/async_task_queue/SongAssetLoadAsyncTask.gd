@@ -90,9 +90,11 @@ func _task_process() -> bool:
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)
 					requested_assets_queue.erase("audio_loudness")
+				loaded_assets["audio_shinobu"] = song.get_shinobu_audio_data(variant)
 		"voice":
 			if song.voice:
 				loaded_asset = song.get_voice_stream()
+				loaded_assets["voice_shinobu"] = song.get_shinobu_voice_audio_data(variant)
 		"circle_image":
 			if song.circle_image:
 				var asset_path = _case_sensitivity_hack(song.get_song_circle_image_res_path())

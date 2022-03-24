@@ -61,15 +61,11 @@ func _fade_in_done():
 	game.game_input_manager.set_process_input(true)
 	video_player.show()
 	$FadeIn.hide()
-	# HACK HACK: This makes sync very good and makes it effectively target 0
-	# this is why we do a single game cycle, to get the timing right
-	game.play_song()
-	game._process(0.0)
+	game.set_process(true)
 	video_player.set_stream_position(game.time)
 	rescale_video_player()
 	
 	pause_menu_disabled = false
-	game.play_song()
 func start_fade_in():
 #	video_player.hide()
 	UserSettings.enable_menu_fps_limits = false
@@ -79,6 +75,14 @@ func start_fade_in():
 	var target_color = Color.white
 	target_color.a = 0.0
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
+	var start_offset := 0
+	if song.start_time < 0:
+		game.seek(0)
+		start_offset = -song.start_time
+	else:
+		game.seek(song.start_time)
+	game.schedule_play_start(ShinobuGodot.get_dsp_time() + start_offset + FADE_OUT_TIME * 1000)
+	game.start()
 	game.time = song.start_time / 1000.0
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_in_tween.start()
@@ -243,7 +247,7 @@ func _on_resumed():
 	
 	set_process(true)
 	if not rollback_on_resume:
-		game.play_from_pos(game.time)
+		game.start()
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
@@ -252,13 +256,14 @@ func _on_resumed():
 			video_player.paused = true
 	else:
 		# Called when resuming with rollback
-		$RollbackAudioStreamPlayer.play()
+		ShinobuGodot.fire_and_forget_sound(HBGame.ROLLBACK_SFX, "sfx")
 		game.editing = true
 		game.kill_active_slide_chains()
 		game.time = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		video_player.set_stream_position(last_pause_time - ROLLBACK_TIME)
+		game.seek((last_pause_time - ROLLBACK_TIME) * 1000.0)
 		if game.time < 0.0:
 			video_player.paused = true
 		vhs_panel.show()
@@ -325,11 +330,10 @@ var _last_time = 0.0
 #var prev_aht = 0
 
 func _process(delta):
-#	$Label.visible = Diagnostics.fps_label.visible
-#	$Label.text = "pos %f \n audiopos %f \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [video_player.stream_position, game.time, game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
+	$Label.visible = Diagnostics.fps_label.visible
+	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
 #	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
-#	var AHT = game.audio_stream_player.get_playback_position() - AudioServer.get_output_latency()
 #	AHT = int(AHT*1000.0)
 #	if AHT < prev_aht:
 #		AHT = prev_aht
@@ -342,9 +346,6 @@ func _process(delta):
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	if rollback_on_resume:
 		game.time -= delta
-		game.audio_stream_player.stream_paused = true
-		game.audio_stream_player_voice.stream_paused = true
-		game.audio_stream_player.seek(game.time + latency_compensation)
 		game._process(0)
 #		$Label.text += "%f" % [last_pause_time]
 		if game.time <= last_pause_time - ROLLBACK_TIME:
@@ -361,10 +362,6 @@ func seek(pos: float):
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	game.time = pos
-	print("SEEK To %.2f", pos)
-	game.audio_stream_player.stream_paused = true
-	game.audio_stream_player_voice.stream_paused = true
-	game.audio_stream_player.seek(game.time + latency_compensation)
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
 	var scene = MainMenu.instance()

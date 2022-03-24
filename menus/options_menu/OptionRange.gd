@@ -5,6 +5,7 @@ export(float) var maximum = 10
 export(float) var step = 1
 var debounce_step = null
 export(String) var postfix = ""
+var postfix_callback: FuncRef
 
 var steps_per_second = 5 # steps per second when holding a button
 
@@ -48,10 +49,13 @@ func set_value(val):
 	if int(value) in text_overrides:
 		option_label.text = text_overrides[int(value)]
 	else:
+		var pf = postfix
+		if postfix_callback:
+			pf = postfix_callback.call_func(val)
 		if percentage:
-			option_label.text = ("%.1f" % (val*100.0)) + postfix
+			option_label.text = ("%.1f" % (val*100.0)) + pf
 		else:
-			option_label.text = str(value) + postfix
+			option_label.text = str(value) + pf
 	minimum_arrow.modulate = Color.white
 	maximum_arrow.modulate = Color.white
 	if value == minimum:

@@ -15,7 +15,6 @@ func _init():
 class SlideChain:
 	var time: int = 0
 	var pieces: Array = []
-	var sfx_player: AudioStreamPlayer
 	var slide: HBNoteData
 	var is_playing_loop: bool = false
 	var accumulated_score: float = 0.0

@@ -41,13 +41,6 @@ var active_slide_hold_chains = []
 
 var precalculated_note_trails = {}
 
-var hit_effect_sfx_player: AudioStreamPlayer
-var hit_effect_slide_sfx_player: AudioStreamPlayer
-var slide_chain_loop_sfx_player: AudioStreamPlayer
-var slide_chain_success_sfx_player: AudioStreamPlayer
-var slide_chain_fail_sfx_player: AudioStreamPlayer
-var double_note_sfx_player: AudioStreamPlayer
-
 func precalculate_note_trails(points):
 	precalculated_note_trails = {}
 	var prev_point: HBBaseNote = null
@@ -157,24 +150,28 @@ func kill_active_slide_chains():
 func _set_timing_points(points):
 	._set_timing_points(points)
 	
-func get_bus_for_sfx(sfx_name: String):
-	if UserSettings.user_settings.custom_sounds[sfx_name] != "default":
-		return "SFX"
-	else:
-		return "EchoSFX"
 	
 func _game_ready():
 	._game_ready()
-	sfx_pool.add_sfx("note_hit", UserSettings.get_sound_by_name("note_hit"), UserSettings.user_settings.get_sound_volume_db("note_hit"))
-	sfx_pool.add_sfx("slide_hit", UserSettings.get_sound_by_name("slide_hit"), UserSettings.user_settings.get_sound_volume_db("slide_hit"))
-	sfx_pool.add_sfx("slide_empty", UserSettings.get_sound_by_name("slide_empty"), UserSettings.user_settings.get_sound_volume_db("slide_empty"))
-	sfx_pool.add_sfx("heart_hit", UserSettings.get_sound_by_name("heart_hit"), UserSettings.user_settings.get_sound_volume_db("heart_hit"))
-	sfx_pool.add_looping_sfx("slide_chain_loop", UserSettings.get_sound_by_name("slide_chain_loop"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_loop"), get_bus_for_sfx("slide_chain_loop"))
-	sfx_pool.add_sfx("slide_chain_ok", UserSettings.get_sound_by_name("slide_chain_ok"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_ok"), get_bus_for_sfx("slide_chain_ok"))
-	sfx_pool.add_sfx("slide_chain_start", UserSettings.get_sound_by_name("slide_chain_start"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_start"), get_bus_for_sfx("slide_chain_start"))
-	sfx_pool.add_sfx("slide_chain_fail", UserSettings.get_sound_by_name("slide_chain_fail"), 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_fail"), get_bus_for_sfx("slide_chain_fail"))
-	sfx_pool.add_sfx("double_note_hit", UserSettings.get_sound_by_name("double_note_hit"), 2.0 * UserSettings.user_settings.get_sound_volume_db("double_note_hit"), get_bus_for_sfx("double_note_hit"))
-	sfx_pool.add_sfx("double_heart_note_hit", UserSettings.get_sound_by_name("double_heart_note_hit"), 2.0 * UserSettings.user_settings.get_sound_volume_db("double_heart_note_hit"), get_bus_for_sfx("double_heart_note_hit"))
+	sfx_pool.add_sfx("note_hit", UserSettings.user_settings.get_sound_volume_linear("note_hit"))
+	sfx_pool.add_sfx("slide_hit", UserSettings.user_settings.get_sound_volume_linear("slide_hit"))
+	sfx_pool.add_sfx("slide_empty", UserSettings.user_settings.get_sound_volume_linear("slide_empty"))
+	sfx_pool.add_sfx("heart_hit", UserSettings.user_settings.get_sound_volume_linear("heart_hit"))
+	sfx_pool.add_sfx("slide_chain_loop", UserSettings.user_settings.get_sound_volume_linear("slide_chain_loop"))
+	sfx_pool.add_sfx("slide_chain_ok", UserSettings.user_settings.get_sound_volume_linear("slide_chain_ok"))
+	sfx_pool.add_sfx("slide_chain_start", UserSettings.user_settings.get_sound_volume_linear("slide_chain_start"))
+	sfx_pool.add_sfx("slide_chain_fail", UserSettings.user_settings.get_sound_volume_linear("slide_chain_fail"))
+	sfx_pool.add_sfx("double_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_note_hit"))
+	sfx_pool.add_sfx("double_heart_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_heart_note_hit"))
+	#SLIDE: 9dbup
+	
+	# TODO: Bake in echo
+	#sfx_pool.add_sfx("slide_chain_loop", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_loop"), get_bus_for_sfx("slide_chain_loop"))
+	#sfx_pool.add_sfx("slide_chain_ok", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_ok"), get_bus_for_sfx("slide_chain_ok"))
+	#sfx_pool.add_sfx("slide_chain_start", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_start"), get_bus_for_sfx("slide_chain_start"))
+	#sfx_pool.add_sfx("slide_chain_fail", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_fail"), get_bus_for_sfx("slide_chain_fail"))
+	#sfx_pool.add_sfx("double_note_hit", 2.0 * UserSettings.user_settings.get_sound_volume_db("double_note_hit"), get_bus_for_sfx("double_note_hit"))
+	#sfx_pool.add_sfx("double_heart_note_hit", 2.0 * UserSettings.user_settings.get_sound_volume_db("double_heart_note_hit"), get_bus_for_sfx("double_heart_note_hit"))
 	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
 	# hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
 	# hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
@@ -200,8 +197,6 @@ func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
 
 #	time_begin = OS.get_ticks_usec()
 #	time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
-#	audio_stream_player.play()
-#	audio_stream_player_voice.play()
 
 # This is cleared after every frame, to ensure we don't play two sounds coming from the same button
 var _processed_event_uids = []
@@ -429,17 +424,17 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
 					start_hold(n.note_type, false, (n.time - fine_window_ms) / 1000.0)
 	if not editing:
-		var start_time = current_song.start_time / 1000.0
-		var end_time = audio_stream_player.stream.get_length()
+		var start_time = current_song.start_time
+		var end_time = audio_playback.get_length_msec()
 		if current_song.end_time > 0:
-			end_time = current_song.end_time / 1000.0
+			end_time = current_song.end_time
 			
-		var current_duration = audio_stream_player.stream.get_length()
+		var current_duration = audio_playback.get_length_msec()
 		current_duration -= start_time
-		current_duration -= audio_stream_player.stream.get_length() - end_time
+		current_duration -= audio_playback.get_length_msec() - end_time
 		
-		var progress = time - start_time
-		progress = progress / current_duration
+		var progress: float = (time * 1000.0) - start_time
+		progress = progress / float(current_duration)
 		
 
 		var point := Vector2(progress * 100.0, result.get_percentage() * 100.0)

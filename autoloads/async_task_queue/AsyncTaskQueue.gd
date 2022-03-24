@@ -100,7 +100,6 @@ func _end_thread():
 
 	# Wait until it exits.
 	thread.wait_to_finish()
-	print("ENDTHREAD")
 func _exit_tree():
 	_end_thread()
 

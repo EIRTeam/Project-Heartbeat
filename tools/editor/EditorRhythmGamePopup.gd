@@ -22,25 +22,26 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 #	rhythm_game.set_song(song, )
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.reset_hit_notes()
-	rhythm_game.resume()
+	var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
+	rhythm_game.audio_playback.volume = volume
+	if rhythm_game.voice_audio_playback:
+		rhythm_game.voice_audio_playback.volume = volume
+	rhythm_game.seek(time * 1000.0)
+	rhythm_game.start()
 	rhythm_game.base_bpm = song.bpm
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
 	rhythm_game.game_input_manager.set_process_input(true)
-	rhythm_game.play_from_pos(time)
 	reset_stats()
-	var volume = SongDataCache.get_song_volume_offset(song) * song.volume
-	rhythm_game.audio_stream_player.volume_db = volume
-	if song.voice:
-		rhythm_game.audio_stream_player_voice.volume_db = volume
-	else:
-		rhythm_game.audio_stream_player_voice.volume_db = -100
 	_last_time = time
 	show()
 	set_game_size()
-func set_audio(audio, voice = null):
-	rhythm_game.audio_stream_player.stream = audio
-	rhythm_game.audio_stream_player_voice.stream = voice
+func set_audio(song: HBSong, variant := -1):
+	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset / 1000.0
+	if song.voice:
+		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset / 1000.0
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	restart_button.connect("pressed", self, "_on_restart_button_pressed")
@@ -59,13 +60,13 @@ func _unhandled_input(event):
 func _on_restart_button_pressed():
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.reset_hit_notes()
-	rhythm_game.play_from_pos(_last_time)
+	rhythm_game.seek(_last_time * 1000.0)
 	reset_stats()
 
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)
 	rhythm_game.game_input_manager.set_process_input(false)
-	rhythm_game.resume()
+	rhythm_game.pause_game()
 	hide()
 	emit_signal("quit")
 

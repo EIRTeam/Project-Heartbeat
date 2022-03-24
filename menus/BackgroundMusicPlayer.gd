@@ -5,13 +5,16 @@ class_name HBBackgroundMusicPlayer
 signal stream_time_changed
 signal song_started(song, assets)
 
+var song_idx = 0
+
 class SongPlayer:
 	extends Node
 	
 	const FADE_IN_VOLUME = -70
 	
-	onready var audio_stream_player := AudioStreamPlayer.new()
-	onready var audio_stream_player_voice := AudioStreamPlayer.new()
+	var audio_playback: ShinobuGodotSoundPlayback
+	var voice_audio_playback: ShinobuGodotSoundPlayback
+	
 	var current_load_task: SongAssetLoadAsyncTask
 	var song: HBSong
 	
@@ -21,6 +24,7 @@ class SongPlayer:
 	
 	var target_volume := 0.0
 	var has_audio_normalization_data = false
+	var song_idx = 0
 	
 	func load_song_assets():
 		if not song.has_audio() or not song.is_cached():
@@ -36,8 +40,10 @@ class SongPlayer:
 		
 		return OK
 	
-	func _init(_song: HBSong):
+	func _init(_song: HBSong, _song_idx: int):
 		song = _song
+		song_idx = _song_idx
+		print(song.title, song.id)
 		
 		if song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song):
 			var song_loudness = 0.0
@@ -48,52 +54,61 @@ class SongPlayer:
 				song_loudness = song.audio_loudness
 			target_volume = HBAudioNormalizer.get_offset_from_loudness(song_loudness)
 	func _ready():
-		add_child(audio_stream_player)
-		add_child(audio_stream_player_voice)
 		set_process(false)
 		
-		if has_audio_normalization_data:
-			audio_stream_player.bus = "MenuMusic"
-			audio_stream_player_voice.bus = "MenuMusic"
-		else:
-			audio_stream_player.bus = "MenuMusicCompressor"
-			audio_stream_player_voice.bus = "MenuMusicCompressor"
-		
 	func pause():
-		audio_stream_player.stream_paused = true 
-		audio_stream_player_voice.stream_paused = true
+		audio_playback.stop()
+		if voice_audio_playback:
+			voice_audio_playback.stop()
+			
 	func resume():
-		audio_stream_player.stream_paused = false 
-		audio_stream_player_voice.stream_paused = false 
+		audio_playback.play()
+		if voice_audio_playback:
+			voice_audio_playback.play()
 		
 	func _process(_delta):
-		emit_signal("stream_time_changed", audio_stream_player.get_playback_position())
-		var end_time = audio_stream_player.stream.get_length()
-		if song.preview_end != -1:
-			end_time = song.preview_end / 1000.0
-		if audio_stream_player.get_playback_position() >= end_time:
-			fade_out()
-			emit_signal("song_ended")
+		if audio_playback:
+			emit_signal("stream_time_changed", audio_playback.get_playback_position_msec() / 1000.0)
+			var end_time = audio_playback.get_length_msec()
+			if song.preview_end != -1:
+				end_time = song.preview_end
+			if audio_playback.get_playback_position_msec() >= end_time:
+				fade_out()
+				emit_signal("song_ended")
+		
+	func get_song_audio_name():
+		return "%s_%d" % [str(song.id), song_idx]
+	func get_song_voice_audio_name():
+		return "voice_%s_%d" % [str(song.id), song_idx]
 		
 	func _on_song_assets_loaded(assets):
-		audio_stream_player.volume_db = FADE_IN_VOLUME
-		audio_stream_player_voice.volume_db = FADE_IN_VOLUME
-		
 		if "audio" in assets:
-			audio_stream_player.stream = assets.audio
-			audio_stream_player.play()
-			audio_stream_player.seek(song.preview_start/1000.0)
+			var song_audio_name = get_song_audio_name()
+			ShinobuGodot.register_sound(assets.audio_shinobu, song_audio_name)
+			audio_playback = ShinobuGodot.instantiate_sound(song_audio_name, "menu_music")
+			audio_playback.volume = 0.0
+			audio_playback.seek(song.preview_start)
+			# Scheduling starts prevents crackles
+			audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time() + 25)
+			audio_playback.start()
+
 			if "voice" in assets and assets.voice:
-				audio_stream_player_voice.stream = assets.voice
-				audio_stream_player_voice.play()
-				audio_stream_player_voice.seek(song.preview_start/1000.0)
-		
+				var song_voice_audio_name = get_song_voice_audio_name()
+				ShinobuGodot.register_sound(assets.voice_shinobu, song_voice_audio_name)
+				voice_audio_playback = ShinobuGodot.instantiate_sound(song_voice_audio_name, "menu_music")
+				voice_audio_playback.volume = 0.0
+				voice_audio_playback.seek(song.preview_start)
+				voice_audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time() + 25)
+				voice_audio_playback.start()
+				
 		var tween := Tween.new()
 		
 		add_child(tween)
+		if audio_playback:
+			tween.interpolate_property(audio_playback, "volume", 0.0, db2linear(target_volume), 0.5)
+		if voice_audio_playback:
+			tween.interpolate_property(voice_audio_playback, "volume", 0.0, db2linear(target_volume), 0.5)
 		
-		tween.interpolate_property(audio_stream_player, "volume_db", FADE_IN_VOLUME, target_volume, 0.5)
-		tween.interpolate_property(audio_stream_player_voice, "volume_db", FADE_IN_VOLUME, target_volume, 0.5)
 		tween.connect("tween_all_completed", tween, "queue_free")
 		
 		tween.start()
@@ -104,18 +119,26 @@ class SongPlayer:
 		
 		
 
+	var calls := 0
 		
 	func fade_out():
 		set_process(false) # nothing else should fire while fading out...
 		var tween := Tween.new()
 		
 		add_child(tween)
+		if audio_playback:
+			tween.interpolate_property(audio_playback, "volume", db2linear(target_volume), 0.0, 0.5)
+			if voice_audio_playback:
+				tween.interpolate_property(voice_audio_playback, "volume", db2linear(target_volume), 0.0, 0.5)
 		
-		tween.interpolate_property(audio_stream_player, "volume_db", target_volume, -70, 0.5)
-		tween.interpolate_property(audio_stream_player_voice, "volume_db", target_volume, -70, 0.5)
 		tween.connect("tween_all_completed", self, "queue_free")
 		
 		tween.start()
+	func _notification(what):
+		match what:
+			NOTIFICATION_PREDELETE:
+				ShinobuGodot.unregister_sound(get_song_audio_name())
+				ShinobuGodot.unregister_sound(get_song_voice_audio_name())
 
 var current_song_player: SongPlayer
 
@@ -123,7 +146,8 @@ func play_song(song: HBSong):
 	if current_song_player:
 		if song == current_song_player.song:
 			return
-	var song_player = SongPlayer.new(song)
+	var song_player = SongPlayer.new(song, song_idx)
+	song_idx += 1
 	add_child(song_player)
 	song_player.connect("song_assets_loaded", self, "_on_song_assets_loaded")
 	song_player.connect("stream_time_changed", self, "_on_stream_time_changed")

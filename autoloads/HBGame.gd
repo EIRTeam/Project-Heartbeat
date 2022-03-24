@@ -77,10 +77,20 @@ const PASS_THRESHOLD = 0.75
 
 onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_for_type('VideoStreamGDNative')
 
+const MENU_PRESS_SFX = "menu_press"
+const ROLLBACK_SFX = "rollback"
+
 func _ready():
 	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():
 		demo_mode = true
+	
+func _register_basic_sfx():
+	ShinobuGodot.register_group("sfx")
+	ShinobuGodot.register_group("music")
+	ShinobuGodot.register_group("menu_music")
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav", MENU_PRESS_SFX)
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/flashback.wav", ROLLBACK_SFX)
 	
 func _game_init():
 	if OS.get_name() == "Switch":
@@ -117,6 +127,7 @@ func _game_init():
 				push_error("Argument game_location requires an input")
 
 	UserSettings._init_user_settings()
+	_register_basic_sfx()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
@@ -141,11 +152,11 @@ func _game_init():
 		MobileControls.get_child(0).hide()
 		
 	rich_presence = HBRichPresence.new()
-	if not OS.has_feature("no_rich_presence"):
-		rich_presence = HBRichPresenceDiscord.new()
-	var res = rich_presence.init_presence()
-	if res != OK:
-		rich_presence = HBRichPresence.new()
+#	if not OS.has_feature("no_rich_presence"):
+#		rich_presence = HBRichPresenceDiscord.new()
+#	var res = rich_presence.init_presence()
+#	if res != OK:
+#		rich_presence = HBRichPresence.new()
 	add_child(rich_presence)
 
 	song_stats = HBSongStatsLoader.new()

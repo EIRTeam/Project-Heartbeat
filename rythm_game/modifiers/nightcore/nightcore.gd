@@ -11,11 +11,13 @@ func _init_plugin():
 	._init_plugin()
 
 func _pre_game(song: HBSong, game: HBRhythmGame):
-	game.audio_stream_player.pitch_scale = float(modifier_settings.speed)/100.0
-	game.audio_stream_player_voice.pitch_scale = float(modifier_settings.speed)/100.0
+	game.audio_playback.set_pitch_scale(float(modifier_settings.speed)/100.0)
+	if game.voice_audio_playback:
+		game.voice_audio_playback.set_pitch_scale(float(modifier_settings.speed)/100.0)
 func _post_game(song: HBSong, game: HBRhythmGame):
-	game.audio_stream_player.pitch_scale = 1.0
-	game.audio_stream_player_voice.pitch_scale = 1.0
+	game.audio_playback.set_pitch_scale(1.0)
+	if game.voice_audio_playback:
+		game.voice_audio_playback.set_pitch_scale(1.0)
 	
 static func get_modifier_name():
 	return "Nightcore"

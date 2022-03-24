@@ -115,7 +115,6 @@ enum OGG_ERRORS {
 static func get_ogg_channel_count(path: String) -> int:
 	var file = File.new()
 	var r = file.open(path, File.READ)
-	print("OPENING", path, r)
 	var _sectors = {}
 	_sectors["header"] = file.get_buffer(4)
 
@@ -131,7 +130,6 @@ static func get_ogg_channel_count(path: String) -> int:
 	_sectors["vorbis_magic"] = file.get_buffer(6)
 	_sectors["vorbis_version"] = file.get_buffer(4)
 	_sectors["audio_channels"] = file.get_8()
-	print("CHANNELS! ", _sectors["audio_channels"])
 	return _sectors["audio_channels"]
 # Verifies if an OGG
 static func verify_ogg(path: String):

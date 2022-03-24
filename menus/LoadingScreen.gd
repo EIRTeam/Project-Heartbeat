@@ -65,7 +65,6 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	title_label.text = song.get_visible_title(new_game_info.variant)
 	meta_label.text = PoolStringArray(song.get_meta_string()).join('\n')
 func _on_song_assets_loaded(assets):
-	print("LOADED")
 	if not min_load_time_timer.is_stopped():
 		yield(min_load_time_timer, "timeout")
 	current_assets = assets

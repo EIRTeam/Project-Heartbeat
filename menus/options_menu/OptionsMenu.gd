@@ -64,6 +64,14 @@ var OPTIONS = {
 		"__section_override": preload("res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn").instance()
 	},
 	tr("Audio"): {
+		"audio_buffer_size": {
+			"name": tr("Internal audio buffer size (Requires restart)"),
+			"description": tr("In milliseconds, how often should the audio be processed inside the audio engine, lower means lower latency and more smoothness but also higher CPU usage."),
+			"minimum": 5,
+			"maximum": 12,
+			"step": 1,
+			"postfix_callback": funcref(self, "_audio_buffer_postfix_callback")
+		},
 		"master_volume": {
 			"name": tr("Master volume"),
 			"description": tr("Global game volume"),
@@ -385,6 +393,9 @@ func _unhandled_input(event):
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
+
+func _audio_buffer_postfix_callback(value: int):
+	return " ms (~%d updates per second)" % [1000/value]
 
 const CODE = ["gui_up", "gui_up", "gui_down", "gui_down", "gui_left", "gui_right", "gui_left", "gui_right", "note_down", "note_right", "pause"]
 var code_p = 0

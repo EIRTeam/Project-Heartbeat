@@ -69,8 +69,8 @@ const SFX_DEBOUNCE_TIME = 0.016*2.0
 
 var _sfx_debounce_t = SFX_DEBOUNCE_TIME
 
-var audio_stream_player: AudioStreamPlayer
-var audio_stream_player_voice: AudioStreamPlayer
+var audio_playback: ShinobuGodotSoundPlaybackOffset
+var voice_audio_playback: ShinobuGodotSoundPlaybackOffset
 
 var game_ui: HBRhythmGameUIBase
 var game_input_manager: HBGameInputManager
@@ -121,19 +121,7 @@ func _game_ready():
 	_on_viewport_size_changed()
 	set_current_combo(0)
 	
-	# Despite using end time audio stream player's finished signal is used as fallback just in case
-	
-	audio_stream_player = AudioStreamPlayerOffset.new()
-	audio_stream_player.bus = "Music"
-	
-	audio_stream_player_voice = AudioStreamPlayerOffset.new()
-	audio_stream_player_voice.bus = "Vocals"
-	
-	add_child(audio_stream_player)
-	add_child(audio_stream_player_voice)
 	add_child(sfx_pool)
-	
-	audio_stream_player.connect("finished", self, "_on_game_finished")
 	
 	pause_mode = Node.PAUSE_MODE_STOP
 
@@ -148,8 +136,6 @@ func set_game_input_manager(manager: HBGameInputManager):
 # TODO: generalize this
 func set_chart(chart: HBChart):
 	game_ui._on_reset()
-	audio_stream_player.seek(0)
-	audio_stream_player_voice.seek(0)
 	result = HBResult.new()
 	current_combo = 0
 	var tp = chart.get_timing_points()
@@ -174,15 +160,22 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		current_assets = assets
 		if "audio_loudness" in assets:
 			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
-		audio_stream_player.stream = assets.audio
+		ShinobuGodot.register_sound(assets.audio_shinobu, "song")
+		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
 		if "voice" in assets:
 			if assets.voice is AudioStream:
-				audio_stream_player_voice.stream = assets.voice
+				ShinobuGodot.register_sound(assets.voice_shinobu, "song_voice")
+				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
 	else:
-		audio_stream_player.stream = song.get_audio_stream()
+		ShinobuGodot.register_sound(song.get_shinobu_audio_data(), "song")
+		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
 		if song.voice:
-			audio_stream_player_voice.stream = song.get_voice_stream()
-
+			ShinobuGodot.register_sound(song.get_shinobu_voice_audio_data(), "song_voice")
+			audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+	if voice_audio_playback:
+		voice_audio_playback.volume = audio_playback.volume
+		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
 	if current_variant != -1:
 		_volume_offset = song.get_variant_data(current_variant).get_volume()
 	
@@ -213,25 +206,15 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		if intro_skip_marker:
 			if intro_skip_marker.time >= earliest_note_time:
 				intro_skip_marker = null
-	audio_stream_player.stream_paused = true
-	audio_stream_player_voice.stream_paused = true
 	
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		var user_song_settings = UserSettings.user_settings.per_song_settings[current_song.id] as HBPerSongSettings
 		_song_volume = song.get_volume_db() * user_song_settings.volume
 	else:
 		_song_volume = song.get_volume_db()
-	audio_stream_player.volume_db = _song_volume + _volume_offset
-	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
+	audio_playback.volume = db2linear(_song_volume + _volume_offset)
 	# todo: call ui on set song
 	game_ui._on_song_set(song, difficulty, assets, modifiers)
-
-func _create_sfx_player(sample, volume, bus="SFX"):
-	var player = AudioStreamPlayer.new()
-	player.bus = bus
-	player.stream = sample
-	player.volume_db = volume
-	return player
 
 func make_group(notes: Array, extra_notes: Array, group_position, group_time):
 	var group = NoteGroup.new()
@@ -364,13 +347,10 @@ var _on_frame = false
 func _process_input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
-			if current_song.allows_intro_skip and _intro_skip_enabled and audio_stream_player.playing:
+			if current_song.allows_intro_skip and _intro_skip_enabled:
 				if time*1000.0 < get_time_to_intro_skip_to():
 					_intro_skip_enabled = false
-
-					play_from_pos(get_time_to_intro_skip_to() / 1000.0)
-					# HACK: For note time precision
-					_process(0)
+					seek(get_time_to_intro_skip_to())
 					# call ui on intro skip
 					emit_signal("intro_skipped", time)
 func _input(event):
@@ -412,15 +392,16 @@ func _process_game(_delta):
 	if current_song.id in UserSettings.user_settings.per_song_settings:
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
-	if audio_stream_player.playing and (not editing or previewing):
-		time = audio_stream_player.get_playback_position()
+	if (not editing or previewing) and audio_playback:
+		time = audio_playback.get_playback_position_msec() / 1000.0
 		time -= latency_compensation / 1000.0
-		
+		print(time)
+
 		if not editing:
-			var end_time = audio_stream_player.stream.get_length() * 1000.0
+			var end_time = audio_playback.get_length_msec()
 			if current_song.end_time > 0:
 				end_time = float(current_song.end_time)
-			if time*1000.0 >= end_time and not _finished:
+			if audio_playback.get_playback_position_msec() >= end_time and not _finished:
 				_on_game_finished()
 	for i in range(timing_points.size() - 1 - (timing_points.size() - last_hit_index), -1, -1):
 		var group = timing_points[i]
@@ -515,10 +496,11 @@ func restart():
 	time = current_song.start_time / 1000.0
 	cache_note_drawers()
 	timing_point_to_drawer_map = {}
-	audio_stream_player_voice.volume_db = _song_volume + _volume_offset
+	if voice_audio_playback:
+		voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
+		voice_audio_playback.stop()
 	set_current_combo(0)
-	audio_stream_player.stream_paused = true
-	audio_stream_player_voice.stream_paused = true
+	audio_playback.stop()
 	reset_hit_notes()
 	game_input_manager.reset()
 
@@ -527,22 +509,36 @@ func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 
 func pause_game():
-	audio_stream_player.stream_paused = true
-	audio_stream_player_voice.stream_paused = true
+	audio_playback.stop()
+	if voice_audio_playback:
+		voice_audio_playback.stop()
 
 func resume():
-	play_from_pos(audio_stream_player.get_playback_position())
+	start()
+func seek(position: int):
+	audio_playback.seek(position)
+	if voice_audio_playback:
+		voice_audio_playback.seek(position)
+	
+func start():
+	audio_playback.start()
+	if voice_audio_playback:
+		voice_audio_playback.start()
+	
+func schedule_play_start(global_time: int):
+	audio_playback.schedule_start_time(global_time)
+	audio_playback.start()
+	if voice_audio_playback:
+		voice_audio_playback.schedule_start_time(global_time)
+		voice_audio_playback.start()
 	
 func play_from_pos(position: float):
-	audio_stream_player.stream_paused = false
-	audio_stream_player_voice.stream_paused = false
-	audio_stream_player.play()
-	audio_stream_player_voice.play()
-	if audio_stream_player is AudioStreamPlayerOffset:
-		audio_stream_player.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
-		audio_stream_player_voice.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
-	audio_stream_player.seek(position)
-	audio_stream_player_voice.seek(position)
+	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+	if voice_audio_playback:
+		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+	audio_playback.schedule_start_time(0)
+	audio_playback.seek(position * 1000.0)
+	audio_playback.start()
 	time = position
 func add_score(score_to_add):
 	if not previewing:
@@ -586,8 +582,6 @@ func remove_all_notes_from_screen():
 					timing_point_to_drawer_map[point].free()
 	timing_point_to_drawer_map = {}
 	
-func play_song():
-	play_from_pos(current_song.start_time / 1000.0)
 func get_closest_notes():
 	var closest_notes = []
 	for note_c in notes_on_screen:
@@ -701,11 +695,13 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
 			if UserSettings.user_settings.enable_voice_fade:
-				audio_stream_player_voice.volume_db = -90
+				if voice_audio_playback:
+					voice_audio_playback.volume = 0.0
 			set_current_combo(0)
 		else:
 			set_current_combo(current_combo + notes_hit)
-			audio_stream_player_voice.volume_db = _song_volume + _volume_offset
+			if voice_audio_playback:
+				voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
 			result.notes_hit += notes_hit
 
 		if not wrong:

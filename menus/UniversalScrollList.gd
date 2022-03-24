@@ -35,7 +35,6 @@ var current_selected_item = 0
 onready var tween = Tween.new()
 onready var initial_input_debounce_timer = Timer.new()
 onready var input_debounce_timer = Timer.new()
-onready var sfx_audio_player = AudioStreamPlayer.new()
 
 onready var item_container: Control = get_node(container_path)
 
@@ -43,10 +42,6 @@ func _ready():
 	add_child(tween)
 	add_child(initial_input_debounce_timer)
 	add_child(input_debounce_timer)
-	add_child(sfx_audio_player)
-	
-	sfx_audio_player.stream = MOVE_SOUND
-	sfx_audio_player.bus = "SFX"
 	
 	initial_input_debounce_timer.wait_time = INITIAL_DEBOUNCE_WAIT
 	initial_input_debounce_timer.one_shot = true
@@ -201,7 +196,7 @@ func _position_change_input(position_change: int):
 			new_pos = clamp(new_pos, 0, item_container.get_child_count() - 1)
 			if new_pos != current_selected_item:
 				select_item(new_pos)
-				sfx_audio_player.play()
+				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
 
 func _gui_input(event):
 	var position_change = 0

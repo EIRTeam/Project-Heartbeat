@@ -6,8 +6,9 @@ var slide_chain
 var slide_chain_drawers = {}
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 var hit_first = false
-var current_sfx_player: AudioStreamPlayer
+var current_sfx_player: ShinobuGodotSoundPlayback
 var is_audio_looping = false
+var playing_slide_start := false
 
 const SLIDE_HIT_SFX_NAME = "slide_hit"
 
@@ -59,8 +60,8 @@ func _on_note_judged(judgement, prevent_free = false):
 				
 			if not game.editing or game.previewing:
 				if not current_sfx_player:
+					playing_slide_start = true
 					current_sfx_player = game.sfx_pool.play_sfx("slide_chain_start", true)
-					current_sfx_player.connect("finished", self, "_on_start_sound_finished")
 			._on_note_judged(judgement, true)
 		else:
 			._on_note_judged(judgement, false)
@@ -82,7 +83,6 @@ func is_slide_direction_pressed():
 	return direction_pressed
 
 func _on_start_sound_finished():
-	is_audio_looping = true
 	current_sfx_player = game.sfx_pool.play_looping_sfx("slide_chain_loop")
 
 func _on_game_time_changed(time: float):
@@ -96,6 +96,13 @@ func _on_game_time_changed(time: float):
 	if game.editing and not game.previewing:
 		._on_game_time_changed(time)
 	if not is_queued_for_deletion():
+		if playing_slide_start:
+			if current_sfx_player.get_playback_position_msec() >= current_sfx_player.get_length_msec():
+				playing_slide_start = false
+				current_sfx_player = null
+				is_audio_looping = true
+				current_sfx_player = game.sfx_pool.play_sfx("slide_chain_loop", true)
+				current_sfx_player.looping_enabled = true
 		if not hit_first and (not game.editing or game.previewing):
 			._on_game_time_changed(time)
 		if game.editing:
@@ -167,11 +174,8 @@ func is_sliding():
 
 func kill_loop_sfx_player():
 	if current_sfx_player:
-		if is_audio_looping:
-			game.sfx_pool.stop_looping_sfx(current_sfx_player)
-		else:
-			if is_instance_valid(current_sfx_player):
-				game.sfx_pool.stop_sfx(current_sfx_player)
+		if is_instance_valid(current_sfx_player):
+			game.sfx_pool.stop_sfx(current_sfx_player)
 		is_audio_looping = false
 		current_sfx_player = null
 

@@ -45,7 +45,7 @@ func get_lyrics_view():
 	return lyrics_view
 	
 func _on_game_time_changed(time: float):
-	progress_indicator.value = time
+	progress_indicator.value = time * 1000.0
 	lyrics_view._on_game_time_changed(int(time*1000.0))
 func _ready():
 	intro_skip_control.rect_position.x = -100000
@@ -118,11 +118,11 @@ func _on_chart_set(chart: HBChart):
 	clear_bar.max_value = chart.get_max_score()
 	_update_clear_bar_value()
 func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = []):
-	progress_indicator.min_value = song.start_time / 1000.0
+	progress_indicator.min_value = song.start_time
 	if song.end_time > 0:
-		progress_indicator.max_value = song.end_time / 1000.0
+		progress_indicator.max_value = song.end_time
 	else:
-		progress_indicator.max_value = game.audio_stream_player.stream.get_length()
+		progress_indicator.max_value = game.audio_playback.get_length_msec()
 	circle_margin_container.hide()
 	if not assets:
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()

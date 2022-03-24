@@ -980,7 +980,7 @@ func seek(value: int, snapped = false):
 	if snapped:
 		value = snap_time_to_timeline(value)
 	game_playback.seek(value)
-	if game_playback.audio_stream_player.stream_paused:
+	if not game_playback.is_playing():
 		game_preview.set_time(value / 1000.0)
 	else:
 		game_preview.play_at_pos(value / 1000.0)
@@ -1236,7 +1236,7 @@ func _on_PlayButton_pressed():
 		_on_SaveButton_pressed()
 	_playhead_traveling = true
 	game_preview.play_at_pos(playhead_position/1000.0)
-	game_playback.play_from_pos(playhead_position)
+	game_playback.start()
 	play_button.hide()
 	pause_button.show()
 	game_preview.set_visualizer_processing_enabled(true)
@@ -1254,8 +1254,8 @@ func _on_timing_points_params_changed():
 	game_playback.seek(playhead_position)
 
 func get_song_length():
-	if game_playback.audio_stream_player.stream:
-		return game_playback.audio_stream_player.stream.get_length()
+	if game_playback.game.audio_playback:
+		return game_playback.game.audio_playback.get_length_msec() / 1000.0
 	else:
 		return 0.0
 		
@@ -1475,7 +1475,7 @@ func load_song(song: HBSong, difficulty: String):
 func update_media():
 	game_preview.set_song(current_song, song_editor_settings.selected_variant)
 	game_playback.set_song(current_song, song_editor_settings.selected_variant)
-	timeline.set_audio_stream(game_playback.audio_stream_player.stream)
+	timeline.set_audio_stream(game_playback.godot_audio_stream)
 	seek(playhead_position)
 	timeline.send_time_cull_changed_signal()
 
@@ -1487,7 +1487,6 @@ func reveal_ui():
 	for fade in ui_fades:
 		fade.reveal()
 func _on_ExitDialog_confirmed():
-	game_playback.remove_bus_effects()
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
@@ -1847,9 +1846,7 @@ func _on_PlaytestButton_pressed(at_time):
 	if at_time:
 		play_time = playhead_position
 	var voice_stream = null
-	if current_song.voice:
-		voice_stream = game_playback.voice_audio_stream_player.stream
-	rhythm_game_playtest_popup.set_audio(game_playback.audio_stream_player.stream, voice_stream)
+	rhythm_game_playtest_popup.set_audio(current_song, song_editor_settings.selected_variant)
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
 func _on_playtest_quit():

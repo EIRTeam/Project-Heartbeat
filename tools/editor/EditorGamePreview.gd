@@ -117,6 +117,9 @@ func set_song(song: HBSong, variant=-1):
 				video_player.stream_position = song.start_time  / 1000.0
 				video_player.play()
 				video_player.paused = true
+				var offset = song.get_video_offset(variant)
+				video_player.offset = -offset / 1000.0
+				video_player.set_stream_position(song.get_video_offset(variant) / 1000.0)
 				if visualizer:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 				rescale_video_player()

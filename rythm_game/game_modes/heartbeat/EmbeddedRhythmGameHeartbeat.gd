@@ -27,15 +27,16 @@ func play_song(song: HBSong, chart: HBChart):
 	reset_stats()
 	
 	if song is HBAutoSong:
-		rhythm_game.audio_stream_player.volume_db = HBAudioNormalizer.get_offset_from_loudness(song.loudness)
-		rhythm_game.audio_stream_player_voice.volume_db = -100
+		rhythm_game.audio_playback.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
+		if rhythm_game.voice_audio_playback:
+			rhythm_game.voice_audio_playback.volume = 0.0
 	else:
-		var volume = SongDataCache.get_song_volume_offset(song) * song.volume
-		rhythm_game.audio_stream_player.volume_db = volume
-		if song.voice:
-			rhythm_game.audio_stream_player_voice.volume_db = volume
+		var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
+		rhythm_game.audio_playback.volume = volume
+		if rhythm_game.voice_audio_playback:
+			rhythm_game.voice_audio_playback.volume = volume
 		else:
-			rhythm_game.audio_stream_player_voice.volume_db = -100
+			rhythm_game.voice_audio_playback.volume = 0.0
 	
 	_last_time = 0
 	
@@ -43,8 +44,9 @@ func play_song(song: HBSong, chart: HBChart):
 	set_game_size()
 
 func set_audio(audio, voice = null):
-	rhythm_game.audio_stream_player.stream = audio
-	rhythm_game.audio_stream_player_voice.stream = voice
+	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio)
+	if voice:
+		rhythm_game.voice_audio_playback.stream = ShinobuGodotSoundPlaybackOffset.new(voice)
 
 func _ready():
 	connect("resized", self, "_on_resized")

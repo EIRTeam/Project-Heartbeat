@@ -56,7 +56,6 @@ func _ready():
 	game.connect("note_judged", self, "_on_note_judged")
 	quit_confirmation.connect("accept", Diagnostics.gamepad_visualizer, "hide")
 	quit_confirmation.connect("accept", self, "_on_PauseMenu_quit")
-	quit_confirmation.connect("accept", self, "remove_bus_effects")
 	quit_confirmation.connect("accept", song_settings_editor, "toggle_input")
 	quit_confirmation.connect("cancel", song_settings_editor, "toggle_input")
 	update_stats_label()
@@ -90,6 +89,7 @@ func _unhandled_input(event: InputEvent):
 		pause()
 
 func pause():
+	game.pause_game()
 	get_tree().paused = !get_tree().paused
 	
 	practice_seek_gui.visible = get_tree().paused
@@ -115,7 +115,7 @@ func pause():
 		reset_stats()
 		video_pause_timer.stop()
 		game.editing = false
-		game.play_from_pos(game.time)
+		game.start()
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
@@ -141,7 +141,7 @@ func _process(delta):
 		if practice_gui_mode == PRACTICE_GUI.SEEK:
 			if Input.is_action_pressed("gui_left") or Input.is_action_pressed("gui_right"):
 				var dir = Input.get_action_strength("gui_right") - Input.get_action_strength("gui_left")
-				go_to_time(game.time + dir * delta * 10.0)
+				go_to_time(game.time * 1000.0 + dir * delta * 10.0)
 				update_progress_bar()
 				update_time_label()
 				
@@ -156,7 +156,7 @@ func _process(delta):
 			new_section = clamp(new_section, 0, game.current_song.sections.size() - 1)
 			
 			if new_section != section:
-				set_waypoint(game.current_song.sections[new_section].time / 1000.0)
+				set_waypoint(game.current_song.sections[new_section].time)
 				
 				go_to_time(waypoint)
 				update_progress_bar()
@@ -195,7 +195,7 @@ func _process(delta):
 	
 	if not get_tree().paused or practice_gui_mode == PRACTICE_GUI.SEEK:
 		if Input.is_action_just_pressed("practice_set_waypoint"):
-			set_waypoint(game.time)
+			set_waypoint(game.time * 1000.0)
 	
 	if not get_tree().paused or practice_gui_mode in [PRACTICE_GUI.SEEK, PRACTICE_GUI.SECTION_SEEK]:
 		if Input.is_action_just_pressed("practice_go_to_waypoint"):
@@ -258,31 +258,32 @@ func update_section():
 
 func update_time_label():
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	var start_time = song.start_time / 1000.0
-	var end_time = game.audio_stream_player.stream.get_length()
+	var start_time = song.start_time
+	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
-		end_time = song.end_time / 1000.0
-	var current_duration = game.audio_stream_player.stream.get_length()
+		end_time = song.end_time
+	var current_duration = game.audio_playback.get_length_msec()
 	current_duration -= start_time
-	current_duration -= game.audio_stream_player.stream.get_length() - end_time
-	var time_str = HBUtils.format_time(game.time * 1000.0 - start_time * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
-	var song_length_str = HBUtils.format_time(current_duration * 1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
+	current_duration -= game.audio_playback.get_length_msec() - end_time
+	var time_str = HBUtils.format_time(game.time * 1000.0 - start_time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
+	var song_length_str = HBUtils.format_time(current_duration, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	
 	seek_time_label.text = "%s/%s" % [time_str, song_length_str]
 	section_seek_time_label.text = "%s/%s" % [time_str, song_length_str]
 
 func go_to_time(time: float):
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	var end_time = game.audio_stream_player.stream.get_length()
+	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
-		end_time = song.end_time / 1000.0
-	time = clamp(time, song.start_time / 1000.0, end_time)
+		end_time = song.end_time
+	time = clamp(time, song.start_time, end_time)
 	video_player.play()
 	if not get_tree().paused:
 		game.reset_hit_notes()
 		video_pause_timer.stop()
 		game.editing = false
-		game.play_from_pos(time)
+		game.seek(time)
+		game.start()
 		game.set_process(true)
 		game._process(0)
 		game.delete_rogue_notes(game.time)
@@ -290,12 +291,13 @@ func go_to_time(time: float):
 		video_player.set_stream_position(game.time)
 	else:
 		game.reset_hit_notes()
-		game.time = time
+		game.seek(time)
+		game.time = time / 1000.0
 		game.delete_rogue_notes(game.time)
 		game._process(0)
 		update_progress_bar()
 		video_player.paused = false
-		video_player.set_stream_position(game.time)
+		video_player.set_stream_position(game.time / 1000.0)
 		video_pause_timer.start()
 
 func reset_stats():
@@ -317,34 +319,34 @@ func reset_stats():
 
 func update_progress_bar():
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	var start_time = song.start_time / 1000.0
-	var end_time = game.audio_stream_player.stream.get_length()
+	var start_time = song.start_time
+	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
-		end_time = song.end_time / 1000.0
+		end_time = song.end_time
 	
-	var current_duration = game.audio_stream_player.stream.get_length()
+	var current_duration = game.audio_playback.get_length_msec()
 	current_duration -= start_time
-	current_duration -= game.audio_stream_player.stream.get_length() - end_time
+	current_duration -= game.audio_playback.get_length_msec() - end_time
 	
-	var progress = game.time - start_time
-	progress = progress / current_duration
+	var progress: float = game.time * 1000.0 - start_time
+	progress = progress / float(current_duration)
 	
 	seek_progress_bar.value = progress
 	section_seek_progress_bar.value = progress
 
 func update_progress_bar_waypoint():
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	var start_time = song.start_time / 1000.0
-	var end_time = game.audio_stream_player.stream.get_length()
+	var start_time = song.start_time
+	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
-		end_time = song.end_time / 1000.0
+		end_time = song.end_time
 	
-	var current_duration = game.audio_stream_player.stream.get_length()
+	var current_duration = game.audio_playback.get_length_msec()
 	current_duration -= start_time
-	current_duration -= game.audio_stream_player.stream.get_length() - end_time
+	current_duration -= game.audio_playback.get_length_msec() - end_time
 	
-	var waypoint_pos = waypoint - start_time
-	waypoint_pos = waypoint_pos / current_duration
+	var waypoint_pos: float = waypoint - start_time
+	waypoint_pos = waypoint_pos / float(current_duration)
 	
 	seek_progess_bar_waypoint.value = waypoint_pos
 	section_seek_progess_bar_waypoint.value = waypoint_pos
@@ -404,13 +406,13 @@ func _on_note_judged(judgement_info):
 
 func _on_SeekButton_seeked(seek_pos):
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
-	var start_time = song.start_time / 1000.0
-	var end_time = game.audio_stream_player.stream.get_length()
+	var start_time = song.start_time
+	var end_time = game.audio_playback.get_length_msec()
 	if song.end_time > 0:
-		end_time = song.end_time / 1000.0
-	var current_duration = game.audio_stream_player.stream.get_length()
+		end_time = song.end_time
+	var current_duration = game.audio_playback.get_length_msec()
 	current_duration -= start_time
-	current_duration -= game.audio_stream_player.stream.get_length() - end_time
+	current_duration -= game.audio_playback.get_length_msec() - end_time
 	var new_time = start_time + (seek_pos * current_duration)
 	go_to_time(new_time)
 	update_time_label()
@@ -419,40 +421,14 @@ func _on_SeekButton_seeked(seek_pos):
 func set_speed(value: float):
 	playback_speed = value
 	
-	game.audio_stream_player.pitch_scale = playback_speed
-	game.audio_stream_player_voice.pitch_scale = playback_speed
+	game.audio_playback.set_pitch_scale(playback_speed)
+	if game.voice_audio_playback:
+		game.voice_audio_playback.set_pitch_scale(playback_speed)
 	
 	pitch_shift_effect.pitch_scale = 1.0 / playback_speed
 	
-	if pitch_shift_effect.pitch_scale != 1.0:
-		add_bus_effects()
-		video_player.hide()
-		$Node2D/Panel.hide()
-	else:
-		remove_bus_effects()
-		video_player.show()
-		$Node2D/Panel.show()
+	# TODO: add back pitch shift effect
 	
 	emit_signal("playback_speed_changed", value)
 	
 	speed_label.text = str(playback_speed) + "x"
-
-
-func _get_all_effects(bus):
-	var bus_effects = []
-	for i in range(AudioServer.get_bus_effect_count(bus)):
-		bus_effects.append(AudioServer.get_bus_effect(bus, i))
-	
-	return bus_effects
-
-
-func add_bus_effects():
-	var music_bus = AudioServer.get_bus_index(game.audio_stream_player.bus)
-	
-	if not pitch_shift_effect in _get_all_effects(music_bus):
-		AudioServer.add_bus_effect(music_bus, pitch_shift_effect)
-
-func remove_bus_effects():
-	var music_bus = AudioServer.get_bus_index(game.audio_stream_player.bus)
-	
-	AudioServer.remove_bus_effect(music_bus, _get_all_effects(music_bus).find(pitch_shift_effect))
