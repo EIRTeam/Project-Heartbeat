@@ -16,6 +16,7 @@ func _ready():
 	accept_button_audio.connect("pressed", download_confirm_popup, "hide")
 	accept_button_audio.connect("pressed", self, "_on_download_prompt_accepted", [true])
 func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_option = false):
+	ShinobuGodot.fire_and_forget_sound(HBGame.MENU_VALIDATE_SFX, "sfx")
 	var variant = song.get_variant_data(variant_n)
 	if YoutubeDL.is_already_downloading(song, variant_n):
 		error_prompt.popup_centered_ratio(0.5)

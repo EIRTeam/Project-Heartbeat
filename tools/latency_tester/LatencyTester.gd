@@ -116,6 +116,7 @@ func _on_AddButton_pressed():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
+		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 		_on_BackButton_pressed()
 	if event.is_action_pressed("gui_left", true):
 		_on_SubstractButton_pressed()

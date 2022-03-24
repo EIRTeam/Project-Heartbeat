@@ -21,6 +21,7 @@ func _unhandled_input(event):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
 				file_dialog.hide()
+				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 				emit_signal("back")
 				if scroll_container.get_selected_item():
 					scroll_container.get_selected_item().stop_hover()

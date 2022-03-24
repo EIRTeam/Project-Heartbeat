@@ -37,4 +37,5 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_right"):
 		go_to_page(clamp((page+1), 0, page_container.get_child_count()-1))
 	if event.is_action_pressed("gui_cancel"):
+		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 		change_to_menu("main_menu")

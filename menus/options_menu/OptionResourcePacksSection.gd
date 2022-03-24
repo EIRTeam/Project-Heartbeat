@@ -41,6 +41,7 @@ func _input(event):
 	if scroll_container.has_focus():
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
+			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 			emit_signal("back")
 		if event.is_action_pressed("contextual_option"):
 			get_tree().set_input_as_handled()

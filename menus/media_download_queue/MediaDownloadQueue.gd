@@ -74,4 +74,5 @@ func _on_song_download_start(song: HBSong):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
+		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 		change_to_menu("main_menu")

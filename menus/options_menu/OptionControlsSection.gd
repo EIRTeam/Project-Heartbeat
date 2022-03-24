@@ -38,6 +38,7 @@ func _unhandled_input(event):
 		elif event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
 				get_tree().set_input_as_handled()
+				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 				emit_signal("back")
 				if scroll_container.get_selected_item():
 					scroll_container.get_selected_item().stop_hover()

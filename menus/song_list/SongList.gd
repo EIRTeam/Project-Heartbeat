@@ -275,6 +275,7 @@ func _unhandled_input(event):
 			search_text_input.line_edit.caret_position = song_container.search_term.length()
 			search_text_input.popup_centered()
 		elif event.is_action_pressed("gui_cancel"):
+			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 			get_tree().set_input_as_handled()
 			if song_container.search_term:
 				song_container.search_term = ""
@@ -304,6 +305,7 @@ func _unhandled_input(event):
 				folder_manager.show_manager(folder_manager.MODE.SELECT)
 	else:
 		if event.is_action_pressed("gui_cancel") and sort_by_list.visible:
+			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 			sort_by_list.hide()
 			song_container.grab_focus()
 

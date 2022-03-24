@@ -30,6 +30,7 @@ func _on_menu_exit(force_hard_transition=false):
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
+		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 		get_tree().set_input_as_handled()
 		change_to_menu("main_menu")
 	

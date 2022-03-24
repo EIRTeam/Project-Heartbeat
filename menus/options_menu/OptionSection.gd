@@ -99,6 +99,7 @@ func _input(event):
 	if visible and not input_disabled:
 		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
+				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 				get_tree().set_input_as_handled()
 				emit_signal("back")
 				if scroll_container.get_selected_item():

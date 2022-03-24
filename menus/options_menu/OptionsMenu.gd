@@ -391,6 +391,7 @@ func _on_back():
 func _unhandled_input(event):
 	if $VBoxContainer.has_focus():
 		if event.is_action_pressed("gui_cancel"):
+			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
 

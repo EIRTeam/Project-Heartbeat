@@ -43,7 +43,6 @@ class SongPlayer:
 	func _init(_song: HBSong, _song_idx: int):
 		song = _song
 		song_idx = _song_idx
-		print(song.title, song.id)
 		
 		if song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song):
 			var song_loudness = 0.0

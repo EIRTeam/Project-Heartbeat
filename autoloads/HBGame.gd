@@ -79,6 +79,12 @@ onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_
 
 const MENU_PRESS_SFX = "menu_press"
 const ROLLBACK_SFX = "rollback"
+const MENU_FORWARD_SFX = "menu_forward"
+const MENU_BACK_SFX = "menu_back"
+const MENU_VALIDATE_SFX = "menu_validate"
+
+const BUTTON_SFX_TYPE_FORWARD = 0
+const BUTTON_SFX_TYPE_BACK = 0
 
 func _ready():
 	_game_init()
@@ -91,6 +97,9 @@ func _register_basic_sfx():
 	ShinobuGodot.register_group("menu_music")
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav", MENU_PRESS_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/flashback.wav", ROLLBACK_SFX)
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_select.wav", MENU_FORWARD_SFX)
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_back.wav", MENU_BACK_SFX)
+	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_validate.wav", MENU_VALIDATE_SFX)
 	
 func _game_init():
 	if OS.get_name() == "Switch":

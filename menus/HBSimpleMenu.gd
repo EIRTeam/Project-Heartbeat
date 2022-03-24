@@ -119,6 +119,11 @@ func _gui_input(event):
 	elif event.is_action_pressed("gui_accept"):
 		if selected_button:
 			get_tree().set_input_as_handled()
+			var sfx_type = HBGame.MENU_FORWARD_SFX
+			if selected_button.has_meta("sfx"):
+				sfx_type = selected_button.get_meta("sfx")
+			if not sfx_type.empty():
+				ShinobuGodot.fire_and_forget_sound(sfx_type, "sfx")
 			selected_button.emit_signal("pressed")
 	elif event.is_action_pressed("gui_down")  and not ignore_down:
 		get_tree().set_input_as_handled()

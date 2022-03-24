@@ -87,6 +87,7 @@ func _on_TextureRect_resized():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
+		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 		change_to_menu("workshop_browser", false, { "no_fetch": true })
 
 func _on_ShowInSongListButton_pressed():
