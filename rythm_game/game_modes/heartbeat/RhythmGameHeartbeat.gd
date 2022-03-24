@@ -443,13 +443,6 @@ func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
 		result._percentage_graph.append(point)
 		result._song_end_time = end_time
 	
-# called when the initial slide is done, to swap it out for a slide loop
-func _on_slide_hold_player_finished(hold_player: AudioStreamPlayer):
-	hold_player.stream = preload("res://sounds/sfx/slide_hold_loop.wav")
-	hold_player.seek(0)
-	hold_player.volume_db = 4
-	hold_player.play()
-
 func restart():
 	kill_active_slide_chains()
 	hold_release()

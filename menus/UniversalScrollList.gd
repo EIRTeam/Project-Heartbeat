@@ -23,7 +23,6 @@ enum SCROLL_MODE {
 export(SCROLL_MODE) var scroll_mode = SCROLL_MODE.PAGE
 
 const FADE_SHADER = preload("res://menus/ScrollListShader.shader")
-const MOVE_SOUND = preload("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
 const INITIAL_DEBOUNCE_WAIT = 0.3
 const DEBOUNCE_WAIT = 0.1
 

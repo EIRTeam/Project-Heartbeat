@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=1]
 [ext_resource path="res://rythm_game/rhythm_game_controller.gd" type="Script" id=2]
 [ext_resource path="res://rythm_game/pause_menu/PauseMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=5]
-[ext_resource path="res://sounds/sfx/flashback.wav" type="AudioStream" id=6]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://graphics/icons/fast-forward.svg" type="Texture" id=8]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=9]
@@ -210,10 +209,6 @@ text = "asdsadsad"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="RollbackAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
-bus = "SFX"
 
 [node name="VHS" type="Panel" parent="."]
 visible = false

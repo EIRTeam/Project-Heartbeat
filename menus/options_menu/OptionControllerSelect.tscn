@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=2]
 [ext_resource path="res://menus/options_menu/OptionControllerSelect.gd" type="Script" id=3]
-[ext_resource path="res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav" type="AudioStream" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 25.0
@@ -39,9 +38,6 @@ anchor_right = 1.0
 rect_min_size = Vector2( 0, 64 )
 mouse_filter = 2
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 use_parent_material = true
@@ -56,7 +52,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 use_parent_material = true
-margin_right = 317.0
+margin_right = 314.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
@@ -66,7 +62,7 @@ valign = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
 use_parent_material = true
-margin_left = 321.0
+margin_left = 318.0
 margin_right = 1880.0
 margin_bottom = 64.0
 mouse_filter = 2
@@ -75,8 +71,8 @@ alignment = 2
 
 [node name="Label2" type="Label" parent="HBoxContainer/Control"]
 use_parent_material = true
-margin_left = 1242.0
-margin_right = 1559.0
+margin_left = 1248.0
+margin_right = 1562.0
 margin_bottom = 64.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
@@ -136,9 +132,5 @@ size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/DropDown/MarginContainer/Control"]
-stream = ExtResource( 4 )
-bus = "SFX"
 
 [connection signal="back" from="CanvasLayer/DropDown/MarginContainer/Control" to="." method="close_dropdown"]

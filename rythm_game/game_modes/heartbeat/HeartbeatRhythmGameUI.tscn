@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -18,17 +18,11 @@
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=16]
 [ext_resource path="res://graphics/hold_hint.png" type="Texture" id=17]
 [ext_resource path="res://graphics/heart.png" type="Texture" id=18]
-[ext_resource path="res://sounds/sfx/slide_hold_start.wav" type="AudioStream" id=19]
-[ext_resource path="res://sounds/sfx/heart_power_available.wav" type="AudioStream" id=20]
 [ext_resource path="res://sounds/sfx/heart_power_activate.ogg" type="AudioStream" id=21]
-[ext_resource path="res://sounds/sfx/slide_note.wav" type="AudioStream" id=22]
-[ext_resource path="res://sounds/sfx/tmb3.wav" type="AudioStream" id=23]
 [ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=24]
 [ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=25]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
-[ext_resource path="res://sounds/sfx/slide_hold_fail.wav" type="AudioStream" id=27]
 [ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=28]
-[ext_resource path="res://sounds/sfx/slide_hold_ok.wav" type="AudioStream" id=29]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=30]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
 [ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=32]
@@ -272,27 +266,13 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/2/type = "method"
-tracks/2/path = NodePath("HeartPowerPromptAnimationPlayer/AudioStreamPlayer")
+tracks/2/type = "value"
+tracks/2/path = NodePath("HeartPowerEnabledLabel:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0.0 ],
-"method": "play"
-} ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("HeartPowerEnabledLabel:self_modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -370,8 +350,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 10 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 67.9876 ],
-"_edit_use_anchors_": false
+"_edit_horizontal_guides_": [ 67.9876 ]
 }
 
 [node name="AboveNotesUI" type="Node2D" parent="."]
@@ -680,47 +659,6 @@ margin_bottom = 14.0
 text = "(NT)esss"
 __meta__ = {
 "_edit_use_anchors_": false
-}
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-bus = "Music"
-
-[node name="AudioStreamPlayerVocals" type="AudioStreamPlayer" parent="."]
-bus = "Vocals"
-
-[node name="HitEffect" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 23 )
-bus = "SFX"
-
-[node name="HitEffectSlide" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 22 )
-bus = "SlideSFX"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SlideChainLoopSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 19 )
-volume_db = 4.0
-bus = "SlideSFX"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SlideChainSuccessSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 29 )
-volume_db = 4.0
-bus = "SFX"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SlideChainFailSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 27 )
-volume_db = 4.0
-bus = "SFX"
-__meta__ = {
-"_editor_description_": ""
 }
 
 [node name="RatingLabel" type="Label" parent="."]
@@ -1056,9 +994,6 @@ __meta__ = {
 [node name="HeartPowerPromptAnimationPlayer" type="AnimationPlayer" parent="Prompts"]
 anims/HeartPowerAvailable = SubResource( 26 )
 anims/HeartPowerEnabled = SubResource( 27 )
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
-stream = ExtResource( 20 )
 
 [node name="HeartPowerEnabledSFX" type="AudioStreamPlayer" parent="Prompts/HeartPowerPromptAnimationPlayer"]
 stream = ExtResource( 21 )
