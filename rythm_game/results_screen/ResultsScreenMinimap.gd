@@ -48,7 +48,7 @@ func _redraw_items():
 	var current_song := game_info.get_song() as HBSong
 			
 	var start_time = current_song.start_time / 1000.0
-	var end_time = game_info.result._song_end_time
+	var end_time = game_info.result._song_end_time / 1000.0
 	var duration = end_time - start_time
 	var wii = (visible_layers / float(visible_layers))
 	var y_pos_max = (float(rect_size.y) * wii)
