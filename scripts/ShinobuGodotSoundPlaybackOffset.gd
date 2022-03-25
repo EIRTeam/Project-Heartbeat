@@ -19,7 +19,6 @@ func _init(_playback: ShinobuGodotSoundPlayback):
 func seek_real(seek_pos: int):
 	playback.seek(seek_pos)
 func seek(seek_pos: int):
-	prints("SEEK", seek_pos, offset)
 	playback.seek(seek_pos - offset)
 
 func is_playing() -> bool:
