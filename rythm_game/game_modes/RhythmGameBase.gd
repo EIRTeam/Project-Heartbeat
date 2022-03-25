@@ -174,8 +174,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 			audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
 	if voice_audio_playback:
 		voice_audio_playback.volume = audio_playback.volume
-		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
-	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
+	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	if current_variant != -1:
 		_volume_offset = song.get_variant_data(current_variant).get_volume()
 	
@@ -533,9 +533,9 @@ func schedule_play_start(global_time: int):
 		voice_audio_playback.start()
 	
 func play_from_pos(position: float):
-	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+	audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	if voice_audio_playback:
-		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset / 1000.0
+		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
 	audio_playback.schedule_start_time(0)
 	audio_playback.seek(position * 1000.0)
 	audio_playback.start()
