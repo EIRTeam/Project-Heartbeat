@@ -13,8 +13,8 @@ func _ready():
 	note_override_resource_pack_scene = null
 
 	
-	connect("focus_entered", scroll_container, "grab_focus")
-	connect("focus_entered", scroll_container, "select_item", [0])
+	connect("focus_entered", scroll_container, "grab_focus", [], CONNECT_DEFERRED)
+	connect("focus_entered", scroll_container, "select_item", [0], CONNECT_DEFERRED)
 	
 func show_section():
 	populate()
