@@ -36,12 +36,13 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	_last_time = time
 	show()
 	set_game_size()
+	set_process_unhandled_input(true)
 func set_audio(song: HBSong, variant := -1):
 	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
-	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset / 1000.0
+	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset
 	if song.voice:
 		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
-		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset / 1000.0
+		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	restart_button.connect("pressed", self, "_on_restart_button_pressed")
@@ -52,6 +53,7 @@ func _ready():
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
+	set_process_unhandled_input(false)
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("contextual_option"):
@@ -60,14 +62,16 @@ func _unhandled_input(event):
 func _on_restart_button_pressed():
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.reset_hit_notes()
-	rhythm_game.seek(_last_time * 1000.0)
 	reset_stats()
+	rhythm_game.seek(_last_time * 1000.0)
+	rhythm_game.start()
 
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.pause_game()
 	hide()
+	set_process_unhandled_input(false)
 	emit_signal("quit")
 
 func set_game_size():
