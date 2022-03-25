@@ -369,7 +369,7 @@ func apply_user_settings(apply_display := false):
 		apply_display_mode()
 	_update_fps_limits()
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
-	set_volumes()
+	apply_volumes()
 	register_user_fx()
 
 var enable_menu_fps_limits := false setget set_enable_menu_fps_limits
@@ -442,7 +442,7 @@ func apply_display_mode():
 			OS.window_position = OS.get_screen_position(curr_display) + (OS.get_screen_size(curr_display) / 2.0) - OS.window_size / 2.0
 			
 	
-func set_volumes():
+func apply_volumes():
 	ShinobuGodot.set_master_volume(user_settings.master_volume)
 	ShinobuGodot.set_group_volume("music", user_settings.music_volume)
 	ShinobuGodot.set_group_volume("menu_music", 0.0 if user_settings.disable_menu_music else user_settings.music_volume)

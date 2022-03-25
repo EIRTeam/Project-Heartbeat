@@ -137,6 +137,11 @@ func _game_init():
 
 	UserSettings._init_user_settings()
 	_register_basic_sfx()
+	# We need to call this again (it's called by _init_user_settings)
+	# because shinobu groups were not initialized by that point, which is done in 
+	# _register_basic_sfx
+	UserSettings.apply_volumes()
+
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
