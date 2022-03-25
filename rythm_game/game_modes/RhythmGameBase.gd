@@ -156,6 +156,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	current_song = song
 	base_bpm = song.bpm
 	_volume_offset = 0.0
+	audio_playback = null
+	voice_audio_playback = null
 	if assets:
 		current_assets = assets
 		if "audio_loudness" in assets:
