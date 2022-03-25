@@ -88,16 +88,16 @@ class SongPlayer:
 			audio_playback.volume = 0.0
 			audio_playback.seek(song.preview_start)
 			# Scheduling starts prevents crackles
-			audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time() + 25)
+			audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time())
 			audio_playback.start()
-
+			
 			if "voice" in assets and assets.voice:
 				var song_voice_audio_name = get_song_voice_audio_name()
 				ShinobuGodot.register_sound(assets.voice_shinobu, song_voice_audio_name)
 				voice_audio_playback = ShinobuGodot.instantiate_sound(song_voice_audio_name, "menu_music")
 				voice_audio_playback.volume = 0.0
 				voice_audio_playback.seek(song.preview_start)
-				voice_audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time() + 25)
+				voice_audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time())
 				voice_audio_playback.start()
 				
 		var tween := Tween.new()
