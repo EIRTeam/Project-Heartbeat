@@ -26,7 +26,6 @@ func add_sfx(sfx_name: String, volume_linear: float):
 	effect_datas[sfx_name] = effect_data
 	effects_debounce_times[sfx_name] = SFX_DEBOUNCE_TIME + 1.0
 	playing_effects[sfx_name] = []
-	print("REGISTER %s %d" % [sfx_name, volume_linear])
 
 func play_sfx(effect_name: String, bypass_debounce=false) -> ShinobuGodotSoundPlayback:
 	if effects_debounce_times[effect_name] >= SFX_DEBOUNCE_TIME or bypass_debounce:
