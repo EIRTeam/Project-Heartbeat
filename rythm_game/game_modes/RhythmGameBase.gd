@@ -351,6 +351,7 @@ func _process_input(event):
 				if time*1000.0 < get_time_to_intro_skip_to():
 					_intro_skip_enabled = false
 					seek(get_time_to_intro_skip_to())
+					start()
 					# call ui on intro skip
 					emit_signal("intro_skipped", time)
 func _input(event):
@@ -395,7 +396,6 @@ func _process_game(_delta):
 	if (not editing or previewing) and audio_playback:
 		time = audio_playback.get_playback_position_msec() / 1000.0
 		time -= latency_compensation / 1000.0
-		print(time)
 
 		if not editing:
 			var end_time = audio_playback.get_length_msec()
