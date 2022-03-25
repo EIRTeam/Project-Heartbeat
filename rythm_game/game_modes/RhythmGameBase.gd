@@ -353,7 +353,7 @@ func _process_input(event):
 					seek(get_time_to_intro_skip_to())
 					start()
 					# call ui on intro skip
-					emit_signal("intro_skipped", time)
+					emit_signal("intro_skipped", get_time_to_intro_skip_to() / 1000.0)
 func _input(event):
 	_process_input(event)
 func _process_note_group(group: NoteGroup):
