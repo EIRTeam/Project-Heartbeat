@@ -141,7 +141,7 @@ func _process(delta):
 		if practice_gui_mode == PRACTICE_GUI.SEEK:
 			if Input.is_action_pressed("gui_left") or Input.is_action_pressed("gui_right"):
 				var dir = Input.get_action_strength("gui_right") - Input.get_action_strength("gui_left")
-				go_to_time(game.time * 1000.0 + dir * delta * 10.0)
+				go_to_time(game.time * 1000.0 + dir * delta * 10000.0)
 				update_progress_bar()
 				update_time_label()
 				
