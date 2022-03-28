@@ -2,6 +2,12 @@ class_name ShinobuGodotSoundPlaybackOffset
 
 var playback: ShinobuGodotSoundPlayback
 var volume := 0.0 setget set_volume, get_volume
+var pitch_scale setget set_pitch_scale, get_pitch_scale
+
+func set_pitch_scale(val):
+	playback.pitch_scale = val
+func get_pitch_scale():
+	return playback.pitch_scale
 
 func set_volume(val):
 	playback.volume = val

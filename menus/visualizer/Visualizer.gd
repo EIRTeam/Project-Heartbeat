@@ -1,5 +1,4 @@
 extends Panel
-var spectrum : AudioEffectSpectrumAnalyzerInstance
 var FREQ_MAX = 44100.0 / 2.5 setget set_freq_max
 const VU_COUNT = 64 # high VU_COUNTS break on windows
 var MIN_DB = 70 setget set_min_db
@@ -15,7 +14,6 @@ func set_min_db(value):
 
 func _ready():
 	add_to_group("song_backgrounds")
-	spectrum = AudioServer.get_bus_effect_instance(1,0)
 	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
 		# GLES2 doesn't like R8
 		spectrum_image.create(VU_COUNT, 1, false, Image.FORMAT_RGB8)
@@ -46,8 +44,8 @@ func _physics_process(delta):
 	var prev_hz = 0
 	spectrum_image.lock()
 	for i in range(1, VU_COUNT+1):
-		var hz = i * (FREQ_MAX / VU_COUNT);
-		var f = spectrum.get_magnitude_for_frequency_range(prev_hz,hz, 1)
+		var hz = i * (FREQ_MAX / VU_COUNT)
+		var f = HBGame.spectrum_analyzer.get_magnitude_for_frequency_range(prev_hz,hz, ShinobuGodotEffectSpectrumAnalyzer.MAGNITUDE_MAX)
 		var energy = clamp((MIN_DB + linear2db(f.length()))/MIN_DB,0,1)
 		
 		spectrum_image.set_pixel(i-1, 0, Color(energy, 0.0, 0.0))

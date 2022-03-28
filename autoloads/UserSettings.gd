@@ -445,7 +445,7 @@ func apply_display_mode():
 func apply_volumes():
 	ShinobuGodot.set_master_volume(user_settings.master_volume)
 	ShinobuGodot.set_group_volume("music", user_settings.music_volume)
-	ShinobuGodot.set_group_volume("menu_music", 0.0 if user_settings.disable_menu_music else user_settings.music_volume)
+	ShinobuGodot.set_group_volume("menu_music", 0.0 if user_settings.disable_menu_music else 1.0)
 	ShinobuGodot.set_group_volume("sfx", user_settings.sfx_volume)
 	
 func register_user_fx():

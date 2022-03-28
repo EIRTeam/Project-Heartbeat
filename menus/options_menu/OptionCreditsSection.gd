@@ -78,6 +78,15 @@ const ENGINE_COPYRIGHT_INFO_ADDITIONS = [
 		],
 	},
 	{
+		"name": "miniaudio",
+		"parts": [
+			{
+				"copyright": ["2020, David Reid"],
+				"license": "Public Domain (www.unlicense.org)"
+			}
+		],
+	},
+	{
 		"name": "GodotSteam",
 		"parts": [
 			{

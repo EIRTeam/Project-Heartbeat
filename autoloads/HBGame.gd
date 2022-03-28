@@ -91,10 +91,14 @@ func _ready():
 	if "--demo-mode" in OS.get_cmdline_args():
 		demo_mode = true
 	
+var spectrum_analyzer: ShinobuGodotEffectSpectrumAnalyzer
+	
 func _register_basic_sfx():
-	ShinobuGodot.register_group("sfx")
 	ShinobuGodot.register_group("music")
-	ShinobuGodot.register_group("menu_music")
+	ShinobuGodot.register_group("sfx")
+	ShinobuGodot.register_group("menu_music", "music")
+	spectrum_analyzer = ShinobuGodot.instantiate_spectrum_analyzer()
+	ShinobuGodot.connect_group_to_effect("music", spectrum_analyzer)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav", MENU_PRESS_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/flashback.wav", ROLLBACK_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_select.wav", MENU_FORWARD_SFX)

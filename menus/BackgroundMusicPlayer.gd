@@ -91,6 +91,8 @@ class SongPlayer:
 			audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time())
 			audio_playback.start()
 			
+			#audio_playback.connect_sound_to_effect(HBGame.spectrum_analyzer)
+			
 			if "voice" in assets and assets.voice:
 				var song_voice_audio_name = get_song_voice_audio_name()
 				ShinobuGodot.register_sound(assets.voice_shinobu, song_voice_audio_name)

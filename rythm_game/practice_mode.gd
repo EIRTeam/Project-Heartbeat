@@ -40,7 +40,6 @@ var section := 0
 var waypoint := 0.0
 
 var playback_speed := 1.0
-var pitch_shift_effect := AudioEffectPitchShift.new()
 
 enum PRACTICE_GUI {
 	SEEK,
@@ -425,7 +424,7 @@ func set_speed(value: float):
 	if game.voice_audio_playback:
 		game.voice_audio_playback.set_pitch_scale(playback_speed)
 	
-	pitch_shift_effect.pitch_scale = 1.0 / playback_speed
+#	pitch_shift_effect.pitch_scale = 1.0 / playback_speed
 	
 	# TODO: add back pitch shift effect
 	
