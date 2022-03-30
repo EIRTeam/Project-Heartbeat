@@ -27,6 +27,9 @@ var text setget set_text
 var text_overrides = {}
 var percentage = false
 
+var disabled := false
+var disabled_callback: FuncRef
+
 onready var minimum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect")
 onready var maximum_arrow = get_node("OptionRange/HBoxContainer/Control/TextureRect2")
 
@@ -102,23 +105,29 @@ func _process(delta):
 				emit_signal("changed", value)
 	
 func _gui_input(event):
-	var option_change = 0
-	if event.is_action_pressed("gui_left"):
-		option_change = -step
-		initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
-		move_debounce = MOVE_DEBOUNCE_T
-		set_process(true)
-		get_tree().set_input_as_handled()
-	elif event.is_action_pressed("gui_right"):
-		option_change = step
-		initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
-		move_debounce = MOVE_DEBOUNCE_T
-		set_process(true)
-		get_tree().set_input_as_handled()
-	elif event.is_action_released("gui_left") or event.is_action_released("gui_right"):
-		set_process(false)
-	if option_change != 0:
-		set_value(stepify(clamp(value+option_change, minimum, maximum), step))
-		emit_signal("changed", value)
+	if not disabled:
+		var option_change = 0
+		if event.is_action_pressed("gui_left"):
+			option_change = -step
+			initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
+			move_debounce = MOVE_DEBOUNCE_T
+			set_process(true)
+			get_tree().set_input_as_handled()
+		elif event.is_action_pressed("gui_right"):
+			option_change = step
+			initial_move_debounce = INITIAL_MOVE_DEBOUNCE_T
+			move_debounce = MOVE_DEBOUNCE_T
+			set_process(true)
+			get_tree().set_input_as_handled()
+		elif event.is_action_released("gui_left") or event.is_action_released("gui_right"):
+			set_process(false)
+		if option_change != 0:
+			set_value(stepify(clamp(value+option_change, minimum, maximum), step))
+			emit_signal("changed", value)
 
-
+func update_disabled():
+	if disabled_callback:
+		disabled = disabled_callback.call_func()
+		modulate = Color.white
+		if disabled:
+			modulate = Color.gray

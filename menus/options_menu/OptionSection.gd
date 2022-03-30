@@ -9,9 +9,9 @@ const OptionSoundSelect = preload("res://menus/options_menu/OptionCustomSoundSel
 const OptionControllerSelect = preload("res://menus/options_menu/OptionControllerSelect.tscn")
 signal back
 signal changed(property_name, new_value)
+signal value_changed
 
-onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer/VBoxContainer")
-onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/ScrollContainer")
+onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer/VBoxContainer")
 var settings_source
 var postfix = ""
 func _ready():
@@ -62,6 +62,8 @@ func _set_section_data(val):
 						option_scene.text_overrides = option.text_overrides
 					if option.has("percentage"):
 						option_scene.percentage = option.percentage
+					if option.has("disabled_callback"):
+						option_scene.disabled_callback = option.disabled_callback
 		if option_scene:
 			var sett_src = settings_source
 			if "value_source" in option:
@@ -77,6 +79,8 @@ func _set_section_data(val):
 					binds = section_data[option_name].signal_binds
 				option_scene.connect("changed", section_data[option_name].signal_object, section_data[option_name].signal_method, binds)
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
+			connect("value_changed", option_scene, "update_disabled")
+			option_scene.update_disabled()
 		if section_data.size() > 0:
 			# We force a hover on the first section data to make sure the description
 			# text is completely filled
@@ -106,11 +110,13 @@ func _input(event):
 					scroll_container.get_selected_item().stop_hover()
 		else:
 			if scroll_container.get_selected_item():
+				if scroll_container.get_selected_item().has_method("_gui_input"):
 				scroll_container.get_selected_item()._gui_input(event)
 
 
 func _on_value_changed(value, property_name):
 	emit_signal("changed", property_name, value)
+	emit_signal("value_changed")
 	
 func _on_option_hovered(option_name):
 	if section_data[option_name].has("description"):
