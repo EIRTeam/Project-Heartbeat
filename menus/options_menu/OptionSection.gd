@@ -12,13 +12,27 @@ signal changed(property_name, new_value)
 signal value_changed
 
 onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer/VBoxContainer")
+onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer")
+onready var section_label = get_node("VBoxContainer/Panel2/MarginContainer/container/SectionInfoLabel")
 var settings_source
 var postfix = ""
+
+var section_text := "" setget set_section_text
+
+func set_section_text(val):
+	if val:
+		section_text = val
+		section_label.show()
+		section_label.text = section_text
+	else:
+		section_label.hide()
+
 func _ready():
 	connect("focus_entered", self, "_on_focus_entered")
 	connect("focus_exited", self, "_on_focus_exited")
 	focus_mode = Control.FOCUS_ALL
 	set_process_input(false)
+	section_label.hide()
 
 func _set_section_data(val):
 	section_data = val
@@ -27,6 +41,9 @@ func _set_section_data(val):
 		child.queue_free()
 	for option_name in section_data:
 		var option = section_data[option_name]
+		if option_name == "__section_label":
+			continue
+				
 		var option_scene
 		if option.has('type'):
 			match option.type:
@@ -111,7 +128,7 @@ func _input(event):
 		else:
 			if scroll_container.get_selected_item():
 				if scroll_container.get_selected_item().has_method("_gui_input"):
-				scroll_container.get_selected_item()._gui_input(event)
+					scroll_container.get_selected_item()._gui_input(event)
 
 
 func _on_value_changed(value, property_name):

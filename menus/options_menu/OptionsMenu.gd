@@ -64,10 +64,13 @@ var OPTIONS = {
 		"__section_override": preload("res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn").instance()
 	},
 	tr("Audio"): {
+		"__section_label": {
+			"label_callback": funcref(self, "_audio_buffer_info_callback")
+		},
 		"audio_buffer_size": {
-			"name": tr("Internal audio buffer size (Requires restart)"),
-			"description": tr("In milliseconds, how often should the audio be processed inside the audio engine, lower means lower latency and more smoothness but also higher CPU usage."),
-			"minimum": 5,
+			"name": tr("Target audio buffer size (Requires restart)"),
+			"description": tr("In milliseconds, how big should the requested audio buffer be, lower means lower latency and more smoothness but also higher CPU usage, this is just a target value, your OS might force a different value."),
+			"minimum": 1,
 			"maximum": 12,
 			"step": 1,
 			"postfix_callback": funcref(self, "_audio_buffer_postfix_callback")
@@ -333,11 +336,18 @@ func _ready():
 			section.connect("back", self, "_on_back")
 		else:
 			var section = OptionSection.instance()
+
 			section.connect("back", self, "_on_back")
 			section.connect("changed", self, "_on_value_changed")
 			section.settings_source = UserSettings.user_settings
 			sections.add_child(section)
 			section.section_data = OPTIONS[section_name]
+			
+			if "__section_label" in OPTIONS[section_name]:
+				if "label_callback" in OPTIONS[section_name]["__section_label"]:
+					var fr = OPTIONS[section_name]["__section_label"]["label_callback"] as FuncRef
+					var text = fr.call_func()
+					section.section_text = text
 			
 			section_name_to_section_control[section_name] = section
 		
@@ -424,3 +434,6 @@ func _notification(what):
 				var section = OPTIONS[section_name].__section_override
 				if is_instance_valid(section) and not section.is_queued_for_deletion():
 					section.queue_free()
+
+func _audio_buffer_info_callback():
+	return "Requested/actual buffer size: %d ms/%d ms" % [ShinobuGodot.buffer_size, ShinobuGodot.get_actual_buffer_size()]

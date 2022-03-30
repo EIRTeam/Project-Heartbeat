@@ -95,7 +95,7 @@ func _input(event):
 func _process(delta):
 	_seconds_since_startup += delta
 	frame_rate_label.text = "FPS: %f" % Engine.get_frames_per_second()
-	fps_label.text = "FPS: %.0f\nAudio Latency: %.2f ms" % [Engine.get_frames_per_second(), AudioServer.get_output_latency() * 1000.0]
+	fps_label.text = "FPS: %.0f\nActual buffer size: %.2f ms" % [Engine.get_frames_per_second(), ShinobuGodot.get_actual_buffer_size()]
 	if Engine.get_frames_drawn() - _frames_drawn_offset > 0:
 		average_frame_rate_label.text = "Avg: %f" % (float(Engine.get_frames_drawn() - _frames_drawn_offset) / (_seconds_since_startup))
 	if Engine.get_frames_per_second() > _max_fps:
