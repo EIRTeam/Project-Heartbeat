@@ -49,6 +49,8 @@ enum PRACTICE_GUI {
 }
 var practice_gui_mode := 0 setget _set_mode
 
+var pitch_shift_effect := ShinobuGodot.instantiate_pitch_shift()
+
 func _ready():
 	video_pause_timer.connect("timeout", self, "_on_video_pause")
 	video_pause_timer.wait_time = 0.050
@@ -424,10 +426,29 @@ func set_speed(value: float):
 	if game.voice_audio_playback:
 		game.voice_audio_playback.set_pitch_scale(playback_speed)
 	
-#	pitch_shift_effect.pitch_scale = 1.0 / playback_speed
+	pitch_shift_effect.pitch_scale = 1.0 / playback_speed
 	
 	# TODO: add back pitch shift effect
 	
-	emit_signal("playback_speed_changed", value)
+	if pitch_shift_effect.pitch_scale != 1.0:
+		add_pitch_effect()
+		if video_player.stream:
+			video_player.hide()
+			$Node2D/Panel.hide()
+	else:
+		remove_pitch_effect()
+		if video_player.stream:
+			video_player.show()
+			$Node2D/Panel.show()
 	
 	speed_label.text = str(playback_speed) + "x"
+
+func add_pitch_effect():
+	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
+
+func remove_pitch_effect():
+	ShinobuGodot.connect_effect_to_endpoint(HBGame.spectrum_analyzer)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		remove_pitch_effect()

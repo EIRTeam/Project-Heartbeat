@@ -21,6 +21,8 @@ var first_after_seek := false
 signal time_changed
 signal playback_speed_changed(speed)
 
+var pitch_shift_effect: ShinobuGodotEffectPitchShift = ShinobuGodot.instantiate_pitch_shift()
+
 var godot_audio_stream: AudioStream
 
 func set_chart(val):
@@ -184,6 +186,23 @@ func set_speed(value: float, correction: bool):
 	if game.voice_audio_playback:
 		game.voice_audio_playback.set_pitch_scale(playback_speed)
 	
-	# TODO: READD PITCH CORRECT
+	if correction:
+		pitch_shift_effect.pitch_scale = 1.0 / playback_speed
+	else:
+		pitch_shift_effect.pitch_scale = 1.0
+	
+	if not is_equal_approx(pitch_shift_effect.pitch_scale, 1.0):
+		add_pitch_effect()
+	else:
+		remove_pitch_effect()
 	
 	emit_signal("playback_speed_changed", value)
+
+func add_pitch_effect():
+	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
+func remove_pitch_effect():
+	ShinobuGodot.connect_effect_to_endpoint(HBGame.spectrum_analyzer)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		remove_pitch_effect()
