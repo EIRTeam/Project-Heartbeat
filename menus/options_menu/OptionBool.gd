@@ -23,12 +23,11 @@ func _ready():
 	focus_mode = Control.FOCUS_ALL
 
 func _gui_input(event):
-	if has_focus():
-		if event.is_action_pressed("gui_accept"):
-			get_tree().set_input_as_handled()
-			set_value(!value)
-			select(value)
-			change_value(value)
+	if event.is_action_pressed("gui_accept"):
+		get_tree().set_input_as_handled()
+		set_value(!value)
+		select(value)
+		change_value(value)
 
 
 

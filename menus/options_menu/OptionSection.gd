@@ -116,7 +116,7 @@ func toggle_input():
 			last_selected_item.hover()
 			grab_focus()
 
-func _input(event):
+func _unhandled_input(event):
 	if visible and not input_disabled:
 		if event.is_action_pressed("gui_cancel"):
 			if get_focus_owner() == scroll_container:
