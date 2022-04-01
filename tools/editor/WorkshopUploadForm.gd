@@ -170,9 +170,10 @@ func _on_item_created(result, file_id, tos):
 		
 func _on_ugc_details_request_done(result, data):
 	if result == 1:
-		data_label.text = "Updating existing item: %s" % data.title
-		title_line_edit.text = data.title
-		description_line_edit.text = data.description
+		if data.item_id == current_song.ugc_id:
+			data_label.text = "Updating existing item: %s" % data.title
+			title_line_edit.text = data.title
+			description_line_edit.text = data.description
 	elif result == 9: # File not found, possibly because the user deleted it
 		file_not_found_dialog.popup_centered()
 		
