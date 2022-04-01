@@ -81,6 +81,7 @@ const BIRTHDAYS = {
 
 func _ready():
 	var date_time = OS.get_datetime()
+	randomize()
 	if date_time.day == 14 and date_time.month == 2:
 		text = "Love is in the air!"
 	else:
