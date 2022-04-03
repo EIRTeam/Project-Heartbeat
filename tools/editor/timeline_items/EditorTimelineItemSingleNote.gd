@@ -19,7 +19,7 @@ func set_texture():
 		else:
 			$TextureRect.texture = HBNoteData.get_note_graphic(data.note_type, "note")
 	
-	if $HoldTextureRect:
+	if has_node("HoldTextureRect"):
 		if data is HBNoteData and data.hold:
 			$HoldTextureRect.show()
 		else:
