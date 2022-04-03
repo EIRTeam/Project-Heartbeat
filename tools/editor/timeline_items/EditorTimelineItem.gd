@@ -99,7 +99,6 @@ func stop_dragging():
 	if _dragging:
 		_drag_moving = false
 		if is_processing():
-			get_tree().set_input_as_handled()
 			set_process(false)
 			_dragging = false
 			if _drag_start_time != data.time:
