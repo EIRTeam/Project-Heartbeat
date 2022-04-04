@@ -61,9 +61,9 @@ class SongPlayer:
 			voice_audio_playback.stop()
 			
 	func resume():
-		audio_playback.play()
+		audio_playback.start()
 		if voice_audio_playback:
-			voice_audio_playback.play()
+			voice_audio_playback.start()
 		
 	func _process(_delta):
 		if audio_playback:

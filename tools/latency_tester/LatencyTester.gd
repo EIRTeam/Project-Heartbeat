@@ -72,8 +72,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		-29.576157,
 		1000
 	)
-	ShinobuGodot.register_sound_from_path(song.audio_path, "song")
-	player = ShinobuGodot.instantiate_sound("song", "music")
+	ShinobuGodot.register_sound_from_path(song.audio_path, "latency_tester_song")
+	player = ShinobuGodot.instantiate_sound("latency_tester_song", "music")
 	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
 	
 	rhythm_game.set_audio(player, null)
@@ -117,6 +117,7 @@ func _on_AddButton_pressed():
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		get_tree().set_input_as_handled()
 		_on_BackButton_pressed()
 	if event.is_action_pressed("gui_left", true):
 		_on_SubstractButton_pressed()
@@ -173,3 +174,7 @@ func _on_stats_changed():
 		if rhythm_game.stats_passed_notes > 0:
 			offset = rhythm_game.stats_latency_sum / float(rhythm_game.stats_passed_notes)
 			update_latency()
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		ShinobuGodot.unregister_sound("latency_tester_song")
