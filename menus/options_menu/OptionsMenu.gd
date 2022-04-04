@@ -436,4 +436,4 @@ func _notification(what):
 					section.queue_free()
 
 func _audio_buffer_info_callback():
-	return "Requested/actual buffer size: %d ms/%d ms" % [ShinobuGodot.buffer_size, ShinobuGodot.get_actual_buffer_size()]
+	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [ShinobuGodot.get_current_backend_name(), ShinobuGodot.buffer_size, ShinobuGodot.get_actual_buffer_size()]

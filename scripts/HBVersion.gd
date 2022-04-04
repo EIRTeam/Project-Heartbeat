@@ -11,7 +11,7 @@ const status = "Early Access"
 const ver_name = "Project Heartbeat: Goth Girls and Loneliness"
 
 static func get_version_string():
-	var result = "{ver_name} - {status} ({video_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - ({user_id}, {friendly_username})"
+	var result = "{ver_name} - {status} ({video_driver}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - ({user_id}, {friendly_username})"
 	var sha = ProjectSettings.get("application/config/build_commit").substr(0, 7)
 	var datetime = OS.get_datetime_from_unix_time(ProjectSettings.get("application/config/build_time")) 
 	var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
@@ -42,6 +42,7 @@ static func get_version_string():
 		"ver_name": ver_name + demo_string,
 		"status": status,
 		"video_driver": video_driver,
+		"audio_driver": ShinobuGodot.get_current_backend_name(),
 		"os_name": os_name,
 		"version": version,
 		"commit": sha,
