@@ -126,7 +126,7 @@ func _unhandled_input(event):
 				if scroll_container.get_selected_item():
 					scroll_container.get_selected_item().stop_hover()
 		else:
-			if scroll_container.get_selected_item():
+			if scroll_container.get_selected_item() and scroll_container.has_focus():
 				if scroll_container.get_selected_item().has_method("_gui_input"):
 					scroll_container.get_selected_item()._gui_input(event)
 
