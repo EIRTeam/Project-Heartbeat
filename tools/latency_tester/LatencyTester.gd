@@ -72,6 +72,9 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		-29.576157,
 		1000
 	)
+	player = null
+	rhythm_game.rhythm_game.audio_playback = null
+	
 	ShinobuGodot.register_sound_from_path(song.audio_path, "latency_tester_song")
 	player = ShinobuGodot.instantiate_sound("latency_tester_song", "music")
 	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
