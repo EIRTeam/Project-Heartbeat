@@ -1040,7 +1040,7 @@ msgstr ""
 
 #: menus/StartMenu.tscn:98
 msgid "Take your preferred controller and press"
-msgstr "Agafeu el vostre controlador preferit i premeu"
+msgstr "Agafeu el vostre comandament preferit i premeu"
 
 #: menus/controller_prompt.tscn:1160 menus/options_menu/OptionsMenu.gd:67
 msgid "Controls"
