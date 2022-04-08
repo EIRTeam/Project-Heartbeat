@@ -31,8 +31,7 @@ func set_data(_data: HBWorkshopPreviewData):
 		update_author_label()
 	else:
 		Steam.connect("persona_state_change", self, "_on_persona_state_changed")
-	# getItemState returns 0 when subscribed to an item
-	if Steam.getItemState(data.item_id) != 0:
+	if Steam.getItemState(data.item_id) & Steam.ITEM_STATE_SUBSCRIBED:
 		subscribed_tick.show()
 	else:
 		subscribed_tick.hide()

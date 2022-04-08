@@ -29,8 +29,8 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		var item = args.item as HBWorkshopPreviewData
 		item_data = item
 		var item_state = Steam.getItemState(item.item_id)
-		subscribe_button.visible = item_state == 0
-		unsubscribe_button.visible = item_state != 0
+		unsubscribe_button.visible = item_state & Steam.ITEM_STATE_SUBSCRIBED
+		subscribe_button.visible = !unsubscribe_button.visible
 		
 		if item_state != 0:
 			var song_id = "ugc_%d" % [item_data.item_id]
