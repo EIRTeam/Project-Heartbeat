@@ -228,7 +228,6 @@ func make_group(notes: Array, extra_notes: Array, group_position, group_time):
 	for point in group.notes:
 		point.set_meta("group_position", group_position)
 		point.set_meta("group", group)
-	group.hit_notes.resize(group.notes.size())
 	var array = PoolByteArray()
 	array.resize(group.notes.size())
 	group.hit_notes = array
@@ -278,6 +277,11 @@ func get_time_to_intro_skip_to():
 		return earliest_note_time - INTRO_SKIP_MARGIN
 	
 func _set_timing_points(points):
+	for point in timing_points:
+		if point is NoteGroup:
+			for note in point.notes:
+				if note.has_meta("group"):
+					note.remove_meta("group")
 	timing_points = points
 	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
