@@ -450,7 +450,10 @@ func apply_volumes():
 	
 func register_user_fx():
 	for sound in user_settings.DEFAULT_SOUNDS:
-		ShinobuGodot.register_sound_from_path(get_sound_path(sound), sound)
+		reload_sound_from_disk(sound)
+	
+func reload_sound_from_disk(sound_name: String):
+	ShinobuGodot.register_sound_from_path(get_sound_path(sound_name), sound_name)
 	
 func reset_to_default_input_map():
 	user_settings.input_map = base_input_map

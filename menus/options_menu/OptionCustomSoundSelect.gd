@@ -34,6 +34,7 @@ func _on_pressed():
 func _on_selected_sound_changed(new_sound):
 	if new_sound:
 		UserSettings.user_settings.custom_sounds[sound_name] = new_sound
+		UserSettings.reload_sound_from_disk(sound_name)
 		UserSettings.save_user_settings()
 	show_current()
 	_old_focus.grab_focus()
