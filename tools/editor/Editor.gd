@@ -1453,7 +1453,10 @@ func load_song(song: HBSong, difficulty: String):
 		"details": current_song.title,
 		"start_timestamp": OS.get_unix_time()
 	})
-	
+	add_child(rhythm_game_playtest_popup)
+	rhythm_game_playtest_popup.rhythm_game.audio_playback = null
+	rhythm_game_playtest_popup.rhythm_game.voice_audio_playback = null
+	remove_child(rhythm_game_playtest_popup)
 	update_media()
 	seek(0)
 	timeline.set_layers_offset(0)
