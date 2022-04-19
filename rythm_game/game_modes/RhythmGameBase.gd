@@ -407,6 +407,7 @@ func _process_game(_delta):
 			var end_time = audio_playback.get_length_msec()
 			if current_song.end_time > 0:
 				end_time = float(current_song.end_time)
+			end_time += audio_playback.offset
 			# -1 is required for safety
 			if audio_playback.get_playback_position_msec() >= end_time-1 and not _finished:
 				_on_game_finished()
