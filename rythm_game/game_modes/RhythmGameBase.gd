@@ -404,10 +404,10 @@ func _process_game(_delta):
 		time -= latency_compensation / 1000.0
 
 		if not editing:
-			var end_time = audio_playback.get_length_msec()
+			var end_time = audio_playback.get_length_msec() + audio_playback.offset
 			if current_song.end_time > 0:
-				end_time = float(current_song.end_time)
-			end_time += audio_playback.offset
+				end_time = min(end_time, float(current_song.end_time))
+
 			# -1 is required for safety
 			if audio_playback.get_playback_position_msec() >= end_time-1 and not _finished:
 				_on_game_finished()
