@@ -1,0 +1,15 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform sampler2D bg: hint_albedo;
+uniform vec2 texture_size;
+
+void fragment() {
+	vec2 siz = 1.0 / TEXTURE_PIXEL_SIZE;
+	vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
+	vec2 scale = vec2(texture_size) / res;
+	COLOR = texture(bg, SCREEN_UV/scale);
+	COLOR.a = COLOR.a * UV.x;
+}"

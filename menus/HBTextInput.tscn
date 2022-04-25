@@ -129,9 +129,9 @@ __meta__ = {
 
 [node name="Panel4" parent="Panel/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 210.0
-margin_right = 364.0
+margin_right = 370.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 154, 31 )
+rect_min_size = Vector2( 160, 39 )
 action_name = "gui_accept"
 text = "Accept"
 
@@ -146,9 +146,9 @@ text = "Accept"
 
 [node name="CancelButton" parent="Panel/HBoxContainer" instance=ExtResource( 1 )]
 margin_left = 210.0
-margin_right = 362.0
+margin_right = 367.0
 margin_bottom = 46.0
-rect_min_size = Vector2( 152, 31 )
+rect_min_size = Vector2( 157, 39 )
 action_name = "gui_cancel"
 text = "Cancel"
 

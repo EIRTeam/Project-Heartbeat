@@ -69,6 +69,9 @@ var serializable_types = {
 	"HBHistoryEntry": load("res://scripts/HBHistoryEntry.gd"),
 	"HBSongVariantData": load("res://scripts/HBSongVariantData.gd"),
 	"ChartSection": load("res://scripts/timing_points/HBChartSection.gd"),
+	"SkinResources": load("res://scripts/new_ui/HBSkinResources.gd"),
+	"Skin": load("res://scripts/new_ui/HBUISkin.gd"),
+	"SkinScreen": load("res://scripts/new_ui/HBUISkinScreen.gd"),
 }
 
 const EXCELLENT_THRESHOLD = 0.95
@@ -86,6 +89,10 @@ const GAME_OVER_SFX = "game_over"
 
 const BUTTON_SFX_TYPE_FORWARD = 0
 const BUTTON_SFX_TYPE_BACK = 0
+
+var ui_components := {}
+
+var fallback_font: HBUIFont = preload("res://fonts/skined_fallback_font.tres")
 
 func _ready():
 	_game_init()
@@ -107,7 +114,25 @@ func _register_basic_sfx():
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_validate.wav", MENU_VALIDATE_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/game_over.ogg", GAME_OVER_SFX)
 	
+func _register_ui_component(component: GDScript):
+	ui_components[component.get_component_id()] = component
+	
+func _register_ui_components():
+	_register_ui_component(HBUISongProgress)
+	_register_ui_component(HBUIPanel)
+	_register_ui_component(HBUIAccuracyDisplay)
+	_register_ui_component(HBUICosmeticTextureRect)
+	_register_ui_component(HBUISongTitle)
+	_register_ui_component(HBUISongDifficultyLabel)
+	_register_ui_component(HBUIScoreCounter)
+	_register_ui_component(HBUIClearBar)
+	_register_ui_component(HBUISkipIntroIndicator)
+	_register_ui_component(HBUIHoldIndicator)
+	_register_ui_component(HBUIMultiHint)
+	_register_ui_component(HBUIHealthDisplay)
+	
 func _game_init():
+	_register_ui_components()
 	if OS.get_name() == "Switch":
 		platform_settings = HBPlatformSettingsSwitch.new()
 	elif OS.has_feature("mobile"):

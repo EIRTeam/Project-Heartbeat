@@ -8,10 +8,15 @@ var fade_out_t = FADE_OUT_TIME
 var travel_up_t = TRAVEL_UP_TIME
 var target_opacity = 0.0
 var starting_point = Vector2.ZERO
-var _game: HBRhythmGame
+var _game: HBRhythmGame setget set_game
+
+func set_game(val):
+	_game = val
+	set_process(true)
 
 func _ready():
 	hide()
+	set_process(false)
 
 func show_at_point(point: Vector2, score: float, show_max: bool):
 	show()

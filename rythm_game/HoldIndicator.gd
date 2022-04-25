@@ -22,6 +22,7 @@ var max_appear_t = 0.0
 var max_appear_t_inc = 0.0
 var scale_t = 0.0
 var scale_t_inc = 0.0
+
 const BONUS_TEXTS = {
 	1: "SINGLE BONUS",
 	2: "DOUBLE BONUS",
@@ -41,12 +42,14 @@ func _ready():
 		icon_nodes[type_name] = texture_rect
 	connect("resized", self, "_on_resized")
 	call_deferred("_on_resized")
+	set_process(false)
 	
 func _on_resized():
 	for texture_rect in icon_nodes.values():
 		texture_rect = texture_rect as TextureRect
 		texture_rect.rect_min_size.x = panel.rect_size.y
 		texture_rect.rect_size.x = panel.rect_size.y
+		texture_rect.rect_size.y = panel.rect_size.y
 	$Panel/MarginContainer.rect_size = $Panel.rect_size
 
 func set_current_holds(val):

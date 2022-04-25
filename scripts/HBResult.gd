@@ -64,7 +64,10 @@ func get_capped_score():
 	var capped_slide_bonus = clamp(slide_bonus, 0, MAX_SCORE_FROM_SLIDE_BONUS*max_score)
 	return base_score + capped_hold_bonus + capped_slide_bonus
 func get_result_rating() -> int:
-	# All ratings except perfect are score based
+	if failed:
+		return RESULT_RATING.FAIL
+	
+	# All ratings except perfect and fail are score based
 	
 	var failure = note_ratings[HBJudge.JUDGE_RATINGS.SAD]
 	failure += note_ratings[HBJudge.JUDGE_RATINGS.SAFE]
@@ -75,9 +78,6 @@ func get_result_rating() -> int:
 		return RESULT_RATING.PERFECT
 
 	var final_score_ratio = get_percentage()
-	
-	if failed:
-		return RESULT_RATING.FAIL
 	if final_score_ratio >= 0.95:
 		return RESULT_RATING.EXCELLENT
 	elif final_score_ratio >= 0.90:

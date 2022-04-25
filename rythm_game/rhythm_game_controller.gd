@@ -57,6 +57,7 @@ func _ready():
 	game.connect("game_over", self, "_on_RhythmGame_game_over")
 	add_child(game_over_tween)
 	$Label.visible = false
+	game.health_system_enabled = UserSettings.user_settings.enable_health
 func _on_intro_skipped(new_time):
 	video_player.set_stream_position(new_time)
 

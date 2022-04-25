@@ -48,7 +48,7 @@ func add_new_modifier(modifier_id: String):
 # keep in mind this doedsn't take into account if cheats were used
 # that should be checked separatedly
 func is_leaderboard_legal():
-	return modifiers.size() == 0
+	return modifiers.size() == 0 and not result.get_result_rating() == HBResult.RESULT_RATING.FAIL
 	
 func get_serialized_type():
 	return "GameInfo"

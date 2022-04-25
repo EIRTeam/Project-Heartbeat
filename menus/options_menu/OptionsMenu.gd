@@ -2,6 +2,10 @@ extends HBMenu
 
 var OPTIONS = {
 	tr("Game"): {
+		"enable_health": {
+			"name": tr("Enable health system"),
+			"description": tr("If enabled the game enables the optional health system where a song can be failed.")
+		},
 		"workshop_download_audio_only": {
 			"name": tr("Download audio only from workshop"),
 			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")

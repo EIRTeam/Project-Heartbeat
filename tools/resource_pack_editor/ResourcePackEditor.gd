@@ -1,16 +1,18 @@
 extends Control
 
-onready var tree: Tree = get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/Tree")
+onready var tree: Tree = get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/Tree")
 onready var open_resource_pack_dialog := get_node("OpenResourcePackDialog")
 onready var open_graphic_file_dialog := get_node("FileDialog")
 
 const SUBGRAPHIC_TYPES := ["note", "target", "multi_note", "multi_note_target"]
 const SUBGRAPHIC_TYPES_NORMAL_NOTES := ["sustain_note", "sustain_target", "double_target", "double_note"]
 
-onready var atlas_preview_texture_rect := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewTextureRect")
-onready var atlas_preview_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
-onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
 
+onready var top_level_tab_container := get_node("VBoxContainer/TabContainer")
+onready var atlas_preview_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewTextureRect")
+onready var atlas_preview_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
+onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
+onready var metatlas_tab_container := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer")
 
 onready var error_dialog := get_node("ErrorDialog")
 onready var resize_confirmation_dialog := get_node("ResizeConfirmationDialog")
@@ -19,14 +21,17 @@ onready var color_picker_popup := get_node("ColorPickerPopup")
 onready var color_picker_popup_color_picker := get_node("ColorPickerPopup/ColorPicker")
 
 # Meta data
-onready var icon_pack_title_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/TitleLineEdit")
-onready var icon_pack_creator_line_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/PackCreatorLineEdit")
+onready var icon_pack_title_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/TitleLineEdit")
+onready var icon_pack_creator_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/PackCreatorLineEdit")
 
-onready var pack_icon_texture_rect := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect")
-onready var no_pack_icon_image_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect/NoPreviewImageLabel")
+onready var pack_icon_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect")
+onready var no_pack_icon_image_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect/NoPreviewImageLabel")
 
-onready var description_text_label := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel")
-onready var description_text_edit := get_node("Panel/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel/DescriptionTextEdit")
+onready var description_text_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel")
+onready var description_text_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel/DescriptionTextEdit")
+
+onready var skin_editor := get_node("VBoxContainer/TabContainer/Skin")
+onready var texture_editor := get_node("VBoxContainer/TabContainer/Textures")
 
 enum ITEM_BUTTONS {
 	BROWSE,
@@ -59,6 +64,7 @@ var resource_images_per_atlas = {
 var first_time_save_atlases = []
 
 func _ready():
+	top_level_tab_container.set_tab_title(0, "Resource Pack")
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	tree.connect("button_pressed", self, "_on_button_pressed")
 	tree.connect("item_edited", self, "_on_item_edited")
@@ -230,9 +236,15 @@ func _on_button_pressed(item: TreeItem, _column: int, id: int):
 func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	first_time_save_atlases = []
 	current_pack = pack
+	skin_editor.resource_pack = pack
 	resource_images_per_atlas = {
 		"__no_atlas": {}
 	}
+	
+	tree.visible = !pack.is_skin()
+	metatlas_tab_container.set_tab_hidden(1, pack.is_skin())
+	
+	top_level_tab_container.set_tab_hidden(1, !pack.is_skin())
 	
 	var atlases = ResourcePackLoader.ATLASES
 	
@@ -364,9 +376,12 @@ func _on_SaveButton_pressed():
 	current_pack.pack_author_name = icon_pack_creator_line_edit.text
 	current_pack.pack_description = description_text_edit.text
 	current_pack.save_pack()
-	_generate_atlas("notes")
-	if OS.has_feature("editor"):
-		_generate_atlas("effects")
+	if current_pack.is_skin():
+		skin_editor.save_skin()
+	else:
+		_generate_atlas("notes")
+		if OS.has_feature("editor"):
+			_generate_atlas("effects")
 
 func show_error(error: String):
 	error_dialog.dialog_text = error
@@ -444,3 +459,8 @@ func _on_PreviewBBCodeCheckbox_toggled(button_pressed):
 		description_text_label.bbcode_text = description_text_edit.text
 		description_text_label.bbcode_enabled = true
 	description_text_edit.visible = !button_pressed
+
+
+
+func _on_HelpButton_pressed():
+	OS.shell_open("https://steamcommunity.com/sharedfiles/filedetails/?id=2800271334")

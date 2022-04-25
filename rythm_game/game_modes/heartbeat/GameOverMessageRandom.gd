@@ -18,4 +18,5 @@ const QUOTES = [
 ]
 
 func _ready():
+	randomize()
 	text = QUOTES[randi() % QUOTES.size()]

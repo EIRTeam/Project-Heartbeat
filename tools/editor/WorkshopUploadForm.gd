@@ -222,12 +222,15 @@ func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
 	ugc.set_item_title(update_id, title_line_edit.text)
 	ugc.set_item_description(update_id, description_line_edit.text)
 	ugc.set_item_metadata(update_id, JSON.print(resource_pack.serialize()))
-	print("PATH: ", ProjectSettings.globalize_path(resource_pack._path))
-	print("PREVIEW: ", ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(resource_pack._path))
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
 
-	Steam.setItemTags(update_id, ["Resource Packs"])
+	var tags := []
+
+	if resource_pack.is_skin():
+		Steam.setItemTags(update_id, ["Skins"])
+	else:
+		Steam.setItemTags(update_id, ["Note Packs"])
 	if uploading_new:
 		ugc.submit_item_update(update_id, "Initial upload")
 	else:

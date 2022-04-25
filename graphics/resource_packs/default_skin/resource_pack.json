@@ -1,0 +1,13 @@
+{
+  "pack_name": "Default skin",
+  "pack_author_name": "EIRTeam",
+  "pack_description": "Default Project Heartbeat Skin",
+  "pack_type": 1,
+  "notes_atlas_data": {
+
+  },
+  "effects_atlas_data": {
+
+  },
+  "type": "HBResourcePack"
+}

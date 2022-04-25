@@ -832,9 +832,6 @@ anchor_bottom = 1.0
 margin_right = 1195.0
 margin_bottom = 680.0
 script = ExtResource( 21 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea"]
 self_modulate = Color( 1, 1, 1, 0.5 )

@@ -1,7 +1,10 @@
 extends ConfirmationDialog
 
 onready var tree: Tree = get_node("VBoxContainer/VBoxContainer/Tree")
-onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/TextEdit")
+onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/VBoxContainer/TextEdit")
+onready var icon_pack_creator_skin_specific_options := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions")
+onready var copy_original_skin_checkbox := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions/CopyOriginalSkinCheckbox")
+onready var pack_type_option_button := get_node("CreateIconPackDialog/VBoxContainer/HBoxContainer/PackTypeOptionButton")
 
 onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 
@@ -42,7 +45,14 @@ func _on_CreateIconPackDialog_confirmed():
 		var pack := HBResourcePack.new()
 		pack.pack_name = create_icon_pack_dialog_text_edit.text
 		pack._path = meta_path
+		pack.pack_type = pack_type_option_button.selected
 		pack._id = file_name
+		if copy_original_skin_checkbox.pressed:
+			HBUtils.copy_recursive(ResourcePackLoader.fallback_skin._path.plus_file("skin_resources"), pack.get_skin_resources_path())
+			ResourcePackLoader.fallback_skin.save_to_file(pack.get_skin_config_path())
+		else:
+			var skin := HBUISkin.new()
+			skin.save_to_file(pack.get_skin_config_path())
 		ResourcePackLoader.resource_packs[file_name] = pack
 		pack.save_pack()
 	populate_list()
@@ -68,3 +78,9 @@ func _on_Tree_item_selected():
 func _on_Tree_nothing_selected():
 	workshop_upload_button.disabled = true
 	delete_resource_pack_button.disabled = true
+
+func _on_PackTypeOptionButton_item_selected(index):
+	icon_pack_creator_skin_specific_options.hide()
+	print("IDX SELECTED", index == HBResourcePack.RESOURCE_PACK_TYPE.SKIN)
+	if index == HBResourcePack.RESOURCE_PACK_TYPE.SKIN:
+		icon_pack_creator_skin_specific_options.show()

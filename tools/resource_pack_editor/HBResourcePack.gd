@@ -47,10 +47,17 @@ var property_overrides = []
 var ugc_id: int = 0
 var ugc_service_name: String = ""
 
+enum RESOURCE_PACK_TYPE {
+	NOTE_PACK,
+	SKIN
+}
+
+var pack_type: int = RESOURCE_PACK_TYPE.NOTE_PACK
+
 func _init():
 	serializable_fields += [
 	# Meta
-	"pack_name", "pack_author_name", "pack_description",
+	"pack_name", "pack_author_name", "pack_description", "pack_type",
 	# Atlases
 	"notes_atlas_data",
 	"effects_atlas_data",
@@ -67,8 +74,11 @@ func _init():
 	"property_overrides",
 	
 	# UGC
-	"ugc_id", "ugc_service_name"
+	"ugc_id", "ugc_service_name",
 	]
+
+func is_skin() -> bool:
+	return pack_type == RESOURCE_PACK_TYPE.SKIN
 
 func get_note_graphic_file_name(note_i: int, subgraphic_i: int) -> String:
 	var note_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, note_i)
@@ -139,3 +149,14 @@ func get_pack_icon() -> Image:
 		if img:
 			return img
 	return null
+	
+func get_skin_config_path() -> String:
+	return _path.plus_file("skin.json")
+
+func get_skin() -> HBUISkin:
+	var skin := HBUISkin.from_file(get_skin_config_path()) as HBUISkin
+	skin._path = _path
+	return skin
+
+func get_skin_resources_path() -> String:
+	return HBUtils.join_path(_path, "skin_resources")

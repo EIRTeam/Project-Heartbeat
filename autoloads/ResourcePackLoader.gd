@@ -42,6 +42,10 @@ const NOTE_ICON_GRAPHICS_FILE_NAMES = [
 # incrementing value used to ensure a unique resource_path for all PH resources
 var atlas_increment := 0
 
+const DEFAULT_SKIN_PATH := "res://graphics/resource_packs/default_skin/skin.json"
+var current_skin: HBUISkin
+var fallback_skin: HBUISkin
+
 func _init_resource_pack_loader():
 	var dir = Directory.new()
 	for location in ICON_PACK_LOCATIONS:
@@ -49,6 +53,23 @@ func _init_resource_pack_loader():
 			dir.make_dir_recursive(location)
 		_load_icon_packs_from_path(location)
 	rebuild_final_atlases()
+	var fallback_skin_rp := HBResourcePack.load_from_directory("res://graphics/resource_packs/default_skin") as HBResourcePack
+	fallback_skin = fallback_skin_rp.get_skin()
+	reload_skin()
+func reload_skin():
+	current_skin = null
+	var ui_skin_name := ""
+	if UserSettings.user_settings.ui_skin:
+		if UserSettings.user_settings.ui_skin in resource_packs and resource_packs[UserSettings.user_settings.ui_skin].is_skin():
+			ui_skin_name = UserSettings.user_settings.ui_skin
+	if ui_skin_name:
+		var res_pack := resource_packs[UserSettings.user_settings.ui_skin] as HBResourcePack
+		var skin := res_pack.get_skin()
+		if skin:
+			current_skin = skin
+	if not current_skin:
+		current_skin = fallback_skin
+	
 func _setup_fallback_pack(fallback: HBResourcePack):
 	for atlas_name in ATLASES:
 		var atlas_image = fallback.get_atlas_image(atlas_name)

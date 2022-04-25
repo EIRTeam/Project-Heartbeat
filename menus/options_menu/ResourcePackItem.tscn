@@ -31,9 +31,6 @@ custom_styles/hover = ExtResource( 4 )
 custom_styles/pressed = ExtResource( 9 )
 custom_styles/normal = ExtResource( 5 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 use_parent_material = true
@@ -110,9 +107,9 @@ margin_top = 136.0
 margin_right = 1515.0
 margin_bottom = 168.0
 mouse_filter = 2
+custom_fonts/normal_font = ExtResource( 6 )
 custom_styles/focus = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/normal_font = ExtResource( 6 )
 bbcode_enabled = true
 bbcode_text = "No vea ermano peaso [rainbow]descripsión[/rainbow]"
 text = "No vea ermano peaso descripsión"

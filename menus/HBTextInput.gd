@@ -8,6 +8,7 @@ export var text_input_description: String = tr("Input text")
 
 func _on_Control_about_to_show():
 	grab_focus()
+	line_edit.text = ""
 	
 func _on_LineEdit_text_entered(new_text):
 	emit_signal("entered", new_text)

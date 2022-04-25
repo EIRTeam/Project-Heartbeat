@@ -8,5 +8,6 @@ func disable_label():
 	$"Version Label".mouse_filter = Control.MOUSE_FILTER_PASS
 
 func enable_label():
-	$"Version Label".mouse_filter = Control.MOUSE_FILTER_IGNORE
-	$"Version Label".show()
+	$"Version Label".hide()
+#	$"Version Label".mouse_filter = Control.MOUSE_FILTER_IGNORE
+#	$"Version Label".show()

@@ -13,6 +13,7 @@ var icon_pack = "playstation"
 var resource_pack = "playstation"
 # User can select a resource pack to get icons from instead of the selected one
 var note_icon_override = "__resource_pack"
+var ui_skin := ""
 var romanized_titles_enabled = false
 var left_arrow_override_enabled = false
 var right_arrow_override_enabled = false
@@ -198,11 +199,14 @@ var last_edit_dir := ProjectSettings.globalize_path("user://")
 
 var audio_buffer_size := 10
 
+var enable_health := false
+
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
 	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
 	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
 	"icon_pack", "resource_pack", "note_icon_override", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
+	"ui_skin",
 	"note_size", "input_map",
 	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
@@ -216,7 +220,7 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size"]
+	"color_presets", "audio_buffer_size", "enable_health"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

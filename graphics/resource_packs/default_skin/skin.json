@@ -1,0 +1,624 @@
+{
+  "screens": {
+    "gameplay": {
+      "layered_components": {
+        "UnderNotes": [
+          {
+            "name": "FunkyDots",
+            "modulate": "ffff00c5",
+            "anchor_bottom": 0.928,
+            "anchor_top": 0.842,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 0,
+            "margin_top": 0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "component_type": "cosmetic_texture_rect",
+            "texture": "dots",
+            "stretch_mode": 2,
+            "fade_direction": 1
+          },
+          {
+            "name": "HoldIndicator",
+            "modulate": "ffffffff",
+            "anchor_bottom": 1,
+            "anchor_top": 1,
+            "anchor_left": 0.5,
+            "anchor_right": 0.5,
+            "margin_bottom": -154,
+            "margin_top": -270,
+            "margin_left": -479,
+            "margin_right": 479,
+            "component_type": "hold_indicator",
+            "main_font": {
+              "name": "orbitron_black",
+              "size": 24,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 7,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "max_hold_bonus_font": {
+              "name": "orbitron_medium",
+              "size": 24,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 0,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "score_font": {
+              "name": "orbitron_black_mono",
+              "size": 24,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 7,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 2
+            },
+            "hold_count_font": {
+              "name": "orbitron_black",
+              "size": 60,
+              "fallback_hint": 0,
+              "outline_size": 2,
+              "outline_color": "ff7d3881",
+              "extra_spacing_top": 7,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "main_stylebox": {
+              "border_width_top": 2,
+              "border_width_bottom": 2,
+              "border_width_right": 2,
+              "border_width_left": 2,
+              "bg_color": "bf30124d",
+              "border_color": "80973df2",
+              "corner_detail": 8,
+              "anti_aliasing": true,
+              "corner_radius_bottom_left": 0,
+              "corner_radius_bottom_right": 0,
+              "corner_radius_top_left": 0,
+              "corner_radius_top_right": 0,
+              "shadow_color": "40000000",
+              "shadow_size": 10,
+              "stylebox_type": "flat",
+              "content_margin_bottom": -1,
+              "content_margin_left": 43,
+              "content_margin_right": 11,
+              "content_margin_top": -1
+            },
+            "max_hold_bonus_stylebox": {
+              "border_width_top": 2,
+              "border_width_bottom": 2,
+              "border_width_right": 2,
+              "border_width_left": 2,
+              "bg_color": "8030134d",
+              "border_color": "fff2c53d",
+              "corner_detail": 8,
+              "anti_aliasing": true,
+              "corner_radius_bottom_left": 5,
+              "corner_radius_bottom_right": 5,
+              "corner_radius_top_left": 5,
+              "corner_radius_top_right": 5,
+              "shadow_color": "99000000",
+              "shadow_size": 0,
+              "stylebox_type": "flat",
+              "content_margin_bottom": 5,
+              "content_margin_left": -1,
+              "content_margin_right": -1,
+              "content_margin_top": 6
+            },
+            "max_hold_bonus_min_width": 480
+          },
+          {
+            "name": "MultiNoteHint",
+            "modulate": "ffffffff",
+            "anchor_bottom": 1,
+            "anchor_top": 1,
+            "anchor_left": 0.5,
+            "anchor_right": 0.5,
+            "margin_bottom": -329,
+            "margin_top": -457,
+            "margin_left": -64,
+            "margin_right": 64,
+            "component_type": "multi_hint",
+            "on_texture": "hold_hint_on",
+            "off_texture": "hold_hint_off",
+            "stylebox": {
+              "axis_stretch_horizontal": 0,
+              "axis_stretch_vertical": 0,
+              "draw_center": true,
+              "modulate_color": "ffffffff",
+              "texture": "hold_hint_bg",
+              "stylebox_type": "texture",
+              "content_margin_bottom": -1,
+              "content_margin_left": -1,
+              "content_margin_right": -1,
+              "content_margin_top": -1
+            },
+            "center_offset": 35,
+            "texture_width": 128,
+            "texture_height": 128
+          }
+        ],
+        "OverNotes": [
+          {
+            "name": "TitleBox",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 112,
+            "margin_top": 26.804741,
+            "margin_left": 70,
+            "margin_right": -400,
+            "component_type": "panel",
+            "stylebox": {
+              "border_width_top": 2,
+              "border_width_bottom": 3,
+              "border_width_right": 3,
+              "border_width_left": 2,
+              "bg_color": "8030124d",
+              "border_color": "80973df2",
+              "corner_detail": 1,
+              "anti_aliasing": false,
+              "corner_radius_bottom_left": 0,
+              "corner_radius_bottom_right": 1024,
+              "corner_radius_top_left": 0,
+              "corner_radius_top_right": 0,
+              "shadow_color": "40000000",
+              "shadow_size": 10,
+              "stylebox_type": "flat",
+              "content_margin_bottom": 0,
+              "content_margin_left": 0,
+              "content_margin_right": 0,
+              "content_margin_top": 0
+            },
+            "dots_pattern": true,
+            "dots_texture": "dots",
+            "dots_modulate": "bf963df2",
+            "dots_behind": true
+          },
+          {
+            "name": "ProgressHeart",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 0,
+            "anchor_right": 0,
+            "margin_bottom": 151,
+            "margin_top": 0,
+            "margin_left": 10,
+            "margin_right": 138,
+            "component_type": "song_progress",
+            "texture_under": "heart_outside",
+            "texture_over": "heart",
+            "texture_progress": "heart_outside",
+            "fill_mode": 4,
+            "tint_under": "ff2d1b61",
+            "tint_over": "ff1a1038",
+            "tint_progress": "ffa877f0"
+          },
+          {
+            "name": "AccuracyDisplay",
+            "modulate": "ffffffff",
+            "anchor_bottom": 1,
+            "anchor_top": 1,
+            "anchor_left": 0.5,
+            "anchor_right": 0.5,
+            "margin_bottom": 1,
+            "margin_top": -43.200073,
+            "margin_left": -299.519958,
+            "margin_right": 299.52002,
+            "component_type": "accuracy_display",
+            "rating_line_width": 3,
+            "gradient_line_height": 12,
+            "gradient_color_cool": "ff00bfff",
+            "gradient_color_fine": "ff00ff00",
+            "gradient_color_safe": "ffffa500",
+            "gradient_color_sad": "ffffd700"
+          },
+          {
+            "name": "SongTitle",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 78,
+            "margin_top": 31.6332,
+            "margin_left": 145.259521,
+            "margin_right": -470.914551,
+            "component_type": "song_title",
+            "artist_font": {
+              "name": "orbitron_medium",
+              "size": 30,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 5,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "title_font": {
+              "name": "orbitron_light",
+              "size": 30,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 5,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "element_separation": 15
+          },
+          {
+            "name": "SongDifficultyLabel",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 110,
+            "margin_top": 71,
+            "margin_left": 145,
+            "margin_right": -471,
+            "component_type": "song_difficulty",
+            "modifiers_font": {
+              "name": "orbitron_medium",
+              "size": 25,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 0,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "difficulty_font": {
+              "name": "orbitron_light",
+              "size": 25,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 0,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "element_separation": 4
+          },
+          {
+            "name": "ScoreCounter",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 1,
+            "anchor_right": 1,
+            "margin_bottom": 151,
+            "margin_top": 0,
+            "margin_left": -476.890015,
+            "margin_right": 0,
+            "component_type": "score_counter",
+            "font": {
+              "name": "orbitron_black_mono",
+              "size": 30,
+              "fallback_hint": 0,
+              "outline_size": 3,
+              "outline_color": "ff000000",
+              "extra_spacing_top": 0,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 5
+            }
+          },
+          {
+            "name": "ProgressStylebox",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0.924,
+            "anchor_top": 0.924,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 32,
+            "margin_top": 0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "component_type": "panel",
+            "stylebox": {
+              "border_width_top": 2,
+              "border_width_bottom": 2,
+              "border_width_right": 0,
+              "border_width_left": 0,
+              "bg_color": "ff1a1036",
+              "border_color": "80973df2",
+              "corner_detail": 8,
+              "anti_aliasing": true,
+              "corner_radius_bottom_left": 0,
+              "corner_radius_bottom_right": 0,
+              "corner_radius_top_left": 0,
+              "corner_radius_top_right": 0,
+              "shadow_color": "40000000",
+              "shadow_size": 15,
+              "stylebox_type": "flat",
+              "content_margin_bottom": 0,
+              "content_margin_left": 0,
+              "content_margin_right": 0,
+              "content_margin_top": 0
+            },
+            "dots_pattern": false,
+            "dots_texture": "",
+            "dots_modulate": "ffffffff",
+            "dots_behind": false
+          },
+          {
+            "name": "ClearBar",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0.924,
+            "anchor_top": 0.924,
+            "anchor_left": 0,
+            "anchor_right": 1,
+            "margin_bottom": 32,
+            "margin_top": 0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "component_type": "clear_bar",
+            "stylebox": {
+              "axis_stretch_horizontal": 0,
+              "axis_stretch_vertical": 0,
+              "draw_center": true,
+              "modulate_color": "ffffffff",
+              "texture": "clear_bar",
+              "stylebox_type": "texture",
+              "content_margin_bottom": 0,
+              "content_margin_left": 0,
+              "content_margin_right": 0,
+              "content_margin_top": 0
+            },
+            "stylebox_post_pass": {
+              "axis_stretch_horizontal": 0,
+              "axis_stretch_vertical": 0,
+              "draw_center": true,
+              "modulate_color": "ffffffff",
+              "texture": "clear_bar_postclear",
+              "stylebox_type": "texture",
+              "content_margin_bottom": 0,
+              "content_margin_left": 0,
+              "content_margin_right": 0,
+              "content_margin_top": 0
+            },
+            "percentage_font": {
+              "name": "orbitron_black",
+              "size": 20,
+              "fallback_hint": 0,
+              "outline_size": 2,
+              "outline_color": "33ffffff",
+              "extra_spacing_top": 5,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "top_clear_margin": 2,
+            "bottom_clear_margin": 2,
+            "clear_separator_color": "ffa90d5d",
+            "excellent_line_color": "ffffffff",
+            "great_line_color": "ffffffff",
+            "standard_line_color": "ffffffff",
+            "rating_lines_extra_height": 10,
+            "clear_line_extra_height": 12
+          },
+          {
+            "name": "SkipIntroIndicator",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0.5,
+            "anchor_top": 0.5,
+            "anchor_left": 0,
+            "anchor_right": 0,
+            "margin_bottom": 17,
+            "margin_top": -17,
+            "margin_left": 0,
+            "margin_right": 0,
+            "component_type": "skip_intro_indicator",
+            "font": {
+              "name": "orbitron_medium",
+              "size": 15,
+              "fallback_hint": 0,
+              "outline_size": 0,
+              "outline_color": "ffffffff",
+              "extra_spacing_top": 0,
+              "extra_spacing_bottom": 0,
+              "extra_spacing_char": 0
+            },
+            "stylebox": {
+              "border_width_top": 0,
+              "border_width_bottom": 0,
+              "border_width_right": 0,
+              "border_width_left": 0,
+              "bg_color": "8030124d",
+              "border_color": "80ed37cc",
+              "corner_detail": 1,
+              "anti_aliasing": true,
+              "corner_radius_bottom_left": 0,
+              "corner_radius_bottom_right": 1024,
+              "corner_radius_top_left": 0,
+              "corner_radius_top_right": 0,
+              "shadow_color": "40000000",
+              "shadow_size": 10,
+              "stylebox_type": "flat",
+              "content_margin_bottom": 0,
+              "content_margin_left": 10,
+              "content_margin_right": 40,
+              "content_margin_top": 0
+            }
+          },
+          {
+            "name": "HealthDisplay",
+            "modulate": "ffffffff",
+            "anchor_bottom": 0,
+            "anchor_top": 0,
+            "anchor_left": 0,
+            "anchor_right": 0,
+            "margin_bottom": 117.952682,
+            "margin_top": 16,
+            "margin_left": 18.153168,
+            "margin_right": 130.153168,
+            "component_type": "health_display",
+            "increase_color": "80542eba",
+            "decrease_color": "80ba2f66",
+            "progress_color": "ff4f30ae",
+            "progress_texture": "heart_progress",
+            "fill_mode": 3
+          }
+        ]
+      },
+      "type": "SkinScreen"
+    }
+  },
+  "resources": {
+    "fonts": {
+      "orbitron_light": "orbitron_light.otf",
+      "orbitron_medium": "orbitron_medium.otf",
+      "orbitron_black_mono": "orbitron_black_mono.ttf",
+      "orbitron_black": "orbitron_black.otf"
+    },
+    "textures": {
+      "heart": "heart.png",
+      "heart_outside": "heart_outside.png",
+      "dots": "dots.png",
+      "clear_bar": "clear_bar.png",
+      "clear_bar_postclear": "clear_bar_postclear.png",
+      "hold_hint_on": "hold_hint_on.png",
+      "hold_hint_off": "hold_hint_off.png",
+      "hold_hint_bg": "hold_hint_bg.png",
+      "heart_progress": "heart_progress.png",
+      "animated_texture": {
+        "fps": 24,
+        "frames": [
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_00.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_01.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_02.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_03.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_04.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_05.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_06.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_07.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_08.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_09.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_10.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_11.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_12.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_13.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_14.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_15.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_16.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_17.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_18.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_19.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_20.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_21.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_22.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_23.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_24.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_25.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_26.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_27.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_28.png"
+          },
+          {
+            "delay": 0,
+            "texture_path": "animated_texture_29.png"
+          }
+        ]
+      }
+    },
+    "type": "SkinResources"
+  },
+  "type": "Skin"
+}

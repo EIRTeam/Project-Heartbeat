@@ -1,94 +1,14 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=7]
-[ext_resource path="res://fonts/Score.tres" type="DynamicFont" id=8]
-[ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=9]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
-[ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=11]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=12]
-[ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=13]
-[ext_resource path="res://graphics/heart_outside.png" type="Texture" id=14]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=15]
-[ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=16]
-[ext_resource path="res://graphics/hold_hint.png" type="Texture" id=17]
-[ext_resource path="res://graphics/heart.png" type="Texture" id=18]
-[ext_resource path="res://rythm_game/rhythm_game_clear_bar.gd" type="Script" id=24]
-[ext_resource path="res://rythm_game/LatencyDisplay.gd" type="Script" id=25]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
-[ext_resource path="res://rythm_game/MultiHint.gd" type="Script" id=28]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=30]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
-[ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=32]
-[ext_resource path="res://graphics/loadingu_bg.png" type="Texture" id=33]
 [ext_resource path="res://rythm_game/lyrics/lyrics.tscn" type="PackedScene" id=34]
-[ext_resource path="res://menus/DynamicallyResizingLabel.gd" type="Script" id=35]
-[ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=37]
-
-[sub_resource type="DynamicFont" id=1]
-size = 25
-outline_color = Color( 0.964706, 0.756863, 0.203922, 1 )
-use_filter = true
-extra_spacing_top = 7
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 24
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 7
-extra_spacing_char = 2
-font_data = ExtResource( 13 )
-fallback/0 = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 60
-outline_size = 2
-outline_color = Color( 0.490196, 0.219608, 0.505882, 1 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 7
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 4 )
-
-[sub_resource type="StyleBoxFlat" id=4]
-content_margin_left = 25.0
-content_margin_right = 0.0
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.94902, 0.772549, 0.239216, 1 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
-shadow_size = 10
-
-[sub_resource type="StyleBoxFlat" id=28]
-content_margin_left = 10.0
-content_margin_right = 40.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
-border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
-corner_radius_bottom_right = 1024
-corner_detail = 1
-shadow_color = Color( 0, 0, 0, 0.25 )
-shadow_size = 10
-
-[sub_resource type="DynamicFont" id=6]
-size = 15
-use_filter = true
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 2 )
 
 [sub_resource type="Animation" id=9]
 resource_name = "animate"
@@ -105,16 +25,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-
-[sub_resource type="Shader" id=10]
-code = "shader_type canvas_item;
-
-void fragment() {
-	COLOR.a = texture(TEXTURE, UV).a * UV.y;
-}"
-
-[sub_resource type="ShaderMaterial" id=11]
-shader = SubResource( 10 )
 
 [sub_resource type="DynamicFontData" id=13]
 font_path = "res://fonts/Roboto-Black.ttf"
@@ -155,93 +65,23 @@ tracks/0/keys = {
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
-[sub_resource type="Shader" id=17]
-code = "shader_type canvas_item;
-
-uniform sampler2D bg: hint_albedo;
-uniform vec2 texture_size;
-
-void fragment() {
-	vec2 siz = 1.0 / TEXTURE_PIXEL_SIZE;
-	vec2 res = 1.0 / SCREEN_PIXEL_SIZE;
-	vec2 scale = vec2(texture_size) / res;
-	COLOR = texture(bg, SCREEN_UV/scale);
-	COLOR.a = COLOR.a * UV.x;
-}"
-
-[sub_resource type="ShaderMaterial" id=18]
-shader = SubResource( 17 )
-shader_param/texture_size = Vector2( 128, 128 )
-shader_param/bg = ExtResource( 33 )
-
-[sub_resource type="StyleBoxFlat" id=19]
-content_margin_left = 77.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
-corner_radius_bottom_right = 1024
-corner_detail = 1
-expand_margin_right = 77.0
-shadow_color = Color( 0, 0, 0, 0.25 )
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id=20]
-content_margin_left = 77.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 3
-border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
-corner_radius_bottom_right = 1024
-corner_detail = 1
-expand_margin_right = 77.0
-shadow_color = Color( 0, 0, 0, 0.25 )
-shadow_size = 10
-anti_aliasing = false
-
-[sub_resource type="DynamicFont" id=21]
-size = 25
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 5
-font_data = ExtResource( 32 )
-fallback/0 = ExtResource( 2 )
-
-[sub_resource type="StyleBoxFlat" id=22]
-bg_color = Color( 0.101961, 0.0627451, 0.211765, 1 )
-border_width_top = 2
-border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
-shadow_color = Color( 0, 0, 0, 0.25 )
-shadow_size = 15
-
-[sub_resource type="DynamicFont" id=23]
-size = 20
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 4
-font_data = ExtResource( 1 )
-
-[sub_resource type="Gradient" id=29]
+[sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0.3, 1 )
-colors = PoolColorArray( 0.07, 0.04, 0.15, 0.75, 0.07, 0.04, 0.15, 0 )
+colors = PoolColorArray( 0.0705882, 0.0392157, 0.14902, 0.74902, 0.0705882, 0.0392157, 0.14902, 0 )
 
-[sub_resource type="GradientTexture" id=30]
-gradient = SubResource( 29 )
+[sub_resource type="GradientTexture" id=18]
+gradient = SubResource( 17 )
 
-[sub_resource type="StyleBoxTexture" id=31]
-texture = SubResource( 30 )
+[sub_resource type="StyleBoxTexture" id=19]
+texture = SubResource( 18 )
 region_rect = Rect2( 0, 0, 2048, 1 )
 
-[sub_resource type="DynamicFont" id=32]
+[sub_resource type="DynamicFont" id=20]
 size = 50
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_bottom = -7
 font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 4 )
+fallback/0 = ExtResource( 3 )
 
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
@@ -268,7 +108,7 @@ margin_right = 591.697
 margin_bottom = 369.212
 
 [node name="UnderNotesUI" type="Node2D" parent="."]
-z_index = -2
+z_index = -50
 
 [node name="Control" type="Control" parent="UnderNotesUI"]
 anchor_right = 1.0
@@ -276,212 +116,6 @@ anchor_bottom = 1.0
 margin_left = 0.950073
 margin_right = 1920.95
 margin_bottom = 1080.0
-
-[node name="HoldIndicator" type="VBoxContainer" parent="UnderNotesUI/Control"]
-anchor_left = 0.25
-anchor_top = 0.75
-anchor_right = 0.75
-anchor_bottom = 0.85
-margin_bottom = 8.0
-script = ExtResource( 16 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="UnderNotesUI/Control/HoldIndicator"]
-margin_right = 959.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = ExtResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 11
-custom_constants/margin_left = 43
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer"]
-margin_left = 43.0
-margin_right = 948.0
-margin_bottom = 35.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BonusLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_right = 298.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 298, 0 )
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
-text = "QUADRUPLE BONUS"
-valign = 1
-
-[node name="HoldNoteIcons" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 302.0
-margin_right = 302.0
-margin_bottom = 35.0
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer"]
-margin_left = 306.0
-margin_right = 905.0
-margin_bottom = 35.0
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="ScoreLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 599.0
-margin_bottom = 35.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
-text = "+1000"
-align = 2
-valign = 1
-
-[node name="HoldCount" type="Label" parent="UnderNotesUI/Control/HoldIndicator/Panel"]
-margin_left = -33.0
-margin_top = -26.0
-margin_right = 51.0
-margin_bottom = 64.0
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
-text = "2"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MaxComboContainer" type="Control" parent="UnderNotesUI/Control/HoldIndicator"]
-self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 39.0
-margin_right = 959.0
-margin_bottom = 69.0
-rect_min_size = Vector2( 0, 30 )
-
-[node name="Control" type="Panel" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer"]
-anchor_left = 0.25
-anchor_right = 0.75
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_left = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer"]
-margin_left = 5.0
-margin_right = 479.0
-margin_bottom = 30.0
-
-[node name="MaxComboLabel" type="Label" parent="UnderNotesUI/Control/HoldIndicator/MaxComboContainer/Control/MarginContainer/HBoxContainer"]
-margin_top = 3.0
-margin_right = 474.0
-margin_bottom = 27.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 7 )
-text = "(NT)Max Hold Bonus! +3300"
-align = 1
-
-[node name="MultiHint" type="TextureRect" parent="UnderNotesUI/Control"]
-anchor_left = 0.5
-anchor_top = 0.636
-anchor_right = 0.5
-anchor_bottom = 0.636
-margin_left = -128.0
-margin_top = -128.0
-margin_right = 128.0
-margin_bottom = 128.0
-rect_scale = Vector2( 0.5, 0.5 )
-rect_pivot_offset = Vector2( 128, 128 )
-texture = ExtResource( 17 )
-script = ExtResource( 28 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SkipIntroIndicator" type="PanelContainer" parent="UnderNotesUI/Control"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -17.0
-margin_right = 309.0
-margin_bottom = 17.0
-custom_styles/panel = SubResource( 28 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UnderNotesUI/Control/SkipIntroIndicator"]
-margin_left = 10.0
-margin_right = 279.0
-margin_bottom = 34.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="UnderNotesUI/Control/SkipIntroIndicator/HBoxContainer"]
-margin_top = 9.0
-margin_right = 54.0
-margin_bottom = 25.0
-custom_fonts/font = SubResource( 6 )
-text = "Press "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction2" parent="UnderNotesUI/Control/SkipIntroIndicator/HBoxContainer" instance=ExtResource( 30 )]
-margin_left = 58.0
-margin_right = 92.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 34, 0 )
-input_action = "note_up"
-
-[node name="Label3" type="Label" parent="UnderNotesUI/Control/SkipIntroIndicator/HBoxContainer"]
-margin_left = 96.0
-margin_top = 9.0
-margin_right = 103.0
-margin_bottom = 25.0
-custom_fonts/font = SubResource( 6 )
-text = "+"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PromptInputAction" parent="UnderNotesUI/Control/SkipIntroIndicator/HBoxContainer" instance=ExtResource( 30 )]
-margin_left = 107.0
-margin_right = 141.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 34, 0 )
-input_action = "note_left"
-
-[node name="Label2" type="Label" parent="UnderNotesUI/Control/SkipIntroIndicator/HBoxContainer"]
-margin_left = 145.0
-margin_top = 9.0
-margin_right = 269.0
-margin_bottom = 25.0
-custom_fonts/font = SubResource( 6 )
-text = "to skip the intro"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="UnderNotesUI/Control"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -495,26 +129,13 @@ margin_right = 154.5
 margin_bottom = 23.5
 custom_fonts/font = ExtResource( 5 )
 text = "Fast forward!"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
 anims/animate = SubResource( 9 )
 
-[node name="Panel2" type="TextureRect" parent="UnderNotesUI/Control"]
-self_modulate = Color( 1, 0, 0.772549, 1 )
-material = SubResource( 11 )
-anchor_top = 0.842
+[node name="UserUI" type="Control" parent="UnderNotesUI/Control"]
 anchor_right = 1.0
-anchor_bottom = 0.928
-margin_left = -0.950073
-margin_top = -1.15552
-margin_right = -0.950073
-margin_bottom = -1.15552
-texture = ExtResource( 33 )
-expand = true
-stretch_mode = 2
+anchor_bottom = 1.0
 
 [node name="Lyrics" type="Node2D" parent="."]
 z_index = -2
@@ -526,9 +147,6 @@ margin_left = 0.950073
 margin_right = 1920.95
 margin_bottom = 1080.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LyricsView" parent="Lyrics/Control" instance=ExtResource( 34 )]
 anchor_left = 0.05
@@ -579,291 +197,13 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
 anims/rating_appear = SubResource( 16 )
 
-[node name="Control" type="Control" parent="."]
+[node name="UserUI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.735077
 margin_bottom = -0.735107
 __meta__ = {
 "_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
-anchor_left = 0.005
-anchor_right = 1.0
-anchor_bottom = 0.066
-margin_left = -0.4
-margin_top = 1.0
-margin_bottom = 81.48
-rect_min_size = Vector2( 0, 60 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TimeTextureProgress" type="TextureProgress" parent="Control/HBoxContainer"]
-margin_right = 128.0
-margin_bottom = 151.0
-rect_min_size = Vector2( 120, 100 )
-max_value = 1.0
-step = 0.0
-texture_under = ExtResource( 14 )
-texture_over = ExtResource( 18 )
-texture_progress = ExtResource( 14 )
-fill_mode = 4
-tint_under = Color( 0.176471, 0.105882, 0.380392, 1 )
-tint_over = Color( 0.1012, 0.0616, 0.22, 1 )
-tint_progress = Color( 0.658824, 0.466667, 0.941176, 1 )
-
-[node name="HealthTextureProgressGreen" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 120, 100 )
-step = 0.0
-texture_progress = ExtResource( 18 )
-fill_mode = 3
-tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
-tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
-tint_progress = Color( 0.33, 0.18, 0.73, 0.5 )
-
-[node name="HealthTextureProgressRed" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 120, 100 )
-step = 0.0
-texture_progress = ExtResource( 18 )
-fill_mode = 3
-tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
-tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
-tint_progress = Color( 0.729412, 0.184314, 0.4, 0.501961 )
-
-[node name="HealthTextureProgress" type="TextureProgress" parent="Control/HBoxContainer/TimeTextureProgress"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 120, 100 )
-step = 0.0
-value = 50.0
-texture_progress = ExtResource( 18 )
-fill_mode = 3
-tint_under = Color( 0.176471, 0.105882, 0.666667, 1 )
-tint_over = Color( 0.309804, 0.188235, 0.682353, 1 )
-tint_progress = Color( 0.309804, 0.188235, 0.682353, 1 )
-
-[node name="VBoxContainer" type="Control" parent="Control/HBoxContainer"]
-show_behind_parent = true
-margin_left = 132.0
-margin_right = 1314.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-
-[node name="Panel2" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
-modulate = Color( 0.592157, 0.239216, 0.94902, 1 )
-material = SubResource( 18 )
-anchor_left = -0.055
-anchor_top = 0.194
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 1.0
-margin_right = -3.0
-margin_bottom = -41.0
-rect_min_size = Vector2( 0, 70 )
-size_flags_horizontal = 3
-theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 19 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="Control/HBoxContainer/VBoxContainer"]
-anchor_left = -0.055
-anchor_top = 0.194
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -0.902496
-margin_bottom = -39.0705
-rect_min_size = Vector2( 0, 70 )
-size_flags_horizontal = 3
-theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 20 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/HBoxContainer/VBoxContainer/Panel"]
-anchor_left = 0.07
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -14.2907
-margin_right = -1.01001
-margin_bottom = 2.462
-rect_scale = Vector2( 1, 0.996064 )
-custom_constants/margin_top = 4
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
-margin_top = 4.0
-margin_right = 1173.0
-margin_bottom = 82.0
-size_flags_horizontal = 3
-custom_constants/separation = -7
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_right = 1173.0
-margin_bottom = 46.0
-size_flags_vertical = 3
-custom_constants/separation = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_bottom = 46.0
-custom_constants/margin_top = 3
-
-[node name="CircleImage" type="TextureRect" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
-margin_top = 3.0
-margin_bottom = 46.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SongAuthor" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 15.0
-margin_right = 237.0
-margin_bottom = 46.0
-size_flags_vertical = 6
-custom_fonts/font = ExtResource( 11 )
-text = "(NT)NOSONG"
-valign = 1
-uppercase = true
-
-[node name="SongName" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 252.0
-margin_top = 1.0
-margin_right = 1173.0
-margin_bottom = 45.0
-size_flags_horizontal = 3
-size_flags_vertical = 6
-custom_fonts/font = ExtResource( 3 )
-text = "(NT)LOADED"
-valign = 1
-clip_text = true
-script = ExtResource( 35 )
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
-margin_top = 39.0
-margin_right = 1173.0
-margin_bottom = 78.0
-rect_clip_content = true
-size_flags_vertical = 3
-
-[node name="DifficultyLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 245.0
-margin_bottom = 39.0
-size_flags_vertical = 6
-custom_fonts/font = SubResource( 21 )
-text = "(NT)[DIFFICULTY]"
-valign = 1
-uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ModifierLabel" type="Label" parent="Control/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 249.0
-margin_right = 392.0
-margin_bottom = 39.0
-text = "Nightcore"
-valign = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer"]
-margin_left = 1318.0
-margin_right = 1910.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-alignment = 2
-
-[node name="Label" type="Label" parent="Control/HBoxContainer/HBoxContainer"]
-margin_right = 592.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 8 )
-text = "(NT)0000000"
-align = 1
-valign = 1
-script = ExtResource( 9 )
-
-[node name="ClearBar" type="Panel" parent="Control"]
-anchor_top = 0.924
-anchor_right = 1.0
-anchor_bottom = 0.924
-rect_min_size = Vector2( 0, 32 )
-custom_styles/panel = SubResource( 22 )
-script = ExtResource( 24 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-CLEAR_COLOR = Color( 0.662745, 0.0509804, 0.364706, 1 )
-
-[node name="PercentageLabel" type="Label" parent="Control/ClearBar"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = 1.0
-custom_fonts/font = SubResource( 23 )
-text = "(NT)0.00 %"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LatencyDisplay" type="HBoxContainer" parent="Control"]
-anchor_top = 0.96
-anchor_right = 1.0
-anchor_bottom = 1.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Control" parent="Control/LatencyDisplay"]
-margin_left = 660.0
-margin_right = 1260.0
-margin_bottom = 43.0
-rect_min_size = Vector2( 600, 0 )
-script = ExtResource( 25 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/LatencyDisplay/Panel"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="Control/LatencyDisplay/Panel/VBoxContainer"]
-visible = false
-show_behind_parent = true
-margin_top = 14.0
-margin_right = 600.0
-margin_bottom = 29.0
-rect_min_size = Vector2( 0, 15 )
-__meta__ = {
 "_edit_use_anchors_": false
 }
 
@@ -876,7 +216,6 @@ anchor_bottom = 1.0
 layer = 128
 
 [node name="GameOverMessage" type="VBoxContainer" parent="CanvasLayer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.0
@@ -884,15 +223,15 @@ margin_bottom = -1.0
 alignment = 1
 
 [node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
-margin_top = 371.0
+margin_top = 360.0
 margin_right = 1920.0
-margin_bottom = 709.0
+margin_bottom = 719.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 31 )
+custom_styles/panel = SubResource( 19 )
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
 margin_right = 1920.0
-margin_bottom = 338.0
+margin_bottom = 359.0
 mouse_filter = 2
 custom_constants/margin_top = 100
 custom_constants/margin_bottom = 100
@@ -900,15 +239,15 @@ custom_constants/margin_bottom = 100
 [node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
 margin_top = 100.0
 margin_right = 1920.0
-margin_bottom = 238.0
-custom_fonts/font = SubResource( 32 )
+margin_bottom = 259.0
+custom_fonts/font = SubResource( 20 )
 text = "ASSIGNMENT: TERMINATED
 SUBJECT: AIKO
 REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
 align = 1
 valign = 1
 autowrap = true
-script = ExtResource( 37 )
+script = ExtResource( 4 )
 
 [node name="GameOverTurnOff" type="Control" parent="CanvasLayer2"]
 visible = false
