@@ -205,6 +205,7 @@ func select_song(s: HBSong):
 	
 func _on_modify_song_settings_pressed():
 	per_song_settings_editor.current_song = current_song
+	per_song_settings_editor.show()
 	per_song_settings_editor.show_editor()
 	
 
