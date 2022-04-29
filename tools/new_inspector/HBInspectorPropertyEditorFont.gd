@@ -100,6 +100,10 @@ func _init_inspector():
 	extra_character_spacing_spinbox.connect("value_changed", self, "_on_extra_spacing_char_value_changed")
 	extra_spacing_bottom_spinbox.connect("value_changed", self, "_on_extra_spacing_bottom_value_changed")
 
+	size_spinbox.set_block_signals(true)
+	size_spinbox.min_value = 1
+	size_spinbox.max_value = 255
+	size_spinbox.set_block_signals(false)
 func _on_extra_spacing_top_value_changed(val: int):
 	current_font.extra_spacing_top = val
 	emit_signal("value_changed", current_font)

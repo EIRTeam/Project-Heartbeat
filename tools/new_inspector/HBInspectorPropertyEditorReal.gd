@@ -19,7 +19,25 @@ func set_property_data(data: Dictionary):
 		spinbox.step = 0.001
 	else:
 		spinbox.step = 1
+	if data.get("hint", 0) == PROPERTY_HINT_RANGE:
+		var hint_s := data.get("hint_string", "") as String
+		var hint_vals := hint_s.split(",")
+		spinbox.set_block_signals(true)
+		match hint_vals.size():
+			2:
+				spinbox.min_value = hint_vals[0].to_float()
+				spinbox.max_value = hint_vals[1].to_float()
+			3:
+				spinbox.min_value = hint_vals[0].to_float()
+				spinbox.max_value = hint_vals[1].to_float()
+				spinbox.step = hint_vals[2].to_float()
+			4, 5:
+				if "or_lesser" in hint_vals:
+					spinbox.allow_lesser = true
+				if "or_greater" in hint_vals:
+					spinbox.allow_greater = true
 
+		spinbox.set_block_signals(false)
 func _on_value_changed(value: float):
 	emit_signal("value_changed", value)
 
