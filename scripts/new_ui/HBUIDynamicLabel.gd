@@ -19,6 +19,8 @@ func _fit_font():
 		if not clip_text:
 			set_text(text)
 			yield(get_tree(), "idle_frame")
+		else:
+			return
 		var string_size := _internal_font.get_string_size(text)
 		if not autowrap:
 			while string_size.x > rect_size.x:
@@ -26,7 +28,7 @@ func _fit_font():
 				string_size = _internal_font.get_string_size(text)
 				if _internal_font.size <= 1:
 					break
-	
+
 func _on_resized():
 	_fit_font()
 	
