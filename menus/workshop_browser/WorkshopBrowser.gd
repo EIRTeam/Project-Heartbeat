@@ -80,11 +80,11 @@ func _ready():
 	var button_filter_songs = HBHovereableButton.new()
 	button_filter_songs.text = tr("Charts")
 	button_filter_songs.connect("hovered", self, "set_filter_tag", ["Charts"])
-	var button_filter_resource_packs = HBHovereableButton.new()
-	button_filter_resource_packs.text = tr("Resource Packs")
-	button_filter_resource_packs.connect("hovered", self, "set_filter_tag", ["Resource Packs"])
+	var button_filter_note_packs = HBHovereableButton.new()
+	button_filter_note_packs.text = tr("Note Packs")
+	button_filter_note_packs.connect("hovered", self, "set_filter_tag", ["Note Packs"])
 	tag_button_container.add_child(button_filter_songs)
-	tag_button_container.add_child(button_filter_resource_packs)
+	tag_button_container.add_child(button_filter_note_packs)
 	
 	tag_button_container.next_action = "gui_tab_right"
 	tag_button_container.prev_action = "gui_tab_left"
