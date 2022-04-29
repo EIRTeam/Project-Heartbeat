@@ -49,7 +49,6 @@ margin_bottom = 1080.0
 size_flags_vertical = 3
 
 [node name="Textures" type="Panel" parent="VBoxContainer/TabContainer"]
-visible = false
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -275,6 +274,7 @@ size_flags_vertical = 3
 script = ExtResource( 7 )
 
 [node name="Skin" type="Panel" parent="VBoxContainer/TabContainer"]
+visible = false
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -639,7 +639,7 @@ margin_bottom = 410.0
 margin_right = 656.0
 margin_bottom = 368.0
 custom_colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png ; Portable Network Graphics" )
@@ -648,7 +648,7 @@ filters = PoolStringArray( "*.png ; Portable Network Graphics" )
 margin_right = 656.0
 margin_bottom = 368.0
 custom_colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png ; Portable Network Graphics" )

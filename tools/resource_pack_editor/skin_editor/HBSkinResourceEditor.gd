@@ -30,6 +30,8 @@ var texture_import_mode: int = TEXTURE_IMPORT_MODE.NORMAL
 
 var button_pressed_item: TreeItem
 
+var error_confirmation_dialog := ConfirmationDialog.new()
+
 func set_texture_import_mode(val):
 	texture_import_mode = val
 	match texture_import_mode:
@@ -41,6 +43,10 @@ func set_texture_import_mode(val):
 			open_texture_file_dialog.mode = FileDialog.MODE_OPEN_FILES
 
 func _ready():
+	error_confirmation_dialog.window_title = "Error importing!"
+	error_confirmation_dialog.popup_exclusive = true
+	add_child(error_confirmation_dialog)
+	
 	add_child(delete_resource_confirmation_dialog)
 	delete_resource_confirmation_dialog.popup_exclusive = true
 	delete_resource_confirmation_dialog.dialog_text = "Are you sure you want to delete this resource?\nThis cannot be undone"
@@ -116,12 +122,13 @@ func _on_texture_name_text_entered(texture_name: String):
 	open_texture_file_dialog.popup_centered_ratio()
 
 func show_error(err: String):
-	print(err)
+	error_confirmation_dialog.dialog_text = err
+	error_confirmation_dialog.popup_centered()
 
+func clear():
+	tree.clear()
 func user_add_texture_from_path(path: String):
-	prints("ATTEMPED ANIAMTED!", path)
 	if texture_import_mode == TEXTURE_IMPORT_MODE.ANIMATED:
-		prints("ATTEMPED ANIAMTED!", path)
 		return
 	assert(resource_pack)
 	var dir := Directory.new()
@@ -337,6 +344,7 @@ func to_skin_resources() -> HBSkinResources:
 	return resources
 
 func from_skin_resource_cache(cache: HBSkinResourcesCache):
+	resource_storage = HBInspectorResourceStorage.new()
 	for texture_name in cache.skin_resources.textures:
 		if cache.skin_resources.is_animated_texture(texture_name):
 			add_animated_texture(texture_name, cache.get_texture(texture_name))

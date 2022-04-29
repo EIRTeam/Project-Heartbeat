@@ -81,6 +81,5 @@ func _on_Tree_nothing_selected():
 
 func _on_PackTypeOptionButton_item_selected(index):
 	icon_pack_creator_skin_specific_options.hide()
-	print("IDX SELECTED", index == HBResourcePack.RESOURCE_PACK_TYPE.SKIN)
 	if index == HBResourcePack.RESOURCE_PACK_TYPE.SKIN:
 		icon_pack_creator_skin_specific_options.show()

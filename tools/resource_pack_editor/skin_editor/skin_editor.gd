@@ -35,8 +35,19 @@ func set_resource_pack(val):
 	resource_pack = val
 	skin_resource_editor.resource_pack = resource_pack
 	if resource_pack.is_skin():
+		inspector.clear_current()
+		component_widget_anchor.clear_current()
+		component_widget_margin.clear_current()
+		skin_resource_editor.clear()
+		
 		skin = resource_pack.get_skin()
 		var cache := skin.resources.get_cache() as HBSkinResourcesCache
+		skin_resource_editor.from_skin_resource_cache(cache)
+		
+		inspector.resource_storage = skin_resource_editor.resource_storage
+		inspector.resource_storage.connect("texture_removed", self, "_on_resource_storage_texture_removed")
+		inspector.resource_storage.connect("font_removed", self, "_on_resource_storage_font_removed")
+		
 		var layered_components := skin.get_components(get_current_screen(), cache)
 		_on_screen_selected()
 		for layer_name in layered_components:
@@ -71,9 +82,7 @@ func _ready():
 	outliner.connect("component_selected", self, "_on_component_selected")
 	component_widget_anchor.connect("changed", inspector, "property_changed_notified")
 	component_widget_margin.connect("changed", inspector, "property_changed_notified")
-	inspector.resource_storage.connect("texture_removed", self, "_on_resource_storage_texture_removed")
-	inspector.resource_storage.connect("font_removed", self, "_on_resource_storage_font_removed")
-	skin_resource_editor.resource_storage = inspector.resource_storage
+
 	error_popup.popup_exclusive = true
 	outliner.connect("item_removed", self, "_on_item_removed")
 	outliner.connect("moved_component_to_layer", self, "_on_outliner_moved_component_to_layer")
@@ -84,6 +93,8 @@ func _ready():
 func _on_screen_selected():
 	outliner.clear_layers()
 	clear_components()
+	for layer in layers.values():
+		layer.queue_free()
 	layers.clear()
 	for layer in get_screen_layers(screen_option_button.selected):
 		outliner.add_layer(layer)

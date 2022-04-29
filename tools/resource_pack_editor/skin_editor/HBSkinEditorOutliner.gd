@@ -210,7 +210,6 @@ func _on_move_to_layer_pressed(idx: int):
 	currently_selected_item = null
 	
 func _on_contextual_menu_id_pressed(id: int):
-	print(id)
 	match id:
 		CONTEXTUAL_MENU_MOVE_BACK, CONTEXTUAL_MENU_MOVE_FORWARD:
 			var position_change = 1

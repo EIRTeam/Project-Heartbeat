@@ -174,7 +174,6 @@ func _get_preset_name(preset: int) -> String:
 func fill_preset_menu(menu: PopupMenu):
 	for i in range(PRESET_WIDE+1):
 		menu.add_item(_get_preset_name(i), i)
-		print(_get_preset_name(i))
 		if i in [PRESET_BOTTOM_RIGHT, PRESET_CENTER, PRESET_HCENTER_WIDE]:
 			menu.add_separator()
 			
