@@ -32,6 +32,9 @@ var button_pressed_item: TreeItem
 
 var error_confirmation_dialog := ConfirmationDialog.new()
 
+signal resource_deleted
+signal resource_added
+
 func set_texture_import_mode(val):
 	texture_import_mode = val
 	match texture_import_mode:
@@ -84,7 +87,7 @@ func _ready():
 	add_animated_texture_button.connect("pressed", texture_name_text_input, "popup_centered")
 	var add_font_button := Button.new()
 	add_font_button.text = "Add font"
-	add_texture_button.connect("pressed", self, "set_texture_import_mode", [TEXTURE_IMPORT_MODE.ANIMATED])
+	add_texture_button.connect("pressed", self, "set_texture_import_mode", [TEXTURE_IMPORT_MODE.NORMAL])
 	add_texture_button.connect("pressed", texture_name_text_input, "popup_centered")
 	add_font_button.connect("pressed", font_name_text_input, "popup_centered")
 
@@ -127,6 +130,7 @@ func show_error(err: String):
 
 func clear():
 	tree.clear()
+	tree.create_item()
 func user_add_texture_from_path(path: String):
 	if texture_import_mode == TEXTURE_IMPORT_MODE.ANIMATED:
 		return
@@ -151,9 +155,8 @@ func user_add_texture_from_path(path: String):
 				show_error("Not a valid PNG file")
 		else:
 			show_error("Error opening file %s" % path)
-			
+	emit_signal("resource_added")
 func user_add_animated_texture_from_paths(paths: Array):
-	assert(resource_pack)
 	var dir := Directory.new()
 	for i in range(paths.size()):
 		var path := paths[i] as String
@@ -186,7 +189,8 @@ func user_add_animated_texture_from_paths(paths: Array):
 			var new_path := skin_resources_path.plus_file(HBUtils.get_valid_filename(currently_creating_texture_name) + frame_str + ".png")
 			dir.copy(path, new_path)
 	add_animated_texture_from_paths(currently_creating_texture_name, paths)
-			
+	emit_signal("resource_added")
+
 func user_add_font_from_path(path: String):
 	assert(resource_pack)
 	var dir := Directory.new()
@@ -214,7 +218,8 @@ func user_add_font_from_path(path: String):
 				show_error("Not a valid OTF/TTF file")
 		else:
 			show_error("Error opening file %s" % path)
-			
+	emit_signal("resource_added")
+
 func add_texture(texture_name: String, path: String, texture: Texture):
 	resource_storage.add_texture(texture_name, texture)
 	
@@ -264,7 +269,7 @@ func delete_resource(item: TreeItem):
 				dir.remove(item.get_meta("texture_path") as String)
 			resource_storage.remove_texture(item.get_meta("texture_name"))
 	item.free()
-			
+	emit_signal("resource_deleted")
 func _on_delete_resource_confirmed():
 	delete_resource(button_pressed_item)
 			
@@ -301,7 +306,7 @@ func add_animated_texture_from_paths(texture_name: String, paths: Array):
 			return
 		var imgtex := ImageTexture.new()
 		imgtex.create_from_image(img, HBGame.platform_settings.texture_mode)
-		imgtex.set_meta("animated_texture_path", texture_name + "_%0*d" % [str(paths.size()).length(), i] + ".png")
+		imgtex.set_meta("animated_texture_path", resource_pack._path.plus_file("skin_resources").plus_file(texture_name + "_%0*d" % [str(paths.size()).length(), i] + ".png"))
 		animated_tex.set_frame_texture(i, imgtex)
 	add_animated_texture(texture_name, animated_tex)
 	

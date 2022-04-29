@@ -55,7 +55,6 @@ func set_resource_pack(val):
 				for component in layered_components[layer_name]:
 					layers[layer_name].add_child(component, true)
 					outliner.add_component(component, layer_name)
-		skin_resource_editor.from_skin_resource_cache(cache)
 	
 func show_error(error: String):
 	error_popup.dialog_text = error
@@ -90,6 +89,9 @@ func _ready():
 	component_widget_anchor.hide()
 	component_widget_margin.hide()
 	component_widget_margin.connect("changed", component_widget_anchor, "_copy_anchor_from_target_node")
+	skin_resource_editor.connect("resource_deleted", self, "save_skin")
+	skin_resource_editor.connect("resource_added", self, "save_skin")
+
 func _on_screen_selected():
 	outliner.clear_layers()
 	clear_components()
