@@ -97,13 +97,13 @@ func get_hb_inspector_whitelist() -> Array:
 	return whitelist
 
 func appear():
-	tween.reset_all()
+	tween.remove_all()
 	show()
 	rect_position.x = _starting_margin_left - base_container.rect_size.x
 	tween.interpolate_property(self, "rect_position:x", _starting_margin_left-base_container.rect_size.x, _starting_margin_left, 1.0, Tween.TRANS_CUBIC, Tween.EASE_OUT, 1.0)
 	tween.start()
 
 func disappear():
-	tween.reset_all()
+	tween.remove_all()
 	tween.interpolate_property(self, "rect_position:x", _starting_margin_left, _starting_margin_left-base_container.rect_size.x, 1.0, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	tween.start()
