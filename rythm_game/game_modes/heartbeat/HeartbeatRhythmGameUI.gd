@@ -174,6 +174,9 @@ func _on_intro_skipped(time):
 
 	intro_skip_ff_animation_player.play("animate")
 
+func hide_intro_skip():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, SKIP_INTRO_INDICATOR_GROUP, "hide")
+
 func _on_hold_released():
 	# When you release a hold it disappears instantly
 	_update_clear_bar_value()

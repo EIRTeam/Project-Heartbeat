@@ -170,11 +170,6 @@ func fit_hold_count_label():
 	hold_count_label.rect_position.x = -size.x * 0.5
 	hold_count_label.rect_position.y = (main_panel.rect_size.y - size.y) * 0.5
 
-func _input(event):
-	if event.is_action_pressed("free_friends"):
-		print("FRIENDS!")
-		print(hold_count_label.rect_position.x)
-
 func _on_vbox_container_resized():
 	rect_min_size = vbox_container.get_minimum_size()
 
