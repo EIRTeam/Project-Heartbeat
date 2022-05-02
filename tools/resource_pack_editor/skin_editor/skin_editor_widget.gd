@@ -26,6 +26,7 @@ var _dragging_start_pos := Vector2.ZERO
 var _dragging_margin_horizontal := "margin_left"
 var _dragging_margin_vertical := "margin_top"
 var _dragging_edit_value_start := Vector2.ZERO
+var _ignore_resize_flag := false
 
 const CORNER = preload("res://tools/resource_pack_editor/skin_editor/skin_editor_corner.tscn")
 
@@ -81,7 +82,8 @@ func _copy_margin_from_target_node():
 		
 func _on_target_node_resized():
 	if mode == WIDGET_MODE.MARGIN:
-		_copy_margin_from_target_node()
+		if not _ignore_resize_flag:
+			_copy_margin_from_target_node()
 	elif mode == WIDGET_MODE.ANCHOR:
 		_copy_anchor_from_target_node()
 func set_target_node(val):
@@ -382,8 +384,10 @@ func _process(delta):
 		if target_node:
 			if mode == WIDGET_MODE.MARGIN:
 				set_block_signals(true)
+				_ignore_resize_flag = true
 				target_node.rect_position = rect_position
 				target_node.rect_size = rect_size
+				_ignore_resize_flag = false
 				set_block_signals(false)
 				if target_node.rect_min_size.x > 0:
 					rect_size.x = max(rect_size.x, target_node.rect_min_size.x)
