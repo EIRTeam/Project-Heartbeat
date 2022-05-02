@@ -51,6 +51,8 @@ const CONTEXTUAL_FIT_MARGIN_TO_ANCHOR = 2
 
 signal changed
 
+export(DynamicFont) var popupmenu_font: DynamicFont
+
 func fill_contextual_menu():
 	contextual_menu.clear()
 	contextual_menu.add_submenu_item("Anchor preset", "ContextualMenuAnchor", CONTEXTUAL_ANCHOR_MENU)
@@ -208,6 +210,8 @@ func _apply_anchor_and_margin_preset(preset: int):
 		
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	contextual_menu_anchor_preset.add_font_override("font", popupmenu_font)
+	contextual_menu_anchor_margin_preset.add_font_override("font", popupmenu_font)
 	contextual_menu_anchor_preset.name = "ContextualMenuAnchor"
 	contextual_menu_anchor_margin_preset.name = "ContextualMenuAnchorMargin"
 	

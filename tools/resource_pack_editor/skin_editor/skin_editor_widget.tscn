@@ -7,6 +7,12 @@
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
+[sub_resource type="DynamicFont" id=4]
+size = 32
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.639216, 0, 1, 0 )
 border_width_left = 1
@@ -31,12 +37,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="DynamicFont" id=4]
-size = 32
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 3 )
-
 [node name="SkinEditorWidget" type="PanelContainer"]
 margin_top = 33.0
 margin_right = 127.0
@@ -44,6 +44,7 @@ margin_bottom = 119.0
 theme = ExtResource( 4 )
 custom_styles/panel = SubResource( 3 )
 script = ExtResource( 1 )
+popupmenu_font = SubResource( 4 )
 
 [node name="Outline" type="Panel" parent="."]
 margin_right = 127.0
