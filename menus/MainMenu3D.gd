@@ -2,8 +2,6 @@ extends "res://menus/MainMenu.gd"
 
 const SLIDE_PARTICLES = preload("res://graphics/effects/SlideParticles.tscn")
 
-
-
 func _ready():
 	# We have to do this to force a shader compile beforehand because godot is
 	# stupid
@@ -35,4 +33,5 @@ func menu_setup():
 	background_transition_animation_player = get_node("CanvasLayer/AnimationPlayer")
 	user_info_ui = right_menu_container.get_node("../UserInfo")
 	music_player_control = get_node("CanvasLayer2/MainMenuMusicPlayer")
+	visualizer = get_node("CanvasLayer/MainMenuVisualizer2")
 	change_to_menu(starting_menu, false, starting_menu_args)

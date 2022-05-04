@@ -1,7 +1,7 @@
 extends Panel
 var FREQ_MAX = 44100.0 / 2.5 setget set_freq_max
-const VU_COUNT = 64 # high VU_COUNTS break on windows
-var MIN_DB = 70 setget set_min_db
+const VU_COUNT = 256 # high VU_COUNTS break on windows
+var MIN_DB = 60 setget set_min_db
 var spectrum_image := Image.new()
 var spectrum_image_texture := ImageTexture.new()
 export(StyleBox) var fallback_stylebox: StyleBox
@@ -35,25 +35,30 @@ func _ready():
 	else:
 		_background_dim_changed(UserSettings.user_settings.background_dim)
 		
+#	add_child(texr)
+#	texr.texture = spectrum_image_texture
+#	texr.expand = true
+#	texr.rect_size.y = 100.0
+#	texr.rect_size.x = 256.0
+		
 func _background_dim_changed(new_dim: float):
 	if not UserSettings.user_settings.visualizer_enabled:
 		var box = fallback_stylebox as StyleBoxFlat
 		box.bg_color.a = 0.5 + (new_dim * 0.5)
 
+func _process(delta: float):
+	pass
+	update()
+
 func _physics_process(delta):
-	var prev_hz = 0
 	spectrum_image.lock()
-	for i in range(1, VU_COUNT+1):
-		var hz = i * (FREQ_MAX / VU_COUNT)
-		var f = HBGame.spectrum_analyzer.get_magnitude_for_frequency_range(prev_hz,hz, ShinobuGodotEffectSpectrumAnalyzer.MAGNITUDE_MAX)
-		var energy = clamp((MIN_DB + linear2db(f.length()))/MIN_DB,0,1)
-		
-		spectrum_image.set_pixel(i-1, 0, Color(energy, 0.0, 0.0))
-		
-		prev_hz = hz
+	for i in range(VU_COUNT):
+		var magnitude := HBGame.spectrum_snapshot.get_value_at_i(i) as float
+		spectrum_image.set_pixel(i, 0, Color(magnitude, 0.0, 0.0))
 	#spectrum_image.set_pixel(0, 0, Color(1.0, 0.0, 0.0))
 	spectrum_image.unlock()
 	spectrum_image_texture.set_data(spectrum_image)
 	var mat := material as ShaderMaterial
 	mat.set_shader_param("size", rect_size)
 
+ 

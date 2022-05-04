@@ -11,6 +11,7 @@ var music_player_control
 var default_bg: Texture = preload("res://graphics/predarkenedbg.png")
 var last_bg = 1
 var starting_song: HBSong
+var visualizer: Control
 
 const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
 
@@ -220,9 +221,9 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 
 var iflag = true # Flag that tells it to ignore the first background change
 func _on_song_started(song, assets):
+	HBGame.spectrum_snapshot.set_volume(player.current_song_player.target_volume)
 	if "audio" in assets:
 		if assets.audio:
-			pass
 			music_player_control.set_song(song, assets.audio.get_length())
 	if (starting_menu in result_menus) or (not iflag):
 		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:

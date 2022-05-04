@@ -94,10 +94,16 @@ var ui_components := {}
 
 var fallback_font: HBUIFont = preload("res://fonts/skined_fallback_font.tres")
 
+const SPECTRUM_DEFINITION = 256
+
+var spectrum_snapshot: HBSpectrumSnapshot
+
 func _ready():
+	spectrum_snapshot = HBSpectrumSnapshot.new(SPECTRUM_DEFINITION)
 	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():
 		demo_mode = true
+	add_child(spectrum_snapshot)
 	
 var spectrum_analyzer: ShinobuGodotEffectSpectrumAnalyzer
 	
@@ -106,6 +112,7 @@ func _register_basic_sfx():
 	ShinobuGodot.register_group("sfx")
 	ShinobuGodot.register_group("menu_music", "music")
 	spectrum_analyzer = ShinobuGodot.instantiate_spectrum_analyzer()
+	spectrum_snapshot.analyzer = spectrum_analyzer
 	ShinobuGodot.connect_group_to_effect("music", spectrum_analyzer)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav", MENU_PRESS_SFX)
 	ShinobuGodot.register_sound_from_path("res://sounds/sfx/flashback.wav", ROLLBACK_SFX)
@@ -116,6 +123,10 @@ func _register_basic_sfx():
 	
 func _register_ui_component(component: GDScript):
 	ui_components[component.get_component_id()] = component
+	
+func _process(delta):
+	spectrum_snapshot.decay(delta)
+
 	
 func _register_ui_components():
 	_register_ui_component(HBUISongProgress)

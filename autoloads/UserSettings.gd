@@ -371,6 +371,7 @@ func apply_user_settings(apply_display := false):
 	AudioServer.set_bus_effect_enabled(AudioServer.get_bus_index("Music"), 0, user_settings.visualizer_enabled)
 	apply_volumes()
 	register_user_fx()
+	HBGame.spectrum_snapshot.enabled = user_settings.visualizer_enabled
 
 var enable_menu_fps_limits := false setget set_enable_menu_fps_limits
 

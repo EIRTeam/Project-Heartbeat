@@ -193,6 +193,8 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 
 	set_chart(chart)
 	
+	HBGame.spectrum_snapshot.set_volume(_volume_offset)
+	
 	earliest_note_time = -1
 	for i in range(timing_points.size() - 1, -1, -1):
 		var group = timing_points[i]
