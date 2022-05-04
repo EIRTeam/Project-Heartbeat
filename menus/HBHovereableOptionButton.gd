@@ -54,8 +54,8 @@ func get_item_count() -> int:
 	return vbox_container.get_child_count()
 	
 func _on_pressed():
-	items_panel_container.rect_global_position = rect_global_position + Vector2(0, rect_size.y)
 	items_panel_container.show()
+	items_panel_container.rect_position = Vector2(rect_size.x - items_panel_container.rect_size.x, rect_size.y)
 	vbox_container.grab_focus()
 	vbox_container.select_button(selected_item)
 	
@@ -70,11 +70,11 @@ func _on_visibility_changed():
 	set_process_input(is_visible_in_tree())
 	
 func _ready():
-	items_panel_container.set_as_toplevel(true)
 	items_panel_container.hide()
 	connect("pressed", self, "_on_pressed")
 	connect("visibility_changed", self, "_on_visibility_changed")
 	set_process_input(false)
+	VisualServer.canvas_item_set_z_index(items_panel_container.get_canvas_item(), 100)
 
 func _notification(what):
 	match what:
