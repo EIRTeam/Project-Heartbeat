@@ -12,8 +12,6 @@ func _ready():
 #	bar_visualizer.inside_percentage = 0.5
 func _on_resized():
 	bar_visualizer.rect_pivot_offset = bar_visualizer.rect_size * 0.5
-	logo_heart.rect_size = rect_size
-	logo_heart.rect_position = Vector2.ZERO
 
 func _on_heart_resized():
 	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
