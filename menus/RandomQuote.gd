@@ -65,7 +65,8 @@ const QUOTES = [
 	"Powered by Godot",
 	"Project Heartbeat 72.5",
 	"Made with love, from Spain",
-	"↑ ↑ ↓ ↓ ← → ← → X O"
+	"↑ ↑ ↓ ↓ ← → ← → X O",
+	"Tim Sweeney seal of approval" # https://twitter.com/TimSweeneyEpic/status/1521687581712429056
 ]
 
 const BIRTHDAYS = {
