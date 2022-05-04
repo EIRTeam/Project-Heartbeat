@@ -49,6 +49,10 @@ func sort_and_filter_songs():
 				should_add_song = true
 		
 		if should_add_song:
+			if UserSettings.user_settings.filter_has_media:
+				should_add_song = song.is_cached()
+		
+		if should_add_song:
 			for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
 				if search_term.empty() or search_term in field:
 					_filtered_songs.append(song)

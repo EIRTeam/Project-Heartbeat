@@ -10,7 +10,7 @@ var pevent_pregame_screen = false
 onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
 onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
 onready var sort_by_list = get_node("CenterContainer/SortByPanel")
-onready var sort_by_list_container = get_node("CenterContainer/SortByPanel/VBoxContainer")
+onready var sort_by_list_container = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer")
 onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/FolderPath")
 onready var folder_manager = get_node("FolderManager")
 onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
@@ -18,41 +18,41 @@ onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContaine
 onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
 onready var song_count_indicator = get_node("SongCountIndicator")
 onready var search_text_input = get_node("SearchTextInput")
+onready var sort_by_option_button: HBHovereableOptionButton = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/OptionButton")
+onready var sort_mode_label: Label = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/Label")
+onready var has_media_checkbox: CheckBox = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/HasMediaCheckbox")
+onready var has_media_filter_texture_rect := get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/TextureRect2")
 
 var force_next_song_update = false
 
+var allowed_sort_by = {
+	"title": tr("Title"),
+	"artist": tr("Artist"),
+	"score": tr("Difficulty"),
+	"creator": tr("Chart Creator"),
+	"bpm": tr("BPM"),
+	"_added_time": tr("Last Subscribed"),
+	"_times_played": tr("Times played"),
+	"_released_time": tr("Last released"),
+	"_updated_time": tr("Last updated")
+}
+
 func populate_sort_by_list():
-	var allowed_sort_by = {
-		"title": "Title",
-		"artist": "Artist",
-		"score": "Difficulty",
-		"creator": "Chart Creator",
-		"bpm": "BPM",
-		"_added_time": "Last Subscribed",
-		"_times_played": "Times played",
-		"_released_time": "Last released",
-		"_updated_time": "Last updated"
-	}
-	
 	var workshop_only_sort_by = ["_added_time", "_released_time", "_updated_time"]
 	
-	for button in sort_by_list_container.get_children():
-		sort_by_list_container.remove_child(button)
-		button.queue_free()
-	
+	sort_by_option_button.clear()
+	sort_by_option_button.set_block_signals(true)
 	for sort_by in allowed_sort_by:
 		if sort_by in workshop_only_sort_by and not UserSettings.user_settings.filter_mode == "workshop":
 			continue
-		var button = HBHovereableButton.new()
-		button.text = allowed_sort_by[sort_by]
-		button.connect("pressed", self, "set_sort", [sort_by])
-		sort_by_list_container.add_child(button)
+		sort_by_option_button.add_item(allowed_sort_by[sort_by], sort_by)
 		# We ensure the current sort mode is selected by default
 		var current_sort_mode = UserSettings.user_settings.sort_mode
 		if UserSettings.user_settings.filter_mode == "workshop":
 			current_sort_mode = UserSettings.user_settings.workshop_tab_sort_mode
 		if sort_by == current_sort_mode:
-			sort_by_list_container.select_button(button.get_position_in_parent())
+			sort_by_option_button.selected_item = sort_by_option_button.get_item_count()-1
+	sort_by_option_button.set_block_signals(false)
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
@@ -73,6 +73,11 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	populate_buttons()
 		
 	sort_by_list.hide()
+		
+	has_media_checkbox.set_block_signals(true)
+	has_media_checkbox.pressed = UserSettings.user_settings.filter_has_media
+	has_media_checkbox.set_block_signals(false)
+	has_media_filter_texture_rect.visible = UserSettings.user_settings.filter_has_media
 		
 	set_filter(UserSettings.user_settings.filter_mode, false)
 	
@@ -111,8 +116,12 @@ func set_sort(sort_by):
 	UserSettings.save_user_settings()
 	song_container.sort_by_prop = sort_by
 	song_container.set_songs(SongLoader.songs.values(), null, null, true)
-	song_container.grab_focus()
-	sort_by_list.hide()
+	update_sort_label(sort_by)
+func update_sort_label(sort_by):
+	sort_mode_label.text = "Sorting by %s" % [allowed_sort_by[sort_by]]
+	
+#	song_container.grab_focus()
+#	sort_by_list.hide()
 func _on_ugc_item_installed(type, item):
 	if type == "song":
 		force_next_song_update = true
@@ -127,7 +136,14 @@ func _on_menu_exit(force_hard_transition = false):
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
 
+func set_media_checkbox(pressed: bool):
+	UserSettings.user_settings.filter_has_media = pressed
+	UserSettings.save_user_settings()
+	song_container.set_songs(SongLoader.songs.values(), null, null, true)
+	has_media_filter_texture_rect.visible = pressed
 func _ready():
+	has_media_checkbox.connect("toggled", self, "set_media_checkbox")
+	sort_by_option_button.connect("selected", self, "set_sort")
 	song_container.connect("song_hovered", self, "_on_song_hovered")
 	song_container.connect("hover_nonsong", self, "_on_non_song_hovered")
 	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
@@ -232,6 +248,10 @@ func set_filter(filter_name, save=true):
 			set_sort(UserSettings.user_settings.workshop_tab_sort_mode)
 		else:
 			set_sort(UserSettings.user_settings.sort_mode)
+	if filter_name == "workshop":
+		update_sort_label(UserSettings.user_settings.workshop_tab_sort_mode)
+	else:
+		update_sort_label(UserSettings.user_settings.sort_mode)
 	update_path_label()
 func update_path_label():
 	if UserSettings.user_settings.filter_mode == "folders":
@@ -312,6 +332,7 @@ func _unhandled_input(event):
 func show_order_by_list():
 	populate_sort_by_list()
 	sort_by_list.show()
+	sort_by_list_container.select_button(1)
 	sort_by_list_container.grab_focus()
 	
 func _on_difficulty_selected(song: HBSong, difficulty):

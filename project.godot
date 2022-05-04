@@ -239,6 +239,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/HBHovereableButton.gd"
 }, {
+"base": "CheckBox",
+"class": "HBHovereableCheckbox",
+"language": "GDScript",
+"path": "res://HBHovereableCheckbox.gd"
+}, {
+"base": "Button",
+"class": "HBHovereableOptionButton",
+"language": "GDScript",
+"path": "res://menus/HBHovereableOptionButton.gd"
+}, {
 "base": "Reference",
 "class": "HBINIParser",
 "language": "GDScript",
@@ -996,6 +1006,8 @@ _global_script_class_icons={
 "HBHeartbeatGameMode": "",
 "HBHistoryEntry": "",
 "HBHovereableButton": "",
+"HBHovereableCheckbox": "",
+"HBHovereableOptionButton": "",
 "HBINIParser": "",
 "HBInspectorMK2": "",
 "HBInspectorPropertyEditFont": "",

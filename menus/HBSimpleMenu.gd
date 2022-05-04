@@ -26,7 +26,7 @@ func _ready():
 	connect("focus_exited", self, "_on_focus_exited")
 func select_button(i: int, fire_event=true):
 	var child = get_child(i)
-	if selected_button:
+	if selected_button and is_instance_valid(selected_button):
 		selected_button.stop_hover()
 	child.hover()
 	if fire_event:
@@ -124,7 +124,10 @@ func _gui_input(event):
 				sfx_type = selected_button.get_meta("sfx")
 			if not sfx_type.empty():
 				ShinobuGodot.fire_and_forget_sound(sfx_type, "sfx")
-			selected_button.emit_signal("pressed")
+			if selected_button.toggle_mode:
+				selected_button.pressed = !selected_button.pressed
+			else:
+				selected_button.emit_signal("pressed")
 	elif event.is_action_pressed("gui_down")  and not ignore_down:
 		get_tree().set_input_as_handled()
 		emit_signal("bottom")
