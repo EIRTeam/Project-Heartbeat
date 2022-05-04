@@ -5,13 +5,18 @@ onready var logo_heart := get_node("Heart")
 
 func _ready():
 	connect("resized", self, "_on_resized")
+	logo_heart.connect("resized", self, "_on_heart_resized")
 	call_deferred("_on_resized")
-	logo_heart.rect_scale = Vector2(0.5, 0.5)
-	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
-	bar_visualizer.inside_percentage = 0.5
+#	logo_heart.rect_scale = Vector2(0.5, 0.5)
+#	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
+#	bar_visualizer.inside_percentage = 0.5
 func _on_resized():
-	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
 	bar_visualizer.rect_pivot_offset = bar_visualizer.rect_size * 0.5
+	logo_heart.rect_size = rect_size
+	logo_heart.rect_position = Vector2.ZERO
+
+func _on_heart_resized():
+	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
 
 func _process(delta):
 	var avg := 0.0
@@ -21,6 +26,5 @@ func _process(delta):
 		avg += HBGame.spectrum_snapshot.get_value_at_i(i)
 	avg /= float(A)
 	logo_heart.rect_scale = logo_heart.rect_scale.linear_interpolate(Vector2.ONE * 0.5 + Vector2.ONE * range_lerp(avg, 0.0, 1.0, 0.0, 0.5), delta * 16)
-
 func _draw():
 	pass
