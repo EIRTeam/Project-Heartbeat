@@ -51,19 +51,19 @@ func snap():
 	for i in range(arr.size()):
 		var freq = min_freq + interval * i
 		var freqrange_low = float(freq - min_freq) / float(max_freq - min_freq)
-		freqrange_low = pow(freqrange_low, 1.5)
+		freqrange_low = pow(freqrange_low, 2.0)
 		freqrange_low = lerp(min_freq, max_freq, freqrange_low)
 		
 		freq += interval
 		var freqrange_high = float(freq - min_freq) / float(max_freq - min_freq)
-		freqrange_high = pow(freqrange_high, 1.5)
+		freqrange_high = pow(freqrange_high, 2.0)
 		freqrange_high = lerp(min_freq, max_freq, freqrange_high)
 		
 		
 		var mag = analyzer.get_magnitude_for_frequency_range(freqrange_low, freqrange_high)
 		mag = linear2db(mag.length())
 		mag = (mag - min_db) / (max_db - min_db)
-#			mag += 0.3 * (freq - min_freq) / (max_freq - min_freq)
+		mag += 0.3 * (freq - min_freq) / (max_freq - min_freq)
 		mag = clamp(mag, 0.00, 1)
 		
 		if mag > arr[i]:

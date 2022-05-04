@@ -7,6 +7,7 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 819.512, 333.474 ]
@@ -15,12 +16,14 @@ __meta__ = {
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="BarVisualizer" type="Control" parent="AspectRatioContainer"]
 show_behind_parent = true
 margin_left = 420.0
 margin_right = 1500.0
 margin_bottom = 1080.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -29,6 +32,7 @@ script = ExtResource( 1 )
 anchor_top = 0.04
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 3 )
@@ -38,3 +42,4 @@ stretch_mode = 6
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_filter = 2
