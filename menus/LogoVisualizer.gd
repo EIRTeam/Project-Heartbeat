@@ -5,14 +5,13 @@ onready var logo_heart := get_node("Heart")
 
 func _ready():
 	connect("resized", self, "_on_resized")
-	_on_resized()
+	call_deferred("_on_resized")
 	logo_heart.rect_scale = Vector2(0.5, 0.5)
 	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
 	bar_visualizer.inside_percentage = 0.5
 func _on_resized():
 	logo_heart.rect_pivot_offset = logo_heart.rect_size * 0.5
 	bar_visualizer.rect_pivot_offset = bar_visualizer.rect_size * 0.5
-	bar_visualizer.rect_scale = Vector2.ONE * 1.0
 
 func _process(delta):
 	var avg := 0.0
