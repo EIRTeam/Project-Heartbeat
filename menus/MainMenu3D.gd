@@ -34,4 +34,5 @@ func menu_setup():
 	user_info_ui = right_menu_container.get_node("../UserInfo")
 	music_player_control = get_node("CanvasLayer2/MainMenuMusicPlayer")
 	visualizer = get_node("CanvasLayer/MainMenuVisualizer2")
+	bar_visualizer = get_node("CanvasLayer/AspectRatioContainer/Control")
 	change_to_menu(starting_menu, false, starting_menu_args)

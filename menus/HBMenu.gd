@@ -2,6 +2,8 @@ extends Control
 
 signal change_to_menu(menu_name, force_hard_transition, args)
 signal transition_finished()
+signal menu_entered
+signal menu_exited
 class_name HBMenu
 
 onready var tween = Tween.new()
@@ -38,6 +40,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	else:
 		hide()
 		emit_signal("transition_finished")
+	emit_signal("menu_entered")
 func _on_menu_exit(force_hard_transition = false):
 	var starting_color = Color.white
 	starting_color.a = 1.0
@@ -55,3 +58,4 @@ func _on_menu_exit(force_hard_transition = false):
 	else:
 		hide()
 		emit_signal("transition_finished")
+	emit_signal("menu_exited")

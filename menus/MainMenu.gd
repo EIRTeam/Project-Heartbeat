@@ -12,6 +12,7 @@ var default_bg: Texture = preload("res://graphics/predarkenedbg.png")
 var last_bg = 1
 var starting_song: HBSong
 var visualizer: Control
+var bar_visualizer: Control
 
 const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
 
@@ -149,7 +150,11 @@ func _ready():
 	MENUS["main_menu"].left.connect("right", MENUS["main_menu_right"].right, "_on_right_from_MainMenu")
 	MENUS["main_menu_right"].right.connect("left", MENUS["main_menu"].left, "_on_left_from_MainMenuRight")
 	
+	
 	menu_setup()
+	MENUS.main_menu.left.connect("menu_entered", bar_visualizer, "appear")
+	MENUS.main_menu.left.connect("menu_exited", bar_visualizer, "disappear")
+	
 	
 	if starting_song:
 		player.play_song(starting_song)
