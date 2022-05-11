@@ -159,10 +159,12 @@ func _on_item_created(result, file_id, tos):
 			MODE.SONG:
 				current_song.ugc_id = file_id
 				current_song.ugc_service_name = ugc.get_ugc_service_name()
+				current_song.save_song()
 				upload_song(current_song, file_id)
 			MODE.RESOURCE_PACK:
 				current_resource_pack.ugc_id = file_id
 				current_resource_pack.ugc_service_name = ugc.get_ugc_service_name()
+				current_resource_pack.save_pack()
 				upload_resource_pack(current_resource_pack, file_id)
 	else:
 		print("CREATION ERR!", result)
