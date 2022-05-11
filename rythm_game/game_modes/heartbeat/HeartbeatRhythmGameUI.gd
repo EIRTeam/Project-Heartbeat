@@ -1,6 +1,7 @@
 extends HBRhythmGameUIBase
 
 onready var rating_label: Label = get_node("RatingLabel")
+onready var wrong_rating_cross: TextureRect = get_node("RatingLabel/WrongRatingCross")
 onready var game_layer_node = get_node("GameLayer")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
@@ -119,6 +120,17 @@ func _on_note_judged(judgement_info):
 		rating_label.rect_position.y -= 64
 	else:
 		rating_label.rect_position.y += 64
+	rating_label.minimum_size_changed()
+	wrong_rating_cross.rect_position = Vector2.ZERO
+	if judgement_info.wrong:
+		wrong_rating_cross.show()
+		var min_size_x := rating_label.get_minimum_size().x
+		wrong_rating_cross.rect_position = rating_label.rect_size * 0.5 - Vector2(0, wrong_rating_cross.rect_size.y) * 0.5
+		wrong_rating_cross.rect_position.x += min_size_x * 0.5
+		# Add some separation...
+		wrong_rating_cross.rect_position.x += 5
+	else:
+		wrong_rating_cross.hide()
 	if not game.previewing:
 		rating_label.show()
 	else:

@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
+[ext_resource path="res://graphics/wrong_rating_cross.png" type="Texture" id=6]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
@@ -193,6 +194,13 @@ script = ExtResource( 26 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="WrongRatingCross" type="TextureRect" parent="RatingLabel"]
+margin_left = 440.0
+margin_right = 480.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
 anims/rating_appear = SubResource( 16 )
