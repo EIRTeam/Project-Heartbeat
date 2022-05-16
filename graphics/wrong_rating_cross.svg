@@ -7,8 +7,11 @@
    viewBox="0 0 16.933333 16.933334"
    version="1.1"
    id="svg5"
+   sodipodi:docname="wrong_rating_cross.svg"
+   inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/wrong_rating_cross.png"
+   inkscape:export-xdpi="96.000008"
+   inkscape:export-ydpi="96.000008"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
-   sodipodi:docname="wrong_note_cross.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +28,9 @@
      showgrid="false"
      units="px"
      width="64px"
-     inkscape:zoom="6.1647026"
-     inkscape:cx="14.923672"
-     inkscape:cy="31.307269"
+     inkscape:zoom="8.718206"
+     inkscape:cx="15.656891"
+     inkscape:cy="36.131287"
      inkscape:window-width="2560"
      inkscape:window-height="1027"
      inkscape:window-x="0"
@@ -45,6 +48,42 @@
          d="m 4.9738566,2.0680908 -2.9057658,2.9057658 3.49281,3.4928101 -3.49281,3.4928093 2.9057658,2.905766 3.4928101,-3.49281 3.4928093,3.49281 2.905766,-2.905766 -3.49281,-3.4928093 3.49281,-3.4928101 -2.905766,-2.9057658 -3.4928093,3.49281 z"
          clip-path="none" />
     </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter4834"
+       x="0.28275202"
+       y="0.068466204"
+       width="0.45148677"
+       height="0.69867173">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood4824" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite4826" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="0"
+         result="blur"
+         id="feGaussianBlur4828" />
+      <feOffset
+         dx="0.75"
+         dy="0.29999999999999999"
+         result="offset"
+         id="feOffset4830" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite4832" />
+    </filter>
   </defs>
   <g
      inkscape:label="Capa 1"
@@ -52,22 +91,32 @@
      id="layer1">
     <g
        id="g932">
-      <path
-         id="rect846"
-         style="fill:#ff0000;stroke:#000000;stroke-width:5.00000006;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
-         d="M 18.798828 7.8164062 L 7.8164062 18.798828 L 21.017578 32 L 7.8164062 45.201172 L 18.798828 56.183594 L 32 42.982422 L 45.201172 56.183594 L 56.183594 45.201172 L 42.982422 32 L 56.183594 18.798828 L 45.201172 7.8164062 L 32 21.017578 L 18.798828 7.8164062 z "
-         transform="scale(0.26458333)" />
-      <path
-         style="fill:#a60000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 14.25274,0.60274637 c 0,0 -3.710769,11.24477763 -19.5457775,15.45082863 -15.6975345,4.169534 30.9193305,5.035846 30.9193305,5.035846 l -0.94079,-21.42356363 z"
-         id="path1394"
-         clip-path="url(#clipPath3478)"
-         sodipodi:nodetypes="csccc" />
-      <path
-         id="path3482"
-         style="fill:none;stroke:#000000;stroke-width:5.00000006;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
-         d="M 18.798828 7.8164062 L 7.8164062 18.798828 L 21.017578 32 L 7.8164062 45.201172 L 18.798828 56.183594 L 32 42.982422 L 45.201172 56.183594 L 56.183594 45.201172 L 42.982422 32 L 56.183594 18.798828 L 45.201172 7.8164062 L 32 21.017578 L 18.798828 7.8164062 z "
-         transform="scale(0.26458333)" />
+      <g
+         id="g4372"
+         style="filter:url(#filter4834)"
+         inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/wrong_rating_cross.png"
+         inkscape:export-xdpi="96.000008"
+         inkscape:export-ydpi="96.000008">
+        <path
+           id="rect846"
+           style="fill:#ff0000;stroke:#000000;stroke-width:5.00000006;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+           d="M 18.798828 7.8164062 L 7.8164062 18.798828 L 21.017578 32 L 7.8164062 45.201172 L 18.798828 56.183594 L 32 42.982422 L 45.201172 56.183594 L 56.183594 45.201172 L 42.982422 32 L 56.183594 18.798828 L 45.201172 7.8164062 L 32 21.017578 L 18.798828 7.8164062 z "
+           transform="scale(0.26458333)" />
+        <path
+           style="fill:#a60000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 14.25274,0.60274637 c 0,0 -3.710769,11.24477763 -19.5457775,15.45082863 -15.6975345,4.169534 30.9193305,5.035846 30.9193305,5.035846 l -0.94079,-21.42356363 z"
+           id="path1394"
+           clip-path="url(#clipPath3478)"
+           sodipodi:nodetypes="csccc"
+           inkscape:export-filename="/home/eirexe/Project Heartbeat/Project Heartbeat/graphics/wrong_note_cross.png"
+           inkscape:export-xdpi="141.28"
+           inkscape:export-ydpi="141.28" />
+        <path
+           id="path3482"
+           style="fill:none;stroke:#000000;stroke-width:5.00000006;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+           d="M 18.798828 7.8164062 L 7.8164062 18.798828 L 21.017578 32 L 7.8164062 45.201172 L 18.798828 56.183594 L 32 42.982422 L 45.201172 56.183594 L 56.183594 45.201172 L 42.982422 32 L 56.183594 18.798828 L 45.201172 7.8164062 L 32 21.017578 L 18.798828 7.8164062 z "
+           transform="scale(0.26458333)" />
+      </g>
     </g>
   </g>
 </svg>
