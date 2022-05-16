@@ -62,6 +62,8 @@ func _discover_songs_recursive(path: String, base_path = "") -> Array:
 			var i_path = path.plus_file(dir_name)
 			if dir.current_is_dir():
 				var data_ini_path = i_path.plus_file("data.ini")
+				print(data_ini_path)
+				print("File exists", data_ini_path, dir.file_exists(data_ini_path))
 				if dir.file_exists(data_ini_path):
 					var meta = load_ppd_meta(data_ini_path, "PPDEXT+" + base_path.plus_file(dir_name))
 					if meta:

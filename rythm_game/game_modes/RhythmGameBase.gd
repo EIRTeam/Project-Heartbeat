@@ -72,6 +72,9 @@ var _sfx_debounce_t = SFX_DEBOUNCE_TIME
 var audio_playback: ShinobuGodotSoundPlaybackOffset
 var voice_audio_playback: ShinobuGodotSoundPlaybackOffset
 
+var audio_remap: ShinobuGodotEffectChannelRemap
+var voice_remap: ShinobuGodotEffectChannelRemap
+
 var game_ui: HBRhythmGameUIBase
 var game_input_manager: HBGameInputManager
 
@@ -163,11 +166,31 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		if "audio_loudness" in assets:
 			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 		ShinobuGodot.register_sound(assets.audio_shinobu, "song")
-		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music", song.uses_dsc_style_channels()))
+		var use_source_channel_count = song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4
+		
+		if song.uses_dsc_style_channels() and not use_source_channel_count:
+			audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+		
 		if "voice" in assets:
 			if assets.voice is AudioStream:
 				ShinobuGodot.register_sound(assets.voice_shinobu, "song_voice")
-				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music", use_source_channel_count))
+		if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
+			if voice_audio_playback:
+				voice_remap = ShinobuGodot.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
+				voice_remap.set_weight(1, 0, 1.0)
+				voice_remap.set_weight(3, 1, 1.0)
+				ShinobuGodot.connect_effect_to_group(voice_remap, "music")
+				voice_audio_playback.connect_sound_to_effect(voice_remap)
+				
+			
+			
+			audio_remap = ShinobuGodot.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
+			audio_remap.set_weight(0, 0, 1.0)
+			audio_remap.set_weight(2, 1, 1.0)
+			ShinobuGodot.connect_effect_to_group(audio_remap, "music")
+			audio_playback.connect_sound_to_effect(audio_remap)
 	else:
 		ShinobuGodot.register_sound(song.get_shinobu_audio_data(), "song")
 		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))

@@ -79,18 +79,15 @@ func _task_process() -> bool:
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream(variant)
 				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
+				var audio_shinobu := song.get_shinobu_audio_data(variant) as ShinobuGodotAudioFile
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
-					var channel_count = audio_ogg.get_channel_count()
-					if channel_count >= 4:
-						var voice_stream := loaded_asset.duplicate() as AudioStreamOGGVorbis
-						voice_stream.get_channel_count()
-						voice_stream.dsc_voice_remap = true
-						loaded_assets["voice"] = voice_stream
-						requested_assets_queue.erase("voice")
+					loaded_assets["voice"] = audio_ogg
+					loaded_assets["voice_shinobu"] = audio_shinobu
+					requested_assets_queue.erase("voice")
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)
 					requested_assets_queue.erase("audio_loudness")
-				loaded_assets["audio_shinobu"] = song.get_shinobu_audio_data(variant)
+				loaded_assets["audio_shinobu"] = audio_shinobu
 		"voice":
 			if song.voice:
 				loaded_asset = song.get_voice_stream()

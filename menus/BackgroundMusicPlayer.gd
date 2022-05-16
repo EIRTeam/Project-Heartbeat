@@ -26,6 +26,9 @@ class SongPlayer:
 	var has_audio_normalization_data = false
 	var song_idx = 0
 	
+	var voice_remap: ShinobuGodotEffectChannelRemap
+	var audio_remap: ShinobuGodotEffectChannelRemap
+	
 	func load_song_assets():
 		if not song.has_audio() or not song.is_cached():
 			return ERR_FILE_NOT_FOUND
@@ -84,7 +87,10 @@ class SongPlayer:
 		if "audio" in assets:
 			var song_audio_name = get_song_audio_name()
 			ShinobuGodot.register_sound(assets.audio_shinobu, song_audio_name)
-			audio_playback = ShinobuGodot.instantiate_sound(song_audio_name, "menu_music")
+			audio_playback = ShinobuGodot.instantiate_sound(song_audio_name, "menu_music", song.uses_dsc_style_channels())
+			var use_source_channel_count := song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4
+			if song.uses_dsc_style_channels() and not use_source_channel_count:
+				audio_playback = ShinobuGodot.instantiate_sound(song_audio_name, "menu_music")
 			audio_playback.volume = 0.0
 			audio_playback.seek(song.preview_start)
 			# Scheduling starts prevents crackles
@@ -96,11 +102,25 @@ class SongPlayer:
 			if "voice" in assets and assets.voice:
 				var song_voice_audio_name = get_song_voice_audio_name()
 				ShinobuGodot.register_sound(assets.voice_shinobu, song_voice_audio_name)
-				voice_audio_playback = ShinobuGodot.instantiate_sound(song_voice_audio_name, "menu_music")
+				voice_audio_playback = ShinobuGodot.instantiate_sound(song_voice_audio_name, "menu_music", use_source_channel_count)
 				voice_audio_playback.volume = 0.0
 				voice_audio_playback.seek(song.preview_start)
 				voice_audio_playback.schedule_start_time(ShinobuGodot.get_dsp_time())
 				voice_audio_playback.start()
+			if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
+				if voice_audio_playback:
+					voice_remap = ShinobuGodot.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
+					voice_remap.set_weight(1, 0, 1.0)
+					voice_remap.set_weight(3, 1, 1.0)
+					ShinobuGodot.connect_effect_to_group(voice_remap, "menu_music")
+					voice_audio_playback.connect_sound_to_effect(voice_remap)
+				
+				
+				audio_remap = ShinobuGodot.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
+				audio_remap.set_weight(0, 0, 1.0)
+				audio_remap.set_weight(2, 1, 1.0)
+				ShinobuGodot.connect_effect_to_group(audio_remap, "menu_music")
+				audio_playback.connect_sound_to_effect(audio_remap)
 				
 		var tween := Tween.new()
 		

@@ -41,3 +41,9 @@ func schedule_start_time(start: int):
 	playback.schedule_start_time(start)
 func schedule_stop_time(stop: int):
 	playback.schedule_stop_time(stop)
+
+func get_channel_count():
+	return playback.get_channel_count()
+	
+func connect_sound_to_effect(effect):
+	playback.connect_sound_to_effect(effect)

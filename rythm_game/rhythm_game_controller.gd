@@ -73,6 +73,7 @@ func _fade_in_done():
 	pause_menu_disabled = false
 func start_fade_in():
 #	video_player.hide()
+	ShinobuGodot.set_dsp_time(0)
 	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
 	$FadeIn.show()
@@ -81,12 +82,14 @@ func start_fade_in():
 	target_color.a = 0.0
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	var start_offset := 0
+	
 	if song.start_time < 0:
 		game.seek(0)
 		start_offset = -song.start_time
 	else:
 		game.seek(song.start_time)
-	game.schedule_play_start(ShinobuGodot.get_dsp_time() + start_offset + FADE_OUT_TIME * 1000)
+	print(ShinobuGodot.get_dsp_time())
+	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
 	game.time = song.start_time / 1000.0
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -96,7 +99,7 @@ func start_fade_in():
 	HBGame.song_stats.save_song_stats()
 	game.game_input_manager.set_process_input(false)
 
-
+	print(game.audio_playback.is_playing())
 func start_session(game_info: HBGameInfo, assets=null):
 	current_assets = assets
 	game.set_process(true)
@@ -341,7 +344,7 @@ var _last_time = 0.0
 func _process(delta):
 #	$Label.visible = Diagnostics.fps_label.visible
 #	$Label.text = "off: %d\n" % [game.audio_playback.offset]
-#	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game._volume_offset]
+#	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game.audio_playback.volume]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
 #	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
 #	AHT = int(AHT*1000.0)
@@ -398,6 +401,7 @@ func _on_PauseMenu_restarted():
 	game.set_process(true)
 	game.editing = false
 	game.game_input_manager.set_process_input(true)
+	yield(get_tree(), "idle_frame")
 	start_fade_in()
 
 func _on_RhythmGame_game_over():
