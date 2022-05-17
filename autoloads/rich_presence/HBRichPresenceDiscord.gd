@@ -24,6 +24,8 @@ func init_presence():
 	if lib.get_current_library_path().empty():
 		print("Discord Rich presence is not available on this platform, falling back...")
 		return ERR_BUG
+	if not discord_controller:
+		return ERR_FILE_MISSING_DEPENDENCIES
 	discord_controller = discord_controller_class.new()
 	var init_result = discord_controller.init_discord(733416106123067465)
 	if init_result == OK:

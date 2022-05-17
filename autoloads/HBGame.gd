@@ -208,7 +208,7 @@ func _game_init():
 		MobileControls.get_child(0).hide()
 		
 	rich_presence = HBRichPresence.new()
-	if not OS.has_feature("no_rich_presence") and not OS.has_feature("editor"):
+	if not OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresenceDiscord.new()
 	var res = rich_presence.init_presence()
 	if res != OK:
