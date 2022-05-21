@@ -94,9 +94,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 16 )
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -275,6 +272,7 @@ margin_left = 803.0
 margin_right = 839.0
 margin_bottom = 32.0
 icon = ExtResource( 49 )
+icon_align = 1
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 843.0
@@ -385,9 +383,6 @@ margin_bottom = -1.33484
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Arrange" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2"]
 anchor_right = 1.0
@@ -400,9 +395,6 @@ margin_bottom = -5.0
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer"]
 margin_right = 429.0
@@ -974,9 +966,6 @@ self_modulate = Color( 1, 1, 1, 0.5 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 tab_align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
@@ -986,75 +975,6 @@ margin_bottom = -5.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
-
-[node name="Events" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Button" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_right = 349.0
-margin_bottom = 25.0
-text = "Create BPM change"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateIntroSkipMarkerButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 29.0
-margin_right = 349.0
-margin_bottom = 54.0
-text = "Create intro skip time marker"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateLyricsPhraseStartButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 58.0
-margin_right = 349.0
-margin_bottom = 83.0
-text = "Create phrase start"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateLyricButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 87.0
-margin_right = 349.0
-margin_bottom = 112.0
-text = "Create lyric"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateLyricsPhraseEndButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 116.0
-margin_right = 349.0
-margin_bottom = 141.0
-text = "Create phrase end"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateChartSectionButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer"]
-margin_top = 116.0
-margin_right = 349.0
-margin_bottom = 141.0
-text = "Create chart section"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="UIFade" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2" instance=ExtResource( 38 )]
 visible = false
@@ -1266,32 +1186,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="QuickLyricDialog" type="WindowDialog" parent="."]
-visible = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -164.0
-margin_top = -26.0
-margin_right = 164.0
-margin_bottom = 26.0
-window_title = "Quick lyric"
-
-[node name="MarginContainer" type="MarginContainer" parent="QuickLyricDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_top = 15
-custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LineEdit" type="LineEdit" parent="QuickLyricDialog/MarginContainer"]
-margin_top = 15.0
-margin_right = 328.0
-margin_bottom = 40.0
-
 [node name="EditorGlobalSettings" parent="." instance=ExtResource( 45 )]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1361,12 +1255,6 @@ margin_bottom = 412.0
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/Button" to="." method="_create_bpm_change"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateIntroSkipMarkerButton" to="." method="_on_CreateIntroSkipMarkerButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseStartButton" to="." method="_create_lyrics_phrase_start"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricButton" to="." method="_create_lyric"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateLyricsPhraseEndButton" to="." method="_create_lyrics_phrase_end"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Events/VBoxContainer/CreateChartSectionButton" to="." method="_create_chart_section"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]

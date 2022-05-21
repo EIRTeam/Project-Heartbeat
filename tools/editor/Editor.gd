@@ -11,6 +11,7 @@ signal song_editor_settings_changed
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
+const EDITOR_MODULES_DIR = "res://tools/editor/editor_modules"
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
@@ -37,8 +38,6 @@ onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool")
 onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Transforms/TransformsTool")
 onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
-onready var quick_lyric_dialog := get_node("QuickLyricDialog")
-onready var quick_lyric_dialog_line_edit := get_node("QuickLyricDialog/MarginContainer/LineEdit")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
 onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
@@ -128,6 +127,13 @@ onready var ui_fades = [
 	get_node("VBoxContainer/Panel2/UIFade")
 ]
 
+var ui_module_locations = {
+	"left_panel": "VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2",
+	"right_panel": "VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer",
+}
+
+var modules = []
+
 func set_bpm(value):
 	BPM_spinbox.value = value
 	song_editor_settings.set("bpm", value)
@@ -146,6 +152,7 @@ func _insert_note_at_time_bsearch(item: EditorTimelineItem, time: int):
 func insert_note_at_time(item: EditorTimelineItem):
 	var pos = current_notes.bsearch_custom(item.data.time, self, "_insert_note_at_time_bsearch")
 	current_notes.insert(pos, item)
+
 func load_plugins():
 	var dir := Directory.new()
 	var file = File.new()
@@ -164,7 +171,21 @@ func load_plugins():
 				else:
 					Log.log(self, "Error loading editor plugin %s: File not found" % [dir_name])
 			dir_name = dir.get_next()
-	
+
+func load_modules():
+	var dir := Directory.new()
+	if dir.open(EDITOR_MODULES_DIR) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if not dir.current_is_dir() and not file_name.begins_with(".") and file_name.ends_with(".tscn"):
+				var module = load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+				module.set_editor(self)
+				modules.append(module)
+			
+			file_name = dir.get_next()
+
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
 	add_child(game_playback)
@@ -216,8 +237,6 @@ func _ready():
 	transforms_tools.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
-	quick_lyric_dialog_line_edit.connect("text_entered", self, "_on_create_quick_lyric")
-	
 	if not UserSettings.user_settings.editor_first_time_message_acknowledged:
 		first_time_message_dialog.popup_centered()
 	else:
@@ -241,6 +260,8 @@ func _ready():
 	connect("scale_changed", timeline, "_on_editor_scale_changed")
 	
 	game_preview.connect("preview_size_changed", self, "_on_preview_size_changed")
+	
+	load_modules()
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -254,16 +275,8 @@ func _on_acknowledge_first_time_message():
 	
 func _on_editor_help_button_pressed(button_idx: int):
 	OS.shell_open(HELP_URLS[button_idx])
-	
-func _on_create_quick_lyric(lyric_text: String):
-	var lyric := HBLyricsLyric.new()
-	lyric.value = lyric_text
-	lyric.time = playhead_position
-	create_lyrics_event(lyric)
-	quick_lyric_dialog_line_edit.release_focus()
-	quick_lyric_dialog.hide()
-	
-	
+
+
 func get_items_at_time_or_selected(time: int):
 	if selected.size() > 0:
 		return selected
@@ -476,19 +489,6 @@ func _unhandled_input(event: InputEvent):
 			
 			get_tree().set_input_as_handled()
 			break
-	
-	if event.is_action("editor_quick_lyric", true) and event.pressed and not event.echo:
-		quick_lyric_dialog.popup_centered()
-		quick_lyric_dialog_line_edit.grab_focus()
-		quick_lyric_dialog_line_edit.text = ""
-	if event.is_action("editor_quick_phrase_start", true) and event.pressed and not event.echo:
-		var ev := HBLyricsPhraseStart.new()
-		ev.time = playhead_position
-		create_lyrics_event(ev)
-	if event.is_action("editor_quick_phrase_end", true) and event.pressed and not event.echo:
-		var ev := HBLyricsPhraseEnd.new()
-		ev.time = playhead_position
-		create_lyrics_event(ev)
 	
 	if event.is_action("editor_flip_angle", true) and event.pressed and not event.echo:
 		undo_redo.create_action("Flip angle")
@@ -950,6 +950,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 	layer.add_item(item)
 	if item in _removed_items:
 		_removed_items.erase(item)
+	
 	_on_timing_points_changed()
 	rhythm_game.editor_add_timing_point(item.data)
 	force_game_process()
@@ -967,6 +968,7 @@ func add_event_timing_point(timing_point_class: GDScript):
 	user_create_timing_point(ev_layer, timing_point.get_timeline_item())
 	
 	return timing_point
+
 func _on_game_playback_time_changed(time: float):
 	var prev_time = playhead_position
 	playhead_position = max(time * 1000.0, 0.0)
@@ -1221,6 +1223,7 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
 	_removed_items.append(item)
+
 	rhythm_game.editor_remove_timing_point(item.data)
 	_on_timing_points_changed()
 	force_game_process()
@@ -1228,6 +1231,7 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
+
 func pause():
 	game_playback.pause()
 	game_preview.set_visualizer_processing_enabled(false)
@@ -1887,52 +1891,7 @@ func _on_playtest_quit():
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
 	rhythm_game.set_process_input(true)
-	
 
-func create_lyrics_event(event_obj: HBTimingPoint):
-	var ev_layer = null
-	for layer in timeline.get_layers():
-		if layer.layer_name == "Lyrics":
-			ev_layer = layer
-			break
-	var timeline_item = event_obj.get_timeline_item() as EditorLyricPhraseTimelineItem
-	timeline_item.connect("phrases_changed", self, "sync_lyrics")
-	user_create_timing_point(ev_layer, timeline_item)
-	sync_lyrics()
-func _create_lyrics_phrase():
-	pass
-#	print("LYRIC!")
-#	var timing_point := HBLyricsPhrase.new()
-#
-#	var starter_lyric = HBLyricsLyric.new()
-#	starter_lyric.time = playhead_position+1
-#
-#	timing_point.time = playhead_position
-#	timing_point.end_time = playhead_position + 100
-#	timing_point.lyrics = [starter_lyric]
-#	var ev_layer = null
-#	for layer in timeline.get_layers():
-#		if layer.layer_name == "Lyrics":
-#			ev_layer = layer
-#			break
-#	# Event layer is the last one
-#	user_create_timing_point(ev_layer, timing_point.get_timeline_item())
-
-
-func _create_lyrics_phrase_start():
-	var obj = HBLyricsPhraseStart.new()
-	obj.time = playhead_position
-	create_lyrics_event(obj)
-
-func _create_lyrics_phrase_end():
-	var obj = HBLyricsPhraseEnd.new()
-	obj.time = playhead_position
-	create_lyrics_event(obj)
-
-func _create_lyric():
-	var obj = HBLyricsLyric.new()
-	obj.time = playhead_position
-	create_lyrics_event(obj)
 
 func _chronological_compare(a, b):
 	return a.time < b.time
@@ -2081,10 +2040,6 @@ func autoplace(data: HBBaseNote, force=false):
 	return new_data
 
 
-func _on_CreateIntroSkipMarkerButton_pressed():
-	add_event_timing_point(HBIntroSkipMarker)
-
-
 func open_link(link: String):
 	OS.shell_open(link)
 
@@ -2167,19 +2122,6 @@ func _on_playback_speed_changed(speed: float):
 		if show_video_button.pressed:
 			game_preview.video_player.stream_position = playhead_position / 1000.0
 			game_preview.show_video(true)
-
-
-func _create_chart_section():
-	var timing_point := HBChartSection.new()
-	timing_point.time = playhead_position
-	
-	var section_layer = null
-	for layer in timeline.get_layers():
-		if layer.layer_name == "Sections":
-			section_layer = layer
-			break
-		
-	user_create_timing_point(section_layer, timing_point.get_timeline_item())
 
 
 func queue_timing_point_creation(layer, timing_point):

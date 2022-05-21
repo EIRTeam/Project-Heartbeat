@@ -195,6 +195,11 @@ _global_script_classes=[ {
 "path": "res://tools/editor/HBEditorLineEdit.gd"
 }, {
 "base": "Control",
+"class": "HBEditorModule",
+"language": "GDScript",
+"path": "res://tools/editor/EditorModule.gd"
+}, {
+"base": "Control",
 "class": "HBEditorMovementGizmo",
 "language": "GDScript",
 "path": "res://tools/editor/widgets/MovementGizmo.gd"
@@ -1087,6 +1092,7 @@ _global_script_class_icons={
 "HBEditorAxisGizmoArrow": "",
 "HBEditorContextualMenuControl": "",
 "HBEditorLineEdit": "",
+"HBEditorModule": "",
 "HBEditorMovementGizmo": "",
 "HBEditorPlugin": "",
 "HBEditorSettings": "",
