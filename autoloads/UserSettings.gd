@@ -82,7 +82,7 @@ func get_input_map():
 		if action_name in action_names:
 			map[action_name] = []
 			for event in InputMap.get_action_list(action_name):
-				if event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey:
+				if event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey or event is InputEventMouseButton:
 					map[action_name].append(event)
 	return map
 func _init_user_settings():

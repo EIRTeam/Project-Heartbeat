@@ -1,6 +1,5 @@
 extends Control
 
-
 onready var combination_label: Label = get_node("WindowDialog/VBoxContainer/Label2")
 onready var bind_window: ConfirmationDialog = get_node("WindowDialog")
 onready var reset_to_default_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ResetToDefaultButton")
@@ -9,8 +8,9 @@ onready var reset_confirmation_dialog: ConfirmationDialog = get_node("ResetConfi
 
 onready var tree: Tree = get_node("VBoxContainer/Tree")
 
-var temp_event: InputEventKey
+var temp_event: InputEvent
 var current_item: TreeItem
+var editor: HBEditor setget set_editor
 
 const EDITOR_EVENTS = {
 	"General": [
@@ -139,7 +139,6 @@ func _ready():
 func _on_reset_to_default_button_pressed():
 	var event_list = UserSettings.base_input_map[current_item.get_meta("action_name")]
 	var ev = event_list[0] if event_list else InputEventKey.new()
-	
 	set_temp_event(ev)
 
 func _on_clear_button_pressed():
@@ -152,17 +151,18 @@ func _on_bind_window_confirmed():
 		var item = tree.get_selected() as TreeItem
 		var action_name: String = item.get_meta("action_name")
 		var event: InputEvent = item.get_meta("event")
-		InputMap.action_erase_event(action_name, event)
 		item.set_meta("event", temp_event)
 		set_item_text(item, action_name, temp_event)
-		if temp_event.scancode:
-			InputMap.action_add_event(action_name, temp_event)
-		UserSettings.save_user_settings()
 		
+		InputMap.action_erase_event(action_name, event)
+		InputMap.action_add_event(action_name, temp_event)
+		
+		UserSettings.save_user_settings()
+		editor.update_modules()
+
 func set_item_text(item: TreeItem, action: String, event: InputEvent):
-	var ev_text = event.as_text()
-	if "Kp " in ev_text:
-		ev_text = ev_text.replace("Kp ", "Keypad ")
+	var ev_text = get_event_text(event)
+	
 	if action in UserSettings.action_names:
 		item.set_text(0, UserSettings.action_names[action])
 	elif action.begins_with("editor_"):
@@ -178,17 +178,26 @@ func _on_item_double_clicked():
 		set_process_input(true)
 		
 		var action_list = InputMap.get_action_list(current_item.get_meta("action_name"))
-		var ev = action_list[0] if action_list else InputEventKey.new()
-		combination_label.text = ev.as_text()
+		var ev = action_list[0] if action_list else InputEvent.new()
+		combination_label.text = get_event_text(ev)
 		
-func set_temp_event(event: InputEventKey):
+func set_temp_event(event: InputEvent):
 	temp_event = event
-	combination_label.text = event.as_text()
+	combination_label.text = get_event_text(event)
 
 func _input(event):
 	if event is InputEventKey:
 		if event.is_pressed():
 			get_tree().set_input_as_handled()
+			set_temp_event(event)
+	elif event is InputEventMouseButton:
+		# I wanna KMS
+		if 	event.is_pressed() \
+			and not clear_button.get_global_rect().has_point(get_global_mouse_position()) \
+			and not reset_to_default_button.get_global_rect().has_point(get_global_mouse_position()) \
+			and not bind_window.get_close_button().get_global_rect().has_point(get_global_mouse_position()) \
+			and not bind_window.get_ok().get_global_rect().has_point(get_global_mouse_position()) \
+			and not bind_window.get_cancel().get_global_rect().has_point(get_global_mouse_position()):
 			set_temp_event(event)
 
 func reset_all_to_default():
@@ -198,8 +207,22 @@ func reset_all_to_default():
 			InputMap.action_erase_event(action_name, item.get_meta("event"))
 			
 			var event_list = UserSettings.base_input_map[action_name]
-			var event = event_list[0] if event_list else InputEventKey.new()
+			var event = event_list[0] if event_list else InputEvent.new()
 			
 			InputMap.action_add_event(action_name, event)
 			set_item_text(item, action_name, event)
-		
+
+func get_event_text(event: InputEvent):
+	var text = ""
+	
+	if event is InputEventKey:
+		text = event.as_text()
+		if "Kp " in text:
+			text = text.replace("Kp ", "Keypad ")
+	elif event is InputEventMouseButton:
+		text = "Mouse %d" % event.button_index
+	
+	return text
+
+func set_editor(_editor: HBEditor):
+	editor = _editor

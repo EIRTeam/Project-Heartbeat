@@ -186,6 +186,10 @@ func load_modules():
 			
 			file_name = dir.get_next()
 
+func update_modules():
+	for module in modules:
+		module.update_shortcuts()
+
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
 	add_child(game_playback)
@@ -254,6 +258,7 @@ func _ready():
 	$SyncToolboxDialog.set_editor(self)
 	$EditorGlobalSettings.song_settings_tab.set_editor(self)
 	$EditorGlobalSettings.general_settings_tab.set_editor(self)
+	$EditorGlobalSettings.shortcuts_tab.set_editor(self)
 	
 	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
 	
