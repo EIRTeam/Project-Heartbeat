@@ -85,7 +85,6 @@ func _input(event):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
-		img.convert(Image.FORMAT_RGBA8)
 		var dir = Directory.new()
 		if not dir.dir_exists("user://debug_screenshot"):
 			dir.make_dir("user://debug_screenshot")
