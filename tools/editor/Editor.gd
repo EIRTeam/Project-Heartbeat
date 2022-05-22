@@ -2235,4 +2235,5 @@ func _update_grid_resolution():
 func _on_preview_size_changed():
 	for item in selected:
 		item.update_widget_data()
-		item.widget.arrange_gizmo()
+		if item.widget:
+			item.widget.arrange_gizmo()
