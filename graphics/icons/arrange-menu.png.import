@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/arrange-arrow-backwards.png-60739e1bbc3bd3b625285ddd3f8df5f3.stex"
+path="res://.import/arrange-menu.png-27aea35cca86f2e1b57a9f8376888bb2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/arrange-arrow-backwards.png"
-dest_files=[ "res://.import/arrange-arrow-backwards.png-60739e1bbc3bd3b625285ddd3f8df5f3.stex" ]
+source_file="res://graphics/icons/arrange-menu.png"
+dest_files=[ "res://.import/arrange-menu.png-27aea35cca86f2e1b57a9f8376888bb2.stex" ]
 
 [params]
 

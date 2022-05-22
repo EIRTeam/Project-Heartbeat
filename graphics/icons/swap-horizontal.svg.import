@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/arrange-arrow.svg-03e77e52137f54293890b2f0a9c5a468.stex"
+path="res://.import/swap-horizontal.svg-75f918b1b0d25132aa1057b581b842f4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/arrange-arrow.svg"
-dest_files=[ "res://.import/arrange-arrow.svg-03e77e52137f54293890b2f0a9c5a468.stex" ]
+source_file="res://graphics/icons/swap-horizontal.svg"
+dest_files=[ "res://.import/swap-horizontal.svg-75f918b1b0d25132aa1057b581b842f4.stex" ]
 
 [params]
 
@@ -32,4 +32,4 @@ process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
-svg/scale=1.0
+svg/scale=1.7
