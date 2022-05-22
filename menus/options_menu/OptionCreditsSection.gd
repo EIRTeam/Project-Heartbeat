@@ -23,10 +23,11 @@ const PH_AUTHORS = {
 		"Emmilly Lima (sadnesswaifu)": ["Background artwork (Imademo, Blossoming Spell, Getaway)"],
 		"Albert Navarro (Reixart)": ["Background artwork (Going my way)"],
 		"Andrea Balaguer (Hikaru)": ["Background artwork (RedLine)"],
-		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor)"]
+		"David Revoy": ["Used background artwork (Hyperspeed out of Control, Music Play in the Floor)"],
+		"Lucas Corral": ["Background artwork (Reprisal)"]
 	},
 	"Charting": {
-		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice"],
+		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
 		"Starbeat": ["Getaway"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
@@ -46,6 +47,9 @@ const PH_AUTHORS = {
 			],
 		"Galaxian Recordings": [
 			"Blossoming Spell"
+		],
+		"Netcavy Records": [
+			"Reprisal"
 		],
 		"Takanashi Koubou": [
 			"ETERNAL",
@@ -72,7 +76,7 @@ const ENGINE_COPYRIGHT_INFO_ADDITIONS = [
 		"name": "Shinobu Engine",
 		"parts": [
 			{
-				"copyright": ["2019-2021, Álex Román Núñez"],
+				"copyright": ["2019-2022, Álex Román Núñez"],
 				"license": "Expat"
 			}
 		],

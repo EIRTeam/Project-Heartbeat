@@ -96,7 +96,8 @@ func _set_section_data(val):
 					binds = section_data[option_name].signal_binds
 				option_scene.connect("changed", section_data[option_name].signal_object, section_data[option_name].signal_method, binds)
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
-			option_scene.connect("back", self, "_on_option_back")
+			if option_scene.has_signal("back"):
+				option_scene.connect("back", self, "_on_option_back")
 			connect("value_changed", option_scene, "update_disabled")
 			option_scene.update_disabled()
 		if section_data.size() > 0:
