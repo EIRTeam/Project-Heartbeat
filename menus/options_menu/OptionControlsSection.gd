@@ -89,6 +89,7 @@ func show_category(category: String, prevent_selection=false):
 	for action_name in UserSettings.ACTION_CATEGORIES[category]:
 		var action_scene = ACTION_SCENE.instance()
 		action_scene.action = UserSettings.action_names[action_name]
+		action_scene.action_name = action_name
 		scroll_container.item_container.add_child(action_scene)
 		action_scene.connect("pressed", self, "_on_action_add_press", [action_name])
 		for event in input_map[action_name]:

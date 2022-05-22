@@ -5,19 +5,42 @@ class_name HBOptionControlsSectionAction
 var normal_style
 var hover_style
 var action setget set_action
+var action_name setget set_action_name
 signal hover
 signal pressed
 onready var icon_panel = get_node("HBoxContainer/HBoxContainer/Panel")
+onready var note_icon := get_node("HBoxContainer/TextureRect")
 
+func set_action_name(val):
+	action_name = val
+	if is_inside_tree():
+		if action_name.begins_with("note_") or action_name == "heart_note":
+			note_icon.show()
+			var note_text := ""
+			if action_name == "heart_note":
+				note_text = "heart"
+			else:
+				note_text = action_name.split("_")[1] as String
+			note_icon.texture = ResourcePackLoader.get_graphic("%s_%s.png" % [note_text, "note"])
+		elif action_name in ["slide_left", "slide_right"]:
+			note_icon.show()
+			note_icon.texture = ResourcePackLoader.get_graphic("%s_%s.png" % [action_name, "note"])
+			
+		else:
+			note_icon.hide()
 func set_action(val):
 	$HBoxContainer/Label.text = val
 	action = val
+
+	
 func _init():
 	normal_style = StyleBoxEmpty.new()
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
 
 func _ready():
 	stop_hover()
+	set_action(action)
+	set_action_name(action_name)
 
 func hover():
 	icon_panel.add_stylebox_override("panel", hover_style)
