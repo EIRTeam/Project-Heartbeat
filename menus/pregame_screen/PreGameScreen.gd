@@ -269,13 +269,16 @@ func add_buttons():
 		variant_select.options = [-1]
 		variant_select.text = tr("Video/Audio variant")
 		variant_select.options_pretty = ["Default"]
+		variant_select.connect("back", modifier_scroll_container, "grab_focus")
 		for i in range(current_song.song_variants.size()):
 			variant_select.options.append(i)
 			variant_select.options_pretty.append(current_song.get_variant_data(i).variant_name)
 		modifier_button_container.add_child(variant_select)
-		variant_select.select(0)
+		variant_select.set_block_signals(true)
+		variant_select.value = -1
 		if last_variant != -1 and last_variant < current_song.song_variants.size():
-			variant_select.select(last_variant+1)
+			variant_select.value = last_variant
+		variant_select.set_block_signals(false)
 func update_modifiers():
 	modifier_buttons = {}
 	for button in modifier_button_container.get_children():

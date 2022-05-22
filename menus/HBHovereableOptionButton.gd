@@ -56,7 +56,12 @@ func get_item_count() -> int:
 func _on_pressed():
 	if not items_panel_container.visible:
 		items_panel_container.show()
-		items_panel_container.rect_position = Vector2(rect_size.x - items_panel_container.rect_size.x, rect_size.y)
+		items_panel_container.rect_global_position = rect_global_position + Vector2(rect_size.x - items_panel_container.rect_size.x, rect_size.y)
+		
+		if (get_viewport_rect().position.y + get_viewport_rect().end.y) < items_panel_container.rect_global_position.y + items_panel_container.rect_size.y:
+			items_panel_container.rect_global_position.y = (get_viewport_rect().position.y + get_viewport_rect().end.y) - items_panel_container.rect_size.y
+		if (get_viewport_rect().position.x + get_viewport_rect().end.x) < items_panel_container.rect_global_position.x + items_panel_container.rect_size.x:
+			items_panel_container.rect_global_position.x = (get_viewport_rect().position.x + get_viewport_rect().end.x) - items_panel_container.rect_size.x
 		vbox_container.grab_focus()
 		vbox_container.select_button(selected_item)
 	else:
@@ -76,6 +81,7 @@ func _on_visibility_changed():
 	
 func _ready():
 	items_panel_container.hide()
+	items_panel_container.set_as_toplevel(true)
 	connect("pressed", self, "_on_pressed")
 	connect("visibility_changed", self, "_on_visibility_changed")
 	set_process_input(false)
