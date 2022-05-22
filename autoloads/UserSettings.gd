@@ -344,7 +344,8 @@ func load_user_settings():
 		if file.open(usp, File.READ) == OK:
 			var result = JSON.parse(file.get_as_text())
 			if result.error == OK:
-				user_settings = HBUserSettings.deserialize(result.result)
+				if result.result:
+					user_settings = HBUserSettings.deserialize(result.result)
 				Log.log(self, "Successfully loaded user settings from " + usp)
 			else:
 				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
