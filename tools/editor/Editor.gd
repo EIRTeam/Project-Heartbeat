@@ -167,7 +167,6 @@ func load_plugins():
 	
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
-	DebugSystemInfo.disable_label()
 	add_child(game_playback)
 	add_child(contextual_menu)
 	game_playback.connect("playback_speed_changed", self, "_on_playback_speed_changed")

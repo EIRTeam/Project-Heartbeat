@@ -5,6 +5,7 @@ var hover_style
 var value setget set_value
 signal hover
 signal changed(value)
+signal back
 
 var disabled := false
 var disabled_callback: FuncRef

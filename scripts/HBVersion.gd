@@ -10,8 +10,10 @@ const PATCH = 0
 const status = "Early Access"
 const ver_name = "Project Heartbeat: Goth Girl School Idol Club"
 
-static func get_version_string():
-	var result = "{ver_name} - {status} ({video_driver}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - ({user_id}, {friendly_username})"
+static func get_version_string(with_line_breaks := false):
+	var result = "{ver_name} - {status} ({video_driver}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time})"
+	if with_line_breaks:
+		result = result.replace(" - ", "\n")
 	var sha = ProjectSettings.get("application/config/build_commit").substr(0, 7)
 	var datetime = OS.get_datetime_from_unix_time(ProjectSettings.get("application/config/build_time")) 
 	var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
@@ -48,7 +50,5 @@ static func get_version_string():
 		"commit": sha,
 		"build_date": date,
 		"build_time": time,
-		"user_id": str(PlatformService.service_provider.user_id),
-		"friendly_username": PlatformService.service_provider.friendly_username
 	})
 	return result

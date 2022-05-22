@@ -1,5 +1,7 @@
 extends "Option.gd"
 
+onready var option_button := get_node("HBoxContainer/HBoxContainer/OptionButton")
+
 var options = ["No", "Yes"]
 var options_pretty = []
 var selected_option = 0
@@ -12,29 +14,38 @@ func set_text(value):
 func set_value(val):
 	value = val
 	var i = options.find(val)
-	if i != -1:
-		select(i)
+	if is_inside_tree():
+		if i != -1:
+			option_button.set_block_signals(true)
+			option_button.selected_item = i
+			option_button.set_block_signals(false)
 
 func _ready():
 	focus_mode = Control.FOCUS_ALL
+	for option_i in range(options.size()):
+		var option_text := options[option_i] as String
+		var option_value := options[option_i] as String
+		if options_pretty.size() > option_i:
+			option_text = options_pretty[option_i]
+		option_button.add_item(option_text, option_value)
+	set_value(value)
 	
-func select(option: int):
-	selected_option = option
-	if options_pretty.size() > option:
-		$HBoxContainer/Control/OptionLabel.text = options_pretty[option]
-	else:
-		$HBoxContainer/Control/OptionLabel.text = options[option]
+func hover():
+	option_button.hover()
+func stop_hover():
+	if is_inside_tree():
+		option_button.stop_hover()
 	
 func _gui_input(event):
 	var option_change = 0
-	if event.is_action_pressed("gui_left"):
+	if event.is_action_pressed("gui_accept"):
 		get_tree().set_input_as_handled()
-		option_change = -1
-	elif event.is_action_pressed("gui_right"):
-		get_tree().set_input_as_handled()
-		option_change = 1
+		option_button._on_pressed()
 
-	if option_change != 0:
-		get_tree().set_input_as_handled()
-		select(clamp(selected_option+option_change, 0, options.size()-1))
-		change_value(options[selected_option])
+func _on_OptionButton_selected(id):
+	change_value(id)
+	value = id
+	emit_signal("back")
+
+func _on_OptionButton_back():
+	emit_signal("back")

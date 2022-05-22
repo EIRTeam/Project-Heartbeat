@@ -1,15 +1,13 @@
 extends Control
 onready var main_label = get_node("Label")
 
-onready var PPD_ext_label = get_node("Label2")
+onready var info_label = get_node("Label2")
 
 func _ready():
 	update_label()
 	HBBackend.connect("connection_status_changed", self, "update_label")
 	var is_ppd_ext_enabled = HBGame.has_mp4_support
-	PPD_ext_label.visible = is_ppd_ext_enabled
-	PPD_ext_label.text = "PPD Import Plugin Loaded!"
-	PPD_ext_label.add_color_override("font_color", Color.green)
+	info_label.text = HBVersion.get_version_string(true).split("\n")[2]
 	
 func update_label():
 	if HBBackend.connected:

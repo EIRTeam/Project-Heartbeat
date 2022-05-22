@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
 [ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
@@ -12,11 +12,21 @@
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=10]
 [ext_resource path="res://graphics/icons/twitter.svg" type="Texture" id=11]
 [ext_resource path="res://graphics/icons/help-circle.svg" type="Texture" id=12]
-[ext_resource path="res://fonts/new_fonts/roboto_regular_25.tres" type="DynamicFont" id=13]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://graphics/icons/discord_main.svg" type="Texture" id=14]
 [ext_resource path="res://menus/main_menu/NetworkStatus.gd" type="Script" id=15]
 [ext_resource path="res://graphics/icons/steam.svg" type="Texture" id=16]
 [ext_resource path="res://graphics/icons/download.svg" type="Texture" id=17]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=18]
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+outline_size = 1
+outline_color = Color( 1, 1, 1, 0.501961 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 13 )
+fallback/0 = ExtResource( 18 )
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -45,9 +55,6 @@ font_data = ExtResource( 10 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -69,20 +76,20 @@ alignment = 2
 script = ExtResource( 15 )
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 994.0
+margin_top = 984.0
 margin_right = 1900.0
-margin_bottom = 1025.0
+margin_bottom = 1020.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = SubResource( 3 )
 text = "HeartbeatNET: Connected"
 valign = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 1029.0
+margin_top = 1024.0
 margin_right = 1900.0
 margin_bottom = 1060.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = SubResource( 3 )
 text = "HeartbeatNET: Connected"
 valign = 2
 

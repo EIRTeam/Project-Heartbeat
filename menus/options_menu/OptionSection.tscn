@@ -40,16 +40,9 @@ margin_right = 1900.0
 margin_bottom = 830.0
 custom_constants/separation = 30
 
-[node name="SectionInfoLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/container"]
-margin_right = 1870.0
-margin_bottom = 14.0
-text = "test lolololo"
-align = 1
-
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/container"]
-margin_top = 44.0
 margin_right = 1870.0
-margin_bottom = 800.0
+margin_bottom = 756.0
 focus_mode = 2
 size_flags_vertical = 3
 script = ExtResource( 6 )
@@ -63,6 +56,14 @@ margin_right = 1870.0
 margin_bottom = 756.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="SectionInfoLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/container"]
+margin_top = 786.0
+margin_right = 1870.0
+margin_bottom = 800.0
+text = "test lolololo"
+align = 1
+autowrap = true
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 margin_top = 864.0

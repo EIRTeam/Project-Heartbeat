@@ -2,6 +2,9 @@ extends HBMenu
 
 var OPTIONS = {
 	tr("Game"): {
+		"__section_label": {
+			"label_callback": funcref(self, "_version_info_callback")
+		},
 		"enable_health": {
 			"name": tr("Enable health system"),
 			"description": tr("If enabled the game enables the optional health system where a song can be failed.")
@@ -441,3 +444,6 @@ func _notification(what):
 
 func _audio_buffer_info_callback():
 	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [ShinobuGodot.get_current_backend_name(), ShinobuGodot.buffer_size, ShinobuGodot.get_actual_buffer_size()]
+
+func _version_info_callback():
+	return HBVersion.get_version_string(true)

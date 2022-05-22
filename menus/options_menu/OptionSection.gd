@@ -96,12 +96,18 @@ func _set_section_data(val):
 					binds = section_data[option_name].signal_binds
 				option_scene.connect("changed", section_data[option_name].signal_object, section_data[option_name].signal_method, binds)
 			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
+			option_scene.connect("back", self, "_on_option_back")
 			connect("value_changed", option_scene, "update_disabled")
 			option_scene.update_disabled()
 		if section_data.size() > 0:
 			# We force a hover on the first section data to make sure the description
 			# text is completely filled
-			_on_option_hovered(section_data.keys()[0])
+			var first_key_i := 0
+			for key_i in range(section_data.keys().size()):
+				if not section_data.keys()[key_i].begins_with("__"):
+					first_key_i = key_i
+					break
+			_on_option_hovered(section_data.keys()[first_key_i])
 			scroll_container.select_item(0)
 
 var input_disabled = false
@@ -144,3 +150,6 @@ func _on_focus_entered():
 	set_process_input(true)
 func _on_focus_exited():
 	set_process_input(false)
+
+func _on_option_back():
+	scroll_container.grab_focus()

@@ -54,10 +54,15 @@ func get_item_count() -> int:
 	return vbox_container.get_child_count()
 	
 func _on_pressed():
-	items_panel_container.show()
-	items_panel_container.rect_position = Vector2(rect_size.x - items_panel_container.rect_size.x, rect_size.y)
-	vbox_container.grab_focus()
-	vbox_container.select_button(selected_item)
+	if not items_panel_container.visible:
+		items_panel_container.show()
+		items_panel_container.rect_position = Vector2(rect_size.x - items_panel_container.rect_size.x, rect_size.y)
+		vbox_container.grab_focus()
+		vbox_container.select_button(selected_item)
+	else:
+		items_panel_container.hide()
+		emit_signal("back")
+		
 	
 func _input(event):
 	if event.is_action_pressed("gui_cancel"):
