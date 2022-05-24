@@ -29,6 +29,15 @@ func _ready():
 			option_text = options_pretty[option_i]
 		option_button.add_item(option_text, option_value)
 	set_value(value)
+	option_button.connect("selected", self, "_on_option_selected")
+
+func _on_option_selected(id):
+	var options_str := []
+	for option in options:
+		options_str.append(option as String)
+	var i := options_str.find(id) as int
+	if i != -1:
+		selected_option = i
 	
 func hover():
 	option_button.hover()
