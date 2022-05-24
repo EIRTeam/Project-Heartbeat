@@ -31,6 +31,7 @@ func get_texture(texture_name: String) -> Texture:
 				animated_texture.set_frame_delay(i, skin_resources.get_animated_texture_frame_delay(texture_name, i))
 			animated_texture.set_meta("texture_name", texture_name)
 			tex = animated_texture
+			texture_cache[texture_name] = animated_texture
 		else:
 			var image_texture := ImageTexture.new()
 			var image := Image.new()

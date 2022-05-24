@@ -35,6 +35,9 @@ var error_confirmation_dialog := ConfirmationDialog.new()
 signal resource_deleted
 signal resource_added
 
+onready var animated_texture_editor_window := WindowDialog.new()
+onready var animated_texture_editor: AnimatedTextureEditor = preload("res://tools/resource_pack_editor/skin_editor/AnimatedTextureEditor.tscn").instance()
+
 func set_texture_import_mode(val):
 	texture_import_mode = val
 	match texture_import_mode:
@@ -46,6 +49,10 @@ func set_texture_import_mode(val):
 			open_texture_file_dialog.mode = FileDialog.MODE_OPEN_FILES
 
 func _ready():
+	add_child(animated_texture_editor_window)
+	animated_texture_editor_window.add_child(animated_texture_editor)
+	animated_texture_editor_window.popup_exclusive = true
+	
 	error_confirmation_dialog.window_title = "Error importing!"
 	error_confirmation_dialog.popup_exclusive = true
 	add_child(error_confirmation_dialog)
@@ -230,7 +237,7 @@ func add_texture(texture_name: String, path: String, texture: Texture):
 	item.set_meta("is_animated_texture", false)
 	item.set_meta("texture_path", path)
 	item.set_meta("type", RESOURCE_TYPE_TEXTURE)
-	item.add_button(1, preload("res://tools/icons/icon_remove.svg"))
+	item.add_button(1, preload("res://tools/icons/icon_remove.svg"), RESOURCE_BUTTON_DELETE)
 			
 func add_animated_texture(texture_name: String, texture: AnimatedTexture):
 	resource_storage.add_texture(texture_name, texture)
@@ -242,7 +249,8 @@ func add_animated_texture(texture_name: String, texture: AnimatedTexture):
 	item.set_meta("animated_texture", texture)
 	item.set_meta("texture_name", texture_name)
 	item.set_meta("type", RESOURCE_TYPE_TEXTURE)
-	item.add_button(1, preload("res://tools/icons/icon_remove.svg"))
+	item.add_button(1, preload("res://tools/icons/pencil.svg"), RESOURCE_BUTTON_EDIT)
+	item.add_button(1, preload("res://tools/icons/icon_remove.svg"), RESOURCE_BUTTON_DELETE)
 	
 func _on_item_button_pressed(item: TreeItem, _column: int, id: int):
 	button_pressed_item = item
@@ -250,7 +258,11 @@ func _on_item_button_pressed(item: TreeItem, _column: int, id: int):
 		RESOURCE_BUTTON_DELETE:
 			delete_resource_confirmation_dialog.popup_centered()
 		RESOURCE_BUTTON_EDIT:
-			pass
+			match item.get_meta("type"):
+				RESOURCE_TYPE_TEXTURE:
+					# Must be an animated texture
+					animated_texture_editor.edit(item.get_meta("animated_texture"))
+					animated_texture_editor_window.popup_centered_ratio()
 func delete_resource(item: TreeItem):
 	var resource_type := item.get_meta("type") as int
 	match resource_type:
@@ -281,7 +293,7 @@ func add_font(font_name: String, path: String, font: DynamicFontData):
 	item.set_meta("font_name", font_name)
 	item.set_meta("font_path", path)
 	item.set_meta("type", RESOURCE_TYPE_FONT)
-	item.add_button(1, preload("res://tools/icons/icon_remove.svg"))
+	item.add_button(1, preload("res://tools/icons/icon_remove.svg"), RESOURCE_BUTTON_DELETE)
 func add_texture_from_path(texture_name: String, path: String):
 	assert(resource_pack)
 	var img := Image.new()
