@@ -27,6 +27,7 @@ onready var network_body_RTL = get_node("WindowDialog/TabContainer/Network/VBoxC
 onready var auth_token_button = get_node("WindowDialog/TabContainer/Network/VBoxContainer/AuthTokenButton")
 onready var instance_id_spinbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
 onready var property_name_line_edit = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
+onready var workshop_debug_text_edit: TextEdit = get_node("%WorkshopTextEdit")
 
 var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
 
@@ -165,3 +166,36 @@ func _on_OpenStrayNodeTester_pressed():
 
 func _on_TransparentViewport_toggled(button_pressed):
 	get_viewport().transparent_bg = button_pressed
+
+func _on_WorkshopRefreshButton_pressed():
+	var strings := PoolStringArray()
+	
+	for item_id in Steam.getSubscribedItems():
+		var state := Steam.getItemState(item_id)
+		var item_str := "ugc_%d" % [item_id]
+		var out_str := ""
+		var flags := PoolStringArray()
+		
+		if item_str in SongLoader.songs:
+			out_str = "%s (%d): " % [SongLoader.songs[item_str].title, item_id]
+		elif item_str in ResourcePackLoader.resource_packs:
+			out_str = "%s (%d): " % [ResourcePackLoader.resource_packs[item_str].pack_name, item_id]
+		else:
+			out_str = "Unknown (%d): " % [SongLoader.songs[item_str].title, item_id]
+		
+		if state & Steam.ITEM_STATE_SUBSCRIBED:
+			flags.append("Subscribed")
+		if state & Steam.ITEM_STATE_LEGACY_ITEM:
+			flags.append("Legacy Item")
+		if state & Steam.ITEM_STATE_INSTALLED:
+			flags.append("Installed")
+		if state & Steam.ITEM_STATE_NEEDS_UPDATE:
+			flags.append("Needs Update")
+		if state & Steam.ITEM_STATE_DOWNLOADING:
+			flags.append("Needs Update")
+		if state & Steam.ITEM_STATE_DOWNLOAD_PENDING:
+			flags.append("Download Pending")
+		
+		out_str += flags.join(", ")
+		strings.append(out_str)
+	workshop_debug_text_edit.text = strings.join("\n")
