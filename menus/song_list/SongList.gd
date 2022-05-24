@@ -304,10 +304,9 @@ func _unhandled_input(event):
 				update_songs()
 			else:
 				change_to_menu("main_menu")
-		elif event.is_action_pressed("note_up"):
-			if not HBUtils.is_gui_directional_press("gui_up", event):
-				get_tree().set_input_as_handled()
-				show_order_by_list()
+		elif event.is_action_pressed("gui_sort_by"):
+			get_tree().set_input_as_handled()
+			show_order_by_list()
 		elif event.is_action_pressed("contextual_option"):
 			if UserSettings.user_settings.filter_mode == "folders":
 				var item = song_container.get_selected_item()

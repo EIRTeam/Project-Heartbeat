@@ -214,7 +214,7 @@ func _unhandled_input(event):
 		else:
 			HTTPRequestQueue.cancel_all_requests()
 			change_to_menu("main_menu")
-	elif event.is_action_pressed("note_up") and not search_prompt.visible and not HBUtils.is_gui_directional_press("gui_up", event):
+	elif event.is_action_pressed("gui_sort_by") and not search_prompt.visible:
 		sort_by_popup.show()
 		sort_by_container.grab_focus()
 	elif event.is_action_pressed("gui_search") and not search_prompt.visible:
