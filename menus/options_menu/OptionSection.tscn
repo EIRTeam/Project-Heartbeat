@@ -65,7 +65,7 @@ text = "test lolololo"
 align = 1
 autowrap = true
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 margin_top = 864.0
 margin_right = 1920.0
 margin_bottom = 1080.0
@@ -74,33 +74,35 @@ size_flags_stretch_ratio = 0.25
 custom_styles/panel = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1918.0
+margin_bottom = 214.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 15
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer"]
-margin_right = 1920.0
-margin_bottom = 216.0
-custom_constants/separation = 68
+margin_left = 50.0
+margin_top = 15.0
+margin_right = 1866.0
+margin_bottom = 197.0
+custom_constants/separation = 15
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 406.0
-margin_right = 446.0
-margin_bottom = 216.0
+margin_right = 40.0
+margin_bottom = 182.0
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 514.0
-margin_top = 92.0
-margin_right = 1514.0
-margin_bottom = 123.0
-rect_min_size = Vector2( 1000, 0 )
+margin_left = 55.0
+margin_right = 1816.0
+margin_bottom = 182.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
 custom_fonts/font = ExtResource( 5 )
-text = "(NT)description uwu"
-align = 1
 valign = 1
 autowrap = true
