@@ -101,3 +101,6 @@ unique_name_in_owner = true
 margin_left = 295.0
 margin_right = 369.0
 margin_bottom = 24.0
+min_value = 1.0
+max_value = 144.0
+value = 1.0
