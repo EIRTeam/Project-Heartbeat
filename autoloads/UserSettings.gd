@@ -82,11 +82,11 @@ func get_input_map():
 func _init_user_settings():
 	load_user_settings()
 	
-	fill_localized_arrays()
-	
 	# Translation init
 	if user_settings.locale != "auto-detect":
 		TranslationServer.set_locale(user_settings.locale)
+	
+	fill_localized_arrays()
 	
 	base_input_map = get_input_map()
 
