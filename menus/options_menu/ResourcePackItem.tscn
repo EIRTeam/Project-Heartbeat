@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://menus/options_menu/ResourcePackItem.gd" type="Script" id=1]
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://graphics/no_preview_texture.png" type="Texture" id=8]
 [ext_resource path="res://styles/PanelStyleTransparentIconPress.tres" type="StyleBox" id=9]
 [ext_resource path="res://graphics/icons/check-circle.svg" type="Texture" id=10]
-[ext_resource path="res://graphics/icons/music-clef-treble.svg" type="Texture" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -131,8 +130,8 @@ __meta__ = {
 
 [node name="CheckedPanel" type="Panel" parent="HBoxContainer"]
 use_parent_material = true
-margin_left = 2.0
-margin_right = 42.0
+margin_left = 46.0
+margin_right = 86.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 0 )
 custom_styles/panel = ExtResource( 5 )
@@ -160,43 +159,6 @@ margin_right = 35.0
 margin_bottom = 35.0
 mouse_filter = 2
 texture = ExtResource( 10 )
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CheckedPanel2" type="Panel" parent="HBoxContainer"]
-use_parent_material = true
-margin_left = 46.0
-margin_right = 86.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-custom_styles/panel = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/CheckedPanel2"]
-use_parent_material = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/CheckedPanel2/MarginContainer"]
-use_parent_material = true
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 35.0
-margin_bottom = 35.0
-mouse_filter = 2
-texture = ExtResource( 11 )
 expand = true
 stretch_mode = 5
 __meta__ = {

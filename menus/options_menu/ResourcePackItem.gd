@@ -34,10 +34,6 @@ func set_pack(_resource_pack: HBResourcePack):
 func set_checked(checked: bool):
 	checked_panel.visible = checked
 
-func set_note_override(checked: bool):
-	note_override_panel.visible = checked
-
-
 func _on_MarginContainer_minimum_size_changed():
 	rect_min_size = $MarginContainer.rect_size
 	rect_size.y = 0

@@ -127,13 +127,8 @@ func rebuild_final_atlases():
 			print("Using fallback for %s" % [atlas_name])
 	var selected_pack := resource_packs.get(UserSettings.user_settings.resource_pack, null) as HBResourcePack
 	note_pack = selected_pack
-	if UserSettings.user_settings.note_icon_override != "__resource_pack":
-		if UserSettings.user_settings.note_icon_override in resource_packs:
-			note_pack = resource_packs[UserSettings.user_settings.note_icon_override]
 	for file_name in GRAPHICS_FILE_NAMES:
 		var pack := selected_pack
-		if UserSettings.user_settings.note_icon_override != "__resource_pack" and file_name in NOTE_ICON_GRAPHICS_FILE_NAMES:
-			pack = note_pack
 		if pack:
 			var image := pack.get_graphic_image(file_name)
 			if image:
@@ -145,11 +140,6 @@ func rebuild_final_atlases():
 func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_settings.resource_pack) -> int:
 	var time_start = OS.get_ticks_usec()
 	var selected_pack := resource_packs.get(pack_to_use, null) as HBResourcePack
-	if pack_to_use == UserSettings.user_settings.resource_pack:
-		if atlas_name == "notes":
-			if UserSettings.user_settings.note_icon_override != "__resource_pack":
-				if UserSettings.user_settings.note_icon_override in resource_packs:
-					selected_pack = resource_packs.get(pack_to_use, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
 		var selected_pack_atlas := selected_pack.get_atlas_image(atlas_name)

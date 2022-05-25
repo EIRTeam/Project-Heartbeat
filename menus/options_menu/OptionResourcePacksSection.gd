@@ -7,7 +7,6 @@ onready var item_container = get_node("VBoxContainer/Panel/ScrollContainer/VBoxC
 onready var rebuilding_note_atlas_container = get_node("CenterContainer")
 onready var categories_container := get_node("VBoxContainer/CategoriesContainer")
 var selected_resource_pack_scene
-var note_override_resource_pack_scene
 
 var CATEGORY_NAMES = {
 	HBResourcePack.RESOURCE_PACK_TYPE.NOTE_PACK: tr("Note Packs"),
@@ -21,7 +20,6 @@ func _ready():
 	
 	rebuilding_note_atlas_container.hide()
 	selected_resource_pack_scene = null
-	note_override_resource_pack_scene = null
 
 	
 	connect("focus_entered", scroll_container, "grab_focus", [], CONNECT_DEFERRED)
@@ -65,9 +63,6 @@ func populate():
 				pack_scene.set_checked(is_current)
 				if is_current:
 					selected_resource_pack_scene = pack_scene
-		if UserSettings.user_settings.note_icon_override == pack_id:
-			note_override_resource_pack_scene = pack_scene
-		pack_scene.set_note_override(UserSettings.user_settings.note_icon_override == pack_id)
 
 		pack_scene.connect("pressed", self, "_on_resource_pack_pressed", [resource_pack, pack_scene])
 	
@@ -80,28 +75,6 @@ func _input(event):
 			get_tree().set_input_as_handled()
 			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
 			emit_signal("back")
-		if event.is_action_pressed("contextual_option"):
-			get_tree().set_input_as_handled()
-			var item = scroll_container.get_selected_item()
-			if rebuilding_note_atlas_container.visible:
-				return
-			if item:
-				if item == note_override_resource_pack_scene:
-					UserSettings.user_settings.note_icon_override = "__resource_pack"
-					item.set_note_override(false)
-					note_override_resource_pack_scene = null
-				else:
-					if note_override_resource_pack_scene:
-						note_override_resource_pack_scene.set_note_override(false)
-					note_override_resource_pack_scene = item
-					item.set_note_override(true)
-					UserSettings.user_settings.note_icon_override = (item.resource_pack as HBResourcePack)._id
-				rebuilding_note_atlas_container.show()
-				yield(get_tree(), "idle_frame")
-				yield(get_tree(), "idle_frame")
-				ResourcePackLoader.rebuild_final_atlases()
-				rebuilding_note_atlas_container.hide()
-				
 func _on_resource_pack_pressed(resource_pack: HBResourcePack, scene: Control):
 	if rebuilding_note_atlas_container.visible:
 		return

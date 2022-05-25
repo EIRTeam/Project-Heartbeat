@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://menus/options_menu/OptionResourcePacksSection.gd" type="Script" id=1]
-[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=3]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=4]
 [ext_resource path="res://fonts/ResultsTitleFont.tres" type="DynamicFont" id=5]
@@ -35,7 +34,7 @@ script = ExtResource( 6 )
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 margin_top = 12.0
 margin_right = 1890.0
-margin_bottom = 998.0
+margin_bottom = 1050.0
 focus_mode = 2
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 4 )
@@ -59,23 +58,9 @@ enable_wrap_around = true
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/ScrollContainer"]
 use_parent_material = true
 margin_right = 1890.0
-margin_bottom = 986.0
+margin_bottom = 1038.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 1010.0
-margin_right = 1890.0
-margin_bottom = 1050.0
-rect_min_size = Vector2( 0, 40 )
-alignment = 1
-
-[node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 629.0
-margin_right = 1260.0
-rect_min_size = Vector2( 631, 31 )
-action_name = "contextual_option"
-text = "Toggle override notes with selected pack"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_left = 15.0

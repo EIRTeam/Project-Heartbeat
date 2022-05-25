@@ -77,7 +77,7 @@ func reload_ugc_songs():
 			var o = _add_downloaded_item(item_id)
 			if o == "resource_pack":
 				var ugc_n = "ugc_%s" % [str(item_id)]
-				if ugc_n == UserSettings.user_settings.resource_pack or ugc_n == UserSettings.user_settings.note_icon_override:
+				if ugc_n == UserSettings.user_settings.resource_pack:
 					atlas_rebuild_needed = true
 	_reload_ugc_item_added_dates()
 	if atlas_rebuild_needed:
