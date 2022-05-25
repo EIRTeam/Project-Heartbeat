@@ -59,8 +59,14 @@ rect_min_size = Vector2( 0, 45 )
 alignment = 1
 script = ExtResource( 6 )
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_top = 65.0
+margin_right = 1870.0
+margin_bottom = 104.0
+text = "Note: You can assign the same button to more than one action to create macros!"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
+margin_top = 124.0
 margin_right = 1870.0
 margin_bottom = 1035.0
 focus_mode = 2
@@ -73,7 +79,7 @@ scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 1870.0
-margin_bottom = 970.0
+margin_bottom = 911.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

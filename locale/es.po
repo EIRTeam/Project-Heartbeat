@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-25 02:19+0200\n"
-"PO-Revision-Date: 2022-05-25 02:29+0200\n"
+"POT-Creation-Date: 2022-05-25 13:53+0200\n"
+"PO-Revision-Date: 2022-05-25 13:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1202,12 +1202,19 @@ msgstr ""
 msgid " (known)"
 msgstr " (conocido)"
 
-#: menus/options_menu/OptionControlsSection.tscn:93
+#: menus/options_menu/OptionControlsSection.tscn:58
+msgid ""
+"Note: You can assign the same button to more than one action to create "
+"macros!"
+msgstr ""
+"Nota: ¡Puedes asignar el mismo botón a más de una acción para crear macros!"
+
+#: menus/options_menu/OptionControlsSection.tscn:99
 #: menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn:78
 msgid "Press the Key/Button/Axis to bind"
 msgstr "Presiona la tecla / botón / eje para enlazar"
 
-#: menus/options_menu/OptionControlsSection.tscn:99
+#: menus/options_menu/OptionControlsSection.tscn:105
 msgid "Are you sure you want to reset all controls to default?"
 msgstr ""
 "¿Está seguro de que querer reestablecer todos los controles a los valores "
@@ -1240,21 +1247,17 @@ msgstr ""
 msgid "(NT)Yes"
 msgstr ""
 
-#: menus/options_menu/OptionResourcePacksSection.gd:13
+#: menus/options_menu/OptionResourcePacksSection.gd:12
 #: menus/workshop_browser/WorkshopBrowser.gd:89
 msgid "Note Packs"
 msgstr "Packs de Notas"
 
-#: menus/options_menu/OptionResourcePacksSection.gd:14
+#: menus/options_menu/OptionResourcePacksSection.gd:13
 #: menus/workshop_browser/WorkshopBrowser.gd:85
 msgid "Skins"
 msgstr ""
 
-#: menus/options_menu/OptionResourcePacksSection.tscn:78
-msgid "Toggle override notes with selected pack"
-msgstr "Usar notas del paquete seleccionado"
-
-#: menus/options_menu/OptionResourcePacksSection.tscn:92
+#: menus/options_menu/OptionResourcePacksSection.tscn:77
 msgid "Rebuilding note atlas..."
 msgstr "Reconstruyendo atlas de notas..."
 
@@ -1864,15 +1867,15 @@ msgstr "Volumen del sonido %s"
 msgid "Volume for this sound effect"
 msgstr "Volumen para este efecto de sonido"
 
-#: menus/options_menu/ResourcePackItem.tscn:93
+#: menus/options_menu/ResourcePackItem.tscn:92
 msgid "No vea loco peaso pack de testura"
 msgstr ""
 
-#: menus/options_menu/ResourcePackItem.tscn:101
+#: menus/options_menu/ResourcePackItem.tscn:100
 msgid "by EIREXE"
 msgstr ""
 
-#: menus/options_menu/ResourcePackItem.tscn:115
+#: menus/options_menu/ResourcePackItem.tscn:114
 msgid "No vea ermano peaso descripsión"
 msgstr ""
 
@@ -2723,6 +2726,9 @@ msgstr ""
 #: scripts/new_ui/SkipIntroIndicator.tscn:63
 msgid "+"
 msgstr ""
+
+#~ msgid "Toggle override notes with selected pack"
+#~ msgstr "Usar notas del paquete seleccionado"
 
 #~ msgid "Timing method"
 #~ msgstr "Método de sincronización"
