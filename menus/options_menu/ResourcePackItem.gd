@@ -7,7 +7,6 @@ onready var author_label := get_node("MarginContainer/HBoxContainer/VBoxContaine
 onready var description_label := get_node("MarginContainer/HBoxContainer/VBoxContainer/DescriptionLabel")
 
 onready var checked_panel := get_node("HBoxContainer/CheckedPanel")
-onready var note_override_panel := get_node("HBoxContainer/CheckedPanel2")
 
 var resource_pack: HBResourcePack
 
