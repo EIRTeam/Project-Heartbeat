@@ -12,9 +12,9 @@ var reverse := false
 
 func _input(event):
 	if visible:
-		if event is InputEventKey:
-			if event.alt != reverse:
-				reverse = event.alt
+		if event is InputEventWithModifiers:
+			if event.shift != reverse:
+				reverse = event.shift
 				$ReverseIndicator.visible = reverse
 				emit_signal("angle_changed", rotation, reverse)
 		

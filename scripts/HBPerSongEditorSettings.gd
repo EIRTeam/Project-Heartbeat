@@ -25,17 +25,12 @@ var grid_snap := true
 var show_grid := true
 
 var separation := 96
-var diagonal_angle := 30
 var reverse_arrange := false
 var autoslide := true
-var arranger_snaps := 16
 var angle_snaps := 32
 var autoplace := true
 var autoangle := true
 
-var transforms_use_center := false
-var circle_from_inside := false
-var circle_advanced_mode := false
 var circle_size := 16
 var circle_separation := 96
 

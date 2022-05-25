@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
@@ -20,14 +20,6 @@
 [ext_resource path="res://tools/editor/GridRenderer.gd" type="Script" id=19]
 [ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=20]
 [ext_resource path="res://tools/editor/WidgetArea.gd" type="Script" id=21]
-[ext_resource path="res://tools/icons/arrow-top-left-thick.svg" type="Texture" id=22]
-[ext_resource path="res://tools/icons/arrow-top-right-thick.svg" type="Texture" id=23]
-[ext_resource path="res://tools/icons/arrow-up-thick.svg" type="Texture" id=24]
-[ext_resource path="res://tools/icons/arrow-down-thick.svg" type="Texture" id=25]
-[ext_resource path="res://tools/icons/arrow-left-thick.svg" type="Texture" id=26]
-[ext_resource path="res://tools/icons/arrow-right-thick.svg" type="Texture" id=27]
-[ext_resource path="res://tools/icons/arrow-bottom-left-thick.svg" type="Texture" id=28]
-[ext_resource path="res://tools/icons/arrow-bottom-right-thick.svg" type="Texture" id=29]
 [ext_resource path="res://tools/editor/EditorLayerManager.gd" type="Script" id=30]
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
@@ -44,7 +36,6 @@
 [ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=44]
 [ext_resource path="res://tools/editor/EditorGlobalSettings.tscn" type="PackedScene" id=45]
 [ext_resource path="res://tools/icons/settings.svg" type="Texture" id=46]
-[ext_resource path="res://tools/editor/EditorArrangeMenu.tscn" type="PackedScene" id=47]
 [ext_resource path="res://tools/editor/SyncToolbox.tscn" type="PackedScene" id=48]
 [ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=49]
 [ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=50]
@@ -384,252 +375,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
 
-[node name="Arrange" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer"]
-margin_right = 429.0
-margin_bottom = 643.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer"]
-margin_right = 429.0
-margin_bottom = 617.0
-size_flags_horizontal = 3
-
-[node name="Label4" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_right = 429.0
-margin_bottom = 25.0
-text = "Note this only works at 4/4"
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 429.0
-margin_bottom = 211.0
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer"]
-margin_left = 120.0
-margin_right = 308.0
-margin_bottom = 182.0
-rect_min_size = Vector2( 182, 0 )
-columns = 3
-
-[node name="Button" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_right = 60.0
-margin_bottom = 58.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 22 )
-
-[node name="Button2" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 64.0
-margin_right = 124.0
-margin_bottom = 58.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 24 )
-
-[node name="Button3" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 128.0
-margin_right = 188.0
-margin_bottom = 58.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 23 )
-
-[node name="Button4" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_top = 62.0
-margin_right = 60.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 26 )
-
-[node name="Button5" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 64.0
-margin_top = 62.0
-margin_right = 124.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-
-[node name="Button6" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 128.0
-margin_top = 62.0
-margin_right = 188.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 27 )
-
-[node name="Button7" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_top = 124.0
-margin_right = 60.0
-margin_bottom = 182.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 28 )
-
-[node name="Button8" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 64.0
-margin_top = 124.0
-margin_right = 124.0
-margin_bottom = 182.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 25 )
-
-[node name="Button9" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer"]
-margin_left = 128.0
-margin_top = 124.0
-margin_right = 188.0
-margin_bottom = 182.0
-rect_min_size = Vector2( 0, 58 )
-size_flags_horizontal = 3
-icon = ExtResource( 29 )
-
-[node name="ReverseArrangeCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 215.0
-margin_right = 429.0
-margin_bottom = 240.0
-text = "Place in reverse"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AutoSlideCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 244.0
-margin_right = 429.0
-margin_bottom = 269.0
-pressed = true
-text = "Automatically handle slide chains"
-
-[node name="AutoPlaceCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 273.0
-margin_right = 429.0
-margin_bottom = 298.0
-pressed = true
-text = "Automatically place notes in a line"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AutoAngleCheckBox" type="CheckBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 302.0
-margin_right = 429.0
-margin_bottom = 327.0
-pressed = true
-text = "Automatically angle notes when arranging"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 331.0
-margin_right = 429.0
-margin_bottom = 356.0
-text = "Separation per 8th"
-
-[node name="TimeArrangeSeparationSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 360.0
-margin_right = 429.0
-margin_bottom = 385.0
-max_value = 2.14748e+09
-value = 96.0
-script = ExtResource( 50 )
-
-[node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 389.0
-margin_right = 429.0
-margin_bottom = 414.0
-text = "Diagonal slope"
-
-[node name="TimeArrangeDiagonalAngleSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 418.0
-margin_right = 429.0
-margin_bottom = 443.0
-max_value = 90.0
-value = 45.0
-suffix = "º"
-script = ExtResource( 50 )
-
-[node name="Label5" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 447.0
-margin_right = 429.0
-margin_bottom = 472.0
-text = "Arrange wheel snaps"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TimeArrangeSnapsSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 476.0
-margin_right = 429.0
-margin_bottom = 501.0
-min_value = 1.0
-value = 16.0
-script = ExtResource( 50 )
-
-[node name="Label6" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 505.0
-margin_right = 429.0
-margin_bottom = 530.0
-text = "Angle snaps"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AngleSnapsSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 534.0
-margin_right = 429.0
-margin_bottom = 559.0
-min_value = 1.0
-value = 32.0
-script = ExtResource( 50 )
-
-[node name="Label3" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 563.0
-margin_right = 429.0
-margin_bottom = 588.0
-text = "Arrange angles"
-
-[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 592.0
-margin_right = 429.0
-margin_bottom = 617.0
-
-[node name="AngleArrangeButtonMinus" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
-margin_right = 23.0
-margin_bottom = 25.0
-text = "<-"
-
-[node name="AngleArrangeSpinbox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
-margin_left = 27.0
-margin_right = 402.0
-margin_bottom = 25.0
-size_flags_horizontal = 3
-max_value = 360.0
-value = 15.0
-align = 1
-suffix = "º"
-script = ExtResource( 50 )
-
-[node name="AngleArrangeButtonPlus" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
-margin_left = 406.0
-margin_right = 429.0
-margin_bottom = 25.0
-text = "->"
-
 [node name="Transforms" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -1203,8 +949,6 @@ window_title = "¡Alerta!"
 dialog_text = "You're not allowed to cum
 inside Rin Kagamine."
 
-[node name="ArrangeMenu" parent="." instance=ExtResource( 47 )]
-
 [node name="SyncToolboxDialog" parent="." instance=ExtResource( 48 )]
 margin_left = 762.0
 margin_top = 157.0
@@ -1230,23 +974,6 @@ margin_bottom = 412.0
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
 [connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer" to="." method="_on_parent_HSplitContainer_dragged"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button" to="." method="_on_arrange_pressed" binds= [ 5 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="_on_arrange_pressed" binds= [ 6 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="_on_arrange_pressed" binds= [ 7 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button4" to="." method="_on_arrange_pressed" binds= [ 4 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="_on_arrange_pressed" binds= [ 0 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="_on_arrange_pressed" binds= [ 3 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="_on_arrange_pressed" binds= [ 2 ]]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="_on_arrange_pressed" binds= [ 1 ]]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox" to="." method="_on_AutoSlideCheckBox_toggled"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox" to="." method="_on_AutoPlaceCheckBox_toggled"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox" to="." method="_on_AutoAngleCheckBox_toggled"]
-[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox" to="." method="_on_TimeArrangeSeparationSpinBox_value_changed"]
-[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox" to="." method="_on_TimeArrangeDiagonalAngleSpinBox_value_changed"]
-[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox" to="." method="_on_TimeArrangeSnapsSpinBox_value_changed"]
-[connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox" to="." method="_on_AngleSnapsSpinBox_value_changed"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonMinus" to="." method="_on_AngleArrangeButtonMinus_pressed"]
-[connection signal="pressed" from="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeButtonPlus" to="." method="_on_AngleArrangeButtonPlus_pressed"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]

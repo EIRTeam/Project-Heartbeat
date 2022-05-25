@@ -8,10 +8,13 @@ signal load_song(song)
 signal timing_information_changed
 signal timing_points_changed
 signal song_editor_settings_changed
+signal modules_update_settings(settings)
+
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 const EDITOR_MODULES_DIR = "res://tools/editor/editor_modules"
+
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
 onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
@@ -21,9 +24,6 @@ onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
 onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
-onready var angle_arrange_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/AngleArrangeSpinbox")
-onready var time_arrange_separation_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSeparationSpinbox")
-onready var time_arrange_diagonal_angle_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeDiagonalAngleSpinbox")
 onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
@@ -48,18 +48,11 @@ onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HSplitCon
 onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
-onready var autoslide_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoSlideCheckBox")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
 onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
-onready var arrange_menu = get_node("ArrangeMenu")
-onready var time_arrange_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/TimeArrangeSnapsSpinbox")
-onready var autoplace_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoPlaceCheckBox")
-onready var angle_snaps_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AngleSnapsSpinbox")
-onready var autoangle_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/AutoAngleCheckBox")
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
-onready var reverse_arrange_checkbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Arrange/MarginContainer/ScrollContainer/VBoxContainer/ReverseArrangeCheckBox")
 
 const LOG_NAME = "HBEditor"
 
@@ -91,18 +84,6 @@ var _removed_items = [] # So we can queue_free removed nodes when freeing the ed
 var playtesting := false
 
 var _playhead_traveling := false
-
-var autoarrange_shortcuts = [
-	["editor_arrange_l", PI],
-	["editor_arrange_r", 0],
-	["editor_arrange_u", -PI/2],
-	["editor_arrange_d", PI/2],
-	["editor_arrange_ul", -3*PI/4],
-	["editor_arrange_ur", -PI/4],
-	["editor_arrange_dl", 3*PI/4],
-	["editor_arrange_dr", PI/4],
-	["editor_arrange_center", null],
-]
 
 var angle_shortcuts = [
 	["editor_angle_l", PI],
@@ -252,9 +233,6 @@ func _ready():
 	
 	connect("timing_points_changed", self, "_cache_hold_ends")
 	
-	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time", [true])
-	arrange_menu.set_editor(self)
-	
 	$SyncToolboxDialog.set_editor(self)
 	$EditorGlobalSettings.song_settings_tab.set_editor(self)
 	$EditorGlobalSettings.general_settings_tab.set_editor(self)
@@ -387,32 +365,9 @@ var konami_index = 0
 
 const standard_resolutions = [4, 6, 8, 12, 16, 24, 32]
 
-var arranging = false
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
 		return
-	
-	if event.is_action_pressed("editor_show_arrange_menu"):
-		if selected and game_preview.get_global_rect().has_point(get_global_mouse_position()):
-			arranging = true
-			arrange_menu.popup()
-			arrange_menu.set_global_position(get_global_mouse_position())
-			
-			selected.sort_custom(self, "_order_items")
-			first_note = selected[0].data.clone()
-			last_note = selected[-1].data.clone()
-	elif event.is_action_released("editor_show_arrange_menu") and arranging:
-		arranging = false
-		arrange_menu.hide()
-		
-		undo_redo.create_action("Arrange selected notes by time")
-		_commit_selected_property_change("position", false)
-		_commit_selected_property_change("entry_angle", false)
-		_commit_selected_property_change("oscillation_frequency", false)
-		undo_redo.commit_action()
-		
-		first_note = null
-		last_note = null
 	
 	if event is InputEventKey and event.pressed and not sex_button.visible:
 		if event.scancode == konami_sequence[konami_index]:
@@ -457,13 +412,6 @@ func _unhandled_input(event: InputEvent):
 			
 			fine_position_selected(off)
 			get_tree().set_input_as_handled()
-	
-	for action in autoarrange_shortcuts:
-		if event.is_action(action[0], true) and event.pressed and not event.echo:
-			arrange_selected_notes_by_time(action[1], reverse_arrange_checkbox.pressed)
-			
-			get_tree().set_input_as_handled()
-			break
 	
 	for action in angle_shortcuts:
 		if event.is_action(action[0], true) and event.pressed and not event.echo:
@@ -1328,17 +1276,6 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
 	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
-	time_arrange_separation_spinbox.value = settings.separation
-	time_arrange_diagonal_angle_spinbox.value = settings.diagonal_angle
-	time_arrange_snaps_spinbox.value = settings.arranger_snaps
-	angle_snaps_spinbox.value = settings.angle_snaps
-	
-	transforms_tools.load_settings()
-	
-	autoslide_checkbox.pressed = settings.autoslide
-	autoplace_checkbox.pressed = settings.autoplace
-	autoangle_checkbox.pressed = settings.autoangle
-
 	emit_signal("timing_information_changed")
 	offset_box.connect("value_changed", self, "_on_timing_information_changed")
 	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
@@ -1351,6 +1288,9 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
+	
+	emit_signal("modules_update_settings", settings)
+
 func from_chart(chart: HBChart, ignore_settings=false):
 	rhythm_game.editor_clear_notes()
 	timeline.clear_layers()
@@ -1666,6 +1606,7 @@ func arrange_selected_by_angle(diff):
 			mult += 1
 		inspector.sync_visible_values_with_data()
 		undo_redo.commit_action()
+
 func _on_AngleArrangeButtonPlus_pressed():
 	arrange_selected_by_angle(angle_arrange_spinbox.value)
 
@@ -2053,18 +1994,6 @@ func _on_WaveformButton_toggled(button_pressed):
 	timeline.set_waveform(song_editor_settings.waveform)
 
 
-func _on_TimeArrangeSeparationSpinBox_value_changed(value):
-	song_editor_settings.set("separation", value)
-
-
-func _on_TimeArrangeDiagonalAngleSpinBox_value_changed(value):
-	song_editor_settings.set("diagonal_angle", value)
-
-
-func _on_AutoSlideCheckBox_toggled(button_pressed):
-	song_editor_settings.set("autoslide", button_pressed)
-
-
 func _on_SexButton_pressed():
 	$SexDialog.popup_centered()
 
@@ -2075,38 +2004,6 @@ func _on_HoldCalculatorCheckBox_toggled(button_pressed):
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
 
-
-func  _on_arrange_pressed(direction: int):
-	if direction % 2:
-		var angle = time_arrange_diagonal_angle_spinbox.value
-		
-		if direction > 3:
-			angle = -angle 
-		
-		if direction in [3, 5]:
-			angle = -angle
-			angle += 180
-		
-		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed)
-	else:
-		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed)
-
-
-func _on_TimeArrangeSnapsSpinBox_value_changed(value):
-	song_editor_settings.set("arranger_snaps", value)
-	arrange_menu.rotation_snaps = value
-
-
-func _on_AutoPlaceCheckBox_toggled(button_pressed):
-	song_editor_settings.set("autoplace", button_pressed)
-
-
-func _on_AngleSnapsSpinBox_value_changed(value):
-	song_editor_settings.set("angle_snaps", value)
-
-
-func _on_AutoAngleCheckBox_toggled(button_pressed):
-	song_editor_settings.set("autoangle", button_pressed)
 
 func _on_parent_HSplitContainer_dragged(offset):
 	if offset < -320:

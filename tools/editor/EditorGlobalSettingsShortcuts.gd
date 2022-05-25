@@ -85,13 +85,16 @@ const EDITOR_EVENTS = {
 		"editor_angle_dr",
 	],
 	"Transforms": [
+		"editor_mirror_h",
+		"editor_mirror_v",
 		"editor_flip_h",
 		"editor_flip_v",
-		"editor_make_circle_c",
-		"editor_make_circle_cc",
+		"editor_make_circle_cw",
+		"editor_make_circle_ccw",
+		"editor_make_circle_cw_inside",
+		"editor_make_circle_ccw_inside",
 		"editor_circle_size_bigger",
 		"editor_circle_size_smaller",
-		"editor_circle_inside",
 	],
 	"Presets": [
 		"editor_vertical_multi_left",
@@ -211,6 +214,9 @@ func reset_all_to_default():
 			
 			InputMap.action_add_event(action_name, event)
 			set_item_text(item, action_name, event)
+	
+	UserSettings.save_user_settings()
+	editor.update_modules()
 
 func get_event_text(event: InputEvent):
 	var text = ""

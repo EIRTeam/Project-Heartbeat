@@ -1,5 +1,7 @@
 extends MarginContainer
 
+class_name HBEditorTransforms
+
 signal show_transform(transformation)
 signal hide_transform()
 signal apply_transform(transformation)
@@ -19,19 +21,17 @@ func set_use_stage_center(val):
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
 	
-	func transform_notes(notes: Array):
-		var transformation_result = {}
-		for n in notes:
-			var note = n as HBBaseNote
-			transformation_result[n] = {
-				"position": Vector2(1920 - note.position.x, note.position.y),
-				"entry_angle": fmod((180 - note.entry_angle), 360),
-				"oscillation_frequency": -note.oscillation_frequency
-			}
-		return transformation_result
-
-class FlipSlideChainsTransformation:
-	extends EditorTransformation
+	var local := false
+	
+	const note_type_change_map = {
+		HBBaseNote.NOTE_TYPE.SLIDE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
+		HBBaseNote.NOTE_TYPE.SLIDE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
+		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT,
+		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
+	}
+	
+	func _sort_by_x_pos(a: HBBaseNote, b: HBBaseNote):
+		return a.position.x > b.position.x
 	
 	func _get_chains(notes: Array):
 		var chains = []
@@ -50,37 +50,62 @@ class FlipSlideChainsTransformation:
 		if current_chain.size() > 0:
 			chains.append(current_chain)
 		return chains
+	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
-		var chains = _get_chains(notes)
-		var center = get_center_for_notes(notes)
-		var note_type_change_map = {
-			HBBaseNote.NOTE_TYPE.SLIDE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_RIGHT,
-			HBBaseNote.NOTE_TYPE.SLIDE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_LEFT,
-			HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT,
-			HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
-		}
 		
-		for chain in chains:
-			for note in chain:
-				var relative_x = center.x - note.position.x
-				transformation_result[note] = {
-					"position": Vector2(center.x + relative_x, note.position.y),
-					"entry_angle": fmod((180 - note.entry_angle), 360),
-					"oscillation_frequency": -note.oscillation_frequency,
-					"note_type": note_type_change_map[note.note_type]
-				}
+		for n in notes:
+			if not n is HBBaseNote:
+				notes.erase(n)
+		
+		var chains = _get_chains(notes)
+		
+		var biggest := 1920
+		var smallest := 0
+		if local:
+			notes.sort_custom(self, "_sort_by_x_pos")
+			biggest = notes[-1].position.x
+			smallest = notes[0].position.x
+		
+		for n in notes:
+			var note = n as HBBaseNote
+			var note_type = note_type_change_map[n.note_type] if n.note_type in note_type_change_map else n.note_type
+			
+			transformation_result[n] = {
+				"position": Vector2(biggest - note.position.x + smallest, note.position.y),
+				"entry_angle": fmod((180 - note.entry_angle), 360),
+				"oscillation_frequency": -note.oscillation_frequency,
+				"note_type": note_type
+			}
+		
 		return transformation_result
 
 class FlipVerticallyTransformation:
 	extends EditorTransformation
 	
+	var local := false
+	
+	func _sort_by_y_pos(a: HBBaseNote, b: HBBaseNote):
+		return a.position.y > b.position.y
+	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
+		
+		for n in notes:
+			if not n is HBBaseNote:
+				notes.erase(n)
+		
+		var biggest := 1080
+		var smallest := 0
+		if local:
+			notes.sort_custom(self, "_sort_by_y_pos")
+			biggest = notes[-1].position.y
+			smallest = notes[0].position.y
+		
 		for n in notes:
 			var note = n as HBBaseNote
 			transformation_result[n] = {
-				"position": Vector2(note.position.x, 1080 - note.position.y),
+				"position": Vector2(note.position.x, biggest - note.position.y + smallest),
 				"entry_angle": -note.entry_angle,
 				"oscillation_frequency": -note.oscillation_frequency
 			}
@@ -89,14 +114,38 @@ class FlipVerticallyTransformation:
 class RotateTransformation:
 	extends EditorTransformation
 	
+	enum {
+		PIVOT_MODE_RELATIVE_CENTER,
+		PIVOT_MODE_RELATIVE_LEFT,
+		PIVOT_MODE_RELATIVE_RIGHT,
+		PIVOT_MODE_ABSOLUTE,
+	}
+	
 	var rotation = 0.0
-	var absolute_pivot = false
+	var pivot_mode = PIVOT_MODE_RELATIVE_CENTER
+	
+	func _init(_pivot_mode):
+		self.pivot_mode = _pivot_mode
+	
+	func _sort_by_x_pos(a: HBBaseNote, b: HBBaseNote):
+		return a.position.x < b.position.x
 	
 	func transform_notes(notes: Array):
-		var center = get_center_for_notes(notes)
 		var transformation_result = {}
 		
-		if absolute_pivot:
+		for n in notes:
+			if not n is HBBaseNote:
+				notes.erase(n)
+		notes.sort_custom(self, "_sort_by_x_pos")
+		
+		var center: Vector2
+		if pivot_mode == PIVOT_MODE_RELATIVE_CENTER:
+			center = get_center_for_notes(notes)
+		if pivot_mode == PIVOT_MODE_RELATIVE_LEFT:
+			center = notes[0].position
+		if pivot_mode == PIVOT_MODE_RELATIVE_RIGHT:
+			center = notes[-1].position
+		elif pivot_mode == PIVOT_MODE_ABSOLUTE:
 			center = Vector2(1920, 1080) / 2.0
 		
 		for n in notes:
@@ -108,8 +157,9 @@ class RotateTransformation:
 				"position": final_pos,
 				"entry_angle": fmod(n.entry_angle + rotation, 360)
 			}
-		return transformation_result
 		
+		return transformation_result
+
 class InterpolatePositionsTransform:
 	extends EditorTransformation
 	
@@ -179,7 +229,6 @@ class MakeCircleTransform:
 	var eigths_per_circle := 16 setget set_epr
 	var entry_angle_offset := 0.0
 	var start_note := 0 setget set_start_note
-	var start_rev := 0.0 setget set_start_rev
 	# -1 for outside, 1 for inside
 	var inside = -1
 	
@@ -191,9 +240,6 @@ class MakeCircleTransform:
 	
 	func set_start_note(val):
 		start_note = val
-	
-	func set_start_rev(val):
-		start_rev = val
 	
 	func set_inside(val):
 		if val:
@@ -215,21 +261,28 @@ class MakeCircleTransform:
 		
 		var transformation_result = {}
 		
-		var center = get_center_for_notes(notes)
-		
 		var sustain_compensation = 0
-		
 		var time_offset
+		
+		var radius = separation * eigths_per_circle / TAU
+		var start_rev = 0.0
+		var center
 		
 		if start_note < notes.size():
 			time_offset = notes[start_note].time if notes else 0
+			center = notes[start_note].position
 		else:
 			time_offset = notes[notes.size() - 1].time if notes else 0
+			center = notes[notes.size() - 1].position
+		
+		if center.y > 540:
+			start_rev = 0.5
+			center.y -= radius
+		else:
+			center.y += radius
 		
 		var angle_offset = (start_rev + 0.75) * TAU
-		var radius = separation * eigths_per_circle / TAU
-		
-		var beats_per_circle = eigths_per_circle / 2
+		var beats_per_circle = ceil(eigths_per_circle / 2.0)
 		var ms_per_beat = 60 * 1000 / bpm
 		
 		for n in notes:
@@ -259,6 +312,7 @@ class MakeCircleTransform:
 			}
 
 		return transformation_result
+
 func make_button(button_text, transformation: EditorTransformation, disable_pressed = false) -> Button:
 	var button = Button.new()
 	button.text = button_text
@@ -282,266 +336,20 @@ func add_button_row(button, button2):
 	hbox_container.add_child(button2)
 	button_container.add_child(hbox_container)
 
-var use_stage_center_cb = CheckBox.new()
-
-var rotate_transformation = RotateTransformation.new()
-var make_circle_transform_left = MakeCircleTransform.new(-1)
-var make_circle_transform_right = MakeCircleTransform.new(1)
-
-var angle_slider = HSlider.new()
-var circle_size_spinbox = HBEditorSpinBox.new()
-var circle_use_inside_button = CheckBox.new()
-var circle_separation_spinbox = HBEditorSpinBox.new()
-
-var advanced_settings_button = CheckBox.new()
-var advanced_settings_hbox_container = HBoxContainer.new()
-
 func _ready():
-	var flip_label = Label.new()
-	flip_label.text = "Flip notes:"
-	
-	button_container.add_child(flip_label)
-	
-	add_button_row(
-		make_button("Flip horizontally", FlipHorizontallyTransformation.new()),
-		make_button("Flip vertically", FlipVerticallyTransformation.new())
-	)
-	
-	
-	button_container.add_child(make_button("Flip slide chains", FlipSlideChainsTransformation.new()))
-	
-	button_container.add_child(HSeparator.new())
-	
-	use_stage_center_cb.text = "Use stage center"
-	use_stage_center_cb.connect("toggled", self, "set_use_stage_center")
-	button_container.add_child(use_stage_center_cb)
-	
-	button_container.add_child(HSeparator.new())
-	
-	var rotate_label_hbox_container = HBoxContainer.new()
-	
-	var label = Label.new()
-	label.text = "Rotate targets: "
-	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
-	var spinbox = HBEditorSpinBox.new()
-	spinbox.editable = true
-	spinbox.max_value = 180.0
-	spinbox.min_value = -180.0
-	spinbox.suffix = "º"
-	angle_slider.share(spinbox)
-	
-	spinbox.connect("value_changed", self, "set_rotation")
-
-	rotate_label_hbox_container.add_child(label)
-	rotate_label_hbox_container.add_child(spinbox)
-	
-	angle_slider.min_value = -180.0
-	angle_slider.max_value = 180.0
-	angle_slider.tick_count = 9
-	angle_slider.ticks_on_borders = true
-	angle_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
-	angle_slider.connect("mouse_entered", self, "emit_signal", ["_show_transform", rotate_transformation])
-	angle_slider.connect("mouse_exited", self, "emit_signal", ["hide_transform"])
-	
-	button_container.add_child(rotate_label_hbox_container)
-	button_container.add_child(angle_slider)
-	
-	var apply_rotation_button = make_button("Apply", rotate_transformation)
-	var reset_button = make_button("Reset", rotate_transformation, true)
-	reset_button.connect("pressed", angle_slider, "set_value", [0])
-	
-	add_button_row(apply_rotation_button, reset_button)
-	
-	var negate_angle_button = make_button("Negate angle", rotate_transformation, true)
-	negate_angle_button.connect("pressed", self, "_on_negate_angle_pressed")
-	
-	var toggle_absolute_pivot = make_button("Absolute pivot", rotate_transformation, true)
-	toggle_absolute_pivot.toggle_mode = true
-	toggle_absolute_pivot.connect("toggled", self, "_toggle_angle_absolute_pivot")
-	
-	add_button_row(negate_angle_button, toggle_absolute_pivot)
-	
-	button_container.add_child(HSeparator.new())
-	
 	button_container.add_child(make_button("Interpolate positions", InterpolatePositionsTransform.new()))
 	button_container.add_child(make_button("Interpolate angle", InterpolateAngleTransform.new()))
 	
 	button_container.add_child(HSeparator.new())
 	
 	button_container.add_child(make_button("Flip angle", FlipAngleTransform.new()))
-	
-	button_container.add_child(HSeparator.new())
-	
-	var circle_settings_hbox_container = HBoxContainer.new()
-	
-	var circle_size_label = Label.new()
-	circle_size_label.text = "Circle size: "
-	
-	circle_size_spinbox.editable = true
-	circle_size_spinbox.max_value = 64
-	circle_size_spinbox.min_value = 1
-	circle_size_spinbox.step = 1
-	circle_size_spinbox.value = 16
-	circle_size_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	
-	circle_settings_hbox_container.add_child(circle_size_label)
-	circle_settings_hbox_container.add_child(circle_size_spinbox)
-	
-	var circle_separation_label = Label.new()
-	circle_separation_label.text = "Separation: "
-	
-	circle_separation_spinbox.editable = true
-	circle_separation_spinbox.max_value = 123213123123
-	circle_separation_spinbox.min_value = 1
-	circle_separation_spinbox.value = 96
-	circle_separation_spinbox.step = 1.0
-	circle_separation_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	circle_separation_spinbox.connect("value_changed", make_circle_transform_left, "set_separation")
-	circle_separation_spinbox.connect("value_changed", make_circle_transform_right, "set_separation")
-	circle_separation_spinbox.connect("value_changed", self, "_set_separation")
-	
-	var circle_size_slider = HSlider.new()
-	circle_size_slider.min_value = 1
-	circle_size_slider.max_value = 64
-	circle_size_slider.step = 1
-	circle_size_slider.value = 16
-	circle_size_slider.tick_count = 9
-	circle_size_slider.ticks_on_borders = true
-	circle_size_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	circle_size_slider.share(circle_size_spinbox)
-	
-	circle_size_slider.connect("value_changed", make_circle_transform_left, "set_epr")
-	circle_size_slider.connect("value_changed", make_circle_transform_right, "set_epr")
-	
-	circle_size_spinbox.connect("value_changed", make_circle_transform_left, "set_epr")
-	circle_size_spinbox.connect("value_changed", make_circle_transform_right, "set_epr")
-	circle_size_spinbox.connect("value_changed", self, "_set_size")
-	
-	circle_settings_hbox_container.add_child(circle_separation_label)
-	circle_settings_hbox_container.add_child(circle_separation_spinbox)
-	button_container.add_child(circle_settings_hbox_container)
-	button_container.add_child(circle_size_slider)
-	
-	var other_settings_hbox_container = HBoxContainer.new()
-	
-	circle_use_inside_button.text = "From inside"
-	circle_use_inside_button.connect("toggled", make_circle_transform_left, "set_inside")
-	circle_use_inside_button.connect("toggled", make_circle_transform_right, "set_inside")
-	circle_use_inside_button.connect("toggled", self, "_set_inside")
-	
-	advanced_settings_button.text = "I know what I'm doing"
-	advanced_settings_button.connect("toggled", self, "_toggle_advanced_options")
-	
-	other_settings_hbox_container.add_child(circle_use_inside_button)
-	other_settings_hbox_container.add_child(advanced_settings_button)
-	
-	button_container.add_child(other_settings_hbox_container)
-	
-	var starting_note_label = Label.new()
-	starting_note_label.text = "Starting note: "
-	
-	var starting_note_spinbox = HBEditorSpinBox.new()
-	starting_note_spinbox.editable = true
-	starting_note_spinbox.max_value = 123213123123
-	starting_note_spinbox.min_value = 1
-	starting_note_spinbox.value = 1
-	starting_note_spinbox.step = 1.0
-	starting_note_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	starting_note_spinbox.connect("value_changed", make_circle_transform_left, "set_start_note")
-	starting_note_spinbox.connect("value_changed", make_circle_transform_right, "set_start_note")
-	
-	var starting_rev_label = Label.new()
-	starting_rev_label.text = "Starting turn: "
-	
-	var starting_rev_spinbox = HBEditorSpinBox.new()
-	starting_rev_spinbox.editable = true
-	starting_rev_spinbox.max_value = 1.0
-	starting_rev_spinbox.min_value = 0.0
-	starting_rev_spinbox.value = 0.0
-	starting_rev_spinbox.step = 0.01
-	starting_rev_spinbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	starting_rev_spinbox.connect("value_changed", make_circle_transform_left, "set_start_rev")
-	starting_rev_spinbox.connect("value_changed", make_circle_transform_right, "set_start_rev")
-	
-	advanced_settings_hbox_container.add_child(starting_note_label)
-	advanced_settings_hbox_container.add_child(starting_note_spinbox)
-	advanced_settings_hbox_container.add_child(starting_rev_label)
-	advanced_settings_hbox_container.add_child(starting_rev_spinbox)
-	advanced_settings_hbox_container.hide()
-	
-	button_container.add_child(advanced_settings_hbox_container)
-	
-	var make_circle_left_button = make_button("Make circle left", make_circle_transform_left)
-	var make_circle_right_button = make_button("Make circle right", make_circle_transform_right)
-	
-	add_button_row(make_circle_left_button, make_circle_right_button)
-
-func _toggle_advanced_options(pressed: bool):
-	if pressed:
-		advanced_settings_hbox_container.show()
-	else:
-		advanced_settings_hbox_container.hide()
-	
-	editor.song_editor_settings.set("circle_advanced_mode", pressed)
-
-func set_rotation(value):
-	rotate_transformation.rotation = value
-	_show_transform(rotate_transformation)
-
-func _on_negate_angle_pressed():
-	angle_slider.value = -angle_slider.value
-
-func _toggle_angle_absolute_pivot(pressed: bool):
-	rotate_transformation.absolute_pivot = pressed
-	_show_transform(rotate_transformation)
 
 func _show_transform(transform: EditorTransformation):
 	transform.use_stage_center = use_stage_center
 	transform.bpm = editor.get_bpm()
 	emit_signal("show_transform", transform)
 
-func _set_size(value):
-	editor.song_editor_settings.set("circle_size", value)
-
-func _set_inside(value):
-	editor.song_editor_settings.set("circle_from_inside", value)
-
-func _set_separation(value):
-	editor.song_editor_settings.set("circle_separation", value)
-
 func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.is_action("editor_flip_h", true) and event.pressed and not event.echo:
-			emit_signal("apply_transform", FlipHorizontallyTransformation.new())
-		if event.is_action("editor_flip_v", true) and event.pressed and not event.echo:
-			emit_signal("apply_transform", FlipVerticallyTransformation.new())
-		
-		if event.is_action("editor_make_circle_c", true) and event.pressed and not event.echo:
-			make_circle_transform_right.bpm = editor.get_bpm()
-			emit_signal("apply_transform", make_circle_transform_right)
-		if event.is_action("editor_make_circle_cc", true) and event.pressed and not event.echo:
-			make_circle_transform_left.bpm = editor.get_bpm()
-			emit_signal("apply_transform", make_circle_transform_left)
-		
-		if event.is_action("editor_circle_size_bigger", true) and event.pressed:
-			circle_size_spinbox.value += 1
-		if event.is_action("editor_circle_size_smaller", true) and event.pressed:
-			circle_size_spinbox.value -= 1
-		
-		if event.is_action("editor_circle_inside", true) and event.pressed and not event.echo:
-			circle_use_inside_button.set_pressed(not circle_use_inside_button.is_pressed())
-		
 		if event.is_action("editor_interpolate_angle", true) and event.pressed and not event.echo:
 			emit_signal("apply_transform", InterpolateAngleTransform.new())
-		
-		
-
-
-func load_settings():
-	use_stage_center_cb.pressed = editor.song_editor_settings.transforms_use_center
-	circle_use_inside_button.pressed = editor.song_editor_settings.circle_from_inside
-	circle_size_spinbox.value = editor.song_editor_settings.circle_size
-	circle_separation_spinbox.value = editor.song_editor_settings.circle_separation
-	advanced_settings_button.pressed = editor.song_editor_settings.circle_advanced_mode

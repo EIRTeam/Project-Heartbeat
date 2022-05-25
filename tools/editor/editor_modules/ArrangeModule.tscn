@@ -1,0 +1,641 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
+[ext_resource path="res://tools/editor/EditorArrangeMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tools/editor/editor_modules/ArrangeModule.gd" type="Script" id=3]
+[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=4]
+[ext_resource path="res://graphics/icons/arrange-line.png" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/circle-clockwise.png" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/circle-counterclockwise.png" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/circle-counterclockwise-inside.png" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/circle-clockwise-inside.png" type="Texture" id=9]
+[ext_resource path="res://graphics/icons/arrow-up-down.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/flip-vertical.svg" type="Texture" id=12]
+[ext_resource path="res://graphics/icons/arrow-left-right.svg" type="Texture" id=13]
+[ext_resource path="res://graphics/icons/flip-horizontal.svg" type="Texture" id=14]
+[ext_resource path="res://graphics/icons/rotate-relative-center.svg" type="Texture" id=15]
+[ext_resource path="res://graphics/icons/rotate-relative-right.svg" type="Texture" id=16]
+[ext_resource path="res://graphics/icons/rotate-relative-left.svg" type="Texture" id=17]
+[ext_resource path="res://graphics/icons/rotate-absolute.svg" type="Texture" id=18]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=19]
+[ext_resource path="res://scripts/new_ui/HBUIFont.gd" type="Script" id=20]
+
+[sub_resource type="DynamicFont" id=1]
+size = 12
+font_data = ExtResource( 19 )
+script = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 13
+extra_spacing_bottom = -7
+font_data = ExtResource( 19 )
+script = ExtResource( 20 )
+
+[node name="EditorModule" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+module_location = "left_panel"
+module_name = "Arrange notes"
+
+[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
+margin_right = 1920.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+margin_right = 1920.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Arrange in a line..."
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+margin_top = 18.0
+margin_right = 1920.0
+margin_bottom = 106.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 1840.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+margin_top = 9.0
+margin_right = 1840.0
+margin_bottom = 23.0
+hint_tooltip = "The arrange wheel helps you place notes quickly (Hold Shift for reverse)."
+mouse_filter = 0
+text = "Hold SHORTCUT for quick placing."
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+margin_top = 27.0
+margin_right = 1840.0
+margin_bottom = 51.0
+hint_tooltip = "Angle at which to place the notes."
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_top = 5.0
+margin_right = 69.0
+margin_bottom = 19.0
+text = "Line angle:"
+align = 1
+
+[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 73.0
+margin_right = 1840.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+max_value = 360.0
+step = 0.1
+suffix = "º"
+arrow_step = 1.0
+script = ExtResource( 4 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
+margin_top = 55.0
+margin_right = 1840.0
+margin_bottom = 79.0
+hint_tooltip = "Arrange from the last note
+rather than the first."
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="0"]
+margin_left = 853.0
+margin_top = 5.0
+margin_right = 959.0
+margin_bottom = 19.0
+text = "Place in reverse:"
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="1"]
+margin_left = 963.0
+margin_right = 987.0
+margin_bottom = 24.0
+align = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 1844.0
+margin_right = 1920.0
+margin_bottom = 88.0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
+margin_right = 76.0
+margin_bottom = 70.0
+hint_tooltip = "Arrange notes with the selected angle."
+icon = ExtResource( 5 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
+margin_top = 74.0
+margin_right = 76.0
+margin_bottom = 88.0
+text = "Apply"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+margin_top = 110.0
+margin_right = 1920.0
+margin_bottom = 114.0
+
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+margin_top = 118.0
+margin_right = 1920.0
+margin_bottom = 132.0
+text = "Arrange in a circle..."
+align = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
+margin_top = 136.0
+margin_right = 1920.0
+margin_bottom = 160.0
+hint_tooltip = "Amount of 8th notes required for
+a full revolution."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="0"]
+margin_right = 108.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="0"]
+margin_top = 5.0
+margin_right = 30.0
+margin_bottom = 19.0
+text = "Size:"
+
+[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1"]
+margin_left = 34.0
+margin_right = 108.0
+margin_bottom = 24.0
+min_value = 4.0
+max_value = 64.0
+value = 16.0
+script = ExtResource( 4 )
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1"]
+margin_left = 112.0
+margin_right = 1920.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+min_value = 4.0
+max_value = 50.0
+value = 16.0
+tick_count = 7
+ticks_on_borders = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
+margin_top = 164.0
+margin_right = 1920.0
+margin_bottom = 275.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
+margin_left = 822.0
+margin_right = 954.0
+margin_bottom = 111.0
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
+margin_right = 132.0
+margin_bottom = 14.0
+text = "Outside angles"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
+margin_top = 18.0
+margin_right = 132.0
+margin_bottom = 111.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 64.0
+margin_bottom = 93.0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+margin_right = 64.0
+margin_bottom = 58.0
+hint_tooltip = "Makes a clockwise circle with
+angles pointing outwards."
+icon = ExtResource( 6 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+margin_top = 70.0
+margin_right = 64.0
+margin_bottom = 84.0
+size_flags_vertical = 6
+text = "Clockwise"
+align = 1
+valign = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 93.0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
+margin_right = 64.0
+margin_bottom = 58.0
+hint_tooltip = "Makes a counter-clockwise circle
+with angles pointing outwards."
+size_flags_horizontal = 0
+icon = ExtResource( 7 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
+margin_top = 62.0
+margin_right = 64.0
+margin_bottom = 93.0
+text = "Counter
+clockwise"
+align = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
+margin_left = 958.0
+margin_right = 962.0
+margin_bottom = 111.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
+margin_left = 966.0
+margin_right = 1098.0
+margin_bottom = 111.0
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0"]
+margin_right = 132.0
+margin_bottom = 14.0
+text = "Inside angles"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
+margin_top = 18.0
+margin_right = 132.0
+margin_bottom = 111.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 64.0
+margin_bottom = 93.0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer" index="0"]
+margin_right = 64.0
+margin_bottom = 58.0
+hint_tooltip = "Makes a clockwise circle with
+angles pointing inwards."
+icon = ExtResource( 9 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer" index="1"]
+margin_top = 70.0
+margin_right = 64.0
+margin_bottom = 84.0
+size_flags_vertical = 6
+text = "Clockwise"
+align = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 93.0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2" index="0"]
+margin_right = 64.0
+margin_bottom = 58.0
+hint_tooltip = "Makes a counter-clockwise circle
+with angles pointing inwards."
+size_flags_horizontal = 0
+icon = ExtResource( 8 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2" index="1"]
+margin_top = 62.0
+margin_right = 64.0
+margin_bottom = 93.0
+text = "Counter
+clockwise"
+align = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
+margin_top = 279.0
+margin_right = 1920.0
+margin_bottom = 283.0
+
+[node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
+margin_top = 287.0
+margin_right = 1920.0
+margin_bottom = 301.0
+text = "Flip and mirror..."
+align = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
+margin_top = 305.0
+margin_right = 1920.0
+margin_bottom = 402.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
+margin_right = 477.0
+margin_bottom = 97.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
+margin_left = 208.0
+margin_right = 268.0
+margin_bottom = 54.0
+hint_tooltip = "Mirror notes vertically across
+the center of the screen."
+size_flags_horizontal = 4
+icon = ExtResource( 12 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
+margin_top = 58.0
+margin_right = 477.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 1 )
+text = "Mirror
+vertically"
+align = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
+margin_left = 481.0
+margin_right = 958.0
+margin_bottom = 97.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="0"]
+margin_left = 208.0
+margin_right = 268.0
+margin_bottom = 54.0
+hint_tooltip = "Mirror notes horizontally across
+the center of the screen."
+size_flags_horizontal = 4
+icon = ExtResource( 14 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="1"]
+margin_top = 58.0
+margin_right = 477.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 1 )
+text = "Mirror
+horizontally"
+align = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
+margin_left = 962.0
+margin_right = 1439.0
+margin_bottom = 97.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3" index="0"]
+margin_left = 208.0
+margin_right = 268.0
+margin_bottom = 54.0
+hint_tooltip = "Flip notes vertically across their
+center."
+size_flags_horizontal = 4
+icon = ExtResource( 10 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3" index="1"]
+margin_top = 58.0
+margin_right = 477.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 1 )
+text = "Flip
+vertically"
+align = 1
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="3"]
+margin_left = 1443.0
+margin_right = 1920.0
+margin_bottom = 97.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4" index="0"]
+margin_left = 208.0
+margin_right = 268.0
+margin_bottom = 54.0
+hint_tooltip = "Flip notes horizontally across
+their center."
+size_flags_horizontal = 4
+icon = ExtResource( 13 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4" index="1"]
+margin_top = 58.0
+margin_right = 477.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 1 )
+text = "Flip
+horizontally"
+align = 1
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+margin_top = 406.0
+margin_right = 1920.0
+margin_bottom = 410.0
+
+[node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
+margin_top = 414.0
+margin_right = 1920.0
+margin_bottom = 428.0
+text = "Rotate notes..."
+align = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="11"]
+margin_top = 432.0
+margin_right = 1920.0
+margin_bottom = 456.0
+hint_tooltip = "Amount of 8th notes required for
+a full revolution."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="0"]
+margin_right = 118.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="0"]
+margin_top = 5.0
+margin_right = 40.0
+margin_bottom = 19.0
+text = "Angle:"
+
+[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1"]
+margin_left = 44.0
+margin_right = 118.0
+margin_bottom = 24.0
+min_value = -180.0
+max_value = 180.0
+suffix = "º"
+script = ExtResource( 4 )
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1"]
+margin_left = 122.0
+margin_right = 1920.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+min_value = -180.0
+max_value = 180.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
+margin_top = 460.0
+margin_right = 1920.0
+margin_bottom = 582.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="0"]
+margin_right = 477.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer" index="0"]
+margin_left = 205.0
+margin_right = 272.0
+margin_bottom = 61.0
+hint_tooltip = "Rotate the notes around the
+center of the selected notes."
+size_flags_horizontal = 4
+icon = ExtResource( 15 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer" index="1"]
+margin_top = 78.0
+margin_right = 477.0
+margin_bottom = 109.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 2 )
+text = "Around
+center"
+align = 1
+valign = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="1"]
+margin_left = 481.0
+margin_right = 958.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2" index="0"]
+margin_left = 200.0
+margin_right = 276.0
+margin_bottom = 70.0
+hint_tooltip = "Rotate the notes around the
+leftmost selected note."
+size_flags_horizontal = 4
+icon = ExtResource( 17 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2" index="1"]
+margin_top = 82.0
+margin_right = 477.0
+margin_bottom = 113.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 2 )
+text = "Around left
+point"
+align = 1
+valign = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="2"]
+margin_left = 962.0
+margin_right = 1439.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3" index="0"]
+margin_left = 200.0
+margin_right = 276.0
+margin_bottom = 70.0
+hint_tooltip = "Rotate the notes around the
+rightmost selected note."
+size_flags_horizontal = 4
+icon = ExtResource( 16 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3" index="1"]
+margin_top = 82.0
+margin_right = 477.0
+margin_bottom = 113.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 2 )
+text = "Around
+right point"
+align = 1
+valign = 1
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="3"]
+margin_left = 1443.0
+margin_right = 1920.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4" index="0"]
+margin_left = 200.0
+margin_right = 276.0
+margin_bottom = 70.0
+hint_tooltip = "Rotate the notes around the
+absolute screen center."
+size_flags_horizontal = 4
+icon = ExtResource( 18 )
+icon_align = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4" index="1"]
+margin_top = 74.0
+margin_right = 477.0
+margin_bottom = 122.0
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 2 )
+text = "Around
+screen
+center"
+align = 1
+valign = 1
+
+[node name="ArrangeMenu" parent="." index="1" instance=ExtResource( 2 )]
+
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Button" to="." method="_apply_arrange"]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Button" to="." method="preview_circle" binds= [ true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Button" to="." method="create_circle_cw"]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/Button" to="." method="preview_circle" binds= [ false ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/Button" to="." method="create_circle_ccw"]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/Button" to="." method="preview_circle" binds= [ true, true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/Button" to="." method="create_circle_cw" binds= [ true ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/Button" to="." method="preview_circle" binds= [ false, true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/Button" to="." method="create_circle_ccw" binds= [ true ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/Button" to="." method="preview_flip" binds= [ true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/Button" to="." method="flip_vertically"]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/Button" to="." method="preview_flip" binds= [ false ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/Button" to="." method="flip_horizontally"]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/Button" to="." method="preview_flip" binds= [ true, true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/Button" to="." method="flip_vertically" binds= [ true ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/Button" to="." method="preview_flip" binds= [ false, true ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/Button" to="." method="flip_horizontally" binds= [ true ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer/Button" to="." method="preview_rotate" binds= [ 0 ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer/Button" to="." method="rotate" binds= [ 0 ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2/Button" to="." method="preview_rotate" binds= [ 1 ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2/Button" to="." method="rotate" binds= [ 1 ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3/Button" to="." method="preview_rotate" binds= [ 2 ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3/Button" to="." method="rotate" binds= [ 2 ]]
+[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4/Button" to="." method="preview_rotate" binds= [ 3 ]]
+[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4/Button" to="." method="hide_transform"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4/Button" to="." method="rotate" binds= [ 3 ]]

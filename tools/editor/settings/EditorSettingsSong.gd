@@ -26,13 +26,9 @@ func _ready():
 			{"name": tr("Automatically set multi params"), "var": "auto_multi", "type": "Bool"},
 			{"name": tr("Space slide pieces correctly"), "var": "autoslide", "type": "Bool"},
 			{"name": tr("Separation per 8th"), "var": "separation", "type": "Int", "options": {"suffix": "px"}},
-			{"name": tr("Diagonal angle"), "var": "diagonal_angle", "type": "Int", "options": {"suffix": "º", "max": 90}},
-			{"name": tr("Arranger snaps"), "var": "arranger_snaps", "type": "Int", "options": {"min": 1, "max": 92}},
 			{"name": tr("Angle snaps"), "var": "angle_snaps", "type": "Int", "options": {"min": 1, "max": 92}},
 		],
 		"Transforms": [
-			{"name": tr("Use center for transforms"), "var": "transforms_use_center", "type": "Bool"},
-			{"name": tr("Angle circle inwards"), "var": "circle_from_inside", "type": "Bool"},
 			{"name": tr("Circle size"), "var": "circle_size", "type": "Int", "options": {"suffix": "8ths", "min": 1, "max": 64, }},
 			{"name": tr("Circle separation per 8th"), "var": "circle_separation", "type": "Int", "options": {"suffix": "px"}},
 		]
