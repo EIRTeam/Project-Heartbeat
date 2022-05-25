@@ -20,6 +20,9 @@ var current_assets
 const DEFAULT_PREVIEW_TEXTURE = preload("res://graphics/no_preview_texture.png")
 const DEFAULT_BG = preload("res://graphics/predarkenedbg.png")
 onready var min_load_time_timer := Timer.new()
+var skin_downloading_item := 0
+var ugc_skin_to_use: HBUISkin
+
 func _ready():
 	add_child(appear_tween)
 	add_child(min_load_time_timer)
@@ -36,6 +39,7 @@ func show_epilepsy_warning():
 	epilepsy_warning_tween.interpolate_property(epilepsy_warning, "rect_scale:y", 0.2, 1.0, 0.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 	epilepsy_warning_tween.interpolate_property(epilepsy_warning, "modulate:a", 0.0, 1.0, 0.5, Tween.TRANS_LINEAR)
 	epilepsy_warning_tween.start()
+	
 func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	base_assets = assets
 	game_info = new_game_info
@@ -46,13 +50,7 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 		show_epilepsy_warning()
 	
 	is_loading_practice_mode = practice
-	var assets_to_get = ["audio", "voice"]
-	if not song.has_audio_loudness:
-		if not SongDataCache.is_song_audio_loudness_cached(song):
-			assets_to_get.append("audio_loudness")
-	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song, new_game_info.variant)
-	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
-	AsyncTaskQueueLight.queue_task(asset_task)
+
 	
 	if "background" in assets:
 		$TextureRect.texture = assets.background
@@ -64,6 +62,55 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
 	title_label.text = song.get_visible_title(new_game_info.variant)
 	meta_label.text = PoolStringArray(song.get_meta_string()).join('\n')
+	
+	var start_now := true
+	var skin_ugc_enabled := true
+	
+	if UserSettings.user_settings.per_song_settings.has(song.id):
+		skin_ugc_enabled = (UserSettings.user_settings.per_song_settings[song.id] as HBPerSongSettings).use_song_skin
+	
+	if song.skin_ugc_id != 0 and skin_ugc_enabled:
+		if PlatformService.service_provider.implements_ugc:
+			var ugc_service: SteamUGCService = PlatformService.service_provider.ugc_provider
+			if ugc_service:
+				var item_state := Steam.getItemState(song.skin_ugc_id)
+				print("FLAGFS!!!", item_state)
+				if not item_state & Steam.ITEM_STATE_INSTALLED or item_state & Steam.ITEM_STATE_NEEDS_UPDATE:
+					if Steam.downloadItem(song.skin_ugc_id, true):
+						loadingu_label.text = tr("Downloadingu UI Skin...")
+						skin_downloading_item = song.skin_ugc_id
+						Steam.connect("item_downloaded", self, "_on_item_downloaded")
+						start_now = false
+					elif item_state & Steam.ITEM_STATE_INSTALLED:
+						_load_ugc_skin(song.skin_ugc_id)
+				else:
+					_load_ugc_skin(song.skin_ugc_id)
+	if start_now:
+		start_asset_load()
+func _load_ugc_skin(file_id: int):
+	var item_state := Steam.getItemState(file_id)
+	if item_state & Steam.ITEM_STATE_INSTALLED:
+		var install_info := Steam.getItemInstallInfo(file_id)
+		if install_info.ret:
+			var res_pack: HBResourcePack = HBResourcePack.load_from_directory(install_info.folder)
+			if res_pack:
+				if res_pack.is_skin():
+					ugc_skin_to_use = res_pack.get_skin()
+
+func _on_item_downloaded(_result: int, file_id: int, _app_id: int):
+	if skin_downloading_item == file_id:
+		_load_ugc_skin(file_id)
+		start_asset_load()
+func start_asset_load():
+	loadingu_label.text = tr("Loadingu...")
+	var song: HBSong = game_info.get_song()
+	var assets_to_get = ["audio", "voice"]
+	if not song.has_audio_loudness:
+		if not SongDataCache.is_song_audio_loudness_cached(song):
+			assets_to_get.append("audio_loudness")
+	var asset_task = SongAssetLoadAsyncTask.new(assets_to_get, song, game_info.variant)
+	asset_task.connect("assets_loaded", self, "_on_song_assets_loaded")
+	AsyncTaskQueueLight.queue_task(asset_task)
 func _on_song_assets_loaded(assets):
 	if not min_load_time_timer.is_stopped():
 		yield(min_load_time_timer, "timeout")
@@ -97,6 +144,7 @@ func load_into_game():
 			current_assets["audio_loudness"] = SongDataCache.audio_normalization_cache[game_info.song_id].loudness
 		elif song.has_audio_loudness:
 			current_assets["audio_loudness"] = song.audio_loudness
+	scene.skin_override = ugc_skin_to_use
 	scene.start_session(game_info, HBUtils.merge_dict(base_assets, current_assets))
 	
 var visible_chars := 0.0

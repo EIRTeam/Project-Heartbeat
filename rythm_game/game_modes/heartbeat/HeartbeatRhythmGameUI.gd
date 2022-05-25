@@ -42,6 +42,8 @@ signal tv_off_animation_finished
 onready var tv_animation_tween := Tween.new()
 onready var game_over_message_tween := Tween.new()
 
+var skin_override: HBUISkin
+
 func set_game(new_game):
 	game = new_game
 	slide_hold_score_text._game = game
@@ -59,6 +61,9 @@ func _on_game_time_changed(time: float):
 
 func create_components():
 	var skin := ResourcePackLoader.current_skin as HBUISkin
+	if skin_override:
+		if skin_override.has_screen("gameplay"):
+			skin = skin_override
 	if not skin.has_screen("gameplay"):
 		skin = ResourcePackLoader.fallback_skin
 	var cache := skin.resources.get_cache() as HBSkinResourcesCache

@@ -1,6 +1,6 @@
 extends Control
 
-var current_song setget set_current_song
+var current_song: HBSong setget set_current_song
 signal back
 
 onready var editor = get_node("PerSongSettingsOptionSection")
@@ -31,6 +31,11 @@ var section_data = {
 		"description": "Enables or disables video for this song.",
 		"default_value": true
 	},
+	"use_song_skin": {
+		"name": tr("Use the song's recommended skin"),
+		"description": tr("When enabled, makes the game use the skin chosen by the song's creator for this particular song, will download it if it is not installed already."),
+		"default_value": true
+	}
 }
 
 func set_current_song(val):
@@ -39,6 +44,11 @@ func set_current_song(val):
 		var song_settings = HBPerSongSettings.new()
 		UserSettings.user_settings.per_song_settings[current_song.id] = song_settings
 	editor.settings_source = UserSettings.user_settings.per_song_settings[current_song.id]
+	var sec_data_dupl = section_data.duplicate(true)
+	if not current_song.use_youtube_for_video or not current_song.youtube_url:
+		sec_data_dupl.erase("video_enabled")
+	if current_song.skin_ugc_id == 0:
+		sec_data_dupl.erase("use_song_skin")
 	editor.section_data = section_data
 
 func _ready():

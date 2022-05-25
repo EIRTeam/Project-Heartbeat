@@ -39,6 +39,8 @@ signal user_quit()
 var current_assets = {}
 var playing_game_over_animation := false
 
+var skin_override: HBUISkin
+
 func _ready():
 	connect("resized", self, "set_game_size")
 	MainMenu = load("res://menus/MainMenu3D.tscn")
@@ -113,6 +115,7 @@ func start_session(game_info: HBGameInfo, assets=null):
 	
 	if game_mode is HBGameMode:
 		game_ui = game_mode.get_ui().instance()
+		game_ui.skin_override = skin_override
 		game_ui_container.add_child(game_ui)
 		game.set_game_ui(game_ui)
 		game.set_game_input_manager(game_mode.get_input_manager())

@@ -4,7 +4,7 @@ onready var option_button := get_node("HBoxContainer/HBoxContainer/OptionButton"
 
 var options = ["No", "Yes"]
 var options_pretty = []
-var selected_option = 0
+var selected_option = -1
 var text setget set_text
 
 func set_text(value):
@@ -18,6 +18,7 @@ func set_value(val):
 		if i != -1:
 			option_button.set_block_signals(true)
 			option_button.selected_item = i
+			selected_option = i as int
 			option_button.set_block_signals(false)
 
 func _ready():

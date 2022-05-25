@@ -163,8 +163,9 @@ func _on_StartButton_pressed():
 			if not current_song.is_cached(selected_variant):
 				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
 				return
-		HBGame.song_stats.get_song_stats(current_song.id).selected_variant = selected_variant
-		HBGame.song_stats.save_song_stats()
+		var stats = HBGame.song_stats.get_song_stats(current_song.id)
+		stats.selected_variant = selected_variant
+		HBGame.song_stats.song_stats[current_song.id] = stats
 	game_info.variant = selected_variant
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
@@ -333,7 +334,8 @@ func _on_StartPractice_pressed():
 			if not current_song.is_cached(selected_variant):
 				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
 				return
-		HBGame.song_stats.get_song_stats(current_song.id).selected_variant = selected_variant
+		var stats = HBGame.song_stats.get_song_stats(current_song.id)
+		stats.selected_variant = selected_variant
 		HBGame.song_stats.save_song_stats()
 	game_info.variant = selected_variant
 	if current_song_assets == current_song:

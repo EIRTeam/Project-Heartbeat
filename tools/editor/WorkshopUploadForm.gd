@@ -154,7 +154,6 @@ func start_upload():
 func _on_item_created(result, file_id, tos):
 	var ugc = PlatformService.service_provider.ugc_provider
 	if result == 1:
-		print("UGC ", file_id)
 		match mode:
 			MODE.SONG:
 				current_song.ugc_id = file_id
@@ -195,7 +194,26 @@ func get_song_meta_dict() -> Dictionary:
 		if field in serialized:
 			out_dir[field] = serialized[field]
 	return out_dir
+	
 func upload_song(song: HBSong, ugc_id):
+	var handle := Steam.createQueryUGCDetailsRequest([ugc_id])
+	Steam.setAllowCachedResponse(handle, 0)
+	Steam.setReturnChildren(handle, true)
+	Steam.sendQueryUGCRequest(handle)
+	var new_handle := -1
+	if new_handle != Steam.UGC_UPDATE_HANDLE_INVALID:
+		while new_handle != handle:
+			var data: Array = yield(Steam, "ugc_query_completed")
+			new_handle = data[0]
+			
+		var result := Steam.getQueryUGCResult(handle, 0)
+		if result.result == Steam.RESULT_OK:
+			var dependencies := Steam.getQueryUGCChildren(handle, 0, result.numChildren)
+			for child_i in range(result.numChildren):
+				var child_ugc_id := dependencies.children[child_i] as int
+				Steam.removeDependency(ugc_id, child_ugc_id)
+	if song.skin_ugc_id != 0:
+		Steam.addDependency(ugc_id, song.skin_ugc_id)
 	var ugc = PlatformService.service_provider.ugc_provider
 	var update_id = ugc.start_item_update(ugc_id)
 	uploading_id = update_id

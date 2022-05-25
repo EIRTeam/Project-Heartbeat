@@ -49,6 +49,11 @@ onready var epilepsy_warning_checkbox = get_node("TabContainer/Graphics/MarginCo
 
 onready var alternative_video_container = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/VBoxContainer")
 
+onready var skin_label: Label = get_node("%SkinLabel")
+onready var clear_skin_button: Button = get_node("%ClearSkinButton")
+onready var skin_picker: HBEditorSkinPicker = get_node("%SkinPicker")
+onready var select_skin_button: Button = get_node("%SelectSkinButton")
+
 const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
 func set_song_meta(value):
@@ -96,9 +101,48 @@ func set_song_meta(value):
 	
 	chart_ed.populate(value)
 	
+	skin_picker.populate_list()
+	skin_picker.selected_value = song_meta.skin_ugc_id
+	
+	if song_meta.skin_ugc_id == 0:
+		skin_label.text = "None"
+		clear_skin_button.disabled = true
+	else:
+		clear_skin_button.disabled = false
+		skin_label.text = "Workshop Skin %d (not downloaded)" % [song_meta.skin_ugc_id]
+		for skin_name in ResourcePackLoader.resource_packs:
+			var skin: HBResourcePack = ResourcePackLoader.resource_packs[skin_name]
+			if skin.is_skin():
+				if skin.ugc_id == song_meta.skin_ugc_id:
+					skin_label.text = skin.pack_name
+					break
+		
+	
 func _ready():
 	YoutubeDL.connect("video_downloaded", self, "_on_video_downloaded")
+	clear_skin_button.connect("pressed", self, "_on_clear_skin_button_pressed")
+	select_skin_button.connect("pressed", skin_picker, "popup_centered")
+	skin_picker.connect("skin_selected", self, "_on_skin_selected")
 	_update_paths()
+
+func _on_skin_selected(skin_ugc_id: int):
+	if skin_ugc_id == 0:
+		skin_label.text = "None"
+		clear_skin_button.disabled = true
+	else:
+		skin_label.text = "Workshop Skin %d (not downloaded)" % [skin_ugc_id]
+		for skin_name in ResourcePackLoader.resource_packs:
+			var skin: HBResourcePack = ResourcePackLoader.resource_packs[skin_name]
+			if skin.is_skin():
+				if skin.ugc_id == skin_ugc_id:
+					skin_label.text = skin.pack_name
+					break
+		clear_skin_button.disabled = false
+		
+func _on_clear_skin_button_pressed():
+	skin_label.text = "None"
+	skin_picker.selected_value = 0
+	clear_skin_button.disabled = true
 
 func save_meta():
 	song_meta.title = title_edit.text
@@ -132,6 +176,9 @@ func save_meta():
 	
 	song_meta.volume = volume_spinbox.value
 	song_meta.show_epilepsy_warning = epilepsy_warning_checkbox.pressed
+	
+	song_meta.skin_ugc_id = skin_picker.selected_value
+	
 	chart_ed.apply_to(song_meta)
 	
 	# sanitize

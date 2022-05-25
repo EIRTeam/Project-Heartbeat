@@ -49,4 +49,5 @@ func get_song_stats(song_id: String) -> HBSongStats:
 	if song_id in song_stats:
 		return song_stats[song_id] as HBSongStats
 	else:
-		return HBSongStats.new()
+		song_stats[song_id] = HBSongStats.new()
+		return song_stats[song_id] as HBSongStats
