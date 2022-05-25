@@ -64,5 +64,6 @@ func disable_restart():
 
 
 func _on_song_settings_open():
+	song_settings_editor.ingame = true
 	song_settings_editor.current_song = current_song
 	song_settings_editor.show_editor()

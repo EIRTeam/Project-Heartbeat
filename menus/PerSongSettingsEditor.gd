@@ -5,10 +5,12 @@ signal back
 
 onready var editor = get_node("PerSongSettingsOptionSection")
 
+var ingame := false
+
 var section_data = {
 	"lag_compensation": {
 		"name": tr("Latency compensation"),
-		"description": "Delay applied to note timing, in miliseconds higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency).",
+		"description": tr("Delay applied to note timing, in miliseconds. Higher values means notes come later. Keep in mind the game already somewhat compensates for hardware delay (by, for example, already compensating for pulseaudio latency)."),
 		"minimum": -30000,
 		"maximum": 30000,
 		"step": 1,
@@ -18,7 +20,7 @@ var section_data = {
 	},
 	"volume": {
 		"name": tr("Song volume"),
-		"description": "Volume of the song, relative.",
+		"description": tr("Volume of the song, relative."),
 		"minimum": 0.1,
 		"maximum": 2.0,
 		"step": 0.05,
@@ -28,7 +30,7 @@ var section_data = {
 	},
 	"video_enabled": {
 		"name": tr("Video enabled"),
-		"description": "Enables or disables video for this song.",
+		"description": tr("Enables or disables video for this song."),
 		"default_value": true
 	},
 	"use_song_skin": {
@@ -45,11 +47,15 @@ func set_current_song(val):
 		UserSettings.user_settings.per_song_settings[current_song.id] = song_settings
 	editor.settings_source = UserSettings.user_settings.per_song_settings[current_song.id]
 	var sec_data_dupl = section_data.duplicate(true)
-	if not current_song.use_youtube_for_video or not current_song.youtube_url:
+	if ingame:
 		sec_data_dupl.erase("video_enabled")
-	if current_song.skin_ugc_id == 0:
 		sec_data_dupl.erase("use_song_skin")
-	editor.section_data = section_data
+	else:
+		if not current_song.use_youtube_for_video or not current_song.youtube_url:
+			sec_data_dupl.erase("video_enabled")
+		if current_song.skin_ugc_id == 0:
+			sec_data_dupl.erase("use_song_skin")
+	editor.section_data = sec_data_dupl
 
 func _ready():
 	editor.connect("back", self, "_on_back")
