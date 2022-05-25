@@ -25,7 +25,7 @@ func _ready():
 	focus_mode = Control.FOCUS_ALL
 	for option_i in range(options.size()):
 		var option_text := options[option_i] as String
-		var option_value := options[option_i] as String
+		var option_value = options[option_i]
 		if options_pretty.size() > option_i:
 			option_text = options_pretty[option_i]
 		option_button.add_item(option_text, option_value)

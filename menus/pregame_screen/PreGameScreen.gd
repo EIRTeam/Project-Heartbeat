@@ -157,8 +157,7 @@ func _on_button_list_out_from_top():
 func _on_StartButton_pressed():
 	var selected_variant = -1
 	if variant_select:
-		prints("SELECTED OPTION IS", variant_select.selected_option)
-		selected_variant = variant_select.options[variant_select.selected_option]
+		selected_variant = variant_select.value
 		if selected_variant != -1:
 			if not current_song.is_cached(selected_variant):
 				MouseTrap.cache_song_overlay.show_download_prompt(current_song, selected_variant, true)
