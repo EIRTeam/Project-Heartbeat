@@ -2086,6 +2086,26 @@ editor_flip_h={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777236,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+editor_interpolate_distance={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_move_angles_closer={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_move_angles_away={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_move_angles_closer_back={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_move_angles_away_back={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

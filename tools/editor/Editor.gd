@@ -36,7 +36,6 @@ onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCo
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
 onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool")
-onready var transforms_tools = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Transforms/TransformsTool")
 onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
@@ -84,17 +83,6 @@ var _removed_items = [] # So we can queue_free removed nodes when freeing the ed
 var playtesting := false
 
 var _playhead_traveling := false
-
-var angle_shortcuts = [
-	["editor_angle_l", PI],
-	["editor_angle_r", 0],
-	["editor_angle_u", -PI/2],
-	["editor_angle_d", PI/2],
-	["editor_angle_ul", -3*PI/4],
-	["editor_angle_ur", -PI/4],
-	["editor_angle_dl", 3*PI/4],
-	["editor_angle_dr", PI/4],
-]
 
 var hold_ends = []
 
@@ -153,6 +141,9 @@ func load_plugins():
 					Log.log(self, "Error loading editor plugin %s: File not found" % [dir_name])
 			dir_name = dir.get_next()
 
+func _sort_modules(a, b):
+	return a.priority < b.priority
+
 func load_modules():
 	var dir := Directory.new()
 	if dir.open(EDITOR_MODULES_DIR) == OK:
@@ -162,10 +153,13 @@ func load_modules():
 		while file_name != "":
 			if not dir.current_is_dir() and not file_name.begins_with(".") and file_name.ends_with(".tscn"):
 				var module = load(EDITOR_MODULES_DIR + "/" + file_name).instance()
-				module.set_editor(self)
 				modules.append(module)
 			
 			file_name = dir.get_next()
+	
+	modules.sort_custom(self, "_sort_modules")
+	for module in modules:
+		module.set_editor(self)
 
 func update_modules():
 	for module in modules:
@@ -217,9 +211,6 @@ func _ready():
 	
 	sync_presets_tool.set_editor(self)
 	
-	transforms_tools.connect("show_transform", self, "_show_transform_on_current_notes")
-	transforms_tools.connect("hide_transform", game_preview.transform_preview, "hide")
-	transforms_tools.connect("apply_transform", self, "_apply_transform_on_current_notes")
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
 	if not UserSettings.user_settings.editor_first_time_message_acknowledged:
@@ -228,8 +219,6 @@ func _ready():
 		_show_open_chart_dialog()
 	first_time_message_dialog.get_ok().text = "Got it!"
 	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
-	
-	transforms_tools.editor = self
 	
 	connect("timing_points_changed", self, "_cache_hold_ends")
 	
@@ -336,9 +325,18 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 						if property_name == "position":
 							undo_redo.add_do_property(item.data, "pos_modified", true)
 							undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
+
 		undo_redo.add_do_method(self, "force_game_process")
 		undo_redo.add_undo_method(self, "force_game_process")
+			
+			undo_redo.add_do_method(item, "update_widget_data")
+			undo_redo.add_undo_method(item, "update_widget_data")
+		
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+
 		undo_redo.commit_action()
+
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
 	
@@ -412,83 +410,6 @@ func _unhandled_input(event: InputEvent):
 			
 			fine_position_selected(off)
 			get_tree().set_input_as_handled()
-	
-	for action in angle_shortcuts:
-		if event.is_action(action[0], true) and event.pressed and not event.echo:
-			undo_redo.create_action("Change note angle to " + str(rad2deg(action[1])))
-			
-			for note in selected:
-				if note.data is HBBaseNote:
-					undo_redo.add_do_property(note.data, "entry_angle", rad2deg(action[1]))
-					undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
-					undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-					
-					undo_redo.add_do_method(note, "update_widget_data")
-					undo_redo.add_do_method(note, "sync_value", "entry_angle")
-					undo_redo.add_do_method(note, "sync_value", "oscillation_frequency")
-					undo_redo.add_undo_method(note, "update_widget_data")
-					undo_redo.add_undo_method(note, "sync_value", "entry_angle")
-					undo_redo.add_undo_method(note, "sync_value", "oscillation_frequency")
-					
-					undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-					undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-			
-			undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-			undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-			
-			undo_redo.commit_action()
-			
-			get_tree().set_input_as_handled()
-			break
-	
-	if event.is_action("editor_flip_angle", true) and event.pressed and not event.echo:
-		undo_redo.create_action("Flip angle")
-		
-		for note in selected:
-			if note.data is HBBaseNote:
-				undo_redo.add_do_property(note.data, "entry_angle", fmod(note.data.entry_angle + 180.0, 360.0))
-				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_undo_property(note.data, "entry_angle", note.data.entry_angle)
-				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_do_property(note.data, "oscillation_frequency", -note.data.oscillation_frequency)
-				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_undo_property(note.data, "oscillation_frequency", note.data.oscillation_frequency)
-				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_do_method(note, "update_widget_data")
-				undo_redo.add_do_method(note, "sync_value", "entry_angle")
-				undo_redo.add_undo_method(note, "update_widget_data")
-				undo_redo.add_undo_method(note, "sync_value", "entry_angle")
-		
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-		
-		undo_redo.commit_action()
-	if event.is_action("editor_flip_oscillation", true) and event.pressed and not event.echo:
-		undo_redo.create_action("Flip oscillation")
-		
-		for note in selected:
-			if note.data is HBBaseNote:
-				undo_redo.add_do_property(note.data, "oscillation_frequency", -note.data.oscillation_frequency)
-				undo_redo.add_do_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_undo_property(note.data, "oscillation_frequency", note.data.oscillation_frequency)
-				undo_redo.add_undo_method(self, "_on_timing_points_params_changed")
-				
-				undo_redo.add_do_method(note, "update_widget_data")
-				undo_redo.add_do_method(note, "sync_value", "oscillation_frequency")
-				undo_redo.add_undo_method(note, "update_widget_data")
-				undo_redo.add_undo_method(note, "sync_value", "oscillation_frequency")
-				
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-		
-		undo_redo.commit_action()
 	
 	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
 		undo_redo.create_action("Toggle hold")
@@ -1584,217 +1505,6 @@ func snap_time_to_timeline(time):
 		return n*interval + get_note_snap_offset()*1000.0
 	else:
 		return time
-
-func arrange_selected_by_angle(diff):
-	var notes = []
-	for item in selected:
-		if item.data is HBBaseNote:
-			notes.append(item.data)
-	if notes.size() > 1:
-		undo_redo.create_action("Arrange selected notes by angle")
-		
-		notes.sort_custom(self, "_note_comparison")
-		
-		var first_angle = notes[notes.size()-1].entry_angle
-		var mult = 0
-		for i in range(notes.size()-1, -1, -1):
-			var note = notes[i] as HBBaseNote
-			undo_redo.add_do_property(note, "entry_angle", int(fmod(first_angle + diff * mult, 360.0)))
-			undo_redo.add_do_method(note, "emit_signal", "parameter_changed", "entry_angle")
-			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
-			undo_redo.add_undo_method(note, "emit_signal", "parameter_changed", "entry_angle")
-			mult += 1
-		inspector.sync_visible_values_with_data()
-		undo_redo.commit_action()
-
-func _on_AngleArrangeButtonPlus_pressed():
-	arrange_selected_by_angle(angle_arrange_spinbox.value)
-
-
-func _on_AngleArrangeButtonMinus_pressed():
-	arrange_selected_by_angle(-angle_arrange_spinbox.value)
-
-func _order_items(a, b):
-	return a.data.time < b.data.time
-
-# Arranges the selected notes in the playarea by a certain distances
-var first_note: HBBaseNote
-var last_note: HBBaseNote
-func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = false):
-	if reverse:
-		angle += PI
-	
-	selected.sort_custom(self, "_order_items")
-	if not preview_only:
-		first_note = selected[0].data
-		last_note = selected[-1].data
-		undo_redo.create_action("Arrange selected notes by time")
-	
-	var separation : Vector2 = Vector2.ZERO
-	var slide_separation : Vector2 = Vector2.ZERO
-	var eight_separation = time_arrange_separation_spinbox.value
-	
-	var autoslide = autoslide_checkbox.pressed
-	
-	if angle != null:
-		separation.x = eight_separation * cos(angle)
-		separation.y = eight_separation * sin(angle)
-		slide_separation.x = 32 * cos(angle)
-		slide_separation.y = 32 * sin(angle)
-	
-	# Never remove these, it makes the mikuphile mad
-	var direction = Vector2.ZERO
-	if abs(direction.x) > 0 and abs(direction.y) > 0:
-		pass
-	
-	var pos_compensation: Vector2
-	var time_compensation := 0
-	var slide_index := 0
-	var interval = get_timing_interval(1.0/16.0) * 2
-	
-	var anchor = first_note
-	if reverse:
-		anchor = last_note
-	
-	pos_compensation = anchor.position
-	time_compensation = anchor.time
-	
-	for selected_item in selected:
-		if selected_item.data is HBBaseNote:
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
-				slide_index = 1
-			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
-				slide_index += 1
-			elif slide_index:
-				slide_index = 0
-			
-			# Real snapping hours
-			var diff
-			if not reverse:
-				diff = selected_item.data.time - time_compensation
-			else:
-				diff = time_compensation - selected_item.data.time
-				diff = selected_item.data.time - time_compensation
-			
-			var new_pos = pos_compensation + (separation * (float(diff) / float(interval)))
-			
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
-				if slide_index == 2:
-					new_pos = pos_compensation + separation / 2
-				else:
-					new_pos = pos_compensation + slide_separation
-			
-			if not preview_only:
-				undo_redo.add_do_property(selected_item.data, "position", new_pos)
-				undo_redo.add_do_property(selected_item.data, "pos_modified", true)
-				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "position")
-				undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
-				undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
-				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "position")
-				
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-			else:
-				_change_selected_property_single_item(selected_item, "position", new_pos)
-			
-			pos_compensation = new_pos
-			if selected_item.data is HBSustainNote:
-				time_compensation = selected_item.data.end_time
-			else:
-				time_compensation = selected_item.data.time
-	
-	for selected_item in selected:
-		if selected_item.data is HBBaseNote and selected.size() > 2:
-			var new_angle_params = autoangle(selected_item.data, selected[0].data.position, angle)
-			
-			if not preview_only:
-				undo_redo.add_do_property(selected_item.data, "entry_angle", new_angle_params[0])
-				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
-				undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
-				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "entry_angle")
-
-				undo_redo.add_do_property(selected_item.data, "oscillation_frequency", new_angle_params[1])
-				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
-				undo_redo.add_undo_property(selected_item.data, "oscillation_frequency", selected_item.data.oscillation_frequency)
-				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
-				
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-			else:
-				_change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
-				_change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
-	
-	if not preview_only:
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-		
-		undo_redo.add_undo_method(self, "force_game_process")
-		undo_redo.add_do_method(self, "force_game_process")
-		
-		undo_redo.commit_action()
-		
-		first_note = null
-		last_note = null
-	else:
-		_on_timing_points_params_changed()
-
-func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
-	if song_editor_settings.autoangle and arrange_angle != null:
-		var new_angle: float
-		var oscillation_frequency = abs(note.oscillation_frequency)
-		
-		# Normalize the arrange angle to be between 0 and 2PI
-		arrange_angle = fmod(fmod(arrange_angle, 2*PI) + 2*PI, 2*PI)
-		
-		# Get the quadrant and rotated quadrant
-		var quadrant = int(arrange_angle / (PI/2.0))
-		var rotated_quadrant = int((arrange_angle + PI/4.0) / (PI/2.0)) % 4
-		
-		new_angle = arrange_angle + PI/2.0
-		
-		if rotated_quadrant in [1, 3]:
-			new_angle += PI if quadrant in [0, 1] else 0.0
-			
-			var left_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(0, 1080))
-			var right_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
-			
-			var left_distance = new_pos.distance_to(left_point)
-			var right_distance = new_pos.distance_to(right_point)
-			
-			# Point towards closest side
-			new_angle += PI if right_distance > left_distance else 0.0
-		else:
-			new_angle += PI if quadrant in [1, 2] else 0.0
-			
-			var top_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(1920, 0))
-			var bottom_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
-			
-			var top_distance = new_pos.distance_to(top_point)
-			var bottom_distance = new_pos.distance_to(bottom_point)
-			
-			# Point towards furthest side
-			new_angle += PI if top_distance > bottom_distance else 0.0
-		
-		var positive_quadrants = []
-		
-		if new_pos.x > 960:
-			positive_quadrants.append(3)
-		else:
-			positive_quadrants.append(1)
-		
-		if new_pos.y > 540:
-			positive_quadrants.append(2)
-		else:
-			positive_quadrants.append(0)
-		
-		if not rotated_quadrant in positive_quadrants:
-			oscillation_frequency = -oscillation_frequency
-		
-		oscillation_frequency *= sign(note.oscillation_amplitude)
-		
-		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
-	else:
-		return [note.entry_angle, note.oscillation_frequency]
 
 func add_button_to_tools_tab(button: BaseButton):
 	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)

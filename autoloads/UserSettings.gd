@@ -239,8 +239,13 @@ func fill_localized_arrays():
 		"editor_move_down": tr("Move notes down"),
 		#  Angles
 		"editor_interpolate_angle": tr("Interpolate angles"),
+		"editor_interpolate_distance": tr("Interpolate distances"),
 		"editor_flip_angle": tr("Flip angle"),
 		"editor_flip_oscillation": tr("Flip oscillation"),
+		"editor_move_angles_closer": tr("Move angles towards the first note"),
+		"editor_move_angles_away": tr("Mowe angles away from the first note"),
+		"editor_move_angles_closer_back": tr("Move angles towards the last note"),
+		"editor_move_angles_away_back": tr("Move angles away from the last note"),
 		"editor_angle_l": tr("Set angle to 180º"),
 		"editor_angle_r": tr("Set angle to 0º"),
 		"editor_angle_u": tr("Set angle to 270º"),

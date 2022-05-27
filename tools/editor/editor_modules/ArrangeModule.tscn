@@ -38,7 +38,7 @@ module_name = "Arrange notes"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
 margin_right = 1920.0
-margin_bottom = 582.0
+margin_bottom = 570.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
@@ -486,18 +486,18 @@ ticks_on_borders = true
 [node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
 margin_top = 460.0
 margin_right = 1920.0
-margin_bottom = 582.0
+margin_bottom = 570.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="0"]
 margin_right = 477.0
-margin_bottom = 122.0
+margin_bottom = 110.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer" index="0"]
-margin_left = 205.0
-margin_right = 272.0
-margin_bottom = 61.0
+margin_left = 206.0
+margin_right = 270.0
+margin_bottom = 58.0
 hint_tooltip = "Rotate the notes around the
 center of the selected notes."
 size_flags_horizontal = 4
@@ -505,9 +505,9 @@ icon = ExtResource( 15 )
 icon_align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer" index="1"]
-margin_top = 78.0
+margin_top = 70.0
 margin_right = 477.0
-margin_bottom = 109.0
+margin_bottom = 101.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 2 )
 text = "Around
@@ -518,14 +518,14 @@ valign = 1
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="1"]
 margin_left = 481.0
 margin_right = 958.0
-margin_bottom = 122.0
+margin_bottom = 110.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2" index="0"]
-margin_left = 200.0
-margin_right = 276.0
-margin_bottom = 70.0
+margin_left = 206.0
+margin_right = 270.0
+margin_bottom = 58.0
 hint_tooltip = "Rotate the notes around the
 leftmost selected note."
 size_flags_horizontal = 4
@@ -533,9 +533,9 @@ icon = ExtResource( 17 )
 icon_align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer2" index="1"]
-margin_top = 82.0
+margin_top = 70.0
 margin_right = 477.0
-margin_bottom = 113.0
+margin_bottom = 101.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 2 )
 text = "Around left
@@ -546,14 +546,14 @@ valign = 1
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="2"]
 margin_left = 962.0
 margin_right = 1439.0
-margin_bottom = 122.0
+margin_bottom = 110.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3" index="0"]
-margin_left = 200.0
-margin_right = 276.0
-margin_bottom = 70.0
+margin_left = 206.0
+margin_right = 270.0
+margin_bottom = 58.0
 hint_tooltip = "Rotate the notes around the
 rightmost selected note."
 size_flags_horizontal = 4
@@ -561,9 +561,9 @@ icon = ExtResource( 16 )
 icon_align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer3" index="1"]
-margin_top = 82.0
+margin_top = 70.0
 margin_right = 477.0
-margin_bottom = 113.0
+margin_bottom = 101.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 2 )
 text = "Around
@@ -574,14 +574,14 @@ valign = 1
 [node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6" index="3"]
 margin_left = 1443.0
 margin_right = 1920.0
-margin_bottom = 122.0
+margin_bottom = 110.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4" index="0"]
-margin_left = 200.0
-margin_right = 276.0
-margin_bottom = 70.0
+margin_left = 206.0
+margin_right = 270.0
+margin_bottom = 58.0
 hint_tooltip = "Rotate the notes around the
 absolute screen center."
 size_flags_horizontal = 4
@@ -589,9 +589,9 @@ icon = ExtResource( 18 )
 icon_align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer6/VBoxContainer4" index="1"]
-margin_top = 74.0
+margin_top = 62.0
 margin_right = 477.0
-margin_bottom = 122.0
+margin_bottom = 110.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 2 )
 text = "Around

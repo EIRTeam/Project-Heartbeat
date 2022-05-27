@@ -160,27 +160,64 @@ class RotateTransformation:
 		
 		return transformation_result
 
-class InterpolatePositionsTransform:
+class IncrementAnglesTransform:
 	extends EditorTransformation
+	
+	var timing_interval: float
+	
+	var backwards: bool
+	var invert: bool
+	
+	var straight_increment: int
+	var diagonal_increment: int
+	
+	func _sort_by_time(a: HBBaseNote, b: HBBaseNote):
+		return a.time < b.time
+	
+	func get_beat_diff(a: HBBaseNote, b: HBBaseNote):
+		var time_diff = a.time - b.time
+		return round(float(time_diff) / float(timing_interval))
 	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
-		if notes.size() > 2:
-			var min_position = notes[-1].position as Vector2
-			var max_position = notes[0].position as Vector2
-			var min_time = notes[-1].time
-			var max_time = notes[0].time
-			for note in notes:
-				var new_pos = note.position as Vector2
-				var t = 0
-				if float(max_time-min_time) > 0:
-					t = (note.time - min_time) / float(max_time - min_time)
-				new_pos = min_position.linear_interpolate(max_position, t)
-				transformation_result[note] = {
-					"position": new_pos
-				}
-		return transformation_result
+	
+		notes.sort_custom(self, "_sort_by_time")
+		if backwards:
+			notes.invert()
 		
+		if notes.size() > 1:
+			notes.sort_custom(self, "_note_comparison")
+			
+			var previous_note := notes[0] as HBBaseNote
+			var previous_angle = notes[0].entry_angle
+			var reference_angle = int(fmod(notes[0].entry_angle + 360, 360.0))
+			transformation_result[previous_note] = {}
+			
+			for i in range(1, notes.size()):
+				var note = notes[i] as HBBaseNote
+				var beat_diff = get_beat_diff(note, previous_note)
+				
+				var increment = diagonal_increment * beat_diff
+				if note.position.x == previous_note.position.x or note.position.y == previous_note.position.y:
+					increment = straight_increment * beat_diff
+				
+				# Figure out if we should increase or decrease the angle
+				if note.position.x < previous_note.position.x:
+					increment *= -1
+				if reference_angle < 180:
+					increment *= -1
+				if invert:
+					increment *= -1
+				
+				transformation_result[note] = {
+					"entry_angle": int(fmod(previous_angle + increment, 360.0))
+				}
+				
+				previous_note = note
+				previous_angle = int(fmod(previous_angle + increment + 360, 360.0))
+		
+		return transformation_result
+
 class InterpolateAngleTransform:
 	extends EditorTransformation
 		
@@ -197,13 +234,39 @@ class InterpolateAngleTransform:
 			
 			for note in notes:
 				var t = 0
-				if float(max_time-min_time) > 0:
+				if float(max_time - min_time) > 0:
 					t = (note.time - min_time) / float(max_time - min_time)
 				
 				var new_angle = lerp(min_angle, max_angle, t)
 				new_angle = fmod(new_angle + 360, 360.0)
 				transformation_result[note] = {
 					"entry_angle": new_angle
+				}
+		
+		return transformation_result
+
+class InterpolateDistanceTransform:
+	extends EditorTransformation
+		
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		if notes.size() > 2:
+			var min_distance = notes[-1].distance as float
+			var max_distance = notes[0].distance as float
+			
+			var min_time = notes[-1].time
+			var max_time = notes[0].time
+			
+			for note in notes:
+				var t = 0
+				if float(max_time - min_time) > 0:
+					t = (note.time - min_time) / float(max_time - min_time)
+				
+				var new_distance = lerp(min_distance, max_distance, t)
+				
+				transformation_result[note] = {
+					"distance": new_distance
 				}
 		
 		return transformation_result
@@ -219,6 +282,20 @@ class FlipAngleTransform:
 				"entry_angle": fmod(note.entry_angle + 180.0, 360.0),
 				"oscillation_frequency": -note.oscillation_frequency
 			}
+		
+		return transformation_result
+
+class FlipOscillationTransform:
+	extends EditorTransformation
+		
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+
+		for note in notes:
+			transformation_result[note] = {
+				"oscillation_frequency": -note.oscillation_frequency
+			}
+		
 		return transformation_result
 
 class MakeCircleTransform:
@@ -337,19 +414,9 @@ func add_button_row(button, button2):
 	button_container.add_child(hbox_container)
 
 func _ready():
-	button_container.add_child(make_button("Interpolate positions", InterpolatePositionsTransform.new()))
-	button_container.add_child(make_button("Interpolate angle", InterpolateAngleTransform.new()))
-	
-	button_container.add_child(HSeparator.new())
-	
-	button_container.add_child(make_button("Flip angle", FlipAngleTransform.new()))
+	pass
 
 func _show_transform(transform: EditorTransformation):
 	transform.use_stage_center = use_stage_center
 	transform.bpm = editor.get_bpm()
 	emit_signal("show_transform", transform)
-
-func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.is_action("editor_interpolate_angle", true) and event.pressed and not event.echo:
-			emit_signal("apply_transform", InterpolateAngleTransform.new())

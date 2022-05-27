@@ -13,6 +13,8 @@ var tab_idx: int
 
 export var module_name: String
 
+export var priority: int
+
 func set_editor(_editor: HBEditor):
 	editor = _editor
 	undo_redo = _editor.undo_redo
