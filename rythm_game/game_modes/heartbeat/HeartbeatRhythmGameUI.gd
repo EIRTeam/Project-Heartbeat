@@ -25,6 +25,7 @@ const SONG_PROGRESS_INDICATOR_GROUP = "song_progress"
 const SONG_TITLE_GROUP = "song_title"
 const MULTI_HINT_GROUP = "multi_hint"
 const HEALTH_DISPLAY_GROUP = "health_display"
+const EVENT_GUIDE_GROUP = "event_guide"
 
 const SKIP_INTRO_INDICATOR_GROUP = "skip_intro_indicator"
 
@@ -165,6 +166,9 @@ func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = [
 		get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, SONG_PROGRESS_INDICATOR_GROUP, "max_value", song.end_time)
 	else:
 		get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, SONG_PROGRESS_INDICATOR_GROUP, "max_value", game.audio_playback.get_length_msec())
+	if UserSettings.user_settings.event_song_max_duration != -1:
+		get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, SONG_PROGRESS_INDICATOR_GROUP, "max_value", UserSettings.user_settings.event_song_max_duration * 1000)
+		
 
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, DIFFICULTY_LABEL_GROUP, "set_difficulty", difficulty)
 	
@@ -215,8 +219,13 @@ func _on_show_slide_hold_score(point: Vector2, score: float, show_max: bool):
 func _on_show_multi_hint(new_closest_multi_notes):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, MULTI_HINT_GROUP, "show_notes", new_closest_multi_notes)
 	
+func _on_show_event_guide(new_closest_multi_notes):
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, EVENT_GUIDE_GROUP, "show_notes", new_closest_multi_notes)
+	
 func _on_hide_multi_hint():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, MULTI_HINT_GROUP, "hide")
+func _on_hide_event_guide():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, EVENT_GUIDE_GROUP, "hide_buttons")
 	
 func _on_end_intro_skip_period():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, SKIP_INTRO_INDICATOR_GROUP, "disappear")

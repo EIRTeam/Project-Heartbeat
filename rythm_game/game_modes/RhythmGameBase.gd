@@ -9,7 +9,9 @@ signal intro_skipped(new_time)
 signal end_intro_skip_period
 signal score_added(added_score)
 signal show_multi_hint(new_closest_multi_notes)
+signal show_event_guide(new_closest_multi_notes)
 signal hide_multi_hint
+signal hide_event_guide
 signal toggle_ui
 signal size_changed
 
@@ -98,6 +100,8 @@ var current_variant = -1
 var notes_judged_this_frame = []
 
 var section_changes = {}
+
+var event_guide_notes = []
 
 func _init():
 	name = "RhythmGameBase"
@@ -471,6 +475,17 @@ func _process_game(_delta):
 			else:
 				new_closest_multi_notes = [note]
 			last_note_time = note.time
+	var closest_notes := get_closest_notes() as Array
+	if closest_notes.size() > 0:
+		if not closest_notes[0] in event_guide_notes:
+			if closest_notes[0].time - time * 1000.0 < 500:
+				event_guide_notes = closest_notes
+				emit_signal("show_event_guide", closest_notes)
+			else:
+				emit_signal("hide_event_guide")
+	else:
+		emit_signal("hide_event_guide")
+	
 	if UserSettings.user_settings.enable_multi_hint:
 		if new_closest_multi_notes.size() > 1:
 			if not new_closest_multi_notes[0] in closest_multi_notes:
@@ -710,7 +725,9 @@ func set_game_ui(ui: HBRhythmGameUIBase):
 	connect("score_added", ui, "_on_score_added")
 	connect("toggle_ui", ui, "_on_toggle_ui")
 	connect("hide_multi_hint", ui, "_on_hide_multi_hint")
+	connect("hide_event_guide", ui, "_on_hide_event_guide")
 	connect("show_multi_hint", ui, "_on_show_multi_hint")
+	connect("show_event_guide", ui, "_on_show_event_guide")
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score

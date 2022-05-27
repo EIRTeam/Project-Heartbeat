@@ -1,0 +1,198 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://graphics/event_guide_bg.png" type="Texture" id=1]
+[ext_resource path="res://graphics/PS4_Diagram_On.png" type="Texture" id=2]
+[ext_resource path="res://graphics/event_guide_outline.png" type="Texture" id=3]
+[ext_resource path="res://rythm_game/event_controller_guide.gd" type="Script" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 13
+atlas = ExtResource( 2 )
+region = Rect2( 2, 1, 83, 85 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 13
+atlas = ExtResource( 2 )
+region = Rect2( 93, 1, 71, 87 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 13
+atlas = ExtResource( 2 )
+region = Rect2( 170, 1, 93, 71 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 13
+atlas = ExtResource( 2 )
+region = Rect2( 280, 1, 146, 145 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+ratio = 2.0
+
+[node name="TextureRect2" type="TextureRect" parent="AspectRatioContainer"]
+margin_top = 60.0
+margin_right = 1920.0
+margin_bottom = 1020.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="FaceDown" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.696354
+anchor_top = 0.477375
+anchor_right = 0.742521
+anchor_bottom = 0.56875
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="FaceUp" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.696354
+anchor_top = 0.291958
+anchor_right = 0.742521
+anchor_bottom = 0.383333
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="FaceLeft" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.646875
+anchor_top = 0.384667
+anchor_right = 0.693042
+anchor_bottom = 0.476042
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="FaceRight" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.746354
+anchor_top = 0.384667
+anchor_right = 0.792521
+anchor_bottom = 0.476042
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PadDown" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.260417
+anchor_top = 0.447167
+anchor_right = 0.308667
+anchor_bottom = 0.541667
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PadUp" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.260417
+anchor_top = 0.319042
+anchor_right = 0.308667
+anchor_bottom = 0.413542
+margin_top = -0.279999
+margin_right = -0.640137
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PadLeft" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.227604
+anchor_top = 0.382583
+anchor_right = 0.275854
+anchor_bottom = 0.477083
+margin_left = -2.99997
+margin_top = -0.279999
+margin_right = 1.35986
+margin_bottom = 1.0
+texture = SubResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="PadRight" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.294271
+anchor_top = 0.382583
+anchor_right = 0.342521
+anchor_bottom = 0.477083
+margin_left = -2.99997
+margin_top = -0.279999
+margin_right = 1.35986
+margin_bottom = 1.0
+texture = SubResource( 3 )
+expand = true
+stretch_mode = 6
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="JoystickLeft" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.349479
+anchor_top = 0.571875
+anchor_right = 0.435417
+anchor_bottom = 0.730208
+texture = SubResource( 4 )
+expand = true
+stretch_mode = 6
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="JoystickRight" type="TextureRect" parent="AspectRatioContainer/TextureRect2"]
+anchor_left = 0.568229
+anchor_top = 0.571875
+anchor_right = 0.654167
+anchor_bottom = 0.730208
+texture = SubResource( 4 )
+expand = true
+stretch_mode = 6
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+ratio = 2.0
+
+[node name="TextureRect2" type="TextureRect" parent="AspectRatioContainer2"]
+margin_top = 60.0
+margin_right = 1920.0
+margin_bottom = 1020.0
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6

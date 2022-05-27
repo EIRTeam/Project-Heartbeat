@@ -10,8 +10,8 @@
 [ext_resource path="res://graphics/party_hat.png" type="Texture" id=8]
 [ext_resource path="res://graphics/logo-eirteam.png" type="Texture" id=9]
 [ext_resource path="res://menus/EventSocials.tscn" type="PackedScene" id=10]
+[ext_resource path="res://graphics/switch_diagram_simple.png" type="Texture" id=11]
 [ext_resource path="res://graphics/logo-japan.png" type="Texture" id=13]
-[ext_resource path="res://graphics/XboxOne_Diagram_Simple.png" type="Texture" id=14]
 [ext_resource path="res://graphics/PS4_Diagram_Simple.png" type="Texture" id=15]
 
 [node name="StartMenu" type="Control"]
@@ -198,7 +198,7 @@ margin_bottom = 432.0
 margin_right = 400.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 400, 300 )
-texture = ExtResource( 14 )
+texture = ExtResource( 11 )
 expand = true
 stretch_mode = 6
 

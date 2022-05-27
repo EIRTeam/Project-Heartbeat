@@ -72,7 +72,8 @@ func _get_type_for(device_name: String) -> int:
 	
 	if device_name.find("PS") != -1:
 		type = JoyPads.PLAYSTATION
-	elif device_name.find("Nintendo") != -1:
+	elif device_name.find("Nintendo") != -1 or \
+		device_name.find("Horipad S") != -1:
 		type = JoyPads.NINTENDO
 	elif device_name.find("Xbox") != -1 or \
 		device_name.find("XBOX") != -1 or \

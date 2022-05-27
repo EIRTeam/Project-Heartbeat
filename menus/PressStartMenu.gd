@@ -11,11 +11,14 @@ func _unhandled_input(event):
 			UserSettings.controller_device_idx = event.device
 			UserSettings.controller_guid = Input.get_joy_guid(UserSettings.controller_device_idx)
 			UserSettings.map_actions_to_controller()
+			print(Input.get_joy_name(event.device))
 			match JoypadSupport.get_joypad_type():
 				JS_JoypadIdentifier.JoyPads.XBOX:
 					UserSettings.user_settings.resource_pack = "xbox"
 				JS_JoypadIdentifier.JoyPads.PLAYSTATION:
 					UserSettings.user_settings.resource_pack = "playstation"
+				JS_JoypadIdentifier.JoyPads.NINTENDO:
+					UserSettings.user_settings.resource_pack = "nintendo"
 			ResourcePackLoader.rebuild_final_atlases()
 		get_tree().set_input_as_handled()
 #			$AnimationPlayer.play("FadeOut")

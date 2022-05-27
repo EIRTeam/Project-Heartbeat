@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
 [ext_resource path="res://graphics/wrong_rating_cross.png" type="Texture" id=6]
+[ext_resource path="res://rythm_game/event_controller_guide.tscn" type="PackedScene" id=7]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
@@ -137,6 +138,12 @@ anims/animate = SubResource( 9 )
 [node name="UserUI" type="Control" parent="UnderNotesUI/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="EventGuide" parent="UnderNotesUI/Control" instance=ExtResource( 7 )]
+anchor_left = 1.0
+anchor_top = 1.0
+margin_left = -507.0
+margin_top = -462.0
 
 [node name="Lyrics" type="Node2D" parent="."]
 z_index = -2
