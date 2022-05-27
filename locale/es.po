@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-25 13:53+0200\n"
-"PO-Revision-Date: 2022-05-25 13:54+0200\n"
+"POT-Creation-Date: 2022-05-27 12:48+0200\n"
+"PO-Revision-Date: 2022-05-27 12:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1202,7 +1202,7 @@ msgstr ""
 msgid " (known)"
 msgstr " (conocido)"
 
-#: menus/options_menu/OptionControlsSection.tscn:58
+#: menus/options_menu/OptionControlsSection.tscn:66
 msgid ""
 "Note: You can assign the same button to more than one action to create "
 "macros!"
@@ -1942,11 +1942,11 @@ msgstr ""
 "Puntuación más alta:\n"
 "%s"
 
-#: menus/pregame_screen/PreGameScreen.gd:254
+#: menus/pregame_screen/PreGameScreen.gd:253
 msgid "View leaderboards on the website"
 msgstr "Ver tablas de clasificación en la web"
 
-#: menus/pregame_screen/PreGameScreen.gd:272
+#: menus/pregame_screen/PreGameScreen.gd:271
 msgid "Video/Audio variant"
 msgstr "Variante de vídeo/audio"
 
@@ -1997,6 +1997,11 @@ msgstr "Ultimos subidos"
 #: menus/song_list/SongList.gd:37
 msgid "Last updated"
 msgstr "Ultimos actualizados"
+
+#: menus/song_list/SongList.gd:121
+#, python-format
+msgid "Sorting by %s"
+msgstr "Ordenar por %s"
 
 #: menus/song_list/SongList.gd:267
 #, python-format

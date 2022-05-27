@@ -118,7 +118,7 @@ func set_sort(sort_by):
 	song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	update_sort_label(sort_by)
 func update_sort_label(sort_by):
-	sort_mode_label.text = "Sorting by %s" % [allowed_sort_by[sort_by]]
+	sort_mode_label.text = tr("Sorting by %s") % [allowed_sort_by[sort_by]]
 	
 #	song_container.grab_focus()
 #	sort_by_list.hide()
