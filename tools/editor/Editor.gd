@@ -24,7 +24,6 @@ onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer
 onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
 onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
-onready var layer_manager = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Layers/LayerManager")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
 onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
@@ -52,6 +51,7 @@ onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginCont
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
+onready var song_settings_editor = get_node("EditorGlobalSettings").song_settings_tab
 
 const LOG_NAME = "HBEditor"
 
@@ -188,8 +188,6 @@ func _ready():
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
 	inspector.connect("reset_pos", self, "reset_note_position")
 	
-	layer_manager.connect("layer_visibility_changed", timeline, "change_layer_visibility")
-	layer_manager.connect("layer_visibility_changed", self, "_on_layer_visibility_changed")
 #	load_song(SongLoader.songs["sands_of_time"], "easy")
 	load_plugins()
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
@@ -1217,7 +1215,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	timeline.clear_layers()
 	undo_redo.clear_history()
 	selected = []
-	layer_manager.clear_layers()
+	song_settings_editor.clear_layers()
 	current_notes = []
 	timeline.send_time_cull_changed_signal()
 	for layer in chart.layers:
@@ -1236,7 +1234,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		if not ignore_settings:
 			layer_visible = not layer.name in chart.editor_settings.hidden_layers
 		
-		layer_manager.add_layer(layer.name, layer_visible)
+		song_settings_editor.add_layer(layer.name, layer_visible)
 		
 	# Lyrics layer
 	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1246,7 +1244,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
 	
 	timeline.add_layer(lyrics_layer_scene)
-	layer_manager.add_layer("Lyrics", lyrics_layer_visible)
+	song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
 	
 	# Sections layer
 	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1256,7 +1254,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
 	
 	timeline.add_layer(sections_layer_scene)
-	layer_manager.add_layer("Sections", sections_layer_visible)
+	song_settings_editor.add_layer("Sections", sections_layer_visible)
 	
 	var lyrics_layer_n = timeline.get_layers().size() - 2
 	var sections_layer_n = timeline.get_layers().size() - 1

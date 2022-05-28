@@ -240,7 +240,7 @@ func update(ignore = []):
 		
 		var property_name := item.get_meta("property_name") as String
 		var type := item.get_meta("type") as String
-		var value = settings_base[property_name]
+		var value = settings_base.get(property_name)
 		
 		if item.has_meta("parser"):
 			value = call(item.get_meta("parser"), value, "update")
@@ -294,6 +294,9 @@ func _on_tree_item_edited():
 			new_value = {"x": item_x.get_range(1), "y": item_y.get_range(1)}
 		"List":
 			new_value = edited.get_meta("value")
+		_:
+			custom_input_parser(edited)
+			return
 	
 	if edited.get_meta("parser"):
 		new_value = call(edited.get_meta("parser"), new_value, "edited")
@@ -349,4 +352,7 @@ func _on_colorpicker_preset_removed(color: Color, item: TreeItem):
 
 
 func update_setting(property_name: String, new_value):
+	pass
+
+func custom_input_parser(item: TreeItem):
 	pass

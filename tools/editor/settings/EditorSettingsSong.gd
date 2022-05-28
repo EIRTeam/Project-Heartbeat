@@ -1,5 +1,12 @@
 extends HBEditorSettings
 
+signal layer_visibility_changed(visibility, layer)
+
+const HIDDEN_ICON = preload("res://tools/icons/icon_GUI_visibility_hidden.svg")
+const VISIBLE_ICON = preload("res://tools/icons/icon_GUI_visibility_visible.svg")
+
+var layers_item: TreeItem
+
 func _ready():
 	settings = {
 		"Timeline": [
@@ -34,10 +41,26 @@ func _ready():
 		]
 	}
 
+func populate():
+	.populate()
+	
+	if not editor:
+		return
+	
+	var root := tree.get_root()
+	
+	layers_item = tree.create_item(root)
+	layers_item.set_text(0, tr("Layer visibility"))
+
 func set_editor(val):
 	editor = val
+	
 	load_settings(editor.song_editor_settings)
 	editor.connect("song_editor_settings_changed", self, "update")
+	
+	connect("layer_visibility_changed", editor.timeline, "change_layer_visibility")
+	connect("layer_visibility_changed", editor, "_on_layer_visibility_changed")
+	
 	populate()
 
 func load_settings(settings):
@@ -76,3 +99,54 @@ func _variants_parser(value, mode):
 		return value + 1
 	else:
 		return value - 1
+
+
+func clear_layers():
+	var item = layers_item.get_children()
+	while item:
+		var _item = item
+		item = item.get_next()
+		_item.free()
+
+func add_layer(layer_name: String, layer_visibility: bool):
+	var text := tr("Visible") if layer_visibility else tr("Hidden")
+	var icon := VISIBLE_ICON if layer_visibility else HIDDEN_ICON
+	
+	var item := tree.create_item(layers_item)
+	item.set_text(0, _get_nice_name(layer_name))
+	item.set_meta("property_name", layer_name)
+	item.set_meta("type", "Layer")
+	
+	item.set_cell_mode(1, TreeItem.CELL_MODE_CHECK)
+	item.set_checked(1, layer_visibility)
+	item.set_editable(1, true)
+	item.set_icon(1, icon)
+	item.set_text(1, text)
+
+func _get_nice_name(layer: String):
+	var name = layer.to_lower()
+	name[0] = layer[0].to_upper()
+	
+	# Why the hell does String.replace() not work
+	if "_" in name:
+		var i = name.find("_")
+		name[i] = " "
+	
+	if layer[-1].is_valid_integer():
+		name[-1] = " "
+		name += layer[-1]
+	
+	return name
+
+func custom_input_parser(item: TreeItem):
+	if item.get_meta("type") == "Layer":
+		var layer_name = item.get_meta("property_name")
+		var visibility = item.is_checked(1)
+		
+		emit_signal("layer_visibility_changed", visibility, layer_name)
+		
+		var text := tr("Visible") if visibility else tr("Hidden")
+		var icon := VISIBLE_ICON if visibility else HIDDEN_ICON
+		
+		item.set_text(1, text)
+		item.set_icon(1, icon)
