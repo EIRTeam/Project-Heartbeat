@@ -1210,10 +1210,13 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	
 	emit_signal("modules_update_settings", settings)
 
-func from_chart(chart: HBChart, ignore_settings=false):
+func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	rhythm_game.editor_clear_notes()
 	timeline.clear_layers()
-	undo_redo.clear_history()
+	
+	if not importing:
+		undo_redo.clear_history()
+	
 	selected = []
 	song_settings_editor.clear_layers()
 	current_notes = []

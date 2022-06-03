@@ -21,18 +21,62 @@ static func load_dsc_file_from_buff(spb: StreamPeerBuffer, opcode_map: DSCOpcode
 				params.append(unsigned32_to_signed(param))
 			else:
 				return null
+		
 		var opcode_obj = Opcode.new()
 		opcode_obj.opcode = opcode
 		opcode_obj.params = params
 		opcodes.append(opcode_obj)
+	
 	return opcodes
 static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	var file = File.new()
 	if file.open(path, File.READ) != OK:
 		return []
+	
+	# Decrypt files if necessary
+	var data_8: PoolByteArray
+	if file.get_buffer(8) == PoolByteArray("DIVAFILE".to_ascii()):
+		var key_file = File.new()
+		if not key_file.file_exists(ProjectSettings.globalize_path("user://decryption_keys.json")):
+			key_file.open(ProjectSettings.globalize_path("user://decryption_keys.json"), File.WRITE)
+			key_file.store_string(JSON.print({"divafile_key": ""}))
+			key_file.close()
+			return -1
+		
+		key_file.open(ProjectSettings.globalize_path("user://decryption_keys.json"), File.READ)
+		var key_db = parse_json(key_file.get_as_text())
+		key_file.close()
+		
+		var aes := AESContext.new()
+		var key = PoolByteArray(key_db.divafile_key.to_ascii())
+		if not key:
+			return -1
+		
+		file.seek(0)
+		aes.start(AESContext.MODE_ECB_DECRYPT, key)
+		data_8 = aes.update(file.get_buffer(file.get_len()))
+		aes.finish()
+	else:
+		file.seek(0)
+		data_8 = file.get_buffer(file.get_len())
+	
+	var data := PoolByteArray()
+	for i in range(0, file.get_len(), 4):
+		var bytes := data_8.subarray(i, i + 3)
+		if opcode_map.game == "F2":
+			bytes.invert()
+		
+		data.append(bytes[0])
+		data.append(bytes[1])
+		data.append(bytes[2])
+		data.append(bytes[3])
+#		var unsigned_value = bytes[3] << 24 | bytes[2] << 16 | bytes[1] << 8 | bytes[0]
+#
+#		data.append(unsigned32_to_signed(unsigned_value))
+	
 	var spb := StreamPeerBuffer.new()
-	spb.data_array = file.get_buffer(file.get_len())
-
+	spb.data_array = PoolByteArray(Array(data))
+	
 	return load_dsc_file_from_buff(spb, opcode_map)
 
 enum AFTButtons {
@@ -133,12 +177,17 @@ static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DS
 		return null
 	return convert_dsc_opcodes_to_chart(r, opcode_map)
 
-static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap) -> HBChart:
+static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap, offset: int = 0):
 	var r = load_dsc_file(path, opcode_map)
+	if r is int and r == -1:
+		# No key
+		return -1
 	if not r:
 		return null
-	return convert_dsc_opcodes_to_chart(r, opcode_map)
-static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> HBChart:
+	
+	return convert_dsc_opcodes_to_chart(r, opcode_map, offset)
+
+static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, offset: int = 0) -> HBChart:
 	var curr_time = 0.0
 	var current_BPM = 0.0
 	var target_flying_time = 0.0
@@ -146,9 +195,11 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 	var curr_chain_starter = null
 	var highest_height = 0
 	var music_start_offset := 0.0
+
 	for opcode in r:
 		if opcode.opcode == opcode_map.opcode_names_to_id.TIME:
 			curr_time = float(opcode.params[0])
+		
 		if opcode.opcode == opcode_map.opcode_names_to_id.BAR_TIME_SET:
 			current_BPM = float(opcode.params[0])
 			target_flying_time = int((60.0  / current_BPM * (1 + float(opcode.params[1])) * 1000.0))
@@ -161,6 +212,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 				((opcode_map.game == "f" or opcode_map.game == "F2") and opcode.params[0] in FButtons.values()):
 				
 				var note_d: HBBaseNote = HBNoteData.new()
+				
 				if opcode_map.game == "FT":
 					note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
 					note_d.time += target_flying_time
@@ -177,7 +229,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 									curr_chain_starter = null
 					else:
 						curr_chain_starter = null
-						
+					
 					if not curr_chain_starter and opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R]:
 						if opcode.params[0] == AFTButtons.CHAIN_L:
 							note_d.position.x -= 20
@@ -186,24 +238,28 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 							note_d.position.x += 20
 							note_d.note_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
 						curr_chain_starter = note_d
-						
 					else:
 						var note_type = int(AFT2PHButtonMap[opcode.params[0]])
 						note_d.note_type = note_type
+					
 					note_d.hold = is_hold(opcode.params[0])
 					note_d.entry_angle = (opcode.params[3] / 1000.0) - 90.0
 					note_d.oscillation_frequency = opcode.params[6]
 					note_d.oscillation_amplitude = opcode.params[5]
 					note_d.distance = opcode.params[4] / 250.0
-				elif opcode_map.game in ["f", "F2"]:
+				
+				if opcode_map.game in ["f", "F2"]:
 					var is_hold_end = opcode.params[2] != -1
 					if is_hold_end:
 						continue
+					
 					if is_double(opcode.params[0]):
 						note_d = HBDoubleNote.new()
+					
 					elif is_sustain(opcode.params[0]):
 						note_d = HBSustainNote.new()
-						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0)
+						(note_d as HBSustainNote).end_time = (curr_time / 100.0) + opcode.params[9] + (opcode.params[1] / 100.0) + offset
+					
 					# F note coords are in 50:15 aspect ratio
 					var diva_width = 500_000.0
 					var diva_height = 250_000.0
@@ -211,25 +267,35 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 					var diva_y_offset = (1080.0 - ((diva_height / diva_width) * 1920.0)) / 4.0
 					note_d.position = Vector2((opcode.params[3] / (500_000.0)) * 1920.0, (opcode.params[4] / (diva_height)) * (1920.0 * diva_ratio))
 					note_d.position.y += diva_y_offset
+					
 					note_d.oscillation_amplitude = opcode.params[8]
 					note_d.oscillation_frequency = opcode.params[6]
 					highest_height = max(highest_height, opcode.params[3])
 					note_d.entry_angle = (opcode.params[5] / 1000.0) - 90.0
+					
 					var note_type = int(F2PHButtonMap[opcode.params[0]])
 					note_d.note_type = note_type
+					
 					note_d.time_out = opcode.params[9]
 					note_d.time += opcode.params[9]
+				
 				note_d.time += int(curr_time / 100.0)
+				note_d.time += offset
 				note_d.auto_time_out = false
+				
+				
 				var search_type = note_d.note_type
 				if opcode_map.game == "FT" and note_d.is_slide_hold_piece():
 					if note_d.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_LEFT
 					else:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
+				
 				chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, search_type))].timing_points.append(note_d)
+	
 	if music_start_offset != 0.0:
 		for layer in chart.layers:
 			for timing_point in layer.timing_points:
 				timing_point.time -= music_start_offset
+	
 	return chart
