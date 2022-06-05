@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
@@ -38,6 +38,9 @@
 [ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=49]
 [ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=50]
 [ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=51]
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.2, 0.231373, 0.309804, 1 )
 
 [sub_resource type="InputEventAction" id=1]
 action = "editor_open"
@@ -88,60 +91,56 @@ script = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0.25 )
 margin_right = 1920.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
-size_flags_vertical = 4
+size_flags_vertical = 5
+custom_styles/panel = SubResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.10803
-margin_right = 1.10803
-margin_bottom = 1.0
+anchor_bottom = 0.5
+margin_top = -22.5
+margin_bottom = 22.5
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1910.0
-margin_bottom = 42.0
+margin_bottom = 35.0
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer"]
 margin_right = 1900.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 20.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 icon = ExtResource( 17 )
 flat = true
 
 [node name="OpenButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 24.0
 margin_right = 52.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 shortcut = SubResource( 2 )
 icon = ExtResource( 7 )
 flat = true
@@ -149,7 +148,7 @@ flat = true
 [node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 56.0
 margin_right = 84.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 disabled = true
 shortcut = SubResource( 4 )
 icon = ExtResource( 4 )
@@ -158,45 +157,44 @@ flat = true
 [node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 88.0
 margin_right = 149.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 text = "Save As"
 
 [node name="CurrentTitleButton" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 153.0
-margin_top = 3.0
-margin_right = 818.0
-margin_bottom = 28.0
+margin_right = 852.0
+margin_bottom = 25.0
 size_flags_horizontal = 3
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 822.0
+margin_left = 856.0
 margin_right = 1900.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="AutoMulticheckbox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_right = 93.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 hint_tooltip = "Automatically set canonical parameters for multi-notes"
 text = "Auto-multi"
 
 [node name="HoldCalculatorCheckBox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 97.0
 margin_right = 221.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 text = "Hold Calculator"
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 225.0
 margin_right = 229.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 233.0
 margin_right = 261.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
 pressed = true
@@ -207,7 +205,7 @@ flat = true
 [node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 265.0
 margin_right = 329.0
-margin_bottom = 32.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 50, 0 )
 hint_tooltip = "Offset"
 min_value = -100.0
@@ -216,29 +214,23 @@ align = 1
 suffix = "s"
 script = ExtResource( 50 )
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 333.0
-margin_top = 3.0
-margin_right = 355.0
-margin_bottom = 28.0
-text = "1/"
-
 [node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 359.0
-margin_right = 514.42
-margin_bottom = 32.0
+margin_left = 333.0
+margin_right = 488.42
+margin_bottom = 25.0
 rect_min_size = Vector2( 155.42, 0 )
 hint_tooltip = "Snap resolution"
 min_value = 1.0
 max_value = 300.0
 value = 16.0
+prefix = "1/"
 suffix = "th of a note"
 script = ExtResource( 50 )
 
 [node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 518.0
-margin_right = 628.0
-margin_bottom = 32.0
+margin_left = 492.0
+margin_right = 602.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 110, 0 )
 hint_tooltip = "Beats per minute"
 max_value = 1000.0
@@ -248,54 +240,47 @@ suffix = "bpm"
 script = ExtResource( 50 )
 
 [node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 632.0
-margin_right = 799.0
-margin_bottom = 32.0
+margin_left = 606.0
+margin_right = 773.0
+margin_bottom = 25.0
 hint_tooltip = "Metre"
 text = "Quadruple metre (4/4)"
 items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (2/4)", null, false, 2, null, "Whatever this is called (1/1)", null, false, 3, null ]
 selected = 0
 
-[node name="SyncToolboxButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 803.0
-margin_right = 839.0
-margin_bottom = 32.0
-icon = ExtResource( 49 )
-icon_align = 1
-
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 843.0
-margin_right = 847.0
-margin_bottom = 32.0
+margin_left = 777.0
+margin_right = 781.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 851.0
-margin_right = 879.0
-margin_bottom = 32.0
+margin_left = 785.0
+margin_right = 813.0
+margin_bottom = 25.0
 icon = ExtResource( 10 )
 
 [node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 883.0
-margin_right = 966.0
-margin_bottom = 32.0
+margin_left = 817.0
+margin_right = 900.0
+margin_bottom = 25.0
 text = "(at time)"
 icon = ExtResource( 10 )
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 970.0
-margin_right = 974.0
-margin_bottom = 32.0
+margin_left = 904.0
+margin_right = 908.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 978.0
-margin_right = 1006.0
-margin_bottom = 32.0
+margin_left = 912.0
+margin_right = 940.0
+margin_bottom = 25.0
 icon = ExtResource( 11 )
 flat = true
 
@@ -307,26 +292,34 @@ margin_bottom = 25.0
 icon = ExtResource( 9 )
 flat = true
 
+[node name="SyncToolboxButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+margin_left = 944.0
+margin_right = 972.0
+margin_bottom = 25.0
+icon = ExtResource( 49 )
+flat = true
+icon_align = 1
+
 [node name="VSeparator4" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1010.0
-margin_right = 1014.0
-margin_bottom = 32.0
+margin_left = 976.0
+margin_right = 980.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EditorHelpButton" type="MenuButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1018.0
-margin_right = 1046.0
-margin_bottom = 32.0
+margin_left = 984.0
+margin_right = 1012.0
+margin_bottom = 25.0
 hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1050.0
-margin_right = 1078.0
-margin_bottom = 32.0
+margin_left = 1016.0
+margin_right = 1044.0
+margin_bottom = 25.0
 hint_tooltip = "Editor settings"
 icon = ExtResource( 46 )
 flat = true
@@ -341,8 +334,8 @@ text = "Sex"
 [node name="UIFade" parent="VBoxContainer/Panel2" instance=ExtResource( 38 )]
 visible = false
 margin_top = 0.0
-margin_right = -116.0
-margin_bottom = -1.0
+margin_right = -147.0
+margin_bottom = 0.0
 
 [node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer"]
 margin_top = 54.0
@@ -377,7 +370,7 @@ tab_align = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 32.0
+margin_top = 37.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -397,11 +390,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 419.0
-margin_bottom = 633.0
+margin_bottom = 628.0
 
 [node name="SyncButtonContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool/ScrollContainer"]
 margin_right = 409.0
-margin_bottom = 623.0
+margin_bottom = 618.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -438,10 +431,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="UIFade" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control" instance=ExtResource( 38 )]
-visible = false
-margin_top = 0.0
+margin_top = -1.0
 margin_right = 0.0
-margin_bottom = 0.0
+margin_bottom = -1.0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer"]
 margin_left = 447.0
@@ -649,7 +641,7 @@ tab_align = 0
 
 [node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource( 12 )]
 margin_left = 5.0
-margin_top = 32.0
+margin_top = 37.0
 margin_right = -5.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
@@ -900,11 +892,11 @@ margin_bottom = 412.0
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
 [connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
 [connection signal="item_selected" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton" to="." method="_on_timing_information_changed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SyncToolboxButton" to="SyncToolboxDialog" method="_popup"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestButton" to="." method="_on_PlaytestButton_pressed" binds= [ false ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestAtTimeButton" to="." method="_on_PlaytestButton_pressed" binds= [ true ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SyncToolboxButton" to="SyncToolboxDialog" method="_popup"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
 [connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer" to="." method="_on_parent_HSplitContainer_dragged"]

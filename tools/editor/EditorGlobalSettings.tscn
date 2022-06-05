@@ -7,6 +7,7 @@
 [ext_resource path="res://tools/editor/settings/EditorSettingsGlobal.gd" type="Script" id=5]
 
 [node name="EditorGlobalSettings" type="WindowDialog"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 655.0
@@ -17,13 +18,14 @@ theme = ExtResource( 1 )
 popup_exclusive = true
 window_title = "Editor settings"
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -32,7 +34,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 32.0
+margin_top = 37.0
 margin_right = -5.0
 margin_bottom = -5.0
 custom_constants/margin_right = 10
@@ -44,8 +46,8 @@ script = ExtResource( 5 )
 [node name="Tree" type="Tree" parent="TabContainer/General"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 690.0
-margin_bottom = 353.0
+margin_right = 670.0
+margin_bottom = 333.0
 columns = 2
 hide_root = true
 
@@ -66,8 +68,8 @@ script = ExtResource( 4 )
 [node name="Tree" type="Tree" parent="TabContainer/Song"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 690.0
-margin_bottom = 353.0
+margin_right = 670.0
+margin_bottom = 338.0
 columns = 2
 hide_root = true
 
@@ -87,8 +89,8 @@ custom_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 690.0
-margin_bottom = 353.0
+margin_right = 670.0
+margin_bottom = 338.0
 
 [node name="Panel" type="Control" parent="TabContainer/Shortcuts/VBoxContainer"]
 margin_right = 680.0

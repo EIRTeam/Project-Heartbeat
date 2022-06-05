@@ -3,7 +3,7 @@ extends TextEdit
 class_name HBEditorTextEdit
 
 func _input(event):
-	if event.is_action_pressed("gui_accept") or event.is_action_pressed("gui_cancel"):
+	if event.is_action_pressed("gui_cancel"):
 		if get_focus_owner() == self:
 			release_focus()
 	

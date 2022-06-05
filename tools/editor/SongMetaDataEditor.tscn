@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://tools/editor/ChartDiffEditor.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/SongMetadataEditor.gd" type="Script" id=2]
@@ -9,11 +9,14 @@
 [ext_resource path="res://tools/editor/HBEditorTextEdit.gd" type="Script" id=7]
 [ext_resource path="res://tools/editor/SkinPicker.tscn" type="PackedScene" id=8]
 
+[sub_resource type="StyleBoxEmpty" id=1]
+
 [node name="SongMetaEditor" type="Panel"]
 margin_left = 634.0
 margin_right = 1260.0
 margin_bottom = 700.0
 size_flags_horizontal = 3
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
@@ -21,9 +24,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.12246
 margin_bottom = -1.12244
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Metadata" type="ScrollContainer" parent="TabContainer"]
 anchor_right = 1.0
@@ -36,6 +36,7 @@ margin_bottom = -4.0
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Metadata"]
 margin_right = 618.0
 margin_bottom = 664.0
+rect_min_size = Vector2( 280, 664 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 15
@@ -46,7 +47,6 @@ margin_left = 15.0
 margin_right = 603.0
 margin_bottom = 664.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -162,30 +162,24 @@ text = "Vocals (separated by newline)"
 [node name="SongVocals" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
 margin_top = 270.0
 margin_right = 588.0
-margin_bottom = 357.0
+margin_bottom = 363.0
 size_flags_vertical = 3
 
 [node name="Label8" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 361.0
+margin_top = 367.0
 margin_right = 588.0
-margin_bottom = 375.0
-text = "Composers"
+margin_bottom = 381.0
+text = "Composers (separated by newline)"
 
 [node name="SongComposers" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 379.0
+margin_top = 385.0
 margin_right = 588.0
-margin_bottom = 466.0
+margin_bottom = 478.0
 size_flags_vertical = 3
 script = ExtResource( 7 )
 
-[node name="Label3" type="Label" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 470.0
-margin_right = 588.0
-margin_bottom = 484.0
-text = "Writers"
-
 [node name="SongWriters" type="TextEdit" parent="TabContainer/Metadata/MarginContainer/VBoxContainer"]
-margin_top = 488.0
+margin_top = 482.0
 margin_right = 588.0
 margin_bottom = 576.0
 size_flags_vertical = 3
@@ -714,7 +708,7 @@ icon = ExtResource( 4 )
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
@@ -724,7 +718,7 @@ show_hidden_files = true
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ogg; OGG" )
@@ -734,7 +728,7 @@ show_hidden_files = true
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
@@ -744,7 +738,7 @@ show_hidden_files = true
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
@@ -754,7 +748,7 @@ show_hidden_files = true
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
@@ -764,7 +758,7 @@ show_hidden_files = true
 margin_right = 535.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Abrir un Archivo"
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
@@ -829,6 +823,7 @@ valign = 1
 
 [node name="SkinPicker" parent="." instance=ExtResource( 8 )]
 unique_name_in_owner = true
+rect_min_size = Vector2( 150, 52.5 )
 
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton" to="AudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
 [connection signal="pressed" from="TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton" to="VoiceAudioFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
