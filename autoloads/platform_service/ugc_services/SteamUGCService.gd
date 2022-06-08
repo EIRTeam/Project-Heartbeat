@@ -65,6 +65,7 @@ func _reload_ugc_item_added_dates():
 
 func reload_ugc_songs():
 	var atlas_rebuild_needed = false
+	var skin_reload_needed = false
 	for item_id in Steam.getSubscribedItems():
 		var state = Steam.getItemState(item_id)
 		if state & UGC_STATES.DOWNLOADING:
@@ -79,9 +80,13 @@ func reload_ugc_songs():
 				var ugc_n = "ugc_%s" % [str(item_id)]
 				if ugc_n == UserSettings.user_settings.resource_pack:
 					atlas_rebuild_needed = true
+				if ugc_n == UserSettings.user_settings.ui_skin:
+					skin_reload_needed = true
 	_reload_ugc_item_added_dates()
 	if atlas_rebuild_needed:
 		ResourcePackLoader.rebuild_final_atlases()
+	if skin_reload_needed:
+		ResourcePackLoader.reload_skin()
 
 func _track_item_download(item_id):
 	var notification = DOWNLOAD_PROGRESS_THING.instance()
