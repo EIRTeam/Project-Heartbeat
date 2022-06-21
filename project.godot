@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/widgets/AxisGizmoArrow.gd"
 }, {
+"base": "Container",
+"class": "HBEditorButton",
+"language": "GDScript",
+"path": "res://menus/HBEditorButton.gd"
+}, {
 "base": "PopupMenu",
 "class": "HBEditorContextualMenuControl",
 "language": "GDScript",
@@ -859,6 +864,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://menus/workshop_browser/WorkshopPreviewData.gd"
 }, {
+"base": "HBoxContainer",
+"class": "HBoxRatioContainer",
+"language": "GDScript",
+"path": "res://menus/HBoxRatioContainer.gd"
+}, {
 "base": "HBGameInputManager",
 "class": "HeartbeatInputManager",
 "language": "GDScript",
@@ -1095,6 +1105,7 @@ _global_script_class_icons={
 "HBEditor": "",
 "HBEditorArrangeMenu": "",
 "HBEditorAxisGizmoArrow": "",
+"HBEditorButton": "",
 "HBEditorContextualMenuControl": "",
 "HBEditorLineEdit": "",
 "HBEditorModule": "",
@@ -1230,6 +1241,7 @@ _global_script_class_icons={
 "HBWorkshopBrowser": "",
 "HBWorkshopBrowserQuery": "",
 "HBWorkshopPreviewData": "",
+"HBoxRatioContainer": "",
 "HeartbeatInputManager": "",
 "InputEventHB": "",
 "InputEventSwipe": "",
