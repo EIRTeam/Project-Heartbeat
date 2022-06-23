@@ -52,6 +52,9 @@ onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSpl
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
 onready var song_settings_editor = get_node("EditorGlobalSettings").song_settings_tab
+onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
+onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
+onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
 
 const LOG_NAME = "HBEditor"
 
@@ -232,6 +235,10 @@ func _ready():
 	game_preview.connect("preview_size_changed", self, "_on_preview_size_changed")
 	
 	load_modules()
+	
+	botton_panel_vbox_container.split_offset = UserSettings.user_settings.editor_bottom_panel_offset
+	left_panel_vbox_container.split_offset = UserSettings.user_settings.editor_left_panel_offset
+	right_panel_vbox_container.split_offset = UserSettings.user_settings.editor_right_panel_offset
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -1716,11 +1723,22 @@ func _on_HoldCalculatorCheckBox_toggled(button_pressed):
 			item.update()
 
 
-func _on_parent_HSplitContainer_dragged(offset):
-	if offset < -320:
-		toolbox_tab_container.mouse_filter = MOUSE_FILTER_IGNORE
+func _on_left_HSplitContainer_dragged(offset: int):
+	if offset < 20:
+		toolbox_tab_container.visible = false
 	else:
-		toolbox_tab_container.mouse_filter = MOUSE_FILTER_STOP
+		toolbox_tab_container.visible = true
+	
+	UserSettings.user_settings.editor_left_panel_offset = offset
+	UserSettings.save_user_settings()
+
+func _on_right_HSplitContainer_dragged(offset: int):
+	UserSettings.user_settings.editor_right_panel_offset = offset
+	UserSettings.save_user_settings()
+
+func _on_VSplitContainer_dragged(offset: int):
+	UserSettings.user_settings.editor_bottom_panel_offset = offset
+	UserSettings.save_user_settings()
 
 
 func _on_PlaybackSpeedSlider_value_changed(value):

@@ -193,6 +193,10 @@ var editor_secondary_grid_width := 1.0
 var editor_multinote_cross_color := Color.white
 var editor_multinote_cross_width := 1.0
 
+var editor_bottom_panel_offset := 0
+var editor_left_panel_offset := 320
+var editor_right_panel_offset := -250
+
 var last_graphics_dir := ProjectSettings.globalize_path("user://")
 var last_audio_dir := ProjectSettings.globalize_path("user://")
 var last_switch_export_dir := ProjectSettings.globalize_path("user://")
@@ -229,7 +233,8 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads"]
+	"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads",
+	"editor_bottom_panel_offset", "editor_left_panel_offset", "editor_right_panel_offset"]
 	
 	merge_dict_fields += [
 		"custom_sounds",

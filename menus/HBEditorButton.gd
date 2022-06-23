@@ -43,6 +43,8 @@ func set_text(new_text):
 	
 	rect_min_size.x = label.rect_min_size.x
 	rect_min_size.y = label.rect_min_size.x + label.rect_min_size.y
+	
+	queue_sort()
 
 func set_texture(new_texture):
 	texture = new_texture

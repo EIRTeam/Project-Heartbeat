@@ -348,11 +348,11 @@ size_flags_vertical = 3
 margin_right = 1920.0
 margin_bottom = 680.0
 size_flags_vertical = 3
+split_offset = 320
 
 [node name="Control" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer"]
-margin_right = 439.0
+margin_right = 320.0
 margin_bottom = 680.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
@@ -370,7 +370,7 @@ tab_align = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 37.0
+margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -389,12 +389,12 @@ __meta__ = {
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 419.0
-margin_bottom = 628.0
+margin_right = 300.0
+margin_bottom = 633.0
 
 [node name="SyncButtonContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool/ScrollContainer"]
-margin_right = 409.0
-margin_bottom = 618.0
+margin_right = 290.0
+margin_bottom = 623.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -421,11 +421,11 @@ __meta__ = {
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 424.0
+margin_right = 305.0
 margin_bottom = 633.0
 
 [node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer"]
-margin_right = 414.0
+margin_right = 295.0
 margin_bottom = 623.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -436,13 +436,14 @@ margin_right = 0.0
 margin_bottom = -1.0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer"]
-margin_left = 447.0
+margin_left = 328.0
 margin_right = 1920.0
 margin_bottom = 680.0
 size_flags_horizontal = 3
+split_offset = -250
 
 [node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer"]
-margin_right = 1129.0
+margin_right = 1334.0
 margin_bottom = 680.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -627,10 +628,9 @@ __meta__ = {
 font = SubResource( 11 )
 
 [node name="Control2" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer"]
-margin_left = 1137.0
-margin_right = 1473.0
+margin_left = 1342.0
+margin_right = 1592.0
 margin_bottom = 680.0
-size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2"]
@@ -659,7 +659,6 @@ self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 688.0
 margin_right = 1920.0
 margin_bottom = 1026.0
-rect_min_size = Vector2( 0, 150 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 __meta__ = {
@@ -669,24 +668,20 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer" instance=ExtResource( 14 )]
 self_modulate = Color( 1, 1, 1, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1920.0
-margin_bottom = 309.0
+margin_bottom = 334.0
 rect_min_size = Vector2( 0, 0 )
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer"]
-margin_top = 313.0
+margin_top = 338.0
 margin_right = 1920.0
 margin_bottom = 338.0
-rect_min_size = Vector2( 0, 25 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel"]
 anchor_right = 1.0
@@ -899,7 +894,9 @@ margin_bottom = 412.0
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SyncToolboxButton" to="SyncToolboxDialog" method="_popup"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
-[connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer" to="." method="_on_parent_HSplitContainer_dragged"]
+[connection signal="dragged" from="VBoxContainer/VSplitContainer" to="." method="_on_VSplitContainer_dragged"]
+[connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer" to="." method="_on_left_HSplitContainer_dragged"]
+[connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer" to="." method="_on_right_HSplitContainer_dragged"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
