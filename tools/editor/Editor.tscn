@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
@@ -27,7 +27,6 @@
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=36]
 [ext_resource path="res://tools/icons/VideoPlayer.svg" type="Texture" id=37]
 [ext_resource path="res://tools/editor/UIFade.tscn" type="PackedScene" id=38]
-[ext_resource path="res://tools/editor/sync_presets_tool/SyncPresetsTool.gd" type="Script" id=39]
 [ext_resource path="res://tools/editor/transformation_display/TransformationDisplay.tscn" type="PackedScene" id=40]
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=42]
 [ext_resource path="res://tools/editor/MessageShower.gd" type="Script" id=43]
@@ -366,44 +365,11 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
 
-[node name="Presets" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-
-[node name="SyncPresetsTool" type="MarginContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-script = ExtResource( 39 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 300.0
-margin_bottom = 633.0
-
-[node name="SyncButtonContainer" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool/ScrollContainer"]
-margin_right = 290.0
-margin_bottom = 623.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="Tools" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 32.0
+margin_top = 37.0
 margin_right = -5.0
 margin_bottom = -5.0
 
@@ -422,11 +388,11 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 305.0
-margin_bottom = 633.0
+margin_bottom = 628.0
 
 [node name="PluginButtonsVBox" type="VBoxContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer"]
 margin_right = 295.0
-margin_bottom = 623.0
+margin_bottom = 618.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -900,8 +866,8 @@ margin_bottom = 412.0
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]

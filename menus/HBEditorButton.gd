@@ -5,26 +5,38 @@ class_name HBEditorButton
 
 var button: Button
 var label: Label
+var module: HBEditorModule setget set_module
 
-export var text: String = "" setget set_text
-export var tooltip: String = ""
+export(String, MULTILINE) var text setget set_text
+export(String, MULTILINE) var tooltip setget set_tooltip
 export var texture: StreamTexture setget set_texture
+
+export(String, "transform", "function") var button_mode = "transform"
+export(int) var transform_id = 0
+export(String) var function_name = ""
+export(Array) var params
+
+export(String) var action = ""
+export(bool) var echo_action = false
 
 func _init():
 	button = Button.new()
 	button.icon = texture
-	button.hint_tooltip = tooltip
+	button.icon_align = Button.ALIGN_CENTER
 	button.expand_icon = true
 	
 	label = Label.new()
 	label.text = text
+	label.align = Label.ALIGN_CENTER
+	label.valign = Label.VALIGN_CENTER
 	rect_min_size.x = label.rect_min_size.x
 	rect_min_size.y = label.rect_min_size.x + label.rect_min_size.y
 	
 	add_child(button)
 	add_child(label)
-	
-	queue_sort()
+
+func _ready():
+	button.hint_tooltip = tooltip
 
 func _notification(what):
 	if what == NOTIFICATION_SORT_CHILDREN:
@@ -43,9 +55,31 @@ func set_text(new_text):
 	
 	rect_min_size.x = label.rect_min_size.x
 	rect_min_size.y = label.rect_min_size.x + label.rect_min_size.y
+
+func set_tooltip(new_tooltip):
+	button.hint_tooltip = tooltip
 	
-	queue_sort()
+	tooltip = new_tooltip
 
 func set_texture(new_texture):
 	texture = new_texture
 	button.icon = new_texture
+
+func set_module(_module):
+	module = _module
+	
+	if button_mode == "transform":
+		button.connect("pressed", module, "apply_transform", [transform_id])
+		button.connect("mouse_entered", module, "show_transform", [transform_id])
+		button.connect("mouse_exited", module, "hide_transform")
+		
+		if action:
+			module.add_shortcut(action, "apply_transform", [transform_id], echo_action)
+	if button_mode == "function":
+		button.connect("pressed", module, function_name, params)
+		
+		if action:
+			module.add_shortcut(action, function_name, params, echo_action)
+
+func update_shortcut(event_text: String):
+	button.hint_tooltip = tooltip + "\nShortcut: " + event_text

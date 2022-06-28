@@ -30,6 +30,9 @@ class FlipHorizontallyTransformation:
 		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT: HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,
 	}
 	
+	func _init(_local: bool = false):
+		local = _local
+	
 	func _sort_by_x_pos(a: HBBaseNote, b: HBBaseNote):
 		return a.position.x > b.position.x
 	
@@ -84,6 +87,9 @@ class FlipVerticallyTransformation:
 	extends EditorTransformation
 	
 	var local := false
+	
+	func _init(_local: bool = false):
+		local = _local
 	
 	func _sort_by_y_pos(a: HBBaseNote, b: HBBaseNote):
 		return a.position.y > b.position.y
@@ -163,19 +169,23 @@ class RotateTransformation:
 class IncrementAnglesTransform:
 	extends EditorTransformation
 	
-	var timing_interval: float
-	
 	var backwards: bool
 	var invert: bool
 	
 	var straight_increment: int
 	var diagonal_increment: int
 	
+	func _init(_backwards: bool = false, _invert: bool = false):
+		backwards = _backwards
+		invert = _invert
+	
 	func _sort_by_time(a: HBBaseNote, b: HBBaseNote):
 		return a.time < b.time
 	
 	func get_beat_diff(a: HBBaseNote, b: HBBaseNote):
 		var time_diff = a.time - b.time
+		var timing_interval = editor.get_timing_interval(1.0/16.0) * 2
+		
 		return round(float(time_diff) / float(timing_interval))
 	
 	func transform_notes(notes: Array):
@@ -307,7 +317,7 @@ class MakeCircleTransform:
 	var entry_angle_offset := 0.0
 	var start_note := 0 setget set_start_note
 	# -1 for outside, 1 for inside
-	var inside = -1
+	var inside = -1 setget set_inside
 	
 	func set_separation(val):
 		separation = val
@@ -326,8 +336,15 @@ class MakeCircleTransform:
 			entry_angle_offset = 0
 			inside = -1
 	
-	func _init(_direction: int):
+	func _init(_direction: int, _inside: bool = false):
 		direction = _direction
+		
+		if _inside:
+			entry_angle_offset = 0.5 * TAU
+			inside = 1
+		else:
+			entry_angle_offset = 0
+			inside = -1
 	
 	# Revolutions to degrees
 	func rev2deg(revs):
@@ -360,7 +377,7 @@ class MakeCircleTransform:
 		
 		var angle_offset = (start_rev + 0.75) * TAU
 		var beats_per_circle = ceil(eigths_per_circle / 2.0)
-		var ms_per_beat = 60 * 1000 / bpm
+		var ms_per_beat = 60 * 1000 / editor.get_bpm()
 		
 		for n in notes:
 			# Beat of the current note
@@ -387,36 +404,503 @@ class MakeCircleTransform:
 				"entry_angle": fmod(entry_angle, 360),
 				"oscillation_frequency": abs(n.oscillation_frequency) * direction * inside
 			}
-
+		
 		return transformation_result
 
-func make_button(button_text, transformation: EditorTransformation, disable_pressed = false) -> Button:
-	var button = Button.new()
-	button.text = button_text
-	button.connect("mouse_entered", self, "_show_transform", [transformation])
-	button.connect("mouse_exited", self, "hide_transform")
-	if not disable_pressed:
-		button.connect("pressed", self, "apply_transform", [transformation])
-	return button
+class MultiPresetTemplate:
+	extends EditorTransformation
 	
-func apply_transform(transformation):
-	emit_signal("apply_transform", transformation)
+	var direction = 1
 	
-func hide_transform():
-	emit_signal("hide_transform")
+	func _init(dir):
+		direction = dir
 	
-func add_button_row(button, button2):
-	var hbox_container = HBoxContainer.new()
-	button.size_flags_horizontal = SIZE_EXPAND_FILL
-	button2.size_flags_horizontal = SIZE_EXPAND_FILL
-	hbox_container.add_child(button)
-	hbox_container.add_child(button2)
-	button_container.add_child(hbox_container)
+	func get_notes_at_time(t: int):
+		var points = editor.get_notes_at_time(t)
+		var result = []
+		
+		for point in points:
+			if point is HBBaseNote:
+				result.append(point)
+		
+		return result
+	
+	static func sort_by_note_type(a, b):
+		return a.note_type < b.note_type
+	
+	func check_note_is_valid(n):
+		pass
+	
+	func process_type(n, notes):
+		pass
+	
+	func process_position(n, type, notes):
+		var pos = notes[0].position as Vector2
+		pos.x = 240 + 480 * type
+		
+		return pos
+	
+	func modify_angle(a):
+		if direction == 1:
+			return -a
+		else:
+			return a
+	
+	func process_angle(n, type, notes_at_time):
+		var angle: float
+			
+		if notes_at_time.size() == 2:
+			var index = notes_at_time.find(n)
+			
+			angle = 110.0 if index == 0 else 70.0
+		else:
+			angle = 110.0 if type < 2 else 70.0
+		
+		return angle
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		notes.sort_custom(self, "sort_by_note_type")
+		
+		for n in notes:
+			if not check_note_is_valid(n):
+				continue
+			
+			var notes_at_time = get_notes_at_time(n.time)
+			notes_at_time.sort_custom(self, "sort_by_note_type")
+			
+			if notes_at_time.size() == 1:
+				continue
+			
+			var type = process_type(n, notes)
+			
+			var pos = process_position(n, type, notes_at_time)
+			
+			var angle = process_angle(n, type, notes_at_time)
+			
+			angle = modify_angle(angle)
+			
+			transformation_result[n] = {
+				"position": pos,
+				"entry_angle": angle,
+				"oscillation_frequency": 0.0,
+				"distance": 880
+			}
+		
+		return transformation_result
 
-func _ready():
-	pass
+class VerticalMultiPreset:
+	extends MultiPresetTemplate
+	
+	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+	
+	func _init(dir).(dir):
+		pass
+	
+	func check_note_is_valid(n):
+		return n.note_type in note_map
+	
+	func process_type(n, notes):
+		var pos = Vector2(n.position.x, notes[0].position.y)
+		var relative_type = n.note_type - notes[0].note_type
+		
+		return relative_type
+	
+	func process_position(n, type, notes):
+		var pos = Vector2(notes[0].position.x, notes[0].position.y)
+		pos.y += 96 * type
+		
+		return pos
+	
+	func process_angle(n, type, notes_at_time):
+		var angle: float
+			
+		if notes_at_time.size() == 2:
+			var index = notes_at_time.find(n)
+			
+			angle = -45.0 if index == 0 else 45.0
+		else:
+			angle = -45.0 if type < 2 else 45.0
+		
+		return angle
+	
+	func modify_angle(a):
+		if self.direction == -1:
+			a = fmod((-a + 180.0), 360.0)
+		
+		return a
 
-func _show_transform(transform: EditorTransformation):
-	transform.use_stage_center = use_stage_center
-	transform.bpm = editor.get_bpm()
-	emit_signal("show_transform", transform)
+class HorizontalMultiPreset:
+	extends MultiPresetTemplate
+	
+	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+	
+	func _init(dir).(dir):
+		pass
+	
+	func check_note_is_valid(n):
+		return n.note_type in note_map
+	
+	func process_type(n, notes):
+		return note_map.find(n.note_type)
+
+class SliderMultiPreset:
+	extends MultiPresetTemplate
+	
+	# Dont ask
+	var note_map_normal = [0, 1, 3, 2]
+	var note_map_inner = [3, 2, 0, 1]
+	var note_map
+	var inner = 0
+	
+	func _init(dir, inr).(dir):
+		inner = inr
+		note_map = note_map_inner if inner else note_map_normal
+	
+	func check_note_is_valid(n):
+		return n.is_slide_note()
+	
+	func process_type(n, notes):
+		var point
+		for p in editor.selected:
+			if p.data == n:
+				point = p
+				break
+		
+		var layer = 1 if "2" in point._layer.layer_name else 0
+		
+		var type = (n.note_type - 4) * 2
+		type += layer
+		
+		var index = note_map.find(type)
+		
+		return index
+	
+	func process_angle(n, type, notes_at_time):
+		return 110.0 if type < 2 else 70.0
+	
+	func modify_angle(a):
+		if direction == 1:
+			a = -a
+		
+		if inner:
+			return a
+		else:
+			return fmod((-a + 180), 360)
+
+class QuadPreset:
+	extends EditorTransformation
+	
+	var inside := false
+	
+	func _init(_inside: bool = false):
+		inside = _inside
+	
+	static func sort_by_center_distance(a, b):
+		return a.position.distance_to(Vector2(960, 540)) > b.position.distance_to(Vector2(960, 540))
+	
+	func check_corner(note_type, position: Vector2):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return position.x < 960 and position.y < 540
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return position.x > 960 and position.y < 540
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return position.x < 960 and position.y > 540
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return position.x > 960 and position.y > 540
+		
+		return false
+	
+	func get_position(note_type, anchor: Vector2):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return anchor
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return Vector2(1920 - anchor.x, anchor.y)
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return Vector2(anchor.x, 1080 - anchor.y)
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return Vector2(1920, 1080) - anchor
+		
+		return null
+	
+	func get_anchor(note_type, position: Vector2):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return position
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return Vector2(1920 - position.x, position.y)
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return Vector2(position.x, 1080 - position.y)
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return Vector2(1920, 1080) - position
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		var note_groups = {}
+		for note in notes:
+			if not note_groups.has(note.time):
+				note_groups[note.time] = []
+			
+			if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				note_groups[note.time].append(note)
+		
+		for time in note_groups.keys():
+			var extended_group = []
+			
+			if note_groups[time].size() < 4:
+				for note in editor.get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+						extended_group.append(note)
+				
+				if extended_group.size() != 4:
+					continue
+			
+			note_groups[time].sort_custom(self, "sort_by_center_distance")
+			
+			var anchor := Vector2(240, 240)
+			for note in note_groups[time]:
+				if note.pos_modified and check_corner(note.note_type, note.position):
+					anchor = get_anchor(note.note_type, note.position)
+					break
+			
+			if extended_group:
+				note_groups[time] = extended_group
+			
+			for note in note_groups[time]:
+				var pos = get_position(note.note_type, anchor)
+				
+				var angle = 225 + 90 * note.note_type
+				if note.note_type in [HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.RIGHT]:
+					angle = 315 - 90 * note.note_type
+				
+				if inside:
+					angle += 180
+				
+				if pos:
+					transformation_result[note] = {
+						"position": pos,
+						"entry_angle": angle,
+						"oscillation_frequency": 0.0,
+						"distance": 1360 if inside else 880
+					}
+		
+		return transformation_result
+
+class SidewaysQuadPreset:
+	extends EditorTransformation
+	
+	func sort_by_distance(a, b):
+		return get_distance(a.note_type, a.position) > get_distance(b.note_type, b.position)
+	
+	func check_area(note_type, position: Vector2):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return position.y < 540
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return position.x < 960
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return position.y > 540
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return position.x > 960
+		
+		return false
+	
+	func get_distance(note_type, position: Vector2):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return 540 - position.y
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return 960 - position.x
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return position.y - 540
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return position.x - 960
+	
+	func get_position(note_type, distance: float):
+		if note_type == HBBaseNote.NOTE_TYPE.UP:
+			return Vector2(960, 540 - distance)
+		if note_type == HBBaseNote.NOTE_TYPE.LEFT:
+			return Vector2(960 - distance, 540)
+		if note_type == HBBaseNote.NOTE_TYPE.DOWN:
+			return Vector2(960, 540 + distance)
+		if note_type == HBBaseNote.NOTE_TYPE.RIGHT:
+			return Vector2(960 + distance, 540)
+		
+		return null
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		var note_groups = {}
+		for note in notes:
+			if not note_groups.has(note.time):
+				note_groups[note.time] = []
+			
+			if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				note_groups[note.time].append(note)
+		
+		for time in note_groups.keys():
+			var extended_group = []
+			
+			if note_groups[time].size() < 4:
+				for note in editor.get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+						extended_group.append(note)
+				
+				if extended_group.size() != 4:
+					continue
+			
+			note_groups[time].sort_custom(self, "sort_by_distance")
+			
+			var distance := 216.0
+			for note in note_groups[time]:
+				if note.pos_modified and check_area(note.note_type, note.position):
+					distance = get_distance(note.note_type, note.position)
+					break
+			
+			if extended_group:
+				note_groups[time] = extended_group
+			
+			for note in note_groups[time]:
+				var pos = get_position(note.note_type, distance)
+				
+				var angle = 90 * (note.note_type - 1)
+				if note.note_type in [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+					angle = 180 - angle
+				
+				if pos:
+					transformation_result[note] = {
+						"position": pos,
+						"entry_angle": angle,
+						"oscillation_frequency": 0.0,
+						"distance": 960
+					}
+		
+		return transformation_result
+
+
+class TrianglePreset:
+	extends EditorTransformation
+	
+	var inverted: bool
+	var left: bool  	# Ugly "global" var hack, beware future me 
+	
+	func _init(_inverted: bool = false):
+		inverted = _inverted
+	
+	func sort_by_distance(a, b):
+		return get_distance(a.note_type, a.position) > get_distance(b.note_type, b.position)
+	
+	func sort_by_note_type(a, b):
+		return a.note_type < b.note_type
+	
+	func check_area(note_type, position: Vector2):
+		var in_area: bool
+		var notes_bottom = [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN] if self.left else [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]
+		var notes_top = [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT] if self.left else [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN]
+		
+		if note_type in notes_bottom:
+			in_area = position.y > 540
+		elif note_type in notes_top:
+			in_area = position.y < 540
+		
+		if self.inverted:
+			in_area = not in_area
+		
+		return in_area
+	
+	func get_distance(note_type, position: Vector2):
+		var distance: int
+		var notes_bottom = [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN] if self.left else [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]
+		var notes_top = [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT] if self.left else [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN]
+		
+		if note_type in notes_bottom:
+			distance = (position.y - 540)
+		elif note_type in notes_top:
+			distance = (540 - position.y)
+		
+		if self.inverted:
+			distance = -distance
+		
+		return distance
+	
+	func get_position(note_type, distance: float):
+		var notes_bottom = [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN] if self.left else [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]
+		var notes_top = [HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT] if self.left else [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN]
+		var position = Vector2(240 + 480 * note_type, 0)
+		
+		if self.inverted:
+			distance = -distance
+		
+		if note_type in notes_bottom:
+			position.y = 540 + distance
+		elif note_type in notes_top:
+			position.y = 540 - distance
+		
+		return position
+	
+	func transform_notes(notes: Array):
+		var transformation_result = {}
+		
+		var note_groups = {}
+		for note in notes:
+			if not note_groups.has(note.time):
+				note_groups[note.time] = []
+			
+			if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				note_groups[note.time].append(note)
+		
+		for time in note_groups.keys():
+			var extended_group = []
+			
+			if note_groups[time].size() < 3:
+				for note in editor.get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+						extended_group.append(note)
+				
+				if extended_group.size() != 3:
+					continue
+			
+			var note_types := []
+			if extended_group:
+				for note in extended_group:
+					note_types.append(note.note_type)
+			else:
+				for note in note_groups[time]:
+					note_types.append(note.note_type)
+			
+			if HBBaseNote.NOTE_TYPE.UP in note_types and HBBaseNote.NOTE_TYPE.LEFT in note_types and HBBaseNote.NOTE_TYPE.DOWN in note_types:
+				self.left = true
+			else:
+				self.left = false
+			
+			note_groups[time].sort_custom(self, "sort_by_distance")
+			
+			var distance := 276.0
+			for note in note_groups[time]:
+				if note.pos_modified and check_area(note.note_type, note.position):
+					distance = get_distance(note.note_type, note.position)
+					break
+			
+			if extended_group:
+				note_groups[time] = extended_group
+			
+			note_groups[time].sort_custom(self, "sort_by_note_type")
+			
+			for i in range(note_groups[time].size()):
+				var note = note_groups[time][i] as HBBaseNote
+				
+				var pos = get_position(note.note_type, distance)
+				var angle = 135 * (i + 1)
+				
+				if inverted:
+					angle *= -1
+				
+				if pos:
+					transformation_result[note] = {
+						"position": pos,
+						"entry_angle": angle,
+						"oscillation_frequency": 0.0,
+						"distance": 880
+					}
+		
+		return transformation_result

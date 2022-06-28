@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/editor_modules/AnglesModule.gd" type="Script" id=2]
@@ -7,39 +7,34 @@
 [ext_resource path="res://graphics/icons/decrement-angles.png" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/increment-angles.png" type="Texture" id=6]
 [ext_resource path="res://graphics/icons/increment-angles-inverted.png" type="Texture" id=7]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=8]
-[ext_resource path="res://scripts/new_ui/HBUIFont.gd" type="Script" id=9]
+[ext_resource path="res://menus/HBEditorButton.gd" type="Script" id=8]
+[ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=9]
 [ext_resource path="res://graphics/icons/interpolate-angles.png" type="Texture" id=10]
 [ext_resource path="res://graphics/icons/flip-oscillations.png" type="Texture" id=11]
 [ext_resource path="res://graphics/icons/flip-angles.png" type="Texture" id=12]
 [ext_resource path="res://graphics/icons/interpolate-distances.png" type="Texture" id=13]
-
-[sub_resource type="DynamicFont" id=1]
-size = 12
-extra_spacing_bottom = -4
-font_data = ExtResource( 8 )
-script = ExtResource( 9 )
 
 [node name="EditorModule" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 module_location = "left_panel"
 module_name = "Edit angles"
 priority = 1
+button_group_name = "angle_buttons"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-margin_right = 1920.0
-margin_bottom = 316.0
+margin_right = 1908.0
+margin_bottom = 1130.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
-margin_right = 1920.0
+margin_right = 1908.0
 margin_bottom = 14.0
 text = "Increment angles..."
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
 margin_top = 18.0
-margin_right = 1920.0
+margin_right = 1908.0
 margin_bottom = 70.0
 alignment = 1
 
@@ -75,13 +70,13 @@ valign = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
 margin_left = 182.0
-margin_right = 1920.0
+margin_right = 1908.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 
 [node name="StraightIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
 unique_name_in_owner = true
-margin_right = 1738.0
+margin_right = 1726.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 90.0
@@ -92,7 +87,7 @@ script = ExtResource( 3 )
 [node name="DiagonalIncrementSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
 unique_name_in_owner = true
 margin_top = 28.0
-margin_right = 1738.0
+margin_right = 1726.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 max_value = 90.0
@@ -102,289 +97,183 @@ script = ExtResource( 3 )
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
 margin_top = 74.0
-margin_right = 1920.0
-margin_bottom = 189.0
+margin_right = 1908.0
+margin_bottom = 595.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
-margin_left = 814.0
-margin_right = 954.0
-margin_bottom = 115.0
+margin_right = 948.0
+margin_bottom = 521.0
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
-margin_right = 140.0
+margin_right = 948.0
 margin_bottom = 14.0
 text = "From first note"
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
 margin_top = 18.0
-margin_right = 140.0
-margin_bottom = 115.0
-size_flags_vertical = 3
+margin_right = 948.0
+margin_bottom = 521.0
+rect_min_size = Vector2( 96, 0 )
+script = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 68.0
-margin_bottom = 97.0
-alignment = 1
-
-[node name="AwayButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-unique_name_in_owner = true
-margin_right = 68.0
-margin_bottom = 62.0
-hint_tooltip = "Increment angles so that they are
-moving away from the first note."
-icon = ExtResource( 6 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-margin_top = 66.0
-margin_right = 68.0
-margin_bottom = 97.0
-size_flags_vertical = 6
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
+margin_right = 472.0
+margin_bottom = 503.0
+rect_min_size = Vector2( 46, 503 )
+size_flags_horizontal = 3
+script = ExtResource( 8 )
 text = "Moving
 away"
-align = 1
-valign = 1
+tooltip = "Increment angles so that they are
+moving away from the first note."
+texture = ExtResource( 6 )
+action = "editor_move_angles_away"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 72.0
-margin_right = 140.0
-margin_bottom = 97.0
-alignment = 1
-
-[node name="CloserButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2" index="0"]
-unique_name_in_owner = true
-margin_right = 68.0
-margin_bottom = 62.0
-hint_tooltip = "Increment angles so that they are
-moving towards the first note."
-size_flags_horizontal = 0
-icon = ExtResource( 5 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2" index="1"]
-margin_top = 66.0
-margin_right = 68.0
-margin_bottom = 97.0
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
+margin_left = 476.0
+margin_right = 948.0
+margin_bottom = 503.0
+rect_min_size = Vector2( 46, 503 )
+size_flags_horizontal = 3
+script = ExtResource( 8 )
 text = "Moving
 closer"
-align = 1
+tooltip = "Increment angles so that they are
+moving towards the first note."
+texture = ExtResource( 5 )
+transform_id = 1
+action = "editor_move_angles_closer"
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
-margin_left = 958.0
-margin_right = 962.0
-margin_bottom = 115.0
+margin_left = 952.0
+margin_right = 956.0
+margin_bottom = 521.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
-margin_left = 966.0
-margin_right = 1106.0
-margin_bottom = 115.0
+margin_left = 960.0
+margin_right = 1908.0
+margin_bottom = 521.0
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0"]
-margin_right = 140.0
+margin_right = 948.0
 margin_bottom = 14.0
 text = "From last note"
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
 margin_top = 18.0
-margin_right = 140.0
-margin_bottom = 115.0
-size_flags_vertical = 3
+margin_right = 948.0
+margin_bottom = 521.0
+rect_min_size = Vector2( 96, 0 )
+size_flags_horizontal = 3
+script = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer" index="0"]
-margin_right = 68.0
-margin_bottom = 97.0
-alignment = 1
-
-[node name="AwayBackButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer" index="0"]
-unique_name_in_owner = true
-margin_right = 68.0
-margin_bottom = 62.0
-hint_tooltip = "Increment angles so that they are
-moving away from the last note."
-size_flags_horizontal = 0
-icon = ExtResource( 7 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer" index="1"]
-margin_top = 66.0
-margin_right = 68.0
-margin_bottom = 97.0
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
+margin_right = 472.0
+margin_bottom = 503.0
+rect_min_size = Vector2( 46, 503 )
+size_flags_horizontal = 3
+script = ExtResource( 8 )
 text = "Moving
 away"
-align = 1
+tooltip = "Increment angles so that they are
+moving away from the last note."
+texture = ExtResource( 7 )
+transform_id = 2
+action = "editor_move_angles_away_back"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer" index="1"]
-margin_left = 72.0
-margin_right = 140.0
-margin_bottom = 97.0
-alignment = 1
-
-[node name="CloserBackButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2" index="0"]
-unique_name_in_owner = true
-margin_right = 68.0
-margin_bottom = 62.0
-hint_tooltip = "Increment angles so that they are
-moving towards the last note."
-icon = ExtResource( 4 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2" index="1"]
-margin_top = 66.0
-margin_right = 68.0
-margin_bottom = 97.0
-size_flags_vertical = 6
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
+margin_left = 476.0
+margin_right = 948.0
+margin_bottom = 503.0
+rect_min_size = Vector2( 46, 503 )
+size_flags_horizontal = 3
+script = ExtResource( 8 )
 text = "Moving
 closer"
-align = 1
+tooltip = "Increment angles so that they are
+moving towards the last note."
+texture = ExtResource( 4 )
+transform_id = 3
+action = "editor_move_angles_closer_back"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
-margin_top = 193.0
-margin_right = 1920.0
-margin_bottom = 197.0
+margin_top = 599.0
+margin_right = 1908.0
+margin_bottom = 603.0
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
-margin_top = 201.0
-margin_right = 1920.0
-margin_bottom = 215.0
+margin_top = 607.0
+margin_right = 1908.0
+margin_bottom = 621.0
 text = "Modify angles..."
 align = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
-margin_top = 219.0
-margin_right = 1920.0
-margin_bottom = 316.0
+[node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
+margin_top = 625.0
+margin_right = 1908.0
+margin_bottom = 1130.0
+rect_min_size = Vector2( 304, 0 )
+script = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="0"]
-margin_right = 477.0
-margin_bottom = 97.0
+[node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
+margin_right = 474.0
+margin_bottom = 505.0
+rect_min_size = Vector2( 71, 505 )
 size_flags_horizontal = 3
-alignment = 1
-
-[node name="InterpolateAnglesButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="0"]
-unique_name_in_owner = true
-margin_left = 204.0
-margin_right = 272.0
-margin_bottom = 62.0
-hint_tooltip = "Mirror notes vertically across
-the center of the screen."
-size_flags_horizontal = 4
-icon = ExtResource( 10 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer" index="1"]
-margin_top = 66.0
-margin_right = 477.0
-margin_bottom = 97.0
-custom_fonts/font = SubResource( 1 )
+script = ExtResource( 8 )
 text = "Interpolate
 angles"
-align = 1
+tooltip = "Create a smooth transition from one
+angle to another."
+texture = ExtResource( 10 )
+transform_id = 4
+action = "editor_interpolate_angle"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="1"]
-margin_left = 481.0
-margin_right = 958.0
-margin_bottom = 97.0
+[node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
+margin_left = 478.0
+margin_right = 952.0
+margin_bottom = 505.0
+rect_min_size = Vector2( 71, 505 )
 size_flags_horizontal = 3
-alignment = 1
-
-[node name="InterpolateDistancesButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="0"]
-unique_name_in_owner = true
-margin_left = 204.0
-margin_right = 272.0
-margin_bottom = 62.0
-hint_tooltip = "Mirror notes horizontally across
-the center of the screen."
-size_flags_horizontal = 4
-icon = ExtResource( 13 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2" index="1"]
-margin_top = 66.0
-margin_right = 477.0
-margin_bottom = 97.0
-custom_fonts/font = SubResource( 1 )
+script = ExtResource( 8 )
 text = "Interpolate
 distances"
-align = 1
+tooltip = "Create a smooth transition from one
+distance to another."
+texture = ExtResource( 13 )
+transform_id = 5
+action = "editor_interpolate_distance"
+echo_action = true
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="2"]
-margin_left = 962.0
-margin_right = 1439.0
-margin_bottom = 97.0
+[node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["angle_buttons"]]
+margin_left = 956.0
+margin_right = 1430.0
+margin_bottom = 505.0
+rect_min_size = Vector2( 73, 505 )
 size_flags_horizontal = 3
-alignment = 1
-
-[node name="FlipOscillationsButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3" index="0"]
-unique_name_in_owner = true
-margin_left = 204.0
-margin_right = 272.0
-margin_bottom = 62.0
-hint_tooltip = "Flip notes vertically across their
-center."
-size_flags_horizontal = 4
-icon = ExtResource( 11 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3" index="1"]
-margin_top = 66.0
-margin_right = 477.0
-margin_bottom = 97.0
-custom_fonts/font = SubResource( 1 )
+script = ExtResource( 8 )
 text = "Flip
 oscillations"
-align = 1
+tooltip = "Flip the oscillations."
+texture = ExtResource( 11 )
+transform_id = 6
+action = "editor_flip_oscillation"
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4" index="3"]
-margin_left = 1443.0
-margin_right = 1920.0
-margin_bottom = 97.0
+[node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["angle_buttons"]]
+margin_left = 1434.0
+margin_right = 1908.0
+margin_bottom = 505.0
+rect_min_size = Vector2( 41, 505 )
 size_flags_horizontal = 3
-alignment = 1
-
-[node name="FlipAnglesButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4" index="0"]
-unique_name_in_owner = true
-margin_left = 204.0
-margin_right = 272.0
-margin_bottom = 62.0
-hint_tooltip = "Flip notes horizontally across
-their center."
-size_flags_horizontal = 4
-icon = ExtResource( 12 )
-icon_align = 1
-
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4" index="1"]
-margin_top = 66.0
-margin_right = 477.0
-margin_bottom = 97.0
-custom_fonts/font = SubResource( 1 )
+script = ExtResource( 8 )
 text = "Flip
 angles"
-align = 1
-
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/AwayButton" to="." method="show_arrange_angles" binds= [ false ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/AwayButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/AwayButton" to="." method="arrange_angles"]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/CloserButton" to="." method="show_arrange_angles" binds= [ true ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/CloserButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/CloserButton" to="." method="arrange_angles" binds= [ true ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/AwayBackButton" to="." method="show_arrange_angles" binds= [ true, true ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/AwayBackButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/AwayBackButton" to="." method="arrange_angles" binds= [ true, true ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/CloserBackButton" to="." method="show_arrange_angles" binds= [ false, true ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/CloserBackButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/CloserBackButton" to="." method="arrange_angles" binds= [ false, true ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/InterpolateAnglesButton" to="." method="show_angle_transform" binds= [ 0 ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/InterpolateAnglesButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/InterpolateAnglesButton" to="." method="apply_angle_transform" binds= [ 0 ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/InterpolateDistancesButton" to="." method="show_angle_transform" binds= [ 1 ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/InterpolateDistancesButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/InterpolateDistancesButton" to="." method="apply_angle_transform" binds= [ 1 ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/FlipOscillationsButton" to="." method="show_angle_transform" binds= [ 2 ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/FlipOscillationsButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/FlipOscillationsButton" to="." method="apply_angle_transform" binds= [ 2 ]]
-[connection signal="mouse_entered" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/FlipAnglesButton" to="." method="show_angle_transform" binds= [ 3 ]]
-[connection signal="mouse_exited" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/FlipAnglesButton" to="." method="hide_transform"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/FlipAnglesButton" to="." method="apply_angle_transform" binds= [ 3 ]]
+tooltip = "Flip the angles."
+texture = ExtResource( 12 )
+transform_id = 7
+action = "editor_flip_angle"

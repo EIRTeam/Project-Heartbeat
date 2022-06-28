@@ -7,10 +7,9 @@ onready var phrase_end_button = get_node("MarginContainer/ScrollContainer/VBoxCo
 onready var lyric_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Button")
 
 func _ready():
-	add_shortcut("editor_quick_phrase_start", "create_phrase_start", phrase_start_button)
-	add_shortcut("editor_quick_phrase_end", "create_phrase_end", phrase_end_button)
-	add_shortcut("editor_quick_lyric", "popup_lyric_dialog", lyric_button)
-	update_shortcuts()
+	add_shortcut("editor_quick_phrase_start", "create_phrase_start")
+	add_shortcut("editor_quick_phrase_end", "create_phrase_end")
+	add_shortcut("editor_quick_lyric", "popup_lyric_dialog")
 
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint

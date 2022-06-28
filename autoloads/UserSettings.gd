@@ -270,13 +270,11 @@ func fill_localized_arrays():
 		"editor_vertical_multi_right": tr("Vertical multi right"),
 		"editor_horizontal_multi_top": tr("Vertical multi top"),
 		"editor_horizontal_multi_bottom": tr("Vertical multi bottom"),
-		"editor_slider_multi_top": tr("Slider multi top"),
-		"editor_slider_multi_bottom": tr("Slider multi bottom"),
-		"editor_inner_slider_multi_top": tr("Inner slider multi top"),
-		"editor_inner_slider_multi_bottom": tr("Inner slider multi bottom"),
 		"editor_quad": tr("Quad"),
-		"editor_triangle_left": tr("Triangle left"),
-		"editor_triangle_right": tr("Triangle right"),
+		"editor_inside_quad": tr("Quad (Inside)"),
+		"editor_sideways_quad": tr("Sideways quad"),
+		"editor_triangle": tr("Triangle"),
+		"editor_triangle_inverted": tr("Inverted triangle"),
 	}
 	
 	ACTION_CATEGORIES = {

@@ -112,7 +112,7 @@ func get_inspector_properties():
 	}
 
 func _init():
-	serializable_fields += ["position", "distance", "auto_time_out", "time_out",
+	serializable_fields += ["position", "pos_modified", "distance", "auto_time_out", "time_out",
 	"note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
 
 func get_score(rating):

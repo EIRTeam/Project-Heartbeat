@@ -1,9 +1,5 @@
 extends HBEditorModule
 
-signal show_transform(transformation)
-signal hide_transform()
-signal apply_transform(transformation)
-
 onready var arrange_menu := get_node("ArrangeMenu")
 onready var arrange_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBEditorSpinBox")
 onready var reverse_arrange_checkbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
@@ -31,51 +27,44 @@ var autoarrange_shortcuts = [
 	"editor_arrange_ur",
 ]
 
-var cw_circle_transform := HBEditorTransforms.MakeCircleTransform.new(1)
-var ccw_circle_transform := HBEditorTransforms.MakeCircleTransform.new(-1)
 var size_testing_circle_transform := HBEditorTransforms.MakeCircleTransform.new(1)
 
-var flip_h_transform := HBEditorTransforms.FlipHorizontallyTransformation.new()
-var flip_v_transform := HBEditorTransforms.FlipVerticallyTransformation.new()
-
-var rotate_center_transform := HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER)
-var rotate_left_transform := HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_LEFT)
-var rotate_right_transform := HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_RIGHT)
-var rotate_absolute_transform := HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_ABSOLUTE)
-
-
 func _ready():
+	transforms = [
+		HBEditorTransforms.MakeCircleTransform.new(1),
+		HBEditorTransforms.MakeCircleTransform.new(-1),
+		HBEditorTransforms.MakeCircleTransform.new(1, true),
+		HBEditorTransforms.MakeCircleTransform.new(-1, true),
+		HBEditorTransforms.FlipVerticallyTransformation.new(),
+		HBEditorTransforms.FlipHorizontallyTransformation.new(),
+		HBEditorTransforms.FlipVerticallyTransformation.new(true),
+		HBEditorTransforms.FlipHorizontallyTransformation.new(true),
+		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_CENTER),
+		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_LEFT),
+		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_RELATIVE_RIGHT),
+		HBEditorTransforms.RotateTransformation.new(HBEditorTransforms.RotateTransformation.PIVOT_MODE_ABSOLUTE),
+	]
+	
 	for i in range(autoarrange_shortcuts.size()):
-		add_shortcut(autoarrange_shortcuts[i], "_apply_arrange_shortcut", null, [i])
-	add_shortcut("editor_arrange_center", "arrange_selected_notes_by_time", null, [null, false])
+		add_shortcut(autoarrange_shortcuts[i], "_apply_arrange_shortcut", [i])
+	add_shortcut("editor_arrange_center", "arrange_selected_notes_by_time", [null, false])
 	
-	add_shortcut("editor_make_circle_cw", "create_circle_cw", circle_cw_button)
-	add_shortcut("editor_make_circle_ccw", "create_circle_ccw", circle_ccw_button)
-	add_shortcut("editor_make_circle_cw_inside", "create_circle_cw", circle_cw_inside_button, [true])
-	add_shortcut("editor_make_circle_ccw_inside", "create_circle_ccw", circle_ccw_inside_button, [true])
-	add_shortcut("editor_circle_size_bigger", "increase_circle_size", null, [], true)
-	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", null, [], true)
-	
-	add_shortcut("editor_mirror_h", "flip_horizontally", mirror_horizontally_button)
-	add_shortcut("editor_mirror_v", "flip_vertically", mirror_vertically_button)
-	add_shortcut("editor_flip_h", "flip_horizontally", flip_horizontally_button, [true])
-	add_shortcut("editor_flip_v", "flip_vertically", flip_vertically_button, [true])
-	
-	update_shortcuts()
+	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
+	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
 	
 	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time", [true])
 	arrange_menu.connect("angle_changed", self, "_update_slope_info")
 	
-	circle_size_slider.connect("value_changed", cw_circle_transform, "set_epr")
-	circle_size_slider.connect("value_changed", ccw_circle_transform, "set_epr")
+	for i in range(4):
+		circle_size_slider.connect("value_changed", transforms[i], "set_epr")
 	circle_size_slider.connect("value_changed", self, "preview_size")
 	circle_size_slider.connect("drag_started", self, "_toggle_dragging_size_slider")
 	circle_size_slider.connect("drag_ended", self, "_toggle_dragging_size_slider")
 	circle_size_slider.connect("drag_ended", self, "hide_transform")
 	circle_size_slider.share(circle_size_spinbox)
 	
-	circle_size_spinbox.connect("value_changed", cw_circle_transform, "set_epr")
-	circle_size_spinbox.connect("value_changed", ccw_circle_transform, "set_epr")
+	for i in range(4):
+		circle_size_spinbox.connect("value_changed", transforms[i], "set_epr")
 	circle_size_spinbox.connect("value_changed", self, "_set_circle_size")
 	
 	rotation_angle_slider.connect("value_changed", self, "_set_rotation_angle")
@@ -113,18 +102,13 @@ func _input(event: InputEvent):
 		first_note = null
 		last_note = null
 
-func set_editor(_editor: HBEditor):
-	.set_editor(_editor)
-	
-	connect("show_transform", editor, "_show_transform_on_current_notes")
-	connect("hide_transform", editor.game_preview.transform_preview, "hide")
-	connect("apply_transform", editor, "_apply_transform_on_current_notes")
-
 func song_editor_settings_changed(settings: HBPerSongEditorSettings):
-	circle_size_spinbox.value = get_song_settings().circle_size
-	cw_circle_transform.separation = settings.circle_separation
-	ccw_circle_transform.separation = settings.circle_separation
-	size_testing_circle_transform.separation = get_song_settings().circle_separation
+	circle_size_spinbox.value = settings.circle_size
+	transforms[0].separation = settings.circle_separation
+	transforms[1].separation = settings.circle_separation
+	transforms[2].separation = settings.circle_separation
+	transforms[3].separation = settings.circle_separation
+	size_testing_circle_transform.separation = settings.circle_separation
 
 func update_shortcuts():
 	.update_shortcuts()
@@ -366,46 +350,13 @@ func _toggle_dragging_size_slider(catchall = null):
 
 func preview_size(value: int):
 	if dragging_size_slider:
-		size_testing_circle_transform.bpm = get_bpm()
-		size_testing_circle_transform.set_epr(value)
-		show_transform(size_testing_circle_transform)
-
-func preview_circle(clockwise: bool, inside: bool = false):
-	var transform = cw_circle_transform if clockwise else ccw_circle_transform
-	transform.set_inside(inside)
-	transform.bpm = get_bpm()
-	emit_signal("show_transform", transform)
-
-func create_circle_cw(inside: bool = false):
-	cw_circle_transform.bpm = get_bpm()
-	cw_circle_transform.set_inside(inside)
-	emit_signal("apply_transform", cw_circle_transform)
-
-func create_circle_ccw(inside: bool = false):
-	ccw_circle_transform.bpm = get_bpm()
-	ccw_circle_transform.set_inside(inside)
-	emit_signal("apply_transform", ccw_circle_transform)
-
-
-func preview_flip(vertical: bool, local: bool = false):
-	var transform = flip_v_transform if vertical else flip_h_transform
-	transform.local = local
-	emit_signal("show_transform", transform)
-
-func flip_horizontally(local: bool = false):
-	flip_h_transform.local = local
-	emit_signal("apply_transform", flip_h_transform)
-
-func flip_vertically(local: bool = false):
-	flip_v_transform.local = local
-	emit_signal("apply_transform", flip_v_transform)
+		transforms[0].set_epr(value)
+		show_transform(0)
 
 
 func _set_rotation_angle(new_value: float):
-	rotate_center_transform.rotation = -new_value
-	rotate_left_transform.rotation = -new_value
-	rotate_right_transform.rotation = -new_value
-	rotate_absolute_transform.rotation = -new_value
+	for i in range(8, 12):
+		transforms[i].rotation = -new_value 	# Center
 
 var dragging_angle_slider := false
 # Having a catchall arg is stupid but we need it for drag_ended pokeKMS
@@ -414,27 +365,4 @@ func _toggle_dragging_angle_slider(catchall = null):
 
 func preview_angle(value: float):
 	if dragging_angle_slider:
-		show_transform(rotate_center_transform)
-
-func preview_rotate(id: int):
-	var transforms = [rotate_center_transform, rotate_left_transform, rotate_right_transform, rotate_absolute_transform]
-	emit_signal("show_transform", transforms[id])
-
-func rotate(id: int):
-	var transforms = [rotate_center_transform, rotate_left_transform, rotate_right_transform, rotate_absolute_transform]
-	emit_signal("apply_transform", transforms[id])
-
-
-func show_transform(transform: EditorTransformation, inside: bool = false, local: bool = false):
-#	transform.use_stage_center = use_stage_center
-	if transform is HBEditorTransforms.MakeCircleTransform:
-		transform.set_inside(inside)
-		transform.bpm = get_bpm()
-	elif transform is HBEditorTransforms.FlipHorizontallyTransformation or transform is HBEditorTransforms.FlipVerticallyTransformation:
-		transform.local = local
-	
-	emit_signal("show_transform", transform)
-
-# Having a catchall arg is stupid but we need it for drag_ended pokeKMS
-func hide_transform(catchall = null):
-	emit_signal("hide_transform")
+		show_transform(8)

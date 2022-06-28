@@ -1,7 +1,7 @@
 class_name EditorTransformation
 
 var use_stage_center := false
-var bpm: float
+var editor setget set_editor
 
 func transform_notes(notes: Array):
 	pass
@@ -16,3 +16,6 @@ func get_center_for_notes(notes: Array) -> Vector2:
 		average_count += 1
 	average_position /= float(average_count)
 	return average_position
+
+func set_editor(_editor):
+	editor = _editor

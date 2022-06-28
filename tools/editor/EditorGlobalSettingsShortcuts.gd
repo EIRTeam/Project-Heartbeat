@@ -107,13 +107,11 @@ const EDITOR_EVENTS = {
 		"editor_vertical_multi_right",
 		"editor_horizontal_multi_top",
 		"editor_horizontal_multi_bottom",
-		"editor_slider_multi_top",
-		"editor_slider_multi_bottom",
-		"editor_inner_slider_multi_top",
-		"editor_inner_slider_multi_bottom",
 		"editor_quad",
-		"editor_triangle_left",
-		"editor_triangle_right",
+		"editor_inside_quad",
+		"editor_sideways_quad",
+		"editor_triangle",
+		"editor_triangle_inverted",
 	],
 }
 

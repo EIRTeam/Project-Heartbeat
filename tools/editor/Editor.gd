@@ -34,7 +34,6 @@ onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCon
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
 onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
 onready var game_playback = EditorPlayback.new(rhythm_game)
-onready var sync_presets_tool = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Presets/SyncPresetsTool")
 onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
@@ -206,12 +205,6 @@ func _ready():
 	
 	MouseTrap.disable_mouse_trap()
 	
-	sync_presets_tool.connect("show_transform", self, "_show_transform_on_current_notes")
-	sync_presets_tool.connect("hide_transform", game_preview.transform_preview, "hide")
-	sync_presets_tool.connect("apply_transform", self, "_apply_transform_on_current_notes")
-	
-	sync_presets_tool.set_editor(self)
-	
 	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
 	
 	if not UserSettings.user_settings.editor_first_time_message_acknowledged:
@@ -287,11 +280,12 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 	
 	var notes_to_apply_found = false
 
-	for item in current_items:
+	for item in current_notes:
 		if item is EditorTimelineItemNote:
 			if item.data in transformation_result:
 				notes_to_apply_found = true
 				break
+	
 	if notes_to_apply_found:
 		deselect_all()
 		undo_redo.create_action("Apply transformation")
@@ -303,7 +297,7 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT] = "SLIDE_LEFT"
 		type_to_layer_name_map[HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT] = "SLIDE_RIGHT"
 		
-		for item in current_items:
+		for item in current_notes:
 			var note = item.data
 			if note in transformation_result:
 				for property_name in transformation_result[note]:

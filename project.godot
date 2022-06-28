@@ -1963,35 +1963,25 @@ editor_horizontal_multi_bottom={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777352,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-editor_slider_multi_top={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777351,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-editor_slider_multi_bottom={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777353,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-editor_inner_slider_multi_top={
-"deadzone": 0.5,
-"events": [  ]
-}
-editor_inner_slider_multi_bottom={
-"deadzone": 0.5,
-"events": [  ]
-}
 editor_quad={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777355,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-editor_triangle_left={
+editor_inner_quad={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_sideways_quad={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_triangle={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777357,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-editor_triangle_right={
+editor_triangle_inverted={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777359,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
