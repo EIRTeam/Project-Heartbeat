@@ -446,3 +446,41 @@ static func copy_recursive(from, to):
 			file_name = directory.get_next()
 	else:
 		print("Error copying " + from + " to " + to)
+
+## Fits a given image to a certain size, compensating for aspect ratio
+## if [code]crop[/code] is true then the image will be cropped as needed
+## to fit the given size
+static func fit_image(base_image: Image, size: Vector2, cover := false) -> Image:
+	var base_image_size := base_image.get_size()
+	
+	var scale_factor := min(size.x / base_image_size.x, size.y / base_image_size.y)
+	
+	if cover:
+		scale_factor = max(size.x / base_image_size.x, size.y / base_image_size.y)
+	
+	var base_image_copy := Image.new()
+	
+	base_image_copy.copy_from(base_image)
+	
+	base_image_copy.resize(base_image_size.x * scale_factor, base_image_size.y * scale_factor, Image.INTERPOLATE_LANCZOS)
+	var blit_image_size = base_image_copy.get_size()
+	
+	var final_image := Image.new()
+	
+	var final_image_format = base_image_copy.get_format()
+	
+	# Since cover images get completely covered, there's no need to check if we have alpha
+	# if we did have alpha it would be already set in final_image_format by this point
+	if not cover:
+		# If the image doesn't have alpha we have to convert it to a format that does
+		if base_image_copy.detect_alpha() == Image.ALPHA_NONE:
+			final_image_format = Image.FORMAT_RGBA8
+			base_image_copy.convert(final_image_format)
+	
+	final_image.create(size.x, size.y, false, final_image_format)
+	
+	var target_pos := Vector2(size.x / 2.0 - blit_image_size.x / 2.0, size.y / 2.0 - blit_image_size.y / 2.0)
+	final_image.blit_rect(base_image_copy, Rect2(Vector2.ZERO, blit_image_size), target_pos)
+	return final_image
+	
+	

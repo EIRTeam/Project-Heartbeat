@@ -130,6 +130,8 @@ func load_into_game():
 	if UserSettings.user_settings.enable_streamer_mode:
 		var preview_image: Image = album_cover.texture.get_data()
 		var bg_image: Image = $TextureRect.texture.get_data()
+		var bg_image_to_write: Image = HBUtils.fit_image(bg_image, HBGame.STREAMER_MODE_BACKGROUND_IMAGE_SIZE, true)
+		var preview_image_to_write: Image = HBUtils.fit_image(preview_image, HBGame.STREAMER_MODE_PREVIEW_IMAGE_SIZE)
 		
 		var song_artist = ""
 		
@@ -146,8 +148,8 @@ func load_into_game():
 		f.store_string(current_song_text)
 		f.close()
 		
-		preview_image.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
-		bg_image.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_BG_PATH)
+		preview_image_to_write.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
+		bg_image_to_write.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_BG_PATH)
 	var new_scene
 	if not is_loading_practice_mode:
 		new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")

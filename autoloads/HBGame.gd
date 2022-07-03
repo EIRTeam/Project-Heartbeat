@@ -10,9 +10,11 @@ var platform_settings: HBPlatformSettings
 
 var force_steam_deck_mode := "--force-steam-deck" in OS.get_cmdline_args()
 
-const STREAMER_MODE_CURRENT_SONG_TITLE_PATH = "user://current_song.txt"
-const STREAMER_MODE_CURRENT_SONG_BG_PATH = "user://current_song_bg.png"
-const STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH = "user://current_song_preview.png"
+const STREAMER_MODE_CURRENT_SONG_TITLE_PATH := "user://current_song.txt"
+const STREAMER_MODE_CURRENT_SONG_BG_PATH := "user://current_song_bg.png"
+const STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH := "user://current_song_preview.png"
+const STREAMER_MODE_PREVIEW_IMAGE_SIZE := Vector2(512, 512)
+const STREAMER_MODE_BACKGROUND_IMAGE_SIZE := Vector2(1920, 1080)
 
 # hack...
 
@@ -239,12 +241,15 @@ func is_on_steam_deck() -> bool:
 
 func save_empty_streamer_images():
 	var empty_image = Image.new()
-	empty_image.create(1, 1, false, Image.FORMAT_RGBA8)
-	empty_image.lock()
-	empty_image.set_pixel(0, 0, Color.transparent)
-	empty_image.unlock()
-	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
+	
+	var bg_size: Vector2 = HBGame.STREAMER_MODE_BACKGROUND_IMAGE_SIZE
+	var preview_size: Vector2 = HBGame.STREAMER_MODE_PREVIEW_IMAGE_SIZE
+	empty_image.create(bg_size.x, bg_size.y, false, Image.FORMAT_RGBA8)
+	empty_image.fill(Color.transparent)
 	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_BG_PATH)
+	empty_image.create(preview_size.x, preview_size.y, false, Image.FORMAT_RGBA8)
+	empty_image.fill(Color.transparent)
+	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
 	
 	var f := File.new()
 	f.open(STREAMER_MODE_CURRENT_SONG_TITLE_PATH, File.WRITE)
