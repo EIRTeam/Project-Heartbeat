@@ -135,7 +135,9 @@ func _on_menu_exit(force_hard_transition = false):
 	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
-
+	HBGame.rich_presence.update_activity({
+		"state": "On main menu"
+	})
 func set_media_checkbox(pressed: bool):
 	UserSettings.user_settings.filter_has_media = pressed
 	UserSettings.save_user_settings()
@@ -277,6 +279,12 @@ func _on_song_hovered(song: HBSong):
 		manage_folders_prompt.hide()
 		remove_item_prompt.show()
 	song_count_indicator.text = "%d/%d" % [song_container.filtered_song_items.keys().find(song)+1, song_container.filtered_song_items.size()]
+
+	HBGame.rich_presence.update_activity({
+		"state": "In song list",
+		"details": "%s" % [current_song.title],
+		"start_timestamp": OS.get_unix_time()
+	})
 
 func should_receive_input(event):
 	var shift = false
