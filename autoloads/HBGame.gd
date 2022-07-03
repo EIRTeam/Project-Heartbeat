@@ -10,6 +10,10 @@ var platform_settings: HBPlatformSettings
 
 var force_steam_deck_mode := "--force-steam-deck" in OS.get_cmdline_args()
 
+const STREAMER_MODE_CURRENT_SONG_TITLE_PATH = "user://current_song.txt"
+const STREAMER_MODE_CURRENT_SONG_BG_PATH = "user://current_song_bg.png"
+const STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH = "user://current_song_preview.png"
+
 # hack...
 
 var NOTE_TYPE_TO_STRING_MAP = {
@@ -232,3 +236,17 @@ func get_game_mode_for_song(song: HBSong):
 
 func is_on_steam_deck() -> bool:
 	return force_steam_deck_mode or PlatformService.service_provider.is_steam_deck()
+
+func save_empty_streamer_images():
+	var empty_image = Image.new()
+	empty_image.create(1, 1, false, Image.FORMAT_RGBA8)
+	empty_image.lock()
+	empty_image.set_pixel(0, 0, Color.transparent)
+	empty_image.unlock()
+	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
+	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_BG_PATH)
+	
+	var f := File.new()
+	f.open(STREAMER_MODE_CURRENT_SONG_TITLE_PATH, File.WRITE)
+	f.store_string("")
+	f.close()

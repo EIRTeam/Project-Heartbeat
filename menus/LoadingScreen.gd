@@ -127,6 +127,27 @@ func _on_song_assets_loaded(assets):
 		animate_fade_out()
 	
 func load_into_game():
+	if UserSettings.user_settings.enable_streamer_mode:
+		var preview_image: Image = album_cover.texture.get_data()
+		var bg_image: Image = $TextureRect.texture.get_data()
+		
+		var song_artist = ""
+		
+		var song := game_info.get_song() as HBSong
+		
+		if song.artist_alias != "":
+			song_artist = song.artist_alias
+		else:
+			song_artist = song.artist
+		
+		var current_song_text = "%s\n%s" % [song.get_visible_title(), song_artist]
+		var f := File.new()
+		f.open(HBGame.STREAMER_MODE_CURRENT_SONG_TITLE_PATH, File.WRITE)
+		f.store_string(current_song_text)
+		f.close()
+		
+		preview_image.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
+		bg_image.save_png(HBGame.STREAMER_MODE_CURRENT_SONG_BG_PATH)
 	var new_scene
 	if not is_loading_practice_mode:
 		new_scene = preload("res://rythm_game/rhythm_game_controller.tscn")

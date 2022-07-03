@@ -119,6 +119,8 @@ var player = HBBackgroundMusicPlayer.new()
 
 var user_info_ui
 func _ready():
+	if UserSettings.user_settings.enable_streamer_mode:
+		HBGame.save_empty_streamer_images()
 	get_tree().paused = false
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	DownloadProgress.holding_back_notifications = false

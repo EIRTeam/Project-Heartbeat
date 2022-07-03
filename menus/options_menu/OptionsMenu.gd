@@ -5,6 +5,17 @@ var OPTIONS = {
 		"__section_label": {
 			"label_callback": funcref(self, "_version_info_callback")
 		},
+		"locale": {
+			"name": tr("Language"),
+			"description": tr("Selects the language to use (requires restart)"),
+			"options": ["auto-detect", "en", "es", "ca"],
+			"options_pretty": [tr("Auto detect"), "English", "Español", "Català"],
+			"type": "options"
+		},
+		"enable_streamer_mode": {
+			"name": tr("Enable streamer mode"),
+			"description": tr("If enabled, saves the title, background and preview image to the user folder so they can be used on a stream overlay")
+		},
 		"enable_health": {
 			"name": tr("Enable health system"),
 			"description": tr("If enabled the game enables the optional health system where a song can be failed.")
@@ -16,13 +27,6 @@ var OPTIONS = {
 		"show_note_types_before_playing": {
 			"name": tr("Show note types before playing"),
 			"description": tr("Shows a list of notes and how to hit them before the song starts")
-		},
-		"locale": {
-			"name": tr("Language"),
-			"description": tr("Selects the language to use (requires restart)"),
-			"options": ["auto-detect", "en", "es", "ca"],
-			"options_pretty": [tr("Auto detect"), "English", "Español", "Català"],
-			"type": "options"
 		},
 		"lag_compensation": {
 			"name": tr("Latency compensation"),
