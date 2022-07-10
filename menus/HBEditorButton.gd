@@ -11,6 +11,8 @@ export(String, MULTILINE) var text setget set_text
 export(String, MULTILINE) var tooltip setget set_tooltip
 export var texture: StreamTexture setget set_texture
 
+export(bool) var disable_when_playing = true
+
 export(String, "transform", "function") var button_mode = "transform"
 export(int) var transform_id = 0
 export(String) var function_name = ""
@@ -37,6 +39,9 @@ func _init():
 
 func _ready():
 	button.hint_tooltip = tooltip
+	
+	if disable_when_playing:
+		button.add_to_group("disabled_ui")
 
 func _notification(what):
 	if what == NOTIFICATION_SORT_CHILDREN:

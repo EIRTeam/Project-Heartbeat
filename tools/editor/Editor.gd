@@ -90,14 +90,6 @@ var hold_ends = []
 
 var timing_point_creation_queue := []
 
-# Fades that obscure some UI elements while playing
-
-onready var ui_fades = [
-	get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/UIFade"),
-	get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/UIFade"),
-	get_node("VBoxContainer/Panel2/UIFade")
-]
-
 var ui_module_locations = {
 	"left_panel": "VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2",
 	"right_panel": "VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer",
@@ -1374,12 +1366,23 @@ func update_media():
 	timeline.send_time_cull_changed_signal()
 
 func obscure_ui():
-	for fade in ui_fades:
-		fade.obscure()
-		
+	for control in get_tree().get_nodes_in_group("disabled_ui"):
+		if control is BaseButton:
+			control.disabled = true
+		if control is LineEdit or control is Range:
+			control.editable = false
+		if control is SpinBox:
+			control.get_line_edit().editable = false
+
 func reveal_ui():
-	for fade in ui_fades:
-		fade.reveal()
+	for control in get_tree().get_nodes_in_group("disabled_ui"):
+		if control is BaseButton:
+			control.disabled = false
+		if control is LineEdit or control is Range:
+			control.editable = true
+		if control is SpinBox:
+			control.get_line_edit().editable = true
+
 func _on_ExitDialog_confirmed():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 #	MouseTrap.enable_mouse_trap()

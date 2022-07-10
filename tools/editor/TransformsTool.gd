@@ -57,6 +57,9 @@ class FlipHorizontallyTransformation:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		
+		if not notes:
+			return {}
+		
 		for n in notes:
 			if not n is HBBaseNote:
 				notes.erase(n)
@@ -96,6 +99,9 @@ class FlipVerticallyTransformation:
 	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
+		
+		if not notes:
+			return {}
 		
 		for n in notes:
 			if not n is HBBaseNote:
@@ -138,6 +144,9 @@ class RotateTransformation:
 	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
+		
+		if not notes:
+			return {}
 		
 		for n in notes:
 			if not n is HBBaseNote:
@@ -351,6 +360,9 @@ class MakeCircleTransform:
 		return revs * TAU / 360
 	
 	func transform_notes(notes: Array):
+		if not notes:
+			return {}
+		
 		notes.invert()
 		
 		var transformation_result = {}

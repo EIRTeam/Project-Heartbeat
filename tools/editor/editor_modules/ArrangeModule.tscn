@@ -147,7 +147,7 @@ margin_right = 30.0
 margin_bottom = 19.0
 text = "Size:"
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1"]
+[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1" groups=["disabled_ui"]]
 margin_left = 34.0
 margin_right = 108.0
 margin_bottom = 24.0
@@ -156,7 +156,7 @@ max_value = 64.0
 value = 16.0
 script = ExtResource( 4 )
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1"]
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1" groups=["disabled_ui"]]
 margin_left = 112.0
 margin_right = 1908.0
 margin_bottom = 16.0
@@ -377,7 +377,7 @@ margin_right = 40.0
 margin_bottom = 19.0
 text = "Angle:"
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1"]
+[node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" groups=["disabled_ui"]]
 margin_left = 44.0
 margin_right = 118.0
 margin_bottom = 24.0
@@ -386,7 +386,7 @@ max_value = 180.0
 suffix = "º"
 script = ExtResource( 4 )
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1"]
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
 margin_left = 122.0
 margin_right = 1908.0
 margin_bottom = 16.0

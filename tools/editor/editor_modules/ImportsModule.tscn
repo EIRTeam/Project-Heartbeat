@@ -40,7 +40,7 @@ margin_top = 42.0
 margin_right = 1920.0
 margin_bottom = 42.0
 
-[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3"]
+[node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3" groups=["disabled_ui"]]
 margin_left = 885.0
 margin_top = 46.0
 margin_right = 1035.0

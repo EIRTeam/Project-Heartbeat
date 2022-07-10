@@ -170,6 +170,9 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	
 	var selected = get_selected()
 	selected.sort_custom(self, "_order_items")
+	if not selected:
+		return
+	
 	if not preview_only:
 		first_note = selected[0].data
 		last_note = selected[-1].data
