@@ -11,16 +11,16 @@ script = ExtResource( 2 )
 module_location = "right_panel"
 module_name = "Import chart"
 priority = 1
+button_group_name = "importer_buttons"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
 margin_right = 1920.0
-margin_bottom = 123.0
+margin_bottom = 238.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
-visible = false
 margin_right = 1920.0
-margin_bottom = 166.0
+margin_bottom = 238.0
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="0"]
 margin_right = 1920.0
@@ -41,25 +41,27 @@ margin_right = 1920.0
 margin_bottom = 42.0
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3"]
-margin_left = 918.0
+margin_left = 885.0
 margin_top = 46.0
-margin_right = 1002.0
-margin_bottom = 124.0
+margin_right = 1035.0
+margin_bottom = 196.0
+rect_min_size = Vector2( 150, 150 )
 hint_tooltip = "Select a file to import."
 size_flags_horizontal = 4
 icon = ExtResource( 3 )
+expand_icon = true
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="4"]
-margin_top = 128.0
+margin_top = 200.0
 margin_right = 1920.0
-margin_bottom = 142.0
+margin_bottom = 214.0
 text = "Open file"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="5"]
-margin_top = 146.0
+margin_top = 218.0
 margin_right = 1920.0
-margin_bottom = 166.0
+margin_bottom = 238.0
 
 [node name="AdvancedOptionsButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
 unique_name_in_owner = true
@@ -117,8 +119,10 @@ pressed = true
 text = "Import link star parameters"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+visible = false
+margin_top = 170.0
 margin_right = 1920.0
-margin_bottom = 123.0
+margin_bottom = 293.0
 
 [node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="0"]
 margin_right = 1920.0
