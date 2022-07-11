@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
@@ -32,8 +32,6 @@
 [ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=44]
 [ext_resource path="res://tools/editor/EditorGlobalSettings.tscn" type="PackedScene" id=45]
 [ext_resource path="res://tools/icons/settings.svg" type="Texture" id=46]
-[ext_resource path="res://tools/editor/SyncToolbox.tscn" type="PackedScene" id=48]
-[ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=49]
 [ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=50]
 [ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=51]
 
@@ -51,12 +49,6 @@ action = "editor_save"
 
 [sub_resource type="ShortCut" id=4]
 shortcut = SubResource( 3 )
-
-[sub_resource type="InputEventAction" id=5]
-action = "editor_timeline_snap"
-
-[sub_resource type="ShortCut" id=6]
-shortcut = SubResource( 5 )
 
 [sub_resource type="InputEventAction" id=7]
 action = "editor_grid_snap"
@@ -77,6 +69,12 @@ outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 42 )
+
+[sub_resource type="InputEventAction" id=5]
+action = "editor_timeline_snap"
+
+[sub_resource type="ShortCut" id=6]
+shortcut = SubResource( 5 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -160,124 +158,42 @@ text = "Save As"
 
 [node name="CurrentTitleButton" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 153.0
-margin_right = 852.0
+margin_right = 1024.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 856.0
+margin_left = 1028.0
 margin_right = 1900.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
-[node name="AutoMulticheckbox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_right = 93.0
-margin_bottom = 25.0
-hint_tooltip = "Automatically set canonical parameters for multi-notes"
-text = "Auto-multi"
-
-[node name="HoldCalculatorCheckBox" type="CheckBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 97.0
-margin_right = 221.0
-margin_bottom = 25.0
-text = "Hold Calculator"
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 225.0
-margin_right = 229.0
-margin_bottom = 25.0
-
-[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 233.0
-margin_right = 261.0
-margin_bottom = 25.0
-hint_tooltip = "Enable timeline snap"
-toggle_mode = true
-pressed = true
-shortcut = SubResource( 6 )
-icon = ExtResource( 18 )
-flat = true
-
-[node name="Offset" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 265.0
-margin_right = 329.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 50, 0 )
-hint_tooltip = "Offset"
-min_value = -100.0
-step = 0.001
-align = 1
-suffix = "s"
-script = ExtResource( 50 )
-
-[node name="NoteResolution" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 333.0
-margin_right = 488.42
-margin_bottom = 25.0
-rect_min_size = Vector2( 155.42, 0 )
-hint_tooltip = "Snap resolution"
-min_value = 1.0
-max_value = 300.0
-value = 16.0
-prefix = "1/"
-suffix = "th of a note"
-script = ExtResource( 50 )
-
-[node name="BPMSpinBox" type="SpinBox" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 492.0
-margin_right = 602.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 110, 0 )
-hint_tooltip = "Beats per minute"
-max_value = 1000.0
-step = 0.01
-value = 160.0
-suffix = "bpm"
-script = ExtResource( 50 )
-
-[node name="MetreOptionButton" type="OptionButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 606.0
-margin_right = 773.0
-margin_bottom = 25.0
-hint_tooltip = "Metre"
-text = "Quadruple metre (4/4)"
-items = [ "Quadruple metre (4/4)", null, false, 0, null, "Triple metre (3/4)", null, false, 1, null, "Duple metre (2/4)", null, false, 2, null, "Whatever this is called (1/1)", null, false, 3, null ]
-selected = 0
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 777.0
-margin_right = 781.0
-margin_bottom = 25.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 785.0
-margin_right = 813.0
+margin_left = 645.0
+margin_right = 673.0
 margin_bottom = 25.0
 icon = ExtResource( 10 )
 
 [node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 817.0
-margin_right = 900.0
+margin_left = 677.0
+margin_right = 760.0
 margin_bottom = 25.0
 text = "(at time)"
 icon = ExtResource( 10 )
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 904.0
-margin_right = 908.0
+margin_left = 764.0
+margin_right = 768.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 912.0
-margin_right = 940.0
+margin_left = 772.0
+margin_right = 800.0
 margin_bottom = 25.0
 icon = ExtResource( 11 )
 flat = true
@@ -290,33 +206,25 @@ margin_bottom = 25.0
 icon = ExtResource( 9 )
 flat = true
 
-[node name="SyncToolboxButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 944.0
-margin_right = 972.0
-margin_bottom = 25.0
-icon = ExtResource( 49 )
-flat = true
-icon_align = 1
-
 [node name="VSeparator4" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 976.0
-margin_right = 980.0
+margin_left = 804.0
+margin_right = 808.0
 margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EditorHelpButton" type="MenuButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 984.0
-margin_right = 1012.0
+margin_left = 812.0
+margin_right = 840.0
 margin_bottom = 25.0
 hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1016.0
-margin_right = 1044.0
+margin_left = 844.0
+margin_right = 872.0
 margin_bottom = 25.0
 hint_tooltip = "Editor settings"
 icon = ExtResource( 46 )
@@ -622,23 +530,21 @@ self_modulate = Color( 1, 1, 1, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1920.0
-margin_bottom = 334.0
+margin_bottom = 309.0
 rect_min_size = Vector2( 0, 0 )
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer"]
-margin_top = 338.0
+margin_top = 313.0
 margin_right = 1920.0
 margin_bottom = 338.0
+rect_min_size = Vector2( 0, 25 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
 custom_constants/margin_left = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer"]
 margin_left = 5.0
@@ -659,9 +565,25 @@ margin_left = 74.0
 margin_right = 78.0
 margin_bottom = 25.0
 
-[node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 82.0
-margin_right = 282.0
+margin_right = 110.0
+margin_bottom = 25.0
+hint_tooltip = "Enable timeline snap"
+toggle_mode = true
+pressed = true
+shortcut = SubResource( 6 )
+icon = ExtResource( 18 )
+flat = true
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 114.0
+margin_right = 118.0
+margin_bottom = 25.0
+
+[node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 122.0
+margin_right = 322.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 1
@@ -673,22 +595,22 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="PlaybackSpeedLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 286.0
-margin_right = 329.0
+margin_left = 326.0
+margin_right = 369.0
 margin_bottom = 25.0
 text = "x1.00"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 333.0
+margin_left = 373.0
 margin_right = 1910.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1270.0
-margin_right = 1403.0
+margin_left = 1230.0
+margin_right = 1363.0
 margin_bottom = 25.0
 text = "Timing points 0/100"
 __meta__ = {
@@ -696,13 +618,13 @@ __meta__ = {
 }
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1407.0
-margin_right = 1411.0
+margin_left = 1367.0
+margin_right = 1371.0
 margin_bottom = 25.0
 
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1415.0
-margin_right = 1577.0
+margin_left = 1375.0
+margin_right = 1537.0
 margin_bottom = 25.0
 text = "Project Kokoro Doki UwU"
 
@@ -818,28 +740,14 @@ window_title = "¡Alerta!"
 dialog_text = "You're not allowed to cum
 inside Rin Kagamine."
 
-[node name="SyncToolboxDialog" parent="." instance=ExtResource( 48 )]
-margin_left = 762.0
-margin_top = 157.0
-margin_right = 1166.0
-margin_bottom = 412.0
-
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/ExitButton" to="Popups/ExitDialog" method="popup_centered_ratio" binds= [ 0.25 ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/OpenButton" to="Popups/OpenChartPopupDialog" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="Popups/SaveAsSongSelector" method="popup_centered_ratio" binds= [ 0.35 ]]
-[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox" to="." method="_on_auto_multi_toggled"]
-[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox" to="." method="_on_HoldCalculatorCheckBox_toggled"]
-[connection signal="toggled" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
-[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset" to="." method="_on_timing_information_changed"]
-[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution" to="." method="_on_timing_information_changed"]
-[connection signal="value_changed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox" to="." method="_on_timing_information_changed"]
-[connection signal="item_selected" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton" to="." method="_on_timing_information_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestButton" to="." method="_on_PlaytestButton_pressed" binds= [ false ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestAtTimeButton" to="." method="_on_PlaytestButton_pressed" binds= [ true ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SyncToolboxButton" to="SyncToolboxDialog" method="_popup"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
 [connection signal="dragged" from="VBoxContainer/VSplitContainer" to="." method="_on_VSplitContainer_dragged"]
@@ -853,6 +761,7 @@ margin_bottom = 412.0
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_chart_selected"]
 [connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]

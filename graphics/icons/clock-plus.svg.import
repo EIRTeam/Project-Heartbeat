@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/metronome-large.svg-ce2e15ad8238aa84a71176abe655a30f.stex"
+path="res://.import/clock-plus.svg-69e5acd85571fdce44358789966519e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/metronome-large.svg"
-dest_files=[ "res://.import/metronome-large.svg-ce2e15ad8238aa84a71176abe655a30f.stex" ]
+source_file="res://graphics/icons/clock-plus.svg"
+dest_files=[ "res://.import/clock-plus.svg-69e5acd85571fdce44358789966519e7.stex" ]
 
 [params]
 

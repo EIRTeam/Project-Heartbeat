@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/metronome.svg-4f4fa0e3f89772259c6b1ce368c67623.stex"
+path="res://.import/refresh-biggest.svg-f955e2b6e7e4f1203e70fa936f3fe615.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/metronome.svg"
-dest_files=[ "res://.import/metronome.svg-4f4fa0e3f89772259c6b1ce368c67623.stex" ]
+source_file="res://graphics/icons/refresh-biggest.svg"
+dest_files=[ "res://.import/refresh-biggest.svg-f955e2b6e7e4f1203e70fa936f3fe615.stex" ]
 
 [params]
 

@@ -9,6 +9,7 @@ signal timing_information_changed
 signal timing_points_changed
 signal song_editor_settings_changed
 signal modules_update_settings(settings)
+signal paused
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
@@ -20,15 +21,10 @@ onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBox
 onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/RhythmGame")
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview")
-onready var metre_option_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/MetreOptionButton")
-onready var BPM_spinbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/BPMSpinBox")
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
 onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
-onready var note_resolution_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/NoteResolution")
-onready var offset_box = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/Offset")
-onready var auto_multi_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/AutoMulticheckbox")
 onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
 onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
 onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
@@ -38,7 +34,7 @@ onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitConta
 onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
 onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
 onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
-onready var timeline_snap_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TimelineGridSnapButton")
+onready var timeline_snap_button = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton")
 onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
 onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
 onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
@@ -46,7 +42,6 @@ onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitCon
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
-onready var hold_calculator_checkbox = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/HoldCalculatorCheckBox")
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
@@ -96,22 +91,23 @@ var ui_module_locations = {
 }
 
 var modules = []
+var sync_module
 
 func set_bpm(value):
-	BPM_spinbox.value = value
-	song_editor_settings.set("bpm", value)
+	sync_module.set_bpm(value)
+
 func get_bpm():
-	return BPM_spinbox.value
-	
+	return sync_module.get_bpm() if sync_module else 150
+
 func _sort_current_items_impl(a, b):
 	return a.data.time > b.data.time
-	
+
 func sort_current_items():
 	current_notes.sort_custom(self, "_sort_current_items_impl")
-	
+
 func _insert_note_at_time_bsearch(item: EditorTimelineItem, time: int):
 	return item.data.time < time
-	
+
 func insert_note_at_time(item: EditorTimelineItem):
 	var pos = current_notes.bsearch_custom(item.data.time, self, "_insert_note_at_time_bsearch")
 	current_notes.insert(pos, item)
@@ -208,7 +204,6 @@ func _ready():
 	
 	connect("timing_points_changed", self, "_cache_hold_ends")
 	
-	$SyncToolboxDialog.set_editor(self)
 	$EditorGlobalSettings.song_settings_tab.set_editor(self)
 	$EditorGlobalSettings.general_settings_tab.set_editor(self)
 	$EditorGlobalSettings.shortcuts_tab.set_editor(self)
@@ -352,8 +347,6 @@ func get_items_at_time(time: int):
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
 
-const standard_resolutions = [4, 6, 8, 12, 16, 24, 32]
-
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
 		return
@@ -416,17 +409,6 @@ func _unhandled_input(event: InputEvent):
 		undo_redo.add_undo_method(self, "_cache_hold_ends")
 		
 		undo_redo.commit_action()
-	
-	for resolution in standard_resolutions:
-		if event.is_action("editor_resolution_" + str(resolution), true) and event.pressed and not event.echo:
-			set_note_resolution(resolution)
-			get_tree().set_input_as_handled()
-			return
-	
-	if event.is_action("editor_increase_resolution", true) and event.pressed:
-		set_note_resolution(increase_resolution_by(1))
-	if event.is_action("editor_decrease_resolution", true) and event.pressed:
-		set_note_resolution(increase_resolution_by(-1))
 	
 	if event.is_action("editor_play", true) and event.pressed and not event.echo:
 		if not game_playback.is_playing():
@@ -1111,6 +1093,7 @@ func _on_PauseButton_pressed():
 	seek(playhead_position)
 	play_button.show()
 	pause_button.hide()
+	emit_signal("paused")
 	create_queued_timing_points()
 
 func _on_PlayButton_pressed():
@@ -1159,25 +1142,14 @@ func serialize_chart():
 	return get_chart().serialize()
 
 func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
-	offset_box.disconnect("value_changed", self, "_on_timing_information_changed")
-	note_resolution_box.disconnect("value_changed", self, "_on_timing_information_changed")
-	BPM_spinbox.disconnect("value_changed", self, "_on_timing_information_changed")
-	metre_option_button.disconnect("item_selected", self, "_on_timing_information_changed")
-	auto_multi_checkbox.disconnect("toggled", self, "_on_auto_multi_toggled")
 	song_editor_settings.disconnect("property_changed", self, "emit_signal")
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
 		var layer_visible = not layer.layer_name in settings.hidden_layers
 		timeline.change_layer_visibility(layer_visible, layer.layer_name)
 	
-	set_bpm(settings.bpm)
-	set_note_resolution(settings.note_resolution)
-	set_note_snap_offset(settings.offset)
-	set_beats_per_bar(settings.beats_per_bar)
 	timeline_snap_button.pressed = settings.timeline_snap
 	
-	auto_multi_checkbox.pressed = settings.auto_multi
-	hold_calculator_checkbox.pressed = settings.hold_calculator
 	waveform_button.pressed = settings.waveform
 	game_preview.settings = settings
 	show_bg_button.pressed = settings.show_bg
@@ -1189,11 +1161,6 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
 	emit_signal("timing_information_changed")
-	offset_box.connect("value_changed", self, "_on_timing_information_changed")
-	note_resolution_box.connect("value_changed", self, "_on_timing_information_changed")
-	BPM_spinbox.connect("value_changed", self, "_on_timing_information_changed")
-	metre_option_button.connect("item_selected", self, "_on_timing_information_changed")
-	auto_multi_checkbox.connect("toggled", self, "_on_auto_multi_toggled")
 	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
 	
 	$EditorGlobalSettings.song_settings_tab.load_settings(settings)
@@ -1347,9 +1314,8 @@ func load_song(song: HBSong, difficulty: String):
 	
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
-	BPM_spinbox.value = song.bpm
+	sync_module.set_bpm(song.bpm)
 	from_chart(chart)
-	$SyncToolboxDialog._reset(BPM_spinbox.value, offset_box.value)
 	current_difficulty = difficulty
 	current_difficulty = difficulty
 	save_button.disabled = false
@@ -1388,42 +1354,20 @@ func _on_ExitDialog_confirmed():
 #	MouseTrap.enable_mouse_trap()
 	OS.window_maximized = false
 	UserSettings.apply_display_mode()
-	
-const OPTION_TO_BEATS_PER_BAR = {
-	0: 4,
-	1: 3,
-	2: 2,
-	3: 1
-}
 
 func get_beats_per_bar():
-	return OPTION_TO_BEATS_PER_BAR[metre_option_button.selected]
-
-func set_beats_per_bar(bpb):
-	var option = HBUtils.find_key(OPTION_TO_BEATS_PER_BAR, int(bpb))
-	metre_option_button.select(option)
+	return sync_module.get_signature() if sync_module else 4
 
 func get_note_resolution():
-	return 1/note_resolution_box.value
+	return 1 / sync_module.get_resolution() if sync_module else 1/16.0
 
 func release_owned_focus():
 	$FocusTrap.grab_focus()
 
-func set_note_resolution(note_res):
-	note_resolution_box.value = note_res
-	
 func get_note_snap_offset():
-	return offset_box.value
+	return sync_module.get_offset() if sync_module else 0.0
 
-func set_note_snap_offset(offset):
-	print("SET OFFSET TO ", offset)
-	offset_box.value = offset
-	release_owned_focus()
 func _on_timing_information_changed(f=null):
-	song_editor_settings.set("offset", get_note_snap_offset())
-	song_editor_settings.set("bpm", get_bpm())
-	song_editor_settings.set("beats_per_bar", get_beats_per_bar())
-	song_editor_settings.set("note_resolution", note_resolution_box.value)
 	release_owned_focus()
 	timeline.update()
 	emit_signal("timing_information_changed")
@@ -1524,9 +1468,6 @@ func show_error(error: String):
 	$Popups/PluginErrorDialog.rect_size = Vector2.ZERO
 	$Popups/PluginErrorDialog.dialog_text = error
 	$Popups/PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
-
-func _on_auto_multi_toggled(button_pressed):
-	song_editor_settings.set("auto_multi", button_pressed)
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
@@ -1674,7 +1615,7 @@ func autoplace(data: HBBaseNote, force=false):
 	var new_data = data.clone() as HBBaseNote
 	
 	var interval = get_timing_interval(1.0/16.0) * 2
-	var time_as_eight = stepify((data.time - offset_box.value * 1000) / interval, 0.01)
+	var time_as_eight = stepify((data.time - sync_module.get_offset() * 1000.0) / interval, 0.01)
 	time_as_eight = fmod(time_as_eight, 15.0)
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
@@ -1713,8 +1654,7 @@ func _on_SexButton_pressed():
 	$SexDialog.popup_centered()
 
 
-func _on_HoldCalculatorCheckBox_toggled(button_pressed):
-	song_editor_settings.set("hold_calculator", button_pressed)
+func hold_calculator_toggled():
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
@@ -1766,26 +1706,6 @@ func create_queued_timing_points():
 		remove_item_from_layer(entry.layer, entry.item)
 		user_create_timing_point(entry.layer, entry.item)
 	timing_point_creation_queue.clear()
-
-
-func increase_resolution_by(amount: int):
-	if note_resolution_box.value in standard_resolutions:
-		var index = standard_resolutions.bsearch(note_resolution_box.value)
-		index += amount
-		index = clamp(index, 0, standard_resolutions.size()-1)
-		
-		return standard_resolutions[index]
-	else:
-		var insertion_index = standard_resolutions.bsearch(note_resolution_box.value)
-		var next = insertion_index
-		var prev = max(insertion_index-1, 0)
-		
-		if amount > 0 and next < standard_resolutions.size():
-			return standard_resolutions[next]
-		elif amount < 0 and prev > 0:
-			return standard_resolutions[prev]
-		
-		return note_resolution_box.value
 
 
 func reset_note_position():

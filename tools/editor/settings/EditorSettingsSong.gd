@@ -1,6 +1,7 @@
 extends HBEditorSettings
 
 signal layer_visibility_changed(visibility, layer)
+signal hold_calculator_toggled
 
 const HIDDEN_ICON = preload("res://tools/icons/icon_GUI_visibility_hidden.svg")
 const VISIBLE_ICON = preload("res://tools/icons/icon_GUI_visibility_visible.svg")
@@ -74,6 +75,9 @@ func update_setting(property_name: String, new_value):
 	
 	if property_name == "selected_variant":
 		editor.update_media()
+	
+	if property_name == "hold_calculator":
+		editor.hold_calculator_toggled()
 
 func _grid_column_spacing_parser(value, _mode):
 	var new_value = {"x": 1080.0 / value.x, "y": 1920.0 / value.y}

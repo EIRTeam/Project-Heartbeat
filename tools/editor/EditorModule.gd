@@ -99,6 +99,9 @@ func timing_points_changed():
 func timing_points_params_changed():
 	editor._on_timing_points_params_changed()
 
+func timing_information_changed():
+	editor._on_timing_information_changed()
+
 func sync_inspector_values():
 	editor.inspector.sync_visible_values_with_data()
 

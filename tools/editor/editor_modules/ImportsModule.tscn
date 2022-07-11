@@ -10,7 +10,7 @@
 script = ExtResource( 2 )
 module_location = "right_panel"
 module_name = "Import chart"
-priority = 1
+priority = 2
 button_group_name = "importer_buttons"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
