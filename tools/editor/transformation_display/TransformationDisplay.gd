@@ -116,22 +116,19 @@ func _draw_transformation():
 		
 	multi_lasers = []
 	
-
+	var note_groups = {}
+	for note_to_transform in transformation_map:
+		if not note_to_transform.time in note_groups:
+			note_groups[note_to_transform.time] = 0
+		
+		note_groups[note_to_transform.time] += 1
+	
 	for note_to_transform in transformation_map:
 		var note_type = get_transformed_value(note_to_transform, transformation_map, "note_type")
 		var target_graphic = "target"
 
-		var is_multi = false
+		var is_multi = note_groups[note_to_transform.time] > 1
 		
-		if i == 0:
-			if transformation_map.size() > 1:
-				is_multi = transformation_map.keys()[i+1].time == note_to_transform.time
-		else:
-			if transformation_map.size() > i+1:
-				is_multi = transformation_map.keys()[i+1].time == note_to_transform.time
-			if not is_multi:
-				is_multi = transformation_map.keys()[i-1].time == note_to_transform.time
-			
 		if is_multi:
 			target_graphic = "multi_note_target"
 		

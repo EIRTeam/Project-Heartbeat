@@ -245,16 +245,18 @@ func _show_transform_on_current_notes(transformation):
 	var notes = get_items_at_time_or_selected(playhead_position)
 	if notes.size() == 0:
 		return
+	
 	var base_transform_notes = []
 	for timeline_item in notes:
 		if timeline_item is EditorTimelineItemNote:
 			var note = timeline_item.data
 			base_transform_notes.append(note)
+	
 	game_preview.transform_preview.transformation = transformation
 	game_preview.transform_preview.notes_to_transform = base_transform_notes
 	game_preview.transform_preview.update()
 	game_preview.transform_preview.show()
-			
+
 func _apply_transform_on_current_notes(transformation: EditorTransformation):
 	var current_items = get_items_at_time_or_selected(playhead_position)
 	var base_transform_notes = []
@@ -274,7 +276,6 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 				break
 	
 	if notes_to_apply_found:
-		deselect_all()
 		undo_redo.create_action("Apply transformation")
 		
 		# Some transforms might change the note type and thus the layer
