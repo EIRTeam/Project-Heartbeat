@@ -1,19 +1,35 @@
 extends HBEditorModule
 
+onready var bpm_dialog = get_node("BPMDialog")
+onready var bpm_dialog_spinbox = get_node("BPMDialog/MarginContainer/HBEditorSpinBox")
 onready var lyric_dialog = get_node("LyricDialog")
 onready var lyric_dialog_line_edit = get_node("LyricDialog/MarginContainer/LineEdit")
+onready var section_dialog = get_node("SectionDialog")
+onready var section_dialog_line_edit = get_node("SectionDialog/MarginContainer/LineEdit")
 onready var phrase_start_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button")
 onready var phrase_end_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button")
 onready var lyric_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Button")
 
-func _ready():
-	add_shortcut("editor_quick_phrase_start", "create_phrase_start")
-	add_shortcut("editor_quick_phrase_end", "create_phrase_end")
-	add_shortcut("editor_quick_lyric", "popup_lyric_dialog")
+func _unhandled_input(event):
+	if event is InputEventKey and event.scancode == KEY_ESCAPE:
+		if bpm_dialog.visible:
+			bpm_dialog_spinbox.release_focus()
+			bpm_dialog.hide()
+		
+		if lyric_dialog.visible:
+			lyric_dialog_line_edit.release_focus()
+			lyric_dialog.hide()
+		
+		if section_dialog.visible:
+			section_dialog_line_edit.release_focus()
+			section_dialog.hide()
 
-func add_event_timing_point(timing_point_class: GDScript):
+func add_event_timing_point(timing_point_class: GDScript, meta: Dictionary = {}):
 	var timing_point := timing_point_class.new() as HBTimingPoint
 	timing_point.time = get_playhead_position()
+	
+	for key in meta:
+		timing_point.set(key, meta[key])
 	
 	# Event layer is the last one
 	var ev_layer = null
@@ -39,8 +55,16 @@ func create_lyrics_event(event_obj: HBTimingPoint):
 	editor.sync_lyrics()
 
 
+func popup_bpm_change():
+	bpm_dialog.popup_centered()
+	bpm_dialog_spinbox.value = get_bpm()
+	bpm_dialog_spinbox.get_line_edit().grab_focus()
+
 func create_bpm_change():
-	add_event_timing_point(HBBPMChange)
+	add_event_timing_point(HBBPMChange, {"bpm": bpm_dialog_spinbox.value})
+	
+	bpm_dialog_spinbox.release_focus()
+	bpm_dialog.hide()
 
 func create_intro_skip():
 	add_event_timing_point(HBIntroSkipMarker)
@@ -55,9 +79,15 @@ func create_phrase_end():
 	obj.time = get_playhead_position()
 	create_lyrics_event(obj)
 
-func create_chart_section():
+func popup_section_dialog():
+	section_dialog.popup_centered()
+	section_dialog_line_edit.grab_focus()
+	section_dialog_line_edit.text = ""
+
+func create_chart_section(section_name: String):
 	var timing_point := HBChartSection.new()
 	timing_point.time = get_playhead_position()
+	timing_point.name = section_name
 	
 	var section_layer = null
 	for layer in get_layers():
@@ -66,6 +96,9 @@ func create_chart_section():
 			break
 		
 	create_timing_point(section_layer, timing_point.get_timeline_item())
+	
+	section_dialog_line_edit.release_focus()
+	section_dialog.hide()
 
 func popup_lyric_dialog():
 	lyric_dialog.popup_centered()
