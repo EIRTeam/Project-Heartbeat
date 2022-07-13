@@ -727,9 +727,10 @@ func _on_notes_judged(notes: Array, judgement, wrong):
 		# Rating graphic
 		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
 			# Missed a note
-			if UserSettings.user_settings.enable_voice_fade:
-				if voice_audio_playback:
-					voice_audio_playback.volume = 0.0
+			if judgement < judge.JUDGE_RATINGS.SAFE:
+				if UserSettings.user_settings.enable_voice_fade:
+					if voice_audio_playback:
+						voice_audio_playback.volume = 0.0
 			set_current_combo(0)
 		else:
 			set_current_combo(current_combo + notes_hit)
