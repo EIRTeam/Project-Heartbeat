@@ -20,6 +20,12 @@ var OPTIONS = {
 			"name": tr("Enable health system"),
 			"description": tr("If enabled the game enables the optional health system where a song can be failed.")
 		},
+		"max_simultaneous_downloads": {
+			"name": tr("Maximum simultaneous media downloads"),
+			"description": tr("Sets how many songs can have media downloading at the same time"),
+			"minimum": 1,
+			"maximum": 3,
+		},
 		"workshop_download_audio_only": {
 			"name": tr("Download audio only from workshop"),
 			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")
