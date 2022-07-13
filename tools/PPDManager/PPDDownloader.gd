@@ -245,7 +245,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		show_error("Error downloading chart (%d, %d)" % [result, response_code])
 
 func perform_ytdl_direct_download(folder: String) -> int:
-	var shared_params = YoutubeDL.get_ytdl_shared_params()
+	var shared_params = YoutubeDL.get_ytdl_shared_params(true)
 	var video_height = UserSettings.user_settings.desired_video_resolution
 	var video_fps = UserSettings.user_settings.desired_video_fps
 	shared_params += [

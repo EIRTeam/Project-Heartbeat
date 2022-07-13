@@ -47,19 +47,26 @@ class CachingQueueEntry:
 	var song: HBSong
 	var variant: int
 	var range_downloader := HBHTTPRangeDownloader.new()
+	var dash_estimated_size := 0
 	var step_count := 0
 	var current_step := 0
 	var step_description := ""
 	
 	func get_downloaded_bytes():
 		if range_downloader.state != HBHTTPRangeDownloader.STATE.STATE_READY:
-			return range_downloader.get_downloaded_bytes()
+			if dash_estimated_size != 0:
+				return range_downloader.get_dash_downloaded_bytes()
+			else:
+				return range_downloader.get_downloaded_bytes()
 		else:
 			return -1
 	
 	func get_total_bytes():
 		if range_downloader.state != HBHTTPRangeDownloader.STATE.STATE_READY:
-			return range_downloader.get_download_size()
+			if dash_estimated_size != 0:
+				return dash_estimated_size
+			else:
+				return range_downloader.get_download_size()
 		else:
 			return -1
 
@@ -236,16 +243,19 @@ func get_audio_path(video_id, global=false, temp=false):
 		path = ProjectSettings.globalize_path(path)
 	return path
 	
-func get_ytdl_shared_params():
+func get_ytdl_shared_params(downloader := false):
 	var shared_params = ["--ignore-config",
 	"--no-cache-dir",
 	"--force-ipv4",
 	"--compat-options", "youtube-dl",
 	"--user-agent", USER_AGENT,
 	# aria2 seems good at preventing throttling from Niconico
-	"--external-downloader", YoutubeDL.get_aria2_executable(),
-	"--external-downloader-args", "--disable-ipv6 --user-agent '%s'" % [USER_AGENT]
 	]
+	if downloader:
+		shared_params.append_array(
+			["--external-downloader", YoutubeDL.get_aria2_executable(),
+			"--external-downloader-args", "--disable-ipv6 --user-agent '%s'" % [USER_AGENT]
+			])
 	
 	if OS.get_name() == "X11":
 		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
@@ -313,6 +323,16 @@ func _download_video(userdata):
 	entry.mutex.unlock()
 	
 	var format_info := get_video_info_json("https://youtu.be/" + userdata.video_id)
+
+	if format_info.has("__error"):
+		if download_video:
+			result["video"] = false
+			result["video_out"] = format_info.__error
+		else:
+			result["audio"] =  false
+			result["audio_out"] = format_info.__error
+		download_audio = false
+		download_video = false
 
 	var formats := format_info.get("formats", []) as Array
 	
@@ -393,21 +413,27 @@ func _download_video(userdata):
 		
 		for i in range(formats.size()):
 			var format := formats[i] as Dictionary
-			if "vp9" in format.get("vcodec", "") and \
-					not format.get("format_note", "") == "DASH video" and \
-					format.get("video_ext", "") == "webm":
-				var height := format.get("height", 0) as int
-				var fps := format.get("fps", 0) as int
-				
-				if fps <= video_fps and fps >= closest_format_fps:
-					if height <= video_height and height >= closest_format_height:
-						found_format_i = i
-						closest_format_height = height
-						closest_format_fps = fps
+			for allow_dash in [false, true]:
+				if format.get("format_note", "") == "DASH video":
+					if not allow_dash:
+						continue
+				if "vp9" in format.get("vcodec", "") and \
+						format.get("video_ext", "") == "webm":
+					var height := format.get("height", 0) as int
+					var fps := format.get("fps", 0) as int
+					
+					if fps <= video_fps and fps >= closest_format_fps:
+						if height <= video_height and height >= closest_format_height:
+							found_format_i = i
+							closest_format_height = height
+							closest_format_fps = fps
+				if found_format_i != -1:
+					break
 		if found_format_i != -1:
 			var chosen_format := formats[found_format_i] as Dictionary
 			var download_url := chosen_format.get("url", "") as String
-			var chunk_size := chosen_format.get("downloader_options", {}).get("http_chunk_size", 1024) as int
+			# Buffer default is 2 mb and it is usually used when downloading with DASH streams
+			var chunk_size := chosen_format.get("downloader_options", {}).get("http_chunk_size", 2000000) as int
 			
 			var headers := _build_headers(chosen_format)
 			
@@ -419,7 +445,18 @@ func _download_video(userdata):
 			var output_video_path := get_video_path(userdata.video_id, false) as String
 		
 			var range_downloader := entry.range_downloader as HBHTTPRangeDownloader
-			range_downloader.download(download_url, output_video_path, chunk_size, headers)
+			
+			var dash_fragments := []
+			
+			if chosen_format.get("format_note", "") == "DASH video":
+				for fragment in chosen_format.get("fragments", []):
+					var fragment_path := fragment.get("path", "") as String
+					if fragment_path:
+						dash_fragments.append(fragment_path)
+				download_url = chosen_format.get("fragment_base_url", "")
+				entry.dash_estimated_size = chosen_format.get("filesize_approx", chosen_format.get("filesize", 0))
+			
+			range_downloader.download(download_url, output_video_path, chunk_size, headers, dash_fragments)
 			
 			while range_downloader.state == HBHTTPRangeDownloader.STATE.STATE_BUSY:
 				OS.delay_msec(100)
@@ -668,11 +705,17 @@ func get_video_info_json(video_url: String) -> Dictionary:
 	var shared_params = get_ytdl_shared_params()
 	shared_params += ["--dump-json", video_url]
 	var cmd_out = []
-	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, false)
+	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, true)
 	var out_dict = {}
 	if cmd_out.size() > 0:
 		var parse_result := JSON.parse(cmd_out[0])
 		if parse_result.error == OK:
 			out_dict = parse_result.result
+		else:
+			var error_str := "Unknown error"
+			var o := (cmd_out[0] as String).split(": ")
+			if o.size() > 2:
+				error_str = o[2]
+			out_dict = {"__error": error_str}
 	
 	return out_dict

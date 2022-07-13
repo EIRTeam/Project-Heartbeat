@@ -21,6 +21,7 @@ var error_i := 0 setget ,get_error_i
 var range_start := 0
 var range_end := 0
 var total_downloaded_bytes := 0
+var total_dash_downloaded_bytes := 0
 var file := File.new()
 var file_size := -1
 
@@ -32,12 +33,16 @@ var url_regex: RegEx
 
 var thread: Thread = null
 
+var dash_fragments := []
+var dash_mode := false
+var dash_base_url := ""
+
 func _init():
 	url_regex = RegEx.new()
 	url_regex.compile("^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$")
 	assert(url_regex.get_group_count() == 8)
 
-func download(_download_url: String, _download_path: String, _chunk_size: int, _headers := []):
+func download(_download_url: String, _download_path: String, _chunk_size: int, _headers := [], _dash_fragments := []):
 	if state != STATE.STATE_READY:
 		propagate_error(ERR_BUSY, "RangeDownloader is busy")
 		return
@@ -54,7 +59,10 @@ func download(_download_url: String, _download_path: String, _chunk_size: int, _
 	error_string = ""
 	error_i = 0
 	http.read_chunk_size = chunk_size
-	
+	dash_fragments = _dash_fragments
+	dash_mode = not dash_fragments.empty()
+	if dash_mode:
+		dash_base_url = download_url
 	thread = Thread.new()
 	thread.start(self, "thread_func")
 	
@@ -92,6 +100,10 @@ func _client_status_to_string(client_status: int):
 		
 func _establish_connection():
 	var hostname := _get_hostname_from_url(download_url)
+	
+	if dash_mode:
+		download_url = dash_base_url + dash_fragments[0]
+	
 	var err := http.connect_to_host(hostname, 443, true, true)
 	
 	if err != OK:
@@ -110,7 +122,11 @@ func _establish_connection():
 	range_end = range_start + chunk_size
 	
 func _process_download() -> bool:
-	headers[-1] = "Range: bytes=%d-%d" % [range_start, range_end]
+	if not dash_mode:
+		headers[-1] = "Range: bytes=%d-%d" % [range_start, range_end]
+	else:
+		# Dash mode doesn't use Range:
+		headers[-1] = ""
 	
 	var err := http.request(HTTPClient.METHOD_GET, download_url, headers)
 	
@@ -142,11 +158,18 @@ func _process_download() -> bool:
 	if response_headers.has("Content-Range"):
 		file_size = response_headers["Content-Range"].split("/")[1].to_int()
 		
-		
 	if http.get_response_code() < 200 or http.get_response_code() >= 400:
 		propagate_error(http.get_response_code(), "Error %d when requesting data" % [http.get_response_code()])
 		
-	while http.get_status() == HTTPClient.STATUS_BODY:
+	var download_is_done = total_downloaded_bytes >= file_size
+	
+	if file_size == -1:
+		# In dash mode we don't know the final size of the file, so we will
+		# set this to false always and just end it when http.get_status
+		# stops being STATUS_BODY
+		download_is_done = false
+		
+	while http.get_status() == HTTPClient.STATUS_BODY and not download_is_done:
 		http.poll()
 		
 		var chunk := http.read_response_body_chunk()
@@ -156,7 +179,23 @@ func _process_download() -> bool:
 	range_start = range_end+1
 	if file_size != -1:
 		range_end = min(range_start + http.read_chunk_size, file_size)
-	 
+	
+	if dash_mode:
+		total_dash_downloaded_bytes += total_downloaded_bytes
+		if dash_fragments.size() > 1:
+			dash_fragments.pop_front()
+			range_start = 0
+			range_start + chunk_size
+			file_size = -1
+			total_downloaded_bytes = 0
+			http.close()
+			_establish_connection()
+			# We need to remove the final Range header that we have
+			headers = headers.slice(0, headers.size()-2)
+			return false
+		else:
+			return true
+	
 	return total_downloaded_bytes >= file_size
 func propagate_error(_error_i: int, _error_string: String):
 	lock()
@@ -181,6 +220,9 @@ func get_error_i() -> int:
 func get_downloaded_bytes() -> int:
 	return total_downloaded_bytes
 	
+func get_dash_downloaded_bytes() -> int:
+	return total_dash_downloaded_bytes
+	
 func get_download_size() -> int:
 	return max(file_size, 0) as int
 	
@@ -193,7 +235,11 @@ func get_error_string() -> String:
 func thread_func():
 	_establish_connection()
 	
+	if dash_mode:
+		download_url = dash_base_url + dash_fragments[0]
+	
 	var err :=  file.open(download_path, File.WRITE)
+	
 	if err != OK:
 		propagate_error(error_i, "Error opening file %s for writing (error %d)" % [download_path, err])
 	
