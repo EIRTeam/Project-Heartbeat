@@ -164,6 +164,8 @@ class SongPlayer:
 var current_song_player: SongPlayer
 
 func play_song(song: HBSong):
+	if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
+		return
 	if current_song_player:
 		if song == current_song_player.song:
 			return
@@ -197,11 +199,13 @@ func play_random_song():
 	randomize()
 	var found_song: HBSong
 	while not found_song:
-		var song = SongLoader.songs.values()[randi() % SongLoader.songs.size()]
+		var song := SongLoader.songs.values()[randi() % SongLoader.songs.size()] as HBSong
 		var is_current_song = false
 		if current_song_player:
 			is_current_song = current_song_player.song == song
-		if song.has_audio() and song.is_cached() and not is_current_song:
+		if song.has_audio() and song.is_cached() and \
+				(song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song)) and \
+				not is_current_song:
 			found_song = song
 	if found_song:
 		play_song(found_song)
