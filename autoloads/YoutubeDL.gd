@@ -707,15 +707,25 @@ func get_video_info_json(video_url: String) -> Dictionary:
 	var cmd_out = []
 	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, true)
 	var out_dict = {}
-	if cmd_out.size() > 0:
-		var parse_result := JSON.parse(cmd_out[0])
-		if parse_result.error == OK:
-			out_dict = parse_result.result
-		else:
-			var error_str := "Unknown error"
-			var o := (cmd_out[0] as String).split(": ")
-			if o.size() > 2:
-				error_str = o[2]
-			out_dict = {"__error": error_str}
+	if err == OK:
+		for line in cmd_out[0].split("\n"):
+			var parse_result := JSON.parse(line)
+			if parse_result.error == OK:
+				out_dict = parse_result.result
+				break
+	else:
+		var error_str := "Unknown error"
+		for out in cmd_out:
+			var found_error := false
+			for line in out.split("\n"):
+				if line.begins_with("ERROR: "):
+					var o := (line as String).split(": ")
+					if o.size() > 2:
+						error_str = o[2]
+						found_error = true
+						break
+			if found_error:
+				break
+		out_dict = {"__error": error_str}
 	
 	return out_dict
