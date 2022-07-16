@@ -221,7 +221,7 @@ func verify_chart(song: HBSong, difficulty: String):
 		if result.error != OK:
 			var error = {
 				"type": CHART_ERROR.FILE_INVALID_JSON,
-				"string": "Chart JSON Invalid:\n " + result.error + " at line " + str(result.error_line)
+				"string": "Chart JSON Invalid:\n " + str(result.error) + " at line " + str(result.error_line)
 			}
 			errors.append(error)
 		else:

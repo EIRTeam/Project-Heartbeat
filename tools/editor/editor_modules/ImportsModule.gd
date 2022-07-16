@@ -41,7 +41,7 @@ class DSCImporter:
 	var options_button: OptionButton
 	
 	func _ready():
-		last_dir = UserSettings.user_settings.last_dsc_dir
+		last_dir = "last_dsc_dir"
 		filter = ["*.dsc ; DSC chart"]
 		
 		options_button = OptionButton.new()
@@ -92,7 +92,7 @@ class PPDImporter:
 	
 	func _ready():
 		filter = ["*.ppd ; PPD chart"]
-		last_dir = UserSettings.user_settings.last_ppd_dir
+		last_dir = "last_ppd_dir"
 	
 	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
 		UserSettings.user_settings.last_ppd_dir = path.get_base_dir()
@@ -100,13 +100,28 @@ class PPDImporter:
 		
 		chart = PPDLoader.PPD2HBChart(path, editor.get_bpm(), offset)
 
+class ComfyImporter:
+	extends HBEditorImporter
+	
+	var CSFM_LOADER = preload("res://autoloads/song_loader/song_loaders/CsfmConverter.gd").new()
+	
+	func _ready():
+		last_dir = "last_csfm_dir"
+		filter = ["*.csfm ; Comfy Studio chart"]
+	
+	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
+		UserSettings.user_settings.last_csfm_dir = path.get_base_dir()
+		UserSettings.save_user_settings()
+		
+		chart = CSFM_LOADER.convert_comfy_chart(path, offset) as HBChart
+
 class EditImporter:
 	extends HBEditorImporter
 	
 	const EDIT_LOADER = preload("res://autoloads/song_loader/song_loaders/EditConverter.gd")
 	
 	func _ready():
-		last_dir = UserSettings.user_settings.last_edit_dir
+		last_dir = "last_edit_dir"
 		filter = ["SECURE.BIN ; Edit data"]
 	
 	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
@@ -169,7 +184,7 @@ class MIDIImporter:
 		return track_events
 	
 	func _ready():
-		last_dir = UserSettings.user_settings.last_midi_dir
+		last_dir = "last_midi_dir"
 		
 		midi_loader_popup.connect("track_import_accepted", self, "track_import_accepted")
 		add_child(midi_loader_popup)
@@ -234,6 +249,7 @@ class MIDIImporter:
 var importers = [
 	{"name": "DSC", "importer": DSCImporter},
 	{"name": "PPD chart", "importer": PPDImporter},
+	{"name": "Comfy Studio chart", "importer": ComfyImporter},
 	{"name": "F2nd edit", "importer": EditImporter},
 	{"name": "MIDI file", "importer": MIDIImporter},
 ]
@@ -269,7 +285,7 @@ func importer_selected(idx: int):
 	
 	var new_importer = importers[idx]
 	new_importer.instance.visible = true
-	file_dialog.current_dir = new_importer.instance.last_dir
+	file_dialog.current_dir = UserSettings.user_settings.get(new_importer.instance.last_dir)
 	file_dialog.current_file = ""
 	
 	current_importer_idx = idx

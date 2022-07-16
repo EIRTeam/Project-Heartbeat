@@ -204,6 +204,7 @@ var last_dsc_dir := ProjectSettings.globalize_path("user://")
 var last_ppd_dir := ProjectSettings.globalize_path("user://")
 var last_midi_dir := ProjectSettings.globalize_path("user://")
 var last_edit_dir := ProjectSettings.globalize_path("user://")
+var last_csfm_dir := ProjectSettings.globalize_path("user://")
 
 var audio_buffer_size := 10
 
@@ -215,26 +216,28 @@ var enable_system_mmplus_loading := false
 var max_simultaneous_media_downloads := 3
 
 func _init():
-	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
-	"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
-	"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
-	"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
-	"ui_skin",
-	"note_size", "input_map",
-	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
-	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
-	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
-	"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",
-	"background_dim", "disable_menu_music", "vsync_enabled", "root_folder", 
-	"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
-	"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
-	"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
-	"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled", "editor_import_warning_accepted",
-	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
-	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
-	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads",
-	"editor_bottom_panel_offset", "editor_left_panel_offset", "editor_right_panel_offset"]
+	serializable_fields += [
+		"visualizer_enabled", "left_arrow_override_enabled",
+		"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
+		"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
+		"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
+		"ui_skin",
+		"note_size", "input_map",
+		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "max_simultaneous_downloads", "disable_video",
+		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
+		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
+		"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
+		"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
+		"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
+		"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
+		"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
+		"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled", "editor_import_warning_accepted",
+		"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
+		"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
+		"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir", "last_csfm_dir",
+		"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads",
+		"editor_bottom_panel_offset", "editor_left_panel_offset", "editor_right_panel_offset",
+	]
 	
 	merge_dict_fields += [
 		"custom_sounds",
