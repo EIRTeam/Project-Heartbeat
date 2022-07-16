@@ -1199,6 +1199,7 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 			layer_visible = not layer.name in chart.editor_settings.hidden_layers
 		
 		song_settings_editor.add_layer(layer.name, layer_visible)
+		timeline.change_layer_visibility(layer_visible, layer.name)
 		
 	# Lyrics layer
 	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1208,7 +1209,9 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
 	
 	timeline.add_layer(lyrics_layer_scene)
+	timeline.change_layer_visibility(lyrics_layer_visible, lyrics_layer_scene.layer_name)
 	song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
+	
 	
 	# Sections layer
 	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1218,6 +1221,7 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
 	
 	timeline.add_layer(sections_layer_scene)
+	timeline.change_layer_visibility(sections_layer_visible, sections_layer_scene.layer_name)
 	song_settings_editor.add_layer("Sections", sections_layer_visible)
 	
 	var lyrics_layer_n = timeline.get_layers().size() - 2
