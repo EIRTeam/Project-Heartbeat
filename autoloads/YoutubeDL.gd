@@ -685,6 +685,8 @@ func process_queue():
 					progress_thing.life_timer = 2.0
 					progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
 					caching_queue.remove(i)
+				if songs_being_cached.size() >= UserSettings.user_settings.max_simultaneous_downloads:
+					break
 			
 func is_already_downloading(song, variant := -1):
 	var in_queue = false
