@@ -578,22 +578,30 @@ func select_item(item: EditorTimelineItem, add = false):
 	if selected.size() > 0 and not add:
 		for selected_item in selected:
 			selected_item.deselect()
+	
 	inspector.stop_inspecting()
+	
 	if add:
+		if item in selected:
+			return
+		
 		selected.append(item)
 	else:
 		selected = [item]
 	release_owned_focus()
 	item.select()
+	
 	var widget := item.get_editor_widget()
 	if widget:
 		var widget_instance = widget.instance() as HBEditorWidget
 		widget_instance.editor = self
 		game_preview.widget_area.add_child(widget_instance)
 		item.connect_widget(widget_instance)
+	
 	inspector.inspect(item)
 	selected.sort_custom(self, "_sort_current_items_impl")
 	notify_selected_changed()
+
 func select_all():
 	if selected.size() > 0:
 		deselect_all()
@@ -1031,8 +1039,10 @@ func deselect_all():
 	for item in selected:
 		item.deselect()
 	selected = []
+	
 	inspector.stop_inspecting()
 	notify_selected_changed()
+
 func deselect_item(item):
 	if item in selected:
 		selected.erase(item)
@@ -1041,6 +1051,15 @@ func deselect_item(item):
 			inspector.inspect(selected[-1])
 		else:
 			inspector.stop_inspecting()
+	
+	notify_selected_changed()
+
+func toggle_selection(item):
+	if item in selected:
+		deselect_item(item)
+	else:
+		select_item(item, true)
+
 func get_notes_at_time(time: int):
 	var notes = []
 	for note in get_timing_points():

@@ -9,6 +9,13 @@ const LAYER_NAME_SCENE = preload("res://tools/editor/EditorLayerName.tscn")
 const TRIANGLE_HEIGHT = 15
 const TIME_LABEL = preload("res://fonts/new_fonts/roboto_black_15.tres")
 
+const SELECT_MODE = {
+	"NORMAL": 0,
+	"ADDITION": 1,
+	"SUBSTRACTION": 2,
+	"TOGGLE": 3,
+}
+
 onready var layers = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/LayerControl")
 onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/LayerNames")
 onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
@@ -16,6 +23,7 @@ onready var scroll_container = get_node("VBoxContainer/ScrollContainer")
 onready var minimap = get_node("VBoxContainer/Minimap")
 onready var playhead_container = get_node("VBoxContainer/HBoxContainer")
 onready var stream_editor = get_node("PHAudioStreamEditor")
+onready var modifier_texture = get_node("TextureRect")
 
 var editor: HBEditor setget set_editor
 var _offset = 0
@@ -25,6 +33,14 @@ var _area_select_start = Vector2()
 var _area_selecting = false
 var _cull_start_time = 0
 var _cull_end_time = 0
+var selection_mode = SELECT_MODE.NORMAL
+
+var modifier_textures = {
+	SELECT_MODE.NORMAL: StreamTexture.new(),
+	SELECT_MODE.ADDITION: load("res://graphics/plus-circle-outline.svg"),
+	SELECT_MODE.SUBSTRACTION: load("res://graphics/minus-circle-outline.svg"),
+	SELECT_MODE.TOGGLE: load("res://graphics/invert-circle-outline.svg"),
+}
 
 
 func set_editor(ed):
@@ -63,7 +79,7 @@ func send_time_cull_changed_signal():
 	
 	stream_editor.start_point = _cull_start_time / 1000.0 - variant_offset
 	stream_editor.end_point = _cull_end_time / 1000.0 - variant_offset
-	stream_editor.rect_size.x = rect_size.x - layer_names.rect_size.x
+	stream_editor.rect_size.x = rect_size.x - layer_names.rect_size.x - 13 # Account for scrollbar
 	stream_editor.rect_size.y = scroll_container.rect_size.y
 	stream_editor.rect_global_position.y = scroll_container.rect_global_position.y
 	stream_editor.rect_global_position.x = layer_names.rect_size.x
@@ -270,8 +286,10 @@ func _input(event):
 			if Input.is_action_pressed("editor_pan"):
 				var new_offset = max(_offset - editor.scale_pixels(event.relative.x), 0)
 				set_layers_offset(new_offset)
+		
 		if _area_selecting:
 			update()
+	
 	if get_global_rect().has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("EditorGlobalSettings").visible:
 			editor.show_contextual_menu()
@@ -279,23 +297,36 @@ func _input(event):
 	if event.is_action_released("editor_select"):
 		for note in editor.selected:
 			note.stop_dragging()
+	
+	var new_selection_mode = SELECT_MODE.NORMAL
+	if Input.is_key_pressed(KEY_SHIFT):
+		new_selection_mode = SELECT_MODE.ADDITION
+	elif Input.is_key_pressed(KEY_ALT):
+		new_selection_mode = SELECT_MODE.SUBSTRACTION
+	
+	if Input.is_key_pressed(KEY_SHIFT) and Input.is_key_pressed(KEY_ALT):
+		new_selection_mode = SELECT_MODE.TOGGLE
+	
+	if selection_mode != new_selection_mode:
+		selection_mode = new_selection_mode
+		update_selection_mode()
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
-		if event.is_action_pressed("editor_select") and not event.shift:
-			editor.deselect_all()
 		if scroll_container.get_global_rect().has_point(get_global_mouse_position()):
 			if event.button_index == BUTTON_LEFT and event.pressed and not event.is_echo():
 				get_tree().set_input_as_handled()
 				_area_select_start = get_local_mouse_position()
 				_area_selecting = true
-		if event.button_index == BUTTON_LEFT and not event.pressed and not event.is_echo() and _area_selecting:
-				get_tree().set_input_as_handled()
-				_area_selecting = false
-				_do_area_select()
+				modifier_texture.visible = true
 				update()
-				
-				
+		
+		if event.button_index == BUTTON_LEFT and not event.pressed and not event.is_echo() and _area_selecting:
+			get_tree().set_input_as_handled()
+			_area_selecting = false
+			_do_area_select()
+			modifier_texture.visible = false
+			update()
 
 func get_time_being_hovered():
 	return editor.snap_time_to_timeline(editor.scale_pixels(get_layers()[0].get_local_mouse_position().x))
@@ -327,6 +358,9 @@ func ensure_playhead_is_visible():
 		set_layers_offset(editor.playhead_position)
 
 func _do_area_select():
+	if selection_mode == SELECT_MODE.NORMAL:
+		editor.deselect_all()
+	
 	var rect = get_selection_rect()
 
 	var timeline_rect = Rect2(rect_global_position, rect_size)
@@ -337,19 +371,45 @@ func _do_area_select():
 				if item.visible:
 					var item_rect = Rect2(item.rect_global_position, item.rect_size)
 					if rect.intersects(item_rect):
-						editor.select_item(item, !first)
+						if selection_mode == SELECT_MODE.NORMAL:
+							editor.select_item(item, !first)
+						elif selection_mode == SELECT_MODE.ADDITION:
+							editor.select_item(item, true)
+						elif selection_mode == SELECT_MODE.SUBSTRACTION:
+							editor.deselect_item(item)
+						elif selection_mode == SELECT_MODE.TOGGLE:
+							editor.toggle_selection(item)
+						
 						first = false
+
 func _draw_area_select():
 	if _area_selecting:
+		var mouse_position = get_global_mouse_position()
+		var playhead_rect = playhead_area.get_global_rect()
+		var bounds = Rect2(
+			playhead_rect.position.x,
+			playhead_rect.position.y + playhead_rect.size.y,
+			playhead_rect.size.x - 13, # Account for scrollbar
+			scroll_container.get_global_rect().size.y
+		)
+		mouse_position.x = clamp(mouse_position.x, bounds.position.x, bounds.position.x + bounds.size.x)
+		mouse_position.y = clamp(mouse_position.y, bounds.position.y, bounds.position.y + bounds.size.y)
+		mouse_position = get_global_transform().affine_inverse().xform(mouse_position) # Make local
+		
 		var origin = _area_select_start
-		var size = get_local_mouse_position() - _area_select_start
-		size.y = clamp(size.y, scroll_container.rect_position.y - _area_select_start.y, rect_size.y - origin.y)
+		var size = mouse_position - _area_select_start
 		var rect = Rect2(_area_select_start, size)
+		
 		var color = Color.turquoise
 		color.a = 0.25
 		draw_rect(rect, color, true, 1.0, false)
 		color.a = 0.5
 		draw_rect(rect, color, false, 1.0, false)
+		
+		modifier_texture.rect_position = _area_select_start - Vector2(10, 10)
+
+func update_selection_mode():
+	modifier_texture.texture = modifier_textures[selection_mode]
 
 func clear_layers():
 	for layer in layers.get_children():
@@ -376,6 +436,7 @@ func set_waveform(state):
 		stream_editor.show()
 	else:
 		stream_editor.hide()
+
 func set_audio_stream(stream: AudioStream):
 	stream_editor.edit(stream)
 

@@ -62,9 +62,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 200 )
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 show_behind_parent = true
@@ -72,9 +69,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Minimap" type="Panel" parent="VBoxContainer"]
 margin_right = 1920.0
@@ -202,6 +196,12 @@ __meta__ = {
 margin_right = 20.0
 margin_bottom = 20.0
 items = [ "Elemento 0", null, 0, false, false, 0, 0, null, "", false, "Elemento 1", null, 0, false, false, 1, 0, null, "", false, "Elemento 2", null, 0, false, false, 2, 0, null, "", false ]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+margin_right = 20.0
+margin_bottom = 20.0
+expand = true
 
 [connection signal="item_rect_changed" from="VBoxContainer/HBoxContainer" to="." method="_on_HBoxContainer_item_rect_changed"]
 [connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]
