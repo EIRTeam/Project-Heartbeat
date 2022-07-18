@@ -160,6 +160,7 @@ func _process_download() -> bool:
 		
 	if http.get_response_code() < 200 or http.get_response_code() >= 400:
 		propagate_error(http.get_response_code(), "Error %d when requesting data" % [http.get_response_code()])
+		return true
 		
 	var download_is_done = total_downloaded_bytes >= file_size
 	

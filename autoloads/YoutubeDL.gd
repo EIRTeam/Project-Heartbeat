@@ -558,7 +558,7 @@ func download_video(entry: CachingQueueEntry):
 	var video_id = get_video_id(url)
 	if video_id in songs_being_cached:
 		Log.log(self, "We are already caching this: " + url)
-		return
+		return ERR_BUSY
 	if not video_id:
 		Log.log(self, "Error parsing youtube url: " + url)
 		return ERR_FILE_NOT_FOUND
@@ -587,18 +587,18 @@ func download_video(entry: CachingQueueEntry):
 				# No need to download what we already have
 				download_video = false
 		if all_found:
-			Log.log(self, "Already cached, no need to download again")
-			emit_signal("video_downloaded", video_id, {})
-			if video_id in tracked_video_downloads:
-				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
-				tracked_video_downloads.erase(video_id)
-			return
+			Log.log(self, "Already cached, no need to download again %s" % [entry.song.title])
+			emit_signal("video_downloaded", video_id, {"cache_entry": entry})
+			if is_video_locked(video_id):
+				unlock_video(video_id)
+			return ERR_ALREADY_EXISTS
 	lock_video_id(video_id)
 	emit_signal("song_download_start", song)
 	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry})
 	if result != OK:
+		print("ERROR STARTING THREAD: ", result)
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
-	
+	return OK
 func get_video_id(url: String):
 	var regex = RegEx.new()
 	regex.compile("^.*(youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)([^#\\&\\?]*).*")
@@ -664,20 +664,21 @@ func process_queue():
 					var video_id = get_video_id(variant.variant_url)
 					if not video_id in songs_being_cached:
 						var result = download_video(entry)
-						if not video_id in tracked_video_downloads:
-							var progress_thing = PROGRESS_THING.instance()
-							DownloadProgress.add_notification(progress_thing)
-							progress_thing.spinning = true
-							progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
-							progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
-							if entry.variant != -1:
-								progress_thing.text += " (%s)" % [variant.variant_name]
-							tracked_video_downloads[video_id] = {
-								"progress_thing": progress_thing,
-								"song": song,
-								"entry": entry
-							}
-							emit_signal("song_queued", entry)
+						if result == OK:
+							if not video_id in tracked_video_downloads:
+								var progress_thing = PROGRESS_THING.instance()
+								DownloadProgress.add_notification(progress_thing)
+								progress_thing.spinning = true
+								progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
+								progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+								if entry.variant != -1:
+									progress_thing.text += " (%s)" % [variant.variant_name]
+								tracked_video_downloads[video_id] = {
+									"progress_thing": progress_thing,
+									"song": song,
+									"entry": entry
+								}
+								emit_signal("song_queued", entry)
 				else:
 					var progress_thing = PROGRESS_THING.instance()
 					DownloadProgress.add_notification(progress_thing)
@@ -711,16 +712,17 @@ func get_video_info_json(video_url: String) -> Dictionary:
 	var out_dict = {}
 	if err == OK:
 		for line in cmd_out[0].split("\n"):
-			var parse_result := JSON.parse(line)
-			if parse_result.error == OK:
-				out_dict = parse_result.result
-				break
+			if line.begins_with("{"):
+				var parse_result := JSON.parse(line)
+				if parse_result.error == OK:
+					out_dict = parse_result.result
+					break
 	else:
 		var error_str := "Unknown error"
 		for out in cmd_out:
 			var found_error := false
 			for line in out.split("\n"):
-				if line.begins_with("ERROR: "):
+				if line.begins_with("ERROR: [youtube] "):
 					var o := (line as String).split(": ")
 					if o.size() > 2:
 						error_str = o[2]
