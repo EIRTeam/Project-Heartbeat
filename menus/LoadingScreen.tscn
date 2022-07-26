@@ -33,9 +33,6 @@ border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -57,66 +54,62 @@ __meta__ = {
 [node name="LoadingScreenElements" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Panel2" type="Panel" parent="LoadingScreenElements"]
+[node name="Panel2" type="PanelContainer" parent="LoadingScreenElements"]
 anchor_top = 0.674
 anchor_right = 1.0
-anchor_bottom = 0.714
+anchor_bottom = 0.674
 margin_top = 0.0799561
-margin_bottom = 155.88
+margin_bottom = 202.08
 rect_min_size = Vector2( 0, 150 )
 custom_styles/panel = SubResource( 31 )
 
 [node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2"]
 self_modulate = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
 show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 1920.0
+margin_bottom = 202.0
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 2
 
-[node name="Panel3" type="Panel" parent="LoadingScreenElements/Panel2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Panel3" type="PanelContainer" parent="LoadingScreenElements/Panel2"]
+margin_right = 1920.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 0, 202 )
 custom_styles/panel = SubResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="LoadingScreenElements/Panel2/Panel3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_top = 2.0
+margin_right = 1920.0
+margin_bottom = 200.0
 custom_constants/margin_right = 40
-custom_constants/margin_top = 20
+custom_constants/margin_top = 15
 custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+custom_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer"]
 margin_left = 20.0
-margin_top = 20.0
+margin_top = 15.0
 margin_right = 1880.0
-margin_bottom = 179.0
+margin_bottom = 183.0
 custom_constants/separation = 21
 
 [node name="TextureRect" type="TextureRect" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_right = 153.0
-margin_bottom = 159.0
+margin_bottom = 168.0
 rect_min_size = Vector2( 153, 0 )
 texture = ExtResource( 3 )
 expand = true
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 174.0
 margin_right = 222.0
-margin_bottom = 159.0
+margin_bottom = 168.0
 custom_constants/separation = 0
 
 [node name="TitleLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -137,23 +130,37 @@ margin_bottom = 35.0
 [node name="MetaLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 35.0
 margin_right = 48.0
-margin_bottom = 159.0
+margin_bottom = 168.0
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 5 )
+text = "1
+2"
 valign = 2
 
-[node name="LoadinguLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
 margin_left = 243.0
-margin_right = 1860.0
-margin_bottom = 159.0
+margin_right = 1307.0
+margin_bottom = 168.0
 size_flags_horizontal = 3
-size_flags_vertical = 7
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer"]
+margin_left = 1328.0
+margin_right = 1860.0
+margin_bottom = 168.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="LoadinguLabel" type="Label" parent="LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 141.0
+margin_right = 532.0
+margin_bottom = 168.0
+size_flags_horizontal = 3
+size_flags_vertical = 10
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "Loadingu..."
 align = 2
 valign = 2
-percent_visible = 0.0
 
 [node name="EpilepsyWarning" type="Panel" parent="LoadingScreenElements"]
 anchor_top = 0.26
@@ -229,6 +236,3 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 1, 1, 1, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

@@ -48,3 +48,7 @@ func set_service_provider(provider: PlatformServiceProvider):
 
 func _on_callbacks_timer_timeout():
 	service_provider.run_callbacks()
+
+# Called after the game has initialized
+func _post_game_init():
+	pass

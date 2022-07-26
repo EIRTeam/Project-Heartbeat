@@ -62,6 +62,17 @@ func _on_song_assets_loaded(assets):
 			cover_art_texture.texture = DEFAULT_IMAGE_TEXTURE
 		cover_art_texture2.texture = cover_art_texture.texture
 		
+		cover_art_texture.material = null
+		cover_art_texture2.material = null
+		
+		if cover_art_texture.texture is DIVASpriteSet.DIVASprite:
+			cover_art_texture.material = cover_art_texture.texture.get_material()
+			cover_art_texture2.material = cover_art_texture.texture.get_material()
+		
+		circle_texture_rect.material = null
+		if circle_texture_rect.texture is DIVASpriteSet.DIVASprite:
+			circle_texture_rect.material = circle_texture_rect.texture.get_material()
+		
 		animate_cover_art()
 
 		emit_signal("song_assets_loaded", current_song, assets)

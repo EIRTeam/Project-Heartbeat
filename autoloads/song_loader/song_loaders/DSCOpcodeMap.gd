@@ -12,6 +12,8 @@ func _init(map_path = "res://autoloads/song_loader/song_loaders/dsc_opcode_db.js
 	var file = File.new()
 	file.open(map_path, File.READ)
 	opcode_db = parse_json(file.get_as_text())
+	if _game == "MMPLUS":
+		_game = "FT"
 	game = _game
 	_game_info_entry_n = "info_" + _game
 	for opcode_name in opcode_db:

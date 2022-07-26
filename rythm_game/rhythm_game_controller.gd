@@ -154,6 +154,9 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	if assets:
 		if "background" in assets:
 			$Node2D/TextureRect.texture = assets.background
+			$Node2D/TextureRect.material = null
+			if assets.background is DIVASpriteSet.DIVASprite:
+				$Node2D/TextureRect.material = assets.background.get_material()
 	else:
 		var image = HBUtils.image_from_fs(bg_path)
 		var image_texture = ImageTexture.new()

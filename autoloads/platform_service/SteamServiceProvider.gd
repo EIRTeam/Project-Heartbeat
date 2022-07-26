@@ -63,6 +63,10 @@ func init_platform() -> int:
 		Log.log(self, "Engine was not built with Steam support, aborting...")
 		return ERR_METHOD_NOT_FOUND
 		
+func _post_game_init():
+	if UserSettings.user_settings.enable_system_mmplus_loading:
+		setup_system_mm_plus()
+
 var MainMenu = load("res://menus/MainMenu3D.tscn")
 		
 func _on_lobby_join_requested(lobby: HBLobby):
@@ -181,3 +185,25 @@ func show_floating_gamepad_text_input(multi_line := false) -> bool:
 	if multi_line:
 		type = Steam.FLOATING_GAMEPAD_TEXT_INPUT_MODE_MULTIPLE_LINES
 	return Steam.showFloatingGamepadTextInput(type, position_y, 0, ws.x, input_height)
+
+const MMPLUS_APPID := 1761390
+
+func setup_system_mm_plus():
+	var owns_mmplus := Steam.isSubscribedApp(MMPLUS_APPID)
+	if not owns_mmplus:
+		HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NOT_OWNED
+		return
+	var is_mmplus_installed := Steam.isAppInstalled(MMPLUS_APPID)
+	if not is_mmplus_installed:
+		HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NOT_INSTALLED
+		return
+	var mmplus_path := Steam.getAppInstallDir(MMPLUS_APPID)
+	var dsc_loader = SongLoaderDSC.new()
+	dsc_loader.GAME_LOCATION = mmplus_path
+	dsc_loader.game_type = "MMPLUS"
+	HBGame.mmplus_loader = dsc_loader
+	SongLoader.add_song_loader("system_mmplus", dsc_loader)
+	if dsc_loader.has_fatal_error():
+		HBGame.mmplus_error = HBGame.MMPLUS_ERROR.LOAD_ERROR
+		return
+	HBGame.mmplus_error = HBGame.MMPLUS_ERROR.OK

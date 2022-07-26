@@ -8,19 +8,16 @@ const MAX_32B = 1 << 32
 static func unsigned32_to_signed(unsigned):
 	return (unsigned + MAX_31B) % MAX_32B - MAX_31B
 
-static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
-	var file = File.new()
-	if file.open(path, File.READ) != OK:
-		return []
-	file.seek(4)
+static func load_dsc_file_from_buff(spb: StreamPeerBuffer, opcode_map: DSCOpcodeMap):
+	spb.seek(4)
 	var opcodes = []
-	while !file.eof_reached():
-		var opcode = unsigned32_to_signed(file.get_32())
+	while spb.get_available_bytes() > 0:
+		var opcode = spb.get_u32()
 		var param_count = opcode_map.get_opcode_parameter_count(opcode)
 		var params = []
 		for _i in range(param_count):
-			if not file.eof_reached():
-				var param = file.get_32()
+			if not spb.get_available_bytes() == 0:
+				var param = spb.get_32()
 				params.append(unsigned32_to_signed(param))
 			else:
 				return null
@@ -29,6 +26,14 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 		opcode_obj.params = params
 		opcodes.append(opcode_obj)
 	return opcodes
+static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
+	var file = File.new()
+	if file.open(path, File.READ) != OK:
+		return []
+	var spb := StreamPeerBuffer.new()
+	spb.data_array = file.get_buffer(file.get_len())
+
+	return load_dsc_file_from_buff(spb, opcode_map)
 
 enum AFTButtons {
 	TRIANGLE = 0x0,
@@ -109,10 +114,18 @@ static func is_double(button: int):
 static func is_sustain(button: int):
 	return button >= FButtons.TRIANGLE_HOLD and button <= FButtons.SQUARE_HOLD
 
+static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DSCOpcodeMap) -> HBChart:
+	var r = load_dsc_file_from_buff(buffer, opcode_map)
+	if not r:
+		return null
+	return convert_dsc_opcodes_to_chart(r, opcode_map)
+
 static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap) -> HBChart:
 	var r = load_dsc_file(path, opcode_map)
 	if not r:
 		return null
+	return convert_dsc_opcodes_to_chart(r, opcode_map)
+static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> HBChart:
 	var curr_time = 0.0
 	var current_BPM = 0.0
 	var target_flying_time = 0.0

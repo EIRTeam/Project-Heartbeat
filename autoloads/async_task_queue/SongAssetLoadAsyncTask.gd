@@ -57,20 +57,37 @@ func _case_sensitivity_hack(path: String):
 	else:
 		return path
 
+var sprite_set: DIVASpriteSet
+
+
 func _task_process() -> bool:
 	var asset = requested_assets_queue[0]
 	var loaded_asset
+	if song is SongLoaderDSC.HBSongMMPLUS and not sprite_set:
+		if asset in ["preview", "background", "circle_image"]:
+			sprite_set = song.get_song_select_sprite_set()
+	
 	match asset:
 		"preview":
 			if song.preview_image:
-				var asset_path = _case_sensitivity_hack(song.get_song_preview_res_path())
-				if asset_path:
-					loaded_asset = _image_from_fs(asset_path)
+				if sprite_set:
+					for sprite in sprite_set.sprites:
+						if "SONG_JK" in sprite.name:
+							loaded_asset = sprite
+				else:
+					var asset_path = _case_sensitivity_hack(song.get_song_preview_res_path())
+					if asset_path:
+						loaded_asset = _image_from_fs(asset_path)
 		"background":
 			if song.background_image:
-				var asset_path = _case_sensitivity_hack(song.get_song_background_image_res_path())
-				if asset_path:
-					loaded_asset = _image_from_fs(asset_path)
+				if sprite_set:
+					for sprite in sprite_set.sprites:
+						if "SONG_BG" in sprite.name:
+							loaded_asset = sprite
+				else:
+					var asset_path = _case_sensitivity_hack(song.get_song_background_image_res_path())
+					if asset_path:
+						loaded_asset = _image_from_fs(asset_path)
 		"note_usage":
 			loaded_asset = {}
 			for difficulty in song.charts:
@@ -79,7 +96,8 @@ func _task_process() -> bool:
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream(variant)
 				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
-				var audio_shinobu := song.get_shinobu_audio_data(variant) as ShinobuGodotAudioFile
+				var audio_shinobu := ShinobuGodotAudioFile.new()
+				audio_shinobu.load_from_memory(audio_ogg.data)
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
 					loaded_assets["voice"] = audio_ogg
 					loaded_assets["voice_shinobu"] = audio_shinobu
@@ -91,9 +109,15 @@ func _task_process() -> bool:
 		"voice":
 			if song.voice:
 				loaded_asset = song.get_voice_stream()
-				loaded_assets["voice_shinobu"] = song.get_shinobu_voice_audio_data(variant)
+				var shinobu_stream := ShinobuGodotAudioFile.new()
+				shinobu_stream.load_from_memory(loaded_asset.data)
+				loaded_assets["voice_shinobu"] = shinobu_stream
 		"circle_image":
-			if song.circle_image:
+			if sprite_set:
+				for sprite in sprite_set.sprites:
+					if "SONG_LOGO" in sprite.name:
+						loaded_asset = sprite
+			elif song.circle_image:
 				var asset_path = _case_sensitivity_hack(song.get_song_circle_image_res_path())
 				if asset_path:
 					loaded_asset = _image_from_fs(asset_path)
@@ -111,6 +135,7 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
+	VisualServer.force_sync()
 	for asset_name in data:
 		if data[asset_name] is Image:
 			var texture = ImageTexture.new()
@@ -123,3 +148,6 @@ func _on_task_finished_processing(data):
 
 func get_task_output_data():
 	return loaded_assets
+
+func needs_visual_server_sync() -> bool:
+	return true

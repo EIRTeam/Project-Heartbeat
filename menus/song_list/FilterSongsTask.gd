@@ -41,8 +41,10 @@ func sort_and_filter_songs():
 									and not song is HBPPDSong and not song.comes_from_ugc() \
 									and song.path.begins_with(editor_songs_path) \
 									and not song is SongLoaderDSC.HBSongDSC
+			"mmplus":
+				should_add_song = song is SongLoaderDSC.HBSongMMPLUS
 			"dsc":
-				should_add_song = song is SongLoaderDSC.HBSongDSC
+				should_add_song = song is SongLoaderDSC.HBSongDSC and not song is SongLoaderDSC.HBSongMMPLUS
 			"workshop":
 				should_add_song = song.comes_from_ugc()
 			"all":

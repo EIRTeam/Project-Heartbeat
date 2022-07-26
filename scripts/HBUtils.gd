@@ -484,3 +484,5 @@ static func fit_image(base_image: Image, size: Vector2, cover := false) -> Image
 	return final_image
 	
 	
+static func align(value: int, alignment: int):
+	return ( value + ( alignment - 1 ) ) & ~( alignment - 1 )

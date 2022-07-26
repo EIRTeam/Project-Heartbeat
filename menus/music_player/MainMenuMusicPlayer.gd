@@ -78,7 +78,10 @@ func set_time(time: float):
 		playback_progress_bar.value = time / current_song_length
 
 func _on_assets_loaded(assets):
+	image_preview_texture_rect.material = null
 	if "preview" in assets:
 		image_preview_texture_rect.texture = assets.preview
+		if image_preview_texture_rect.texture is DIVASpriteSet.DIVASprite:
+			image_preview_texture_rect.material = image_preview_texture_rect.texture.get_material()
 	else:
 		image_preview_texture_rect.texture = DEFAULT_IMAGE_TEXTURE

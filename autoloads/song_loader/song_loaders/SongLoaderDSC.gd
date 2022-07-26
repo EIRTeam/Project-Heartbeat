@@ -23,12 +23,18 @@ class HBSongDSC:
 	var opcode_map: DSCOpcodeMap
 	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
 		self.pv_data = _pv_data
+		has_audio_loudness = true
+		audio_loudness = -13.0
 		for diff in pv_data.charts:
 			charts[diff] = pv_data.charts[diff]
 		title = pv_data.title
 		romanized_title = pv_data.title_en
 		game_fs_access = _game_fs_access
 		opcode_map = _opcode_map
+		if pv_data.preview_start != 0.0:
+			preview_start = pv_data.preview_start * 1000
+			if pv_data.preview_duration != 0.0:
+				preview_end = preview_start + pv_data.preview_duration * 1000
 		if "music" in pv_data.metadata:
 			artist = pv_data.metadata.music
 	func get_song_audio_res_path():
@@ -62,6 +68,43 @@ class HBSongDSC:
 		return []
 	func is_visible_in_editor():
 		return false
+class HBSongMMPLUS:
+	extends HBSongDSC
+	
+	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap). \
+	(_pv_data, _game_fs_access, _opcode_map):
+		preview_image = "PLACEHOLDER"
+		background_image = "PLACEHOLDER"
+		circle_image = "PLACEHOLDER"
+		
+	func get_song_audio_res_path():
+		return pv_data.song_file_name
+		
+	func get_audio_stream(_variant := 0):
+		var audio_data := game_fs_access.load_file_as_buffer(get_song_audio_res_path())
+		var audio_stream := AudioStreamOGGVorbis.new()
+		audio_stream.data = audio_data.data_array
+		return audio_stream
+		
+	func get_song_select_sprite_set():
+		var farc_archive := FARCArchive.new()
+		var found := false
+		
+		var farc_path := "rom/2d/spr_sel_pv%s.farc" % [pv_data.pv_id_str]
+		var file_path := game_fs_access.get_file_path(farc_path) as String
+		if file_path:
+			farc_archive.open(game_fs_access.load_file_as_buffer(file_path))
+			found = true
+			var sprite_set_path := "spr_sel_pv%s.bin" % [pv_data.pv_id_str]
+			var sprite_set_buffer := farc_archive.get_file_buffer(sprite_set_path)
+			var sprite_set := DIVASpriteSet.new()
+			sprite_set.read(sprite_set_buffer)
+			return sprite_set
+		
+	func get_chart_for_difficulty(difficulty) -> HBChart:
+		var chart_path := pv_data.charts[difficulty].dsc_path as String
+		var buff := game_fs_access.load_file_as_buffer(chart_path)
+		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
 		
 func _init_loader() -> int:
 	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
@@ -76,9 +119,13 @@ class DSCPVData:
 	var title := ""
 	var title_en := ""
 	var pv_id: int
+	var pv_id_str: String
 	var metadata = {}
 	var tutorial = false
 	var bpm: int
+	var preview_start := 0.0
+	var preview_duration := 0.0
+	var has_ex_stage := false
 	func _init(_pv_id: int):
 		self.pv_id = _pv_id
 
@@ -162,6 +209,92 @@ class DSCGameFSAccess:
 			if file.file_exists(file_path):
 				return file_path
 		return null
+		
+	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
+		var spb := StreamPeerBuffer.new()
+		var file_path := get_file_path(path) as String
+		if not file_path:
+			return spb
+		else:
+			var f := File.new()
+			f.open(file_path, File.READ)
+			spb.data_array = f.get_buffer(f.get_len())
+		return spb
+		
+class MMPLUSFSAccess:
+	extends DSCGameFSAccess
+	
+	const REGION_CPK_NAME := "diva_main_region.cpk"
+	const REGION_ROM_NAME := "rom_steam_region"
+	const MAIN_CPK_NAME := "diva_main.cpk"
+	const MAIN_ROM_NAME := "rom_steam"
+	const REGION_DLC_CPK_NAME := "diva_dlc00_region.cpk"
+	const REGION_DLC_ROM_NAME := "rom_steam_region_dlc"
+	const DLC_CPK_NAME := "diva_dlc00.cpk"
+	const DLC_ROM_NAME := "rom_steam_dlc"
+	
+	var cpk_archives := {
+		REGION_CPK_NAME: CPKArchive.new(),
+		MAIN_CPK_NAME: CPKArchive.new(),
+		REGION_DLC_CPK_NAME: CPKArchive.new(),
+		DLC_CPK_NAME: CPKArchive.new()
+	}
+	
+	class FileCacheEntry:
+		var pack: CPKArchive
+		var internal_path: String
+	
+	var file_path_cache := {}
+	
+	func _init(_game_location: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
+		var f := File.new()
+		var region_cpk_path := _game_location.plus_file(REGION_CPK_NAME)
+		
+		cpk_archives[REGION_CPK_NAME].set_meta("rom", REGION_ROM_NAME)
+		cpk_archives[MAIN_CPK_NAME].set_meta("rom", MAIN_ROM_NAME)
+		cpk_archives[REGION_DLC_CPK_NAME].set_meta("rom", REGION_DLC_ROM_NAME)
+		cpk_archives[DLC_CPK_NAME].set_meta("rom", DLC_ROM_NAME)
+		
+		for file in [REGION_CPK_NAME, MAIN_CPK_NAME, REGION_DLC_CPK_NAME, DLC_CPK_NAME]:
+			var cpk_path := _game_location.plus_file(file)
+			if not f.file_exists(cpk_path):
+				return
+			else:
+				var farchive := File.new()
+				farchive.open(cpk_path, File.READ)
+				cpk_archives[file].open(farchive)
+		is_valid = true
+		
+	func get_file_path(path: String):
+		var cache_entry := file_path_cache.get(path) as FileCacheEntry
+		if cache_entry:
+			return cache_entry.internal_path
+		else:
+			for pack in cpk_archives.values():
+				var paths = pack.get_file_rom_paths(path)
+				var found_path := ""
+				if paths.size() > 0:
+					found_path = paths[0]
+				elif pack.has_file(path):
+					found_path = path
+				if found_path:
+					var cache := FileCacheEntry.new()
+					cache.pack = pack
+					cache.internal_path = found_path
+					file_path_cache[path] = cache
+					file_path_cache[found_path] = cache
+					return found_path
+		return null
+	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
+		var cache_entry := file_path_cache.get(path) as FileCacheEntry
+		if cache_entry:
+			return cache_entry.pack.load_file(cache_entry.internal_path)
+		else:
+			for pack in cpk_archives.values():
+				if pack.has_file(path):
+					return pack.load_file(path)
+		return StreamPeerBuffer.new()
+		
 class MDATALoader:
 	var path: String
 	var mdatas: Dictionary = {}
@@ -207,15 +340,9 @@ class MDATALoader:
 										if not val in mdatas:
 											break
 					
-func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
-	var file = File.new()
-	if not file.file_exists(pvdb_path):
-		Log.log(self, "Error loading DSC songs from %s PVDB does not exist" % [pvdb_path], Log.LogLevel.ERROR)
-		return {}
-	file.open(pvdb_path, File.READ)
-	var pv_datas = {}
-	while not file.eof_reached():
-		var line = file.get_line()
+func parse_pvdb(pvdb: String) -> Dictionary:
+	var pv_datas := {}
+	for line in pvdb.split("\n"):
 		if not line.strip_edges() or line.begins_with("#"):
 			continue
 		var spl = line.split("=")
@@ -224,28 +351,38 @@ func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
 		var key = spl[0]
 		var value = spl[1]
 		if line.begins_with("pv_"):
-			var pv_id = int(line.substr(3, 3))
+			var pv_id_str := line.substr(3, 3) as String
+			var pv_id = int(pv_id_str)
 			if not pv_id in pv_datas.keys():
 				pv_datas[pv_id] = DSCPVData.new(pv_id)
+				pv_datas[pv_id].pv_id_str = pv_id_str
 			var pv_data := pv_datas[pv_id] as DSCPVData
+			if key.ends_with("ex_stage"):
+				pv_data.has_ex_stage = true
+				continue
 			if key.ends_with("script_file_name"):
 				var difficulty = key.split(".")[2] + key.split(".")[3]
-				if fs_access.get_file_path(value):
-					pv_data.set_dsc_path(dsc_diff_to_hb_diff(difficulty), value)
+				var get_f_path = fs_access.get_file_path(value)
+				if get_f_path:
+					pv_data.set_dsc_path(dsc_diff_to_hb_diff(difficulty), get_f_path)
 			if key.ends_with("song_file_name"):
 				pv_data.song_file_name = value
 			if key.ends_with("song_name"):
 				pv_data.title = value
 			elif key.ends_with("song_name_en"):
 				pv_data.title_en = value
-			if key.ends_with("level"):
+			elif key.ends_with("level"):
 				var difficulty = key.split(".")[2] + key.split(".")[3]
 				pv_data.set_star_count_from_str(dsc_diff_to_hb_diff(difficulty), value)
-			if key.ends_with("bpm"):
+			elif key.ends_with("bpm"):
 				pv_data.bpm = int(value)
-			if key.ends_with("tutorial"):
+			elif key.ends_with("tutorial"):
 				if value == "1":
 					pv_data.tutorial = true
+			elif key.ends_with("sabi.play_time"):
+				pv_data.preview_duration = value.to_float()
+			elif key.ends_with("sabi.start_time"):
+				pv_data.preview_start = value.to_float()
 			var sp = key.split(".")
 			if sp.size() > 2:
 				if sp[1] == "songinfo":
@@ -260,20 +397,76 @@ func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
 						meta_name = meta_name.substr(0, meta_name.length()-3)
 					pv_data.metadata[meta_name] = value
 	return pv_datas
+func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
+	var file = File.new()
+	if not file.file_exists(pvdb_path):
+		Log.log(self, "Error loading DSC songs from %s PVDB does not exist" % [pvdb_path], Log.LogLevel.ERROR)
+		return {}
+	file.open(pvdb_path, File.READ)
+	var pv_datas = parse_pvdb(file.get_as_text())
+	return pv_datas
+	
+func load_songs_mmplus() -> Array:
+	var mdata_path = HBUtils.join_path(GAME_LOCATION, "mdata")
+	var mdata_loader = MDATALoader.new(mdata_path)
+	var mmplus_file_access := MMPLUSFSAccess.new(GAME_LOCATION, mdata_loader)
+	fs_access = mmplus_file_access
+	
+	var songs := []
+	
+	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
+	var region_dlc_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_DLC_CPK_NAME] as CPKArchive
+	var main_pvdb := parse_pvdb(region_cpk.load_text_file("rom_steam_region/rom/pv_db.txt"))
+	var dlc_pvdb := parse_pvdb(region_dlc_cpk.load_text_file("rom_steam_region_dlc/rom/mdata_pv_db.txt"))
+	for pv_id in dlc_pvdb:
+		main_pvdb[pv_id] = dlc_pvdb[pv_id]
+	var pv_ids_to_ignore := [67, 68]
+	for pv_id in main_pvdb:
+		if pv_id in pv_ids_to_ignore:
+			continue
+		var pv_data := main_pvdb[pv_id] as DSCPVData
+		if pv_data.charts.size() == 0 or \
+			pv_data.tutorial:
+			continue
+		for i in range(pv_data.charts.size()-1, -1, -1):
+			var chart_name = pv_data.charts.keys()[i]
+			if not pv_data.charts[chart_name].dsc_path:
+				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
+				pv_data.charts.erase(chart_name)
+		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
+		song.id = "pv_" + str(pv_id)
+		
+		var ogg_path := mmplus_file_access.get_file_path(pv_data.song_file_name) as String
+		if ogg_path:
+			songs.append(song)
+		else:
+			if pv_data.has_ex_stage:
+				continue
+			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
+			continue
+	
+	return songs
 func load_songs() -> Array:
+	if game_type == "MMPLUS":
+		return load_songs_mmplus()
+	
 	var mdata_path = HBUtils.join_path(GAME_LOCATION, "mdata")
 	var mdata_loader = MDATALoader.new(mdata_path)
 	fs_access = DSCGameFSAccess.new(GAME_LOCATION, mdata_loader)
 	
 	if not fs_access.is_valid:
+		propagate_error("Game directory does not exist (%s)" % [GAME_LOCATION], true)
 		Log.log(self, "Error loading DSC songs from %s" % [GAME_LOCATION], Log.LogLevel.ERROR)
 		return []
-	
-	
+		
 	var pv_datas = {}
 	for pvdb_path in ["rom/pv_db.txt", "rom/mdata_pv_db.txt"]:
 		var PVDB_LOCATION = fs_access.get_file_path(pvdb_path)
 		if not PVDB_LOCATION:
+			if pvdb_path == "rom/pv_db.txt":
+				propagate_error(tr("PVDB does not exist (%s)") % ["rom/pv_db.txt"], true)
+				return []
+			
 			Log.log(self, "Error loading DSC songs from %s PVDB does not exist (%s)" % [GAME_LOCATION, pvdb_path], Log.LogLevel.ERROR)
 			continue
 		var datas = load_pv_datas_from_pvdb(PVDB_LOCATION)
@@ -290,6 +483,7 @@ func load_songs() -> Array:
 			var chart_name = pv_data.charts.keys()[i]
 			if not pv_data.charts[chart_name].dsc_path:
 				pv_data.charts.erase(chart_name)
+				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, chart_name, pv_data.title_en])
 		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
 		songs.append(song)

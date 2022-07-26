@@ -10,6 +10,18 @@ var platform_settings: HBPlatformSettings
 
 var force_steam_deck_mode := "--force-steam-deck" in OS.get_cmdline_args()
 
+enum MMPLUS_ERROR {
+	OK,
+	NEEDS_RESTART,
+	NO_STEAM,
+	NOT_OWNED,
+	NOT_INSTALLED,
+	LOAD_ERROR,
+}
+
+var mmplus_error: int = MMPLUS_ERROR.NO_STEAM
+var mmplus_loader: SongLoaderDSC
+
 const STREAMER_MODE_CURRENT_SONG_TITLE_PATH := "user://current_song.txt"
 const STREAMER_MODE_CURRENT_SONG_BG_PATH := "user://current_song_bg.png"
 const STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH := "user://current_song_preview.png"
@@ -194,6 +206,9 @@ func _game_init():
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
 	ResourcePackLoader._init_resource_pack_loader()
+	
+	PlatformService.service_provider._post_game_init()
+	
 	# Switch specific stuff
 	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"
@@ -255,3 +270,17 @@ func save_empty_streamer_images():
 	f.open(STREAMER_MODE_CURRENT_SONG_TITLE_PATH, File.WRITE)
 	f.store_string("")
 	f.close()
+
+func get_system_mmplus_error() -> String:
+	var out := tr("Unknown error")
+	match mmplus_error:
+		MMPLUS_ERROR.LOAD_ERROR:
+			out = tr("Fatal error loading data from the game, please see below")
+		MMPLUS_ERROR.NOT_INSTALLED:
+			out = tr("Steam reports MM+ is not installed")
+		MMPLUS_ERROR.NOT_OWNED:
+			out = tr("Your steam account does not own MM+")
+		MMPLUS_ERROR.NO_STEAM:
+			out = tr("Steam couldn't be found, is it closed?")
+	return out
+	

@@ -15,6 +15,8 @@ onready var cache_clear_success_popup = get_node("CacheClearSucccessPopup")
 var content_directory_control
 var action_being_bound = ""
 
+var mmplus_button: Control
+
 func _unhandled_input(event):
 	if visible:
 		if event.is_action_pressed("gui_cancel"):
@@ -28,7 +30,8 @@ func _unhandled_input(event):
 		else:
 			if scroll_container.get_selected_item():
 				if not event is InputEventMouse:
-					scroll_container.get_selected_item()._gui_input(event)
+					if scroll_container.get_selected_item().has_method("_gui_input"):
+						scroll_container.get_selected_item()._gui_input(event)
 
 func _ready():
 	populate()
@@ -79,6 +82,17 @@ func populate():
 	content_directory_control.connect("pressed", set_directory_confirmation_window, "popup_centered")
 	scroll_container.item_container.add_child(content_directory_control)
 	
+	mmplus_button = preload("res://menus/options_menu/content_dirs_menu/MMPlusControl.tscn").instance()
+	scroll_container.item_container.add_child(mmplus_button)
+	mmplus_button.set_value(UserSettings.user_settings.enable_system_mmplus_loading)
+	mmplus_button.connect("changed", self, "_on_mmplus_option_changed")
+	mmplus_button.update_error()
+	
+func _on_mmplus_option_changed(new_value: bool):
+	UserSettings.user_settings.enable_system_mmplus_loading = new_value
+	UserSettings.save_user_settings()
+	HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NEEDS_RESTART
+	mmplus_button.update_error()
 	
 func _on_path_selected(path):
 	UserSettings.user_settings.content_path = path

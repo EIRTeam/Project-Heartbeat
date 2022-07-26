@@ -5,7 +5,7 @@ var game_info: HBGameInfo
 var is_loading_practice_mode = false
 onready var title_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer/TitleLabel")
 onready var meta_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer/MetaLabel")
-onready var loadingu_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/LoadinguLabel")
+onready var loadingu_label = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/VBoxContainer2/LoadinguLabel")
 onready var album_cover = get_node("LoadingScreenElements/Panel2/Panel3/MarginContainer/HBoxContainer/TextureRect")
 onready var loading_panel = get_node("LoadingScreenElements/Panel2")
 onready var appear_tween := Tween.new()
@@ -51,13 +51,18 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets):
 	
 	is_loading_practice_mode = practice
 
-	
+	$TextureRect.material = null
 	if "background" in assets:
 		$TextureRect.texture = assets.background
+		if assets.background is DIVASpriteSet.DIVASprite:
+			$TextureRect.material = assets.background.get_material()
 	else:
 		$TextureRect.texture = DEFAULT_BG
+	album_cover.material = null
 	if "preview" in assets:
 		album_cover.texture = assets.preview
+		if assets.preview is DIVASpriteSet.DIVASprite:
+			album_cover.material = assets.preview.get_material()
 	else:
 		album_cover.texture = DEFAULT_PREVIEW_TEXTURE
 	title_label.text = song.get_visible_title(new_game_info.variant)

@@ -17,3 +17,6 @@ func _on_task_finished_processing(data):
 
 func get_task_output_data():
 	return null
+
+func needs_visual_server_sync() -> bool:
+	return false

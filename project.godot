@@ -20,6 +20,21 @@ _global_script_classes=[ {
 "path": "res://tools/resource_pack_editor/skin_editor/AnimatedTextureFrameEditor.gd"
 }, {
 "base": "Reference",
+"class": "CPKArchive",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/CPKArchive.gd"
+}, {
+"base": "Reference",
+"class": "CriUTFTable",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/CriUTFTable.gd"
+}, {
+"base": "Reference",
+"class": "DIVASpriteSet",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/DIVASpriteSet.gd"
+}, {
+"base": "Reference",
 "class": "DSCOpcodeMap",
 "language": "GDScript",
 "path": "res://autoloads/song_loader/song_loaders/DSCOpcodeMap.gd"
@@ -73,6 +88,11 @@ _global_script_classes=[ {
 "class": "EditorTransformationTemplate",
 "language": "GDScript",
 "path": "res://tools/editor/transformation_display/EditorTransformationTemplate.gd"
+}, {
+"base": "Reference",
+"class": "FARCArchive",
+"language": "GDScript",
+"path": "res://autoloads/song_loader/song_loaders/FARCArchive.gd"
 }, {
 "base": "HBHovereableButton",
 "class": "FolderManagerFolderButton",
@@ -987,6 +1007,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AnimatedTextureEditor": "",
 "AnimatedTextureFrameEditor": "",
+"CPKArchive": "",
+"CriUTFTable": "",
+"DIVASpriteSet": "",
 "DSCOpcodeMap": "",
 "EditorLyricPhraseTimelineItem": "",
 "EditorPlayback": "",
@@ -998,6 +1021,7 @@ _global_script_class_icons={
 "EditorTimelineItemSustainNote": "",
 "EditorTransformation": "",
 "EditorTransformationTemplate": "",
+"FARCArchive": "",
 "FolderManagerFolderButton": "",
 "HBAsyncTaskQueue": "",
 "HBAtlasEntry": "",
@@ -1194,8 +1218,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1651267281
-config/build_commit="be8f07f6cd3a3a1813f08a1ff8522d8b04ce54e2"
+config/build_time=1658187942
+config/build_commit="0c67658e2f48b98c1799da66193757981ed4d38f"
 config/service_environment="production"
 
 [audio]
@@ -1244,7 +1268,7 @@ window/stretch/aspect="expand"
 
 [editor]
 
-main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR\" --phplugin:dscloader:game_type f"
+main_run_args="--enable-network-diagnostics --service-environment production --angle-backend d3d11 --disable-async-loading --phplugin:dscloader:game_location \"/home/eirexe/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus\" --phplugin:dscloader:game_type f --logging-enabled"
 convert_text_resources_to_binary_on_export=true
 
 [editor_plugins]

@@ -179,7 +179,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
 			if voice_audio_playback:
 				voice_remap = ShinobuGodot.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
-				voice_remap.set_weight(1, 0, 1.0)
+				voice_remap.set_weight(2, 0, 1.0)
 				voice_remap.set_weight(3, 1, 1.0)
 				ShinobuGodot.connect_effect_to_group(voice_remap, "music")
 				voice_audio_playback.connect_sound_to_effect(voice_remap)
@@ -188,7 +188,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 			
 			audio_remap = ShinobuGodot.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
 			audio_remap.set_weight(0, 0, 1.0)
-			audio_remap.set_weight(2, 1, 1.0)
+			audio_remap.set_weight(1, 1, 1.0)
 			ShinobuGodot.connect_effect_to_group(audio_remap, "music")
 			audio_playback.connect_sound_to_effect(audio_remap)
 	else:

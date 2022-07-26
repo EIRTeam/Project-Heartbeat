@@ -233,22 +233,27 @@ func _on_song_started(song, assets):
 			music_player_control.set_song(song, assets.audio.get_length())
 	if (starting_menu in result_menus) or (not iflag):
 		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
-			change_to_background(assets.background)
+			var mat: ShaderMaterial
+			if assets.background is DIVASpriteSet.DIVASprite:
+				mat = assets.background.get_material()
+			change_to_background(assets.background, false, mat)
 		else:
 			change_to_background(null, true)
 	else:
 		iflag = false
 	
-func change_to_background(background: Texture, use_default = false):
+func change_to_background(background: Texture, use_default = false, material = null):
 	if use_default:
 		background = default_bg
 	background_transition_animation_player.playback_speed = 1/BACKGROUND_TRANSITION_TIME
 	if last_bg == 1:
 		second_background_texrect.texture = background
 		background_transition_animation_player.play("1to2")
+		second_background_texrect.material = material
 		last_bg = 2
 	else:
 		first_background_texrect.texture = background
+		first_background_texrect.material = material
 		background_transition_animation_player.play_backwards("1to2")
 		last_bg = 1
 

@@ -34,7 +34,9 @@ class SongPlayer:
 			return ERR_FILE_NOT_FOUND
 		if current_load_task:
 			AsyncTaskQueue.abort_task(current_load_task)
-		var assets_to_load = ["audio", "voice", "preview", "background", "circle_logo"]
+		var assets_to_load = ["audio", "voice", "preview", "background"]
+		if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
+			assets_to_load.append("audio_loudness")
 		current_load_task = SongAssetLoadAsyncTask.new(assets_to_load, song)
 		current_load_task.connect("assets_loaded", self, "_on_song_assets_loaded")
 		AsyncTaskQueue.queue_task(current_load_task)
@@ -85,6 +87,8 @@ class SongPlayer:
 		
 	func _on_song_assets_loaded(assets):
 		if "audio" in assets:
+			if "audio_loudness" in assets:
+				target_volume = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
 			var song_audio_name = get_song_audio_name()
 			ShinobuGodot.register_sound(assets.audio_shinobu, song_audio_name)
 			audio_playback = ShinobuGodot.instantiate_sound(song_audio_name, "menu_music", song.uses_dsc_style_channels())
@@ -110,7 +114,7 @@ class SongPlayer:
 			if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
 				if voice_audio_playback:
 					voice_remap = ShinobuGodot.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
-					voice_remap.set_weight(1, 0, 1.0)
+					voice_remap.set_weight(2, 0, 1.0)
 					voice_remap.set_weight(3, 1, 1.0)
 					ShinobuGodot.connect_effect_to_group(voice_remap, "menu_music")
 					voice_audio_playback.connect_sound_to_effect(voice_remap)
@@ -118,7 +122,7 @@ class SongPlayer:
 				
 				audio_remap = ShinobuGodot.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
 				audio_remap.set_weight(0, 0, 1.0)
-				audio_remap.set_weight(2, 1, 1.0)
+				audio_remap.set_weight(1, 1, 1.0)
 				ShinobuGodot.connect_effect_to_group(audio_remap, "menu_music")
 				audio_playback.connect_sound_to_effect(audio_remap)
 				
@@ -164,8 +168,8 @@ class SongPlayer:
 var current_song_player: SongPlayer
 
 func play_song(song: HBSong):
-	if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
-		return
+#	if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
+#		return
 	if current_song_player:
 		if song == current_song_player.song:
 			return

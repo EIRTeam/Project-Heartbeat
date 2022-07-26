@@ -30,6 +30,6 @@ void fragment() {
 	vec4 color = texture(TEXTURE, u) * get_color(remap(UV.x, t, 0.0, t-tail_length, 1.0));
 	vec4 col = color;
 	COLOR = col * mix(0.0, 1.0, step(UV.x, t));
-	col.a = col.a * 0.25;
+	col.a = col.a * 0.5;
 	COLOR += col * mix(0.0, 1.0, step(t_m, UV.x) * step(UV.x, 1.0 - 0.2222/2.0)) * leading;
 }
