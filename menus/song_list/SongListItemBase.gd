@@ -8,7 +8,7 @@ onready var node_to_scale = get_node(node_to_scale_path)
 const HOVERED_SCALE = Vector2(1.0, 1.0)
 const NON_HOVERED_SCALE = Vector2(0.85, 0.85)
 
-var scale_tween = Tween.new()
+onready var scale_tween = Tween.new()
 
 var hover_style = preload("res://styles/SongListItemHover.tres")
 var normal_style = preload("res://styles/SongListItemNormal.tres")
@@ -33,13 +33,14 @@ func _ready():
 func update_scale(to: Vector2, no_animation=false):
 	node_to_scale.rect_pivot_offset = node_to_scale.rect_size / 2.0
 	node_to_scale.rect_pivot_offset.x = 0
-	if no_animation:
-		scale_tween.remove_all()
-		node_to_scale.rect_scale = get_scale()
-	else:
-		scale_tween.remove_all()
-		scale_tween.interpolate_property(node_to_scale, "rect_scale", node_to_scale.rect_scale, to, 0.25, Tween.TRANS_BACK, Tween.EASE_OUT)
-		scale_tween.start()
+	if scale_tween.is_inside_tree():
+		if no_animation:
+			scale_tween.remove_all()
+			node_to_scale.rect_scale = get_scale()
+		else:
+			scale_tween.remove_all()
+			scale_tween.interpolate_property(node_to_scale, "rect_scale", node_to_scale.rect_scale, to, 0.25, Tween.TRANS_BACK, Tween.EASE_OUT)
+			scale_tween.start()
 func hover(no_animation=false):
 	node_to_scale.add_stylebox_override("normal", hover_style)
 	update_scale(get_scale(), no_animation)
