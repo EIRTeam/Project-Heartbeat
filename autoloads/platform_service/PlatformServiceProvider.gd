@@ -75,3 +75,6 @@ func show_gamepad_text_input(existing_text := "", multi_line := false, descripti
 	return false
 func show_floating_gamepad_text_input(multiline := false) -> bool:
 	return false
+# Called after the game has initialized
+func _post_game_init():
+	pass
