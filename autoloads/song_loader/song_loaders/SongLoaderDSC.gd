@@ -232,6 +232,8 @@ class MMPLUSFSAccess:
 	const REGION_DLC_ROM_NAME := "rom_steam_region_dlc"
 	const DLC_CPK_NAME := "diva_dlc00.cpk"
 	const DLC_ROM_NAME := "rom_steam_dlc"
+
+	var has_dlc := true
 	
 	var cpk_archives := {
 		REGION_CPK_NAME: CPKArchive.new(),
@@ -258,11 +260,16 @@ class MMPLUSFSAccess:
 		for file in [REGION_CPK_NAME, MAIN_CPK_NAME, REGION_DLC_CPK_NAME, DLC_CPK_NAME]:
 			var cpk_path := _game_location.plus_file(file)
 			if not f.file_exists(cpk_path):
+				if file == DLC_CPK_NAME or file == REGION_DLC_CPK_NAME:
+					has_dlc = false
 				return
 			else:
 				var farchive := File.new()
 				farchive.open(cpk_path, File.READ)
 				cpk_archives[file].open(farchive)
+		if not has_dlc:
+			cpk_archives.erase(REGION_DLC_CPK_NAME)
+			cpk_archives.erase(DLC_CPK_NAME)
 		is_valid = true
 		
 	func get_file_path(path: String):
@@ -415,11 +422,12 @@ func load_songs_mmplus() -> Array:
 	var songs := []
 	
 	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
-	var region_dlc_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_DLC_CPK_NAME] as CPKArchive
 	var main_pvdb := parse_pvdb(region_cpk.load_text_file("rom_steam_region/rom/pv_db.txt"))
-	var dlc_pvdb := parse_pvdb(region_dlc_cpk.load_text_file("rom_steam_region_dlc/rom/mdata_pv_db.txt"))
-	for pv_id in dlc_pvdb:
-		main_pvdb[pv_id] = dlc_pvdb[pv_id]
+	if fs_access.has_dlc:
+		var region_dlc_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_DLC_CPK_NAME] as CPKArchive
+		var dlc_pvdb := parse_pvdb(region_dlc_cpk.load_text_file("rom_steam_region_dlc/rom/mdata_pv_db.txt"))
+		for pv_id in dlc_pvdb:
+			main_pvdb[pv_id] = dlc_pvdb[pv_id]
 	var pv_ids_to_ignore := [67, 68]
 	for pv_id in main_pvdb:
 		if pv_id in pv_ids_to_ignore:

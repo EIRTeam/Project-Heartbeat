@@ -67,7 +67,8 @@ const PH_AUTHORS = {
 	],
 	"Others": {
 		"Gura, Gawr": "Resident mathematician",
-		"Reimu Hakurei fumo": "Marketing department head"
+		"Reimu Hakurei fumo": "Marketing department head",
+		"Skyth & the MikuMikuLibrary contributors": "MikuMikuLibrary, used as a reference for loading MM+ content."
 	}
 }
 
