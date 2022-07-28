@@ -62,12 +62,8 @@ func _decrypt_farc():
 	
 	var encrypted_start := spb.get_position()
 	var encrypted_length := spb.get_size()-spb.get_position()
+	var pba = aes_context.update(spb.get_data(encrypted_length)[1])
 	
-	var pba := PoolByteArray()
-	var block_count = encrypted_length / BLOCK_SIZE
-	
-	for _block_i in range(block_count):
-		pba.append_array(aes_context.update(spb.get_data(BLOCK_SIZE)[1]))
 	spb.seek(encrypted_start)
 	spb.put_data(pba)
 	spb.seek(encrypted_start)

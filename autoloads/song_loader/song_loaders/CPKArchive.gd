@@ -80,19 +80,15 @@ func load_file(file_path: String) -> StreamPeerBuffer:
 	file.seek(entry.position)
 
 	var out := PoolByteArray()
+	out.resize(entry.length)
 
+	var file_buff := file.get_buffer(entry.length)
 	var block_count := entry.length / BLOCK_SIZE
-	for block_i in range(block_count):
-		var encrypted_buff := file.get_buffer(BLOCK_SIZE)
-		var unenc_buffer := aes_context.update(encrypted_buff)
-		
-		if block_i == block_count-1:
-			unenc_buffer.resize(unenc_buffer.size() - unenc_buffer[-1])
-		
-		out.append_array(unenc_buffer)
+	var unenc_buffer := aes_context.update(file_buff)
+	unenc_buffer.resize(unenc_buffer.size() - unenc_buffer[-1])
 	
 	var spb := StreamPeerBuffer.new()
-	spb.data_array = out
+	spb.data_array = unenc_buffer
 	
 	return spb
 
