@@ -185,8 +185,10 @@ func _init_ytdl():
 
 func save_cache():
 	var file = File.new()
-	file.open(CACHE_FILE, File.WRITE)
-	file.store_string(JSON.print(cache_meta, "  "))
+	var video_cache_str := JSON.print(cache_meta, "  ")
+	if video_cache_str:
+		file.open(CACHE_FILE, File.WRITE)
+		file.store_string(video_cache_str)
 	
 func get_ytdl_executable():
 	var path
@@ -489,7 +491,6 @@ func _download_video(userdata):
 	Log.log(self, "Video download finish!")
 	unlock_video(userdata.video_id)
 	call_deferred("_video_downloaded", userdata.thread, result)
-	save_cache()
 	
 func show_error(output: String, message: String, song: HBSong):
 	var progress_thing = PROGRESS_THING.instance()
@@ -541,6 +542,7 @@ func _video_downloaded(thread: Thread, result):
 		emit_signal("song_cached", song)
 	process_queue()
 	emit_signal("video_downloaded",  result.video_id, result)
+	save_cache()
 	
 func video_exists(video_id):
 	var file = File.new()
