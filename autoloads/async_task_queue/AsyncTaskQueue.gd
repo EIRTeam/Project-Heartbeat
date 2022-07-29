@@ -68,8 +68,6 @@ func _thread_function(_userdata):
 			for i in range(queue.size()-1, -1, -1):
 				var task = queue[i]
 				if task._aborted:
-					if task.needs_visual_server_sync():
-						VisualServer.force_sync()
 					queue.erase(task)
 				else:
 					current_task = task
@@ -79,8 +77,6 @@ func _thread_function(_userdata):
 		if current_task:
 			if current_task._task_process():
 				mutex.lock()
-				if current_task.needs_visual_server_sync():
-					VisualServer.force_sync()
 				if not current_task._aborted:
 					current_task.call_deferred("emit_signal", "task_done", current_task.get_task_output_data())
 				queue.erase(current_task)

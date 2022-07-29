@@ -135,12 +135,13 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
-	VisualServer.force_sync()
 	for asset_name in data:
 		if data[asset_name] is Image:
 			var texture = ImageTexture.new()
 			texture.create_from_image(data[asset_name], HBGame.platform_settings.texture_mode)
 			data[asset_name] = texture
+		elif data[asset_name] is DIVASpriteSet.DIVASprite:
+			data[asset_name].allocate()
 	data["song"] = song
 	emit_signal("assets_loaded", data)
 	if "audio_loudness" in data:
@@ -148,6 +149,3 @@ func _on_task_finished_processing(data):
 
 func get_task_output_data():
 	return loaded_assets
-
-func needs_visual_server_sync() -> bool:
-	return true

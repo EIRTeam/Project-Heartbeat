@@ -1,5 +1,8 @@
 class_name DIVASpriteSet
 
+# Godot renderer is crashy in multi threaded mode
+const ENABLE_TEXTURE_ALLOCATION := false
+
 var buffer: StreamPeerBuffer
 
 var has_error := false
@@ -31,7 +34,9 @@ const DIVA_ATI2_FORMAT = 11
 class DIVATextureData:
 	var name := ""
 	var texture: ImageTexture
+	var texture_data: Image
 	var texture_ycbcr_2: ImageTexture
+	var texture_data_ycbcr_2: Image
 	var format := 0
 
 class DIVASprite:
@@ -40,6 +45,16 @@ class DIVASprite:
 	var texture_index := 0
 	var diva_texture: DIVATextureData
 	var ycbcr_atlas: AtlasTexture
+	
+	func allocate():
+		var image_texture := ImageTexture.new()
+		image_texture.create_from_image(diva_texture.texture_data)
+		atlas = image_texture
+		if ycbcr_atlas and diva_texture.texture_data_ycbcr_2:
+			var image_texture_2 := ImageTexture.new()
+			image_texture_2.create_from_image(diva_texture.texture_data_ycbcr_2)
+			ycbcr_atlas.atlas = image_texture_2
+	
 	func is_ycbcr() -> bool:
 		return ycbcr_atlas != null
 	func get_material() -> ShaderMaterial:
@@ -198,13 +213,22 @@ func read_texture_data_from_offset(texture_data, texture_data_offset: int) -> bo
 	image.create_from_data(width, height, false, godot_format, buffer.get_data(data_size)[1])
 	var ret := true
 	
-	if texture_data.texture and format == DIVA_ATI2_FORMAT:
-		texture_data.texture_ycbcr_2 = ImageTexture.new()
-		texture_data.texture_ycbcr_2.create_from_image(image)
-		ret = false
+	if ENABLE_TEXTURE_ALLOCATION:
+		if texture_data.texture and format == DIVA_ATI2_FORMAT:
+			texture_data.texture_ycbcr_2 = ImageTexture.new()
+			texture_data.texture_ycbcr_2.create_from_image(image)
+			texture_data.texture_data_ycbcr_2 = image
+			ret = false
+		else:
+			texture_data.texture = ImageTexture.new()
+			texture_data.texture.create_from_image(image)
+			texture_data.texture_data = image
 	else:
-		texture_data.texture = ImageTexture.new()
-		texture_data.texture.create_from_image(image)
+		if texture_data.texture_data and format == DIVA_ATI2_FORMAT:
+			texture_data.texture_data_ycbcr_2 = image
+			ret = false
+		else:
+			texture_data.texture_data = image
 	
 	texture_data.format = format
 	
@@ -256,12 +280,17 @@ func read_sprites(sprite_count: int):
 		sprite.region.size.x = width
 		sprite.region.size.y = height
 		
-		sprite.atlas = texture.texture
-		sprite.diva_texture = texture
-		if texture.texture_ycbcr_2:
+		if texture.texture_data_ycbcr_2:
 			sprite.ycbcr_atlas = AtlasTexture.new()
-			sprite.ycbcr_atlas.atlas = texture.texture_ycbcr_2
 			sprite.ycbcr_atlas.region = sprite.region
+		if ENABLE_TEXTURE_ALLOCATION:
+			sprite.atlas = texture.texture
+			if texture.texture_ycbcr_2:
+				sprite.ycbcr_atlas.atlas = texture.texture_ycbcr_2
+
+				
+		sprite.diva_texture = texture
+
 		sprites.append(sprite)
 	buffer.seek(current_offset)
 
