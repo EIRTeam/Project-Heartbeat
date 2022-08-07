@@ -346,7 +346,7 @@ func _download_video(userdata):
 			var format := formats[i] as Dictionary
 			if format.get("vcodec", "") == "none" and \
 					not format.get("format_note", "") == "DASH audio" and \
-					format.get("audio_ext", "") in ["webm", "ogg", "ogv"] and \
+					format.get("audio_ext", "") in ["webm", "ogg", "ogv", "m4a"] and \
 					format.get("abr", 0) > highest_abr:
 				highest_abr = format.get("abr", 0)
 				highest_abr_i = i
