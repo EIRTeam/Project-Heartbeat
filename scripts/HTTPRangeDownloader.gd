@@ -37,6 +37,22 @@ var dash_fragments := []
 var dash_mode := false
 var dash_base_url := ""
 
+class TimeoutHandler:
+	var start_time := 0
+	var tries := 0
+	var max_tries := 10
+	# Time out, in seconds
+	var time_out := 10
+	
+	func start_try():
+		tries += 1
+		start_time = OS.get_ticks_usec()
+	func has_timed_out() -> bool:
+		return ((OS.get_ticks_usec() - start_time) / 1_000_000) > time_out
+			
+	func has_ran_out_of_tries() -> bool:
+		return tries >= max_tries
+
 func _init():
 	url_regex = RegEx.new()
 	url_regex.compile("^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$")
@@ -103,21 +119,32 @@ func _establish_connection():
 	
 	if dash_mode:
 		download_url = dash_base_url + dash_fragments[0]
+	var timeout_handler := TimeoutHandler.new()
 	
-	var err := http.connect_to_host(hostname, 443, true, true)
-	
-	if err != OK:
-		propagate_error(err, "Error %d when opening connection to host %s" % [err, hostname])
-		return
-	
-	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
-		http.poll()
+	while not timeout_handler.has_ran_out_of_tries():
+		var err := http.connect_to_host(hostname, 443, true, true)
 		
-	if http.get_status() != HTTPClient.STATUS_CONNECTED:
-		propagate_error(http.get_status(), _client_status_to_string(http.get_status()))
-		return
-	headers.append("")
+		if err != OK:
+			propagate_error(err, "Error %d when opening connection to host %s" % [err, hostname])
+			return
+		
+		timeout_handler.start_try()
+		while not timeout_handler.has_timed_out() and \
+				(http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING):
+			http.poll()
+			
+		if timeout_handler.has_timed_out():
+			continue
+			
+		if http.get_status() != HTTPClient.STATUS_CONNECTED:
+			propagate_error(http.get_status(), _client_status_to_string(http.get_status()))
+			return
+		else:
+			headers.append("")
+			break
 	
+	if timeout_handler.has_ran_out_of_tries() and not http.get_status() == HTTPClient.STATUS_CONNECTED:
+		propagate_error(ERR_TIMEOUT, "SSL Handshake timed out after %d tries" % [timeout_handler.tries])
 	range_start = 0
 	range_end = range_start + chunk_size
 	
@@ -128,14 +155,30 @@ func _process_download() -> bool:
 		# Dash mode doesn't use Range:
 		headers[-1] = ""
 	
-	var err := http.request(HTTPClient.METHOD_GET, download_url, headers)
+	var timeout_handler := TimeoutHandler.new()
 	
-	if err != OK:
-		propagate_error(err, "Error %d when starting request" % [err])
-		return false
+	while not timeout_handler.has_ran_out_of_tries():
+		if timeout_handler.tries > 0:
+			# When the try is > 1 we must reset the connection
+			http.close()
+			_establish_connection()
+			if has_error:
+				return false
+		var err := http.request(HTTPClient.METHOD_GET, download_url, headers)
 		
-	while http.get_status() == HTTPClient.STATUS_REQUESTING:
-		http.poll()
+		if err != OK:
+			propagate_error(err, "Error %d when starting request" % [err])
+			return false
+			
+		timeout_handler.start_try()
+		while http.get_status() == HTTPClient.STATUS_REQUESTING and not timeout_handler.has_timed_out():
+			http.poll()
+		if http.get_status() != HTTPClient.STATUS_REQUESTING:
+			break
+			
+	if timeout_handler.has_ran_out_of_tries() and http.get_status == HTTPClient.STATUS_REQUESTING:
+		propagate_error(ERR_TIMEOUT, "Download timed out after %d tries" % [timeout_handler.tries])
+		return false
 		
 	var response_headers := http.get_response_headers_as_dictionary()
 
@@ -169,6 +212,7 @@ func _process_download() -> bool:
 		# set this to false always and just end it when http.get_status
 		# stops being STATUS_BODY
 		download_is_done = false
+		
 		
 	while http.get_status() == HTTPClient.STATUS_BODY and not download_is_done:
 		http.poll()
@@ -235,7 +279,6 @@ func get_error_string() -> String:
 	
 func thread_func():
 	_establish_connection()
-	
 	if dash_mode:
 		download_url = dash_base_url + dash_fragments[0]
 	
