@@ -47,7 +47,7 @@ func set_great_line_color(val):
 	update()
 
 func set_standard_line_color(val):
-	great_line_color = val
+	standard_line_color = val
 	update()
 
 func set_clear_separator_color(val):
