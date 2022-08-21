@@ -98,11 +98,11 @@ func set_song(song: HBSong, variant=-1):
 		var res = norm.get_normalization_result()
 		SongDataCache.update_loudness_for_song(song, res)
 	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.data)
-	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio_source.instantiate(HBGame.music_group))
 	if game.audio_playback:
 		game.audio_playback.queue_free()
 	if game.voice_audio_playback:
 		game.voice_audio_playback.queue_free()
+	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio_source.instantiate(HBGame.music_group))
 		
 	add_child(game.audio_playback)
 	game.audio_playback.offset = current_song.get_variant_data(variant).variant_offset
