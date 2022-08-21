@@ -494,7 +494,7 @@ func load_songs_mmplus() -> Array:
 						var pv_data = mod_pvdb[pv_id]
 						var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
 						song.id = "pv_" + str(pv_id)
-						var ogg_path := mod_fs_access.get_file_path(pv_data.song_file_name) as String
+						var ogg_path = mod_fs_access.get_file_path(pv_data.song_file_name)
 						if ogg_path:
 							songs.append(song)
 			current_file = d.get_next()
