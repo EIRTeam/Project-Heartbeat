@@ -25,6 +25,9 @@ var pitch_shift_effect: ShinobuPitchShiftEffect = Shinobu.instantiate_pitch_shif
 
 var godot_audio_stream: AudioStream
 
+var audio_source: ShinobuSoundSource
+var voice_source: ShinobuSoundSource
+
 func set_chart(val):
 	chart = val
 	game.set_chart(chart)
@@ -94,17 +97,23 @@ func set_song(song: HBSong, variant=-1):
 			pass
 		var res = norm.get_normalization_result()
 		SongDataCache.update_loudness_for_song(song, res)
-	var audio_source := Shinobu.register_sound_from_memory("song", godot_audio_stream.data)
+	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.data)
 	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio_source.instantiate(HBGame.music_group))
+	if game.audio_playback:
+		game.audio_playback.queue_free()
+	if game.voice_audio_playback:
+		game.voice_audio_playback.queue_free()
+		
 	add_child(game.audio_playback)
 	game.audio_playback.offset = current_song.get_variant_data(variant).variant_offset
 	
 	var volume_db = get_song_volume()
 	
 	game.audio_playback.volume = db2linear(volume_db)
+	voice_source = null
 	if song.voice:
-		var voice_audio_stream := song.get_voice_audio_stream()
-		var voice_source := Shinobu.register_sound_from_memory("voice", voice_audio_stream.data)
+		var voice_audio_stream = song.get_voice_audio_stream()
+		voice_source = Shinobu.register_sound_from_memory("voice", voice_audio_stream.data)
 		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_source.instantiate(HBGame.music_group))
 		add_child(game.voice_audio_playback)
 		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
