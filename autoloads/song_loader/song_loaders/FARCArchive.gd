@@ -73,8 +73,8 @@ func open(_spb: StreamPeerBuffer):
 	spb.big_endian = true
 	
 	var signature := spb.get_data(4)[1].get_string_from_utf8() as String
-	if signature != "FARC":
-		if signature == "FArC" or signature == "FArc":
+	if not signature in ["FARC", "FArC"]:
+		if signature == "FArc":
 			propagate_error("Only MM+ FARCs are supported")
 		else:
 			propagate_error("Invalid FARC file (wrong signature)")
@@ -137,6 +137,25 @@ func open(_spb: StreamPeerBuffer):
 			entry_count -= 1
 			if entry_count == 0:
 				break
+	elif signature == "FArC":
+		var _alignment = spb.get_32()
+		
+		while spb.get_position() < header_size:
+			var name = read_string()
+			var offset := spb.get_u32()
+			var compressed_size := spb.get_u32()
+			var uncompressed_size := spb.get_u32()
+			var fixed_size = min(compressed_size, spb.get_size() - offset)
+			
+			var entry := Entry.new()
+			entry.name = name
+			entry.position = offset
+			entry.unpacked_length = uncompressed_size
+			entry.compressed_length = fixed_size
+			entry.length = fixed_size
+			entry.is_compressed = compressed_size != uncompressed_size
+			
+			entries[entry.name] = entry
 
 func get_file_buffer(file_path: String) -> StreamPeerBuffer:
 	var entry := entries.get(file_path) as Entry
@@ -152,6 +171,9 @@ func get_file_buffer(file_path: String) -> StreamPeerBuffer:
 	else:
 		spb.seek(entry.position)
 	var data := spb.get_data(entry.length)[1] as PoolByteArray
-	new_spb.data_array = data.decompress(entry.unpacked_length, File.COMPRESSION_GZIP)
+	if entry.is_compressed:
+		new_spb.data_array = data.decompress(entry.unpacked_length, File.COMPRESSION_GZIP)
+	else:
+		entry.data_array = data
 	
 	return new_spb

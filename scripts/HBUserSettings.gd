@@ -45,7 +45,8 @@ var filter_mode__possibilities = [
 	"ppd",
 	"folders",
 	"dsc",
-	"mmplus"
+	"mmplus",
+	"mmplus_mod"
 ]
 var filter_has_media := false
 var sort_mode = "title"

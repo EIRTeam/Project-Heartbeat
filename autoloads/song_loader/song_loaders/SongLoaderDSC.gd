@@ -92,7 +92,8 @@ class HBSongMMPLUS:
 		var farc_path := "rom/2d/spr_sel_pv%s.farc" % [pv_data.pv_id_str]
 		var file_path := game_fs_access.get_file_path(farc_path) as String
 		if file_path:
-			farc_archive.open(game_fs_access.load_file_as_buffer(file_path))
+			var buff := game_fs_access.load_file_as_buffer(file_path)
+			farc_archive.open(buff)
 			var sprite_set_path := "spr_sel_pv%s.bin" % [pv_data.pv_id_str]
 			var sprite_set_buffer := farc_archive.get_file_buffer(sprite_set_path)
 			var sprite_set := DIVASpriteSet.new()
@@ -219,6 +220,32 @@ class DSCGameFSAccess:
 			spb.data_array = f.get_buffer(f.get_len())
 		return spb
 		
+class MMPLUSModFSAccess:
+	extends DSCGameFSAccess
+	var mod_name: String
+	var mod_location: String
+	func _init(_game_location: String, _mod_name: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
+		mod_name = _mod_name
+		mod_location = _game_location.plus_file("mods").plus_file(_mod_name)
+		var d := Directory.new()
+		if d.dir_exists(mod_location):
+			is_valid = true
+	func get_file_path(path: String):
+		var f := File.new()
+		var full_file_path := mod_location.plus_file(path)
+		if f.file_exists(path):
+			return path
+		return full_file_path if f.file_exists(full_file_path) else null
+		
+	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
+		var f := File.new()
+		var full_file_path = get_file_path(path)
+		if full_file_path:
+			if f.open(full_file_path, File.READ) == OK:
+				var spb := StreamPeerBuffer.new()
+				spb.data_array = f.get_buffer(f.get_len())
+				return spb
+		return StreamPeerBuffer.new()
 class MMPLUSFSAccess:
 	extends DSCGameFSAccess
 	
@@ -449,6 +476,28 @@ func load_songs_mmplus() -> Array:
 				continue
 			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
 			continue
+	
+	var mods_path := GAME_LOCATION.plus_file("mods") as String
+	
+	var d := Directory.new()
+	if d.open(mods_path) == OK:
+		d.list_dir_begin(true)
+		var current_file := d.get_next()
+		while current_file != "":
+			if d.current_is_dir():
+				var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, mdata_loader)
+				var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
+				if buffer.get_size() > 0:
+					var pvdb_text := buffer.data_array.get_string_from_utf8()
+					var mod_pvdb := parse_pvdb(pvdb_text)
+					for pv_id in mod_pvdb:
+						var pv_data = mod_pvdb[pv_id]
+						var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
+						song.id = "pv_" + str(pv_id)
+						var ogg_path := mod_fs_access.get_file_path(pv_data.song_file_name) as String
+						if ogg_path:
+							songs.append(song)
+			current_file = d.get_next()
 	
 	return songs
 func load_songs() -> Array:

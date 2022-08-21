@@ -209,6 +209,7 @@ func populate_buttons():
 	var has_editor = false
 	var has_dsc = false
 	var has_mmplus = false
+	var has_mmplus_mod = false
 	var editor_songs_path = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "editor_songs")
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
@@ -216,6 +217,9 @@ func populate_buttons():
 			if song.path.begins_with(editor_songs_path):
 				has_editor = true
 				filter_types["editor"] = "Editor"
+			elif song is SongLoaderDSC.HBSongMMPLUS and song.game_fs_access is SongLoaderDSC.MMPLUSModFSAccess:
+				has_mmplus_mod = true
+				filter_types["mmplus_mod"] = "MM+ (Mod)"
 			elif song is SongLoaderDSC.HBSongMMPLUS:
 				has_mmplus = true
 				filter_types["mmplus"] = "MM+"
@@ -225,7 +229,7 @@ func populate_buttons():
 			else:
 				has_local = true
 				filter_types["local"] = "Local"
-			if has_editor and has_local and has_dsc and has_mmplus:
+			if has_editor and has_local and has_dsc and has_mmplus and has_mmplus_mod:
 				break
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id] as HBSong

@@ -43,6 +43,8 @@ func sort_and_filter_songs():
 									and not song is SongLoaderDSC.HBSongDSC
 			"mmplus":
 				should_add_song = song is SongLoaderDSC.HBSongMMPLUS
+			"mmplus_mod":
+				should_add_song = song is SongLoaderDSC.HBSongMMPLUS and song.game_fs_access is SongLoaderDSC.MMPLUSModFSAccess
 			"dsc":
 				should_add_song = song is SongLoaderDSC.HBSongDSC and not song is SongLoaderDSC.HBSongMMPLUS
 			"workshop":
