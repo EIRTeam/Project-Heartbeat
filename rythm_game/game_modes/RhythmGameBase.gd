@@ -187,13 +187,13 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 				voice_remap = Shinobu.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
 				voice_remap.set_weight(2, 0, 1.0)
 				voice_remap.set_weight(3, 1, 1.0)
-				voice_remap.connect_to_group(HBGame.music)
+				voice_remap.connect_to_group(HBGame.music_group)
 				voice_audio_playback.connect_sound_to_effect(voice_remap)
 			
 			audio_remap = Shinobu.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
 			audio_remap.set_weight(0, 0, 1.0)
 			audio_remap.set_weight(1, 1, 1.0)
-			audio_remap.connect_to_group(HBGame.music)
+			audio_remap.connect_to_group(HBGame.music_group)
 			audio_playback.connect_sound_to_effect(audio_remap)
 	else:
 		var sound_source := Shinobu.register_sound_from_memory("song", song.get_audio_stream().data)
