@@ -18,7 +18,7 @@ func _ready():
 		$Panel/HBoxContainer/CancelButton.hide()
 	if not has_accept:
 		$Panel/HBoxContainer/AcceptButton.hide()
-	cancel_button.set_meta("sfx", HBGame.MENU_BACK_SFX)
+	cancel_button.set_meta("sfx", HBGame.menu_back_sfx)
 		
 func _connect_button_signals():
 	$Panel/HBoxContainer/AcceptButton.connect("pressed", self, "_on_accept_pressed")

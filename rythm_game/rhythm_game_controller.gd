@@ -75,7 +75,7 @@ func _fade_in_done():
 	pause_menu_disabled = false
 func start_fade_in():
 #	video_player.hide()
-	ShinobuGodot.set_dsp_time(0)
+	Shinobu.set_dsp_time(0)
 	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
 	$FadeIn.show()
@@ -90,7 +90,6 @@ func start_fade_in():
 		start_offset = -song.start_time
 	else:
 		game.seek(song.start_time)
-	print(ShinobuGodot.get_dsp_time())
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
 	game.time = song.start_time / 1000.0
@@ -270,7 +269,7 @@ func _on_resumed():
 			video_player.paused = true
 	else:
 		# Called when resuming with rollback
-		ShinobuGodot.fire_and_forget_sound(HBGame.ROLLBACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.rollback_sfx, HBGame.sfx_group)
 		game.editing = true
 		game.kill_active_slide_chains()
 		game.time = last_pause_time

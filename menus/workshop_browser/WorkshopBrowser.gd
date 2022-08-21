@@ -207,7 +207,7 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
-		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		if sort_by_popup.visible:
 			sort_by_popup.hide()
 			scroll_container.grab_focus()

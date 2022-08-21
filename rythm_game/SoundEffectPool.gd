@@ -27,9 +27,11 @@ func add_sfx(sfx_name: String, volume_linear: float):
 	effects_debounce_times[sfx_name] = SFX_DEBOUNCE_TIME + 1.0
 	playing_effects[sfx_name] = []
 
-func play_sfx(effect_name: String, bypass_debounce=false) -> ShinobuGodotSoundPlayback:
+func play_sfx(effect_name: String, bypass_debounce=false) -> ShinobuSoundPlayer:
 	if effects_debounce_times[effect_name] >= SFX_DEBOUNCE_TIME or bypass_debounce:
-		var sound := ShinobuGodot.instantiate_sound(effect_name, "sfx")
+		assert(effect_name in UserSettings.user_sfx)
+		var sound := UserSettings.user_sfx[effect_name].instantiate(HBGame.sfx_group) as ShinobuSoundPlayer
+		add_child(sound)
 		var effect_data := effect_datas[effect_name] as EffectData
 		sound.volume = effect_data.volume_linear
 		sound.start()
@@ -39,11 +41,12 @@ func play_sfx(effect_name: String, bypass_debounce=false) -> ShinobuGodotSoundPl
 		return sound
 	return null
 
-func stop_sfx(player: ShinobuGodotSoundPlayback):
+func stop_sfx(player: ShinobuSoundPlayer):
 	player.stop()
 	var player_effect_name = player.get_meta("effect_name")
 	if player in playing_effects[player_effect_name]:
 		playing_effects[player_effect_name].erase(player)
+	player.queue_free()
 
 func stop_all_sfx():
 	for effect in playing_effects:
@@ -56,9 +59,10 @@ func _process(delta):
 	var sfx_to_erase := []
 	for effect_name in playing_effects:
 		for player in playing_effects[effect_name]:
-			var p := player as ShinobuGodotSoundPlayback
+			var p := player as ShinobuSoundPlayer
 			if not p.looping_enabled:
-				if p.get_playback_position_msec() >= p.get_length_msec():
+				if p.get_playback_position_msec() >= p.get_length_msec() or p.is_at_stream_end():
+					p.queue_free()
 					sfx_to_erase.append(p)
 	for sfx in sfx_to_erase:
 		stop_sfx(sfx)

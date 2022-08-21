@@ -37,12 +37,19 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	show()
 	set_game_size()
 	set_process_unhandled_input(true)
-func set_audio(song: HBSong, variant := -1):
-	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSource, variant := -1):
+	if rhythm_game.audio_playback:
+		rhythm_game.audio_playback.queue_free()
+	if rhythm_game.voice_audio_playback:
+		rhythm_game.voice_audio_playback.queue_free()
+		rhythm_game.voice_audio_playback = null
+	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio.instantiate(HBGame.music_group))
 	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset
-	if song.voice:
-		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+	add_child(rhythm_game.audio_playback)
+	if voice:
+		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice.instantiate(HBGame.music_group))
 		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset
+		add_child(rhythm_game.voice_audio_playback)
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	restart_button.connect("pressed", self, "_on_restart_button_pressed")

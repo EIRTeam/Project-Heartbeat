@@ -418,7 +418,7 @@ func _on_back():
 func _unhandled_input(event):
 	if $VBoxContainer.has_focus():
 		if event.is_action_pressed("gui_cancel"):
-			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 			get_tree().set_input_as_handled()
 			change_to_menu("main_menu")
 
@@ -453,7 +453,7 @@ func _notification(what):
 					section.queue_free()
 
 func _audio_buffer_info_callback():
-	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [ShinobuGodot.get_current_backend_name(), ShinobuGodot.buffer_size, ShinobuGodot.get_actual_buffer_size()]
+	return "(%s) Requested/actual buffer size: %d ms/%d ms" % [Shinobu.get_current_backend_name(), Shinobu.desired_buffer_size_msec, Shinobu.get_actual_buffer_size()]
 
 func _version_info_callback():
 	return HBVersion.get_version_string(true)

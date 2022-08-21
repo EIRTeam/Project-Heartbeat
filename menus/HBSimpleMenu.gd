@@ -66,7 +66,7 @@ func _gui_input(event):
 			if focus_neighbour_top:
 				var neighbor_up = get_node(focus_neighbour_top) as Control
 				neighbor_up.grab_focus()
-				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 
 	if event.is_action_pressed(prev_action):
 		if selected_button:
@@ -76,12 +76,12 @@ func _gui_input(event):
 					if focus_neighbour_left:
 						var neighbor_left = get_node(focus_neighbour_left) as Control
 						neighbor_left.grab_focus()
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				else:
 					if focus_neighbour_top:
 						var neighbor_up = get_node(focus_neighbour_top) as Control
 						neighbor_up.grab_focus()
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				emit_signal("out_from_top")
 			else:
 				get_tree().set_input_as_handled()
@@ -89,7 +89,7 @@ func _gui_input(event):
 				while i >= 0:
 					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
 					i -= 1
 
@@ -101,29 +101,29 @@ func _gui_input(event):
 					if focus_neighbour_right:
 						var neighbor_right = get_node(focus_neighbour_right) as Control
 						neighbor_right.grab_focus()
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 				else:
 					if focus_neighbour_bottom:
 						var neighbor_bottom = get_node(focus_neighbour_bottom) as Control
 						neighbor_bottom.grab_focus()
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 			else:
 				get_tree().set_input_as_handled()
 				var i = wrapi(selected_button_i+1, 0, get_child_count())
 				while i <= get_child_count()-1:
 					if get_child(i).visible and get_child(i) is BaseButton:
 						select_button(i)
-						ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+						HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 						break
 					i += 1
 	elif event.is_action_pressed("gui_accept"):
 		if selected_button:
 			get_tree().set_input_as_handled()
-			var sfx_type = HBGame.MENU_FORWARD_SFX
+			var sfx_type: ShinobuSoundSource = HBGame.menu_forward_sfx
 			if selected_button.has_meta("sfx"):
 				sfx_type = selected_button.get_meta("sfx")
-			if not sfx_type.empty():
-				ShinobuGodot.fire_and_forget_sound(sfx_type, "sfx")
+			if sfx_type:
+				HBGame.fire_and_forget_sound(sfx_type, HBGame.sfx_group)
 			if selected_button.toggle_mode:
 				selected_button.pressed = !selected_button.pressed
 			else:

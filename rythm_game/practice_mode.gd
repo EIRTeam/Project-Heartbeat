@@ -49,7 +49,7 @@ enum PRACTICE_GUI {
 }
 var practice_gui_mode := 0 setget _set_mode
 
-var pitch_shift_effect := ShinobuGodot.instantiate_pitch_shift()
+var pitch_shift_effect := Shinobu.instantiate_pitch_shift()
 
 func _ready():
 	video_pause_timer.connect("timeout", self, "_on_video_pause")
@@ -314,7 +314,7 @@ func reset_stats():
 	
 	game.result = HBResult.new()
 	game._potential_result = HBResult.new()
-	game.game_ui.score_counter.score = 0
+	game.game_ui.reset_score_counter()
 	game.current_combo = 0
 	game.game_ui._update_clear_bar_value()
 	update_stats_label()
@@ -445,10 +445,11 @@ func set_speed(value: float):
 	speed_label.text = str(playback_speed) + "x"
 
 func add_pitch_effect():
+	pitch_shift_effect.connect_to_endpoint()
 	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
 
 func remove_pitch_effect():
-	ShinobuGodot.connect_effect_to_endpoint(HBGame.spectrum_analyzer)
+	HBGame.spectrum_analyzer.connect_to_endpoint()
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

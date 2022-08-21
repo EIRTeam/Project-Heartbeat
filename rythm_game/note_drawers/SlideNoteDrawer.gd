@@ -6,7 +6,7 @@ var slide_chain
 var slide_chain_drawers = {}
 const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
 var hit_first = false
-var current_sfx_player: ShinobuGodotSoundPlayback
+var current_sfx_player: ShinobuSoundPlayer
 var is_audio_looping = false
 var playing_slide_start := false
 
@@ -97,7 +97,7 @@ func _on_game_time_changed(time: float):
 		._on_game_time_changed(time)
 	if not is_queued_for_deletion():
 		if playing_slide_start:
-			if current_sfx_player.get_playback_position_msec() >= current_sfx_player.get_length_msec():
+			if current_sfx_player.get_playback_position_msec() >= current_sfx_player.get_length_msec() or current_sfx_player.is_at_stream_end():
 				playing_slide_start = false
 				current_sfx_player = null
 				is_audio_looping = true

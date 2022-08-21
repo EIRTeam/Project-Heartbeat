@@ -924,7 +924,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ShiftJISTable.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "ShinobuGodotSoundPlaybackOffset",
 "language": "GDScript",
 "path": "res://scripts/ShinobuGodotSoundPlaybackOffset.gd"

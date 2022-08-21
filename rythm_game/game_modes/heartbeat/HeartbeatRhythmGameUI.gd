@@ -147,13 +147,17 @@ func _on_size_changed():
 		$Lyrics/Control.set_deferred("rect_size", game.size)
 		
 func _on_reset():
-	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, SCORE_COUNTER_GROUP, "score", 0.0)
+	reset_score_counter()
 	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, CLEAR_BAR_GROUP, "value", 0.0)
 	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, CLEAR_BAR_GROUP, "potential_score", 0.0)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, LATENCY_DISPLAY_GROUP, "reset")
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HOLD_INDICATOR_GROUP, "disappear")
 	
 	rating_label.hide()
+	
+func reset_score_counter():
+	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, SCORE_COUNTER_GROUP, "score", 0.0)
+	
 func _on_chart_set(chart: HBChart):
 	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, CLEAR_BAR_GROUP, "max_value", chart.get_max_score())
 	_update_clear_bar_value()
@@ -267,7 +271,7 @@ func is_ui_visible():
 
 func play_game_over():
 	game_over_message_node.show()
-	ShinobuGodot.fire_and_forget_sound(HBGame.GAME_OVER_SFX, "sfx")
+	HBGame.fire_and_forget_sound(HBGame.game_over_sfx, HBGame.sfx_group)
 	game_over_message_node.rect_pivot_offset = game_over_message_node.rect_size * 0.5
 	game_over_message_node.rect_scale.x = 0.0
 	game_over_message_tween.interpolate_property(game_over_message_node, "rect_scale:x", 0.0, 1.0, 0.5, Tween.TRANS_BOUNCE, Tween.EASE_IN)

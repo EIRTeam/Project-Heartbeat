@@ -30,7 +30,7 @@ func _input(event):
 		if start_menu.has_focus():
 			get_tree().set_input_as_handled()
 			emit_signal("right")
-			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+			HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 
 func _on_left_from_MainMenuRight():
 	start_menu.grab_focus()

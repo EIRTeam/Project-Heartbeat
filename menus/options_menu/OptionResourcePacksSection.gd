@@ -73,7 +73,7 @@ func _input(event):
 			return
 		if event.is_action_pressed("gui_cancel"):
 			get_tree().set_input_as_handled()
-			ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 			emit_signal("back")
 func _on_resource_pack_pressed(resource_pack: HBResourcePack, scene: Control):
 	if rebuilding_note_atlas_container.visible:

@@ -195,7 +195,7 @@ func _position_change_input(position_change: int):
 			new_pos = clamp(new_pos, 0, item_container.get_child_count() - 1)
 			if new_pos != current_selected_item:
 				select_item(new_pos)
-				ShinobuGodot.fire_and_forget_sound(HBGame.MENU_PRESS_SFX, "sfx")
+				HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 
 func _gui_input(event):
 	var position_change = 0
@@ -220,11 +220,11 @@ func _gui_input(event):
 		var selected_child = get_selected_item()
 		if selected_child and selected_child.has_signal("pressed"):
 			get_tree().set_input_as_handled()
-			var sfx_type = HBGame.MENU_FORWARD_SFX
+			var sfx_type = HBGame.menu_forward_sfx
 			if selected_child.has_meta("sfx"):
 				sfx_type = selected_child.get_meta("sfx")
-			if not sfx_type.empty():
-				ShinobuGodot.fire_and_forget_sound(sfx_type, "sfx")
+			if sfx_type:
+				HBGame.fire_and_forget_sound(sfx_type, HBGame.sfx_group)
 			selected_child.emit_signal("pressed")
 	_position_change_input(position_change)
 	if position_change != 0:

@@ -12,7 +12,7 @@ func _on_difficulty_selected(song: HBSong, difficulty: String):
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
-		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		get_tree().set_input_as_handled()
 		change_to_menu("lobby")
 #	if event.is_action_pressed("gui_left") or event.is_action_pressed("gui_right"):

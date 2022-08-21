@@ -18,7 +18,7 @@ var definition := 256
 onready var timer := Timer.new()
 const UPDATE_INTERVAL_SEC = 0.050
 
-var analyzer: ShinobuGodotEffectSpectrumAnalyzer
+var analyzer: ShinobuSpectrumAnalyzerEffect
 
 var enabled := true setget set_enabled
 
@@ -42,8 +42,8 @@ func _ready():
 	set_enabled(enabled)
 		
 func set_volume(volume_db: float):
-	max_db = volume_db + linear2db(ShinobuGodot.get_group_volume("music"))
-	min_db = BASE_MIN_DB + volume_db + linear2db(ShinobuGodot.get_group_volume("music"))
+	max_db = volume_db + linear2db(HBGame.music_group.volume)
+	min_db = BASE_MIN_DB + volume_db + linear2db(HBGame.music_group.volume)
 	
 func snap():
 	var interval = (max_freq - min_freq) / definition

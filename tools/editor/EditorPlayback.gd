@@ -21,7 +21,7 @@ var first_after_seek := false
 signal time_changed
 signal playback_speed_changed(speed)
 
-var pitch_shift_effect: ShinobuGodotEffectPitchShift = ShinobuGodot.instantiate_pitch_shift()
+var pitch_shift_effect: ShinobuPitchShiftEffect = Shinobu.instantiate_pitch_shift()
 
 var godot_audio_stream: AudioStream
 
@@ -94,17 +94,19 @@ func set_song(song: HBSong, variant=-1):
 			pass
 		var res = norm.get_normalization_result()
 		SongDataCache.update_loudness_for_song(song, res)
-		
-	ShinobuGodot.register_sound(song.get_shinobu_audio_data(variant), "song")
-	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+	var audio_source := Shinobu.register_sound_from_memory("song", godot_audio_stream.data)
+	game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio_source.instantiate(HBGame.music_group))
+	add_child(game.audio_playback)
 	game.audio_playback.offset = current_song.get_variant_data(variant).variant_offset
 	
 	var volume_db = get_song_volume()
 	
 	game.audio_playback.volume = db2linear(volume_db)
 	if song.voice:
-		ShinobuGodot.register_sound(song.get_shinobu_voice_audio_data(variant), "song_voice")
-		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+		var voice_audio_stream := song.get_voice_audio_stream()
+		var voice_source := Shinobu.register_sound_from_memory("voice", voice_audio_stream.data)
+		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_source.instantiate(HBGame.music_group))
+		add_child(game.voice_audio_playback)
 		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
 		game.voice_audio_playback.volume = db2linear(volume_db)
 
@@ -201,7 +203,7 @@ func set_speed(value: float, correction: bool):
 func add_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
 func remove_pitch_effect():
-	ShinobuGodot.connect_effect_to_endpoint(HBGame.spectrum_analyzer)
+	HBGame.spectrum_analyzer.connect_to_endpoint()
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

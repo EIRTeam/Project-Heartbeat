@@ -50,6 +50,8 @@ var controller_guid := ""
 
 const MOUSE_HIDE_TIME = 0.5
 
+var user_sfx := {}
+
 func _ready():
 	add_child(debounce_timer)
 	debounce_timer.wait_time = 1.0
@@ -101,8 +103,8 @@ func _init_user_settings():
 						elif event.button_index == JOY_SONY_CIRCLE:
 							event.button_index = JOY_SONY_X
 	print("Shinobu: Setting buffer size to %d ms" % [user_settings.audio_buffer_size])
-	ShinobuGodot.buffer_size = user_settings.audio_buffer_size
-	ShinobuGodot.initialize()
+	Shinobu.desired_buffer_size_msec = user_settings.audio_buffer_size
+	Shinobu.initialize()
 
 	apply_user_settings(true)
 	load_input_map()
@@ -447,17 +449,18 @@ func apply_display_mode():
 			
 	
 func apply_volumes():
-	ShinobuGodot.set_master_volume(user_settings.master_volume)
-	ShinobuGodot.set_group_volume("music", user_settings.music_volume)
-	ShinobuGodot.set_group_volume("menu_music", 0.0 if user_settings.disable_menu_music else 1.0)
-	ShinobuGodot.set_group_volume("sfx", user_settings.sfx_volume)
+	Shinobu.master_volume = user_settings.master_volume
+	if HBGame.music_group:
+		HBGame.music_group.volume = user_settings.music_volume
+		HBGame.menu_music_group.volume = 0.0 if user_settings.disable_menu_music else 1.0
+		HBGame.sfx_group.volume = user_settings.sfx_volume
 	
 func register_user_fx():
 	for sound in user_settings.DEFAULT_SOUNDS:
 		reload_sound_from_disk(sound)
 	
 func reload_sound_from_disk(sound_name: String):
-	ShinobuGodot.register_sound_from_path(get_sound_path(sound_name), sound_name)
+	user_sfx[sound_name] = HBGame.register_sound_from_path(sound_name, get_sound_path(sound_name))
 	
 func reset_to_default_input_map():
 	user_settings.input_map = base_input_map

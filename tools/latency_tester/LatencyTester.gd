@@ -10,7 +10,7 @@ onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginCo
 onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
 
 var offset := 0
-var player: ShinobuGodotSoundPlayback
+var player: ShinobuSoundPlayer
 var mode = 0
 const PREVIOUS_MENU = "tools_menu"
 const tutorials = [
@@ -72,12 +72,17 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		-29.576157,
 		1000
 	)
-	player = null
+	
 	rhythm_game.rhythm_game.audio_playback = null
 	
-	ShinobuGodot.register_sound_from_path(song.audio_path, "latency_tester_song")
-	player = ShinobuGodot.instantiate_sound("latency_tester_song", "music")
+	if player:
+		player.queue_free()
+	
+	var sound_source := HBGame.register_sound_from_path("latency_tester_song", song.audio_path) as ShinobuSoundSource
+	
+	player = sound_source.instantiate(HBGame.music_group, HBGame.music_group)
 	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
+	add_child(player)
 	
 	rhythm_game.set_audio(player, null)
 	rhythm_game.play_song(song, song.chart)
@@ -119,7 +124,7 @@ func _on_AddButton_pressed():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
-		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		get_tree().set_input_as_handled()
 		_on_BackButton_pressed()
 	if event.is_action_pressed("gui_left", true):
@@ -178,6 +183,3 @@ func _on_stats_changed():
 			offset = rhythm_game.stats_latency_sum / float(rhythm_game.stats_passed_notes)
 			update_latency()
 
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		ShinobuGodot.unregister_sound("latency_tester_song")

@@ -96,22 +96,18 @@ func _task_process() -> bool:
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream(variant)
 				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
-				var audio_shinobu := ShinobuGodotAudioFile.new()
-				audio_shinobu.load_from_memory(audio_ogg.data)
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
 					loaded_assets["voice"] = audio_ogg
-					loaded_assets["voice_shinobu"] = audio_shinobu
+					loaded_assets["voice_shinobu"] = audio_ogg.data
 					requested_assets_queue.erase("voice")
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)
 					requested_assets_queue.erase("audio_loudness")
-				loaded_assets["audio_shinobu"] = audio_shinobu
+				loaded_assets["audio_shinobu"] = audio_ogg.data
 		"voice":
 			if song.voice:
 				loaded_asset = song.get_voice_stream()
-				var shinobu_stream := ShinobuGodotAudioFile.new()
-				shinobu_stream.load_from_memory(loaded_asset.data)
-				loaded_assets["voice_shinobu"] = shinobu_stream
+				loaded_assets["voice_shinobu"] = loaded_asset.data
 		"circle_image":
 			if sprite_set:
 				for sprite in sprite_set.sprites:

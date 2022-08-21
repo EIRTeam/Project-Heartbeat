@@ -44,7 +44,7 @@ static func get_version_string(with_line_breaks := false):
 		"ver_name": ver_name + demo_string,
 		"status": status,
 		"video_driver": video_driver,
-		"audio_driver": ShinobuGodot.get_current_backend_name(),
+		"audio_driver": Shinobu.get_current_backend_name(),
 		"os_name": os_name,
 		"version": version,
 		"commit": sha,

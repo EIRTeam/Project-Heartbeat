@@ -72,8 +72,8 @@ var _sfx_debounce_t = SFX_DEBOUNCE_TIME
 var audio_playback: ShinobuGodotSoundPlaybackOffset
 var voice_audio_playback: ShinobuGodotSoundPlaybackOffset
 
-var audio_remap: ShinobuGodotEffectChannelRemap
-var voice_remap: ShinobuGodotEffectChannelRemap
+var audio_remap: ShinobuChannelRemapEffect
+var voice_remap: ShinobuChannelRemapEffect
 
 var game_ui: HBRhythmGameUIBase
 var game_input_manager: HBGameInputManager
@@ -159,44 +159,50 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	current_song = song
 	base_bpm = song.bpm
 	_volume_offset = 0.0
+	if audio_playback:
+		audio_playback.queue_free()
+	if voice_audio_playback:
+		voice_audio_playback.queue_free()
 	audio_playback = null
 	voice_audio_playback = null
 	if assets:
 		current_assets = assets
 		if "audio_loudness" in assets:
 			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
-		ShinobuGodot.register_sound(assets.audio_shinobu, "song")
-		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music", song.uses_dsc_style_channels()))
+		var sound_source := Shinobu.register_sound_from_memory("song", assets.audio_shinobu)
+		audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group, song.uses_dsc_style_channels()))
 		var use_source_channel_count = song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4
 		
 		if song.uses_dsc_style_channels() and not use_source_channel_count:
-			audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
-		
+			audio_playback.queue_free()
+			audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group))
+		add_child(audio_playback)
 		if "voice" in assets:
 			if assets.voice is AudioStream:
-				ShinobuGodot.register_sound(assets.voice_shinobu, "song_voice")
-				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music", use_source_channel_count))
+				var voice_sound_source := Shinobu.register_sound_from_memory("song_voice", assets.voice_shinobu)
+				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_sound_source.instantiate(HBGame.music_group, use_source_channel_count))
+				add_child(voice_audio_playback)
 		if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
 			if voice_audio_playback:
-				voice_remap = ShinobuGodot.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
+				voice_remap = Shinobu.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)
 				voice_remap.set_weight(2, 0, 1.0)
 				voice_remap.set_weight(3, 1, 1.0)
-				ShinobuGodot.connect_effect_to_group(voice_remap, "music")
+				voice_remap.connect_to_group(HBGame.music)
 				voice_audio_playback.connect_sound_to_effect(voice_remap)
-				
 			
-			
-			audio_remap = ShinobuGodot.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
+			audio_remap = Shinobu.instantiate_channel_remap(audio_playback.get_channel_count(), 2)
 			audio_remap.set_weight(0, 0, 1.0)
 			audio_remap.set_weight(1, 1, 1.0)
-			ShinobuGodot.connect_effect_to_group(audio_remap, "music")
+			audio_remap.connect_to_group(HBGame.music)
 			audio_playback.connect_sound_to_effect(audio_remap)
 	else:
-		ShinobuGodot.register_sound(song.get_shinobu_audio_data(), "song")
-		audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song", "music"))
+		var sound_source := Shinobu.register_sound_from_memory("song", song.get_audio_stream().data)
+		audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group))
+		add_child(audio_playback)
 		if song.voice:
-			ShinobuGodot.register_sound(song.get_shinobu_voice_audio_data(), "song_voice")
-			audio_playback = ShinobuGodotSoundPlaybackOffset.new(ShinobuGodot.instantiate_sound("song_voice", "music"))
+			var voice_sound_source := Shinobu.register_sound_from_memory("song_voice", song.get_voice_stream().data)
+			voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_sound_source.instantiate(HBGame.music_group))
+			add_child(voice_audio_playback)
 	if voice_audio_playback:
 		voice_audio_playback.volume = audio_playback.volume
 		voice_audio_playback.offset = current_song.get_variant_data(current_variant).variant_offset
@@ -433,8 +439,7 @@ func _process_game(_delta):
 			if current_song.end_time > 0:
 				end_time = min(end_time, float(current_song.end_time))
 
-			# -1 is required for safety
-			if audio_playback.get_playback_position_msec() >= end_time-1 and not _finished:
+			if audio_playback.get_playback_position_msec() >= end_time or audio_playback.is_at_stream_end() and not _finished:
 				_on_game_finished()
 	for i in range(timing_points.size() - 1 - (timing_points.size() - last_hit_index), -1, -1):
 		var group = timing_points[i]

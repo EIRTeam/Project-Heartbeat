@@ -98,12 +98,18 @@ const PASS_THRESHOLD = 0.75
 
 onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_for_type('VideoStreamGDNative')
 
-const MENU_PRESS_SFX = "menu_press"
-const ROLLBACK_SFX = "rollback"
-const MENU_FORWARD_SFX = "menu_forward"
-const MENU_BACK_SFX = "menu_back"
-const MENU_VALIDATE_SFX = "menu_validate"
-const GAME_OVER_SFX = "game_over"
+var menu_press_sfx: ShinobuSoundSourceMemory
+var rollback_sfx: ShinobuSoundSourceMemory
+var menu_forward_sfx: ShinobuSoundSourceMemory
+var menu_back_sfx: ShinobuSoundSourceMemory
+var menu_validate_sfx: ShinobuSoundSourceMemory
+var game_over_sfx: ShinobuSoundSourceMemory
+
+var music_group: ShinobuGroup
+var sfx_group: ShinobuGroup
+var menu_music_group: ShinobuGroup
+
+var fire_and_forget_sounds := []
 
 const BUTTON_SFX_TYPE_FORWARD = 0
 const BUTTON_SFX_TYPE_BACK = 0
@@ -123,27 +129,47 @@ func _ready():
 		demo_mode = true
 	add_child(spectrum_snapshot)
 	
-var spectrum_analyzer: ShinobuGodotEffectSpectrumAnalyzer
+var spectrum_analyzer: ShinobuSpectrumAnalyzerEffect
+	
+func register_sound_from_path(name_hint: String, path: String) -> ShinobuSoundSourceMemory:
+	var f := File.new()
+	if f.open(path, File.READ) != OK:
+		prints("Oh cock, error registering sound from path!", path)
+	return Shinobu.register_sound_from_memory(name_hint, f.get_buffer(f.get_len()))
+	
+func fire_and_forget_sound(source: ShinobuSoundSource, group: ShinobuGroup):
+	var instance := source.instantiate(group)
+	add_child(instance)
+	instance.start()
+	fire_and_forget_sounds.append(instance)
 	
 func _register_basic_sfx():
-	ShinobuGodot.register_group("music")
-	ShinobuGodot.register_group("sfx")
-	ShinobuGodot.register_group("menu_music", "music")
-	spectrum_analyzer = ShinobuGodot.instantiate_spectrum_analyzer()
+	music_group = Shinobu.create_group("music", null)
+	sfx_group = Shinobu.create_group("sfx", null)
+	menu_music_group = Shinobu.create_group("menu_music", music_group)
+	spectrum_analyzer = Shinobu.instantiate_spectrum_analyzer_effect()
 	spectrum_snapshot.analyzer = spectrum_analyzer
-	ShinobuGodot.connect_group_to_effect("music", spectrum_analyzer)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav", MENU_PRESS_SFX)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/flashback.wav", ROLLBACK_SFX)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_select.wav", MENU_FORWARD_SFX)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_back.wav", MENU_BACK_SFX)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/menu_validate.wav", MENU_VALIDATE_SFX)
-	ShinobuGodot.register_sound_from_path("res://sounds/sfx/game_over.ogg", GAME_OVER_SFX)
+	music_group.connect_to_effect(spectrum_analyzer)
+	spectrum_analyzer.connect_to_endpoint()
+	
+	menu_press_sfx = register_sound_from_path("menu_press", "res://sounds/sfx/274199__littlerobotsoundfactory__ui-electric-08.wav")
+	rollback_sfx = register_sound_from_path("rollback", "res://sounds/sfx/flashback.wav")
+	menu_forward_sfx = register_sound_from_path("menu_forward", "res://sounds/sfx/menu_select.wav")
+	menu_back_sfx = register_sound_from_path("menu_back", "res://sounds/sfx/menu_back.wav")
+	menu_validate_sfx = register_sound_from_path("menu_validate", "res://sounds/sfx/menu_validate.wav")
+	game_over_sfx = register_sound_from_path("game_over", "res://sounds/sfx/game_over.ogg")
 	
 func _register_ui_component(component: GDScript):
 	ui_components[component.get_component_id()] = component
 	
 func _process(delta):
 	spectrum_snapshot.decay(delta)
+	
+	for i in range(fire_and_forget_sounds.size()-1, -1, -1):
+		var sound := fire_and_forget_sounds[i] as ShinobuSoundPlayer
+		if sound.is_at_stream_end():
+			sound.queue_free()
+		fire_and_forget_sounds.remove(i)
 
 	
 func _register_ui_components():

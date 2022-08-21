@@ -202,6 +202,6 @@ func _process(delta):
 	elif Input.is_action_pressed("gui_up"):
 		scroll_container.scroll_vertical -= max(SCROLL_SPEED * delta, 1)
 	if Input.is_action_just_pressed("gui_cancel"):
-		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		emit_signal("back")
 		set_process(false)

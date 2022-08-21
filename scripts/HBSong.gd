@@ -192,29 +192,6 @@ func get_audio_stream(variant := -1):
 				Log.log(self, "Tried to get audio stream from an uncached song!!")
 	return HBUtils.load_ogg(audio_path)
 	
-func get_shinobu_audio_data(variant := -1):
-	var audio_path = get_song_audio_res_path()
-	var audio_data := ShinobuGodotAudioFile.new()
-	if not get_fs_origin() == SONG_FS_ORIGIN.BUILT_IN:
-		if youtube_url:
-			if use_youtube_for_audio:
-				var variant_url = get_variant_data(variant).variant_url
-				if YoutubeDL.get_cache_status(get_variant_data(variant).variant_url, false, true) == YoutubeDL.CACHE_STATUS.OK:
-					audio_path = YoutubeDL.get_audio_path(YoutubeDL.get_video_id(variant_url))
-				else:
-					Log.log(self, "Tried to get audio stream from an uncached song!!")
-	if audio_data.load_from_file(audio_path) != OK:
-		print("ERROR LOADING AUDIO DATA AT %s" % audio_path)
-	
-	return audio_data
-	
-func get_shinobu_voice_audio_data(variant := -1):
-	var audio_path = get_song_voice_res_path()
-	var audio_data := ShinobuGodotAudioFile.new()
-	if audio_data.load_from_file(audio_path) != OK:
-		print("ERROR LOADING VOICE AUDIO DATA AT %s" % audio_path)
-	return audio_data
-	
 # Return the canonical text to use for sorting
 # It goes in this order:
 # Circle name (if a circle logo is present) -> Artist alias -> artist

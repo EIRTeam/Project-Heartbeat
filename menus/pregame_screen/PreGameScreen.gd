@@ -63,7 +63,7 @@ func _ready():
 	pregame_start_tab.start_button.connect("pressed", self, "_on_StartButton_pressed")
 	pregame_start_tab.start_practice_button.connect("pressed", self, "_on_StartPractice_pressed")
 	pregame_start_tab.back_button.connect("pressed", self, "_on_BackButton_pressed")
-	pregame_start_tab.back_button.set_meta("sfx", HBGame.MENU_BACK_SFX)
+	pregame_start_tab.back_button.set_meta("sfx", HBGame.menu_back_sfx)
 var current_assets
 var current_song_assets
 var variant_select: Control
@@ -295,7 +295,7 @@ func _on_add_modifier_pressed():
 	modifier_selector.popup()
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
-		ShinobuGodot.fire_and_forget_sound(HBGame.MENU_BACK_SFX, "sfx")
+		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		get_tree().set_input_as_handled()
 		_on_BackButton_pressed()
 	else:
