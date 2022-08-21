@@ -47,7 +47,6 @@ func stop_hover():
 		option_button.stop_hover()
 	
 func _gui_input(event):
-	var option_change = 0
 	if event.is_action_pressed("gui_accept"):
 		get_tree().set_input_as_handled()
 		option_button._on_pressed()

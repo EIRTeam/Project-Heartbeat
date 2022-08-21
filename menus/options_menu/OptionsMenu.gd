@@ -423,6 +423,7 @@ func _unhandled_input(event):
 			change_to_menu("main_menu")
 
 func _audio_buffer_postfix_callback(value: int):
+	#warning-ignore:integer_division
 	return " ms (~%d updates per second)" % [1000/value]
 
 const CODE = ["gui_up", "gui_up", "gui_down", "gui_down", "gui_left", "gui_right", "gui_left", "gui_right", "note_down", "note_right", "pause"]

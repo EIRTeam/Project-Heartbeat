@@ -1,5 +1,5 @@
 class_name HBHTTPRangeDownloader
-
+#warning-ignore:unused_signal
 signal download_finished
 
 enum STATE {
@@ -14,7 +14,6 @@ var headers = []
 
 var state: int = STATE.STATE_READY
 
-var has_error := false setget ,has_error
 var error_string := "" setget ,get_error_string
 var error_i := 0 setget ,get_error_i
 
@@ -48,7 +47,7 @@ class TimeoutHandler:
 		tries += 1
 		start_time = OS.get_ticks_usec()
 	func has_timed_out() -> bool:
-		return ((OS.get_ticks_usec() - start_time) / 1_000_000) > time_out
+		return ((OS.get_ticks_usec() - start_time) / 1_000_000.0) > time_out
 			
 	func has_ran_out_of_tries() -> bool:
 		return tries >= max_tries
@@ -71,7 +70,6 @@ func download(_download_url: String, _download_path: String, _chunk_size: int, _
 	range_end = 0
 	file_size = -1
 	total_downloaded_bytes = 0
-	has_error = false
 	error_string = ""
 	error_i = 0
 	http.read_chunk_size = chunk_size
@@ -162,7 +160,7 @@ func _process_download() -> bool:
 			# When the try is > 1 we must reset the connection
 			http.close()
 			_establish_connection()
-			if has_error:
+			if error_i != OK:
 				return false
 		var err := http.request(HTTPClient.METHOD_GET, download_url, headers)
 		
@@ -230,7 +228,6 @@ func _process_download() -> bool:
 		if dash_fragments.size() > 1:
 			dash_fragments.pop_front()
 			range_start = 0
-			range_start + chunk_size
 			file_size = -1
 			total_downloaded_bytes = 0
 			http.close()
@@ -244,17 +241,13 @@ func _process_download() -> bool:
 	return total_downloaded_bytes >= file_size
 func propagate_error(_error_i: int, _error_string: String):
 	lock()
-	has_error = true
 	error_i = _error_i
 	error_string = _error_string
 	push_error("RangeDownloader error: %s" % [_error_string])
 	unlock()
 	
 func has_error() -> bool:
-	lock()
-	var h := has_error
-	unlock()
-	return h
+	return get_error_i() != OK
 	
 func get_error_i() -> int:
 	lock()
@@ -287,9 +280,7 @@ func thread_func():
 	if err != OK:
 		propagate_error(error_i, "Error opening file %s for writing (error %d)" % [download_path, err])
 	
-	var download_finished_ok := false
-	
-	while not has_error:
+	while not error_i != OK:
 		if _process_download():
 			break
 	

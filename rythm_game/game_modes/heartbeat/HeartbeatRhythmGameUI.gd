@@ -37,6 +37,7 @@ var end_time = 0.0
 
 var game setget set_game
 
+#warning-ignore:unused_signal
 signal tv_off_animation_finished
 
 onready var tv_animation_tween := Tween.new()

@@ -74,14 +74,14 @@ func propagate_error(error_msg: String):
 func read(_spb: StreamPeerBuffer):
 	buffer = _spb
 	
-	var signature := buffer.get_32()
+	var _signature := buffer.get_32()
 	var textures_offset := buffer.get_u32()
-	var texture_count := buffer.get_32()
+	var _texture_count := buffer.get_32()
 	var sprite_count := buffer.get_u32()
 	var sprites_offset := buffer.get_32()
 	var texture_names_offset := buffer.get_32()
 	var sprite_names_offset := buffer.get_32()
-	var sprite_modes_offset := buffer.get_32()
+	var _sprite_modes_offset := buffer.get_32()
 	
 	# Read textures
 	buffer.seek(textures_offset)
@@ -124,7 +124,7 @@ func read_texture_from_offset(texture_data: DIVATextureData, texture_offset: int
 		buffer.seek(original_offset)
 		return false
 	
-	var subtexture_count := buffer.get_32()
+	var _subtexture_count := buffer.get_32()
 	var info := buffer.get_32()
 	
 	var mipmap_count := info & 0xFF
@@ -188,7 +188,7 @@ func read_texture_data_from_offset(texture_data, texture_data_offset: int) -> bo
 	
 	buffer.seek(texture_data_offset)
 	
-	var signature := buffer.get_32()
+	var _signature := buffer.get_32()
 	
 	var width := buffer.get_32()
 	var height := buffer.get_32()
@@ -267,8 +267,8 @@ func read_sprites(sprite_count: int):
 		var sprite := DIVASprite.new()
 		var texture_index := buffer.get_u32()
 		buffer.seek(buffer.get_position()+4) # ???
-		var rectangle_begin := Vector2(buffer.get_float(), buffer.get_float())
-		var rectangle_end := Vector2(buffer.get_float(), buffer.get_float())
+		var _rectangle_begin := Vector2(buffer.get_float(), buffer.get_float())
+		var _rectangle_end := Vector2(buffer.get_float(), buffer.get_float())
 		var x := buffer.get_float()
 		var y := buffer.get_float()
 		var width := buffer.get_float()

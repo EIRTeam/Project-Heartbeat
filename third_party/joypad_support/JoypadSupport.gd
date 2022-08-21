@@ -275,14 +275,6 @@ func _get_prompt_for(loader: ResourcePreloader, index: String) -> Texture:
 		return texture
 	else:
 		return texture
-		"""
-		push_error("Can't find texture for index %s in %s"%[
-			index,
-			loader.name
-		])
-		assert(false)
-		return texture
-		"""
 
 func _handle_swap_ui_accept_cancel():
 	var is_auto_swapped: = \

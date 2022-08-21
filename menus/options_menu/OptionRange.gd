@@ -1,8 +1,8 @@
 extends Control
 
 export(float) var minimum = 0.0
-export(float) var maximum = 10
-export(float) var step = 1
+export(float) var maximum = 10.0
+export(float) var step = 1.0
 var debounce_step = null
 export(String) var postfix = ""
 var postfix_callback: FuncRef

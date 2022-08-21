@@ -46,7 +46,7 @@ func set_volume(volume_db: float):
 	min_db = BASE_MIN_DB + volume_db + linear2db(HBGame.music_group.volume)
 	
 func snap():
-	var interval = (max_freq - min_freq) / definition
+	var interval = (max_freq - min_freq) / float(definition)
 	
 	for i in range(arr.size()):
 		var freq = min_freq + interval * i

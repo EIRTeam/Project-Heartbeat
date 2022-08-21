@@ -93,7 +93,7 @@ func read(data: StreamPeerBuffer):
 		propagate_error("Invalid UTF table signature, expected @UTF")
 		return
 	
-	var length := data.get_32()
+	var _length := data.get_32()
 	
 	base_offset = 8
 	
@@ -109,7 +109,7 @@ func read(data: StreamPeerBuffer):
 	
 	var fields := []
 	
-	for i in range(field_count):
+	for _i in range(field_count):
 		var flags := data.get_u8()
 		
 		var field := Field.new()
@@ -126,7 +126,7 @@ func read(data: StreamPeerBuffer):
 		
 	var rows := []
 	
-	var old_position := data.get_position()
+	var _old_position := data.get_position()
 	
 	for i in range(row_count):
 		var row := {}
@@ -182,6 +182,7 @@ func read_value(data: StreamPeerBuffer, value_type: int):
 				if o[0] != OK:
 					propagate_error("Error reading binary data %d" % [o[0]])
 				bytes = o[1]
+			value = bytes
 			data.seek(out_position)
 	return value
 		

@@ -37,7 +37,6 @@ func _process(delta: float):
 			var energy = magnitude
 
 			var rotation = deg2rad(i / float(BARS_PER_VISUALIZER) * 360.0 + j * 360.0 / float(VISUALIZER_ROUNDS))
-			var scale_x = energy * ((1.0 - inside_percentage) * (rect_size.x * 0.5))
 			var r = Vector2.RIGHT * (inside_percentage * (rect_size.x * 0.5))
 			var r2 = r + Vector2(energy * ((1.0 - inside_percentage) * (rect_size.x * 0.5)), 0.0)
 			trf = trf.scaled(Vector2(1.0 + r2.x, 1.0))

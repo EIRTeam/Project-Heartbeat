@@ -87,7 +87,7 @@ func open(_spb: StreamPeerBuffer):
 		var flags := spb.get_32()
 		var is_compressed := ( flags & 2 ) != 0
 		var is_encrypted := ( flags & 4 ) != 0
-		var padding := spb.get_32()
+		var _padding := spb.get_32()
 		alignment = spb.get_32()
 		
 		var format = BINARY_FORMAT.FT if is_encrypted && ( alignment & ( alignment - 1 ) ) != 0 else BINARY_FORMAT.DT
@@ -98,7 +98,7 @@ func open(_spb: StreamPeerBuffer):
 		var entry_count = spb.get_32()
 		
 		if format == BINARY_FORMAT.FT:
-			padding = spb.get_32()
+			_padding = spb.get_32()
 		
 		while spb.get_position() < header_size:
 			var name := read_string()

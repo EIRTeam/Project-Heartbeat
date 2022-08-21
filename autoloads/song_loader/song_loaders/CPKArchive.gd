@@ -30,7 +30,7 @@ func propagate_error(error_m: String):
 	error_message = error_m
 	push_error(error_m)
 
-func read_table_from_chunk(file: File, expected_signature: String) -> Array:
+func read_table_from_chunk(expected_signature: String) -> Array:
 	var table = CriUTFTable.new()
 	return table.read_from_chunk(file, expected_signature)
 	
@@ -38,9 +38,7 @@ func open(_file: File):
 	
 	file = _file
 	
-	var time := OS.get_ticks_usec()
-	
-	var cpk := read_table_from_chunk(file, "CPK ")[0] as Dictionary
+	var cpk := read_table_from_chunk("CPK ")[0] as Dictionary
 	
 	var toc_offset: int = cpk.get("TocOffset")
 	var content_offset: int = cpk.get("ContentOffset")
@@ -48,7 +46,7 @@ func open(_file: File):
 	
 	file.seek(toc_offset)
 	
-	var toc = read_table_from_chunk(file, "TOC ")
+	var toc = read_table_from_chunk("TOC ")
 	
 	for row in toc:
 		var entry := CPKEntry.new()
@@ -83,7 +81,6 @@ func load_file(file_path: String) -> StreamPeerBuffer:
 	out.resize(entry.length)
 
 	var file_buff := file.get_buffer(entry.length)
-	var block_count := entry.length / BLOCK_SIZE
 	var unenc_buffer := aes_context.update(file_buff)
 	unenc_buffer.resize(unenc_buffer.size() - unenc_buffer[-1])
 	

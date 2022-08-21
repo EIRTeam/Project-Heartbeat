@@ -4,6 +4,7 @@ extends HBTimingPoint
 class_name HBBaseNote
 
 signal note_type_changed
+#warning-ignore:unused_signal
 signal hold_toggled
 
 enum NOTE_TYPE {

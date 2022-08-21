@@ -114,7 +114,7 @@ enum OGG_ERRORS {
 	
 static func get_ogg_channel_count(path: String) -> int:
 	var file = File.new()
-	var r = file.open(path, File.READ)
+	var _r = file.open(path, File.READ)
 	var _sectors = {}
 	_sectors["header"] = file.get_buffer(4)
 

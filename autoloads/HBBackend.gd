@@ -264,11 +264,7 @@ func _convert_note_ratings(data_dict: Dictionary):
 				out_dict[str(HBJudge.JUDGE_RATINGS[key])] = data_dict[rating_name]
 	return out_dict
 func _on_entries_received(result, params):
-	
-	var page = params.page
-	
 	var entries = []
-	var ranks = {}
 	for item in result.leaderboard_entries:
 		var entry_data = item.entry.entry_data
 		var rank = item.rank

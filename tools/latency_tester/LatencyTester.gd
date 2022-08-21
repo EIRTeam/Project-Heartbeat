@@ -80,7 +80,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	
 	var sound_source := HBGame.register_sound_from_path("latency_tester_song", song.audio_path) as ShinobuSoundSource
 	
-	player = sound_source.instantiate(HBGame.music_group, HBGame.music_group)
+	player = sound_source.instantiate(HBGame.music_group)
 	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
 	add_child(player)
 	

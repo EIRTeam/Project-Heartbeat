@@ -36,7 +36,6 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 	for key in song_settings:
 		for difficulty in difficulties:
 			if key == "difficulty " + difficulty:
-				var stars = song_settings[key]
 				# The things I have to do...
 				var regex_result := star_regex.search(song_settings[key])
 				var stars_f = 0.0

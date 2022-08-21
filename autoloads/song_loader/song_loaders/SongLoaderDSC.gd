@@ -88,13 +88,11 @@ class HBSongMMPLUS:
 		
 	func get_song_select_sprite_set():
 		var farc_archive := FARCArchive.new()
-		var found := false
 		
 		var farc_path := "rom/2d/spr_sel_pv%s.farc" % [pv_data.pv_id_str]
 		var file_path := game_fs_access.get_file_path(farc_path) as String
 		if file_path:
 			farc_archive.open(game_fs_access.load_file_as_buffer(file_path))
-			found = true
 			var sprite_set_path := "spr_sel_pv%s.bin" % [pv_data.pv_id_str]
 			var sprite_set_buffer := farc_archive.get_file_buffer(sprite_set_path)
 			var sprite_set := DIVASpriteSet.new()
@@ -250,7 +248,6 @@ class MMPLUSFSAccess:
 	
 	func _init(_game_location: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
 		var f := File.new()
-		var region_cpk_path := _game_location.plus_file(REGION_CPK_NAME)
 		
 		cpk_archives[REGION_CPK_NAME].set_meta("rom", REGION_ROM_NAME)
 		cpk_archives[MAIN_CPK_NAME].set_meta("rom", MAIN_ROM_NAME)

@@ -5,6 +5,7 @@ var hover_style
 var value setget set_value
 signal hover
 signal changed(value)
+#warning-ignore:unused_signal
 signal back
 
 var disabled := false

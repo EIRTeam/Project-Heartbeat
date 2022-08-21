@@ -17,7 +17,6 @@ func _connect_button_signals():
 	return
 
 func _on_LineEdit_focus_entered():
-	var text_entry_shown := false
 	if HBGame.is_on_steam_deck():
 		PlatformService.service_provider.show_floating_gamepad_text_input()
 	elif PlatformService.service_provider.show_gamepad_text_input(line_edit.text, false, text_input_description):

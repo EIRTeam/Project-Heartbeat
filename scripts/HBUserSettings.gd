@@ -3,6 +3,7 @@ extends HBSerializable
 
 class_name HBUserSettings
 
+#warning-ignore:unused_signal
 signal editor_grid_resolution_changed
 
 var visualizer_enabled = true

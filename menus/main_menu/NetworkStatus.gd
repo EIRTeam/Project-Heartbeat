@@ -6,7 +6,6 @@ onready var info_label = get_node("Label2")
 func _ready():
 	update_label()
 	HBBackend.connect("connection_status_changed", self, "update_label")
-	var is_ppd_ext_enabled = HBGame.has_mp4_support
 	info_label.text = HBVersion.get_version_string(true).split("\n")[2]
 	
 func update_label():
