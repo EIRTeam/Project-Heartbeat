@@ -27,7 +27,7 @@ func _on_SongMetaEditorButton_pressed():
 	get_tree().current_scene = scene
 
 func _on_OpenSongsDirectoryButton_pressed():
-	OS.shell_open(ProjectSettings.globalize_path(HBUtils.join_path(UserSettings.user_settings.content_path, "songs")))
+	OS.shell_open(ProjectSettings.globalize_path(HBUtils.join_path(HBGame.content_dir, "songs")))
 
 
 func _on_OpenLogsDirectoryButton_pressed():

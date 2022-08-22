@@ -112,7 +112,7 @@ func update_youtube_dl():
 		Log.log(self, "Error starting thread for ytdl copy: " + str(result), Log.LogLevel.ERROR)
 		
 func get_cache_dir():
-	return HBUtils.join_path(UserSettings.user_settings.content_path, "youtube_dl/cache")
+	return HBUtils.join_path(HBGame.content_dir, "youtube_dl/cache")
 		
 func _ready():
 	pass

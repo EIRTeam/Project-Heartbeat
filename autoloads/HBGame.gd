@@ -52,6 +52,8 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.HEART: ["heart_note"]
 }
 
+var content_dir := ""
+
 # HACK HACK HACK, because using load() on multiple thread is more broken than my
 # love life we have to put this here, it's also much faster if it's already loaded
 var serializable_types = {
@@ -222,6 +224,14 @@ func _game_init():
 				push_error("Argument game_location requires an input")
 
 	UserSettings._init_user_settings()
+	var dir := Directory.new()
+	
+	if not dir.dir_exists(UserSettings.user_settings.content_path):
+		content_dir = "user://"
+		print("Content dir does not exist, falling back to user://")
+	else:
+		content_dir = UserSettings.user_settings.content_path
+	
 	_register_basic_sfx()
 	# We need to call this again (it's called by _init_user_settings)
 	# because shinobu groups were not initialized by that point, which is done in 
@@ -264,7 +274,6 @@ func _game_init():
 
 	song_stats = HBSongStatsLoader.new()
 	song_stats._init_song_stats()
-	var dir := Directory.new()
 	if not dir.dir_exists(UserSettings.CUSTOM_SOUND_PATH):
 		dir.make_dir_recursive(UserSettings.CUSTOM_SOUND_PATH)
 	

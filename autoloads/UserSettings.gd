@@ -469,9 +469,9 @@ func reset_to_default_input_map():
 
 func get_content_directories(only_editable=false):
 	if only_editable:
-		return [user_settings.content_path]
+		return [HBGame.content_dir]
 	else:
-		return ["res://"] + [user_settings.content_path]
+		return ["res://"] + [HBGame.content_dir]
 
 func get_sound_by_name(sound_name: String) -> AudioStream:
 	var file := File.new()
