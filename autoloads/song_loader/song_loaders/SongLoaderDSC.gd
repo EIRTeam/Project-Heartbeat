@@ -102,7 +102,6 @@ class HBSongMMPLUS:
 		
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
-		print("LOAD CHART!!!", chart_path)
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
 		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
 		
@@ -232,13 +231,10 @@ class MMPLUSModFSAccess:
 		if d.dir_exists(mod_location):
 			is_valid = true
 	func get_file_path(path: String):
-		if path.ends_with("dsc"):
-			print("COCK", path)
 		var f := File.new()
 		if f.file_exists(path):
 			return path
 		var full_file_path := mod_location.plus_file(path)
-		print("FULL FILE PATH!!", full_file_path)
 		return full_file_path if f.file_exists(full_file_path) else null
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
@@ -398,7 +394,6 @@ func parse_pvdb(pvdb: String) -> Dictionary:
 			if key.ends_with("script_file_name"):
 				var difficulty = key.split(".")[2] + key.split(".")[3]
 				var get_f_path = fs_access.get_file_path(value)
-				print("SCRIPT FILE NAME!?!?!", value)
 				if get_f_path:
 					pv_data.set_dsc_path(dsc_diff_to_hb_diff(difficulty), get_f_path)
 			if key.ends_with("song_file_name"):
