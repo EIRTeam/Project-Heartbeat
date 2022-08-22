@@ -102,6 +102,7 @@ class HBSongMMPLUS:
 		
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
+		print("LOAD CHART!!!", chart_path)
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
 		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
 		
@@ -231,10 +232,13 @@ class MMPLUSModFSAccess:
 		if d.dir_exists(mod_location):
 			is_valid = true
 	func get_file_path(path: String):
+		if path.ends_with("dsc"):
+			print("COCK", path)
 		var f := File.new()
-		var full_file_path := mod_location.plus_file(path)
 		if f.file_exists(path):
 			return path
+		var full_file_path := mod_location.plus_file(path)
+		print("FULL FILE PATH!!", full_file_path)
 		return full_file_path if f.file_exists(full_file_path) else null
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
@@ -394,6 +398,7 @@ func parse_pvdb(pvdb: String) -> Dictionary:
 			if key.ends_with("script_file_name"):
 				var difficulty = key.split(".")[2] + key.split(".")[3]
 				var get_f_path = fs_access.get_file_path(value)
+				print("SCRIPT FILE NAME!?!?!", value)
 				if get_f_path:
 					pv_data.set_dsc_path(dsc_diff_to_hb_diff(difficulty), get_f_path)
 			if key.ends_with("song_file_name"):
@@ -476,7 +481,7 @@ func load_songs_mmplus() -> Array:
 				continue
 			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
 			continue
-	
+			
 	var mods_path := GAME_LOCATION.plus_file("mods") as String
 	
 	var d := Directory.new()
@@ -489,7 +494,9 @@ func load_songs_mmplus() -> Array:
 				var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
 				if buffer.get_size() > 0:
 					var pvdb_text := buffer.data_array.get_string_from_utf8()
+					fs_access = mod_fs_access
 					var mod_pvdb := parse_pvdb(pvdb_text)
+					fs_access = mmplus_file_access
 					for pv_id in mod_pvdb:
 						var pv_data = mod_pvdb[pv_id]
 						var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)

@@ -133,6 +133,14 @@ func _on_song_assets_loaded(assets):
 	
 func load_into_game():
 	if UserSettings.user_settings.enable_streamer_mode:
+		for tex in [album_cover.texture, $TextureRect.texture]:
+			if tex is AtlasTexture:
+				var atlas_tex := tex as AtlasTexture
+				var image_tex := atlas_tex.atlas as ImageTexture
+				var atlas_tex_data := atlas_tex.atlas.get_data()
+				if atlas_tex_data.is_compressed():
+					atlas_tex_data.decompress()
+					image_tex.create_from_image(atlas_tex_data)
 		var preview_image: Image = album_cover.texture.get_data()
 		var bg_image: Image = $TextureRect.texture.get_data()
 		var bg_image_to_write: Image = HBUtils.fit_image(bg_image, HBGame.STREAMER_MODE_BACKGROUND_IMAGE_SIZE, true)

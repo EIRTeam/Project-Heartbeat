@@ -475,6 +475,8 @@ static func fit_image(base_image: Image, size: Vector2, cover := false) -> Image
 		# If the image doesn't have alpha we have to convert it to a format that does
 		if base_image_copy.detect_alpha() == Image.ALPHA_NONE:
 			final_image_format = Image.FORMAT_RGBA8
+			if base_image_copy.is_compressed():
+				base_image_copy.decompress()
 			base_image_copy.convert(final_image_format)
 	
 	final_image.create(size.x, size.y, false, final_image_format)
