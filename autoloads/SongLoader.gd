@@ -14,7 +14,7 @@ var scores = {}
 # Contains song loaders in a dict key:loader
 var song_loaders = {}
 
-func _ready():
+func init_song_loader():
 	var dir := Directory.new()
 	for dir_name in UserSettings.get_content_directories():
 		var o_err = dir.open(dir_name)

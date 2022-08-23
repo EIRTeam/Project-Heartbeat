@@ -238,6 +238,7 @@ func _game_init():
 	# _register_basic_sfx
 	UserSettings.apply_volumes()
 
+	SongLoader.init_song_loader()
 	SongLoader.add_song_loader("heartbeat", SongLoaderHB.new())
 	SongLoader.add_song_loader("ppd", SongLoaderPPD.new())
 	SongLoader.add_song_loader("ppd_ext", load("res://autoloads/song_loader/song_loaders/SongLoaderPPDEXT.gd").new())
