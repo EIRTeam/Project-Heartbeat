@@ -23,6 +23,7 @@ var offset = 0.0
 
 func _init(_playback: ShinobuSoundPlayer):
 	playback = _playback
+	add_child(playback)
 
 func seek_real(seek_pos: int):
 	playback.seek(seek_pos)
