@@ -9,6 +9,9 @@ class_name HBBPMChange
 var bpm = 180.0
 
 func _init():
+	_class_name = "HBBPMChange" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+	
 	serializable_fields += ["bpm"]
 
 func get_serialized_type():
@@ -22,7 +25,8 @@ func get_inspector_properties():
 		"bpm": {
 			"type": "int",
 			"params": {
-				"min": 1
+				"min": 1,
+				"suffix": "BPM",
 			}
 		}
 	})

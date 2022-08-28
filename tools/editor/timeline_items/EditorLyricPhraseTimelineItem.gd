@@ -1,4 +1,5 @@
-extends "EditorTimelineItem.gd"
+extends EditorTimelineItem
+
 class_name EditorLyricPhraseTimelineItem
 
 signal phrases_changed
@@ -7,6 +8,9 @@ onready var lyric_label = get_node("LyricsLabel")
 onready var start_end_label = get_node("StartEndLabel")
 
 func _init():
+	_class_name = "EditorLyricPhraseTimelineItem" # Workaround for godot#4708
+	_inheritance.append("EditorTimelineItem")
+	
 	data = HBLyricsPhrase.new()
 
 func _ready():

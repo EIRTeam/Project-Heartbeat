@@ -4,7 +4,7 @@ extends HBTimingPoint
 class_name HBBaseNote
 
 signal note_type_changed
-#warning-ignore:unused_signal
+# warning-ignore:unused_signal
 signal hold_toggled
 #warning-ignore:unused_signal
 signal parameter_changed(parameter_name)
@@ -80,29 +80,45 @@ static func get_note_graphic(type, variant):
 func get_inspector_properties():
 	return {
 		"time": {
-			"type": "int"
+			"type": "int",
+			"params": {
+				"suffix": "ms",
+			}
 		},
 		"position": {
-			"type": "Vector2"
+			"type": "Vector2",
+			"params": {
+				"suffix": "px",
+			}
 		},
 		"distance": {
-			"type": "float"
+			"type": "float",
+			"params": {
+				"suffix": "px",
+			}
 		},
 		"auto_time_out": {
-			"type": "bool"
+			"type": "bool",
 		},
 		"time_out": {
-			"type": "int"
+			"type": "int",
+			"params": {
+				"suffix": "ms",
+			}
 		},
 		"oscillation_amplitude": {
 			"type": "float",
 			"params": {
+				"min": -INF,
+				"max": INF,
 				"show_toggle_negative_button": true
 			}
 		},
 		"oscillation_frequency": {
-			"type": "int",
+			"type": "float",
 			"params": {
+				"min": -INF,
+				"max": INF,
 				"show_toggle_negative_button": true
 			}
 		},
@@ -112,6 +128,9 @@ func get_inspector_properties():
 	}
 
 func _init():
+	_class_name = "HBBaseNote" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+	
 	serializable_fields += ["position", "pos_modified", "distance", "auto_time_out", "time_out",
 	"note_type", "entry_angle", "oscillation_amplitude", "oscillation_frequency"]
 

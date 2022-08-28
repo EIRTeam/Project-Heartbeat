@@ -2,6 +2,10 @@ extends HBTimingPoint
 
 class_name HBIntroSkipMarker
 
+func _init():
+	_class_name = "HBIntroSkipMarker" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+
 func get_serialized_type():
 	return "IntroSkipMarker"
 	

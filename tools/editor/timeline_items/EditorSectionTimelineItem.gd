@@ -5,6 +5,9 @@ class_name EditorSectionTimelineItem
 onready var label = get_node("Label")
 
 func _init():
+	_class_name = "EditorSectionTimelineItem" # Workaround for godot#4708
+	_inheritance.append("EditorTimelineItem")
+	
 	data = HBChartSection.new()
 
 func _ready():

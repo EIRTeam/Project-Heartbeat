@@ -6,9 +6,6 @@
 margin_right = 26.0
 alignment = 1
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CheckBox" type="CheckBox" parent="."]
 margin_right = 26.0

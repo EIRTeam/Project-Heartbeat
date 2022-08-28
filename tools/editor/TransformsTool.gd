@@ -243,20 +243,18 @@ class InterpolateAngleTransform:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		if notes.size() > 2:
-			var min_angle = notes[-1].entry_angle as float
-			var max_angle = notes[0].entry_angle as float
-			min_angle = fmod(min_angle + 360, 360.0)
-			max_angle = fmod(max_angle + 360, 360.0)
+			var min_angle = deg2rad(notes[0].entry_angle) as float
+			var max_angle = deg2rad(notes[-1].entry_angle) as float
 			
-			var min_time = notes[-1].time
-			var max_time = notes[0].time
+			var min_time = notes[0].time
+			var max_time = notes[-1].time
 			
 			for note in notes:
 				var t = 0
 				if float(max_time - min_time) > 0:
-					t = (note.time - min_time) / float(max_time - min_time)
+					t = float(note.time - min_time) / float(max_time - min_time)
 				
-				var new_angle = lerp(min_angle, max_angle, t)
+				var new_angle = rad2deg(lerp_angle(min_angle, max_angle, t))
 				new_angle = fmod(new_angle + 360, 360.0)
 				transformation_result[note] = {
 					"entry_angle": new_angle
@@ -363,8 +361,6 @@ class MakeCircleTransform:
 		if not notes:
 			return {}
 		
-		notes.invert()
-		
 		var transformation_result = {}
 		
 		var sustain_compensation = 0
@@ -375,11 +371,11 @@ class MakeCircleTransform:
 		var center
 		
 		if start_note < notes.size():
-			time_offset = notes[start_note].time if notes else 0
+			time_offset = notes[start_note].time
 			center = notes[start_note].position
 		else:
-			time_offset = notes[notes.size() - 1].time if notes else 0
-			center = notes[notes.size() - 1].position
+			time_offset = notes[0].time
+			center = notes[0].position
 		
 		if center.y > 540:
 			start_rev = 0.5

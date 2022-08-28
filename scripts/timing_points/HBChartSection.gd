@@ -17,6 +17,9 @@ const palette = [
 ]
 
 func _init():
+	_class_name = "HBChartSection" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+	
 	color = Color(palette[randi() % palette.size()])
 	serializable_fields += ["name", "color"]
 
@@ -30,6 +33,9 @@ func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), {
 		"name": {
 			"type": "String",
+			"params": {
+				"default": "Section Name",
+			}
 		},
 		"color": {
 			"type": "Color",

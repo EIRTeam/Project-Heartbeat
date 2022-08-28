@@ -11,8 +11,5 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SelectedPanel" parent="." instance=ExtResource( 1 )]

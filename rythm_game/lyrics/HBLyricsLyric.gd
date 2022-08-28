@@ -5,6 +5,9 @@ class_name HBLyricsLyric
 var value: String = ""
 
 func _init():
+	_class_name = "HBLyricsLyric" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+	
 	serializable_fields += ["value"]
 
 func get_serialized_type():
@@ -13,7 +16,10 @@ func get_serialized_type():
 func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), {
 		"value": {
-			"type": "String"
+			"type": "String",
+			"params": {
+				"default": "Lyric Text"
+			},
 		},
 	})
 

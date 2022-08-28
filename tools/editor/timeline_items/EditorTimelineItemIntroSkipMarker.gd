@@ -1,10 +1,14 @@
-extends "res://tools/editor/timeline_items/EditorTimelineItem.gd"
+extends EditorTimelineItem
 
 class_name EditorTimelineItemIntroSkip
 
 func _init():
+	_class_name = "EditorTimelineItemIntroSkip" # Workaround for godot#4708
+	_inheritance.append("EditorTimelineItem")
+	
 	data = HBBPMChange.new()
 	update_affects_timing_points = true
+
 func get_editor_size():
 	return Vector2(100, rect_size.y)
 

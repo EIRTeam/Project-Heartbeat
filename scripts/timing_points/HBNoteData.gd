@@ -8,6 +8,9 @@ class_name HBNoteData
 var hold = false setget set_hold # If this is a modern-style hold note
 
 func _init():
+	_class_name = "HBNoteData" # Workaround for godot#4708
+	_inheritance.append("HBBaseNote")
+	
 	serializable_fields += ["hold"]
 
 func get_serialized_type():

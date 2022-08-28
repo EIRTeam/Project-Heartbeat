@@ -6,6 +6,9 @@ class_name HBSustainNote
 var end_time = 1000
 
 func _init():
+	_class_name = "HBSustainNote" # Workaround for godot#4708
+	_inheritance.append("HBBaseNote")
+	
 	serializable_fields += ["end_time"]
 
 func get_serialized_type():
@@ -32,7 +35,10 @@ func get_timeline_item():
 func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), {
 		"end_time": {
-			"type": "int"
+			"type": "int",
+			"params": {
+				"suffix": "ms",
+			}
 		}
 	})
 

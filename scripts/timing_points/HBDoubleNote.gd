@@ -4,7 +4,8 @@ extends HBBaseNote
 class_name HBDoubleNote
 
 func _init():
-	pass
+	_class_name = "HBDoubleNote" # Workaround for godot#4708
+	_inheritance.append("HBBaseNote")
 
 func get_serialized_type():
 	return "DoubleNote"

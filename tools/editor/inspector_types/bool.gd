@@ -2,14 +2,26 @@ extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
 onready var checkbox = get_node("CheckBox")
 
-func sync_value(value):
+var inputs: Array
+
+func sync_value(input_array: Array):
 	checkbox.disconnect("toggled", self, "_on_checkbox_toggled")
-	checkbox.pressed = value
+	inputs = input_array
+	
+	var sum = 0.0
+	for input in input_array:
+		sum += 1 if input.get(property_name) else 0
+	checkbox.pressed = (sum / input_array.size()) > 0.5
+	
 	checkbox.connect("toggled", self, "_on_checkbox_toggled")
 
 func _ready():
 	checkbox.connect("toggled", self, "_on_checkbox_toggled")
 
 func _on_checkbox_toggled(value):
-	emit_signal("value_changed", value)
+	var values = {}
+	for i in inputs.size():
+		values[i] = value
+	
+	emit_signal("values_changed", values)
 	emit_signal("value_change_committed")

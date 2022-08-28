@@ -2,6 +2,10 @@ extends HBTimingPoint
 
 class_name HBLyricsPhraseStart
 
+func _init():
+	_class_name = "HBLyricsPhraseStart" # Workaround for godot#4708
+	_inheritance.append("HBTimingPoint")
+
 func get_serialized_type():
 	return "PhraseStart"
 

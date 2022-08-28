@@ -1,41 +1,61 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://tools/editor/inspector_types/EditorInspectorTypeVector2.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/inspector_types/Vector2.gd" type="Script" id=1]
+[ext_resource path="res://tools/editor/HBEditorMultiSpinBox.gd" type="Script" id=2]
 
 [node name="Vector2" type="HBoxContainer"]
 margin_right = 26.0
 alignment = 1
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="."]
-margin_top = 5.0
-margin_right = 8.0
-margin_bottom = 19.0
-text = "X"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 85.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
 
-[node name="XSpinbox" type="SpinBox" parent="."]
-margin_left = 12.0
-margin_right = 86.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 85.0
 margin_bottom = 24.0
-max_value = 1920.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 19.0
+text = "x"
+
+[node name="XSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 11.0
+margin_right = 85.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+inner_property_name = "x"
+suffix = "px"
+max = 1920.0
 align = 3
 script = ExtResource( 2 )
 
-[node name="Label2" type="Label" parent="."]
-margin_left = 90.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 85.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
 margin_top = 5.0
-margin_right = 97.0
+margin_right = 7.0
 margin_bottom = 19.0
 text = "y"
 
-[node name="YSpinbox" type="SpinBox" parent="."]
-margin_left = 101.0
-margin_right = 175.0
+[node name="YSpinbox" type="MultiSpinBox" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+margin_left = 11.0
+margin_right = 85.0
 margin_bottom = 24.0
-max_value = 1080.0
+size_flags_horizontal = 3
+inner_property_name = "y"
+suffix = "px"
+max = 1080.0
 align = 3
 script = ExtResource( 2 )

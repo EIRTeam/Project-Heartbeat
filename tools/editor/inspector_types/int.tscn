@@ -1,23 +1,18 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/editor/inspector_types/int.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/HBEditorMultiSpinBox.gd" type="Script" id=2]
 
 [node name="Int" type="HBoxContainer"]
 margin_right = 26.0
 alignment = 1
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Spinbox" type="SpinBox" parent="."]
+[node name="Spinbox" type="MultiSpinBox" parent="."]
 margin_right = 74.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-min_value = -1e+06
-max_value = 1e+06
-align = 3
+suffix = "ms"
 script = ExtResource( 2 )
 
 [node name="ToggleNegativeButton" type="Button" parent="."]

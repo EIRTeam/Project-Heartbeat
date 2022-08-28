@@ -3,6 +3,8 @@ extends HBSerializable
 var time: int
 
 class_name HBTimingPoint
+var _class_name: String = "HBTimingPoint" # Workaround for godot#4708
+var _inheritance: Array = [] # HACK: ClassDB.get_parent_class() is retarded
 
 var LOG_NAME setget ,get_log_name
 
@@ -21,7 +23,10 @@ func get_timeline_item():
 func get_inspector_properties():
 	return {
 		"time": {
-			"type": "int"
+			"type": "int",
+			"params": {
+				"suffix": "ms",
+			}
 		}
 	}
 

@@ -57,7 +57,6 @@ func _widget_area_input(event: InputEvent):
 				get_tree().set_input_as_handled()
 				editor._commit_selected_property_change("entry_angle")
 				show_angle = false
-	#			_on_timing_point_property_changed("entry_angle", )
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("editor_select"):
 				get_tree().set_input_as_handled()
@@ -68,7 +67,12 @@ func _widget_area_input(event: InputEvent):
 					entry_angle /= PI / (editor.song_editor_settings.angle_snaps / 2.0)
 					entry_angle = round(entry_angle) * (PI / (editor.song_editor_settings.angle_snaps / 2.0))
 				
-				editor._change_selected_property("entry_angle", rad2deg(entry_angle) - 180)
+				var values = {}
+				for i in editor.selected.size():
+					values[i] = fmod(fmod(round(rad2deg(entry_angle) - 180), 360.0) + 360, 360.0)
+				
+				editor._change_selected_properties("entry_angle", values)
+				
 				show_angle = true
 				update()
 func _draw():

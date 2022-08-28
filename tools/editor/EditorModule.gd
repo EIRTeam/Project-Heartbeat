@@ -49,6 +49,9 @@ func song_editor_settings_changed(settings: HBPerSongEditorSettings):
 	pass
 
 func _input(event: InputEvent):
+	if get_focus_owner() is LineEdit:
+		return
+	
 	if event is InputEventKey or event is InputEventMouseButton:
 		for shortcut in shortcuts:
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):

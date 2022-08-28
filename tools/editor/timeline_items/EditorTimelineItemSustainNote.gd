@@ -1,4 +1,4 @@
-extends "EditorTimelineItemSingleNote.gd"
+extends EditorTimelineItemSingleNote
 
 class_name EditorTimelineItemSustainNote
 
@@ -11,6 +11,10 @@ var _end_time_dragging = false
 var _end_time_drag_last
 
 onready var hack = get_node("TextureRect2/Control")
+
+func _init():
+	_class_name = "EditorTimelineItemSustainNote" # Workaround for godot#4708
+	_inheritance.append("EditorTimelineItemSingleNote")
 
 func set_texture():
 	.set_texture()

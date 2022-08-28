@@ -1,6 +1,8 @@
 extends Control
 
 class_name EditorTimelineItem
+var _class_name: String = "EditorTimelineItem" # Workaround for godot#4708
+var _inheritance: Array = [] # HACK: ClassDB.get_parent_class() is retarded
 
 # Emitted by children
 # warning-ignore:unused_signal

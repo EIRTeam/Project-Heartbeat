@@ -49,6 +49,7 @@ onready var song_settings_editor = get_node("EditorGlobalSettings").song_setting
 onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
 onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
 onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
+onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
 
 const LOG_NAME = "HBEditor"
 
@@ -100,7 +101,7 @@ func get_bpm():
 	return sync_module.get_bpm() if sync_module else 150
 
 func _sort_current_items_impl(a, b):
-	return a.data.time > b.data.time
+	return a.data.time < b.data.time
 
 func sort_current_items():
 	current_notes.sort_custom(self, "_sort_current_items_impl")
@@ -173,13 +174,13 @@ func _ready():
 	fine_position_timer.connect("timeout", self, "apply_fine_position")
 	rhythm_game.set_process_unhandled_input(false)
 	rhythm_game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
-#	seek(0)
-	inspector.connect("property_changed", self, "_change_selected_property")
+	
+	inspector.connect("properties_changed", self, "_change_selected_properties")
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
 	inspector.connect("reset_pos", self, "reset_note_position")
 	
-#	load_song(SongLoader.songs["sands_of_time"], "easy")
 	load_plugins()
+	
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
 	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
@@ -189,7 +190,7 @@ func _ready():
 	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
 	editor_help_button.get_popup().connect("index_pressed", self, "_on_editor_help_button_pressed")
 	
-	inspector.connect("note_pasted", self, "paste_note_data")
+	inspector.connect("notes_pasted", self, "paste_note_data")
 	
 	MouseTrap.disable_mouse_trap()
 	
@@ -575,19 +576,17 @@ func notify_selected_changed():
 	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
 
 func select_item(item: EditorTimelineItem, add = false):
-	if selected.size() > 0 and not add:
-		for selected_item in selected:
-			selected_item.deselect()
-	
-	inspector.stop_inspecting()
-	
 	if add:
 		if item in selected:
 			return
 		
 		selected.append(item)
 	else:
+		for selected_item in selected:
+			selected_item.deselect()
+		
 		selected = [item]
+	
 	release_owned_focus()
 	item.select()
 	
@@ -598,30 +597,35 @@ func select_item(item: EditorTimelineItem, add = false):
 		game_preview.widget_area.add_child(widget_instance)
 		item.connect_widget(widget_instance)
 	
-	inspector.inspect(item)
 	selected.sort_custom(self, "_sort_current_items_impl")
+	right_panel.current_tab = 0
+	inspector.inspect(selected)
 	notify_selected_changed()
 
 func select_all():
 	if selected.size() > 0:
 		deselect_all()
-	selected = current_notes.duplicate()
 	inspector.stop_inspecting()
+	
+	selected = current_notes
 	if selected.size() > 0:
 		for item in selected:
 			item.select()
-		inspector.inspect(selected[0])
-		release_owned_focus()
-	notify_selected_changed()
 	
+	selected.sort_custom(self, "_sort_current_items_impl")
+	right_panel.current_tab = 0
+	inspector.inspect(selected)
+	release_owned_focus()
+	notify_selected_changed()
+
 func add_item(layer_n: int, item: EditorTimelineItem):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	add_item_to_layer(layer, item)
-	
+
 # property values for continuously updating undo_redo actions like angle changes
 var old_property_values = {}
-	
+
 # Changes the selected property by an amount, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary
 func _change_selected_property_delta(property_name: String, new_value, making_change=null):
@@ -676,12 +680,16 @@ func show_contextual_menu():
 	popup_offset.y = max(popup_offset.y, 0)
 	contextual_menu.set_global_position(get_global_mouse_position() - popup_offset)
 	
-# Changes the property of the selected item, but doesn't commit it to undo_redo, to
+# Changes the properties of the selected items, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary, thus undoing constant 
 # actions like changing a note angle requires a single control+z
-func _change_selected_property(property_name: String, new_value):
-	for selected_item in selected:
-		_change_selected_property_single_item(selected_item, property_name, new_value)
+func _change_selected_properties(property_name: String, new_values):
+	for i in selected.size():
+		_change_selected_property_single_item(selected[i], property_name, new_values[i])
+	
+	if property_name == "entry_angle":
+		inspector.sync_visible_values_with_data()
+	
 	_on_timing_points_params_changed()
 
 func _change_selected_property_single_item(item, property_name: String, new_value):
@@ -910,8 +918,11 @@ func paste(time: int):
 		undo_redo.commit_action()
 func delete_selected():
 	if selected.size() > 0:
-		if inspector.inspecting_item in selected:
-			inspector.stop_inspecting()
+		for item in selected:
+			if item in inspector.inspecting_items:
+				inspector.stop_inspecting()
+				break
+		
 		undo_redo.create_action("Delete notes")
 		
 		message_shower._show_notification("Delete notes")
@@ -1048,7 +1059,7 @@ func deselect_item(item):
 		selected.erase(item)
 		item.deselect()
 		if selected.size() > 0:
-			inspector.inspect(selected[-1])
+			inspector.inspect(selected)
 		else:
 			inspector.stop_inspecting()
 	
@@ -1275,25 +1286,34 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	sync_lyrics()
 	force_game_process()
 
-func paste_note_data(note_data: HBBaseNote):
+func paste_note_data(notes: Array):
 	undo_redo.create_action("Paste note data")
-	for selected_item in selected:
+	
+	for i in selected.size():
+		var selected_item = selected[i]
+		
 		if selected_item.data is HBBaseNote:
-			var new_data = note_data.clone() as HBBaseNote
+			var new_data = notes[i % notes.size()].clone()
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
-			undo_redo.add_do_property(selected_item, "data", new_data)
-			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
-			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", new_data)
-			undo_redo.add_undo_property(selected_item, "data", selected_item.data)
-			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", new_data)
-			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
-	undo_redo.commit_action()
-	inspector.stop_inspecting()
-	inspector.inspect(selected[0])
-	inspector.sync_visible_values_with_data()
-	force_game_process()
+			
+			for property in new_data.get_inspector_properties():
+				if selected_item.data.get(property) != null:  # HACK: There is no Object.has() method :/
+					undo_redo.add_do_property(selected_item.data, property, new_data.get(property))
+					undo_redo.add_undo_property(selected_item.data, property, selected_item.data.get(property))
+			
+			undo_redo.add_do_method(selected_item, "update_widget_data")
+			undo_redo.add_undo_method(selected_item, "update_widget_data")
 	
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+	
+	undo_redo.commit_action()
+
+	force_game_process()
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var song = SongLoader.songs[song_id]

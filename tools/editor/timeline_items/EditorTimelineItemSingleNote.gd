@@ -1,6 +1,12 @@
-extends "res://tools/editor/timeline_items/EditorTimelineItemNote.gd"
+extends EditorTimelineItemNote
+
+class_name EditorTimelineItemSingleNote
 
 const WIDTH = 5.0
+
+func _init():
+	_class_name = "EditorTimelineItemSustainNote" # Workaround for godot#4708
+	_inheritance.append("EditorTimelineItemNote")
 
 func _ready():
 	set_texture()
