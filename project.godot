@@ -999,6 +999,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/ugc_services/SteamUGCService.gd"
 }, {
+"base": "Reference",
+"class": "TOMLParser",
+"language": "GDScript",
+"path": "res://scripts/TOMLParser.gd"
+}, {
 "base": "Control",
 "class": "TabbedContainerTab",
 "language": "GDScript",
@@ -1203,6 +1208,7 @@ _global_script_class_icons={
 "SteamMultiplayerService": "",
 "SteamServiceMember": "",
 "SteamUGCService": "",
+"TOMLParser": "",
 "TabbedContainerTab": ""
 }
 
@@ -1218,8 +1224,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1658187942
-config/build_commit="0c67658e2f48b98c1799da66193757981ed4d38f"
+config/build_time=1661231677
+config/build_commit="9fba974a433936209492aa6485d58cd8ef943540"
 config/service_environment="production"
 
 [audio]

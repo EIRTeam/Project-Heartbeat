@@ -71,6 +71,11 @@ class HBSongDSC:
 class HBSongMMPLUS:
 	extends HBSongDSC
 	
+	# replacement songs are songs that replace the originals
+	var is_mod_song := false
+	var mod_info := {}
+	var mod := ""
+	
 	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap). \
 	(_pv_data, _game_fs_access, _opcode_map):
 		preview_image = "PLACEHOLDER"
@@ -104,6 +109,17 @@ class HBSongMMPLUS:
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
 		return DSCConverter.convert_dsc_buffer_to_chart(buff, opcode_map)
+		
+	func get_meta_string():
+		var meta := []
+		if is_mod_song:
+			var mod_name = mod_info.get("default", {}).get("name")
+			if not mod_name:
+				mod_name = mod
+			if mod_name:
+				meta.append("Mod: %s" % [mod_name])
+		meta.append_array(.get_meta_string())
+		return meta
 		
 func _init_loader() -> int:
 	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
@@ -224,9 +240,12 @@ class MMPLUSModFSAccess:
 	extends DSCGameFSAccess
 	var mod_name: String
 	var mod_location: String
-	func _init(_game_location: String, _mod_name: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
+	var base_game_fs_access: MMPLUSFSAccess
+	func _init(_game_location: String, _mod_name: String, _base_game_fs_access: MMPLUSFSAccess, \
+			mdata_loader: MDATALoader).(_game_location, mdata_loader):
 		mod_name = _mod_name
 		mod_location = _game_location.plus_file("mods").plus_file(_mod_name)
+		base_game_fs_access = _base_game_fs_access
 		var d := Directory.new()
 		if d.dir_exists(mod_location):
 			is_valid = true
@@ -235,7 +254,7 @@ class MMPLUSModFSAccess:
 		if f.file_exists(path):
 			return path
 		var full_file_path := mod_location.plus_file(path)
-		return full_file_path if f.file_exists(full_file_path) else null
+		return full_file_path if f.file_exists(full_file_path) else base_game_fs_access.get_file_path(path)
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
 		var f := File.new()
@@ -245,7 +264,7 @@ class MMPLUSModFSAccess:
 				var spb := StreamPeerBuffer.new()
 				spb.data_array = f.get_buffer(f.get_len())
 				return spb
-		return StreamPeerBuffer.new()
+		return base_game_fs_access.load_file_as_buffer(path)
 class MMPLUSFSAccess:
 	extends DSCGameFSAccess
 	
@@ -443,7 +462,7 @@ func load_songs_mmplus() -> Array:
 	var mmplus_file_access := MMPLUSFSAccess.new(GAME_LOCATION, mdata_loader)
 	fs_access = mmplus_file_access
 	
-	var songs := []
+	var songs := {}
 	
 	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
 	var main_pvdb := parse_pvdb(region_cpk.load_text_file("rom_steam_region/rom/pv_db.txt"))
@@ -470,38 +489,52 @@ func load_songs_mmplus() -> Array:
 		
 		var ogg_path := mmplus_file_access.get_file_path(pv_data.song_file_name) as String
 		if ogg_path:
-			songs.append(song)
+			songs[song.id] = song
 		else:
 			if pv_data.has_ex_stage:
 				continue
 			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
 			continue
 			
-	var mods_path := GAME_LOCATION.plus_file("mods") as String
+	var mods_config_path := GAME_LOCATION.plus_file("config.toml") as String
 	
 	var d := Directory.new()
-	if d.open(mods_path) == OK:
-		d.list_dir_begin(true)
-		var current_file := d.get_next()
-		while current_file != "":
-			if d.current_is_dir():
-				var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, mdata_loader)
-				var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
-				if buffer.get_size() > 0:
-					var pvdb_text := buffer.data_array.get_string_from_utf8()
-					fs_access = mod_fs_access
-					var mod_pvdb := parse_pvdb(pvdb_text)
-					fs_access = mmplus_file_access
-					for pv_id in mod_pvdb:
-						var pv_data = mod_pvdb[pv_id]
-						var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
-						song.id = "pv_" + str(pv_id)
-						var ogg_path = mod_fs_access.get_file_path(pv_data.song_file_name)
-						if ogg_path:
-							songs.append(song)
-			current_file = d.get_next()
+
+	if d.file_exists(mods_config_path):
+		var mods_toml := TOMLParser.from_file(mods_config_path)
+		
+		var mods_path := GAME_LOCATION.plus_file(mods_toml.default.get("mods", "mods")) as String
+		
+		if d.open(mods_path) == OK:
+			d.list_dir_begin(true)
+			var current_file := d.get_next()
+			while current_file != "":
+				if d.current_is_dir():
+					var config_toml_path := mods_path.plus_file(current_file).plus_file("config.toml")
+					if not d.file_exists(config_toml_path):
+						current_file = d.get_next()
+						continue
+					var mod_toml := TOMLParser.from_file(config_toml_path)
+					var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, fs_access, mdata_loader)
+					var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
+					if buffer.get_size() > 0:
+						var pvdb_text := buffer.data_array.get_string_from_utf8()
+						fs_access = mod_fs_access
+						var mod_pvdb := parse_pvdb(pvdb_text)
+						fs_access = mmplus_file_access
+						for pv_id in mod_pvdb:
+							var pv_data = mod_pvdb[pv_id]
+							var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
+							song.id = "pv_" + str(pv_id)
+							song.is_mod_song = true
+							song.mod_info = mod_toml
+							song.mod = current_file
+							var ogg_path = mod_fs_access.get_file_path(pv_data.song_file_name)
+							if ogg_path:
+								songs[song.id] = song
+				current_file = d.get_next()
 	
-	return songs
+	return songs.values()
 func load_songs() -> Array:
 	if game_type == "MMPLUS":
 		return load_songs_mmplus()
