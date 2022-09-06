@@ -205,8 +205,6 @@ class IncrementAnglesTransform:
 			notes.invert()
 		
 		if notes.size() > 1:
-			notes.sort_custom(self, "_note_comparison")
-			
 			var previous_note := notes[0] as HBBaseNote
 			var previous_angle = notes[0].entry_angle
 			var reference_angle = int(fmod(notes[0].entry_angle + 360, 360.0))

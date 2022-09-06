@@ -172,7 +172,9 @@ func toggle_metronome():
 	
 	if not editor.game_playback.is_playing():
 		editor._on_PlayButton_pressed()
-	var song_start = ShinobuGodot.get_dsp_time() - editor.playhead_position
+	
+	var current_time = Shinobu.get_dsp_time()
+	var song_start = current_time - editor.playhead_position
 	
 	var next_beat = offset_spinbox.value
 	while next_beat < song_end:
@@ -180,14 +182,20 @@ func toggle_metronome():
 			next_beat += interval
 			continue
 		
-		var player := ShinobuGodot.instantiate_sound("note_hit", "sfx")
-		player.schedule_start_time(song_start + next_beat)
-		player.start()
-		sound_players.append(player)
+		var sound := UserSettings.user_sfx["note_hit"].instantiate(HBGame.sfx_group) as ShinobuSoundPlayer
+		
+		sound.schedule_start_time(song_start + next_beat)
+		sound.start()
+		sound_players.append(sound)
 		
 		next_beat += interval
+	
+	Shinobu.set_dsp_time(current_time)
 
 func _on_editor_paused():
+	for sound in sound_players:
+		sound.stop()
+	
 	sound_players = []
 
 
