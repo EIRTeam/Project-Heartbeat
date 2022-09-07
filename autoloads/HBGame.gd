@@ -143,6 +143,7 @@ func fire_and_forget_sound(source: ShinobuSoundSource, group: ShinobuGroup):
 	var instance := source.instantiate(group)
 	add_child(instance)
 	instance.start()
+	instance.pause_mode = Node.PAUSE_MODE_PROCESS
 	fire_and_forget_sounds.append(instance)
 	
 func _register_basic_sfx():
