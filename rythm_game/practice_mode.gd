@@ -371,11 +371,11 @@ func update_stats_label():
 			avg_latency += latency_data[note_i]
 		avg_latency /= min(latency_data.size(), 40)
 	
-	var section = game.get_section_at_time(game.time * 1000.0)
+	var current_section_info = game.get_section_at_time(game.time * 1000.0)
 	var current_bpm = game.get_bpm_at_time(game.time)
 	
 	ingame_stats_label.text = "Game info:\n"
-	ingame_stats_label.text += ('"%s"\n' % section.name) if section else ""
+	ingame_stats_label.text += ('"%s"\n' % current_section_info.name) if current_section_info else ""
 	ingame_stats_label.text += "BPM: %.*f\n" % [0 if round(current_bpm) == current_bpm else 2, current_bpm]
 	ingame_stats_label.text += "NPS: %d\n" % notes_in_second.size()
 	
