@@ -30,6 +30,9 @@ var filtered_song_items = {}
 
 var selected_index_stack = []
 
+# How many elements to skip on a page change
+const PAGE_CHANGE_COUNT := 8
+
 class DummySongListEntry:
 	extends HBUniversalListItem
 
@@ -401,7 +404,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)
 
-func _input(event):
+func _input(event: InputEvent):
 	if event is InputEventKey and event.shift:
 		var c = char(event.unicode)
 		if c.length() == 1:
@@ -409,6 +412,12 @@ func _input(event):
 				if song.get_visible_title().begins_with(c):
 					select_song_by_id(song.id)
 					break
+	if event.is_action_pressed("gui_page_down"):
+		get_tree().set_input_as_handled()
+		select_item(min(current_selected_item+PAGE_CHANGE_COUNT, item_container.get_child_count()-1))
+	elif event.is_action_pressed("gui_page_up"):
+		get_tree().set_input_as_handled()
+		select_item(max(current_selected_item-PAGE_CHANGE_COUNT, 0))
 
 func _gui_input(event):
 	pass

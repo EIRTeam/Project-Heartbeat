@@ -32,6 +32,8 @@ const HIDE_KB_REMAPS_ACTIONS = [
 	"gui_right",
 	"gui_accept",
 	"gui_cancel",
+	"gui_page_up",
+	"gui_page_down"
 ]
 
 const DISABLE_ANALOG_FOR_ACTION = [
@@ -41,7 +43,9 @@ const DISABLE_ANALOG_FOR_ACTION = [
 	"gui_down",
 	"gui_left",
 	"gui_right",
-	"gui_sort_by"
+	"gui_sort_by",
+	"gui_page_up",
+	"gui_page_down"
 ]
 
 var controller_device_idx = -1
@@ -171,6 +175,8 @@ func fill_localized_arrays():
 		"gui_tab_right": tr("Tab right"),
 		"gui_accept": tr("Menu accept"),
 		"gui_cancel": tr("Menu cancel"),
+		"gui_page_up": tr("(Song list) Page up"),
+		"gui_page_down": tr("(Song list) Page down"),
 		"gui_show_song": tr("Show currently playing song"),
 		"gui_sort_by": tr("Menu sort by"),
 		"gui_search": tr("Menu search"),
@@ -268,7 +274,7 @@ func fill_localized_arrays():
 	ACTION_CATEGORIES = {
 		tr("Notes"): ["note_up", "note_down", "note_left", "note_right", "slide_left", "slide_right", "heart_note"],
 		tr("Game"): ["pause", "practice_set_waypoint", "practice_go_to_waypoint", "practice_last_mode", "practice_next_mode", "practice_apply_latency"],
-		tr("GUI"): ["gui_search", "gui_sort_by", "gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "gui_show_song", "contextual_option"]
+		tr("GUI"): ["gui_search", "gui_sort_by", "gui_up", "gui_down", "gui_left", "gui_right", "gui_tab_left", "gui_tab_right", "gui_accept", "gui_cancel", "gui_page_up", "gui_page_down", "gui_show_song", "contextual_option"],
 	}
 func get_axis_name(event: InputEventJoypadMotion):
 	var n = 2 * event.axis;
