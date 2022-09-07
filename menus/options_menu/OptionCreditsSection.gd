@@ -27,7 +27,7 @@ const PH_AUTHORS = {
 		"Lucas Corral": ["Background artwork (Reprisal)"]
 	},
 	"Charting": {
-		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal"],
+		"Hunter Stevens (Yahoo)": ["Going my Way", "Through the Night", "Love Sacrifice", "Reprisal", "Confession"],
 		"Twoncity": ["Cloudy Sky 2019", "Blossoming Spell", "Connected", "Imademo"],
 		"Starbeat": ["Getaway"],
 		"Blizzin": ["Sands of Time", "RedLine", "Imademo", "Core creation"],
@@ -54,16 +54,18 @@ const PH_AUTHORS = {
 		"Takanashi Koubou": [
 			"ETERNAL",
 			"Love Sacrifice",
-			"Going my way"
+			"Going my way",
+			"Confession"
 		],
 		"TORAV4": [
 			"Connected"
 		]
 	},
 	"Licenses" : [
-		"\"cover book project\" by David Revoy, licensed under Creative Commons Attribution 4.0.",
-		"\"Episode 26 page 1\" by David Revoy, licensed under Creative Commons Attribution 4.0.",
-		"Open source Nintendo Switch toolchain by devkitPro"
+		"[u]\"cover book project\"[/u] by David Revoy, licensed under Creative Commons Attribution 4.0.",
+		"[u]A derivative of \"Episode 26 page 1\"[/u] by David Revoy (cropped), licensed under Creative Commons Attribution 4.0.",
+		"[u]A derivative of \"Episode 33 page 2\"[/u] by David Revoy (cropped), licensed under Creative Commons Attribution 4.0.",
+		"[u]Open source Nintendo Switch toolchain[/u] by devkitPro"
 	],
 	"Others": {
 		"Gura, Gawr": "Resident mathematician",
