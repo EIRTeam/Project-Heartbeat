@@ -36,6 +36,10 @@ var dash_fragments := []
 var dash_mode := false
 var dash_base_url := ""
 
+var error_400_bypass := 5
+
+var timeout_handler: TimeoutHandler
+
 class TimeoutHandler:
 	var start_time := 0
 	var tries := 0
@@ -74,6 +78,7 @@ func download(_download_url: String, _download_path: String, _chunk_size: int, _
 	error_i = 0
 	http.read_chunk_size = chunk_size
 	dash_fragments = _dash_fragments
+	error_400_bypass = 5
 	dash_mode = not dash_fragments.empty()
 	if dash_mode:
 		dash_base_url = download_url
@@ -117,13 +122,13 @@ func _establish_connection():
 	
 	if dash_mode:
 		download_url = dash_base_url + dash_fragments[0]
-	var timeout_handler := TimeoutHandler.new()
+	timeout_handler = TimeoutHandler.new()
 	
 	while not timeout_handler.has_ran_out_of_tries():
 		var err := http.connect_to_host(hostname, 443, true, true)
-		
 		if err != OK:
 			propagate_error(err, "Error %d when opening connection to host %s" % [err, hostname])
+			timeout_handler = null
 			return
 		
 		timeout_handler.start_try()
@@ -136,6 +141,7 @@ func _establish_connection():
 			
 		if http.get_status() != HTTPClient.STATUS_CONNECTED:
 			propagate_error(http.get_status(), _client_status_to_string(http.get_status()))
+			timeout_handler = null
 			return
 		else:
 			headers.append("")
@@ -145,6 +151,7 @@ func _establish_connection():
 		propagate_error(ERR_TIMEOUT, "SSL Handshake timed out after %d tries" % [timeout_handler.tries])
 	range_start = 0
 	range_end = range_start + chunk_size
+	timeout_handler = null
 	
 func _process_download() -> bool:
 	if not dash_mode:
@@ -153,7 +160,7 @@ func _process_download() -> bool:
 		# Dash mode doesn't use Range:
 		headers[-1] = ""
 	
-	var timeout_handler := TimeoutHandler.new()
+	timeout_handler = TimeoutHandler.new()
 	
 	while not timeout_handler.has_ran_out_of_tries():
 		if timeout_handler.tries > 0:
@@ -161,11 +168,13 @@ func _process_download() -> bool:
 			http.close()
 			_establish_connection()
 			if error_i != OK:
+				timeout_handler = null
 				return false
 		var err := http.request(HTTPClient.METHOD_GET, download_url, headers)
 		
 		if err != OK:
 			propagate_error(err, "Error %d when starting request" % [err])
+			timeout_handler = null
 			return false
 			
 		timeout_handler.start_try()
@@ -176,7 +185,10 @@ func _process_download() -> bool:
 			
 	if timeout_handler.has_ran_out_of_tries() and http.get_status == HTTPClient.STATUS_REQUESTING:
 		propagate_error(ERR_TIMEOUT, "Download timed out after %d tries" % [timeout_handler.tries])
+		timeout_handler = null
 		return false
+	
+	timeout_handler = null
 		
 	var response_headers := http.get_response_headers_as_dictionary()
 
@@ -198,6 +210,13 @@ func _process_download() -> bool:
 
 	if response_headers.has("Content-Range"):
 		file_size = response_headers["Content-Range"].split("/")[1].to_int()
+		
+	if http.get_response_code() == 400 and error_400_bypass > 0:
+		error_400_bypass -= 1
+		# We first need to establish a connection to the server again...
+		http.close()
+		_establish_connection()
+		return false
 		
 	if http.get_response_code() < 200 or http.get_response_code() >= 400:
 		propagate_error(http.get_response_code(), "Error %d when requesting data" % [http.get_response_code()])
