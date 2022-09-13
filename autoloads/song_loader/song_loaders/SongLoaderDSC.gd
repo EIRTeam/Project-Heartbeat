@@ -44,10 +44,9 @@ class HBSongDSC:
 	func uses_dsc_style_channels() -> bool:
 		return true
 	func has_audio():
-		return pv_data.song_file_name != ""
+		return game_fs_access.get_file_path(pv_data.song_file_name) != ""
 	func get_chart_for_difficulty(difficulty) -> HBChart:
-		var p = game_fs_access.get_file_path(pv_data.charts[difficulty].dsc_path)
-		return DSCConverter.convert_dsc_to_chart(p, opcode_map)
+		return DSCConverter.convert_dsc_to_chart(pv_data.charts[difficulty].dsc_path, opcode_map)
 	func is_cached(variant := -1):
 		return true
 	func get_meta_string():
@@ -223,7 +222,7 @@ class DSCGameFSAccess:
 			var file_path = HBUtils.join_path(s_path, path)
 			if file.file_exists(file_path):
 				return file_path
-		return null
+		return ""
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
 		var spb := StreamPeerBuffer.new()
@@ -334,7 +333,7 @@ class MMPLUSFSAccess:
 					file_path_cache[path] = cache
 					file_path_cache[found_path] = cache
 					return found_path
-		return null
+		return ""
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
 		var cache_entry := file_path_cache.get(path) as FileCacheEntry
 		if cache_entry:
@@ -575,6 +574,9 @@ func load_songs() -> Array:
 				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, chart_name, pv_data.title_en])
 		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
-		songs.append(song)
+		if song.has_audio():
+			propagate_error(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
+			print(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
+			songs.append(song)
 		
 	return songs
