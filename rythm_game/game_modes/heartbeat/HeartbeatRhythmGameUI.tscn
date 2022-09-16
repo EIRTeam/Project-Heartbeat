@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=4]
 [ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
 [ext_resource path="res://graphics/wrong_rating_cross.png" type="Texture" id=6]
+[ext_resource path="res://graphics/aiko_sad.png" type="Texture" id=7]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
@@ -78,7 +79,7 @@ texture = SubResource( 18 )
 region_rect = Rect2( 0, 0, 2048, 1 )
 
 [sub_resource type="DynamicFont" id=20]
-size = 50
+size = 40
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
@@ -226,33 +227,51 @@ layer = 128
 [node name="GameOverMessage" type="VBoxContainer" parent="CanvasLayer2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.0
-margin_bottom = -1.0
 alignment = 1
 
 [node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
-margin_top = 360.0
+margin_top = 377.0
 margin_right = 1920.0
-margin_bottom = 719.0
+margin_bottom = 703.0
 mouse_filter = 2
+size_flags_horizontal = 3
 custom_styles/panel = SubResource( 19 )
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
 margin_right = 1920.0
-margin_bottom = 359.0
+margin_bottom = 326.0
 mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/margin_top = 100
 custom_constants/margin_bottom = 100
 
-[node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
 margin_top = 100.0
 margin_right = 1920.0
-margin_bottom = 259.0
+margin_bottom = 226.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="Control" type="Control" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
+margin_left = 221.0
+margin_right = 221.0
+margin_bottom = 126.0
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.3
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer/Control"]
+texture = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
+margin_left = 443.0
+margin_right = 1920.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 20 )
 text = "ASSIGNMENT: TERMINATED
 SUBJECT: AIKO
 REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
-align = 1
 valign = 1
 autowrap = true
 script = ExtResource( 4 )
