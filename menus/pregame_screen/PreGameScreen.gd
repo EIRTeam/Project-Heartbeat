@@ -29,6 +29,8 @@ const LEADERBOARD_TAB = preload("res://menus/new_leaderboard_control/Leaderboard
 var leaderboard_tab_normal = LEADERBOARD_TAB.instance()
 var leaderboard_tab_modifiers = LEADERBOARD_TAB.instance()
 
+onready var delete_song_media_popup := get_node("%DeleteSongMediaPopup")
+
 func _ready():
 	connect("resized", self, "_on_resized")
 	_on_resized()
@@ -56,6 +58,7 @@ func _ready():
 	modifier_settings_editor.connect("changed", self, "_on_modifier_setting_changed")
 	per_song_settings_editor.connect("back", self, "_modifier_loader_back")
 	ppd_video_url_change_confirmation_prompt.connect("cancel", modifier_scroll_container, "grab_focus")
+	delete_song_media_popup.connect("cancel", modifier_scroll_container, "grab_focus")
 	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
 	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
 	#per_song_settings_editor.show_editor()
@@ -245,6 +248,13 @@ func add_buttons():
 		change_video_link_button.text = "Change PPD video URL"
 		change_video_link_button.connect("pressed", self, "_on_ppd_video_change_button_pressed")
 		modifier_button_container.add_child(change_video_link_button)
+	elif current_song.get_fs_origin() == current_song.SONG_FS_ORIGIN.USER and current_song.youtube_url:
+			var delete_media = HBHovereableButton.new()
+			delete_media.text = "Delete song media"
+			delete_media.connect("pressed", delete_song_media_popup, "popup_centered")
+			delete_media.connect("pressed", delete_song_media_popup, "grab_focus")
+			modifier_button_container.add_child(delete_media)
+			
 	
 	if current_song is HBPPDSong \
 			or current_song.ugc_service_name == "Steam Workshop":
@@ -348,6 +358,13 @@ func _on_StartPractice_pressed():
 		game_info.difficulty = current_difficulty
 		emit_signal("begin_loading")
 		scene.load_song(game_info, true, current_assets)
+
+func _on_DeleteSongMediaPopup_accept():
+	if current_song.youtube_url:
+		var video_id := YoutubeDL.get_video_id(current_song.youtube_url) as String
+		if video_id:
+			YoutubeDL.delete_media_for_video(video_id)
+	_on_BackButton_pressed()
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

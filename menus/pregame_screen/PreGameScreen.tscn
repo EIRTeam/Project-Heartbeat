@@ -12,9 +12,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -73,10 +70,14 @@ margin_right = 1.49829
 margin_bottom = -1.49835
 
 [node name="VideoURLChangePopup" parent="." instance=ExtResource( 12 )]
-has_cancel = true
-has_accept = true
 text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
-accept_text = "Yes"
-cancel_text = "No"
+
+[node name="DeleteSongMediaPopup" parent="." instance=ExtResource( 12 )]
+unique_name_in_owner = true
+margin_left = -275.0
+margin_right = 275.0
+text = "Are you sure you want to delete this song's media?"
+
+[connection signal="accept" from="DeleteSongMediaPopup" to="." method="_on_DeleteSongMediaPopup_accept"]
 
 [editable path="PerSongSettingsEditor"]

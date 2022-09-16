@@ -42,6 +42,9 @@ const PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 # We use a fake user agent for privacy and to fool google drivez
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0"
 
+var unused_cache_size := 0
+var unused_video_ids := []
+
 class CachingQueueEntry:
 	var mutex := Mutex.new()
 	var song: HBSong
@@ -193,6 +196,26 @@ func _init_ytdl():
 			emit_signal("youtube_dl_status_updated")
 	else:
 		update_youtube_dl()
+	
+	var d := Directory.new()
+	var cache_dir := get_cache_dir() as String
+	
+	var start := OS.get_ticks_msec()
+	
+	if d.open(cache_dir) == OK:
+		d.list_dir_begin(true)
+		var curr := d.get_next()
+		var f := File.new()
+		while not curr.empty():
+			var video_id := curr.get_file().get_basename()
+			if curr.get_extension() in ["webm", "ogg"]:
+				if not video_id in cache_meta.cache:
+					if f.open(cache_dir.plus_file(curr), File.READ) == OK:
+						unused_cache_size += f.get_len()
+						if not video_id in unused_video_ids:
+							unused_video_ids.append(video_id)
+					f.close()
+			curr = d.get_next()
 
 func save_cache():
 	var file = File.new()
@@ -617,7 +640,7 @@ func get_video_id(url: String):
 	regex.compile("^.*(youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)([^#\\&\\?]*).*")
 	var result = regex.search(url)
 	if result:
-		return result.get_string(2)	
+		return result.get_string(2)
 
 func validate_video_url(url):
 	return get_video_id(url) != null
@@ -750,3 +773,19 @@ func get_video_info_json(video_url: String) -> Dictionary:
 		out_dict = {"__error": error_str}
 	
 	return out_dict
+
+func clear_unused_media():
+	var d := Directory.new()
+	for video_id in unused_video_ids:
+		delete_media_for_video(video_id)
+	unused_cache_size = 0
+	unused_video_ids.clear()
+
+func delete_media_for_video(video_id: String):
+	var d := Directory.new()
+	var video_file := (get_cache_dir().plus_file(video_id) + ".webm") as String
+	var audio_file := (get_cache_dir().plus_file(video_id) + ".ogg") as String
+	if d.file_exists(video_file):
+		d.remove(video_file)
+	if d.file_exists(audio_file):
+		d.remove(audio_file)

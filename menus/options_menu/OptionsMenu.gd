@@ -14,7 +14,7 @@ var OPTIONS = {
 		},
 		"enable_streamer_mode": {
 			"name": tr("Enable streamer mode"),
-			"description": tr("If enabled, saves the title, background and preview image to the user folder so they can be used on a stream overlay")
+			"description": tr("If enabled, saves the title, background and preview image to the user folder so they can be used on a streaming software")
 		},
 		"enable_health": {
 			"name": tr("Enable health system"),

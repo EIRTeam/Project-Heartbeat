@@ -121,3 +121,11 @@ margin_bottom = 116.64
 has_cancel = false
 text = "Cache cleared succesfully, please re-run the game."
 accept_text = "Alright"
+
+[node name="SongMediaClearSuccessPopup" parent="." instance=ExtResource( 3 )]
+unique_name_in_owner = true
+margin_top = -119.36
+margin_bottom = 116.64
+has_cancel = false
+text = "Unused song media cleaned successful!"
+accept_text = "Alright"

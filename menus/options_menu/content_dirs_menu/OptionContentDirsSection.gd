@@ -12,10 +12,13 @@ onready var content_reload_popup = get_node("ReloadingContentPopup")
 onready var content_reload_success_popup = get_node("ContentReloadSuccessPopup")
 onready var reset_content_directory_confirmation_window = get_node("ResetContentDirectoryConfirmationWindow")
 onready var cache_clear_success_popup = get_node("CacheClearSucccessPopup")
+onready var song_media_clear_success_popup: Popup = get_node("%SongMediaClearSuccessPopup")
 var content_directory_control
 var action_being_bound = ""
 
 var mmplus_button: Control
+
+var clear_unused_media_button: HBHovereableButton
 
 func _unhandled_input(event):
 	if visible:
@@ -45,6 +48,7 @@ func _ready():
 	cache_clear_success_popup.connect("accept", get_tree(), "quit")
 	file_dialog.connect("dir_selected", self, "_on_path_selected")
 	file_dialog.connect("popup_hide", self, "grab_focus")
+	song_media_clear_success_popup.connect("popup_hide", self, "grab_focus")
 	SongLoader.connect("all_songs_loaded", self, "_on_content_reload_complete")
 func populate():
 	var children = scroll_container.item_container.get_children()
@@ -53,29 +57,34 @@ func populate():
 		child.queue_free()
 		
 	var add_content_path_button = HBHovereableButton.new()
-	add_content_path_button.text = "Reset content directory to default"
+	add_content_path_button.text = tr("Reset content directory to default")
 	add_content_path_button.expand_icon = true
 	add_content_path_button.connect("pressed", reset_content_directory_confirmation_window, "popup_centered")
 	
 	var reload_content_button = HBHovereableButton.new()
-	reload_content_button.text = "Reload all songs"
+	reload_content_button.text = tr("Reload all songs")
 	reload_content_button.expand_icon = true
 	reload_content_button.connect("pressed", self, "_on_content_reload")
 	
 	var clear_cache_button = HBHovereableButton.new()
-	clear_cache_button.text = "Clear cache"
+	clear_cache_button.text = tr("Clear cache")
 	clear_cache_button.expand_icon = true
 	clear_cache_button.connect("pressed", self, "_on_cache_cleared")
 	
 	var download_all_song_media = HBHovereableButton.new()
-	download_all_song_media.text = "Download all song media"
+	download_all_song_media.text = tr("Download all song media")
 	download_all_song_media.expand_icon = true
 	download_all_song_media.connect("pressed", self, "_on_download_all_song_media")
+	
+	clear_unused_media_button = HBHovereableButton.new()
+	clear_unused_media_button.text = tr("Clean unused song media") + " (%s)" % ["".humanize_size(YoutubeDL.unused_cache_size)]
+	clear_unused_media_button.connect("pressed", self, "_on_clear_unused_media")
 	
 	scroll_container.item_container.add_child(reload_content_button)
 	scroll_container.item_container.add_child(add_content_path_button)
 	scroll_container.item_container.add_child(clear_cache_button)
 	scroll_container.item_container.add_child(download_all_song_media)
+	scroll_container.item_container.add_child(clear_unused_media_button)
 	
 	content_directory_control = PATH_SCENE.instance()
 	content_directory_control.dir = UserSettings.user_settings.content_path
@@ -125,6 +134,12 @@ func _on_content_directory_reset():
 	file_dialog.hide()
 	_on_content_reload()
 	content_directory_control.dir = UserSettings.user_settings.content_path
+
+func _on_clear_unused_media():
+	YoutubeDL.clear_unused_media()
+	clear_unused_media_button.text = tr("Clean unused song media") + " (%s)" % ["".humanize_size(YoutubeDL.unused_cache_size)]
+	song_media_clear_success_popup.popup_centered()
+	song_media_clear_success_popup.grab_focus()
 
 func _on_download_all_song_media():
 	for song_id in SongLoader.songs:
