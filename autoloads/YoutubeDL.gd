@@ -158,7 +158,8 @@ func _init_ytdl():
 	if not dir.dir_exists(YOUTUBE_DL_DIR):
 		dir.make_dir(YOUTUBE_DL_DIR)
 	if not dir.dir_exists(get_cache_dir()):
-		dir.make_dir(get_cache_dir())
+		dir.make_dir_recursive(get_cache_dir())
+		print("MAKING!!!!", get_cache_dir())
 	if not dir.dir_exists(CACHE_FILE.get_base_dir()):
 		dir.make_dir(CACHE_FILE.get_base_dir())
 	if dir.file_exists(CACHE_FILE):
@@ -199,8 +200,6 @@ func _init_ytdl():
 	
 	var d := Directory.new()
 	var cache_dir := get_cache_dir() as String
-	
-	var start := OS.get_ticks_msec()
 	
 	if d.open(cache_dir) == OK:
 		d.list_dir_begin(true)
@@ -775,7 +774,6 @@ func get_video_info_json(video_url: String) -> Dictionary:
 	return out_dict
 
 func clear_unused_media():
-	var d := Directory.new()
 	for video_id in unused_video_ids:
 		delete_media_for_video(video_id)
 	unused_cache_size = 0
