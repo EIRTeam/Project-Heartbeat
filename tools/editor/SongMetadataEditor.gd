@@ -318,6 +318,9 @@ func show_error(err: String):
 
 func _on_AddVariantDialog_confirmed():
 	var url = add_variant_dialog_youtube_url.text
+	if not song_meta.youtube_url:
+		show_error("In order to add variants you must first add a base youtube URL")
+		return
 	if not YoutubeDL.validate_video_url(url):
 		show_error("Invalid youtube URL")
 	else:
