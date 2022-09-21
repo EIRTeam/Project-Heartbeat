@@ -12,6 +12,7 @@ const DIRECT_AXIS = [JOY_AXIS_0, JOY_AXIS_1, JOY_AXIS_2, JOY_AXIS_3]
 const DIRECT_AXIS_ACTIONS = ["heart_note", "slide_left", "slide_right"]
 
 var last_direct_axis_values = [0, 0, 0, 0]
+var last_direct_axis_slide_dirs = [0, 0]
 
 const BIDIRECTIONAL_ACTIONS = [
 	"heart_note"
@@ -25,6 +26,8 @@ var current_sending_actions_count = 0
 
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
 var dja_prev_status = [false, false]
+var dja_prev_heart_status = [false, false]
+var dja_prev_slide_status = [false, false]
 
 func reset():
 	.reset()
@@ -134,14 +137,40 @@ func _handle_direct_axis_input():
 				if _is_in_slide_range(current_value, slide_direction):
 					current_actions.append(slide_action)
 					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-				send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
+					dja_prev_slide_status[axis] = true
+					last_direct_axis_slide_dirs[axis] = sign(x1)
+				if not dja_prev_heart_status[axis]:
+					send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
+					dja_prev_heart_status[axis] = true
 				dja_prev_status[axis] = true
 			elif (prev_value.length() > deadzone or dja_prev_status[axis]) and current_value.length() < deadzone:
 				send_input("slide_right", false, current_actions.size(), event_uid, current_actions)
 				send_input("slide_left", false, current_actions.size(), event_uid, current_actions)
 				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
+				dja_prev_status[axis] = false
+				dja_prev_slide_status[axis] = false
+				dja_prev_heart_status[axis] = false
+				last_direct_axis_slide_dirs[axis] = 0
+			elif current_value.length() > deadzone:
+				# This allows moving the joystick around the perimeter of the circle to do slides, but only
+				# if we are currently doing a slide
+				var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
+				var prev_slide_direction := Vector2.RIGHT if sign(prev_value.x) == 1 else Vector2.LEFT
+				if not _is_in_slide_range(current_value, prev_slide_direction):
+					if dja_prev_slide_status[axis]:
+						send_input("slide_right", false, current_actions.size(), event_uid, current_actions)
+						send_input("slide_left", false, current_actions.size(), event_uid, current_actions)
+						dja_prev_status[axis] = false
+						dja_prev_slide_status[axis] = false
 				
-
+				if last_direct_axis_slide_dirs[axis] != 0 and last_direct_axis_slide_dirs[axis] != sign(x1):
+					if _is_in_slide_range(current_value, slide_direction):
+						var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
+						current_actions.append(slide_action)
+						send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
+						last_direct_axis_slide_dirs[axis] = sign(x1)
+						dja_prev_status[axis] = true
+						dja_prev_slide_status[axis] = true
 
 
 func _process(delta):
