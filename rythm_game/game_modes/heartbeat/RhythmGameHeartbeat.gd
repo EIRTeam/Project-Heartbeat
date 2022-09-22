@@ -257,11 +257,12 @@ func _process_input(event):
 							if type in slide_types and (Engine.get_frames_drawn() <= _heart_hack_frame+1 or heart_or_slide_judged_this_frame):
 								return
 							var closest := get_closest_notes() as Array
-							if closest[0] is HBNoteData and type in slide_types:
+							if not closest.empty() and closest[0] is HBNoteData and type in slide_types:
 								var is_same_dir_slide: bool = type == closest[0].note_type or \
 									type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT and HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT or \
 									type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT and HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
-								if is_same_dir_slide:
+								var note_drawer := get_note_drawer(closest[0]) as SlideNoteDrawer
+								if note_drawer and note_drawer.slide_chain and is_same_dir_slide:
 									return
 							play_note_sfx(type in slide_types)
 							action_pressed = true
