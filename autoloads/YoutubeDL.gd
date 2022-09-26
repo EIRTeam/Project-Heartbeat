@@ -72,17 +72,6 @@ class CachingQueueEntry:
 				return range_downloader.get_download_size()
 		else:
 			return -1
-	func get_total_tries():
-		var tries := 0
-		if range_downloader.timeout_handler:
-			tries = range_downloader.timeout_handler.max_tries
-		return tries
-
-	func get_current_try():
-		var tries := 0
-		if range_downloader.timeout_handler:
-			tries = range_downloader.timeout_handler.tries
-		return tries
 
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
@@ -372,19 +361,19 @@ func _download_video(userdata):
 	var formats := format_info.get("formats", []) as Array
 	
 	if download_audio:
-		var highest_asr := 0
-		var highest_asr_i := -1
+		var highest_abr := 0
+		var highest_abr_i := -1
 		# Find highest quality audio using average bit rate
 		for i in range(formats.size()):
 			var format := formats[i] as Dictionary
 			if format.get("vcodec", "") == "none" and \
 					not format.get("format_note", "") == "DASH audio" and \
 					format.get("audio_ext", "") in ["webm", "ogg", "ogv", "m4a"] and \
-					format.get("asr", 0) > highest_asr:
-				highest_asr = format.get("asr", 0)
-				highest_asr_i = i
-		if highest_asr_i != -1:
-			var chosen_format := formats[highest_asr_i] as Dictionary
+					format.get("abr", 0) > highest_abr:
+				highest_abr = format.get("abr", 0)
+				highest_abr_i = i
+		if highest_abr_i != -1:
+			var chosen_format := formats[highest_abr_i] as Dictionary
 			var download_url := chosen_format.get("url", "") as String
 			var chunk_size := chosen_format.get("downloader_options", {}).get("http_chunk_size", 1024) as int
 			
@@ -415,7 +404,7 @@ func _download_video(userdata):
 				entry.mutex.unlock()
 				var ff_out := []
 				# Convert audio to vorbis ogg
-				var ffmpeg_args := ["-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", "-c:a", "libvorbis", get_audio_path(userdata.video_id, true, false)]
+				var ffmpeg_args := ["-i", get_audio_path(userdata.video_id, true, true), "-c:a", "libvorbis", get_audio_path(userdata.video_id, true, false)]
 
 				var ffmpeg_result =  OS.execute(get_ffmpeg_executable(), ffmpeg_args, true, ff_out, true)
 				
@@ -681,10 +670,6 @@ func _process(delta):
 			var total_byes := entry.get_total_bytes() as int
 			var song := entry.song
 			var text := "(%d / %d) %s for %s" % [entry.current_step+1, entry.step_count, entry.step_description, song.get_visible_title()]
-			var total_tries := entry.get_total_tries() as int
-			var tries := entry.get_current_try() as int
-			if tries > 1:
-				text = (tr("[Try %d/%d] " % [tries, total_tries])) + text
 			if downloaded_bytes != -1 and total_byes != -1:
 				text += " (%.2f MB / %.2f MB)" % [downloaded_bytes * 1e-6, total_byes * 1e-6]
 			progress_thing.text = text
