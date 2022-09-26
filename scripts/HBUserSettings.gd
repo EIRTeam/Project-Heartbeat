@@ -31,7 +31,6 @@ var display_mode__possibilities = [
 var display := -1
 var desired_video_resolution = 1080
 var desired_video_fps = 60
-var max_simultaneous_downloads := 3
 var show_visualizer_on_video = true
 var disable_video = false
 var disable_ppd_video = false
@@ -215,7 +214,7 @@ func _init():
 	"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 	"ui_skin",
 	"note_size", "input_map",
-	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "max_simultaneous_downloads", "disable_video",
+	"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 	"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
 	"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
 	"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",

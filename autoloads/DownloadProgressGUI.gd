@@ -35,13 +35,11 @@ func set_offsets(base=0.0):
 		notification.move_to_offset(offset, 0.75)
 
 func remove_notification(notification_scene, free=false):
-	for container in [notifications, held_back_notifications]:
-		if notification_scene in container:
-			container.erase(notification_scene)
-			if free:
-				control.remove_child(notification_scene)
-				notification_scene.queue_free()
-			else:
-				notification_scene.disappear()
-			set_offsets()
-			break
+	if notification_scene in notifications:
+		notifications.erase(notification_scene)
+		if free:
+			control.remove_child(notification_scene)
+			notification_scene.queue_free()
+		else:
+			notification_scene.disappear()
+		set_offsets()

@@ -259,11 +259,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/game_modes/HBGameMode.gd"
 }, {
-"base": "Reference",
-"class": "HBHTTPRangeDownloader",
-"language": "GDScript",
-"path": "res://scripts/HTTPRangeDownloader.gd"
-}, {
 "base": "HBGameMode",
 "class": "HBHeartbeatGameMode",
 "language": "GDScript",
@@ -1060,7 +1055,6 @@ _global_script_class_icons={
 "HBGameInfo": "",
 "HBGameInputManager": "",
 "HBGameMode": "",
-"HBHTTPRangeDownloader": "",
 "HBHeartbeatGameMode": "",
 "HBHistoryEntry": "",
 "HBHovereableButton": "",

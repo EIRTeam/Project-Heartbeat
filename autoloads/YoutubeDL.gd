@@ -46,32 +46,8 @@ var unused_cache_size := 0
 var unused_video_ids := []
 
 class CachingQueueEntry:
-	var mutex := Mutex.new()
 	var song: HBSong
 	var variant: int
-	var range_downloader := HBHTTPRangeDownloader.new()
-	var dash_estimated_size := 0
-	var step_count := 0
-	var current_step := 0
-	var step_description := ""
-	
-	func get_downloaded_bytes():
-		if range_downloader.state != HBHTTPRangeDownloader.STATE.STATE_READY:
-			if dash_estimated_size != 0:
-				return range_downloader.get_dash_downloaded_bytes()
-			else:
-				return range_downloader.get_downloaded_bytes()
-		else:
-			return -1
-	
-	func get_total_bytes():
-		if range_downloader.state != HBHTTPRangeDownloader.STATE.STATE_READY:
-			if dash_estimated_size != 0:
-				return dash_estimated_size
-			else:
-				return range_downloader.get_download_size()
-		else:
-			return -1
 
 func _youtube_dl_updated(thread: Thread):
 	thread.wait_to_finish()
@@ -157,14 +133,6 @@ func _init_ytdl():
 		var json = JSON.parse(file.get_as_text()) as JSONParseResult
 		if json.error == OK:
 			cache_meta = json.result
-			# We remove invalid cache states
-			# if the lock file is still there
-			# this probably means the download got cut halfway
-			for video_id in cache_meta.get("cache", []):
-				if is_video_locked(video_id):
-					clean_up_files(video_id)
-					unlock_video(video_id)
-					(cache_meta.cache as Dictionary).erase(video_id)
 		else:
 			Log.log(self, "Error loading cache meta: " + str(json.error))
 	ensure_perms()
@@ -240,24 +208,6 @@ func get_video_path(video_id, global=false):
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
-	
-func get_video_lock_path(video_id: String) -> String:
-	return get_cache_dir() + "/%s.lock" % video_id
-	
-func is_video_locked(video_id: String):
-	var f := File.new()
-	return f.file_exists(get_video_lock_path(video_id))
-	
-func lock_video_id(video_id: String):
-	var f := File.new()
-	assert(!is_video_locked(video_id))
-	f.open(get_video_lock_path(video_id), File.WRITE)
-	
-func unlock_video(video_id: String):
-	assert(is_video_locked(video_id))
-	var f := Directory.new()
-	f.remove(get_video_lock_path(video_id))
-	
 func get_audio_path(video_id, global=false, temp=false):
 	var path = get_cache_dir() + "/" + video_id
 	if temp:
@@ -267,60 +217,21 @@ func get_audio_path(video_id, global=false, temp=false):
 		path = ProjectSettings.globalize_path(path)
 	return path
 	
-func get_ytdl_shared_params(downloader := false):
+func get_ytdl_shared_params():
 	var shared_params = ["--ignore-config",
 	"--no-cache-dir",
 	"--force-ipv4",
 	"--compat-options", "youtube-dl",
 	"--user-agent", USER_AGENT,
 	# aria2 seems good at preventing throttling from Niconico
+	"--external-downloader", YoutubeDL.get_aria2_executable(),
+	"--external-downloader-args", "--disable-ipv6 --user-agent '%s'" % [USER_AGENT]
 	]
-	if downloader:
-		shared_params.append_array(
-			["--external-downloader", YoutubeDL.get_aria2_executable(),
-			"--external-downloader-args", "--disable-ipv6 --user-agent '%s'" % [USER_AGENT]
-			])
 	
 	if OS.get_name() == "X11":
 		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
 	
 	return shared_params
-	
-# Builds headers from a format JSON
-func _build_headers(data: Dictionary) -> Array:
-	# Grab the headers from the JSON
-	var headers := []
-	
-	var json_headers = data.get("http_headers", {})
-	
-	for header_name in json_headers:
-		var header_content = json_headers[header_name]
-		headers.append("%s: %s" % [header_name, header_content])
-	
-	return headers
-	
-func clean_up_temp_files(video_id: String):
-	var temp_audio_file := get_audio_path(video_id, false, true) as String
-	var f := Directory.new()
-	if f.file_exists(temp_audio_file):
-		var err = f.remove(temp_audio_file)
-		if err != OK:
-			push_error("Error deleting file %s" % [temp_audio_file])
-			
-func clean_up_files(video_id: String):
-	clean_up_temp_files(video_id)
-	var files_to_clean_up := [
-		get_video_path(video_id),
-		get_audio_path(video_id)
-	]
-	
-	var f := Directory.new()
-	for file in files_to_clean_up:
-		if f.file_exists(file):
-			var err := f.remove(file)
-			if err != OK:
-				push_error("Error deleting file %s" % [file])
-	
 func _download_video(userdata):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
@@ -330,188 +241,75 @@ func _download_video(userdata):
 		cache_meta_mutex.unlock()
 	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata.entry}
 	# we have to ignroe the cache dir because youtube-dl is stupid
+	var shared_params = get_ytdl_shared_params()
 	var audio_download_ok = true
-	
-	var steps = 1 # Step 1 is meta download
 	if download_audio:
-		# Audio has two steps, one for ffmpeg
-		steps += 2
-	if download_video:
-		steps += 1
-
-	var entry: CachingQueueEntry = userdata.entry
-
-	entry.mutex.lock()
-	entry.step_count = steps
-	entry.step_description = tr("Downloading metadata")
-	entry.mutex.unlock()
-	
-	var format_info := get_video_info_json("https://youtu.be/" + userdata.video_id)
-
-	if format_info.has("__error"):
-		if download_video:
-			result["video"] = false
-			result["video_out"] = format_info.__error
+		# Step 1: Download audio
+		var out_ytdl = []
+		var out_ffmpeg = []
+		var temp_audio_path = get_audio_path(userdata.video_id, true, true).get_base_dir() + "/" + "%(id)s_temp.%(ext)s"
+		Log.log(self, "Start downloading audio for %s" % [userdata.video_id])
+		var audio_params = ["-f", "bestaudio", "--extract-audio", "--audio-format", "vorbis", "-o", temp_audio_path, "https://youtu.be/" + userdata.video_id]
+		var ytdl_error_code = OS.execute(get_ytdl_executable(), shared_params + audio_params, true, out_ytdl, true)
+		
+		# Audio download error checking
+		if ytdl_error_code != OK:
+			audio_download_ok = false
+			result["audio"] = false
+			result["audio_out"] = out_ytdl[0]
+			print(result["audio_out"])
 		else:
-			result["audio"] =  false
-			result["audio_out"] = format_info.__error
-		download_audio = false
-		download_video = false
-
-	var formats := format_info.get("formats", []) as Array
-	
-	if download_audio:
-		var highest_abr := 0
-		var highest_abr_i := -1
-		# Find highest quality audio using average bit rate
-		for i in range(formats.size()):
-			var format := formats[i] as Dictionary
-			if format.get("vcodec", "") == "none" and \
-					not format.get("format_note", "") == "DASH audio" and \
-					format.get("audio_ext", "") in ["webm", "ogg", "ogv", "m4a"] and \
-					format.get("abr", 0) > highest_abr:
-				highest_abr = format.get("abr", 0)
-				highest_abr_i = i
-		if highest_abr_i != -1:
-			var chosen_format := formats[highest_abr_i] as Dictionary
-			var download_url := chosen_format.get("url", "") as String
-			var chunk_size := chosen_format.get("downloader_options", {}).get("http_chunk_size", 1024) as int
-			
-			var headers := _build_headers(chosen_format)
-			
-			entry.mutex.lock()
-			entry.current_step += 1
-			entry.step_description = tr("Downloading audio")
-			entry.mutex.unlock()
-		
-			var temp_audio_path := get_audio_path(userdata.video_id, false, true) as String
-		
-			var range_downloader := entry.range_downloader as HBHTTPRangeDownloader
-			range_downloader.download(download_url, temp_audio_path, chunk_size, headers)
-			# Don't even think about using yield() here, it will make the execution resume on the main
-			# thread which is very very bad and terrible and grrr i hate godot
-			while range_downloader.state == HBHTTPRangeDownloader.STATE.STATE_BUSY:
-				OS.delay_msec(50)
-			if range_downloader.has_error():
-				audio_download_ok = false
+			# Step 2: Audio conversion
+			# We bring the ogg down back to stereo because godot is stupid and can't do selective channel playback
+			var ffmpeg_error_code = OS.execute(get_ffmpeg_executable(), ["-y", "-i", get_audio_path(userdata.video_id, true, true), "-ac", "2", get_audio_path(userdata.video_id, true)], true, out_ffmpeg, true)
+			var dir = Directory.new()
+			dir.remove(get_audio_path(userdata.video_id, true, true))
+			# Audio conversion error handling
+			if ffmpeg_error_code != OK:
+				result["audio_out"] = "Stereoification: %s" % [out_ffmpeg[0]]
 				result["audio"] = false
-				result["audio_out"] = range_downloader.get_error_string()
-				print(result["audio_out"])
+				audio_download_ok = false
 			else:
-				entry.mutex.lock()
-				entry.current_step += 1
-				entry.step_description = tr("Processing audio")
-				entry.mutex.unlock()
-				var ff_out := []
-				# Convert audio to vorbis ogg
-				var ffmpeg_args := ["-i", get_audio_path(userdata.video_id, true, true), "-c:a", "libvorbis", get_audio_path(userdata.video_id, true, false)]
-
-				var ffmpeg_result =  OS.execute(get_ffmpeg_executable(), ffmpeg_args, true, ff_out, true)
-				
-				if ffmpeg_result != OK:
-					audio_download_ok = false
-					result["audio"] = false
-					result["audio_out"] = tr("Unknown FFMPEG error")
-					if ff_out.size() > 0:
-						result["audio_out"] = ff_out[0]
-					print(ff_out)
-				elif audio_exists(userdata.video_id):
+				# Final step: Checking if hte file that should exist actually exists
+				if audio_exists(userdata.video_id):
 					cache_meta_mutex.lock()
 					cache_meta.cache[userdata.video_id]["audio"] = true
 					cache_meta.cache[userdata.video_id]["audio_ext"] = AUDIO_EXT
 					cache_meta_mutex.unlock()
-			
-		else:
-			audio_download_ok = false
-			result["audio"] = false
-			result["audio_out"] = tr("Couldn't find a suitable audio format")
-				
+				else:
+					result["audio"] = false
+					result["audio_out"] = "Unknown error"
+					audio_download_ok = false
+					
 	if download_video and audio_download_ok:
+		var out = []
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
+		var video_params = ["-f", "bestvideo[ext=webm][vcodec^=vp9][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", get_video_path(userdata.video_id, true), "https://youtu.be/" + userdata.video_id]
 		
-		var found_format_i := -1
-		var closest_format_height := 0
-		var closest_format_fps := 0
+		var exit_code = OS.execute(get_ytdl_executable(), shared_params + video_params, true, out, true)
 		
-		for i in range(formats.size()):
-			var format := formats[i] as Dictionary
-			for allow_dash in [false, true]:
-				if format.get("format_note", "") == "DASH video":
-					if not allow_dash:
-						continue
-				if "vp9" in format.get("vcodec", "") and \
-						format.get("video_ext", "") == "webm":
-					var height := format.get("height", 0) as int
-					var fps := format.get("fps", 0) as int
-					
-					if fps <= video_fps and fps >= closest_format_fps:
-						if height <= video_height and height >= closest_format_height:
-							found_format_i = i
-							closest_format_height = height
-							closest_format_fps = fps
-				if found_format_i != -1:
-					break
-		if found_format_i != -1:
-			var chosen_format := formats[found_format_i] as Dictionary
-			var download_url := chosen_format.get("url", "") as String
-			# Buffer default is 2 mb and it is usually used when downloading with DASH streams
-			var chunk_size := chosen_format.get("downloader_options", {}).get("http_chunk_size", 2000000) as int
-			
-			var headers := _build_headers(chosen_format)
-			
-			entry.mutex.lock()
-			entry.current_step += 1
-			entry.step_description = tr("Downloading video")
-			entry.mutex.unlock()
-		
-			var output_video_path := get_video_path(userdata.video_id, false) as String
-		
-			var range_downloader := entry.range_downloader as HBHTTPRangeDownloader
-			
-			var dash_fragments := []
-			
-			if chosen_format.get("format_note", "") == "DASH video":
-				for fragment in chosen_format.get("fragments", []):
-					var fragment_path := fragment.get("path", "") as String
-					if fragment_path:
-						dash_fragments.append(fragment_path)
-				download_url = chosen_format.get("fragment_base_url", "")
-				entry.dash_estimated_size = chosen_format.get("filesize_approx", chosen_format.get("filesize", 0))
-			
-			range_downloader.download(download_url, output_video_path, chunk_size, headers, dash_fragments)
-			
-			while range_downloader.state == HBHTTPRangeDownloader.STATE.STATE_BUSY:
-				OS.delay_msec(100)
-			
-			if range_downloader.has_error():
-				result["video"] = false
-				result["video_out"] = range_downloader.get_error_string()
-				print(result["video_out"])
-			else:
-				result["video"] = true
-				result["video_out"] = "Download OK"
-				if video_exists(userdata.video_id):
-					cache_meta_mutex.lock()
-					cache_meta.cache[userdata.video_id]["video"] = true
-					cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
-					cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
-					cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
-					cache_meta_mutex.unlock()
-		else:
+		if exit_code != OK:
 			result["video"] = false
-			result["video_out"] = tr("Couldn't find a suitable video format")
-	
-	# If an error has been emitted, clean up
-	if not result.get("video", true) or not result.get("audio", true):
-		 clean_up_files(userdata.video_id)
-	elif download_audio:
-		# Clean up the temp ogg file
-		clean_up_temp_files(userdata.video_id)
-					
+			result["video_out"] = out[0]
+		else:
+			result["video"] = true
+			result["video_out"] = out[0]
+			if video_exists(userdata.video_id):
+				cache_meta_mutex.lock()
+				cache_meta.cache[userdata.video_id]["video"] = true
+				cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
+				cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
+				cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
+				cache_meta_mutex.unlock()
+			else:
+				result["video"] = false
+				Log.log(self, "Error downloading video " + userdata.video_id + " ")
+				result["video_out"] = "Unknown error"
+				for line in out:
+					print(line)
 	Log.log(self, "Video download finish!")
-	unlock_video(userdata.video_id)
 	call_deferred("_video_downloaded", userdata.thread, result)
 	
 func show_error(output: String, message: String, song: HBSong):
@@ -582,19 +380,12 @@ func download_video(entry: CachingQueueEntry):
 	var video_id = get_video_id(url)
 	if video_id in songs_being_cached:
 		Log.log(self, "We are already caching this: " + url)
-		return ERR_BUSY
+		return
 	if not video_id:
 		Log.log(self, "Error parsing youtube url: " + url)
 		return ERR_FILE_NOT_FOUND
 		
 	songs_being_cached.append(video_id)
-	
-	if is_video_locked(video_id):
-		# Probably a good idea to redownload everything if we get this far...
-		clean_up_files(video_id)
-		clean_up_temp_files(video_id)
-		unlock_video(video_id)
-	
 	# Videos may still be downloaded if they are not on disk
 	if video_id in cache_meta.cache:
 		var all_found = true
@@ -611,18 +402,17 @@ func download_video(entry: CachingQueueEntry):
 				# No need to download what we already have
 				download_video = false
 		if all_found:
-			Log.log(self, "Already cached, no need to download again %s" % [entry.song.title])
-			emit_signal("video_downloaded", video_id, {"cache_entry": entry})
-			if is_video_locked(video_id):
-				unlock_video(video_id)
-			return ERR_ALREADY_EXISTS
-	lock_video_id(video_id)
+			Log.log(self, "Already cached, no need to download again")
+			emit_signal("video_downloaded", video_id, {})
+			if video_id in tracked_video_downloads:
+				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
+				tracked_video_downloads.erase(video_id)
+			return
 	emit_signal("song_download_start", song)
 	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry})
 	if result != OK:
-		print("ERROR STARTING THREAD: ", result)
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
-	return OK
+	
 func get_video_id(url: String):
 	var regex = RegEx.new()
 	regex.compile("^.*(youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)([^#\\&\\?]*).*")
@@ -661,57 +451,40 @@ func cache_song(song: HBSong, variant := -1):
 	caching_queue.append(entry)
 	process_queue()
 
-func _process(delta):
-	for video_id in tracked_video_downloads:
-		var progress_thing := tracked_video_downloads[video_id].progress_thing as HBDownloadProgressThing
-		var entry := tracked_video_downloads[video_id].entry as CachingQueueEntry
-		if entry.step_count > 0:
-			var downloaded_bytes := entry.get_downloaded_bytes() as int
-			var total_byes := entry.get_total_bytes() as int
-			var song := entry.song
-			var text := "(%d / %d) %s for %s" % [entry.current_step+1, entry.step_count, entry.step_description, song.get_visible_title()]
-			if downloaded_bytes != -1 and total_byes != -1:
-				text += " (%.2f MB / %.2f MB)" % [downloaded_bytes * 1e-6, total_byes * 1e-6]
-			progress_thing.text = text
-
 func process_queue():
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
 		yield(self, "youtube_dl_status_updated")
-	if caching_queue.size() > 0 and songs_being_cached.size() < UserSettings.user_settings.max_simultaneous_downloads:
-		for i in range(caching_queue.size()-1, -1, -1):
-			var entry = caching_queue[i]
-			if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-				var song := entry.song as HBSong
-				var variant = song.get_variant_data(entry.variant)
-				var video_url_ok = validate_video_url(variant.variant_url)
-				if video_url_ok:
-					var video_id = get_video_id(variant.variant_url)
-					if not video_id in songs_being_cached:
-						var result = download_video(entry)
-						if result == OK:
-							if not video_id in tracked_video_downloads:
-								var progress_thing = PROGRESS_THING.instance()
-								DownloadProgress.add_notification(progress_thing)
-								progress_thing.spinning = true
-								progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
-								progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
-								if entry.variant != -1:
-									progress_thing.text += " (%s)" % [variant.variant_name]
-								tracked_video_downloads[video_id] = {
-									"progress_thing": progress_thing,
-									"song": song,
-									"entry": entry
-								}
-								emit_signal("song_queued", entry)
-				else:
-					var progress_thing = PROGRESS_THING.instance()
-					DownloadProgress.add_notification(progress_thing)
-					progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
-					progress_thing.life_timer = 2.0
-					progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
-					caching_queue.remove(i)
-				if songs_being_cached.size() >= UserSettings.user_settings.max_simultaneous_downloads:
-					break
+	if caching_queue.size() > 0:
+		var entry = caching_queue[0]
+		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
+			var song := entry.song as HBSong
+			var variant = song.get_variant_data(entry.variant)
+			var video_url_ok = validate_video_url(variant.variant_url)
+			if video_url_ok:
+				var video_id = get_video_id(variant.variant_url)
+				if not video_id in songs_being_cached:
+					var result = download_video(entry)
+					if not video_id in tracked_video_downloads:
+						var progress_thing = PROGRESS_THING.instance()
+						DownloadProgress.add_notification(progress_thing)
+						progress_thing.spinning = true
+						progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
+						progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+						if entry.variant != -1:
+							progress_thing.text += " (%s)" % [variant.variant_name]
+						tracked_video_downloads[video_id] = {
+							"progress_thing": progress_thing,
+							"song": song,
+							"entry": entry
+						}
+						emit_signal("song_queued", entry)
+					return result
+			else:
+				var progress_thing = PROGRESS_THING.instance()
+				DownloadProgress.add_notification(progress_thing)
+				progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
+				progress_thing.life_timer = 2.0
+				progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
 			
 func is_already_downloading(song, variant := -1):
 	var in_queue = false
@@ -728,25 +501,24 @@ func cancel_song(song: HBSong, variant := -1):
 				caching_queue.erase(entry)
 				break
 
-func get_video_info_json(video_url: String) -> Dictionary:
+func get_video_info_json(video_url: String):
 	var shared_params = get_ytdl_shared_params()
 	shared_params += ["--dump-json", video_url]
 	var cmd_out = []
-	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, true)
+	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, false)
 	var out_dict = {}
 	if err == OK:
 		for line in cmd_out[0].split("\n"):
-			if line.begins_with("{"):
-				var parse_result := JSON.parse(line)
-				if parse_result.error == OK:
-					out_dict = parse_result.result
-					break
+			var parse_result := JSON.parse(line)
+			if parse_result.error == OK:
+				out_dict = parse_result.result
+				break
 	else:
 		var error_str := "Unknown error"
 		for out in cmd_out:
 			var found_error := false
 			for line in out.split("\n"):
-				if line.begins_with("ERROR: [youtube] "):
+				if line.begins_with("ERROR: "):
 					var o := (line as String).split(": ")
 					if o.size() > 2:
 						error_str = o[2]
