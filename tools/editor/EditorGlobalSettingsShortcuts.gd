@@ -213,6 +213,9 @@ func reset_all_to_default():
 			var item: TreeItem = tree_items[action_name]
 			InputMap.action_erase_event(action_name, item.get_meta("event"))
 			
+			if not UserSettings.base_input_map.has(action_name):
+				continue
+			
 			var event_list = UserSettings.base_input_map[action_name]
 			var event = event_list[0] if event_list else InputEvent.new()
 			

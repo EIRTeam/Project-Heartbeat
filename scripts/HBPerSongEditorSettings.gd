@@ -43,8 +43,8 @@ func _init():
 		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
 		"auto_multi", "waveform", "show_video", "show_bg", "selected_variant", 
 		"grid_snap", "show_grid",
-		"separation", "diagonal_angle", "autoslide", "autoplace", "autoangle", "arranger_snaps", "angle_snaps",
-		"transforms_use_center", "circle_from_inside", "circle_advanced_mode", "circle_size", "circle_separation"
+		"separation", "diagonal_angle", "autoslide", "autoplace", "autoangle", "angle_snaps",
+		"circle_size", "circle_separation"
 	]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")
