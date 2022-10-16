@@ -150,7 +150,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 			curr_time = float(opcode.params[0])
 		if opcode.opcode == opcode_map.opcode_names_to_id.BAR_TIME_SET:
 			current_BPM = float(opcode.params[0])
-			target_flying_time = int((60.0  / current_BPM * (1 + 3) * 1000.0))
+			target_flying_time = int((60.0  / current_BPM * (1 + float(opcode.params[1])) * 1000.0))
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET_FLYING_TIME:
 			target_flying_time = int(opcode.params[0])
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
@@ -161,6 +161,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 				if opcode_map.game == "FT":
 					note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
 					note_d.time += target_flying_time
+					note_d.time_out = target_flying_time
 					if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
 						if curr_chain_starter.position.y != note_d.position.y:
 							curr_chain_starter = null
