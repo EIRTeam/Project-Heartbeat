@@ -24,6 +24,13 @@ var OPTIONS = {
 			"name": tr("Download audio only from workshop"),
 			"description": tr("If enabled downloads only audio when subscribing to workshop items from the in-game workshop browser")
 		},
+		"max_simultaneous_media_downloads" : {
+			"name": tr("Maximum simultaneous media downloads"),
+			"description": tr("How many media files can be downloaded at the same time by the game"),
+			"minimum": 1,
+			"maximum": 5,
+			"step": 1
+		},
 		"show_note_types_before_playing": {
 			"name": tr("Show note types before playing"),
 			"description": tr("Shows a list of notes and how to hit them before the song starts")

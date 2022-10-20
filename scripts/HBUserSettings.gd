@@ -202,10 +202,11 @@ var last_edit_dir := ProjectSettings.globalize_path("user://")
 var audio_buffer_size := 10
 
 var enable_health := false
-
 var enable_streamer_mode := false
 
 var enable_system_mmplus_loading := false
+
+var max_simultaneous_media_downloads := 3
 
 func _init():
 	serializable_fields += ["visualizer_enabled", "left_arrow_override_enabled",
@@ -226,7 +227,7 @@ func _init():
 	"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 	"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 	"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir",
-	"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading"]
+	"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads"]
 	
 	merge_dict_fields += [
 		"custom_sounds",
