@@ -304,7 +304,8 @@ class MMPLUSFSAccess:
 			if not f.file_exists(cpk_path):
 				if file == DLC_CPK_NAME or file == REGION_DLC_CPK_NAME:
 					has_dlc = false
-				return
+				if file == MAIN_CPK_NAME:
+					return
 			else:
 				var farchive := File.new()
 				farchive.open(cpk_path, File.READ)
@@ -462,6 +463,10 @@ func load_songs_mmplus() -> Array:
 	fs_access = mmplus_file_access
 	
 	var songs := {}
+	
+	if not mmplus_file_access.is_valid:
+		propagate_error(tr("Couldn't load game data from %s") % [GAME_LOCATION], true)
+		return songs.values()
 	
 	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
 	var main_pvdb := parse_pvdb(region_cpk.load_text_file("rom_steam_region/rom/pv_db.txt"))

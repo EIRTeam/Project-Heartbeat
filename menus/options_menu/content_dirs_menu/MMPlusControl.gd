@@ -37,13 +37,13 @@ func update_error():
 		return
 	elif not UserSettings.user_settings.enable_system_mmplus_loading:
 		return
-	elif HBGame.mmplus_error == HBGame.MMPLUS_ERROR.OK:
+	elif HBGame.mmplus_error == HBGame.MMPLUS_ERROR.OK and not (HBGame.mmplus_loader and HBGame.mmplus_loader.has_fatal_error()):
 		mm_error_label.push_color(Color.lightgreen)
 		mm_error_label.append_bbcode(tr("MM+ loaded succesfully from:"))
 		mm_error_label.newline()
 		mm_error_label.append_bbcode(HBGame.mmplus_loader.GAME_LOCATION)
 		mm_error_label.pop()
-	else:
+	elif HBGame.mmplus_error != HBGame.MMPLUS_ERROR.OK:
 		var mmplus_load_error := HBGame.get_system_mmplus_error() as String
 		mm_error_label.push_color(Color.lightcoral)
 		mm_error_label.append_bbcode(tr("There was an issue loading MM+: %s" % mmplus_load_error))
