@@ -145,6 +145,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 	var chart = HBChart.new()
 	var curr_chain_starter = null
 	var highest_height = 0
+	var music_start_offset := 0.0
 	for opcode in r:
 		if opcode.opcode == opcode_map.opcode_names_to_id.TIME:
 			curr_time = float(opcode.params[0])
@@ -153,6 +154,8 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 			target_flying_time = int((60.0  / current_BPM * (1 + float(opcode.params[1])) * 1000.0))
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET_FLYING_TIME:
 			target_flying_time = int(opcode.params[0])
+		if opcode.opcode == opcode_map.opcode_names_to_id.MUSIC_PLAY:
+			music_start_offset = curr_time / 100.0
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
 			if (opcode_map.game == "FT" and opcode.params[0] in AFTButtons.values()) or \
 				((opcode_map.game == "f" or opcode_map.game == "F2") and opcode.params[0] in FButtons.values()):
@@ -225,4 +228,8 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap) -> 
 					else:
 						search_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
 				chart.layers[chart.get_layer_i(HBUtils.find_key(HBNoteData.NOTE_TYPE, search_type))].timing_points.append(note_d)
+	if music_start_offset != 0.0:
+		for layer in chart.layers:
+			for timing_point in layer.timing_points:
+				timing_point.time -= music_start_offset
 	return chart
