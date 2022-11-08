@@ -29,7 +29,7 @@ func get_audio_stream(variant := -1):
 	var found_audio = f.file_exists(audio_path)
 	# extract audio to ogg if it doesn't exist
 	if not found_audio:
-		var arguments = ["-i", source_path, "-vn", "-acodec", "libvorbis", "-y", audio_path]
+		var arguments = ["-nostdin", "-i", source_path, "-vn", "-acodec", "libvorbis", "-y", audio_path]
 		var out = []
 		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, true, out, true)
 		if err != OK:

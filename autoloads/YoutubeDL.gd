@@ -382,7 +382,7 @@ func _download_video(userdata):
 				return
 			var input_path := "%s" % get_audio_path(userdata.video_id, true, true)
 			var output_path := "%s" % get_audio_path(userdata.video_id, true)
-			var ffmpeg_process := PHNative.create_process(get_ffmpeg_executable(), ["-y", "-i", input_path, "-ac", "2", output_path])
+			var ffmpeg_process := PHNative.create_process(get_ffmpeg_executable(), ["-nostdin", "-y", "-i", input_path, "-ac", "2", output_path])
 			entry.caching_stage = CACHING_STAGE.PROCESSING_AUDIO
 			entry.current_process = ffmpeg_process
 			entry.mutex.unlock()
