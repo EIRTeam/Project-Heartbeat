@@ -503,7 +503,6 @@ func load_songs_mmplus() -> Array:
 	var mods_config_path := GAME_LOCATION.plus_file("config.toml") as String
 	
 	var d := Directory.new()
-
 	if d.file_exists(mods_config_path):
 		var mods_toml := TOMLParser.from_file(mods_config_path)
 		
@@ -528,14 +527,22 @@ func load_songs_mmplus() -> Array:
 						fs_access = mmplus_file_access
 						for pv_id in mod_pvdb:
 							var pv_data = mod_pvdb[pv_id]
+							
 							var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
 							song.id = "pv_" + str(pv_id)
 							song.is_mod_song = true
+							
 							song.mod_info = mod_toml
 							song.mod = current_file
+							
+							var bpm_timing_change := HBTimingChange.new()
+							bpm_timing_change.bpm = pv_data.bpm
+							song.timing_changes = [bpm_timing_change]
+							
 							var ogg_path = mod_fs_access.get_file_path(pv_data.song_file_name)
 							if ogg_path:
 								songs[song.id] = song
+				
 				current_file = d.get_next()
 	
 	return songs.values()

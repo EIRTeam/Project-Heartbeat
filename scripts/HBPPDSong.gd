@@ -23,6 +23,10 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 		song.creator = dict.setting.authorname
 	if dict.setting.has("bpm"):
 		song.bpm = float(dict.setting.bpm)
+		
+		var bpm_timing_change = HBTimingChange.new()
+		bpm_timing_change.bpm = float(dict.setting.bpm)
+		song.timing_changes = [bpm_timing_change]
 	if dict.setting.has("thumbtimestart"):
 		song.preview_start = int(float(dict.setting.thumbtimestart)*1000.0)
 	var difficulties = ["easy", "normal", "hard", "extreme"]
