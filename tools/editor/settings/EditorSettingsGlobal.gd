@@ -5,17 +5,36 @@ func _ready():
 		"General": [
 			{"name": tr("Automatically save when \"Play\" is pressed"), "var": "editor_autosave_enabled", "type": "Bool"}
 		],
+		"Timeline": [
+			{"name": tr("Show waveform"), "var": "editor_show_waveform", "type": "Bool"},
+			{"name": tr("Show hold duration"), "var": "editor_show_hold_calculator", "type": "Bool"},
+			{"name": tr("Smooth scrolling"), "var": "editor_smooth_scroll", "type": "Bool", "options": {"update_affects_conditions": true}},
+			{"name": tr("Smooth scrolling timeout"), "var": "editor_scroll_timeout", "type": "Float", "options": {"condition": "_smooth_scroll_enabled", "step": 0.01, "min": 0.0, "max": 5.0}},
+		],
+		"Placements": [
+			{"name": tr("Place notes on a line"), "var": "editor_auto_place", "type": "Bool"},
+			{"name": tr("Arranger separation per 8th"), "var": "editor_arrange_separation", "type": "Int", "options": {"suffix": "px"}},
+		],
+		"Angles": [
+			{"name": tr("Automatically set multi params"), "var": "editor_auto_multi", "type": "Bool"},
+			{"name": tr("Angle notes automatically"), "var": "editor_auto_angle", "type": "Bool"},
+			{"name": tr("Angle snaps"), "var": "editor_angle_snaps", "type": "Int", "options": {"min": 1, "max": 92}},
+			{"name": tr("Angle increment per straight 8th"), "var": "editor_straight_angle_increment", "type": "Float", "options": {"suffix": "º", "step": 0.01, "min": 0.0, "max": 90.0}},
+			{"name": tr("Angle increment per diagonal 8th"), "var": "editor_diagonal_angle_increment", "type": "Float", "options": {"suffix": "º", "step": 0.01, "min": 0.0, "max": 90.0}},
+		],
+		"Transforms": [
+			{"name": tr("Circle size"), "var": "editor_circle_size", "type": "Int", "options": {"suffix": "8ths", "min": 4, "max": 64, }},
+			{"name": tr("Circle separation per 8th"), "var": "editor_circle_separation", "type": "Int", "options": {"suffix": "px"}},
+		],
 		"Grid": [
+			{"name": tr("Snap to grid"), "var": "editor_grid_snap", "type": "Bool"},
+			{"name": tr("Show grid"), "var": "editor_show_grid", "type": "Bool"},
 			{"name": tr("Grid type"), "var": "editor_grid_type", "type": "List", "data_callback": "_get_grid_types", "options": {"update_affects_conditions": true}},
 			{"name": tr("Draw grid only inside safe area"), "var": "editor_grid_safe_area_only", "type": "Bool"},
 			{"name": tr("Enable multinote indicators"), "var": "editor_multinote_crosses_enabled", "type": "Bool", "options": {"update_affects_conditions": true}},
 			{"x_name": tr("Grid row spacing"), "y_name": tr("Grid column spacing"), "var": "editor_grid_resolution", "type": "Vector2", "options": {"suffix": "px", "min": 1, "max": 368, "step": 1}},
 			{"name": tr("Dashes per grid space"), "var": "editor_dashes_per_grid_space", "type": "Int", "options": {"condition": "_grid_is_dashes", "min": 3, "max": 10}},
 			{"name": tr("Grid subdivisions"), "var": "editor_grid_subdivisions", "type": "Int", "options": {"condition": "_grid_is_subdivided", "min": 0, "max": 5}},
-		],
-		"Timeline": [
-			{"name": tr("Smooth scrolling"), "var": "editor_smooth_scroll", "type": "Bool", "options": {"update_affects_conditions": true}},
-			{"name": tr("Smooth scrolling timeout"), "var": "editor_scroll_timeout", "type": "Float", "options": {"condition": "_smooth_scroll_enabled", "step": 0.01, "min": 0.0, "max": 5.0}},
 		],
 		"Visual": [
 			{"name": tr("Main grid line color"), "var": "editor_main_grid_color", "type": "Color", "presets": [Color(0.5, 0.5, 0.5)]},
@@ -42,6 +61,11 @@ func update_setting(property_name: String, new_value):
 		UserSettings.user_settings.disconnect("editor_grid_resolution_changed", self, "update")
 		UserSettings.user_settings.emit_signal("editor_grid_resolution_changed")
 		UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "update")
+	
+	if property_name == "editor_show_hold_calculator":
+		editor.hold_calculator_toggled()
+	
+	editor.update_user_settings()
 
 
 func _get_grid_types() -> Dictionary:

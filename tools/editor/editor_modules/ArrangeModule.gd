@@ -102,13 +102,13 @@ func _input(event: InputEvent):
 		first_note = null
 		last_note = null
 
-func song_editor_settings_changed(settings: HBPerSongEditorSettings):
-	circle_size_spinbox.value = settings.circle_size
-	transforms[0].separation = settings.circle_separation
-	transforms[1].separation = settings.circle_separation
-	transforms[2].separation = settings.circle_separation
-	transforms[3].separation = settings.circle_separation
-	size_testing_circle_transform.separation = settings.circle_separation
+func user_settings_changed():
+	circle_size_spinbox.value = UserSettings.user_settings.editor_circle_size
+	transforms[0].separation = UserSettings.user_settings.editor_circle_separation
+	transforms[1].separation = UserSettings.user_settings.editor_circle_separation
+	transforms[2].separation = UserSettings.user_settings.editor_circle_separation
+	transforms[3].separation = UserSettings.user_settings.editor_circle_separation
+	size_testing_circle_transform.separation = UserSettings.user_settings.editor_circle_separation
 
 func update_shortcuts():
 	.update_shortcuts()
@@ -180,9 +180,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	
 	var separation : Vector2 = Vector2.ZERO
 	var slide_separation : Vector2 = Vector2.ZERO
-	var eight_separation = get_song_settings().separation
-	
-	var autoslide = get_song_settings().autoslide
+	var eight_separation = UserSettings.user_settings.editor_arrange_separation
 	
 	if angle != null:
 		separation.x = eight_separation * cos(angle)
@@ -209,27 +207,25 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_note() and autoslide:
+			# Real snapping hours
+			var eight_diff = linear_bound(get_normalized_timing_map(), selected_item.data.time) - \
+							 linear_bound(get_normalized_timing_map(), time_compensation)
+			
+			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
+				if slide_index:
+					eight_diff = 1
+				
 				slide_index = 1
 			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
 				slide_index += 1
 			elif slide_index:
 				slide_index = 0
-			
-			# Real snapping hours
-#			var diff
-#			if not reverse:
-#				diff = selected_item.data.time - time_compensation
-#			else:
-#				diff = time_compensation - selected_item.data.time
-#				diff = selected_item.data.time - time_compensation
-			
-			var eight_diff = linear_bound(get_normalized_timing_map(), selected_item.data.time) - \
-							 linear_bound(get_normalized_timing_map(), time_compensation)
+				
+				eight_diff = 1
 			
 			var new_pos = pos_compensation + (separation * eight_diff)
 			
-			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
+			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index:
 				if slide_index == 2:
 					new_pos = pos_compensation + separation / 2
 				else:
@@ -282,7 +278,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 		timing_points_params_changed()
 
 func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
-	if get_song_settings().autoangle and arrange_angle != null:
+	if UserSettings.user_settings.editor_auto_angle and arrange_angle != null:
 		var new_angle: float
 		var oscillation_frequency = abs(note.oscillation_frequency)
 		
@@ -341,7 +337,8 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 
 
 func _set_circle_size(value: int):
-	get_song_settings().set("circle_size", value)
+	UserSettings.user_settings.editor_circle_size = value
+	UserSettings.save_user_settings()
 
 func increase_circle_size():
 	circle_size_spinbox.value += 1

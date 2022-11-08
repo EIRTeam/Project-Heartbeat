@@ -13,26 +13,9 @@ var note_resolution := 16
 var beats_per_bar := 4
 var timeline_snap := true
 
-var auto_multi := false
-
-var waveform := true
-var hold_calculator := true
 var show_video := true
 var show_bg := true
 var selected_variant := -1
-
-var grid_snap := true
-var show_grid := true
-
-var separation := 96
-var reverse_arrange := false
-var autoslide := true
-var angle_snaps := 32
-var autoplace := true
-var autoangle := true
-
-var circle_size := 16
-var circle_separation := 96
 
 
 func get_serialized_type():
@@ -41,10 +24,7 @@ func get_serialized_type():
 func _init():
 	serializable_fields += [
 		"hidden_layers", "note_resolution", "timeline_snap", 
-		"auto_multi", "waveform", "show_video", "show_bg", "selected_variant", 
-		"grid_snap", "show_grid",
-		"separation", "autoslide", "autoplace", "autoangle", "angle_snaps",
-		"circle_size", "circle_separation"
+		"show_video", "show_bg", "selected_variant",
 	]
 	deprecated_fields += [
 		 "bpm", "offset", "beats_per_bar",

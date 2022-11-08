@@ -1,7 +1,6 @@
 extends HBEditorSettings
 
 signal layer_visibility_changed(visibility, layer)
-signal hold_calculator_toggled
 
 const HIDDEN_ICON = preload("res://tools/icons/icon_GUI_visibility_hidden.svg")
 const VISIBLE_ICON = preload("res://tools/icons/icon_GUI_visibility_visible.svg")
@@ -13,30 +12,12 @@ func _ready():
 		"Timeline": [
 			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 32}},
 			{"name": tr("Snap to timeline"), "var": "timeline_snap", "type": "Bool"},
-			{"name": tr("Show waveform"), "var": "waveform", "type": "Bool"},
-			{"name": tr("Show hold duration"), "var": "hold_calculator", "type": "Bool"},
 		],
 		"Media": [
 			{"name": tr("Show video"), "var": "show_video", "type": "Bool"},
 			{"name": tr("Show background"), "var": "show_bg", "type": "Bool"},
 			{"name": tr("Selected variant"), "var": "selected_variant", "type": "List", "data_callback": "_get_variants", "options": {"parser": "_variants_parser"}},
 		],
-		"Grid": [
-			{"name": tr("Snap to grid"), "var": "grid_snap", "type": "Bool"},
-			{"name": tr("Show grid"), "var": "show_grid", "type": "Bool"},
-		],
-		"Placements": [
-			{"name": tr("Place notes on a line"), "var": "autoplace", "type": "Bool"},
-			{"name": tr("Angle notes automatically"), "var": "autoangle", "type": "Bool"},
-			{"name": tr("Automatically set multi params"), "var": "auto_multi", "type": "Bool"},
-			{"name": tr("Space slide pieces correctly"), "var": "autoslide", "type": "Bool"},
-			{"name": tr("Separation per 8th"), "var": "separation", "type": "Int", "options": {"suffix": "px"}},
-			{"name": tr("Angle snaps"), "var": "angle_snaps", "type": "Int", "options": {"min": 1, "max": 92}},
-		],
-		"Transforms": [
-			{"name": tr("Circle size"), "var": "circle_size", "type": "Int", "options": {"suffix": "8ths", "min": 1, "max": 64, }},
-			{"name": tr("Circle separation per 8th"), "var": "circle_separation", "type": "Int", "options": {"suffix": "px"}},
-		]
 	}
 
 func populate():
@@ -72,9 +53,6 @@ func update_setting(property_name: String, new_value):
 	
 	if property_name == "selected_variant":
 		editor.update_media()
-	
-	if property_name == "hold_calculator":
-		editor.hold_calculator_toggled()
 
 func _grid_column_spacing_parser(value, _mode):
 	var new_value = {"x": 1080.0 / value.x, "y": 1920.0 / value.y}

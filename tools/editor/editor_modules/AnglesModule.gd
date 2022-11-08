@@ -39,10 +39,20 @@ func _ready():
 func _set_straight_increment(value):
 	for i in range(4):
 		transforms[i].straight_increment = value
+	
+	UserSettings.user_settings.editor_straight_angle_increment = value
+	UserSettings.save_user_settings()
 
 func _set_diagonal_increment(value):
 	for i in range(4):
 		transforms[i].diagonal_increment = value
+	
+	UserSettings.user_settings.editor_diagonal_angle_increment = value
+	UserSettings.save_user_settings()
+
+func user_settings_changed():
+	straight_increment_spinbox.value = UserSettings.user_settings.editor_straight_angle_increment
+	diagonal_increment_spinbox.value = UserSettings.user_settings.editor_diagonal_angle_increment
 
 
 func apply_angle_shortcut(i: int):

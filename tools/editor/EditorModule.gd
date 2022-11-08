@@ -31,6 +31,7 @@ func set_editor(_editor: HBEditor):
 	editor = _editor
 	undo_redo = _editor.undo_redo
 	editor.connect("modules_update_settings", self, "song_editor_settings_changed")
+	editor.connect("modules_update_user_settings", self, "user_settings_changed")
 	
 	# Add module to GUI
 	parent = editor.get_node(editor.ui_module_locations[module_location]) as TabContainer
@@ -46,6 +47,9 @@ func set_editor(_editor: HBEditor):
 		transform.set_editor(editor)
 
 func song_editor_settings_changed(settings: HBPerSongEditorSettings):
+	pass
+
+func user_settings_changed():
 	pass
 
 func _input(event: InputEvent):

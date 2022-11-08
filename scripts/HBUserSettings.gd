@@ -186,6 +186,8 @@ var editor_grid_type__possibilities = [
 	"subdivided",
 ]
 
+var editor_grid_snap := true
+var editor_show_grid := true
 var editor_main_grid_color := Color(0.5, 0.5, 0.5)
 var editor_main_grid_width := 2.0
 var editor_secondary_grid_color := Color(0.5, 0.5, 0.5)
@@ -193,12 +195,26 @@ var editor_secondary_grid_width := 1.0
 var editor_multinote_cross_color := Color.white
 var editor_multinote_cross_width := 1.0
 
+var editor_show_waveform := true
+var editor_show_hold_calculator := true
 var editor_smooth_scroll := false
 var editor_scroll_timeout := 0.2
 
 var editor_bottom_panel_offset := 0
 var editor_left_panel_offset := 320
 var editor_right_panel_offset := -250
+
+var editor_auto_place := true
+var editor_arrange_separation := 96
+
+var editor_auto_multi := true
+var editor_auto_angle := true
+var editor_angle_snaps := 32
+var editor_straight_angle_increment := 1.0
+var editor_diagonal_angle_increment := 5.0
+
+var editor_circle_size := 16
+var editor_circle_separation := 96
 
 var last_graphics_dir := ProjectSettings.globalize_path("user://")
 var last_audio_dir := ProjectSettings.globalize_path("user://")
@@ -235,12 +251,15 @@ func _init():
 		"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
 		"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",
 		"use_direct_joystick_access", "use_explicit_rating", "editor_autosave_enabled", "editor_import_warning_accepted",
-		"editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
+		"editor_grid_snap", "editor_show_grid", "editor_grid_type", "editor_grid_safe_area_only", "editor_multinote_crosses_enabled", "editor_grid_resolution", "editor_grid_subdivisions", "editor_dashes_per_grid_space",
 		"editor_main_grid_color", "editor_main_grid_width", "editor_secondary_grid_color", "editor_secondary_grid_width", "editor_multinote_cross_color", "editor_multinote_cross_width",
 		"last_graphics_dir", "last_audio_dir", "last_switch_export_dir", "last_dsc_dir", "last_ppd_dir", "last_midi_dir", "last_edit_dir", "last_csfm_dir",
 		"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads",
 		"editor_bottom_panel_offset", "editor_left_panel_offset", "editor_right_panel_offset",
-		"editor_smooth_scroll", "editor_scroll_timeout"
+		"editor_show_waveform", "editor_show_hold_calculator", "editor_smooth_scroll", "editor_scroll_timeout",
+		"editor_auto_place", "editor_arrange_separation",
+		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
+		"editor_circle_size", "editor_circle_separation",
 	]
 	
 	merge_dict_fields += [

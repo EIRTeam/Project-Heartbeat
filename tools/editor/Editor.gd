@@ -9,6 +9,7 @@ signal timing_information_changed
 signal timing_points_changed
 signal song_editor_settings_changed
 signal modules_update_settings(settings)
+signal modules_update_user_settings
 signal paused
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
@@ -226,6 +227,8 @@ func _ready():
 	seek_debounce_timer.wait_time = UserSettings.user_settings.editor_scroll_timeout
 	seek_debounce_timer.one_shot = true
 	seek_debounce_timer.connect("timeout", self, "_seek")
+	
+	update_user_settings()
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -763,7 +766,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 						sync_timing = true
 					
 					var autoplaced_position = null
-					if selected_item.data is HBBaseNote and song_editor_settings.autoplace and not selected_item.data.pos_modified:
+					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
 						var new_data = autoplace(selected_item.data)
 						autoplaced_position = new_data.position
 						
@@ -964,7 +967,7 @@ func paste(time: int):
 			if timing_point is HBSustainNote:
 				timing_point.end_time = timing_point.time + copy.item.data.get_duration()
 			
-			if timing_point is HBBaseNote and song_editor_settings.autoplace:
+			if timing_point is HBBaseNote and UserSettings.user_settings.editor_auto_place:
 				timing_point = autoplace(timing_point)
 			
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
@@ -1022,7 +1025,7 @@ func delete_selected():
 		undo_redo.commit_action()
 
 func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = null):
-	if song_editor_settings.auto_multi:
+	if UserSettings.user_settings.editor_auto_multi:
 		if item is HBBaseNote:
 			if not autoplaced_pos:
 				autoplaced_pos = item.position
@@ -1061,7 +1064,7 @@ func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = n
 			_set_multi_angles(notes_at_previous_time)
 
 func check_for_multi_changes_upon_deletion(time: int, deleted_items: Array):
-	if song_editor_settings.auto_multi:
+	if UserSettings.user_settings.editor_auto_multi:
 		var _notes_at_time = get_notes_at_time(time)
 		for item in deleted_items:
 			_notes_at_time.erase(item.data)
@@ -1084,7 +1087,7 @@ func _set_multi_params(note, position):
 	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
 	undo_redo.add_undo_property(note, "distance", note.distance)
 	
-	if song_editor_settings.autoplace and not note.pos_modified:
+	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 		var multi_pos = 3 - note.note_type
 		
 		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
@@ -1098,7 +1101,7 @@ func _clear_multi_params(note, position=null):
 	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
 	undo_redo.add_undo_property(note, "distance", note.distance)
 	
-	if song_editor_settings.autoplace and not note.pos_modified:
+	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 		undo_redo.add_do_property(note, "position", Vector2(position.x, 918))
 		undo_redo.add_undo_property(note, "position", note.position)
 
@@ -1108,7 +1111,7 @@ func _set_multi_angles(notes: Array):
 	notes.sort_custom(self, "_sort_by_note_type")
 	
 	for note in notes:
-		if song_editor_settings.autoplace and not note.pos_modified:
+		if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 			var angle = -90
 		
 			if notes.size() == 2:
@@ -1157,7 +1160,7 @@ func get_notes_at_time(time: int):
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
-	if item.data is HBBaseNote and song_editor_settings.autoplace:
+	if item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place:
 		item.data = autoplace(item.data)
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
@@ -1263,15 +1266,9 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	
 	timeline_snap_button.pressed = settings.timeline_snap
 	
-	waveform_button.pressed = settings.waveform
 	game_preview.settings = settings
 	show_bg_button.pressed = settings.show_bg
 	show_video_button.pressed = settings.show_video
-	
-	grid_snap_button.pressed = settings.grid_snap
-	show_grid_button.pressed = settings.show_grid
-	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
-	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
 	emit_signal("timing_information_changed")
 	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
@@ -1282,6 +1279,16 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 		emit_signal("song_editor_settings_changed")
 	
 	emit_signal("modules_update_settings", settings)
+
+func update_user_settings():
+	waveform_button.pressed = UserSettings.user_settings.editor_show_waveform
+	
+	grid_snap_button.pressed = UserSettings.user_settings.editor_grid_snap
+	show_grid_button.pressed = UserSettings.user_settings.editor_show_grid
+	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
+	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
+	
+	emit_signal("modules_update_user_settings")
 
 func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	rhythm_game.editor_clear_notes()
@@ -1611,11 +1618,13 @@ func _on_SaveButton_pressed():
 	
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
-	song_editor_settings.set("show_grid", button_pressed)
+	UserSettings.user_settings.editor_show_grid = button_pressed
+	UserSettings.save_user_settings()
 
 func _on_GridSnapButton_toggled(button_pressed):
 	snap_to_grid_enabled = button_pressed
-	song_editor_settings.set("grid_snap", button_pressed)
+	UserSettings.user_settings.editor_grid_snap = button_pressed
+	UserSettings.save_user_settings()
 
 func snap_position_to_grid(new_pos: Vector2, prev_pos: Vector2, one_direction: bool):
 	var final_position = new_pos
@@ -1758,7 +1767,7 @@ func _notification(what):
 
 
 func get_hold_size(data):
-	if not data is HBNoteData or not data.hold or not song_editor_settings.hold_calculator:
+	if not data is HBNoteData or not data.hold or not UserSettings.user_settings.editor_show_hold_calculator:
 		return 0
 	
 	var size = HBRhythmGame.MAX_HOLD
@@ -1779,7 +1788,7 @@ func get_hold_size(data):
 
 
 func _cache_hold_ends():
-	if not song_editor_settings.hold_calculator:
+	if not UserSettings.user_settings.editor_show_hold_calculator:
 		return
 	
 	var points = get_timing_points()
@@ -1844,8 +1853,9 @@ func open_link(link: String):
 	OS.shell_open(link)
 
 func _on_WaveformButton_toggled(button_pressed):
-	song_editor_settings.set("waveform", button_pressed)
-	timeline.set_waveform(song_editor_settings.waveform)
+	timeline.set_waveform(button_pressed)
+	UserSettings.user_settings.editor_show_waveform = button_pressed
+	UserSettings.save_user_settings()
 
 
 func _on_SexButton_pressed():
@@ -1917,7 +1927,7 @@ func reset_note_position():
 		var new_angle := 0
 		var new_freq := 2.0
 		
-		if song_editor_settings.autoplace:
+		if UserSettings.user_settings.editor_auto_place:
 			var new_data = autoplace(item.data, true)
 			new_pos = new_data.position
 			new_angle = new_data.entry_angle
