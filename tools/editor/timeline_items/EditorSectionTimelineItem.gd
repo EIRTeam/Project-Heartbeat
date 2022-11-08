@@ -18,7 +18,7 @@ func _ready():
 
 
 func get_editor_size():
-	return Vector2(rect_size.x, rect_size.y)
+	return rect_size
 
 func get_editor_description():
 	return """Marks a section of the chart with a specific name and color."""

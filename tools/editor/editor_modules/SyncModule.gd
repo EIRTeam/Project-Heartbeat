@@ -1,11 +1,11 @@
 extends HBEditorModule
 
-onready var bpm_spinbox := get_node("%BPMSpinBox")
-onready var offset_spinbox := get_node("%OffsetSpinBox")
 onready var grid_resolution_option_button := get_node("%GridResolutionOptionButton")
-onready var signature_option_button := get_node("%SignatureOptionButton")
 onready var average_bpm_lineedit := get_node("%AverageBPMLineEdit")
 onready var whole_bpm_lineedit := get_node("%WholeBPMLineEdit")
+onready var bpm_spinbox := get_node("%BPMSpinBox")
+onready var time_sig_numerator_spinbox := get_node("%TimeSigNumSpinBox")
+onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
 
 var bpm := 150.0
 var offset := 0
@@ -50,11 +50,6 @@ func _ready():
 		add_shortcut("editor_resolution_" + String(resolutions[i]), "set_resolution_shortcut", [i])
 	
 	update_shortcuts()
-	
-	signature_option_button.add_item("4 beats per bar (4/4)")
-	signature_option_button.add_item("3 beats per bar (3/4)")
-	signature_option_button.add_item("2 beats per bar (2/4)")
-	signature_option_button.add_item("1 beat per bar (1/4)")
 
 func set_editor(_editor: HBEditor):
 	.set_editor(_editor)
@@ -63,17 +58,11 @@ func set_editor(_editor: HBEditor):
 	_editor.connect("paused", self, "_on_editor_paused")
 
 func song_editor_settings_changed(settings: HBPerSongEditorSettings):
-	bpm_spinbox.value = settings.bpm
-	offset_spinbox.value = settings.offset * 1000.0
-	
 	var resolution_idx = resolutions.find(settings.note_resolution)
 	grid_resolution_option_button.select(resolution_idx)
 	
 	if resolution_idx == -1:
 		grid_resolution_option_button.select(resolutions.size())
-	
-	var signature_idx = signatures.find(settings.beats_per_bar)
-	signature_option_button.select(signature_idx)
 	
 	bpm = settings.bpm
 	offset = settings.offset * 1000.0
@@ -167,28 +156,21 @@ func toggle_metronome():
 		sound_players = []
 		return
 	
-	var interval = get_timing_interval(1.0/4.0)
-	var song_end = editor.game_playback.game.audio_playback.get_length_msec() + editor.game_playback.game.audio_playback.offset
-	
 	if not editor.game_playback.is_playing():
 		editor._on_PlayButton_pressed()
 	
 	var current_time = Shinobu.get_dsp_time()
 	var song_start = current_time - editor.playhead_position
 	
-	var next_beat = offset_spinbox.value
-	while next_beat < song_end:
-		if next_beat < editor.playhead_position:
-			next_beat += interval
+	for time in get_metronome_map():
+		if time < editor.playhead_position:
 			continue
 		
 		var sound := UserSettings.user_sfx["note_hit"].instantiate(HBGame.sfx_group) as ShinobuSoundPlayer
 		
-		sound.schedule_start_time(song_start + next_beat)
+		sound.schedule_start_time(song_start + time)
 		sound.start()
 		sound_players.append(sound)
-		
-		next_beat += interval
 	
 	Shinobu.set_dsp_time(current_time)
 
@@ -199,37 +181,37 @@ func _on_editor_paused():
 	sound_players = []
 
 
-func set_offset_at_playhead():
-	offset_spinbox.value = editor.playhead_position
+func show_timing_change_dialog():
+	var timing_change := get_timing_info_at_time(get_playhead_position())
+	if not timing_change:
+		timing_change = HBTimingChange.new()
+	
+	var calculated_bpm = int(whole_bpm_lineedit.text.split(" ")[0])
+	print(calculated_bpm)
+	bpm_spinbox.value = calculated_bpm if calculated_bpm else timing_change.bpm
+	
+	time_sig_numerator_spinbox.value = timing_change.time_signature.numerator
+	time_sig_denominator_spinbox.value = timing_change.time_signature.denominator
+	
+	$TempoDialog.popup_centered()
 
-func set_bpm(value):
-	bpm = value
-	get_song_settings().set("bpm", bpm)
-	timing_information_changed()
+func add_timing_change():
+	for layer in get_layers():
+		if layer.layer_name == "Tempo Map":
+			var timing_change = HBTimingChange.new()
+			timing_change.time = get_playhead_position()
+			timing_change.bpm = bpm_spinbox.value
+			timing_change.time_signature.numerator = time_sig_numerator_spinbox.value
+			timing_change.time_signature.denominator = time_sig_denominator_spinbox.value
+			
+			create_timing_point(layer, timing_change.get_timeline_item())
+			break
 
-func set_offset(value):
-	offset = value
-	get_song_settings().set("offset", offset / 1000.0)
-	timing_information_changed()
 
 func set_resolution(index):
 	resolution = resolutions[index]
 	get_song_settings().set("note_resolution", resolution)
 	timing_information_changed()
 
-func set_signature(index):
-	signature = signatures[index]
-	get_song_settings().set("beats_per_bar", signature)
-	timing_information_changed()
-
-func get_bpm():
-	return bpm
-
-func get_offset():
-	return offset / 1000.0
-
 func get_resolution():
 	return resolution
-
-func get_signature():
-	return signature

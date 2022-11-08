@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
-[ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=2]
-[ext_resource path="res://graphics/icons/lyric-start.png" type="Texture" id=3]
+[ext_resource path="res://graphics/icons/lyric-start.png" type="Texture" id=2]
+[ext_resource path="res://graphics/icons/lyric-end.png" type="Texture" id=3]
 [ext_resource path="res://tools/editor/editor_modules/EventsModule.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/section.png" type="Texture" id=5]
-[ext_resource path="res://graphics/icons/fast-forward-mirror.svg" type="Texture" id=6]
-[ext_resource path="res://graphics/icons/form-textbox.svg" type="Texture" id=7]
-[ext_resource path="res://graphics/icons/lyric-end.png" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/form-textbox.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/section.png" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/fast-forward-mirror.svg" type="Texture" id=8]
 [ext_resource path="res://menus/HBEditorButton.gd" type="Script" id=9]
 [ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=10]
 [ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=11]
@@ -34,22 +34,22 @@ align = 1
 margin_top = 18.0
 margin_right = 1908.0
 margin_bottom = 984.0
-rect_min_size = Vector2( 160, 0 )
+rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 10 )
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["event_buttons"]]
 margin_right = 952.0
 margin_bottom = 966.0
-rect_min_size = Vector2( 78, 966 )
+rect_min_size = Vector2( 88, 966 )
 size_flags_horizontal = 3
 script = ExtResource( 9 )
-text = "BPM change"
-tooltip = "Changes the BPM (note speed).
+text = "Speed change"
+tooltip = "Changes the note speed.
 Requires auto-timeout."
-texture = ExtResource( 2 )
+texture = ExtResource( 7 )
 button_mode = "function"
-function_name = "popup_bpm_change"
+function_name = "popup_speed_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["event_buttons"]]
 margin_left = 956.0
@@ -63,7 +63,7 @@ tooltip = "Sets the intro skip time.
 Requires intro skip to be enabled
 and intro skip min time to be
 less than the time of the event."
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 button_mode = "function"
 function_name = "create_intro_skip"
 
@@ -83,7 +83,7 @@ size_flags_horizontal = 3
 script = ExtResource( 9 )
 text = "Phrase start"
 tooltip = "Shows a lyric phrase to the player."
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 button_mode = "function"
 function_name = "create_phrase_start"
 action = "editor_quick_phrase_start"
@@ -97,7 +97,7 @@ size_flags_horizontal = 3
 script = ExtResource( 9 )
 text = "Phrase end"
 tooltip = "Hides a lyric phrase from the player."
-texture = ExtResource( 8 )
+texture = ExtResource( 3 )
 button_mode = "function"
 function_name = "create_phrase_end"
 action = "editor_quick_phrase_end"
@@ -120,7 +120,7 @@ text = "Lyric word"
 tooltip = "Creates text inside a phrase
 that will be lit up when the event
 activates."
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 button_mode = "function"
 function_name = "popup_lyric_dialog"
 action = "editor_quick_lyric"
@@ -135,7 +135,7 @@ script = ExtResource( 9 )
 text = "Chart section"
 tooltip = "Creates a new chart section
 with a random color."
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 button_mode = "function"
 function_name = "popup_section_dialog"
 
@@ -167,7 +167,7 @@ margin_right = 308.0
 margin_bottom = 39.0
 placeholder_text = "Lino's Lengthy Lyric"
 
-[node name="BPMDialog" type="WindowDialog" parent="." index="2"]
+[node name="SpeedChangeDialog" type="WindowDialog" parent="." index="2"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -176,9 +176,9 @@ margin_left = -164.0
 margin_top = -26.0
 margin_right = 164.0
 margin_bottom = 26.0
-window_title = "Create BPM change"
+window_title = "Create speed change"
 
-[node name="MarginContainer" type="MarginContainer" parent="BPMDialog" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="SpeedChangeDialog" index="1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -189,15 +189,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="BPMDialog/MarginContainer" index="0"]
+[node name="HBEditorSpinBox" type="SpinBox" parent="SpeedChangeDialog/MarginContainer" index="0"]
 margin_top = 15.0
 margin_right = 308.0
 margin_bottom = 39.0
-min_value = 1.0
 step = 0.01
 value = 100.0
 allow_greater = true
-suffix = "BPM"
+suffix = "%"
 arrow_step = 1.0
 script = ExtResource( 11 )
 
@@ -230,5 +229,5 @@ margin_bottom = 39.0
 placeholder_text = "Lino's Legendary Section"
 
 [connection signal="text_entered" from="LyricDialog/MarginContainer/LineEdit" to="." method="create_quick_lyric"]
-[connection signal="input_accepted" from="BPMDialog/MarginContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
+[connection signal="input_accepted" from="SpeedChangeDialog/MarginContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
 [connection signal="text_entered" from="SectionDialog/MarginContainer/LineEdit" to="." method="create_chart_section"]

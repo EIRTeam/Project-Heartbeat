@@ -68,6 +68,9 @@ func set_note_type(value):
 # gets the time out or returns automatically generated time_out
 func get_time_out(bpm) -> int:
 	if auto_time_out:
+		if bpm == 0:
+			return INF
+		
 		return int((60.0  / bpm * (1 + 3) * 1000.0))
 	else:
 		return time_out

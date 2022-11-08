@@ -13,6 +13,10 @@ func _ready():
 			{"name": tr("Dashes per grid space"), "var": "editor_dashes_per_grid_space", "type": "Int", "options": {"condition": "_grid_is_dashes", "min": 3, "max": 10}},
 			{"name": tr("Grid subdivisions"), "var": "editor_grid_subdivisions", "type": "Int", "options": {"condition": "_grid_is_subdivided", "min": 0, "max": 5}},
 		],
+		"Timeline": [
+			{"name": tr("Smooth scrolling"), "var": "editor_smooth_scroll", "type": "Bool", "options": {"update_affects_conditions": true}},
+			{"name": tr("Smooth scrolling timeout"), "var": "editor_scroll_timeout", "type": "Float", "options": {"condition": "_smooth_scroll_enabled", "step": 0.01, "min": 0.0, "max": 5.0}},
+		],
 		"Visual": [
 			{"name": tr("Main grid line color"), "var": "editor_main_grid_color", "type": "Color", "presets": [Color(0.5, 0.5, 0.5)]},
 			{"name": tr("Main grid line width"), "var": "editor_main_grid_width", "type": "Float", "options": {"step": 0.05, "min": 1.0, "max": 3.0}},
@@ -40,20 +44,23 @@ func update_setting(property_name: String, new_value):
 		UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "update")
 
 
-func _get_grid_types():
+func _get_grid_types() -> Dictionary:
 	var types := {}
 	for possibility in UserSettings.user_settings.editor_grid_type__possibilities:
 		types[possibility] = true
 	return types
 
-func _grid_is_dashes():
+func _grid_is_dashes() -> bool:
 	return UserSettings.user_settings.editor_grid_type == 1
 
-func _grid_is_subdivided():
+func _grid_is_subdivided() -> bool:
 	return UserSettings.user_settings.editor_grid_type == 2
 
-func _secondary_grid_enabled():
+func _secondary_grid_enabled() -> bool:
 	return UserSettings.user_settings.editor_grid_type != 0
 
-func _multinote_crosses_enabled():
+func _multinote_crosses_enabled() -> bool:
 	return UserSettings.user_settings.editor_multinote_crosses_enabled
+
+func _smooth_scroll_enabled() -> bool:
+	return UserSettings.user_settings.editor_smooth_scroll

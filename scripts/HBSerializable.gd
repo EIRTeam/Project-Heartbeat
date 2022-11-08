@@ -8,6 +8,7 @@ func serialize(serialize_defaults = false):
 	if get_serialized_type():
 		var defaults = get_serializable_types()[get_serialized_type()].new()
 		var serialized_data = {}
+		
 		for field in serializable_fields:
 			var _field = get(field)
 			# Ensures that we don't write defaults to disk, in case we change them
@@ -39,15 +40,19 @@ func serialize(serialize_defaults = false):
 		return HBUtils.merge_dict(serialized_data, {
 			"type": get_serialized_type()
 		})
-	
+
+var deprecated_fields := []
 static func deserialize(data: Dictionary):
-	
 	if "type" in data:
 		if not data.type in get_serializable_types():
 			print("Error deserializing unknown type " + data.type)
 			return null
 		var object = get_serializable_types()[data.type].new()
-		for field in object.serializable_fields:
+		
+		var _deserializable_fields: Array = object.serializable_fields.duplicate()
+		_deserializable_fields.append_array(object.deprecated_fields)
+		
+		for field in _deserializable_fields:
 			var _field = object.get(field)
 			if data.has(field):
 				if _field is Object and _field.has_method("serialize"):
@@ -98,7 +103,7 @@ static func deserialize(data: Dictionary):
 				elif _field is int:
 					object.set(field, int(data[field]))
 				else:
-					object.set(field, str2var(data[field]))
+					object.set(field , str2var(data[field]))
 		return object
 	
 static func get_serializable_types():

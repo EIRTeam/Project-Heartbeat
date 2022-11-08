@@ -139,7 +139,7 @@ func _on_game_time_changed(time: float):
 
 
 				# Chain piece appear
-				var piece_appear_time = piece.time - piece.get_time_out(game.get_bpm_at_time(piece.time))
+				var piece_appear_time = piece.time - piece.get_time_out(game.get_note_speed_at_time(piece.time))
 				if time * 1000.0 > piece_appear_time:
 					if time * 1000.0 < piece.time:
 						if not piece_drawer.visible:

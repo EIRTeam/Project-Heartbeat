@@ -54,6 +54,7 @@ var audio_loudness := 0.0
 var song_variants = []
 var sections = []
 var skin_ugc_id := 0
+var timing_changes := []
 
 # not serialized
 var loader = ""
@@ -78,7 +79,7 @@ func _init():
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
 	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
-	"audio_loudness", "song_variants", "sections", "skin_ugc_id"]
+	"audio_loudness", "song_variants", "sections", "skin_ugc_id", "timing_changes"]
 
 func get_meta_string():
 	var song_meta = []
@@ -276,7 +277,7 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart = HBChart.new()
 	if not result:
 		return null
-	chart.deserialize(result)
+	chart.deserialize(result, self)
 	return chart
 
 func is_chart_note_usage_known(difficulty: String):

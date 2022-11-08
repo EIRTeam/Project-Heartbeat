@@ -20,6 +20,8 @@ func set_params(params):
 		spinbox.min = params.min
 	if params.has("max"):
 		spinbox.max = params.max
+	if params.has("suffix"):
+		spinbox.suffix = params.suffix
 	if params.has("show_toggle_negative_button"):
 		toggle_negative_button.visible = params.show_toggle_negative_button
 

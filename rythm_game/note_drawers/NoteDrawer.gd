@@ -176,7 +176,7 @@ var _cached_time_out = null
 
 func get_time_out():
 	if not _cached_time_out:
-		_cached_time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+		_cached_time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	return _cached_time_out 
 
 # Used for notes that specially handle multiple inputs (like doubles), only called

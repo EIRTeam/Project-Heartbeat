@@ -84,14 +84,19 @@ var voice_remap: ShinobuChannelRemapEffect
 var game_ui: HBRhythmGameUIBase
 var game_input_manager: HBGameInputManager
 
+# CHECK
 var bpm_changes = {}
 # sorted array of bpm changes, by time
 var bpm_change_events := []
 
 var sfx_pool := HBSoundEffectPool.new()
 
-# Initial BPM
-var base_bpm = 180.0
+var bpm_map := {}
+
+var sfx_pool := HBSoundEffectPool.new()
+
+# CHECK
+var sfx_player_queue = []
 
 var current_assets
 
@@ -103,7 +108,8 @@ var current_variant = -1
 
 var notes_judged_this_frame = []
 
-var section_changes = {}
+var section_changes := {}
+var timing_changes := [] setget set_timing_changes
 
 var tracked_sounds := []
 
@@ -176,7 +182,6 @@ func get_chart_from_song(song: HBSong, difficulty) -> HBChart:
 func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	modifiers = _modifiers
 	current_song = song
-	base_bpm = song.bpm
 	_volume_offset = 0.0
 	if audio_playback:
 		audio_playback.queue_free()
@@ -233,6 +238,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	for section in current_song.sections:
 		section_changes[section.time] = section
 	
+	timing_changes = current_song.timing_changes
+	timing_changes.sort_custom(self, "_sort_notes_by_time")
+	
 	var chart: HBChart
 	
 	current_difficulty = difficulty
@@ -282,7 +290,8 @@ func make_group(notes: Array, extra_notes: Array, group_position, group_time):
 	for i in range(group.hit_notes.size()):
 		group.hit_notes[i] = 0
 	for note in group.notes:
-		highest_time_out = max(highest_time_out, note.get_time_out(get_bpm_at_time(note.time)))
+		highest_time_out = max(highest_time_out, note.get_time_out(get_note_speed_at_time(note.time)))
+	
 	group.precalculated_timeout = highest_time_out
 	
 	return group
@@ -325,16 +334,18 @@ func _set_timing_points(points):
 			for note in point.notes:
 				if note.has_meta("group"):
 					note.remove_meta("group")
+	
 	timing_points = points
 	timing_points.sort_custom(self, "_sort_notes_by_time")
 	
-	# When timing points change, we might introduce new BPM change events
-	bpm_change_events.clear()
+	# When timing points change, the bpm map might change
+	bpm_map.clear()
 	intro_skip_marker = null
 	
+	var bpm_changes := []
 	for point in timing_points:
 		if point is HBBPMChange:
-			bpm_change_events.append(point)
+			bpm_changes.append(point)
 		if point is HBIntroSkipMarker:
 			intro_skip_marker = point
 	bpm_change_events.sort_custom(self, "_sort_notes_by_time")
@@ -346,21 +357,61 @@ func _set_timing_points(points):
 	last_hit_index = timing_points.size()
 	remove_all_notes_from_screen()
 
-var bpm_bsearch := HBBPMChange.new()
-
-func get_bpm_at_time(bpm_time):
-	if bpm_change_events.size() == 0:
-		return base_bpm
+	var song_length = audio_playback.get_length_msec() + audio_playback.offset
+	if current_song.end_time > 0:
+		song_length = min(song_length, float(current_song.end_time))
+	
+	if timing_changes:
+		bpm_map[0] = timing_changes[0].bpm
+	elif bpm_changes and bpm_changes[0].usage == HBBPMChange.USAGE_TYPES.FIXED_BPM:
+		bpm_map[0] = bpm_changes[0].bpm
+	else:
+		bpm_map[0] = 0
+	
+	var speed_changes = bpm_changes
+	speed_changes.append_array(timing_changes)
+	speed_changes.sort_custom(self, "_sort_notes_by_time")
+	
+	var current_bpm = timing_changes[0].bpm if timing_changes else 120
+	var current_bpm_change := HBBPMChange.new()
+	current_bpm_change.speed_factor = 100
+	for event in speed_changes:
+		if event is HBTimingChange:
+			current_bpm = event.bpm
 		
-	bpm_bsearch.time = bpm_time
-	var bpm_i := bpm_change_events.bsearch_custom(bpm_bsearch, self, "_sort_notes_by_time")
-	bpm_i = max(0, bpm_i-1)
+		if event is HBBPMChange:
+			current_bpm_change = event
+			
+			if current_bpm_change.usage == HBBPMChange.USAGE_TYPES.FIXED_BPM:
+				bpm_map[event.time] = current_bpm_change.bpm
+				continue
+		
+		if current_bpm_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+			bpm_map[event.time] = current_bpm * (current_bpm_change.speed_factor / 100.0)
 	
-	var bpm: HBBPMChange = bpm_change_events[bpm_i]
-	if bpm.time > bpm_time:
-		return base_bpm
+	timing_points.sort_custom(self, "_sort_notes_by_appear_time")
 	
-	return bpm_change_events[bpm_i].bpm
+	timing_points = _process_timing_points_into_groups(points)
+	last_hit_index = timing_points.size()
+	remove_all_notes_from_screen()
+
+# Previously get_bpm_at_time
+func get_note_speed_at_time(bpm_time: int) -> float:
+	if not bpm_map:
+		return 120.0
+	
+	var bpm_times = bpm_map.keys()
+	bpm_times.sort()
+	var idx = bpm_times.bsearch(bpm_time)
+	
+	if idx == bpm_times.size():
+		return bpm_map[bpm_times[idx - 1]]
+	
+	if bpm_times[idx] == bpm_time:
+		return bpm_map[bpm_time]
+	
+	idx = max(idx - 1, 0)
+	return bpm_map[bpm_times[idx]]
 
 func get_section_at_time(section_time):
 	var current_time = null
@@ -375,11 +426,14 @@ func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
 	var tb = 0
 	
 	if a is HBBaseNote:
-		ta = a.get_time_out(get_bpm_at_time(a.time))
+		ta = a.get_time_out(get_note_speed_at_time(a.time))
 	if b is HBBaseNote:
-		tb = b.get_time_out(get_bpm_at_time(b.time))
+		tb = b.get_time_out(get_note_speed_at_time(b.time))
 	
 	return (a.time - ta) > (b.time - tb)
+
+func _sort_notes_by_time(a: HBTimingPoint, b: HBTimingPoint):
+	return a.time < b.time
 
 # Stores playing field size in memory to mape remap_coords faster
 func cache_playing_field_size():
@@ -427,6 +481,7 @@ func _process_input(event):
 			unhandled_input_events_this_frame.append(event)
 func _input(event):
 	_process_input(event)
+<<<<<<< HEAD
 
 func _group_compare_start(a, b):
 	var a_time: int
@@ -505,6 +560,36 @@ func _process_groups():
 		if note_group.process_group(time_msec):
 			current_note_groups.erase(note_group)
 			finished_note_groups.append(note_group)
+=======
+func _process_note_group(group: NoteGroup):
+	var multi_notes = []
+	for i in range(group.notes.size()):
+		if group.hit_notes[i] == 1:
+			continue
+		var timing_point = group.notes[i] as HBBaseNote
+		if not timing_point in notes_on_screen:
+			# Prevent older notes from being re-created, although this shouldn't happen...
+			var time_out = timing_point.get_time_out(get_note_speed_at_time(timing_point.time))
+			if time * 1000.0 < (timing_point.time - time_out):
+				break
+			if judge.judge_note(time, (timing_point.time) / 1000.0) == judge.JUDGE_RATINGS.WORST:
+				break
+			create_note_drawer(timing_point)
+			# multi-note detection
+			if multi_notes.size() > 0:
+				if multi_notes[0].time == timing_point.time:
+					if timing_point is HBBaseNote and timing_point.is_multi_allowed():
+						multi_notes.append(timing_point)
+				elif multi_notes.size() > 1:
+					hookup_multi_notes(multi_notes)
+					multi_notes = [timing_point]
+				else:
+					multi_notes = [timing_point]
+			elif timing_point is HBBaseNote and timing_point.is_multi_allowed():
+				multi_notes.append(timing_point)
+	if multi_notes.size() > 1:
+		hookup_multi_notes(multi_notes)
+>>>>>>> c97be014 (Feature: Revamp the timeline system.)
 
 # We need to split _process into it's own function so we can override it because
 # godot is stupid and calls _process on both parent and child
@@ -548,7 +633,8 @@ func _process_game(_delta):
 						var drw = group.note_drawers.get(note, null)
 						if drw:
 							drawers.append(drw)
-					modifier._process_note(drawers, time, get_bpm_at_time(time))
+					modifier._process_note(drawers, time, get_note_speed_at_time(time))
+	
 	emit_signal("time_changed", time)
 	
 	var new_closest_multi_notes = []
@@ -924,7 +1010,9 @@ func _notification(what):
 			for note in c:
 				if not c[note].is_queued_for_deletion():
 					c[note].queue_free()
+		
 		editor_clear_notes()
+
 # Tracks a sound and auto frees it when its finished
 func track_sound(sound: ShinobuSoundPlayer):
 	add_child(sound)
@@ -1047,3 +1135,7 @@ func is_sound_debounced(sound_name: String):
 
 func debounce_sound(sound_name: String):
 	sfx_debounce_times[sound_name] = SFX_DEBOUNCE_TIME
+
+func set_timing_changes(p_timing_changes):
+	timing_changes = p_timing_changes
+	timing_changes.sort_custom(self, "_sort_notes_by_time")

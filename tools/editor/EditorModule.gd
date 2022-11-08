@@ -75,7 +75,7 @@ func update_shortcuts():
 			
 			button.update_shortcut(ev_text)
 
-func get_event_text(event: InputEvent):
+func get_event_text(event: InputEvent) -> String:
 	var text = ""
 	
 	if event is InputEventKey:
@@ -108,20 +108,42 @@ func timing_information_changed():
 func sync_inspector_values():
 	editor.inspector.sync_visible_values_with_data()
 
-func get_layers():
+func get_layers() -> Array:
 	return editor.timeline.get_layers()
 
-func get_playhead_position():
+func get_playhead_position() -> int:
 	return editor.playhead_position
 
-func get_selected():
+func get_selected() -> Array:
 	return editor.selected
 
-func get_timing_interval(note_resolution=null):
-	return editor.get_timing_interval(note_resolution)
+func get_timing_map() -> Array:
+	return editor.get_timing_map()
 
-func get_bpm():
-	return editor.get_bpm()
+func get_normalized_timing_map() -> Array:
+	return editor.get_normalized_timing_map()
+
+func get_signature_map() -> Array:
+	return editor.get_signature_map()
+
+func get_metronome_map() -> Array:
+	return editor.get_metronome_map()
+
+func get_timing_info_at_time(time: int) -> HBTimingChange:
+	for timing_change in editor.get_timing_changes():
+		if timing_change.data.time <= time:
+			return timing_change.data
+	
+	return null
+
+func upper_bound(array: Array, value: int) -> int:
+	return editor._upper_bound(array, value)
+
+func closest_bound(array: Array, value: int) -> int:
+	return editor._closest_bound(array, value)
+
+func linear_bound(array: Array, value: int) -> float:
+	return editor._linear_bound(array, value)
 
 func get_song_settings():
 	return editor.song_editor_settings

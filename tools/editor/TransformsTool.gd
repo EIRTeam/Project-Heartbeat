@@ -192,10 +192,10 @@ class IncrementAnglesTransform:
 		return a.time < b.time
 	
 	func get_beat_diff(a: HBBaseNote, b: HBBaseNote):
-		var time_diff = a.time - b.time
-		var timing_interval = editor.get_timing_interval(1.0/16.0) * 2
+		var timing_map = editor.get_normalized_timing_map()
+		var time_diff = editor._linear_bound(timing_map, a.time) - editor._linear_bound(timing_map, b.time)
 		
-		return round(float(time_diff) / float(timing_interval))
+		return time_diff
 	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
@@ -368,11 +368,13 @@ class MakeCircleTransform:
 		var start_rev = 0.0
 		var center
 		
+		var normalized_timing_map = editor.get_normalized_timing_map()
+		
 		if start_note < notes.size():
-			time_offset = notes[start_note].time
+			time_offset = editor._linear_bound(normalized_timing_map, notes[start_note].time)
 			center = notes[start_note].position
 		else:
-			time_offset = notes[0].time
+			time_offset = editor._linear_bound(normalized_timing_map, notes[0].time)
 			center = notes[0].position
 		
 		if center.y > 540:
@@ -382,20 +384,17 @@ class MakeCircleTransform:
 			center.y += radius
 		
 		var angle_offset = (start_rev + 0.75) * TAU
-		var beats_per_circle = ceil(eigths_per_circle / 2.0)
-		var ms_per_beat = 60 * 1000 / editor.get_bpm()
 		
 		for n in notes:
-			# Beat of the current note
-			var t = n.time - time_offset - sustain_compensation
-			var beat = t / ms_per_beat
+			# Time of the current note, as an eight
+			var t = editor._linear_bound(normalized_timing_map, n.time) - time_offset - sustain_compensation
 			
 			# Compensate for sustain notes
 			if n is HBSustainNote:
-				sustain_compensation += n.end_time - n.time
+				sustain_compensation += editor._linear_bound(normalized_timing_map, n.end_time) - editor._linear_bound(normalized_timing_map, n.time)
 			
 			# Angle in the circle (in revolutions)
-			var angle = beat / beats_per_circle * TAU
+			var angle = t / float(eigths_per_circle) * TAU
 			angle *= direction
 			angle += angle_offset
 			

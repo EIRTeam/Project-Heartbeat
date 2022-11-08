@@ -62,6 +62,7 @@ var serializable_types = {
 	"DoubleNote": load("res://scripts/timing_points/HBDoubleNote.gd"),
 	"SustainNote": load("res://scripts/timing_points/HBSustainNote.gd"),
 	"BpmChange": load("res://scripts/timing_points/HBBPMChange.gd"),
+	"TimingChange": load("res://scripts/timing_points/HBTimingChange.gd"),
 	"Song": load("res://scripts/HBSong.gd"),
 	"Result": load("res://scripts/HBResult.gd"),
 	"UserSettings": load("res://scripts/HBUserSettings.gd"),

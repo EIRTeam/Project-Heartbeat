@@ -204,4 +204,5 @@ margin_bottom = 20.0
 expand = true
 
 [connection signal="item_rect_changed" from="VBoxContainer/HBoxContainer" to="." method="_on_HBoxContainer_item_rect_changed"]
+[connection signal="double_click" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_double_click"]
 [connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]

@@ -40,11 +40,14 @@ func get_serialized_type():
 
 func _init():
 	serializable_fields += [
-		"hidden_layers", "bpm", "offset", "beats_per_bar", "note_resolution", "timeline_snap", 
+		"hidden_layers", "note_resolution", "timeline_snap", 
 		"auto_multi", "waveform", "show_video", "show_bg", "selected_variant", 
 		"grid_snap", "show_grid",
-		"separation", "diagonal_angle", "autoslide", "autoplace", "autoangle", "angle_snaps",
+		"separation", "autoslide", "autoplace", "autoangle", "angle_snaps",
 		"circle_size", "circle_separation"
+	]
+	deprecated_fields += [
+		 "bpm", "offset", "beats_per_bar",
 	]
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_RIGHT) + "2")
 	hidden_layers.append(HBUtils.find_key(HBNoteData.NOTE_TYPE, HBNoteData.NOTE_TYPE.SLIDE_LEFT) + "2")

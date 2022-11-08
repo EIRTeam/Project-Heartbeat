@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/editor/inspector_types/time_signature.gd" type="Script" id=1]
+[ext_resource path="res://tools/editor/HBEditorMultiSpinBox.gd" type="Script" id=2]
+
+[node name="TimeSignature" type="HBoxContainer"]
+margin_right = 26.0
+alignment = 1
+script = ExtResource( 1 )
+
+[node name="NumeratorSpinbox" type="MultiSpinBox" parent="."]
+margin_right = 74.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+inner_property_name = "numerator"
+min = 1.0
+align = 2
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 78.0
+margin_top = 5.0
+margin_right = 83.0
+margin_bottom = 19.0
+text = "/"
+
+[node name="DenominatorSpinbox" type="MultiSpinBox" parent="."]
+margin_left = 87.0
+margin_right = 161.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+inner_property_name = "denominator"
+min = 1.0
+script = ExtResource( 2 )

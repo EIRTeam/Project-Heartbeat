@@ -58,7 +58,6 @@ var scale = 1.5 # Seconds per 500 pixels
 var selected: Array = []
 var copied_points: Array = []
 
-var bpm = 150 setget set_bpm, get_bpm
 var current_song: HBSong
 var current_difficulty: String
 var snap_to_grid_enabled = true
@@ -69,20 +68,20 @@ var undo_redo = UndoRedo.new()
 
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 	
-var plugins = []
+var plugins := []
 
 var contextual_menu = HBEditorContextualMenuControl.new()
 onready var fine_position_timer = Timer.new()
 
-var current_notes = []
+var current_notes := []
 
-var _removed_items = [] # So we can queue_free removed nodes when freeing the editor
+var _removed_items := [] # So we can queue_free removed nodes when freeing the editor
 
 var playtesting := false
 
 var _playhead_traveling := false
 
-var hold_ends = []
+var hold_ends := []
 
 var timing_point_creation_queue := []
 
@@ -91,14 +90,16 @@ var ui_module_locations = {
 	"right_panel": "VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer",
 }
 
-var modules = []
+var modules := []
 var sync_module
 
-func set_bpm(value):
-	sync_module.set_bpm(value)
+var timing_changes := []
+var timing_map := []
+var normalized_timing_map := []
+var signature_map := []
+var metronome_map := []
 
-func get_bpm():
-	return sync_module.get_bpm() if sync_module else 150
+var seek_debounce_timer = Timer.new()
 
 func _sort_current_items_impl(a, b):
 	return a.data.time < b.data.time
@@ -220,6 +221,11 @@ func _ready():
 	botton_panel_vbox_container.split_offset = UserSettings.user_settings.editor_bottom_panel_offset
 	left_panel_vbox_container.split_offset = UserSettings.user_settings.editor_left_panel_offset
 	right_panel_vbox_container.split_offset = UserSettings.user_settings.editor_right_panel_offset
+	
+	add_child(seek_debounce_timer)
+	seek_debounce_timer.wait_time = UserSettings.user_settings.editor_scroll_timeout
+	seek_debounce_timer.one_shot = true
+	seek_debounce_timer.connect("timeout", self, "_seek")
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -345,6 +351,38 @@ func get_items_at_time(time: int):
 			break
 	return items
 
+# From cppreference
+func _upper_bound(array: Array, value: int) -> int:
+	var count = array.size() - 1
+	var idx = 0
+	
+	while count > 0:
+		var step = count / 2
+		
+		if value >= array[idx + step]:
+			idx += step + 1
+			count -= step + 1
+		else:
+			count = step
+	
+	return idx
+
+func _closest_bound(array: Array, value: int) -> int:
+	var idx := array.bsearch(value)
+	
+	if idx == 0 or idx == array.size() or abs(array[idx] - value) < abs(array[idx - 1] - value):
+		return idx
+	else:
+		return idx - 1
+
+func _linear_bound(array: Array, value: int) -> float:
+	var idx := array.bsearch(value)
+	
+	if idx + 1 == array.size() or array[idx] == value or array[idx] == array[idx + 1]:
+		return float(idx)
+	
+	var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
+	return idx + decimal
 
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
@@ -451,19 +489,15 @@ func _unhandled_input(event: InputEvent):
 		var old_pos = playhead_position
 		
 		if event.is_action("editor_move_playhead_left", true) and event.pressed:
-			playhead_position -= get_timing_interval()
-			playhead_position = snap_time_to_timeline(playhead_position)
-			
-			emit_signal("playhead_position_changed")
-			timeline.ensure_playhead_is_visible()
+			var idx = max(get_timing_map().bsearch(playhead_position) - 1, 0)
+			playhead_position = get_timing_map()[idx]
 		elif event.is_action("editor_move_playhead_right", true) and event.pressed:
-			playhead_position += get_timing_interval()
-			playhead_position = snap_time_to_timeline(playhead_position)
-			
+			var idx = _upper_bound(get_timing_map(), playhead_position)
+			playhead_position = get_timing_map()[idx]
+		
+		if old_pos != playhead_position:
 			emit_signal("playhead_position_changed")
 			timeline.ensure_playhead_is_visible()
-			
-		if old_pos != playhead_position:
 			seek(playhead_position)
 	
 	if event is InputEventKey and not event.is_action_pressed("editor_play"):
@@ -716,6 +750,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 	
+	var sync_timing := false
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data and property_name in old_property_values[selected_item]:
@@ -723,6 +758,9 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					if selected_item.data is HBSustainNote:
 						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
 						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
+					
+					if selected_item.data is HBTimingChange:
+						sync_timing = true
 					
 					var autoplaced_position = null
 					if selected_item.data is HBBaseNote and song_editor_settings.autoplace and not selected_item.data.pos_modified:
@@ -732,7 +770,8 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
 						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
 					
-					check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name], autoplaced_position)
+					if selected.size() != current_notes.size():
+						check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name], autoplaced_position)
 				
 				if property_name == "position":
 					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
@@ -741,14 +780,17 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
 				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_do_method(selected_item, "sync_value", property_name)
-
+				
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
 				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
+				
+				if property_name != "time" or selected_item.data is HBSustainNote:
+					undo_redo.add_do_method(selected_item, "update_widget_data")
+					undo_redo.add_do_method(selected_item, "sync_value", property_name)
+					
+					undo_redo.add_undo_method(selected_item, "update_widget_data")
+					undo_redo.add_undo_method(selected_item, "sync_value", property_name)
 			
 			old_property_values[selected_item].erase(property_name)
 
@@ -759,20 +801,31 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	
 	if property_name == "time":
 		undo_redo.add_do_method(self, "sort_current_items")
+		
 		for selected_item in selected:
 			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
+		
 		undo_redo.add_do_method(self, "_cache_hold_ends")
 		undo_redo.add_undo_method(self, "_cache_hold_ends")
 	elif property_name == "hold":
 		undo_redo.add_do_method(self, "_cache_hold_ends")
 		undo_redo.add_undo_method(self, "_cache_hold_ends")
+	
 	undo_redo.add_do_method(self, "force_game_process")
 	undo_redo.add_undo_method(self, "force_game_process")
+	
+	if property_name == "bpm" or property_name == "time_signature" or sync_timing:
+		undo_redo.add_do_method(self, "_on_timing_information_changed")
+		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+	
 	if create_action:
 		undo_redo.commit_action()
+	
+	old_property_values.clear()
 	inspector.sync_value(property_name)
 	release_owned_focus()
+
 # Handles when a user changes a timing point's property, this is used for properties
 # that won't constantly change
 func _on_timing_point_property_changed(property_name: String, old_value, new_value, child: EditorTimelineItem, affects_timing_points = false):
@@ -785,9 +838,14 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 	undo_redo.add_undo_property(child.data, property_name, old_value)
 	undo_redo.add_undo_method(child._layer, "place_child", child)
 	
-	if property_name == "position" or property_name:
+	if property_name == "position":
 		undo_redo.add_do_method(child, "update_widget_data")
 		undo_redo.add_undo_method(child, "update_widget_data")
+	
+	if  property_name == "bpm" or property_name == "time_signature" or \
+		(property_name == "time" and child.data is HBTimingChange):
+		undo_redo.add_do_method(self, "_on_timing_information_changed")
+		undo_redo.add_undo_method(self, "_on_timing_information_changed")
 	
 	undo_redo.commit_action()
 	inspector.sync_visible_values_with_data()
@@ -803,6 +861,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 				if l.layer_name == note_type_string:
 					l.drop_data(null, selected)
 					break
+
 func add_item_to_layer(layer, item: EditorTimelineItem):
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
@@ -854,15 +913,23 @@ func _on_game_playback_time_changed(time: float):
 			timeline.set_layers_offset(target_offset)
 		
 
-func seek(value: int, snapped = false):
-	if snapped:
+func seek(value: int, force = false):
+	if not UserSettings.user_settings.editor_smooth_scroll:
 		value = snap_time_to_timeline(value)
+	
 	game_playback.seek(value)
-	if not game_playback.is_playing():
-		game_preview.set_time(value / 1000.0)
+	if (not game_playback.is_playing()) and (not force) and UserSettings.user_settings.editor_smooth_scroll:
+		_seek_value = value
+		seek_debounce_timer.wait_time = UserSettings.user_settings.editor_scroll_timeout
+		seek_debounce_timer.start(0)
+	elif not game_playback.is_playing():
+		game_preview.set_time(_seek_value / 1000.0)
 	else:
 		game_preview.play_at_pos(value / 1000.0)
 
+var _seek_value: int
+func _seek():
+	game_preview.set_time(_seek_value / 1000.0)
 
 func copy_selected():
 	if selected.size() > 0:
@@ -927,6 +994,7 @@ func delete_selected():
 		
 		message_shower._show_notification("Delete notes")
 		
+		var sync_timing := false
 		var deleted_items = selected
 		for selected_item in selected:
 			selected_item.deselect()
@@ -938,10 +1006,18 @@ func delete_selected():
 				undo_redo.add_do_method(timeline, "update")
 				undo_redo.add_undo_method(timeline, "update")
 			
+			if selected_item.data is HBTimingChange:
+				sync_timing = true
+			
 			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
 			
 		undo_redo.add_do_method(self, "sync_lyrics")
 		undo_redo.add_undo_method(self, "sync_lyrics")
+		
+		if sync_timing:
+			undo_redo.add_do_method(self, "_on_timing_information_changed")
+			undo_redo.add_undo_method(self, "_on_timing_information_changed")
+		
 		selected = []
 		undo_redo.commit_action()
 
@@ -1085,9 +1161,11 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 		item.data = autoplace(item.data)
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
-
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
+	
+	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
 	if item is EditorSectionTimelineItem:
 		undo_redo.add_do_method(timeline, "update")
@@ -1095,8 +1173,12 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	
 	check_for_multi_changes(item.data, -1)
 	
+	if item.data is HBTimingChange:
+		undo_redo.add_do_method(self, "_on_timing_information_changed")
+		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+	
 	undo_redo.commit_action()
-			
+
 func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
@@ -1142,7 +1224,7 @@ func _on_PlayButton_pressed():
 	
 # Fired when any timing point is tells the game to rethink its existence
 func _on_timing_points_changed():
-#	game_playback.chart = get_chart()
+	_on_PauseButton_pressed()
 	emit_signal("timing_points_changed")
 
 func _on_timing_points_params_changed():
@@ -1161,7 +1243,7 @@ func get_chart():
 	chart.editor_settings = song_editor_settings
 	var layers = []
 	for layer in layer_items:
-		if layer.layer_name in ["Lyrics", "Sections"]:
+		if layer.layer_name in ["Lyrics", "Sections", "Tempo Map"]:
 			continue
 		layers.append({
 			"name": layer.layer_name,
@@ -1230,7 +1312,7 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		
 		song_settings_editor.add_layer(layer.name, layer_visible)
 		timeline.change_layer_visibility(layer_visible, layer.name)
-		
+	
 	# Lyrics layer
 	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
 	lyrics_layer_scene.layer_name = "Lyrics"
@@ -1241,7 +1323,6 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	timeline.add_layer(lyrics_layer_scene)
 	timeline.change_layer_visibility(lyrics_layer_visible, lyrics_layer_scene.layer_name)
 	song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
-	
 	
 	# Sections layer
 	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
@@ -1254,8 +1335,18 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	timeline.change_layer_visibility(sections_layer_visible, sections_layer_scene.layer_name)
 	song_settings_editor.add_layer("Sections", sections_layer_visible)
 	
-	var lyrics_layer_n = timeline.get_layers().size() - 2
-	var sections_layer_n = timeline.get_layers().size() - 1
+	# Timing changes layer
+	var tempo_layer_scene = EDITOR_LAYER_SCENE.instance()
+	tempo_layer_scene.layer_name = "Tempo Map"
+	var tempo_layer_visible = true
+	
+	timeline.add_layer(tempo_layer_scene)
+	timeline.change_layer_visibility(tempo_layer_visible, tempo_layer_scene.layer_name)
+	song_settings_editor.add_layer(tempo_layer_scene.layer_name, tempo_layer_visible)
+	
+	var lyrics_layer_n = timeline.get_layers().size() - 3
+	var sections_layer_n = timeline.get_layers().size() - 2
+	var tempo_layer_n = timeline.get_layers().size() - 1
 	
 	for phrase in current_song.lyrics:
 		if phrase is HBLyricsPhrase:
@@ -1275,8 +1366,15 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		if section is HBChartSection:
 			add_item(sections_layer_n, section.get_timeline_item())
 	
+	for timing_change in current_song.timing_changes:
+		if timing_change is HBTimingChange:
+			add_item(tempo_layer_n, timing_change.get_timeline_item())
+	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
+	
+	_on_timing_points_changed()
+	
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
@@ -1325,8 +1423,6 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 func load_song(song: HBSong, difficulty: String):
 	deselect_all()
 	
-	rhythm_game.base_bpm = song.bpm
-#	copied_points = []
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
 	var dir = Directory.new()
@@ -1339,7 +1435,7 @@ func load_song(song: HBSong, difficulty: String):
 		if chart_json.error == OK:
 			var result = chart_json.result
 			chart = HBChart.new()
-			chart.deserialize(result)
+			chart.deserialize(result, song)
 	current_song = song
 	
 	HBGame.rich_presence.update_activity({
@@ -1352,13 +1448,12 @@ func load_song(song: HBSong, difficulty: String):
 	rhythm_game_playtest_popup.rhythm_game.voice_audio_playback = null
 	remove_child(rhythm_game_playtest_popup)
 	update_media()
-	seek(0)
+	seek(0, true)
 	timeline.set_layers_offset(0)
 	playback_speed_slider.value = 1.0
 	
 	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
-	sync_module.set_bpm(song.bpm)
 	from_chart(chart)
 	current_difficulty = difficulty
 	current_difficulty = difficulty
@@ -1399,22 +1494,93 @@ func _on_ExitDialog_confirmed():
 	OS.window_maximized = false
 	UserSettings.apply_display_mode()
 
-func get_beats_per_bar():
-	return sync_module.get_signature() if sync_module else 4
-
-func get_note_resolution():
-	return 1 / sync_module.get_resolution() if sync_module else 1/16.0
-
 func release_owned_focus():
 	$FocusTrap.grab_focus()
 
-func get_note_snap_offset():
-	return sync_module.get_offset() if sync_module else 0.0
+func get_note_resolution() -> float:
+	return 1 / sync_module.get_resolution() if sync_module else 1/16.0
 
+func get_timing_changes() -> Array:
+	return timing_changes
+
+func get_timing_map() -> Array:
+	return timing_map
+
+func get_normalized_timing_map() -> Array:
+	return normalized_timing_map
+
+func get_signature_map() -> Array:
+	return signature_map
+
+func get_metronome_map() -> Array:
+	return metronome_map
+
+# We need to go the long way round to prevent weird rounding issues
+func map_intervals(obj: Array, start: int, end: int, interval: float):
+	var diff = end - start
+	for i in range(diff / interval + 1, 0, -1):
+		obj.append(int(start + (i - 1) * interval))
+
+# Music theory fucking sucks.
+# 
+# A grid beat is determined by the specific subdivision, which might or might not be the same
+# as the subdivisions marked by our time signature. This means that the yellow bars (bars) *might*
+# not line up with the gray ones (beats), and so we only care about the beats. The charter is the
+# one responsible for setting an appropiate subdivision, allthough most common ones should line up
+# nicely.
+#
+# Also, the "beats" in beats-per-minute are actually the same "beats" in beats-per-bar, so the denominator
+# part of the time signature *will* affect when the beat plays. We will make the assumption that bpms are
+# labeled according to a time signature of 4/4, and charters *will* follow it, because Im a dictator with
+# wet dreams about power. And also because this is stupid and I cant anymore.
+# 
+# *sigh* Im sorry, future me -.- (Lino 9/10/22)
 func _on_timing_information_changed(f=null):
+	timing_changes.clear()
+	timing_map.clear()
+	normalized_timing_map.clear()
+	signature_map.clear()
+	metronome_map.clear()
+	
+	var _timing_changes = []
+	for item in get_timeline_items():
+		if item.data is HBTimingChange:
+			timing_changes.append(item)
+			_timing_changes.append(item.data)
+	
+	game_playback.game.timing_changes = _timing_changes
+	
+	timing_changes.sort_custom(self, "_sort_current_items_impl")
+	timing_changes.invert()
+	
+	var end_t = get_song_length() * 1000
+	for item in timing_changes:
+		var timing_change = item.data as HBTimingChange
+		
+		var ms_per_beat: float = (60.0 / timing_change.bpm) * 1000.0 * 4 * get_note_resolution()
+		map_intervals(timing_map, timing_change.time, end_t, ms_per_beat)
+		
+		var ms_per_eight: float = (60.0 / timing_change.bpm) * 1000.0 * 4 / 8.0
+		map_intervals(normalized_timing_map, timing_change.time, end_t, ms_per_eight)
+		
+		var ms_per_bar: float = (60.0 / timing_change.bpm) * 1000.0 * \
+			4 * (float(timing_change.time_signature.numerator) / float(timing_change.time_signature.denominator))
+		map_intervals(signature_map, timing_change.time, end_t, ms_per_bar)
+		
+		var ms_per_metronome_beat: float = (60.0 / timing_change.bpm) * 1000.0 * \
+			4 * (1 / float(timing_change.time_signature.denominator))
+		map_intervals(metronome_map, timing_change.time, end_t, ms_per_metronome_beat)
+		
+		end_t = timing_change.time
+	
+	timing_map.invert()
+	normalized_timing_map.invert()
+	signature_map.invert()
+	
 	release_owned_focus()
 	timeline.update()
 	emit_signal("timing_information_changed")
+	emit_signal("_on_timing_points_changed")
 
 
 func _on_SaveButton_pressed():
@@ -1425,15 +1591,21 @@ func _on_SaveButton_pressed():
 	file.store_string(JSON.print(chart.serialize(), "  "))
 	file.close()
 	
+	current_song.timing_changes = []
+	for item in get_timing_changes():
+		current_song.timing_changes.append(item.data)
+	
 	current_song.lyrics = get_lyrics()
 	current_song.sections = get_sections()
 	current_song.charts[current_difficulty]["note_usage"] = chart.get_note_usage()
 	current_song.has_audio_loudness = true
 	current_song.audio_loudness = SongDataCache.audio_normalization_cache[current_song.id].loudness
+	
 	for difficulty in current_song.charts:
 		current_song.charts[difficulty]["hash"] = current_song.generate_chart_hash(difficulty)
 		var curr_chart = current_song.get_chart_for_difficulty(difficulty) as HBChart
 		current_song.charts[difficulty]["max_score"] = curr_chart.get_max_score()
+	
 	current_song.save_song()
 	message_shower._show_notification("Chart saved")
 	
@@ -1475,27 +1647,10 @@ func _on_TimelineGridSnapButton_toggled(button_pressed):
 	timeline_snap_enabled = button_pressed
 	song_editor_settings.set("timeline_snap", button_pressed)
 
-func get_timing_interval(note_resolution=null):
-	if not note_resolution:
-		note_resolution = get_note_resolution()
-	
-	var bars_per_minute = get_bpm() / float(get_beats_per_bar())
-	var seconds_per_bar = 60.0/bars_per_minute
-	
-	var beat_length = seconds_per_bar / float(get_beats_per_bar())
-	var note_length = 1.0/4.0 # a quarter of a beat
-	var interval = (note_resolution / note_length) * beat_length
-	interval = interval * 1000.0
-	
-	return interval
-
-func snap_time_to_timeline(time):
-	if timeline_snap_enabled:
-		var interval = get_timing_interval()
-		time -= get_note_snap_offset()*1000.0
-		var n = time / float(interval)
-		n = round(n)
-		return n*interval + get_note_snap_offset()*1000.0
+func snap_time_to_timeline(time: int) -> int:
+	var map = get_timing_map()
+	if timeline_snap_enabled and map:
+		return map[_closest_bound(map, time)]
 	else:
 		return time
 
@@ -1658,8 +1813,7 @@ func autoplace(data: HBBaseNote, force=false):
 		return
 	var new_data = data.clone() as HBBaseNote
 	
-	var interval = get_timing_interval(1.0/16.0) * 2
-	var time_as_eight = stepify((data.time - sync_module.get_offset() * 1000.0) / interval, 0.01)
+	var time_as_eight = _linear_bound(get_normalized_timing_map(), data.time)
 	time_as_eight = fmod(time_as_eight, 15.0)
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)

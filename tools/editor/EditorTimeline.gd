@@ -42,7 +42,6 @@ var modifier_textures = {
 	SELECT_MODE.TOGGLE: load("res://graphics/invert-circle-outline.svg"),
 }
 
-
 func set_editor(ed):
 	editor = ed
 	minimap.editor = ed
@@ -57,7 +56,7 @@ func _ready():
 	scroll_container.connect("offset_right", self, "_on_offset_right")
 	connect("time_cull_changed", minimap, "_on_time_cull_changed")
 	minimap.connect("offset_changed", self, "set_layers_offset")
-	
+
 func _on_offset_left():
 	set_layers_offset(_offset - 200)
 
@@ -96,82 +95,70 @@ func _on_viewport_size_changed():
 	update()
 	set_layers_offset(_offset)
 	send_time_cull_changed_signal()
-	
+
 # Draw timeline yellow bars and time positions
-func _draw_bars(interval, offset=0):
-	var lines = int(editor.get_song_length() / interval)
-	lines -= ceil(offset / interval)
+# We iterate over these backwards to clip numbers correctly
+func _draw_bars(map: Array, start_idx: int, end_idx: int):
 	var draw_every = 1.0
 	if editor.scale > 5.0:
 		draw_every = 2.0
-	var start_time = _offset / 1000.0
-	start_time -= offset
 	
-	var start_line = max(int(start_time / interval), 0)
-	for line in range(start_line, lines+1):
-		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos())
-		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
-
-		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
-		if starting_rect_pos.x < 0:
-			continue
-		elif starting_rect_pos.x > rect_size.x:
-			break
-		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
-			continue
+	var last_x_pos = null
+	for i in range(end_idx - 1, start_idx - 1, -1):
+		var pos_msec = map[i]
+		
+		var starting_rect_pos = Vector2(playhead_area.rect_position.x + layers.rect_position.x, get_playhead_area_y_pos() + playhead_area.rect_size.y - TIME_LABEL.get_height())
+		starting_rect_pos += Vector2(editor.scale_msec(pos_msec), 0)
+		var clip_w = last_x_pos - starting_rect_pos.x if last_x_pos else -1
+		
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color("timeline_separator_bar", "PHEditor"), 1.0, false)
-		if fmod(line, draw_every) == 0:
-			var time_string = HBUtils.format_time(line*interval*1000.0, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
-			draw_string(TIME_LABEL, starting_rect_pos + Vector2(10, 35), time_string)
-	
+		
+		if fmod(i, draw_every) == 0:
+			var time_string = HBUtils.format_time(pos_msec, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS | HBUtils.TimeFormat.FORMAT_MILISECONDS)
+			draw_string(TIME_LABEL, starting_rect_pos + Vector2(5, TIME_LABEL.get_height() - 5), time_string, Color.white, clip_w)
+		
+			# Leave at least 3px of breathing space
+			last_x_pos = starting_rect_pos.x - 3
+
 # Draw timeline grey and white bars
-func _draw_interval(interval, offset=0, ignore_interval=null):
-	var lines = int(editor.get_song_length() / interval)
-	lines -= ceil(offset / interval)
-	var start_time = _offset / 1000.0
-	start_time -= offset
-	
-	var start_line = max(int(start_time / interval), 0)
-	for line in range(start_line, lines+1):
-		var starting_rect_pos = Vector2(playhead_area.rect_position.x, get_playhead_area_y_pos() + 10)
-		starting_rect_pos.x += layers.rect_position.x + editor.scale_msec((offset)*1000)
-		starting_rect_pos += Vector2(editor.scale_msec((line*interval)*1000), 0)
+func _draw_beats(map: Array, bar_map: Array, start_idx: int, end_idx: int):
+	for i in range(start_idx, end_idx):
+		var pos_msec = map[i]
 		
-		var pos_sec = line*interval
+		var starting_rect_pos = Vector2(playhead_area.rect_position.x + layers.rect_position.x, get_playhead_area_y_pos() + playhead_area.rect_size.y)
+		starting_rect_pos += Vector2(editor.scale_msec(pos_msec), 0)
 		
-		if starting_rect_pos.x < 0:
+		if bar_map.has(pos_msec):
 			continue
-		elif starting_rect_pos.x > rect_size.x:
-			break
 		
-		if abs(_offset) - (offset * 1000.0) > (line*interval) * 1000.0:
-			continue
-		if ignore_interval and ignore_interval > 0:
-			if is_equal_approx(fmod(pos_sec, ignore_interval), 0) or line == 0:
-				continue
-		
-		var color_name = "timeline_separator_odd" if line % 2 else "timeline_separator_even"
+		var color_name = "timeline_separator_odd" if i % 2 else "timeline_separator_even"
 		draw_line(starting_rect_pos, starting_rect_pos + Vector2(0, rect_size.y), get_color(color_name, "PHEditor"), 1.0, false)
-	
+
 func _draw_timing_lines():
-	var bars_per_minute = editor.bpm / float(editor.get_beats_per_bar())
-	var seconds_per_bar = 60/bars_per_minute
+	var timing_map = editor.get_timing_map()
+	var signature_map = editor.get_signature_map()
 	
-	var beat_length = seconds_per_bar / float(editor.get_beats_per_bar())
-	var note_length = 1.0/4.0 # a quarter of a beat
-	var interval = (editor.get_note_resolution() / note_length) * beat_length
+	if not timing_map:
+		return
 	
-	_draw_interval(interval, editor.get_note_snap_offset(), seconds_per_bar)
-	_draw_bars(seconds_per_bar, editor.get_note_snap_offset())
-	#_draw_timing_line_interval(5, 0.75, 2.5)
-	#_draw_timing_line_interval(5, 0.75, 2.5)
+	var start_t = _offset
+	var end_t = start_t + editor.scale_pixels(playhead_area.rect_position.x + playhead_area.rect_size.x)
 	
+	var start_beat_idx = timing_map.bsearch(start_t)
+	var end_beat_idx = timing_map.bsearch(end_t)
+	var start_bar_idx = signature_map.bsearch(start_t)
+	var end_bar_idx = signature_map.bsearch(end_t)
+	
+	_draw_beats(timing_map, signature_map, start_beat_idx, end_beat_idx)
+	_draw_bars(signature_map, start_bar_idx, end_bar_idx)
+
 func _draw():
 	_draw_area_select()
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
 	_draw_timing_lines()
 	_draw_playhead()
 	_draw_sections()
+	_draw_timing_changes()
 
 func get_playhead_area_y_pos():
 	return playhead_container.rect_position.y - playhead_area.rect_size.y
@@ -192,6 +179,7 @@ func _draw_playhead():
 		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
 		
 		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red, PoolVector2Array(), null, null, true)
+
 func _draw_sections():
 	if not editor.current_song:
 		return
@@ -223,6 +211,38 @@ func _draw_sections():
 		
 		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), section.color, PoolVector2Array(), null, null, true)
 
+var timing_changes_x_map = {}
+func _draw_timing_changes():
+	timing_changes_x_map.clear()
+	
+	var last_x_pos = null
+	for item in editor.get_timing_changes():
+		var timing_change = item.data as HBTimingChange
+		
+		var tempo_info = "%.2f BPM; %d/%d" % [timing_change.bpm, timing_change.time_signature.numerator, timing_change.time_signature.denominator]
+		
+		# Always show something at least one on the timeline
+		if timing_change.time < _offset:
+			var x_pos = playhead_area.rect_position.x
+			var clip_w = last_x_pos - x_pos if last_x_pos else -1
+			draw_string(TIME_LABEL, Vector2(x_pos, get_playhead_area_y_pos() + TIME_LABEL.get_height()), tempo_info, Color.white, clip_w)
+			
+			last_x_pos = x_pos
+			timing_changes_x_map[x_pos] = item
+			break
+		
+		var x_pos = playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(timing_change.time)
+		if x_pos < playhead_area.rect_position.x or x_pos > playhead_area.rect_position.x + playhead_area.rect_size.x:
+			continue
+		var clip_w = last_x_pos - x_pos if last_x_pos else -1
+		
+		draw_line(Vector2(x_pos, 0), Vector2(x_pos, playhead_container.rect_position.x), Color.purple)
+		draw_string(TIME_LABEL, Vector2(x_pos, get_playhead_area_y_pos() + TIME_LABEL.get_height()), tempo_info, Color.white, clip_w)
+		
+		# Leave at least 3px of breathing space
+		last_x_pos = x_pos - 3
+		timing_changes_x_map[x_pos] = item
+
 func add_layer(layer):
 	layer.editor = editor
 	layers.add_child(layer)
@@ -251,7 +271,18 @@ func update_layer_styles():
 		visible_layers[i].set_style(i % 2 == 0)
 
 func _on_PlayheadArea_mouse_x_input(value):
-	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0), true)
+	editor.seek(clamp(editor.scale_pixels(int(value)) + _offset, _offset, editor.get_song_length()*1000.0))
+
+func _on_PlayheadArea_double_click():
+	var current_item = null
+	var x_pos = get_local_mouse_position().x
+	for item_x_pos in timing_changes_x_map:
+		if item_x_pos <= x_pos:
+			current_item = timing_changes_x_map[item_x_pos]
+			break
+	
+	if current_item:
+		editor.select_item(current_item)
 
 func _on_playhead_position_changed():
 	update()
@@ -395,7 +426,6 @@ func _draw_area_select():
 		mouse_position.y = clamp(mouse_position.y, bounds.position.y, bounds.position.y + bounds.size.y)
 		mouse_position = get_global_transform().affine_inverse().xform(mouse_position) # Make local
 		
-		var origin = _area_select_start
 		var size = mouse_position - _area_select_start
 		var rect = Rect2(_area_select_start, size)
 		

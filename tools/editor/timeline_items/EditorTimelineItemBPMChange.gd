@@ -12,14 +12,36 @@ func _init():
 func get_editor_size():
 	return Vector2(50, rect_size.y)
 
+# Allow editing one at a time
 func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), {
-		"bpm": {
-			"type": "int",
+		"usage": {
+			"type": "list",
 			"params": {
-				"min": 1
+				"name": "Speed calculation method",
+				"values": {
+					"Automatic": HBBPMChange.USAGE_TYPES.AUTO_BPM,
+					"Fixed": HBBPMChange.USAGE_TYPES.FIXED_BPM,
+				},
+				"affects_properties": ["bpm", "speed_factor"],
 			}
-		}
+		},
+		"bpm": {
+			"type": "float",
+			"params": {
+				"min": 0,
+				"suffix": " BPM",
+				"condition": "usage == %d" % HBBPMChange.USAGE_TYPES.FIXED_BPM,
+			}
+		},
+		"speed_factor": {
+			"type": "float",
+			"params": {
+				"min": 0,
+				"suffix": "%",
+				"condition": "usage == %d" % HBBPMChange.USAGE_TYPES.AUTO_BPM,
+			}
+		},
 	})
 
 func get_editor_description():

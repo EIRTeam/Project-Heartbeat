@@ -45,8 +45,48 @@ func get_points_at_time(time: int):
 				notes.append(note)
 	return notes
 
-func get_bpm_at_time(time: int) -> int:
-	return _editor.rhythm_game.get_bpm_at_time(time)
+func get_timing_info_at_time(time: int) -> HBTimingChange:
+	for timing_change in _editor.get_timing_changes():
+		if timing_change.data.time <= time:
+			return timing_change.data
+	
+	return null
+
+func get_bpm_at_time(time: int) -> float:
+	print("WARNING: The function get_bpm_at_time has been deprecated.")
+	print("Please use get_timing_info_at_time or get_note_speed_at_time instead.")
+	var timing_info = get_timing_info_at_time(time)
+	return timing_info.bpm if timing_info else 0.03
+
+func get_note_speed_at_time(time: int) -> float:
+	return _editor.rhythm_game.get_note_speed_at_time(time)
+
+func get_note_resolution() -> float:
+	return _editor.get_note_resolution()
+
+func get_timing_changes() -> Array:
+	return _editor.get_timing_changes()
+
+func get_timing_map() -> Array:
+	return _editor.get_timing_map()
+
+func get_normalized_timing_map() -> Array:
+	return _editor.get_normalized_timing_map()
+
+func get_signature_map() -> Array:
+	return _editor.get_signature_map()
+
+func get_metronome_map() -> Array:
+	return _editor.get_metronome_map()
 
 func create_timing_point(timing_point: HBTimingPoint):
 	new_timing_points.append(timing_point)
+
+func upper_bound(array: Array, value: int) -> int:
+	return _editor._upper_bound(array, value)
+
+func closest_bound(array: Array, value: int) -> int:
+	return _editor._closest_bound(array, value)
+
+func linear_bound(array: Array, value: int) -> float:
+	return _editor._linear_bound(array, value)

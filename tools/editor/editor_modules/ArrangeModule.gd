@@ -198,7 +198,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	var pos_compensation: Vector2
 	var time_compensation := 0
 	var slide_index := 0
-	var interval = get_timing_interval(1.0/16.0) * 2
+	var eight_map := get_normalized_timing_map()
 	
 	var anchor = first_note
 	if reverse:
@@ -217,14 +217,17 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 				slide_index = 0
 			
 			# Real snapping hours
-			var diff
-			if not reverse:
-				diff = selected_item.data.time - time_compensation
-			else:
-				diff = time_compensation - selected_item.data.time
-				diff = selected_item.data.time - time_compensation
+#			var diff
+#			if not reverse:
+#				diff = selected_item.data.time - time_compensation
+#			else:
+#				diff = time_compensation - selected_item.data.time
+#				diff = selected_item.data.time - time_compensation
 			
-			var new_pos = pos_compensation + (separation * (float(diff) / float(interval)))
+			var eight_diff = linear_bound(get_normalized_timing_map(), selected_item.data.time) - \
+							 linear_bound(get_normalized_timing_map(), time_compensation)
+			
+			var new_pos = pos_compensation + (separation * eight_diff)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_hold_piece() and slide_index and autoslide:
 				if slide_index == 2:

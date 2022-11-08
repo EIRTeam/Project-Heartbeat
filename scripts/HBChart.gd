@@ -1,8 +1,11 @@
 # Chart class, contains timing points for an individual difficulty
 class_name HBChart
 
+const CURRENT_FORMAT_VERSION = 2
+
 var layers = []
 var editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
+var format_version := CURRENT_FORMAT_VERSION
 
 enum ChartNoteUsage {
 	ARCADE,
@@ -47,7 +50,7 @@ func _populate_layers():
 		"name": "Events",
 		"timing_points": []
 	})
-	
+
 func _note_comparison(a, b):
 	return a.time > b.time
 # returns all the timing points in the chart, optionally ordered by end time
@@ -74,12 +77,14 @@ func serialize():
 			"timing_points": timing_points
 		}
 		serialized_layers.append(l)
+	
 	return {
 		"layers": serialized_layers,
-		"editor_settings": editor_settings.serialize()
+		"editor_settings": editor_settings.serialize(),
+		"format_version": format_version,
 	}
-	
-func deserialize(data: Dictionary):
+
+func deserialize(data: Dictionary, song):
 	for layer in data.layers:
 		var timing_points = []
 		for point in layer.timing_points:
@@ -87,18 +92,107 @@ func deserialize(data: Dictionary):
 			timing_points.append(_point)
 			
 		var found_matching_layer = false
-		for l in layers:
+		for l in self.layers:
 			if l.name == layer.name:
 				l.timing_points = timing_points
 				found_matching_layer = true
 				break
 		if not found_matching_layer:
-			layers.append({
+			self.layers.append({
 				"name": layer.name,
 				"timing_points": timing_points
 			})
+	
 	if data.has("editor_settings"):
-		editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)
+		self.editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)
+	
+	self.format_version = data.format_version if data.has("format_version") else 1
+	while self.format_version != CURRENT_FORMAT_VERSION:
+		if self.format_version < CURRENT_FORMAT_VERSION:
+			port_chart(song)
+		else:
+			backport_chart(song)
+
+func port_chart(song):
+	match self.format_version:
+		1:  # V1 to V2
+			for layer in self.layers:
+				if layer.name != "EVENTS":
+					continue
+				
+				for note in layer.timing_points:
+					if note is HBBPMChange:
+						note.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
+			
+			if not song.timing_changes:
+				# Migrate timing info
+				var base_timing_change = HBTimingChange.new()
+				base_timing_change.time = self.editor_settings.offset * 1000.0
+				base_timing_change.bpm = self.editor_settings.bpm
+				base_timing_change.time_signature.numerator = self.editor_settings.beats_per_bar
+				if self.editor_settings.beats_per_bar == 1:
+					base_timing_change.time_signature.denominator = 1
+				
+				song.timing_changes = [base_timing_change]
+	
+	self.format_version += 1
+
+func backport_chart(song):
+	match self.format_version:
+		2:  # V2 to V1
+			var events_layer = null
+			for layer in self.layers:
+				if layer.name == "EVENTS":
+					events_layer = layer
+			
+			if not events_layer:
+				return
+			
+			# Get old speed changes
+			var speed_events := []
+			for note in events_layer.timing_points:
+				if note is HBBPMChange:
+					speed_events.append(note)
+			
+			# Remove them
+			for note in speed_events:
+				events_layer.remove(note)
+			
+			# Merge tempo map
+			song.timing_changes.sort_custom(self, "_note_comparison")
+			
+			speed_events.append_array(song.timing_changes)
+			speed_events.sort_custom(self, "_note_comparison")
+			
+			# Build fixed bpm map
+			var last_timing_change = song.timing_changes[0].bpm if song.timing_changes else 120
+			var last_speed_change := HBBPMChange.new()
+			last_speed_change.speed_factor = 100
+			for event in speed_events:
+				if event is HBTimingChange:
+					last_timing_change = event.bpm
+				
+				if event is HBBPMChange:
+					last_speed_change = event
+					
+					if last_speed_change.usage == HBBPMChange.USAGE_TYPES.FIXED_BPM:
+						events_layer.timing_points.append(last_speed_change)
+						continue
+				
+				if last_speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+					var bpm_change = HBBPMChange.new()
+					bpm_change.time = event.time
+					bpm_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
+					bpm_change.bpm = last_timing_change.bpm * (last_speed_change.speed_factor / 100.0)
+					
+					events_layer.timing_points.append(bpm_change)
+			
+			if song.timing_changes:
+				self.editor_settings.offset = song.timing_changes[0].time / 1000.0
+				self.editor_settings.bpm = song.timing_changes[0].bpm
+				self.editor_settings.beats_per_bar = song.timing_changes[0].time_signature.numerator
+	
+	self.format_version -= 1
 
 # Returns the max score, not including the extra hold score.
 func get_max_score():

@@ -84,6 +84,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/timeline_items/EditorTimelineItemSustainNote.gd"
 }, {
+"base": "EditorTimelineItem",
+"class": "EditorTimingChangeTimelineItem",
+"language": "GDScript",
+"path": "res://tools/editor/timeline_items/EditorTimingChangeTimelineItem.gd"
+}, {
 "base": "Reference",
 "class": "EditorTransformation",
 "language": "GDScript",
@@ -729,6 +734,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/async_task_queue/HBTask.gd"
 }, {
+"base": "HBTimingPoint",
+"class": "HBTimingChange",
+"language": "GDScript",
+"path": "res://scripts/timing_points/HBTimingChange.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -1100,6 +1110,7 @@ _global_script_class_icons={
 "EditorTimelineItemNote": "",
 "EditorTimelineItemSingleNote": "",
 "EditorTimelineItemSustainNote": "",
+"EditorTimingChangeTimelineItem": "",
 "EditorTransformation": "",
 "EditorTransformationTemplate": "",
 "FARCArchive": "",
@@ -1229,6 +1240,7 @@ _global_script_class_icons={
 "HBSustainNoteDrawer": "",
 "HBTabbedContainer": "",
 "HBTask": "",
+"HBTimingChange": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
 "HBUIAccuracyDisplay": "",

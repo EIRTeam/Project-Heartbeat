@@ -84,6 +84,7 @@ func set_song(song: HBSong, variant=-1):
 	selected_variant = variant
 	game.audio_playback = null
 	game.voice_audio_playback = null
+	game.timing_changes = song.timing_changes
 	
 	godot_audio_stream = song.get_audio_stream()
 	

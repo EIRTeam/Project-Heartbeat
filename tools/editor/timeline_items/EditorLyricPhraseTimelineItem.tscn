@@ -41,6 +41,3 @@ margin_bottom = -6.0
 mouse_filter = 0
 valign = 2
 script = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

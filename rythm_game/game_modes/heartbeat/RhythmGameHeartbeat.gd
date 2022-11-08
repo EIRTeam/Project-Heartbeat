@@ -61,7 +61,7 @@ func precalculate_note_trails(points):
 					if point.get(property) != prev_point.get(property):
 						equal_so_far = false
 						break
-				if equal_so_far and point.get_time_out(get_bpm_at_time(point.time)) == prev_point.get_time_out(get_bpm_at_time(prev_point.time)):
+				if equal_so_far and point.get_time_out(get_note_speed_at_time(point.time)) == prev_point.get_time_out(get_note_speed_at_time(prev_point.time)):
 					precalculated_note_trails[point] = precalculated_note_trails[prev_point]
 				else:
 					precalculated_note_trails[point] = _precalculate_note_trail(point)
@@ -78,7 +78,7 @@ func _precalculate_note_trail(note_data: HBBaseNote):
 	
 	var offset = -note_data.position
 	
-	var time_out = note_data.get_time_out(get_bpm_at_time(note_data.time))
+	var time_out = note_data.get_time_out(get_note_speed_at_time(note_data.time))
 	for i in range(TRAIL_RESOLUTION):
 		var t_trail_time = time_out * (i / float(TRAIL_RESOLUTION-1))
 		var t = (t_trail_time / time_out) * 2.25

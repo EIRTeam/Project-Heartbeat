@@ -8,6 +8,8 @@ const INSPECTOR_TYPES = {
 	"bool": preload("res://tools/editor/inspector_types/bool.tscn"),
 	"String": preload("res://tools/editor/inspector_types/String.tscn"),
 	"Color": preload("res://tools/editor/inspector_types/Color.tscn"),
+	"list": preload("res://tools/editor/inspector_types/list.tscn"),
+	"time_signature": preload("res://tools/editor/inspector_types/time_signature.tscn"),
 }
 
 onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")
@@ -18,6 +20,9 @@ onready var description_label = get_node("MarginContainer/ScrollContainer/VBoxCo
 
 var inspecting_items: Array
 var inspecting_properties = {}
+var labels = {}
+var condition_properties = {}
+var conditional_properties = {}
 
 
 signal properties_changed(property, values)
@@ -126,7 +131,11 @@ func stop_inspecting():
 		property_container.remove_child(child)
 		child.queue_free()
 	
-	inspecting_properties = {}
+	inspecting_properties.clear()
+	labels.clear()
+	condition_properties.clear()
+	conditional_properties.clear()
+	
 	copy_icon.disabled = true
 	paste_icon.disabled = true
 	
@@ -143,6 +152,9 @@ func sync_value(property_name: String):
 		inputs.append(item.data.clone())
 	
 	inspecting_properties[property_name].sync_value(inputs)
+	
+	if property_name in condition_properties:
+		pass
 	
 	update_label()
 
@@ -164,7 +176,10 @@ func inspect(items: Array):
 	if not copied_notes:
 		paste_icon.disabled = true
 	
-	inspecting_properties = {}
+	inspecting_properties.clear()
+	labels.clear()
+	condition_properties.clear()
+	conditional_properties.clear()
 	
 	update_label()
 	
@@ -175,34 +190,87 @@ func inspect(items: Array):
 		item.connect("property_changed", self, "update_value")
 	
 	var properties = common_data_class.get_inspector_properties()
-	for property in properties:
-		var inspector_editor = get_inspector_type(properties[property].type).instance()
-		if properties[property].has("params"):
-			inspector_editor.call_deferred("set_params", properties[property].params)
-		inspector_editor.property_name = property
+	for property_name in properties.keys():
+		var property = properties[property_name]
+		var inspector_editor = get_inspector_type(property.type).instance()
+		inspector_editor.property_name = property_name
+		
+		var name = property_name.capitalize()
+		if property.has("params"):
+			inspector_editor.call_deferred("set_params", property.params)
+			
+			if property.params.has("name"):
+				name = property.params.name
+			
+			if property.params.has("affects_properties"):
+				condition_properties[property_name] = property.params.affects_properties
+				for conditional_property in property.params.affects_properties:
+					conditional_properties[conditional_property] = properties[conditional_property].params.condition
 		
 		var label = Label.new()
-		label.text = property.capitalize()
+		label.text = name
 		property_container.add_child(label)
-		inspector_editor.connect("values_changed", self, "_on_property_value_changed_by_user", [property])
-		inspector_editor.connect("value_change_committed", self, "_on_property_value_commited_by_user", [property])
-		property_container.add_child(inspector_editor)
-		inspecting_properties[property] = inspector_editor
+		labels[property_name] = label
 		
-		if property == "position":
+		inspector_editor.connect("values_changed", self, "_on_property_value_changed_by_user", [property_name])
+		inspector_editor.connect("value_change_committed", self, "_on_property_value_commited_by_user", [property_name])
+		property_container.add_child(inspector_editor)
+		inspecting_properties[property_name] = inspector_editor
+		
+		if property_name == "position":
 			var reset_position_button = Button.new()
 			reset_position_button.text = "Reset to default"
 			reset_position_button.connect("pressed", self, "_on_reset_pos_pressed")
 			reset_position_button.size_flags_horizontal = reset_position_button.SIZE_EXPAND_FILL
 			property_container.add_child(reset_position_button)
 	
+	check_conditional_properties()
+	
 	sync_visible_values_with_data()
 
 func _on_property_value_changed_by_user(values, property_name):
 	emit_signal("properties_changed", property_name, values)
+	
+	if property_name in condition_properties:
+		check_conditional_properties()
 
 func _on_property_value_commited_by_user(property_name):
 	emit_signal("property_change_committed", property_name)
 
 func _on_reset_pos_pressed():
 	emit_signal("reset_pos")
+
+func check_conditional_properties():
+	var condition_differences := []
+	var condition_equalities := []
+	var property_values := []
+	for property_name in condition_properties.keys():
+		var first_value = inspecting_items[0].data.get(property_name)
+		
+		var found_diff := false
+		for item in inspecting_items:
+			if item.data.get(property_name) != first_value:
+				condition_differences.append_array(condition_properties[property_name])
+				found_diff = true
+				break
+		
+		if not found_diff:
+			condition_equalities.append(property_name)
+			property_values.append(first_value)
+	
+	for property_name in conditional_properties.keys():
+		var property = inspecting_properties[property_name]
+		var label = labels[property_name]
+		
+		if property_name in condition_differences:
+			property.visible = false
+			label.visible = false
+			continue
+		
+		var condition = conditional_properties[property_name]
+		var expression := Expression.new()
+		expression.parse(condition, condition_equalities)
+		var result = expression.execute(property_values)
+		
+		property.visible = bool(result)
+		label.visible = bool(result)

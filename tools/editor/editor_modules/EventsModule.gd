@@ -1,7 +1,7 @@
 extends HBEditorModule
 
-onready var bpm_dialog = get_node("BPMDialog")
-onready var bpm_dialog_spinbox = get_node("BPMDialog/MarginContainer/HBEditorSpinBox")
+onready var bpm_dialog = get_node("SpeedChangeDialog")
+onready var bpm_dialog_spinbox = get_node("SpeedChangeDialog/MarginContainer/HBEditorSpinBox")
 onready var lyric_dialog = get_node("LyricDialog")
 onready var lyric_dialog_line_edit = get_node("LyricDialog/MarginContainer/LineEdit")
 onready var section_dialog = get_node("SectionDialog")
@@ -55,13 +55,13 @@ func create_lyrics_event(event_obj: HBTimingPoint):
 	editor.sync_lyrics()
 
 
-func popup_bpm_change():
+func popup_speed_change():
 	bpm_dialog.popup_centered()
-	bpm_dialog_spinbox.value = get_bpm()
 	bpm_dialog_spinbox.get_line_edit().grab_focus()
 
 func create_bpm_change():
-	add_event_timing_point(HBBPMChange, {"bpm": bpm_dialog_spinbox.value})
+	var t = editor.snap_time_to_timeline(get_playhead_position())
+	add_event_timing_point(HBBPMChange, {"time": t, "speed_factor": bpm_dialog_spinbox.value})
 	
 	bpm_dialog_spinbox.release_focus()
 	bpm_dialog.hide()

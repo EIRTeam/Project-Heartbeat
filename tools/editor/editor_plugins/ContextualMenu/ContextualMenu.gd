@@ -141,7 +141,7 @@ func change_note_type(new_type: String):
 			var new_data_ser = data.serialize()
 			new_data_ser["type"] = new_type
 			if new_type == "SustainNote":
-				new_data_ser["end_time"] = data.time + get_sustain_size(editor)
+				new_data_ser["end_time"] = data.time + get_sustain_size(editor, data.time)
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 			
 			var new_item = new_data.get_timeline_item()
@@ -287,36 +287,44 @@ func make_sustain(toggle = false):
 			# It will say convert to sustain but it will create a slide instead
 			# This will trigger my ocd but at least the shortcut will be the same ig
 			var start_data = start.data as HBNoteData
-			var notes_per_note = editor.get_note_resolution() / 2.0
-			var beats = (end.data.time - start_data.time) / (editor.get_note_resolution() * editor.note_resolution_box.value) 
 			
-			var time_interval = (7500 / float(editor.bpm)) * ((1.0/32.0) / notes_per_note)
-			time_interval = time_interval
-			var notes_to_create = ceil(beats * (notes_per_note/4.0)) * 2
+			var timing_map = editor.get_timing_map()
+			var start_idx = editor._upper_bound(timing_map, start_data.time)
+			var end_idx = timing_map.bsearch(end.data.time)
 			
 			var initial_x_offset = 48
 			var interval_x_offset = 32
 			
-			for i in range(notes_to_create):
-				var note_time = start_data.time + ((i+1) * time_interval)
-				var note_position = start_data.position
-				var position_increment = initial_x_offset + interval_x_offset * i
-				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
-				if start_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-					position_increment *= -1
-					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
-				note_position.x += position_increment
-				var new_note = HBNoteData.new()
-				new_note.note_type = new_note_type
-				new_note.time = note_time
-				new_note.position = note_position
-				new_note.oscillation_amplitude = start_data.oscillation_amplitude
-				new_note.oscillation_frequency = start_data.oscillation_frequency
-				new_note.entry_angle = start_data.entry_angle
-				var new_item = new_note.get_timeline_item()
-				editor.undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
-				editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", start._layer, new_item)
-				editor.undo_redo.add_undo_method(new_item, "deselect")
+			for i in range(start_idx, end_idx + 1):
+				# Make 2 notes per grid division
+				for j in range(2):
+					var note_time = timing_map[i]
+					if j == 0:
+						note_time += timing_map[i - 1]
+						note_time /= 2.0
+					
+					var note_position = start_data.position
+					var position_increment = initial_x_offset + interval_x_offset * ((i - start_idx) * 2 + j)
+					note_position.x += position_increment
+					
+					var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
+					if start_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+						position_increment *= -1
+						new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+					
+					var new_note = HBNoteData.new()
+					new_note.note_type = new_note_type
+					new_note.time = note_time
+					new_note.position = note_position
+					new_note.oscillation_amplitude = start_data.oscillation_amplitude
+					new_note.oscillation_frequency = start_data.oscillation_frequency
+					new_note.entry_angle = start_data.entry_angle
+					
+					var new_item = new_note.get_timeline_item()
+					
+					editor.undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
+					editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", start._layer, new_item)
+					editor.undo_redo.add_undo_method(new_item, "deselect")
 			
 			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, end)
 			undo_redo.add_undo_method(editor, "add_item_to_layer", end._layer, end)
@@ -353,7 +361,7 @@ func make_sustain(toggle = false):
 		
 		var new_data_ser = data.serialize()
 		new_data_ser["type"] = "SustainNote"
-		new_data_ser["end_time"] = data.time + get_sustain_size(editor)
+		new_data_ser["end_time"] = data.time + get_sustain_size(editor, data.time)
 		
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
@@ -393,9 +401,13 @@ func make_sustain(toggle = false):
 	
 	undo_redo.commit_action()
 
-func get_sustain_size(editor: HBEditor):
-	var timing_interval = editor.get_timing_interval()
-	return timing_interval * editor.get_note_resolution()
+func get_sustain_size(editor: HBEditor, time: int):
+	var normalized_timing_map = editor.get_normalized_timing_map()
+	
+	var start_idx = editor._closest_bound(normalized_timing_map, time)
+	var end_idx = min(start_idx + 2, normalized_timing_map.size() - 1)
+	
+	return normalized_timing_map[end_idx] - normalized_timing_map[start_idx]
 
 func toggle_double():
 	var editor = get_editor() as HBEditor

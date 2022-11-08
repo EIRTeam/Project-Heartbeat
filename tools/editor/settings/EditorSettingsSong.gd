@@ -11,10 +11,7 @@ var layers_item: TreeItem
 func _ready():
 	settings = {
 		"Timeline": [
-			{"name": "BPM", "var": "bpm", "type": "Float", "options": {"min": 1}},
-			{"name": tr("Offset"), "var": "offset", "type": "Float", "options": {"suffix": "s", "step": 0.001, "max": 100}},
 			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 32}},
-			{"name": tr("Beats per bar"), "var": "beats_per_bar", "type": "Int", "options": {"min": 1, "max": 4}},
 			{"name": tr("Snap to timeline"), "var": "timeline_snap", "type": "Bool"},
 			{"name": tr("Show waveform"), "var": "waveform", "type": "Bool"},
 			{"name": tr("Show hold duration"), "var": "hold_calculator", "type": "Bool"},
