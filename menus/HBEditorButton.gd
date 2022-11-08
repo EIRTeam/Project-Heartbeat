@@ -3,6 +3,9 @@ extends Container
 
 class_name HBEditorButton
 
+signal min_x_size_changed
+
+var aspect_ratio_container: AspectRatioContainer
 var button: Button
 var label: Label
 var module: HBEditorModule setget set_module
@@ -22,6 +25,11 @@ export(String) var action = ""
 export(bool) var echo_action = false
 
 func _init():
+	aspect_ratio_container = AspectRatioContainer.new()
+	aspect_ratio_container.alignment_vertical = AspectRatioContainer.ALIGN_BEGIN
+	aspect_ratio_container.stretch_mode = AspectRatioContainer.STRETCH_WIDTH_CONTROLS_HEIGHT
+	aspect_ratio_container.size_flags_vertical = SIZE_EXPAND_FILL
+	
 	button = Button.new()
 	button.icon = texture
 	button.icon_align = Button.ALIGN_CENTER
@@ -31,13 +39,15 @@ func _init():
 	label.text = text
 	label.align = Label.ALIGN_CENTER
 	label.valign = Label.VALIGN_CENTER
-	rect_min_size.x = label.rect_min_size.x
-	rect_min_size.y = label.rect_min_size.x + label.rect_min_size.y
 	
-	add_child(button)
+	aspect_ratio_container.add_child(button)
+	add_child(aspect_ratio_container)
 	add_child(label)
 
 func _ready():
+	rect_min_size.x = label.rect_size.x
+	rect_min_size.y = rect_min_size.x + get_constant("separation") + label.rect_size.y
+	
 	button.hint_tooltip = tooltip
 	
 	if disable_when_playing:
@@ -45,11 +55,11 @@ func _ready():
 
 func _notification(what):
 	if what == NOTIFICATION_SORT_CHILDREN:
-		# Must re-sort the children
-		var max_width = rect_size.x
-		fit_child_in_rect(button, Rect2(Vector2(), Vector2(max_width, max_width)))
-		fit_child_in_rect(label, Rect2(Vector2(max_width / 2.0 - label.rect_size.x / 2.0, button.rect_size.x), label.rect_size))
-		rect_min_size = Vector2(label.rect_size.x, rect_size.x + label.rect_size.y)
+		var label_offset := Vector2(0, aspect_ratio_container.rect_size.y + get_constant("separation"))
+		fit_child_in_rect(aspect_ratio_container, Rect2(Vector2(), Vector2(rect_size.x, rect_size.x)))
+		fit_child_in_rect(label, Rect2(label_offset, rect_size - label_offset))
+		
+		rect_min_size.y = rect_size.x + get_constant("separation") + label.rect_size.y
 
 func get_button():
 	return button
@@ -58,8 +68,9 @@ func set_text(new_text):
 	text = new_text
 	label.text = new_text
 	
-	rect_min_size.x = label.rect_min_size.x
-	rect_min_size.y = label.rect_min_size.x + label.rect_min_size.y
+	rect_min_size.x = label.rect_size.x
+	rect_min_size.y = rect_min_size.x + get_constant("separation") + label.rect_size.y
+	emit_signal("min_x_size_changed")
 
 func set_tooltip(new_tooltip):
 	button.hint_tooltip = tooltip
