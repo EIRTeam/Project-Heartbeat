@@ -895,6 +895,11 @@ _global_script_classes=[ {
 "path": "res://scripts/PPDPack.gd"
 }, {
 "base": "Node",
+"class": "ParticlePreloader",
+"language": "GDScript",
+"path": "res://autoloads/ParticlePreloader.gd"
+}, {
+"base": "Node",
 "class": "PlatformServiceProvider",
 "language": "GDScript",
 "path": "res://autoloads/platform_service/PlatformServiceProvider.gd"
@@ -1182,6 +1187,7 @@ _global_script_class_icons={
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
+"ParticlePreloader": "",
 "PlatformServiceProvider": "",
 "RichTextWordRainbow": "",
 "SMFLoader": "",
@@ -2025,7 +2031,6 @@ quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32
-gles3/shaders/shader_compilation_mode=1
 environment/default_clear_color=Color( 0.01, 0.05, 0.1, 1 )
 environment/default_environment="res://default_env.tres"
 quality/2d/use_nvidia_rect_flicker_workaround=true
