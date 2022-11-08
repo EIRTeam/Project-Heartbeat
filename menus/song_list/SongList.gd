@@ -28,7 +28,8 @@ var force_next_song_update = false
 var allowed_sort_by = {
 	"title": tr("Title"),
 	"artist": tr("Artist"),
-	"score": tr("Difficulty"),
+	"highest_score": tr("Highest Difficulty"),
+	"lowest_score": tr("Lowest Difficulty"),
 	"creator": tr("Chart Creator"),
 	"bpm": tr("BPM"),
 	"_added_time": tr("Last Subscribed"),

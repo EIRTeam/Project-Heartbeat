@@ -260,6 +260,14 @@ func get_max_score():
 		stars = max(stars, charts[chart].stars)
 	return stars
 
+func get_min_score():
+	var stars = 0
+	if charts.size() > 0:
+		stars = charts.values()[0].stars
+		for chart in charts:
+			stars = min(stars, charts[chart].stars)
+	return -1
+
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
 	var file = File.new()

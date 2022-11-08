@@ -77,9 +77,12 @@ func sort_array(a: HBSong, b: HBSong):
 		"artist":
 			a_prop = a.get_artist_sort_text()
 			b_prop = b.get_artist_sort_text()
-		"score":
+		"highest_score":
 			a_prop = b.get_max_score()
 			b_prop = a.get_max_score()
+		"lowest_score":
+			a_prop = b.get_min_score()
+			b_prop = a.get_min_score()
 		"_times_played":
 			a_prop = HBGame.song_stats.get_song_stats(a.id).times_played
 			b_prop = HBGame.song_stats.get_song_stats(b.id).times_played
