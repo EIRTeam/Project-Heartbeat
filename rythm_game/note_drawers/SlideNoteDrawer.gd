@@ -97,12 +97,13 @@ func _on_game_time_changed(time: float):
 		._on_game_time_changed(time)
 	if not is_queued_for_deletion():
 		if playing_slide_start:
-			if current_sfx_player.get_playback_position_msec() >= current_sfx_player.get_length_msec() or current_sfx_player.is_at_stream_end():
-				playing_slide_start = false
-				current_sfx_player = null
-				is_audio_looping = true
-				current_sfx_player = game.sfx_pool.play_sfx("slide_chain_loop", true)
-				current_sfx_player.looping_enabled = true
+			if current_sfx_player:
+				if current_sfx_player.get_playback_position_msec() >= current_sfx_player.get_length_msec() or current_sfx_player.is_at_stream_end():
+					playing_slide_start = false
+					current_sfx_player = null
+					is_audio_looping = true
+					current_sfx_player = game.sfx_pool.play_sfx("slide_chain_loop", true)
+					current_sfx_player.looping_enabled = true
 		if not hit_first and (not game.editing or game.previewing):
 			._on_game_time_changed(time)
 		if game.editing:
