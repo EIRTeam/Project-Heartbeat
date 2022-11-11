@@ -212,8 +212,10 @@ func _get_files():
 		if !raw_end:
 			return false
 		var fname := raw_end.subarray(0, file_name_length - 1).get_string_from_utf8() as String
-		if fname.empty():
-			fname = HBUtils.sj2utf(raw_end.subarray(0, file_name_length - 1)).get_string_from_utf8()
+		var fname2 = HBUtils.sj2utf(raw_end.subarray(0, file_name_length - 1)).get_string_from_utf8() 
+		if fname2.length() > fname.length():
+			fname = fname2
+		
 		header['file_name'] = (
 			fname
 		)
