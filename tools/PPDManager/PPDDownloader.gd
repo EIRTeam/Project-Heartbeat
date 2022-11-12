@@ -169,6 +169,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 					var file = File.new()
 					file.open(extraction_path, File.WRITE)
 					file.store_buffer(uncompressed)
+					file.close()
 				else:
 					print("FAILED TO DECOMPRESS ", f)
 					
