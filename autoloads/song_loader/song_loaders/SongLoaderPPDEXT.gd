@@ -38,8 +38,7 @@ static func load_ppd_meta(path: String, id: String):
 				var dir_name = dir.get_next()
 				while dir_name != "":
 					if not dir.current_is_dir():
-
-						if dir_name.ends_with(".mp4") or dir_name.ends_with(".flv") or dir_name.ends_with(".avi"):
+						if dir_name.ends_with(".mp4") or dir_name.ends_with(".flv") or dir_name.ends_with(".avi") or dir_name.ends_with(".webm"):
 							song.video = dir_name
 							song.audio = dir_name.get_basename() + ".ogg"
 							found_mp4 = true
