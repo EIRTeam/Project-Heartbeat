@@ -211,9 +211,13 @@ func _get_files():
 		var raw_end = _read(file_name_length + extra_field_length + comment_length)
 		if !raw_end:
 			return false
-		var fname := raw_end.subarray(0, file_name_length - 1).get_string_from_utf8() as String
-		if fname.empty():
+		var fname_result := raw_end.subarray(0, file_name_length - 1).get_string_from_utf8_checked() as Array
+		var fname := ""
+		if fname_result[1]:
+			fname = fname_result[0]
+		else:
 			fname = HBUtils.sj2utf(raw_end.subarray(0, file_name_length - 1)).get_string_from_utf8()
+		
 		header['file_name'] = (
 			fname
 		)
