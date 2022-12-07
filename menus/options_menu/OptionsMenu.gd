@@ -47,10 +47,6 @@ var OPTIONS = {
 		"show_latency": {
 			"name": tr("Show latency"),
 			"description": tr("Shows how late or how early you were when hitting notes."),
-		},
-		"load_all_notes_on_song_start": {
-			"name": tr("Load all notes when song starts"),
-			"description": tr("Makes the game pre-generate all notes before the song starts playing, this increases loadtimes but will increase performance once loaded."),
 		}
 	},
 	tr("Input"): {
@@ -92,6 +88,10 @@ var OPTIONS = {
 			"maximum": 12,
 			"step": 1,
 			"postfix_callback": funcref(self, "_audio_buffer_postfix_callback")
+		},
+		"play_hit_sounds_only_when_hit": {
+			"name": tr("Play hit sounds only when a note is hit"),
+			"description": tr("Makes note hit sounds only get emitted when a note is actually hit, disables \"empty\" button press sounds.")
 		},
 		"master_volume": {
 			"name": tr("Master volume"),

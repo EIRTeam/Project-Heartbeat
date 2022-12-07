@@ -13,6 +13,9 @@ const SAFE_AREA_FACTOR = 0.05
 const SAFE_AREA_SIZE = Vector2(192, 108)
 onready var video_pause_timer = Timer.new()
 var video_time = 0.0
+
+signal preview_size_changed
+
 func _ready():
 	video_player.volume_db = 0
 	game.health_system_enabled = false
@@ -32,6 +35,16 @@ func _ready():
 	transform_preview.game = game
 	visualizer.ingame = true
 	video_player.connect("finished", self, "_on_video_player_finished")
+	game_ui.aspect_ratio_container.connect("resized", self, "_on_game_resized")
+
+func _on_game_resized():
+	print(game_ui.aspect_ratio_container.rect_size / Vector2(1920, 1080))
+	var ratio: float = game_ui.rect_size.x / game_ui.rect_size.y
+	var scale: float = (game_ui.aspect_ratio_container.rect_size.x / 1920.0)
+	if ratio > 16.0/9.0:
+		scale = (game_ui.aspect_ratio_container.rect_size.y / 1080.0)
+	game_ui.game_layer_node.scale = Vector2.ONE * scale
+	emit_signal("preview_size_changed")
 	
 func _on_video_player_finished():
 	video_player.play()

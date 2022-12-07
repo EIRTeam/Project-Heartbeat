@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://rythm_game/note_drawers/NoteGraphic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://rythm_game/note_drawers/NoteTargetNew.tscn" type="PackedScene" id=2]
+[ext_resource path="res://rythm_game/note_drawers/new/DoubleNoteDrawer.gd" type="Script" id=3]
+
+[node name="SingleNoteDrawer" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="NoteTarget" parent="." instance=ExtResource( 2 )]
+z_index = -1
+z_as_relative = false
+
+[node name="Note" parent="." instance=ExtResource( 1 )]

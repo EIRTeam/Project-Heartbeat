@@ -32,7 +32,7 @@ func set_connected_notes(val):
 
 func make_blue():
 	blue = true
-	target_graphic.set_note_type(note_data, connected_notes.size() > 0, true)
+	
 
 func undo_blue():
 	blue = false

@@ -162,8 +162,23 @@ custom_fonts/font = SubResource( 14 )
 font1 = SubResource( 14 )
 font2 = SubResource( 15 )
 
-[node name="GameLayer" type="Node2D" parent="."]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+ratio = 1.7778
+
+[node name="Control" type="Control" parent="AspectRatioContainer"]
+margin_left = -6.10352e-05
+margin_top = 0.00671387
+margin_right = 1920.0
+margin_bottom = 1079.99
+mouse_filter = 2
+
+[node name="GameLayer" type="Node2D" parent="AspectRatioContainer/Control"]
+unique_name_in_owner = true
 show_behind_parent = true
+position = Vector2( 0, 1 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

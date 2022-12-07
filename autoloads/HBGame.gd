@@ -69,6 +69,7 @@ var serializable_types = {
 	"GameInfo": load("res://scripts/HBGameInfo.gd"),
 	"NightcoreSettings": load("res://rythm_game/modifiers/nightcore/nightcore_settings.gd"),
 	"RandomizerSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
+	"AutoplaySettings": load("res://rythm_game/modifiers/autoplay/autoplay_settings.gd"),
 	"HiddenSettings": load("res://rythm_game/modifiers/randomizer/randomizer_settings.gd"),
 	"PerSongSettings": load("res://scripts/HBPerSongSettings.gd"),
 	"SongStats": load("res://scripts/HBSongStats.gd"),
@@ -251,7 +252,6 @@ func _game_init():
 	if platform_settings is HBPlatformSettingsSwitch:
 		UserSettings.user_settings.button_prompt_override = "nintendo"
 		UserSettings.set_joypad_prompts()
-		UserSettings.user_settings.load_all_notes_on_song_start = false
 		UserSettings.user_settings.visualizer_enabled = false
 		Input.set_use_accumulated_input(false)
 		UserSettings.user_settings.content_path = platform_settings.user_dir_redirect(UserSettings.user_settings.content_path)
@@ -321,3 +321,8 @@ func get_system_mmplus_error() -> String:
 			out = tr("Steam couldn't be found, is it closed?")
 	return out
 	
+func instantiate_user_sfx(sfx_name: String) -> ShinobuSoundPlayer:
+	var sound_source := UserSettings.user_sfx[sfx_name] as ShinobuSoundSource
+	var sound := sound_source.instantiate(HBGame.sfx_group)
+	sound.volume = UserSettings.user_settings.get_sound_volume_linear(sfx_name)
+	return sound

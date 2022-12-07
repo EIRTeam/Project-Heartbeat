@@ -42,7 +42,7 @@ func judge_note (input: float, target_note_timing: float):
 	var closest = 128 * timing_window_scale
 	
 	if diff < -get_target_window_msec():
-		return
+		return -1
 	
 	for i in range(RATING_WINDOWS.size()-1, -1, -1):
 		var rating_window = int(RATING_WINDOWS.keys()[i] * timing_window_scale)

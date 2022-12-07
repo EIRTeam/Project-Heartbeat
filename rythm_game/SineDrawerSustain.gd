@@ -1,5 +1,7 @@
 extends "SineDrawerCPU.gd"
 
+class_name SineDrawerSustain
+
 var trail_position setget set_trail_position
 func set_trail_position(val):
 	trail_position = val
@@ -8,8 +10,7 @@ func set_trail_position(val):
 
 func _on_resized():
 	line.width = 100.0
-	position = game.remap_coords(note_data.position)
-	scale = game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)
+	position = note_data.position
 func setup():
 	.setup()
 	line.texture = ResourcePackLoader.get_graphic("sustain_trail.png")

@@ -1,5 +1,7 @@
 extends Sprite
 
+class_name NoteGraphics
+
 var last_pos = Vector2()
 
 func set_note_type(type, multi = false, double = false):

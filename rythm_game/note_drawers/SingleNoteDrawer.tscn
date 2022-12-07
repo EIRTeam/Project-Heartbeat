@@ -30,12 +30,5 @@ z_as_relative = false
 
 [node name="Note" parent="." instance=ExtResource( 2 )]
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Note"]
-position = Vector2( -1176.91, -109.704 )
-scale = Vector2( 2, 2 )
-remote_path = NodePath("../../Node2D")
-update_rotation = false
-update_scale = false
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/note_appear = SubResource( 1 )

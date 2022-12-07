@@ -22,3 +22,6 @@ func get_timeline_item():
 	var timeline_item = timeline_item_scene.instance()
 	timeline_item.data = self
 	return timeline_item
+
+func get_drawer_new():
+	return load("res://rythm_game/note_drawers/new/DoubleNoteDrawer.tscn")

@@ -100,7 +100,6 @@ func start_fade_in():
 	HBGame.song_stats.save_song_stats()
 	game.game_input_manager.set_process_input(false)
 
-	print(game.audio_playback.is_playing())
 func start_session(game_info: HBGameInfo, assets=null):
 	current_assets = assets
 	game.set_process(true)
@@ -269,14 +268,13 @@ func _on_resumed():
 			video_player.paused = true
 	else:
 		# Called when resuming with rollback
+		game.notify_rollback()
 		HBGame.fire_and_forget_sound(HBGame.rollback_sfx, HBGame.sfx_group)
 		game.editing = true
-		game.kill_active_slide_chains()
 		game.time = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		video_player.set_stream_position(last_pause_time - ROLLBACK_TIME)
-		game.seek((last_pause_time - ROLLBACK_TIME) * 1000.0)
 		if game.time < 0.0:
 			video_player.paused = true
 		vhs_panel.show()
@@ -363,11 +361,11 @@ func _process(delta):
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	if rollback_on_resume:
-		game.time -= delta
+		game.seek_new((game.time - delta) * 1000.0)
 		game._process(0)
 #		$Label.text += "%f" % [last_pause_time]
 		if game.time <= last_pause_time - ROLLBACK_TIME:
-			game.time = last_pause_time - ROLLBACK_TIME
+			game.seek_new((last_pause_time - ROLLBACK_TIME) * 1000.0)
 			rollback_on_resume = false
 			vhs_panel.hide()
 			pause_menu_disabled = false

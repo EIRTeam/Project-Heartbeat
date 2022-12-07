@@ -118,34 +118,34 @@ func make_group(notes: Array, extra_notes: Array, group_position, time):
 	
 	return group
 	
-func _process_timing_points_into_groups(points):
-	# Group related notes for performance reasons, so we can precompute stuff
-	var timing_points_grouped = []
-	var last_notes = []
-	var group_position = 0
-	var extra_notes = []
-	
-	for i in range(points.size()):
-		var own_extra_notes = []
-		var point = points[i]
-		if point is HBBaseNote:
-			if point is HBNoteData:
-				if point.is_slide_hold_piece():
-					continue
-			var should_make_group = i == timing_points.size()-1 \
-					or timing_points[i+1].time != point.time
-
-			if should_make_group:
-				var group = make_group(last_notes + [point], own_extra_notes + extra_notes, group_position, point.time)
-				group_position += 1
-				last_notes = []
-				own_extra_notes = []
-				extra_notes = []
-				timing_points_grouped.append(group)
-			if not should_make_group:
-				extra_notes += own_extra_notes
-				last_notes.append(point)
-	return timing_points_grouped
+#func _process_timing_points_into_groups(points):
+#	# Group related notes for performance reasons, so we can precompute stuff
+#	var timing_points_grouped = []
+#	var last_notes = []
+#	var group_position = 0
+#	var extra_notes = []
+#
+#	for i in range(points.size()):
+#		var own_extra_notes = []
+#		var point = points[i]
+#		if point is HBBaseNote:
+#			if point is HBNoteData:
+#				if point.is_slide_hold_piece():
+#					continue
+#			var should_make_group = i == timing_points.size()-1 \
+#					or timing_points[i+1].time != point.time
+#
+#			if should_make_group:
+#				var group = make_group(last_notes + [point], own_extra_notes + extra_notes, group_position, point.time)
+#				group_position += 1
+#				last_notes = []
+#				own_extra_notes = []
+#				extra_notes = []
+#				timing_points_grouped.append(group)
+#			if not should_make_group:
+#				extra_notes += own_extra_notes
+#				last_notes.append(point)
+#	return timing_points_grouped
 	
 func kill_active_slide_chains():
 	for note in notes_on_screen:
@@ -217,58 +217,6 @@ const HEART_HACK_TYPES = [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.
 
 func _process_input(event):
 	if event is InputEventHB:
-		if not event.event_uid in _processed_event_uids:
-			var use_fallback_sound = true
-			var closest_notes = get_closest_notes()
-			for note in closest_notes:
-				if note is HBBaseNote:
-					var drawer = get_note_drawer(note)
-					var found_ac = false
-
-					for ac in event.actions:
-						if ac in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type]:
-							found_ac = true
-					if found_ac and event.pressed and not event.is_echo():
-						if drawer.handles_hit_sfx_playback():
-							var hit_sfx = drawer.get_hit_sfx()
-							use_fallback_sound = false
-							
-							if hit_sfx != "":
-								sfx_pool.play_sfx(hit_sfx)
-								if note.note_type in HEART_HACK_TYPES:
-									# This is why my dad went to buy marlboro and never came back
-									_heart_hack_frame = Engine.get_frames_drawn()
-							_processed_event_uids.append(event.event_uid)
-							break # remove this to allow more than 1 sfx to be played back in multis
-			var heart_or_slide_judged_this_frame := false
-			for note in notes_judged_this_frame:
-				if note.note_type in HEART_HACK_TYPES:
-					heart_or_slide_judged_this_frame = true
-					break
-			if use_fallback_sound: 
-				# Note SFX
-				for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-					var action_pressed = false
-					var actions = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]
-					for action in actions:
-						if event.action == action and event.pressed and not event.is_echo():
-							var slide_types = [HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.HEART]
-							_processed_event_uids.append(event.event_uid)
-							if type in slide_types and (Engine.get_frames_drawn() <= _heart_hack_frame+1 or heart_or_slide_judged_this_frame):
-								return
-							var closest := get_closest_notes() as Array
-							if not closest.empty() and closest[0] is HBNoteData and type in slide_types:
-								var is_same_dir_slide: bool = type == closest[0].note_type or \
-									type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT and HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT or \
-									type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT and HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
-								var note_drawer := get_note_drawer(closest[0]) as SlideNoteDrawer
-								if note_drawer and note_drawer.slide_chain and is_same_dir_slide:
-									return
-							play_note_sfx(type in slide_types)
-							action_pressed = true
-							break
-					if action_pressed:
-						break
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
 				if not event.event_uid in held_note_event_map[type]:
@@ -362,48 +310,48 @@ func _process_game(_delta):
 			else:
 				MobileControls.set_input_mode(0)
 	# autoplay code
-	if (Diagnostics.enable_autoplay and not editing) or previewing:
+	if game_mode == GAME_MODE.AUTOPLAY:
 		if not result.used_cheats:
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
-		var actions_to_press = []
-		var actions_to_release = []
-		for i in range(notes_on_screen.size()-1, -1, -1):
-			var note = notes_on_screen[i]
-			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
-					continue
-				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
-					if time * 1000.0 > note.end_time:
-						actions_to_release.append(note.get_input_actions()[0])
-#						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-				elif time * 1000 > note.time:
-					actions_to_press.append(note.get_input_actions()[0])
-#					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-		
-		for action in actions_to_release:
-			var a = InputEventHB.new()
-			a.action = action
-			a.pressed = false
-			a.event_uid = game_input_manager.get_event_uid(a)
-			a.triggered_actions_count = 1
-			Input.parse_input_event(a)
-			#game_input_manager.send_input(action, false)
-		game_input_manager.current_input_handled = false
-
-		for action in actions_to_press:
-			# Double note device emulation
-			game_input_manager.digital_action_tracking[action] = {}
-			game_input_manager.digital_action_tracking[action][-1] = {}
-			game_input_manager.digital_action_tracking[action][-1][0] = true
-			game_input_manager.digital_action_tracking[action][-1][1] = true
-			var a = InputEventHB.new()
-			a.action = action
-			a.actions = actions_to_press
-			a.pressed = true
-			a.triggered_actions_count = 1
-			a.event_uid = game_input_manager.get_event_uid(a)
-			Input.parse_input_event(a)
+#		var actions_to_press = []
+#		var actions_to_release = []
+#		for i in range(notes_on_screen.size()-1, -1, -1):
+#			var note = notes_on_screen[i]
+#			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
+#				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
+#					continue
+#				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
+#					if time * 1000.0 > note.end_time:
+#						actions_to_release.append(note.get_input_actions()[0])
+##						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+#				elif time * 1000 > note.time:
+#					actions_to_press.append(note.get_input_actions()[0])
+##					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
+#
+#		for action in actions_to_release:
+#			var a = InputEventHB.new()
+#			a.action = action
+#			a.pressed = false
+#			a.event_uid = game_input_manager.get_event_uid(a)
+#			a.triggered_actions_count = 1
+#			Input.parse_input_event(a)
+#			#game_input_manager.send_input(action, false)
+#		game_input_manager.current_input_handled = false
+#
+#		for action in actions_to_press:
+#			# Double note device emulation
+#			game_input_manager.digital_action_tracking[action] = {}
+#			game_input_manager.digital_action_tracking[action][-1] = {}
+#			game_input_manager.digital_action_tracking[action][-1][0] = true
+#			game_input_manager.digital_action_tracking[action][-1][1] = true
+#			var a = InputEventHB.new()
+#			a.action = action
+#			a.actions = actions_to_press
+#			a.pressed = true
+#			a.triggered_actions_count = 1
+#			a.event_uid = game_input_manager.get_event_uid(a)
+#			Input.parse_input_event(a)
 	_processed_event_uids = []
 
 func remove_health():
@@ -421,6 +369,64 @@ func increase_health():
 	health = min(health, 100)
 	game_ui.set_health(health, true, old_health)
 	fail_combo = 0
+
+func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
+	._on_notes_judged_new(final_judgement, judgements, judgement_target_time, wrong)
+	
+	if health_system_enabled:
+		if final_judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
+			remove_health()
+		else:
+			increase_health()
+	
+#	for judgement in judgements:
+#		if judgement.note_data.note_type in HEART_HACK_TYPES:
+#			_heart_hack_frame = Engine.get_frames_drawn()
+	
+	if not judgements[0].note_data is HBNoteData or (judgements[0].note_data is HBNoteData and not judgements[0].note_data.is_slide_hold_piece()):
+		if final_judgement == judge.JUDGE_RATINGS.WORST or wrong:
+			add_score(0)
+	for j in judgements:
+		if j.note_data.note_type in held_notes:
+			hold_release()
+			emit_signal("hold_released_early")
+			break
+
+	if final_judgement < judge.JUDGE_RATINGS.FINE or wrong:
+		hold_release()
+		emit_signal("hold_released_early")
+	else:
+		for j in judgements:
+			if j.note_data is HBNoteData:
+				var n = j.note_data as HBNoteData
+				if n.hold:
+					var event = j.input_event
+					if not n.note_type in held_note_event_map:
+						held_note_event_map[n.note_type] = []
+					held_note_event_map[n.note_type].clear()
+					held_note_event_map[n.note_type].append(event.event_uid)
+					# Holds start at (note time-FINE window) regardless of at what time you hit them
+					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
+					start_hold(n.note_type, false, (n.time - fine_window_ms) / 1000.0)
+	if not editing:
+		var start_time = current_song.start_time
+		var end_time = audio_playback.get_length_msec()
+		if current_song.end_time > 0:
+			end_time = current_song.end_time
+			
+		var current_duration = audio_playback.get_length_msec()
+		current_duration -= start_time
+		current_duration -= audio_playback.get_length_msec() - end_time
+		
+		var progress: float = (time * 1000.0) - start_time
+		progress = progress / float(current_duration)
+		
+
+		var point := Vector2(progress * 100.0, result.get_percentage() * 100.0)
+		if final_judgement < judge.JUDGE_RATINGS.FINE or wrong:
+			result._combo_break_points.append(point)
+		result._percentage_graph.append(point)
+		result._song_end_time = end_time
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
@@ -569,3 +575,103 @@ func start_hold(note_type, auto_juggle=false, hold_start_time := time):
 	held_notes.append(note_type)
 	emit_signal("hold_started", held_notes)
 	
+# Used by the editor to invalidate slide chains
+func get_intersecting_slide_chains(time_msec: int) -> Array:
+	var intersecting := []
+	for i in range(slide_hold_chains.size()):
+		var slide_chain := slide_hold_chains.values()[i] as HBChart.SlideChain
+		var chain_start := slide_chain.slide.time
+		if time_msec < chain_start:
+			continue
+		
+		for piece in slide_chain.pieces:
+			var chain_end = piece.time
+			if chain_end > time_msec:
+				intersecting.append(slide_chain)
+				break
+		
+	return intersecting
+
+var editor_orphaned_subnotes := [] 
+
+var editor_left_slide_notes := []
+var editor_right_slide_notes := []
+
+# Grabs all slide chain pieces and tries to put them in a slide chain
+func editor_unorphan_subnotes():
+	for i in range(editor_orphaned_subnotes.size()-1, -1, -1):
+		var note := editor_orphaned_subnotes[i] as HBBaseNote
+		var slide_note_array := editor_right_slide_notes
+		if note.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+			slide_note_array = editor_right_slide_notes
+		
+		var pos := slide_note_array.bsearch_custom(note, self, "_sort_notes_by_time")
+		pos = min(pos, max(slide_note_array.size()-1, 0))
+		if pos < slide_note_array.size():
+			var slide_note := slide_note_array[pos] as HBBaseNote
+			var slide_chain: HBChart.SlideChain = slide_hold_chains.get(slide_note)
+			if not slide_chain:
+				slide_chain = HBChart.SlideChain.new()
+				slide_chain.slide = slide_note
+				slide_hold_chains[slide_note] = slide_chain
+			slide_chain.pieces.append(note)
+			editor_orphaned_subnotes.remove(i)
+			print("UNORPH", editor_orphaned_subnotes.size())
+
+
+func editor_add_timing_point(point: HBTimingPoint):
+	if point is HBBaseNote:
+		var note_data: HBBaseNote = point
+		if note_data is HBNoteData:
+			if note_data.is_slide_note():
+				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					editor_left_slide_notes.insert(editor_left_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
+				elif note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
+					editor_right_slide_notes.insert(editor_right_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
+				if editor_orphaned_subnotes.size() > 0:
+					editor_unorphan_subnotes()
+			elif note_data.is_slide_hold_piece():
+				editor_orphaned_subnotes.append(point)
+				editor_unorphan_subnotes()
+				return
+	.editor_add_timing_point(point)
+
+func editor_remove_timing_point(point: HBTimingPoint):
+	if point is HBNoteData:
+		if point.is_slide_hold_piece():
+			if point in editor_orphaned_subnotes:
+				editor_orphaned_subnotes.erase(point)
+			else:
+				var intersecting_slide_chains := get_intersecting_slide_chains(point.time)
+				
+				for slide_chain in intersecting_slide_chains:
+					var is_of_the_same_type: bool = slide_chain.slide.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT \
+							and point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+							
+					is_of_the_same_type = is_of_the_same_type or (slide_chain.slide.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT \
+							and point.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT)
+							
+					if is_of_the_same_type:
+						var prev_size: int = slide_chain.pieces.size()
+						slide_chain.pieces.erase(point)
+						if prev_size != slide_chain.pieces.size():
+							slide_chain.slide.get_meta("editor_group").reset_group()
+			return
+		elif point.is_slide_note():
+			if point.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+				editor_left_slide_notes.erase(point)
+			else:
+				editor_right_slide_notes.erase(point)
+			var chain: HBChart.SlideChain = slide_hold_chains.get(point)
+			if chain:
+				slide_hold_chains.erase(chain.slide)
+				editor_orphaned_subnotes.append_array(chain.pieces)
+				editor_unorphan_subnotes()
+	.editor_remove_timing_point(point)
+
+func editor_clear_notes():
+	.editor_clear_notes()
+	slide_hold_chains.clear()
+	editor_orphaned_subnotes.clear()
+	editor_left_slide_notes.clear()
+	editor_right_slide_notes.clear()

@@ -244,6 +244,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBFolder.gd"
 }, {
+"base": "WindowDialog",
+"class": "HBGameDebug",
+"language": "GDScript",
+"path": "res://rythm_game/GameDebug.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBGameInfo",
 "language": "GDScript",
@@ -434,6 +439,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/MultiplayerService.gd"
 }, {
+"base": "HBNewNoteDrawer",
+"class": "HBNewDoubleNoteDrawer",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/new/DoubleNoteDrawer.gd"
+}, {
+"base": "Node2D",
+"class": "HBNewNoteDrawer",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/new/NoteDrawer.gd"
+}, {
 "base": "HBBaseNote",
 "class": "HBNoteData",
 "language": "GDScript",
@@ -443,6 +458,11 @@ _global_script_classes=[ {
 "class": "HBNoteDrawer",
 "language": "GDScript",
 "path": "res://rythm_game/note_drawers/NoteDrawer.gd"
+}, {
+"base": "Reference",
+"class": "HBNoteGroup",
+"language": "GDScript",
+"path": "res://rythm_game/HBNoteGroup.gd"
 }, {
 "base": "Panel",
 "class": "HBOptionControlsSectionAction",
@@ -664,6 +684,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/timing_points/HBSustainNote.gd"
 }, {
+"base": "HBNewNoteDrawer",
+"class": "HBSustainNoteDrawer",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/new/SustainNoteDrawer.gd"
+}, {
 "base": "Control",
 "class": "HBTabbedContainer",
 "language": "GDScript",
@@ -874,10 +899,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/platform_service/multiplayer_services/MPPlayer.gd"
 }, {
+"base": "Node2D",
+"class": "MultiLaser",
+"language": "GDScript",
+"path": "res://rythm_game/Laser.gd"
+}, {
+"base": "Sprite",
+"class": "NoteGraphics",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/NoteGraphic.gd"
+}, {
 "base": "Reference",
 "class": "NoteGroup",
 "language": "GDScript",
 "path": "res://rythm_game/NoteGroup.gd"
+}, {
+"base": "Node2D",
+"class": "NoteTarget",
+"language": "GDScript",
+"path": "res://rythm_game/note_drawers/NoteTarget.gd"
 }, {
 "base": "Reference",
 "class": "PPDEVDFile",
@@ -893,11 +933,6 @@ _global_script_classes=[ {
 "class": "PPDPack",
 "language": "GDScript",
 "path": "res://scripts/PPDPack.gd"
-}, {
-"base": "Node",
-"class": "ParticlePreloader",
-"language": "GDScript",
-"path": "res://autoloads/ParticlePreloader.gd"
 }, {
 "base": "Node",
 "class": "PlatformServiceProvider",
@@ -933,6 +968,11 @@ _global_script_classes=[ {
 "class": "SineDrawerCPU",
 "language": "GDScript",
 "path": "res://rythm_game/SineDrawerCPU.gd"
+}, {
+"base": "",
+"class": "SineDrawerSustain",
+"language": "GDScript",
+"path": "res://rythm_game/SineDrawerSustain.gd"
 }, {
 "base": "Viewport",
 "class": "SkinEditorViewport",
@@ -1057,6 +1097,7 @@ _global_script_class_icons={
 "HBError": "",
 "HBFilterSongsTask": "",
 "HBFolder": "",
+"HBGameDebug": "",
 "HBGameInfo": "",
 "HBGameInputManager": "",
 "HBGameMode": "",
@@ -1095,8 +1136,11 @@ _global_script_class_icons={
 "HBMenuChangecontainer": "",
 "HBModifier": "",
 "HBMultiplayerService": "",
+"HBNewDoubleNoteDrawer": "",
+"HBNewNoteDrawer": "",
 "HBNoteData": "",
 "HBNoteDrawer": "",
+"HBNoteGroup": "",
 "HBOptionControlsSectionAction": "",
 "HBPPDSong": "",
 "HBPPDSongEXT": "",
@@ -1141,6 +1185,7 @@ _global_script_class_icons={
 "HBSoundEffectPool": "",
 "HBSpectrumSnapshot": "",
 "HBSustainNote": "",
+"HBSustainNoteDrawer": "",
 "HBTabbedContainer": "",
 "HBTask": "",
 "HBTimingPoint": "",
@@ -1183,11 +1228,13 @@ _global_script_class_icons={
 "JS_JoypadMapButton": "",
 "LeaderboardView": "",
 "MPPlayer": "",
+"MultiLaser": "",
+"NoteGraphics": "",
 "NoteGroup": "",
+"NoteTarget": "",
 "PPDEVDFile": "",
 "PPDLoader": "",
 "PPDPack": "",
-"ParticlePreloader": "",
 "PlatformServiceProvider": "",
 "RichTextWordRainbow": "",
 "SMFLoader": "",
@@ -1195,6 +1242,7 @@ _global_script_class_icons={
 "ShiftJISTable": "",
 "ShinobuGodotSoundPlaybackOffset": "",
 "SineDrawerCPU": "",
+"SineDrawerSustain": "",
 "SkinEditorViewport": "",
 "SlideNoteDrawer": "",
 "SongAssetLoadAsyncTask": "",
@@ -1224,12 +1272,13 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1661231677
-config/build_commit="9fba974a433936209492aa6485d58cd8ef943540"
+config/build_time=1668226336
+config/build_commit="70404e6b11ef298b06feb884e00b129f0d014bbf"
 config/service_environment="production"
 
 [audio]
 
+output_latency=1
 single_threaded_mode=true
 
 [autoload]

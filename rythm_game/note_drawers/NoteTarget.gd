@@ -1,4 +1,6 @@
-extends StaticBody2D
+extends Node2D
+
+class_name NoteTarget
 
 var arm_position = 0 setget set_arm_position
 var arm2_position = 0 setget set_arm2_position

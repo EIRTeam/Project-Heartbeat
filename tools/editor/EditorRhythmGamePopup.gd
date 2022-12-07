@@ -20,17 +20,15 @@ func _init():
 	
 func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 #	rhythm_game.set_song(song, )
-	rhythm_game.remove_all_notes_from_screen()
-	rhythm_game.reset_hit_notes()
 	var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
 	rhythm_game.audio_playback.volume = volume
 	if rhythm_game.voice_audio_playback:
 		rhythm_game.voice_audio_playback.volume = volume
-	rhythm_game.seek(time * 1000.0)
-	rhythm_game.start()
 	rhythm_game.base_bpm = song.bpm
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
+	rhythm_game.seek_new(time * 1000.0, true)
+	rhythm_game.start()
 	rhythm_game.game_input_manager.set_process_input(true)
 	reset_stats()
 	_last_time = time
@@ -69,11 +67,9 @@ func _unhandled_input(event):
 		_on_restart_button_pressed()
 	
 func _on_restart_button_pressed():
-	rhythm_game.remove_all_notes_from_screen()
-	rhythm_game.reset_hit_notes()
-	reset_stats()
-	rhythm_game.seek(_last_time * 1000.0)
+	rhythm_game.seek_new(_last_time * 1000.0, true)
 	rhythm_game.start()
+	call_deferred("reset_stats")
 
 func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)

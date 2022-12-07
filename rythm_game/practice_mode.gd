@@ -2,7 +2,6 @@ extends "res://rythm_game/rhythm_game_controller.gd"
 
 onready var ingame_stats_label = get_node("PracticeModeUIIngame/HBoxContainer/Label")
 onready var quit_confirmation = get_node("QuitConfirmation")
-onready var video_pause_timer = Timer.new()
 onready var song_settings_editor = get_node("SettingsGUI/VBoxContainer/MarginContainer/PerSongSettingsEditor")
 
 onready var practice_seek_gui = get_node("SeekGUI")
@@ -51,9 +50,9 @@ var practice_gui_mode := 0 setget _set_mode
 
 var pitch_shift_effect := Shinobu.instantiate_pitch_shift()
 
+var pre_pause_game_mode: int = HBRhythmGame.GAME_MODE.NORMAL
+
 func _ready():
-	video_pause_timer.connect("timeout", self, "_on_video_pause")
-	video_pause_timer.wait_time = 0.050
 	game.connect("note_judged", self, "_on_note_judged")
 	quit_confirmation.connect("accept", Diagnostics.gamepad_visualizer, "hide")
 	quit_confirmation.connect("accept", self, "_on_PauseMenu_quit")
@@ -74,7 +73,6 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	pause_disabled = true
 	pause_menu_disabled = true
 	disable_restart()
-	add_child(video_pause_timer)
 	video_player.play()
 	video_player.paused = false
 	game._process(0)
@@ -106,6 +104,8 @@ func pause():
 	quit_confirmation.release_focus()
 	
 	if get_tree().paused:
+		pre_pause_game_mode = game.game_mode
+		game.game_mode = HBRhythmGame.GAME_MODE.EDITOR_SEEK
 		last_pause_time = game.time
 		game.editing = true
 		video_player.paused = true
@@ -114,17 +114,15 @@ func pause():
 		
 		_set_mode(practice_gui_mode, true)
 	else:
+		video_player.paused = false
+		game.game_mode = pre_pause_game_mode
 		reset_stats()
-		video_pause_timer.stop()
 		game.editing = false
 		game.start()
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
 		video_player.set_stream_position(game.time)
-
-func _on_video_pause():
-	video_player.paused = true
 
 
 func _process(delta):
@@ -281,26 +279,20 @@ func go_to_time(time: float):
 	time = clamp(time, song.start_time, end_time)
 	video_player.play()
 	if not get_tree().paused:
-		game.reset_hit_notes()
-		video_pause_timer.stop()
 		game.editing = false
-		game.seek(time)
+		game.seek_new(time, true)
 		game.start()
 		game.set_process(true)
 		game._process(0)
-		game.delete_rogue_notes(game.time)
 		video_player.paused = false
-		video_player.set_stream_position(game.time)
 	else:
-		game.reset_hit_notes()
-		game.seek(time)
+		game.seek_new(time, true)
 		game.time = time / 1000.0
-		game.delete_rogue_notes(game.time)
 		game._process(0)
 		update_progress_bar()
-		video_player.paused = false
+		video_player.paused = true
 		video_player.set_stream_position(game.time / 1000.0)
-		video_pause_timer.start()
+	video_player.set_stream_position(game.time)
 
 func reset_stats():
 	stats_passed_notes = 0

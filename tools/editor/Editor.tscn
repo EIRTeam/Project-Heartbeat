@@ -789,9 +789,6 @@ anchor_bottom = 1.0
 rect_clip_content = true
 mouse_filter = 2
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Node2D" type="Node2D" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview"]
 z_index = -2
@@ -908,7 +905,7 @@ flat = true
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
 margin_left = 160.0
-margin_right = 224.0
+margin_right = 234.0
 margin_bottom = 27.0
 min_value = 1.0
 max_value = 368.0
@@ -920,15 +917,15 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 228.0
-margin_top = 1.0
-margin_right = 243.0
-margin_bottom = 26.0
+margin_left = 238.0
+margin_top = 6.0
+margin_right = 245.0
+margin_bottom = 20.0
 text = "x"
 
 [node name="SpinBox2" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 247.0
-margin_right = 311.0
+margin_left = 249.0
+margin_right = 323.0
 margin_bottom = 27.0
 min_value = 1.0
 max_value = 368.0

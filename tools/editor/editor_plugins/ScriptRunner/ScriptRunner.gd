@@ -155,6 +155,7 @@ func _process_changed_values(inst: ScriptRunnerScript):
 								target_layer_name += "2"
 							var target_layer = _editor.timeline.find_layer_by_name(target_layer_name)
 							_editor.undo_redo.add_do_method(_editor, "remove_item_from_layer", source_layer, target_item)
+							_editor.undo_redo.add_do_method(_editor.rhythm_game, "remove_timing_point", source_layer, target_item)
 							_editor.undo_redo.add_do_method(_editor, "add_item_to_layer", target_layer, target_item)
 							_editor.undo_redo.add_undo_method(_editor, "remove_item_from_layer", target_layer, target_item)
 							_editor.undo_redo.add_undo_method(_editor, "add_item_to_layer", source_layer, target_item)

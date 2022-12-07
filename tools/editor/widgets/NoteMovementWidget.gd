@@ -89,7 +89,7 @@ func _draw():
 		trail_points[point_i] = editor.rhythm_game.remap_coords(wave_point) - rect_position
 		
 	draw_polyline(trail_points, sine_color, 4.0, true)
-
+	
 func _on_start_dragging():
 	drag_origin = rect_position
 

@@ -15,6 +15,10 @@ func get_serialized_type():
 func get_drawer():
 	return preload("res://rythm_game/note_drawers/SustainNoteDrawer.tscn")
 
+# Gets the scene that takes care of drawing this note
+func get_drawer_new():
+	return preload("res://rythm_game/note_drawers/new/SustainNoteDrawer.tscn")
+
 static func can_show_in_editor():
 	return false
 

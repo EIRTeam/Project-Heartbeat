@@ -40,8 +40,7 @@ func generate_trail_points():
 	_on_resized()
 	
 func _on_resized():
-	position = game.remap_coords(note_data.position)
-	scale = game.remap_coords(Vector2(1.0, 1.0)) - game.remap_coords(Vector2.ZERO)
+	position = note_data.position
 	var factor = 40
 #	print(game.remap_coords(Vector2(1920/2, 1080/2)))
 	line.width = scale.x * factor

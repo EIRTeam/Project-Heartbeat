@@ -2,11 +2,12 @@ extends HBRhythmGameUIBase
 
 onready var rating_label: Label = get_node("RatingLabel")
 onready var wrong_rating_cross: TextureRect = get_node("RatingLabel/WrongRatingCross")
-onready var game_layer_node = get_node("GameLayer")
+onready var game_layer_node = get_node("%GameLayer")
 onready var slide_hold_score_text = get_node("AboveNotesUI/Control/SlideHoldScoreText")
 onready var intro_skip_ff_animation_player = get_node("UnderNotesUI/Control/Label/IntroSkipFastForwardAnimationPlayer")
 onready var lyrics_view = get_node("Lyrics/Control/LyricsView")
 onready var under_notes_node = get_node("UnderNotesUI")
+onready var aspect_ratio_container: AspectRatioContainer = get_node("AspectRatioContainer")
 
 onready var game_over_turn_off_node: Control = get_node("CanvasLayer2/GameOverTurnOff")
 onready var game_over_turn_off_top: Control = get_node("CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop")
@@ -109,6 +110,10 @@ func get_drawing_layer_node(layer_name: String) -> Node2D:
 	
 func _on_note_judged(judgement_info):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, LATENCY_DISPLAY_GROUP, "_on_note_judged", judgement_info)
+	
+	if not is_ui_visible():
+		return
+	
 	rating_label.show_rating()
 	rating_label.get_node("AnimationPlayer").play("rating_appear")
 	if not judgement_info.wrong:

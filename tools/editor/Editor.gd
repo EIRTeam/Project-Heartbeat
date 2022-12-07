@@ -182,6 +182,7 @@ func _ready():
 	fine_position_timer.wait_time = 0.5
 	fine_position_timer.connect("timeout", self, "apply_fine_position")
 	rhythm_game.set_process_unhandled_input(false)
+	rhythm_game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
 #	seek(0)
 	inspector.connect("property_changed", self, "_change_selected_property")
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
@@ -239,7 +240,7 @@ func _ready():
 	
 	connect("scale_changed", timeline, "_on_editor_scale_changed")
 	
-	game_preview.connect("resized", self, "_on_preview_size_changed")
+	game_preview.connect("preview_size_changed", self, "_on_preview_size_changed")
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -318,7 +319,9 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 				for property_name in transformation_result[note]:
 					if property_name in item.data:
 						undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
+						undo_redo.add_do_method(item.data, "emit_signal", "parameter_changed", property_name)
 						undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
+						undo_redo.add_undo_method(item.data, "emit_signal", "parameter_changed", property_name)
 						if property_name == "note_type":
 							# When note type is changed we also change the layer
 							var new_note_type = transformation_result[note].note_type
@@ -331,13 +334,14 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 								var target_layer = timeline.find_layer_by_name(target_layer_name)
 								undo_redo.add_do_method(self, "remove_item_from_layer", source_layer, item)
 								undo_redo.add_do_method(self, "add_item_to_layer", target_layer, item)
+								
 								undo_redo.add_undo_method(self, "remove_item_from_layer", target_layer, item)
 								undo_redo.add_undo_method(self, "add_item_to_layer", source_layer, item)
 						if property_name == "position":
 							undo_redo.add_do_property(item.data, "pos_modified", true)
 							undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self, "force_game_process")
+		undo_redo.add_undo_method(self, "force_game_process")
 		undo_redo.commit_action()
 func _show_open_chart_dialog():
 	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
@@ -543,8 +547,6 @@ func _unhandled_input(event: InputEvent):
 		
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		
 		undo_redo.commit_action()
 	
@@ -657,8 +659,6 @@ func _unhandled_input(event: InputEvent):
 							undo_redo.add_undo_method(new_item, "deselect")
 							undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
 						
-						undo_redo.add_do_method(self, "_on_timing_points_changed")
-						undo_redo.add_undo_method(self, "_on_timing_points_changed")
 						undo_redo.add_undo_method(self, "deselect_all")
 						undo_redo.add_do_method(self, "deselect_all")
 						undo_redo.commit_action()
@@ -676,8 +676,6 @@ func _unhandled_input(event: InputEvent):
 									
 									check_for_multi_changes_upon_deletion(item.data.time, [item])
 									
-									undo_redo.add_do_method(self, "_on_timing_points_changed")
-									undo_redo.add_undo_method(self, "_on_timing_points_changed")
 									undo_redo.commit_action()
 						if not item_erased:
 							var timing_point := HBNoteData.new()
@@ -809,8 +807,6 @@ func apply_fine_position():
 			undo_redo.add_do_property(item.data, "pos_modified", true)
 			undo_redo.add_do_method(item, "update_widget_data")
 			undo_redo.add_do_method(item, "sync_value", "position")
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		fine_position_originals = {}
 		
 		undo_redo.commit_action()
@@ -840,13 +836,13 @@ func _change_selected_property_single_item(item, property_name: String, new_valu
 	
 	item.update_widget_data()
 	item.sync_value(property_name)
+	item.data.emit_signal("parameter_changed", property_name)
 
 
 func _commit_selected_property_change(property_name: String, create_action: bool = true):
 	var action_name = "Note " + property_name + " changed"
 	
 	if create_action:
-		print(action_name)
 		undo_redo.create_action(action_name)
 	
 	for selected_item in selected:
@@ -872,11 +868,13 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
 				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
+				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
 				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_do_method(selected_item, "sync_value", property_name)
 
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
+				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
@@ -885,14 +883,18 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.add_do_method(self, "sync_lyrics")
 	undo_redo.add_undo_method(self, "sync_lyrics")
 	
 	if property_name == "time":
 		undo_redo.add_do_method(self, "sort_current_items")
-	
+		for selected_item in selected:
+			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
+			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
+			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
+			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
+	undo_redo.add_do_method(self, "force_game_process")
+	undo_redo.add_undo_method(self, "force_game_process")
 	if create_action:
 		undo_redo.commit_action()
 	inspector.sync_value(property_name)
@@ -904,11 +906,9 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 	undo_redo.create_action(action_name)
 	
 	undo_redo.add_do_property(child.data, property_name, new_value)
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_do_method(child._layer, "place_child", child)
 	
 	undo_redo.add_undo_property(child.data, property_name, old_value)
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(child._layer, "place_child", child)
 	
 	if property_name == "position" or property_name:
@@ -940,6 +940,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 	layer.add_item(item)
 	if item in _removed_items:
 		_removed_items.erase(item)
+	rhythm_game.editor_add_timing_point(item.data)
 	
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -1058,8 +1059,8 @@ func delete_selected():
 			
 			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
 			
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self, "force_game_process")
+		undo_redo.add_undo_method(self, "force_game_process")
 		undo_redo.add_do_method(self, "sync_lyrics")
 		undo_redo.add_undo_method(self, "sync_lyrics")
 		selected = []
@@ -1194,10 +1195,11 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 		item.data = autoplace(item.data)
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(self, "force_game_process")
+
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_undo_method(self, "force_game_process")
 	
 	if item is EditorSectionTimelineItem:
 		undo_redo.add_do_method(timeline, "update")
@@ -1211,6 +1213,9 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
 	_removed_items.append(item)
+	rhythm_game.editor_remove_timing_point(item.data)
+	print("REMOVING ITEM")
+	print(rhythm_game.note_groups.size())
 	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
@@ -1243,9 +1248,9 @@ func _on_PlayButton_pressed():
 	playback_speed_slider.editable = false
 	obscure_ui()
 	
-# Fired when any timing point is changed, gives the game the new data
+# Fired when any timing point is tells the game to rethink its existence
 func _on_timing_points_changed():
-	game_playback.chart = get_chart()
+#	game_playback.chart = get_chart()
 	emit_signal("timing_points_changed")
 
 func _on_timing_points_params_changed():
@@ -1329,6 +1334,7 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
 func from_chart(chart: HBChart, ignore_settings=false):
+	rhythm_game.editor_clear_notes()
 	timeline.clear_layers()
 	undo_redo.clear_history()
 	selected = []
@@ -1396,7 +1402,7 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
-	_on_timing_points_changed()
+	game_playback.chart = chart
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
@@ -1412,9 +1418,11 @@ func paste_note_data(note_data: HBBaseNote):
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
 			undo_redo.add_do_property(selected_item, "data", new_data)
-			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
+			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", new_data)
 			undo_redo.add_undo_property(selected_item, "data", selected_item.data)
-			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", new_data)
+			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 	undo_redo.commit_action()
 	inspector.stop_inspecting()
 	inspector.inspect(selected[0])
@@ -1631,9 +1639,9 @@ func arrange_selected_by_angle(diff):
 		for i in range(notes.size()-1, -1, -1):
 			var note = notes[i] as HBBaseNote
 			undo_redo.add_do_property(note, "entry_angle", int(fmod(first_angle + diff * mult, 360.0)))
-			undo_redo.add_do_method(self, "_on_timing_points_changed")
+			undo_redo.add_do_method(note, "emit_signal", "parameter_changed", "entry_angle")
 			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
-			undo_redo.add_undo_method(self, "_on_timing_points_changed")
+			undo_redo.add_undo_method(note, "emit_signal", "parameter_changed", "entry_angle")
 			mult += 1
 		inspector.sync_visible_values_with_data()
 		undo_redo.commit_action()
@@ -1717,8 +1725,10 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 			if not preview_only:
 				undo_redo.add_do_property(selected_item.data, "position", new_pos)
 				undo_redo.add_do_property(selected_item.data, "pos_modified", true)
+				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "position")
 				undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
 				undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
+				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "position")
 				
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
@@ -1737,9 +1747,14 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 			
 			if not preview_only:
 				undo_redo.add_do_property(selected_item.data, "entry_angle", new_angle_params[0])
+				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
 				undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
+				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "entry_angle")
+
 				undo_redo.add_do_property(selected_item.data, "oscillation_frequency", new_angle_params[1])
+				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
 				undo_redo.add_undo_property(selected_item.data, "oscillation_frequency", selected_item.data.oscillation_frequency)
+				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", "oscillation_frequency")
 				
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
@@ -1748,10 +1763,11 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 				_change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
 	
 	if not preview_only:
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
+		undo_redo.add_undo_method(self, "force_game_process")
+		undo_redo.add_do_method(self, "force_game_process")
 		
 		undo_redo.commit_action()
 		
@@ -2222,8 +2238,6 @@ func reset_note_position():
 	
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
 	undo_redo.commit_action()
 
@@ -2237,3 +2251,15 @@ func _on_preview_size_changed():
 		item.update_widget_data()
 		if item.widget:
 			item.widget.arrange_gizmo()
+
+var force_game_process_queued := false
+
+func _force_game_process_impl():
+	force_game_process_queued = false
+	rhythm_game.seek_new(playhead_position, true)
+	rhythm_game._process(0)
+
+func force_game_process():
+	if not force_game_process_queued:
+		force_game_process_queued = true
+		call_deferred("_force_game_process_impl")

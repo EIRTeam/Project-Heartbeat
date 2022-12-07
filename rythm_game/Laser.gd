@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name MultiLaser
+
 const LASER_RES = 16
 
 var positions = [] setget set_positions

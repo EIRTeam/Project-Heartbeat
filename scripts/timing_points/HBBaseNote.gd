@@ -6,6 +6,8 @@ class_name HBBaseNote
 signal note_type_changed
 #warning-ignore:unused_signal
 signal hold_toggled
+#warning-ignore:unused_signal
+signal parameter_changed(parameter_name)
 
 enum NOTE_TYPE {
 	UP,
@@ -64,7 +66,7 @@ func set_note_type(value):
 	emit_signal("note_type_changed")
 
 # gets the time out or returns automatically generated time_out
-func get_time_out(bpm):
+func get_time_out(bpm) -> int:
 	if auto_time_out:
 		return int((60.0  / bpm * (1 + 3) * 1000.0))
 	else:

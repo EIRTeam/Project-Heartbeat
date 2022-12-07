@@ -37,5 +37,5 @@ func _unhandled_input(event):
 	if event.is_action_pressed("gui_right"):
 		go_to_page(clamp((page+1), 0, page_container.get_child_count()-1))
 	if event.is_action_pressed("gui_cancel"):
-		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
+		HBGame._sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 		change_to_menu("main_menu")

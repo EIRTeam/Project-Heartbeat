@@ -20,6 +20,12 @@ func get_drawer():
 	else:
 		return slide_drawer
 
+func get_drawer_new():
+	if not is_slide_note():
+		return load("res://rythm_game/note_drawers/new/SingleNoteDrawer.tscn")
+	else:
+		return load("res://rythm_game/note_drawers/new/SlideNoteDrawer.tscn")
+
 static func can_show_in_editor():
 	return false
 
