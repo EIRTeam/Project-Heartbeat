@@ -86,11 +86,17 @@ func serialize():
 
 func deserialize(data: Dictionary, song):
 	for layer in data.layers:
-		var timing_points = []
+		var timing_points := []
 		for point in layer.timing_points:
 			var _point = HBTimingPoint.deserialize(point)
-			timing_points.append(_point)
 			
+			if "2" in layer.name:
+				_point.set_meta("second_layer", true)
+			else:
+				_point.set_meta("second_layer", false)
+			
+			timing_points.append(_point)
+		
 		var found_matching_layer = false
 		for l in self.layers:
 			if l.name == layer.name:

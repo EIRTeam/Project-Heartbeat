@@ -313,6 +313,9 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 								var target_layer_name = type_to_layer_name_map[new_note_type]
 								if source_layer.layer_name.ends_with("2"):
 									target_layer_name += "2"
+								
+								note.set_meta("second_layer", target_layer_name.ends_with("2"))
+								
 								var target_layer = timeline.find_layer_by_name(target_layer_name)
 								undo_redo.add_do_method(self, "remove_item_from_layer", source_layer, item)
 								undo_redo.add_do_method(self, "add_item_to_layer", target_layer, item)
@@ -344,7 +347,7 @@ func change_scale(new_scale):
 	scale = new_scale
 	scale = max(new_scale, 0.1)
 	emit_signal("scale_changed", prev_scale, new_scale)
-	
+
 func get_items_at_time(time: int):
 	var items = []
 	for item in current_notes:
@@ -532,10 +535,9 @@ func _unhandled_input(event: InputEvent):
 							if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
 								new_data_ser["type"] = "Note"
 							
-							if type == HBBaseNote.NOTE_TYPE.HEART:
-								if new_data_ser["type"] == "SustainNote":
-									new_data_ser["type"] = "Note"
 							var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+							
+							new_data.set_meta("second_layer", layer.layer_name.ends_with("2"))
 							
 							var new_item = new_data.get_timeline_item()
 							
@@ -552,7 +554,7 @@ func _unhandled_input(event: InputEvent):
 						undo_redo.commit_action()
 					else:
 						var item_erased = false
-						for item in get_items_at_time(playhead_position):
+						for item in get_items_at_time(snap_time_to_timeline(playhead_position)):
 							if item is EditorTimelineItemNote:
 								if item.data.note_type == type and item._layer == layer:
 									item_erased = true
@@ -767,7 +769,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					
 					var autoplaced_position = null
 					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
-						var new_data = autoplace(selected_item.data)
+						var new_data = autoplace(selected_item.data, true)
 						autoplaced_position = new_data.position
 						
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
@@ -788,12 +790,11 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
 				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
 				
-				if property_name != "time" or selected_item.data is HBSustainNote:
-					undo_redo.add_do_method(selected_item, "update_widget_data")
-					undo_redo.add_do_method(selected_item, "sync_value", property_name)
-					
-					undo_redo.add_undo_method(selected_item, "update_widget_data")
-					undo_redo.add_undo_method(selected_item, "sync_value", property_name)
+				undo_redo.add_do_method(selected_item, "update_widget_data")
+				undo_redo.add_do_method(selected_item, "sync_value", property_name)
+				
+				undo_redo.add_undo_method(selected_item, "update_widget_data")
+				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
 			
 			old_property_values[selected_item].erase(property_name)
 
@@ -872,6 +873,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 	else:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
+	
 	insert_note_at_time(item)
 	layer.add_item(item)
 	if item in _removed_items:
@@ -954,6 +956,7 @@ func paste(time: int):
 			if timing_point.time < min_point.time:
 				min_point = timing_point
 		
+		var sync_timing := false
 		for copy in copied_points:
 			for l in timeline.get_layers():
 				if l.layer_name == copy.layer_name:
@@ -976,11 +979,14 @@ func paste(time: int):
 			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
 			
 			if copy.item is EditorSectionTimelineItem:
-				undo_redo.add_do_method(timeline, "update")
-				undo_redo.add_undo_method(timeline, "update")
+				sync_timing = true
 			
 			check_for_multi_changes(timing_point, -1)
-			
+		
+		if sync_timing:
+			undo_redo.add_do_method(timeline, "update")
+			undo_redo.add_undo_method(timeline, "update")
+		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(self, "sync_lyrics")
@@ -1024,6 +1030,23 @@ func delete_selected():
 		selected = []
 		undo_redo.commit_action()
 
+func is_slide_chain(note: HBTimingPoint):
+	if note is HBNoteData and note.is_slide_note():
+		for item in current_notes:
+			if  item.data is HBNoteData and \
+				item.data.time > note.time and \
+				item.data.note_type == note.get_chain_type() and \
+				item.data.get_meta("second_layer") == note.get_meta("second_layer"):
+					return true
+			
+			if  item.data is HBNoteData and \
+				item.data.time > note.time and \
+				item.data.note_type == note.note_type and \
+				item.data.get_meta("second_layer") == note.get_meta("second_layer"):
+					return false
+	
+	return false
+
 func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = null):
 	if UserSettings.user_settings.editor_auto_multi:
 		if item is HBBaseNote:
@@ -1047,10 +1070,16 @@ func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = n
 				if note is HBBaseNote:
 					notes_at_previous_time.append(note)
 			
+			for note in notes_at_time:
+				_set_multi_pos(note)
+			
 			if notes_at_time.size() > 1:
 				# The item has joined in with a multi
 				for note in notes_at_time:
-					_set_multi_params(note, autoplaced_pos)
+					if not note.is_multi_allowed() or is_slide_chain(note):
+						_set_multi_params_clearing_angles(note, autoplaced_pos)
+					else:
+						_set_multi_params(note, autoplaced_pos)
 			elif notes_at_time.size() == 1:
 				if notes_at_previous_time.size() > 0:
 					# The note is leaving a multi
@@ -1080,6 +1109,17 @@ func check_for_multi_changes_upon_deletion(time: int, deleted_items: Array):
 		
 		_set_multi_angles(notes_at_time)
 
+func _set_multi_pos(note: HBBaseNote):
+	var multi_pos = 3 - note.note_type
+	if note.note_type in [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT]:
+		multi_pos = 3 if note.get_meta("second_layer") else 1
+	if note.note_type in [HBBaseNote.NOTE_TYPE.SLIDE_RIGHT, HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT]:
+		multi_pos = 2 if note.get_meta("second_layer") else 0
+	if note.note_type == HBBaseNote.NOTE_TYPE.HEART:
+		multi_pos = 4
+	
+	note.set_meta("multi_pos", multi_pos)
+
 func _set_multi_params(note, position):
 	undo_redo.add_do_property(note, "oscillation_amplitude", 0)
 	undo_redo.add_do_property(note, "distance", 880)
@@ -1088,10 +1128,11 @@ func _set_multi_params(note, position):
 	undo_redo.add_undo_property(note, "distance", note.distance)
 	
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
-		var multi_pos = 3 - note.note_type
+		var multi_pos = note.get_meta("multi_pos")
 		
 		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
 		undo_redo.add_undo_property(note, "position", note.position)
+
 func _clear_multi_params(note, position=null):
 	position = note.position if not position else position
 	
@@ -1105,21 +1146,38 @@ func _clear_multi_params(note, position=null):
 		undo_redo.add_do_property(note, "position", Vector2(position.x, 918))
 		undo_redo.add_undo_property(note, "position", note.position)
 
-func _sort_by_note_type(a, b):
-	return a.note_type < b.note_type
-func _set_multi_angles(notes: Array):
-	notes.sort_custom(self, "_sort_by_note_type")
+func _set_multi_params_clearing_angles(note, position):
+	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
+	undo_redo.add_do_property(note, "distance", 1200)
 	
-	for note in notes:
+	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+	undo_redo.add_undo_property(note, "distance", note.distance)
+	
+	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
+		var multi_pos = note.get_meta("multi_pos")
+		
+		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
+		undo_redo.add_undo_property(note, "position", note.position)
+
+func _sort_by_multi_pos(a, b):
+	var multi_pos_a = a.get_meta("multi_pos")
+	var multi_pos_b = b.get_meta("multi_pos")
+	return multi_pos_a > multi_pos_b
+
+func _set_multi_angles(notes: Array):
+	notes.sort_custom(self, "_sort_by_multi_pos")
+	
+	for i in notes.size():
+		var note = notes[i]
+		
 		if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 			var angle = -90
-		
-			if notes.size() == 2:
-				var index = notes.find(note)
 			
-				angle = -45.0 if index == 0 else 45.0
-			elif notes.size() > 2:
-				angle = -45.0 if note.note_type < 2 else 45.0
+			if note.is_multi_allowed() and not is_slide_chain(note):
+				if notes.size() == 2:
+					angle = -45.0 if i == 0 else 45.0
+				elif notes.size() > 2:
+					angle = -45.0 if note.get_meta("multi_pos") > 1 else 45.0
 		
 			undo_redo.add_do_property(note, "entry_angle", angle)
 			undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
@@ -1162,6 +1220,8 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	
 	if item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place:
 		item.data = autoplace(item.data)
+	
+	item.data.set_meta("second_layer", layer.layer_name.ends_with("2"))
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
@@ -1827,11 +1887,15 @@ func autoplace(data: HBBaseNote, force=false):
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
 	
-	var place_at_note = null
 	var notes_at_time = get_notes_at_time(data.time)
 	
+	var selected_data = []
+	for item in selected:
+		selected_data.append(item.data)
+	
+	var place_at_note = null
 	for note in notes_at_time:
-		if note is HBBaseNote and note.pos_modified and not force:
+		if note is HBBaseNote and note.pos_modified and (not note in selected_data) and (not force):
 			place_at_note = note
 			break
 	
