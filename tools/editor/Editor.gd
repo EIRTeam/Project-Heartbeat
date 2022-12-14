@@ -1148,9 +1148,11 @@ func _clear_multi_params(note, position=null):
 
 func _set_multi_params_clearing_angles(note, position):
 	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
+	undo_redo.add_do_property(note, "oscillation_frequency", -2)
 	undo_redo.add_do_property(note, "distance", 1200)
 	
 	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
+	undo_redo.add_undo_property(note, "oscillation_frequency", note.oscillation_frequency)
 	undo_redo.add_undo_property(note, "distance", note.distance)
 	
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
@@ -1264,13 +1266,15 @@ func pause():
 	emit_signal("playhead_position_changed")
 	playback_speed_slider.editable = true
 	reveal_ui()
-func _on_PauseButton_pressed():
+func _on_PauseButton_pressed(auto = false):
 	pause()
 	seek(playhead_position)
 	play_button.show()
 	pause_button.hide()
 	emit_signal("paused")
-	create_queued_timing_points()
+	
+	if not auto:
+		create_queued_timing_points()
 
 func _on_PlayButton_pressed():
 	if UserSettings.user_settings.editor_autosave_enabled:
@@ -1287,7 +1291,8 @@ func _on_PlayButton_pressed():
 	
 # Fired when any timing point is tells the game to rethink its existence
 func _on_timing_points_changed():
-	_on_PauseButton_pressed()
+	game_playback.chart = get_chart()
+	_on_PauseButton_pressed(true)
 	emit_signal("timing_points_changed")
 
 func _on_timing_points_params_changed():

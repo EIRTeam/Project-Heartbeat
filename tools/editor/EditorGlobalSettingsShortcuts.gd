@@ -108,7 +108,7 @@ const EDITOR_EVENTS = {
 		"editor_horizontal_multi_top",
 		"editor_horizontal_multi_bottom",
 		"editor_quad",
-		"editor_inside_quad",
+		"editor_inner_quad",
 		"editor_sideways_quad",
 		"editor_triangle",
 		"editor_triangle_inverted",

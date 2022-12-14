@@ -358,6 +358,107 @@ func _gui_input(event):
 	if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("EditorGlobalSettings").visible:
 		editor.show_contextual_menu()
 
+func _unhandled_input(event):
+	if _area_selecting:
+		if event.is_action_pressed("slide_left", false, true):
+			make_slide(HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT, "SLIDE_LEFT")
+			get_tree().set_input_as_handled()
+		elif event.is_action_pressed("slide_right", false, true):
+			make_slide(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT, "SLIDE_RIGHT")
+			get_tree().set_input_as_handled()
+		elif event.is_action_pressed("slide_left", false, false) and event.shift:
+			make_slide(HBNoteData.NOTE_TYPE.SLIDE_LEFT, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT, "SLIDE_LEFT2")
+			get_tree().set_input_as_handled()
+		elif event.is_action_pressed("slide_right", false, false) and event.shift:
+			make_slide(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT, "SLIDE_RIGHT2")
+			get_tree().set_input_as_handled()
+
+func make_slide(note_type, piece_note_type, layer_name):
+	var layer
+	for _layer in get_layers():
+		if _layer.layer_name == layer_name:
+			layer = _layer
+			break
+	
+	var first_pos = _area_select_start
+	var second_pos = get_local_mouse_position()
+	
+	var first_time = clamp(editor.scale_pixels(int(first_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length()*1000.0)
+	var second_time = clamp(editor.scale_pixels(int(second_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length()*1000.0)
+	first_time = editor.snap_time_to_timeline(first_time)
+	second_time = editor.snap_time_to_timeline(second_time)
+	
+	var start_time = min(first_time, second_time)
+	var end_time = max(first_time, second_time)
+	var start_i := editor._closest_bound(editor.get_timing_map(), start_time)
+	var end_i := editor._closest_bound(editor.get_timing_map(), end_time)
+	
+	var dt := abs(end_time - start_time)
+	var piece_count := (end_i - start_i) * 2
+	
+	var start_time_as_eight = editor._linear_bound(editor.get_normalized_timing_map(), start_time)
+	start_time_as_eight = fmod(start_time_as_eight, 15.0)
+	if start_time_as_eight < 0:
+		start_time_as_eight = fmod(15.0 - abs(start_time_as_eight), 15.0)
+	
+	var first_slide := HBNoteData.new()
+	first_slide.time = start_time
+	first_slide.note_type = note_type
+	first_slide.oscillation_frequency = -2 if note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT else 2
+	first_slide.entry_angle = -90
+	
+	first_slide.position.y = 918
+	first_slide.position.x = 242 + 96 * start_time_as_eight
+	if note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+		first_slide.position.x += 32 * piece_count
+	
+	var first_timeline_item = first_slide.get_timeline_item()
+	
+	editor.undo_redo.create_action("Create slide chain")
+	
+	editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, first_timeline_item)
+	editor.undo_redo.add_do_method(editor, "select_item", first_timeline_item)
+	editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, first_timeline_item)
+	editor.undo_redo.add_undo_method(editor, "deselect_item", first_timeline_item)
+	
+	for i in range(piece_count):
+		var time_i = min(start_i + (i + 1.0) / 2.0, editor.get_timing_map().size() - 1)
+		var time
+		if is_equal_approx(fmod(time_i, 1.0), 0.0):
+			time = editor.get_timing_map()[int(time_i)]
+		else:
+			time = editor.get_timing_map()[int(time_i - 0.5)]
+			time += (editor.get_timing_map()[int(time_i + 0.5)] - editor.get_timing_map()[int(time_i - 0.5)]) / 2.0
+		
+		var slide_piece := HBNoteData.new()
+		
+		slide_piece.time = time
+		slide_piece.note_type = piece_note_type
+		slide_piece.oscillation_frequency = -2 if piece_note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT else 2
+		slide_piece.entry_angle = -90
+		slide_piece.position = first_slide.position
+		
+		if piece_note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
+			slide_piece.position.x += 48 + 32 * i
+		else:
+			slide_piece.position.x -= 48 + 32 * i
+		
+		var timeline_item = slide_piece.get_timeline_item()
+		
+		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
+		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, true)
+		editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
+		editor.undo_redo.add_undo_method(editor, "deselect_item", timeline_item)
+	
+	editor.undo_redo.add_do_method(editor, "_on_timing_points_changed")
+	editor.undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+	
+	_area_selecting = false
+	modifier_texture.visible = false
+	editor.deselect_all()
+	update()
+	editor.undo_redo.commit_action()
+
 func get_time_being_hovered():
 	return editor.snap_time_to_timeline(editor.scale_pixels(get_layers()[0].get_local_mouse_position().x))
 

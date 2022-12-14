@@ -271,7 +271,7 @@ func fill_localized_arrays():
 		"editor_horizontal_multi_top": tr("Vertical multi top"),
 		"editor_horizontal_multi_bottom": tr("Vertical multi bottom"),
 		"editor_quad": tr("Quad"),
-		"editor_inside_quad": tr("Quad (Inside)"),
+		"editor_inner_quad": tr("Quad (From inside)"),
 		"editor_sideways_quad": tr("Sideways quad"),
 		"editor_triangle": tr("Triangle"),
 		"editor_triangle_inverted": tr("Inverted triangle"),
