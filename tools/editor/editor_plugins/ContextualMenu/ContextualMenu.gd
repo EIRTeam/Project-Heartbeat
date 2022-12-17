@@ -383,13 +383,13 @@ func make_sustain(toggle = false):
 			var new_item = new_data.get_timeline_item()
 			
 			undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
+			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, end)
+			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, start)
 			undo_redo.add_do_method(start, "deselect")
 			undo_redo.add_do_method(end, "deselect")
-			undo_redo.add_undo_method(start._layer, "remove_item", new_item)
 			
-			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, start)
-			undo_redo.add_do_method(editor, "remove_item_from_layer", end._layer, end)
 			undo_redo.add_undo_method(new_item, "deselect")
+			undo_redo.add_undo_method(editor, "remove_item_from_layer", start._layer, new_item)
 			undo_redo.add_undo_method(editor, "add_item_to_layer", start._layer, start)
 			undo_redo.add_undo_method(editor, "add_item_to_layer", end._layer, end)
 	
@@ -408,9 +408,9 @@ func make_sustain(toggle = false):
 		
 		undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
 		undo_redo.add_do_method(item, "deselect")
-		undo_redo.add_undo_method(item._layer, "remove_item", new_item)
-		
 		undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+
+		undo_redo.add_undo_method(editor, "remove_item_from_layer", item._layer, new_item)
 		undo_redo.add_undo_method(new_item, "deselect")
 		undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
 	
@@ -424,11 +424,11 @@ func make_sustain(toggle = false):
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 			var new_item = new_data.get_timeline_item()
 			
-			undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
-			undo_redo.add_do_method(item, "deselect")
-			undo_redo.add_undo_method(item._layer, "remove_item", new_item)
-			
 			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+			undo_redo.add_do_method(item, "deselect")
+			undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+			
+			undo_redo.add_undo_method(editor, "remove_item_from_layer", item._layer, new_item)
 			undo_redo.add_undo_method(new_item, "deselect")
 			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
 	
@@ -467,11 +467,11 @@ func toggle_double():
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
-		undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
-		undo_redo.add_do_method(item, "deselect")
-		undo_redo.add_undo_method(item._layer, "remove_item", new_item)
-		
 		undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+		undo_redo.add_do_method(item, "deselect")
+		undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
+		
+		undo_redo.add_undo_method(editor, "remove_item_from_layer", item._layer, new_item)
 		undo_redo.add_undo_method(new_item, "deselect")
 		undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
 	
@@ -481,6 +481,9 @@ func toggle_double():
 	undo_redo.add_do_method(editor.inspector, "stop_inspecting")
 	undo_redo.add_do_method(editor, "deselect_all")
 	undo_redo.add_undo_method(editor, "deselect_all")
+	undo_redo.add_do_method(editor, "force_game_process")
+	undo_redo.add_undo_method(editor, "force_game_process")
+	
 	
 	undo_redo.commit_action()
 
