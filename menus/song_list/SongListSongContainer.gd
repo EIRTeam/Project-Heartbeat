@@ -343,6 +343,8 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		var found_child = false
 		for child_i in range(item_container.get_child_count()):
 			var child = item_container.get_child(child_i)
+			if child is HBSongListItemRandom:
+				continue
 			if child.song.id == previously_selected_song_id:
 				select_item(child_i)
 				found_child = true
