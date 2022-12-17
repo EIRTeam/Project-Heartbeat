@@ -106,8 +106,7 @@ func process_group(time_msec: int) -> bool:
 			note_drawer.process_note(time_msec)
 	
 	var should_finish := note_datas.size() == finished_notes.size()
-	
-	if note_judgement_infos.size() != note_datas.size():
+	if note_judgement_infos.size() != note_datas.size() and note_datas.size() > 1:
 		if not laser_renderer and note_drawers.size() > 0:
 			laser_renderer = LaserRenderer.instance()
 			var base_points := []
