@@ -947,6 +947,8 @@ func seek_new(new_position_msec: int, reset_notes := false):
 			# Only need to kill groups that aren't in range
 			if group.get_end_time_msec() < new_position_msec or group.get_start_time_msec() > new_position_msec:
 				group.reset_group()
+		for group in finished_note_groups:
+			group.reset_group()
 		current_note_groups.clear()
 		finished_note_groups.clear()
 
