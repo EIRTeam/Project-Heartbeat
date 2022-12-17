@@ -488,13 +488,13 @@ func _process_groups():
 		first_search_point = min(first_search_point, last_culled_note_group)
 	
 	var group_order_dirty := false
-	
 	for i in range(first_search_point, final_search_point):
 		var group := note_groups[i] as HBNoteGroup
 		if not group in current_note_groups and not group in finished_note_groups:
 			if group.get_start_time_msec() <= time_msec and group.get_end_time_msec() >= time_msec:
 				current_note_groups.append(group)
-				game_debug.track_group(group)
+				if OS.has_feature("editor"):
+					game_debug.track_group(group)
 				group_order_dirty = true
 	
 	if group_order_dirty:
