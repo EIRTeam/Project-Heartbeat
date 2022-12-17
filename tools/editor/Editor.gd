@@ -1853,7 +1853,8 @@ func _on_auto_multi_toggled(button_pressed):
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
-	_on_SaveButton_pressed()
+	if UserSettings.user_settings.editor_autosave_enabled:
+		_on_SaveButton_pressed()
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
