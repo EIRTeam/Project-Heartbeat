@@ -133,9 +133,10 @@ func process_group(time_msec: int) -> bool:
 func process_input(event: InputEventHB) -> bool:
 	var will_consume_input := finished_notes.size() != note_datas.size()
 	var input_was_consumed_by_note := false
-	# HACK: We ignore slide up and down to prevent the user
+	# HACK: We ignore slide left and right to prevent the user
 	# from getting a wrong on slides when using the heart action
 	var heart_bypass_hack := false
+	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
 	
 	# For pressed inputs we first figure out if any of our notes will accept it
 	var is_input_in_range: bool = abs((game.time * 1000.0) - get_hit_time_msec()) < game.judge.get_target_window_msec()
@@ -153,6 +154,12 @@ func process_input(event: InputEventHB) -> bool:
 		if note.note_type == HBBaseNote.NOTE_TYPE.HEART:
 			if (event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right")):
 				heart_bypass_hack = true
+		# Make normal note ignore slides and vice versa
+		if not note.note_type == HBBaseNote.NOTE_TYPE.HEART and not (note is HBNoteData and note.is_slide_note()):
+			if is_analog_event:
+				heart_bypass_hack = true
+		elif not is_analog_event:
+			heart_bypass_hack = true
 	
 	if event.is_pressed() and note_judgement_infos.size() != note_datas.size():
 		if not input_was_consumed_by_note and is_input_in_range:
