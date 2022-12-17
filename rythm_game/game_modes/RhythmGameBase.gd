@@ -13,9 +13,6 @@ signal hide_multi_hint
 signal toggle_ui
 signal size_changed
 
-const GAME_DEBUG_SCENE = preload("res://rythm_game/GameDebug.tscn")
-var game_debug: HBGameDebug
-
 const BASE_SIZE = Vector2(1920, 1080)
 const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
@@ -149,8 +146,6 @@ func _game_ready():
 	add_child(sfx_pool)
 	
 	pause_mode = Node.PAUSE_MODE_STOP
-	game_debug = GAME_DEBUG_SCENE.instance()
-	add_child(game_debug)
 
 func _ready():
 	_game_ready()
@@ -314,6 +309,9 @@ func get_time_to_intro_skip_to():
 		return intro_skip_marker.time
 	else:
 		return earliest_note_time - INTRO_SKIP_MARGIN
+	
+func _sort_groups_by_start_time(a, b):
+	return a.get_end_time_msec() < b.get_end_time_msec()
 	
 func _sort_groups_by_end_time(a, b):
 	return a.get_end_time_msec() < b.get_end_time_msec()
@@ -493,8 +491,6 @@ func _process_groups():
 		if not group in current_note_groups and not group in finished_note_groups:
 			if group.get_start_time_msec() <= time_msec and group.get_end_time_msec() >= time_msec:
 				current_note_groups.append(group)
-				if OS.has_feature("editor"):
-					game_debug.track_group(group)
 				group_order_dirty = true
 	
 	if group_order_dirty:
@@ -507,7 +503,6 @@ func _process_groups():
 		if note_group.process_group(time_msec):
 			current_note_groups.erase(note_group)
 			finished_note_groups.append(note_group)
-			game_debug.untrack_group(note_group)
 
 # We need to split _process into it's own function so we can override it because
 # godot is stupid and calls _process on both parent and child
@@ -926,7 +921,7 @@ func _notification(what):
 			for note in c:
 				if not c[note].is_queued_for_deletion():
 					c[note].queue_free()
-
+		editor_clear_notes()
 # Tracks a sound and auto frees it when its finished
 func track_sound(sound: ShinobuSoundPlayer):
 	add_child(sound)
@@ -971,27 +966,19 @@ func _group_compare_hit(a, b):
 func editor_add_timing_point(point: HBTimingPoint):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
-		var group_i := note_groups.bsearch_custom(note_data.time, self, "_group_compare_hit")
+		var group := editor_find_group_at_time(note_data.time)
 		
-		var group: HBNoteGroup
-		
-		if group_i < note_groups.size():
-			var candidate_group := note_groups[group_i] as HBNoteGroup
-			if candidate_group.get_hit_time_msec() == note_data.time:
-				group = candidate_group
 		if not group:
 			group = HBNoteGroup.new()
 			group.game = self
-			note_groups.insert(group_i, group)
+			note_groups.append(group)
 			note_groups_by_end_time.append(group)
 		
 		group.note_datas.append(note_data)
 		group.reset_group()
 		
 		note_data.set_meta("editor_group", group)
-		
-		note_groups.sort_custom(self, "_sort_groups_by_start_time")
-		note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
+		editor_sort_groups()
 		last_culled_note_group = -1
 	else:
 		if point is HBBPMChange:
@@ -999,17 +986,27 @@ func editor_add_timing_point(point: HBTimingPoint):
 		else:
 			print("TODO: Handle addition of non note timing points")
 
+func editor_sort_groups():
+	note_groups.sort_custom(self, "_sort_groups_by_start_time")
+	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
+
+func editor_find_group_at_time(time_msec: int) -> HBNoteGroup:
+	var group_i := note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end")
+	if note_groups.size() > 0:
+		# walk backwards
+		if group_i == note_groups.size():
+			group_i -= 1
+		while group_i >= 0 and note_groups[group_i].get_end_time_msec() >= time_msec:
+			if note_groups[group_i].get_hit_time_msec() == time_msec:
+				return note_groups[group_i]
+			group_i -= 1
+	return null
+
 func editor_remove_timing_point(point: HBTimingPoint):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
-		var group_i := note_groups.bsearch_custom(note_data.time, self, "_group_compare_hit")
+		var group := editor_find_group_at_time(note_data.time)
 		
-		var group: HBNoteGroup
-		
-		if group_i < note_groups.size():
-			var candidate_group := note_groups[group_i] as HBNoteGroup
-			if candidate_group.get_hit_time_msec() == note_data.time:
-				group = candidate_group
 		if group:
 			group.note_datas.erase(note_data)
 			group.reset_group()
@@ -1027,7 +1024,15 @@ func editor_remove_timing_point(point: HBTimingPoint):
 			print("TODO: Handle removal of non note timing points")
 
 func editor_clear_notes():
+	for group in note_groups:
+		for note_data in group.note_datas:
+			note_data.set_meta("editor_group", null)
+		if group.is_connected("notes_judged", self, "_on_notes_judged_new"):
+			group.disconnect("notes_judged", self, "_on_notes_judged_new")
 	note_groups.clear()
+	note_groups_by_end_time.clear()
+	current_note_groups.clear()
+	finished_note_groups.clear()
 	last_culled_note_group = -1
 
 func notify_rollback():

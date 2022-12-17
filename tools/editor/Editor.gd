@@ -1402,7 +1402,6 @@ func from_chart(chart: HBChart, ignore_settings=false):
 	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
-	game_playback.chart = chart
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
 	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):

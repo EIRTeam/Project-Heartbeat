@@ -616,8 +616,6 @@ func editor_unorphan_subnotes():
 				slide_hold_chains[slide_note] = slide_chain
 			slide_chain.pieces.append(note)
 			editor_orphaned_subnotes.remove(i)
-			print("UNORPH", editor_orphaned_subnotes.size())
-
 
 func editor_add_timing_point(point: HBTimingPoint):
 	if point is HBBaseNote:
@@ -671,6 +669,8 @@ func editor_remove_timing_point(point: HBTimingPoint):
 
 func editor_clear_notes():
 	.editor_clear_notes()
+	for slide in slide_hold_chains:
+		slide.set_meta("editor_group", null)
 	slide_hold_chains.clear()
 	editor_orphaned_subnotes.clear()
 	editor_left_slide_notes.clear()

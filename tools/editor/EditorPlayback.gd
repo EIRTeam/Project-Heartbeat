@@ -30,7 +30,6 @@ var voice_source: ShinobuSoundSource
 
 func set_chart(val):
 	chart = val
-	game.set_chart(chart)
 	game._process(0)
 func _init(_game: HBRhythmGame):
 	self.game = _game
