@@ -64,7 +64,9 @@ func _on_pressed(event = null, judge := true):
 		fire_and_forget_user_sfx("note_hit")
 	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
 	if judge:
-		emit_signal("judged", judgement, false, note_data.time, event)
+		emit_signal("judged", judgement, true, note_data.time, event)
+		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:
+			emit_signal("judged", judgement, false, note_data.time, event)
 	if not is_multi_note:
 		game.add_score(HBNoteData.NOTE_SCORES[judgement])
 		if judgement < HBJudge.JUDGE_RATINGS.FINE:
