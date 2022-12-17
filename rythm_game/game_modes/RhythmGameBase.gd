@@ -630,6 +630,7 @@ func restart():
 	time = current_song.start_time / 1000.0
 	game_ui._on_reset()
 	seek_new(current_song.start_time, true)
+	autoplay_scheduled_sounds.clear()
 	
 	result = HBResult.new()
 	current_combo = 0
