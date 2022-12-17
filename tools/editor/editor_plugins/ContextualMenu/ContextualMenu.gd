@@ -192,9 +192,9 @@ func change_note_type(new_type: String):
 			
 			undo_redo.add_do_method(editor, "add_item_to_layer", item._layer, new_item)
 			undo_redo.add_do_method(item, "deselect")
-			undo_redo.add_undo_method(item._layer, "remove_item", new_item)
-			
 			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)
+
+			undo_redo.add_undo_method(editor, "remove_item_from_layer", item._layer, new_item)
 			undo_redo.add_undo_method(new_item, "deselect")
 			undo_redo.add_undo_method(editor, "add_item_to_layer", item._layer, item)
 		undo_redo.add_do_method(editor, "_on_timing_points_changed")
@@ -203,6 +203,10 @@ func change_note_type(new_type: String):
 		undo_redo.add_do_method(editor.inspector, "stop_inspecting")
 		undo_redo.add_do_method(editor, "deselect_all")
 		undo_redo.add_undo_method(editor, "deselect_all")
+		
+		undo_redo.add_do_method(editor, "force_game_process")
+		undo_redo.add_undo_method(editor, "force_game_process")
+		
 		
 		undo_redo.commit_action()
 func _on_contextual_menu_about_to_show():

@@ -1214,8 +1214,6 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	current_notes.erase(item)
 	_removed_items.append(item)
 	rhythm_game.editor_remove_timing_point(item.data)
-	print("REMOVING ITEM")
-	print(rhythm_game.note_groups.size())
 	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
@@ -1230,7 +1228,7 @@ func pause():
 	reveal_ui()
 func _on_PauseButton_pressed():
 	pause()
-	game_preview.set_time(playhead_position/1000.0)
+	seek(playhead_position)
 	play_button.show()
 	pause_button.hide()
 	create_queued_timing_points()
@@ -1409,6 +1407,8 @@ func from_chart(chart: HBChart, ignore_settings=false):
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
 	deselect_all()
 	sync_lyrics()
+	force_game_process()
+
 func paste_note_data(note_data: HBBaseNote):
 	undo_redo.create_action("Paste note data")
 	for selected_item in selected:
