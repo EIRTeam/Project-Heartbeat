@@ -37,7 +37,10 @@ func process_input(event: InputEventHB):
 func _on_note_pressed(event = null):
 	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
 	if not is_autoplay_enabled():
-		fire_and_forget_user_sfx("double_note_hit")
+		if note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
+			fire_and_forget_user_sfx("double_heart_note_hit")
+		else:
+			fire_and_forget_user_sfx("double_note_hit")
 	emit_signal("judged", judgement, false, note_data.time, event)
 	if not is_multi_note:
 		game.add_score(HBNoteData.NOTE_SCORES[judgement])
