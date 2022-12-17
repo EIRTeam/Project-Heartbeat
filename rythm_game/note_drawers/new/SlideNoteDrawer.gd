@@ -207,13 +207,12 @@ func process_note(time_msec: int):
 		if time_msec >= note_data.time:
 			_on_pressed()
 	if not pressed:
-		if time_msec > note_data.time + game.judge.get_target_window_msec() and not is_slide_direction_pressed():
+		if time_msec > note_data.time + game.judge.get_target_window_msec() and not (is_slide_chain() and is_slide_direction_pressed()):
 			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
 			emit_signal("finished")
 
 func _on_rollback():
 	if pressed:
-		emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, true, note_data.end_time, null)
 		emit_signal("finished")
 
 func _on_multi_note_judged(judgement: int):
