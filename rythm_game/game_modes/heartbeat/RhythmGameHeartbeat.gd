@@ -586,7 +586,7 @@ func get_intersecting_slide_chains(time_msec: int) -> Array:
 		
 		for piece in slide_chain.pieces:
 			var chain_end = piece.time
-			if chain_end > time_msec:
+			if chain_end >= time_msec:
 				intersecting.append(slide_chain)
 				break
 		
@@ -602,8 +602,9 @@ func editor_unorphan_subnotes():
 	for i in range(editor_orphaned_subnotes.size()-1, -1, -1):
 		var note := editor_orphaned_subnotes[i] as HBBaseNote
 		var slide_note_array := editor_right_slide_notes
-		if note.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-			slide_note_array = editor_right_slide_notes
+		if note.note_type == HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
+			slide_note_array = editor_left_slide_notes
+		
 		
 		var pos := slide_note_array.bsearch_custom(note, self, "_sort_notes_by_time")
 		pos = min(pos, max(slide_note_array.size()-1, 0))
@@ -615,6 +616,7 @@ func editor_unorphan_subnotes():
 				slide_chain.slide = slide_note
 				slide_hold_chains[slide_note] = slide_chain
 			slide_chain.pieces.append(note)
+			slide_chain.pieces.sort_custom(self, "_sort_notes_by_time")
 			editor_orphaned_subnotes.remove(i)
 
 func editor_add_timing_point(point: HBTimingPoint):
