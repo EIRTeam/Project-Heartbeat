@@ -656,6 +656,8 @@ func editor_remove_timing_point(point: HBTimingPoint):
 						slide_chain.pieces.erase(point)
 						if prev_size != slide_chain.pieces.size():
 							slide_chain.slide.get_meta("editor_group").reset_group()
+						if slide_chain.pieces.size() == 0:
+							slide_hold_chains.erase(slide_chain.slide)
 			return
 		elif point.is_slide_note():
 			if point.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
