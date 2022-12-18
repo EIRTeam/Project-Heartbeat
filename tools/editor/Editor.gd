@@ -942,6 +942,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 		_removed_items.erase(item)
 	_on_timing_points_changed()
 	rhythm_game.editor_add_timing_point(item.data)
+	force_game_process()
 	
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
@@ -1060,8 +1061,6 @@ func delete_selected():
 			
 			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
 			
-		undo_redo.add_do_method(self, "force_game_process")
-		undo_redo.add_undo_method(self, "force_game_process")
 		undo_redo.add_do_method(self, "sync_lyrics")
 		undo_redo.add_undo_method(self, "sync_lyrics")
 		selected = []
@@ -1196,11 +1195,9 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 		item.data = autoplace(item.data)
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
-	undo_redo.add_do_method(self, "force_game_process")
 
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
 	undo_redo.add_undo_method(item, "deselect")
-	undo_redo.add_undo_method(self, "force_game_process")
 	
 	if item is EditorSectionTimelineItem:
 		undo_redo.add_do_method(timeline, "update")
@@ -1216,6 +1213,8 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	_removed_items.append(item)
 	rhythm_game.editor_remove_timing_point(item.data)
 	_on_timing_points_changed()
+	force_game_process()
+	
 	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
@@ -1428,6 +1427,8 @@ func paste_note_data(note_data: HBBaseNote):
 	inspector.stop_inspecting()
 	inspector.inspect(selected[0])
 	inspector.sync_visible_values_with_data()
+	force_game_process()
+	
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	var song = SongLoader.songs[song_id]
