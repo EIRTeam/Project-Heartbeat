@@ -610,20 +610,30 @@ func editor_unorphan_subnotes():
 		pos = min(pos, max(slide_note_array.size()-1, 0))
 		if pos < slide_note_array.size():
 			var slide_note := slide_note_array[pos] as HBBaseNote
-			var slide_chain: HBChart.SlideChain = slide_hold_chains.get(slide_note)
-			if not slide_chain:
-				slide_chain = HBChart.SlideChain.new()
-				slide_chain.slide = slide_note
-				slide_hold_chains[slide_note] = slide_chain
-			slide_chain.pieces.append(note)
-			slide_chain.pieces.sort_custom(self, "_sort_notes_by_time")
-			editor_orphaned_subnotes.remove(i)
+			if slide_note.time > note.time and pos > 0:
+				pos -= 1
+				slide_note = slide_note_array[pos]
+			if slide_note.time < note.time:
+				var slide_chain: HBChart.SlideChain = slide_hold_chains.get(slide_note)
+				if not slide_chain:
+					slide_chain = HBChart.SlideChain.new()
+					slide_chain.slide = slide_note
+					slide_hold_chains[slide_note] = slide_chain
+				slide_chain.pieces.append(note)
+				slide_chain.pieces.sort_custom(self, "_sort_notes_by_time")
+				editor_orphaned_subnotes.remove(i)
 
 func editor_add_timing_point(point: HBTimingPoint):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
 		if note_data is HBNoteData:
 			if note_data.is_slide_note():
+				var intersecting_chains := get_intersecting_slide_chains(point.time)
+				for slide_chain in intersecting_chains:
+					var is_of_the_same_type: bool = slide_chain.slide.note_type == point.note_type
+					if is_of_the_same_type:
+						slide_hold_chains.erase(slide_chain.slide)
+						editor_orphaned_subnotes.append_array(slide_chain.pieces)
 				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 					editor_left_slide_notes.insert(editor_left_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
 				elif note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
