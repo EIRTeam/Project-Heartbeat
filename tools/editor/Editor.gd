@@ -844,6 +844,11 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	
 	if create_action:
 		undo_redo.create_action(action_name)
+
+	if property_name == "time":
+		for selected_item in selected:
+			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
+			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 	
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
@@ -889,9 +894,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	if property_name == "time":
 		undo_redo.add_do_method(self, "sort_current_items")
 		for selected_item in selected:
-			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
-			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 	undo_redo.add_do_method(self, "force_game_process")
 	undo_redo.add_undo_method(self, "force_game_process")

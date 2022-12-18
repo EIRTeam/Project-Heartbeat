@@ -1006,7 +1006,7 @@ func editor_find_group_at_time(time_msec: int) -> HBNoteGroup:
 func editor_remove_timing_point(point: HBTimingPoint):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
-		var group := editor_find_group_at_time(note_data.time)
+		var group: HBNoteGroup = note_data.get_meta("editor_group")
 		
 		if group:
 			group.note_datas.erase(note_data)
