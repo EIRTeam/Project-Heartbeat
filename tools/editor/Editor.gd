@@ -940,6 +940,7 @@ func add_item_to_layer(layer, item: EditorTimelineItem):
 	layer.add_item(item)
 	if item in _removed_items:
 		_removed_items.erase(item)
+	_on_timing_points_changed()
 	rhythm_game.editor_add_timing_point(item.data)
 	
 func add_event_timing_point(timing_point_class: GDScript):
@@ -1214,6 +1215,7 @@ func remove_item_from_layer(layer, item: EditorTimelineItem):
 	current_notes.erase(item)
 	_removed_items.append(item)
 	rhythm_game.editor_remove_timing_point(item.data)
+	_on_timing_points_changed()
 	
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
