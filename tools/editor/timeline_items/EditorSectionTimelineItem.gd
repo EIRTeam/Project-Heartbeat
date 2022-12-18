@@ -25,6 +25,7 @@ func sync_value(property_name: String):
 	.sync_value(property_name)
 	if property_name == "color" or property_name == "time":
 		editor.timeline.update()
+		editor.timeline.minimap.update()
 	if property_name == "name":
 		label.text = data.name
 
