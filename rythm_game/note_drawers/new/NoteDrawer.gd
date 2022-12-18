@@ -24,7 +24,7 @@ func _on_note_parameter_changed_received(parameter_name: String):
 func _on_note_parameter_changed():
 	var regenerate_trail := false
 	for parameter_name in parameters_changed_this_frame:
-		if parameter_name in ["entry_angle", "oscillation_frequency", "oscillation_amplitude", "time_out", "distance"]:
+		if parameter_name in ["entry_angle", "oscillation_frequency", "oscillation_amplitude", "time_out", "distance", "position"]:
 			regenerate_trail = true
 	if regenerate_trail:
 		if sine_drawer:
@@ -259,10 +259,10 @@ func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_
 	else:
 		sounds.append(user_sfx_name)
 	scheduled_autoplay_sound = HBGame.instantiate_user_sfx(user_sfx_name)
-	scheduled_autoplay_sound_time = target_time_msec
 	var time_to_hit := target_time_msec - game_time_msec
+	scheduled_autoplay_sound_time = Shinobu.get_dsp_time() + time_to_hit
 	get_tree().root.add_child(scheduled_autoplay_sound)
-	scheduled_autoplay_sound.schedule_start_time(Shinobu.get_dsp_time() + time_to_hit)
+	scheduled_autoplay_sound.schedule_start_time(scheduled_autoplay_sound_time)
 	scheduled_autoplay_sound.start()
 
 # returns true if we are close enough to start scheduling the hit sound
