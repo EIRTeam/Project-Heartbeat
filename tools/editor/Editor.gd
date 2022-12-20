@@ -547,6 +547,8 @@ func _unhandled_input(event: InputEvent):
 		
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_do_method(self, "_cache_hold_ends")
+		undo_redo.add_undo_method(self, "_cache_hold_ends")
 		
 		undo_redo.commit_action()
 	
@@ -896,6 +898,11 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 		for selected_item in selected:
 			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
+		undo_redo.add_do_method(self, "_cache_hold_ends")
+		undo_redo.add_undo_method(self, "_cache_hold_ends")
+	elif property_name == "hold":
+		undo_redo.add_do_method(self, "_cache_hold_ends")
+		undo_redo.add_undo_method(self, "_cache_hold_ends")
 	undo_redo.add_do_method(self, "force_game_process")
 	undo_redo.add_undo_method(self, "force_game_process")
 	if create_action:

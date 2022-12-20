@@ -27,6 +27,8 @@ func _on_note_parameter_changed():
 	for parameter_name in parameters_changed_this_frame:
 		if parameter_name in ["entry_angle", "oscillation_frequency", "oscillation_amplitude", "time_out", "distance", "position"]:
 			regenerate_trail = true
+		elif parameter_name == "hold":
+			note_target_graphics.set_note_type(note_data, is_multi_note)
 	if regenerate_trail:
 		if sine_drawer:
 			sine_drawer.generate_trail_points()
