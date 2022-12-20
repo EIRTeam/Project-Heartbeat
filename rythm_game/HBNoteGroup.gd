@@ -307,11 +307,9 @@ func get_hit_time_msec() -> int:
 
 func add_note_to_group(note: HBBaseNote):
 	note_datas.append(note)
-	note.connect("parameter_changed", self, "_on_parameter_changed")
 
 func remove_note_from_group(note: HBBaseNote):
 	if note in note_datas:
-		note.disconnect("parameter_changed", self, "_on_parameter_changed")
 		var note_drawer = note_drawers.get(note)
 		if note_drawer:
 			note_drawer.queue_free()
