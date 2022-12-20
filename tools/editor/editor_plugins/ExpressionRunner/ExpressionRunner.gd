@@ -110,6 +110,7 @@ func _on_apply_button_pressed():
 				if property_name == "position":
 					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
 					undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
-				
+			undo_redo.add_do_method(editor, "force_game_update")
+			undo_redo.add_undo_method(editor, "force_game_update")
 			undo_redo.commit_action()
 			get_editor().inspector.sync_visible_values_with_data()
