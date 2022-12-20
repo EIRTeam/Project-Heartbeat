@@ -9,7 +9,8 @@ var disable_autoplay := false # disables autoplay for some notes, used for slide
 var scheduled_autoplay_sound: ShinobuSoundPlayer
 var scheduled_autoplay_sound_time: int
 # in MS, margin used to schedule sounds
-const SCHEDULE_MARGIN := 500
+const SCHEDULE_MARGIN := 100
+
 func set_note_data(val):
 	note_data = val
 	note_data.connect("parameter_changed", self, "_on_note_parameter_changed_received")
@@ -211,14 +212,9 @@ func _notification(what):
 		for data in layer_bound_node_datas:
 			remove_bind_from_tree(data)
 		if scheduled_autoplay_sound:
-			if scheduled_autoplay_sound_time > Shinobu.get_dsp_time():
-				get_tree().root.remove_child(scheduled_autoplay_sound)
-				scheduled_autoplay_sound.queue_free()
-				scheduled_autoplay_sound = null
-			else:
-				# We hand the sound to the game to track
-				get_tree().root.remove_child(scheduled_autoplay_sound)
-				game.track_sound(scheduled_autoplay_sound)
+			# Hand it over to the game
+			get_tree().root.remove_child(scheduled_autoplay_sound)
+			game.track_sound(scheduled_autoplay_sound)
 
 func show_note_hit_effect(target_pos: Vector2):
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
