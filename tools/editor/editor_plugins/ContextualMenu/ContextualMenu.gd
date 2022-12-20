@@ -447,10 +447,20 @@ func toggle_double():
 	
 	if editor.selected.size() < 1:
 		return
-	
-	undo_redo.create_action("Toggle sustain")
+		
+	var notes_to_process := []
 	
 	for item in editor.selected:
+		if item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece()):
+			continue
+		notes_to_process.append(item)
+	
+	if notes_to_process.size() == 0:
+		return
+	
+	undo_redo.create_action("Toggle double")
+	
+	for item in notes_to_process:
 		var new_type = "DoubleNote"
 		if item.data is HBDoubleNote:
 			new_type = "Note"
