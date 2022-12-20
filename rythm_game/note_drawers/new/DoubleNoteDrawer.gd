@@ -3,6 +3,7 @@ extends HBNewNoteDrawer
 class_name HBNewDoubleNoteDrawer
 	
 var current_note_sound: ShinobuSoundPlayer
+var waiting_for_multi_judgement := false
 	
 func note_init():
 	.note_init()
@@ -17,7 +18,7 @@ func set_is_multi_note(val):
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	var is_input_in_range: bool = abs((game.time * 1000.0) - note_data.time) < game.judge.get_target_window_msec()
-	return event.is_action_pressed(action) and is_input_in_range
+	return event.is_action_pressed(action) and is_input_in_range and not waiting_for_multi_judgement
 
 func process_input(event: InputEventHB):
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
@@ -31,8 +32,8 @@ func process_input(event: InputEventHB):
 		if not game.is_sound_debounced("note_hit"):
 			game.debounce_sound("note_hit")
 			current_note_sound = HBGame.instantiate_user_sfx("note_hit")
+			current_note_sound.start()
 		game.add_child(current_note_sound)
-		current_note_sound.start()
 
 func _on_note_pressed(event = null):
 	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
@@ -45,6 +46,8 @@ func _on_note_pressed(event = null):
 	if not is_multi_note:
 		game.add_score(HBNoteData.NOTE_SCORES[judgement])
 		emit_signal("finished")
+	else:
+		waiting_for_multi_judgement = true
 	if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 		show_note_hit_effect(note_data.position)
 
@@ -57,7 +60,7 @@ func process_note(time_msec: int):
 		if time_msec > note_data.time:
 			_on_note_pressed(null)
 	
-	if time_msec > note_data.time + game.judge.get_target_window_msec():
+	if time_msec > note_data.time + game.judge.get_target_window_msec() and not waiting_for_multi_judgement:
 		emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
 		emit_signal("finished")
 
