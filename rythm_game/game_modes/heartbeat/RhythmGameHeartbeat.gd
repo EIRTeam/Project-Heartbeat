@@ -55,7 +55,7 @@ func precalculate_note_trails(points):
 		if point is HBBaseNote:
 			if prev_point:
 				var comparison_properties = ["oscillation_amplitude", "oscillation_frequency",
-				"entry_angle"]
+				"entry_angle", "distance"]
 				var equal_so_far = true
 				for property in comparison_properties:
 					if point.get(property) != prev_point.get(property):
