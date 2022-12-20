@@ -188,6 +188,15 @@ func change_note_button_by(amount):
 	var editor = get_editor()
 	var undo_redo = get_editor().undo_redo as UndoRedo
 	var new_items = []
+	
+	var found = false
+	for item in editor.selected:
+		if item is EditorTimelineItemNote:
+			found = true
+	
+	if not found: 
+		return
+	
 	# Yes, its flipped. Blame the editor layer order.
 	if amount < 0:
 		undo_redo.create_action("Increase note type")

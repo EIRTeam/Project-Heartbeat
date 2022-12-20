@@ -443,17 +443,21 @@ func _unhandled_input(event: InputEvent):
 	
 	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
 		undo_redo.create_action("Toggle hold")
-		
+
 		for note in selected:
 			if note.data is HBNoteData:
 				undo_redo.add_do_property(note.data, "hold", not note.data.hold)
 				undo_redo.add_undo_property(note.data, "hold", note.data.hold)
-		
+
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
 		undo_redo.add_do_method(self, "_cache_hold_ends")
 		undo_redo.add_undo_method(self, "_cache_hold_ends")
 		
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+
 		undo_redo.commit_action()
 	
 	if event.is_action("editor_play", true) and event.pressed and not event.echo:
@@ -466,14 +470,26 @@ func _unhandled_input(event: InputEvent):
 		get_tree().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_undo():
+			if undo_redo.get_current_action_name() == "MERGE":
+				# A merge action should always have an extra action before it
+				undo_redo.undo()
+			
 			message_shower._show_notification("Undo " + undo_redo.get_current_action_name().to_lower())
 			undo_redo.undo()
+	
 	if event.is_action("gui_redo", true) and event.pressed:
 		get_tree().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_redo():
 			undo_redo.redo()
 			message_shower._show_notification("Redo " + undo_redo.get_current_action_name().to_lower())
+			
+			if undo_redo.has_redo():
+				undo_redo.redo()
+				if undo_redo.get_current_action_name() != "MERGE":
+					# Next action was not a merge action
+					# HACK: This seems wasteful, but since different actions can have the same version, I couldnt find a better way to do this
+					undo_redo.undo()
 	
 	if event.is_action("editor_delete", true) and event.pressed and not event.echo:
 		if selected.size() != 0:
@@ -564,9 +580,12 @@ func _unhandled_input(event: InputEvent):
 									undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
 									undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
 									
-									check_for_multi_changes_upon_deletion(item.data.time, [item])
+									undo_redo.add_do_method(self, "_on_timing_points_changed")
+									undo_redo.add_undo_method(self, "_on_timing_points_changed")
 									
 									undo_redo.commit_action()
+									
+									check_for_multi_changes([snap_time_to_timeline(playhead_position)])
 						if not item_erased:
 							var timing_point := HBNoteData.new()
 							timing_point.time = snap_time_to_timeline(playhead_position)
@@ -756,6 +775,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 	
 	var sync_timing := false
+	var multi_check_times := []
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data and property_name in old_property_values[selected_item]:
@@ -767,16 +787,17 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					if selected_item.data is HBTimingChange:
 						sync_timing = true
 					
-					var autoplaced_position = null
 					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
-						var new_data = autoplace(selected_item.data, true)
-						autoplaced_position = new_data.position
+						var new_data = autoplace(selected_item.data)
 						
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
 						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
 					
-					if selected.size() != current_notes.size():
-						check_for_multi_changes(selected_item.data, old_property_values[selected_item][property_name], autoplaced_position)
+					if not multi_check_times.has(selected_item.data.time):
+						multi_check_times.append(selected_item.data.time)
+					
+					if not multi_check_times.has(old_property_values[selected_item].time):
+						multi_check_times.append(old_property_values[selected_item].time)
 				
 				if property_name == "position":
 					undo_redo.add_do_property(selected_item.data, "pos_modified", true)
@@ -825,6 +846,8 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	
 	if create_action:
 		undo_redo.commit_action()
+		
+		check_for_multi_changes(multi_check_times)
 	
 	old_property_values.clear()
 	inspector.sync_value(property_name)
@@ -957,6 +980,7 @@ func paste(time: int):
 				min_point = timing_point
 		
 		var sync_timing := false
+		var multi_check_times := []
 		for copy in copied_points:
 			for l in timeline.get_layers():
 				if l.layer_name == copy.layer_name:
@@ -981,7 +1005,8 @@ func paste(time: int):
 			if copy.item is EditorSectionTimelineItem:
 				sync_timing = true
 			
-			check_for_multi_changes(timing_point, -1)
+			if not multi_check_times.has(time):
+				multi_check_times.append(time)
 		
 		if sync_timing:
 			undo_redo.add_do_method(timeline, "update")
@@ -991,7 +1016,10 @@ func paste(time: int):
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		undo_redo.add_do_method(self, "sync_lyrics")
 		undo_redo.add_undo_method(self, "sync_lyrics")
+		
 		undo_redo.commit_action()
+		check_for_multi_changes(multi_check_times)
+
 func delete_selected():
 	if selected.size() > 0:
 		for item in selected:
@@ -1004,7 +1032,7 @@ func delete_selected():
 		message_shower._show_notification("Delete notes")
 		
 		var sync_timing := false
-		var deleted_items = selected
+		var deleted_times := []
 		for selected_item in selected:
 			selected_item.deselect()
 			
@@ -1018,8 +1046,12 @@ func delete_selected():
 			if selected_item.data is HBTimingChange:
 				sync_timing = true
 			
-			check_for_multi_changes_upon_deletion(selected_item.data.time, deleted_items)
-			
+			if not deleted_times.has(selected_item.data.time):
+				deleted_times.append(selected_item.data.time)
+		
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		
 		undo_redo.add_do_method(self, "sync_lyrics")
 		undo_redo.add_undo_method(self, "sync_lyrics")
 		
@@ -1029,6 +1061,8 @@ func delete_selected():
 		
 		selected = []
 		undo_redo.commit_action()
+		
+		check_for_multi_changes(deleted_times)
 
 func is_slide_chain(note: HBTimingPoint):
 	if note is HBNoteData and note.is_slide_note():
@@ -1047,67 +1081,43 @@ func is_slide_chain(note: HBTimingPoint):
 	
 	return false
 
-func check_for_multi_changes(item: HBBaseNote, old_time: int, autoplaced_pos = null):
+func check_for_multi_changes(times: Array):
 	if UserSettings.user_settings.editor_auto_multi:
-		if item is HBBaseNote:
-			if not autoplaced_pos:
-				autoplaced_pos = item.position
+		# Merge action with the previous one
+		undo_redo.create_action("MERGE")
+		
+		for time in times:
+			var _notes_at_time := get_notes_at_time(time)
+			var notes_at_time := []
 			
-			var _notes_at_time = get_notes_at_time(item.time)
-			var _notes_at_previous_time = get_notes_at_time(old_time) if old_time != -1 else []
-			
-			if not item in _notes_at_time:
-				# The item hasnt changed time just yet
-				_notes_at_time.append(item)
-				_notes_at_previous_time.erase(item)
-			
-			var notes_at_time = []
-			var notes_at_previous_time = []
 			for note in _notes_at_time:
 				if note is HBBaseNote:
 					notes_at_time.append(note)
-			for note in _notes_at_previous_time:
-				if note is HBBaseNote:
-					notes_at_previous_time.append(note)
 			
 			for note in notes_at_time:
 				_set_multi_pos(note)
-			
-			if notes_at_time.size() > 1:
-				# The item has joined in with a multi
-				for note in notes_at_time:
+				
+				# Check multi status
+				if notes_at_time.size() > 1:
+					# There is a multi at the given time, manage it
 					if not note.is_multi_allowed() or is_slide_chain(note):
-						_set_multi_params_clearing_angles(note, autoplaced_pos)
+						_set_multi_params_clearing_angles(note)
 					else:
-						_set_multi_params(note, autoplaced_pos)
-			elif notes_at_time.size() == 1:
-				if notes_at_previous_time.size() > 0:
-					# The note is leaving a multi
-					_clear_multi_params(item, autoplaced_pos)
+						_set_multi_params(note)
+				else:
+					# There isnt any multi, so clear all multi-related properties
+					_clear_multi_params(note)
+				
+				undo_redo.add_do_method(note.get_timeline_item(), "update_widget_data")
+				undo_redo.add_undo_method(note.get_timeline_item(), "update_widget_data")
 			
-			if notes_at_previous_time.size() == 1:
-				# There is only 1 note left behind
-				_clear_multi_params(notes_at_previous_time[0])
-			
+			# Set correct multi angles
 			_set_multi_angles(notes_at_time)
-			_set_multi_angles(notes_at_previous_time)
-
-func check_for_multi_changes_upon_deletion(time: int, deleted_items: Array):
-	if UserSettings.user_settings.editor_auto_multi:
-		var _notes_at_time = get_notes_at_time(time)
-		for item in deleted_items:
-			_notes_at_time.erase(item.data)
 		
-		var notes_at_time = []
-		for note in _notes_at_time:
-			if note is HBBaseNote:
-				notes_at_time.append(note)
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		
-		if notes_at_time.size() == 1:
-			# 1 note is left, arrange it and set travel params.
-			_clear_multi_params(notes_at_time[0])
-		
-		_set_multi_angles(notes_at_time)
+		undo_redo.commit_action()
 
 func _set_multi_pos(note: HBBaseNote):
 	var multi_pos = 3 - note.note_type
@@ -1120,7 +1130,7 @@ func _set_multi_pos(note: HBBaseNote):
 	
 	note.set_meta("multi_pos", multi_pos)
 
-func _set_multi_params(note, position):
+func _set_multi_params(note):
 	undo_redo.add_do_property(note, "oscillation_amplitude", 0)
 	undo_redo.add_do_property(note, "distance", 880)
 	
@@ -1130,12 +1140,10 @@ func _set_multi_params(note, position):
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 		var multi_pos = note.get_meta("multi_pos")
 		
-		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
+		undo_redo.add_do_property(note, "position", Vector2(note.position.x, 918 - multi_pos * 96))
 		undo_redo.add_undo_property(note, "position", note.position)
 
-func _clear_multi_params(note, position=null):
-	position = note.position if not position else position
-	
+func _clear_multi_params(note):
 	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
 	undo_redo.add_do_property(note, "distance", 1200)
 	
@@ -1143,10 +1151,10 @@ func _clear_multi_params(note, position=null):
 	undo_redo.add_undo_property(note, "distance", note.distance)
 	
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
-		undo_redo.add_do_property(note, "position", Vector2(position.x, 918))
+		undo_redo.add_do_property(note, "position", Vector2(note.position.x, 918))
 		undo_redo.add_undo_property(note, "position", note.position)
 
-func _set_multi_params_clearing_angles(note, position):
+func _set_multi_params_clearing_angles(note):
 	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
 	undo_redo.add_do_property(note, "oscillation_frequency", -2)
 	undo_redo.add_do_property(note, "distance", 1200)
@@ -1158,7 +1166,7 @@ func _set_multi_params_clearing_angles(note, position):
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 		var multi_pos = note.get_meta("multi_pos")
 		
-		undo_redo.add_do_property(note, "position", Vector2(position.x, 918 - multi_pos * 96))
+		undo_redo.add_do_property(note, "position", Vector2(note.position.x, 918 - multi_pos * 96))
 		undo_redo.add_undo_property(note, "position", note.position)
 
 func _sort_by_multi_pos(a, b):
@@ -1210,13 +1218,16 @@ func toggle_selection(item):
 	else:
 		select_item(item, true)
 
-func get_notes_at_time(time: int):
-	var notes = []
+func get_notes_at_time(time: int) -> Array:
+	var notes := []
+	
 	for note in get_timing_points():
 		if note is HBTimingPoint:
 			if note.time == time:
 				notes.append(note)
+	
 	return notes
+
 func user_create_timing_point(layer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
@@ -1236,13 +1247,13 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 		undo_redo.add_do_method(timeline, "update")
 		undo_redo.add_undo_method(timeline, "update")
 	
-	check_for_multi_changes(item.data, -1)
-	
 	if item.data is HBTimingChange:
 		undo_redo.add_do_method(self, "_on_timing_information_changed")
 		undo_redo.add_undo_method(self, "_on_timing_information_changed")
 	
 	undo_redo.commit_action()
+	
+	check_for_multi_changes([item.data.time])
 
 func remove_item_from_layer(layer, item: EditorTimelineItem):
 	layer.remove_item(item)
@@ -1755,7 +1766,6 @@ func _on_PlaytestButton_pressed(at_time):
 	var play_time = 0.0
 	if at_time:
 		play_time = playhead_position
-	var voice_stream = null
 	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, song_editor_settings.selected_variant)
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
@@ -1988,6 +1998,7 @@ func create_queued_timing_points():
 func reset_note_position():
 	undo_redo.create_action("Reset note position")
 	
+	var check_multi_times := []
 	for item in selected:
 		if not item.data is HBBaseNote:
 			continue
@@ -2011,15 +2022,18 @@ func reset_note_position():
 		undo_redo.add_undo_property(item.data, "oscillation_frequency", item.data.oscillation_frequency)
 		undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
 		
-		check_for_multi_changes(item.data, -1)
-		
 		undo_redo.add_do_method(item, "update_widget_data")
 		undo_redo.add_undo_method(item, "update_widget_data")
+		
+		if not check_multi_times.has(item.data.time):
+			check_multi_times.append(item.data.time)
 	
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 	
 	undo_redo.commit_action()
+	
+	check_for_multi_changes(check_multi_times)
 
 
 func _update_grid_resolution():
