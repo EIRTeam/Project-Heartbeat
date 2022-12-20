@@ -5,6 +5,7 @@ class_name HBSustainNoteDrawer
 onready var note_graphic2 = get_node("Note2")
 
 var pressed := false
+var notified_release_judgement := false
 
 var sustain_loop: ShinobuSoundPlayer
 
@@ -44,7 +45,7 @@ func process_input(event: InputEventHB):
 func _on_end_release(event := null):
 	var judgement := game.judge.judge_note(game.time, note_data.end_time/1000.0) as int
 	judgement = max(judgement, 0)
-	emit_signal("judged", judgement, true, note_data.end_time, event)
+	notify_release_judgement(judgement)
 	emit_signal("finished")
 	if judgement >= HBJudge.JUDGE_RATINGS.FINE:
 		if not is_autoplay_enabled():
@@ -64,9 +65,9 @@ func _on_pressed(event = null, judge := true):
 		fire_and_forget_user_sfx("note_hit")
 	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
 	if judge:
-		emit_signal("judged", judgement, true, note_data.time, event)
+		emit_signal("judged", judgement, false, note_data.time, event)
 		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:
-			emit_signal("judged", judgement, false, note_data.time, event)
+			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 	if not is_multi_note:
 		game.add_score(HBNoteData.NOTE_SCORES[judgement])
 		if judgement < HBJudge.JUDGE_RATINGS.FINE:
@@ -115,13 +116,13 @@ func process_note(time_msec: int):
 	# Handle note going out of range
 	if pressed:
 		if time_msec > note_data.end_time + game.judge.get_target_window_msec():
-			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.end_time, null)
+			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 			emit_signal("finished")
 	else:
 		if time_msec > note_data.time + game.judge.get_target_window_msec():
 			# Judge note independently once, that way it will count as 2 worsts
-			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, true, note_data.time, null)
 			emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, false, note_data.time, null)
+			notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 			emit_signal("finished")
 	if sustain_loop:
 		var duration_progress := (time_msec - note_data.time) / float(note_data.end_time - note_data.time)
@@ -152,12 +153,22 @@ func draw_trail(time_msec: int):
 
 func _on_rollback():
 	if pressed:
-		emit_signal("judged", HBJudge.JUDGE_RATINGS.WORST, true, note_data.end_time, null)
+		notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
 		emit_signal("finished")
 
 func _on_multi_note_judged(judgement: int):
-	if judgement >= HBJudge.JUDGE_RATINGS.FINE:
-		_on_pressed(null, false)
-	else:
+	if notified_release_judgement:
 		emit_signal("finished")
-		return
+	elif judgement < HBJudge.JUDGE_RATINGS.FINE:
+		notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
+		emit_signal("finished")
+
+# Notifies a release judgement, if not done before
+func notify_release_judgement(judgement: int):
+	if not notified_release_judgement:
+		notified_release_judgement = true
+		emit_signal("judged", judgement, true, note_data.end_time, null)
+
+func _on_wrong(_judgement: int):
+	notify_release_judgement(HBJudge.JUDGE_RATINGS.WORST)
+	emit_signal("finished")

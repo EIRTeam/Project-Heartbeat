@@ -140,7 +140,8 @@ func process_input(event: InputEventHB) -> bool:
 	
 	# For pressed inputs we first figure out if any of our notes will accept it
 	var is_input_in_range: bool = abs((game.time * 1000.0) - get_hit_time_msec()) < game.judge.get_target_window_msec()
-	for note in note_drawers:
+	for i in range(note_drawers.size()-1, -1, -1):
+		var note := note_drawers.keys()[i] as HBBaseNote
 		var note_drawer := note_drawers[note] as HBNewNoteDrawer
 		if note_drawer.handles_input(event) and not note in finished_notes:
 			note_drawer.process_input(event)
@@ -209,6 +210,9 @@ func _on_wrong():
 		if c != -1:
 			final_judgement = c
 	for note in note_datas:
+		var drawer := note_drawers.get(note, null) as HBNewNoteDrawer
+		if drawer:
+			drawer._on_wrong(final_judgement)
 		if not note in note_judgement_infos:
 			var note_judgement_info := HBNoteJudgementInfo.new()
 			note_judgement_info.note_data = note

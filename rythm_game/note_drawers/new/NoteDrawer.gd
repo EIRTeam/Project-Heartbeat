@@ -238,8 +238,11 @@ func fire_and_forget_user_sfx(sfx_name: String):
 func _on_rollback():
 	pass
 	
-# Called when this note, being a part of a multi, is judged
+# Called when the multi note this note is a part of is judged
 func _on_multi_note_judged(judgement: int):
+	pass
+
+func _on_wrong(judgement: int):
 	pass
 
 # You can use this to schedule a sound to play at a time when the note is supposed to be hit, it will
