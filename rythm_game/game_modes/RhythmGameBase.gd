@@ -421,6 +421,8 @@ func _process_input(event):
 				input_handled = true
 				handled_event_uids_this_frame.append(event.event_uid)
 				break
+			elif group.is_blocking_input():
+				break
 		if not input_handled:
 			unhandled_input_events_this_frame.append(event)
 func _input(event):

@@ -172,6 +172,12 @@ func process_input(event: InputEventHB) -> bool:
 	
 	return input_was_consumed_by_note
 
+# if true means any input not handled by this must be ignored, this is used for
+# preventing future groups from receiving input before the previous ones have
+# processed their primary input
+func is_blocking_input():
+	return note_judgement_infos.size() < note_datas.size()
+
 func is_finished() -> bool:
 	return finished_notes.size() == note_datas.size()
 
