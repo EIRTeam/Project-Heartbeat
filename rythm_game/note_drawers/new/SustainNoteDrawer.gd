@@ -98,6 +98,10 @@ func process_note(time_msec: int):
 				schedule_autoplay_sound(note_sfx, time_msec, target_time)
 		if time_msec > note_data.time and not pressed:
 			_on_pressed()
+			if scheduled_autoplay_sound:
+				get_tree().root.remove_child(scheduled_autoplay_sound)
+				game.track_sound(scheduled_autoplay_sound)
+				scheduled_autoplay_sound = null
 			return
 		elif time_msec > note_data.end_time and pressed:
 			_on_end_release()
