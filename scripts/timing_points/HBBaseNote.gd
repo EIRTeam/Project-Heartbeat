@@ -102,11 +102,15 @@ func get_inspector_properties():
 		},
 		"auto_time_out": {
 			"type": "bool",
+			"params": {
+				"affects_properties": ["time_out"],
+			}
 		},
 		"time_out": {
 			"type": "int",
 			"params": {
 				"suffix": "ms",
+				"condition": "auto_time_out == false",
 			}
 		},
 		"oscillation_amplitude": {
