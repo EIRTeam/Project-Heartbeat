@@ -119,6 +119,7 @@ const EDITOR_EVENTS = {
 	"Events": [
 		"editor_create_timing_change",
 		"editor_create_speed_change",
+		"editor_smooth_bpm",
 		"editor_create_intro_skip",
 		"editor_create_section",
 		"editor_quick_lyric",

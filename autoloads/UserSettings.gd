@@ -277,6 +277,7 @@ func fill_localized_arrays():
 		#  Events
 		"editor_create_timing_change": tr("Create timing change"),
 		"editor_create_speed_change": tr("Create speed change"),
+		"editor_smooth_bpm": tr("Create a smooth speed transition"),
 		"editor_create_intro_skip": tr("Create intro skip"),
 		"editor_create_section": tr("Create chart section"),
 		"editor_quick_lyric": tr("Quick lyric"),
@@ -492,22 +493,14 @@ func get_content_directories(only_editable=false):
 	else:
 		return ["res://"] + [HBGame.content_dir]
 
-func get_sound_by_name(sound_name: String) -> AudioStream:
+func get_sound_path(sfx_name: String) -> String:
+	var sound_name = user_settings.custom_sounds[sfx_name]
+	
 	var file := File.new()
-	if user_settings.custom_sounds[sound_name] != "default":
-		var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, user_settings.custom_sounds[sound_name]]
-		var f = HBUtils.load_wav(file_path)
-		if file.file_exists(file_path):
-			if f:
-				return f
-	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
-
-func get_sound_path(sound_name: String) -> String:
-	var file := File.new()
-	if user_settings.custom_sounds[sound_name] != "default":
-		var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, user_settings.custom_sounds[sound_name]]
-		if file.file_exists(file_path):
-			return file_path
+	var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, sound_name] if sound_name != "default" else HBUserSettings.DEFAULT_SOUNDS[sfx_name] 
+	if file.file_exists(file_path):
+		return file_path
+	
 	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
 
 func should_use_direct_joystick_access() -> bool:

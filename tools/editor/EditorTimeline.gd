@@ -372,6 +372,10 @@ func _unhandled_input(event):
 		elif event.is_action_pressed("slide_right", false, false) and event.shift:
 			make_slide(HBNoteData.NOTE_TYPE.SLIDE_RIGHT, HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT, "SLIDE_RIGHT2")
 			get_tree().set_input_as_handled()
+		
+		if event.is_action_pressed("editor_smooth_bpm", false, true):
+			create_bpm_transition()
+			get_tree().set_input_as_handled()
 
 func make_slide(note_type, piece_note_type, layer_name):
 	var layer
@@ -383,8 +387,8 @@ func make_slide(note_type, piece_note_type, layer_name):
 	var first_pos = _area_select_start
 	var second_pos = get_local_mouse_position()
 	
-	var first_time = clamp(editor.scale_pixels(int(first_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length()*1000.0)
-	var second_time = clamp(editor.scale_pixels(int(second_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length()*1000.0)
+	var first_time = clamp(editor.scale_pixels(int(first_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length() * 1000.0)
+	var second_time = clamp(editor.scale_pixels(int(second_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length() * 1000.0)
 	first_time = editor.snap_time_to_timeline(first_time)
 	second_time = editor.snap_time_to_timeline(second_time)
 	
@@ -446,7 +450,7 @@ func make_slide(note_type, piece_note_type, layer_name):
 		var timeline_item = slide_piece.get_timeline_item()
 		
 		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
-		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, true)
+		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, (i != 0))
 		editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
 		editor.undo_redo.add_undo_method(editor, "deselect_item", timeline_item)
 	
@@ -457,6 +461,71 @@ func make_slide(note_type, piece_note_type, layer_name):
 	modifier_texture.visible = false
 	editor.deselect_all()
 	update()
+	editor.undo_redo.commit_action()
+
+func create_bpm_transition():
+	var first_pos = _area_select_start
+	var second_pos = get_local_mouse_position()
+	
+	var first_time = clamp(editor.scale_pixels(int(first_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length() * 1000.0)
+	var second_time = clamp(editor.scale_pixels(int(second_pos.x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length() * 1000.0)
+	first_time = editor.snap_time_to_timeline(first_time)
+	second_time = editor.snap_time_to_timeline(second_time)
+	
+	var start_time = min(first_time, second_time)
+	var end_time = max(first_time, second_time)
+	var start_i := editor._closest_bound(editor.get_timing_map(), start_time)
+	var end_i := editor._closest_bound(editor.get_timing_map(), end_time)
+	
+	var start_bpm = editor.rhythm_game.get_note_speed_at_time(start_time)
+	var end_bpm = editor.rhythm_game.get_note_speed_at_time(end_time)
+	
+	var start_speed_factor := 1.0
+	for timing_change in editor.get_timing_changes():
+		if timing_change.data.time <= start_time:
+			start_speed_factor = start_bpm / timing_change.data.bpm
+			break
+	
+	if start_bpm == end_bpm:
+		return
+	
+	var layer
+	for _layer in get_layers():
+		if _layer.layer_name == "Events":
+			layer = _layer
+			break
+	
+	editor.undo_redo.create_action("Smooth out BPM change")
+	for i in range(start_i, end_i):
+		var t = float(i - start_i) / float(end_i - start_i)
+		
+		var speed_change := HBBPMChange.new()
+		speed_change.time = editor.get_timing_map()[i]
+		speed_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
+		speed_change.bpm = lerp(start_bpm, end_bpm, t)
+		
+		var timeline_item = speed_change.get_timeline_item()
+		
+		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
+		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, (i != start_i))
+		editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
+		editor.undo_redo.add_undo_method(editor, "deselect_item", timeline_item)
+	
+	var speed_change := HBBPMChange.new()
+	speed_change.time = editor.get_timing_map()[end_i]
+	speed_change.usage = HBBPMChange.USAGE_TYPES.AUTO_BPM
+	speed_change.speed_factor = start_speed_factor * 100
+	
+	var timeline_item = speed_change.get_timeline_item()
+	
+	editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
+	editor.undo_redo.add_do_method(editor, "select_item", timeline_item, true)
+	editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
+	editor.undo_redo.add_undo_method(editor, "deselect_item", timeline_item)
+	
+	editor.undo_redo.add_do_method(editor, "_on_timing_points_changed")
+	editor.undo_redo.add_undo_method(editor, "_on_timing_points_changed")
+	
 	editor.undo_redo.commit_action()
 
 func get_time_being_hovered():
