@@ -63,6 +63,8 @@ func _input(event: InputEvent):
 				function.set_function(shortcut.function)
 				function.set_instance(self)
 				function.call_funcv(shortcut.args)
+				
+				get_tree().set_input_as_handled()
 				break
 
 func add_shortcut(action: String, function_name: String, vararg: Array = [], echo: bool = false):
@@ -84,8 +86,12 @@ func get_event_text(event: InputEvent) -> String:
 	
 	if event is InputEventKey:
 		text = event.as_text()
+		
+		if text == " (Physical)":
+			text = "None"
 		if "Kp " in text:
 			text = text.replace("Kp ", "Keypad ")
+		
 	elif event is InputEventMouseButton:
 		text = "Mouse %d" % event.button_index
 	

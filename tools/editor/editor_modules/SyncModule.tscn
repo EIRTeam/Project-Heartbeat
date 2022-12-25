@@ -69,12 +69,13 @@ texture = ExtResource( 5 )
 disable_when_playing = false
 button_mode = "function"
 function_name = "toggle_metronome"
+action = "editor_toggle_metronome"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["sync_buttons"]]
 margin_left = 956.0
 margin_right = 1908.0
 margin_bottom = 966.0
-rect_min_size = Vector2( 120, 966 )
+rect_min_size = Vector2( 128, 966 )
 size_flags_horizontal = 3
 script = ExtResource( 4 )
 text = "Add tempo change"
@@ -83,6 +84,7 @@ of the song."
 texture = ExtResource( 1 )
 button_mode = "function"
 function_name = "show_timing_change_dialog"
+action = "editor_create_timing_change"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
 margin_top = 1012.0
@@ -177,7 +179,7 @@ action = "editor_tap_metronome"
 margin_left = 956.0
 margin_right = 1908.0
 margin_bottom = 966.0
-rect_min_size = Vector2( 36, 966 )
+rect_min_size = Vector2( 63, 966 )
 size_flags_horizontal = 3
 script = ExtResource( 4 )
 text = "Reset"

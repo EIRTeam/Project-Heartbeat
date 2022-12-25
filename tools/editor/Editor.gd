@@ -506,6 +506,8 @@ func _unhandled_input(event: InputEvent):
 	
 	if event.is_action("editor_select_all", true) and event.pressed and not event.echo:
 		select_all()
+	if event.is_action("editor_deselect", true) and event.pressed and not event.echo:
+		deselect_all()
 	
 	if not game_playback.is_playing():
 		var old_pos = playhead_position
@@ -665,9 +667,9 @@ func select_all():
 		deselect_all()
 	inspector.stop_inspecting()
 	
-	selected = current_notes
-	if selected.size() > 0:
-		for item in selected:
+	for item in current_notes:
+		if not item is EditorTimingChangeTimelineItem:
+			selected.append(item)
 			item.select()
 	
 	selected.sort_custom(self, "_sort_current_items_impl")

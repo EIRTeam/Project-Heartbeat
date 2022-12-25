@@ -199,3 +199,35 @@ func _on_WorkshopRefreshButton_pressed():
 		out_str += flags.join(", ")
 		strings.append(out_str)
 	workshop_debug_text_edit.text = strings.join("\n")
+
+func _on_PrintShortcutsButton_pressed():
+	var shortcuts := []
+	for category in EditorGlobalSettingsShortcuts.EDITOR_EVENTS:
+		for action in EditorGlobalSettingsShortcuts.EDITOR_EVENTS[category]:
+			var event_list = UserSettings.base_input_map[action]
+			var event_text = get_event_text(event_list[0]) if event_list else ""
+			
+			var shortcut_obj := {
+				"action": action,
+				"category": category,
+				"name": UserSettings.action_names[action],
+				"shortcut": event_text
+			}
+			shortcuts.append(shortcut_obj)
+	
+	$WindowDialog/TabContainer/Shortcuts/VBoxContainer/ShortcutsTextEdit.text = JSON.print(shortcuts, "\t")
+
+func get_event_text(event: InputEvent):
+	if event is InputEventKey:
+		var text = event.as_text()
+		text = text.replace("+", " + ")
+		text = text.replace("Control", "Ctrl")
+		text = text.replace("Kp ", "NumPad ")
+		text = text.replace("Add", "+")
+		text = text.replace("Subtract", "-")
+		text = text.replace("Multiply", "*")
+		text = text.replace("Divide", "/")
+		
+		return text
+	
+	return ""

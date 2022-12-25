@@ -1,5 +1,7 @@
 extends Control
 
+class_name EditorGlobalSettingsShortcuts
+
 onready var combination_label: Label = get_node("WindowDialog/VBoxContainer/Label2")
 onready var bind_window: ConfirmationDialog = get_node("WindowDialog")
 onready var reset_to_default_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ResetToDefaultButton")
@@ -17,27 +19,28 @@ const EDITOR_EVENTS = {
 		"editor_play",
 		"editor_playtest",
 		"editor_playtest_at_time",
+		"editor_toggle_metronome",
 		"editor_move_playhead_left",
 		"editor_move_playhead_right",
-		"editor_quick_lyric",
-		"editor_quick_phrase_start",
-		"editor_quick_phrase_end",
 		"gui_undo",
 		"gui_redo",
 	],
 	"Selection": [
 		"editor_select_all",
+		"editor_deselect",
 		"editor_cut",
 		"editor_copy",
 		"editor_paste",
 		"editor_delete",
 	],
-	"Sync": [
+	"Notes": [
 		"editor_toggle_hold",
 		"editor_toggle_sustain",
 		"editor_toggle_double",
 		"editor_change_note_up",
 		"editor_change_note_down",
+	],
+	"Sync": [
 		"editor_resolution_4",
 		"editor_resolution_6",
 		"editor_resolution_8",
@@ -81,14 +84,14 @@ const EDITOR_EVENTS = {
 		"editor_move_angles_away",
 		"editor_move_angles_closer_back",
 		"editor_move_angles_away_back",
-		"editor_angle_l",
 		"editor_angle_r",
-		"editor_angle_u",
-		"editor_angle_d",
-		"editor_angle_ul",
-		"editor_angle_ur",
-		"editor_angle_dl",
 		"editor_angle_dr",
+		"editor_angle_d",
+		"editor_angle_dl",
+		"editor_angle_l",
+		"editor_angle_ul",
+		"editor_angle_u",
+		"editor_angle_ur",
 	],
 	"Transforms": [
 		"editor_mirror_h",
@@ -113,6 +116,15 @@ const EDITOR_EVENTS = {
 		"editor_triangle",
 		"editor_triangle_inverted",
 	],
+	"Events": [
+		"editor_create_timing_change",
+		"editor_create_speed_change",
+		"editor_create_intro_skip",
+		"editor_create_section",
+		"editor_quick_lyric",
+		"editor_quick_phrase_start",
+		"editor_quick_phrase_end",
+	]
 }
 
 var tree_items = {}
@@ -226,10 +238,10 @@ func reset_all_to_default():
 	editor.update_modules()
 
 func get_event_text(event: InputEvent):
-	var text = ""
+	var text = "None"
 	
 	if event is InputEventKey:
-		text = event.as_text()
+		text = event.as_text() if not "Physical" in event.as_text() else "None"
 		if "Kp " in text:
 			text = text.replace("Kp ", "Keypad ")
 	elif event is InputEventMouseButton:

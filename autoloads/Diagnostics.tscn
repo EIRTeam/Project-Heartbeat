@@ -40,11 +40,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Game" type="MarginContainer" parent="WindowDialog/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 32.0
+margin_top = 37.0
 margin_right = -5.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
@@ -52,7 +51,7 @@ size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Game"]
 margin_right = 750.0
-margin_bottom = 383.0
+margin_bottom = 378.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
 margin_right = 750.0
@@ -277,6 +276,7 @@ focus_mode = 2
 selection_enabled = true
 
 [node name="Workshop" type="MarginContainer" parent="WindowDialog/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -295,6 +295,30 @@ text = "Refresh"
 
 [node name="WorkshopTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Workshop/VBoxContainer"]
 unique_name_in_owner = true
+margin_top = 29.0
+margin_right = 750.0
+margin_bottom = 383.0
+size_flags_vertical = 3
+
+[node name="Shortcuts" type="MarginContainer" parent="WindowDialog/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Shortcuts"]
+margin_right = 750.0
+margin_bottom = 383.0
+
+[node name="PrintShortcutsButton" type="Button" parent="WindowDialog/TabContainer/Shortcuts/VBoxContainer"]
+margin_right = 750.0
+margin_bottom = 25.0
+text = "Print editor shortcuts"
+
+[node name="ShortcutsTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Shortcuts/VBoxContainer"]
 margin_top = 29.0
 margin_right = 750.0
 margin_bottom = 383.0
@@ -322,3 +346,4 @@ margin_right = 1.18921
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Workshop/VBoxContainer/WorkshopRefreshButton" to="." method="_on_WorkshopRefreshButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Shortcuts/VBoxContainer/PrintShortcutsButton" to="." method="_on_PrintShortcutsButton_pressed"]

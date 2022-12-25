@@ -187,15 +187,14 @@ func fill_localized_arrays():
 		"editor_play": tr("Play/Pause"),
 		"editor_playtest": tr("Playtest"),
 		"editor_playtest_at_time": tr("Playtest at time"),
+		"editor_toggle_metronome": tr("Toggle metronome"),
 		"editor_move_playhead_left": tr("Move playhead to the left"),
 		"editor_move_playhead_right": tr("Move playhead to the right"),
-		"editor_quick_lyric": tr("Quick lyric"),
-		"editor_quick_phrase_start": tr("Quick phrase start"),
-		"editor_quick_phrase_end": tr("Quick phrase end"),
 		"gui_undo": tr("Undo"),
 		"gui_redo": tr("Redo"),
 		#  Selection
 		"editor_select_all": tr("Select all"),
+		"editor_deselect": tr("Deselect"),
 		"editor_cut": tr("Cut notes"),
 		"editor_copy": tr("Copy notes"),
 		"editor_paste": tr("Paste notes"),
@@ -275,6 +274,14 @@ func fill_localized_arrays():
 		"editor_sideways_quad": tr("Sideways quad"),
 		"editor_triangle": tr("Triangle"),
 		"editor_triangle_inverted": tr("Inverted triangle"),
+		#  Events
+		"editor_create_timing_change": tr("Create timing change"),
+		"editor_create_speed_change": tr("Create speed change"),
+		"editor_create_intro_skip": tr("Create intro skip"),
+		"editor_create_section": tr("Create chart section"),
+		"editor_quick_lyric": tr("Quick lyric"),
+		"editor_quick_phrase_start": tr("Quick phrase start"),
+		"editor_quick_phrase_end": tr("Quick phrase end"),
 	}
 	
 	ACTION_CATEGORIES = {
