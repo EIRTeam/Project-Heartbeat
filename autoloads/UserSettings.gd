@@ -184,16 +184,22 @@ func fill_localized_arrays():
 		
 		# Editor
 		#  General
+		"editor_move_playhead_left": tr("Move playhead to the left"),
+		"editor_move_playhead_right": tr("Move playhead to the right"),
+		"gui_undo": tr("Undo"),
+		"gui_redo": tr("Redo"),
+		"editor_open": tr("Open a chart"),
+		"editor_save": tr("Save the chart"),
+		"editor_save_as": tr("Save the chart as"),
+		"editor_settings": tr("Open/Close the settings menu"),
+		"editor_show_docs": tr("Open the editor docs"),
+		#  Preview
 		"editor_play": tr("Play/Pause"),
 		"editor_playtest": tr("Playtest"),
 		"editor_playtest_at_time": tr("Playtest at time"),
 		"editor_toggle_metronome": tr("Toggle metronome"),
-		"editor_move_playhead_left": tr("Move playhead to the left"),
-		"editor_move_playhead_right": tr("Move playhead to the right"),
 		"editor_toggle_bg": tr("Toggle background"),
 		"editor_toggle_video": tr("Toggle video"),
-		"gui_undo": tr("Undo"),
-		"gui_redo": tr("Redo"),
 		#  Selection
 		"editor_select_all": tr("Select all"),
 		"editor_deselect": tr("Deselect"),
@@ -269,6 +275,10 @@ func fill_localized_arrays():
 		"editor_make_circle_ccw_inside": tr("Make circle counter-clockwise from the inside"),
 		"editor_circle_size_bigger": tr("Circle size bigger"),
 		"editor_circle_size_smaller": tr("Circle size smaller"),
+		"editor_rotate_center": tr("Rotate around the selection center"),
+		"editor_rotate_left": tr("Rotate around the leftmost note"),
+		"editor_rotate_right": tr("Rotate around the rightmost note"),
+		"editor_rotate_screen_center": tr("Rotate around the screen center"),
 		#  Presets
 		"editor_vertical_multi_left": tr("Vertical multi left"),
 		"editor_vertical_multi_right": tr("Vertical multi right"),

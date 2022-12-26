@@ -18,7 +18,7 @@ func _ready():
 #	$VideoPlayer.stream_position = 5
 
 func _input(event):
-	if event.is_action_pressed("free_friends"):
+	if event.is_action_pressed("show_hidden"):
 		$VideoPlayer.stream_position = 5
 
 

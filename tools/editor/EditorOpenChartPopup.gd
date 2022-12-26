@@ -193,7 +193,7 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 		show_error("Invalid difficulty name!")
 
 func _unhandled_input(event):
-	if event.is_action_pressed("free_friends"):
+	if event.is_action_pressed("show_hidden"):
 		show_hidden = true
 		populate_tree()
 

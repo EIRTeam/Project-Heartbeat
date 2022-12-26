@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
@@ -21,7 +21,7 @@
 [ext_resource path="res://tools/editor/GridRenderer.gd" type="Script" id=19]
 [ext_resource path="res://tools/icons/Help.svg" type="Texture" id=20]
 [ext_resource path="res://tools/editor/WidgetArea.gd" type="Script" id=21]
-[ext_resource path="res://tools/editor/HBEditorFlatButton.gd" type="Script" id=22]
+[ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=22]
 [ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=23]
 [ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=24]
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=25]
@@ -31,6 +31,7 @@
 [ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=29]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=30]
 [ext_resource path="res://graphics/icons/music.svg" type="Texture" id=31]
+[ext_resource path="res://tools/icons/gamepad-time.svg" type="Texture" id=32]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=36]
 [ext_resource path="res://tools/editor/MessageShower.gd" type="Script" id=43]
@@ -40,24 +41,6 @@
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.2, 0.231373, 0.309804, 1 )
 
-[sub_resource type="InputEventAction" id=1]
-action = "editor_open"
-
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
-
-[sub_resource type="InputEventAction" id=3]
-action = "editor_save"
-
-[sub_resource type="ShortCut" id=4]
-shortcut = SubResource( 3 )
-
-[sub_resource type="InputEventAction" id=13]
-action = "editor_toggle_waveform"
-
-[sub_resource type="ShortCut" id=14]
-shortcut = SubResource( 13 )
-
 [sub_resource type="DynamicFont" id=11]
 size = 17
 outline_size = 1
@@ -65,12 +48,6 @@ outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
-
-[sub_resource type="InputEventAction" id=5]
-action = "editor_timeline_snap"
-
-[sub_resource type="ShortCut" id=6]
-shortcut = SubResource( 5 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -129,28 +106,35 @@ margin_bottom = 25.0
 icon = ExtResource( 9 )
 flat = true
 
-[node name="OpenButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui"]]
+[node name="OpenButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 25.0
-shortcut = SubResource( 2 )
+hint_tooltip = "Open a chart"
 icon = ExtResource( 30 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_open"
 
-[node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui"]]
+[node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
 margin_left = 56.0
 margin_right = 84.0
 margin_bottom = 25.0
+hint_tooltip = "Save a chart"
 disabled = true
-shortcut = SubResource( 4 )
 icon = ExtResource( 16 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_save"
 
-[node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui"]]
+[node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
 margin_left = 88.0
 margin_right = 149.0
 margin_bottom = 25.0
+hint_tooltip = "Save chart as"
 text = "Save As"
+script = ExtResource( 22 )
+action = "editor_save_as"
 
 [node name="CurrentTitleButton" type="Label" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 153.0
@@ -167,17 +151,22 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 645.0
-margin_right = 673.0
+margin_left = 700.0
+margin_right = 728.0
 margin_bottom = 25.0
+hint_tooltip = "Play the chart"
 icon = ExtResource( 26 )
+script = ExtResource( 22 )
+action = "editor_playtest"
 
-[node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
-margin_left = 677.0
+[node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
+margin_left = 732.0
 margin_right = 760.0
 margin_bottom = 25.0
-text = "(at time)"
-icon = ExtResource( 26 )
+hint_tooltip = "Play the chart from the current time"
+icon = ExtResource( 32 )
+script = ExtResource( 22 )
+action = "editor_playtest_at_time"
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 764.0
@@ -187,20 +176,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 772.0
 margin_right = 800.0
 margin_bottom = 25.0
+hint_tooltip = "Play preview"
 icon = ExtResource( 12 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_play"
 
-[node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
 visible = false
 margin_left = 1035.0
 margin_right = 1063.0
 margin_bottom = 25.0
+hint_tooltip = "Pause preview"
 icon = ExtResource( 10 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_play"
 
 [node name="VSeparator4" type="VSeparator" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 margin_left = 804.0
@@ -218,13 +213,15 @@ hint_tooltip = "Editor manual"
 icon = ExtResource( 20 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
-[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 844.0
 margin_right = 872.0
 margin_bottom = 25.0
 hint_tooltip = "Editor settings"
 icon = ExtResource( 27 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_settings"
 
 [node name="SexButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 visible = false
@@ -368,18 +365,17 @@ anchor_bottom = 1.0
 margin_bottom = -1.00006
 theme = ExtResource( 2 )
 
-[node name="WaveformButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="WaveformButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_right = 28.0
 margin_bottom = 26.0
 hint_tooltip = "Toggle waveform"
 toggle_mode = true
-shortcut = SubResource( 14 )
 icon = ExtResource( 24 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_waveform"
 
-[node name="SfxButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="SfxButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 26.0
@@ -392,7 +388,7 @@ icon_align = 1
 script = ExtResource( 22 )
 action = "editor_toggle_sfx"
 
-[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 26.0
@@ -404,7 +400,7 @@ flat = true
 script = ExtResource( 22 )
 action = "editor_grid_snap"
 
-[node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 96.0
 margin_right = 124.0
 margin_bottom = 26.0
@@ -416,7 +412,7 @@ flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_bg"
 
-[node name="ShowVideoButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="ShowVideoButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 128.0
 margin_right = 156.0
 margin_bottom = 26.0
@@ -428,7 +424,7 @@ flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_video"
 
-[node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
+[node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 160.0
 margin_right = 188.0
 margin_bottom = 26.0
@@ -581,16 +577,17 @@ margin_left = 74.0
 margin_right = 78.0
 margin_bottom = 25.0
 
-[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 82.0
 margin_right = 110.0
 margin_bottom = 25.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
 pressed = true
-shortcut = SubResource( 6 )
 icon = ExtResource( 8 )
 flat = true
+script = ExtResource( 22 )
+action = "editor_timeline_snap"
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 114.0
@@ -764,7 +761,7 @@ inside Rin Kagamine."
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlaytestAtTimeButton" to="." method="_on_PlaytestButton_pressed" binds= [ true ]]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="EditorGlobalSettings" method="popup_centered"]
+[connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorSettingsPopupButton" to="." method="_toggle_settings_popup"]
 [connection signal="pressed" from="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton" to="." method="_on_SexButton_pressed"]
 [connection signal="dragged" from="VBoxContainer/VSplitContainer" to="." method="_on_VSplitContainer_dragged"]
 [connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer" to="." method="_on_left_HSplitContainer_dragged"]

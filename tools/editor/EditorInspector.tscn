@@ -58,7 +58,7 @@ flat = true
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 25.0
-hint_tooltip = "Pastes the selected item's properties (except time)"
+hint_tooltip = "Pastes the selected note's properties (except time)"
 icon = ExtResource( 3 )
 flat = true
 

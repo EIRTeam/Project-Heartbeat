@@ -20,6 +20,11 @@ const EDITOR_EVENTS = {
 		"editor_move_playhead_right",
 		"gui_undo",
 		"gui_redo",
+		"editor_open",
+		"editor_save",
+		"editor_save_as",
+		"editor_settings",
+		"editor_show_docs",
 	],
 	"Preview": [
 		"editor_play",
@@ -79,6 +84,10 @@ const EDITOR_EVENTS = {
 		"editor_move_right",
 		"editor_move_up",
 		"editor_move_down",
+		"editor_rotate_center",
+		"editor_rotate_left",
+		"editor_rotate_right",
+		"editor_rotate_screen_center",
 	],
 	"Angles": [
 		"editor_flip_angle",
@@ -185,6 +194,7 @@ func _on_bind_window_confirmed():
 		
 		UserSettings.save_user_settings()
 		editor.update_modules()
+		editor.update_shortcuts()
 
 func set_item_text(item: TreeItem, action: String, event: InputEvent):
 	var ev_text = get_event_text(event)
@@ -243,6 +253,7 @@ func reset_all_to_default():
 	
 	UserSettings.save_user_settings()
 	editor.update_modules()
+	editor.update_shortcuts()
 
 func get_event_text(event: InputEvent):
 	var text = "None"

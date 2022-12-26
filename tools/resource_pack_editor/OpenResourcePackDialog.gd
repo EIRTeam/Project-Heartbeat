@@ -63,7 +63,7 @@ func _on_OpenResourcePackDialog_confirmed():
 		hide()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("free_friends"):
+	if event.is_action_pressed("show_hidden"):
 		populate_list(true)
 
 

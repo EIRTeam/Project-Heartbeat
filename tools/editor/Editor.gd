@@ -158,6 +158,10 @@ func update_modules():
 	for module in modules:
 		module.update_shortcuts()
 
+func update_shortcuts():
+	for button in get_tree().get_nodes_in_group("update_shortcuts"):
+		button.update_shortcuts()
+
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
 	add_child(game_playback)
@@ -406,16 +410,6 @@ func _unhandled_input(event: InputEvent):
 		else:
 			konami_index = 0
 	
-	if event.is_action("editor_playtest", true) or \
-		event.is_action("editor_playtest_at_time", true):
-		if event.is_pressed() and not event.echo:
-			var at_time = false
-		
-			if event.is_action("editor_playtest_at_time"):
-				at_time = true
-		
-			_on_PlaytestButton_pressed(at_time)
-	
 	if event.is_action("editor_fine_position_left", true) or \
 		event.is_action("editor_fine_position_right", true) or \
 		event.is_action("editor_fine_position_up", true) or \
@@ -443,12 +437,12 @@ func _unhandled_input(event: InputEvent):
 	
 	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
 		undo_redo.create_action("Toggle hold")
-
+		
 		for note in selected:
 			if note.data is HBNoteData:
 				undo_redo.add_do_property(note.data, "hold", not note.data.hold)
 				undo_redo.add_undo_property(note.data, "hold", note.data.hold)
-
+		
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 		
@@ -457,14 +451,8 @@ func _unhandled_input(event: InputEvent):
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-
+		
 		undo_redo.commit_action()
-	
-	if event.is_action("editor_play", true) and event.pressed and not event.echo:
-		if not game_playback.is_playing():
-			_on_PlayButton_pressed()
-		else:
-			_on_PauseButton_pressed()
 	
 	if event.is_action("gui_undo", true) and event.pressed:
 		get_tree().set_input_as_handled()
@@ -605,6 +593,9 @@ func _unhandled_input(event: InputEvent):
 			if found_note:
 				get_tree().set_input_as_handled()
 				break
+	
+	if event.is_action_pressed("editor_show_docs", false, true):
+		pass # Reserve
 
 
 func _note_comparison(a, b):
@@ -2062,3 +2053,9 @@ func force_game_process():
 
 func _on_Sfx_toggled(button_pressed: bool):
 	rhythm_game.sfx_enabled = button_pressed
+
+func _toggle_settings_popup():
+	if $EditorGlobalSettings.visible:
+		$EditorGlobalSettings.hide()
+	else:
+		$EditorGlobalSettings.popup_centered()
