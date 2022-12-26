@@ -16,14 +16,18 @@ var editor: HBEditor setget set_editor
 
 const EDITOR_EVENTS = {
 	"General": [
-		"editor_play",
-		"editor_playtest",
-		"editor_playtest_at_time",
-		"editor_toggle_metronome",
 		"editor_move_playhead_left",
 		"editor_move_playhead_right",
 		"gui_undo",
 		"gui_redo",
+	],
+	"Preview": [
+		"editor_play",
+		"editor_playtest",
+		"editor_playtest_at_time",
+		"editor_toggle_metronome",
+		"editor_toggle_bg",
+		"editor_toggle_video",
 	],
 	"Selection": [
 		"editor_select_all",
@@ -51,6 +55,8 @@ const EDITOR_EVENTS = {
 		"editor_timeline_snap",
 		"editor_increase_resolution",
 		"editor_decrease_resolution",
+		"editor_toggle_sfx",
+		"editor_toggle_waveform"
 	],
 	"Placements": [
 		"editor_grid",

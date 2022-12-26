@@ -246,7 +246,7 @@ func _on_wrong(judgement: int):
 # You can use this to schedule a sound to play at a time when the note is supposed to be hit, it will
 # automatically be started/freed
 func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_time_msec: int):
-	if scheduled_autoplay_sound:
+	if scheduled_autoplay_sound and game.sfx_enabled:
 		get_tree().root.remove_child(scheduled_autoplay_sound)
 		scheduled_autoplay_sound.queue_free()
 		scheduled_autoplay_sound.stop()

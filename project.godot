@@ -2183,6 +2183,22 @@ editor_smooth_bpm={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+editor_toggle_sfx={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_toggle_waveform={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_toggle_bg={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_toggle_video={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

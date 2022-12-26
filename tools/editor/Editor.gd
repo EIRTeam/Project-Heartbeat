@@ -2059,3 +2059,6 @@ func force_game_process():
 	if not force_game_process_queued:
 		force_game_process_queued = true
 		call_deferred("_force_game_process_impl")
+
+func _on_Sfx_toggled(button_pressed: bool):
+	rhythm_game.sfx_enabled = button_pressed

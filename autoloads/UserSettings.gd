@@ -190,6 +190,8 @@ func fill_localized_arrays():
 		"editor_toggle_metronome": tr("Toggle metronome"),
 		"editor_move_playhead_left": tr("Move playhead to the left"),
 		"editor_move_playhead_right": tr("Move playhead to the right"),
+		"editor_toggle_bg": tr("Toggle background"),
+		"editor_toggle_video": tr("Toggle video"),
 		"gui_undo": tr("Undo"),
 		"gui_redo": tr("Redo"),
 		#  Selection
@@ -199,12 +201,13 @@ func fill_localized_arrays():
 		"editor_copy": tr("Copy notes"),
 		"editor_paste": tr("Paste notes"),
 		"editor_delete": tr("Delete notes"),
-		#  Sync
+		#  Notes
 		"editor_toggle_hold": tr("Toggle hold"),
 		"editor_toggle_sustain": tr("Toggle sustain"),
 		"editor_toggle_double": tr("Toggle double"),
 		"editor_change_note_up": tr("Increase note type"),
 		"editor_change_note_down": tr("Decrease note type"),
+		#  Sync
 		"editor_resolution_4": tr("Set resolution to 4ths"),
 		"editor_resolution_6": tr("Set resolution to 6ths"),
 		"editor_resolution_8": tr("Set resolution to 8ths"),
@@ -215,6 +218,8 @@ func fill_localized_arrays():
 		"editor_timeline_snap": tr("Toggle timeline snap"),
 		"editor_increase_resolution": tr("Increase timeline resolution"),
 		"editor_decrease_resolution": tr("Decrease timeline resolution"),
+		"editor_toggle_sfx": tr("Toggle the hitsound sfxs"),
+		"editor_toggle_waveform": tr("Toggle the waveform display"),
 		#  Placements
 		"editor_grid": tr("Toggle grid"),
 		"editor_grid_snap": tr("Toggle grid snap"),

@@ -252,6 +252,9 @@ func get_closest_notes():
 
 # plays note SFX automatically
 func play_note_sfx(slide = false):
+	if not sfx_enabled:
+		return
+	
 	if not slide:
 		sfx_pool.play_sfx("note_hit")
 	else:
@@ -314,44 +317,6 @@ func _process_game(_delta):
 		if not result.used_cheats:
 			result.used_cheats = true
 			Log.log(self, "Disabling leaderboard upload for cheated result")
-#		var actions_to_press = []
-#		var actions_to_release = []
-#		for i in range(notes_on_screen.size()-1, -1, -1):
-#			var note = notes_on_screen[i]
-#			if note is HBBaseNote and note.note_type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
-#				if note is HBNoteData and note.is_slide_note() and get_note_drawer(note) and get_note_drawer(note).hit_first:
-#					continue
-#				if note is HBSustainNote and get_note_drawer(note) and get_note_drawer(note).pressed:
-#					if time * 1000.0 > note.end_time:
-#						actions_to_release.append(note.get_input_actions()[0])
-##						play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-#				elif time * 1000 > note.time:
-#					actions_to_press.append(note.get_input_actions()[0])
-##					play_note_sfx(note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or note.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT)
-#
-#		for action in actions_to_release:
-#			var a = InputEventHB.new()
-#			a.action = action
-#			a.pressed = false
-#			a.event_uid = game_input_manager.get_event_uid(a)
-#			a.triggered_actions_count = 1
-#			Input.parse_input_event(a)
-#			#game_input_manager.send_input(action, false)
-#		game_input_manager.current_input_handled = false
-#
-#		for action in actions_to_press:
-#			# Double note device emulation
-#			game_input_manager.digital_action_tracking[action] = {}
-#			game_input_manager.digital_action_tracking[action][-1] = {}
-#			game_input_manager.digital_action_tracking[action][-1][0] = true
-#			game_input_manager.digital_action_tracking[action][-1][1] = true
-#			var a = InputEventHB.new()
-#			a.action = action
-#			a.actions = actions_to_press
-#			a.pressed = true
-#			a.triggered_actions_count = 1
-#			a.event_uid = game_input_manager.get_event_uid(a)
-#			Input.parse_input_event(a)
 	_processed_event_uids = []
 
 func remove_health():

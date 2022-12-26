@@ -60,8 +60,9 @@ func _on_note_judged(judgement, prevent_free = false):
 				
 			if not game.editing or game.previewing:
 				if not current_sfx_player:
-					playing_slide_start = true
-					current_sfx_player = game.sfx_pool.play_sfx("slide_chain_start", true)
+					if game.sfx_enabled:
+						playing_slide_start = true
+						current_sfx_player = game.sfx_pool.play_sfx("slide_chain_start", true)
 			._on_note_judged(judgement, true)
 		else:
 			._on_note_judged(judgement, false)
@@ -160,7 +161,8 @@ func _on_game_time_changed(time: float):
 						if i >= slide_chain.pieces.size() - 1:
 							kill_note()
 							game.add_slide_chain_score(current_score)
-							game.sfx_pool.play_sfx("slide_chain_ok")
+							if game.sfx_enabled:
+								game.sfx_pool.play_sfx("slide_chain_ok")
 				if piece_drawer.visible:
 					piece_drawer.update_graphic_positions_and_scale(time)
 			if chain_failed:

@@ -84,13 +84,6 @@ var voice_remap: ShinobuChannelRemapEffect
 var game_ui: HBRhythmGameUIBase
 var game_input_manager: HBGameInputManager
 
-# CHECK
-var bpm_changes = {}
-# sorted array of bpm changes, by time
-var bpm_change_events := []
-
-var sfx_pool := HBSoundEffectPool.new()
-
 var bpm_map := {}
 
 var sfx_pool := HBSoundEffectPool.new()
@@ -114,6 +107,8 @@ var timing_changes := [] setget set_timing_changes
 var tracked_sounds := []
 
 var autoplay_scheduled_sounds := {}
+
+var sfx_enabled := true
 
 enum GAME_MODE {
 	NORMAL = 0, # normal mode, requires user input to hit notes
