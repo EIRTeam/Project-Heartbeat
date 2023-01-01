@@ -7,6 +7,7 @@ onready var importer_option_button := get_node("%ImporterOptionButton")
 onready var file_dialog := get_node("%FileDialog")
 onready var offset_spinbox := get_node("%OffsetSpinBox")
 onready var link_stars_checkbox := get_node("%LinkStarsCheckBox")
+onready var replace_chart_checkbox := get_node("%ReplaceChartCheckBox")
 onready var advanced_options_button := get_node("%AdvancedOptionsButton")
 
 class HBEditorImporter:
@@ -18,7 +19,6 @@ class HBEditorImporter:
 	var last_dir
 	var filter setget , get_filter
 	var chart: HBChart
-	var no_keys: bool
 	
 	func get_filter():
 		return filter
@@ -66,7 +66,6 @@ class DSCImporter:
 	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
 		UserSettings.user_settings.last_dsc_dir = path.get_base_dir()
 		UserSettings.save_user_settings()
-		no_keys = false
 		
 		var game: String
 		match options_button.get_selected_id():
@@ -81,11 +80,7 @@ class DSCImporter:
 		
 		var result = DSC_LOADER.convert_dsc_to_chart(path, opcode_map, offset)
 		
-		if result is int and result == -1:
-			no_keys = true
-			chart = null
-		else:
-			chart = result as HBChart
+		chart = result as HBChart
 
 class PPDImporter:
 	extends HBEditorImporter
@@ -256,8 +251,6 @@ var importers = [
 var current_importer_idx := 0
 
 func _ready():
-	$NoKeyDialog.get_label().align = Label.ALIGN_CENTER
-	
 	for item in importers:
 		importer_option_button.add_item(item.name)
 		
@@ -309,16 +302,59 @@ func _on_file_selected(path: String):
 		yield(importer.instance, "finished_processing")
 	var chart = importer.instance.chart
 	
-	if importer.instance.no_keys:
-		# File is encrypted and user hasnt provided keys
-		$NoKeyDialog.popup_centered()
-	elif chart:
+	if chart:
 		undo_redo.create_action("Import " + importer.name)
 		
-		undo_redo.add_do_method(editor, "from_chart", chart, true, true)
-		undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
+		undo_redo.add_do_method(self, "deselect_all")
+		undo_redo.add_undo_method(self, "deselect_all")
+		
+		if replace_chart_checkbox.pressed:
+			undo_redo.add_do_method(editor, "from_chart", chart, true, true)
+			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
+		else:
+			var first := true
+			var update_timing := false
+			
+			for layer in chart.layers:
+				var editor_layer = find_layer_by_name(layer.name)
+				if editor_layer == null:
+					print("ASD")
+				
+				for timing_point in layer.timing_points:
+					var item = timing_point.get_timeline_item()
+					item.data.set_meta("second_layer", layer.name.ends_with("2"))
+					
+					undo_redo.add_do_method(self, "add_item_to_layer", editor_layer, item)
+					undo_redo.add_do_method(self, "_select", item)
+					
+					undo_redo.add_undo_method(self, "remove_item_from_layer", editor_layer, item)
+					
+					if timing_point is HBTimingChange:
+						update_timing = true
+					
+					if first:
+						first = false
+			
+			undo_redo.add_do_method(self, "_finish_selecting")
+			
+			undo_redo.add_do_method(self, "timing_points_changed")
+			undo_redo.add_undo_method(self, "timing_points_changed")
+			
+			if update_timing:
+				undo_redo.add_do_method(self, "timing_information_changed")
+				undo_redo.add_undo_method(self, "timing_information_changed")
 		
 		undo_redo.commit_action()
+
+func _select(item: EditorTimelineItem):
+	item.select()
+	editor.selected.append(item)
+
+func _finish_selecting():
+	editor.selected.sort_custom(self, "_sort_current_items_impl")
+	editor.inspector.inspect(editor.selected)
+	editor.release_owned_focus()
+	editor.notify_selected_changed()
 
 var advanced_options_visible := false
 func toggle_advanced_options():

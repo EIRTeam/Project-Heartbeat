@@ -626,8 +626,8 @@ func scale_pixels(pixels: float) -> float:
 func notify_selected_changed():
 	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
 
-func select_item(item: EditorTimelineItem, add = false):
-	if add:
+func select_item(item: EditorTimelineItem, inclusive: bool = false):
+	if inclusive:
 		if item in selected:
 			return
 		
@@ -659,7 +659,6 @@ func select_item(item: EditorTimelineItem, add = false):
 func select_all():
 	if selected.size() > 0:
 		deselect_all()
-	inspector.stop_inspecting()
 	
 	for item in current_notes:
 		if not item is EditorTimingChangeTimelineItem:
@@ -885,7 +884,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l.drop_data(null, selected)
 					break
 
-func add_item_to_layer(layer, item: EditorTimelineItem):
+func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])
@@ -1197,7 +1196,7 @@ func deselect_all():
 	inspector.stop_inspecting()
 	notify_selected_changed()
 
-func deselect_item(item):
+func deselect_item(item: EditorTimelineItem):
 	if item in selected:
 		selected.erase(item)
 		item.deselect()
@@ -1224,7 +1223,7 @@ func get_notes_at_time(time: int) -> Array:
 	
 	return notes
 
-func user_create_timing_point(layer, item: EditorTimelineItem):
+func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem):
 	undo_redo.create_action("Add new timing point")
 	
 	if item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place:
@@ -1251,7 +1250,7 @@ func user_create_timing_point(layer, item: EditorTimelineItem):
 	
 	check_for_multi_changes([item.data.time])
 
-func remove_item_from_layer(layer, item: EditorTimelineItem):
+func remove_item_from_layer(layer: EditorLayer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
 	_removed_items.append(item)

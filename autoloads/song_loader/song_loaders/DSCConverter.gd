@@ -5,6 +5,8 @@ class Opcode:
 const MAX_31B = 1 << 31
 const MAX_32B = 1 << 32
 
+const DIVAFILE_KEY = "file access deny"
+
 static func unsigned32_to_signed(unsigned):
 	return (unsigned + MAX_31B) % MAX_32B - MAX_31B
 
@@ -36,19 +38,8 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	# Decrypt files if necessary
 	var data_8: PoolByteArray
 	if file.get_buffer(8) == PoolByteArray("DIVAFILE".to_ascii()):
-		var key_file = File.new()
-		if not key_file.file_exists(ProjectSettings.globalize_path("user://decryption_keys.json")):
-			key_file.open(ProjectSettings.globalize_path("user://decryption_keys.json"), File.WRITE)
-			key_file.store_string(JSON.print({"divafile_key": ""}))
-			key_file.close()
-			return -1
-		
-		key_file.open(ProjectSettings.globalize_path("user://decryption_keys.json"), File.READ)
-		var key_db = parse_json(key_file.get_as_text())
-		key_file.close()
-		
 		var aes := AESContext.new()
-		var key = PoolByteArray(key_db.divafile_key.to_ascii())
+		var key = PoolByteArray(DIVAFILE_KEY.to_ascii())
 		if not key:
 			return -1
 		

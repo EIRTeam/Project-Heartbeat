@@ -655,7 +655,7 @@ class QuadPreset:
 			
 			if note_groups[time].size() < 4:
 				for note in editor.get_notes_at_time(time):
-					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 4:
@@ -748,7 +748,7 @@ class SidewaysQuadPreset:
 			
 			if note_groups[time].size() < 4:
 				for note in editor.get_notes_at_time(time):
-					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 4:
@@ -859,7 +859,7 @@ class TrianglePreset:
 			
 			if note_groups[time].size() < 3:
 				for note in editor.get_notes_at_time(time):
-					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 3:

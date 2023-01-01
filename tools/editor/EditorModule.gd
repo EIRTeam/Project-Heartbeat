@@ -99,8 +99,14 @@ func get_event_text(event: InputEvent) -> String:
 	
 	return text
 
-func create_timing_point(layer, item: EditorTimelineItem):
+func create_timing_point(layer: EditorLayer, item: EditorTimelineItem):
 	editor.user_create_timing_point(layer, item)
+
+func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
+	editor.add_item_to_layer(layer, item)
+
+func remove_item_from_layer(layer: EditorLayer, item: EditorTimelineItem):
+	editor.remove_item_from_layer(layer, item)
 
 func change_selected_property_single_item(item, property_name: String, new_value):
 	editor._change_selected_property_single_item(item, property_name, new_value)
@@ -172,3 +178,15 @@ func apply_transform(id: int):
 # Having a catchall arg is stupid but we need it for drag_ended pokeKMS
 func hide_transform(catchall = null):
 	emit_signal("hide_transform")
+
+func select_item(item: EditorTimelineItem, inclusive: bool = false):
+	editor.select_item(item, inclusive)
+
+func deselect_item(item: EditorTimelineItem):
+	editor.deselect_item(item)
+
+func select_all():
+	editor.select_all()
+
+func deselect_all():
+	editor.deselect_all()
