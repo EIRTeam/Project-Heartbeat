@@ -86,7 +86,6 @@ func populate_tree():
 		# Hide officials and workshop charts by default
 		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or song.comes_from_ugc()
 		if hidden and not show_hidden:
-			print(song.title)
 			continue
 		
 		for field in [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]:

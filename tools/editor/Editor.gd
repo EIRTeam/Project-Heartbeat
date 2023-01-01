@@ -613,15 +613,17 @@ func _unhandled_input(event: InputEvent):
 func _note_comparison(a, b):
 	return a.time > b.time
 
-func get_timing_points():
+func get_timing_points() -> Array:
 	var points = []
+	
 	var layers = timeline.get_layers()
 	for layer in layers:
 		points += layer.get_timing_points()
+	
 	points.sort_custom(self, "_note_comparison")
 	return points
 
-func get_timeline_items():
+func get_timeline_items() -> Array:
 	var items = []
 	var layers = timeline.get_layers()
 	for layer in layers:
@@ -781,6 +783,9 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 	
+	var tp_cache = get_timing_points()
+	var times_cache = {}
+	
 	var sync_timing := false
 	var multi_check_times := []
 	for selected_item in selected:
@@ -795,7 +800,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 						sync_timing = true
 					
 					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
-						var new_data = autoplace(selected_item.data)
+						var new_data = autoplace(selected_item.data, false, tp_cache, times_cache)
 						
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
 						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
@@ -854,7 +859,7 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	if create_action:
 		undo_redo.commit_action()
 		
-		check_for_multi_changes(multi_check_times)
+		check_for_multi_changes(multi_check_times, times_cache)
 	
 	old_property_values.clear()
 	inspector.sync_value(property_name)
@@ -1088,15 +1093,22 @@ func is_slide_chain(note: HBTimingPoint):
 	
 	return false
 
-func check_for_multi_changes(times: Array):
+func check_for_multi_changes(times: Array, times_cache: Dictionary = {}):
 	if UserSettings.user_settings.editor_auto_multi:
 		# Merge action with the previous one
 		undo_redo.create_action("MERGE")
 		
+		var tp_cache := get_timing_points()
+		
 		for time in times:
-			var _notes_at_time := get_notes_at_time(time)
-			var notes_at_time := []
+			var _notes_at_time := []
+			if time in times_cache:
+				_notes_at_time = times_cache[time]
+			else:
+				_notes_at_time = get_notes_at_time(time, tp_cache)
+				times_cache[time] = _notes_at_time
 			
+			var notes_at_time := []
 			for note in _notes_at_time:
 				if note is HBBaseNote:
 					notes_at_time.append(note)
@@ -1225,10 +1237,13 @@ func toggle_selection(item):
 	else:
 		select_item(item, true)
 
-func get_notes_at_time(time: int) -> Array:
+func get_notes_at_time(time: int, tp_cache: Array = []) -> Array:
 	var notes := []
 	
-	for note in get_timing_points():
+	if tp_cache == []:
+		tp_cache = get_timing_points()
+	
+	for note in tp_cache:
 		if note is HBTimingPoint:
 			if note.time == time:
 				notes.append(note)
@@ -1942,7 +1957,7 @@ func _cache_hold_ends():
 			item.update()
 
 
-func autoplace(data: HBBaseNote, force=false):
+func autoplace(data: HBBaseNote, force = false, tp_cache: Array = [], times_cache: Dictionary = {}):
 	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540) and not force:
 		# Safeguard against modifying old charts
 		data.pos_modified = true
@@ -1957,7 +1972,12 @@ func autoplace(data: HBBaseNote, force=false):
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
 	
-	var notes_at_time = get_notes_at_time(data.time)
+	var notes_at_time := []
+	if data.time in times_cache:
+		notes_at_time = times_cache[data.time]
+	else:
+		notes_at_time = get_notes_at_time(data.time, tp_cache)
+		times_cache[data.time] = notes_at_time
 	
 	var selected_data = []
 	for item in selected:
