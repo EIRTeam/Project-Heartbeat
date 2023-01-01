@@ -5,13 +5,13 @@
 [ext_resource path="res://tools/editor/editor_modules/ScriptsModule.gd" type="Script" id=3]
 [ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/HBEditorCodeEdit.gd" type="Script" id=5]
-[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=6]
-[ext_resource path="res://graphics/icons/edit-document.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=6]
+[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=7]
 [ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=8]
 [ext_resource path="res://tools/editor/editor_modules/FocusTrapLineEdit.gd" type="Script" id=9]
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=10]
-[ext_resource path="res://graphics/icons/file-document-plus.svg" type="Texture" id=11]
-[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=12]
+[ext_resource path="res://graphics/icons/edit-document.svg" type="Texture" id=11]
+[ext_resource path="res://graphics/icons/file-document-plus.svg" type="Texture" id=12]
 
 [node name="EditorModule" instance=ExtResource( 10 )]
 script = ExtResource( 3 )
@@ -51,7 +51,7 @@ margin_bottom = 1062.0
 rect_min_size = Vector2( 150, 150 )
 hint_tooltip = "Open the script manager."
 size_flags_horizontal = 4
-icon = ExtResource( 7 )
+icon = ExtResource( 11 )
 expand_icon = true
 script = ExtResource( 8 )
 action = "editor_open_script_manager"
@@ -65,12 +65,12 @@ text = "Manage scripts"
 align = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
-visible = false
 
 [node name="ScriptEditorDialog" type="WindowDialog" parent="CanvasLayer" index="0" groups=["block_shortcuts"]]
 unique_name_in_owner = true
-margin_right = 1282.0
-margin_bottom = 632.0
+visible = true
+margin_right = 1275.0
+margin_bottom = 620.0
 theme = ExtResource( 1 )
 popup_exclusive = true
 window_title = "Script Manager"
@@ -78,15 +78,15 @@ window_title = "Script Manager"
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScriptEditorDialog" index="1"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 1278.0
-margin_bottom = 621.0
+margin_right = 1265.0
+margin_bottom = 610.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer" index="0"]
-margin_right = 1268.0
-margin_bottom = 611.0
+margin_right = 1255.0
+margin_bottom = 600.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="0"]
-margin_right = 1268.0
+margin_right = 1255.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
@@ -95,7 +95,7 @@ unique_name_in_owner = true
 margin_right = 28.0
 margin_bottom = 25.0
 hint_tooltip = "Save this script"
-icon = ExtResource( 6 )
+icon = ExtResource( 7 )
 flat = true
 script = ExtResource( 8 )
 action = "editor_save"
@@ -106,7 +106,7 @@ margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 25.0
 hint_tooltip = "Save this script as"
-icon = ExtResource( 12 )
+icon = ExtResource( 6 )
 flat = true
 script = ExtResource( 8 )
 action = "editor_save_as"
@@ -117,7 +117,7 @@ margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 25.0
 hint_tooltip = "Create new script"
-icon = ExtResource( 11 )
+icon = ExtResource( 12 )
 flat = true
 script = ExtResource( 8 )
 action = "editor_new_script"
@@ -136,14 +136,14 @@ action = "editor_open_scripts_dir"
 [node name="ErrorLabel" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="4"]
 unique_name_in_owner = true
 margin_left = 128.0
-margin_right = 544.0
+margin_right = 537.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.941176, 0.262745, 0.262745, 1 )
 
 [node name="Label" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="5"]
-margin_left = 548.0
-margin_right = 964.0
+margin_left = 541.0
+margin_right = 951.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
@@ -152,8 +152,8 @@ align = 2
 
 [node name="FileNameLineEdit" type="LineEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="6" groups=["prevent_focus"]]
 unique_name_in_owner = true
-margin_left = 968.0
-margin_right = 1268.0
+margin_left = 955.0
+margin_right = 1255.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 300, 0 )
 text = "New File"
@@ -162,14 +162,14 @@ script = ExtResource( 2 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="1"]
 margin_top = 29.0
-margin_right = 1268.0
-margin_bottom = 611.0
+margin_right = 1255.0
+margin_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="FileTree" type="Tree" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" groups=["prevent_focus"]]
 unique_name_in_owner = true
-margin_right = 280.0
-margin_bottom = 582.0
+margin_right = 278.0
+margin_bottom = 571.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 4
@@ -186,9 +186,9 @@ script = ExtResource( 9 )
 
 [node name="ScriptEditor" type="TextEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
 unique_name_in_owner = true
-margin_left = 284.0
-margin_right = 1268.0
-margin_bottom = 582.0
+margin_left = 282.0
+margin_right = 1255.0
+margin_bottom = 571.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.5
 highlight_current_line = true
