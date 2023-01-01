@@ -75,14 +75,16 @@ func _on_network_item_selected():
 		var body = item.get_meta("response_body")
 		network_body_RTL.text = body
 func _input(event):
-	if event.is_action_pressed("toggle_diagnostics"):
+	if event.is_action_pressed("toggle_diagnostics", false, true):
 		var window_size = get_viewport().size * 0.75
 		$WindowDialog.rect_size = window_size
 		$WindowDialog.rect_position = get_viewport().size / 8.0
 		$WindowDialog.visible = !$WindowDialog.visible
-	if event.is_action_pressed("toggle_fps"):
+	
+	if event.is_action_pressed("toggle_fps", false, true):
 		fps_label.visible = !fps_label.visible
-	if event.is_action_pressed("take_screenshot"):
+	
+	if event.is_action_pressed("take_screenshot", false, true):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
@@ -90,12 +92,18 @@ func _input(event):
 		if not dir.dir_exists("user://debug_screenshot"):
 			dir.make_dir("user://debug_screenshot")
 		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
-	if event.is_action_pressed("toggle_gamepad_view"):
+	
+	if event.is_action_pressed("toggle_gamepad_view", false, true):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
 func _process(delta):
 	_seconds_since_startup += delta
+	
 	frame_rate_label.text = "FPS: %f" % Engine.get_frames_per_second()
-	fps_label.text = "FPS: %.0f\nActual buffer size: %.2f ms" % [Engine.get_frames_per_second(), Shinobu.get_actual_buffer_size()]
+	
+	fps_label.text = "FPS: %.0f" % Engine.get_frames_per_second()
+	fps_label.text += " | "
+	fps_label.text += "Actual buffer size: %.2f ms" % Shinobu.get_actual_buffer_size()
+	
 	if Engine.get_frames_drawn() - _frames_drawn_offset > 0:
 		average_frame_rate_label.text = "Avg: %f" % (float(Engine.get_frames_drawn() - _frames_drawn_offset) / (_seconds_since_startup))
 	if Engine.get_frames_per_second() > _max_fps:

@@ -191,6 +191,9 @@ func fill_localized_arrays():
 		"editor_settings": tr("Open/Close the settings menu"),
 		"editor_show_docs": tr("Open the editor docs"),
 		"editor_open_script_manager": tr("Open the script manager"),
+		"toggle_diagnostics": tr("Open the diagnostics menu"),
+		"toggle_fps": tr("Toggle the fps counter"),
+		"show_hidden": tr("Show hidden charts"),
 		#  Files
 		"editor_open": tr("Open a chart"),
 		"editor_open_scripts_dir": tr("Open the scripts directory"),
@@ -198,7 +201,7 @@ func fill_localized_arrays():
 		"editor_save_as": tr("Save the chart / script as"),
 		"editor_new_script": tr("Create a new script"),
 		#  Preview
-		"editor_play": tr("Play/Pause"),
+		"editor_play": tr("Play / Pause"),
 		"editor_playtest": tr("Playtest"),
 		"editor_playtest_at_time": tr("Playtest at time"),
 		"editor_toggle_metronome": tr("Toggle metronome"),

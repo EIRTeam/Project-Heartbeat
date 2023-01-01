@@ -15,7 +15,7 @@ onready var verify_song_popup = get_node("SongVerificationPopup")
 onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
 onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
-signal chart_selected(song, difficulty)
+signal chart_selected(song, difficulty, hidden)
 
 const LOG_NAME = "EditorOpenChartPopup"
 
@@ -74,46 +74,72 @@ func populate_tree():
 	verify_song_button.disabled = true
 	upload_button.disabled = true
 	get_ok().disabled = true
+	
 	tree.clear()
 	var _root = tree.create_item()
+	
 	for song in SongLoader.songs.values():
-		# PPD charts cannot be edited...
-		if song.is_visible_in_editor() and not song.comes_from_ugc():
-			if not song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or show_hidden:
-				for field in [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]:
-					if search_line_edit.text.empty() or search_line_edit.text.to_lower() in field:
-						var item = tree.create_item()
-						item.set_text(0, song.title)
-						item.set_meta("song", song)
-						
-						for difficulty in song.charts:
-							var diff_item = tree.create_item(item)
-							diff_item.set_text(0, difficulty.capitalize())
-							diff_item.set_meta("song", song)
-							diff_item.set_meta("difficulty", difficulty)
-						
-						break
+		# Only native charts can be edited
+		if not song.is_visible_in_editor():
+			continue
+		
+		# Hide officials and workshop charts by default
+		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or song.comes_from_ugc()
+		if hidden and not show_hidden:
+			print(song.title)
+			continue
+		
+		for field in [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]:
+			if search_line_edit.text.empty() or search_line_edit.text.to_lower() in field:
+				var item = tree.create_item()
+				
+				item.set_text(0, song.title)
+				
+				item.set_meta("song", song)
+				item.set_meta("hidden", hidden)
+				
+				for difficulty in song.charts:
+					var diff_item = tree.create_item(item)
+					
+					diff_item.set_text(0, difficulty.capitalize())
+					
+					diff_item.set_meta("song", song)
+					diff_item.set_meta("difficulty", difficulty)
+					diff_item.set_meta("hidden", hidden)
+				
+				break
 	
 func _on_item_selected():
 	var item = tree.get_selected()
+	
 	if item.has_meta("difficulty"):
 		get_ok().disabled = false
-		delete_chart_button.disabled = false
+		delete_chart_button.disabled = item.get_meta("hidden")
 	else:
 		get_ok().disabled = true
 		delete_chart_button.disabled = true
-	add_chart_button.disabled = false
+	
 	edit_data_button.disabled = false
-	verify_song_button.disabled = false
-	upload_button.disabled = false
+	if item.get_meta("hidden"):
+		edit_data_button.text = "Display song data"
+	else:
+		edit_data_button.text = "Edit song data"
+	
+	add_chart_button.disabled = item.get_meta("hidden")
+	verify_song_button.disabled = item.get_meta("hidden")
+	upload_button.disabled = item.get_meta("hidden")
 	
 func _on_about_to_show():
 	populate_tree()
 
 func _show_meta_editor():
-	song_meta_editor_dialog.rect_size = Vector2.ZERO
 	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
+	song_meta_editor.hidden = tree.get_selected().get_meta("hidden")
+	
+	song_meta_editor_dialog.rect_size = Vector2.ZERO
 	song_meta_editor_dialog.popup_centered_minsize(Vector2(500, 650))
+	song_meta_editor_dialog.get_ok().disabled = tree.get_selected().get_meta("hidden")
+
 func _on_CreateSongDialog_confirmed():
 	if $CreateSongDialog/VBoxContainer/LineEdit.text != "":
 		var song_name = HBUtils.get_valid_filename($CreateSongDialog/VBoxContainer/LineEdit.text)
@@ -134,12 +160,15 @@ func show_error(error: String):
 	$AcceptDialog.popup_centered(Vector2(500, 100))
 func _on_confirmed():
 	var item = tree.get_selected()
+	
 	var song = item.get_meta("song") as HBSong
 	if not song.is_cached():
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 		return
+	
 	var verification = HBSongVerification.new()
 	var errors = verification.verify_song(song)
+	
 	# We ignore file not found errors for charts
 	for error_class in errors:
 		if error_class.begins_with("chart_"):
@@ -147,11 +176,12 @@ func _on_confirmed():
 				var error = errors[error_class][i]
 				if error.type == HBSongVerification.CHART_ERROR.FILE_NOT_FOUND:
 					errors[error_class].remove(i)
+	
 	if verification.has_fatal_error(errors):
 		var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
 		verify_song_popup.show_song_verification(verification.verify_song(song), false, err)
 	else:
-		emit_signal("chart_selected", song, item.get_meta("difficulty"))
+		emit_signal("chart_selected", song, item.get_meta("difficulty"), item.get_meta("hidden"))
 		hide()
 
 func _on_SongMetaEditorDialog_confirmed():
@@ -194,7 +224,10 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 
 func _unhandled_input(event):
 	if event.is_action_pressed("show_hidden"):
-		show_hidden = true
+		show_hidden = not show_hidden
+		
+		window_title = "Select a song to edit / display" if show_hidden else "Select a song to edit"
+		
 		populate_tree()
 
 func _on_chart_deleted():

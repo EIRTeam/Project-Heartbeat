@@ -23,6 +23,9 @@ const EDITOR_EVENTS = {
 		"editor_settings",
 		"editor_show_docs",
 		"editor_open_script_manager",
+		"toggle_diagnostics",
+		"toggle_fps",
+		"show_hidden",
 	],
 	"Files": [
 		"editor_open",

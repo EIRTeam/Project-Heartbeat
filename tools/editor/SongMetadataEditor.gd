@@ -56,6 +56,8 @@ onready var select_skin_button: Button = get_node("%SelectSkinButton")
 
 const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
+var hidden: bool = false
+
 func set_song_meta(value):
 	song_meta = value
 	
@@ -145,6 +147,9 @@ func _on_clear_skin_button_pressed():
 	clear_skin_button.disabled = true
 
 func save_meta():
+	if hidden:
+		return
+	
 	song_meta.title = title_edit.text
 	song_meta.original_title = original_title_edit.text
 	song_meta.romanized_title = romanized_title_edit.text
@@ -200,6 +205,9 @@ func save_meta():
 
 
 func _on_AudioFileDialog_file_selected(path: String):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var audio_path := song_meta.get_song_audio_res_path() as String
 	
@@ -214,6 +222,9 @@ func _on_AudioFileDialog_file_selected(path: String):
 
 
 func _on_BackgroundFileDialog_file_selected(path):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.background_image = "background." + extension
@@ -230,6 +241,9 @@ func _on_BackgroundFileDialog_file_selected(path):
 
 
 func _on_PreviewFileDialog_file_selected(path):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.preview_image = "preview." + extension
@@ -246,6 +260,9 @@ func _on_PreviewFileDialog_file_selected(path):
 
 
 func _on_VoiceAudioFileDialog_file_selected(path):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var audio_path := song_meta.get_song_voice_res_path() as String
 	
@@ -260,6 +277,9 @@ func _on_VoiceAudioFileDialog_file_selected(path):
 
 
 func _on_CircleFileDialog_file_selected(path):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.circle_image = "circle." + extension
@@ -276,6 +296,9 @@ func _on_CircleFileDialog_file_selected(path):
 
 
 func _on_CircleLogoFileDialog_file_selected(path):
+	if hidden:
+		return
+	
 	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.circle_logo = "circle_logo." + extension
@@ -308,8 +331,11 @@ func _on_AddVariantButton_pressed():
 	variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
 
 func _on_show_download_prompt(variant: int):
+	if hidden:
+		return
+	
 	save_meta()
-	var v = song_meta.get_variant_data(variant)
+	
 	MouseTrap.cache_song_overlay.show_download_prompt(song_meta, variant)
 
 func show_error(err: String):

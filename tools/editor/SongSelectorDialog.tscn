@@ -9,6 +9,7 @@ margin_left = 154.016
 margin_top = 213.849
 margin_right = 634.016
 margin_bottom = 520.849
+rect_min_size = Vector2( 150, 52.5 )
 theme = ExtResource( 2 )
 window_title = "Por favor, Confirma..."
 script = ExtResource( 1 )
@@ -20,25 +21,25 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 472.0
-margin_bottom = 271.0
+margin_bottom = 266.0
 
 [node name="PPDFileDialog" type="FileDialog" parent="."]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 472.0
-margin_bottom = 271.0
-window_title = "Abrir un Archivo"
+margin_bottom = 266.0
+rect_min_size = Vector2( 150, 52.5 )
+window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.ppd ; PPD chart" )
-current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
-current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
 [node name="PPDImportConfirmationDialog" type="ConfirmationDialog" parent="."]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 472.0
-margin_bottom = 271.0
+margin_bottom = 266.0
+rect_min_size = Vector2( 150, 52.5 )
 window_title = "Por favor, Confirma..."
 dialog_text = "Project Heartbeat can load PPD songs directly without converting, if your intention is to only play them, it's not necessary for you to convert them manually, this will allow you to take advantage of future improvements in the PPD chart loading code.
 

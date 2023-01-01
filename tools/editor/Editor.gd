@@ -4,7 +4,6 @@ class_name HBEditor
 
 signal scale_changed(prev_scale, scale)
 signal playhead_position_changed
-signal load_song(song)
 signal timing_information_changed
 signal timing_points_changed
 signal song_editor_settings_changed
@@ -102,6 +101,8 @@ var signature_map := []
 var metronome_map := []
 
 var seek_debounce_timer = Timer.new()
+
+var hidden: bool = false
 
 func _sort_current_items_impl(a, b):
 	return a.data.time < b.data.time
@@ -231,6 +232,8 @@ func _ready():
 	seek_debounce_timer.connect("timeout", self, "_seek")
 	
 	update_user_settings()
+	
+	Diagnostics.fps_label.get_font("font").size = 11
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -1499,8 +1502,10 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	file.open(chart_path, File.WRITE)
 	file.store_string(JSON.print(serialize_chart(), "  "))
 
-func load_song(song: HBSong, difficulty: String):
+func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	deselect_all()
+	
+	hidden = p_hidden
 	
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
@@ -1536,9 +1541,9 @@ func load_song(song: HBSong, difficulty: String):
 	from_chart(chart)
 	current_difficulty = difficulty
 	current_difficulty = difficulty
-	save_button.disabled = false
+	
+	save_button.disabled = hidden
 	save_as_button.disabled = false
-	emit_signal("load_song", song)
 
 func update_media():
 	game_preview.set_song(current_song, song_editor_settings.selected_variant)
@@ -1576,6 +1581,8 @@ func reveal_ui(extended: bool = true):
 		if control is SpinBox:
 			control.get_line_edit().editable = true
 	
+	save_button.disabled = hidden
+	
 	if not extended:
 		return
 	
@@ -1589,9 +1596,11 @@ func reveal_ui(extended: bool = true):
 
 func _on_ExitDialog_confirmed():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
-#	MouseTrap.enable_mouse_trap()
+	
 	OS.window_maximized = false
 	UserSettings.apply_display_mode()
+	
+	Diagnostics.fps_label.get_font("font").size = 23
 
 func release_owned_focus():
 	$FocusTrap.grab_focus()
@@ -1683,6 +1692,9 @@ func _on_timing_information_changed(f=null):
 
 
 func _on_SaveButton_pressed():
+	if hidden:
+		return
+	
 	var chart_path = current_song.get_chart_path(current_difficulty)
 	var file = File.new()
 	file.open(chart_path, File.WRITE)

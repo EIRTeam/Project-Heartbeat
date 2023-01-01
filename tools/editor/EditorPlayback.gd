@@ -111,7 +111,7 @@ func set_song(song: HBSong, variant=-1):
 	game.audio_playback.volume = db2linear(volume_db)
 	voice_source = null
 	if song.voice:
-		var voice_audio_stream = song.get_voice_audio_stream()
+		var voice_audio_stream = song.get_voice_stream()
 		voice_source = Shinobu.register_sound_from_memory("voice", voice_audio_stream.data)
 		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_source.instantiate(HBGame.music_group))
 		add_child(game.voice_audio_playback)
