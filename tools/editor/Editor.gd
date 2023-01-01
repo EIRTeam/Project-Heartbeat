@@ -52,6 +52,7 @@ onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/
 onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
 onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
 onready var contextual_menu = get_node("%ContextualMenu")
+onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
 
 const LOG_NAME = "HBEditor"
 
@@ -103,6 +104,8 @@ var metronome_map := []
 var seek_debounce_timer = Timer.new()
 
 var hidden: bool = false
+
+var modified: bool = false
 
 func _sort_current_items_impl(a, b):
 	return a.data.time < b.data.time
@@ -190,8 +193,8 @@ func _ready():
 	
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
-	open_chart_popup_dialog.get_cancel().connect("pressed", self, "_on_ExitDialog_confirmed")
-	open_chart_popup_dialog.get_close_button().connect("pressed", self, "_on_ExitDialog_confirmed")
+	open_chart_popup_dialog.get_cancel().connect("pressed", self, "exit")
+	open_chart_popup_dialog.get_close_button().connect("pressed", self, "exit")
 	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
 	
 	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
@@ -234,6 +237,11 @@ func _ready():
 	update_user_settings()
 	
 	Diagnostics.fps_label.get_font("font").size = 11
+	
+	undo_redo.connect("version_changed", self, "_on_version_changed")
+	
+	save_confirmation_dialog.get_ok().text = "Yes"
+	save_confirmation_dialog.get_cancel().text = "Go back"
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -1287,7 +1295,7 @@ func _on_PauseButton_pressed(auto = false):
 		create_queued_timing_points()
 
 func _on_PlayButton_pressed():
-	if UserSettings.user_settings.editor_autosave_enabled:
+	if UserSettings.user_settings.editor_autosave_enabled and modified:
 		_on_SaveButton_pressed()
 	_playhead_traveling = true
 	game_preview.play_at_pos(playhead_position/1000.0)
@@ -1459,9 +1467,10 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
-	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "_on_ExitDialog_confirmed"):
-		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "_on_ExitDialog_confirmed")
-		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "_on_ExitDialog_confirmed")
+	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "exit"):
+		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "exit")
+		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "exit")
+	
 	deselect_all()
 	sync_lyrics()
 	force_game_process()
@@ -1544,6 +1553,8 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	save_button.disabled = hidden
 	save_as_button.disabled = false
+	
+	modified = false
 
 func update_media():
 	game_preview.set_song(current_song, song_editor_settings.selected_variant)
@@ -1594,13 +1605,30 @@ func reveal_ui(extended: bool = true):
 		if control is SpinBox:
 			control.get_line_edit().editable = true
 
-func _on_ExitDialog_confirmed():
+func exit():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
 	
 	OS.window_maximized = false
 	UserSettings.apply_display_mode()
 	
 	Diagnostics.fps_label.get_font("font").size = 23
+
+func try_exit():
+	if modified:
+		_confirm_action = "exit"
+		save_confirmation_dialog.popup_centered()
+	else:
+		exit()
+
+func open():
+	open_chart_popup_dialog.popup_centered()
+
+func try_open():
+	if modified:
+		_confirm_action = "open"
+		save_confirmation_dialog.popup_centered()
+	else:
+		open()
 
 func release_owned_focus():
 	$FocusTrap.grab_focus()
@@ -1720,6 +1748,8 @@ func _on_SaveButton_pressed():
 	current_song.save_song()
 	message_shower._show_notification("Chart saved")
 	
+	modified = false
+
 func _on_ShowGridbutton_toggled(button_pressed):
 	grid_renderer.visible = button_pressed
 	UserSettings.user_settings.editor_show_grid = button_pressed
@@ -1779,8 +1809,9 @@ func show_error(error: String):
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
-	if UserSettings.user_settings.editor_autosave_enabled:
+	if UserSettings.user_settings.editor_autosave_enabled and modified:
 		_on_SaveButton_pressed()
+	
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
@@ -2097,3 +2128,10 @@ func shortcuts_blocked() -> bool:
 			return true
 	
 	return false
+
+func _on_version_changed():
+	modified = true
+
+var _confirm_action = "exit"
+func _on_SaveConfirmationDialog_confirmed():
+	call(_confirm_action)
