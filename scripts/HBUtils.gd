@@ -488,3 +488,21 @@ static func fit_image(base_image: Image, size: Vector2, cover := false) -> Image
 	
 static func align(value: int, alignment: int):
 	return ( value + ( alignment - 1 ) ) & ~( alignment - 1 )
+
+static func wrap_text(text: String, length: int = 25) -> String:
+	var lines := [""]
+	for word in text.split(" "):
+		if lines[-1].length() > length:
+			lines[-1].trim_prefix(" ")
+			lines.append("")
+		else:
+			lines[-1] += " "
+		
+		lines[-1] += word
+	
+	var new_text := ""
+	for line in lines:
+		new_text += line
+		new_text += "\n"
+	
+	return new_text.trim_suffix("\n")

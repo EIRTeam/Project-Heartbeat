@@ -1,5 +1,7 @@
 extends Control
 
+class_name EditorLayer
+
 var editor
 
 var layer_name : String = "New Layer"

@@ -7,10 +7,10 @@
 [ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=5]
 [ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=6]
 [ext_resource path="res://graphics/icons/refresh-biggest.svg" type="Texture" id=7]
-[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=8]
-[ext_resource path="res://graphics/icons/cursor-click.svg" type="Texture" id=9]
+[ext_resource path="res://graphics/icons/cursor-click.svg" type="Texture" id=8]
+[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=9]
 
-[node name="EditorModule" instance=ExtResource( 8 )]
+[node name="EditorModule" instance=ExtResource( 9 )]
 script = ExtResource( 2 )
 module_location = "right_panel"
 module_name = "Sync"
@@ -169,7 +169,7 @@ script = ExtResource( 4 )
 text = "Click here"
 tooltip = "Tap here or press the shortcut to the
 beat of the song to calculate the bpm."
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 disable_when_playing = false
 button_mode = "function"
 function_name = "calculator_pressed"

@@ -649,9 +649,12 @@ func select_item(item: EditorTimelineItem, add = false):
 		item.connect_widget(widget_instance)
 	
 	selected.sort_custom(self, "_sort_current_items_impl")
-	right_panel.current_tab = 0
 	inspector.inspect(selected)
 	notify_selected_changed()
+	
+	var current_module = right_panel.get_current_tab_control()
+	if right_panel.current_tab != 0 and not current_module.blocks_switch_to_inspector:
+		right_panel.current_tab = 0
 
 func select_all():
 	if selected.size() > 0:
@@ -1732,10 +1735,6 @@ func snap_time_to_timeline(time: int) -> int:
 	else:
 		return time
 
-func add_button_to_tools_tab(button: BaseButton):
-	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(button)
-func add_tool_to_tools_tab(tool_control: Control):
-	$VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2/Tools/PluginButtons/ScrollContainer/PluginButtonsVBox.add_child(tool_control)
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 	if layer_name == "Sections":

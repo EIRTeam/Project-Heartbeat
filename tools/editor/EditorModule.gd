@@ -21,6 +21,8 @@ export(int) var priority
 
 export(String) var button_group_name = "buttons"
 
+export(bool) var blocks_switch_to_inspector = false
+
 var transforms: Array
 
 func _ready():
@@ -53,7 +55,7 @@ func user_settings_changed():
 	pass
 
 func _input(event: InputEvent):
-	if get_focus_owner() is LineEdit:
+	if get_focus_owner() is LineEdit or get_focus_owner() is TextEdit:
 		return
 	
 	if event is InputEventKey or event is InputEventMouseButton:
@@ -120,6 +122,9 @@ func sync_inspector_values():
 
 func get_layers() -> Array:
 	return editor.timeline.get_layers()
+
+func find_layer_by_name(layer_name: String) -> EditorLayer:
+	return editor.timeline.find_layer_by_name(layer_name)
 
 func get_playhead_position() -> int:
 	return editor.playhead_position

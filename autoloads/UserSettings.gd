@@ -188,11 +188,15 @@ func fill_localized_arrays():
 		"editor_move_playhead_right": tr("Move playhead to the right"),
 		"gui_undo": tr("Undo"),
 		"gui_redo": tr("Redo"),
-		"editor_open": tr("Open a chart"),
-		"editor_save": tr("Save the chart"),
-		"editor_save_as": tr("Save the chart as"),
 		"editor_settings": tr("Open/Close the settings menu"),
 		"editor_show_docs": tr("Open the editor docs"),
+		"editor_open_script_manager": tr("Open the script manager"),
+		#  Files
+		"editor_open": tr("Open a chart"),
+		"editor_open_scripts_dir": tr("Open the scripts directory"),
+		"editor_save": tr("Save the chart / script"),
+		"editor_save_as": tr("Save the chart / script as"),
+		"editor_new_script": tr("Create a new script"),
 		#  Preview
 		"editor_play": tr("Play/Pause"),
 		"editor_playtest": tr("Playtest"),

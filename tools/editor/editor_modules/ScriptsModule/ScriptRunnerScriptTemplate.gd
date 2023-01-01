@@ -6,6 +6,14 @@
 
 extends ScriptRunnerScript # Do not remove this
 
+# We can use metadata tags so that the script is self-documenting by writing:
+# #meta:<meta name>:<contents>
+# The available meta tags are: name, description, and usage
+# For example:
+#meta:name:Example script
+#meta:description:The default script
+#meta:usage:Select the notes you want to edit
+
 func run_script() -> int:
 	# Get selected timing points
 	var selected_timing_points := get_selected_timing_points()

@@ -1,0 +1,291 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/editor_modules/ScriptsModule.gd" type="Script" id=3]
+[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=4]
+[ext_resource path="res://tools/editor/HBEditorCodeEdit.gd" type="Script" id=5]
+[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=6]
+[ext_resource path="res://graphics/icons/edit-document.svg" type="Texture" id=7]
+[ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=8]
+[ext_resource path="res://tools/editor/editor_modules/FocusTrapLineEdit.gd" type="Script" id=9]
+[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/file-document-plus.svg" type="Texture" id=11]
+[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=12]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+export(String) var action := \"\"
+var og_hint: String = \"\"
+
+func _ready():
+	og_hint = hint_tooltip
+	update_shortcuts()
+
+func _toggled(_pressed: bool):
+	release_focus()
+
+func _pressed():
+	release_focus()
+
+func _unhandled_input(event):
+	if action == \"\" or not visible or disabled:
+		return
+	
+	if event.is_action_pressed(action, false, true):
+		if toggle_mode:
+			pressed = !pressed
+		else:
+			emit_signal(\"pressed\")
+		
+		get_tree().set_input_as_handled()
+
+func update_shortcuts():
+	var text = \"None\"
+	
+	var action_list = InputMap.get_action_list(action)
+	var event = action_list[0] if action_list else InputEventKey.new()
+	
+	if event is InputEventKey:
+		text = event.as_text() if not \"Physical\" in event.as_text() else \"None\"
+		if \"Kp \" in text:
+			text = text.replace(\"Kp \", \"Keypad \")
+	elif event is InputEventMouseButton:
+		text = \"Mouse %d\" % event.button_index
+	
+	hint_tooltip = og_hint + \"\\nShortcut: \" + text
+"
+
+[node name="EditorModule" instance=ExtResource( 12 )]
+script = ExtResource( 3 )
+module_location = "right_panel"
+module_name = "Scripts"
+priority = 2
+button_group_name = "script_buttons"
+blocks_switch_to_inspector = true
+
+[node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
+margin_right = 1920.0
+margin_bottom = 14.0
+text = "Run scripts..."
+align = 1
+
+[node name="ScriptRunnerTree" type="Tree" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
+unique_name_in_owner = true
+margin_top = 18.0
+margin_right = 1920.0
+margin_bottom = 908.0
+size_flags_vertical = 3
+columns = 2
+hide_root = true
+
+[node name="ScriptManagerButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+margin_left = 885.0
+margin_top = 912.0
+margin_right = 1035.0
+margin_bottom = 1062.0
+rect_min_size = Vector2( 150, 150 )
+hint_tooltip = "Open the script manager."
+size_flags_horizontal = 4
+icon = ExtResource( 7 )
+expand_icon = true
+script = ExtResource( 8 )
+action = "editor_open_script_manager"
+
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
+margin_top = 1066.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+text = "Manage scripts"
+align = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
+visible = false
+
+[node name="ScriptEditorDialog" type="WindowDialog" parent="CanvasLayer" index="0"]
+unique_name_in_owner = true
+margin_right = 1282.0
+margin_bottom = 632.0
+theme = ExtResource( 1 )
+popup_exclusive = true
+window_title = "Script Manager"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScriptEditorDialog" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1278.0
+margin_bottom = 621.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer" index="0"]
+margin_right = 1268.0
+margin_bottom = 611.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="0"]
+margin_right = 1268.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_right = 28.0
+margin_bottom = 25.0
+hint_tooltip = "Save this script"
+icon = ExtResource( 6 )
+flat = true
+script = SubResource( 1 )
+action = "editor_save"
+
+[node name="SaveAsButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_left = 32.0
+margin_right = 60.0
+margin_bottom = 25.0
+hint_tooltip = "Save this script as"
+icon = ExtResource( 4 )
+flat = true
+script = SubResource( 1 )
+action = "editor_save_as"
+
+[node name="NewFileButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="2" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_left = 64.0
+margin_right = 92.0
+margin_bottom = 25.0
+hint_tooltip = "Create new script"
+icon = ExtResource( 11 )
+flat = true
+script = SubResource( 1 )
+action = "editor_new_script"
+
+[node name="OpenDirButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="3" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_left = 96.0
+margin_right = 124.0
+margin_bottom = 25.0
+hint_tooltip = "Open scripts directory"
+icon = ExtResource( 10 )
+flat = true
+script = SubResource( 1 )
+action = "editor_open_scripts_dir"
+
+[node name="ErrorLabel" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="4"]
+unique_name_in_owner = true
+margin_left = 128.0
+margin_right = 544.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.941176, 0.262745, 0.262745, 1 )
+
+[node name="Label" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="5"]
+margin_left = 548.0
+margin_right = 964.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Currently editing:"
+align = 2
+
+[node name="FileNameLineEdit" type="LineEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="6" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_left = 968.0
+margin_right = 1268.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 300, 0 )
+text = "New File"
+editable = false
+script = ExtResource( 2 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="1"]
+margin_top = 29.0
+margin_right = 1268.0
+margin_bottom = 611.0
+size_flags_vertical = 3
+
+[node name="FileTree" type="Tree" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_right = 280.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+hide_root = true
+
+[node name="FocusTrapLineEdit" type="LineEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" index="6"]
+unique_name_in_owner = true
+visible = false
+margin_left = -10.0
+margin_top = -39.0
+margin_right = 48.0
+margin_bottom = -14.0
+script = ExtResource( 9 )
+
+[node name="ScriptEditor" type="TextEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
+unique_name_in_owner = true
+margin_left = 284.0
+margin_right = 1268.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.5
+highlight_current_line = true
+syntax_highlighting = true
+show_line_numbers = true
+draw_tabs = true
+fold_gutter = true
+highlight_all_occurrences = true
+minimap_draw = true
+script = ExtResource( 5 )
+
+[node name="SaveDialog" type="ConfirmationDialog" parent="CanvasLayer" index="1"]
+unique_name_in_owner = true
+margin_right = 208.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 150, 52.5 )
+theme = ExtResource( 1 )
+dialog_text = "This file has been modified.
+Do you really want to close it?"
+dialog_autowrap = true
+
+[node name="DeleteDialog" type="ConfirmationDialog" parent="CanvasLayer" index="2"]
+unique_name_in_owner = true
+margin_right = 270.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 150, 52.5 )
+theme = ExtResource( 1 )
+dialog_text = "Do you really want to delete this script?
+This action cannot be undone."
+dialog_autowrap = true
+
+[node name="ReloadDialog" type="ConfirmationDialog" parent="CanvasLayer" index="3"]
+unique_name_in_owner = true
+margin_right = 223.0
+margin_bottom = 114.0
+rect_min_size = Vector2( 150, 52.5 )
+theme = ExtResource( 1 )
+dialog_text = "This script has been modified by an external source.
+Do you want to reload it?"
+dialog_autowrap = true
+
+[connection signal="button_pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ScriptRunnerTree" to="." method="_on_script_runner_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ScriptManagerButton" to="." method="_popup_script_editor"]
+[connection signal="popup_hide" from="CanvasLayer/ScriptEditorDialog" to="." method="_close_script_editor"]
+[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="save_file"]
+[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="." method="save_file" binds= [ true ]]
+[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/NewFileButton" to="." method="new_file"]
+[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/OpenDirButton" to="." method="open_scripts_dir"]
+[connection signal="button_pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_button_pressed"]
+[connection signal="cell_selected" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_cell_selected"]
+[connection signal="accepted" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_accepted"]
+[connection signal="rejected" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_rejected"]
+[connection signal="text_changed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/ScriptEditor" to="." method="_text_changed"]
+[connection signal="confirmed" from="CanvasLayer/SaveDialog" to="." method="_do_requested_action"]
+[connection signal="confirmed" from="CanvasLayer/DeleteDialog" to="." method="delete_file"]
+[connection signal="confirmed" from="CanvasLayer/ReloadDialog" to="." method="reload_file"]
+[connection signal="popup_hide" from="CanvasLayer/ReloadDialog" to="." method="_keep_editing"]
