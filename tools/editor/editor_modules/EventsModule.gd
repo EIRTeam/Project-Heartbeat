@@ -1,17 +1,17 @@
 extends HBEditorModule
 
-onready var bpm_dialog = get_node("SpeedChangeDialog")
-onready var bpm_dialog_spinbox = get_node("SpeedChangeDialog/MarginContainer/HBEditorSpinBox")
-onready var lyric_dialog = get_node("LyricDialog")
-onready var lyric_dialog_line_edit = get_node("LyricDialog/MarginContainer/LineEdit")
-onready var section_dialog = get_node("SectionDialog")
-onready var section_dialog_line_edit = get_node("SectionDialog/MarginContainer/LineEdit")
+onready var bpm_dialog = get_node("%SpeedChangeDialog")
+onready var bpm_dialog_spinbox = get_node("%SpeedChangeDialog/MarginContainer/HBEditorSpinBox")
+onready var lyric_dialog = get_node("%LyricDialog")
+onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/LineEdit")
+onready var section_dialog = get_node("%SectionDialog")
+onready var section_dialog_line_edit = get_node("%SectionDialog/MarginContainer/LineEdit")
 onready var phrase_start_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button")
 onready var phrase_end_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button")
 onready var lyric_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Button")
 
 func _unhandled_input(event):
-	if event is InputEventKey and event.scancode == KEY_ESCAPE:
+	if event.is_action_pressed("gui_cancel", false, true):
 		if bpm_dialog.visible:
 			bpm_dialog_spinbox.release_focus()
 			bpm_dialog.hide()
@@ -113,3 +113,6 @@ func create_quick_lyric(lyric_text: String):
 	
 	lyric_dialog_line_edit.release_focus()
 	lyric_dialog.hide()
+
+func _speed_change_rejected():
+	bpm_dialog.hide()

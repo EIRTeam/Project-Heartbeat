@@ -1,6 +1,9 @@
 extends Button
 
 export(String) var action := ""
+
+export(bool) var check_visibility := true
+
 var og_hint: String = ""
 
 func _ready():
@@ -14,7 +17,8 @@ func _pressed():
 	release_focus()
 
 func _unhandled_input(event):
-	if action == "" or not visible or disabled:
+	var invisible = not is_visible_in_tree() and check_visibility
+	if action == "" or invisible or disabled:
 		return
 	
 	if event.is_action_pressed(action, false, true):

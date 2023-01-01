@@ -428,8 +428,9 @@ func update_shortcuts():
 	get_node("%ScriptManagerButton").update_shortcuts()
 
 func _popup_script_editor():
-	script_editor_dialog.popup_centered()
 	$CanvasLayer.visible = true
+	script_editor_dialog.popup_centered()
+	obscure_ui()
 	
 	watcher.scan_delay = 0.25
 
@@ -441,6 +442,8 @@ func _close_script_editor():
 		save_confirmation_dialog.popup_centered()
 	else:
 		$CanvasLayer.visible = false
+		reveal_ui()
+		
 		watcher.scan_delay = 3.0
 
 func force_close():

@@ -1,63 +1,19 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
 [ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=2]
 [ext_resource path="res://tools/editor/editor_modules/ScriptsModule.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=4]
+[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=4]
 [ext_resource path="res://tools/editor/HBEditorCodeEdit.gd" type="Script" id=5]
 [ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=6]
 [ext_resource path="res://graphics/icons/edit-document.svg" type="Texture" id=7]
 [ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=8]
 [ext_resource path="res://tools/editor/editor_modules/FocusTrapLineEdit.gd" type="Script" id=9]
-[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=10]
+[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=10]
 [ext_resource path="res://graphics/icons/file-document-plus.svg" type="Texture" id=11]
-[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=12]
+[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=12]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends Button
-
-export(String) var action := \"\"
-var og_hint: String = \"\"
-
-func _ready():
-	og_hint = hint_tooltip
-	update_shortcuts()
-
-func _toggled(_pressed: bool):
-	release_focus()
-
-func _pressed():
-	release_focus()
-
-func _unhandled_input(event):
-	if action == \"\" or not visible or disabled:
-		return
-	
-	if event.is_action_pressed(action, false, true):
-		if toggle_mode:
-			pressed = !pressed
-		else:
-			emit_signal(\"pressed\")
-		
-		get_tree().set_input_as_handled()
-
-func update_shortcuts():
-	var text = \"None\"
-	
-	var action_list = InputMap.get_action_list(action)
-	var event = action_list[0] if action_list else InputEventKey.new()
-	
-	if event is InputEventKey:
-		text = event.as_text() if not \"Physical\" in event.as_text() else \"None\"
-		if \"Kp \" in text:
-			text = text.replace(\"Kp \", \"Keypad \")
-	elif event is InputEventMouseButton:
-		text = \"Mouse %d\" % event.button_index
-	
-	hint_tooltip = og_hint + \"\\nShortcut: \" + text
-"
-
-[node name="EditorModule" instance=ExtResource( 12 )]
+[node name="EditorModule" instance=ExtResource( 10 )]
 script = ExtResource( 3 )
 module_location = "right_panel"
 module_name = "Scripts"
@@ -99,6 +55,7 @@ icon = ExtResource( 7 )
 expand_icon = true
 script = ExtResource( 8 )
 action = "editor_open_script_manager"
+check_visibility = false
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
 margin_top = 1066.0
@@ -110,7 +67,7 @@ align = 1
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 visible = false
 
-[node name="ScriptEditorDialog" type="WindowDialog" parent="CanvasLayer" index="0"]
+[node name="ScriptEditorDialog" type="WindowDialog" parent="CanvasLayer" index="0" groups=["block_shortcuts"]]
 unique_name_in_owner = true
 margin_right = 1282.0
 margin_bottom = 632.0
@@ -140,7 +97,7 @@ margin_bottom = 25.0
 hint_tooltip = "Save this script"
 icon = ExtResource( 6 )
 flat = true
-script = SubResource( 1 )
+script = ExtResource( 8 )
 action = "editor_save"
 
 [node name="SaveAsButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" groups=["prevent_focus"]]
@@ -149,9 +106,9 @@ margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 25.0
 hint_tooltip = "Save this script as"
-icon = ExtResource( 4 )
+icon = ExtResource( 12 )
 flat = true
-script = SubResource( 1 )
+script = ExtResource( 8 )
 action = "editor_save_as"
 
 [node name="NewFileButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="2" groups=["prevent_focus"]]
@@ -162,7 +119,7 @@ margin_bottom = 25.0
 hint_tooltip = "Create new script"
 icon = ExtResource( 11 )
 flat = true
-script = SubResource( 1 )
+script = ExtResource( 8 )
 action = "editor_new_script"
 
 [node name="OpenDirButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="3" groups=["prevent_focus"]]
@@ -171,9 +128,9 @@ margin_left = 96.0
 margin_right = 124.0
 margin_bottom = 25.0
 hint_tooltip = "Open scripts directory"
-icon = ExtResource( 10 )
+icon = ExtResource( 4 )
 flat = true
-script = SubResource( 1 )
+script = ExtResource( 8 )
 action = "editor_open_scripts_dir"
 
 [node name="ErrorLabel" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="4"]

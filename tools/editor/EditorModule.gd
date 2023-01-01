@@ -58,6 +58,9 @@ func _input(event: InputEvent):
 	if get_focus_owner() is LineEdit or get_focus_owner() is TextEdit:
 		return
 	
+	if shortcuts_blocked():
+		return
+	
 	if event is InputEventKey or event is InputEventMouseButton:
 		for shortcut in shortcuts:
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):
@@ -190,3 +193,12 @@ func select_all():
 
 func deselect_all():
 	editor.deselect_all()
+
+func shortcuts_blocked() -> bool:
+	return editor.shortcuts_blocked()
+
+func obscure_ui(extended: bool = true):
+	editor.obscure_ui(extended)
+
+func reveal_ui(extended: bool = true):
+	editor.reveal_ui(extended)

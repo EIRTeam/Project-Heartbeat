@@ -80,6 +80,9 @@ var arranging := false
 func _input(event: InputEvent):
 	var selected = get_selected()
 	
+	if shortcuts_blocked():
+		return
+	
 	if event.is_action_pressed("editor_show_arrange_menu"):
 		if selected and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
 			arranging = true

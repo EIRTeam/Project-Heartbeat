@@ -46,11 +46,13 @@ onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxCont
 onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
-onready var song_settings_editor = get_node("EditorGlobalSettings").song_settings_tab
+onready var settings_editor = get_node("%EditorGlobalSettings")
+onready var song_settings_editor = get_node("%EditorGlobalSettings").song_settings_tab
 onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
 onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
 onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
 onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
+onready var contextual_menu = get_node("%ContextualMenu")
 
 const LOG_NAME = "HBEditor"
 
@@ -71,7 +73,6 @@ var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new(
 	
 var plugins := []
 
-var contextual_menu = HBEditorContextualMenuControl.new()
 onready var fine_position_timer = Timer.new()
 
 var current_notes := []
@@ -165,7 +166,6 @@ func update_shortcuts():
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
 	add_child(game_playback)
-	add_child(contextual_menu)
 	game_playback.connect("playback_speed_changed", self, "_on_playback_speed_changed")
 	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")
 	Input.set_use_accumulated_input(true)
@@ -200,8 +200,6 @@ func _ready():
 	
 	MouseTrap.disable_mouse_trap()
 	
-	VisualServer.canvas_item_set_z_index(contextual_menu.get_canvas_item(), 2000)
-	
 	if not UserSettings.user_settings.editor_first_time_message_acknowledged:
 		first_time_message_dialog.popup_centered()
 	else:
@@ -211,9 +209,9 @@ func _ready():
 	
 	connect("timing_points_changed", self, "_cache_hold_ends")
 	
-	$EditorGlobalSettings.song_settings_tab.set_editor(self)
-	$EditorGlobalSettings.general_settings_tab.set_editor(self)
-	$EditorGlobalSettings.shortcuts_tab.set_editor(self)
+	settings_editor.song_settings_tab.set_editor(self)
+	settings_editor.general_settings_tab.set_editor(self)
+	settings_editor.shortcuts_tab.set_editor(self)
 	
 	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
 	
@@ -399,6 +397,9 @@ var konami_index = 0
 
 func _unhandled_input(event: InputEvent):
 	if rhythm_game_playtest_popup in get_children():
+		return
+	
+	if shortcuts_blocked():
 		return
 	
 	if event is InputEventKey and event.pressed and not sex_button.visible:
@@ -1271,7 +1272,7 @@ func pause():
 	game_preview.pause()
 	emit_signal("playhead_position_changed")
 	playback_speed_slider.editable = true
-	reveal_ui()
+	reveal_ui(false)
 func _on_PauseButton_pressed(auto = false):
 	pause()
 	seek(playhead_position)
@@ -1293,7 +1294,7 @@ func _on_PlayButton_pressed():
 	game_preview.set_visualizer_processing_enabled(true)
 	game_preview.widget_area.hide()
 	playback_speed_slider.editable = false
-	obscure_ui()
+	obscure_ui(false)
 	
 # Fired when any timing point is tells the game to rethink its existence
 func _on_timing_points_changed():
@@ -1344,7 +1345,7 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	emit_signal("timing_information_changed")
 	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
 	
-	$EditorGlobalSettings.song_settings_tab.load_settings(settings)
+	song_settings_editor.load_settings(settings)
 	
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
@@ -1538,8 +1539,6 @@ func load_song(song: HBSong, difficulty: String):
 	save_button.disabled = false
 	save_as_button.disabled = false
 	emit_signal("load_song", song)
-	
-	reveal_ui()
 
 func update_media():
 	game_preview.set_song(current_song, song_editor_settings.selected_variant)
@@ -1548,7 +1547,7 @@ func update_media():
 	seek(playhead_position)
 	timeline.send_time_cull_changed_signal()
 
-func obscure_ui():
+func obscure_ui(extended: bool = true):
 	for control in get_tree().get_nodes_in_group("disabled_ui"):
 		if control is BaseButton:
 			control.disabled = true
@@ -1556,9 +1555,31 @@ func obscure_ui():
 			control.editable = false
 		if control is SpinBox:
 			control.get_line_edit().editable = false
+	
+	if not extended:
+		return
+	
+	for control in get_tree().get_nodes_in_group("extended_disabled_ui"):
+		if control is BaseButton:
+			control.disabled = true
+		if control is LineEdit or control is Range:
+			control.editable = false
+		if control is SpinBox:
+			control.get_line_edit().editable = false
 
-func reveal_ui():
+func reveal_ui(extended: bool = true):
 	for control in get_tree().get_nodes_in_group("disabled_ui"):
+		if control is BaseButton:
+			control.disabled = false
+		if control is LineEdit or control is Range:
+			control.editable = true
+		if control is SpinBox:
+			control.get_line_edit().editable = true
+	
+	if not extended:
+		return
+	
+	for control in get_tree().get_nodes_in_group("extended_disabled_ui"):
 		if control is BaseButton:
 			control.disabled = false
 		if control is LineEdit or control is Range:
@@ -1929,7 +1950,7 @@ func _on_WaveformButton_toggled(button_pressed):
 
 
 func _on_SexButton_pressed():
-	$SexDialog.popup_centered()
+	$Popups/SexDialog.popup_centered()
 
 
 func hold_calculator_toggled():
@@ -2053,7 +2074,14 @@ func _on_Sfx_toggled(button_pressed: bool):
 	rhythm_game.sfx_enabled = button_pressed
 
 func _toggle_settings_popup():
-	if $EditorGlobalSettings.visible:
-		$EditorGlobalSettings.hide()
+	if settings_editor.visible:
+		settings_editor.hide()
 	else:
-		$EditorGlobalSettings.popup_centered()
+		settings_editor.popup_centered()
+
+func shortcuts_blocked() -> bool:
+	for control in get_tree().get_nodes_in_group("block_shortcuts"):
+		if control.is_visible_in_tree():
+			return true
+	
+	return false

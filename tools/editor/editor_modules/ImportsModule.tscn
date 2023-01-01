@@ -154,7 +154,7 @@ text = "Accept"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 
-[node name="FileDialog" type="FileDialog" parent="CanvasLayer" index="0"]
+[node name="FileDialog" type="FileDialog" parent="CanvasLayer" index="0" groups=["block_shortcuts"]]
 unique_name_in_owner = true
 margin_right = 336.0
 margin_bottom = 152.0

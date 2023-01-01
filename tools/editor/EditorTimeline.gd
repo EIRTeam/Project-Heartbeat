@@ -355,7 +355,7 @@ func _gui_input(event):
 			modifier_texture.visible = false
 			update()
 	
-	if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("EditorGlobalSettings").visible:
+	if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("%EditorGlobalSettings").visible:
 		editor.show_contextual_menu()
 
 func _unhandled_input(event):

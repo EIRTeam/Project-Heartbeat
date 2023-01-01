@@ -473,6 +473,9 @@ func _sort_by_data_time(a, b):
 
 
 func _unhandled_input(event):
+	if _editor.shortcuts_blocked():
+		return
+	
 	if event.is_action("editor_change_note_up", true) and event.pressed:
 		change_note_button_by(-1)
 	elif event.is_action("editor_change_note_down", true) and event.pressed:
