@@ -481,9 +481,10 @@ stretch_mode = 6
 margin_top = 483.0
 margin_right = 588.0
 margin_bottom = 507.0
-min_value = 10.0
-max_value = 2.14748e+09
+max_value = inf
+step = 0.001
 value = 10.0
+arrow_step = 0.25
 script = ExtResource( 5 )
 
 [node name="UseYoutubeAsAudio" type="CheckBox" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]
