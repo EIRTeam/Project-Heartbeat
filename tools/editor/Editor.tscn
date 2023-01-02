@@ -216,7 +216,8 @@ hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
-[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
+[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+unique_name_in_owner = true
 margin_left = 860.0
 margin_right = 888.0
 margin_bottom = 25.0

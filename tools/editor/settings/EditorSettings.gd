@@ -182,7 +182,7 @@ func create_item(option, parent):
 				popup_menu.add_item(item_name)
 				popup_menu.set_item_disabled(popup_menu.get_item_count()-1, !data[item_name])
 			popup_menu.connect("index_pressed", self, "_on_list_item_selected", [item])
-			editor.add_child(popup_menu)
+			tree.add_child(popup_menu)
 			item.set_meta("popup_menu", popup_menu)
 			
 			if "options" in option:

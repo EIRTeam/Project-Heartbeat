@@ -54,6 +54,7 @@ onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContaine
 onready var contextual_menu = get_node("%ContextualMenu")
 onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
 onready var no_timing_map_dialog = get_node("%NoTimingMapDialog")
+onready var settings_editor_button = get_node("%EditorSettingsPopupButton")
 
 const LOG_NAME = "HBEditor"
 
@@ -243,6 +244,8 @@ func _ready():
 	
 	save_confirmation_dialog.get_ok().text = "Yes"
 	save_confirmation_dialog.get_cancel().text = "Go back"
+	
+	settings_editor_button.connect("pressed", self, "keep_settings_button_enabled")
 
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
@@ -2192,3 +2195,6 @@ func guide_user_to_timing_changes():
 	
 	right_panel.current_tab = idx
 	sync_module.create_timing_change_button.button.grab_focus()
+
+func keep_settings_button_enabled():
+	settings_editor_button.disabled = false

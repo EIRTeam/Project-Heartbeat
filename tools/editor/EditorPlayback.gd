@@ -60,7 +60,7 @@ func set_song(song: HBSong, variant=-1):
 	game.voice_audio_playback = null
 	game.timing_changes = song.timing_changes
 	
-	godot_audio_stream = song.get_audio_stream()
+	godot_audio_stream = song.get_audio_stream(selected_variant)
 	
 	if not SongDataCache.is_song_audio_loudness_cached(song):
 		var norm = HBAudioNormalizer.new()

@@ -156,7 +156,3 @@ func add_pitch_effect():
 	pitch_shift_effect.connect_to_endpoint()
 func remove_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_endpoint()
-
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		remove_pitch_effect()
