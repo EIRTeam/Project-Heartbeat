@@ -555,7 +555,7 @@ func is_playhead_visible():
 	return x >= playhead_area.rect_position.x and x <= playhead_area.rect_position.x + playhead_area.rect_size.x
 func ensure_playhead_is_visible():
 	if not is_playhead_visible():
-		set_layers_offset(editor.playhead_position)
+		set_layers_offset(max(editor.playhead_position - 300, 0))
 
 func _do_area_select():
 	if selection_mode == SELECT_MODE.NORMAL:

@@ -216,7 +216,7 @@ hint_tooltip = "Editor manual"
 icon = ExtResource( 32 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
-[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+[node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
 margin_left = 860.0
 margin_right = 888.0
 margin_bottom = 25.0
@@ -615,9 +615,6 @@ text = "Project Kokoro Doki UwU"
 
 [node name="Popups" type="CanvasLayer" parent="."]
 
-[node name="SongSelector" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 23 )]
-from_ppd_allowed = true
-
 [node name="SaveAsSongSelector" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 23 )]
 save_mode = 1
 
@@ -768,10 +765,6 @@ __meta__ = {
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
-[connection signal="about_to_show" from="Popups/SongSelector" to="." method="obscure_ui"]
-[connection signal="chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_chart_selected"]
-[connection signal="popup_hide" from="Popups/SongSelector" to="." method="reveal_ui"]
-[connection signal="ppd_chart_selected" from="Popups/SongSelector" to="." method="_on_SongSelector_ppd_chart_selected"]
 [connection signal="about_to_show" from="Popups/SaveAsSongSelector" to="." method="obscure_ui"]
 [connection signal="chart_selected" from="Popups/SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]
 [connection signal="popup_hide" from="Popups/SaveAsSongSelector" to="." method="reveal_ui"]

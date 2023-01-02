@@ -197,7 +197,7 @@ var editor_multinote_cross_width := 1.0
 
 var editor_show_waveform := true
 var editor_show_hold_calculator := true
-var editor_smooth_scroll := false
+var editor_smooth_scroll := true
 var editor_scroll_timeout := 0.2
 
 var editor_bottom_panel_offset := 0
@@ -215,6 +215,8 @@ var editor_diagonal_angle_increment := 5.0
 
 var editor_circle_size := 16
 var editor_circle_separation := 96
+
+var editor_pitch_compensation := true
 
 var last_graphics_dir := ProjectSettings.globalize_path("user://")
 var last_audio_dir := ProjectSettings.globalize_path("user://")
@@ -260,6 +262,7 @@ func _init():
 		"editor_auto_place", "editor_arrange_separation",
 		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
 		"editor_circle_size", "editor_circle_separation",
+		"editor_pitch_compensation",
 	]
 	
 	merge_dict_fields += [

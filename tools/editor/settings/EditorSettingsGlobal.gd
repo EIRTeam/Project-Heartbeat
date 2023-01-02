@@ -3,7 +3,8 @@ extends HBEditorSettings
 func _ready():
 	settings = {
 		"General": [
-			{"name": tr("Automatically save when \"Play\" is pressed"), "var": "editor_autosave_enabled", "type": "Bool"}
+			{"name": tr("Automatically save when \"Play\" is pressed"), "var": "editor_autosave_enabled", "type": "Bool"},
+			{"name": tr("Shift pitch when changing the speed"), "var": "editor_pitch_compensation", "type": "Bool"},
 		],
 		"Timeline": [
 			{"name": tr("Show waveform"), "var": "editor_show_waveform", "type": "Bool"},

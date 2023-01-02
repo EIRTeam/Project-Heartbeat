@@ -680,6 +680,11 @@ func select_all():
 			selected.append(item)
 			item.select()
 	
+	if selected.size() == 0:
+		for item in current_notes:
+			selected.append(item)
+			item.select()
+	
 	selected.sort_custom(self, "_sort_current_items_impl")
 	right_panel.current_tab = 0
 	inspector.inspect(selected)
@@ -1391,6 +1396,8 @@ func update_user_settings():
 	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
 	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
+	game_playback.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
+	
 	emit_signal("modules_update_user_settings")
 
 func from_chart(chart: HBChart, ignore_settings=false, importing=false):
@@ -1575,6 +1582,12 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	save_as_button.disabled = false
 	
 	modified = false
+	
+	if timing_changes:
+		playhead_position = timing_changes[0].data.time
+		
+		timeline.ensure_playhead_is_visible()
+		seek(playhead_position)
 
 func update_media():
 	game_preview.set_song(current_song, song_editor_settings.selected_variant)
@@ -1842,7 +1855,7 @@ func _on_PlaytestButton_pressed(at_time):
 	if at_time:
 		play_time = playhead_position
 	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, song_editor_settings.selected_variant)
-	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, true)
+	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
@@ -2050,7 +2063,7 @@ func _on_VSplitContainer_dragged(offset: int):
 func _on_PlaybackSpeedSlider_value_changed(value):
 	playback_speed_label.text = "x %.2f" % [value]
 	
-	game_playback.set_speed(value, true)
+	game_playback.set_speed(value, UserSettings.user_settings.editor_pitch_compensation)
 
 func _on_playback_speed_changed(speed: float):
 	if not speed == 1.0:

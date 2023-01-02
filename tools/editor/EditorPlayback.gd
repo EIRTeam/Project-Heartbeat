@@ -165,6 +165,9 @@ func set_lyrics(phrases: Array):
 func set_speed(value: float, correction: bool):
 	playback_speed = value
 	
+	if not game.audio_playback:
+		return
+	
 	game.audio_playback.set_pitch_scale(playback_speed)
 	if game.voice_audio_playback:
 		game.voice_audio_playback.set_pitch_scale(playback_speed)
