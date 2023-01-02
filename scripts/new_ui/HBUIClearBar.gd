@@ -113,7 +113,11 @@ func set_bottom_clear_margin(val):
 func _draw():
 	var origin = Vector2(0,0)
 	var size = rect_size
-	size.x = size.x * (value / max_value)
+	if max_value != 0:
+		size.x = size.x * (value / max_value)
+	else:
+		size.x = 0
+	
 	var rect_clear = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), Vector2(rect_size.x * (1 - CLEAR_POINT), rect_size.y))
 	
 	rect_clear = apply_margin(rect_clear)
@@ -123,7 +127,11 @@ func _draw():
 	draw_style_box(stylebox, progress_rect)
 	
 	var past_completion_size = rect_size
-	past_completion_size.x = past_completion_size.x * ((value-(max_value*CLEAR_POINT)) / max_value)
+	if max_value != 0:
+		past_completion_size.x = past_completion_size.x * ((value-(max_value*CLEAR_POINT)) / max_value)
+	else:
+		past_completion_size.x = 0
+	
 	if past_completion_size.x > 0:
 		var past_completion_progress_rect = Rect2(Vector2(rect_size.x * CLEAR_POINT, 0), past_completion_size)
 		past_completion_progress_rect = apply_margin(past_completion_progress_rect)
@@ -137,10 +145,11 @@ func _draw():
 	percentage_label.rect_size = Vector2(rect_size.x * (1.0-CLEAR_POINT), rect_size.y)
 
 func draw_rating_line(val, color=Color.white, height=10):
-	var val_r = round(potential_score) / max_value
-	var origin = Vector2(rect_size.x * (val_r * val), -height)
-	var end = Vector2(origin.x, rect_size.y)
-	draw_line(origin, end, color, 3)
+	if max_value != 0:
+		var val_r = round(potential_score) / max_value
+		var origin = Vector2(rect_size.x * (val_r * val), -height)
+		var end = Vector2(origin.x, rect_size.y)
+		draw_line(origin, end, color, 3)
 
 func _get_property_list():
 	var list := []
