@@ -12,12 +12,6 @@ var chart: HBChart setget set_chart
 var current_song: HBSong
 var selected_variant := -1
 
-var metronome_enabled := false
-var metronome_offset := 0
-var metronome_separation := 0.0
-var metronome_timer := 0.0
-var first_after_seek := false
-
 signal time_changed
 signal playback_speed_changed(speed)
 
@@ -52,29 +46,9 @@ func _process(delta):
 			variant_offset = current_song.get_variant_offset(selected_variant) / 1000.0
 		time += variant_offset
 		game.time = time
+	
 	if is_playing() and game.audio_playback.is_playing():
 		emit_signal("time_changed", game.time)
-	
-	if is_playing() and metronome_enabled:
-		if time * 1000 >= metronome_offset:
-			if first_after_seek:
-				first_after_seek = false
-			else:
-				metronome_timer += delta * 1000
-			
-			if metronome_timer >= metronome_separation:
-				game.play_note_sfx()
-				metronome_timer -= metronome_separation
-
-func toggle_metronome(offset: int, separation: float):
-	metronome_enabled = not metronome_enabled
-	metronome_offset = offset
-	metronome_separation = separation
-	
-	if game.time * 1000.0 > metronome_offset:
-		metronome_timer = fmod((game.time * 1000.0) - metronome_offset, metronome_separation)
-	else:
-		metronome_timer = metronome_separation
 
 func get_song_volume():
 	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
@@ -121,9 +95,12 @@ func set_song(song: HBSong, variant=-1):
 func pause():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
 	game.pause_game()
+<<<<<<< HEAD
 	game.seek_new(game.time * 1000.0, true)
 	game._process(0)
 #	_on_timing_points_changed()
+=======
+>>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
 	game.previewing = false
 	game.sfx_pool.stop_all_sfx()
 	game.set_process(false)
@@ -134,25 +111,29 @@ func is_playing():
 	return game.audio_playback.is_playing()
 
 func seek(value: int):
+<<<<<<< HEAD
 	#game.remove_all_notes_from_screen()
 	game.seek_new(value, true)
+=======
+	game.seek(value)
+	
+>>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
 	if not game.audio_playback.is_playing():
 		pause()
 	else:
 		play_from_pos(value)
 	game._process(0)
 	emit_signal("time_changed", game.time)
+<<<<<<< HEAD
 	#_on_timing_points_changed()
+=======
+	
+	game.reset_hit_notes()
+>>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
 	game.delete_rogue_notes(value / 1000.0)
-		
 
 func _on_timing_params_changed():
 	game._on_viewport_size_changed()
-#	game.remove_all_notes_from_screen()
-#	game.reset_hit_notes()
-#	game.base_bpm = current_song.bpm # We reset the BPM
-#	game.set_chart(chart)
-#	game.delete_rogue_notes(game.time)
 
 func start():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.AUTOPLAY
@@ -166,8 +147,6 @@ func play_from_pos(position: float):
 		game.seek_new(position)
 		game.start()
 		
-		var song_volume = get_song_volume()
-		
 		time_begin = OS.get_ticks_usec()
 		time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		_audio_play_offset = position / 1000.0
@@ -177,12 +156,6 @@ func play_from_pos(position: float):
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)
 		game.set_process(true)
-		
-		if position > metronome_offset:
-			metronome_timer = fmod(position - metronome_offset, metronome_separation)
-			first_after_seek = true
-		else:
-			metronome_timer = metronome_separation
 
 func set_lyrics(phrases: Array):
 	var lyrics_view = game.game_ui.get_lyrics_view()

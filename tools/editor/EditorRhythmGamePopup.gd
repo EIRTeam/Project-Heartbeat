@@ -7,6 +7,9 @@ onready var rhythm_game_ui = get_node("RhythmGame")
 onready var stats_label = get_node("ExtraUI/HBoxContainer/StatsLabel")
 signal quit
 
+var playback_speed := 1.0
+var pitch_shift_effect: ShinobuPitchShiftEffect = Shinobu.instantiate_pitch_shift()
+
 var _last_time = 0.0
 
 var stats_latency_sum = 0
@@ -27,18 +30,24 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	if rhythm_game.voice_audio_playback:
 		rhythm_game.voice_audio_playback.volume = volume
 	
+	rhythm_game.timing_changes = song.timing_changes
+	rhythm_game.set_chart(chart)
+	
 	rhythm_game.seek(time * 1000.0)
 	rhythm_game.start()
-	rhythm_game.set_chart(chart)
+	
 	rhythm_game.set_process_input(true)
 	rhythm_game.seek_new(time * 1000.0, true)
 	rhythm_game.start()
 	rhythm_game.game_input_manager.set_process_input(true)
+	set_process_unhandled_input(true)
+	
 	reset_stats()
 	_last_time = time
+	
 	show()
 	set_game_size()
-	set_process_unhandled_input(true)
+
 func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSource, variant := -1):
 	if rhythm_game.audio_playback:
 		rhythm_game.audio_playback.queue_free()
@@ -52,6 +61,7 @@ func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSourc
 		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice.instantiate(HBGame.music_group))
 		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset
 		add_child(rhythm_game.voice_audio_playback)
+
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	restart_button.connect("pressed", self, "_on_restart_button_pressed")
@@ -121,3 +131,32 @@ func _on_note_judged(judgement_info):
 		stats_passed_notes += 1
 		stats_latency_sum += judgement_info.time-judgement_info.target_time
 	update_stats_label()
+
+func set_speed(value: float, correction: bool):
+	playback_speed = value
+	
+	rhythm_game.audio_playback.set_pitch_scale(playback_speed)
+	if rhythm_game.voice_audio_playback:
+		rhythm_game.voice_audio_playback.set_pitch_scale(playback_speed)
+	
+	if correction:
+		pitch_shift_effect.pitch_scale = 1.0 / playback_speed
+	else:
+		pitch_shift_effect.pitch_scale = 1.0
+	
+	if not is_equal_approx(pitch_shift_effect.pitch_scale, 1.0):
+		add_pitch_effect()
+	else:
+		remove_pitch_effect()
+	
+	emit_signal("playback_speed_changed", value)
+
+func add_pitch_effect():
+	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
+	pitch_shift_effect.connect_to_endpoint()
+func remove_pitch_effect():
+	HBGame.spectrum_analyzer.connect_to_endpoint()
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		remove_pitch_effect()

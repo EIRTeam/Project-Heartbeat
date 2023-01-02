@@ -1842,6 +1842,8 @@ func _on_PlaytestButton_pressed(at_time):
 	if at_time:
 		play_time = playhead_position
 	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, song_editor_settings.selected_variant)
+	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, true)
+	
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
 
 func _on_playtest_quit():
@@ -2047,6 +2049,7 @@ func _on_VSplitContainer_dragged(offset: int):
 
 func _on_PlaybackSpeedSlider_value_changed(value):
 	playback_speed_label.text = "x %.2f" % [value]
+	
 	game_playback.set_speed(value, true)
 
 func _on_playback_speed_changed(speed: float):
