@@ -594,6 +594,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://rythm_game/game_modes/RhythmGameBase.gd"
 }, {
+"base": "HBRhythmGameUIBase",
+"class": "HBRhythmGameUI",
+"language": "GDScript",
+"path": "res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd"
+}, {
 "base": "Control",
 "class": "HBRhythmGameUIBase",
 "language": "GDScript",
@@ -1232,6 +1237,7 @@ _global_script_class_icons={
 "HBResult": "",
 "HBRhythmGame": "",
 "HBRhythmGameBase": "",
+"HBRhythmGameUI": "",
 "HBRhythmGameUIBase": "",
 "HBRichPresence": "",
 "HBRichPresenceDiscord": "",

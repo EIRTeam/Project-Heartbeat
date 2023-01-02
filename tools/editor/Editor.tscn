@@ -1,37 +1,37 @@
 [gd_scene load_steps=42 format=2]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
+[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/editor/Editor.gd" type="Script" id=3]
-[ext_resource path="res://tools/icons/gamepad-variant.svg" type="Texture" id=4]
+[ext_resource path="res://default_theme_tools.tres" type="Theme" id=4]
 [ext_resource path="res://tools/editor/EditorGamePreview.gd" type="Script" id=5]
 [ext_resource path="res://tools/editor/EditorBottomBar.gd" type="Script" id=6]
-[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://tools/editor/EditorRhythmGamePopup.tscn" type="PackedScene" id=8]
-[ext_resource path="res://tools/editor/transformation_display/TransformationDisplay.tscn" type="PackedScene" id=9]
-[ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=10]
-[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=11]
-[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=12]
-[ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=13]
-[ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=14]
-[ext_resource path="res://graphics/icons/music.svg" type="Texture" id=15]
-[ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=16]
-[ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=17]
-[ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=18]
+[ext_resource path="res://tools/editor/EditorRhythmGamePopup.tscn" type="PackedScene" id=7]
+[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=9]
+[ext_resource path="res://tools/editor/EditorOpenChartPopup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://tools/editor/EditorTimeline.tscn" type="PackedScene" id=11]
+[ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=12]
+[ext_resource path="res://graphics/icons/music.svg" type="Texture" id=13]
+[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=14]
+[ext_resource path="res://tools/icons/VideoPlayer.svg" type="Texture" id=15]
+[ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=16]
+[ext_resource path="res://tools/icons/gamepad-variant.svg" type="Texture" id=17]
+[ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=18]
 [ext_resource path="res://tools/editor/GridRenderer.gd" type="Script" id=19]
-[ext_resource path="res://tools/icons/waveform.svg" type="Texture" id=20]
+[ext_resource path="res://tools/icons/icon_play.svg" type="Texture" id=20]
 [ext_resource path="res://tools/editor/WidgetArea.gd" type="Script" id=21]
 [ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=22]
-[ext_resource path="res://tools/editor/SongSelectorDialog.tscn" type="PackedScene" id=23]
-[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=24]
-[ext_resource path="res://tools/editor/EditorGlobalSettings.tscn" type="PackedScene" id=25]
-[ext_resource path="res://tools/icons/TextureRect.svg" type="Texture" id=26]
-[ext_resource path="res://tools/icons/VideoPlayer.svg" type="Texture" id=27]
-[ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=28]
-[ext_resource path="res://tools/icons/gamepad-time.svg" type="Texture" id=29]
-[ext_resource path="res://tools/icons/settings.svg" type="Texture" id=30]
-[ext_resource path="res://tools/icons/icon_pause.svg" type="Texture" id=31]
-[ext_resource path="res://tools/icons/Help.svg" type="Texture" id=32]
+[ext_resource path="res://tools/icons/settings.svg" type="Texture" id=23]
+[ext_resource path="res://tools/icons/Help.svg" type="Texture" id=24]
+[ext_resource path="res://tools/editor/SongSelectorDialog.tscn" type="PackedScene" id=25]
+[ext_resource path="res://tools/icons/gamepad-time.svg" type="Texture" id=26]
+[ext_resource path="res://tools/icons/TextureRect.svg" type="Texture" id=27]
+[ext_resource path="res://tools/icons/icon_grid.svg" type="Texture" id=28]
+[ext_resource path="res://graphics/icons/save_plus.svg" type="Texture" id=29]
+[ext_resource path="res://tools/editor/EditorGlobalSettings.tscn" type="PackedScene" id=30]
+[ext_resource path="res://tools/editor/EditorInspector.tscn" type="PackedScene" id=31]
+[ext_resource path="res://tools/editor/transformation_display/TransformationDisplay.tscn" type="PackedScene" id=32]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/RhythmGameHeartbeat.gd" type="Script" id=33]
 [ext_resource path="res://tools/icons/icon_snap_grid.svg" type="Texture" id=34]
 [ext_resource path="res://tools/editor/EditorContextualMenuControl.gd" type="Script" id=35]
@@ -49,13 +49,13 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -105,7 +105,7 @@ __meta__ = {
 [node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_right = 20.0
 margin_bottom = 25.0
-icon = ExtResource( 28 )
+icon = ExtResource( 18 )
 flat = true
 
 [node name="OpenButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
@@ -113,7 +113,7 @@ margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 25.0
 hint_tooltip = "Open a chart"
-icon = ExtResource( 11 )
+icon = ExtResource( 9 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_open"
@@ -124,7 +124,7 @@ margin_right = 84.0
 margin_bottom = 25.0
 hint_tooltip = "Save a chart"
 disabled = true
-icon = ExtResource( 24 )
+icon = ExtResource( 14 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_save"
@@ -134,7 +134,7 @@ margin_left = 88.0
 margin_right = 116.0
 margin_bottom = 25.0
 hint_tooltip = "Save chart as"
-icon = ExtResource( 12 )
+icon = ExtResource( 29 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_save_as"
@@ -158,7 +158,7 @@ margin_left = 716.0
 margin_right = 744.0
 margin_bottom = 25.0
 hint_tooltip = "Play the chart"
-icon = ExtResource( 4 )
+icon = ExtResource( 17 )
 script = ExtResource( 22 )
 action = "editor_playtest"
 
@@ -167,7 +167,7 @@ margin_left = 748.0
 margin_right = 776.0
 margin_bottom = 25.0
 hint_tooltip = "Play the chart from the current time"
-icon = ExtResource( 29 )
+icon = ExtResource( 26 )
 script = ExtResource( 22 )
 action = "editor_playtest_at_time"
 
@@ -184,7 +184,7 @@ margin_left = 788.0
 margin_right = 816.0
 margin_bottom = 25.0
 hint_tooltip = "Play preview"
-icon = ExtResource( 13 )
+icon = ExtResource( 20 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_play"
@@ -195,7 +195,7 @@ margin_left = 1035.0
 margin_right = 1063.0
 margin_bottom = 25.0
 hint_tooltip = "Pause preview"
-icon = ExtResource( 31 )
+icon = ExtResource( 16 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_play"
@@ -213,7 +213,7 @@ margin_left = 828.0
 margin_right = 856.0
 margin_bottom = 25.0
 hint_tooltip = "Editor manual"
-icon = ExtResource( 32 )
+icon = ExtResource( 24 )
 items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Community charting guide", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
@@ -222,7 +222,7 @@ margin_left = 860.0
 margin_right = 888.0
 margin_bottom = 25.0
 hint_tooltip = "Editor settings"
-icon = ExtResource( 30 )
+icon = ExtResource( 23 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_settings"
@@ -304,7 +304,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Visualizer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D" instance=ExtResource( 10 )]
+[node name="Visualizer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D" instance=ExtResource( 1 )]
 mouse_filter = 2
 
 [node name="GridRenderer" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D"]
@@ -336,14 +336,14 @@ margin_top = -28.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -1.00006
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 
 [node name="WaveformButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 margin_right = 28.0
 margin_bottom = 26.0
 hint_tooltip = "Toggle waveform"
 toggle_mode = true
-icon = ExtResource( 20 )
+icon = ExtResource( 12 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_waveform"
@@ -355,7 +355,7 @@ margin_bottom = 26.0
 hint_tooltip = "Toggle hitsound sfx"
 toggle_mode = true
 pressed = true
-icon = ExtResource( 15 )
+icon = ExtResource( 13 )
 flat = true
 icon_align = 1
 script = ExtResource( 22 )
@@ -380,7 +380,7 @@ margin_bottom = 26.0
 hint_tooltip = "Show background image"
 toggle_mode = true
 pressed = true
-icon = ExtResource( 26 )
+icon = ExtResource( 27 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_bg"
@@ -392,7 +392,7 @@ margin_bottom = 26.0
 hint_tooltip = "Show video"
 toggle_mode = true
 pressed = true
-icon = ExtResource( 27 )
+icon = ExtResource( 15 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_toggle_video"
@@ -404,7 +404,7 @@ margin_bottom = 26.0
 hint_tooltip = "Show grid"
 toggle_mode = true
 pressed = true
-icon = ExtResource( 17 )
+icon = ExtResource( 28 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_grid"
@@ -461,7 +461,7 @@ __meta__ = {
 [node name="RhythmGame" type="Node" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview"]
 script = ExtResource( 33 )
 
-[node name="TransformPreview" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource( 9 )]
+[node name="TransformPreview" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource( 32 )]
 rect_clip_content = true
 
 [node name="MessageShower" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview"]
@@ -486,7 +486,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource( 18 )]
+[node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource( 31 )]
 margin_left = 5.0
 margin_top = 37.0
 margin_right = -5.0
@@ -510,7 +510,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer" instance=ExtResource( 14 )]
+[node name="EditorTimeline" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer" instance=ExtResource( 11 )]
 self_modulate = Color( 1, 1, 1, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -616,7 +616,7 @@ text = "Project Kokoro Doki UwU"
 
 [node name="Popups" type="CanvasLayer" parent="."]
 
-[node name="SaveAsSongSelector" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 23 )]
+[node name="SaveAsSongSelector" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 25 )]
 save_mode = 1
 
 [node name="SaveConfirmationDialog" type="ConfirmationDialog" parent="Popups" groups=["block_shortcuts"]]
@@ -624,14 +624,14 @@ unique_name_in_owner = true
 margin_right = 235.0
 margin_bottom = 94.0
 rect_min_size = Vector2( 150, 52.5 )
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 popup_exclusive = true
 window_title = "Are you sure about that?"
 dialog_text = "This chart has unsaved changes.
 Any unsaved progress will be lost."
 dialog_autowrap = true
 
-[node name="OpenChartPopupDialog" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 16 )]
+[node name="OpenChartPopupDialog" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 10 )]
 margin_left = 334.997
 margin_top = 141.999
 margin_right = 950.997
@@ -653,7 +653,7 @@ margin_left = -100.0
 margin_top = -37.0
 margin_right = 308.0
 margin_bottom = 148.0
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 popup_exclusive = true
 window_title = ""
 __meta__ = {
@@ -695,7 +695,7 @@ margin_bottom = 136.0
 text = "You can find these again by clicking in the book icon on the top right corner of the editor!"
 autowrap = true
 
-[node name="EditorGlobalSettings" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 25 )]
+[node name="EditorGlobalSettings" parent="Popups" groups=["block_shortcuts"] instance=ExtResource( 30 )]
 unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -709,7 +709,7 @@ margin_bottom = 200.0
 [node name="SexDialog" type="AcceptDialog" parent="Popups" groups=["block_shortcuts"]]
 margin_right = 182.0
 margin_bottom = 75.0
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 window_title = "¡Alerta!"
 dialog_text = "You're not allowed to cum
 inside Rin Kagamine."
@@ -718,7 +718,7 @@ inside Rin Kagamine."
 unique_name_in_owner = true
 margin_right = 20.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 script = ExtResource( 35 )
 
 [node name="NoTimingMapDialog" type="AcceptDialog" parent="Popups"]
@@ -726,13 +726,13 @@ unique_name_in_owner = true
 visible = true
 margin_right = 212.0
 margin_bottom = 114.0
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 window_title = "Invalid tempo map"
 dialog_text = "This chart has no tempo map.
 Please create a timing change before adding notes."
 dialog_autowrap = true
 
-[node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource( 8 )]
+[node name="RhythmGamePlaytestPopup" parent="." instance=ExtResource( 7 )]
 visible = false
 
 [node name="FocusTrap" type="Control" parent="."]

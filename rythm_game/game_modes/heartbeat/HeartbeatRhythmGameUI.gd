@@ -1,5 +1,7 @@
 extends HBRhythmGameUIBase
 
+class_name HBRhythmGameUI
+
 onready var rating_label: Label = get_node("RatingLabel")
 onready var wrong_rating_cross: TextureRect = get_node("RatingLabel/WrongRatingCross")
 onready var game_layer_node = get_node("%GameLayer")

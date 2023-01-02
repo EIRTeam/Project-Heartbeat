@@ -18,6 +18,8 @@ var game_ui: HBRhythmGameUIBase
 
 onready var visualizer = get_node("Node2D/Visualizer")
 onready var vhs_panel = get_node("VHS")
+onready var background_texture = get_node("Node2D/TextureRect")
+onready var video_player_panel = get_node("Node2D/Panel")
 onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
 onready var pause_menu = get_node("PauseMenu")
 onready var game_over_tween := Tween.new()
@@ -151,25 +153,22 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	var bg_path = song.get_song_background_image_res_path()
 	if assets:
 		if "background" in assets:
-			$Node2D/TextureRect.texture = assets.background
-			$Node2D/TextureRect.material = null
+			background_texture.texture = assets.background
+			background_texture.material = null
 			if assets.background is DIVASpriteSet.DIVASprite:
-				$Node2D/TextureRect.material = assets.background.get_material()
+				background_texture.material = assets.background.get_material()
 	else:
 		var image = HBUtils.image_from_fs(bg_path)
 		var image_texture = ImageTexture.new()
 		image_texture.create_from_image(image, HBGame.platform_settings.texture_mode)
-		$Node2D/TextureRect.texture = image_texture
+		background_texture.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, assets, modifiers)
 	set_game_size()
 	if not force_caching_off:
 		game.cache_note_drawers()
-	$Node2D/Panel.hide()
+	video_player_panel.hide()
 	
-#	if allow_modifiers:3
-#		for 
-		
 	var large_image_name = "default"
 		
 	if song.id in SONGS_WITH_IMAGE:
@@ -219,7 +218,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
 				if game.time < 0.0:
 					video_player.paused = true
-				$Node2D/Panel.show()
+				video_player_panel.show()
 				if visualizer and UserSettings.user_settings.visualizer_enabled:
 					visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			else:
@@ -243,14 +242,14 @@ func rescale_video_player():
 
 func set_game_size():
 	game.size = rect_size
-	if $Node2D/Visualizer:
-		$Node2D/Visualizer.rect_size = rect_size
-	#$Node2D/VHS.rect_size = rect_size
-	$Node2D/TextureRect.rect_size = rect_size
-	$Node2D/Panel.rect_size = rect_size
-	#game_.rect_size = rect_size
+	if visualizer:
+		visualizer.rect_size = rect_size
+	
+	background_texture.rect_size = rect_size
+	video_player_panel.rect_size = rect_size
+	
 	rescale_video_player()
-#	$Node2D/VideoPlayer.rect_size = rect_size
+
 func _on_resumed():
 	UserSettings.enable_menu_fps_limits = false
 	get_tree().paused = false

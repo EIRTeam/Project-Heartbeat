@@ -218,10 +218,14 @@ func get_video_stream(variant := -1):
 			return null
 	print("Loading video stream ", video_path)
 	
-	var video_stream = VideoStreamGDNative.new()
-	video_stream.set_file(video_path)
-	
-	return video_stream
+	if video_path:
+		var video_stream = VideoStreamGDNative.new()
+		video_stream.set_file(video_path)
+		
+		return video_stream
+	else:
+		return null
+
 func get_voice_stream():
 	return HBUtils.load_ogg(get_song_voice_res_path())
 	

@@ -1307,11 +1307,17 @@ func pause():
 	game_playback.pause()
 	game_preview.set_visualizer_processing_enabled(false)
 	game_preview.widget_area.show()
-	playhead_position = snap_time_to_timeline(playhead_position)
-	game_preview.pause()
+	
+	if not UserSettings.user_settings.editor_smooth_scroll:
+		playhead_position = snap_time_to_timeline(playhead_position)
+		seek(playhead_position)
+
 	emit_signal("playhead_position_changed")
 	playback_speed_slider.editable = true
+	
+	game_preview.pause()
 	reveal_ui(false)
+
 func _on_PauseButton_pressed(auto = false):
 	pause()
 	seek(playhead_position)
@@ -1385,6 +1391,7 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
 	
 	song_settings_editor.load_settings(settings)
+	update_media()
 	
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
@@ -1860,7 +1867,9 @@ func _on_PlaytestButton_pressed(at_time):
 	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, song_editor_settings.selected_variant)
 	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
-	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), play_time / 1000.0)
+	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), current_difficulty, play_time / 1000.0, song_editor_settings.show_bg, song_editor_settings.show_video)
+	
+	Diagnostics.fps_label.get_font("font").size = 23
 
 func _on_playtest_quit():
 	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
@@ -1869,6 +1878,8 @@ func _on_playtest_quit():
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
 	rhythm_game.set_process_input(true)
+	
+	Diagnostics.fps_label.get_font("font").size = 11
 
 
 func _chronological_compare(a, b):
@@ -2070,10 +2081,10 @@ func _on_PlaybackSpeedSlider_value_changed(value):
 
 func _on_playback_speed_changed(speed: float):
 	if not speed == 1.0:
-		if show_video_button.pressed:
+		if song_editor_settings.show_video:
 			game_preview.show_video(false)
 	else:
-		if show_video_button.pressed:
+		if song_editor_settings.show_video:
 			game_preview.video_player.stream_position = playhead_position / 1000.0
 			game_preview.show_video(true)
 

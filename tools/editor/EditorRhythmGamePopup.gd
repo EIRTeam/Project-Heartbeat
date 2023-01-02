@@ -1,10 +1,16 @@
 extends Control
 
+const LOG_NAME = "EditorRhythmGamePopup"
+
 onready var rhythm_game = HBRhythmGame.new()
 onready var quit_button = get_node("HBoxContainer/QuitButton")
 onready var restart_button = get_node("HBoxContainer/RestartButton")
 onready var rhythm_game_ui = get_node("RhythmGame")
 onready var stats_label = get_node("ExtraUI/HBoxContainer/StatsLabel")
+onready var video_player = get_node("%VideoPlayer")
+onready var video_player_panel = get_node("%VideoPlayerPanel")
+onready var background_texture = get_node("%BackgroundTextureRect")
+onready var visualizer = get_node("%Visualizer")
 signal quit
 
 var playback_speed := 1.0
@@ -18,10 +24,12 @@ var stats_total_notes = 0
 var stats_diffs = []
 var last_notes = []
 
+var selected_variant := -1
+
 func _init():
 	name = "EditorRhythmGamePopup"
-	
-func play_song_from_position(song: HBSong, chart: HBChart, time: float):
+
+func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, time: float, enable_bg: bool, enable_video: bool):
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.reset_hit_notes()
 	
@@ -34,7 +42,6 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	rhythm_game.set_chart(chart)
 	
 	rhythm_game.seek(time * 1000.0)
-	rhythm_game.start()
 	
 	rhythm_game.set_process_input(true)
 	rhythm_game.seek_new(time * 1000.0, true)
@@ -45,37 +52,105 @@ func play_song_from_position(song: HBSong, chart: HBChart, time: float):
 	reset_stats()
 	_last_time = time
 	
+	# Set metadata
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HBRhythmGameUI.DIFFICULTY_LABEL_GROUP, "set_difficulty", difficulty)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HBRhythmGameUI.SONG_TITLE_GROUP, "set_song", song, [], selected_variant)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HBRhythmGameUI.DIFFICULTY_LABEL_GROUP, "set_modifiers_name_list", ["Test Play"])
+	
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HBRhythmGameUI.SKIP_INTRO_INDICATOR_GROUP, "hide")
+	
+	# Calculate intro skip
+	if song.allows_intro_skip and not rhythm_game.disable_intro_skip:
+		if rhythm_game.earliest_note_time / 1000.0 > song.intro_skip_min_time:
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, HBRhythmGameUI.SKIP_INTRO_INDICATOR_GROUP, "appear")
+		else:
+			Log.log(self, "Disabling intro skip")
+	
+	# Set lyrics
+	rhythm_game_ui.lyrics_view.set_phrases(song.lyrics)
+	
+	# Load bg
+	background_texture.visible = enable_bg
+	var bg_path = song.get_song_background_image_res_path()
+	var image = HBUtils.image_from_fs(bg_path)
+	
+	var image_texture = ImageTexture.new()
+	image_texture.create_from_image(image, HBGame.platform_settings.texture_mode)
+	background_texture.texture = image_texture
+	
+	# Load video
+	video_player_panel.hide()
+	video_player.hide()
+	
+	if enable_video and song.has_video_enabled():
+		var stream = song.get_video_stream(selected_variant)
+		if stream:
+			video_player_panel.show()
+			video_player.show()
+			background_texture.hide()
+			
+			# HACK HACK HACK: vp9 decoder requires us to set the stream position
+			# to -1, then set it to 0 wait 5 frames, set our target start time
+			# wait another 5 frames and only then can we pause the player
+			# yeah I don't know why I bother either
+			video_player.stream = stream
+			video_player.set_stream_position(0)
+			video_player.paused = true
+			
+			video_player.stream_position = time
+			video_player.offset = -song.get_video_offset(selected_variant) / 1000.0
+			
+			if visualizer and UserSettings.user_settings.visualizer_enabled:
+				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
+			
+			video_player.paused = false
+			video_player.play()
+		else:
+			Log.log(self, "Video Stream failed to load")
+	
+	rhythm_game.start()
+	
 	show()
 	set_game_size()
 
 func set_audio(song: HBSong, audio: ShinobuSoundSource, voice: ShinobuSoundSource, variant := -1):
 	if rhythm_game.audio_playback:
 		rhythm_game.audio_playback.queue_free()
+	
 	if rhythm_game.voice_audio_playback:
 		rhythm_game.voice_audio_playback.queue_free()
 		rhythm_game.voice_audio_playback = null
+	
 	rhythm_game.audio_playback = ShinobuGodotSoundPlaybackOffset.new(audio.instantiate(HBGame.music_group))
 	rhythm_game.audio_playback.offset = song.get_variant_data(variant).variant_offset
 	add_child(rhythm_game.audio_playback)
+	
 	if voice:
 		rhythm_game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice.instantiate(HBGame.music_group))
 		rhythm_game.voice_audio_playback.offset = song.get_variant_data(variant).variant_offset
 		add_child(rhythm_game.voice_audio_playback)
+	
+	selected_variant = variant
 
 func _ready():
 	quit_button.connect("pressed", self, "_on_quit_button_pressed")
 	restart_button.connect("pressed", self, "_on_restart_button_pressed")
 	rhythm_game.connect("note_judged", self, "_on_note_judged")
+	
 	connect("resized", self, "set_game_size")
+	
 	add_child(rhythm_game)
-	rhythm_game.health_system_enabled = false
-	rhythm_game_ui.hide_intro_skip()
+	
 	rhythm_game.set_game_ui(rhythm_game_ui)
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
+	
+	rhythm_game_ui.hide_intro_skip()
+	rhythm_game.health_system_enabled = false
+	
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
 	set_process_unhandled_input(false)
-	
+
 func _unhandled_input(event):
 	if event.is_action_pressed("contextual_option"):
 		_on_restart_button_pressed()
@@ -89,13 +164,41 @@ func _on_quit_button_pressed():
 	rhythm_game.set_process_input(false)
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.pause_game()
-	hide()
+	
 	set_process_unhandled_input(false)
+	
+	hide()
 	emit_signal("quit")
 
 func set_game_size():
 	rhythm_game.size = rect_size
+	
+	if is_instance_valid(visualizer):
+		visualizer.rect_size = rect_size
+	
+	background_texture.rect_size = rect_size
+	
+	video_player_panel.rect_size = rect_size
+	rescale_video_player()
 
+func rescale_video_player():
+	var video_texture = video_player.get_video_texture()
+	
+	if video_texture:
+		var video_size = video_texture.get_size()
+		var video_ar = video_size.x / video_size.y
+		
+		var new_size_x = rect_size.y * video_ar
+		if new_size_x <= rect_size.x:
+			# side black bars (or none)
+			video_player.rect_size = Vector2(new_size_x, rect_size.y)
+		else:
+			# bottom and top black bars
+			video_player.rect_size = Vector2(rect_size.x, rect_size.x / video_ar)
+		
+		# Center that shit
+		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
+		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
 
 func reset_stats():
 	stats_latency_sum = 0
