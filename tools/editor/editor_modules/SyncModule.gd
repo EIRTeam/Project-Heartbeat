@@ -6,6 +6,7 @@ onready var whole_bpm_lineedit := get_node("%WholeBPMLineEdit")
 onready var bpm_spinbox := get_node("%BPMSpinBox")
 onready var time_sig_numerator_spinbox := get_node("%TimeSigNumSpinBox")
 onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
+onready var create_timing_change_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer/HBEditorButton")
 
 var bpm := 150.0
 var offset := 0
@@ -187,7 +188,6 @@ func show_timing_change_dialog():
 		timing_change = HBTimingChange.new()
 	
 	var calculated_bpm = int(whole_bpm_lineedit.text.split(" ")[0])
-	print(calculated_bpm)
 	bpm_spinbox.value = calculated_bpm if calculated_bpm else timing_change.bpm
 	
 	time_sig_numerator_spinbox.value = timing_change.time_signature.numerator
@@ -204,7 +204,7 @@ func add_timing_change():
 			timing_change.time_signature.numerator = time_sig_numerator_spinbox.value
 			timing_change.time_signature.denominator = time_sig_denominator_spinbox.value
 			
-			create_timing_point(layer, timing_change.get_timeline_item())
+			create_timing_point(layer, timing_change.get_timeline_item(), true)
 			break
 
 

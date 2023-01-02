@@ -53,6 +53,7 @@ onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer
 onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
 onready var contextual_menu = get_node("%ContextualMenu")
 onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
+onready var no_timing_map_dialog = get_node("%NoTimingMapDialog")
 
 const LOG_NAME = "HBEditor"
 
@@ -512,10 +513,10 @@ func _unhandled_input(event: InputEvent):
 	if not game_playback.is_playing():
 		var old_pos = playhead_position
 		
-		if event.is_action("editor_move_playhead_left", true) and event.pressed:
+		if event.is_action("editor_move_playhead_left", true) and event.pressed and timing_map:
 			var idx = max(get_timing_map().bsearch(playhead_position) - 1, 0)
 			playhead_position = get_timing_map()[idx]
-		elif event.is_action("editor_move_playhead_right", true) and event.pressed:
+		elif event.is_action("editor_move_playhead_right", true) and event.pressed and timing_map:
 			var idx = _upper_bound(get_timing_map(), playhead_position)
 			playhead_position = get_timing_map()[idx]
 		
@@ -1250,7 +1251,11 @@ func get_notes_at_time(time: int, tp_cache: Array = []) -> Array:
 	
 	return notes
 
-func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem):
+func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem, force: bool = false):
+	if not timing_map and not force:
+		no_timing_map_dialog.popup_centered()
+		return
+	
 	undo_redo.create_action("Add new timing point")
 	
 	if item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place:
@@ -2055,6 +2060,11 @@ func _on_playback_speed_changed(speed: float):
 
 
 func queue_timing_point_creation(layer, timing_point):
+	if not timing_map:
+		_on_PauseButton_pressed(true)
+		no_timing_map_dialog.popup_centered()
+		return
+	
 	for entry in timing_point_creation_queue:
 		if entry.timing_point == timing_point:
 			return
@@ -2067,6 +2077,7 @@ func create_queued_timing_points():
 	for entry in timing_point_creation_queue:
 		remove_item_from_layer(entry.layer, entry.item)
 		user_create_timing_point(entry.layer, entry.item)
+	
 	timing_point_creation_queue.clear()
 
 
@@ -2155,3 +2166,13 @@ func _on_version_changed():
 var _confirm_action = "exit"
 func _on_SaveConfirmationDialog_confirmed():
 	call(_confirm_action)
+
+func guide_user_to_timing_changes():
+	var idx := 0
+	for i in right_panel.get_child_count():
+		if right_panel.get_child(i) == sync_module:
+			idx = i
+			break
+	
+	right_panel.current_tab = idx
+	sync_module.create_timing_change_button.button.grab_focus()

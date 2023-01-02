@@ -102,8 +102,8 @@ func get_event_text(event: InputEvent) -> String:
 	
 	return text
 
-func create_timing_point(layer: EditorLayer, item: EditorTimelineItem):
-	editor.user_create_timing_point(layer, item)
+func create_timing_point(layer: EditorLayer, item: EditorTimelineItem, force: bool = false):
+	editor.user_create_timing_point(layer, item, force)
 
 func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
 	editor.add_item_to_layer(layer, item)
