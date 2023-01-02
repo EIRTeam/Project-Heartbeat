@@ -732,7 +732,7 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+filters = PoolStringArray( "*.JPG, *.JPEG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
 
 [node name="BackgroundFileDialog" type="FileDialog" parent="."]
@@ -742,7 +742,7 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+filters = PoolStringArray( "*.JPG, *.JPEG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
 
 [node name="CircleFileDialog" type="FileDialog" parent="."]
@@ -752,7 +752,7 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+filters = PoolStringArray( "*.JPG, *.JPEG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
 
 [node name="CircleLogoFileDialog" type="FileDialog" parent="."]
@@ -762,7 +762,7 @@ rect_min_size = Vector2( 150, 52.5 )
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PoolStringArray( "*.JPG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
+filters = PoolStringArray( "*.JPG, *.JPEG; Joint Photographic Experts Group", "*.PNG; Portable Network Graphics" )
 show_hidden_files = true
 
 [node name="AddVariantDialog" type="ConfirmationDialog" parent="."]
