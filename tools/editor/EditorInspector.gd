@@ -142,15 +142,15 @@ func stop_inspecting():
 	update_label()
 
 func sync_visible_values_with_data():
-	for property_name in inspecting_properties:
-		sync_value(property_name)
-
-# Syncs a single property
-func sync_value(property_name: String):
 	var inputs = []
 	for item in inspecting_items:
 		inputs.append(item.data.clone())
 	
+	for property_name in inspecting_properties:
+		sync_value(property_name, inputs)
+
+# Syncs a single property
+func sync_value(property_name: String, inputs: Array):
 	inspecting_properties[property_name].sync_value(inputs)
 	
 	if property_name in condition_properties:

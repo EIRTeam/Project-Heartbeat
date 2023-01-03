@@ -246,7 +246,7 @@ func _ready():
 	save_confirmation_dialog.get_cancel().text = "Go back"
 	
 	settings_editor_button.connect("pressed", self, "keep_settings_button_enabled")
-
+	
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
@@ -745,10 +745,17 @@ func apply_fine_position():
 			undo_redo.add_do_property(item.data, "pos_modified", true)
 			undo_redo.add_do_method(item, "update_widget_data")
 			undo_redo.add_do_method(item, "sync_value", "position")
+		
 		fine_position_originals = {}
 		
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
 		undo_redo.commit_action()
-		inspector.sync_value("position")
+
 func show_contextual_menu():
 	contextual_menu.popup()
 	var popup_offset = get_global_mouse_position() + contextual_menu.rect_size - get_viewport_rect().size
@@ -792,8 +799,11 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
 	
-	var tp_cache = get_timing_points()
-	var times_cache = {}
+	var note_cache = cache_notes_at_time()
+	
+	var selected_cache := []
+	for item in selected:
+		selected_cache.append(item.data)
 	
 	var sync_timing := false
 	var multi_check_times := []
@@ -802,14 +812,20 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			if property_name in selected_item.data and property_name in old_property_values[selected_item]:
 				if property_name == "time":
 					if selected_item.data is HBSustainNote:
-						undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
-						undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
+						if old_property_values[selected_item].has("end_time"):
+							undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time)
+							undo_redo.add_undo_property(selected_item.data, "end_time", old_property_values[selected_item].end_time)
+						else:
+							var dt = selected_item.data.time - old_property_values[selected_item].time
+							
+							undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time + dt)
+							undo_redo.add_undo_property(selected_item.data, "end_time", selected_item.data.end_time)
 					
 					if selected_item.data is HBTimingChange:
 						sync_timing = true
 					
 					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
-						var new_data = autoplace(selected_item.data, false, tp_cache, times_cache)
+						var new_data = autoplace(selected_item.data, false, selected_cache, note_cache)
 						
 						undo_redo.add_do_property(selected_item.data, "position", new_data.position)
 						undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
@@ -868,10 +884,10 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	if create_action:
 		undo_redo.commit_action()
 		
-		check_for_multi_changes(multi_check_times, times_cache)
+		var item_cache = cache_items_at_time()
+		check_for_multi_changes(multi_check_times, item_cache)
 	
 	old_property_values.clear()
-	inspector.sync_value(property_name)
 	release_owned_focus()
 
 # Handles when a user changes a timing point's property, this is used for properties
@@ -1102,25 +1118,23 @@ func is_slide_chain(note: HBTimingPoint):
 	
 	return false
 
-func check_for_multi_changes(times: Array, times_cache: Dictionary = {}):
+func check_for_multi_changes(times: Array, item_cache: Array = []):
 	if UserSettings.user_settings.editor_auto_multi:
 		# Merge action with the previous one
 		undo_redo.create_action("MERGE")
 		
-		var tp_cache := get_timing_points()
-		
 		for time in times:
-			var _notes_at_time := []
-			if time in times_cache:
-				_notes_at_time = times_cache[time]
+			var items_at_time := []
+			if item_cache:
+				items_at_time = item_cache[time]
 			else:
-				_notes_at_time = get_notes_at_time(time, tp_cache)
-				times_cache[time] = _notes_at_time
+				items_at_time = get_items_at_time(time)
 			
 			var notes_at_time := []
-			for note in _notes_at_time:
-				if note is HBBaseNote:
-					notes_at_time.append(note)
+			for item in items_at_time:
+				if item.data is HBBaseNote:
+					item.data.set_meta("timeline_item", item)
+					notes_at_time.append(item.data)
 			
 			for note in notes_at_time:
 				_set_multi_pos(note)
@@ -1136,8 +1150,8 @@ func check_for_multi_changes(times: Array, times_cache: Dictionary = {}):
 					# There isnt any multi, so clear all multi-related properties
 					_clear_multi_params(note)
 				
-				undo_redo.add_do_method(note.get_timeline_item(), "update_widget_data")
-				undo_redo.add_undo_method(note.get_timeline_item(), "update_widget_data")
+				undo_redo.add_do_method(note.get_meta("timeline_item"), "update_widget_data")
+				undo_redo.add_undo_method(note.get_meta("timeline_item"), "update_widget_data")
 			
 			# Set correct multi angles
 			_set_multi_angles(notes_at_time)
@@ -1246,18 +1260,42 @@ func toggle_selection(item):
 	else:
 		select_item(item, true)
 
-func get_notes_at_time(time: int, tp_cache: Array = []) -> Array:
+func get_notes_at_time(time: int) -> Array:
 	var notes := []
 	
-	if tp_cache == []:
-		tp_cache = get_timing_points()
-	
-	for note in tp_cache:
+	for note in get_timing_points():
 		if note is HBTimingPoint:
 			if note.time == time:
 				notes.append(note)
 	
 	return notes
+
+func cache_notes_at_time() -> Dictionary:
+	var cache = {}
+	
+	for note in get_timing_points():
+		if note is HBTimingPoint:
+			if note.time in cache:
+				cache[note.time].append(note)
+			else:
+				cache[note.time] = [note]
+	
+	return cache
+
+func cache_items_at_time() -> Array:
+	# Initialize our cache
+	var cache := []
+	cache.resize(int(get_song_length() * 1000.0))
+	cache.fill([])
+	
+	for item in get_timeline_items():
+		if item.data is HBTimingPoint:
+			if not cache[item.data.time]:
+				cache[item.data.time] = [item]
+			else:
+				cache[item.data.time].append(item)
+	
+	return cache
 
 func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem, force: bool = false):
 	if not timing_map and not force:
@@ -1340,8 +1378,8 @@ func _on_PlayButton_pressed():
 	game_preview.widget_area.hide()
 	playback_speed_slider.editable = false
 	obscure_ui(false)
-	
-# Fired when any timing point is tells the game to rethink its existence
+
+# Fired when any timing point tells the game to rethink its existence
 func _on_timing_points_changed():
 	game_playback.chart = get_chart()
 	_on_PauseButton_pressed(true)
@@ -1995,7 +2033,7 @@ func _cache_hold_ends():
 			item.update()
 
 
-func autoplace(data: HBBaseNote, force = false, tp_cache: Array = [], times_cache: Dictionary = {}):
+func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [], times_cache: Dictionary = {}):
 	if not data.position.y in [630, 726, 822, 918] and data.position != Vector2(960, 540) and not force:
 		# Safeguard against modifying old charts
 		data.pos_modified = true
@@ -2014,12 +2052,12 @@ func autoplace(data: HBBaseNote, force = false, tp_cache: Array = [], times_cach
 	if data.time in times_cache:
 		notes_at_time = times_cache[data.time]
 	else:
-		notes_at_time = get_notes_at_time(data.time, tp_cache)
+		notes_at_time = get_notes_at_time(data.time)
 		times_cache[data.time] = notes_at_time
 	
-	var selected_data = []
-	for item in selected:
-		selected_data.append(item.data)
+	if not selected_data:
+		for item in selected:
+			selected_data.append(item.data)
 	
 	var place_at_note = null
 	for note in notes_at_time:
@@ -2031,6 +2069,7 @@ func autoplace(data: HBBaseNote, force = false, tp_cache: Array = [], times_cach
 		new_data.position.x = 242 + 96 * time_as_eight
 		new_data.position.y = 918
 		
+		new_data.oscillation_amplitude = abs(new_data.oscillation_amplitude)
 		new_data.oscillation_frequency = -2
 		new_data.entry_angle = -90
 	else:
