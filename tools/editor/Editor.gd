@@ -1835,8 +1835,12 @@ func _on_TimelineGridSnapButton_toggled(button_pressed):
 
 func snap_time_to_timeline(time: int) -> int:
 	var map = get_timing_map()
+	
 	if timeline_snap_enabled and map:
-		return map[_closest_bound(map, time)]
+		var idx = _closest_bound(map, time)
+		idx = min(idx, map.size() - 1)
+		
+		return map[idx]
 	else:
 		return time
 
