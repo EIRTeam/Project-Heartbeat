@@ -348,7 +348,7 @@ func make_sustain(toggle = false):
 			new_data_ser["type"] = "SustainNote"
 			new_data_ser["end_time"] = end.data.time
 			
-			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
 			var new_item = new_data.get_timeline_item()
 			
 			undo_redo.add_do_method(editor, "add_item_to_layer", start._layer, new_item)
@@ -390,7 +390,7 @@ func make_sustain(toggle = false):
 			var new_data_ser = data.serialize()
 			new_data_ser["type"] = "Note"
 			
-			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
 			var new_item = new_data.get_timeline_item()
 			
 			undo_redo.add_do_method(editor, "remove_item_from_layer", item._layer, item)

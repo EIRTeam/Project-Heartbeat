@@ -43,9 +43,12 @@ func add_item(item: EditorTimelineItem):
 	item._layer = self
 	item.editor = editor
 	place_child(item)
+	
 	if not item.is_connected("time_changed", self, "_on_time_changed"):
 		item.connect("time_changed", self, "_on_time_changed", [item])
+	
 	add_child(item)
+	
 	timing_points.insert(insert_pos, item)
 	if timing_points.size() > 1:
 		if item.data.time > _cull_start_time and item.data.time < _cull_end_time:
@@ -54,6 +57,7 @@ func add_item(item: EditorTimelineItem):
 		else:
 			item.set_process_input(false)
 			item.hide()
+
 func _on_time_changed(child):
 	timing_points.sort_custom(self, "_sort_timing_points")
 	place_child(child)
@@ -102,23 +106,16 @@ func _on_time_cull_changed(start_time, end_time):
 				_cull_start_note_i = i
 				_cull_start_time = point.data.time
 	
-	if timing_points.size() > 1:
-		# From the earlierst note forward
-		for i in range(_cull_start_note_i, late_note_i):
-			var item = timing_points[i] as EditorTimelineItem
-			if (item.data as HBTimingPoint).time <= _cull_end_time:
-				item.show()
-				place_child(item)
-				item.set_process_input(true)
-			else:
-				break
-			_cull_end_note_i = i
-	else:
-		for point in timing_points:
-			place_child(point)
-			point.show()
-
-			
+	# From the earlierst note forward
+	for i in range(_cull_start_note_i, late_note_i):
+		var item := timing_points[i] as EditorTimelineItem
+		if (item.data as HBTimingPoint).time <= _cull_end_time:
+			item.show()
+			place_child(item)
+			item.set_process_input(true)
+		else:
+			break
+		_cull_end_note_i = i
 
 func get_timing_points():
 	var points = []
@@ -157,31 +154,6 @@ func _gui_input(event):
 					var item = new_note.get_timeline_item()
 					item.data = new_note
 					editor.user_create_timing_point(self, item)
-
-#func drop_data(position, data: EditorTimelineItem):
-#	data._layer.remove_child(data)
-##	data.disconnect("item_changed", data._layer, "place_child")
-#
-#	for i in get_timing_points():
-#		if i.time == data.data.time:
-#			return
-#
-#	if not position == null:
-#		data.data.time = int(editor.scale_pixels(position.x + data._drag_x_offset))
-#
-#	var ln = layer_name
-#	if ln.ends_with("2"):
-#	# For second layers of the same type, this ensures we don't
-#	# just do any layer with 2 at the end
-#		var new_val = ln.substr(0, ln.length()-1)
-#		if new_val in HBNoteData.NOTE_TYPE.keys():
-#			ln = new_val
-#
-#	if ln in HBNoteData.NOTE_TYPE.keys():
-#		if data.data is HBBaseNote:
-#			data.data.note_type = HBNoteData.NOTE_TYPE[ln]
-#
-#	add_item(data)
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
