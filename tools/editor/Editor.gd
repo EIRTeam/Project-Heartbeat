@@ -85,7 +85,7 @@ var playtesting := false
 
 var _playhead_traveling := false
 
-var hold_ends := []
+var hold_sizes := {}
 
 var timing_point_creation_queue := []
 
@@ -211,7 +211,7 @@ func _ready():
 	first_time_message_dialog.get_ok().text = "Got it!"
 	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
 	
-	connect("timing_points_changed", self, "_cache_hold_ends")
+	connect("timing_points_changed", self, "_cache_hold_sizes")
 	
 	settings_editor.song_settings_tab.set_editor(self)
 	settings_editor.general_settings_tab.set_editor(self)
@@ -454,9 +454,6 @@ func _unhandled_input(event: InputEvent):
 		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
 		
-		undo_redo.add_do_method(self, "_cache_hold_ends")
-		undo_redo.add_undo_method(self, "_cache_hold_ends")
-		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 		
@@ -563,8 +560,12 @@ func _unhandled_input(event: InputEvent):
 							undo_redo.add_undo_method(new_item, "deselect")
 							undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
 						
-						undo_redo.add_undo_method(self, "deselect_all")
 						undo_redo.add_do_method(self, "deselect_all")
+						undo_redo.add_undo_method(self, "deselect_all")
+						
+						undo_redo.add_do_method(self, "_cache_hold_sizes")
+						undo_redo.add_undo_method(self, "_cache_hold_sizes")
+						
 						undo_redo.commit_action()
 					else:
 						var item_erased = false
@@ -860,11 +861,11 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
 		
-		undo_redo.add_do_method(self, "_cache_hold_ends")
-		undo_redo.add_undo_method(self, "_cache_hold_ends")
+		undo_redo.add_do_method(self, "_cache_hold_sizes")
+		undo_redo.add_undo_method(self, "_cache_hold_sizes")
 	elif property_name == "hold":
-		undo_redo.add_do_method(self, "_cache_hold_ends")
-		undo_redo.add_undo_method(self, "_cache_hold_ends")
+		undo_redo.add_do_method(self, "_cache_hold_sizes")
+		undo_redo.add_undo_method(self, "_cache_hold_sizes")
 	
 	undo_redo.add_do_method(self, "force_game_process")
 	undo_redo.add_undo_method(self, "force_game_process")
@@ -1977,43 +1978,87 @@ func get_hold_size(data):
 	if not data is HBNoteData or not data.hold or not UserSettings.user_settings.editor_show_hold_calculator:
 		return 0
 	
-	var size = HBRhythmGame.MAX_HOLD
+	if data in hold_sizes:
+		return hold_sizes[data]
 	
-	for hold in hold_ends:
-		var dt = hold.end - data.time
-		
-		if dt > 0 and dt < size:
-			if hold.start < data.time:
-				if hold.end - hold.start < size:
-					size = dt
-			elif hold.start > data.time:
-				size = dt
-			else:
-				size = hold.end - hold.start
-	
-	return size
+	return HBRhythmGame.MAX_HOLD
 
-
-func _cache_hold_ends():
+func _cache_hold_sizes():
 	if not UserSettings.user_settings.editor_show_hold_calculator:
 		return
 	
 	var points = get_timing_points()
 	points.invert()
-	hold_ends = []
+	hold_sizes.clear()
+	
+	var held_notes := {}
+	for type in HBBaseNote.NOTE_TYPE:
+		held_notes[HBBaseNote.NOTE_TYPE[type]] = null
 	
 	for point in points:
+		# Get last held note
+		var last_note = null
+		for held_note in held_notes.values():
+			if held_note:
+				if not last_note:
+					last_note = held_note
+					continue
+				
+				if held_note.time > last_note.time:
+					last_note = held_note
+		
+		if last_note and (last_note.time + HBRhythmGame.MAX_HOLD) < point.time:
+			# Max out holds
+			var end_time = last_note.time + HBRhythmGame.MAX_HOLD
+			
+			for type in held_notes.keys():
+				var held_note = held_notes[type]
+				
+				if held_note:
+					hold_sizes[held_note] = end_time - held_note.time
+					held_notes[type] = null
+		
+		if point is HBBaseNote:
+			if point.note_type in held_notes and held_notes[point.note_type]:
+				# Break holds
+				for type in held_notes.keys():
+					var held_note = held_notes[type]
+					
+					if held_note:
+						var size = point.time - held_note.time
+						
+						hold_sizes[held_note] = size
+						held_notes[type] = null
+		
 		if point is HBNoteData and point.hold:
-			var end = {"start": point.time, "end": point.time + HBRhythmGame.MAX_HOLD}
-			
-			for note in points:
-				if note is HBBaseNote and note.note_type == point.note_type:
-					if note.time - point.time > 0 and note.time - point.time < HBRhythmGame.MAX_HOLD:
-						end = {"start": point.time, "end": note.time}
-						break
-			
-			hold_ends.append(end)
+			# Hold note down
+			held_notes[point.note_type] = point
 	
+	# The last few notes might still be held
+	
+	# Get last held note
+	var last_note = null
+	for held_note in held_notes.values():
+		if held_note:
+			if not last_note:
+				last_note = held_note
+				continue
+			
+			if held_note.time > last_note.time:
+				last_note = held_note
+	
+	if last_note:
+		# Max out holds
+		var end_time = min(last_note.time + HBRhythmGame.MAX_HOLD, get_song_length() * 1000.0)
+		
+		for type in held_notes.keys():
+			var held_note = held_notes[type]
+			
+			if held_note:
+				hold_sizes[held_note] = end_time - held_note.time
+				held_notes[type] = null
+	
+	# Update items
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
 			item.update()
