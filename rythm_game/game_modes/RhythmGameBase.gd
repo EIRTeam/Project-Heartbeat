@@ -124,23 +124,9 @@ func _init():
 
 var _cached_notes = false
 
+# HACK: A deferred call is still not enough to stop the sheer amount of calls to editor_sort_groups
+# when loading a chart, so we have to use a debounce timer instead
 var group_sort_debounce_timer := Timer.new()
-
-func cache_note_drawers():
-	pass
-#	timing_point_to_drawer_map = {}
-#	_cached_notes = false
-#	for group in note_groups:
-#		group.reset_group()
-#
-#	cached_note_drawers = {}
-#
-#	if UserSettings.user_settings.load_all_notes_on_song_start:
-#		for group in timing_points:
-#			for note in group.note_datas:
-#				var drawer = _create_note_drawer_impl(note)
-#				cached_note_drawers[note] = drawer
-#		_cached_notes = true
 
 func _game_ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
@@ -654,7 +640,6 @@ func restart():
 	# Find slide hold chains
 	result.max_score = max_score
 	
-	cache_note_drawers()
 	timing_point_to_drawer_map = {}
 	if voice_audio_playback:
 		voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
@@ -1060,11 +1045,16 @@ func editor_clear_notes():
 			note_data.set_meta("editor_group", null)
 		if group.is_connected("notes_judged", self, "_on_notes_judged_new"):
 			group.disconnect("notes_judged", self, "_on_notes_judged_new")
+	
 	note_groups.clear()
 	note_groups_by_end_time.clear()
 	current_note_groups.clear()
 	finished_note_groups.clear()
 	last_culled_note_group = -1
+	
+	bpm_changes.clear()
+	timing_changes.clear()
+	update_bpm_map()
 
 func notify_rollback():
 	for group in note_groups:

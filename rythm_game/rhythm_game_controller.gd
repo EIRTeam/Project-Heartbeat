@@ -165,8 +165,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, assets, modifiers)
 	set_game_size()
-	if not force_caching_off:
-		game.cache_note_drawers()
+	
 	video_player_panel.hide()
 	
 	var large_image_name = "default"

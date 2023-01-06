@@ -103,8 +103,6 @@ var normalized_timing_map := []
 var signature_map := []
 var metronome_map := []
 
-var seek_debounce_timer = Timer.new()
-
 var hidden: bool = false
 
 var modified: bool = false
@@ -230,11 +228,6 @@ func _ready():
 	botton_panel_vbox_container.split_offset = UserSettings.user_settings.editor_bottom_panel_offset
 	left_panel_vbox_container.split_offset = UserSettings.user_settings.editor_left_panel_offset
 	right_panel_vbox_container.split_offset = UserSettings.user_settings.editor_right_panel_offset
-	
-	add_child(seek_debounce_timer)
-	seek_debounce_timer.wait_time = UserSettings.user_settings.editor_scroll_timeout
-	seek_debounce_timer.one_shot = true
-	seek_debounce_timer.connect("timeout", self, "_seek")
 	
 	update_user_settings()
 	
@@ -413,9 +406,6 @@ var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, 
 var konami_index = 0
 
 func _unhandled_input(event: InputEvent):
-	if rhythm_game_playtest_popup in get_children():
-		return
-	
 	if shortcuts_blocked():
 		return
 	
@@ -985,17 +975,14 @@ func seek(value: int, force = false):
 	
 	game_playback.seek(value)
 	if (not game_playback.is_playing()) and (not force) and UserSettings.user_settings.editor_smooth_scroll:
-		_seek_value = value
-		seek_debounce_timer.wait_time = UserSettings.user_settings.editor_scroll_timeout
-		seek_debounce_timer.start(0)
+		call_deferred("_seek", value / 1000.0)
 	elif not game_playback.is_playing():
-		game_preview.set_time(_seek_value / 1000.0)
+		game_preview.set_time(value / 1000.0)
 	else:
 		game_preview.play_at_pos(value / 1000.0)
 
-var _seek_value: int
-func _seek():
-	game_preview.set_time(_seek_value / 1000.0)
+func _seek(value: float):
+	game_preview.set_time(value)
 
 func copy_selected():
 	if selected.size() > 0:
@@ -2233,6 +2220,9 @@ func _toggle_settings_popup():
 		settings_editor.popup_centered()
 
 func shortcuts_blocked() -> bool:
+	if rhythm_game_playtest_popup in get_children():
+		return true
+	
 	for control in get_tree().get_nodes_in_group("block_shortcuts"):
 		if control.is_visible_in_tree():
 			return true

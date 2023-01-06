@@ -87,13 +87,7 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 			video_player.show()
 			background_texture.hide()
 			
-			# HACK HACK HACK: vp9 decoder requires us to set the stream position
-			# to -1, then set it to 0 wait 5 frames, set our target start time
-			# wait another 5 frames and only then can we pause the player
-			# yeah I don't know why I bother either
 			video_player.stream = stream
-			video_player.set_stream_position(0)
-			video_player.paused = true
 			
 			video_player.stream_position = time
 			video_player.offset = -song.get_video_offset(selected_variant) / 1000.0
@@ -101,7 +95,6 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 			if visualizer and UserSettings.user_settings.visualizer_enabled:
 				visualizer.visible = UserSettings.user_settings.use_visualizer_with_video
 			
-			video_player.paused = false
 			video_player.play()
 		else:
 			Log.log(self, "Video Stream failed to load")
@@ -156,6 +149,9 @@ func _unhandled_input(event):
 func _on_restart_button_pressed():
 	rhythm_game.seek_new(_last_time * 1000.0, true)
 	rhythm_game.start()
+	
+	video_player.set_stream_position(_last_time)
+	
 	call_deferred("reset_stats")
 
 func _on_quit_button_pressed():

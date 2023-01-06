@@ -10,7 +10,6 @@ func _ready():
 			{"name": tr("Show waveform"), "var": "editor_show_waveform", "type": "Bool"},
 			{"name": tr("Show hold duration"), "var": "editor_show_hold_calculator", "type": "Bool"},
 			{"name": tr("Smooth scrolling"), "var": "editor_smooth_scroll", "type": "Bool", "options": {"update_affects_conditions": true}},
-			{"name": tr("Smooth scrolling timeout"), "var": "editor_scroll_timeout", "type": "Float", "options": {"condition": "_smooth_scroll_enabled", "step": 0.01, "min": 0.0, "max": 5.0}},
 		],
 		"Placements": [
 			{"name": tr("Place notes on a line"), "var": "editor_auto_place", "type": "Bool"},
