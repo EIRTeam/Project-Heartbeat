@@ -1581,31 +1581,21 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	deselect_all()
 	
 	hidden = p_hidden
-	
-	var chart_path = song.get_chart_path(difficulty)
-	var file = File.new()
-	var dir = Directory.new()
-	var chart = HBChart.new()
-	chart.editor_settings.bpm = song.bpm
-	if dir.file_exists(chart_path):
-		file.open(chart_path, File.READ)
-		
-		var chart_json = JSON.parse(file.get_as_text())
-		if chart_json.error == OK:
-			var result = chart_json.result
-			chart = HBChart.new()
-			chart.deserialize(result, song)
 	current_song = song
+	
+	var chart = current_song.get_chart_for_difficulty(difficulty)
 	
 	HBGame.rich_presence.update_activity({
 		"state": "In editor",
 		"details": current_song.title,
 		"start_timestamp": OS.get_unix_time()
 	})
+	
 	add_child(rhythm_game_playtest_popup)
 	rhythm_game_playtest_popup.rhythm_game.audio_playback = null
 	rhythm_game_playtest_popup.rhythm_game.voice_audio_playback = null
 	remove_child(rhythm_game_playtest_popup)
+	
 	update_media()
 	seek(0, true)
 	timeline.set_layers_offset(0)

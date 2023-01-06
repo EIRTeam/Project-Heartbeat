@@ -500,7 +500,6 @@ margin_bottom = 563.0
 text = "Use YouTube for video"
 
 [node name="Charts" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -525,7 +524,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Charts/MarginContainer/HBoxContainer"]
+margin_right = 588.0
 margin_bottom = 664.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false

@@ -65,8 +65,7 @@ class HBSongDSC:
 		
 	func get_chart_note_usage(difficulty: String):
 		return []
-	func is_visible_in_editor():
-		return false
+
 class HBSongMMPLUS:
 	extends HBSongDSC
 	
@@ -475,19 +474,23 @@ func load_songs_mmplus() -> Array:
 		var dlc_pvdb := parse_pvdb(region_dlc_cpk.load_text_file("rom_steam_region_dlc/rom/mdata_pv_db.txt"))
 		for pv_id in dlc_pvdb:
 			main_pvdb[pv_id] = dlc_pvdb[pv_id]
+	
 	var pv_ids_to_ignore := [67, 68]
 	for pv_id in main_pvdb:
 		if pv_id in pv_ids_to_ignore:
 			continue
+		
 		var pv_data := main_pvdb[pv_id] as DSCPVData
 		if pv_data.charts.size() == 0 or \
 			pv_data.tutorial:
 			continue
+		
 		for i in range(pv_data.charts.size()-1, -1, -1):
 			var chart_name = pv_data.charts.keys()[i]
 			if not pv_data.charts[chart_name].dsc_path:
 				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
 				pv_data.charts.erase(chart_name)
+		
 		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
 		
@@ -510,6 +513,7 @@ func load_songs_mmplus() -> Array:
 		
 		if d.open(mods_path) == OK:
 			d.list_dir_begin(true)
+			
 			var current_file := d.get_next()
 			while current_file != "":
 				if d.current_is_dir():
@@ -517,14 +521,18 @@ func load_songs_mmplus() -> Array:
 					if not d.file_exists(config_toml_path):
 						current_file = d.get_next()
 						continue
+					
 					var mod_toml := TOMLParser.from_file(config_toml_path)
 					var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, fs_access, mdata_loader)
+					
 					var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
 					if buffer.get_size() > 0:
 						var pvdb_text := buffer.data_array.get_string_from_utf8()
 						fs_access = mod_fs_access
+						
 						var mod_pvdb := parse_pvdb(pvdb_text)
 						fs_access = mmplus_file_access
+						
 						for pv_id in mod_pvdb:
 							var pv_data = mod_pvdb[pv_id]
 							
@@ -569,26 +577,36 @@ func load_songs() -> Array:
 			
 			Log.log(self, "Error loading DSC songs from %s PVDB does not exist (%s)" % [GAME_LOCATION, pvdb_path], Log.LogLevel.ERROR)
 			continue
+		
 		var datas = load_pv_datas_from_pvdb(PVDB_LOCATION)
 		pv_datas = HBUtils.merge_dict(pv_datas, datas)
+	
 	var songs = []
 	for pv_id in pv_datas:
 		var pv_data := pv_datas[pv_id] as DSCPVData
+		
 		# Not entirely sure why but pv_755 in m39s is broken?
 		# we also ignore tutorial charts
 		if pv_data.charts.size() == 0 or \
 				pv_data.tutorial:
 			continue
+		
 		for i in range(pv_data.charts.size()-1, -1, -1):
 			var chart_name = pv_data.charts.keys()[i]
 			if not pv_data.charts[chart_name].dsc_path:
 				pv_data.charts.erase(chart_name)
 				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, chart_name, pv_data.title_en])
+		
 		var song := HBSongDSC.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
+		
 		if song.has_audio():
 			propagate_error(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
 			print(tr("Song ID %s's audio path (%s) did not exist") % [pv_data.pv_id_str, pv_data.song_file_name])
 			songs.append(song)
 		
+		var bpm_timing_change := HBTimingChange.new()
+		bpm_timing_change.bpm = pv_data.bpm
+		song.timing_changes = [bpm_timing_change]
+	
 	return songs

@@ -79,20 +79,30 @@ func populate_tree():
 	var _root = tree.create_item()
 	
 	for song in SongLoader.songs.values():
-		# Only native charts can be edited
-		if not song.is_visible_in_editor():
-			continue
-		
-		# Hide officials and workshop charts by default
-		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or song.comes_from_ugc()
+		# Only show editor and local songs by default, but allow opening everything as read-only
+		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or \
+			song.comes_from_ugc() or song is HBPPDSong or \
+			song is SongLoaderDSC.HBSongMMPLUS or song is SongLoaderDSC.HBSongDSC
 		if hidden and not show_hidden:
 			continue
 		
-		for field in [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]:
-			if search_line_edit.text.empty() or search_line_edit.text.to_lower() in field:
+		var origin = ""
+		if song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN:
+			origin = " (Official)"
+		elif song.comes_from_ugc():
+			origin = " (Workshop)"
+		elif song is HBPPDSong:
+			origin = " (PPD)"
+		elif song is SongLoaderDSC.HBSongMMPLUS:
+			origin = " (MegaMix+)"
+		elif song is SongLoaderDSC.HBSongDSC:
+			origin = " (DSC Loader)"
+		
+		for field in [song.title, song.romanized_title, song.original_title]:
+			if search_line_edit.text.empty() or search_line_edit.text.to_lower() in (field + origin).to_lower():
 				var item = tree.create_item()
 				
-				item.set_text(0, song.title)
+				item.set_text(0, song.title + origin)
 				
 				item.set_meta("song", song)
 				item.set_meta("hidden", hidden)
@@ -132,8 +142,8 @@ func _on_about_to_show():
 	populate_tree()
 
 func _show_meta_editor():
-	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
 	song_meta_editor.hidden = tree.get_selected().get_meta("hidden")
+	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
 	
 	song_meta_editor_dialog.rect_size = Vector2.ZERO
 	song_meta_editor_dialog.popup_centered_minsize(Vector2(500, 650))
@@ -165,23 +175,26 @@ func _on_confirmed():
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 		return
 	
-	var verification = HBSongVerification.new()
-	var errors = verification.verify_song(song)
+	if not item.get_meta("hidden"):
+		var verification = HBSongVerification.new()
+		var errors = verification.verify_song(song)
+		
+		# We ignore file not found errors for charts
+		for error_class in errors:
+			if error_class.begins_with("chart_"):
+				for i in range(errors[error_class].size()-1, -1, -1):
+					var error = errors[error_class][i]
+					if error.type == HBSongVerification.CHART_ERROR.FILE_NOT_FOUND:
+						errors[error_class].remove(i)
+		
+		if verification.has_fatal_error(errors):
+			var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
+			verify_song_popup.show_song_verification(verification.verify_song(song), false, err)
+			
+			return
 	
-	# We ignore file not found errors for charts
-	for error_class in errors:
-		if error_class.begins_with("chart_"):
-			for i in range(errors[error_class].size()-1, -1, -1):
-				var error = errors[error_class][i]
-				if error.type == HBSongVerification.CHART_ERROR.FILE_NOT_FOUND:
-					errors[error_class].remove(i)
-	
-	if verification.has_fatal_error(errors):
-		var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
-		verify_song_popup.show_song_verification(verification.verify_song(song), false, err)
-	else:
-		emit_signal("chart_selected", song, item.get_meta("difficulty"), item.get_meta("hidden"))
-		hide()
+	emit_signal("chart_selected", song, item.get_meta("difficulty"), item.get_meta("hidden"))
+	hide()
 
 func _on_SongMetaEditorDialog_confirmed():
 	song_meta_editor.save_meta()

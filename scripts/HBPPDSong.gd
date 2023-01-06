@@ -128,18 +128,20 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
 	cache_lyrics()
 	return PPDLoader.PPD2HBChart(chart_path, bpm, ppd_offset)
+
 func get_meta_path():
 	return path.plus_file("data.ini")
+
 func get_serialized_type():
 	return "PPDSong"
-func is_visible_in_editor():
-	return false
+
 func is_cached(variant := -1):
 	if uses_native_video:
 		var f = File.new()
 		return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
 	else:
 		return .is_cached(variant)
+
 func get_video_stream(variant := -1):
 	if uses_native_video:
 		var video_stream = VideoStreamGDNative.new()

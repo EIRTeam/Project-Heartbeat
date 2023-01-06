@@ -54,9 +54,19 @@ onready var clear_skin_button: Button = get_node("%ClearSkinButton")
 onready var skin_picker: HBEditorSkinPicker = get_node("%SkinPicker")
 onready var select_skin_button: Button = get_node("%SelectSkinButton")
 
+onready var select_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton")
+onready var select_voice_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton")
+
+onready var select_preview_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageButton")
+onready var select_background_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton")
+onready var select_circle_image_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageButton")
+onready var select_circle_logo_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoButton")
+
+onready var add_variant_button: Button = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/AddVariantButton")
+
 const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
-var hidden: bool = false
+var hidden: bool = false setget set_hidden
 
 func set_song_meta(value):
 	song_meta = value
@@ -101,7 +111,7 @@ func set_song_meta(value):
 		variant_editor.connect("deleted", variant_editor, "queue_free")
 		variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
 	
-	chart_ed.populate(value)
+	chart_ed.populate(value, not hidden)
 	
 	skin_picker.populate_list()
 	skin_picker.selected_value = song_meta.skin_ugc_id
@@ -387,3 +397,52 @@ func user_add_variant(id: String):
 	variant_editor.variant.variant_normalization = res
 	variant_editor.variant.variant_name = add_variant_dialog_name.text
 	variant_editor.set_variant(variant_editor.variant)
+
+# Goofy ahh code
+func set_enabled(enabled: bool):
+	title_edit.editable = enabled
+	romanized_title_edit.editable = enabled
+	artist_edit.editable = enabled
+	artist_alias_edit.editable = enabled
+	vocals_edit.readonly = not enabled
+	writers_edit.readonly = not enabled
+	composers_edit.readonly = not enabled
+	creator_edit.editable = enabled
+	original_title_edit.editable = enabled
+	bpm_edit.editable = enabled
+	audio_filename_edit.editable = enabled
+	circle_image_line_edit.editable = enabled
+	circle_logo_image_line_edit.editable = enabled
+	voice_audio_filename_edit.editable = enabled
+	preview_start_edit.editable = enabled
+	preview_end_edit.editable = enabled
+	background_image_filename_edit.editable = enabled
+	preview_image_filename_edit.editable = enabled
+	use_youtube_as_audio.disabled = not enabled
+	use_youtube_as_video.disabled = not enabled
+	youtube_url_line_edit.editable = enabled
+	intro_skip_checkbox.disabled = not enabled
+	intro_skip_min_time_spinbox.editable = enabled
+	hide_artist_name_checkbox.disabled = not enabled
+	start_time_spinbox.editable = enabled
+	end_time_spinbox.editable = enabled
+	volume_spinbox.editable = enabled
+	epilepsy_warning_checkbox.disabled = not enabled
+	
+	select_skin_button.disabled = not enabled
+	clear_skin_button.disabled = not enabled
+	
+	select_audio_button.disabled = not enabled
+	select_voice_audio_button.disabled = not enabled
+	
+	select_preview_button.disabled = not enabled
+	select_background_button.disabled = not enabled
+	select_circle_image_button.disabled = not enabled
+	select_circle_logo_button.disabled = not enabled
+	
+	add_variant_button.disabled = not enabled
+
+func set_hidden(p_hidden: bool):
+	hidden = p_hidden
+	
+	set_enabled(not hidden)
