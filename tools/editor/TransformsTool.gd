@@ -420,38 +420,22 @@ class MultiPresetTemplate:
 	func _init(dir):
 		direction = dir
 	
-	func get_notes_at_time(t: int):
-		var points = editor.get_notes_at_time(t)
-		var result = []
-		
-		for point in points:
-			if point is HBBaseNote:
-				result.append(point)
-		
-		return result
-	
-	static func sort_by_note_type(a, b):
+	static func sort_by_note_type(a: HBBaseNote, b: HBBaseNote) -> bool:
 		return a.note_type < b.note_type
 	
-	func check_note_is_valid(n):
-		pass
+	func check_note_is_valid(n: HBBaseNote) -> bool:
+		return true
 	
-	func process_type(n, notes):
-		pass
+	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
+		return 0
 	
-	func process_position(n, type, notes):
-		var pos = notes[0].position as Vector2
+	func process_position(n: HBBaseNote, type: int, anchor: HBBaseNote) -> Vector2:
+		var pos = anchor.position as Vector2
 		pos.x = 240 + 480 * type
 		
 		return pos
 	
-	func modify_angle(a):
-		if direction == 1:
-			return -a
-		else:
-			return a
-	
-	func process_angle(n, type, notes_at_time):
+	func process_angle(n: HBBaseNote, type: int, notes_at_time: Array) -> float:
 		var angle: float
 			
 		if notes_at_time.size() == 2:
@@ -463,35 +447,57 @@ class MultiPresetTemplate:
 		
 		return angle
 	
+	func modify_angle(a: float) -> float:
+		if direction == 1:
+			return -a
+		else:
+			return a
+	
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		
 		notes.sort_custom(self, "sort_by_note_type")
 		
-		for n in notes:
-			if not check_note_is_valid(n):
+		var note_groups := {}
+		for note in notes:
+			if not note_groups.has(note.time):
+				note_groups[note.time] = []
+			
+			if note is HBBaseNote:
+				note_groups[note.time].append(note)
+		
+		for time in note_groups.keys():
+			var group = note_groups[time]
+			var extended_group := []
+			
+			for note in get_notes_at_time(time):
+				if not check_note_is_valid(note):
+					continue
+				
+				extended_group.append(note)
+			
+			if extended_group.size() == 1:
 				continue
 			
-			var notes_at_time = get_notes_at_time(n.time)
-			notes_at_time.sort_custom(self, "sort_by_note_type")
+			group.sort_custom(self, "sort_by_note_type")
+			extended_group.sort_custom(self, "sort_by_note_type")
+			var anchor = group[0]
 			
-			if notes_at_time.size() == 1:
-				continue
-			
-			var type = process_type(n, notes)
-			
-			var pos = process_position(n, type, notes_at_time)
-			
-			var angle = process_angle(n, type, notes_at_time)
-			
-			angle = modify_angle(angle)
-			
-			transformation_result[n] = {
-				"position": pos,
-				"entry_angle": angle,
-				"oscillation_frequency": 0.0,
-				"distance": 880
-			}
+			for note in extended_group:
+				var type = process_type(note, anchor)
+				
+				var pos = process_position(note, type, anchor)
+				
+				var angle = process_angle(note, type, extended_group)
+				
+				angle = modify_angle(angle)
+				
+				transformation_result[note] = {
+					"position": pos,
+					"entry_angle": angle,
+					"oscillation_frequency": 0.0,
+					"distance": 880
+				}
 		
 		return transformation_result
 
@@ -503,22 +509,22 @@ class VerticalMultiPreset:
 	func _init(dir).(dir):
 		pass
 	
-	func check_note_is_valid(n):
+	func check_note_is_valid(n: HBBaseNote) -> bool:
 		return n.note_type in note_map
 	
-	func process_type(n, notes):
-		var pos = Vector2(n.position.x, notes[0].position.y)
-		var relative_type = n.note_type - notes[0].note_type
+	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
+		var pos = Vector2(n.position.x, anchor.position.y)
+		var relative_type = n.note_type - anchor.note_type
 		
 		return relative_type
 	
-	func process_position(n, type, notes):
-		var pos = Vector2(notes[0].position.x, notes[0].position.y)
+	func process_position(n: HBBaseNote, type: int, anchor: HBBaseNote) -> Vector2:
+		var pos = anchor.position
 		pos.y += 96 * type
 		
 		return pos
 	
-	func process_angle(n, type, notes_at_time):
+	func process_angle(n: HBBaseNote, type: int, notes_at_time: Array) -> float:
 		var angle: float
 			
 		if notes_at_time.size() == 2:
@@ -530,7 +536,7 @@ class VerticalMultiPreset:
 		
 		return angle
 	
-	func modify_angle(a):
+	func modify_angle(a: float) -> float:
 		if self.direction == -1:
 			a = fmod((-a + 180.0), 360.0)
 		
@@ -544,10 +550,10 @@ class HorizontalMultiPreset:
 	func _init(dir).(dir):
 		pass
 	
-	func check_note_is_valid(n):
+	func check_note_is_valid(n: HBBaseNote) -> bool:
 		return n.note_type in note_map
 	
-	func process_type(n, notes):
+	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
 		return note_map.find(n.note_type)
 
 class SliderMultiPreset:
@@ -654,8 +660,8 @@ class QuadPreset:
 			var extended_group = []
 			
 			if note_groups[time].size() < 4:
-				for note in editor.get_notes_at_time(time):
-					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				for note in get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 4:
@@ -747,8 +753,8 @@ class SidewaysQuadPreset:
 			var extended_group = []
 			
 			if note_groups[time].size() < 4:
-				for note in editor.get_notes_at_time(time):
-					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				for note in get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 4:
@@ -858,8 +864,8 @@ class TrianglePreset:
 			var extended_group = []
 			
 			if note_groups[time].size() < 3:
-				for note in editor.get_notes_at_time(time):
-					if note is HBBaseNote and note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
+				for note in get_notes_at_time(time):
+					if note.note_type in [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]:
 						extended_group.append(note)
 				
 				if extended_group.size() != 3:

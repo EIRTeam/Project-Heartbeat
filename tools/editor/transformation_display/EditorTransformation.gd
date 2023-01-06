@@ -19,3 +19,13 @@ func get_center_for_notes(notes: Array) -> Vector2:
 
 func set_editor(_editor):
 	editor = _editor
+
+func get_notes_at_time(t: int):
+	var points = editor.get_notes_at_time(t)
+	var result = []
+	
+	for point in points:
+		if point is HBBaseNote:
+			result.append(point)
+	
+	return result
