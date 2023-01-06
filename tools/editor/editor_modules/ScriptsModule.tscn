@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
 [ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=10]
 [ext_resource path="res://graphics/icons/edit-document.svg" type="Texture" id=11]
 [ext_resource path="res://graphics/icons/file-document-plus.svg" type="Texture" id=12]
+[ext_resource path="res://tools/editor/editor_modules/FocusSensitiveTree.gd" type="Script" id=13]
 
 [node name="EditorModule" instance=ExtResource( 10 )]
 script = ExtResource( 3 )
@@ -41,6 +42,7 @@ margin_bottom = 908.0
 size_flags_vertical = 3
 columns = 2
 hide_root = true
+script = ExtResource( 13 )
 
 [node name="ScriptManagerButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true

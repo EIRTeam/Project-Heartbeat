@@ -570,7 +570,7 @@ func _unhandled_input(event: InputEvent):
 					else:
 						var item_erased = false
 						for item in get_items_at_time(snap_time_to_timeline(playhead_position)):
-							if item is EditorTimelineItemNote:
+							if item is EditorTimelineItemNote and not game_playback.is_playing():
 								if item.data.note_type == type and item._layer == layer:
 									item_erased = true
 									
@@ -2170,7 +2170,8 @@ func queue_timing_point_creation(layer, timing_point):
 		return
 	
 	for entry in timing_point_creation_queue:
-		if entry.timing_point == timing_point:
+		if entry.timing_point.time == timing_point.time and \
+		   entry.timing_point.note_type == timing_point.note_type:
 			return
 	
 	var item = timing_point.get_timeline_item()
