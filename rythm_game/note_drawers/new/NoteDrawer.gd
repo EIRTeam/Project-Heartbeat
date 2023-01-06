@@ -148,7 +148,7 @@ func draw_trail(time_msec: int):
 	if not sine_drawer:
 		return
 	if sine_drawer.is_inside_tree():
-		var time_out := note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+		var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 		var time_out_distance = time_out - (note_data.time - time_msec)
 		# Trail will be time_out / 2 behind
 		# How much margin we leave for the trail from the note center, this prevents
@@ -167,7 +167,7 @@ func is_autoplay_enabled() -> bool:
 
 func update_graphic_positions_and_scale(time_msec: int):
 	note_target_graphics.position = note_data.position
-	var time_out := note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	var time_out_distance = time_out - (note_data.time - time_msec)
 
 	note_graphics.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
@@ -246,7 +246,10 @@ func _on_wrong(judgement: int):
 # You can use this to schedule a sound to play at a time when the note is supposed to be hit, it will
 # automatically be started/freed
 func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_time_msec: int):
-	if scheduled_autoplay_sound and game.sfx_enabled:
+	if not game.sfx_enabled:
+		return
+	
+	if scheduled_autoplay_sound:
 		get_tree().root.remove_child(scheduled_autoplay_sound)
 		scheduled_autoplay_sound.queue_free()
 		scheduled_autoplay_sound.stop()

@@ -375,7 +375,7 @@ func update_stats_label():
 		current_time_sig = "%d/%d" % [timing_change.time_signature.numerator, timing_change.time_signature.denominator]
 	
 	ingame_stats_label.text = "Game info:\n"
-	ingame_stats_label.text += ('"%s"\n' % current_section_info.name) if current_section_info else ""
+	ingame_stats_label.text += ('"%s"\n' % section.name) if section else ""
 	ingame_stats_label.text += "BPM: %.*f\n" % [0 if round(current_bpm) == current_bpm else 2, current_bpm]
 	ingame_stats_label.text += "Time sig: %s\n" % current_time_sig
 	ingame_stats_label.text += "Note speed: %.*fBPM\n" % [0 if round(current_speed) == current_speed else 2, current_speed]

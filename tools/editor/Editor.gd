@@ -247,6 +247,8 @@ func _ready():
 	
 	settings_editor_button.connect("pressed", self, "keep_settings_button_enabled")
 	
+	connect("timing_information_changed", rhythm_game, "update_bpm_map")
+
 const HELP_URLS = [
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
@@ -342,12 +344,12 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 						if property_name == "position":
 							undo_redo.add_do_property(item.data, "pos_modified", true)
 							undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
-
-		undo_redo.add_do_method(self, "force_game_process")
-		undo_redo.add_undo_method(self, "force_game_process")
 			
 			undo_redo.add_do_method(item, "update_widget_data")
 			undo_redo.add_undo_method(item, "update_widget_data")
+		
+		undo_redo.add_do_method(self, "force_game_process")
+		undo_redo.add_undo_method(self, "force_game_process")
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -532,7 +534,7 @@ func _unhandled_input(event: InputEvent):
 		for type in HBGame.NOTE_TYPE_TO_ACTIONS_MAP:
 			var found_note = false
 			for action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type]:
-				if (event.is_action(action, true) and event.pressed and not event.echo) or (type in [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT] and event.is_action_pressed(action)):
+				if event.is_action_pressed(action, false, true) or (type in [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT] and event.is_action_pressed(action)):
 					var layer = null
 					for layer_c in timeline.get_visible_layers():
 						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type) + ("2" if event.shift else ""):
@@ -939,10 +941,9 @@ func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
 	if item in _removed_items:
 		_removed_items.erase(item)
 	
-	_on_timing_points_changed()
 	rhythm_game.editor_add_timing_point(item.data)
 	force_game_process()
-	
+
 func add_event_timing_point(timing_point_class: GDScript):
 	var timing_point := timing_point_class.new() as HBTimingPoint
 	timing_point.time = playhead_position
@@ -1332,12 +1333,10 @@ func remove_item_from_layer(layer: EditorLayer, item: EditorTimelineItem):
 	layer.remove_item(item)
 	current_notes.erase(item)
 	_removed_items.append(item)
-
+	
 	rhythm_game.editor_remove_timing_point(item.data)
-	_on_timing_points_changed()
 	force_game_process()
-	
-	
+
 func _create_bpm_change():
 	add_event_timing_point(HBBPMChange)
 
@@ -1539,6 +1538,7 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		load_settings(chart.editor_settings)
 	
 	_on_timing_points_changed()
+	_on_timing_information_changed()
 	
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
@@ -1571,6 +1571,9 @@ func paste_note_data(notes: Array):
 	
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	
+	undo_redo.add_do_method(self, "force_game_process")
+	undo_redo.add_undo_method(self, "force_game_process")
 	
 	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
 	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
@@ -1632,7 +1635,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	modified = false
 	
 	if timing_changes:
-		playhead_position = timing_changes[0].data.time
+		playhead_position = timing_changes[-1].data.time
 		
 		timeline.ensure_playhead_is_visible()
 		seek(playhead_position)
@@ -1759,13 +1762,9 @@ func _on_timing_information_changed(f=null):
 	signature_map.clear()
 	metronome_map.clear()
 	
-	var _timing_changes = []
 	for item in get_timeline_items():
 		if item.data is HBTimingChange:
 			timing_changes.append(item)
-			_timing_changes.append(item.data)
-	
-	game_playback.game.timing_changes = _timing_changes
 	
 	timing_changes.sort_custom(self, "_sort_current_items_impl")
 	timing_changes.invert()
@@ -2144,11 +2143,18 @@ func queue_timing_point_creation(layer, timing_point):
 	
 	var item = timing_point.get_timeline_item()
 	timing_point_creation_queue.append({"layer": layer, "timing_point": timing_point, "item": item})
-	add_item_to_layer(layer, item)
+	
+	insert_note_at_time(item)
+	layer.add_item(item)
+	if item in _removed_items:
+		_removed_items.erase(item)
 
 func create_queued_timing_points():
 	for entry in timing_point_creation_queue:
-		remove_item_from_layer(entry.layer, entry.item)
+		entry.layer.remove_item(entry.item)
+		current_notes.erase(entry.item)
+		_removed_items.append(entry.item)
+		
 		user_create_timing_point(entry.layer, entry.item)
 	
 	timing_point_creation_queue.clear()

@@ -93,7 +93,6 @@ func _on_pressed():
 	set_pressed(true)
 	
 	if not is_in_editor_mode():
-	
 		emit_signal("judged", judgement, false, note_data.time, null)
 		show_note_hit_effect(note_data.position)
 		
@@ -108,6 +107,9 @@ func _on_pressed():
 			note_target_graphics.hide()
 
 func _on_slide_chain_started():
+	if not game.sfx_enabled:
+		return
+	
 	var slide_chain_start_sfx := HBGame.instantiate_user_sfx("slide_chain_start")
 	add_child(slide_chain_start_sfx)
 	current_slide_chain_sound = slide_chain_start_sfx
@@ -150,7 +152,7 @@ func process_note(time_msec: int):
 			if current_slide_chain_sound and current_slide_chain_sound.is_at_stream_end():
 				current_slide_chain_sound.queue_free()
 				current_slide_chain_sound = null
-			if not current_slide_chain_sound and not is_in_editor_mode():
+			if not current_slide_chain_sound and not is_in_editor_mode() and game.sfx_enabled:
 				current_slide_chain_sound = HBGame.instantiate_user_sfx("slide_chain_loop")
 				current_slide_chain_sound.looping_enabled = true
 				current_slide_chain_sound.start()
@@ -161,7 +163,7 @@ func process_note(time_msec: int):
 		
 		for i in range(slide_chain_pieces.size()):
 			var piece := slide_chain_pieces[i] as HBNoteData
-			var time_out := piece.get_time_out(game.get_bpm_at_time(piece.time)) as int
+			var time_out := piece.get_time_out(game.get_note_speed_at_time(piece.time)) as int
 			var should_be_visible: bool = (piece.time - time_out) < time_msec
 			# Process pieces that are alive
 			if should_be_visible:
@@ -194,10 +196,13 @@ func process_note(time_msec: int):
 					free_node_bind(drawer)
 					drawer.queue_free()
 					chain_piece_drawers.erase(piece)
+					
 					# On last note play the bonus funnies
 					if is_last:
+						if game.sfx_enabled:
+							game.sfx_pool.play_sfx("slide_chain_ok")
+						
 						game.add_slide_chain_score(current_score)
-						game.sfx_pool.play_sfx("slide_chain_ok")
 						emit_signal("finished")
 						return
 			# Remove pieces that shouldn't actually be around

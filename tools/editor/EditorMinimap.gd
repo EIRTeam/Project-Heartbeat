@@ -33,7 +33,7 @@ func _redraw_items():
 	
 	var visible_layers = 0
 	for layer in editor.timeline.get_layers():
-		if layer.visible and not layer.layer_name in ["Lyrics", "Sections", "Events"]:
+		if layer.visible and not layer.layer_name in ["Lyrics", "Sections", "Events", "Tempo Map"]:
 			visible_layers += 1
 	
 	# Get a consistent height
@@ -60,7 +60,7 @@ func _redraw_items():
 		if not layer.visible:
 			continue
 		
-		if layer.layer_name in ["Lyrics", "Sections", "Events"]:
+		if layer.layer_name in ["Lyrics", "Sections", "Events", "Tempo Map"]:
 			continue
 		
 		var y_pos = layer_i * LAYER_HEIGHT

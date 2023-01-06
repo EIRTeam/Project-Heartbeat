@@ -117,36 +117,7 @@ func make_group(notes: Array, extra_notes: Array, group_position, time):
 		group.notes.sort_custom(self, "_sort_notes_by_appear_time")
 	
 	return group
-	
-#func _process_timing_points_into_groups(points):
-#	# Group related notes for performance reasons, so we can precompute stuff
-#	var timing_points_grouped = []
-#	var last_notes = []
-#	var group_position = 0
-#	var extra_notes = []
-#
-#	for i in range(points.size()):
-#		var own_extra_notes = []
-#		var point = points[i]
-#		if point is HBBaseNote:
-#			if point is HBNoteData:
-#				if point.is_slide_hold_piece():
-#					continue
-#			var should_make_group = i == timing_points.size()-1 \
-#					or timing_points[i+1].time != point.time
-#
-#			if should_make_group:
-#				var group = make_group(last_notes + [point], own_extra_notes + extra_notes, group_position, point.time)
-#				group_position += 1
-#				last_notes = []
-#				own_extra_notes = []
-#				extra_notes = []
-#				timing_points_grouped.append(group)
-#			if not should_make_group:
-#				extra_notes += own_extra_notes
-#				last_notes.append(point)
-#	return timing_points_grouped
-	
+
 func kill_active_slide_chains():
 	for note in notes_on_screen:
 		if note in slide_hold_chains:
@@ -156,8 +127,7 @@ func kill_active_slide_chains():
 					drawer.kill_note()
 func _set_timing_points(points):
 	._set_timing_points(points)
-	
-	
+
 func _game_ready():
 	._game_ready()
 	sfx_pool.add_sfx("note_hit", UserSettings.user_settings.get_sound_volume_linear("note_hit"))
@@ -171,22 +141,7 @@ func _game_ready():
 	sfx_pool.add_sfx("double_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_note_hit"))
 	sfx_pool.add_sfx("double_heart_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_heart_note_hit"))
 	#SLIDE: 9dbup
-	
-	# TODO: Bake in echo
-	#sfx_pool.add_sfx("slide_chain_loop", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_loop"), get_bus_for_sfx("slide_chain_loop"))
-	#sfx_pool.add_sfx("slide_chain_ok", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_ok"), get_bus_for_sfx("slide_chain_ok"))
-	#sfx_pool.add_sfx("slide_chain_start", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_start"), get_bus_for_sfx("slide_chain_start"))
-	#sfx_pool.add_sfx("slide_chain_fail", 4 * UserSettings.user_settings.get_sound_volume_db("slide_chain_fail"), get_bus_for_sfx("slide_chain_fail"))
-	#sfx_pool.add_sfx("double_note_hit", 2.0 * UserSettings.user_settings.get_sound_volume_db("double_note_hit"), get_bus_for_sfx("double_note_hit"))
-	#sfx_pool.add_sfx("double_heart_note_hit", 2.0 * UserSettings.user_settings.get_sound_volume_db("double_heart_note_hit"), get_bus_for_sfx("double_heart_note_hit"))
-	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
-	# hit_effect_sfx_player = _create_sfx_player(preload("res://sounds/sfx/tmb3.wav"), 0)
-	# hit_effect_slide_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_note.wav"), 0)
-	# slide_chain_loop_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_start.wav"), 4, "EchoSFX")
-	# slide_chain_success_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_ok.wav"), 4, "EchoSFX")
-	# slide_chain_fail_sfx_player = _create_sfx_player(preload("res://sounds/sfx/slide_hold_fail.wav"), 4, "EchoSFX")
-	# double_note_sfx_player = _create_sfx_player(preload("res://sounds/sfx/double_note.wav"), 2.0, "EchoSFX")
-	
+
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	active_slide_hold_chains = []
@@ -489,11 +444,7 @@ func remove_note_from_screen(i, update_last_hit = true):
 						if nhi < last_hit_index:
 							last_hit_index = nhi
 	.remove_note_from_screen(i, update_last_hit)
-	
-# Used by editor to reset hit notes and allow them to appear again
-func reset_hit_notes():
-	.reset_hit_notes()
-			
+
 var _potential_result = HBResult.new()
 func get_potential_result():
 	return _potential_result

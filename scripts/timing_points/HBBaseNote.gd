@@ -69,7 +69,7 @@ func set_note_type(value):
 func get_time_out(bpm) -> int:
 	if auto_time_out:
 		if bpm == 0:
-			return INF
+			return 9223372036854775807
 		
 		return int((60.0  / bpm * (1 + 3) * 1000.0))
 	else:

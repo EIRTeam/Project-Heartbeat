@@ -5,14 +5,6 @@ onready var arrange_angle_spinbox := get_node("MarginContainer/ScrollContainer/V
 onready var reverse_arrange_checkbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
 onready var circle_size_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HSlider")
 onready var circle_size_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/HBEditorSpinBox")
-onready var circle_cw_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Button")
-onready var circle_ccw_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer2/Button")
-onready var circle_cw_inside_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer/Button")
-onready var circle_ccw_inside_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxContainer/VBoxContainer2/Button")
-onready var mirror_vertically_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer/Button")
-onready var mirror_horizontally_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/Button")
-onready var flip_vertically_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer3/Button")
-onready var flip_horizontally_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer4/VBoxContainer4/Button")
 onready var rotation_angle_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HSlider")
 onready var rotation_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer/HBEditorSpinBox")
 
@@ -211,8 +203,8 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
 			# Real snapping hours
-			var eight_diff = linear_bound(get_normalized_timing_map(), selected_item.data.time) - \
-							 linear_bound(get_normalized_timing_map(), time_compensation)
+			var eight_diff = linear_bound(eight_map, selected_item.data.time) - \
+							 linear_bound(eight_map, time_compensation)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
 				if slide_index:

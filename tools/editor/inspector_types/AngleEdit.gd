@@ -53,7 +53,6 @@ func _draw_arc(radius_from, radius_to, angle_from, angle_to, color: Color, line_
 	var points_arc = PoolVector2Array()
 	var colors = PoolColorArray([color])
 	
-	var angle_diff = angle_to - angle_from
 	for i in range(n_points + 1):
 		var point = lerp_angle(angle_from, angle_to, i * 1 / n_points)
 		points_arc.push_back(rect_size / 2 + Vector2(cos(point), sin(point)) * radius_from)

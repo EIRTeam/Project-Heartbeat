@@ -195,14 +195,22 @@ margin_left = 10.0
 margin_right = -10.0
 custom_constants/margin_top = 15
 custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="HBEditorSpinBox" type="SpinBox" parent="CanvasLayer/SpeedChangeDialog/MarginContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SpeedChangeDialog/MarginContainer" index="0"]
 margin_top = 15.0
 margin_right = 308.0
 margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer" index="0"]
+margin_right = 148.0
+margin_bottom = 25.0
+text = "Change note speed by:"
+
+[node name="HBEditorSpinBox" type="SpinBox" parent="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer" index="1"]
+margin_left = 152.0
+margin_right = 308.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
 step = 0.01
 value = 100.0
 allow_greater = true
@@ -241,6 +249,6 @@ margin_bottom = 40.0
 placeholder_text = "Lino's Legendary Section"
 
 [connection signal="text_entered" from="CanvasLayer/LyricDialog/MarginContainer/LineEdit" to="." method="create_quick_lyric"]
-[connection signal="input_accepted" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
-[connection signal="input_rejected" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBEditorSpinBox" to="." method="_speed_change_rejected"]
+[connection signal="input_accepted" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
+[connection signal="input_rejected" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="_speed_change_rejected"]
 [connection signal="text_entered" from="CanvasLayer/SectionDialog/MarginContainer/LineEdit" to="." method="create_chart_section"]

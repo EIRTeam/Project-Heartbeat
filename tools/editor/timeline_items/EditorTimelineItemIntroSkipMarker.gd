@@ -3,7 +3,7 @@ extends EditorTimelineItem
 class_name EditorTimelineItemIntroSkip
 
 func _init():
-	_class_name = "EditorTimelineItemIntroSkip" # Workaround for godot#4708
+	_class_name = "EditorTimelineItemIntroSkipMarker" # Workaround for godot#4708
 	_inheritance.append("EditorTimelineItem")
 	
 	data = HBBPMChange.new()

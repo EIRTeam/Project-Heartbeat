@@ -589,6 +589,7 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 							
 							undo_redo.add_do_method(editor, "remove_item_from_layer", source_layer, target_item)
 							undo_redo.add_do_method(editor, "add_item_to_layer", target_layer, target_item)
+							
 							undo_redo.add_undo_method(editor, "remove_item_from_layer", target_layer, target_item)
 							undo_redo.add_undo_method(editor, "add_item_to_layer", source_layer, target_item)
 					if property_name == "position":

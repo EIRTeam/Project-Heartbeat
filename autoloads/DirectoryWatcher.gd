@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 					emit_signal("files_modified", directory.modified)
 					directory.modified.clear()
 				
-				var deleted: Array
+				var deleted := []
 				for path in directory.previous:
 					if not path in directory.current:
 						deleted.append(_directory.get_current_dir().plus_file(path))

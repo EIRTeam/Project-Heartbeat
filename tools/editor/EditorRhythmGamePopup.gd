@@ -31,7 +31,6 @@ func _init():
 
 func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, time: float, enable_bg: bool, enable_video: bool):
 	rhythm_game.remove_all_notes_from_screen()
-	rhythm_game.reset_hit_notes()
 	
 	var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
 	rhythm_game.audio_playback.volume = volume
@@ -45,7 +44,6 @@ func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, t
 	
 	rhythm_game.set_process_input(true)
 	rhythm_game.seek_new(time * 1000.0, true)
-	rhythm_game.start()
 	rhythm_game.game_input_manager.set_process_input(true)
 	set_process_unhandled_input(true)
 	

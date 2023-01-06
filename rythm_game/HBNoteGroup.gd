@@ -97,7 +97,7 @@ func process_group(time_msec: int) -> bool:
 		var note_data := nd as HBBaseNote
 		if note_data in finished_notes:
 			continue
-		if note_data.time - note_data.get_time_out(game.get_bpm_at_time(note_data.time)) <= time_msec:
+		if note_data.time - note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) <= time_msec:
 			var note_drawer
 			if not note_data in note_drawers:
 				note_drawer = create_note_drawer(note_data)
@@ -282,9 +282,9 @@ func get_start_time_msec() -> int:
 		return cached_start_time
 	var t := 0
 	if note_datas.size() > 0:
-		t = note_datas[0].time - note_datas[0].get_time_out(game.get_bpm_at_time(note_datas[0].time))
+		t = note_datas[0].time - note_datas[0].get_time_out(game.get_note_speed_at_time(note_datas[0].time))
 		for note_data in note_datas:
-			var time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+			var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 			t = min(t, note_data.time - time_out)
 	cached_start_time = t
 	return t

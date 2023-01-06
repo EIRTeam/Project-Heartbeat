@@ -299,11 +299,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/HBFolder.gd"
 }, {
-"base": "WindowDialog",
-"class": "HBGameDebug",
-"language": "GDScript",
-"path": "res://rythm_game/GameDebug.gd"
-}, {
 "base": "HBSerializable",
 "class": "HBGameInfo",
 "language": "GDScript",
@@ -1178,7 +1173,6 @@ _global_script_class_icons={
 "HBError": "",
 "HBFilterSongsTask": "",
 "HBFolder": "",
-"HBGameDebug": "",
 "HBGameInfo": "",
 "HBGameInputManager": "",
 "HBGameMode": "",
@@ -2116,6 +2110,8 @@ gui_page_down={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777236,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 editor_make_circle_cw_inside={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777349,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
@@ -2251,7 +2247,6 @@ toggle_diagnostics={
 toggle_fps={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777248,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 show_hidden={

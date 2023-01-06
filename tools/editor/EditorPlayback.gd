@@ -58,7 +58,6 @@ func set_song(song: HBSong, variant=-1):
 	selected_variant = variant
 	game.audio_playback = null
 	game.voice_audio_playback = null
-	game.timing_changes = song.timing_changes
 	
 	godot_audio_stream = song.get_audio_stream(selected_variant)
 	
@@ -95,12 +94,10 @@ func set_song(song: HBSong, variant=-1):
 func pause():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
 	game.pause_game()
-<<<<<<< HEAD
+	
 	game.seek_new(game.time * 1000.0, true)
 	game._process(0)
-#	_on_timing_points_changed()
-=======
->>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
+	
 	game.previewing = false
 	game.sfx_pool.stop_all_sfx()
 	game.set_process(false)
@@ -111,25 +108,15 @@ func is_playing():
 	return game.audio_playback.is_playing()
 
 func seek(value: int):
-<<<<<<< HEAD
-	#game.remove_all_notes_from_screen()
 	game.seek_new(value, true)
-=======
-	game.seek(value)
 	
->>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
 	if not game.audio_playback.is_playing():
 		pause()
 	else:
 		play_from_pos(value)
 	game._process(0)
 	emit_signal("time_changed", game.time)
-<<<<<<< HEAD
-	#_on_timing_points_changed()
-=======
 	
-	game.reset_hit_notes()
->>>>>>> e8b50873 (Fix: Fix playback speed and timing maps in playtesting.)
 	game.delete_rogue_notes(value / 1000.0)
 
 func _on_timing_params_changed():

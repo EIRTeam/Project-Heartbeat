@@ -6,9 +6,6 @@ onready var lyric_dialog = get_node("%LyricDialog")
 onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/LineEdit")
 onready var section_dialog = get_node("%SectionDialog")
 onready var section_dialog_line_edit = get_node("%SectionDialog/MarginContainer/LineEdit")
-onready var phrase_start_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer/Button")
-onready var phrase_end_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button")
-onready var lyric_button = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Button")
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel", false, true):

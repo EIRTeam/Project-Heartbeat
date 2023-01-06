@@ -238,17 +238,17 @@ var max_simultaneous_media_downloads := 3
 
 func _init():
 	serializable_fields += [
-		"visualizer_enabled", "left_arrow_override_enabled",
-		"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", 
-		"down_arrow_override_enabled", "visualizer_resolution", "lag_compensation", 
+		"visualizer_enabled", "visualizer_resolution",
+		"left_arrow_override_enabled", "right_arrow_override_enabled", "up_arrow_override_enabled", "down_arrow_override_enabled", 
+		"lag_compensation", 
 		"icon_pack", "resource_pack", "romanized_titles_enabled", "show_latency", "enable_voice_fade",
 		"ui_skin",
 		"note_size", "input_map",
-		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "max_simultaneous_downloads", "disable_video",
+		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
 		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
-		"enable_multi_hint", "master_volume", "music_volume", "sfx_volume", "content_path",
-		"background_dim", "disable_menu_music", "load_all_notes_on_song_start", "vsync_enabled", "root_folder", 
+		"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",
+		"background_dim", "disable_menu_music", "vsync_enabled", "root_folder", 
 		"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",
 		"lyrics_color", "locale", "workshop_download_audio_only", "multi_laser_opacity",
 		"show_note_types_before_playing", "color_remap", "ppd_songs_directory", "hide_ppd_ex_songs", "editor_first_time_message_acknowledged",

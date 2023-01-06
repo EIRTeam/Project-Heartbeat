@@ -468,6 +468,8 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	editor.deselect_all()
 	update()
 	editor.undo_redo.commit_action()
+	
+	editor._on_PauseButton_pressed()
 
 func make_spam(note_type: int, layer_name: String):
 	var layer := find_layer_by_name(layer_name)
@@ -492,19 +494,21 @@ func make_spam(note_type: int, layer_name: String):
 	editor.undo_redo.add_do_method(editor, "deselect_all")
 	editor.undo_redo.add_undo_method(editor, "deselect_all")
 	
-	var times_cache = {}
+	var multi_check_times := []
 	for i in range(start_i, min(end_i + 1, map.size() - 1)):
 		var note = HBNoteData.new()
 		note.time = map[i]
 		note.note_type = note_type
 		
-		note = editor.autoplace(note, false, [], times_cache)
+		note = editor.autoplace(note, false)
 		
 		var timeline_item = note.get_timeline_item()
 		
 		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
 		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, (i != 0))
 		editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
+		
+		multi_check_times.append(note.time)
 	
 	editor.undo_redo.add_do_method(editor, "_on_timing_points_changed")
 	editor.undo_redo.add_undo_method(editor, "_on_timing_points_changed")
@@ -514,7 +518,9 @@ func make_spam(note_type: int, layer_name: String):
 	update()
 	editor.undo_redo.commit_action()
 	
-	editor.check_for_multi_changes(times_cache.keys(), times_cache)
+	editor.check_for_multi_changes(multi_check_times)
+	
+	editor._on_PauseButton_pressed()
 
 func create_bpm_transition():
 	var first_pos = _area_select_start

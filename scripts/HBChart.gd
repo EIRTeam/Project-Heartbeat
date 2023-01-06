@@ -123,7 +123,7 @@ func port_chart(song):
 	match self.format_version:
 		1:  # V1 to V2
 			for layer in self.layers:
-				if layer.name != "EVENTS":
+				if layer.name != "Events":
 					continue
 				
 				for note in layer.timing_points:
@@ -148,7 +148,7 @@ func backport_chart(song):
 		2:  # V2 to V1
 			var events_layer = null
 			for layer in self.layers:
-				if layer.name == "EVENTS":
+				if layer.name == "Events":
 					events_layer = layer
 			
 			if not events_layer:

@@ -56,7 +56,7 @@ func _on_end_release(event := null):
 func _on_pressed(event = null, judge := true):
 	note_graphics.hide()
 	pressed = true
-	if not sustain_loop:
+	if not sustain_loop and game.sfx_enabled:
 		sustain_loop = HBGame.instantiate_user_sfx("sustain_note_loop")
 		sustain_loop.looping_enabled = true
 		add_child(sustain_loop)
@@ -76,7 +76,7 @@ func _on_pressed(event = null, judge := true):
 			show_note_hit_effect(note_data.position)
 
 func update_arm_position(time_msec: int):
-	var time_out := note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	if pressed:
 		note_target_graphics.arm2_position = 0.0
 	else:
@@ -134,7 +134,7 @@ func process_note(time_msec: int):
 
 func update_graphic_positions_and_scale(time_msec: int):
 	.update_graphic_positions_and_scale(time_msec)
-	var time_out := note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	
 	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
 	note_graphic2.position = HBUtils.calculate_note_sine(time_out_distance/float(time_out), note_data.position, note_data.entry_angle, note_data.oscillation_frequency, note_data.oscillation_amplitude, note_data.distance)
@@ -150,7 +150,7 @@ func draw_trail(time_msec: int):
 	.draw_trail(time_msec)
 	if pressed:
 		sine_drawer.time = 1.0
-	var time_out = note_data.get_time_out(game.get_bpm_at_time(note_data.time))
+	var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
 	var t = (time_out_distance / float(time_out))
 	sine_drawer.trail_position = t

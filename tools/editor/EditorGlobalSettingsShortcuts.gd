@@ -214,7 +214,7 @@ func set_item_text(item: TreeItem, action: String, event: InputEvent):
 		base[0] = (base[0] as String).to_upper()
 		item.set_text(0, base)
 	item.set_text(1, ev_text)
-	
+
 func _on_item_double_clicked():
 	if tree.get_selected_column() == 1:
 		current_item = tree.get_selected()

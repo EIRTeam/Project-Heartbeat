@@ -9,6 +9,9 @@ func _init():
 	data = HBBPMChange.new()
 	update_affects_timing_points = true
 
+func _ready():
+	sync_text()
+
 func get_editor_size():
 	return Vector2(50, rect_size.y)
 
@@ -45,4 +48,23 @@ func get_inspector_properties():
 	})
 
 func get_editor_description():
-	return "Changes the BPM (requires notes to have auto time-out enabled)"
+	return "Changes the note speed (requires notes to have auto time-out enabled)"
+
+func sync_value(property_name: String):
+	.sync_value(property_name)
+	
+	if property_name in ["usage", "speed_factor", "bpm"]:
+		sync_text()
+
+func sync_text():
+	var text = ""
+	
+	if data.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+		text = str(data.speed_factor) + "%"
+	else:
+		text = str(data.bpm) + " BPM"
+	
+	# HACK: Resize the label after an idle frame, else we are just getting the old size
+	$Label.text = text
+	yield(get_tree(), "idle_frame")
+	rect_size.x = $Label.rect_size.x
