@@ -117,5 +117,7 @@ func set_phrases(array: Array):
 	show()
 	if phrases.size() > 0:
 		set_current_phrase(phrases[0])
+	else:
+		current_phrase = null
 	_on_game_time_changed(last_time)
 	update_labels()

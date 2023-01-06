@@ -1916,21 +1916,27 @@ func _chronological_compare(a, b):
 
 func get_lyrics():
 	var phrases = []
+	
 	for layer in timeline.get_layers():
 		if layer.layer_name == "Lyrics":
 			var is_inside_phrase = false
 			var curr_phrase: HBLyricsPhrase
+			
 			var points = layer.get_timing_points()
 			points.sort_custom(self, "_chronological_compare")
+			
 			for i in range(points.size()):
-				if i < points.size()-1:
+				if i < points.size() - 1:
 					var p1 = points[i]
 					var p2 = points[i+1]
+					
+					# Mantain a reasonable order if 2 points have the same time
 					if p1.time == p2.time:
 						if p1 is HBLyricsLyric and p2 is HBLyricsPhraseStart or \
-								p1 is HBLyricsPhraseStart and p2 is HBLyricsPhraseEnd:
+						   p1 is HBLyricsPhraseStart and p2 is HBLyricsPhraseEnd:
 							points[i] = p2
 							points[i+1] = p1
+				
 				var point = points[i]
 				
 				if point is HBLyricsPhraseStart:
@@ -1946,8 +1952,11 @@ func get_lyrics():
 				elif is_inside_phrase:
 					if point is HBLyricsLyric:
 						curr_phrase.lyrics.append(point)
+			
 			break
+	
 	return phrases
+
 func sync_lyrics():
 	game_playback.set_lyrics(get_lyrics())
 
