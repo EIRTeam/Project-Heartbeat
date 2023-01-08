@@ -173,8 +173,8 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 		last_note = selected[-1].data
 		undo_redo.create_action("Arrange selected notes by time")
 	
-	var separation : Vector2 = Vector2.ZERO
-	var slide_separation : Vector2 = Vector2.ZERO
+	var separation: Vector2 = Vector2.ZERO
+	var slide_separation: Vector2 = Vector2.ZERO
 	var eight_separation = UserSettings.user_settings.editor_arrange_separation
 	
 	if angle != null:
@@ -207,7 +207,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 							 linear_bound(eight_map, time_compensation)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
-				if slide_index:
+				if slide_index > 1:
 					eight_diff = 1
 				
 				slide_index = 1

@@ -2,8 +2,11 @@ extends MarginContainer
 
 class_name HBEditorTransforms
 
+# warning-ignore:unused_signal
 signal show_transform(transformation)
+# warning-ignore:unused_signal
 signal hide_transform()
+# warning-ignore:unused_signal
 signal apply_transform(transformation)
 
 onready var vertical_transform
@@ -63,8 +66,6 @@ class FlipHorizontallyTransformation:
 		for n in notes:
 			if not n is HBBaseNote:
 				notes.erase(n)
-		
-		var chains = _get_chains(notes)
 		
 		var biggest := 1920
 		var smallest := 0
@@ -417,33 +418,85 @@ class MultiPresetTemplate:
 	
 	var direction = 1
 	
+	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
+	
+	enum GROUP_TYPE {
+		ALL_NOTES,
+		OPPOSING_SLIDES,
+		SIMILAR_SLIDES,
+		INVALID
+	}
+	
 	func _init(dir):
 		direction = dir
 	
 	static func sort_by_note_type(a: HBBaseNote, b: HBBaseNote) -> bool:
 		return a.note_type < b.note_type
 	
-	func check_note_is_valid(n: HBBaseNote) -> bool:
-		return true
+	static func sort_by_relative_type(a: HBBaseNote, b: HBBaseNote) -> bool:
+		return a.get_meta("relative_type") < b.get_meta("relative_type")
 	
-	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
+	func check_group(group: Array) -> int:
+		var type = null
+		var last_slide_type = null
+		
+		for note in group:
+			if note.note_type in note_map:
+				if type and type != GROUP_TYPE.ALL_NOTES:
+					return GROUP_TYPE.INVALID
+				
+				type = GROUP_TYPE.ALL_NOTES
+			elif note is HBNoteData and note.is_slide_note():
+				if type == GROUP_TYPE.ALL_NOTES:
+					return GROUP_TYPE.INVALID
+				
+				if last_slide_type:
+					if last_slide_type != note.note_type and group.size() == 2:
+						type = GROUP_TYPE.OPPOSING_SLIDES
+					else:
+						type = GROUP_TYPE.SIMILAR_SLIDES
+				
+				last_slide_type = note.note_type
+			else:
+				return GROUP_TYPE.INVALID
+		
+		return type
+	
+	func check_note_is_valid(n: HBBaseNote) -> bool:
+		if n is HBNoteData:
+			return n.is_slide_note() or n.note_type in note_map
+		
+		return n.note_type in note_map
+	
+	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
 		return 0
 	
-	func process_position(n: HBBaseNote, type: int, anchor: HBBaseNote) -> Vector2:
+	func process_position(n: HBBaseNote, anchor: HBBaseNote) -> Vector2:
 		var pos = anchor.position as Vector2
-		pos.x = 240 + 480 * type
+		pos.x = 240 + 480 * n.get_meta("relative_type")
 		
 		return pos
 	
-	func process_angle(n: HBBaseNote, type: int, notes_at_time: Array) -> float:
+	func process_angle(n: HBBaseNote, notes_at_time: Array, group_type: int) -> float:
 		var angle: float
-			
-		if notes_at_time.size() == 2:
-			var index = notes_at_time.find(n)
-			
-			angle = 110.0 if index == 0 else 70.0
-		else:
-			angle = 110.0 if type < 2 else 70.0
+		var type = n.get_meta("relative_type")
+		
+		if group_type == GROUP_TYPE.ALL_NOTES:
+			if notes_at_time.size() == 2:
+				var index = notes_at_time.find(n)
+				
+				angle = 110.0 if index == 0 else 70.0
+			else:
+				angle = 110.0 if type < 2 else 70.0
+		elif group_type == GROUP_TYPE.OPPOSING_SLIDES:
+			if notes_at_time.size() == 2:
+				var index = notes_at_time.find(n)
+				
+				angle = 110.0 if index == 1 else 70.0
+			else:
+				angle = 110.0 if type >= 2 else 70.0
+		elif group_type == GROUP_TYPE.SIMILAR_SLIDES:
+			angle = 110.0 if type >= 2 else 70.0
 		
 		return angle
 	
@@ -476,19 +529,25 @@ class MultiPresetTemplate:
 				
 				extended_group.append(note)
 			
-			if extended_group.size() == 1:
+			var group_type := check_group(extended_group)
+			if extended_group.size() == 1 or group_type == GROUP_TYPE.INVALID:
 				continue
 			
 			group.sort_custom(self, "sort_by_note_type")
-			extended_group.sort_custom(self, "sort_by_note_type")
 			var anchor = group[0]
 			
 			for note in extended_group:
-				var type = process_type(note, anchor)
+				var type = process_type(note, anchor, group_type)
+				note.set_meta("relative_type", type)
+			
+			extended_group.sort_custom(self, "sort_by_relative_type")
+			
+			for note in extended_group:
+				var type = process_type(note, anchor, group_type)
 				
-				var pos = process_position(note, type, anchor)
+				var pos = process_position(note, anchor)
 				
-				var angle = process_angle(note, type, extended_group)
+				var angle = process_angle(note, extended_group, group_type)
 				
 				angle = modify_angle(angle)
 				
@@ -504,27 +563,26 @@ class MultiPresetTemplate:
 class VerticalMultiPreset:
 	extends MultiPresetTemplate
 	
-	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
-	
 	func _init(dir).(dir):
 		pass
 	
-	func check_note_is_valid(n: HBBaseNote) -> bool:
-		return n.note_type in note_map
-	
-	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
-		var pos = Vector2(n.position.x, anchor.position.y)
+	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
 		var relative_type = n.note_type - anchor.note_type
+		
+		if n.get_meta("second_layer", false) and not anchor.get_meta("second_layer", false):
+			relative_type += 2
+		elif not n.get_meta("second_layer", false) and anchor.get_meta("second_layer", false):
+			relative_type -= 2
 		
 		return relative_type
 	
-	func process_position(n: HBBaseNote, type: int, anchor: HBBaseNote) -> Vector2:
-		var pos = anchor.position
-		pos.y += 96 * type
+	func process_position(n: HBBaseNote, anchor: HBBaseNote) -> Vector2:
+		var pos = anchor.position as Vector2
+		pos.y += 96 * n.get_meta("relative_type")
 		
 		return pos
 	
-	func process_angle(n: HBBaseNote, type: int, notes_at_time: Array) -> float:
+	func process_angle(n: HBBaseNote, notes_at_time: Array, group_type: int) -> float:
 		var angle: float
 			
 		if notes_at_time.size() == 2:
@@ -532,7 +590,12 @@ class VerticalMultiPreset:
 			
 			angle = -45.0 if index == 0 else 45.0
 		else:
-			angle = -45.0 if type < 2 else 45.0
+			var sum = 0
+			for note in notes_at_time:
+				sum += note.get_meta("relative_type")
+			
+			var average = sum / notes_at_time.size()
+			angle = -45.0 if n.get_meta("relative_type") <= average else 45.0
 		
 		return angle
 	
@@ -545,60 +608,34 @@ class VerticalMultiPreset:
 class HorizontalMultiPreset:
 	extends MultiPresetTemplate
 	
-	var note_map = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.RIGHT]
-	
 	func _init(dir).(dir):
 		pass
 	
-	func check_note_is_valid(n: HBBaseNote) -> bool:
-		return n.note_type in note_map
-	
-	func process_type(n: HBBaseNote, anchor: HBBaseNote) -> int:
-		return note_map.find(n.note_type)
-
-class SliderMultiPreset:
-	extends MultiPresetTemplate
-	
-	# Dont ask
-	var note_map_normal = [0, 1, 3, 2]
-	var note_map_inner = [3, 2, 0, 1]
-	var note_map
-	var inner = 0
-	
-	func _init(dir, inr).(dir):
-		inner = inr
-		note_map = note_map_inner if inner else note_map_normal
-	
-	func check_note_is_valid(n):
-		return n.is_slide_note()
-	
-	func process_type(n, notes):
-		var point
-		for p in editor.selected:
-			if p.data == n:
-				point = p
-				break
+	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
+		var type := 0
 		
-		var layer = 1 if "2" in point._layer.layer_name else 0
+		if group_type == GROUP_TYPE.ALL_NOTES:
+			type = note_map.find(n.note_type)
+		elif group_type == GROUP_TYPE.OPPOSING_SLIDES:
+			if n.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+				type = 2
+				
+				if n.get_meta("second_layer", false):
+					type -= 2
+			elif n.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+				type = 1
+				
+				if n.get_meta("second_layer", false):
+					type += 2
+			
+		elif group_type == GROUP_TYPE.SIMILAR_SLIDES:
+			if n.get_meta("second_layer", false):
+				type += 1
+			
+			if n.note_type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+				type += 2
 		
-		var type = (n.note_type - 4) * 2
-		type += layer
-		
-		var index = note_map.find(type)
-		
-		return index
-	
-	func process_angle(n, type, notes_at_time):
-		return 110.0 if type < 2 else 70.0
-	
-	func modify_angle(a):
-		if direction == 1:
-			a = -a
-		
-		if inner:
-			return a
-		else:
-			return fmod((-a + 180), 360)
+		return type
 
 class QuadPreset:
 	extends EditorTransformation
