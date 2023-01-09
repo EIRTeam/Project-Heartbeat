@@ -129,6 +129,9 @@ func timing_information_changed():
 func sync_inspector_values():
 	editor.inspector.sync_visible_values_with_data()
 
+func force_game_process():
+	editor.force_game_process()
+
 func get_layers() -> Array:
 	return editor.timeline.get_layers()
 

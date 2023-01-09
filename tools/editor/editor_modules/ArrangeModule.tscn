@@ -464,3 +464,4 @@ transform_id = 11
 action = "editor_rotate_screen_center"
 
 [node name="ArrangeMenu" parent="." index="1" instance=ExtResource( 14 )]
+visible = false

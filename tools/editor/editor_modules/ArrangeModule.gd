@@ -39,7 +39,7 @@ func _ready():
 	
 	for i in range(autoarrange_shortcuts.size()):
 		add_shortcut(autoarrange_shortcuts[i], "_apply_arrange_shortcut", [i])
-	add_shortcut("editor_arrange_center", "arrange_selected_notes_by_time", [null, false])
+	add_shortcut("editor_arrange_center", "arrange_selected_notes_by_time", [null, false, false])
 	
 	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
 	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
@@ -67,6 +67,14 @@ func _ready():
 	rotation_angle_slider.share(rotation_angle_spinbox)
 	
 	rotation_angle_spinbox.connect("value_changed", self, "_set_rotation_angle")
+	
+	remove_child(arrange_menu)
+
+func set_editor(p_editor):
+	.set_editor(p_editor)
+	
+	editor.game_preview.add_child(arrange_menu)
+	editor.game_preview.rect_clip_content = true
 
 var arranging := false
 func _input(event: InputEvent):
@@ -79,11 +87,13 @@ func _input(event: InputEvent):
 		if selected and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
 			arranging = true
 			arrange_menu.popup()
-			arrange_menu.set_global_position(get_global_mouse_position())
+			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120))
 			
 			selected.sort_custom(self, "_order_items")
-			first_note = selected[0].data.clone()
-			last_note = selected[-1].data.clone()
+			
+			original_notes.clear()
+			for item in selected:
+				original_notes.append(item.data.clone())
 	elif event.is_action_released("editor_show_arrange_menu") and arranging:
 		arranging = false
 		arrange_menu.hide()
@@ -94,8 +104,7 @@ func _input(event: InputEvent):
 		commit_selected_property_change("oscillation_frequency", false)
 		undo_redo.commit_action()
 		
-		first_note = null
-		last_note = null
+		original_notes.clear()
 
 func user_settings_changed():
 	circle_size_spinbox.value = UserSettings.user_settings.editor_circle_size
@@ -116,7 +125,10 @@ func update_shortcuts():
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.text = \
 			"Hold " + get_event_text(arrange_ev) + " for quick placing."
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.hint_tooltip = \
-			"The arrange wheel helps you place notes quickly. \nHold Shift for reverse arranging. \nShortcut: " + get_event_text(arrange_ev)
+			"The arrange wheel helps you place notes quickly.\n" + \
+			"Hold Shift for reverse arranging.\n" + \
+			"Hold Control to toggle automatic angles.\n" + \
+			"Shortcut: " + get_event_text(arrange_ev)
 	else:
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.hide()
 	
@@ -130,12 +142,12 @@ func update_shortcuts():
 	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.hint_tooltip += "\nShortcut (decrease): " + get_event_text(size_down_ev)
 
 
-func _update_slope_info(angle: float, reverse: bool):
+func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
 	arrange_angle_spinbox.value = rad2deg(fmod(-angle + 2*PI, 2*PI))
 	reverse_arrange_checkbox.pressed = reverse
 
 func _apply_arrange():
-	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed)
+	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
 
 func _apply_arrange_shortcut(direction: int):
 	var angle = 45
@@ -148,18 +160,17 @@ func _apply_arrange_shortcut(direction: int):
 			angle = -angle
 			angle += 180
 
-		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed)
+		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed, false)
 	else:
-		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed)
+		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
 
 
 func _order_items(a, b):
 	return a.data.time < b.data.time
 
 # Arranges the selected notes in the playarea by a certain distances
-var first_note: HBBaseNote
-var last_note: HBBaseNote
-func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = false):
+var original_notes: Array
+func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool, preview_only: bool = false):
 	if reverse:
 		angle += PI
 	
@@ -169,8 +180,9 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 		return
 	
 	if not preview_only:
-		first_note = selected[0].data
-		last_note = selected[-1].data
+		original_notes = []
+		for item in selected:
+			original_notes.append(item.data)
 		undo_redo.create_action("Arrange selected notes by time")
 	
 	var separation: Vector2 = Vector2.ZERO
@@ -193,9 +205,9 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 	var slide_index := 0
 	var eight_map := get_normalized_timing_map()
 	
-	var anchor = first_note
+	var anchor = original_notes[0]
 	if reverse:
-		anchor = last_note
+		anchor = original_notes[-1]
 	
 	pos_compensation = anchor.position
 	time_compensation = anchor.time
@@ -243,15 +255,24 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 			else:
 				time_compensation = selected_item.data.time
 	
-	for selected_item in selected:
-		if selected_item.data is HBBaseNote and selected.size() > 2:
-			var new_angle_params = autoangle(selected_item.data, selected[0].data.position, angle)
+	for i in range(selected.size()):
+		var selected_item = selected[i]
+		var note = selected_item.data
+		
+		if note is HBBaseNote:
+			var autoangle_enabled := UserSettings.user_settings.editor_auto_angle
+			if toggle_autoangle:
+				autoangle_enabled = not autoangle_enabled
+			
+			var new_angle_params = [original_notes[i].entry_angle, original_notes[i].oscillation_frequency]
+			if autoangle_enabled:
+				new_angle_params = autoangle(note, selected[0].data.position, angle)
 			
 			if not preview_only:
-				undo_redo.add_do_property(selected_item.data, "entry_angle", new_angle_params[0])
-				undo_redo.add_undo_property(selected_item.data, "entry_angle", selected_item.data.entry_angle)
-				undo_redo.add_do_property(selected_item.data, "oscillation_frequency", new_angle_params[1])
-				undo_redo.add_undo_property(selected_item.data, "oscillation_frequency", selected_item.data.oscillation_frequency)
+				undo_redo.add_do_property(note, "entry_angle", new_angle_params[0])
+				undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
+				undo_redo.add_do_property(note, "oscillation_frequency", new_angle_params[1])
+				undo_redo.add_undo_property(note, "oscillation_frequency", note.oscillation_frequency)
 				
 				undo_redo.add_do_method(selected_item, "update_widget_data")
 				undo_redo.add_undo_method(selected_item, "update_widget_data")
@@ -267,13 +288,12 @@ func arrange_selected_notes_by_time(angle, reverse: bool, preview_only: bool = f
 		
 		undo_redo.commit_action()
 		
-		first_note = null
-		last_note = null
+		original_notes.clear()
 	else:
 		timing_points_params_changed()
 
 func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
-	if UserSettings.user_settings.editor_auto_angle and arrange_angle != null:
+	if arrange_angle != null:
 		var new_angle: float
 		var oscillation_frequency = abs(note.oscillation_frequency)
 		

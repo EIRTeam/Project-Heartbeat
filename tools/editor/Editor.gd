@@ -1368,7 +1368,6 @@ func _on_PlayButton_pressed():
 
 # Fired when any timing point tells the game to rethink its existence
 func _on_timing_points_changed():
-	game_playback.chart = get_chart()
 	_on_PauseButton_pressed(true)
 	emit_signal("timing_points_changed")
 

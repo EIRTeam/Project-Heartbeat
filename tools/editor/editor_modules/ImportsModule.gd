@@ -242,7 +242,7 @@ class MIDIImporter:
 		emit_signal("finished_processing")
 
 var importers = [
-	{"name": "DSC", "importer": DSCImporter},
+	{"name": "DSC file", "importer": DSCImporter},
 	{"name": "PPD chart", "importer": PPDImporter},
 	{"name": "Comfy Studio chart", "importer": ComfyImporter},
 	{"name": "F2nd edit", "importer": EditImporter},

@@ -67,7 +67,6 @@ func _on_resized():
 func pause():
 	video_player.paused = true
 func _process(delta):
-	$Label.visible = true
 	if $Label.visible:
 		$Label.text = HBUtils.format_time(game.time * 1000.0)
 		$Label.text += "\n BPM: " + str(game.get_note_speed_at_time(game.time * 1000.0))
