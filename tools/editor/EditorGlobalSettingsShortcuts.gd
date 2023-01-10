@@ -51,6 +51,7 @@ const EDITOR_EVENTS = {
 		"editor_delete",
 	],
 	"Notes": [
+		"editor_make_normal",
 		"editor_toggle_hold",
 		"editor_toggle_sustain",
 		"editor_toggle_double",

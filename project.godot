@@ -249,11 +249,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/editor/HBEditorMultiSpinBox.gd"
 }, {
-"base": "Node",
-"class": "HBEditorPlugin",
-"language": "GDScript",
-"path": "res://tools/editor/editor_plugins/EditorPlugin.gd"
-}, {
 "base": "Control",
 "class": "HBEditorSettings",
 "language": "GDScript",
@@ -1163,7 +1158,6 @@ _global_script_class_icons={
 "HBEditorModule": "",
 "HBEditorMovementGizmo": "",
 "HBEditorMultiSpinBox": "",
-"HBEditorPlugin": "",
 "HBEditorSettings": "",
 "HBEditorSkinPicker": "",
 "HBEditorSpinBox": "",
@@ -2260,6 +2254,10 @@ editor_new_script={
  ]
 }
 editor_open_scripts_dir={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_make_normal={
 "deadzone": 0.5,
 "events": [  ]
 }

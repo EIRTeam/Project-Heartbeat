@@ -13,7 +13,6 @@ signal paused
 
 const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
-const EDITOR_PLUGINS_DIR = "res://tools/editor/editor_plugins"
 const EDITOR_MODULES_DIR = "res://tools/editor/editor_modules"
 
 onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
@@ -68,12 +67,10 @@ var current_difficulty: String
 var snap_to_grid_enabled = true
 
 var timeline_snap_enabled = true
-	
+
 var undo_redo = UndoRedo.new()
 
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
-	
-var plugins := []
 
 onready var fine_position_timer = Timer.new()
 
@@ -120,25 +117,6 @@ func insert_note_at_time(item: EditorTimelineItem):
 	var pos = current_notes.bsearch_custom(item.data.time, self, "_insert_note_at_time_bsearch")
 	current_notes.insert(pos, item)
 
-func load_plugins():
-	var dir := Directory.new()
-	var file = File.new()
-	if dir.open(EDITOR_PLUGINS_DIR) == OK:
-		dir.list_dir_begin()
-		var dir_name = dir.get_next()
-		while dir_name != "":
-			if dir.current_is_dir() and not dir_name.begins_with("."):
-				var plugin_script_path = EDITOR_PLUGINS_DIR + "/%s/%s.gd" % [dir_name, dir_name]
-				if not dir.file_exists(plugin_script_path):
-					plugin_script_path = EDITOR_PLUGINS_DIR + "/%s/%s.gdc" % [dir_name, dir_name]
-				if file.file_exists(plugin_script_path):
-					var plugin = load(plugin_script_path).new(self)
-					plugins.append(plugin)
-					add_child(plugin)
-				else:
-					Log.log(self, "Error loading editor plugin %s: File not found" % [dir_name])
-			dir_name = dir.get_next()
-
 func _sort_modules(a, b):
 	return a.priority < b.priority
 
@@ -149,9 +127,14 @@ func load_modules():
 		var file_name = dir.get_next()
 		
 		while file_name != "":
-			if not dir.current_is_dir() and not file_name.begins_with(".") and file_name.ends_with(".tscn"):
-				var module = load(EDITOR_MODULES_DIR + "/" + file_name).instance()
-				modules.append(module)
+			if not dir.current_is_dir() and not file_name.begins_with("."):
+				if file_name.ends_with(".tscn"):
+					var module = load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+					modules.append(module)
+				elif file_name.ends_with(".gd"):
+					if not dir.file_exists(file_name.trim_suffix(".gd") + ".tscn") and "Module" in file_name:
+						var module = load(EDITOR_MODULES_DIR + "/" + file_name).new()
+						modules.append(module)
 			
 			file_name = dir.get_next()
 	
@@ -188,8 +171,6 @@ func _ready():
 	inspector.connect("properties_changed", self, "_change_selected_properties")
 	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
 	inspector.connect("reset_pos", self, "reset_note_position")
-	
-	load_plugins()
 	
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
@@ -443,22 +424,6 @@ func _unhandled_input(event: InputEvent):
 			fine_position_selected(off)
 			get_tree().set_input_as_handled()
 	
-	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
-		undo_redo.create_action("Toggle hold")
-		
-		for note in selected:
-			if note.data is HBNoteData:
-				undo_redo.add_do_property(note.data, "hold", not note.data.hold)
-				undo_redo.add_undo_property(note.data, "hold", note.data.hold)
-		
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-		
-		undo_redo.commit_action()
-	
 	if event.is_action("gui_undo", true) and event.pressed:
 		get_tree().set_input_as_handled()
 		apply_fine_position()
@@ -483,19 +448,6 @@ func _unhandled_input(event: InputEvent):
 					# Next action was not a merge action
 					# HACK: This seems wasteful, but since different actions can have the same version, I couldnt find a better way to do this
 					undo_redo.undo()
-	
-	if event.is_action("editor_delete", true) and event.pressed and not event.echo:
-		if selected.size() != 0:
-			get_tree().set_input_as_handled()
-			delete_selected()
-	if event.is_action("editor_paste", true) and event.pressed and not event.echo:
-		var time = timeline.get_time_being_hovered()
-		paste(time)
-	if event.is_action("editor_copy", true) and event.pressed and not event.echo:
-		copy_selected()
-	if event.is_action("editor_cut", true) and event.pressed and not event.echo:
-		copy_selected()
-		delete_selected()
 	
 	if event.is_action("editor_select_all", true) and event.pressed and not event.echo:
 		select_all()
@@ -1862,11 +1814,6 @@ func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 	if layer_name == "Sections":
 		timeline.update()
-
-func show_error(error: String):
-	$Popups/PluginErrorDialog.rect_size = Vector2.ZERO
-	$Popups/PluginErrorDialog.dialog_text = error
-	$Popups/PluginErrorDialog.popup_centered_minsize(Vector2(0, 0))
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):

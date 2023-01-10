@@ -587,7 +587,7 @@ func create_bpm_transition():
 	
 	editor.undo_redo.commit_action()
 
-func get_time_being_hovered():
+func get_time_being_hovered() -> int:
 	return editor.snap_time_to_timeline(editor.scale_pixels(get_layers()[0].get_local_mouse_position().x))
 
 func get_selection_rect():

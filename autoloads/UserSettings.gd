@@ -215,6 +215,7 @@ func fill_localized_arrays():
 		"editor_paste": tr("Paste notes"),
 		"editor_delete": tr("Delete notes"),
 		#  Notes
+		"editor_make_normal": tr("Convert to normal note"),
 		"editor_toggle_hold": tr("Toggle hold"),
 		"editor_toggle_sustain": tr("Toggle sustain"),
 		"editor_toggle_double": tr("Toggle double"),
@@ -260,7 +261,7 @@ func fill_localized_arrays():
 		"editor_flip_angle": tr("Flip angle"),
 		"editor_flip_oscillation": tr("Flip oscillation"),
 		"editor_move_angles_closer": tr("Move angles towards the first note"),
-		"editor_move_angles_away": tr("Mowe angles away from the first note"),
+		"editor_move_angles_away": tr("Move angles away from the first note"),
 		"editor_move_angles_closer_back": tr("Move angles towards the last note"),
 		"editor_move_angles_away_back": tr("Move angles away from the last note"),
 		"editor_angle_l": tr("Set angle to 180º"),

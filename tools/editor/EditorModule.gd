@@ -36,10 +36,13 @@ func set_editor(_editor: HBEditor):
 	editor.connect("modules_update_user_settings", self, "user_settings_changed")
 	
 	# Add module to GUI
-	parent = editor.get_node(editor.ui_module_locations[module_location]) as TabContainer
-	parent.add_child(self)
-	tab_idx = parent.get_tab_count() - 1
-	parent.set_tab_title(tab_idx, module_name)
+	if module_location:
+		parent = editor.get_node(editor.ui_module_locations[module_location]) as TabContainer
+		parent.add_child(self)
+		tab_idx = parent.get_tab_count() - 1
+		parent.set_tab_title(tab_idx, module_name)
+	else:
+		editor.add_child(self)
 	
 	connect("show_transform", editor, "_show_transform_on_current_notes")
 	connect("hide_transform", editor.game_preview.transform_preview, "hide")
@@ -63,6 +66,7 @@ func _input(event: InputEvent):
 	
 	if event is InputEventKey or event is InputEventMouseButton:
 		for shortcut in shortcuts:
+			print(shortcut.action)
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):
 				var function = FuncRef.new()
 				function.set_function(shortcut.function)
@@ -205,3 +209,15 @@ func obscure_ui(extended: bool = true):
 
 func reveal_ui(extended: bool = true):
 	editor.reveal_ui(extended)
+
+func get_contextual_menu() -> HBEditorContextualMenuControl:
+	return editor.contextual_menu
+
+func get_time_being_hovered() -> int:
+	return editor.timeline.get_time_being_hovered()
+
+func get_items_at_time(time: int) -> Array:
+	return editor.get_items_at_time(time)
+
+func get_notes_at_time(time: int) -> Array:
+	return editor.get_notes_at_time(time)
