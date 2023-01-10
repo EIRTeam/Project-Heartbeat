@@ -220,3 +220,9 @@ func get_items_at_time(time: int) -> Array:
 
 func get_notes_at_time(time: int) -> Array:
 	return editor.get_notes_at_time(time)
+
+func get_timing_points() -> Array:
+	return editor.get_timing_points()
+
+func get_timeline_items() -> Array:
+	return editor.get_timeline_items()

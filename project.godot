@@ -2261,6 +2261,28 @@ editor_make_normal={
 "deadzone": 0.5,
 "events": [  ]
 }
+editor_shift_selection_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":74,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+editor_shift_selection_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":76,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+editor_select_2nd={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_3rd={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_4th={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

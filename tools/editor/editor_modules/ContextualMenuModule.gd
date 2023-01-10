@@ -5,12 +5,18 @@ var offset_spinbox
 var hovered_time = 0
 
 var button_change_submenu: PopupMenu
+var selection_modifier_submenu: HBEditorContextualMenuControl
 
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
 func _ready():
-	for action in ["make_normal", "toggle_double", "toggle_sustain", "toggle_hold"]:
+	for action in  ["make_normal", "toggle_double", "toggle_sustain", "toggle_hold", \
+					"select_all", "deselect", "shift_selection_left", "shift_selection_right", \
+					"select_2nd", "select_3rd", "select_4th"]:
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
+	
+	add_shortcut("editor_change_note_up", "change_note_button_by", [-1])
+	add_shortcut("editor_change_note_down", "change_note_button_by", [1])
 
 func get_shortcut_from_action(action: String) -> int:
 	var action_list = InputMap.get_action_list(action)
@@ -31,16 +37,35 @@ func set_editor(p_editor):
 	
 	contextual_menu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
 	
+	selection_modifier_submenu = HBEditorContextualMenuControl.new()
+	selection_modifier_submenu.name = "SelectionModifierSubmenu"
+	selection_modifier_submenu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
+	
+	selection_modifier_submenu.add_contextual_item("Select all", "select_all")
+	selection_modifier_submenu.add_contextual_item("Deselect", "deselect")
+	
+	selection_modifier_submenu.add_contextual_item("Shift selection Left", "shift_selection_left")
+	selection_modifier_submenu.add_contextual_item("Shift selection Right", "shift_selection_right")
+	
+	selection_modifier_submenu.add_contextual_item("Select every 2nd note", "select_2nd")
+	selection_modifier_submenu.add_contextual_item("Select every 3rd note", "select_3rd")
+	selection_modifier_submenu.add_contextual_item("Select every 4th note", "select_4th")
+	
+	contextual_menu.add_child(selection_modifier_submenu)
+	contextual_menu.add_submenu_item("Modify selection", "SelectionModifierSubmenu")
+	
+	contextual_menu.add_separator()
+	
 	button_change_submenu = PopupMenu.new()
 	button_change_submenu.name = "ChangeButtonSubmenu"
 	button_change_submenu.connect("index_pressed", self, "_on_button_change_submenu_index_pressed")
 	
-	contextual_menu.add_child(button_change_submenu)
-	contextual_menu.add_submenu_item("Change type", "ChangeButtonSubmenu")
-	
 	for type in BUTTON_CHANGE_ALLOWED_TYPES:
 		var pretty_name = type.capitalize()
 		button_change_submenu.add_item(pretty_name)
+	
+	contextual_menu.add_child(button_change_submenu)
+	contextual_menu.add_submenu_item("Change note type", "ChangeButtonSubmenu")
 	
 	contextual_menu.add_separator()
 	
@@ -57,6 +82,10 @@ func update_shortcuts():
 	# We havent created the items yet
 	if not contextual_menu.name_id_map:
 		return
+	
+	for action in ["select_all", "deselect", "shift_selection_left", "shift_selection_right", \
+				   "select_2nd", "select_3rd", "select_4th"]:
+		selection_modifier_submenu.set_contextual_item_accelerator(action, get_shortcut_from_action("editor_" + action))
 	
 	for i in range(button_change_submenu.get_item_count()):
 		var name = button_change_submenu.get_item_text(i)
@@ -79,6 +108,20 @@ func update_shortcuts():
 
 func _on_contextual_menu_item_pressed(item_name: String):
 	match item_name:
+		"select_all":
+			select_all()
+		"deselect":
+			deselect_all()
+		"shift_selection_left":
+			shift_selection_by(-1)
+		"shift_selection_right":
+			shift_selection_by(1)
+		"select_2nd":
+			select_subset(2)
+		"select_3rd":
+			select_subset(3)
+		"select_4th":
+			select_subset(4)
 		"make_normal":
 			change_note_type("Note")
 		"toggle_double":
@@ -505,21 +548,35 @@ func toggle_hold():
 func _sort_by_data_time(a, b):
 	return a.data.time < b.data.time
 
+func shift_selection_by(by: int):
+	var items := get_timeline_items()
+	items.sort_custom(self, "_sort_by_data_time")
+	
+	var selected := get_selected()
+	
+	var new_selected := []
+	for i in range(items.size()):
+		if items[i] in selected:
+			var j = clamp(i + by, 0, items.size() - 1)
+			
+			new_selected.append(items[j])
+	
+	deselect_all()
+	for item in new_selected:
+		select_item(item, true)
 
-func _unhandled_input(event):
-	if shortcuts_blocked():
+func select_subset(subset: int):
+	var selected := get_selected()
+	if selected.size() < 1:
 		return
 	
-	if event.is_action("editor_change_note_up", true) and event.pressed:
-		change_note_button_by(-1)
-	elif event.is_action("editor_change_note_down", true) and event.pressed:
-		change_note_button_by(1)
+	var new_selected := []
+	for i in range(selected.size()):
+		if i % subset != 0:
+			continue
+		
+		new_selected.append(selected[i])
 	
-	if event.is_action("editor_make_normal", true) and event.pressed and not event.echo:
-		change_note_type("HBBaseNote")
-	if event.is_action("editor_toggle_sustain", true) and event.pressed and not event.echo:
-		toggle_sustain()
-	if event.is_action("editor_toggle_double", true) and event.pressed and not event.echo:
-		toggle_double()
-	if event.is_action("editor_toggle_hold", true) and event.pressed and not event.echo:
-		toggle_hold()
+	deselect_all()
+	for item in new_selected:
+		select_item(item, true)

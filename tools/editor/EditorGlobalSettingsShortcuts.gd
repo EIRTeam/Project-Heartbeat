@@ -45,6 +45,11 @@ const EDITOR_EVENTS = {
 	"Selection": [
 		"editor_select_all",
 		"editor_deselect",
+		"editor_shift_selection_left",
+		"editor_shift_selection_right",
+		"editor_select_2nd",
+		"editor_select_3rd",
+		"editor_select_4th",
 		"editor_cut",
 		"editor_copy",
 		"editor_paste",

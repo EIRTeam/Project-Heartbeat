@@ -210,6 +210,11 @@ func fill_localized_arrays():
 		#  Selection
 		"editor_select_all": tr("Select all"),
 		"editor_deselect": tr("Deselect"),
+		"editor_shift_selection_left": tr("Shift selection left"),
+		"editor_shift_selection_right": tr("Shift selection right"),
+		"editor_select_2nd": tr("Select every 2nd note"),
+		"editor_select_3rd": tr("Select every 3rd note"),
+		"editor_select_4th": tr("Select every 4th note"),
 		"editor_cut": tr("Cut notes"),
 		"editor_copy": tr("Copy notes"),
 		"editor_paste": tr("Paste notes"),

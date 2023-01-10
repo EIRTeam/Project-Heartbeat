@@ -448,11 +448,6 @@ func _unhandled_input(event: InputEvent):
 					# HACK: This seems wasteful, but since different actions can have the same version, I couldnt find a better way to do this
 					undo_redo.undo()
 	
-	if event.is_action("editor_select_all", true) and event.pressed and not event.echo:
-		select_all()
-	if event.is_action("editor_deselect", true) and event.pressed and not event.echo:
-		deselect_all()
-	
 	if not game_playback.is_playing():
 		var old_pos = playhead_position
 		
@@ -489,6 +484,7 @@ func _unhandled_input(event: InputEvent):
 							var data = item.data as HBBaseNote
 							if not data:
 								continue
+							
 							var new_data_ser = data.serialize()
 							
 							new_data_ser["note_type"] = type
@@ -496,6 +492,9 @@ func _unhandled_input(event: InputEvent):
 							# Fallbacks when converting illegal note types
 							if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
 								new_data_ser["type"] = "Note"
+								new_data_ser["hold"] = false
+							elif type == HBBaseNote.NOTE_TYPE.HEART:
+								new_data_ser["hold"] = false
 							
 							var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 							
@@ -504,11 +503,9 @@ func _unhandled_input(event: InputEvent):
 							var new_item = new_data.get_timeline_item()
 							
 							undo_redo.add_do_method(self, "add_item_to_layer", layer, new_item)
-							undo_redo.add_do_method(item, "deselect")
 							undo_redo.add_undo_method(self, "remove_item_from_layer", layer, new_item)
 							
 							undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-							undo_redo.add_undo_method(new_item, "deselect")
 							undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
 						
 						undo_redo.add_do_method(self, "deselect_all")
@@ -556,7 +553,6 @@ func _unhandled_input(event: InputEvent):
 	
 	if event.is_action_pressed("editor_show_docs", false, true):
 		pass # Reserve
-
 
 func _note_comparison(a, b):
 	return a.time > b.time
