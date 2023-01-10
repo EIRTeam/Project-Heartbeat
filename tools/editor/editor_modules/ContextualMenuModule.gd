@@ -2,11 +2,6 @@ extends HBEditorModule
 
 var offset_spinbox
 
-var delete_icon = preload("res://tools/icons/icon_remove.svg")
-var cut_icon = preload("res://tools/icons/ActionCut.svg")
-var copy_icon = preload("res://tools/icons/icon_action_copy.svg")
-var paste_icon = preload("res://tools/icons/icon_action_paste.svg")
-var interp_icon = preload("res://tools/icons/InterpLinear.svg")
 var hovered_time = 0
 
 var button_change_submenu: PopupMenu
@@ -14,7 +9,7 @@ var button_change_submenu: PopupMenu
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
 func _ready():
-	for action in ["copy", "cut", "paste", "delete", "make_normal", "toggle_double", "toggle_sustain", "toggle_hold"]:
+	for action in ["make_normal", "toggle_double", "toggle_sustain", "toggle_hold"]:
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
 
 func get_shortcut_from_action(action: String) -> int:
@@ -33,22 +28,8 @@ func set_editor(p_editor):
 	
 	var contextual_menu := get_contextual_menu()
 	contextual_menu.connect("about_to_show", self, "_on_contextual_menu_about_to_show")
-
+	
 	contextual_menu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
-	
-	contextual_menu.add_contextual_item("Copy", "copy")
-	contextual_menu.set_contextual_item_icon("copy", copy_icon)
-	
-	contextual_menu.add_contextual_item("Cut", "cut")
-	contextual_menu.set_contextual_item_icon("cut", cut_icon)
-	
-	contextual_menu.add_contextual_item("Paste", "paste")
-	contextual_menu.set_contextual_item_icon("paste", paste_icon)
-	
-	contextual_menu.add_contextual_item("Delete", "delete")
-	contextual_menu.set_contextual_item_icon("delete", delete_icon)
-	
-	contextual_menu.add_separator()
 	
 	button_change_submenu = PopupMenu.new()
 	button_change_submenu.name = "ChangeButtonSubmenu"
@@ -77,11 +58,6 @@ func update_shortcuts():
 	if not contextual_menu.name_id_map:
 		return
 	
-	contextual_menu.set_contextual_item_accelerator("copy", get_shortcut_from_action("editor_copy"))
-	contextual_menu.set_contextual_item_accelerator("cut", get_shortcut_from_action("editor_cut"))
-	contextual_menu.set_contextual_item_accelerator("paste", get_shortcut_from_action("editor_paste"))
-	contextual_menu.set_contextual_item_accelerator("delete", get_shortcut_from_action("editor_delete"))
-	
 	for i in range(button_change_submenu.get_item_count()):
 		var name = button_change_submenu.get_item_text(i)
 		
@@ -103,15 +79,6 @@ func update_shortcuts():
 
 func _on_contextual_menu_item_pressed(item_name: String):
 	match item_name:
-		"copy":
-			editor.copy_selected()
-		"cut":
-			editor.copy_selected()
-			editor.delete_selected()
-		"paste":
-			editor.paste(hovered_time)
-		"delete":
-			editor.delete_selected()
 		"make_normal":
 			change_note_type("Note")
 		"toggle_double":
@@ -210,8 +177,11 @@ func _on_contextual_menu_about_to_show():
 	
 	var disable_all = get_selected().size() <= 0
 	
-	for item in ["delete", "cut", "copy", "interpolate", "make_normal", "toggle_sustain", "toggle_double", "toggle_hold"]:
+	for item in ["make_normal", "toggle_sustain", "toggle_double", "toggle_hold"]:
 		contextual_menu.set_contextual_item_disabled(item, disable_all)
+	
+	for i in range(button_change_submenu.get_item_count()):
+		button_change_submenu.set_item_disabled(i, disable_all)
 	
 	if disable_all:
 		return

@@ -18,12 +18,17 @@ const SELECT_MODE = {
 
 onready var layers = get_node("VBoxContainer/ScrollContainer/HBoxContainer/Layers/LayerControl")
 onready var layer_names = get_node("VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/LayerNames")
-onready var playhead_area = get_node("VBoxContainer/HBoxContainer/PlayheadArea")
+onready var playhead_area = get_node("VBoxContainer/Panel/HBoxContainer/PlayheadArea")
 onready var scroll_container = get_node("VBoxContainer/ScrollContainer")
 onready var minimap = get_node("VBoxContainer/Minimap")
-onready var playhead_container = get_node("VBoxContainer/HBoxContainer")
+onready var playhead_container = get_node("VBoxContainer/Panel")
 onready var stream_editor = get_node("PHAudioStreamEditor")
 onready var modifier_texture = get_node("TextureRect")
+
+onready var copy_button: Button = get_node("%CopyButton")
+onready var cut_button: Button = get_node("%CutButton")
+onready var paste_button: Button = get_node("%PasteButton")
+onready var delete_button: Button = get_node("%DeleteButton")
 
 var editor: HBEditor setget set_editor
 var _offset = 0
@@ -45,17 +50,28 @@ var modifier_textures = {
 func set_editor(ed):
 	editor = ed
 	minimap.editor = ed
+	
+	# Load an empty chart
+	var chart = HBChart.new()
+	for layer in chart.layers:
+		var layer_scene = EDITOR_LAYER_SCENE.instance()
+		layer_scene.layer_name = layer.name
+		add_layer(layer_scene)
+	
+	update_selected()
 
 
 func _ready():
-	update()
 	connect("resized", self, "_on_viewport_size_changed")
+	connect("time_cull_changed", minimap, "_on_time_cull_changed")
+	
 	scroll_container.connect("zoom_in", self, "_on_zoom_in")
 	scroll_container.connect("zoom_out", self, "_on_zoom_out")
 	scroll_container.connect("offset_left", self, "_on_offset_left")
 	scroll_container.connect("offset_right", self, "_on_offset_right")
-	connect("time_cull_changed", minimap, "_on_time_cull_changed")
+	
 	minimap.connect("offset_changed", self, "set_layers_offset")
+	minimap.connect("resized", self, "update")
 
 func _on_offset_left():
 	set_layers_offset(_offset - 200)
@@ -154,7 +170,9 @@ func _draw_timing_lines():
 
 func _draw():
 	_draw_area_select()
+	
 	draw_set_transform(Vector2(0, playhead_area.rect_position.y + playhead_area.rect_size.y), 0, Vector2.ONE)
+	
 	_draw_timing_lines()
 	_draw_playhead()
 	_draw_sections()
@@ -162,21 +180,25 @@ func _draw():
 
 func get_playhead_area_y_pos():
 	return playhead_container.rect_position.y - playhead_area.rect_size.y
+
 func calculate_playhead_position():
 	var x_pos = playhead_area.rect_position.x + layers.rect_position.x + editor.scale_msec(editor.playhead_position)
+	
 	return Vector2(x_pos, get_playhead_area_y_pos())
 
 func _draw_playhead():
 	if editor.playhead_position > _offset-1:
 		var playhead_pos = calculate_playhead_position()
 		_prev_playhead_position = playhead_pos
-	
-		draw_line(playhead_pos + Vector2(0, playhead_area.rect_size.y), playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
+		
+		var y_offset = Vector2(0, playhead_area.rect_size.y)
+		
+		draw_line(playhead_pos + y_offset, playhead_pos+Vector2(0.0, rect_size.y), Color(1.0, 0.0, 0.0), 1.0)
 		
 		# Draw playhead triangle
-		var point1 = playhead_pos + Vector2(0, playhead_area.rect_size.y)
-		var point2 = playhead_pos + Vector2(TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
-		var point3 = playhead_pos + Vector2(-TRIANGLE_HEIGHT/2.0, playhead_area.rect_size.y - TRIANGLE_HEIGHT)
+		var point1 = playhead_pos + y_offset
+		var point2 = playhead_pos + y_offset + Vector2(TRIANGLE_HEIGHT/2.0, -TRIANGLE_HEIGHT)
+		var point3 = playhead_pos + y_offset + Vector2(-TRIANGLE_HEIGHT/2.0, -TRIANGLE_HEIGHT)
 		
 		draw_colored_polygon(PoolVector2Array([point1, point2, point3]), Color.red, PoolVector2Array(), null, null, true)
 
@@ -286,7 +308,7 @@ func _on_PlayheadArea_double_click():
 
 func _on_playhead_position_changed():
 	update()
-	$VBoxContainer/HBoxContainer/PlayheadPosText/Label.text = HBUtils.format_time(editor.playhead_position)
+
 var _prev_layers_rect_position
 func set_layers_offset(ms: int):
 	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
@@ -707,7 +729,6 @@ func find_layer_by_name(name) -> EditorLayer:
 	
 	return r
 
-
 func _on_HBoxContainer_item_rect_changed():
 	update()
 
@@ -715,3 +736,27 @@ func layer_visible(layer_name: String) -> bool:
 	var layer := find_layer_by_name(layer_name)
 	
 	return layer.visible
+
+func update_selected():
+	copy_button.disabled = editor.selected.size() == 0
+	cut_button.disabled = editor.selected.size() == 0
+	paste_button.disabled = editor.copied_points.size() == 0
+	delete_button.disabled = editor.selected.size() == 0
+
+func _copy():
+	editor.copy_selected()
+
+func _cut():
+	editor.copy_selected()
+	editor.delete_selected()
+
+func _paste():
+	var time = editor.playhead_position
+	
+	if paste_button.by_shortcut:
+		time = clamp(editor.scale_pixels(int(get_local_mouse_position().x - playhead_area.rect_position.x)) + _offset, _offset, editor.get_song_length() * 1000.0)
+	
+	editor.paste(editor.snap_time_to_timeline(time))
+
+func _delete():
+	editor.delete_selected()

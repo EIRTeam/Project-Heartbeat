@@ -66,7 +66,6 @@ func _input(event: InputEvent):
 	
 	if event is InputEventKey or event is InputEventMouseButton:
 		for shortcut in shortcuts:
-			print(shortcut.action)
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):
 				var function = FuncRef.new()
 				function.set_function(shortcut.function)

@@ -6,6 +6,8 @@ export(bool) var check_visibility := true
 
 var og_hint: String = ""
 
+var by_shortcut := false
+
 func _ready():
 	og_hint = hint_tooltip
 	update_shortcuts()
@@ -14,6 +16,8 @@ func _toggled(_pressed: bool):
 	release_focus()
 
 func _pressed():
+	by_shortcut = false
+	
 	release_focus()
 
 func _unhandled_input(event):
@@ -22,6 +26,8 @@ func _unhandled_input(event):
 		return
 	
 	if event.is_action_pressed(action, false, true):
+		by_shortcut = true
+		
 		if toggle_mode:
 			pressed = !pressed
 		else:

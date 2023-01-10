@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://tools/editor/EditorMinimap.gd" type="Script" id=1]
+[ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=2]
+[ext_resource path="res://tools/icons/ActionCut.svg" type="Texture" id=3]
+[ext_resource path="res://tools/icons/icon_action_copy.svg" type="Texture" id=4]
+[ext_resource path="res://tools/icons/icon_action_paste.svg" type="Texture" id=5]
 [ext_resource path="res://tools/editor/EditorTimeline.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/timeline/TimelinePlayheadArea.gd" type="Script" id=7]
+[ext_resource path="res://tools/editor/HBEditorSimpleButton.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
@@ -85,37 +90,76 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="VBoxContainer"]
 margin_top = 40.0
 margin_right = 1920.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 40 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 40 )
 custom_constants/separation = 0
 
-[node name="PlayheadPosText" type="Panel" parent="VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/HBoxContainer"]
 margin_right = 174.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
+alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PlayheadPosText"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CopyButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
+unique_name_in_owner = true
+margin_left = 25.0
+margin_right = 53.0
+margin_bottom = 40.0
+hint_tooltip = "Copy the selected notes."
+icon = ExtResource( 4 )
+flat = true
+script = ExtResource( 8 )
+action = "editor_copy"
 
-[node name="PlayheadArea" type="Panel" parent="VBoxContainer/HBoxContainer"]
+[node name="CutButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
+unique_name_in_owner = true
+margin_left = 57.0
+margin_right = 85.0
+margin_bottom = 40.0
+hint_tooltip = "Cut the selected notes."
+icon = ExtResource( 3 )
+flat = true
+script = ExtResource( 8 )
+action = "editor_cut"
+
+[node name="PasteButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
+unique_name_in_owner = true
+margin_left = 89.0
+margin_right = 117.0
+margin_bottom = 40.0
+hint_tooltip = "Paste the selected notes."
+icon = ExtResource( 5 )
+flat = true
+script = ExtResource( 8 )
+action = "editor_paste"
+
+[node name="DeleteButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer/HBoxContainer" groups=["update_shortcuts"]]
+unique_name_in_owner = true
+margin_left = 121.0
+margin_right = 149.0
+margin_bottom = 40.0
+hint_tooltip = "Delete the selected notes."
+icon = ExtResource( 2 )
+flat = true
+script = ExtResource( 8 )
+action = "editor_delete"
+
+[node name="PlayheadArea" type="Control" parent="VBoxContainer/Panel/HBoxContainer"]
 margin_left = 174.0
 margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
-custom_styles/panel = SubResource( 1 )
 script = ExtResource( 7 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
@@ -188,9 +232,6 @@ theme = SubResource( 4 )
 color = Color( 1, 1, 1, 0 )
 color = Color( 1, 1, 1, 0 )
 rms_size_multiplier = 0.25
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
@@ -203,6 +244,10 @@ margin_right = 20.0
 margin_bottom = 20.0
 expand = true
 
-[connection signal="item_rect_changed" from="VBoxContainer/HBoxContainer" to="." method="_on_HBoxContainer_item_rect_changed"]
-[connection signal="double_click" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_double_click"]
-[connection signal="mouse_x_input" from="VBoxContainer/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]
+[connection signal="item_rect_changed" from="VBoxContainer/Panel/HBoxContainer" to="." method="_on_HBoxContainer_item_rect_changed"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/HBoxContainer/CopyButton" to="." method="_copy"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/HBoxContainer/CutButton" to="." method="_cut"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/HBoxContainer/PasteButton" to="." method="_paste"]
+[connection signal="pressed" from="VBoxContainer/Panel/HBoxContainer/HBoxContainer/DeleteButton" to="." method="_delete"]
+[connection signal="double_click" from="VBoxContainer/Panel/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_double_click"]
+[connection signal="mouse_x_input" from="VBoxContainer/Panel/HBoxContainer/PlayheadArea" to="." method="_on_PlayheadArea_mouse_x_input"]

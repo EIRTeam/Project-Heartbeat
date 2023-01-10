@@ -142,13 +142,12 @@ func load_modules():
 	for module in modules:
 		module.set_editor(self)
 
-func update_modules():
-	for module in modules:
-		module.update_shortcuts()
-
 func update_shortcuts():
 	for button in get_tree().get_nodes_in_group("update_shortcuts"):
 		button.update_shortcuts()
+	
+	for module in modules:
+		module.update_shortcuts()
 
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
@@ -377,7 +376,7 @@ func _closest_bound(array: Array, value: int) -> int:
 func _linear_bound(array: Array, value: int) -> float:
 	var idx := array.bsearch(value)
 	
-	if idx + 1 == array.size() or array[idx] == value or array[idx] == array[idx + 1]:
+	if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
 		return float(idx)
 	
 	var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
@@ -588,6 +587,7 @@ func scale_pixels(pixels: float) -> float:
 
 func notify_selected_changed():
 	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
+	timeline.update_selected()
 
 func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	if inclusive:
@@ -945,6 +945,8 @@ func copy_selected():
 			var cloned_item = timing_point_timeline_item.data.clone().get_timeline_item()
 			cloned_item._layer = timing_point_timeline_item._layer
 			copied_points.append({"item": cloned_item, "layer_name": cloned_item._layer.layer_name})
+	
+	notify_selected_changed()
 
 func paste(time: int):
 	if copied_points.size() > 0:
@@ -1009,6 +1011,10 @@ func delete_selected():
 		
 		message_shower._show_notification("Delete notes")
 		
+		undo_redo.add_do_method(self, "deselect_all")
+		undo_redo.add_undo_method(self, "deselect_all")
+		
+		var first := true
 		var sync_timing := false
 		var deleted_times := []
 		for selected_item in selected:
@@ -1026,6 +1032,11 @@ func delete_selected():
 			
 			if not deleted_times.has(selected_item.data.time):
 				deleted_times.append(selected_item.data.time)
+			
+			undo_redo.add_undo_method(self, "select_item", selected_item, not first)
+			
+			if first:
+				first = false
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -1331,8 +1342,8 @@ func get_song_length():
 	if game_playback.game.audio_playback:
 		return game_playback.game.audio_playback.get_length_msec() / 1000.0
 	else:
-		return 0.0
-		
+		return 60.0
+
 func get_chart():
 	var chart = HBChart.new()
 	var layer_items = timeline.get_layers()

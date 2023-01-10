@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 signal mouse_x_input(value)
 signal double_click()

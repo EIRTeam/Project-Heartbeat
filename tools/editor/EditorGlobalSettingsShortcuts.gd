@@ -202,7 +202,6 @@ func _on_bind_window_confirmed():
 		InputMap.action_add_event(action_name, temp_event)
 		
 		UserSettings.save_user_settings()
-		editor.update_modules()
 		editor.update_shortcuts()
 
 func set_item_text(item: TreeItem, action: String, event: InputEvent):
@@ -261,7 +260,6 @@ func reset_all_to_default():
 			set_item_text(item, action_name, event)
 	
 	UserSettings.save_user_settings()
-	editor.update_modules()
 	editor.update_shortcuts()
 
 func get_event_text(event: InputEvent):
