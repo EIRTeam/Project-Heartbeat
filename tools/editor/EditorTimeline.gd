@@ -720,9 +720,10 @@ func set_waveform(state):
 func set_audio_stream(stream: AudioStream):
 	stream_editor.edit(stream)
 
-func find_layer_by_name(name) -> EditorLayer:
+func find_layer_by_name(name: String) -> EditorLayer:
 	var r = null
 	for layer in layers.get_children():
+		print(layer.layer_name)
 		if layer.layer_name == name:
 			r = layer
 			break

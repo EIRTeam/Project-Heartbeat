@@ -19,6 +19,7 @@ class HBEditorImporter:
 	var last_dir
 	var filter setget , get_filter
 	var chart: HBChart
+	var timing_changes: Array
 	
 	func get_filter():
 		return filter
@@ -81,6 +82,7 @@ class DSCImporter:
 		var result = DSC_LOADER.convert_dsc_to_chart(path, opcode_map, offset)
 		
 		chart = result as HBChart
+		timing_changes = []
 
 class PPDImporter:
 	extends HBEditorImporter
@@ -94,6 +96,7 @@ class PPDImporter:
 		UserSettings.save_user_settings()
 		
 		chart = PPDLoader.PPD2HBChart(path, editor.get_bpm(), offset)
+		timing_changes = []
 
 class ComfyImporter:
 	extends HBEditorImporter
@@ -108,7 +111,9 @@ class ComfyImporter:
 		UserSettings.user_settings.last_csfm_dir = path.get_base_dir()
 		UserSettings.save_user_settings()
 		
-		chart = CSFM_LOADER.convert_comfy_chart(path, offset) as HBChart
+		var result = CSFM_LOADER.convert_comfy_chart(path, offset)
+		chart = result[0]
+		timing_changes = result[1]
 
 class EditImporter:
 	extends HBEditorImporter
@@ -124,6 +129,7 @@ class EditImporter:
 		UserSettings.save_user_settings()
 		
 		chart = EDIT_LOADER.convert_edit_to_chart(path, offset, vargs.custom_link_stars) as HBChart
+		timing_changes = []
 
 class MIDIImporter:
 	extends HBEditorImporter
@@ -239,6 +245,7 @@ class MIDIImporter:
 						chart.layers[HBNoteData.NOTE_TYPE.RIGHT].timing_points.append(timing_point)
 						found_times.append(event_time_ms)
 		
+		timing_changes = []
 		emit_signal("finished_processing")
 
 var importers = [
@@ -301,6 +308,7 @@ func _on_file_selected(path: String):
 	if importer.name == "MIDI file":
 		yield(importer.instance, "finished_processing")
 	var chart = importer.instance.chart
+	var timing_changes = importer.instance.timing_changes
 	
 	if chart:
 		undo_redo.create_action("Import " + importer.name)
@@ -309,6 +317,9 @@ func _on_file_selected(path: String):
 		undo_redo.add_undo_method(self, "deselect_all")
 		
 		if replace_chart_checkbox.pressed:
+			undo_redo.add_do_property(editor.current_song, "timing_changes", timing_changes)
+			undo_redo.add_undo_property(editor.current_song, "timing_changes", editor.current_song.timing_changes)
+			
 			undo_redo.add_do_method(editor, "from_chart", chart, true, true)
 			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
 		else:

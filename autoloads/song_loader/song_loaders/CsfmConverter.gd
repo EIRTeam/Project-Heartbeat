@@ -83,7 +83,7 @@ const property_types = {
 	"Tempo": "f32",
 	"Flying Time Factor": "f32",
 	"Time Signature": "ratio",
-	"Flags": "u32" # ??
+	"Flags": "bitfield"
 }
 
 static func musical_time_to_ms(beat: int, timing_changes: Array):
@@ -101,10 +101,11 @@ static func musical_time_to_ms(beat: int, timing_changes: Array):
 				range_end = min(range_end, timing_changes[i + 1].time)
 			
 			var bpm = timing_change.bpm
-			var sig = timing_change.signature
 			var dt = range_end - timing_change.time
 			
-			time += (60.0 / bpm) / 192.0 * sig.numerator * dt # What about denominator lol
+			# Note to future me: Time sig isnt used.
+			# BPMs assume a 4/4 sig (Hence the 4).
+			time += (60.0 / bpm) / 192.0 * 4.0 * dt
 	
 	return round(time * 1000.0)
 
@@ -231,6 +232,13 @@ static func get_data(file: File):
 						entry = file.get_8()
 					"b8":
 						entry = bool(file.get_8())
+					"bitfield":
+						var bitfield = file.get_32()
+						
+						entry = []
+						for i in range(32):
+							var mask = 1 << i
+							entry.append(bitfield & mask != 0)
 					"ratio":
 						entry = {"numerator": file.get_16(), "denominator": file.get_16()}
 					"u32":
@@ -277,26 +285,61 @@ func convert_comfy_chart(file_path: String, offset: int):
 		
 		data_tree[entry.name] = entry.data
 	
-	print(data_tree.chart.time.song_offset)
-	
 	# Build the chart
 	var timing_changes = []
+	var last_timing_change = {
+		"time": 0,
+		"bpm": 160.0,
+		"flying_time": 1.0,
+		"signature": {"numerator": 4, "denominator": 4},
+		"flags": []
+	}
 	for i in range(data_tree.chart.tempo_map.entry_count):
-		var timing_change = {
-			"time": data_tree.chart.tempo_map.tick[i],
-			"bpm": data_tree.chart.tempo_map.tempo[i],
-			"flying_time": data_tree.chart.tempo_map.flying_time_factor[i],
-			"signature": data_tree.chart.tempo_map.time_signature[i],
-		}
-		timing_changes.append(timing_change)
-	
-	var ingame_bpm_changes = []
-	for timing_change in timing_changes:
-		var bpm_change = HBBPMChange.new()
-		bpm_change.time = max(musical_time_to_ms(timing_change.time, timing_changes) + offset + data_tree.chart.time.song_offset * 1000.0, 0)
-		bpm_change.bpm = timing_change.bpm * timing_change.flying_time
+		var timing_change = last_timing_change.duplicate()
+		timing_change.time = data_tree.chart.tempo_map.tick[i]
 		
-		ingame_bpm_changes.append(bpm_change)
+		var flags = data_tree.chart.tempo_map.flags[i]
+		timing_change.flags = flags
+		
+		# Change the BPM
+		if flags[0]:
+			timing_change.bpm = data_tree.chart.tempo_map.tempo[i]
+		
+		# Change the flying time factor
+		if flags[1]:
+			timing_change.flying_time = data_tree.chart.tempo_map.flying_time_factor[i]
+		
+		# Change the time signature
+		if flags[2]:
+			timing_change.signature = data_tree.chart.tempo_map.time_signature[i]
+		
+		timing_changes.append(timing_change)
+		last_timing_change = timing_change
+	
+	var ingame_timing_changes := []
+	var ingame_bpm_changes := []
+	for timing_change in timing_changes:
+		var time = musical_time_to_ms(timing_change.time, timing_changes) + data_tree.chart.time.song_offset * 1000.0 + offset
+		
+		var beat_length = (60.0 / timing_change.bpm) * 4.0 * 1000.0
+		while time < 0:
+			time += beat_length
+		
+		if timing_change.flags[0] or timing_change.flags[2]:
+			var ingame_timing_change := HBTimingChange.new()
+			ingame_timing_change.time = time
+			ingame_timing_change.bpm = timing_change.bpm
+			ingame_timing_change.time_signature.numerator = timing_change.signature.numerator
+			ingame_timing_change.time_signature.denominator = timing_change.signature.denominator
+			
+			ingame_timing_changes.append(ingame_timing_change)
+		
+		if timing_change.flags[1]:
+			var bpm_change := HBBPMChange.new()
+			bpm_change.time = time
+			bpm_change.speed_factor = timing_change.flying_time * 100.0
+			
+			ingame_bpm_changes.append(bpm_change)
 	
 	var notes = []
 	var time_groups = {}
@@ -304,7 +347,7 @@ func convert_comfy_chart(file_path: String, offset: int):
 	for i in range(data_tree.chart.targets.entry_count):
 		var note_data := HBNoteData.new()
 		
-		note_data.time = max(musical_time_to_ms(data_tree.chart.targets.tick[i], timing_changes) + offset + data_tree.chart.time.song_offset * 1000.0, 0)
+		note_data.time = max(musical_time_to_ms(data_tree.chart.targets.tick[i], timing_changes) + data_tree.chart.time.song_offset * 1000.0 + offset, 0)
 		note_data.note_type = note_types_to_hb[data_tree.chart.targets.type[i]]
 		note_data.hold = data_tree.chart.targets.hold[i]
 		
@@ -369,11 +412,14 @@ func convert_comfy_chart(file_path: String, offset: int):
 	var chart := HBChart.new()
 	var note_type_to_layers_map = {}
 	var events_layer
+	var tempo_layer
 	for layer in chart.layers:
 		if not layer.name in ["Events", "Lyrics", "Sections"] and not "2" in layer.name:
 			note_type_to_layers_map[HBBaseNote.NOTE_TYPE[layer.name]] = chart.layers.find(layer)
 		elif layer.name == "Events":
 			events_layer = layer
+		elif layer.name == "Tempo Map":
+			tempo_layer = layer
 	
 	note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT] = note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_LEFT]
 	note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT] = note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_RIGHT]
@@ -381,8 +427,8 @@ func convert_comfy_chart(file_path: String, offset: int):
 	for note_data in notes:
 		var layer_idx = note_type_to_layers_map[note_data.note_type]
 		chart.layers[layer_idx].timing_points.append(note_data)
-
+	
 	for timing_point in ingame_bpm_changes:
 		events_layer.timing_points.append(timing_point)
 	
-	return chart
+	return [chart, ingame_timing_changes]
