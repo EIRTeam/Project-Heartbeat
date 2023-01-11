@@ -40,8 +40,6 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 	if file.get_buffer(8) == PoolByteArray("DIVAFILE".to_ascii()):
 		var aes := AESContext.new()
 		var key = PoolByteArray(DIVAFILE_KEY.to_ascii())
-		if not key:
-			return -1
 		
 		file.seek(0)
 		aes.start(AESContext.MODE_ECB_DECRYPT, key)
@@ -61,9 +59,6 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 		data.append(bytes[1])
 		data.append(bytes[2])
 		data.append(bytes[3])
-#		var unsigned_value = bytes[3] << 24 | bytes[2] << 16 | bytes[1] << 8 | bytes[0]
-#
-#		data.append(unsigned32_to_signed(unsigned_value))
 	
 	var spb := StreamPeerBuffer.new()
 	spb.data_array = PoolByteArray(Array(data))
@@ -166,38 +161,60 @@ static func convert_dsc_buffer_to_chart(buffer: StreamPeerBuffer, opcode_map: DS
 	var r = load_dsc_file_from_buff(buffer, opcode_map)
 	if not r:
 		return null
-	return convert_dsc_opcodes_to_chart(r, opcode_map)
+	
+	return convert_dsc_opcodes_to_chart(r, opcode_map)[0]
 
 static func convert_dsc_to_chart(path: String, opcode_map: DSCOpcodeMap, offset: int = 0):
+	return convert_dsc_to_chart_and_tempo_map(path, opcode_map, offset)[0]
+
+static func convert_dsc_to_chart_and_tempo_map(path: String, opcode_map: DSCOpcodeMap, offset: int = 0):
 	var r = load_dsc_file(path, opcode_map)
-	if r is int and r == -1:
-		# No key
-		return -1
 	if not r:
 		return null
 	
 	return convert_dsc_opcodes_to_chart(r, opcode_map, offset)
 
-static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, offset: int = 0) -> HBChart:
+static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, offset: int = 0) -> Array:
 	var curr_time = 0.0
-	var current_BPM = 0.0
 	var target_flying_time = 0.0
 	var chart = HBChart.new()
 	var curr_chain_starter = null
 	var highest_height = 0
 	var music_start_offset := 0.0
-
+	
+	var current_time_sig := 4
+	var timing_changes = []
+	
 	for opcode in r:
 		if opcode.opcode == opcode_map.opcode_names_to_id.TIME:
 			curr_time = float(opcode.params[0])
 		
 		if opcode.opcode == opcode_map.opcode_names_to_id.BAR_TIME_SET:
-			current_BPM = float(opcode.params[0])
-			target_flying_time = int((60.0  / current_BPM * (1 + float(opcode.params[1])) * 1000.0))
+			var bpm = float(opcode.params[0])
+			current_time_sig = float(opcode.params[1]) + 1
+			target_flying_time = int((60.0  / bpm * current_time_sig * 1000.0))
+			
+			var timing_change := HBTimingChange.new()
+			timing_change.time = curr_time / 100.0
+			timing_change.bpm = bpm
+			timing_change.time_signature.numerator = current_time_sig
+			
+			timing_changes.append(timing_change)
+		
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET_FLYING_TIME:
 			target_flying_time = int(opcode.params[0])
+			var bpm = float(240000.0) / float(target_flying_time)
+			
+			var bpm_change := HBBPMChange.new()
+			bpm_change.time = curr_time / 100.0
+			bpm_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
+			bpm_change.bpm = stepify(bpm, 0.1)
+			
+			chart.layers[chart.get_layer_i("Events")].timing_points.append(bpm_change)
+		
 		if opcode.opcode == opcode_map.opcode_names_to_id.MUSIC_PLAY:
 			music_start_offset = curr_time / 100.0
+		
 		if opcode.opcode == opcode_map.opcode_names_to_id.TARGET:
 			if (opcode_map.game == "FT" and opcode.params[0] in AFTButtons.values()) or \
 				((opcode_map.game == "f" or opcode_map.game == "F2") and opcode.params[0] in FButtons.values()):
@@ -289,4 +306,4 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 			for timing_point in layer.timing_points:
 				timing_point.time -= music_start_offset
 	
-	return chart
+	return [chart, timing_changes]

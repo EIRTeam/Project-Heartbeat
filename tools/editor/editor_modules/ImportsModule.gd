@@ -79,10 +79,10 @@ class DSCImporter:
 		
 		var opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game)
 		
-		var result = DSC_LOADER.convert_dsc_to_chart(path, opcode_map, offset)
+		var result = DSC_LOADER.convert_dsc_to_chart_and_tempo_map(path, opcode_map, offset)
 		
-		chart = result as HBChart
-		timing_changes = []
+		chart = result[0] as HBChart
+		timing_changes = result[1]
 
 class PPDImporter:
 	extends HBEditorImporter
@@ -317,8 +317,9 @@ func _on_file_selected(path: String):
 		undo_redo.add_undo_method(self, "deselect_all")
 		
 		if replace_chart_checkbox.pressed:
-			undo_redo.add_do_property(editor.current_song, "timing_changes", timing_changes)
-			undo_redo.add_undo_property(editor.current_song, "timing_changes", editor.current_song.timing_changes)
+			if timing_changes:
+				undo_redo.add_do_property(editor.current_song, "timing_changes", timing_changes)
+				undo_redo.add_undo_property(editor.current_song, "timing_changes", editor.current_song.timing_changes)
 			
 			undo_redo.add_do_method(editor, "from_chart", chart, true, true)
 			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
