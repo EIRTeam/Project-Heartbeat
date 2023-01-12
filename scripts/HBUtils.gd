@@ -506,3 +506,9 @@ static func wrap_text(text: String, length: int = 25) -> String:
 		new_text += "\n"
 	
 	return new_text.trim_suffix("\n")
+
+# HACK: We have to move this here to prevent a cyclic reference,
+# since EditConverter only has static stuff. I think godot 4 has
+# first-class functions, so this will not be needed then.
+static func _sort_by_bar(a, b) -> bool:
+	return a.bar < b.bar

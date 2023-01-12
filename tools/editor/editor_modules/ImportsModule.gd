@@ -128,8 +128,9 @@ class EditImporter:
 		UserSettings.user_settings.last_edit_dir = path.get_base_dir()
 		UserSettings.save_user_settings()
 		
-		chart = EDIT_LOADER.convert_edit_to_chart(path, offset, vargs.custom_link_stars) as HBChart
-		timing_changes = []
+		var result = EDIT_LOADER.convert_edit_to_chart(path, offset, vargs.custom_link_stars)
+		chart = result[0]
+		timing_changes = result[1]
 
 class MIDIImporter:
 	extends HBEditorImporter

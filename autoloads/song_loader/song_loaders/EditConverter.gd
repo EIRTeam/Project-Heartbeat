@@ -133,65 +133,65 @@ static func edit_time_to_ms(bar: int, beat: int, bpm_changes: Array, signature_c
 	return round(time * 1000.0)
 
 
-static func convert_edit_to_chart(file_path: String, offset: int, convert_link_stars: bool):
+static func convert_edit_to_chart(file_path: String, offset: int, convert_link_stars: bool) -> Array:
 	var file := File.new()
 	if file.open(file_path, File.READ) != OK:
 		print("ERROR: Invalid file.")
-		return null
+		return [null, []]
 	file.endian_swap = true
 	
 	# Header data
 	var magic_bytes = 0x00000064
 	if file.get_32() != magic_bytes:
 		print("ERROR: Invalid header.")
-		return null
+		return [null, []]
 	
 	var region = file.get_32()
-	var checksum = file.get_32() # CRC 32 checksum data
-	var checksum_range = file.get_32()
+	var _checksum = file.get_32() # CRC 32 checksum data
+	var _checksum_range = file.get_32()
 	
 	# Metadata
-	var region_2 = file.get_32() # Why 2 regions? TODO: Ask in modding 2nd
-	var size = file.get_32()
+	var _region_2 = file.get_32() # Why 2 regions? TODO: Ask in modding 2nd
+	var _size = file.get_32()
 	
 	var table_size = unsigned32_to_signed(file.get_32())
 	if table_size != 1576:
 		# ?????
-		return null
+		return [null, []]
 	
-	var displayed_bpm = file.get_float()
+	var _displayed_bpm = file.get_float()
 	
 	# We skip an u32 and 4 u16 fields
-	for i in range(3):
+	for _i in range(3):
 		file.get_32()
 	
-	var stars = file.get_8() / 2.0
+	var _stars = file.get_8() / 2.0
 	
 	# We skip a 35-byte undocumented chunk
 	file.get_buffer(35)
 	
-	var end_time = pv_time_to_ms(unsigned32_to_signed(file.get_32()))
+	var _end_time = pv_time_to_ms(unsigned32_to_signed(file.get_32()))
 	
 	# We skip 13 u32 fields and 2 u32 undocumented fields
-	for i in range(15):
+	for _i in range(15):
 		file.get_32()
 	
 	# We skip a 24-byte undocumented chunk
 	file.get_buffer(24)
 	
-	var start_time = file.get_float() # Is this even needed?
+	var _start_time = file.get_float() # Is this even needed?
 	
 	# We skip a 38-byte undocumented chunk
 	file.get_buffer(38)
 	
-	var charter_raw = swap_endianness(file.get_buffer(38))
+	var _charter_raw = swap_endianness(file.get_buffer(38))
 	#var charter = charter_raw.get_string_from_utf16()
 	
 	# We skip a 182 byte field, a 194 byte one, a 62 byte field, 6 byte-sized fields, a 142 byte undocumented field, a 150 byte field and another 84 byte undocumented field
 	# Phew, thats a lot
 	file.get_buffer(182 + 194 + 64 + 6 + 140 + 150 + 84)
 	
-	var name_raw = swap_endianness(file.get_buffer(74))
+	var _name_raw = swap_endianness(file.get_buffer(74))
 	#var name = name_raw.get_string_from_utf16()
 	
 	# 450 byte long undocumented crap
@@ -199,21 +199,21 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 	
 	var bpm_changes_size = unsigned32_to_signed(file.get_32())
 	var bpm_changes = []
-	for i in range(bpm_changes_size):
+	for _i in range(bpm_changes_size):
 		var bar = file.get_32()
 		var bpm = file.get_float()
 		bpm_changes.append({"bar": bar, "bpm": bpm})
 	
 	var time_signature_changes_size = unsigned32_to_signed(file.get_32())
 	var time_signature_changes = []
-	for i in range(time_signature_changes_size):
+	for _i in range(time_signature_changes_size):
 		var bar = file.get_32()
 		var signature = file.get_32()
 		time_signature_changes.append({"bar": bar, "sig": signature})
 	
 	var markers_size = unsigned32_to_signed(file.get_32())
 	var markers = []
-	for i in range(markers_size):
+	for _i in range(markers_size):
 		var bar = file.get_32()
 		var color = file.get_32()
 		markers.append({"bar": bar, "color": color})
@@ -227,73 +227,73 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 	var layers_size = unsigned32_to_signed(file.get_32())
 	file.get_buffer(layers_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var show_module_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(8 * show_module_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var show_misc_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(12 * show_misc_table_size)
 		
-	for i in range(3):
+	for _i in range(3):
 		var show_shadow_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(8 * show_shadow_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var position_table_size = unsigned32_to_signed(file.get_32())
-		for j in range(position_table_size):
+		for _j in range(position_table_size):
 			file.get_buffer(12)
-			for k in range(6):
+			for _k in range(6):
 				file.get_float()
 			file.get_buffer(12)
 	
-	for i in range(3):
+	for _i in range(3):
 		var motion_table_size = unsigned32_to_signed(file.get_32())
-		for j in range(motion_table_size):
+		for _j in range(motion_table_size):
 			file.get_buffer(8)
 			file.get_float()
 			file.get_buffer(8)
 			file.get_float()
 			file.get_buffer(20)
 	
-	for i in range(3):
+	for _i in range(3):
 		var expression_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * expression_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		# POSSIBLE ISSUE
 		var left_hand_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * left_hand_table_size)
 		var right_hand_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * right_hand_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var line_of_sight_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * line_of_sight_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var blink_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * blink_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var face_effect_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(12 * face_effect_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var lipsync_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(16 * lipsync_table_size)
 	
-	for i in range(3):
+	for _i in range(3):
 		var item_table_size = unsigned32_to_signed(file.get_32())
 		file.get_buffer(32 * item_table_size)
 	
 	var camera_changes_size = unsigned32_to_signed(file.get_32())
-	for i in range(camera_changes_size):
+	for _i in range(camera_changes_size):
 		file.get_buffer(6)
 		var camera_key_points_size = file.get_8()
 		file.get_8()
-		for j in range(camera_key_points_size):
-			for k in range(20):
+		for _j in range(camera_key_points_size):
+			for _k in range(20):
 				file.get_float()
 			file.get_buffer(8)
 	
@@ -307,7 +307,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		file.get_buffer(136 * lyrics_size)
 	
 	var fades_size = unsigned32_to_signed(file.get_32())
-	for i in range(fades_size):
+	for _i in range(fades_size):
 		file.get_float()
 		file.get_float()
 		file.get_float()
@@ -315,7 +315,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		file.get_float()
 	
 	var effects_size = unsigned32_to_signed(file.get_32())
-	for i in range(effects_size):
+	for _i in range(effects_size):
 		file.get_buffer(12)
 		file.get_float()
 		file.get_float()
@@ -326,7 +326,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 	var notes_count = unsigned32_to_signed(file.get_32())
 	var notes = []
 	var previous_link_star = null
-	for i in range(notes_count):
+	for _i in range(notes_count):
 		var bar = file.get_16()
 		var beat = file.get_16()
 		
@@ -387,30 +387,52 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		elif raw_type == NOTE_TYPE.LINK_STAR_END:
 			previous_link_star = null
 	
-	var ingame_bpm_changes = []
-	for bpm_change in bpm_changes:
-		var timing_point := HBBPMChange.new()
-		timing_point.time = edit_time_to_ms(bpm_change.bar, 0, bpm_changes, time_signature_changes)
-		timing_point.bpm = bpm_change.bpm
-		ingame_bpm_changes.append(timing_point)
-	ingame_bpm_changes.remove(0)
+	# HACK: This is a weird way to merge the tempo changes, but I dont think I can write
+	# something thats more elegant.
+	var tempo_changes = []
+	var _tempo_changes = bpm_changes + time_signature_changes
+	_tempo_changes.sort_custom(HBUtils, "_sort_by_bar")
 	
+	var last_tempo_change
+	for tempo_change in _tempo_changes:
+		if not last_tempo_change:
+			last_tempo_change = tempo_change
+			
+			continue
+		
+		if last_tempo_change.bar == tempo_change.bar:
+			tempo_change = HBUtils.merge_dict(last_tempo_change, tempo_change)
+			
+			last_tempo_change = null
+		
+		tempo_changes.append(tempo_change)
+	
+	var ingame_timing_changes = []
+	var current_bpm := 120.0
+	var current_time_sig := 4.0
+	
+	for tempo_change in tempo_changes:
+		if tempo_change.has("bpm"):
+			current_bpm = tempo_change.bpm
+		if tempo_change.has("sig"):
+			current_time_sig = tempo_change.sig + 1
+		
+		var timing_point := HBTimingChange.new()
+		timing_point.time = edit_time_to_ms(tempo_change.bar, 0, bpm_changes, time_signature_changes)
+		timing_point.bpm = current_bpm
+		timing_point.time_signature.numerator = current_time_sig
+		
+		ingame_timing_changes.append(timing_point)
 	
 	# Populate the chart
 	var chart := HBChart.new()
 	var note_type_to_layers_map = {}
-	var events_layer
 	for layer in chart.layers:
 		if not layer.name in ["Events", "Lyrics", "Sections"] and not "2" in layer.name:
 			note_type_to_layers_map[HBBaseNote.NOTE_TYPE[layer.name]] = chart.layers.find(layer)
-		elif layer.name == "Events":
-			events_layer = layer
 	
 	for note_data in notes:
 		var layer_idx = note_type_to_layers_map[note_data.note_type]
 		chart.layers[layer_idx].timing_points.append(note_data)
 	
-	for timing_point in ingame_bpm_changes:
-		events_layer.timing_points.append(timing_point)
-	
-	return chart
+	return [chart, ingame_timing_changes]
