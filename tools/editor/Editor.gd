@@ -1237,7 +1237,7 @@ func cache_items_at_time() -> Array:
 	cache.fill([])
 	
 	for item in get_timeline_items():
-		if item.data is HBTimingPoint:
+		if item.data is HBTimingPoint and item.data.time <= int(get_song_length() * 1000.0):
 			if not cache[item.data.time]:
 				cache[item.data.time] = [item]
 			else:

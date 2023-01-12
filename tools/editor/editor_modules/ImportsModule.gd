@@ -95,7 +95,15 @@ class PPDImporter:
 		UserSettings.user_settings.last_ppd_dir = path.get_base_dir()
 		UserSettings.save_user_settings()
 		
-		chart = PPDLoader.PPD2HBChart(path, editor.get_bpm(), offset)
+		var bpm := 120.0
+		var meta_path = HBUtils.join_path(path.get_base_dir(), "data.ini")
+		
+		var file := File.new()
+		if file.file_exists(meta_path) and file.open(meta_path, File.READ) == OK:
+			var song = HBPPDSong.from_ini(file.get_as_text(), "")
+			bpm = song.bpm
+		
+		chart = PPDLoader.PPD2HBChart(path, bpm, offset)
 		timing_changes = []
 
 class ComfyImporter:

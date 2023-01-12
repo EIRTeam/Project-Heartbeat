@@ -72,9 +72,8 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 			if property_name in ALLOWED_EXTENDED_PROPERTIES:
 				song.set(property_name, dict.setting[setting])
 	
-	
-	
 	return song
+
 # If video is enabled for this type of song
 func has_video_enabled():
 	if .has_video_enabled():

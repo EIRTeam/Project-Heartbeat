@@ -227,6 +227,8 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 				note_d.time += int(curr_time / 100.0)
 				note_d.time += offset
 				
+				note_d.pos_modified = true
+				
 				if opcode_map.game == "FT":
 					note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
 					note_d.time += target_flying_time

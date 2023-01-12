@@ -347,7 +347,6 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		
 		var time = edit_time_to_ms(bar, beat, bpm_changes, time_signature_changes)
 		
-		
 		var note_data
 		
 		if raw_type in normal_notes:
@@ -362,6 +361,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		else:
 			continue
 		
+		note_data.pos_modified = true
 		
 		if raw_type in [NOTE_TYPE.LINK_STAR, NOTE_TYPE.LINK_STAR_END]:
 			if previous_link_star:

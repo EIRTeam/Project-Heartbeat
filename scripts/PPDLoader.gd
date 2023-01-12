@@ -173,12 +173,11 @@ static func _apply_note_params(note_data: HBBaseNote, note_params: Dictionary) -
 	if note_params.has("#RightRotation"):
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 	return note_data
+
 static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 	var bpm = base_bpm
 	# PPD button map to PH buttons
 	var PPDButton2HBNoteType = PPDButtonsMapDefault
-	
-	
 	
 	var chart = HBChart.new()
 	var data = _get_marks_from_ppd_pack(path)
@@ -228,7 +227,6 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 					chart.layers[chart.get_layer_i(type)].timing_points.pop_back()
 					is_multi_note = false
 					had_double_note = true
-
 		
 		note_data.oscillation_frequency = -note_data.oscillation_frequency
 		
@@ -238,10 +236,10 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 		note_data.position.x = (note.position.x / 800.0) * 1920
 		note_data.position.y = (note.position.y / 450.0) * 1080
 		note_data.entry_angle = 360 - rad2deg(note.rotation)
-		# Simulataneous notes have no amplitude
+		
+		note_data.pos_modified = true
 		
 		var is_second_slider = false
-		
 		
 		note_data.note_type = PPDButton2HBNoteType[note.type]
 		
@@ -266,7 +264,8 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				if PPDButton2HBNoteType[marks[i+1].type] == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 					note_data.note_type = HBNoteData.NOTE_TYPE.SLIDE_RIGHT
 					is_second_slider = true
-
+		
+		# Simulataneous notes have no amplitude
 		if is_multi_note:
 			note_data.oscillation_amplitude = 0
 			note_data.distance = note_data.distance * (2.2/3.0)
@@ -287,14 +286,15 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 				else:
 					var type = HBUtils.find_key(HBNoteData.NOTE_TYPE, note_data.note_type)
 					chart.layers[chart.get_layer_i(type)].timing_points.append(note_data)
+		
 		# Chain slides
 		if note_type == PPDNoteType.ACFT and note_data is HBNoteData and note.has("end_time") and note_data.is_slide_note():
 			var ppd_scale = evd_file.get_slide_scale_at_time(note.time)
-
+			
 			# This thing right here was provided by Blizzin, all issues caused by it should be forwarded
 			# to him, he's available at Blizzin#4483
 			var note_scale = ppd_scale / (bpm / 180.0)
-
+			
 			var beats = (bpm / 60.0) * (note.end_time - note.time)
 			var pieces_per_note = 32.0 * note_scale
 			# Asuming chain slide pieces are done to the 32th
