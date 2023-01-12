@@ -178,9 +178,12 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 	var curr_time = 0.0
 	var target_flying_time = 0.0
 	var chart = HBChart.new()
-	var curr_chain_starter = null
 	var highest_height = 0
 	var music_start_offset := 0.0
+	
+	var curr_chain_starter = null
+	var last_chain_piece = null
+	var curr_chain_dt = null
 	
 	var current_time_sig := 4
 	var timing_changes = []
@@ -221,23 +224,54 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 				
 				var note_d: HBBaseNote = HBNoteData.new()
 				
+				note_d.time += int(curr_time / 100.0)
+				note_d.time += offset
+				
 				if opcode_map.game == "FT":
 					note_d.position = Vector2(opcode.params[1] / 250.0, opcode.params[2] / 250.0)
 					note_d.time += target_flying_time
 					note_d.time_out = target_flying_time
+					
+					# Where chains start and end is determined with a mix of heuristics and simple
+					# checks, because that info is not embedded in the DSC.
+					# 
+					# The simplest case is that a note is not a chain piece, so we just close the chain.
+					# The next case is that we have one chain going in one direction and the next
+					# is opposite to it, in which case we start a new chain.
+					# 
+					# The first heuristic is when we have 2 chains going in the same direction, and one
+					# of them has a different y pos than the other. If thats the case, we start a new chain.
+					# The second heuristic is when we have a chain with a given separation in time, and we 
+					# find a chain that doesnt fit the pattern.
+					# Note: For this, we have a tolerance of +-2ms, to accomodate some time inaccuracies.
 					if opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R] and curr_chain_starter:
 						if curr_chain_starter.position.y != note_d.position.y:
 							curr_chain_starter = null
+							curr_chain_dt = null
+						elif curr_chain_dt:
+							var dt = note_d.time - last_chain_piece.time
+							
+							if abs(dt - curr_chain_dt) > 2:
+								curr_chain_starter = null
+								curr_chain_dt = null
 						else:
 							if opcode.params[0] == AFTButtons.CHAIN_L:
 								if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
 									curr_chain_starter = null
+									curr_chain_dt = null
 							else:
 								if curr_chain_starter.note_type != HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
 									curr_chain_starter = null
+									curr_chain_dt = null
+						
+						last_chain_piece = note_d
+						if not curr_chain_dt and curr_chain_starter:
+							curr_chain_dt = note_d.time - curr_chain_starter.time
 					else:
 						curr_chain_starter = null
+						curr_chain_dt = null
 					
+					# The first chain piece of a new chain needs to become the parent slider.
 					if not curr_chain_starter and opcode.params[0] in [AFTButtons.CHAIN_L, AFTButtons.CHAIN_R]:
 						if opcode.params[0] == AFTButtons.CHAIN_L:
 							note_d.position.x -= 20
@@ -245,6 +279,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 						else:
 							note_d.position.x += 20
 							note_d.note_type = HBBaseNote.NOTE_TYPE.SLIDE_RIGHT
+						
 						curr_chain_starter = note_d
 					else:
 						var note_type = int(AFT2PHButtonMap[opcode.params[0]])
@@ -286,11 +321,6 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 					
 					note_d.time_out = opcode.params[9]
 					note_d.time += opcode.params[9]
-				
-				note_d.time += int(curr_time / 100.0)
-				note_d.time += offset
-				note_d.auto_time_out = false
-				
 				
 				var search_type = note_d.note_type
 				if opcode_map.game == "FT" and note_d.is_slide_hold_piece():
