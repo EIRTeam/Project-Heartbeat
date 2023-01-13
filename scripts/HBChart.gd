@@ -162,21 +162,24 @@ func backport_chart(song):
 			
 			# Remove them
 			for note in speed_events:
-				events_layer.remove(note)
+				events_layer.timing_points.erase(note)
 			
 			# Merge tempo map
 			song.timing_changes.sort_custom(self, "_note_comparison")
+			song.timing_changes.invert()
 			
+			speed_events.append(HBBPMChange.new())
 			speed_events.append_array(song.timing_changes)
 			speed_events.sort_custom(self, "_note_comparison")
+			speed_events.invert()
 			
 			# Build fixed bpm map
-			var last_timing_change = song.timing_changes[0].bpm if song.timing_changes else 120
+			var bpm = song.timing_changes[0].bpm if song.timing_changes else 120
 			var last_speed_change := HBBPMChange.new()
 			last_speed_change.speed_factor = 100
 			for event in speed_events:
 				if event is HBTimingChange:
-					last_timing_change = event.bpm
+					bpm = event.bpm
 				
 				if event is HBBPMChange:
 					last_speed_change = event
@@ -189,7 +192,7 @@ func backport_chart(song):
 					var bpm_change = HBBPMChange.new()
 					bpm_change.time = event.time
 					bpm_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
-					bpm_change.bpm = last_timing_change.bpm * (last_speed_change.speed_factor / 100.0)
+					bpm_change.bpm = bpm * (last_speed_change.speed_factor / 100.0)
 					
 					events_layer.timing_points.append(bpm_change)
 			
