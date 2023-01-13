@@ -6,10 +6,17 @@ extends HBTimingPoint
 
 class_name HBBPMChange
 
-var bpm = 180.0
+enum USAGE_TYPES {
+	FIXED_BPM,
+	AUTO_BPM
+}
+
+var bpm := 180.0
+var speed_factor := 100.0
+var usage = USAGE_TYPES.AUTO_BPM
 
 func _init():
-	serializable_fields += ["bpm"]
+	serializable_fields += ["bpm", "usage", "speed_factor"]
 
 func get_serialized_type():
 	return "BpmChange"
@@ -20,11 +27,12 @@ static func can_show_in_editor():
 func get_inspector_properties():
 	return HBUtils.merge_dict(.get_inspector_properties(), {
 		"bpm": {
-			"type": "int",
+			"type": "float",
 			"params": {
-				"min": 1
+				"min": 0,
+				"suffix": " BPM",
 			}
-		}
+		},
 	})
 
 func get_timeline_item():

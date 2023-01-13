@@ -1444,7 +1444,7 @@ func load_song(song: HBSong, difficulty: String):
 		if chart_json.error == OK:
 			var result = chart_json.result
 			chart = HBChart.new()
-			chart.deserialize(result)
+			chart.deserialize(result, song)
 	current_song = song
 	
 	HBGame.rich_presence.update_activity({

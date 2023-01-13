@@ -674,6 +674,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://autoloads/async_task_queue/HBTask.gd"
 }, {
+"base": "HBTimingPoint",
+"class": "HBTimingChange",
+"language": "GDScript",
+"path": "res://scripts/timing_points/HBTimingChange.gd"
+}, {
 "base": "HBSerializable",
 "class": "HBTimingPoint",
 "language": "GDScript",
@@ -1138,6 +1143,7 @@ _global_script_class_icons={
 "HBSustainNote": "",
 "HBTabbedContainer": "",
 "HBTask": "",
+"HBTimingChange": "",
 "HBTimingPoint": "",
 "HBUGCService": "",
 "HBUIAccuracyDisplay": "",
