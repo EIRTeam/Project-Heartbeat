@@ -412,14 +412,11 @@ func convert_comfy_chart(file_path: String, offset: int):
 	var chart := HBChart.new()
 	var note_type_to_layers_map = {}
 	var events_layer
-	var tempo_layer
 	for layer in chart.layers:
 		if not layer.name in ["Events", "Lyrics", "Sections"] and not "2" in layer.name:
 			note_type_to_layers_map[HBBaseNote.NOTE_TYPE[layer.name]] = chart.layers.find(layer)
 		elif layer.name == "Events":
 			events_layer = layer
-		elif layer.name == "Tempo Map":
-			tempo_layer = layer
 	
 	note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT] = note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_LEFT]
 	note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT] = note_type_to_layers_map[HBBaseNote.NOTE_TYPE.SLIDE_RIGHT]

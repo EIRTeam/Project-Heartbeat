@@ -360,8 +360,6 @@ func _download_video(userdata):
 		entry.current_process = audio_download_process
 		entry.mutex.unlock()
 		
-		var output := []
-		
 		while audio_download_process.get_exit_status() == -1:
 			entry.process_download_progress(audio_download_process)
 		

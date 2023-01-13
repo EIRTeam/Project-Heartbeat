@@ -18,7 +18,6 @@ onready var creator_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxC
 onready var original_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongOriginalTitle")
 onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongComposers")
 
-onready var bpm_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/BPMSpinBox")
 onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
 onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
 onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewEndSpinBox")
@@ -80,7 +79,6 @@ func set_song_meta(value):
 	composers_edit.text = PoolStringArray(song_meta.composers).join("\n")
 	creator_edit.text = song_meta.creator
 	original_title_edit.text = song_meta.original_title
-	bpm_edit.value = song_meta.bpm
 	audio_filename_edit.text = song_meta.audio
 	circle_image_line_edit.text = song_meta.circle_image
 	circle_logo_image_line_edit.text = song_meta.circle_logo
@@ -170,7 +168,6 @@ func save_meta():
 	song_meta.writers = Array(writers_edit.text.split("\n"))
 	song_meta.creator = creator_edit.text
 	
-	song_meta.bpm = bpm_edit.value
 	song_meta.audio = audio_filename_edit.text
 	song_meta.circle_image = circle_image_line_edit.text
 	song_meta.circle_logo = circle_logo_image_line_edit.text
@@ -409,7 +406,6 @@ func set_enabled(enabled: bool):
 	composers_edit.readonly = not enabled
 	creator_edit.editable = enabled
 	original_title_edit.editable = enabled
-	bpm_edit.editable = enabled
 	audio_filename_edit.editable = enabled
 	circle_image_line_edit.editable = enabled
 	circle_logo_image_line_edit.editable = enabled

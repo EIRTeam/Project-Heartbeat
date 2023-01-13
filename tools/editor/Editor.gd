@@ -1754,9 +1754,11 @@ func _on_SaveButton_pressed():
 	file.store_string(JSON.print(chart.serialize(), "  "))
 	file.close()
 	
-	current_song.timing_changes = []
+	var new_timing_changes = []
 	for item in get_timing_changes():
-		current_song.timing_changes.append(item.data)
+		new_timing_changes.append(item.data)
+	
+	current_song.timing_changes = new_timing_changes
 	
 	current_song.lyrics = get_lyrics()
 	current_song.sections = get_sections()

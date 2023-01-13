@@ -28,7 +28,8 @@ var video = ""
 var voice = ""
 var creator = ""
 var original_title = ""
-var bpm = 150.0
+var bpm = 150.0 setget set_bpm
+var bpm_string = "150"
 var preview_start = 0
 var preview_end = -1
 var charts = {}
@@ -54,7 +55,7 @@ var audio_loudness := 0.0
 var song_variants = []
 var sections = []
 var skin_ugc_id := 0
-var timing_changes := []
+var timing_changes := [] setget set_timing_changes
 
 # not serialized
 var loader = ""
@@ -74,12 +75,14 @@ func get_serialized_type():
 
 func _init():
 	serializable_fields += ["title", "romanized_title", "artist", "artist_alias", 
-	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm",
+	"composers", "vocals", "writers", "audio", "creator", "original_title", "bpm", "bpm_string",
 	"preview_start", "preview_end", "charts", "preview_image", "background_image", "voice", 
 	"circle_image", "circle_logo", "youtube_url", "use_youtube_for_video", "use_youtube_for_audio",
 	"video", "ugc_service_name", "ugc_id", "allows_intro_skip", "intro_skip_min_time", "start_time",
 	"end_time", "volume", "hide_artist_name", "lyrics", "show_epilepsy_warning", "has_audio_loudness",
 	"audio_loudness", "song_variants", "sections", "skin_ugc_id", "timing_changes"]
+	
+	update_bpm_string()
 
 func get_meta_string():
 	var song_meta = []
@@ -386,3 +389,32 @@ func get_video_offset(variant := -1):
 		return -0.0
 	else:
 		return song_variants[variant].variant_offset
+
+func set_timing_changes(p_timing_changes: Array):
+	timing_changes = p_timing_changes
+	
+	update_bpm_string()
+
+func set_bpm(p_bpm: float):
+	bpm = p_bpm
+	
+	update_bpm_string()
+
+func update_bpm_string():
+	var bpm_range = [INF, -INF]
+	for timing_change in timing_changes:
+		bpm_range = [ \
+			min(timing_change.bpm, bpm_range[0]), \
+			max(timing_change.bpm, bpm_range[1])  \
+		]
+	
+	if not timing_changes:
+		if bpm:
+			bpm_string = "%d" % bpm
+	else:
+		bpm = bpm_range[1]
+		
+		if bpm_range[0] != bpm_range[1]:
+			bpm_string = "%s-%s" % [str(bpm_range[0]), str(bpm_range[1])]
+		else:
+			bpm_string = "%s" % str(bpm_range[0])

@@ -18,7 +18,6 @@ func _init():
 func play_song(song: HBSong, chart: HBChart):
 	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.resume()
-	rhythm_game.base_bpm = song.bpm
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
 	rhythm_game.game_input_manager.set_process_input(true)
