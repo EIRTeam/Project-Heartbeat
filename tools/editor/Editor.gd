@@ -1673,6 +1673,9 @@ func get_metronome_map() -> Array:
 
 # We need to go the long way round to prevent weird rounding issues
 func map_intervals(obj: Array, start: int, end: int, interval: float):
+	if interval == 0:
+		return
+	
 	var diff = end - start
 	for i in range(diff / interval + 1, 0, -1):
 		obj.append(int(start + (i - 1) * interval))
@@ -1715,13 +1718,14 @@ func _on_timing_information_changed(f=null):
 		var ms_per_eight: float = (60.0 / timing_change.bpm) * 1000.0 * 4 / 8.0
 		map_intervals(normalized_timing_map, timing_change.time, end_t, ms_per_eight)
 		
-		var ms_per_bar: float = (60.0 / timing_change.bpm) * 1000.0 * \
-			4 * (float(timing_change.time_signature.numerator) / float(timing_change.time_signature.denominator))
-		map_intervals(signature_map, timing_change.time, end_t, ms_per_bar)
-		
-		var ms_per_metronome_beat: float = (60.0 / timing_change.bpm) * 1000.0 * \
-			4 * (1 / float(timing_change.time_signature.denominator))
-		map_intervals(metronome_map, timing_change.time, end_t, ms_per_metronome_beat)
+		if timing_change.time_signature.denominator != 0:
+			var ms_per_bar: float = (60.0 / timing_change.bpm) * 1000.0 * \
+				4 * (float(timing_change.time_signature.numerator) / float(timing_change.time_signature.denominator))
+			map_intervals(signature_map, timing_change.time, end_t, ms_per_bar)
+			
+			var ms_per_metronome_beat: float = (60.0 / timing_change.bpm) * 1000.0 * \
+				4 * (1 / float(timing_change.time_signature.denominator))
+			map_intervals(metronome_map, timing_change.time, end_t, ms_per_metronome_beat)
 		
 		end_t = timing_change.time
 	

@@ -26,6 +26,49 @@ class HBEditorImporter:
 	
 	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
 		return null
+	
+	static func build_timing_map(timing_changes: Array, end_t: int) -> Array:
+		var timing_changes_inv = timing_changes.duplicate()
+		timing_changes_inv.invert()
+		
+		var timing_map := []
+		for timing_change in timing_changes_inv:
+			var diff = end_t - timing_change.time
+			var ms_per_eight: float = (60.0 / timing_change.bpm) * 1000.0 * 4 / 8.0
+			
+			for i in range(diff / ms_per_eight + 1, 0, -1):
+				timing_map.append(int(timing_change.time + (i - 1) * ms_per_eight))
+		
+		timing_map.invert()
+		return timing_map
+	
+	static func _linear_bound(array: Array, value: int) -> float:
+		var idx := array.bsearch(value)
+		
+		if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
+			return float(idx)
+		
+		var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
+		return idx + decimal
+	
+	static func autoplace(data: HBBaseNote, timing_map: Array) -> HBBaseNote:
+		var normalized_timing_map := []
+		
+		var new_data = data.clone() as HBBaseNote
+		
+		var time_as_eight = _linear_bound(timing_map, data.time)
+		time_as_eight = fmod(time_as_eight, 15.0)
+		if time_as_eight < 0:
+			time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
+		
+		new_data.position.x = 242 + 96 * time_as_eight
+		new_data.position.y = 918
+		
+		new_data.oscillation_amplitude = abs(new_data.oscillation_amplitude)
+		new_data.oscillation_frequency = -2
+		new_data.entry_angle = -90
+		
+		return new_data
 
 class DSCImporter:
 	extends HBEditorImporter
@@ -226,6 +269,7 @@ class MIDIImporter:
 	
 	func track_import_accepted(smf: SMFLoader.SMF, note_range=[0, 255], tracks=[]):
 		chart = HBChart.new()
+		timing_changes.clear()
 		
 		var found_times = []
 		
@@ -235,26 +279,72 @@ class MIDIImporter:
 		var ticks_per_beat = smf.timebase
 		var last_event_ticks = 0
 		var tempo = 500000
+		var time_sig = {"numerator": 4, "denominator": 4}
+		var timing_map = []
 		
 		for event in events:
 			var delta_ticks = event.time - last_event_ticks
 			last_event_ticks = event.time
+			
 			var delta_microseconds = tempo * delta_ticks / float(ticks_per_beat)
 			microseconds += delta_microseconds
+			
+			# MIDI tempo is kinda unintuitive
+			# Further reading for future me:
+			# midi.teragonaudio.com/tech/midifile/ppqn.htm
 			if event.event.type == SMFLoader.MIDIEventType.system_event:
 				if event.event.args.type == SMFLoader.MIDISystemEventType.set_tempo:
 					tempo = event.event.args.bpm
+					
+					var event_time_ms = microseconds * 0.001
+					
+					if timing_changes and timing_changes[-1].time == event_time_ms:
+						# Edit last timing change
+						timing_changes[-1].bpm = 60_000_000.0 / tempo
+					else:
+						var timing_point = HBTimingChange.new()
+						timing_point.time = event_time_ms
+						timing_point.bpm = 60_000_000.0 / tempo
+						timing_point.time_signature = time_sig
+						
+						timing_changes.append(timing_point)
+					
+					timing_map = build_timing_map(timing_changes, editor.get_song_length() * 1000)
+			
+			# Time sigs are sligthly less weird if you only need the simple stuff
+			# http://midi.teragonaudio.com/tech/midifile/time.htm
+			if event.event.type == SMFLoader.MIDIEventType.system_event:
+				if event.event.args.type == SMFLoader.MIDISystemEventType.beat:
+					time_sig.numerator = event.event.args.numerator
+					time_sig.denominator = pow(2, event.event.args.denominator)
+					
+					var event_time_ms = microseconds * 0.001
+					
+					if timing_changes and timing_changes[-1].time == event_time_ms:
+						# Edit last timing change
+						timing_changes[-1].time_signature = time_sig
+					else:
+						var timing_point = HBTimingChange.new()
+						timing_point.time = event_time_ms
+						timing_point.bpm = 60_000_000.0 / tempo
+						timing_point.time_signature = time_sig
+						
+						timing_changes.append(timing_point)
+					
+					timing_map = build_timing_map(timing_changes, editor.get_song_length() * 1000)
+			
 			if event.event.type == SMFLoader.MIDIEventType.note_on:
 				var event_time_ms = microseconds * 0.001
+				
 				if not event_time_ms in found_times:
 					if note_range[0] <= event.event.note and event.event.note <= note_range[1]:
 						var timing_point = HBNoteData.new()
 						timing_point.time = event_time_ms + offset
-						timing_point = editor.autoplace(timing_point)
+						timing_point = autoplace(timing_point, timing_map)
 						chart.layers[HBNoteData.NOTE_TYPE.RIGHT].timing_points.append(timing_point)
+						
 						found_times.append(event_time_ms)
 		
-		timing_changes = []
 		emit_signal("finished_processing")
 
 var importers = [
