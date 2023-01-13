@@ -1,7 +1,7 @@
 extends HBEditorModule
 
 onready var bpm_dialog = get_node("%SpeedChangeDialog")
-onready var bpm_dialog_spinbox = get_node("%SpeedChangeDialog/MarginContainer/HBEditorSpinBox")
+onready var bpm_dialog_spinbox = get_node("%SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox")
 onready var lyric_dialog = get_node("%LyricDialog")
 onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/LineEdit")
 onready var section_dialog = get_node("%SectionDialog")

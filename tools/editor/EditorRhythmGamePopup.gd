@@ -204,19 +204,42 @@ func reset_stats():
 
 
 func update_stats_label():
+	var passed_percentage = 0.0
+	var avg_latency = 0.0
+	
 	for i in range(last_notes.size()-1, -1, -1):
 		var n_time = last_notes[i]
 		if n_time < (rhythm_game.time * 1000.0) - 1000.0:
 			last_notes.remove(i)
-	var passed_percentage = 0.0
-	var avg_latency = 0.0
+	
 	if stats_total_notes > 0 :
-		passed_percentage = stats_passed_notes/float(stats_total_notes) * 100.0
-	if stats_passed_notes > 0:
+		passed_percentage = stats_passed_notes / float(stats_total_notes) * 100.0
+	
+	avg_latency = 0.0
+	if stats_passed_notes:
 		avg_latency = stats_latency_sum / float(stats_passed_notes)
-	stats_label.text = "%d/%d (%.2f %%)\n" % [stats_passed_notes, stats_total_notes, passed_percentage]
+	
+	var section = rhythm_game.get_section_at_time(rhythm_game.time * 1000.0)
+	var current_speed = rhythm_game.get_note_speed_at_time(rhythm_game.time * 1000.0)
+	var current_bpm = 0.0
+	var current_time_sig = "4/4"
+	for timing_change in rhythm_game.timing_changes:
+		if timing_change.time > rhythm_game.time * 1000.0:
+			break
+		
+		current_bpm = timing_change.bpm
+		current_time_sig = "%d/%d" % [timing_change.time_signature.numerator, timing_change.time_signature.denominator]
+	
+	stats_label.text = "Game info:\n"
+	stats_label.text += ('"%s"\n' % section.name) if section else ""
+	stats_label.text += "BPM: %.*f\n" % [0 if round(current_bpm) == current_bpm else 2, current_bpm]
+	stats_label.text += "Time sig: %s\n" % current_time_sig
+	stats_label.text += "Note speed: %.*fBPM\n" % [0 if round(current_speed) == current_speed else 2, current_speed]
 	stats_label.text += "NPS: %d\n" % last_notes.size()
-	stats_label.text += "Avg. latency: %.0f ms" % [avg_latency]
+	
+	stats_label.text += "\nAccuracy:\n"
+	stats_label.text += "Notes hit: %d/%d (%.2f %%)\n" % [stats_passed_notes, stats_total_notes, passed_percentage]
+	stats_label.text += "Avg. latency: %.0f ms\n" % avg_latency
 
 
 func _on_note_judged(judgement_info):

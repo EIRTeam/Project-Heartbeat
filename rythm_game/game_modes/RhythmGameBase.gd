@@ -124,10 +124,6 @@ func _init():
 
 var _cached_notes = false
 
-# HACK: A deferred call is still not enough to stop the sheer amount of calls to editor_sort_groups
-# when loading a chart, so we have to use a debounce timer instead
-var group_sort_debounce_timer := Timer.new()
-
 func _game_ready():
 	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
@@ -139,11 +135,6 @@ func _game_ready():
 
 func _ready():
 	_game_ready()
-	
-	group_sort_debounce_timer.wait_time = 0.1
-	group_sort_debounce_timer.one_shot = true
-	group_sort_debounce_timer.connect("timeout", self, "editor_sort_groups")
-	add_child(group_sort_debounce_timer)
 
 func set_game_input_manager(manager: HBGameInputManager):
 	game_input_manager = manager
@@ -996,9 +987,6 @@ func editor_add_timing_point(point: HBTimingPoint):
 			print("TODO: Handle addition of non note timing points")
 
 func _editor_sort_groups():
-	group_sort_debounce_timer.start(0)
-
-func editor_sort_groups():
 	note_groups.sort_custom(self, "_sort_groups_by_start_time")
 	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
 

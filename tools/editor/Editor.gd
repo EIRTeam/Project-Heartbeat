@@ -1529,6 +1529,9 @@ func paste_note_data(notes: Array):
 	force_game_process()
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
+	if hidden:
+		return
+	
 	var song = SongLoader.songs[song_id]
 	var chart_path = song.get_chart_path(difficulty)
 	var file = File.new()
@@ -1566,7 +1569,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	current_difficulty = difficulty
 	
 	save_button.disabled = hidden
-	save_as_button.disabled = false
+	save_as_button.disabled = hidden
 	
 	modified = false
 	
@@ -1613,6 +1616,7 @@ func reveal_ui(extended: bool = true):
 			control.get_line_edit().editable = true
 	
 	save_button.disabled = hidden
+	save_as_button.disabled = hidden
 	
 	if not extended:
 		return
