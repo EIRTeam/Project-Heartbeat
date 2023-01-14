@@ -125,14 +125,25 @@ static func from_file(path: String):
 		print("Error opening JSON file %s" % [path], Log.LogLevel.ERROR)
 
 func save_to_file(path: String):
-	var file := File.new()
 	var data = serialize()
+	if not data:
+		print("ERROR: Data was not serialized.")
+		return
+	
+	var json = JSON.print(data, "  ")
+	if not json:
+		print("ERROR: Data could not be formatted as json.")
+		return
+	
+	var file := File.new()
 	var err = file.open(path, File.WRITE)
 	if err == OK:
-		file.store_string(JSON.print(data, "  "))
+		file.store_string(json)
 	else:
 		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), err])
+	
 	return err
+
 static func can_show_in_editor():
 	return false
 

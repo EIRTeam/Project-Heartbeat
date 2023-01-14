@@ -428,8 +428,6 @@ func _on_file_selected(path: String):
 			
 			for layer in chart.layers:
 				var editor_layer = find_layer_by_name(layer.name)
-				if editor_layer == null:
-					print("ASD")
 				
 				for timing_point in layer.timing_points:
 					var item = timing_point.get_timeline_item()
