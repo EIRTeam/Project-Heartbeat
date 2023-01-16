@@ -1358,7 +1358,9 @@ func serialize_chart():
 	return get_chart().serialize()
 
 func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
-	song_editor_settings.disconnect("property_changed", self, "emit_signal")
+	if song_editor_settings.is_connected("property_changed", self, "emit_signal"):
+		song_editor_settings.disconnect("property_changed", self, "emit_signal")
+	
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
 		var layer_visible = not layer.layer_name in settings.hidden_layers
@@ -1740,7 +1742,6 @@ func _on_timing_information_changed(f=null):
 	release_owned_focus()
 	timeline.update()
 	emit_signal("timing_information_changed")
-	emit_signal("_on_timing_points_changed")
 
 
 func _on_SaveButton_pressed():

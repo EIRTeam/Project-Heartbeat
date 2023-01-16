@@ -189,7 +189,9 @@ static func image_from_fs(path: String):
 		var image = Image.new()
 		if image.load(path) == OK:
 			out = image
-	out.fix_alpha_edges()
+	
+	if out:
+		out.fix_alpha_edges()
 	return out
 
 static func _wrap_image_texture(img: Image):

@@ -13,7 +13,6 @@ func _ready():
 	tree.connect("item_edited", self, "_on_tree_item_edited", [], CONNECT_DEFERRED)
 	tree.connect("custom_popup_edited", self, "_on_custom_popup_edited")
 	tree.connect("button_pressed", self, "_on_button_pressed")
-	connect("about_to_show", self, "populate")
 
 func set_editor(val):
 	editor = val

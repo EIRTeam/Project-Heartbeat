@@ -38,7 +38,6 @@ func _ready():
 	game_ui.aspect_ratio_container.connect("resized", self, "_on_game_resized")
 
 func _on_game_resized():
-	print(game_ui.aspect_ratio_container.rect_size / Vector2(1920, 1080))
 	var ratio: float = game_ui.rect_size.x / game_ui.rect_size.y
 	var scale: float = (game_ui.aspect_ratio_container.rect_size.x / 1920.0)
 	if ratio > 16.0/9.0:

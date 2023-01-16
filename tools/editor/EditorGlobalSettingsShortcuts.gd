@@ -259,7 +259,7 @@ func reset_all_to_default():
 				continue
 			
 			var event_list = UserSettings.base_input_map[action_name]
-			var event = event_list[0] if event_list else InputEvent.new()
+			var event = event_list[0] if event_list else InputEventKey.new()
 			
 			InputMap.action_add_event(action_name, event)
 			set_item_text(item, action_name, event)
