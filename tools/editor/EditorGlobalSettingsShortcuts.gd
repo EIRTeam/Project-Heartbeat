@@ -281,3 +281,8 @@ func get_event_text(event: InputEvent):
 
 func set_editor(_editor: HBEditor):
 	editor = _editor
+	
+	if not UserSettings.user_settings.editor_migrated_shortcuts:
+		reset_all_to_default()
+		
+		UserSettings.user_settings.editor_migrated_shortcuts = true

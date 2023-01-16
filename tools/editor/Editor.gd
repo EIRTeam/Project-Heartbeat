@@ -129,11 +129,18 @@ func load_modules():
 		while file_name != "":
 			if not dir.current_is_dir() and not file_name.begins_with("."):
 				if file_name.ends_with(".tscn"):
-					var module = load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+					modules.append(module)
+				elif file_name.ends_with(".tscn.converted.res"):
+					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instance()
 					modules.append(module)
 				elif file_name.ends_with(".gd"):
 					if not dir.file_exists(file_name.trim_suffix(".gd") + ".tscn") and "Module" in file_name:
-						var module = load(EDITOR_MODULES_DIR + "/" + file_name).new()
+						var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).new()
+						modules.append(module)
+				elif file_name.ends_with(".gdc"):
+					if not dir.file_exists(file_name.trim_suffix(".gdc") + ".tscn.converted.res") and "Module" in file_name:
+						var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).new()
 						modules.append(module)
 			
 			file_name = dir.get_next()
@@ -1536,9 +1543,20 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 	
 	var song = SongLoader.songs[song_id]
 	var chart_path = song.get_chart_path(difficulty)
+	
+	var data = serialize_chart()
+	if not data:
+		print("ERROR: Data was not serialized.")
+		return
+	
+	var json = JSON.print(data, "  ")
+	if not json:
+		print("ERROR: Data could not be formatted as json.")
+		return
+	
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
-	file.store_string(JSON.print(serialize_chart(), "  "))
+	file.store_string(json)
 
 func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	deselect_all()
@@ -1749,10 +1767,21 @@ func _on_SaveButton_pressed():
 		return
 	
 	var chart_path = current_song.get_chart_path(current_difficulty)
+	var chart = get_chart()
+	
+	var data = chart.serialize()
+	if not data:
+		print("ERROR: Data was not serialized.")
+		return
+	
+	var json = JSON.print(data, "  ")
+	if not json:
+		print("ERROR: Data could not be formatted as json.")
+		return
+	
 	var file = File.new()
 	file.open(chart_path, File.WRITE)
-	var chart = get_chart()
-	file.store_string(JSON.print(chart.serialize(), "  "))
+	file.store_string(json)
 	file.close()
 	
 	var new_timing_changes = []
