@@ -31,7 +31,7 @@ func place_child(child: EditorTimelineItem):
 	child.rect_position = Vector2(x_pos, 0)
 	child.rect_size = child.get_editor_size()
 	child.sync_value("end_time")
-	
+
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)
 	preview.rect_position = Vector2(x_pos, 0)
@@ -94,7 +94,6 @@ func _on_time_cull_changed(start_time, end_time):
 	
 	_cull_start_note_i = early_note_i
 	_cull_end_note_i = late_note_i
-		
 	
 	var orig_cull_start_time = _cull_start_time
 	
@@ -108,12 +107,17 @@ func _on_time_cull_changed(start_time, end_time):
 	
 	# From the earlierst note forward
 	for i in range(_cull_start_note_i, late_note_i):
-		var item := timing_points[i] as EditorTimelineItem
-		if (item.data as HBTimingPoint).time <= _cull_end_time:
+		var item = timing_points[i]
+		
+		if item.data.time <= _cull_end_time:
+			if item is EditorTimelineItemSustainNote:
+				item.set_process_input(true)
+			
 			item.show()
 			place_child(item)
 		else:
 			break
+		
 		_cull_end_note_i = i
 
 func get_timing_points():

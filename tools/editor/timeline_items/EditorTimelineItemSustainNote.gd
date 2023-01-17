@@ -72,6 +72,7 @@ func _input(event):
 			_end_time_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
 			_end_time_drag_last = data.end_time
 			set_process(true)
+	
 	if event.is_action_released("editor_select") and _end_time_dragging:
 		editor.select_item(self)
 		_end_time_dragging = false

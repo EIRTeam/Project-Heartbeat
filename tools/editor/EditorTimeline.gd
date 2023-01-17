@@ -110,7 +110,6 @@ func _on_viewport_size_changed():
 	yield(get_tree(), "idle_frame")
 	update()
 	set_layers_offset(_offset)
-	send_time_cull_changed_signal()
 
 # Draw timeline yellow bars and time positions
 # We iterate over these backwards to clip numbers correctly
@@ -315,9 +314,11 @@ func set_layers_offset(ms: int):
 	_offset = clamp(ms, 0, song_length_ms - editor.scale_pixels(playhead_area.rect_size.x))
 	layers.rect_position.x = -editor.scale_msec(_offset)
 	_prev_layers_rect_position = layers.rect_position
+	
 	emit_signal("offset_changed")
-	update()
 	send_time_cull_changed_signal()
+	
+	update()
 
 func scale_layers():
 	layers.rect_size.x = editor.scale_msec(editor.get_song_length() * 1000.0)
