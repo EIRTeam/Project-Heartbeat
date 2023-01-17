@@ -61,8 +61,9 @@ func _notification(what):
 		var label_offset := Vector2(0, aspect_ratio_container.rect_size.y + get_constant("separation"))
 		fit_child_in_rect(aspect_ratio_container, Rect2(Vector2(), Vector2(rect_size.x, rect_size.x)))
 		fit_child_in_rect(label, Rect2(label_offset, rect_size - label_offset))
-		
-		rect_min_size.y = rect_size.x + get_constant("separation") + label.rect_size.y
+
+func _process(_delta):
+	rect_min_size.y = rect_size.x + get_constant("separation") + label.rect_size.y
 
 func get_button():
 	return button

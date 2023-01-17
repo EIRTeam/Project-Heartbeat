@@ -381,7 +381,7 @@ func _gui_input(event):
 			update()
 
 func _unhandled_input(event):
-	if _area_selecting:
+	if _area_selecting and event is InputEventWithModifiers:
 		var area_select_size = abs(_area_select_start.x - get_local_mouse_position().x)
 		if area_select_size < 10:
 			return
@@ -404,6 +404,7 @@ func _unhandled_input(event):
 				var layer_name = HBBaseNote.NOTE_TYPE.keys()[note_type]
 				
 				if event.is_action_pressed(action, false, true) and layer_visible(layer_name):
+					print("Spam created for " + action + ". Event: " + event.as_text() + " (Scancode: " + str(event.scancode) + ")")
 					make_spam(note_type, layer_name)
 					get_tree().set_input_as_handled()
 					break
@@ -651,6 +652,9 @@ func _do_area_select():
 	var timeline_rect = Rect2(rect_global_position, rect_size)
 	var first = true
 	for layer in get_layers():
+		if not layer.visible:
+			continue
+		
 		for item in layer.get_editor_items():
 			if timeline_rect.has_point(item.rect_global_position):
 				if item.visible:

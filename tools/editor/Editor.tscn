@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=2]
@@ -36,6 +36,7 @@
 [ext_resource path="res://tools/icons/icon_snap_grid.svg" type="Texture" id=34]
 [ext_resource path="res://tools/editor/EditorContextualMenuControl.gd" type="Script" id=35]
 [ext_resource path="res://rythm_game/SongBackground.gd" type="Script" id=36]
+[ext_resource path="res://tools/icons/icon_GUI_visibility_visible.svg" type="Texture" id=37]
 [ext_resource path="res://tools/editor/MessageShower.gd" type="Script" id=43]
 [ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=50]
 [ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=51]
@@ -554,15 +555,31 @@ margin_top = 3.0
 margin_right = 70.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 70, 0 )
+align = 1
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 74.0
 margin_right = 78.0
 margin_bottom = 31.0
 
-[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+[node name="LayerVisibilityButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 margin_left = 82.0
 margin_right = 110.0
+margin_bottom = 31.0
+hint_tooltip = "Edit Layer visibility."
+icon = ExtResource( 37 )
+flat = true
+script = ExtResource( 22 )
+action = "editor_popup_visibility_editor"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 114.0
+margin_right = 118.0
+margin_bottom = 31.0
+
+[node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+margin_left = 122.0
+margin_right = 150.0
 margin_bottom = 31.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
@@ -572,14 +589,14 @@ flat = true
 script = ExtResource( 22 )
 action = "editor_timeline_snap"
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 114.0
-margin_right = 118.0
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 154.0
+margin_right = 158.0
 margin_bottom = 31.0
 
 [node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 122.0
-margin_right = 322.0
+margin_left = 162.0
+margin_right = 362.0
 margin_bottom = 31.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 1
@@ -591,24 +608,24 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="PlaybackSpeedLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 326.0
+margin_left = 366.0
 margin_top = 3.0
-margin_right = 369.0
+margin_right = 409.0
 margin_bottom = 28.0
 text = "x1.00"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 373.0
+margin_left = 413.0
 margin_right = 1910.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1230.0
+margin_left = 1190.0
 margin_top = 3.0
-margin_right = 1363.0
+margin_right = 1323.0
 margin_bottom = 28.0
 text = "Timing points 0/100"
 __meta__ = {
@@ -616,14 +633,14 @@ __meta__ = {
 }
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1367.0
-margin_right = 1371.0
+margin_left = 1327.0
+margin_right = 1331.0
 margin_bottom = 31.0
 
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1375.0
+margin_left = 1335.0
 margin_top = 3.0
-margin_right = 1537.0
+margin_right = 1497.0
 margin_bottom = 28.0
 text = "Project Kokoro Doki UwU"
 
@@ -777,6 +794,7 @@ __meta__ = {
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
+[connection signal="pressed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/LayerVisibilityButton" to="." method="_toggle_layer_visibility_editor"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="about_to_show" from="Popups/SaveAsSongSelector" to="." method="obscure_ui"]

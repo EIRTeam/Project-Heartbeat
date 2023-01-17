@@ -384,6 +384,10 @@ func _sort_notes_by_time(a: HBTimingPoint, b: HBTimingPoint):
 
 # Stores playing field size in memory to mape remap_coords faster
 func cache_playing_field_size():
+	if size.y == 0:
+		playing_field_size = Vector2.ZERO
+		return
+	
 	var ratio = size.x / size.y
 	if ratio < 16.0/9.0:
 		playing_field_size = Vector2(size.x, size.x * 9/16.0)

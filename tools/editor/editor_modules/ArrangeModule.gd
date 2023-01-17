@@ -44,7 +44,7 @@ func _ready():
 	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
 	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
 	
-	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time", [true])
+	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time")
 	arrange_menu.connect("angle_changed", self, "_update_slope_info")
 	
 	for i in range(4):
@@ -170,7 +170,7 @@ func _order_items(a, b):
 
 # Arranges the selected notes in the playarea by a certain distances
 var original_notes: Array
-func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool, preview_only: bool = false):
+func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
 	if reverse:
 		angle += PI
 	
@@ -178,12 +178,6 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	selected.sort_custom(self, "_order_items")
 	if not selected:
 		return
-	
-	if not preview_only:
-		original_notes = []
-		for item in selected:
-			original_notes.append(item.data)
-		undo_redo.create_action("Arrange selected notes by time")
 	
 	var separation: Vector2 = Vector2.ZERO
 	var slide_separation: Vector2 = Vector2.ZERO
@@ -238,16 +232,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 				else:
 					new_pos = pos_compensation + slide_separation
 			
-			if not preview_only:
-				undo_redo.add_do_property(selected_item.data, "position", new_pos)
-				undo_redo.add_do_property(selected_item.data, "pos_modified", true)
-				undo_redo.add_undo_property(selected_item.data, "position", selected_item.data.position)
-				undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
-				
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-			else:
-				change_selected_property_single_item(selected_item, "position", new_pos)
+			change_selected_property_single_item(selected_item, "position", new_pos)
 			
 			pos_compensation = new_pos
 			if selected_item.data is HBSustainNote:
@@ -268,29 +253,10 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 			if autoangle_enabled:
 				new_angle_params = autoangle(note, selected[0].data.position, angle)
 			
-			if not preview_only:
-				undo_redo.add_do_property(note, "entry_angle", new_angle_params[0])
-				undo_redo.add_undo_property(note, "entry_angle", note.entry_angle)
-				undo_redo.add_do_property(note, "oscillation_frequency", new_angle_params[1])
-				undo_redo.add_undo_property(note, "oscillation_frequency", note.oscillation_frequency)
-				
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-			else:
-				change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
-				change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
+			change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
+			change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
 	
-	if not preview_only:
-		undo_redo.add_do_method(self, "timing_points_changed")
-		undo_redo.add_undo_method(self, "timing_points_changed")
-		undo_redo.add_do_method(self, "sync_inspector_values")
-		undo_redo.add_undo_method(self, "sync_inspector_values")
-		
-		undo_redo.commit_action()
-		
-		original_notes.clear()
-	else:
-		timing_points_params_changed()
+	timing_points_params_changed()
 
 func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 	if arrange_angle != null:

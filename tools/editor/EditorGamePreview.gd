@@ -38,12 +38,13 @@ func _ready():
 	game_ui.aspect_ratio_container.connect("resized", self, "_on_game_resized")
 
 func _on_game_resized():
-	var ratio: float = game_ui.rect_size.x / game_ui.rect_size.y
-	var scale: float = (game_ui.aspect_ratio_container.rect_size.x / 1920.0)
-	if ratio > 16.0/9.0:
-		scale = (game_ui.aspect_ratio_container.rect_size.y / 1080.0)
-	game_ui.game_layer_node.scale = Vector2.ONE * scale
-	emit_signal("preview_size_changed")
+	if game_ui.rect_size.y != 0:
+		var ratio: float = game_ui.rect_size.x / game_ui.rect_size.y
+		var scale: float = (game_ui.aspect_ratio_container.rect_size.x / 1920.0)
+		if ratio > 16.0/9.0:
+			scale = (game_ui.aspect_ratio_container.rect_size.y / 1080.0)
+		game_ui.game_layer_node.scale = Vector2.ONE * scale
+		emit_signal("preview_size_changed")
 	
 func _on_video_player_finished():
 	video_player.play()

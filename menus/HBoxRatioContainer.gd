@@ -12,7 +12,7 @@ func _ready():
 
 func update_min_size():
 	var max_width = 0
-		
+	
 	for c in get_children():
 		var c_min_width = c.rect_min_size.x
 		max_width = max(max_width, c_min_width)

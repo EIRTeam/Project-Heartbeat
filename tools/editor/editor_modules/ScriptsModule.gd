@@ -430,7 +430,6 @@ func update_shortcuts():
 func _popup_script_editor():
 	$CanvasLayer.visible = true
 	script_editor_dialog.popup_centered_ratio(0.9)
-	script_editor_dialog
 	
 	obscure_ui()
 	

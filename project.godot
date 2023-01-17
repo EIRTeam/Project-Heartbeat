@@ -2283,6 +2283,10 @@ editor_select_4th={
 "deadzone": 0.5,
 "events": [  ]
 }
+editor_popup_visibility_editor={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

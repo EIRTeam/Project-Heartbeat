@@ -167,6 +167,8 @@ var hide_ppd_ex_songs: bool = false
 
 var editor_first_time_message_acknowledged: bool = false
 var editor_import_warning_accepted: bool = false
+var editor_migrated_shortcuts := false
+
 var editor_autosave_enabled: bool = true
 
 var use_direct_joystick_access: bool = true
@@ -199,9 +201,9 @@ var editor_show_waveform := true
 var editor_show_hold_calculator := true
 var editor_smooth_scroll := true
 
-var editor_bottom_panel_offset := 0
-var editor_left_panel_offset := 320
-var editor_right_panel_offset := -250
+var editor_bottom_panel_offset := 5
+var editor_left_panel_offset := 370
+var editor_right_panel_offset := -340
 
 var editor_auto_place := true
 var editor_arrange_separation := 96
@@ -234,8 +236,6 @@ var enable_streamer_mode := false
 var enable_system_mmplus_loading := false
 
 var max_simultaneous_media_downloads := 3
-
-var editor_migrated_shortcuts := false
 
 func _init():
 	serializable_fields += [

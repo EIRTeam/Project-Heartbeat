@@ -758,6 +758,9 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	for selected_item in selected:
 		if old_property_values.has(selected_item):
 			if property_name in selected_item.data and property_name in old_property_values[selected_item]:
+				if selected_item.data is HBTimingChange or selected_item.data is HBBPMChange:
+					sync_timing = true
+				
 				if property_name == "time":
 					if selected_item.data is HBSustainNote:
 						if old_property_values[selected_item].has("end_time"):
@@ -768,9 +771,6 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 							
 							undo_redo.add_do_property(selected_item.data, "end_time", selected_item.data.end_time + dt)
 							undo_redo.add_undo_property(selected_item.data, "end_time", selected_item.data.end_time)
-					
-					if selected_item.data is HBTimingChange:
-						sync_timing = true
 					
 					if selected_item.data is HBBaseNote and UserSettings.user_settings.editor_auto_place and not selected_item.data.pos_modified:
 						var new_data = autoplace(selected_item.data, false, selected_cache, note_cache)
@@ -825,9 +825,12 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 	undo_redo.add_do_method(self, "force_game_process")
 	undo_redo.add_undo_method(self, "force_game_process")
 	
-	if property_name == "bpm" or property_name == "time_signature" or sync_timing:
+	if sync_timing:
 		undo_redo.add_do_method(self, "_on_timing_information_changed")
 		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+		
+		undo_redo.add_do_method(self, "_on_timing_points_changed")
+		undo_redo.add_undo_method(self, "_on_timing_points_changed")
 	
 	if create_action:
 		undo_redo.commit_action()
@@ -835,7 +838,6 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 		var item_cache = cache_items_at_time()
 		check_for_multi_changes(multi_check_times, item_cache)
 	
-	old_property_values.clear()
 	release_owned_focus()
 
 # Handles when a user changes a timing point's property, this is used for properties
@@ -1266,7 +1268,7 @@ func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem, forc
 	
 	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
 	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
-	undo_redo.add_undo_method(item, "deselect")
+	undo_redo.add_undo_method(self, "deselect_item", item)
 	
 	undo_redo.add_do_method(self, "_on_timing_points_changed")
 	undo_redo.add_undo_method(self, "_on_timing_points_changed")
@@ -1457,7 +1459,9 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	# Timing changes layer
 	var tempo_layer_scene = EDITOR_LAYER_SCENE.instance()
 	tempo_layer_scene.layer_name = "Tempo Map"
-	var tempo_layer_visible = true
+	var tempo_layer_visible = not "Tempo Map" in song_editor_settings.hidden_layers
+	if not ignore_settings:
+		tempo_layer_visible = not "Tempo Map" in chart.editor_settings.hidden_layers
 	
 	timeline.add_layer(tempo_layer_scene)
 	timeline.change_layer_visibility(tempo_layer_visible, tempo_layer_scene.layer_name)
@@ -2286,3 +2290,10 @@ func guide_user_to_timing_changes():
 
 func keep_settings_button_enabled():
 	settings_editor_button.disabled = false
+
+func _toggle_layer_visibility_editor():
+	_toggle_settings_popup()
+	
+	settings_editor.tab_container.current_tab = 1
+	song_settings_editor.tree.scroll_to_item(song_settings_editor.layers_item)
+	song_settings_editor.layers_item.select(0)

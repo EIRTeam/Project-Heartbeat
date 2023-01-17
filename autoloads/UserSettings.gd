@@ -188,12 +188,14 @@ func fill_localized_arrays():
 		"editor_move_playhead_right": tr("Move playhead to the right"),
 		"gui_undo": tr("Undo"),
 		"gui_redo": tr("Redo"),
+		#  Menus
 		"editor_settings": tr("Open/Close the settings menu"),
 		"editor_show_docs": tr("Open the editor docs"),
 		"editor_open_script_manager": tr("Open the script manager"),
 		"toggle_diagnostics": tr("Open the diagnostics menu"),
 		"toggle_fps": tr("Toggle the fps counter"),
 		"show_hidden": tr("Show hidden charts"),
+		"editor_popup_visibility_editor": tr("Open/Close the layer visibility menu"),
 		#  Files
 		"editor_open": tr("Open a chart"),
 		"editor_open_scripts_dir": tr("Open the scripts directory"),

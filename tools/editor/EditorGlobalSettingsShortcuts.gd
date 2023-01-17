@@ -20,12 +20,15 @@ const EDITOR_EVENTS = {
 		"editor_move_playhead_right",
 		"gui_undo",
 		"gui_redo",
+	],
+	"Menus": [
 		"editor_settings",
 		"editor_show_docs",
 		"editor_open_script_manager",
 		"toggle_diagnostics",
 		"toggle_fps",
 		"show_hidden",
+		"editor_popup_visibility_editor",
 	],
 	"Files": [
 		"editor_open",
