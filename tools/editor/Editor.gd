@@ -485,7 +485,7 @@ func _unhandled_input(event: InputEvent):
 						continue
 					
 					if selected and not game_playback.is_playing():
-						undo_redo.create_action("Change selected notes button to " + HBGame.NOTE_TYPE_TO_STRING_MAP[type])
+						undo_redo.create_action("Change selected note's type to " + HBGame.NOTE_TYPE_TO_STRING_MAP[type])
 						
 						for item in selected:
 							var data = item.data as HBBaseNote
@@ -518,8 +518,8 @@ func _unhandled_input(event: InputEvent):
 						undo_redo.add_do_method(self, "deselect_all")
 						undo_redo.add_undo_method(self, "deselect_all")
 						
-						undo_redo.add_do_method(self, "_cache_hold_sizes")
-						undo_redo.add_undo_method(self, "_cache_hold_sizes")
+						undo_redo.add_do_method(self, "_on_timing_points_changed")
+						undo_redo.add_undo_method(self, "_on_timing_points_changed")
 						
 						undo_redo.commit_action()
 					else:

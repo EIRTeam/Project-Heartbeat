@@ -314,7 +314,6 @@ func set_layers_offset(ms: int):
 	var song_length_ms: int = int(editor.get_song_length() * 1000.0)
 	_offset = clamp(ms, 0, song_length_ms - editor.scale_pixels(playhead_area.rect_size.x))
 	layers.rect_position.x = -editor.scale_msec(_offset)
-	#print(print("pos", layers.rect_position.x)
 	_prev_layers_rect_position = layers.rect_position
 	emit_signal("offset_changed")
 	update()
@@ -359,6 +358,10 @@ func _input(event):
 	if selection_mode != new_selection_mode:
 		selection_mode = new_selection_mode
 		update_selection_mode()
+	
+	if get_global_rect().has_point(get_global_mouse_position()):
+		if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("%EditorGlobalSettings").visible:
+			editor.show_contextual_menu()
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
@@ -376,12 +379,13 @@ func _gui_input(event):
 			_do_area_select()
 			modifier_texture.visible = false
 			update()
-	
-	if event.is_action_pressed("editor_contextual_menu") and not editor.get_node("%EditorGlobalSettings").visible:
-		editor.show_contextual_menu()
 
 func _unhandled_input(event):
 	if _area_selecting:
+		var area_select_size = abs(_area_select_start.x - get_local_mouse_position().x)
+		if area_select_size < 10:
+			return
+		
 		if event.is_action_pressed("slide_left", false, true) and layer_visible("SLIDE_LEFT"):
 			make_slide(HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT, "SLIDE_LEFT")
 			get_tree().set_input_as_handled()
@@ -723,7 +727,6 @@ func set_audio_stream(stream: AudioStream):
 func find_layer_by_name(name: String) -> EditorLayer:
 	var r = null
 	for layer in layers.get_children():
-		print(layer.layer_name)
 		if layer.layer_name == name:
 			r = layer
 			break

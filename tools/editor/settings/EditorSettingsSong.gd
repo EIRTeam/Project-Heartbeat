@@ -10,7 +10,7 @@ var layers_item: TreeItem
 func _ready():
 	settings = {
 		"Timeline": [
-			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 32}},
+			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 128}},
 			{"name": tr("Snap to timeline"), "var": "timeline_snap", "type": "Bool"},
 		],
 		"Media": [

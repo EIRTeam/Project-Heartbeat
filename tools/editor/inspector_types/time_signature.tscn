@@ -13,7 +13,6 @@ margin_right = 74.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 inner_property_name = "numerator"
-min = 1.0
 align = 2
 script = ExtResource( 2 )
 
@@ -30,5 +29,4 @@ margin_right = 161.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 inner_property_name = "denominator"
-min = 1.0
 script = ExtResource( 2 )

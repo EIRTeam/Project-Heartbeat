@@ -187,7 +187,8 @@ func inspect(items: Array):
 		child.free()
 	
 	for item in inspecting_items:
-		item.connect("property_changed", self, "update_value")
+		if not item.is_connected("property_changed", self, "update_value"):
+			item.connect("property_changed", self, "update_value")
 	
 	var properties = common_data_class.get_inspector_properties()
 	for property_name in properties.keys():

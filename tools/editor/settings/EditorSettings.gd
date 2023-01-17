@@ -277,7 +277,7 @@ func _on_tree_item_edited():
 	var edited := tree.get_edited()
 	var property_name := edited.get_meta("property_name") as String
 	var type := edited.get_meta("type") as String
-	var update_affects_conditions = edited.get_meta("update_affects_conditions")
+	var update_affects_conditions = edited.get_meta("update_affects_conditions", false)
 	
 	var current_value = settings_base.get(property_name)
 	var new_value = settings_base.get(property_name)
@@ -297,7 +297,7 @@ func _on_tree_item_edited():
 			custom_input_parser(edited)
 			return
 	
-	if edited.get_meta("parser"):
+	if edited.get_meta("parser", ""):
 		new_value = call(edited.get_meta("parser"), new_value, "edited")
 	
 	if current_value != new_value:

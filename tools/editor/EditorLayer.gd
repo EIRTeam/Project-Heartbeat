@@ -112,7 +112,6 @@ func _on_time_cull_changed(start_time, end_time):
 		if (item.data as HBTimingPoint).time <= _cull_end_time:
 			item.show()
 			place_child(item)
-			item.set_process_input(true)
 		else:
 			break
 		_cull_end_note_i = i
@@ -140,20 +139,25 @@ func _gui_input(event):
 			var new_val = ln.substr(0, ln.length()-1)
 			if new_val in HBNoteData.NOTE_TYPE.keys():
 				ln = new_val
+		
 		if ln in HBNoteData.NOTE_TYPE.keys():
 			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				var new_note = HBNoteData.new()
 				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
 				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
+				
 				var found_item_at_same_time = false # To prevent items being placed at the same time when creating a note with snap on
 				for i in get_timing_points():
 					if i.time == new_note.time:
 						found_item_at_same_time = true
 						break
+				
 				if not found_item_at_same_time:
 					var item = new_note.get_timeline_item()
 					item.data = new_note
 					editor.user_create_timing_point(self, item)
+				
+				get_tree().set_input_as_handled()
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()
