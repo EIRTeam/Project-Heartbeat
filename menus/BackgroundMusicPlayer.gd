@@ -77,8 +77,6 @@ class SongPlayer:
 			if song.preview_end != -1:
 				end_time = song.preview_end
 			if audio_playback.get_playback_position_msec() >= end_time or audio_playback.is_at_stream_end():
-				print("FADE OUT!")
-				prints(audio_playback.get_playback_position_msec(), end_time, audio_playback.is_at_stream_end())
 				fade_out()
 				emit_signal("song_ended")
 		

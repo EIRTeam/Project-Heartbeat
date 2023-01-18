@@ -520,7 +520,7 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if (not editing or previewing) and audio_playback:
-		time = audio_playback.get_playback_position_msec() / 1000.0
+		time = audio_playback.get_playback_position_nsec() / 1000_000_000.0
 		time -= latency_compensation / 1000.0
 
 		if not editing:
@@ -528,7 +528,7 @@ func _process_game(_delta):
 			if current_song.end_time > 0:
 				end_time = min(end_time, float(current_song.end_time))
 
-			if audio_playback.get_playback_position_msec() >= end_time or audio_playback.is_at_stream_end() and not _finished:
+			if (audio_playback.get_playback_position_nsec() / 1000_000.0) >= end_time or audio_playback.is_at_stream_end() and not _finished:
 				_on_game_finished()
 	
 	_process_groups()

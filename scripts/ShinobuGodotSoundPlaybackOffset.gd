@@ -39,6 +39,9 @@ func is_at_stream_end() -> bool:
 func get_playback_position_msec() -> int:
 	return playback.get_playback_position_msec() + offset
 
+func get_playback_position_nsec() -> int:
+	return playback.get_playback_position_nsec() + offset * 1000_000
+
 func stop():
 	playback.stop()
 func start():
