@@ -264,6 +264,11 @@ func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_
 		sounds.append(user_sfx_name)
 	scheduled_autoplay_sound = HBGame.instantiate_user_sfx(user_sfx_name)
 	var time_to_hit := target_time_msec - game_time_msec
+	# Now you may be wondering why we are doing this
+	# its because sounds are scheduled using the global
+	# audio timer, so if we are slowing down or speeding
+	# up the audio it would be off-sync
+	time_to_hit /= game.audio_playback.pitch_scale
 	scheduled_autoplay_sound_time = Shinobu.get_dsp_time() + time_to_hit
 	get_tree().root.add_child(scheduled_autoplay_sound)
 	scheduled_autoplay_sound.schedule_start_time(scheduled_autoplay_sound_time)
@@ -272,4 +277,4 @@ func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_
 # returns true if we are close enough to start scheduling the hit sound
 # check SCHEDULE_MARGIN
 func is_in_autoplay_schedule_range(time_msec: int, target_time: int) -> bool:
-	return target_time - time_msec <= SCHEDULE_MARGIN and time_msec < target_time
+	return target_time - time_msec <= (SCHEDULE_MARGIN * game.audio_playback.pitch_scale) and time_msec < target_time
