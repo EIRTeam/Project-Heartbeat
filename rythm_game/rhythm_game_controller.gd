@@ -252,7 +252,6 @@ func set_game_size():
 func _on_resumed():
 	UserSettings.enable_menu_fps_limits = false
 	get_tree().paused = false
-	game.game_input_manager.set_process_input(true)
 	$PauseMenu.hide()
 	
 	set_process(true)
@@ -292,7 +291,6 @@ func _unhandled_input(event):
 					video_player.paused = true
 					game.pause_game()
 				Input.stop_joy_vibration(UserSettings.controller_device_idx)
-				game.game_input_manager.set_process_input(false)
 				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
@@ -401,7 +399,7 @@ func _on_PauseMenu_restarted():
 	set_process(true)
 	game.set_process(true)
 	game.editing = false
-	game.game_input_manager.set_process_input(true)
+	game.game_input_manager.set_process_input(false)
 	yield(get_tree(), "idle_frame")
 	start_fade_in()
 

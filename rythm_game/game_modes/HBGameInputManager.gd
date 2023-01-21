@@ -22,14 +22,16 @@ func reset():
 func is_action_held(action):
 	return false
 func send_input(action, pressed, count = 1, event_uid=0b0, current_actions=[]):
-	if not get_tree().paused:
-		var a = InputEventHB.new()
-		a.action = action
-		a.triggered_actions_count = count
-		a.pressed = pressed
-		a.event_uid = event_uid
-		a.actions = current_actions
-		_buffered_inputs.append(a)
+	# When paused we only buffer release events...
+	if pressed and get_tree().paused:
+		return
+	var a = InputEventHB.new()
+	a.action = action
+	a.triggered_actions_count = count
+	a.pressed = pressed
+	a.event_uid = event_uid
+	a.actions = current_actions
+	_buffered_inputs.append(a)
 
 func _frame_end():
 	_buffered_inputs.clear()
