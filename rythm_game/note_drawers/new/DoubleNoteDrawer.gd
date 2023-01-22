@@ -29,7 +29,7 @@ func process_input(event: InputEventHB):
 	if game.game_input_manager.get_action_press_count(action) >= 2:
 		_on_note_pressed(event)
 	else:
-		if not game.is_sound_debounced("note_hit"):
+		if not game.is_sound_debounced("note_hit") and not UserSettings.user_settings.play_hit_sounds_only_when_hit:
 			game.debounce_sound("note_hit")
 			current_note_sound = HBGame.instantiate_user_sfx("note_hit")
 			current_note_sound.start()

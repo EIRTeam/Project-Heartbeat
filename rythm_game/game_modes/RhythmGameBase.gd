@@ -579,8 +579,9 @@ func _process_game(_delta):
 			emit_signal("end_intro_skip_period")
 			_intro_skip_enabled = false
 			
-	for event in unhandled_input_events_this_frame:
-		_play_empty_note_sound(event)
+	if not UserSettings.user_settings.play_hit_sounds_only_when_hit:
+		for event in unhandled_input_events_this_frame:
+			_play_empty_note_sound(event)
 
 	unhandled_input_events_this_frame.clear()
 	handled_event_uids_this_frame.clear()
