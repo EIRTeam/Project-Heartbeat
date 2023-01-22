@@ -140,11 +140,11 @@ func change_note_button(new_button_name):
 	var changed_buttons = []
 	if get_selected().size() > 0:
 		undo_redo.create_action("Change note button to " + new_button_name)
-
+		
 		var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_button)
-
+		
 		var new_layer = find_layer_by_name(layer_name)
-
+		
 		for item in get_selected():
 			var data = item.data as HBBaseNote
 			if not data:
@@ -171,14 +171,19 @@ func change_note_button(new_button_name):
 			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
 			undo_redo.add_undo_method(new_item, "deselect")
 			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+			
 			changed_buttons.append(new_item)
+		
 		undo_redo.add_do_method(self, "timing_points_changed")
 		undo_redo.add_undo_method(self, "timing_points_changed")
+		
 		undo_redo.add_undo_method(self, "deselect_all")
 		undo_redo.add_do_method(self, "deselect_all")
-		undo_redo.commit_action()
-	return changed_buttons
 		
+		undo_redo.commit_action()
+	
+	return changed_buttons
+
 func change_note_type(new_type: String):
 	if get_selected().size() > 0:
 		undo_redo.create_action("Convert note to " + new_type)
@@ -250,6 +255,12 @@ func change_note_button_by(amount):
 	if not found: 
 		return
 	
+	var new_types := []
+	for item in get_selected():
+		if item is EditorTimelineItemNote:
+			if not check_valid_change(amount, item, new_types):
+				return
+	
 	# Yes, its flipped. Blame the editor layer order.
 	if amount < 0:
 		undo_redo.create_action("Increase note type")
@@ -258,31 +269,28 @@ func change_note_button_by(amount):
 	
 	for item in get_selected():
 		if item is EditorTimelineItemNote:
-			if check_valid_change(amount, item):
-				# Use mod 4 so that all values range from 0 to 3, add 4 so that we only ever deal with naturals.
-				var new_note_type = (item.data.note_type + amount + 4) % 4
-				
-				var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_note_type)
-				var new_layer = find_layer_by_name(layer_name)
-				
-				var data = item.data as HBBaseNote
-				if not data:
-					continue
-				
-				var new_data_ser = data.serialize()
-				new_data_ser["note_type"] = new_note_type
-				
-				var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
-				var new_item = new_data.get_timeline_item()
-				new_items.append(new_item)
-				
-				undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
-				undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
-				
-				undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-				undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
-			else:
-				new_items.append(item)
+			# Use mod 4 so that all values range from 0 to 3, add 4 so that we only ever deal with naturals.
+			var new_note_type = (item.data.note_type + amount + 4) % 4
+			
+			var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_note_type)
+			var new_layer = find_layer_by_name(layer_name)
+			
+			var data = item.data as HBBaseNote
+			if not data:
+				continue
+			
+			var new_data_ser = data.serialize()
+			new_data_ser["note_type"] = new_note_type
+			
+			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			var new_item = new_data.get_timeline_item()
+			new_items.append(new_item)
+			
+			undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
+			undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
+			
+			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
 	
 	undo_redo.add_do_method(self, "timing_points_changed")
 	undo_redo.add_undo_method(self, "timing_points_changed")
@@ -297,13 +305,18 @@ func change_note_button_by(amount):
 	
 	undo_redo.commit_action()
 
-func check_valid_change(amount, item):
-	var new_type = item.data.note_type + amount
+func check_valid_change(amount, item, new_types):
+	# Use mod 4 so that all values range from 0 to 3, add 4 so that we only ever deal with naturals.
+	var new_type = (item.data.note_type + amount + 4) % 4
 	
-	for note in get_notes_at_time(item.data.time):
-		if note.note_type == new_type:
+	if new_type in new_types:
+		return false
+	
+	for i in get_items_at_time(item.data.time):
+		if i.data is HBBaseNote and i.data.note_type == new_type and not i in get_selected():
 			return false
 	
+	new_types.append(new_type)
 	return item.data.note_type >= HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT
 
 
