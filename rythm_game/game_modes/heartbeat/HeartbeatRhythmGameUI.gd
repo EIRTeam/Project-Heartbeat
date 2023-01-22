@@ -96,7 +96,9 @@ func _ready():
 	add_child(tv_animation_tween)
 	
 	tv_animation_tween.connect("tween_all_completed", self, "emit_signal", ["tv_off_animation_finished"])
+	tv_animation_tween.pause_mode = Node.PAUSE_MODE_PROCESS
 	add_child(game_over_message_tween)
+	game_over_message_tween.pause_mode = Node.PAUSE_MODE_PROCESS
 	game_over_message_node.hide()
 
 	get_tree().set_group_flags(SceneTree.GROUP_CALL_REALTIME, LATENCY_DISPLAY_GROUP, "visible", UserSettings.user_settings.show_latency)

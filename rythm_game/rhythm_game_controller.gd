@@ -60,6 +60,7 @@ func _ready():
 	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
 	game.connect("game_over", self, "_on_RhythmGame_game_over")
 	add_child(game_over_tween)
+	game_over_tween.pause_mode = Node.PAUSE_MODE_PROCESS
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
 func _on_intro_skipped(new_time):
