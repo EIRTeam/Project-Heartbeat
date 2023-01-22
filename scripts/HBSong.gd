@@ -169,7 +169,7 @@ func is_cached(variant=-1):
 	var use_video = use_youtube_for_video
 	if not has_video_enabled():
 		use_video = false
-	if variant != -1:
+	if variant != -1 and song_variants:
 		return (song_variants[variant] as HBSongVariantData).is_cached()
 	if youtube_url:
 		return YoutubeDL.get_cache_status(youtube_url, use_video, use_youtube_for_audio) == YoutubeDL.CACHE_STATUS.OK

@@ -1324,15 +1324,21 @@ func _on_PauseButton_pressed(auto = false):
 func _on_PlayButton_pressed():
 	if UserSettings.user_settings.editor_autosave_enabled and modified:
 		_on_SaveButton_pressed()
+	
 	_playhead_traveling = true
+	
 	game_preview.play_at_pos(playhead_position/1000.0)
 	game_playback.start()
+	
 	play_button.hide()
 	pause_button.show()
-	game_preview.set_visualizer_processing_enabled(true)
-	game_preview.widget_area.hide()
 	playback_speed_slider.editable = false
 	obscure_ui(false)
+	
+	game_preview.set_visualizer_processing_enabled(true)
+	game_preview.widget_area.hide()
+	game_preview.widget_area.deselect_all()
+
 
 # Fired when any timing point tells the game to rethink its existence
 func _on_timing_points_changed():

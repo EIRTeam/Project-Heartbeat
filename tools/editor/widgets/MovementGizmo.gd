@@ -29,7 +29,11 @@ func _input(event):
 			emit_signal("dragged", event.relative)
 		if event.is_action_released("editor_select") and not event.is_echo():
 			emit_signal("finish_dragging")
-	
+
+func finish_dragging():
+	hovering = false
+	emit_signal("finish_dragging")
+
 func _on_mouse_entered():
 	hovering = true
 	update()

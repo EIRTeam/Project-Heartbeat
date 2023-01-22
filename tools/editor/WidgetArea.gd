@@ -8,3 +8,8 @@ func _gui_input(event):
 
 func _clips_input():
    return true
+
+func deselect_all():
+	for widget in get_children():
+		if widget is HBEditorNoteMovementWidget:
+			widget.movement_gizmo.finish_dragging()

@@ -1,5 +1,9 @@
 tool
+
 extends HBEditorWidget
+
+class_name HBEditorNoteMovementWidget
+
 onready var movement_gizmo = get_node("MovementGizmo")
 var internal_pos : Vector2
 var starting_pos
