@@ -642,7 +642,7 @@ func select_all():
 	release_owned_focus()
 	notify_selected_changed()
 
-func add_item(layer_n: int, item: EditorTimelineItem, sort_groups: bool = false):
+func add_item(layer_n: int, item: EditorTimelineItem, sort_groups: bool = true):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
 	
@@ -877,7 +877,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l.drop_data(null, selected)
 					break
 
-func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups: bool = false):
+func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups: bool = true):
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])

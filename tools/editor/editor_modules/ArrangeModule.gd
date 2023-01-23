@@ -147,19 +147,27 @@ func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
 	reverse_arrange_checkbox.pressed = reverse
 
 func _apply_arrange():
+	original_notes.clear()
+	for item in get_selected():
+		original_notes.append(item.data.clone())
+	
 	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
 
 func _apply_arrange_shortcut(direction: int):
+	original_notes.clear()
+	for item in get_selected():
+		original_notes.append(item.data.clone())
+	
 	var angle = 45
 	
 	if direction % 2:
 		if direction > 3:
 			angle = -angle 
-
+		
 		if direction in [3, 5]:
 			angle = -angle
 			angle += 180
-
+		
 		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed, false)
 	else:
 		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
@@ -214,15 +222,16 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
 				if slide_index > 1:
-					eight_diff = 1
+					eight_diff = max(1, eight_diff)
 				
 				slide_index = 1
 			elif selected_item.data is HBNoteData and slide_index and selected_item.data.is_slide_hold_piece():
 				slide_index += 1
 			elif slide_index:
-				slide_index = 0
+				if slide_index > 1:
+					eight_diff = max(1, eight_diff)
 				
-				eight_diff = 1
+				slide_index = 0
 			
 			var new_pos = pos_compensation + (separation * eight_diff)
 			

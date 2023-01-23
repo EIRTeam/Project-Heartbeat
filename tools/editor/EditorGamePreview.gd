@@ -78,20 +78,19 @@ func set_visualizer_processing_enabled(enabled):
 		visualizer.set_physics_process(enabled)
 	
 func _video_player_debounce():
-	#video_player.paused = true
 	video_player.stream_position = video_time
-	#play_video_from_pos(video_time, true)
-	
+
 func play_video_from_pos(pos: float):
 	if video_player.stream and video_player.visible:
 		video_player.paused = false
 		if not is_equal_approx(video_player.stream_position, pos):
 			video_player.stream_position = pos
-	
+
 func set_time(time: float):
 	if video_player.stream and video_player.visible:
 		video_time = time
 		_video_player_debounce()
+
 func rescale_video_player():
 	var video_texture = video_player.get_video_texture()
 	if video_texture:
