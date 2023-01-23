@@ -642,10 +642,11 @@ func select_all():
 	release_owned_focus()
 	notify_selected_changed()
 
-func add_item(layer_n: int, item: EditorTimelineItem):
+func add_item(layer_n: int, item: EditorTimelineItem, sort_groups: bool = false):
 	var layers = timeline.get_layers()
 	var layer = layers[layer_n]
-	add_item_to_layer(layer, item)
+	
+	add_item_to_layer(layer, item, sort_groups)
 
 # property values for continuously updating undo_redo actions like angle changes
 var old_property_values = {}
@@ -876,7 +877,7 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 					l.drop_data(null, selected)
 					break
 
-func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
+func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups: bool = false):
 	if item.update_affects_timing_points:
 		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
 			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])
@@ -889,7 +890,7 @@ func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem):
 	if item in _removed_items:
 		_removed_items.erase(item)
 	
-	rhythm_game.editor_add_timing_point(item.data)
+	rhythm_game.editor_add_timing_point(item.data, sort_groups)
 	force_game_process()
 
 func add_event_timing_point(timing_point_class: GDScript):
@@ -925,13 +926,13 @@ func _on_game_playback_time_changed(time: float):
 					_playhead_traveling = false
 		if not _playhead_traveling:
 			timeline.set_layers_offset(target_offset)
-		
 
 func seek(value: int, force = false):
 	if not UserSettings.user_settings.editor_smooth_scroll:
 		value = snap_time_to_timeline(value)
 	
 	game_playback.seek(value)
+	
 	if (not game_playback.is_playing()) and (not force) and UserSettings.user_settings.editor_smooth_scroll:
 		call_deferred("_seek", value / 1000.0)
 	elif not game_playback.is_playing():
@@ -1429,7 +1430,9 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		for item_d in layer.timing_points:
 			var item = item_d.get_timeline_item()
 			item.data = item_d
-			add_item(layer_n, item)
+			
+			add_item(layer_n, item, false)
+			
 			if item_d is HBSustainNote:
 				item.sync_value("end_time")
 		
@@ -1513,6 +1516,7 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 	
 	deselect_all()
 	sync_lyrics()
+	sort_groups()
 	force_game_process()
 
 func paste_note_data(notes: Array):
@@ -2257,6 +2261,9 @@ func force_game_process():
 	if not force_game_process_queued:
 		force_game_process_queued = true
 		call_deferred("_force_game_process_impl")
+
+func sort_groups():
+	rhythm_game._editor_sort_groups()
 
 func _on_Sfx_toggled(button_pressed: bool):
 	rhythm_game.sfx_enabled = button_pressed

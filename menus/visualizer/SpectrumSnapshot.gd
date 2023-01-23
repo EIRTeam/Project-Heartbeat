@@ -75,7 +75,8 @@ func set_value_at_i(i: int, val: float):
 	arr.set(i, val)
 
 func _process(delta):
-	decay(delta)
+	if UserSettings.user_settings.visualizer_enabled:
+		decay(delta)
 
 func decay(delta: float):
 	var decay_factor = (delta * 1000.0) * decay_per_ms

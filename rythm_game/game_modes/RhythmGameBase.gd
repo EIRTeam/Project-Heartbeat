@@ -963,10 +963,10 @@ func _group_compare_hit(a, b):
 	
 	return a_time < b_time
 
-func editor_add_timing_point(point: HBTimingPoint):
+func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
-		var group := editor_find_group_at_time(note_data.time)
+		var group := editor_find_group_at_time(note_data.time, sort_groups)
 		
 		if not group:
 			group = HBNoteGroup.new()
@@ -978,8 +978,11 @@ func editor_add_timing_point(point: HBTimingPoint):
 		group.reset_group()
 		
 		note_data.set_meta("editor_group", group)
-		_editor_sort_groups()
-		last_culled_note_group = -1
+		
+		if sort_groups:
+			_editor_sort_groups()
+			
+			last_culled_note_group = -1
 	else:
 		if point is HBBPMChange:
 			bpm_changes.insert(bpm_changes.bsearch_custom(point, self, "_sort_notes_by_time"), point)
@@ -994,16 +997,36 @@ func _editor_sort_groups():
 	note_groups.sort_custom(self, "_sort_groups_by_start_time")
 	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
 
-func editor_find_group_at_time(time_msec: int) -> HBNoteGroup:
-	var group_i := note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end")
+func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HBNoteGroup:
+	var group_i := -1
+	
+	if sorted_groups:
+		group_i = note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end")
+	else:
+		for i in range(note_groups_by_end_time.size()):
+			var group = note_groups_by_end_time[i]
+			var time: int
+			
+			if group is HBNoteGroup:
+				time = group.get_end_time_msec()
+			else:
+				time = group
+			
+			if time == time_msec:
+				group_i = i
+				break
+	
 	if note_groups.size() > 0:
 		# walk backwards
 		if group_i == note_groups.size():
 			group_i -= 1
+		
 		while group_i >= 0 and note_groups[group_i].get_end_time_msec() >= time_msec:
 			if note_groups[group_i].get_hit_time_msec() == time_msec:
 				return note_groups[group_i]
+			
 			group_i -= 1
+	
 	return null
 
 func editor_remove_timing_point(point: HBTimingPoint):

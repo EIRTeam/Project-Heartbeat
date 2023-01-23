@@ -168,7 +168,8 @@ func _register_ui_component(component: GDScript):
 	ui_components[component.get_component_id()] = component
 	
 func _process(delta):
-	spectrum_snapshot.decay(delta)
+	if UserSettings.user_settings.visualizer_enabled:
+		spectrum_snapshot.decay(delta)
 	
 	for i in range(fire_and_forget_sounds.size()-1, -1, -1):
 		var sound := fire_and_forget_sounds[i] as ShinobuSoundPlayer

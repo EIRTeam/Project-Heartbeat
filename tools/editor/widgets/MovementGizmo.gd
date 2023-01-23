@@ -32,7 +32,6 @@ func _input(event):
 
 func finish_dragging():
 	hovering = false
-	emit_signal("finish_dragging")
 
 func _on_mouse_entered():
 	hovering = true

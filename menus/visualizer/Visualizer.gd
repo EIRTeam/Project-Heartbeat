@@ -34,28 +34,22 @@ func _ready():
 				add_stylebox_override("panel", fallback_stylebox)
 	else:
 		_background_dim_changed(UserSettings.user_settings.background_dim)
-		
-#	add_child(texr)
-#	texr.texture = spectrum_image_texture
-#	texr.expand = true
-#	texr.rect_size.y = 100.0
-#	texr.rect_size.x = 256.0
-		
+
 func _background_dim_changed(new_dim: float):
 	if not UserSettings.user_settings.visualizer_enabled:
 		var box = fallback_stylebox as StyleBoxFlat
 		box.bg_color.a = 0.5 + (new_dim * 0.5)
 
 func _process(delta: float):
-	pass
 	update()
 
 func _physics_process(delta):
 	spectrum_image.lock()
+	
 	for i in range(VU_COUNT):
 		var magnitude := HBGame.spectrum_snapshot.get_value_at_i(i) as float
 		spectrum_image.set_pixel(i, 0, Color(magnitude, 0.0, 0.0))
-	#spectrum_image.set_pixel(0, 0, Color(1.0, 0.0, 0.0))
+	
 	spectrum_image.unlock()
 	spectrum_image_texture.set_data(spectrum_image)
 	var mat := material as ShaderMaterial

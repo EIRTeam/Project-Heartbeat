@@ -244,7 +244,7 @@ func _pre_process_game():
 
 func _process_game(_delta):
 	._process_game(_delta)
-
+	
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + (MAX_HOLD / 1000.0)
@@ -539,28 +539,34 @@ func editor_unorphan_subnotes():
 				slide_chain.pieces.sort_custom(self, "_sort_notes_by_time")
 				editor_orphaned_subnotes.remove(i)
 
-func editor_add_timing_point(point: HBTimingPoint):
+func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
 		var note_data: HBBaseNote = point
+		
 		if note_data is HBNoteData:
 			if note_data.is_slide_note():
 				var intersecting_chains := get_intersecting_slide_chains(point.time)
+				
 				for slide_chain in intersecting_chains:
 					var is_of_the_same_type: bool = slide_chain.slide.note_type == point.note_type
 					if is_of_the_same_type:
 						slide_hold_chains.erase(slide_chain.slide)
 						editor_orphaned_subnotes.append_array(slide_chain.pieces)
+				
 				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
 					editor_left_slide_notes.insert(editor_left_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
 				elif note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
 					editor_right_slide_notes.insert(editor_right_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
+				
 				if editor_orphaned_subnotes.size() > 0:
 					editor_unorphan_subnotes()
 			elif note_data.is_slide_hold_piece():
 				editor_orphaned_subnotes.append(point)
 				editor_unorphan_subnotes()
+				
 				return
-	.editor_add_timing_point(point)
+	
+	.editor_add_timing_point(point, sort_groups)
 
 func editor_remove_timing_point(point: HBTimingPoint):
 	if point is HBNoteData:
