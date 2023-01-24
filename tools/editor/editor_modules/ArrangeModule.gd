@@ -87,7 +87,21 @@ func _input(event: InputEvent):
 		if selected and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
 			arranging = true
 			arrange_menu.popup()
-			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120))
+			
+			var old_angle = deg2rad(-arrange_angle_spinbox.value)
+			
+			var old_distance
+			if fmod(arrange_angle_spinbox.value, 30) == 0:
+				old_distance = 32
+			elif fmod(arrange_angle_spinbox.value, 10) == 0:
+				old_distance = 55
+			else:
+				old_distance = 80
+			
+			var old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
+			
+			arrange_menu.rotation = old_angle
+			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120) - old_angle_translation)
 			
 			selected.sort_custom(self, "_order_items")
 			

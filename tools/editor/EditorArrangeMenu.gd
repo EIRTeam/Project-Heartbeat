@@ -38,7 +38,7 @@ func _input(event):
 			elif mouse_distance > 44:
 				_rotation_snaps = 36
 			else:
-				_rotation_snaps = 8
+				_rotation_snaps = 12
 			
 			if _rotation_snaps != -1:
 				new_rotation /= PI / (_rotation_snaps / 2.0)
