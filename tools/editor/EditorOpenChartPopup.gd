@@ -59,7 +59,7 @@ func _on_upload_to_workshop_pressed():
 		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
 	else:
 		workshop_upload_dialog.set_song(song)
-		workshop_upload_dialog.popup_centered()
+		workshop_upload_dialog.popup_centered_ratio()
 	
 func _on_verify_button_pressed():
 	var item = tree.get_selected()
