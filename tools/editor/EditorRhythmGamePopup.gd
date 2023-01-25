@@ -11,6 +11,7 @@ onready var video_player = get_node("%VideoPlayer")
 onready var video_player_panel = get_node("%VideoPlayerPanel")
 onready var background_texture = get_node("%BackgroundTextureRect")
 onready var visualizer = get_node("%Visualizer")
+onready var autoplay_checkbox: CheckBox = get_node("%AutoplayCheckbox")
 signal quit
 
 var playback_speed := 1.0
@@ -141,6 +142,10 @@ func _ready():
 	rhythm_game.game_input_manager.set_process_input(false)
 	rhythm_game.set_process_input(false)
 	set_process_unhandled_input(false)
+	autoplay_checkbox.connect("toggled", self, "_on_autoplay_toggled")
+
+func _on_autoplay_toggled(autoplay: bool):
+	rhythm_game.game_mode = HBRhythmGame.GAME_MODE.AUTOPLAY if autoplay else HBRhythmGame.GAME_MODE.NORMAL
 
 func _unhandled_input(event):
 	if event.is_action_pressed("contextual_option"):
