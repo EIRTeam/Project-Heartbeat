@@ -667,7 +667,10 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 				new_value = new_time - selected_item.data.time
 			
 			selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
+			
 			selected_item.update_widget_data()
+			selected_item.data.emit_signal("parameter_changed", property_name)
+	
 	_on_timing_points_params_changed()
 	
 var fine_position_originals = {}
@@ -711,7 +714,7 @@ func show_contextual_menu():
 	popup_offset.x = max(popup_offset.x, 0)
 	popup_offset.y = max(popup_offset.y, 0)
 	contextual_menu.set_global_position(get_global_mouse_position() - popup_offset)
-	
+
 # Changes the properties of the selected items, but doesn't commit it to undo_redo, to
 # prevent creating more undo_redo actions than necessary, thus undoing constant 
 # actions like changing a note angle requires a single control+z
@@ -730,12 +733,12 @@ func _change_selected_property_single_item(item, property_name: String, new_valu
 	
 	if not property_name in old_property_values[item]:
 		old_property_values[item][property_name] = item.data.get(property_name)
+	
 	item.data.set(property_name, new_value)
 	
 	item.update_widget_data()
 	item.sync_value(property_name)
 	item.data.emit_signal("parameter_changed", property_name)
-
 
 func _commit_selected_property_change(property_name: String, create_action: bool = true):
 	var action_name = "Note " + property_name + " changed"
@@ -1113,6 +1116,14 @@ func check_for_multi_changes(times: Array, item_cache: Array = []):
 			
 			# Set correct multi angles
 			_set_multi_angles(notes_at_time)
+			
+			for note in notes_at_time:
+				for property_name in ["position", "entry_angle", "oscillation_frequency", "oscillation_amplitude", "distance"]:
+					undo_redo.add_do_method(note.get_meta("timeline_item"), "sync_value", property_name)
+					undo_redo.add_do_method(note, "emit_signal", "parameter_changed", property_name)
+					
+					undo_redo.add_undo_method(note.get_meta("timeline_item"), "sync_value", property_name)
+					undo_redo.add_undo_method(note, "emit_signal", "parameter_changed", property_name)
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")

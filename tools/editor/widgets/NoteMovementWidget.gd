@@ -61,6 +61,7 @@ func _widget_area_input(event: InputEvent):
 				get_tree().set_input_as_handled()
 				editor._commit_selected_property_change("entry_angle")
 				show_angle = false
+		
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("editor_select"):
 				get_tree().set_input_as_handled()
@@ -79,6 +80,7 @@ func _widget_area_input(event: InputEvent):
 				
 				show_angle = true
 				update()
+
 func _draw():
 	if show_angle:
 		var note_center = rect_size/2
@@ -97,7 +99,7 @@ func _draw():
 		trail_points[point_i] = editor.rhythm_game.remap_coords(wave_point) - rect_position
 		
 	draw_polyline(trail_points, sine_color, 4.0, true)
-	
+
 func _on_start_dragging():
 	drag_origin = rect_position
 
