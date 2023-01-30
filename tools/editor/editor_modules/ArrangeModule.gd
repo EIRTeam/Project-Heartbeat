@@ -330,7 +330,12 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 		else:
 			positive_quadrants.append(0)
 		
-		if not rotated_quadrant in positive_quadrants:
+		var is_negative_quadrant = not rotated_quadrant in positive_quadrants
+		var is_odd = fposmod(oscillation_frequency, 2.0) != 0
+		
+		if is_negative_quadrant:
+			oscillation_frequency = -oscillation_frequency
+		if is_odd:
 			oscillation_frequency = -oscillation_frequency
 		
 		oscillation_frequency *= sign(note.oscillation_amplitude)
