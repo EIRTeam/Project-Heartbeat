@@ -532,11 +532,13 @@ func make_spam(note_type: int, layer_name: String):
 		
 		var timeline_item = note.get_timeline_item()
 		
-		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item)
+		editor.undo_redo.add_do_method(editor, "add_item_to_layer", layer, timeline_item, false)
 		editor.undo_redo.add_do_method(editor, "select_item", timeline_item, (i != 0))
 		editor.undo_redo.add_undo_method(editor, "remove_item_from_layer", layer, timeline_item)
 		
 		multi_check_times.append(note.time)
+	
+	editor.undo_redo.add_do_method(editor, "sort_groups")
 	
 	editor.undo_redo.add_do_method(editor, "_on_timing_points_changed")
 	editor.undo_redo.add_undo_method(editor, "_on_timing_points_changed")
