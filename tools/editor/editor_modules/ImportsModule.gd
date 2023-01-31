@@ -9,6 +9,8 @@ onready var offset_spinbox := get_node("%OffsetSpinBox")
 onready var link_stars_checkbox := get_node("%LinkStarsCheckBox")
 onready var replace_chart_checkbox := get_node("%ReplaceChartCheckBox")
 onready var advanced_options_button := get_node("%AdvancedOptionsButton")
+onready var tempo_map_hbox_container := get_node("%TempoMapHBoxContainer")
+onready var tempo_map_option_button := get_node("%TempoMapOptionButton")
 
 class HBEditorImporter:
 	extends VBoxContainer
@@ -186,11 +188,18 @@ class EditImporter:
 class MIDIImporter:
 	extends HBEditorImporter
 	
+	const TEMPO_OPTIONS = {
+		"round_and_snap": "Round BPMs and snap notes",
+		"round": "Just round BPMs",
+		"bare": "Import file as-is",
+	}
+	
 	var midi_loader_popup = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopup.tscn").instance()
 	var midi_loader_popup_gh = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.tscn").instance()
-	var options_button
+	var options_button: OptionButton
 	var editor: HBEditor
 	var offset: int
+	var tempo_mode: String
 	
 	# mix multiple tracks to single track
 	# taken from the midi player code, by Yui Kinomoto @arlez80
@@ -266,6 +275,7 @@ class MIDIImporter:
 		
 		editor = _editor
 		offset = _offset
+		tempo_mode = vargs.tempo_mode
 	
 	func track_import_accepted(smf: SMFLoader.SMF, note_range=[0, 255], tracks=[]):
 		chart = HBChart.new()
@@ -279,6 +289,7 @@ class MIDIImporter:
 		var ticks_per_beat = smf.timebase
 		var last_event_ticks = 0
 		var tempo = 500000
+		var bpm = 120.0
 		var time_sig = {"numerator": 4, "denominator": 4}
 		var timing_map = []
 		
@@ -295,16 +306,23 @@ class MIDIImporter:
 			if event.event.type == SMFLoader.MIDIEventType.system_event:
 				if event.event.args.type == SMFLoader.MIDISystemEventType.set_tempo:
 					tempo = event.event.args.bpm
+					bpm = 60_000_000.0 / tempo
+					
+					if tempo_mode == "round" or tempo_mode == "round_and_snap":
+						bpm = stepify(bpm, 0.01)
+					
+					if tempo_mode == "round_and_snap":
+						tempo = 60_000_000.0 / bpm
 					
 					var event_time_ms = microseconds * 0.001
 					
 					if timing_changes and timing_changes[-1].time == event_time_ms:
 						# Edit last timing change
-						timing_changes[-1].bpm = 60_000_000.0 / tempo
+						timing_changes[-1].bpm = bpm
 					else:
 						var timing_point = HBTimingChange.new()
 						timing_point.time = event_time_ms
-						timing_point.bpm = 60_000_000.0 / tempo
+						timing_point.bpm = bpm
 						timing_point.time_signature = time_sig
 						
 						timing_changes.append(timing_point)
@@ -326,7 +344,7 @@ class MIDIImporter:
 					else:
 						var timing_point = HBTimingChange.new()
 						timing_point.time = event_time_ms
-						timing_point.bpm = 60_000_000.0 / tempo
+						timing_point.bpm = bpm
 						timing_point.time_signature = time_sig
 						
 						timing_changes.append(timing_point)
@@ -340,7 +358,10 @@ class MIDIImporter:
 					if note_range[0] <= event.event.note and event.event.note <= note_range[1]:
 						var timing_point = HBNoteData.new()
 						timing_point.time = event_time_ms + offset
-						timing_point = autoplace(timing_point, timing_map)
+						
+						if UserSettings.user_settings.editor_auto_place:
+							timing_point = autoplace(timing_point, timing_map)
+						
 						chart.layers[HBNoteData.NOTE_TYPE.RIGHT].timing_points.append(timing_point)
 						
 						found_times.append(event_time_ms)
@@ -367,6 +388,12 @@ func _ready():
 	
 	importer_selected(0)
 	
+	for i in range(MIDIImporter.TEMPO_OPTIONS.size()):
+		tempo_map_option_button.add_item(MIDIImporter.TEMPO_OPTIONS.values()[i], i)
+		tempo_map_option_button.set_item_metadata(i, MIDIImporter.TEMPO_OPTIONS.keys()[i])
+	
+	tempo_map_option_button.select(0)
+	
 	if UserSettings.user_settings.editor_import_warning_accepted:
 		$MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer.visible = true
 		$MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2.visible = false
@@ -390,6 +417,7 @@ func importer_selected(idx: int):
 	current_importer_idx = idx
 	
 	link_stars_checkbox.visible = (new_importer.name == "F2nd edit")
+	tempo_map_hbox_container.visible = (new_importer.name == "MIDI file")
 
 func _on_open_file_button_pressed():
 	file_dialog.filters = importers[current_importer_idx].instance.filter
@@ -401,6 +429,8 @@ func _on_file_selected(path: String):
 	var vargs = {}
 	if importer.name == "F2nd edit":
 		vargs.custom_link_stars = link_stars_checkbox.pressed
+	if importer.name == "MIDI file":
+		vargs.tempo_mode = tempo_map_option_button.get_selected_metadata()
 	
 	importer.instance.file_selected(path, editor, offset_spinbox.value, vargs)
 	

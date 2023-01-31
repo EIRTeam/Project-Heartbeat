@@ -80,9 +80,9 @@ text = "Advanced options..."
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="6"]
 visible = false
-margin_top = 170.0
+margin_top = 242.0
 margin_right = 1920.0
-margin_bottom = 222.0
+margin_bottom = 346.0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="0"]
@@ -109,24 +109,46 @@ max_value = 1e+06
 suffix = "ms"
 script = ExtResource( 4 )
 
-[node name="ReplaceChartCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="1"]
+[node name="TempoMapHBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
 margin_top = 28.0
 margin_right = 1920.0
-margin_bottom = 52.0
-hint_tooltip = "Replace the current chart by the imported chart if enabled, or paste notes into the current chart if disabled."
-pressed = true
-text = "Replace chart"
+margin_bottom = 48.0
+hint_tooltip = "Offset all imported timing points
+by some amount."
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="0"]
+margin_top = 3.0
+margin_right = 127.0
+margin_bottom = 17.0
+text = "Import Tempo Map:"
+
+[node name="TempoMapOptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer/TempoMapHBoxContainer" index="1"]
+unique_name_in_owner = true
+margin_left = 131.0
+margin_right = 1920.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 
 [node name="LinkStarsCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
-margin_top = 28.0
+margin_top = 52.0
 margin_right = 1920.0
-margin_bottom = 52.0
+margin_bottom = 76.0
 hint_tooltip = "Add custom settings to the hearts
 mimicking F2nd link stars."
 pressed = true
 text = "Import link star parameters"
+
+[node name="ReplaceChartCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/VBoxContainer" index="3"]
+unique_name_in_owner = true
+margin_top = 80.0
+margin_right = 1920.0
+margin_bottom = 104.0
+hint_tooltip = "Replace the current chart by the imported chart if enabled, or paste notes into the current chart if disabled."
+pressed = true
+text = "Replace chart"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
 visible = false
@@ -163,6 +185,7 @@ theme = ExtResource( 6 )
 window_title = "Open a File"
 mode = 0
 access = 2
+show_hidden_files = true
 
 [connection signal="item_selected" from="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/ImporterOptionButton" to="." method="importer_selected"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/Button" to="." method="_on_open_file_button_pressed"]

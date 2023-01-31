@@ -240,7 +240,7 @@ func _draw_timing_changes():
 	for item in editor.get_timing_changes():
 		var timing_change = item.data as HBTimingChange
 		
-		var tempo_info = "%.2f BPM; %d/%d" % [timing_change.bpm, timing_change.time_signature.numerator, timing_change.time_signature.denominator]
+		var tempo_info = "{0} BPM; %d/%d".format([timing_change.bpm]) % [timing_change.time_signature.numerator, timing_change.time_signature.denominator]
 		
 		# Always show something at least one on the timeline
 		if timing_change.time < _offset:
@@ -405,7 +405,6 @@ func _unhandled_input(event):
 				var layer_name = HBBaseNote.NOTE_TYPE.keys()[note_type]
 				
 				if event.is_action_pressed(action, false, true) and layer_visible(layer_name):
-					print("Spam created for " + action + ". Event: " + event.as_text() + " (Scancode: " + str(event.scancode) + ")")
 					make_spam(note_type, layer_name)
 					get_tree().set_input_as_handled()
 					break
@@ -528,7 +527,8 @@ func make_spam(note_type: int, layer_name: String):
 		note.time = map[i]
 		note.note_type = note_type
 		
-		note = editor.autoplace(note, false)
+		if UserSettings.user_settings.editor_auto_place:
+			note = editor.autoplace(note)
 		
 		var timeline_item = note.get_timeline_item()
 		
