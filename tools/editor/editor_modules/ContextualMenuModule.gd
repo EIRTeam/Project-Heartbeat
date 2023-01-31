@@ -449,7 +449,7 @@ func toggle_sustain():
 		var new_data_ser = data.serialize()
 		new_data_ser["type"] = "Note"
 		
-		var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
 		undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
