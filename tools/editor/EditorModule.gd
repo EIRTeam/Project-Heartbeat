@@ -226,3 +226,6 @@ func get_timing_points() -> Array:
 
 func get_timeline_items() -> Array:
 	return editor.get_timeline_items()
+
+func sort_groups():
+	editor.sort_groups()

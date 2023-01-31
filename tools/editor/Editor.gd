@@ -669,7 +669,8 @@ func _change_selected_property_delta(property_name: String, new_value, making_ch
 			selected_item.data.set(property_name, selected_item.data.get(property_name) + new_value)
 			
 			selected_item.update_widget_data()
-			selected_item.data.emit_signal("parameter_changed", property_name)
+			if selected_item.data is HBBaseNote:
+				selected_item.data.emit_signal("parameter_changed", property_name)
 	
 	_on_timing_points_params_changed()
 	
@@ -1119,10 +1120,7 @@ func check_for_multi_changes(times: Array, item_cache: Array = []):
 			
 			for note in notes_at_time:
 				for property_name in ["position", "entry_angle", "oscillation_frequency", "oscillation_amplitude", "distance"]:
-					undo_redo.add_do_method(note.get_meta("timeline_item"), "sync_value", property_name)
 					undo_redo.add_do_method(note, "emit_signal", "parameter_changed", property_name)
-					
-					undo_redo.add_undo_method(note.get_meta("timeline_item"), "sync_value", property_name)
 					undo_redo.add_undo_method(note, "emit_signal", "parameter_changed", property_name)
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
@@ -1422,22 +1420,32 @@ func update_user_settings():
 	
 	emit_signal("modules_update_user_settings")
 
-func from_chart(chart: HBChart, ignore_settings=false, importing=false):
-	rhythm_game.editor_clear_notes()
-	timeline.clear_layers()
+func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_place = false):
+	if not in_place:
+		timeline.clear_layers()
+		song_settings_editor.clear_layers()
+		rhythm_game.editor_clear_notes()
 	
 	if not importing:
 		undo_redo.clear_history()
 	
 	selected = []
-	song_settings_editor.clear_layers()
 	current_notes = []
 	timeline.send_time_cull_changed_signal()
+	
 	for layer in chart.layers:
-		var layer_scene = EDITOR_LAYER_SCENE.instance()
-		layer_scene.layer_name = layer.name
-		timeline.add_layer(layer_scene)
-		var layer_n = timeline.get_layers().size()-1
+		var layer_scene
+		var layer_n
+		if not in_place:
+			layer_scene = EDITOR_LAYER_SCENE.instance()
+			layer_scene.layer_name = layer.name
+			
+			timeline.add_layer(layer_scene)
+			layer_n = timeline.get_layers().size()-1
+		else:
+			layer_scene = timeline.find_layer_by_name(layer.name)
+			layer_n = timeline.get_layers().find(layer_scene)
+		
 		for item_d in layer.timing_points:
 			var item = item_d.get_timeline_item()
 			item.data = item_d
@@ -1446,72 +1454,79 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 			
 			if item_d is HBSustainNote:
 				item.sync_value("end_time")
+			
+			if in_place:
+				selected.append(item)
+				item.select()
 		
-		var layer_visible = not layer.name in song_editor_settings.hidden_layers
+		if not in_place:
+			var layer_visible = not layer.name in song_editor_settings.hidden_layers
+			if not ignore_settings:
+				layer_visible = not layer.name in chart.editor_settings.hidden_layers
+			
+			song_settings_editor.add_layer(layer.name, layer_visible)
+			timeline.change_layer_visibility(layer_visible, layer.name)
+	
+	if not in_place:
+		# Lyrics layer
+		var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
+		lyrics_layer_scene.layer_name = "Lyrics"
+		var lyrics_layer_visible = not "Lyrics" in song_editor_settings.hidden_layers
 		if not ignore_settings:
-			layer_visible = not layer.name in chart.editor_settings.hidden_layers
+			lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
 		
-		song_settings_editor.add_layer(layer.name, layer_visible)
-		timeline.change_layer_visibility(layer_visible, layer.name)
+		timeline.add_layer(lyrics_layer_scene)
+		timeline.change_layer_visibility(lyrics_layer_visible, lyrics_layer_scene.layer_name)
+		song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
+		
+		# Sections layer
+		var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
+		sections_layer_scene.layer_name = "Sections"
+		var sections_layer_visible = not "Sections" in song_editor_settings.hidden_layers
+		if not ignore_settings:
+			sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
+		
+		timeline.add_layer(sections_layer_scene)
+		timeline.change_layer_visibility(sections_layer_visible, sections_layer_scene.layer_name)
+		song_settings_editor.add_layer("Sections", sections_layer_visible)
+		
+		# Timing changes layer
+		var tempo_layer_scene = EDITOR_LAYER_SCENE.instance()
+		tempo_layer_scene.layer_name = "Tempo Map"
+		var tempo_layer_visible = not "Tempo Map" in song_editor_settings.hidden_layers
+		if not ignore_settings:
+			tempo_layer_visible = not "Tempo Map" in chart.editor_settings.hidden_layers
+		
+		timeline.add_layer(tempo_layer_scene)
+		timeline.change_layer_visibility(tempo_layer_visible, tempo_layer_scene.layer_name)
+		song_settings_editor.add_layer(tempo_layer_scene.layer_name, tempo_layer_visible)
 	
-	# Lyrics layer
-	var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
-	lyrics_layer_scene.layer_name = "Lyrics"
-	var lyrics_layer_visible = not "Lyrics" in song_editor_settings.hidden_layers
-	if not ignore_settings:
-		lyrics_layer_visible = not "Lyrics" in chart.editor_settings.hidden_layers
-	
-	timeline.add_layer(lyrics_layer_scene)
-	timeline.change_layer_visibility(lyrics_layer_visible, lyrics_layer_scene.layer_name)
-	song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
-	
-	# Sections layer
-	var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
-	sections_layer_scene.layer_name = "Sections"
-	var sections_layer_visible = not "Sections" in song_editor_settings.hidden_layers
-	if not ignore_settings:
-		sections_layer_visible = not "Sections" in chart.editor_settings.hidden_layers
-	
-	timeline.add_layer(sections_layer_scene)
-	timeline.change_layer_visibility(sections_layer_visible, sections_layer_scene.layer_name)
-	song_settings_editor.add_layer("Sections", sections_layer_visible)
-	
-	# Timing changes layer
-	var tempo_layer_scene = EDITOR_LAYER_SCENE.instance()
-	tempo_layer_scene.layer_name = "Tempo Map"
-	var tempo_layer_visible = not "Tempo Map" in song_editor_settings.hidden_layers
-	if not ignore_settings:
-		tempo_layer_visible = not "Tempo Map" in chart.editor_settings.hidden_layers
-	
-	timeline.add_layer(tempo_layer_scene)
-	timeline.change_layer_visibility(tempo_layer_visible, tempo_layer_scene.layer_name)
-	song_settings_editor.add_layer(tempo_layer_scene.layer_name, tempo_layer_visible)
-	
-	var lyrics_layer_n = timeline.get_layers().size() - 3
-	var sections_layer_n = timeline.get_layers().size() - 2
-	var tempo_layer_n = timeline.get_layers().size() - 1
-	
-	for phrase in current_song.lyrics:
-		if phrase is HBLyricsPhrase:
-			var start_item = HBLyricsPhraseStart.new()
-			start_item.time = phrase.time
-			add_item(lyrics_layer_n, start_item.get_timeline_item())
-			
-			for lyric in phrase.lyrics:
-				if lyric is HBLyricsLyric:
-					add_item(lyrics_layer_n, lyric.get_timeline_item())
-			
-			var end_item = HBLyricsPhraseEnd.new()
-			end_item.time = phrase.end_time
-			add_item(lyrics_layer_n, end_item.get_timeline_item())
-	
-	for section in current_song.sections:
-		if section is HBChartSection:
-			add_item(sections_layer_n, section.get_timeline_item())
-	
-	for timing_change in current_song.timing_changes:
-		if timing_change is HBTimingChange:
-			add_item(tempo_layer_n, timing_change.get_timeline_item())
+		var layers = timeline.get_layers()
+		var lyrics_layer_n = layers.size() - 3
+		var sections_layer_n = layers.size() - 2
+		var tempo_layer_n = layers.size() - 1
+		
+		for phrase in current_song.lyrics:
+			if phrase is HBLyricsPhrase:
+				var start_item = HBLyricsPhraseStart.new()
+				start_item.time = phrase.time
+				add_item(lyrics_layer_n, start_item.get_timeline_item())
+				
+				for lyric in phrase.lyrics:
+					if lyric is HBLyricsLyric:
+						add_item(lyrics_layer_n, lyric.get_timeline_item())
+				
+				var end_item = HBLyricsPhraseEnd.new()
+				end_item.time = phrase.end_time
+				add_item(lyrics_layer_n, end_item.get_timeline_item())
+		
+		for section in current_song.sections:
+			if section is HBChartSection:
+				add_item(sections_layer_n, section.get_timeline_item())
+		
+		for timing_change in current_song.timing_changes:
+			if timing_change is HBTimingChange:
+				add_item(tempo_layer_n, timing_change.get_timeline_item())
 	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
@@ -1525,7 +1540,12 @@ func from_chart(chart: HBChart, ignore_settings=false, importing=false):
 		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "exit")
 		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "exit")
 	
-	deselect_all()
+	if not in_place:
+		deselect_all()
+	else:
+		selected.sort_custom(self, "_sort_current_items_impl")
+		notify_selected_changed() 
+	
 	sync_lyrics()
 	sort_groups()
 	force_game_process()

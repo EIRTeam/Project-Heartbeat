@@ -423,35 +423,8 @@ func _on_file_selected(path: String):
 			undo_redo.add_do_method(editor, "from_chart", chart, true, true)
 			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
 		else:
-			var first := true
-			var update_timing := false
-			
-			for layer in chart.layers:
-				var editor_layer = find_layer_by_name(layer.name)
-				
-				for timing_point in layer.timing_points:
-					var item = timing_point.get_timeline_item()
-					item.data.set_meta("second_layer", layer.name.ends_with("2"))
-					
-					undo_redo.add_do_method(self, "add_item_to_layer", editor_layer, item)
-					undo_redo.add_do_method(self, "_select", item)
-					
-					undo_redo.add_undo_method(self, "remove_item_from_layer", editor_layer, item)
-					
-					if timing_point is HBTimingChange:
-						update_timing = true
-					
-					if first:
-						first = false
-			
-			undo_redo.add_do_method(self, "_finish_selecting")
-			
-			undo_redo.add_do_method(self, "timing_points_changed")
-			undo_redo.add_undo_method(self, "timing_points_changed")
-			
-			if update_timing:
-				undo_redo.add_do_method(self, "timing_information_changed")
-				undo_redo.add_undo_method(self, "timing_information_changed")
+			undo_redo.add_do_method(editor, "from_chart", chart, true, true, true)
+			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
 		
 		undo_redo.commit_action()
 
