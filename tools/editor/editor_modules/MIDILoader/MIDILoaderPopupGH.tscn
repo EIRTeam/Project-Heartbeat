@@ -4,7 +4,6 @@
 [ext_resource path="res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.gd" type="Script" id=2]
 
 [node name="Control" type="ConfirmationDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 230.0
@@ -37,8 +36,8 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 10.0
-margin_right = 795.0
-margin_bottom = 403.0
+margin_right = 1435.0
+margin_bottom = 763.0
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
 margin_right = 785.0
