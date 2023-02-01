@@ -115,6 +115,20 @@ func _on_slide_chain_started():
 	current_slide_chain_sound = slide_chain_start_sfx
 	slide_chain_start_sfx.start()
 
+func ensure_vibration():
+	if game.game_mode != HBRhythmGame.GAME_MODE.NORMAL:
+		end_vibration()
+		return
+	if UserSettings.user_settings.enable_vibration:
+		if UserSettings.controller_device_idx in Input.get_connected_joypads():
+			Input.start_joy_vibration(UserSettings.controller_device_idx, 1.0, 1.0)
+
+func end_vibration():
+	if UserSettings.user_settings.enable_vibration:
+		if UserSettings.controller_device_idx in Input.get_connected_joypads():
+			if Input.get_joy_vibration_strength(UserSettings.controller_device_idx).length() != 0:
+				Input.stop_joy_vibration(UserSettings.controller_device_idx)
+
 func is_slide_direction_pressed():
 	if is_in_editor_mode() or is_autoplay_enabled():
 		return true
@@ -157,6 +171,7 @@ func process_note(time_msec: int):
 				current_slide_chain_sound.looping_enabled = true
 				current_slide_chain_sound.start()
 				add_child(current_slide_chain_sound)
+			ensure_vibration()
 		
 		var blue_notes = max(0, float(last_hold_time - (note_data.time)) * (BLUE_SLIDE_PIECES_PER_SECOND / 1000.0))
 		var slide_chain_pieces := get_slide_chain_pieces()
@@ -227,3 +242,9 @@ func _on_multi_note_judged(judgement: int):
 		_on_slide_chain_started()
 	else:
 		emit_signal("finished")
+
+func _notification(what: int):
+	match what:
+		NOTIFICATION_PAUSED, NOTIFICATION_EXIT_TREE:
+			end_vibration()
+			end_vibration()
