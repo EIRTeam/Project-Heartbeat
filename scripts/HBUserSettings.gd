@@ -238,6 +238,8 @@ var enable_system_mmplus_loading := false
 var max_simultaneous_media_downloads := 3
 var pause_on_focus_loss := true
 
+var editor_code_font_size := 20
+
 func _init():
 	serializable_fields += [
 		"visualizer_enabled", "visualizer_resolution",
@@ -264,7 +266,9 @@ func _init():
 		"editor_auto_place", "editor_arrange_separation",
 		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
 		"editor_circle_size", "editor_circle_separation",
-		"editor_pitch_compensation", "editor_migrated_shortcuts", "pause_on_focus_loss"
+		"editor_pitch_compensation", "editor_migrated_shortcuts", "pause_on_focus_loss",
+		"editor_pitch_compensation", "editor_migrated_shortcuts",
+		"editor_code_font_size",
 	]
 	
 	merge_dict_fields += [

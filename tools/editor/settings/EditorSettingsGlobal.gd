@@ -43,8 +43,10 @@ func _ready():
 			{"name": tr("Secondary grid line width"), "var": "editor_secondary_grid_width", "type": "Float", "options": {"condition": "_secondary_grid_enabled", "step": 0.05, "min": 1.0, "max": 3.0}},
 			{"name": tr("Multinote cross color"), "var": "editor_multinote_cross_color", "type": "Color", "presets": [Color.white], "options": {"condition": "_multinote_crosses_enabled"}},
 			{"name": tr("Multinote cross width"), "var": "editor_multinote_cross_width", "type": "Float", "options": {"condition": "_multinote_crosses_enabled", "step": 0.05, "min": 1.0, "max": 3.0}},
-			
-		]
+		],
+		"Scripts": [
+			{"name": tr("Script editor font size"), "var": "editor_code_font_size", "type": "Int", "options": {"min": 1, "max": 50}}
+		],
 	}
 	
 	settings_base = UserSettings.user_settings

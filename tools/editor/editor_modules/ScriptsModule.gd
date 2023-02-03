@@ -613,3 +613,6 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 		undo_redo.add_do_method(self, "sync_inspector_values")
 		undo_redo.add_undo_method(self, "sync_inspector_values")
 		undo_redo.commit_action()
+
+func user_settings_changed():
+	script_editor.update_font_size()

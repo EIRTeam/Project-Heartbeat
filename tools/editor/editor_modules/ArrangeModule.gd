@@ -39,7 +39,7 @@ func _ready():
 	
 	for i in range(autoarrange_shortcuts.size()):
 		add_shortcut(autoarrange_shortcuts[i], "_apply_arrange_shortcut", [i])
-	add_shortcut("editor_arrange_center", "arrange_selected_notes_by_time", [null, false, false])
+	add_shortcut("editor_arrange_center", "_apply_center_arrange")
 	
 	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
 	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
@@ -186,6 +186,12 @@ func _apply_arrange_shortcut(direction: int):
 	else:
 		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
 
+func _apply_center_arrange():
+	original_notes.clear()
+	for item in get_selected():
+		original_notes.append(item.data.clone())
+	
+	arrange_selected_notes_by_time(null, false, false)
 
 func _order_items(a, b):
 	return a.data.time < b.data.time
