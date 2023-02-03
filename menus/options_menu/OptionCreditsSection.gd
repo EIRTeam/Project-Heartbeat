@@ -18,7 +18,7 @@ const PH_AUTHORS = {
 	},
 	"Art": {
 		"Izayoi": ["Background artwork (Cloudy Sky)"],
-		"Mariale": ["Background artwork (Sands of Time, Connected, Core Creation)"],
+		"Mariale": ["Background artwork (Sands of Time, Connected, Core Creation, Monochrome Stars)"],
 		"Joanna Salguero (guinii)": ["Background artwork (Through the Night, ETERNAL, Love Sacrifice)"],
 		"Emmilly Lima (sadnesswaifu)": ["Background artwork (Imademo, Blossoming Spell, Getaway)"],
 		"Albert Navarro (Reixart)": ["Background artwork (Going my way)"],
