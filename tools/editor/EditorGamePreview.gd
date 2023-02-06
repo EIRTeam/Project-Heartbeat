@@ -161,16 +161,28 @@ func _draw_safe_area():
 
 
 func show_bg(show):
-	if not video_player.stream:
-		background_rect.visible = show
-	
 	settings.show_bg = show
+	
+	update_bga()
 
 func show_video(show):
+	settings.show_video = show
+	
+	update_bga()
+
+func update_bga():
 	if video_player.stream:
-		if not show:
+		if not settings.show_video:
 			video_player.paused = true
 			video_pause_timer.stop()
-		video_player.visible = show
+		
+		video_player.visible = settings.show_video
 	
-	settings.show_video = show
+	background_rect.visible = false
+	if not video_player.visible:
+		background_rect.visible = settings.show_bg
+	
+#	if not settings.show_video:
+#		background_rect.visible = settings.show_bg
+#
+	pass

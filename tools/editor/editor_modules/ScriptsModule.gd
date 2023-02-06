@@ -566,7 +566,7 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 		for clone in inst._timing_point_changed_properties:
 			var changed_property_list = inst._timing_point_changed_properties[clone]
 			var target_item = inst._clone_to_original_timing_point_map[clone]
-
+			
 			for property_name in changed_property_list:
 				if property_name in target_item.data:
 					undo_redo.add_do_property(target_item.data, property_name, changed_property_list[property_name])
