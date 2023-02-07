@@ -946,6 +946,11 @@ func seek(value: int, force = false):
 
 func _seek(value: float):
 	game_preview.set_time(value)
+	
+	pause()
+	play_button.show()
+	pause_button.hide()
+	emit_signal("paused")
 
 func copy_selected():
 	if selected.size() > 0:
