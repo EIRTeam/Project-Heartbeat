@@ -207,6 +207,7 @@ var editor_right_panel_offset := -340
 
 var editor_auto_place := true
 var editor_arrange_separation := 96
+var editor_save_arrange_angle := true
 
 var editor_auto_multi := true
 var editor_auto_angle := true
@@ -263,7 +264,7 @@ func _init():
 		"color_presets", "audio_buffer_size", "enable_health", "enable_streamer_mode", "enable_system_mmplus_loading", "max_simultaneous_media_downloads",
 		"editor_bottom_panel_offset", "editor_left_panel_offset", "editor_right_panel_offset",
 		"editor_show_waveform", "editor_show_hold_calculator", "editor_smooth_scroll",
-		"editor_auto_place", "editor_arrange_separation",
+		"editor_auto_place", "editor_arrange_separation", "editor_save_arrange_angle",
 		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
 		"editor_circle_size", "editor_circle_separation",
 		"editor_pitch_compensation", "editor_migrated_shortcuts", "pause_on_focus_loss",

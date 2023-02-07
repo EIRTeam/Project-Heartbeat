@@ -13,6 +13,7 @@ func _ready():
 		],
 		"Placements": [
 			{"name": tr("Place notes on a line"), "var": "editor_auto_place", "type": "Bool"},
+			{"name": tr("Save last arrange angle"), "var": "editor_save_arrange_angle", "type": "Bool"},
 			{"name": tr("Arranger separation per 8th"), "var": "editor_arrange_separation", "type": "Int", "options": {"suffix": "px"}},
 		],
 		"Angles": [

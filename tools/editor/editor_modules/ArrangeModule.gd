@@ -85,29 +85,34 @@ func _input(event: InputEvent):
 	
 	if event.is_action_pressed("editor_show_arrange_menu"):
 		if selected and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
-			arranging = true
-			arrange_menu.popup()
-			
-			var old_angle = deg2rad(-arrange_angle_spinbox.value)
-			
-			var old_distance
-			if fmod(arrange_angle_spinbox.value, 30) == 0:
-				old_distance = 32
-			elif fmod(arrange_angle_spinbox.value, 10) == 0:
-				old_distance = 55
-			else:
-				old_distance = 80
-			
-			var old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
-			
-			arrange_menu.rotation = old_angle
-			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120) - old_angle_translation)
-			
 			selected.sort_custom(self, "_order_items")
 			
 			original_notes.clear()
 			for item in selected:
 				original_notes.append(item.data.clone())
+			
+			arranging = true
+			arrange_menu.popup()
+			var old_angle_translation := Vector2.ZERO
+			
+			if UserSettings.user_settings.editor_save_arrange_angle:
+				var old_angle = deg2rad(-arrange_angle_spinbox.value)
+				
+				var old_distance
+				if fmod(arrange_angle_spinbox.value, 30) == 0:
+					old_distance = 32
+				elif fmod(arrange_angle_spinbox.value, 10) == 0:
+					old_distance = 55
+				else:
+					old_distance = 80
+				
+				old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
+				
+				arrange_menu.rotation = old_angle
+				
+				arrange_selected_notes_by_time(old_angle, false, false)
+			
+			arrange_menu.set_global_position(get_global_mouse_position() - Vector2(120, 120) - old_angle_translation)
 	elif event.is_action_released("editor_show_arrange_menu") and arranging:
 		arranging = false
 		arrange_menu.hide()
