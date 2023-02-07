@@ -236,6 +236,7 @@ var enable_streamer_mode := false
 var enable_system_mmplus_loading := false
 
 var max_simultaneous_media_downloads := 3
+var pause_on_focus_loss := true
 
 func _init():
 	serializable_fields += [
@@ -263,7 +264,7 @@ func _init():
 		"editor_auto_place", "editor_arrange_separation",
 		"editor_auto_multi", "editor_auto_angle", "editor_angle_snaps", "editor_straight_angle_increment", "editor_diagonal_angle_increment",
 		"editor_circle_size", "editor_circle_separation",
-		"editor_pitch_compensation", "editor_migrated_shortcuts",
+		"editor_pitch_compensation", "editor_migrated_shortcuts", "pause_on_focus_loss"
 	]
 	
 	merge_dict_fields += [

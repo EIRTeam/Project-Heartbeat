@@ -31,6 +31,10 @@ var OPTIONS = {
 			"maximum": 5,
 			"step": 1
 		},
+		"pause_on_focus_loss": {
+			"name": tr("Pause on focus loss"),
+			"description": tr("Automatically pause the game when the focus to the game's window is lost.")
+		},
 		"show_note_types_before_playing": {
 			"name": tr("Show note types before playing"),
 			"description": tr("Shows a list of notes and how to hit them before the song starts")

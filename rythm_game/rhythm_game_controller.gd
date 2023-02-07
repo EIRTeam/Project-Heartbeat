@@ -289,10 +289,6 @@ func _unhandled_input(event):
 			if not get_tree().paused:
 				if not pause_disabled:
 					_on_paused()
-					video_player.paused = true
-					game.pause_game()
-				Input.stop_joy_vibration(UserSettings.controller_device_idx)
-				$PauseMenu.show_pause(current_game_info.song_id)
 	
 			else:
 				_on_resumed()
@@ -323,6 +319,10 @@ func _on_paused():
 		rollback_on_resume = true
 		game.set_process(false)
 		game.editing = true
+	video_player.paused = true
+	game.pause_game()
+	$PauseMenu.show_pause(current_game_info.song_id)
+
 func _on_RhythmGame_song_cleared(result: HBResult):
 	var original_color = Color.black
 	original_color.a = 0
@@ -427,3 +427,10 @@ func _on_RhythmGame_game_over():
 	current_game_info.result.failed = true
 	_show_results(current_game_info)
 	vhs_panel.material.set_shader_param("desaturation", 0.25)
+
+func _notification(what):
+	match what:
+		NOTIFICATION_WM_FOCUS_OUT:
+			if not pause_disabled and UserSettings.user_settings.pause_on_focus_loss and \
+			not get_tree().paused and not pause_menu_disabled:
+				_on_paused()
