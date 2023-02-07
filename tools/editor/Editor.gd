@@ -1353,6 +1353,7 @@ func _on_PlayButton_pressed():
 # Fired when any timing point tells the game to rethink its existence
 func _on_timing_points_changed():
 	_on_PauseButton_pressed(true)
+	timeline.send_time_cull_changed_signal()
 	emit_signal("timing_points_changed")
 
 func _on_timing_points_params_changed():
@@ -2341,3 +2342,6 @@ func _toggle_layer_visibility_editor():
 	settings_editor.tab_container.current_tab = 1
 	song_settings_editor.tree.scroll_to_item(song_settings_editor.layers_item)
 	song_settings_editor.layers_item.select(0)
+
+func set_resolution(index):
+	sync_module.set_resolution(index)

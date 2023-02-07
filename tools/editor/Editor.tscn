@@ -367,21 +367,9 @@ icon_align = 1
 script = ExtResource( 22 )
 action = "editor_toggle_sfx"
 
-[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+[node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 margin_left = 64.0
 margin_right = 92.0
-margin_bottom = 26.0
-hint_tooltip = "Snap to grid"
-toggle_mode = true
-pressed = true
-icon = ExtResource( 34 )
-flat = true
-script = ExtResource( 22 )
-action = "editor_grid_snap"
-
-[node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 96.0
-margin_right = 124.0
 margin_bottom = 26.0
 hint_tooltip = "Show background image"
 toggle_mode = true
@@ -392,8 +380,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_bg"
 
 [node name="ShowVideoButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 128.0
-margin_right = 156.0
+margin_left = 96.0
+margin_right = 124.0
 margin_bottom = 26.0
 hint_tooltip = "Show video"
 toggle_mode = true
@@ -404,8 +392,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_video"
 
 [node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 160.0
-margin_right = 188.0
+margin_left = 128.0
+margin_right = 156.0
 margin_bottom = 26.0
 hint_tooltip = "Show grid"
 toggle_mode = true
@@ -414,6 +402,18 @@ icon = ExtResource( 28 )
 flat = true
 script = ExtResource( 22 )
 action = "editor_grid"
+
+[node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+margin_left = 160.0
+margin_right = 188.0
+margin_bottom = 26.0
+hint_tooltip = "Snap to grid"
+toggle_mode = true
+pressed = true
+icon = ExtResource( 34 )
+flat = true
+script = ExtResource( 22 )
+action = "editor_grid_snap"
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
 margin_left = 192.0
@@ -522,15 +522,15 @@ self_modulate = Color( 1, 1, 1, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1920.0
-margin_bottom = 307.0
+margin_bottom = 303.0
 rect_min_size = Vector2( 0, 0 )
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer"]
-margin_top = 307.0
+margin_top = 303.0
 margin_right = 1920.0
 margin_bottom = 338.0
-rect_min_size = Vector2( 0, 25 )
+rect_min_size = Vector2( 0, 35 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 custom_styles/panel = SubResource( 13 )
@@ -544,28 +544,28 @@ custom_constants/margin_left = 5
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer"]
 margin_left = 5.0
 margin_right = 1915.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="FPSLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_top = 3.0
+margin_top = 5.0
 margin_right = 70.0
-margin_bottom = 28.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 70, 0 )
 align = 1
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 74.0
 margin_right = 78.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 
 [node name="LayerVisibilityButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 margin_left = 82.0
 margin_right = 110.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 hint_tooltip = "Edit Layer visibility."
 icon = ExtResource( 37 )
 flat = true
@@ -575,12 +575,12 @@ action = "editor_popup_visibility_editor"
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 margin_left = 114.0
 margin_right = 118.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 margin_left = 122.0
 margin_right = 150.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
 pressed = true
@@ -589,16 +589,30 @@ flat = true
 script = ExtResource( 22 )
 action = "editor_timeline_snap"
 
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="GridResolutionOptionButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 154.0
-margin_right = 158.0
-margin_bottom = 31.0
+margin_top = 5.0
+margin_right = 334.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 180, 0 )
+hint_tooltip = "Separation between notes, as a
+fraction of a whole note."
+size_flags_vertical = 4
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+margin_left = 338.0
+margin_right = 342.0
+margin_bottom = 35.0
 
 [node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 162.0
-margin_right = 362.0
-margin_bottom = 31.0
+margin_left = 346.0
+margin_right = 546.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 200, 0 )
+hint_tooltip = "Set the playback speed 
+(Greater than 1x is faster, 
+lesser is slower)."
 size_flags_vertical = 1
 min_value = 0.25
 max_value = 1.75
@@ -608,40 +622,40 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="PlaybackSpeedLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 366.0
-margin_top = 3.0
-margin_right = 409.0
-margin_bottom = 28.0
+margin_left = 550.0
+margin_top = 5.0
+margin_right = 593.0
+margin_bottom = 30.0
 text = "x1.00"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 413.0
+margin_left = 597.0
 margin_right = 1910.0
-margin_bottom = 31.0
+margin_bottom = 35.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1190.0
-margin_top = 3.0
-margin_right = 1323.0
-margin_bottom = 28.0
+margin_left = 1006.0
+margin_top = 5.0
+margin_right = 1139.0
+margin_bottom = 30.0
 text = "Timing points 0/100"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1327.0
-margin_right = 1331.0
-margin_bottom = 31.0
+margin_left = 1143.0
+margin_right = 1147.0
+margin_bottom = 35.0
 
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1335.0
-margin_top = 3.0
-margin_right = 1497.0
-margin_bottom = 28.0
+margin_left = 1151.0
+margin_top = 5.0
+margin_right = 1313.0
+margin_bottom = 30.0
 text = "Project Kokoro Doki UwU"
 
 [node name="Popups" type="CanvasLayer" parent="."]
@@ -787,14 +801,15 @@ __meta__ = {
 [connection signal="dragged" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer" to="." method="_on_right_HSplitContainer_dragged"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton" to="." method="_on_WaveformButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SfxButton" to="." method="_on_Sfx_toggled"]
-[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_bg"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" method="show_video"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton" to="." method="_on_ShowGridbutton_toggled"]
+[connection signal="toggled" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton" to="." method="_on_GridSnapButton_toggled"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_horizontal"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2" to="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer" method="set_vertical"]
 [connection signal="pressed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/LayerVisibilityButton" to="." method="_toggle_layer_visibility_editor"]
 [connection signal="toggled" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton" to="." method="_on_TimelineGridSnapButton_toggled"]
+[connection signal="item_selected" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/GridResolutionOptionButton" to="." method="set_resolution"]
 [connection signal="value_changed" from="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider" to="." method="_on_PlaybackSpeedSlider_value_changed"]
 [connection signal="about_to_show" from="Popups/SaveAsSongSelector" to="." method="obscure_ui"]
 [connection signal="chart_selected" from="Popups/SaveAsSongSelector" to="." method="_on_SaveSongSelector_chart_selected"]

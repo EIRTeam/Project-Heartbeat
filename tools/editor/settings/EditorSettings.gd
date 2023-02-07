@@ -34,7 +34,10 @@ func populate():
 				if not call(option.options.condition):
 					continue
 			
-			create_item(option, section_item)
+			var item = create_item(option, section_item)
+			
+			if "options" in option and "set_var" in option.options and option.options.set_var:
+				set(option.var + "_item", item)
 
 func create_item(option, parent):
 	match option.type:

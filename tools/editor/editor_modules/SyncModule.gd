@@ -1,12 +1,13 @@
 extends HBEditorModule
 
-onready var grid_resolution_option_button := get_node("%GridResolutionOptionButton")
+onready var grid_resolution_option_button: OptionButton
 onready var average_bpm_lineedit := get_node("%AverageBPMLineEdit")
 onready var whole_bpm_lineedit := get_node("%WholeBPMLineEdit")
 onready var bpm_spinbox := get_node("%BPMSpinBox")
 onready var time_sig_numerator_spinbox := get_node("%TimeSigNumSpinBox")
 onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
 onready var create_timing_change_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer/HBEditorButton")
+onready var offset_spinbox := get_node("%OffsetSpinBox")
 
 var bpm := 150.0
 var offset := 0
@@ -33,17 +34,6 @@ var signatures = [
 var original_resolution_tooltip := ""
 
 func _ready():
-	grid_resolution_option_button.add_item("1/4 (Fourths)")
-	grid_resolution_option_button.add_item("1/6 (Sixths)")
-	grid_resolution_option_button.add_item("1/8 (Eights)")
-	grid_resolution_option_button.add_item("1/12 (Twelfths)")
-	grid_resolution_option_button.add_item("1/16 (Sixteenths)")
-	grid_resolution_option_button.add_item("1/24 (Twentyfourths)")
-	grid_resolution_option_button.add_item("1/32 (Thirtyseconds)")
-	grid_resolution_option_button.add_item("Custom")
-	grid_resolution_option_button.set_item_disabled(resolutions.size(), true)
-	original_resolution_tooltip = grid_resolution_option_button.hint_tooltip
-	
 	add_shortcut("editor_increase_resolution", "increase_resolution_by", [1])
 	add_shortcut("editor_decrease_resolution", "increase_resolution_by", [-1])
 	
@@ -54,9 +44,22 @@ func _ready():
 
 func set_editor(_editor: HBEditor):
 	.set_editor(_editor)
+	grid_resolution_option_button = _editor.get_node("%GridResolutionOptionButton")
+	
+	grid_resolution_option_button.add_item("1/4 (Fourths)")
+	grid_resolution_option_button.add_item("1/6 (Sixths)")
+	grid_resolution_option_button.add_item("1/8 (Eights)")
+	grid_resolution_option_button.add_item("1/12 (Twelfths)")
+	grid_resolution_option_button.add_item("1/16 (Sixteenths)")
+	grid_resolution_option_button.add_item("1/24 (Twentyfourths)")
+	grid_resolution_option_button.add_item("1/32 (Thirtyseconds)")
+	grid_resolution_option_button.add_item("Custom")
+	original_resolution_tooltip = grid_resolution_option_button.hint_tooltip
 	
 	_editor.sync_module = self
 	_editor.connect("paused", self, "_on_editor_paused")
+	
+	update_shortcuts()
 
 func song_editor_settings_changed(settings: HBPerSongEditorSettings):
 	var resolution_idx = resolutions.find(settings.note_resolution)
@@ -209,9 +212,63 @@ func add_timing_change():
 
 
 func set_resolution(index):
+	if index == resolutions.size():
+		editor._toggle_settings_popup()
+		editor.settings_editor.tab_container.current_tab = 1
+		editor.song_settings_editor.tree.scroll_to_item(editor.song_settings_editor.note_resolution_item)
+		editor.song_settings_editor.note_resolution_item.select(1)
+		editor.song_settings_editor.tree.edit_selected()
+		
+		return
+	
 	resolution = resolutions[index]
 	get_song_settings().set("note_resolution", resolution)
 	timing_information_changed()
 
 func get_resolution():
 	return resolution
+
+func offset_notes():
+	var offset = offset_spinbox.value
+	
+	if offset == 0:
+		return
+	
+	undo_redo.create_action("Offset all timing points by " + str(offset) + "ms")
+	
+	for item in get_timeline_items():
+		var timing_point = item.data as HBTimingPoint
+		
+		var new_time = max(timing_point.time + offset, 0)
+		
+		undo_redo.add_do_property(timing_point, "time", new_time)
+		undo_redo.add_undo_property(timing_point, "time", timing_point.time)
+		
+		if timing_point is HBSustainNote:
+			var length = timing_point.end_time - timing_point.time
+			
+			undo_redo.add_do_property(timing_point, "end_time", new_time + length)
+			undo_redo.add_undo_property(timing_point, "end_time", timing_point.end_time)
+			
+			undo_redo.add_do_method(item, "sync_value", "end_time")
+			undo_redo.add_undo_method(item, "sync_value", "end_time")
+		
+		undo_redo.add_do_method(item._layer, "place_child", item)
+		undo_redo.add_undo_method(item._layer, "place_child", item)
+	
+	undo_redo.add_do_method(self, "sync_inspector_values")
+	undo_redo.add_undo_method(self, "sync_inspector_values")
+	
+	undo_redo.add_do_method(self, "timing_points_changed")
+	undo_redo.add_undo_method(self, "timing_points_changed")
+	
+	undo_redo.add_do_method(self, "timing_information_changed")
+	undo_redo.add_undo_method(self, "timing_information_changed")
+	
+	undo_redo.add_do_method(self, "force_game_process")
+	undo_redo.add_undo_method(self, "force_game_process")
+	
+	undo_redo.add_do_method(self, "sync_lyrics")
+	undo_redo.add_undo_method(self, "sync_lyrics")
+	
+	undo_redo.commit_action()

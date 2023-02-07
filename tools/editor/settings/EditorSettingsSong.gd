@@ -6,11 +6,12 @@ const HIDDEN_ICON = preload("res://tools/icons/icon_GUI_visibility_hidden.svg")
 const VISIBLE_ICON = preload("res://tools/icons/icon_GUI_visibility_visible.svg")
 
 var layers_item: TreeItem
+var note_resolution_item: TreeItem
 
 func _ready():
 	settings = {
 		"Timeline": [
-			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 128}},
+			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 128, "set_var": true}},
 			{"name": tr("Snap to timeline"), "var": "timeline_snap", "type": "Bool"},
 		],
 		"Media": [
