@@ -1159,11 +1159,13 @@ func _set_multi_params(note):
 		undo_redo.add_undo_property(note, "position", note.position)
 
 func _clear_multi_params(note):
-	undo_redo.add_do_property(note, "oscillation_amplitude", 500)
-	undo_redo.add_do_property(note, "distance", 1200)
+	if note.oscillation_amplitude == 0:
+		undo_redo.add_do_property(note, "oscillation_amplitude", 500)
+		undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
 	
-	undo_redo.add_undo_property(note, "oscillation_amplitude", note.oscillation_amplitude)
-	undo_redo.add_undo_property(note, "distance", note.distance)
+	if note.distance == 880:
+		undo_redo.add_do_property(note, "distance", 1200)
+		undo_redo.add_undo_property(note, "distance", note.distance)
 	
 	if UserSettings.user_settings.editor_auto_place and not note.pos_modified:
 		undo_redo.add_do_property(note, "position", Vector2(note.position.x, 918))
