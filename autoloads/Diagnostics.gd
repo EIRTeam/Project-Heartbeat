@@ -8,6 +8,8 @@ var enable_autoplay = false setget set_autoplay
 var known_log_names = []
 # LogCaller : message dict
 var log_messages = {}
+var editor_undo_redo: UndoRedo
+
 func set_autoplay(value):
 	enable_autoplay = value
 
@@ -239,3 +241,9 @@ func get_event_text(event: InputEvent):
 		return text
 	
 	return ""
+
+func _on_CommitActionButton_pressed():
+	if not editor_undo_redo:
+		return
+	
+	editor_undo_redo.commit_action()

@@ -301,7 +301,7 @@ margin_right = 750.0
 margin_bottom = 383.0
 size_flags_vertical = 3
 
-[node name="Shortcuts" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Editor" type="MarginContainer" parent="WindowDialog/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -310,16 +310,21 @@ margin_top = 32.0
 margin_right = -5.0
 margin_bottom = -5.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Shortcuts"]
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Editor"]
 margin_right = 730.0
 margin_bottom = 373.0
 
-[node name="PrintShortcutsButton" type="Button" parent="WindowDialog/TabContainer/Shortcuts/VBoxContainer"]
+[node name="CommitActionButton" type="Button" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
+margin_right = 750.0
+margin_bottom = 25.0
+text = "Commit stray actions"
+
+[node name="PrintShortcutsButton" type="Button" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
 margin_right = 750.0
 margin_bottom = 25.0
 text = "Print editor shortcuts"
 
-[node name="ShortcutsTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Shortcuts/VBoxContainer"]
+[node name="ShortcutsTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
 margin_top = 29.0
 margin_right = 750.0
 margin_bottom = 383.0
@@ -345,4 +350,5 @@ margin_right = 1.18921
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
 [connection signal="pressed" from="WindowDialog/TabContainer/Workshop/VBoxContainer/WorkshopRefreshButton" to="." method="_on_WorkshopRefreshButton_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Shortcuts/VBoxContainer/PrintShortcutsButton" to="." method="_on_PrintShortcutsButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Editor/VBoxContainer/CommitActionButton" to="." method="_on_CommitActionButton_pressed"]
+[connection signal="pressed" from="WindowDialog/TabContainer/Editor/VBoxContainer/PrintShortcutsButton" to="." method="_on_PrintShortcutsButton_pressed"]

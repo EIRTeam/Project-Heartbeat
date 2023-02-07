@@ -219,6 +219,7 @@ func _ready():
 	update_user_settings()
 	
 	Diagnostics.fps_label.get_font("font").size = 11
+	Diagnostics.editor_undo_redo = undo_redo
 	
 	undo_redo.connect("version_changed", self, "_on_version_changed")
 	
@@ -1707,6 +1708,7 @@ func exit():
 	UserSettings.apply_display_mode()
 	
 	Diagnostics.fps_label.get_font("font").size = 23
+	Diagnostics.editor_undo_redo = null
 
 func try_exit():
 	if modified:
