@@ -117,13 +117,7 @@ func _input(event: InputEvent):
 		arranging = false
 		arrange_menu.hide()
 		
-		undo_redo.create_action("Arrange selected notes by time")
-		commit_selected_property_change("position", false)
-		commit_selected_property_change("entry_angle", false)
-		commit_selected_property_change("oscillation_frequency", false)
-		undo_redo.commit_action()
-		
-		original_notes.clear()
+		commit_arrange()
 
 func user_settings_changed():
 	circle_size_spinbox.value = UserSettings.user_settings.editor_circle_size
@@ -171,6 +165,8 @@ func _apply_arrange():
 		original_notes.append(item.data.clone())
 	
 	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
+	
+	commit_arrange()
 
 func _apply_arrange_shortcut(direction: int):
 	original_notes.clear()
@@ -190,6 +186,8 @@ func _apply_arrange_shortcut(direction: int):
 		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed, false)
 	else:
 		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
+	
+	commit_arrange()
 
 func _apply_center_arrange():
 	original_notes.clear()
@@ -197,6 +195,8 @@ func _apply_center_arrange():
 		original_notes.append(item.data.clone())
 	
 	arrange_selected_notes_by_time(null, false, false)
+	
+	commit_arrange()
 
 func _order_items(a, b):
 	return a.data.time < b.data.time
@@ -354,6 +354,15 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
 	else:
 		return [note.entry_angle, note.oscillation_frequency]
+
+func commit_arrange():
+	undo_redo.create_action("Arrange selected notes by time")
+	commit_selected_property_change("position", false)
+	commit_selected_property_change("entry_angle", false)
+	commit_selected_property_change("oscillation_frequency", false)
+	undo_redo.commit_action()
+	
+	original_notes.clear()
 
 
 func _set_circle_size(value: int):
