@@ -412,7 +412,7 @@ func update_bpm_string():
 		if bpm:
 			bpm_string = "%d" % bpm
 	else:
-		bpm = bpm_range[1]
+		bpm = timing_changes[0].bpm
 		
 		if bpm_range[0] != bpm_range[1]:
 			bpm_string = "%s-%s" % [str(bpm_range[0]), str(bpm_range[1])]
