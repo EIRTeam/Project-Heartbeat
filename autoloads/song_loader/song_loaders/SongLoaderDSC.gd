@@ -79,16 +79,16 @@ class HBSongMMPLUS:
 		preview_image = "PLACEHOLDER"
 		background_image = "PLACEHOLDER"
 		circle_image = "PLACEHOLDER"
-		
+	
 	func get_song_audio_res_path():
 		return pv_data.song_file_name
-		
+	
 	func get_audio_stream(_variant := 0):
 		var audio_data := game_fs_access.load_file_as_buffer(get_song_audio_res_path())
 		var audio_stream := AudioStreamOGGVorbis.new()
 		audio_stream.data = audio_data.data_array
 		return audio_stream
-		
+	
 	func get_song_select_sprite_set():
 		var farc_archive := FARCArchive.new()
 		
@@ -102,7 +102,7 @@ class HBSongMMPLUS:
 			var sprite_set := DIVASpriteSet.new()
 			sprite_set.read(sprite_set_buffer)
 			return sprite_set
-		
+	
 	func get_chart_for_difficulty(difficulty) -> HBChart:
 		var chart_path := pv_data.charts[difficulty].dsc_path as String
 		var buff := game_fs_access.load_file_as_buffer(chart_path)
@@ -118,14 +118,15 @@ class HBSongMMPLUS:
 				meta.append("Mod: %s" % [mod_name])
 		meta.append_array(.get_meta_string())
 		return meta
-		
+
 func _init_loader() -> int:
 	opcode_map = DSCOpcodeMap.new("res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", game_type)
 	return OK
+
 # If true this loader manages discovery by itself
 func uses_custom_load_paths():
 	return true
-	
+
 class DSCPVData:
 	var charts := {}
 	var song_file_name := ""
@@ -156,6 +157,7 @@ class DSCPVData:
 		if spl.size() > 1:
 			charts[diff].stars = float(spl[-2])
 			charts[diff].stars += float(spl[-1]) / 10.0
+
 func dsc_diff_to_hb_diff(diff: String):
 	var result = diff
 	match diff:
@@ -494,6 +496,10 @@ func load_songs_mmplus() -> Array:
 		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
 		song.id = "pv_" + str(pv_id)
 		
+		var bpm_timing_change := HBTimingChange.new()
+		bpm_timing_change.bpm = pv_data.bpm
+		song.timing_changes = [bpm_timing_change]
+		
 		var ogg_path := mmplus_file_access.get_file_path(pv_data.song_file_name) as String
 		if ogg_path:
 			songs[song.id] = song
@@ -502,7 +508,7 @@ func load_songs_mmplus() -> Array:
 				continue
 			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
 			continue
-			
+	
 	var mods_config_path := GAME_LOCATION.plus_file("config.toml") as String
 	
 	var d := Directory.new()

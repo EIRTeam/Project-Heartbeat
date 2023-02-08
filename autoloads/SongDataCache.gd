@@ -113,10 +113,14 @@ func is_song_audio_loudness_cached(song):
 		if file.file_exists(_get_song_audio_path(song)):
 			var modified = file.get_modified_time(_get_song_audio_path(song))
 			return modified == audio_normalization_cache[song.id].modified
+	
 	return false
 
 func get_song_volume_offset(song):
-	return HBAudioNormalizer.get_offset_from_loudness(audio_normalization_cache[song.id].loudness)
+	if is_song_audio_loudness_cached(song):
+		return HBAudioNormalizer.get_offset_from_loudness(audio_normalization_cache[song.id].loudness)
+	
+	return 0.0
 
 func clear_cache():
 	song_meta_cache = {}
