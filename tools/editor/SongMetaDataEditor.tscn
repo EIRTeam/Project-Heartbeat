@@ -761,7 +761,7 @@ show_hidden_files = true
 margin_right = 294.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AddVariantDialog"]
 anchor_right = 1.0

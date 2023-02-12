@@ -527,7 +527,7 @@ margin_top = 494.835
 margin_right = 1594.91
 margin_bottom = 787.835
 popup_exclusive = true
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 dialog_hide_on_ok = false
 script = ExtResource( 4 )
 
@@ -580,7 +580,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 529.0
 margin_bottom = 410.0
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog"]
 anchor_right = 1.0
@@ -657,7 +657,7 @@ filters = PoolStringArray( "*.png ; Portable Network Graphics" )
 margin_right = 200.0
 margin_bottom = 74.0
 popup_exclusive = true
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 dialog_text = "This will delete the file for this graphic, do you want to do this?"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
@@ -670,7 +670,7 @@ window_title = "¡Alerta!"
 margin_right = 200.0
 margin_bottom = 74.0
 popup_exclusive = true
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -699,7 +699,7 @@ margin_left = 684.702
 margin_top = 432.148
 margin_right = 884.702
 margin_bottom = 506.148
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 dialog_text = "Do you really want to quit? Any unsaved progress will be lost."
 __meta__ = {
 "_edit_use_anchors_": false

@@ -204,6 +204,6 @@ margin_top = 122.55
 margin_right = 418.35
 margin_bottom = 258.55
 popup_exclusive = true
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 dialog_text = "This song appears to have been uploaded previously, but we cannot find it on the workshop anymore, would you like to instead upload it from scratch?"
 dialog_autowrap = true

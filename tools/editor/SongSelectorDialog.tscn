@@ -11,7 +11,7 @@ margin_right = 634.016
 margin_bottom = 520.849
 rect_min_size = Vector2( 150, 52.5 )
 theme = ExtResource( 2 )
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -40,7 +40,7 @@ margin_top = 8.0
 margin_right = 472.0
 margin_bottom = 266.0
 rect_min_size = Vector2( 150, 52.5 )
-window_title = "Por favor, Confirma..."
+window_title = "Please Confirm..."
 dialog_text = "Project Heartbeat can load PPD songs directly without converting, if your intention is to only play them, it's not necessary for you to convert them manually, this will allow you to take advantage of future improvements in the PPD chart loading code.
 
 Are you entirely sure that you want to do this?"
