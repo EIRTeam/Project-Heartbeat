@@ -29,9 +29,16 @@ func process_input(event: InputEventHB):
 	if game.game_input_manager.get_action_press_count(action) >= 2:
 		_on_note_pressed(event)
 	else:
-		if not game.is_sound_debounced("note_hit") and not UserSettings.user_settings.play_hit_sounds_only_when_hit:
-			game.debounce_sound("note_hit")
-			current_note_sound = HBGame.instantiate_user_sfx("note_hit")
+		var sound_name := "note_hit"
+		if note_data.note_type == HBNoteData.NOTE_TYPE.HEART:
+			sound_name = "slide_empty"
+		if not game.is_sound_debounced(sound_name) and not UserSettings.user_settings.play_hit_sounds_only_when_hit:
+			game.debounce_sound(sound_name)
+			current_note_sound = HBGame.instantiate_user_sfx(sound_name)
+			# We delay this by 32 ms to allow ~two frames before it starts playing the sound
+			# becuase otherwise the sound is very noticeable after eirexe got a bigger pp and made
+			# the audio engine faster
+			current_note_sound.schedule_start_time(Shinobu.get_dsp_time() + 34)
 			current_note_sound.start()
 		game.add_child(current_note_sound)
 
