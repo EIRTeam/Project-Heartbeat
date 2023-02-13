@@ -822,6 +822,7 @@ func _play_empty_note_sound(event: InputEventHB):
 				sfx_pool.play_sfx("slide_empty")
 			elif not event.action == "heart_note":
 				sfx_pool.play_sfx("note_hit")
+			handled_event_uids_this_frame.append(event.event_uid)
 
 # called when a note or group of notes is judged
 # this doesn't take care of adding the score
