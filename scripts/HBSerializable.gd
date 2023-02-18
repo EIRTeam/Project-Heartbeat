@@ -50,7 +50,7 @@ static func deserialize(data: Dictionary):
 		var object = get_serializable_types()[data.type].new()
 		
 		var _deserializable_fields: Array = object.serializable_fields.duplicate()
-		_deserializable_fields.append_array(object.deprecated_fields)
+		_deserializable_fields.append_array(object.deprecated_fields.duplicate())
 		
 		for field in _deserializable_fields:
 			var _field = object.get(field)

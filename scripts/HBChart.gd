@@ -113,31 +113,47 @@ func deserialize(data: Dictionary, song):
 		self.editor_settings = HBPerSongEditorSettings.deserialize(data.editor_settings)
 	
 	self.format_version = data.format_version if data.has("format_version") else 1
+	
+	print("=== LOADING CHART ===")
+	print("- Format version: " + str(self.format_version))
+	print("- Timing changes (before porting): " + str(song.timing_changes))
+	print("- Editor Settings: " + str(self.editor_settings.bpm) + "BPM, offset " + str(self.editor_settings.offset * 1000.0) + "ms, BPB " + str(self.editor_settings.beats_per_bar))
+	
 	while self.format_version != CURRENT_FORMAT_VERSION:
 		if self.format_version < CURRENT_FORMAT_VERSION:
 			port_chart(song)
 		else:
 			backport_chart(song)
+	
+	print("=== LOADED CHART ===")
 
 func port_chart(song):
 	match self.format_version:
 		1:  # V1 to V2
+			print("- Porting V1 to V2...")
+			
 			for layer in self.layers:
 				if layer.name != "Events":
 					continue
 				
 				for note in layer.timing_points:
 					if note is HBBPMChange:
+						print("	- Changing speed change to fixed BPM at " + str(note.time) + "ms")
 						note.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
 			
 			if not song.timing_changes:
+				print("	- Generating timing changes")
+				
 				# Migrate timing info
 				var base_timing_change = HBTimingChange.new()
 				base_timing_change.time = self.editor_settings.offset * 1000.0
 				base_timing_change.bpm = self.editor_settings.bpm
+				
 				base_timing_change.time_signature.numerator = self.editor_settings.beats_per_bar
 				if self.editor_settings.beats_per_bar == 1:
 					base_timing_change.time_signature.denominator = 1
+				
+				print("	- Generated data: " + str(base_timing_change.bpm) + "BPM, time sig " + str(base_timing_change.time_signature.numerator) + "/" + str(base_timing_change.time_signature.denominator) + ", at " + str(base_timing_change.time) + "ms")
 				
 				song.timing_changes = [base_timing_change]
 	
