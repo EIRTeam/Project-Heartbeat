@@ -190,6 +190,9 @@ func _init_ytdl():
 		var json = JSON.parse(file.get_as_text()) as JSONParseResult
 		if json.error == OK:
 			cache_meta = json.result
+			for id in cache_meta.cache:
+				if not cache_meta.cache[id] is Dictionary:
+					cache_meta.cache[id] = {}
 		else:
 			Log.log(self, "Error loading cache meta: " + str(json.error))
 	ensure_perms()
@@ -585,6 +588,8 @@ func get_cache_status(url: String, video=true, audio=true):
 	var yt_id = get_video_id(url)
 	
 	if yt_id in cache_meta.cache:
+		if not cache_meta.cache[yt_id] is Dictionary:
+			cache_meta.cache[yt_id] = {}
 		var video_missing = false
 		if video and (not cache_meta.cache[yt_id].has("video") or not video_exists(yt_id)):
 			cache_status = CACHE_STATUS.VIDEO_MISSING
