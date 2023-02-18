@@ -550,21 +550,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPSLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_top = 5.0
-margin_right = 70.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 70, 0 )
-align = 1
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 74.0
-margin_right = 78.0
-margin_bottom = 35.0
-
 [node name="LayerVisibilityButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 82.0
-margin_right = 110.0
+margin_right = 28.0
 margin_bottom = 35.0
 hint_tooltip = "Edit Layer visibility."
 icon = ExtResource( 37 )
@@ -573,13 +560,13 @@ script = ExtResource( 22 )
 action = "editor_popup_visibility_editor"
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 114.0
-margin_right = 118.0
+margin_left = 32.0
+margin_right = 36.0
 margin_bottom = 35.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 122.0
-margin_right = 150.0
+margin_left = 40.0
+margin_right = 68.0
 margin_bottom = 35.0
 hint_tooltip = "Enable timeline snap"
 toggle_mode = true
@@ -591,9 +578,9 @@ action = "editor_timeline_snap"
 
 [node name="GridResolutionOptionButton" type="OptionButton" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 154.0
+margin_left = 72.0
 margin_top = 5.0
-margin_right = 334.0
+margin_right = 252.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 180, 0 )
 hint_tooltip = "Separation between notes, as a
@@ -601,13 +588,13 @@ fraction of a whole note."
 size_flags_vertical = 4
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 338.0
-margin_right = 342.0
+margin_left = 256.0
+margin_right = 260.0
 margin_bottom = 35.0
 
 [node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 346.0
-margin_right = 546.0
+margin_left = 264.0
+margin_right = 464.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 200, 0 )
 hint_tooltip = "Set the playback speed 
@@ -622,24 +609,24 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="PlaybackSpeedLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 550.0
+margin_left = 468.0
 margin_top = 5.0
-margin_right = 593.0
+margin_right = 511.0
 margin_bottom = 30.0
 text = "x1.00"
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 597.0
+margin_left = 515.0
 margin_right = 1910.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="InfoLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1006.0
+margin_left = 1180.0
 margin_top = 5.0
-margin_right = 1139.0
+margin_right = 1313.0
 margin_bottom = 30.0
 text = "Timing points 0/100"
 __meta__ = {
@@ -647,16 +634,32 @@ __meta__ = {
 }
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1143.0
-margin_right = 1147.0
+margin_left = 1317.0
+margin_right = 1321.0
 margin_bottom = 35.0
 
 [node name="VersionLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 1151.0
 margin_top = 5.0
 margin_right = 1313.0
 margin_bottom = 30.0
 text = "Project Kokoro Doki UwU"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 1317.0
+margin_right = 1321.0
+margin_bottom = 35.0
+size_flags_vertical = 3
+
+[node name="FPSLabel" type="Label" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer"]
+margin_left = 1325.0
+margin_top = 5.0
+margin_right = 1395.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 70, 0 )
+align = 1
 
 [node name="Popups" type="CanvasLayer" parent="."]
 
