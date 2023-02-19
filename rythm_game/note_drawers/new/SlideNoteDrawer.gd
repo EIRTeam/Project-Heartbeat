@@ -87,7 +87,7 @@ func _on_pressed():
 	if is_slide_chain():
 		judgement = HBJudge.JUDGE_RATINGS.COOL # Slide chains can never be a fine
 	
-	if not is_in_editor_mode() and not is_autoplay_enabled():
+	if not is_in_editor_mode() and not is_autoplay_enabled() and not is_slide_chain():
 		fire_and_forget_user_sfx("slide_hit")
 	
 	set_pressed(true)
