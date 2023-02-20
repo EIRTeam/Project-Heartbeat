@@ -65,9 +65,13 @@ func _on_game_time_changed(time: int):
 					break
 	if current_phrase:
 		var curr_visible_characters = 0
+		var first = true
 		for phrase in current_phrase.lyrics:
 			if time >= phrase.time:
-				curr_visible_characters += phrase.value.length()
+				curr_visible_characters += phrase.value.length() - phrase.value.count(" ")
+				if first and phrase.value.begins_with(" "):
+					curr_visible_characters += 1
+			first = false
 		if current_phrase.lyrics.size() <= 1 and time < current_phrase.end_time:
 			curr_visible_characters = -1
 		elif current_phrase.end_time < time:
