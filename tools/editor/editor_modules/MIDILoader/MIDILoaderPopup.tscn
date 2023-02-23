@@ -4,7 +4,6 @@
 [ext_resource path="res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopup.gd" type="Script" id=2]
 
 [node name="Control" type="ConfirmationDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 230.0

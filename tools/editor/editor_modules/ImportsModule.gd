@@ -29,8 +29,8 @@ class HBEditorImporter:
 	func file_selected(path: String, editor: HBEditor, offset: int, vargs: Dictionary = {}):
 		return null
 	
-	static func build_timing_map(timing_changes: Array, end_t: int) -> Array:
-		var timing_changes_inv = timing_changes.duplicate()
+	static func build_timing_map(_timing_changes: Array, end_t: int) -> Array:
+		var timing_changes_inv = _timing_changes.duplicate()
 		timing_changes_inv.invert()
 		
 		var timing_map := []
@@ -54,8 +54,6 @@ class HBEditorImporter:
 		return idx + decimal
 	
 	static func autoplace(data: HBBaseNote, timing_map: Array) -> HBBaseNote:
-		var normalized_timing_map := []
-		
 		var new_data = data.clone() as HBBaseNote
 		
 		var time_as_eight = _linear_bound(timing_map, data.time)
@@ -205,10 +203,6 @@ class MIDIImporter:
 	# taken from the midi player code, by Yui Kinomoto @arlez80
 	# how this works is beyond me, I am not a musician
 	func merge_tracks(smf: SMFLoader.SMF, allowed_tracks=[]):
-		var allow_all_tracks = false
-		if allowed_tracks.size() == 0:
-			allow_all_tracks = true
-		
 		var track_events = []
 		if smf.tracks.size() == 1:
 			track_events = smf.tracks[0].events
@@ -217,8 +211,7 @@ class MIDIImporter:
 			var i = 0
 			for track in smf.tracks:
 				tracks.append({"track_i": i, "pointer":0, "events":track.events, "length": track.events.size()})
-				if allow_all_tracks:
-					allowed_tracks.append(i)
+				
 				i += 1
 			var time:int = 0
 			var finished:bool = false

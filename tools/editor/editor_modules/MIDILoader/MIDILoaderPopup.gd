@@ -36,7 +36,7 @@ func populate_tracks():
 
 func _on_confirmed():
 	var tracks = []
-	var current_item = track_root.get_next()
+	var current_item = track_root.get_children()
 	
 	while current_item:
 		if current_item.is_checked(0):
