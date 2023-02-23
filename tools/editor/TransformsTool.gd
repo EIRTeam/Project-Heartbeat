@@ -492,7 +492,7 @@ class MultiPresetTemplate:
 			if notes_at_time.size() == 2:
 				var index = notes_at_time.find(n)
 				
-				angle = 110.0 if index == 1 else 70.0
+				angle = 110.0 if type % 2 else 70.0
 			else:
 				angle = 110.0 if type >= 2 else 70.0
 		elif group_type == GROUP_TYPE.SIMILAR_SLIDES:
@@ -543,8 +543,6 @@ class MultiPresetTemplate:
 			extended_group.sort_custom(self, "sort_by_relative_type")
 			
 			for note in extended_group:
-				var type = process_type(note, anchor, group_type)
-				
 				var pos = process_position(note, anchor)
 				
 				var angle = process_angle(note, extended_group, group_type)
