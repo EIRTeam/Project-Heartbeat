@@ -90,20 +90,7 @@ func update_shortcuts():
 			button.update_shortcut(ev_text)
 
 func get_event_text(event: InputEvent) -> String:
-	var text = ""
-	
-	if event is InputEventKey:
-		text = event.as_text()
-		
-		if text == " (Physical)":
-			text = "None"
-		if "Kp " in text:
-			text = text.replace("Kp ", "Keypad ")
-		
-	elif event is InputEventMouseButton:
-		text = "Mouse %d" % event.button_index
-	
-	return text
+	return HBUtils.get_event_text(event)
 
 func create_timing_point(layer: EditorLayer, item: EditorTimelineItem, force: bool = false):
 	editor.user_create_timing_point(layer, item, force)

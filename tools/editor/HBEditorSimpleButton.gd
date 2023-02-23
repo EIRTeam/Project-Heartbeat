@@ -36,16 +36,9 @@ func _unhandled_input(event):
 		get_tree().set_input_as_handled()
 
 func update_shortcuts():
-	var text = "None"
-	
 	var action_list = InputMap.get_action_list(action)
 	var event = action_list[0] if action_list else InputEventKey.new()
 	
-	if event is InputEventKey:
-		text = event.as_text() if not "Physical" in event.as_text() else "None"
-		if "Kp " in text:
-			text = text.replace("Kp ", "Keypad ")
-	elif event is InputEventMouseButton:
-		text = "Mouse %d" % event.button_index
+	var text = HBUtils.get_event_text(event)
 	
 	hint_tooltip = og_hint + "\nShortcut: " + text

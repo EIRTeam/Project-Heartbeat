@@ -6,6 +6,7 @@ const INTERPOLATE_ID = 8
 
 func _ready():
 	connect("error_changed", self, "_on_error")
+	get_line_edit().connect("focus_entered", self, "_on_focus_entered")
 	
 	var menu := get_line_edit().get_menu()
 	menu.connect("id_pressed", self, "_on_menu_id_pressed")
@@ -21,6 +22,9 @@ func _input(event):
 
 func _on_error(error_text):
 	hint_tooltip = error_text
+
+func _on_focus_entered():
+	get_line_edit().select_all()
 
 func get_shortcut(keycode: int, modifier: Array = []) -> int:
 	var i := InputEventKey.new()

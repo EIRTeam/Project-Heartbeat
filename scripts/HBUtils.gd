@@ -9,6 +9,18 @@ enum TimeFormat {
 	FORMAT_DEFAULT = 1 << 1 | 1 << 2 | 1 << 3
 }
 
+const MOUSE_BUTTON_NAMES := {
+	BUTTON_LEFT: "Left Click",
+	BUTTON_RIGHT: "Right Click",
+	BUTTON_MIDDLE: "Middle Click",
+	BUTTON_XBUTTON1: "Mouse Extra Button 1",
+	BUTTON_XBUTTON2: "Mouse Extra Button 2",
+	BUTTON_WHEEL_UP: "Mouse Wheel Up",
+	BUTTON_WHEEL_DOWN: "Mouse Wheel Down",
+	BUTTON_WHEEL_LEFT: "Mouse Wheel Left Button",
+	BUTTON_WHEEL_RIGHT: "Mouse Wheel Right Button",
+}
+
 # for lap-time style time formatting
 static func format_time(time: float, format = TimeFormat.FORMAT_DEFAULT, digit_format = "%02d"):
 	var digits = []
@@ -514,3 +526,26 @@ static func wrap_text(text: String, length: int = 25) -> String:
 # first-class functions, so this will not be needed then.
 static func _sort_by_bar(a, b) -> bool:
 	return a.bar < b.bar
+
+static func get_event_text(event: InputEvent) -> String:
+	var text = "None"
+	
+	if event is InputEventKey:
+		text = event.as_text() if not "Physical" in event.as_text() else "None"
+		if "Kp " in text:
+			text = text.replace("Kp ", "Keypad ")
+	elif event is InputEventMouseButton:
+		var modifier = ""
+		
+		if event.alt:
+			modifier += "Alt+"
+		if event.shift:
+			modifier += "Shift+"
+		if event.control:
+			modifier += "Control+"
+		if event.meta:
+			modifier += "Meta+"
+		
+		text = modifier + MOUSE_BUTTON_NAMES[event.button_index]
+	
+	return text

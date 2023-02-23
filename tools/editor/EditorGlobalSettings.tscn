@@ -7,6 +7,7 @@
 [ext_resource path="res://tools/editor/settings/EditorSettingsGlobal.gd" type="Script" id=5]
 
 [node name="EditorGlobalSettings" type="WindowDialog"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 655.0
@@ -92,8 +93,8 @@ margin_right = 670.0
 margin_bottom = 338.0
 
 [node name="Panel" type="Control" parent="TabContainer/Shortcuts/VBoxContainer"]
-margin_right = 680.0
-margin_bottom = 343.0
+margin_right = 660.0
+margin_bottom = 328.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 3 )
@@ -107,33 +108,28 @@ __meta__ = {
 }
 
 [node name="Tree" type="Tree" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
-margin_right = 680.0
-margin_bottom = 308.0
+margin_right = 660.0
+margin_bottom = 293.0
 size_flags_vertical = 3
-columns = 2
+columns = 3
 hide_root = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
-margin_top = 318.0
-margin_right = 680.0
-margin_bottom = 343.0
+margin_top = 303.0
+margin_right = 660.0
+margin_bottom = 328.0
 text = "Reset all to default"
 
 [node name="WindowDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-visible = true
 margin_left = -5.0
 margin_top = -32.0
 margin_right = 310.0
-margin_bottom = 104.0
+margin_bottom = 91.0
 rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
-window_title = "Please Confirm..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog"]
 anchor_right = 1.0
@@ -143,53 +139,60 @@ margin_top = 8.0
 margin_right = -8.0
 margin_bottom = -41.0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
-margin_top = 2.0
+[node name="BindingLabel" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
 margin_right = 299.0
-margin_bottom = 27.0
-text = "Press the new button combination"
+margin_bottom = 45.0
+text = "Press the new button combination for
+\"Shortcut Here\""
 align = 1
 
-[node name="Label2" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
-margin_top = 31.0
+[node name="CombinationLabel" type="RichTextLabel" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
+margin_top = 49.0
 margin_right = 299.0
-margin_bottom = 56.0
+margin_bottom = 75.0
+bbcode_enabled = true
+fit_content_height = true
+
+[node name="ConflictDialog" type="AcceptDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+visible = true
+margin_right = 352.0
+margin_bottom = 168.0
+rect_min_size = Vector2( 150, 52.5 )
+popup_exclusive = true
+window_title = "Please Confirm..."
+dialog_text = "This shortcut is conflicting with the following actions:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog"]
+margin_left = 8.0
+margin_top = 33.0
+margin_right = 344.0
+margin_bottom = 127.0
+
+[node name="ItemList" type="ItemList" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
+margin_right = 336.0
+margin_bottom = 65.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
+margin_top = 69.0
+margin_right = 336.0
+margin_bottom = 94.0
+text = "What should be done?"
 align = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
-margin_top = 60.0
-margin_right = 299.0
-margin_bottom = 85.0
-
-[node name="ClearButton" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer/HBoxContainer"]
-margin_right = 147.0
-margin_bottom = 25.0
-size_flags_horizontal = 3
-text = "Clear"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ResetToDefaultButton" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer/HBoxContainer"]
-margin_left = 151.0
-margin_right = 299.0
-margin_bottom = 25.0
-size_flags_horizontal = 3
-text = "Reset to default"
 
 [node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+margin_right = 304.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 150, 52.5 )
+popup_exclusive = true
+dialog_text = "Do you want to reset this shortcut to default?"
+
+[node name="ResetAllConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
 margin_right = 200.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
-window_title = "Please Confirm..."
 dialog_text = "Do you want to reset all shortcuts to default?"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[connection signal="pressed" from="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer/Button" to="TabContainer/Shortcuts/VBoxContainer/Panel/ResetConfirmationDialog" method="popup_centered"]
+[connection signal="pressed" from="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer/Button" to="TabContainer/Shortcuts/VBoxContainer/Panel/ResetAllConfirmationDialog" method="popup_centered"]

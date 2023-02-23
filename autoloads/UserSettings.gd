@@ -184,10 +184,15 @@ func fill_localized_arrays():
 		
 		# Editor
 		#  General
-		"editor_move_playhead_left": tr("Move playhead to the left"),
-		"editor_move_playhead_right": tr("Move playhead to the right"),
 		"gui_undo": tr("Undo"),
 		"gui_redo": tr("Redo"),
+		"editor_select": tr("Select notes"),
+		"editor_contextual_menu": tr("Show contextual menu"),
+		"editor_scale_up": tr("Scale up"),
+		"editor_scale_down": tr("Scale down"),
+		"editor_pan": tr("Pan the timeline"),
+		"editor_move_playhead_left": tr("Move playhead to the left"),
+		"editor_move_playhead_right": tr("Move playhead to the right"),
 		#  Menus
 		"editor_settings": tr("Open/Close the settings menu"),
 		"editor_show_docs": tr("Open the editor docs"),
@@ -241,6 +246,7 @@ func fill_localized_arrays():
 		"editor_decrease_resolution": tr("Decrease timeline resolution"),
 		"editor_toggle_sfx": tr("Toggle the hitsound sfxs"),
 		"editor_toggle_waveform": tr("Toggle the waveform display"),
+		"editor_tap_metronome": tr("Tap metronome"),
 		#  Placements
 		"editor_grid": tr("Toggle grid"),
 		"editor_grid_snap": tr("Toggle grid snap"),
@@ -253,7 +259,7 @@ func fill_localized_arrays():
 		"editor_arrange_ur": tr("Arrange up right"),
 		"editor_arrange_dl": tr("Arrange down left"),
 		"editor_arrange_dr": tr("Arrange down right"),
-		"editor_arrange_center": tr("Arrange center"),
+		"editor_arrange_center": tr("Stack notes"),
 		"editor_fine_position_left": tr("Fine position notes left"),
 		"editor_fine_position_right": tr("Fine position notes right"),
 		"editor_fine_position_up": tr("Fine position notes up"),
