@@ -1646,7 +1646,6 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	rhythm_game_playtest_popup.rhythm_game.voice_audio_playback = null
 	remove_child(rhythm_game_playtest_popup)
 	
-	update_media()
 	seek(0, true)
 	timeline.set_layers_offset(0)
 	playback_speed_slider.value = 1.0
