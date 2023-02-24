@@ -926,7 +926,7 @@ func _on_game_playback_time_changed(time: float):
 	# HACK: Far along in a song, float innacuracies might start fucking us up, because
 	# for some reason stuff gets converted to floats along the way. playhead_position is
 	# always integer, so if they are similar just prefer the int variant as a truth source
-	if not is_equal_approx(prev_time / 1000.0, time):
+	if abs(prev_time / 1000.0 - time) > 0.001:
 		playhead_position = max(time * 1000.0, 0.0)
 	
 	timeline.update()
@@ -1646,7 +1646,6 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	rhythm_game_playtest_popup.rhythm_game.voice_audio_playback = null
 	remove_child(rhythm_game_playtest_popup)
 	
-	seek(0, true)
 	timeline.set_layers_offset(0)
 	playback_speed_slider.value = 1.0
 	
@@ -1661,6 +1660,8 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	
 	modified = false
 	
+	change_scale(scale)
+	seek(0, true)
 	if timing_changes:
 		playhead_position = timing_changes[-1].data.time
 		
@@ -1821,6 +1822,13 @@ func _on_timing_information_changed(f=null):
 			map_intervals(metronome_map, timing_change.time, end_t, ms_per_metronome_beat)
 		
 		end_t = timing_change.time
+	
+	if timing_changes:
+		var ms_per_beat: float = (60.0 / timing_changes[-1].data.bpm) * 1000.0 * 4 * get_note_resolution()
+		
+		var end = timing_changes[-1].data.time
+		for i in range(0, end / ms_per_beat + 1):
+			timing_map.append(int(end - (i - 1) * ms_per_beat))
 	
 	timing_map.invert()
 	normalized_timing_map.invert()

@@ -151,10 +151,14 @@ func _draw_beats(map: Array, bar_map: Array, start_idx: int, end_idx: int):
 
 func _draw_timing_lines():
 	var timing_map = editor.get_timing_map()
+	var timing_changes = editor.get_timing_changes()
 	var signature_map = editor.get_signature_map()
 	
 	if not timing_map:
 		return
+	
+	var first_timing_change_idx = timing_map.find(timing_changes[-1].data.time)
+	timing_map = timing_map.slice(first_timing_change_idx, timing_map.size() - 1)
 	
 	var start_t = _offset
 	var end_t = start_t + editor.scale_pixels(playhead_area.rect_position.x + playhead_area.rect_size.x)
