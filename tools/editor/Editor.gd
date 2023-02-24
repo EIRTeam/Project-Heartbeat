@@ -302,8 +302,12 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 					if property_name in item.data:
 						undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
 						undo_redo.add_do_method(item.data, "emit_signal", "parameter_changed", property_name)
+						undo_redo.add_do_method(item, "sync_value", property_name)
+						
 						undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
 						undo_redo.add_undo_method(item.data, "emit_signal", "parameter_changed", property_name)
+						undo_redo.add_undo_method(item, "sync_value", property_name)
+						
 						if property_name == "note_type":
 							# When note type is changed we also change the layer
 							var new_note_type = transformation_result[note].note_type
@@ -334,7 +338,10 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 		
 		undo_redo.add_do_method(self, "_on_timing_points_changed")
 		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-
+		
+		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		
 		undo_redo.commit_action()
 
 func _show_open_chart_dialog():
