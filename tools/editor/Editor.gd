@@ -458,13 +458,14 @@ func _unhandled_input(event: InputEvent):
 	
 	if not game_playback.is_playing():
 		var old_pos = playhead_position
+		var _timing_map = get_timing_map()
 		
 		if event.is_action("editor_move_playhead_left", true) and event.pressed and timing_map:
-			var idx = max(get_timing_map().bsearch(playhead_position) - 1, 0)
-			playhead_position = get_timing_map()[idx]
+			var idx = max(_timing_map.bsearch(playhead_position) - 1, 0)
+			playhead_position = _timing_map[idx]
 		elif event.is_action("editor_move_playhead_right", true) and event.pressed and timing_map:
-			var idx = _upper_bound(get_timing_map(), playhead_position)
-			playhead_position = get_timing_map()[idx]
+			var idx = _upper_bound(_timing_map, playhead_position)
+			playhead_position = _timing_map[idx]
 		
 		if old_pos != playhead_position:
 			emit_signal("playhead_position_changed")
@@ -914,8 +915,15 @@ func add_event_timing_point(timing_point_class: GDScript):
 
 func _on_game_playback_time_changed(time: float):
 	var prev_time = playhead_position
-	playhead_position = max(time * 1000.0, 0.0)
+	
+	# HACK: Far along in a song, float innacuracies might start fucking us up, because
+	# for some reason stuff gets converted to floats along the way. playhead_position is
+	# always integer, so if they are similar just prefer the int variant as a truth source
+	if not is_equal_approx(prev_time / 1000.0, time):
+		playhead_position = max(time * 1000.0, 0.0)
+	
 	timeline.update()
+	
 	if game_playback.is_playing():
 		timeline.ensure_playhead_is_visible()
 		var playback_offset_with_ln = (timeline.rect_size.x / 2.0)
