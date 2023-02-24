@@ -143,7 +143,8 @@ func process_note(time_msec: int):
 	.process_note(time_msec)
 	
 	if is_autoplay_enabled():
-		if is_in_autoplay_schedule_range(time_msec, note_data.time) and not scheduled_autoplay_sound:
+		if is_in_autoplay_schedule_range(time_msec, note_data.time) and \
+				not scheduled_autoplay_sound and not is_slide_chain():
 			schedule_autoplay_sound("slide_hit", time_msec, note_data.time)
 	
 	if is_in_editor_mode():
