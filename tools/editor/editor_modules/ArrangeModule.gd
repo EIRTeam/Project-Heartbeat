@@ -194,7 +194,7 @@ func _apply_center_arrange():
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
-	arrange_selected_notes_by_time(null, false, false)
+	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.pressed, false)
 	
 	commit_arrange()
 
@@ -204,7 +204,7 @@ func _order_items(a, b):
 # Arranges the selected notes in the playarea by a certain distances
 var original_notes: Array
 func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
-	if reverse:
+	if reverse and angle:
 		angle += PI
 	
 	var selected = get_selected()
