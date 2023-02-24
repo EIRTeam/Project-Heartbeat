@@ -160,29 +160,26 @@ func _draw_safe_area():
 	draw_rect(_get_safe_area_rect(), Color(1.0, 0.0, 0.0), false, 1.0, true)
 
 
-func show_bg(show):
-	settings.show_bg = show
+func show_bg(show: bool):
+	settings.set("show_bg", show)
 	
 	update_bga()
 
-func show_video(show):
-	settings.show_video = show
+func show_video(show: bool):
+	settings.set("show_video", show)
 	
 	update_bga()
 
-func update_bga():
+func update_bga(force_video_off: bool = false):
+	var show_video = settings.show_video and not force_video_off
+	
 	if video_player.stream:
-		if not settings.show_video:
+		if show_video:
 			video_player.paused = true
 			video_pause_timer.stop()
 		
-		video_player.visible = settings.show_video
+		video_player.visible = show_video
 	
 	background_rect.visible = false
 	if not video_player.visible:
 		background_rect.visible = settings.show_bg
-	
-#	if not settings.show_video:
-#		background_rect.visible = settings.show_bg
-#
-	pass

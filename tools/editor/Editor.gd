@@ -1415,17 +1415,19 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 		var layer_visible = not layer.layer_name in settings.hidden_layers
 		timeline.change_layer_visibility(layer_visible, layer.layer_name)
 	
+	emit_signal("timing_information_changed")
+	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
+	
+	song_settings_editor.load_settings(settings)
+	update_media()
+	
 	timeline_snap_button.pressed = settings.timeline_snap
 	
 	game_preview.settings = settings
 	show_bg_button.pressed = settings.show_bg
 	show_video_button.pressed = settings.show_video
 	
-	emit_signal("timing_information_changed")
-	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
-	
-	song_settings_editor.load_settings(settings)
-	update_media()
+	_on_playback_speed_changed(playback_speed_slider.value)
 	
 	if not skip_settings_menu:
 		emit_signal("song_editor_settings_changed")
@@ -2223,13 +2225,13 @@ func _on_PlaybackSpeedSlider_value_changed(value):
 	game_playback.set_speed(value, UserSettings.user_settings.editor_pitch_compensation)
 
 func _on_playback_speed_changed(speed: float):
-	if not speed == 1.0:
-		if song_editor_settings.show_video:
-			game_preview.show_video(false)
-	else:
+	if speed == 1.0:
 		if song_editor_settings.show_video:
 			game_preview.video_player.stream_position = playhead_position / 1000.0
-			game_preview.show_video(true)
+			game_preview.update_bga()
+	else:
+		if song_editor_settings.show_video:
+			game_preview.update_bga(true)
 
 
 func queue_timing_point_creation(layer, timing_point):
