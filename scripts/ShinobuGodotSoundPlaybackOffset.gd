@@ -40,8 +40,7 @@ func get_playback_position_msec() -> int:
 	return playback.get_playback_position_msec() + offset
 
 func get_playback_position_nsec() -> int:
-	return get_playback_position_msec() * 1_000_000
-#	return playback.get_playback_position_nsec() + offset * 1000_000
+	return playback.get_playback_position_nsec() + offset * 1000_000
 
 func stop():
 	playback.stop()
