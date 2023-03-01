@@ -129,7 +129,6 @@ static func get_ogg_channel_count(path: String) -> int:
 	var _r = file.open(path, File.READ)
 	var _sectors = {}
 	_sectors["header"] = file.get_buffer(4)
-
 	_sectors["version"] = file.get_buffer(1)
 	_sectors["flags"] = file.get_buffer(1)
 	_sectors["granule"] = file.get_buffer(8)
@@ -143,6 +142,24 @@ static func get_ogg_channel_count(path: String) -> int:
 	_sectors["vorbis_version"] = file.get_buffer(4)
 	_sectors["audio_channels"] = file.get_8()
 	return _sectors["audio_channels"]
+
+static func get_ogg_channel_count_buff(spb: StreamPeerBuffer) -> int:
+	var _sectors = {}
+	_sectors["header"] = spb.get_data(4)[1]
+	_sectors["version"] = spb.get_data(1)[1]
+	_sectors["flags"] = spb.get_data(1)[1]
+	_sectors["granule"] = spb.get_data(8)[1]
+	_sectors["serial"] = spb.get_data(4)[1]
+	_sectors["sequence"] = spb.get_data(4)[1]
+	_sectors["checksum"] = spb.get_data(4)[1]
+	_sectors["segment_count"] = spb.get_8()
+	_sectors["segment_table"] = spb.get_data(_sectors.segment_count)[1]
+	_sectors["packet_type"] = spb.get_data(1)[1]
+	_sectors["vorbis_magic"] = spb.get_data(6)[1]
+	_sectors["vorbis_version"] = spb.get_data(4)[1]
+	_sectors["audio_channels"] = spb.get_8()
+	return _sectors["audio_channels"]
+
 # Verifies if an OGG
 static func verify_ogg(path: String):
 	var file = File.new()

@@ -249,7 +249,9 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	else:
 		_song_volume = song.get_volume_db()
 	audio_playback.volume = db2linear(_song_volume + _volume_offset)
-	# todo: call ui on set song
+	# If I understand correctly, diva songs that use two channels have half the volume because they are played twice
+	if song is SongLoaderDSC.HBSongMMPLUS and audio_playback.get_channel_count() <= 2:
+		audio_playback.volume *= 2
 	game_ui._on_song_set(song, difficulty, assets, modifiers)
 
 func make_group(notes: Array, extra_notes: Array, group_position, group_time):

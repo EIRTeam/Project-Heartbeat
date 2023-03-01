@@ -21,6 +21,7 @@ class HBSongDSC:
 	var game_fs_access: DSCGameFSAccess
 	var _audio_cache: WeakRef
 	var opcode_map: DSCOpcodeMap
+	
 	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
 		self.pv_data = _pv_data
 		has_audio_loudness = true
@@ -37,6 +38,15 @@ class HBSongDSC:
 				preview_end = preview_start + pv_data.preview_duration * 1000
 		if "music" in pv_data.metadata:
 			artist = pv_data.metadata.music
+		var j := 1
+		for i in _pv_data.variants:
+			var variant: Dictionary = _pv_data.variants[i]
+			if "song_file_name" in variant:
+				var vari := HBSongVariantData.new()
+				var name: String = variant.get("name", "")
+				vari.variant_name = name if name else "Variant %d" % j
+				song_variants.push_back(vari)
+			j += 1
 	func get_song_audio_res_path():
 		var p = game_fs_access.get_file_path(pv_data.song_file_name)
 		return p
@@ -69,22 +79,30 @@ class HBSongDSC:
 class HBSongMMPLUS:
 	extends HBSongDSC
 	
-	# replacement songs are songs that replace the originals
+	# If true, this song was modified by a mod
 	var is_mod_song := false
-	var mod_info := {}
-	var mod := ""
+	# If true, this song is part of the original game
+	var is_built_in := true
+	# array of dicts
+	var mod_infos := []
 	
 	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap). \
 	(_pv_data, _game_fs_access, _opcode_map):
 		preview_image = "PLACEHOLDER"
 		background_image = "PLACEHOLDER"
 		circle_image = "PLACEHOLDER"
+		is_mod_song = pv_data.is_mod_song
+		mod_infos = pv_data.mod_infos
+		is_built_in = pv_data.is_built_in
 	
 	func get_song_audio_res_path():
 		return pv_data.song_file_name
 	
-	func get_audio_stream(_variant := 0):
-		var audio_data := game_fs_access.load_file_as_buffer(get_song_audio_res_path())
+	func get_audio_stream(variant := -1):
+		var audio_path = get_song_audio_res_path()
+		if variant != -1:
+			audio_path = pv_data.variants.values()[variant].get("song_file_name", audio_path)
+		var audio_data := game_fs_access.load_file_as_buffer(audio_path)
 		var audio_stream := AudioStreamOGGVorbis.new()
 		audio_stream.data = audio_data.data_array
 		return audio_stream
@@ -111,11 +129,12 @@ class HBSongMMPLUS:
 	func get_meta_string():
 		var meta := []
 		if is_mod_song:
-			var mod_name = mod_info.get("default", {}).get("name")
-			if not mod_name:
-				mod_name = mod
-			if mod_name:
-				meta.append("Mod: %s" % [mod_name])
+			for mod_info in mod_infos:
+				var mod_name = mod_info.get("default", {}).get("name")
+				if not mod_name:
+					mod_name = "UNK"
+				if mod_name:
+					meta.append("Mod: %s" % [mod_name])
 		meta.append_array(.get_meta_string())
 		return meta
 
@@ -140,16 +159,23 @@ class DSCPVData:
 	var preview_start := 0.0
 	var preview_duration := 0.0
 	var has_ex_stage := false
+	# if true, this song was modified by a mod
+	var is_mod_song := false
+	# if true, this song is a part of the original game
+	var is_built_in := true
+	var mod_infos := []
+	var variants := {}
+	
 	func _init(_pv_id: int):
 		self.pv_id = _pv_id
 
 	func _ensure_diff_exists(diff: String):
 		if not diff in charts:
-			charts[diff] = {"stars": 0.0, "dsc_path": ""}
+			charts[diff] = {"stars": 0.0}
 
 	func set_dsc_path(diff: String, scr_path: String):
 		_ensure_diff_exists(diff)
-		charts[diff].dsc_path = scr_path
+		charts[diff]["dsc_path"] = scr_path
 
 	func set_star_count_from_str(diff: String, star_c_str: String):
 		_ensure_diff_exists(diff)
@@ -157,6 +183,24 @@ class DSCPVData:
 		if spl.size() > 1:
 			charts[diff].stars = float(spl[-2])
 			charts[diff].stars += float(spl[-1]) / 10.0
+	func merge(other: DSCPVData):
+		for chart in other.charts:
+			if chart in charts:
+				charts[chart].merge(other.charts[chart], true)
+			else:
+				charts[chart] = other.charts[chart]
+		song_file_name = other.song_file_name
+		title = other.title_en
+		metadata.merge(other.metadata, true)
+		mod_infos.append_array(other.mod_infos)
+		tutorial = other.tutorial
+		bpm = other.bpm
+		preview_start = other.preview_start
+		preview_duration = other.preview_duration
+		has_ex_stage = other.has_ex_stage
+		is_mod_song = other.is_mod_song
+		is_built_in = other.is_built_in
+		variants.merge(other.variants, true)
 
 func dsc_diff_to_hb_diff(diff: String):
 	var result = diff
@@ -254,7 +298,7 @@ class MMPLUSModFSAccess:
 		if f.file_exists(path):
 			return path
 		var full_file_path := mod_location.plus_file(path)
-		return full_file_path if f.file_exists(full_file_path) else base_game_fs_access.get_file_path(path)
+		return full_file_path if f.file_exists(full_file_path) else ""
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
 		var f := File.new()
@@ -264,7 +308,7 @@ class MMPLUSModFSAccess:
 				var spb := StreamPeerBuffer.new()
 				spb.data_array = f.get_buffer(f.get_len())
 				return spb
-		return base_game_fs_access.load_file_as_buffer(path)
+		return StreamPeerBuffer.new()
 class MMPLUSFSAccess:
 	extends DSCGameFSAccess
 	
@@ -288,9 +332,14 @@ class MMPLUSFSAccess:
 	
 	class FileCacheEntry:
 		var pack: CPKArchive
+		var mod: MMPLUSModFSAccess
+		var is_mod := false
 		var internal_path: String
 	
 	var file_path_cache := {}
+	
+	# mod filesystems, ordered by priority
+	var mod_fs := []
 	
 	func _init(_game_location: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
 		var f := File.new()
@@ -321,6 +370,17 @@ class MMPLUSFSAccess:
 		if cache_entry:
 			return cache_entry.internal_path
 		else:
+			for m in mod_fs:
+				var mod := m as MMPLUSModFSAccess
+				var p: String = mod.get_file_path(path)
+				if p:
+					var cache := FileCacheEntry.new()
+					cache.mod = mod
+					cache.is_mod = true
+					cache.internal_path = p
+					file_path_cache[path] = cache
+					file_path_cache[p] = cache
+					return cache.internal_path
 			for pack in cpk_archives.values():
 				var paths = pack.get_file_rom_paths(path)
 				var found_path := ""
@@ -339,11 +399,14 @@ class MMPLUSFSAccess:
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
 		var cache_entry := file_path_cache.get(path) as FileCacheEntry
 		if cache_entry:
+			if cache_entry.is_mod:
+				return cache_entry.mod.load_file_as_buffer(cache_entry.internal_path)
 			return cache_entry.pack.load_file(cache_entry.internal_path)
 		else:
-			for pack in cpk_archives.values():
-				if pack.has_file(path):
-					return pack.load_file(path)
+			var file_p: String = get_file_path(path)
+			if file_p:
+				return load_file_as_buffer(path)
+				
 		return StreamPeerBuffer.new()
 		
 class MDATALoader:
@@ -402,7 +465,10 @@ func parse_pvdb(pvdb: String) -> Dictionary:
 		var key = spl[0]
 		var value = spl[1]
 		if line.begins_with("pv_"):
-			var pv_id_str := line.substr(3, 3) as String
+			var candidate := line.split(".")[0].split("_") as Array
+			if candidate.size() <= 1:
+				continue
+			var pv_id_str := candidate[1] as String
 			var pv_id = int(pv_id_str)
 			if not pv_id in pv_datas.keys():
 				pv_datas[pv_id] = DSCPVData.new(pv_id)
@@ -416,7 +482,39 @@ func parse_pvdb(pvdb: String) -> Dictionary:
 				var get_f_path = fs_access.get_file_path(value)
 				if get_f_path:
 					pv_data.set_dsc_path(dsc_diff_to_hb_diff(difficulty), get_f_path)
-			if key.ends_with("song_file_name"):
+			if "ex_song" in key:
+				# Use an ex_ prefix, just in case a song has both another_song and ex_song
+				var var_i := int(key.split(".")[2])
+				var var_ex_str := "ex_" + str(var_i)
+				if not var_ex_str in pv_data.variants:
+					pv_data.variants[var_ex_str] = {}
+				var variant_data: Dictionary = pv_data.variants[var_ex_str]
+				if key.ends_with("file"):
+					variant_data["song_file_name"] = value
+				elif key.ends_with("chara") and not "name" in variant_data:
+					variant_data["chara"] = true
+					variant_data["name"] = value + " Ver."
+				elif key.ends_with("name") and not "ex_auth" in key:
+					if not "name" in variant_data or variant_data.get("chara", false):
+						variant_data["name"] = value
+						variant_data["chara"] = false
+				elif key.ends_with("name_en"):
+					variant_data["name"] = value
+					variant_data["chara"] = false
+			elif "another_song" in key:
+				var var_i := int(key.split(".")[2])
+				if var_i == 0:
+					continue
+				if not var_i in pv_data.variants:
+					pv_data.variants[var_i] = {}
+				if key.ends_with("song_file_name"):
+					pv_data.variants[var_i]["song_file_name"] = value
+				elif key.ends_with("name"):
+					if not "name" in pv_data.variants[var_i]:
+						pv_data.variants[var_i]["name"] = value
+				elif key.ends_with("name_en"):
+					pv_data.variants[var_i]["name"] = value
+			elif key.ends_with("song_file_name"):
 				pv_data.song_file_name = value
 			if key.ends_with("song_name"):
 				pv_data.title = value
@@ -471,46 +569,23 @@ func load_songs_mmplus() -> Array:
 	
 	var region_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_CPK_NAME] as CPKArchive
 	var main_pvdb := parse_pvdb(region_cpk.load_text_file("rom_steam_region/rom/pv_db.txt"))
+	
 	if fs_access.has_dlc:
 		var region_dlc_cpk := mmplus_file_access.cpk_archives[MMPLUSFSAccess.REGION_DLC_CPK_NAME] as CPKArchive
 		var dlc_pvdb := parse_pvdb(region_dlc_cpk.load_text_file("rom_steam_region_dlc/rom/mdata_pv_db.txt"))
 		for pv_id in dlc_pvdb:
-			main_pvdb[pv_id] = dlc_pvdb[pv_id]
+			if pv_id in main_pvdb:
+				main_pvdb[pv_id].merge(dlc_pvdb[pv_id])
+			else:
+				main_pvdb[pv_id] = dlc_pvdb[pv_id]
 	
 	var pv_ids_to_ignore := [67, 68]
-	for pv_id in main_pvdb:
-		if pv_id in pv_ids_to_ignore:
-			continue
-		
-		var pv_data := main_pvdb[pv_id] as DSCPVData
-		if pv_data.charts.size() == 0 or \
-			pv_data.tutorial:
-			continue
-		
-		for i in range(pv_data.charts.size()-1, -1, -1):
-			var chart_name = pv_data.charts.keys()[i]
-			if not pv_data.charts[chart_name].dsc_path:
-				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
-				pv_data.charts.erase(chart_name)
-		
-		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
-		song.id = "pv_" + str(pv_id)
-		
-		var bpm_timing_change := HBTimingChange.new()
-		bpm_timing_change.bpm = pv_data.bpm
-		song.timing_changes = [bpm_timing_change]
-		
-		var ogg_path := mmplus_file_access.get_file_path(pv_data.song_file_name) as String
-		if ogg_path:
-			songs[song.id] = song
-		else:
-			if pv_data.has_ex_stage:
-				continue
-			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
-			continue
-	
 	var mods_config_path := GAME_LOCATION.plus_file("config.toml") as String
 	
+	var mods_pv_db := {}
+	var mod_filesystems := []
+	
+	# Load and merge mods DBs
 	var d := Directory.new()
 	if d.file_exists(mods_config_path):
 		var mods_toml := TOMLParser.from_file(mods_config_path)
@@ -529,35 +604,79 @@ func load_songs_mmplus() -> Array:
 						continue
 					
 					var mod_toml := TOMLParser.from_file(config_toml_path)
-					var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, fs_access, mdata_loader)
+					# Make sure the mod TOML has a name
+					var mod_toml_default_section: Dictionary = mod_toml.get("default", {})
+					mod_toml["default"] = mod_toml_default_section # In case the default section doesn't already exist
+					mod_toml["default"]["name"] = current_file
 					
-					var buffer := mod_fs_access.load_file_as_buffer("rom/mod_pv_db.txt")
-					if buffer.get_size() > 0:
-						var pvdb_text := buffer.data_array.get_string_from_utf8()
-						fs_access = mod_fs_access
-						
-						var mod_pvdb := parse_pvdb(pvdb_text)
-						fs_access = mmplus_file_access
-						
-						for pv_id in mod_pvdb:
-							var pv_data = mod_pvdb[pv_id]
+					var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, fs_access, mdata_loader)
+					mod_filesystems.push_back(mod_fs_access)
+					fs_access.mod_fs.push_back(mod_fs_access)
+					var mod_dir := mods_path.plus_file(current_file)
+					for n in [mod_dir.plus_file("rom/mod_pv_db.txt"), mod_dir.plus_file("rom/eden39_pv_db.txt")]:
+						var f := File.new()
+						if not f.file_exists(n):
+							continue
+						var err := f.open(n, File.READ)
+						if err == OK:
+							propagate_error("Error %d loading pvdb from mod" % [err], true)
+						var buffer := f.get_as_text()
+						if not buffer.empty():
+							var pvdb_text := buffer
+							fs_access = mod_fs_access
 							
-							var song := HBSongMMPLUS.new(pv_data, mod_fs_access, opcode_map)
-							song.id = "pv_" + str(pv_id)
-							song.is_mod_song = true
+							var mod_pvdb := parse_pvdb(pvdb_text)
+							fs_access = mmplus_file_access
 							
-							song.mod_info = mod_toml
-							song.mod = current_file
+							for pv_id in mod_pvdb:
+								var pv_data = mod_pvdb[pv_id] as DSCPVData
+								pv_data.is_built_in = pv_id in main_pvdb
+								var pv_id_str := "pv_" + str(pv_id)
+								pv_data.is_mod_song = true
+								pv_data.mod_infos.push_back(mod_toml)
+								if pv_id_str in mods_pv_db:
+									mods_pv_db[pv_id].merge(pv_data)
+								else:
+									mods_pv_db[pv_id] = pv_data
 							
-							var bpm_timing_change := HBTimingChange.new()
-							bpm_timing_change.bpm = pv_data.bpm
-							song.timing_changes = [bpm_timing_change]
-							
-							var ogg_path = mod_fs_access.get_file_path(pv_data.song_file_name)
-							if ogg_path:
-								songs[song.id] = song
 				
 				current_file = d.get_next()
+	
+	for pv_id in mods_pv_db:
+		if pv_id in main_pvdb:
+			main_pvdb[pv_id].merge(mods_pv_db[pv_id])
+		else:
+			main_pvdb[pv_id] = mods_pv_db[pv_id]
+	
+	for pv_id in main_pvdb:
+		if pv_id in pv_ids_to_ignore:
+			continue
+		var pv_data := main_pvdb[pv_id] as DSCPVData
+		if pv_data.charts.size() == 0 or \
+			pv_data.tutorial:
+			continue
+		
+		for i in range(pv_data.charts.size()-1, -1, -1):
+			var chart_name = pv_data.charts.keys()[i]
+			if not "dsc_path" in pv_data.charts[chart_name]:
+				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
+				pv_data.charts.erase(chart_name)
+		
+		var song := HBSongMMPLUS.new(pv_data, fs_access, opcode_map)
+		song.id = "pv_" + str(pv_id)
+		
+		var bpm_timing_change := HBTimingChange.new()
+		bpm_timing_change.bpm = pv_data.bpm
+		song.timing_changes = [bpm_timing_change]
+		
+		var ogg_path := mmplus_file_access.get_file_path(pv_data.song_file_name) as String
+		if ogg_path:
+			songs[song.id] = song
+		else:
+			if pv_data.has_ex_stage:
+				continue
+			propagate_error(tr("Couldn't find audio data for song ID %s (%s)") % [pv_data.pv_id_str, pv_data.title_en])
+			continue
 	
 	return songs.values()
 func load_songs() -> Array:

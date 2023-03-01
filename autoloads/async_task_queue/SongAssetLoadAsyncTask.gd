@@ -97,8 +97,11 @@ func _task_process() -> bool:
 				loaded_asset = song.get_audio_stream(variant)
 				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
-					loaded_assets["voice"] = audio_ogg
-					loaded_assets["voice_shinobu"] = audio_ogg.data
+					var spb := StreamPeerBuffer.new()
+					spb.data_array = audio_ogg.data
+					if HBUtils.get_ogg_channel_count_buff(spb) >= 4:
+						loaded_assets["voice"] = audio_ogg
+						loaded_assets["voice_shinobu"] = audio_ogg.data
 					requested_assets_queue.erase("voice")
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)

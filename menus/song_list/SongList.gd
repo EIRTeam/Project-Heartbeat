@@ -218,7 +218,7 @@ func populate_buttons():
 			if song.path.begins_with(editor_songs_path):
 				has_editor = true
 				filter_types["editor"] = "Editor"
-			elif song is SongLoaderDSC.HBSongMMPLUS and song.game_fs_access is SongLoaderDSC.MMPLUSModFSAccess:
+			elif song is SongLoaderDSC.HBSongMMPLUS and not song.is_built_in:
 				has_mmplus_mod = true
 				filter_types["mmplus_mod"] = "MM+ (Mod)"
 			elif song is SongLoaderDSC.HBSongMMPLUS:
