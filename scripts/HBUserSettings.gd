@@ -52,7 +52,8 @@ var sort_mode = "title"
 var sort_mode__possibilities = [
 	"title",
 	"artist",
-	"score",
+	"highest_score",
+	"lowest_score",
 	"creator",
 	"bpm",
 	"_times_played",
