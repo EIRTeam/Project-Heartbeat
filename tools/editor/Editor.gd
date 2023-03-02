@@ -983,8 +983,8 @@ func paste(time: int):
 			if copy.item is EditorSectionTimelineItem:
 				sync_timing = true
 			
-			if not multi_check_times.has(time):
-				multi_check_times.append(time)
+			if not multi_check_times.has(timing_point.time):
+				multi_check_times.append(timing_point.time)
 		
 		if sync_timing:
 			undo_redo.add_do_method(timeline, "update")
