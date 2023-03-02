@@ -70,6 +70,8 @@ func open(_file: File):
 		entries[entry.name] = entry
 func load_file(file_path: String) -> StreamPeerBuffer:
 	file_path = get_file_rom_path(file_path)
+	if not file_path:
+		return StreamPeerBuffer.new()
 	var aes_context := AESContext.new()
 	aes_context.start(AESContext.MODE_CBC_DECRYPT, KEY, IV)
 	

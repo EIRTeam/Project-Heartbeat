@@ -635,10 +635,9 @@ func load_songs_mmplus() -> Array:
 							for pv_id in mod_pvdb:
 								var pv_data = mod_pvdb[pv_id] as DSCPVData
 								pv_data.is_built_in = pv_id in main_pvdb
-								var pv_id_str := "pv_" + str(pv_id)
 								pv_data.is_mod_song = true
 								pv_data.mod_infos.push_back(mod_toml)
-								if pv_id_str in mods_pv_db:
+								if pv_id in mods_pv_db:
 									mods_pv_db[pv_id].merge(pv_data)
 								else:
 									mods_pv_db[pv_id] = pv_data
