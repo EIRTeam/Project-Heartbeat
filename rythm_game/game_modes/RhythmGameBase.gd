@@ -582,7 +582,6 @@ func _process_game(_delta):
 	emit_signal("time_changed", time)
 	
 	var new_closest_multi_notes = []
-	var last_note_time = 0
 	for group in current_note_groups:
 		if group.note_datas.size() > 1:
 			new_closest_multi_notes = group.note_datas
@@ -674,14 +673,18 @@ func _on_note_removed(note):
 	remove_note_from_screen(notes_on_screen.find(note))
 
 func pause_game():
-	audio_playback.stop()
+	if audio_playback:
+		audio_playback.stop()
+	
 	if voice_audio_playback:
 		voice_audio_playback.stop()
 
 func resume():
 	start()
 func seek(position: int):
-	audio_playback.seek(position)
+	if audio_playback:
+		audio_playback.seek(position)
+	
 	if voice_audio_playback:
 		voice_audio_playback.seek(position)
 	
@@ -1031,14 +1034,14 @@ func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HB
 	else:
 		for i in range(note_groups_by_end_time.size()):
 			var group = note_groups_by_end_time[i]
-			var time: int
+			var _time: int
 			
 			if group is HBNoteGroup:
-				time = group.get_end_time_msec()
+				_time = group.get_end_time_msec()
 			else:
-				time = group
+				_time = group
 			
-			if time == time_msec:
+			if _time == time_msec:
 				group_i = i
 				break
 	

@@ -90,6 +90,8 @@ func set_song(song: HBSong, variant=-1):
 		add_child(game.voice_audio_playback)
 		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
 		game.voice_audio_playback.volume = db2linear(volume_db)
+	
+	set_speed(playback_speed, UserSettings.user_settings.editor_pitch_compensation)
 
 func pause():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
@@ -110,10 +112,12 @@ func is_playing():
 func seek(value: int):
 	game.seek_new(value, true)
 	
-	if not game.audio_playback.is_playing():
-		pause()
-	else:
-		play_from_pos(value)
+	if game.audio_playback:
+		if not game.audio_playback.is_playing():
+			pause()
+		else:
+			play_from_pos(value)
+	
 	game._process(0)
 	emit_signal("time_changed", game.time)
 	

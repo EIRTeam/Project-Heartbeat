@@ -1374,6 +1374,8 @@ func serialize_chart():
 	return get_chart().serialize()
 
 func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
+	_on_PauseButton_pressed()
+	
 	if song_editor_settings.is_connected("property_changed", self, "emit_signal"):
 		song_editor_settings.disconnect("property_changed", self, "emit_signal")
 	

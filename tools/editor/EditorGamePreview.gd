@@ -171,6 +171,9 @@ func show_video(show: bool):
 	update_bga()
 
 func update_bga(force_video_off: bool = false):
+	if not settings:
+		return
+	
 	var show_video = settings.show_video and not force_video_off
 	
 	if video_player.stream:
