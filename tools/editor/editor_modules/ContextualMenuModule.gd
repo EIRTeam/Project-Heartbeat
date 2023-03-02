@@ -251,11 +251,12 @@ func change_note_button_by(amount):
 	for item in get_selected():
 		if item is EditorTimelineItemNote:
 			found = true
+			break
 	
 	if not found: 
 		return
 	
-	var new_types := []
+	var new_types := {}
 	for item in get_selected():
 		if item is EditorTimelineItemNote:
 			if not check_valid_change(amount, item, new_types):
@@ -305,19 +306,26 @@ func change_note_button_by(amount):
 	
 	undo_redo.commit_action()
 
-func check_valid_change(amount, item, new_types):
+func check_valid_change(amount: int, item: EditorTimelineItem, new_types: Dictionary):
 	# Use mod 4 so that all values range from 0 to 3, add 4 so that we only ever deal with naturals.
 	var new_type = (item.data.note_type + amount + 4) % 4
 	
-	if new_type in new_types:
+	if item.data.time in new_types and new_type in new_types[item.data.time]:
 		return false
 	
 	for i in get_items_at_time(item.data.time):
 		if i.data is HBBaseNote and i.data.note_type == new_type and not i in get_selected():
 			return false
 	
-	new_types.append(new_type)
-	return item.data.note_type >= HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT
+	if item.data.note_type >= HBNoteData.NOTE_TYPE.UP and item.data.note_type <= HBNoteData.NOTE_TYPE.RIGHT:
+		if not item.data.time in new_types:
+			new_types[item.data.time] = []
+		
+		new_types[item.data.time].append(new_type)
+		
+		return true
+	else:
+		return false
 
 
 func toggle_sustain():
