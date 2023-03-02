@@ -5,7 +5,7 @@ class_name EditorTimelineItemSingleNote
 const WIDTH = 5.0
 
 func _init():
-	_class_name = "EditorTimelineItemSustainNote" # Workaround for godot#4708
+	_class_name = "EditorTimelineItemSingleNote" # Workaround for godot#4708
 	_inheritance.append("EditorTimelineItemNote")
 
 func _ready():

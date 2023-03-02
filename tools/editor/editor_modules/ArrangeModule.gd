@@ -93,6 +93,8 @@ func _input(event: InputEvent):
 			for item in selected:
 				original_notes.append(item.data.clone())
 			
+			original_notes.sort_custom(self, "_order_timing_points")
+			
 			arranging = true
 			arrange_menu.popup()
 			var old_angle_translation := Vector2.ZERO
@@ -180,6 +182,8 @@ func _apply_arrange():
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
+	original_notes.sort_custom(self, "_order_timing_points")
+	
 	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
 	
 	commit_arrange()
@@ -188,6 +192,8 @@ func _apply_arrange_shortcut(direction: int):
 	original_notes.clear()
 	for item in get_selected():
 		original_notes.append(item.data.clone())
+	
+	original_notes.sort_custom(self, "_order_timing_points")
 	
 	var angle = 45
 	
@@ -210,19 +216,21 @@ func _apply_center_arrange():
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
+	original_notes.sort_custom(self, "_order_timing_points")
+	
 	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.pressed, false)
 	
 	commit_arrange()
 
-func _order_items(a, b):
+static func _order_items(a: EditorTimelineItemNote, b: EditorTimelineItemNote):
 	return a.data.time < b.data.time
+
+static func _order_timing_points(a: HBTimingPoint, b: HBTimingPoint):
+	return a.time < b.time
 
 # Arranges the selected notes in the playarea by a certain distances
 var original_notes: Array
 func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
-	if reverse and angle:
-		angle += PI
-	
 	var selected = get_selected()
 	selected.sort_custom(self, "_order_items")
 	if not selected:
@@ -265,6 +273,10 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 						separation.x = -separation.x
 					if quadrant in [2, 3]:
 						separation.y = -separation.y
+		
+		if reverse:
+			separation = -separation
+			slide_separation = -slide_separation
 	
 	# Never remove these, it makes the mikuphile mad
 	var direction = Vector2.ZERO
@@ -279,6 +291,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	var anchor = original_notes[0]
 	if reverse:
 		anchor = original_notes[-1]
+		selected.invert()
 	
 	pos_compensation = anchor.position
 	time_compensation = anchor.time
@@ -329,14 +342,14 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 			
 			var new_angle_params = [original_notes[i].entry_angle, original_notes[i].oscillation_frequency]
 			if autoangle_enabled:
-				new_angle_params = autoangle(note, selected[0].data.position, angle)
+				new_angle_params = autoangle(note, selected[0].data.position, angle, reverse)
 			
 			change_selected_property_single_item(selected_item, "entry_angle", new_angle_params[0])
 			change_selected_property_single_item(selected_item, "oscillation_frequency", new_angle_params[1])
 	
 	timing_points_params_changed()
 
-func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
+func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool):
 	if arrange_angle != null:
 		var new_angle: float
 		var oscillation_frequency = abs(note.oscillation_frequency)
@@ -394,6 +407,8 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle):
 			oscillation_frequency = -oscillation_frequency
 		
 		oscillation_frequency *= sign(note.oscillation_amplitude)
+		if reverse:
+			oscillation_frequency = -oscillation_frequency
 		
 		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
 	else:
