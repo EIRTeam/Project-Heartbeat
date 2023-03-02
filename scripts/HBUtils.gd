@@ -566,3 +566,39 @@ static func get_event_text(event: InputEvent) -> String:
 		text = modifier + MOUSE_BUTTON_NAMES[event.button_index]
 	
 	return text
+
+# From cppreference
+# Binary search, but always returns index of element that is above our search
+static func bsearch_upper(array: Array, value: int) -> int:
+	var count = array.size() - 1
+	var idx = 0
+	
+	while count > 0:
+		var step = count / 2
+		
+		if value >= array[idx + step]:
+			idx += step + 1
+			count -= step + 1
+		else:
+			count = step
+	
+	return idx
+
+# Binary search, but always returns index of closest element to our search
+static func bsearch_closest(array: Array, value: int) -> int:
+	var idx: int = min(array.bsearch(value), array.size() - 1)
+	
+	if idx == 0 or abs(array[idx] - value) < abs(array[idx - 1] - value):
+		return idx
+	else:
+		return idx - 1
+
+# Binary search, but returns a linear interpolation for our search instead of an index
+static func bsearch_linear(array: Array, value: int) -> float:
+	var idx := array.bsearch(value)
+	
+	if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
+		return float(idx)
+	
+	var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
+	return idx + decimal

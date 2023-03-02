@@ -7,7 +7,6 @@
 [ext_resource path="res://tools/editor/settings/EditorSettingsGlobal.gd" type="Script" id=5]
 
 [node name="EditorGlobalSettings" type="WindowDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 655.0
@@ -195,4 +194,5 @@ rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
 dialog_text = "Do you want to reset all shortcuts to default?"
 
+[connection signal="popup_hide" from="." to="." method="_about_to_hide"]
 [connection signal="pressed" from="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer/Button" to="TabContainer/Shortcuts/VBoxContainer/Panel/ResetAllConfirmationDialog" method="popup_centered"]

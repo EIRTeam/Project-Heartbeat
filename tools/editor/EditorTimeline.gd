@@ -431,12 +431,12 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	
 	var start_time = min(first_time, second_time)
 	var end_time = max(first_time, second_time)
-	var start_i := editor._closest_bound(map, start_time)
-	var end_i := editor._closest_bound(map, end_time)
+	var start_i := HBUtils.bsearch_closest(map, start_time)
+	var end_i := HBUtils.bsearch_closest(map, end_time)
 	
 	var piece_count := (end_i - start_i) * 2
 	
-	var start_time_as_eight = editor._linear_bound(editor.get_normalized_timing_map(), start_time)
+	var start_time_as_eight = HBUtils.bsearch_linear(editor.get_normalized_timing_map(), start_time)
 	start_time_as_eight = fmod(start_time_as_eight, 15.0)
 	if start_time_as_eight < 0:
 		start_time_as_eight = fmod(15.0 - abs(start_time_as_eight), 15.0)
@@ -516,8 +516,8 @@ func make_spam(note_type: int, layer_name: String):
 	
 	var start_time = min(first_time, second_time)
 	var end_time = max(first_time, second_time)
-	var start_i := editor._closest_bound(map, start_time)
-	var end_i := editor._closest_bound(map, end_time)
+	var start_i := HBUtils.bsearch_closest(map, start_time)
+	var end_i := HBUtils.bsearch_closest(map, end_time)
 	
 	var type_name = HBGame.NOTE_TYPE_TO_STRING_MAP[note_type]
 	editor.undo_redo.create_action("Create " + type_name + " spam")
@@ -567,8 +567,8 @@ func create_bpm_transition():
 	
 	var start_time = min(first_time, second_time)
 	var end_time = max(first_time, second_time)
-	var start_i := editor._closest_bound(editor.get_timing_map(), start_time)
-	var end_i := editor._closest_bound(editor.get_timing_map(), end_time)
+	var start_i := HBUtils.bsearch_closest(editor.get_timing_map(), start_time)
+	var end_i := HBUtils.bsearch_closest(editor.get_timing_map(), end_time)
 	
 	var start_bpm = editor.rhythm_game.get_note_speed_at_time(start_time)
 	var end_bpm = editor.rhythm_game.get_note_speed_at_time(end_time)

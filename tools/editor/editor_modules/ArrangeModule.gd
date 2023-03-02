@@ -73,10 +73,12 @@ func _ready():
 func set_editor(p_editor):
 	.set_editor(p_editor)
 	
+	arrange_menu.set_editor(p_editor)
 	editor.game_preview.add_child(arrange_menu)
 	editor.game_preview.rect_clip_content = true
 
 var arranging := false
+var selected_ring := "inner"
 func _input(event: InputEvent):
 	var selected = get_selected()
 	
@@ -96,15 +98,20 @@ func _input(event: InputEvent):
 			var old_angle_translation := Vector2.ZERO
 			
 			if UserSettings.user_settings.editor_save_arrange_angle:
-				var old_angle = deg2rad(-arrange_angle_spinbox.value)
+				var old_angle = arrange_angle_spinbox.value
+				if old_angle > 180:
+					old_angle = old_angle - 360
+				
+				old_angle = deg2rad(-old_angle)
 				
 				var old_distance
-				if fmod(arrange_angle_spinbox.value, 30) == 0:
-					old_distance = 32
-				elif fmod(arrange_angle_spinbox.value, 10) == 0:
-					old_distance = 55
-				else:
-					old_distance = 80
+				match selected_ring:
+					"inner":
+						old_distance = 32
+					"middle":
+						old_distance = 55
+					"outer":
+						old_distance = 80
 				
 				old_angle_translation = Vector2(old_distance, 0).rotated(old_angle)
 				
@@ -116,6 +123,15 @@ func _input(event: InputEvent):
 	elif event.is_action_released("editor_show_arrange_menu") and arranging:
 		arranging = false
 		arrange_menu.hide()
+		
+		var mouse_pos := get_global_mouse_position() - Vector2(120, 120)
+		var mouse_distance := mouse_pos.distance_to(arrange_menu.rect_position)
+		
+		selected_ring = "inner"
+		if mouse_distance > 70:
+			selected_ring = "outer"
+		elif mouse_distance > 44:
+			selected_ring = "middle"
 		
 		commit_arrange()
 
@@ -219,8 +235,36 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	if angle != null:
 		separation.x = eight_separation * cos(angle)
 		separation.y = eight_separation * sin(angle)
+		
 		slide_separation.x = 32 * cos(angle)
 		slide_separation.y = 32 * sin(angle)
+		
+		if not angle in [0, PI/2, PI, -PI/2]:
+			var quadrant = 0
+			if angle > -PI and angle < -PI/2:
+				quadrant = 1
+			elif angle > PI/2 and angle < PI:
+				quadrant = 2
+			elif angle > 0 and angle < PI:
+				quadrant = 3
+			
+			match arrange_menu.mode_info.mode:
+				HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
+					separation.x = arrange_menu.mode_info.diagonal_step.x
+					separation.y = -arrange_menu.mode_info.diagonal_step.y
+					
+					if quadrant in [1, 2]:
+						separation.x = -separation.x
+					if quadrant in [2, 3]:
+						separation.y = -separation.y
+				HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
+					separation.x = eight_separation
+					separation.y = -arrange_menu.mode_info.vertical_step
+					
+					if quadrant in [1, 2]:
+						separation.x = -separation.x
+					if quadrant in [2, 3]:
+						separation.y = -separation.y
 	
 	# Never remove these, it makes the mikuphile mad
 	var direction = Vector2.ZERO
@@ -242,8 +286,8 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
 			# Real snapping hours
-			var eight_diff = linear_bound(eight_map, selected_item.data.time) - \
-							 linear_bound(eight_map, time_compensation)
+			var eight_diff = bsearch_linear(eight_map, selected_item.data.time) - \
+							 bsearch_linear(eight_map, time_compensation)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
 				if slide_index > 1:

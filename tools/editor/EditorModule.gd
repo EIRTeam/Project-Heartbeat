@@ -153,14 +153,14 @@ func get_timing_info_at_time(time: int) -> HBTimingChange:
 	
 	return null
 
-func upper_bound(array: Array, value: int) -> int:
-	return editor._upper_bound(array, value)
+func bsearch_upper(array: Array, value: int) -> int:
+	return HBUtils.bsearch_upper(array, value)
 
-func closest_bound(array: Array, value: int) -> int:
-	return editor._closest_bound(array, value)
+func bsearch_closest(array: Array, value: int) -> int:
+	return HBUtils.bsearch_closest(array, value)
 
-func linear_bound(array: Array, value: int) -> float:
-	return editor._linear_bound(array, value)
+func bsearch_linear(array: Array, value: int) -> float:
+	return HBUtils.bsearch_linear(array, value)
 
 func get_song_settings():
 	return editor.song_editor_settings

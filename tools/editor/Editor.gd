@@ -364,39 +364,6 @@ func get_items_at_time(time: int):
 			break
 	return items
 
-# From cppreference
-func _upper_bound(array: Array, value: int) -> int:
-	var count = array.size() - 1
-	var idx = 0
-	
-	while count > 0:
-		var step = count / 2
-		
-		if value >= array[idx + step]:
-			idx += step + 1
-			count -= step + 1
-		else:
-			count = step
-	
-	return idx
-
-func _closest_bound(array: Array, value: int) -> int:
-	var idx := array.bsearch(value)
-	
-	if idx == 0 or idx == array.size() or abs(array[idx] - value) < abs(array[idx - 1] - value):
-		return idx
-	else:
-		return idx - 1
-
-func _linear_bound(array: Array, value: int) -> float:
-	var idx := array.bsearch(value)
-	
-	if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
-		return float(idx)
-	
-	var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
-	return idx + decimal
-
 var konami_sequence = [KEY_UP, KEY_UP, KEY_DOWN, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_LEFT, KEY_RIGHT, KEY_B, KEY_A]
 var konami_index = 0
 
@@ -471,7 +438,7 @@ func _unhandled_input(event: InputEvent):
 			var idx = max(_timing_map.bsearch(playhead_position) - 1, 0)
 			playhead_position = _timing_map[idx]
 		elif event.is_action("editor_move_playhead_right", true) and event.pressed and timing_map:
-			var idx = _upper_bound(_timing_map, playhead_position)
+			var idx = HBUtils.bsearch_upper(_timing_map, playhead_position)
 			playhead_position = _timing_map[idx]
 		
 		if old_pos != playhead_position:
@@ -1929,7 +1896,7 @@ func snap_time_to_timeline(time: int) -> int:
 	var map = get_timing_map()
 	
 	if timeline_snap_enabled and map:
-		var idx = _closest_bound(map, time)
+		var idx = HBUtils.bsearch_closest(map, time)
 		idx = min(idx, map.size() - 1)
 		
 		return map[idx]
@@ -2145,7 +2112,7 @@ func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [],
 		return
 	var new_data = data.clone() as HBBaseNote
 	
-	var time_as_eight = _linear_bound(get_normalized_timing_map(), data.time)
+	var time_as_eight = HBUtils.bsearch_linear(get_normalized_timing_map(), data.time)
 	time_as_eight = fmod(time_as_eight, 15.0)
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)

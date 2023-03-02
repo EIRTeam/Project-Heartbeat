@@ -10,3 +10,8 @@ func _input(event):
 	if visible and event.is_action_pressed("gui_cancel", false, true) \
 	   and not get_focus_owner() is LineEdit:
 		hide()
+
+
+func _about_to_hide():
+	song_settings_tab._hide()
+	general_settings_tab._hide()

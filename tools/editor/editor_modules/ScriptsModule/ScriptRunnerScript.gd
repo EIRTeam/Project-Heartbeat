@@ -82,11 +82,11 @@ func get_metronome_map() -> Array:
 func create_timing_point(timing_point: HBTimingPoint):
 	new_timing_points.append(timing_point)
 
-func upper_bound(array: Array, value: int) -> int:
-	return _editor._upper_bound(array, value)
+func bsearch_upper(array: Array, value: int) -> int:
+	return HBUtils.bsearch_upper(array, value)
 
-func closest_bound(array: Array, value: int) -> int:
-	return _editor._closest_bound(array, value)
+func bsearch_closest(array: Array, value: int) -> int:
+	return HBUtils.bsearch_closest(array, value)
 
-func linear_bound(array: Array, value: int) -> float:
-	return _editor._linear_bound(array, value)
+func bsearch_linear(array: Array, value: int) -> float:
+	return HBUtils.bsearch_linear(array, value)

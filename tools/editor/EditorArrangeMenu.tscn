@@ -3,12 +3,10 @@
 [ext_resource path="res://tools/editor/EditorArrangeMenu.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/EditorArrangeMenuArcDrawer.gd" type="Script" id=2]
 [ext_resource path="res://graphics/icons/swap-horizontal.svg" type="Texture" id=3]
-
-[sub_resource type="StreamTexture" id=1]
-flags = 4
-load_path = "res://.import/arrange-menu.png-27aea35cca86f2e1b57a9f8376888bb2.stex"
+[ext_resource path="res://tools/editor/EditorArrangeMenuBaseDrawer.gd" type="Script" id=4]
 
 [node name="Popup" type="Popup"]
+visible = true
 margin_right = 240.0
 margin_bottom = 240.0
 script = ExtResource( 1 )
@@ -18,18 +16,20 @@ margin_right = 240.0
 margin_bottom = 240.0
 rect_clip_content = true
 
-[node name="BaseTexture" type="TextureRect" parent="Control"]
-margin_right = 240.0
-margin_bottom = 240.0
-texture = SubResource( 1 )
-stretch_mode = 4
-
 [node name="Control" type="Control" parent="Control"]
 margin_left = 120.0
 margin_top = 120.0
 margin_right = 160.0
 margin_bottom = 160.0
 script = ExtResource( 2 )
+
+[node name="Control2" type="Control" parent="Control"]
+show_behind_parent = true
+margin_left = 120.0
+margin_top = 120.0
+margin_right = 160.0
+margin_bottom = 160.0
+script = ExtResource( 4 )
 
 [node name="ReverseIndicator" type="TextureRect" parent="Control"]
 visible = false

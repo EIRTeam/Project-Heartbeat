@@ -31,7 +31,13 @@ func populate():
 		
 		for option in settings[section]:
 			if "options" in option and "condition" in option.options:
-				if not call(option.options.condition):
+				var expr = Expression.new()
+				var error = expr.parse(option.options.condition)
+				if error != OK:
+					print("ERROR: Condition check failed. " + expr.get_error_text())
+					continue
+				
+				if not expr.execute([], settings_base):
 					continue
 			
 			var item = create_item(option, section_item)
@@ -274,6 +280,16 @@ func update(ignore = []):
 				color_picker.color = value
 		
 		item = item.get_next_visible()
+
+func _hide():
+	var item = tree.get_selected()
+	
+	if item:
+		var type := item.get_meta("type") as String
+		
+		if type == "List":
+			var popup_menu = item.get_meta("popup_menu") as PopupMenu
+			popup_menu.hide()
 
 
 func _on_tree_item_edited():

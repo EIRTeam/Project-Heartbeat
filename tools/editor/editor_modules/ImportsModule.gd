@@ -44,19 +44,10 @@ class HBEditorImporter:
 		timing_map.invert()
 		return timing_map
 	
-	static func _linear_bound(array: Array, value: int) -> float:
-		var idx := array.bsearch(value)
-		
-		if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
-			return float(idx)
-		
-		var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
-		return idx + decimal
-	
 	static func autoplace(data: HBBaseNote, timing_map: Array) -> HBBaseNote:
 		var new_data = data.clone() as HBBaseNote
 		
-		var time_as_eight = _linear_bound(timing_map, data.time)
+		var time_as_eight = HBUtils.bsearch_linear(timing_map, data.time)
 		time_as_eight = fmod(time_as_eight, 15.0)
 		if time_as_eight < 0:
 			time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)

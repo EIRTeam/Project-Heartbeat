@@ -1,15 +1,19 @@
 extends Control
 
+const INNER_RING_RADIUS = [29, 37]
+const MIDDLE_RING_RADIUS = [44, 61]
+const OUTER_RING_RADIUS = [61, 69]
+
 var mouse_distance: int
 var rotation: float
 
 func _draw():
 	if mouse_distance > 70:
-		_draw_arc(61, 69, 0, rotation, Color(255, 0, 0, 0.7).lightened(0.6), Color.red)
+		_draw_arc(OUTER_RING_RADIUS[0], OUTER_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.6), Color.red)
 	elif mouse_distance > 44:
-		_draw_arc(44, 61, 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
+		_draw_arc(MIDDLE_RING_RADIUS[0], MIDDLE_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
 	else:
-		_draw_arc(29, 37, 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
+		_draw_arc(INNER_RING_RADIUS[0], INNER_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
 
 func _draw_arc(radius_from, radius_to, angle_from, angle_to, color: Color, line_color: Color):
 	var n_points = 32

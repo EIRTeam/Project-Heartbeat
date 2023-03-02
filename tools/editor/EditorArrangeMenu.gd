@@ -13,6 +13,14 @@ var rotation := 0.0 # In radians
 var reverse := false
 var autoangle_toggle := false
 
+var mode_info := {
+	"mode": UserSettings.user_settings.editor_arrange_inner_mode,
+	"subdivision": UserSettings.user_settings.editor_arrange_inner_subdivision,
+	"snap": UserSettings.user_settings.editor_arrange_inner_snap,
+	"diagonal_step": UserSettings.user_settings.editor_arrange_inner_diagonal_step,
+	"vertical_step": UserSettings.user_settings.editor_arrange_inner_vstep,
+}
+
 func _input(event):
 	if visible:
 		if Input.is_key_pressed(KEY_SHIFT) != reverse:
@@ -32,17 +40,70 @@ func _input(event):
 			if mouse_distance > 10:
 				new_rotation = mouse_pos.angle_to_point(rect_position)
 			
-			var _rotation_snaps
-			if mouse_distance > 70:
-				_rotation_snaps = -1
-			elif mouse_distance > 44:
-				_rotation_snaps = 36
-			else:
-				_rotation_snaps = 12
+			mode_info = {
+				"mode": UserSettings.user_settings.editor_arrange_inner_mode,
+				"subdivision": UserSettings.user_settings.editor_arrange_inner_subdivision,
+				"snap": UserSettings.user_settings.editor_arrange_inner_snap,
+				"diagonal_step": UserSettings.user_settings.editor_arrange_inner_diagonal_step,
+				"vertical_step": UserSettings.user_settings.editor_arrange_inner_vstep,
+			}
 			
-			if _rotation_snaps != -1:
-				new_rotation /= PI / (_rotation_snaps / 2.0)
-				new_rotation = round(new_rotation) * (PI / (_rotation_snaps / 2.0))
+			if mouse_distance > 70:
+				mode_info = {
+					"mode": UserSettings.user_settings.editor_arrange_outer_mode,
+					"subdivision": UserSettings.user_settings.editor_arrange_outer_subdivision,
+					"snap": UserSettings.user_settings.editor_arrange_outer_snap,
+					"diagonal_step": UserSettings.user_settings.editor_arrange_outer_diagonal_step,
+					"vertical_step": UserSettings.user_settings.editor_arrange_outer_vstep,
+				}
+			elif mouse_distance > 44:
+				mode_info = {
+					"mode": UserSettings.user_settings.editor_arrange_middle_mode,
+					"subdivision": UserSettings.user_settings.editor_arrange_middle_subdivision,
+					"snap": UserSettings.user_settings.editor_arrange_middle_snap,
+					"diagonal_step": UserSettings.user_settings.editor_arrange_middle_diagonal_step,
+					"vertical_step": UserSettings.user_settings.editor_arrange_middle_vstep,
+				}
+			
+			match mode_info.mode:
+				HBUserSettings.EDITOR_ARRANGE_MODES.SUBDIVIDED:
+					new_rotation /= PI / (mode_info.subdivision / 2.0)
+					new_rotation = round(new_rotation) * (PI / (mode_info.subdivision / 2.0))
+				HBUserSettings.EDITOR_ARRANGE_MODES.SINGLE_SNAP:
+					var snap_list := [0, 90, 180, -90]
+					snap_list.append_array([mode_info.snap, -mode_info.snap, 180 - mode_info.snap, -180 + mode_info.snap])
+					snap_list.sort()
+					
+					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad2deg(new_rotation))
+					new_rotation = deg2rad(snap_list[new_rotation_idx])
+				HBUserSettings.EDITOR_ARRANGE_MODES.DUAL_SNAP:
+					var snap_list := [0, 90, 180, -90]
+					snap_list.append_array([mode_info.snap, -mode_info.snap, 180 - mode_info.snap, -180 + mode_info.snap])
+					snap_list.append_array([90 - mode_info.snap, 90 + mode_info.snap, -90 + mode_info.snap, -90 - mode_info.snap])
+					snap_list.sort()
+					
+					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad2deg(new_rotation))
+					new_rotation = deg2rad(snap_list[new_rotation_idx])
+				HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
+					var angle = -rad2deg(Vector2.ZERO.angle_to_point(Vector2(mode_info.diagonal_step.x, mode_info.diagonal_step.y)))
+					
+					var snap_list := [0, 90, 180, -90]
+					snap_list.append_array([angle, -angle, 180 - angle, -180 + angle])
+					snap_list.sort()
+					
+					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad2deg(new_rotation))
+					new_rotation = deg2rad(snap_list[new_rotation_idx])
+				HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
+					var angle = -rad2deg(Vector2.ZERO.angle_to_point(Vector2(-UserSettings.user_settings.editor_arrange_separation, mode_info.vertical_step)))
+					
+					var snap_list := [0, 90, 180, -90]
+					snap_list.append_array([angle, -angle, 180 - angle, -180 + angle])
+					snap_list.sort()
+					
+					var new_rotation_idx = HBUtils.bsearch_closest(snap_list, rad2deg(new_rotation))
+					new_rotation = deg2rad(snap_list[new_rotation_idx])
+				HBUserSettings.EDITOR_ARRANGE_MODES.FREE:
+					pass
 			
 			if new_rotation != rotation:
 				emit_signal("angle_changed", new_rotation, reverse, autoangle_toggle)
@@ -62,7 +123,7 @@ func _draw():
 	clip_mask.rect_global_position = clip.position
 	clip_mask.rect_size = clip.size
 	
-	$Control/BaseTexture.rect_position = -clip_mask.rect_position
+	$Control/Control2.rect_position = Vector2(120, 120) - clip_mask.rect_position
 	arc_drawer.rect_position = Vector2(120, 120) - clip_mask.rect_position
 	reverse_indicator.rect_position = Vector2(161, 169) - clip_mask.rect_position
 	

@@ -358,7 +358,7 @@ func toggle_sustain():
 			var start_data = start.data as HBNoteData
 			
 			var timing_map = get_timing_map()
-			var start_idx = upper_bound(timing_map, start_data.time)
+			var start_idx = bsearch_upper(timing_map, start_data.time)
 			var end_idx = timing_map.bsearch(end.data.time)
 			
 			var initial_x_offset = 48
@@ -471,7 +471,7 @@ func toggle_sustain():
 func get_sustain_size(time: int):
 	var normalized_timing_map = get_normalized_timing_map()
 	
-	var start_idx = closest_bound(normalized_timing_map, time)
+	var start_idx = bsearch_closest(normalized_timing_map, time)
 	var end_idx = min(start_idx + 2, normalized_timing_map.size() - 1)
 	
 	return normalized_timing_map[end_idx] - normalized_timing_map[start_idx]
