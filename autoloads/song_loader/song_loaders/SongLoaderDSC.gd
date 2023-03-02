@@ -177,6 +177,10 @@ class DSCPVData:
 		_ensure_diff_exists(diff)
 		charts[diff]["dsc_path"] = scr_path
 
+	func set_diff_length(diff: String, length: int):
+		_ensure_diff_exists(diff)
+		charts[diff]["length"] = length
+
 	func set_star_count_from_str(diff: String, star_c_str: String):
 		_ensure_diff_exists(diff)
 		var spl = star_c_str.split("_")
@@ -618,7 +622,7 @@ func load_songs_mmplus() -> Array:
 						if not f.file_exists(n):
 							continue
 						var err := f.open(n, File.READ)
-						if err == OK:
+						if err != OK:
 							propagate_error("Error %d loading pvdb from mod" % [err], true)
 						var buffer := f.get_as_text()
 						if not buffer.empty():
@@ -658,7 +662,7 @@ func load_songs_mmplus() -> Array:
 		
 		for i in range(pv_data.charts.size()-1, -1, -1):
 			var chart_name = pv_data.charts.keys()[i]
-			if not "dsc_path" in pv_data.charts[chart_name]:
+			if not "dsc_path" in pv_data.charts[chart_name] and pv_data.charts[chart_name].get("length", 0) > 0:
 				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, pv_data.title_en, chart_name])
 				pv_data.charts.erase(chart_name)
 		
