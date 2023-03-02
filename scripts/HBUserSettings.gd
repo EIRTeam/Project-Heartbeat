@@ -362,11 +362,6 @@ static func deserialize(data: Dictionary):
 			result.input_map[action_name] = []
 			for action in data.input_map[action_name]:
 				result.input_map[action_name].append(str2var(action))
-#	var pss = {}
-#	if data.has("per_song_settings"):
-#		for song in data.per_song_settings:
-#			pss[song] = HBPerSongSettings.deserialize(data.per_song_settings[song])
-#	result.per_song_settings = pss
 	
 	result.root_folder.folder_name = "Root"
 	
@@ -377,6 +372,9 @@ static func deserialize(data: Dictionary):
 			favorites_folder.folder_name = "Legacy Favourites"
 			favorites_folder.songs = data.favorite_songs
 			result.root_folder.subfolders.append(favorites_folder)
+	
+	# Remove this once we hit stable
+	print("Show note types before playing: " + str(result.show_note_types_before_playing))
 	
 	return result
 	

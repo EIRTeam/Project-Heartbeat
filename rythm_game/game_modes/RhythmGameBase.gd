@@ -214,6 +214,27 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	if current_variant != -1:
 		_volume_offset = song.get_variant_data(current_variant).get_volume()
 	
+	# Note for future people looking at this codebase (probably me or eir)
+	# Do NOT, I repeat, do NOT change the order of things here. It should
+	# be precisely:
+	#	1- deserialize the chart (via get_chart_from_song)
+	#	2- get sections and timing changes
+	#	3- call set_chart
+	#
+	# This is because deserializing a V1 chart modifies the song meta in-memory
+	# to create a new placeholder tempo map. So the chart has to get deserialized
+	# before we can touch the tempo map, just in case. But calling set_chart uses
+	# these timing changes, so it has to be done after we load them.
+	# A wrong loading order manifests as an empty tempo map (0bpm) under corner
+	# cases, like when "show note types before playing" is disabled. 
+	# If you have to chase this bug again, Im sorry.
+	# 
+	# - Lino, 02/03/23
+	
+	var chart: HBChart
+	current_difficulty = difficulty
+	chart = get_chart_from_song(song, difficulty)
+	
 	section_changes = {}
 	for section in current_song.sections:
 		section_changes[section.time] = section
@@ -221,12 +242,6 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	timing_changes = current_song.timing_changes.duplicate()
 	timing_changes.sort_custom(self, "_sort_notes_by_time")
 	
-	var chart: HBChart
-	
-	current_difficulty = difficulty
-
-	chart = get_chart_from_song(song, difficulty)
-
 	set_chart(chart)
 	
 	HBGame.spectrum_snapshot.set_volume(_volume_offset)
