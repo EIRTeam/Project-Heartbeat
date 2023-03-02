@@ -231,6 +231,7 @@ func fill_localized_arrays():
 		"editor_toggle_hold": tr("Toggle hold"),
 		"editor_toggle_sustain": tr("Toggle sustain"),
 		"editor_toggle_double": tr("Toggle double"),
+		"editor_make_slide": tr("Make slide chain"),
 		"editor_change_note_up": tr("Increase note type"),
 		"editor_change_note_down": tr("Decrease note type"),
 		#  Sync

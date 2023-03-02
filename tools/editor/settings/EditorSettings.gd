@@ -285,7 +285,7 @@ func _hide():
 	var item = tree.get_selected()
 	
 	if item:
-		var type := item.get_meta("type") as String
+		var type = item.get_meta("type", null)
 		
 		if type == "List":
 			var popup_menu = item.get_meta("popup_menu") as PopupMenu

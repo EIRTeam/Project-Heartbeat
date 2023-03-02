@@ -10,7 +10,7 @@ var selection_modifier_submenu: HBEditorContextualMenuControl
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
 func _ready():
-	for action in  ["make_normal", "toggle_double", "toggle_sustain", "toggle_hold", \
+	for action in  ["make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold", \
 					"select_all", "deselect", "shift_selection_left", "shift_selection_right", \
 					"select_2nd", "select_3rd", "select_4th"]:
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
@@ -70,9 +70,10 @@ func set_editor(p_editor):
 	contextual_menu.add_separator()
 	
 	contextual_menu.add_contextual_item("Convert to normal", "make_normal")
-	contextual_menu.add_contextual_item("Toggle double", "toggle_double")
-	contextual_menu.add_contextual_item("Toggle sustain", "toggle_sustain")
 	contextual_menu.add_contextual_item("Toggle hold", "toggle_hold")
+	contextual_menu.add_contextual_item("Toggle sustain", "toggle_sustain")
+	contextual_menu.add_contextual_item("Toggle double", "toggle_double")
+	contextual_menu.add_contextual_item("Make slide chain", "make_slide")
 	
 	update_shortcuts()
 
@@ -104,6 +105,7 @@ func update_shortcuts():
 	contextual_menu.set_contextual_item_accelerator("make_normal", get_shortcut_from_action("editor_make_normal"))
 	contextual_menu.set_contextual_item_accelerator("toggle_double", get_shortcut_from_action("editor_toggle_double"))
 	contextual_menu.set_contextual_item_accelerator("toggle_sustain", get_shortcut_from_action("editor_toggle_sustain"))
+	contextual_menu.set_contextual_item_accelerator("make_slide", get_shortcut_from_action("editor_make_slide"))
 	contextual_menu.set_contextual_item_accelerator("toggle_hold", get_shortcut_from_action("editor_toggle_hold"))
 
 func _on_contextual_menu_item_pressed(item_name: String):
@@ -128,6 +130,8 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			toggle_double()
 		"toggle_sustain":
 			toggle_sustain()
+		"make_slide":
+			make_slide()
 		"toggle_hold":
 			toggle_hold()
 
@@ -225,7 +229,7 @@ func _on_contextual_menu_about_to_show():
 	
 	var disable_all = get_selected().size() <= 0
 	
-	for item in ["make_normal", "toggle_sustain", "toggle_double", "toggle_hold"]:
+	for item in ["make_normal", "toggle_sustain", "make_slide", "toggle_double", "toggle_hold"]:
 		contextual_menu.set_contextual_item_disabled(item, disable_all)
 	
 	for i in range(button_change_submenu.get_item_count()):
@@ -234,6 +238,9 @@ func _on_contextual_menu_about_to_show():
 	if disable_all:
 		return
 	
+	contextual_menu.set_contextual_item_disabled("make_slide", true)
+	
+	var slide_count := 0
 	for selected in get_selected():
 		if not selected.data is HBBaseNote:
 			continue
@@ -242,6 +249,11 @@ func _on_contextual_menu_about_to_show():
 			contextual_menu.set_contextual_item_disabled("toggle_double", true)
 			contextual_menu.set_contextual_item_disabled("toggle_sustain", true)
 			contextual_menu.set_contextual_item_disabled("toggle_hold", true)
+			
+			slide_count += 1
+			if slide_count == 2:
+				contextual_menu.set_contextual_item_disabled("make_slide", false)
+				break
 
 # Change note type by an amount.
 func change_note_button_by(amount):
@@ -340,7 +352,8 @@ func toggle_sustain():
 	selected.sort_custom(self, "_sort_by_data_time")
 	
 	for item in selected:
-		if item.data is HBBaseNote and not item.data is HBSustainNote:
+		if item.data is HBBaseNote and not item.data is HBSustainNote and \
+		   not (item.data is HBNoteData and (item.data.is_slide_note() or item.data.is_slide_hold_piece())):
 			var found = false
 			for open_sustain in open_sustains:
 				if item.data.note_type == open_sustain.data.note_type:
@@ -360,80 +373,26 @@ func toggle_sustain():
 		var start = pair[0]
 		var end = pair[1]
 		
-		if pair[0].data is HBNoteData and pair[0].data.is_slide_note():
-			# It will say convert to sustain but it will create a slide instead
-			# This will trigger my ocd but at least the shortcut will be the same ig
-			var start_data = start.data as HBNoteData
-			
-			var timing_map = get_timing_map()
-			var start_idx = bsearch_upper(timing_map, start_data.time)
-			var end_idx = timing_map.bsearch(end.data.time)
-			
-			var initial_x_offset = 48
-			var interval_x_offset = 32
-			
-			for i in range(start_idx, end_idx + 1):
-				# Make 2 notes per grid division
-				for j in range(2):
-					var note_time = timing_map[i]
-					if j == 0:
-						note_time += timing_map[i - 1]
-						note_time /= 2.0
-					
-					var note_position = start_data.position
-					var position_increment = initial_x_offset + interval_x_offset * ((i - start_idx) * 2 + j)
-					note_position.x += position_increment
-					
-					var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
-					if start_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-						position_increment *= -1
-						new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
-					
-					var new_note = HBNoteData.new()
-					new_note.note_type = new_note_type
-					new_note.time = note_time
-					new_note.position = note_position
-					new_note.oscillation_amplitude = start_data.oscillation_amplitude
-					new_note.oscillation_frequency = start_data.oscillation_frequency
-					new_note.entry_angle = start_data.entry_angle
-					
-					var new_item = new_note.get_timeline_item()
-					
-					undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
-					undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
-					undo_redo.add_undo_method(new_item, "deselect")
-			
-			undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
-			undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
-			
-			undo_redo.add_do_method(start, "deselect")
-			undo_redo.add_do_method(end, "deselect")
-			undo_redo.add_undo_method(start, "deselect")
-			undo_redo.add_undo_method(end, "deselect")
-		else:
-			var start_data = start.data as HBBaseNote
-			var new_data_ser = start_data.serialize()
-			new_data_ser["type"] = "SustainNote"
-			new_data_ser["end_time"] = end.data.time
-			
-			var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
-			var new_item = new_data.get_timeline_item()
-			
-			undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
-			undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
-			undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, start)
-			undo_redo.add_do_method(start, "deselect")
-			undo_redo.add_do_method(end, "deselect")
-			
-			undo_redo.add_undo_method(new_item, "deselect")
-			undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
-			undo_redo.add_undo_method(self, "add_item_to_layer", start._layer, start)
-			undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
+		var start_data = start.data as HBBaseNote
+		var new_data_ser = start_data.serialize()
+		new_data_ser["type"] = "SustainNote"
+		new_data_ser["end_time"] = end.data.time
+		
+		var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
+		var new_item = new_data.get_timeline_item()
+		
+		undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
+		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
+		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, start)
+		undo_redo.add_do_method(start, "deselect")
+		undo_redo.add_do_method(end, "deselect")
+		
+		undo_redo.add_undo_method(new_item, "deselect")
+		undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
+		undo_redo.add_undo_method(self, "add_item_to_layer", start._layer, start)
+		undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
 	
 	for item in open_sustains:
-		if item.data is HBNoteData and item.data.is_slide_note():
-			continue
-		
 		var data = item.data as HBBaseNote
 		
 		var new_data_ser = data.serialize()
@@ -483,6 +442,91 @@ func get_sustain_size(time: int):
 	var end_idx = min(start_idx + 2, normalized_timing_map.size() - 1)
 	
 	return normalized_timing_map[end_idx] - normalized_timing_map[start_idx]
+
+func make_slide():
+	var open_slides := []
+	var closed_slides := []
+	
+	var selected = get_selected()
+	if selected.size() < 1:
+		return
+	
+	selected.sort_custom(self, "_sort_by_data_time")
+	
+	for item in selected:
+		if item.data is HBNoteData and item.data.is_slide_note():
+			var found = false
+			for open_slide in open_slides:
+				if item.data.note_type == open_slide.data.note_type:
+					open_slides.erase(open_slide)
+					closed_slides.append([open_slide, item])
+					found = true
+					break
+			
+			if not found:
+				open_slides.append(item)
+	
+	undo_redo.create_action("Make slide chain")
+	
+	for pair in closed_slides:
+		var start = pair[0]
+		var end = pair[1]
+		
+		var start_data = start.data as HBNoteData
+		
+		var timing_map = get_timing_map()
+		var start_idx = bsearch_upper(timing_map, start_data.time)
+		var end_idx = timing_map.bsearch(end.data.time)
+		
+		var initial_x_offset = 48
+		var interval_x_offset = 32
+		
+		for i in range(start_idx, end_idx + 1):
+			# Make 2 notes per grid division
+			for j in range(2):
+				var note_time = timing_map[i]
+				if j == 0:
+					note_time += timing_map[i - 1]
+					note_time /= 2.0
+				
+				var note_position = start_data.position
+				var position_increment = initial_x_offset + interval_x_offset * ((i - start_idx) * 2 + j)
+				note_position.x += position_increment
+				
+				var new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
+				if start_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
+					position_increment *= -1
+					new_note_type = HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+				
+				var new_note = HBNoteData.new()
+				new_note.note_type = new_note_type
+				new_note.time = note_time
+				new_note.position = note_position
+				new_note.oscillation_amplitude = start_data.oscillation_amplitude
+				new_note.oscillation_frequency = start_data.oscillation_frequency
+				new_note.entry_angle = start_data.entry_angle
+				
+				var new_item = new_note.get_timeline_item()
+				
+				undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
+				undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
+				undo_redo.add_undo_method(new_item, "deselect")
+		
+		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
+		undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
+		
+		undo_redo.add_do_method(start, "deselect")
+		undo_redo.add_do_method(end, "deselect")
+		undo_redo.add_undo_method(start, "deselect")
+		undo_redo.add_undo_method(end, "deselect")
+	
+	undo_redo.add_do_method(self, "timing_points_changed")
+	undo_redo.add_undo_method(self, "timing_points_changed")
+	
+	undo_redo.add_do_method(self, "deselect_all")
+	undo_redo.add_undo_method(self, "deselect_all")
+	
+	undo_redo.commit_action()
 
 func toggle_double():
 	var selected := get_selected()
