@@ -7,7 +7,7 @@ static func parse(contents: String) -> Dictionary:
 	var current_section := "default"
 	for line in lines:
 		if line.begins_with("["):
-			var section := line.substr(1, line.get_len()-2) as String
+			var section := line.substr(1, line.length()-2) as String
 			out[section] = {}
 			current_section = section
 			continue
