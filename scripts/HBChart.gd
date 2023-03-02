@@ -118,6 +118,7 @@ func deserialize(data: Dictionary, song):
 	print("- Format version: " + str(self.format_version))
 	print("- Timing changes (before porting): " + str(song.timing_changes))
 	print("- Editor Settings: " + str(self.editor_settings.bpm) + "BPM, offset " + str(self.editor_settings.offset * 1000.0) + "ms, BPB " + str(self.editor_settings.beats_per_bar))
+	print("- Song Settings: " + str(song.bpm) + "BPM, BPM string: " + song.bpm_string)
 	
 	while self.format_version != CURRENT_FORMAT_VERSION:
 		if self.format_version < CURRENT_FORMAT_VERSION:

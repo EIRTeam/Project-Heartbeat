@@ -242,6 +242,13 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	timing_changes = current_song.timing_changes.duplicate()
 	timing_changes.sort_custom(self, "_sort_notes_by_time")
 	
+	# Fallback
+	if not timing_changes:
+		var placeholder_timing_change = HBTimingChange.new()
+		placeholder_timing_change.bpm = song.bpm
+		
+		timing_changes = [placeholder_timing_change]
+	
 	set_chart(chart)
 	
 	HBGame.spectrum_snapshot.set_volume(_volume_offset)
