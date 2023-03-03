@@ -12,16 +12,32 @@ signal song_selected(song_id)
 
 var selected_song
 var selected_difficulty
+var search := ""  # Always lowercase
 
 func _ready():
-	popullate_tree()
+	populate_tree()
 	
-func popullate_tree():
+func populate_tree():
 	clear()
 	create_item()
+	
 	for song_id in SongLoader.songs:
 		var song = SongLoader.songs[song_id]
-		if not song is HBPPDSong and not song.comes_from_ugc() and song.get_fs_origin() != song.SONG_FS_ORIGIN.BUILT_IN:
+		var hidden = song.get_fs_origin() == HBSong.SONG_FS_ORIGIN.BUILT_IN or \
+			song.comes_from_ugc() or song is HBPPDSong or \
+			song is SongLoaderDSC.HBSongMMPLUS or song is SongLoaderDSC.HBSongDSC
+		
+		var matches_search = true
+		if search:
+			var variants = [song.title.to_lower(), song.romanized_title.to_lower(), song.original_title.to_lower()]
+			
+			matches_search = false
+			for variant in variants:
+				if search in variant:
+					matches_search = true
+					break
+		
+		if not hidden and matches_search:
 			var item := create_item()
 			item.set_text(0, song.get_visible_title())
 			

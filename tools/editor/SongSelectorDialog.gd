@@ -1,5 +1,5 @@
 extends AcceptDialog
-onready var song_selector = get_node("SongSelector")
+onready var song_selector = get_node("%SongSelector")
 
 enum SELECTOR_MODE {
 	CHART,
@@ -25,11 +25,13 @@ func _ready():
 		get_ok().text = "Load"
 	else:
 		get_ok().text = "Save"
+	
 	get_ok().connect("pressed", self, "_on_OK_pressed")
 	
-	if from_ppd_allowed:
+	if from_ppd_allowed and save_mode == SAVE_MODE.LOAD:
 		var ppd_button = add_button("From PPD")
 		ppd_button.connect("pressed", self, "_on_ppd_button_pressed")
+	
 	$PPDFileDialog.connect("file_selected", self, "_on_ppd_file_selected")
 
 func _on_ppd_button_pressed():
@@ -43,9 +45,12 @@ func _on_OK_pressed():
 			emit_signal("song_selected", song_selector.selected_song)
 		hide()
 
-
 func _on_PPDImportConfirmationDialog_confirmed():
 	$PPDFileDialog.popup_centered_ratio(0.5)
 	
 func _on_ppd_file_selected(path):
 	emit_signal("ppd_chart_selected", path)
+
+func _on_search_text_changed(new_text: String):
+	song_selector.search = new_text.to_lower()
+	song_selector.populate_tree()
