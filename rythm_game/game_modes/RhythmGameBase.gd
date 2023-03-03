@@ -1087,8 +1087,11 @@ func editor_clear_notes():
 	for group in note_groups:
 		for note_data in group.note_datas:
 			note_data.set_meta("editor_group", null)
+		
 		if group.is_connected("notes_judged", self, "_on_notes_judged_new"):
 			group.disconnect("notes_judged", self, "_on_notes_judged_new")
+		
+		group.reset_group()
 	
 	note_groups.clear()
 	note_groups_by_end_time.clear()
