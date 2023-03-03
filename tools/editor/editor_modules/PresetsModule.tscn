@@ -54,7 +54,7 @@ text = "Left"
 tooltip = "Arranges multis vertically, with
 angles from the left.
 Use this if your sequence is going
-to the right."
+from right to left."
 texture = ExtResource( 9 )
 action = "editor_vertical_multi_left"
 
@@ -69,7 +69,7 @@ text = "Right"
 tooltip = "Arranges multis vertically, with
 angles from the right.
 Use this if your sequence is going
-to the left."
+from left to right."
 texture = ExtResource( 5 )
 transform_id = 1
 action = "editor_vertical_multi_right"
@@ -104,7 +104,7 @@ text = "Top"
 tooltip = "Arranges multis horizontally, with
 angles from the top.
 Use this if your sequence is going
-downwards."
+from bottom to top."
 texture = ExtResource( 10 )
 transform_id = 2
 action = "editor_horizontal_multi_top"
@@ -120,7 +120,7 @@ text = "Bottom"
 tooltip = "Arranges multis horizontally, with
 angles from the bottom.
 Use this if your sequence is going
-upwards."
+from top to bottom."
 texture = ExtResource( 8 )
 transform_id = 3
 action = "editor_horizontal_multi_bottom"
