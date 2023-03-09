@@ -86,7 +86,7 @@ func _input(event: InputEvent):
 		return
 	
 	if event.is_action_pressed("editor_show_arrange_menu"):
-		if selected and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
+		if selected.size() >= 2 and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
 			selected.sort_custom(self, "_order_items")
 			
 			original_notes.clear()
@@ -340,7 +340,12 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 			if toggle_autoangle:
 				autoangle_enabled = not autoangle_enabled
 			
-			var new_angle_params = [original_notes[i].entry_angle, original_notes[i].oscillation_frequency]
+			var _i = i
+			if reverse:
+				_i = -i - 1
+			
+			var new_angle_params = [original_notes[_i].entry_angle, original_notes[_i].oscillation_frequency]
+			
 			if autoangle_enabled:
 				new_angle_params = autoangle(note, selected[0].data.position, angle, reverse)
 			
