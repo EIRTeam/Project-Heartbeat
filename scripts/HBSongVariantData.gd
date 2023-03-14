@@ -18,8 +18,11 @@ func _init():
 		"audio_only"
 	]
 
-func is_cached():
-	return YoutubeDL.get_cache_status(variant_url, !audio_only, true) == YoutubeDL.CACHE_STATUS.OK
+func is_cached(song_use_video: bool):
+	var use_video = song_use_video
+	if audio_only:
+		use_video = false
+	return YoutubeDL.get_cache_status(variant_url, use_video, true) == YoutubeDL.CACHE_STATUS.OK
 
 func get_serialized_type():
 	return "HBSongVariantData"
