@@ -363,7 +363,7 @@ func _on_DeleteSongMediaPopup_accept():
 	if current_song.youtube_url:
 		var video_id := YoutubeDL.get_video_id(current_song.youtube_url) as String
 		if video_id:
-			YoutubeDL.delete_media_for_video(video_id)
+			YoutubeDL.cleanup_video_media(video_id, true, true)
 	_on_BackButton_pressed()
 
 func _notification(what):
