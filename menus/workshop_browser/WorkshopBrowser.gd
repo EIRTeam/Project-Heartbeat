@@ -189,10 +189,10 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 					prev_data.preview_url = url
 					prev_data.title = data.title
 					prev_data.description = data.description
-					prev_data.steam_id_owner = data.steamIDOwner
+					prev_data.steam_id_owner = data.steam_id_owner
 					prev_data.item_id = data.file_id
-					prev_data.up_votes = data.votesUp
-					prev_data.down_votes = data.votesDown
+					prev_data.up_votes = data.votes_up
+					prev_data.down_votes = data.votes_down
 					prev_data.metadata = item
 					prev_data.tag = filter_tag
 					grid_container.add_child(scene)

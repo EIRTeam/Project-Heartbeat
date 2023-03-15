@@ -208,8 +208,8 @@ func upload_song(song: HBSong, ugc_id):
 			
 		var result := Steam.getQueryUGCResult(handle, 0)
 		if result.result == Steam.RESULT_OK:
-			var dependencies := Steam.getQueryUGCChildren(handle, 0, result.numChildren)
-			for child_i in range(result.numChildren):
+			var dependencies := Steam.getQueryUGCChildren(handle, 0, result.num_children)
+			for child_i in range(result.num_children):
 				var child_ugc_id := dependencies.children[child_i] as int
 				Steam.removeDependency(ugc_id, child_ugc_id)
 	if song.skin_ugc_id != 0:
