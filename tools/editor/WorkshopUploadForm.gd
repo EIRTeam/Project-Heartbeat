@@ -26,6 +26,14 @@ enum MODE {
 	RESOURCE_PACK
 }
 
+const CHART_DIFFICULTY_TAGS := {
+	"0-4": [-INF, 4],
+	"4-6": [4, 6],
+	"6-8": [6, 8],
+	"8-10": [8, 10],
+	"10+": [10, INF]
+}
+
 export(MODE) var mode = MODE.SONG
 
 const UGC_STATUS_TEXTS = {
@@ -229,7 +237,18 @@ func upload_song(song: HBSong, ugc_id):
 			ugc.add_item_preview_video(update_id, video_id)
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
 
-	Steam.setItemTags(update_id, ["Charts"])
+	var tags := ["Charts"]
+	for chart in song.charts:
+		if song.charts[chart].has("stars"):
+			var stars: float = song.charts[chart].stars
+			for diff_string in CHART_DIFFICULTY_TAGS:
+				var min_stars: float = CHART_DIFFICULTY_TAGS[diff_string][0]
+				var max_stars: float = CHART_DIFFICULTY_TAGS[diff_string][1]
+				if stars >= min_stars and stars <= max_stars:
+					if not diff_string in tags:
+						tags.push_back(diff_string)
+
+	Steam.setItemTags(update_id, tags)
 	if uploading_new:
 		ugc.submit_item_update(update_id, "Initial upload")
 	else:
