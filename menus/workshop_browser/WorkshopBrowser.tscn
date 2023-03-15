@@ -50,9 +50,6 @@ custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Control" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 5.0
@@ -104,19 +101,31 @@ text = "Search"
 
 [node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
 margin_left = 167.0
-margin_right = 1705.0
+margin_right = 1392.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 text = "Most popular for the last week"
 align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
+margin_left = 1396.0
+margin_right = 1705.0
+margin_bottom = 40.0
+alignment = 2
+
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource( 11 )]
+margin_right = 309.0
+rect_min_size = Vector2( 309, 39 )
+action_name = "note_left"
+text = "Filter by Difficulty"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
 margin_left = 1709.0
 margin_right = 1890.0
 margin_bottom = 40.0
 alignment = 2
 
-[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource( 11 )]
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" instance=ExtResource( 11 )]
 margin_right = 181.0
 rect_min_size = Vector2( 181, 39 )
 action_name = "note_up"
@@ -224,7 +233,6 @@ margin_bottom = 139.0
 [node name="Panel4" parent="HBConfirmationWindow/Panel/HBoxContainer" index="0"]
 margin_left = 109.0
 margin_right = 269.0
-rect_min_size = Vector2( 160, 39 )
 
 [node name="Label" parent="HBConfirmationWindow/Panel/HBoxContainer/Panel4/HBoxContainer" index="1"]
 margin_right = 150.0
@@ -232,7 +240,6 @@ margin_right = 150.0
 [node name="CancelButton" parent="HBConfirmationWindow/Panel/HBoxContainer" index="1"]
 margin_left = 284.0
 margin_right = 441.0
-rect_min_size = Vector2( 157, 39 )
 
 [node name="Panel" type="Panel" parent="."]
 anchor_left = 0.5
@@ -244,9 +251,6 @@ margin_top = -113.0
 margin_right = 205.5
 margin_bottom = 113.0
 custom_styles/panel = ExtResource( 12 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
@@ -272,6 +276,23 @@ script = ExtResource( 3 )
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="StarFilterPanelContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+margin_right = 92.0
+margin_bottom = 110.0
+custom_styles/panel = ExtResource( 12 )
+
+[node name="StarFilterVBoxContainer" type="VBoxContainer" parent="StarFilterPanelContainer"]
+unique_name_in_owner = true
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 90.0
+margin_bottom = 108.0
+focus_mode = 2
+script = ExtResource( 3 )
+orientation = 1
+enable_wrap_around = true
 
 [connection signal="out_from_bottom" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
 [connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]

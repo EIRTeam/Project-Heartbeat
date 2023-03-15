@@ -23,12 +23,15 @@ onready var search_title_label = get_node("MarginContainer/Control/HBoxContainer
 onready var sort_by_container = get_node("Panel/MarginContainer/VBoxContainer")
 onready var sort_by_popup = get_node("Panel")
 onready var tag_button_container = get_node("MarginContainer/Control/HBoxContainer4/HBoxContainer3")
+onready var star_filter_panel_container: PanelContainer = get_node("%StarFilterPanelContainer")
+onready var star_filter_vbox_container: VBoxContainer = get_node("%StarFilterVBoxContainer")
 
 var current_page = 1
 
 onready var pagination_debounce_timer = Timer.new()
 
 var total_items = 0
+var filter_by_stars := false
 
 var _debounced_page = 1
 
@@ -36,47 +39,68 @@ var current_query: HBWorkshopBrowserQuery
 
 var filter_tag setget set_filter_tag
 
+func get_filter_tags():
+	var tags := []
+	# when filtering by stars we shouldn't be using the "Charts" tag, this is to prevent us from
+	# matching charts by it when using setMatchAnyTag
+	if filter_by_stars and filter_tag == "Charts":
+		for i in range(star_filter_vbox_container.get_child_count()):
+			var checkbox: HBHovereableCheckbox = star_filter_vbox_container.get_child(i)
+			if checkbox.pressed:
+				tags.push_back(checkbox.get_meta("filter_name"))
+	else:
+		tags = [filter_tag]
+	return tags
 func set_filter_tag(val):
 	filter_tag = val
-	navigate_to_page(1, QueryRequestAll.get_default(filter_tag))
+	navigate_to_page(1, QueryRequestAll.get_default(get_filter_tags()))
 
 class QueryRequestAll:
 	extends HBWorkshopBrowserQuery
 	var sort_mode: int
-	var tag: String
-	func _init(_sort_mode: int, _tag: String):
+	var tags: Array
+	func _init(_sort_mode: int, _tags: Array):
 		sort_mode = _sort_mode
-		tag = _tag
+		tags = _tags
 	func make_query(page: int) -> int:
 		var handle = Steam.createQueryAllUGCRequest(sort_mode, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
-		if tag:
+		for tag in tags:
 			Steam.addRequiredTag(handle, tag)
+		Steam.setMatchAnyTag(handle, true)
 		Steam.setReturnMetadata(handle, true)
 		Steam.setReturnLongDescription(handle, true)
 		return handle
-	static func get_default(_tag: String):
-		return QueryRequestAll.new(HBWorkshopBrowserQuery.SORT_BY_MODES.k_EUGCQuery_RankedByTrend, _tag)
+	static func get_default(_tags: Array):
+		return QueryRequestAll.new(HBWorkshopBrowserQuery.SORT_BY_MODES.k_EUGCQuery_RankedByTrend, _tags)
 	func get_query_title() -> String:
 		return sort_by_mode_to_string(sort_mode)
 class QueryRequestSearch:
 	extends HBWorkshopBrowserQuery
 	var search_text: String
-	var tag: String
-	func _init(_search_text: String, _tag: String):
+	var tags: Array
+	func _init(_search_text: String, _tags: Array):
 		search_text = _search_text
-		tag = _tag
+		tags = _tags
 	func make_query(page: int) -> int:
 		var handle = Steam.createQueryAllUGCRequest(k_EUGCQuery_RankedByTextSearch, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
 		Steam.setSearchText(handle, search_text)
 		Steam.setReturnMetadata(handle, true)
-		if tag:
+		for tag in tags:
 			Steam.addRequiredTag(handle, tag)
+		Steam.setMatchAnyTag(handle, true)
 		Steam.setReturnLongDescription(handle, true)
 		return handle
 	func get_query_title() -> String:
 		return "Search: \"%s\"" % [search_text]
 		
 func _ready():
+	star_filter_panel_container.hide()
+	for filter_name in HBGame.CHART_DIFFICULTY_TAGS:
+		var hovereable_checkbox: HBHovereableCheckbox = preload("res://menus/HBHovereableCheckbox.tscn").instance()
+		hovereable_checkbox.text = "★ " + filter_name
+		hovereable_checkbox.set_meta("filter_name", filter_name)
+		star_filter_vbox_container.add_child(hovereable_checkbox)
+	
 	var button_filter_songs = HBHovereableButton.new()
 	button_filter_songs.text = tr("Charts")
 	button_filter_songs.connect("hovered", self, "set_filter_tag", ["Charts"])
@@ -115,6 +139,7 @@ func _ready():
 		sort_by_container.add_child(button)
 	sort_by_popup.rect_size.y = $Panel/MarginContainer.get_minimum_size().y
 	sort_by_popup.hide()
+	
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
@@ -122,7 +147,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	filter_tag = "Charts"
 	if not "no_fetch" in args or args.no_fetch == false:
 		tag_button_container.select_button(0, false)
-		navigate_to_page(current_page, QueryRequestAll.get_default(filter_tag))
+		navigate_to_page(current_page, QueryRequestAll.get_default(get_filter_tags()))
 	scroll_container.grab_focus()
 
 func _on_pagination_debounce_timeout():
@@ -151,8 +176,27 @@ func navigate_to_page(page_n: int, query = null):
 	loading_spinner.show()
 	loading_spinner_animation_player.play("spin")
 	current_page = page_n
+	current_query.tags = get_filter_tags()
 	query_handle = current_query.make_query(page_n)
 	search_title_label.text = current_query.get_query_title()
+	if filter_by_stars and filter_tag == "Charts":
+		var min_stars := 10000000.0
+		var max_stars := -1000000.0
+		var had_any_stars := false
+		for i in range(star_filter_vbox_container.get_child_count()):
+			var cb: CheckBox = star_filter_vbox_container.get_child(i)
+			if cb.pressed:
+				had_any_stars = true
+				var v: Array = HBGame.CHART_DIFFICULTY_TAGS[cb.get_meta("filter_name")]
+				var min_: float = v[0]
+				var max_: float = v[1]
+				if min_ == -INF:
+					min_ = 0
+				min_stars = min(min_stars, min_)
+				max_stars = max(max_stars, max_)
+		if had_any_stars:
+			var max_str: String = "10+" if max_stars == INF else str(int(max_stars))
+			search_title_label.text += " (★ " + str(int(min_stars)) + "-" + max_str + ")"
 	for i in range(grid_container.get_child_count()-1, -1, -1):
 		var child = grid_container.get_child(i)
 		grid_container.remove_child(child)
@@ -206,26 +250,37 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 				scroll_container.grab_focus()
 
 func _unhandled_input(event):
+	var prompt_visible: bool = search_prompt.visible or star_filter_panel_container.visible
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-		if sort_by_popup.visible:
+		if star_filter_panel_container.visible:
+			star_filter_panel_container.hide()
+			filter_by_stars = true
+			navigate_to_page(1)
+		elif sort_by_popup.visible:
 			sort_by_popup.hide()
 			scroll_container.grab_focus()
 		else:
 			HTTPRequestQueue.cancel_all_requests()
 			change_to_menu("main_menu")
-	elif event.is_action_pressed("gui_sort_by") and not search_prompt.visible:
+	elif prompt_visible:
+		pass # do nothing
+	elif event.is_action_pressed("note_left"):
+		star_filter_panel_container.rect_position = (rect_size / 2.0) - (star_filter_vbox_container.rect_size / 2.0)
+		star_filter_panel_container.show()
+		star_filter_vbox_container.grab_focus()
+	elif event.is_action_pressed("gui_sort_by"):
 		sort_by_popup.show()
 		sort_by_container.grab_focus()
-	elif event.is_action_pressed("gui_search") and not search_prompt.visible:
+	elif event.is_action_pressed("gui_search"):
 		search_prompt.popup_centered()
-	elif (event.is_action("gui_tab_right") or event.is_action("gui_tab_left")) and not search_prompt.visible:
+	elif (event.is_action("gui_tab_right") or event.is_action("gui_tab_left")):
 		tag_button_container._gui_input(event)
 
 
 func _on_text_search_entered(text: String):
 	if text.strip_edges() != "":
-		navigate_to_page(1, QueryRequestSearch.new(text, filter_tag))
+		navigate_to_page(1, QueryRequestSearch.new(text, get_filter_tags()))
 	search_prompt.hide()
 
 func _on_ScrollContainer_out_from_bottom():
@@ -233,7 +288,7 @@ func _on_ScrollContainer_out_from_bottom():
 		pagination_container.grab_focus()
 
 func _on_sort_by_button_pressed(sort_by_mode: int):
-	var query = QueryRequestAll.new(sort_by_mode, filter_tag)
+	var query = QueryRequestAll.new(sort_by_mode, get_filter_tags())
 	sort_by_popup.hide()
 	navigate_to_page(1, query)
 	scroll_container.grab_focus()

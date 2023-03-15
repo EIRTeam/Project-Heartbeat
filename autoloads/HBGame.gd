@@ -54,6 +54,14 @@ var NOTE_TYPE_TO_ACTIONS_MAP = {
 	HBNoteData.NOTE_TYPE.HEART: ["heart_note"]
 }
 
+const CHART_DIFFICULTY_TAGS := {
+	"0-4": [-INF, 4],
+	"4-6": [4, 6],
+	"6-8": [6, 8],
+	"8-10": [8, 10],
+	"10+": [10, INF]
+}
+
 var content_dir := ""
 
 # HACK HACK HACK, because using load() on multiple thread is more broken than my
