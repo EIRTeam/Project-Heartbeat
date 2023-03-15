@@ -9,6 +9,8 @@ var song_stats: HBSongStatsLoader
 var platform_settings: HBPlatformSettings
 
 var force_steam_deck_mode := "--force-steam-deck" in OS.get_cmdline_args()
+# Used for uploading/editing official songs
+var enable_editor_dev_mode := OS.has_feature("editor") and "--editor-dev-mode" in OS.get_cmdline_args()
 
 enum MMPLUS_ERROR {
 	OK,

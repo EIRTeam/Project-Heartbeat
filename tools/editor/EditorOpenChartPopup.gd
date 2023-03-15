@@ -55,7 +55,7 @@ func _on_upload_to_workshop_pressed():
 			"fatal_ugc": true
 		}
 		errors["meta"].append(error)
-	if verification.has_fatal_error(errors, true):
+	if verification.has_fatal_error(errors, true) and not HBGame.enable_editor_dev_mode:
 		verify_song_popup.show_song_verification(errors, true, "Before you can upload your song, there are some issues you have to resolve:")
 	else:
 		workshop_upload_dialog.set_song(song)
@@ -105,7 +105,7 @@ func populate_tree():
 				item.set_text(0, song.title + origin)
 				
 				item.set_meta("song", song)
-				item.set_meta("hidden", hidden)
+				item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
 				
 				for difficulty in song.charts:
 					var diff_item = tree.create_item(item)
@@ -114,7 +114,7 @@ func populate_tree():
 					
 					diff_item.set_meta("song", song)
 					diff_item.set_meta("difficulty", difficulty)
-					diff_item.set_meta("hidden", hidden)
+					diff_item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
 				
 				break
 	
