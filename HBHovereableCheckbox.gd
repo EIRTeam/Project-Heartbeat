@@ -2,6 +2,8 @@ extends CheckBox
 
 class_name HBHovereableCheckbox
 
+signal hovered
+
 export(StyleBox) var normal_style = preload("res://styles/PanelStyleTransparentIcon.tres")
 export(StyleBox) var hover_style = preload("res://styles/PanelStyleTransparentIconHover.tres")
 
