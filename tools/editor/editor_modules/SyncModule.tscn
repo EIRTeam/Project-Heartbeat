@@ -252,7 +252,7 @@ step = 0.01
 value = 100.0
 allow_greater = true
 suffix = "BPM"
-arrow_step = 1.0
+custom_arrow_step = 1.0
 script = ExtResource( 3 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TempoDialog/MarginContainer/VBoxContainer" index="1"]
@@ -276,7 +276,7 @@ min_value = 1.0
 value = 4.0
 allow_greater = true
 align = 2
-arrow_step = 1.0
+custom_arrow_step = 1.0
 script = ExtResource( 3 )
 
 [node name="Label2" type="Label" parent="TempoDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="2"]
@@ -295,7 +295,7 @@ size_flags_horizontal = 3
 min_value = 1.0
 value = 4.0
 allow_greater = true
-arrow_step = 1.0
+custom_arrow_step = 1.0
 script = ExtResource( 3 )
 
 [node name="Button" type="Button" parent="TempoDialog/MarginContainer/VBoxContainer" index="2"]

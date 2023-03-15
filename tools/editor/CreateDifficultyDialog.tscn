@@ -88,7 +88,7 @@ max_value = 10.0
 step = 0.001
 allow_greater = true
 suffix = "stars"
-arrow_step = 0.5
+custom_arrow_step = 0.5
 script = ExtResource( 7 )
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]

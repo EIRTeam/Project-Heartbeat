@@ -215,7 +215,7 @@ step = 0.01
 value = 100.0
 allow_greater = true
 suffix = "%"
-arrow_step = 1.0
+custom_arrow_step = 1.0
 script = ExtResource( 11 )
 
 [node name="SectionDialog" type="WindowDialog" parent="CanvasLayer" index="2"]

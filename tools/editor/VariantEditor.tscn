@@ -74,7 +74,7 @@ margin_right = 588.0
 margin_bottom = 188.0
 min_value = -2e+10
 max_value = 2e+10
-arrow_step = 0.1
+custom_arrow_step = 0.1
 script = ExtResource( 4 )
 
 [node name="ButtonSync" type="Button" parent="VBoxContainer"]

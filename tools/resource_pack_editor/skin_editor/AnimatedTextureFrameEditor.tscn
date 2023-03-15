@@ -90,4 +90,4 @@ hint_tooltip = "Delay"
 step = 0.0
 allow_greater = true
 suffix = "s"
-arrow_step = 0.01
+custom_arrow_step = 0.01
