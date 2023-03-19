@@ -233,7 +233,7 @@ var original_notes: Array
 func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
 	var selected = get_selected()
 	selected.sort_custom(self, "_order_items")
-	if not selected:
+	if selected.size() < 2:
 		return
 	
 	var separation: Vector2 = Vector2.ZERO

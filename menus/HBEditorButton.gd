@@ -85,6 +85,9 @@ func set_texture(new_texture):
 	texture = new_texture
 	button.icon = new_texture
 
+func set_disabled(disabled: bool):
+	button.disabled = disabled
+
 func set_module(_module):
 	module = _module
 	
@@ -94,12 +97,12 @@ func set_module(_module):
 		button.connect("mouse_exited", module, "hide_transform")
 		
 		if action:
-			module.add_shortcut(action, "apply_transform", [transform_id], echo_action)
+			module.add_shortcut(action, "apply_transform", [transform_id], echo_action, button)
 	if button_mode == "function":
 		button.connect("pressed", module, function_name, params)
 		
 		if action:
-			module.add_shortcut(action, function_name, params, echo_action)
+			module.add_shortcut(action, function_name, params, echo_action, button)
 
 func update_shortcut(event_text: String):
 	button.hint_tooltip = tooltip + "\nShortcut: " + event_text

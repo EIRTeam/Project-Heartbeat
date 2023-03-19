@@ -104,6 +104,7 @@ var serializable_types = {
 	"SkinResources": load("res://scripts/new_ui/HBSkinResources.gd"),
 	"Skin": load("res://scripts/new_ui/HBUISkin.gd"),
 	"SkinScreen": load("res://scripts/new_ui/HBUISkinScreen.gd"),
+	"EditorTemplate": load("res://scripts/HBEditorTemplate.gd")
 }
 
 const EXCELLENT_THRESHOLD = 0.95

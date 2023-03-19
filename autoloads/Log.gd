@@ -19,7 +19,7 @@ func log(caller: Object, message: String, log_level = LogLevel.INFO) -> void:
 	if not Diagnostics.logging_enabled:
 		return
 	var caller_name = caller.get_class()
-	if caller.LOG_NAME:
+	if "LOG_NAME" in caller:
 		caller_name = caller.LOG_NAME
 	print("[%s] %s: %s" % [HBUtils.find_key(LogLevel, log_level), caller_name, message])
 	emit_signal("message_logged", caller.LOG_NAME, message, log_level)

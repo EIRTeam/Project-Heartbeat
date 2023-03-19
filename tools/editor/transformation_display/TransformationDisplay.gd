@@ -15,9 +15,16 @@ const TRAIL_RESOLUTION = 60
 
 var game
 
+var hide_timer: Timer
+
 onready var background_color_rect = get_node("ColorRect")
 
 func _ready():
+	hide_timer = Timer.new()
+	hide_timer.wait_time = 0.1
+	hide_timer.connect("timeout", self, "hide")
+	add_child(hide_timer)
+	
 	hide()
 	var angle_line_2d = Line2D.new()
 	
@@ -202,3 +209,6 @@ func _draw_transformation():
 		i += 1
 func _draw():
 	_draw_transformation()
+
+func _hide():
+	hide_timer.start()

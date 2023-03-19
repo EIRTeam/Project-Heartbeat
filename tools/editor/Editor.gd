@@ -265,6 +265,7 @@ func _show_transform_on_current_notes(transformation):
 	game_preview.transform_preview.transformation = transformation
 	game_preview.transform_preview.notes_to_transform = base_transform_notes
 	game_preview.transform_preview.update()
+	game_preview.transform_preview.hide_timer.stop()
 	game_preview.transform_preview.show()
 
 func _apply_transform_on_current_notes(transformation: EditorTransformation):
@@ -567,6 +568,9 @@ func scale_pixels(pixels: float) -> float:
 func notify_selected_changed():
 	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
 	timeline.update_selected()
+	
+	for module in modules:
+		module.update_selected()
 
 func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	if inclusive:
@@ -1679,6 +1683,7 @@ func reveal_ui(extended: bool = true):
 	save_as_button.disabled = hidden
 	
 	if not extended:
+		notify_selected_changed()
 		return
 	
 	for control in get_tree().get_nodes_in_group("extended_disabled_ui"):
@@ -1688,6 +1693,8 @@ func reveal_ui(extended: bool = true):
 			control.editable = true
 		if control is SpinBox:
 			control.get_line_edit().editable = true
+	
+	notify_selected_changed()
 
 func exit():
 	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))

@@ -126,7 +126,7 @@ const EDITOR_ACTIONS := {
 		"editor_circle_size_bigger",
 		"editor_circle_size_smaller",
 	],
-	"Presets": [
+	"Presets and Templates": [
 		"editor_vertical_multi_left",
 		"editor_vertical_multi_right",
 		"editor_horizontal_multi_top",
@@ -136,6 +136,9 @@ const EDITOR_ACTIONS := {
 		"editor_sideways_quad",
 		"editor_triangle",
 		"editor_triangle_inverted",
+		"editor_create_template",
+		"editor_refresh_templates",
+		"editor_delete_templates",
 	],
 	"Events": [
 		"editor_create_timing_change",

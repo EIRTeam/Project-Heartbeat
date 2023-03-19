@@ -52,10 +52,10 @@ const NOTE_SCORES = {
 var position: Vector2 = Vector2(960, 540) # Position is in a 1920x1080 area
 var time_out: int = 1400 # time from the hit point where the note target starts being visible
 var auto_time_out: bool = true # If we should get the time out value from the current BPM
-var entry_angle: float = 0.0 # The angle at which the ntoe comes in
-var oscillation_amplitude = 500.0
-var oscillation_frequency = 2.0
-var distance = 1200.0 # The distance the note travels from spawn point to target
+var entry_angle: float = 0.0 # The angle at which the note comes in
+var oscillation_amplitude: float = 500.0
+var oscillation_frequency: int = 2
+var distance: float = 1200.0 # The distance the note travels from spawn point to target
 
 var pos_modified: bool = false # whether or not the user has modified the note's position on the editor
 

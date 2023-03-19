@@ -45,7 +45,7 @@ func set_editor(_editor: HBEditor):
 		editor.add_child(self)
 	
 	connect("show_transform", editor, "_show_transform_on_current_notes")
-	connect("hide_transform", editor.game_preview.transform_preview, "hide")
+	connect("hide_transform", editor.game_preview.transform_preview, "_hide")
 	connect("apply_transform", editor, "_apply_transform_on_current_notes")
 	
 	for transform in transforms:
@@ -57,6 +57,9 @@ func song_editor_settings_changed(settings: HBPerSongEditorSettings):
 func user_settings_changed():
 	pass
 
+func update_selected():
+	pass
+
 func _input(event: InputEvent):
 	if get_focus_owner() is LineEdit or get_focus_owner() is TextEdit:
 		return
@@ -66,6 +69,9 @@ func _input(event: InputEvent):
 	
 	if event is InputEventKey or event is InputEventMouseButton:
 		for shortcut in shortcuts:
+			if shortcut.control and shortcut.control.disabled:
+				continue
+			
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):
 				var function = FuncRef.new()
 				function.set_function(shortcut.function)
@@ -75,8 +81,8 @@ func _input(event: InputEvent):
 				get_tree().set_input_as_handled()
 				break
 
-func add_shortcut(action: String, function_name: String, vararg: Array = [], echo: bool = false):
-	var shortcut = {"action": action, "function": function_name, "args": vararg, "echo": echo}
+func add_shortcut(action: String, function_name: String, vararg: Array = [], echo: bool = false, control = null):
+	var shortcut = {"action": action, "function": function_name, "args": vararg, "echo": echo, "control": control}
 	
 	shortcuts.append(shortcut)
 

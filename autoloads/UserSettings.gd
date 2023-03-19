@@ -301,7 +301,7 @@ func fill_localized_arrays():
 		"editor_rotate_left": tr("Rotate around the leftmost note"),
 		"editor_rotate_right": tr("Rotate around the rightmost note"),
 		"editor_rotate_screen_center": tr("Rotate around the screen center"),
-		#  Presets
+		#  Presets and Templates
 		"editor_vertical_multi_left": tr("Vertical multi left"),
 		"editor_vertical_multi_right": tr("Vertical multi right"),
 		"editor_horizontal_multi_top": tr("Vertical multi top"),
@@ -311,6 +311,9 @@ func fill_localized_arrays():
 		"editor_sideways_quad": tr("Sideways quad"),
 		"editor_triangle": tr("Triangle"),
 		"editor_triangle_inverted": tr("Inverted triangle"),
+		"editor_create_template": tr("Create template"),
+		"editor_refresh_templates": tr("Refresh templates"),
+		"editor_delete_templates": tr("Popup template deletion menu"),
 		#  Events
 		"editor_create_timing_change": tr("Create timing change"),
 		"editor_create_speed_change": tr("Create speed change"),
