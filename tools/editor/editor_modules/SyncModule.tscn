@@ -19,7 +19,7 @@ button_group_name = "sync_buttons"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
 margin_right = 1908.0
-margin_bottom = 2090.0
+margin_bottom = 2118.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
@@ -180,10 +180,18 @@ margin_bottom = 2062.0
 text = "Offset timing points by..."
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+[node name="OffsetNotesOnlyCheckbox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
+unique_name_in_owner = true
 margin_top = 2066.0
 margin_right = 1908.0
 margin_bottom = 2090.0
+hint_tooltip = "Offsets only the notes notes, without touching the tempo map"
+text = "Offset notes only"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
+margin_top = 2094.0
+margin_right = 1908.0
+margin_bottom = 2118.0
 size_flags_horizontal = 3
 
 [node name="OffsetSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
