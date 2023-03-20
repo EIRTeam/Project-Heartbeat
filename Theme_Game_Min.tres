@@ -1,9 +1,11 @@
-[gd_resource type="Theme" load_steps=84 format=2]
+[gd_resource type="Theme" load_steps=85 format=2]
 
 [ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=1]
 [ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=2]
 [ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://styles/PanelStyleTransparentIconPress.tres" type="StyleBox" id=4]
+[ext_resource path="res://graphics/icons/gui_scroll_bg.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/gui_scroll_grabber.svg" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 6.0
@@ -630,64 +632,60 @@ bg_color = Color( 0.1, 0.115, 0.155, 1 )
 border_color = Color( 0.2, 0.23, 0.31, 1 )
 
 [sub_resource type="StyleBoxTexture" id=67]
-content_margin_left = 2.0
-content_margin_right = 2.0
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-texture = SubResource( 14 )
+content_margin_left = 3.0
+content_margin_right = 3.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 12, 12 )
-margin_left = 6.0
-margin_right = 6.0
-margin_top = 6.0
-margin_bottom = 6.0
+margin_left = 5.0
+margin_right = 5.0
+margin_top = 5.0
+margin_bottom = 5.0
+modulate_color = Color( 0.6, 0.09, 0.56, 0.75 )
 
 [sub_resource type="StyleBoxTexture" id=68]
 content_margin_left = 2.0
 content_margin_right = 2.0
 content_margin_top = 2.0
 content_margin_bottom = 2.0
-texture = SubResource( 17 )
+texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 12, 12 )
 margin_left = 5.0
 margin_right = 5.0
 margin_top = 5.0
 margin_bottom = 5.0
+modulate_color = Color( 0.6, 0.0901961, 0.556863, 1 )
 
 [sub_resource type="StyleBoxTexture" id=69]
 content_margin_left = 2.0
 content_margin_right = 2.0
 content_margin_top = 2.0
 content_margin_bottom = 2.0
-texture = SubResource( 20 )
+texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 12, 12 )
 margin_left = 6.0
 margin_right = 6.0
 margin_top = 6.0
 margin_bottom = 6.0
+modulate_color = Color( 0.93, 0.22, 0.8, 0.75 )
 
 [sub_resource type="StyleBoxTexture" id=70]
 content_margin_left = 0.0
 content_margin_right = 0.0
 content_margin_top = 0.0
 content_margin_bottom = 0.0
-texture = SubResource( 23 )
-region_rect = Rect2( 0, 0, 12, 12 )
-margin_left = 5.0
-margin_right = 5.0
-margin_top = 5.0
-margin_bottom = 5.0
-
-[sub_resource type="StyleBoxTexture" id=71]
-content_margin_left = 0.0
-content_margin_right = 0.0
-content_margin_top = 0.0
-content_margin_bottom = 0.0
-texture = SubResource( 23 )
-region_rect = Rect2( 0, 0, 12, 12 )
-margin_left = 5.0
-margin_right = 5.0
-margin_top = 5.0
-margin_bottom = 5.0
+texture = ExtResource( 5 )
+region_rect = Rect2( -5, -5, 22, 22 )
+margin_left = 11.0
+margin_right = 11.0
+margin_top = 11.0
+margin_bottom = 11.0
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+modulate_color = Color( 0.188235, 0.0705882, 0.301961, 0.74902 )
 
 [sub_resource type="StyleBoxLine" id=72]
 color = Color( 1, 1, 1, 0.1 )
@@ -989,7 +987,7 @@ VScrollBar/styles/grabber = SubResource( 67 )
 VScrollBar/styles/grabber_highlight = SubResource( 68 )
 VScrollBar/styles/grabber_pressed = SubResource( 69 )
 VScrollBar/styles/scroll = SubResource( 70 )
-VScrollBar/styles/scroll_focus = SubResource( 71 )
+VScrollBar/styles/scroll_focus = SubResource( 70 )
 VSeparator/styles/separator = SubResource( 72 )
 VSlider/styles/grabber_area = SubResource( 73 )
 VSlider/styles/grabber_area_highlight = SubResource( 74 )
