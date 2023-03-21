@@ -19,6 +19,8 @@ func _gui_input(event):
 				emit_signal("double_click")
 				double_click_timer.stop()
 				get_tree().set_input_as_handled()
-		else:
-			emit_signal("mouse_x_input", (get_viewport().get_mouse_position() - rect_global_position).x)
-			get_tree().set_input_as_handled()
+				
+				return
+			
+		emit_signal("mouse_x_input", (get_viewport().get_mouse_position() - rect_global_position).x)
+		get_tree().set_input_as_handled()
