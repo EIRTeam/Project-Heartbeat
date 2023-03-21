@@ -11,6 +11,8 @@ onready var template_deletion_confirmation_dialog: ConfirmationDialog = get_node
 onready var template_deletion_tree: Tree = get_node("%TemplateDeletionTree")
 onready var really_delete_confirmation_dialog: ConfirmationDialog = get_node("%ReallyReallyDeleteConfirmationDialog")
 
+onready var default_templates = preload("res://tools/editor/editor_modules/TemplatesModule/DefaultTemplates.gd").new()
+
 var templates := []
 
 func _ready():
@@ -67,6 +69,9 @@ func load_templates():
 		if result != OK:
 			Log.log(self, "Error creating templates directory: " + result, Log.LogLevel.ERROR)
 			return
+		
+		for template in default_templates.default_templates:
+			template.save()
 	
 	templates.clear()
 	

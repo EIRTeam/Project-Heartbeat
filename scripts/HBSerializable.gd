@@ -103,7 +103,10 @@ static func deserialize(data: Dictionary):
 				elif _field is int:
 					object.set(field, int(data[field]))
 				elif data[field] is Dictionary and "type" in data[field]:
-					object.set(field, deserialize(data[field])) # The black sheep of this branching code
+					# The black sheep of this deserialization code
+					var deserialized = deserialize(data[field])
+					
+					object.set(field, deserialized)
 				else:
 					object.set(field , str2var(data[field]))
 		return object

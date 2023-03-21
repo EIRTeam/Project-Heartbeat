@@ -23,7 +23,7 @@ var heart_template: HBBaseNote
 
 func _init():
 	serializable_fields += [
-		"name", "saved_properties", "note_templates",
+		"name", "saved_properties",
 		"up_template", "down_template", "left_template", "right_template", 
 		"slide_left_template", "slide_right_template", "slide_chain_left_template", "slide_chain_right_template", 
 		"heart_template",
