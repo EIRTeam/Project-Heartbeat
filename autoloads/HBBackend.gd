@@ -237,6 +237,8 @@ func upload_result(song: HBSong, game_info: HBGameInfo):
 	var chart_hash = song.generate_chart_hash(game_info.difficulty)
 	if not chart_hash.empty():
 		request["chart_hash"] = chart_hash
+	else:
+		Log.log(self, "Empty chart hash for song " + song.title, Log.LogLevel.WARN)
 
 	# HACKISH format conversion and data insertion
 

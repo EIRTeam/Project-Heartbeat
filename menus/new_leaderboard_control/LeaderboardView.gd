@@ -37,7 +37,6 @@ func fetch_entries(song: HBSong, difficulty: String, include_modifiers: bool, pa
 	else:
 		labels_node.not_available_label.show()
 func _on_entries_received(handle, entries, total_pages):
-
 	if current_request_handle == handle:
 		var labels_node = get_labels_node()
 		labels_node.spinner_animation_player.stop()
@@ -46,7 +45,9 @@ func _on_entries_received(handle, entries, total_pages):
 		labels_node.spinner.hide()
 		set_entries(entries)
 		emit_signal("entries_received", handle, entries, total_pages)
-		yield(get_tree(), "idle_frame")
+		
+		if get_tree():
+			yield(get_tree(), "idle_frame")
 
 func set_entries(entries: Array):
 	for item in entries_container.get_children():

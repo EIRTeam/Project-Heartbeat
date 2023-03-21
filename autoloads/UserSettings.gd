@@ -340,7 +340,10 @@ func get_axis_name(event: InputEventJoypadMotion):
 	return "Axis " + str(event.axis) + " " + axis_sign + " " + axis_names[n]
 
 func get_button_name(event: InputEventJoypadButton):
-	return button_names[event.button_index]
+	if event.button_index in button_names:
+		return button_names[event.button_index]
+	else:
+		return "Joystick button " + str(event.button_index)
 
 func load_input_map():
 	# Loads input map from the user's settings
