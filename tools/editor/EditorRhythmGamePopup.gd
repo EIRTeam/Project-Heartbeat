@@ -274,8 +274,6 @@ func set_speed(value: float, correction: bool):
 	else:
 		remove_pitch_effect()
 	
-	emit_signal("playback_speed_changed", value)
-
 func add_pitch_effect():
 	HBGame.spectrum_analyzer.connect_to_effect(pitch_shift_effect)
 	pitch_shift_effect.connect_to_endpoint()
