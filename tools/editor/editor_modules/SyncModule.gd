@@ -208,6 +208,9 @@ func add_timing_change():
 			timing_change.time_signature.numerator = time_sig_numerator_spinbox.value
 			timing_change.time_signature.denominator = time_sig_denominator_spinbox.value
 			
+			if get_timing_map():
+				timing_change.time = snap_time_to_timeline(timing_change.time)
+			
 			create_timing_point(layer, timing_change.get_timeline_item(), true)
 			break
 
