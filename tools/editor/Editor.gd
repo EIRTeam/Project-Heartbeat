@@ -1297,9 +1297,6 @@ func remove_item_from_layer(layer: EditorLayer, item: EditorTimelineItem):
 	rhythm_game.editor_remove_timing_point(item.data)
 	force_game_process()
 
-func _create_bpm_change():
-	add_event_timing_point(HBBPMChange)
-
 func pause():
 	game_playback.pause()
 	game_preview.set_visualizer_processing_enabled(false)
@@ -2354,3 +2351,13 @@ func _toggle_layer_visibility_editor():
 
 func set_resolution(index):
 	sync_module.set_resolution(index)
+
+func get_speed_changes() -> Array:
+	var bpm_changes = game_preview.game.bpm_changes
+	var tempo_changes = game_preview.game.timing_changes
+	
+	var speed_changes = bpm_changes.duplicate()
+	speed_changes.append_array(tempo_changes)
+	speed_changes.sort_custom(self, "_chronological_compare")
+	
+	return speed_changes

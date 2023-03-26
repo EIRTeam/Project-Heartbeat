@@ -159,6 +159,9 @@ func get_timing_info_at_time(time: int) -> HBTimingChange:
 	
 	return null
 
+func get_speed_changes() -> Array:
+	return editor.get_speed_changes()
+
 func bsearch_upper(array: Array, value: int) -> int:
 	return HBUtils.bsearch_upper(array, value)
 

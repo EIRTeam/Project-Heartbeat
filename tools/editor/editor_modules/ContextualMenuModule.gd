@@ -10,9 +10,12 @@ var selection_modifier_submenu: HBEditorContextualMenuControl
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
 func _ready():
-	for action in  ["make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold", \
-					"select_all", "deselect", "shift_selection_left", "shift_selection_right", \
-					"select_2nd", "select_3rd", "select_4th"]:
+	for action in [
+			"make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold",
+			"select_all", "deselect", "shift_selection_left", "shift_selection_right",
+			"select_2nd", "select_3rd", "select_4th",
+			"smooth_bpm",
+		]:
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
 	
 	add_shortcut("editor_change_note_up", "change_note_button_by", [-1])
@@ -74,6 +77,7 @@ func set_editor(p_editor):
 	contextual_menu.add_contextual_item("Toggle sustain", "toggle_sustain")
 	contextual_menu.add_contextual_item("Toggle double", "toggle_double")
 	contextual_menu.add_contextual_item("Make slide chain", "make_slide")
+	contextual_menu.add_contextual_item("Smooth out BPM change", "smooth_bpm")
 	
 	update_shortcuts()
 
@@ -107,8 +111,12 @@ func update_shortcuts():
 	contextual_menu.set_contextual_item_accelerator("toggle_sustain", get_shortcut_from_action("editor_toggle_sustain"))
 	contextual_menu.set_contextual_item_accelerator("make_slide", get_shortcut_from_action("editor_make_slide"))
 	contextual_menu.set_contextual_item_accelerator("toggle_hold", get_shortcut_from_action("editor_toggle_hold"))
+	contextual_menu.set_contextual_item_accelerator("smooth_bpm", get_shortcut_from_action("editor_smooth_bpm"))
 
 func _on_contextual_menu_item_pressed(item_name: String):
+	if get_contextual_menu().get_contextual_item_disabled(item_name):
+		return
+	
 	match item_name:
 		"select_all":
 			select_all()
@@ -134,6 +142,8 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			make_slide()
 		"toggle_hold":
 			toggle_hold()
+		"smooth_bpm":
+			smooth_bpm()
 
 func _on_button_change_submenu_index_pressed(index: int):
 	var new_button = BUTTON_CHANGE_ALLOWED_TYPES[index]
@@ -229,7 +239,7 @@ func _on_contextual_menu_about_to_show():
 	
 	var disable_all = get_selected().size() <= 0
 	
-	for item in ["make_normal", "toggle_sustain", "make_slide", "toggle_double", "toggle_hold"]:
+	for item in ["make_normal", "toggle_sustain", "make_slide", "toggle_double", "toggle_hold", "smooth_bpm"]:
 		contextual_menu.set_contextual_item_disabled(item, disable_all)
 	
 	for i in range(button_change_submenu.get_item_count()):
@@ -239,6 +249,7 @@ func _on_contextual_menu_about_to_show():
 		return
 	
 	contextual_menu.set_contextual_item_disabled("make_slide", true)
+	contextual_menu.set_contextual_item_disabled("smooth_bpm", true)
 	
 	var slide_count := 0
 	for selected in get_selected():
@@ -254,6 +265,10 @@ func _on_contextual_menu_about_to_show():
 			if slide_count == 2:
 				contextual_menu.set_contextual_item_disabled("make_slide", false)
 				break
+	
+	if get_selected().size() == 1:
+		if get_selected()[0].data is HBBPMChange or get_selected()[0].data is HBTimingChange:
+				contextual_menu.set_contextual_item_disabled("smooth_bpm", false)
 
 # Change note type by an amount.
 func change_note_button_by(amount):
@@ -645,3 +660,105 @@ func select_subset(subset: int):
 	deselect_all()
 	for item in new_selected:
 		select_item(item, true)
+
+func smooth_bpm():
+	if not get_selected():
+		return
+	
+	var speed_change := get_selected()[0].data as HBTimingPoint
+	
+	var last_speed_change := HBBPMChange.new()
+	var last_timing_change: HBTimingChange
+	var last_change
+	
+	var speed_changes := get_speed_changes()
+	for change in speed_changes:
+		if change.time == speed_change.time:
+			break
+		
+		if change is HBBPMChange:
+			last_speed_change = change
+		
+		if change is HBTimingChange:
+			last_timing_change = change
+		
+		last_change = change
+	
+	if not last_change or not last_timing_change:
+		return
+	
+	var end_bpm
+	if speed_change is HBBPMChange and speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+		end_bpm = (speed_change.speed_factor / 100.0) * last_timing_change.bpm
+	elif speed_change is HBTimingChange and last_speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+		end_bpm = (last_speed_change.speed_factor / 100.0) * speed_change.bpm
+	else:
+		end_bpm = speed_change.bpm
+	
+	var timeout = HBBaseNote.new().get_time_out(end_bpm)
+	
+	var start_t = speed_change.time - timeout
+	print(start_t)
+	start_t = max(start_t, last_change.time)
+	print(start_t)
+	
+	var cut_off = (start_t == last_change.time)
+	
+	var start_bpm
+	if last_speed_change.time > last_timing_change.time and last_speed_change.usage == HBBPMChange.USAGE_TYPES.FIXED_BPM:
+		start_bpm = last_speed_change.bpm
+	elif last_speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+		start_bpm = (last_speed_change.speed_factor / 100.0) * last_timing_change.bpm
+	else:
+		start_bpm = last_timing_change.bpm
+	
+	var times_to_interpolate := []
+	for point in get_timing_points():
+		if not point is HBBaseNote:
+			continue
+		
+		if point.time >= start_t and point.time < speed_change.time and not point.time in times_to_interpolate:
+			times_to_interpolate.append(point.time)
+	
+	if cut_off and not start_t in times_to_interpolate:
+		times_to_interpolate.append(start_t)
+	
+	times_to_interpolate.invert()
+	
+	if not times_to_interpolate:
+		return
+	
+	var events_layer = find_layer_by_name("Events")
+	var start_i = 1 if cut_off else 0
+	
+	undo_redo.create_action("Smooth out BPM change.")
+	for i in range(start_i, times_to_interpolate.size()):
+		var time = times_to_interpolate[i]
+		var w := float(i) / float(times_to_interpolate.size())
+		
+		var new_speed_change = HBBPMChange.new()
+		new_speed_change.time = time
+		
+		if last_speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM and \
+		   speed_change is HBBPMChange and \
+		   speed_change.usage == HBBPMChange.USAGE_TYPES.AUTO_BPM:
+			var speed_factor = lerp(last_speed_change.speed_factor, speed_change.speed_factor, w)
+			
+			new_speed_change.speed_factor = speed_factor
+		else:
+			var bpm = lerp(start_bpm, end_bpm, w)
+			
+			new_speed_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
+			new_speed_change.bpm = bpm
+		
+		var item = new_speed_change.get_timeline_item()
+		
+		undo_redo.add_do_method(self, "add_item_to_layer", events_layer, item)
+		
+		undo_redo.add_undo_method(self, "deselect_item", item)
+		undo_redo.add_undo_method(self, "remove_item_from_layer", events_layer, item)
+	
+	undo_redo.add_do_method(self, "timing_points_changed")
+	undo_redo.add_undo_method(self, "timing_points_changed")
+	
+	undo_redo.commit_action()
