@@ -195,9 +195,10 @@ func update_contextual_menu():
 	popup_menu.add_item("Move back", CONTEXTUAL_MENU_MOVE_BACK)
 	popup_menu.add_item("Move forward", CONTEXTUAL_MENU_MOVE_FORWARD)
 	
-	for child in popup_menu.get_children():
-		popup_menu.remove_child(child)
-		child.queue_free()
+	if popup_menu.has_node("MoveToLayerSubmenu"):
+		popup_menu.get_node("MoveToLayerSubmenu").queue_free()
+		popup_menu.remove_child(popup_menu.get_node("MoveToLayerSubmenu"))
+	
 	move_to_layer_submenu.name = "MoveToLayerSubmenu"
 	popup_menu.add_child(move_to_layer_submenu, true)
 	popup_menu.add_submenu_item("Move to layer", "MoveToLayerSubmenu")
