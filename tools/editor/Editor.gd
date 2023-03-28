@@ -1646,9 +1646,14 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 		timeline.ensure_playhead_is_visible()
 		seek(playhead_position)
 
+func get_selected_variant() -> int:
+	if !current_song.is_cached(song_editor_settings.selected_variant):
+		return -1
+	else:
+		return song_editor_settings.selected_variant
 func update_media():
-	game_preview.set_song(current_song, song_editor_settings.selected_variant)
-	game_playback.set_song(current_song, song_editor_settings.selected_variant)
+	game_preview.set_song(current_song, get_selected_variant())
+	game_playback.set_song(current_song, get_selected_variant())
 	timeline.set_audio_stream(game_playback.godot_audio_stream)
 	seek(playhead_position)
 	timeline.send_time_cull_changed_signal()
@@ -1966,7 +1971,7 @@ func _on_PlaytestButton_pressed(at_time):
 	var play_time = 0.0
 	if at_time:
 		play_time = playhead_position
-	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, song_editor_settings.selected_variant)
+	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, get_selected_variant())
 	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), current_difficulty, play_time / 1000.0, song_editor_settings.show_bg, song_editor_settings.show_video)
