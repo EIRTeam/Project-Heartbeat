@@ -432,7 +432,7 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	
 	var piece_count := (end_i - start_i) * 2
 	
-	var start_time_as_eight = HBUtils.bsearch_linear(editor.get_normalized_timing_map(), start_time)
+	var start_time_as_eight = editor.get_time_as_eight(start_time)
 	start_time_as_eight = fmod(start_time_as_eight, 15.0)
 	if start_time_as_eight < 0:
 		start_time_as_eight = fmod(15.0 - abs(start_time_as_eight), 15.0)

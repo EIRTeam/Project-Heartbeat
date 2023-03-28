@@ -96,7 +96,7 @@ var sync_module
 
 var timing_changes := []
 var timing_map := []
-var normalized_timing_map := []
+var eight_map := {"times": [], "eights": []}
 var signature_map := []
 var metronome_map := []
 
@@ -1732,7 +1732,7 @@ func get_timing_map() -> Array:
 	return timing_map
 
 func get_normalized_timing_map() -> Array:
-	return normalized_timing_map
+	return eight_map.times
 
 func get_signature_map() -> Array:
 	return signature_map
@@ -1766,9 +1766,11 @@ func map_intervals(obj: Array, start: int, end: int, interval: float):
 func _on_timing_information_changed(f=null):
 	timing_changes.clear()
 	timing_map.clear()
-	normalized_timing_map.clear()
 	signature_map.clear()
 	metronome_map.clear()
+	
+	eight_map.times.clear()
+	eight_map.eights.clear()
 	
 	for item in get_timeline_items():
 		if item.data is HBTimingChange:
@@ -1783,9 +1785,6 @@ func _on_timing_information_changed(f=null):
 		
 		var ms_per_beat: float = (60.0 / timing_change.bpm) * 1000.0 * 4 * get_note_resolution()
 		map_intervals(timing_map, timing_change.time, end_t, ms_per_beat)
-		
-		var ms_per_eight: float = (60.0 / timing_change.bpm) * 1000.0 * 4 / 8.0
-		map_intervals(normalized_timing_map, timing_change.time, end_t, ms_per_eight)
 		
 		if timing_change.time_signature.denominator != 0:
 			var ms_per_bar: float = (60.0 / timing_change.bpm) * 1000.0 * \
@@ -1806,8 +1805,41 @@ func _on_timing_information_changed(f=null):
 			timing_map.append(int(end - (i - 1) * ms_per_beat))
 	
 	timing_map.invert()
-	normalized_timing_map.invert()
 	signature_map.invert()
+	
+	# The eight map consists of 2 arrays, one which holds a time and one which
+	# holds its corresponding "eight index". This allows us to efficiently store
+	# this info for arranging, and to deal with edge cases like the index of
+	# tempo changes, which is crucial for correct arranging across tempo
+	# boundaries.
+	
+	if timing_changes:
+		eight_map.times.append(timing_changes[-1].data.time)
+		eight_map.eights.append(0)
+	
+	var eight = 0
+	for i in range(timing_changes.size() - 1, -1, -1):
+		var timing_change = timing_changes[i]
+		
+		end_t = timing_changes[i - 1].data.time if i != 0 else get_song_length() * 1000.0
+		var start_t = timing_change.data.time
+		
+		var ms_per_eight: float = (60.0 / timing_change.data.bpm) * 1000.0 * 4 / 8.0
+		var eight_count := floor((end_t - start_t) / ms_per_eight)
+		
+		for j in range(1, eight_count):
+			eight_map.times.append(start_t + j * ms_per_eight)
+			eight_map.eights.append(eight + j)
+		
+		eight += eight_count
+		
+		var end_eight_t = timing_change.data.time + ms_per_eight * eight_count
+		var next_eight_t = timing_change.data.time + ms_per_eight * (eight_count + 1)
+		var w = inverse_lerp(end_eight_t, next_eight_t, end_t)
+		
+		eight += w
+		eight_map.times.append(end_t)
+		eight_map.eights.append(eight)
 	
 	release_owned_focus()
 	timeline.update()
@@ -2118,7 +2150,7 @@ func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [],
 		return
 	var new_data = data.clone() as HBBaseNote
 	
-	var time_as_eight = HBUtils.bsearch_linear(get_normalized_timing_map(), data.time)
+	var time_as_eight = get_time_as_eight(data.time)
 	time_as_eight = fmod(time_as_eight, 15.0)
 	if time_as_eight < 0:
 		time_as_eight = fmod(15.0 - abs(time_as_eight), 15.0)
@@ -2361,3 +2393,27 @@ func get_speed_changes() -> Array:
 	speed_changes.sort_custom(self, "_chronological_compare")
 	
 	return speed_changes
+
+func get_time_as_eight(time: int) -> float:
+	if not eight_map.times:
+		return 0.0
+	
+	var idx: int = eight_map.times.bsearch(time)
+	
+	if eight_map.times[idx] == time:
+		return eight_map.eights[idx]
+	
+	var lower_bound = idx - 1
+	var upper_bound = idx
+	
+	if idx == eight_map.times.size():
+		lower_bound = idx - 2
+		upper_bound = idx - 1
+	elif idx == 0:
+		lower_bound = idx
+		upper_bound = idx + 1
+	
+	var w := inverse_lerp(eight_map.times[lower_bound], eight_map.times[upper_bound], time)
+	var eight = lerp(eight_map.eights[lower_bound], eight_map.eights[upper_bound], w)
+	
+	return eight

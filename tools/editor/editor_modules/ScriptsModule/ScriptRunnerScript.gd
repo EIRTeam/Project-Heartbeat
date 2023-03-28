@@ -90,3 +90,6 @@ func bsearch_closest(array: Array, value: int) -> int:
 
 func bsearch_linear(array: Array, value: int) -> float:
 	return HBUtils.bsearch_linear(array, value)
+
+func get_time_as_eight(time: int) -> float:
+	return _editor.get_time_as_eight(time)

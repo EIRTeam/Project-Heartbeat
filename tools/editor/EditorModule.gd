@@ -159,6 +159,9 @@ func get_timing_info_at_time(time: int) -> HBTimingChange:
 	
 	return null
 
+func get_time_as_eight(time: int) -> float:
+	return editor.get_time_as_eight(time)
+
 func get_speed_changes() -> Array:
 	return editor.get_speed_changes()
 

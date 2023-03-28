@@ -286,7 +286,6 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	var pos_compensation: Vector2
 	var time_compensation := 0
 	var slide_index := 0
-	var eight_map := get_normalized_timing_map()
 	
 	var anchor = original_notes[0]
 	if reverse:
@@ -299,8 +298,8 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
 			# Real snapping hours
-			var eight_diff = bsearch_linear(eight_map, selected_item.data.time) - \
-							 bsearch_linear(eight_map, time_compensation)
+			var eight_diff = get_time_as_eight(selected_item.data.time) - \
+							 get_time_as_eight(time_compensation)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
 				if slide_index > 1:

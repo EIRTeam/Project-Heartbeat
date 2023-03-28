@@ -600,5 +600,5 @@ static func bsearch_linear(array: Array, value: int) -> float:
 	if idx + 1 >= array.size() or array[idx] == value or array[idx] == array[idx + 1]:
 		return float(idx)
 	
-	var decimal = float(value - array[idx]) / float(array[idx + 1] - array[idx])
+	var decimal = inverse_lerp(array[idx], array[idx + 1], value)
 	return idx + decimal

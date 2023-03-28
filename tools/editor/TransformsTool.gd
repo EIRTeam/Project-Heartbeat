@@ -193,8 +193,7 @@ class IncrementAnglesTransform:
 		return a.time < b.time
 	
 	func get_beat_diff(a: HBBaseNote, b: HBBaseNote):
-		var timing_map = editor.get_normalized_timing_map()
-		var time_diff = HBUtils.bsearch_linear(timing_map, a.time) - HBUtils.bsearch_linear(timing_map, b.time)
+		var time_diff = editor.get_time_as_eight(a.time) - editor.get_time_as_eight(b.time)
 		
 		return time_diff
 	
@@ -369,13 +368,11 @@ class MakeCircleTransform:
 		var start_rev = 0.0
 		var center
 		
-		var normalized_timing_map = editor.get_normalized_timing_map()
-		
 		if start_note < notes.size():
-			time_offset = HBUtils.bsearch_linear(normalized_timing_map, notes[start_note].time)
+			time_offset = editor.get_time_as_eight(notes[start_note].time)
 			center = notes[start_note].position
 		else:
-			time_offset = HBUtils.bsearch_linear(normalized_timing_map, notes[0].time)
+			time_offset = editor.get_time_as_eight(notes[0].time)
 			center = notes[0].position
 		
 		if center.y > 540:
@@ -388,11 +385,11 @@ class MakeCircleTransform:
 		
 		for n in notes:
 			# Time of the current note, as an eight
-			var t = HBUtils.bsearch_linear(normalized_timing_map, n.time) - time_offset - sustain_compensation
+			var t = editor.get_time_as_eight(n.time) - time_offset - sustain_compensation
 			
 			# Compensate for sustain notes
 			if n is HBSustainNote:
-				sustain_compensation += HBUtils.bsearch_linear(normalized_timing_map, n.end_time) - HBUtils.bsearch_linear(normalized_timing_map, n.time)
+				sustain_compensation += editor.get_time_as_eight(n.end_time) - editor.get_time_as_eight(n.time)
 			
 			# Angle in the circle (in revolutions)
 			var angle = t / float(eigths_per_circle) * TAU
