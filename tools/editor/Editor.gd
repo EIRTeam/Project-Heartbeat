@@ -1506,23 +1506,23 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 			if phrase is HBLyricsPhrase:
 				var start_item = HBLyricsPhraseStart.new()
 				start_item.time = phrase.time
-				add_item(lyrics_layer_n, start_item.get_timeline_item())
+				add_item(lyrics_layer_n, start_item.get_timeline_item(), false)
 				
 				for lyric in phrase.lyrics:
 					if lyric is HBLyricsLyric:
-						add_item(lyrics_layer_n, lyric.get_timeline_item())
+						add_item(lyrics_layer_n, lyric.get_timeline_item(), false)
 				
 				var end_item = HBLyricsPhraseEnd.new()
 				end_item.time = phrase.end_time
-				add_item(lyrics_layer_n, end_item.get_timeline_item())
+				add_item(lyrics_layer_n, end_item.get_timeline_item(), false)
 		
 		for section in current_song.sections:
 			if section is HBChartSection:
-				add_item(sections_layer_n, section.get_timeline_item())
+				add_item(sections_layer_n, section.get_timeline_item(), false)
 		
 		for timing_change in current_song.timing_changes:
 			if timing_change is HBTimingChange:
-				add_item(tempo_layer_n, timing_change.get_timeline_item())
+				add_item(tempo_layer_n, timing_change.get_timeline_item(), false)
 	
 	if not ignore_settings:
 		load_settings(chart.editor_settings)
