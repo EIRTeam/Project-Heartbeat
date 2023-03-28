@@ -56,17 +56,28 @@ const QUOTES = [
 	"Steam Deck compatible!",
 	"Now featuring a fancy website!",
 	"Always blame lino",
-	"Better on Linux (tm)",
+	"Better on Linux (tm)", # Fuck you micosoft
 	"I'm sorry, I hate to interrupt this. But this is quite honestly the biggest load of limp wristed twaddle I ever heard during my five weeks on television.", # James may quote
-	"Illo Illo Illo",
+	"Illo Illo Illo", # Illojuan
 	"I really love Rustle's work /that/ floor man, that floor", # Reference to hentai artist Rustle
 	"You're winner!", # Big rigs reference
 	"DIVALLER compatible",
 	"Powered by Godot",
-	"Project Heartbeat 72.5",
+	"Project Heartbeat 72.5", # Gerix17 reference
 	"Made with love, from Spain",
 	"↑ ↑ ↓ ↓ ← → ← → X O",
-	"Tim Sweeney seal of approval" # https://twitter.com/TimSweeneyEpic/status/1521687581712429056
+	"Tim Sweeney seal of approval", # https://twitter.com/TimSweeneyEpic/status/1521687581712429056
+	"The <redacted> must stay!", # The loli must stay
+	"Uoooooooh",
+	"EIREXE when multiplayer", # EIREXE hates the MP code
+	"Karen bring back the kids this isn't a joke this is a plead for help please please please",
+	"Que tieso", # Belongins reference
+	"Feliz jueves... no es jue... oh es jueves, es jueves...", # Ironmouse reference
+	"Tontoelquelolea", # Typical spanish
+	"Como que 33?", # Fernando Alonso reference
+	"An offer you can't refuse!", # The godfather reference
+	"kyuuonComfy kyuuonComfy", # Kyuuon reference
+	"I really wish I was born in the middle ages" # i really wish i was born in the middle ages so i could legally fuck and marry my sister - Mephisto
 ]
 
 const BIRTHDAYS = {

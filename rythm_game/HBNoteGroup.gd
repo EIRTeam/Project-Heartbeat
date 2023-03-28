@@ -21,9 +21,6 @@ var game
 
 var current_time_msec := 0
 
-var cached_end_time := -1
-var cached_start_time := -1
-
 # final judgement is the final judgement when judging multiple notes, otherwise it's the same as
 # judgement_infos[0].judgement
 # judgement_target_time is the note's time in the case of normal notes, or end_time in the case of sustains
@@ -278,20 +275,15 @@ func _on_note_finished(note_data: HBBaseNote):
 		finished_notes.append(note_data)
 				
 func get_start_time_msec() -> int:
-	if cached_start_time != -1:
-		return cached_start_time
 	var t := 0
 	if note_datas.size() > 0:
 		t = note_datas[0].time - note_datas[0].get_time_out(game.get_note_speed_at_time(note_datas[0].time))
 		for note_data in note_datas:
 			var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 			t = min(t, note_data.time - time_out)
-	cached_start_time = t
 	return t
 
 func get_end_time_msec() -> int:
-	if cached_end_time != -1:
-		return cached_end_time
 	var t := 0
 	if note_datas.size() > 0:
 		t = note_datas[0].time
@@ -302,7 +294,6 @@ func get_end_time_msec() -> int:
 				if note_data in game.slide_hold_chains:
 					for slide in game.slide_hold_chains[note_data].pieces:
 						t = max(t, slide.time)
-	cached_end_time = t
 	return t
 
 func get_hit_time_msec() -> int:
@@ -334,7 +325,6 @@ func reset_group():
 		if not note_drawer.is_queued_for_deletion():
 			note_drawer.queue_free()
 	note_drawers.clear()
-	cached_end_time = -1
 	last_laser_positions.clear()
 	note_judgement_infos.clear()
 	if laser_renderer:
