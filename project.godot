@@ -2317,6 +2317,30 @@ editor_delete_templates={
 "deadzone": 0.5,
 "events": [  ]
 }
+editor_select_only_notes={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_double_notes={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_sustains={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_sections={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_tempo_changes={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_speed_changes={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

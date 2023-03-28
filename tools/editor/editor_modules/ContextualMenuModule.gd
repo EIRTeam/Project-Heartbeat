@@ -6,9 +6,18 @@ var hovered_time = 0
 
 var button_change_submenu: PopupMenu
 var selection_modifier_submenu: HBEditorContextualMenuControl
+var type_selection_modifier_submenu: HBEditorContextualMenuControl
 
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
+const TYPE_SELECTION_ITEMS = {
+	"notes": "HBBaseNote",
+	"double_notes": "HBDoubleNote",
+	"sustains": "HBSustainNote",
+	"sections": "HBChartSection",
+	"tempo_changes": "HBTimingChange",
+	"speed_changes": "HBBPMChange",
+}
 
 func _ready():
 	for action in [
@@ -17,6 +26,10 @@ func _ready():
 			"select_2nd", "select_3rd", "select_4th",
 			"smooth_bpm",
 		]:
+		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
+	
+	for type in TYPE_SELECTION_ITEMS.keys():
+		var action = "select_only_" + type
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
 	
 	add_shortcut("editor_change_note_up", "change_note_button_by", [-1])
@@ -54,6 +67,18 @@ func set_editor(p_editor):
 	selection_modifier_submenu.add_contextual_item("Select every 2nd note", "select_2nd")
 	selection_modifier_submenu.add_contextual_item("Select every 3rd note", "select_3rd")
 	selection_modifier_submenu.add_contextual_item("Select every 4th note", "select_4th")
+	
+	type_selection_modifier_submenu = HBEditorContextualMenuControl.new()
+	type_selection_modifier_submenu.name = "TypeSelectionModifierSubmenu"
+	type_selection_modifier_submenu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
+	
+	for type in TYPE_SELECTION_ITEMS.keys():
+		var action = "select_only_" + type
+		var text = "Select only " + type.replace("_", " ").capitalize()
+		type_selection_modifier_submenu.add_contextual_item(text, action)
+	
+	selection_modifier_submenu.add_child(type_selection_modifier_submenu)
+	selection_modifier_submenu.add_submenu_item("Select only...", "TypeSelectionModifierSubmenu")
 	
 	contextual_menu.add_child(selection_modifier_submenu)
 	contextual_menu.add_submenu_item("Modify selection", "SelectionModifierSubmenu")
@@ -93,6 +118,11 @@ func update_shortcuts():
 				   "select_2nd", "select_3rd", "select_4th"]:
 		selection_modifier_submenu.set_contextual_item_accelerator(action, get_shortcut_from_action("editor_" + action))
 	
+	for type in TYPE_SELECTION_ITEMS.keys():
+		var action = "select_only_" + type
+		
+		type_selection_modifier_submenu.set_contextual_item_accelerator(action, get_shortcut_from_action("editor_" + action))
+	
 	for i in range(button_change_submenu.get_item_count()):
 		var name = button_change_submenu.get_item_text(i)
 		
@@ -116,7 +146,8 @@ func update_shortcuts():
 
 func _on_contextual_menu_item_pressed(item_name: String):
 	if get_contextual_menu().get_contextual_item_disabled(item_name) and \
-	   selection_modifier_submenu.get_contextual_item_disabled(item_name):
+	   selection_modifier_submenu.get_contextual_item_disabled(item_name) and \
+	   type_selection_modifier_submenu.get_contextual_item_disabled(item_name):
 		return
 	
 	match item_name:
@@ -146,6 +177,10 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			toggle_hold()
 		"smooth_bpm":
 			smooth_bpm()
+	
+	var type_key = item_name.trim_prefix("select_only_")
+	if type_key in TYPE_SELECTION_ITEMS.keys():
+		select_type_subset(TYPE_SELECTION_ITEMS[type_key])
 
 func _on_button_change_submenu_index_pressed(index: int):
 	var new_button = BUTTON_CHANGE_ALLOWED_TYPES[index]
@@ -246,6 +281,16 @@ func _on_contextual_menu_about_to_show():
 	
 	for i in range(button_change_submenu.get_item_count()):
 		button_change_submenu.set_item_disabled(i, disable_all)
+	
+	for item in [
+			"deselect", "shift_selection_left", "shift_selection_right",
+			"select_2nd", "select_3rd", "select_4th",
+		]:
+		selection_modifier_submenu.set_contextual_item_disabled(item, disable_all)
+	
+	for type in TYPE_SELECTION_ITEMS.keys():
+		var action = "select_only_" + type
+		type_selection_modifier_submenu.set_contextual_item_disabled(action, disable_all)
 	
 	if disable_all:
 		return
@@ -648,8 +693,6 @@ func shift_selection_by(by: int):
 	items.sort_custom(self, "_sort_by_data_time")
 	
 	var selected := get_selected()
-	if not selected:
-		return
 	
 	var selected_types := []
 	for item in selected:
@@ -707,6 +750,20 @@ func select_subset(subset: int):
 			continue
 		
 		new_selected.append(selected[i])
+	
+	deselect_all()
+	for item in new_selected:
+		select_item(item, true)
+
+func select_type_subset(type: String):
+	var selected := get_selected()
+	if selected.size() < 1:
+		return
+	
+	var new_selected := []
+	for item in selected:
+		if _is_type_selected(item, [type]):
+			new_selected.append(item)
 	
 	deselect_all()
 	for item in new_selected:
