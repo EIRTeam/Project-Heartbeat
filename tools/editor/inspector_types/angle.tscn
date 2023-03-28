@@ -27,8 +27,7 @@ margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 suffix = "º"
-min = -360.0
-max = 360.0
+min = inf_neg
 script = ExtResource( 3 )
 
 [connection signal="angle_changed" from="AngleEdit" to="." method="_on_angle_changed"]
