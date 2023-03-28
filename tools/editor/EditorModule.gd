@@ -229,5 +229,8 @@ func get_timeline_items() -> Array:
 func sort_groups():
 	editor.sort_groups()
 
+func sort_items():
+	editor.sort_current_items()
+
 func snap_time_to_timeline(time: int):
 	return editor.snap_time_to_timeline(time)

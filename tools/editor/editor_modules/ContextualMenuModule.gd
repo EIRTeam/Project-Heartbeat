@@ -9,6 +9,7 @@ var selection_modifier_submenu: HBEditorContextualMenuControl
 
 const BUTTON_CHANGE_ALLOWED_TYPES = ["UP", "DOWN", "LEFT", "RIGHT", "SLIDE_LEFT", "SLIDE_RIGHT", "HEART"]
 
+
 func _ready():
 	for action in [
 			"make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold",
@@ -114,7 +115,8 @@ func update_shortcuts():
 	contextual_menu.set_contextual_item_accelerator("smooth_bpm", get_shortcut_from_action("editor_smooth_bpm"))
 
 func _on_contextual_menu_item_pressed(item_name: String):
-	if get_contextual_menu().get_contextual_item_disabled(item_name):
+	if get_contextual_menu().get_contextual_item_disabled(item_name) and \
+	   selection_modifier_submenu.get_contextual_item_disabled(item_name):
 		return
 	
 	match item_name:
@@ -628,18 +630,67 @@ func toggle_hold():
 func _sort_by_data_time(a, b):
 	return a.data.time < b.data.time
 
+func _is_type_selected(item, selected_types) -> bool:
+	for _class_name in selected_types:
+		if _class_name in item.data._inheritance or _class_name == item.data._class_name:
+			return true
+	
+	return false
+
+func _get_base_type(item) -> String:
+	if "HBBaseNote" in item.data._inheritance:
+		return "HBBaseNote"
+	
+	return item.data._class_name
+
 func shift_selection_by(by: int):
 	var items := get_timeline_items()
 	items.sort_custom(self, "_sort_by_data_time")
 	
 	var selected := get_selected()
+	if not selected:
+		return
+	
+	var selected_types := []
+	for item in selected:
+		var _class_name = _get_base_type(item)
+		
+		if not _class_name in selected_types:
+			selected_types.append(_class_name)
+	
+	var total := 0.0
+	var div := 0
+	for i in range(1, selected.size()):
+		var diff := get_time_as_eight(selected[i].data.time) - \
+					get_time_as_eight(selected[i - 1].data.time)
+		
+		if diff != 0:
+			total += diff
+			div += 1
+	
+	var max_diff := 9999999999999999999.0
+	if div:
+		max_diff = total / div
 	
 	var new_selected := []
 	for i in range(items.size()):
 		if items[i] in selected:
 			var j = clamp(i + by, 0, items.size() - 1)
+			while not _is_type_selected(items[j], selected_types):
+				if j <= 0:
+					j = 0
+					break
+				if j >= items.size() - 1:
+					j = items.size() - 1
+					break
+				
+				j += by
 			
-			new_selected.append(items[j])
+			var diff := abs(get_time_as_eight(items[i].data.time) - \
+							get_time_as_eight(items[j].data.time))
+			
+			if diff <= max_diff and _is_type_selected(items[j], selected_types):
+				new_selected.append(items[j])
 	
 	deselect_all()
 	for item in new_selected:
@@ -698,9 +749,7 @@ func smooth_bpm():
 	var timeout = HBBaseNote.new().get_time_out(end_bpm)
 	
 	var start_t = speed_change.time - timeout
-	print(start_t)
 	start_t = max(start_t, last_change.time)
-	print(start_t)
 	
 	var cut_off = (start_t == last_change.time)
 	
@@ -760,5 +809,8 @@ func smooth_bpm():
 	
 	undo_redo.add_do_method(self, "timing_points_changed")
 	undo_redo.add_undo_method(self, "timing_points_changed")
+	
+	undo_redo.add_do_method(self, "sort_items")
+	undo_redo.add_undo_method(self, "sort_items")
 	
 	undo_redo.commit_action()
