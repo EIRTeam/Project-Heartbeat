@@ -24,6 +24,7 @@ export(String) var button_group_name = "buttons"
 export(bool) var blocks_switch_to_inspector = false
 
 var transforms: Array
+var _current_transform
 
 func _ready():
 	get_tree().call_group(button_group_name, "set_module", self)
@@ -179,13 +180,18 @@ func get_song_settings():
 
 func show_transform(id: int):
 	emit_signal("show_transform", transforms[id])
+	_current_transform = id
 
 func apply_transform(id: int):
 	emit_signal("apply_transform", transforms[id])
+	
+	if _current_transform:
+		show_transform(_current_transform)
 
 # Having a catchall arg is stupid but we need it for drag_ended pokeKMS
 func hide_transform(catchall = null):
 	emit_signal("hide_transform")
+	_current_transform = null
 
 func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	editor.select_item(item, inclusive)
