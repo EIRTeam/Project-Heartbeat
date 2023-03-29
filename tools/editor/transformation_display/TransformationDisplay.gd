@@ -151,16 +151,19 @@ func _draw_transformation():
 		if i < angle_line_2ds.size():
 			var l2 = angle_line_2ds[i] as Line2D
 			l2.points[0] = note_center_pos
+			
 			var distance = get_transformed_value(note_to_transform, transformation_map, "distance")
-			var p = remap_coords(Vector2(distance, 0))
+			
+			var p = Vector2(distance, 0)
 			p = p.rotated(deg2rad(entry_angle))
 			l2.points[1] = note_center_pos + p
+			
 			l2.default_color = ResourcePackLoader.get_note_trail_color(note_type)
 			l2.default_color.a = 0.75
 			l2.width = 25*get_note_scale()
 			l2.show()
-		# draw sine wave
 		
+		# draw sine wave
 		var sine_color = ResourcePackLoader.get_note_trail_color(note_type)
 		sine_color.a = 0.75
 		
