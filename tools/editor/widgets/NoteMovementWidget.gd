@@ -22,9 +22,16 @@ func set_entry_angle(val):
 
 func set_note_data(val):
 	note_data = val
+	
 	texture_rect.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
+	if note_data.get_serialized_type() == "SustainNote":
+		texture_rect.texture = HBNoteData.get_note_graphic(note_data.note_type ,"sustain_note_target")
+	elif note_data.get_serialized_type() == "DoubleNote":
+		texture_rect.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_note_target")
+	
 	angle_color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	arrange_gizmo()
+
 func _ready():
 	get_viewport().connect("size_changed", self, "_on_resized")
 	_on_resized()
@@ -86,6 +93,7 @@ func _draw():
 		var note_center = rect_size/2
 		var rotated_n_v = Vector2.RIGHT.rotated(entry_angle)
 		draw_line(note_center, note_center + rotated_n_v * 1000, angle_color, 3.0, true)
+	
 	# draw sine wave
 	var sine_color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
 	sine_color.a = 0.75
