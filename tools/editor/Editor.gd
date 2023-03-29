@@ -472,6 +472,12 @@ func _unhandled_input(event: InputEvent):
 							var new_data_ser = data.serialize()
 							
 							new_data_ser["note_type"] = type
+							if data is HBNoteData and data.is_slide_hold_piece():
+								if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+									new_data_ser["note_type"] = HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+								
+								if type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+									new_data_ser["note_type"] = HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 							
 							# Fallbacks when converting illegal note types
 							if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:

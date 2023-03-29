@@ -187,31 +187,40 @@ func _on_button_change_submenu_index_pressed(index: int):
 	change_note_button(new_button)
 		
 func change_note_button(new_button_name):
-	var new_button = HBBaseNote.NOTE_TYPE[new_button_name]
+	var type = HBBaseNote.NOTE_TYPE[new_button_name]
+	
 	var changed_buttons = []
 	if get_selected().size() > 0:
-		undo_redo.create_action("Change note button to " + new_button_name)
+		undo_redo.create_action("Change selected note's type to " + new_button_name)
 		
-		var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, new_button)
-		
+		var layer_name = HBUtils.find_key(HBBaseNote.NOTE_TYPE, type)
 		var new_layer = find_layer_by_name(layer_name)
 		
 		for item in get_selected():
 			var data = item.data as HBBaseNote
 			if not data:
 				continue
+			
 			var new_data_ser = data.serialize()
 			
-			new_data_ser["note_type"] = new_button
+			new_data_ser["note_type"] = type
+			if data is HBNoteData and data.is_slide_hold_piece():
+				if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
+					new_data_ser["note_type"] = HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT
+				
+				if type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+					new_data_ser["note_type"] = HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT
 			
 			# Fallbacks when converting illegal note types
-			if new_button == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or new_button == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
+			if type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT or type == HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
 				new_data_ser["type"] = "Note"
+				new_data_ser["hold"] = false
+			elif type == HBBaseNote.NOTE_TYPE.HEART:
+				new_data_ser["hold"] = false
 			
-			if new_button == HBBaseNote.NOTE_TYPE.HEART:
-				if new_data_ser["type"] == "SustainNote":
-					new_data_ser["type"] = "Note"
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
+			
+			new_data.set_meta("second_layer", layer_name.ends_with("2"))
 			
 			var new_item = new_data.get_timeline_item()
 			
@@ -242,6 +251,7 @@ func change_note_type(new_type: String):
 		for item in get_selected():
 			var data = item.data as HBBaseNote
 			var new_data_ser = data.serialize()
+			
 			new_data_ser["type"] = new_type
 			
 			if new_type == "SustainNote":
