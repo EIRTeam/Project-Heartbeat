@@ -42,6 +42,7 @@ margin_right = 1920.0
 margin_bottom = 42.0
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3" groups=["disabled_ui"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 885.0
 margin_top = 46.0
 margin_right = 1035.0
@@ -50,6 +51,7 @@ rect_min_size = Vector2( 150, 150 )
 hint_tooltip = "Select a file to import."
 size_flags_horizontal = 4
 icon = ExtResource( 1 )
+flat = true
 expand_icon = true
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="4"]
@@ -66,6 +68,7 @@ margin_bottom = 238.0
 
 [node name="AdvancedOptionsButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
 unique_name_in_owner = true
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 24.0
 margin_bottom = 20.0
 icon = ExtResource( 5 )
@@ -152,9 +155,9 @@ text = "Replace chart"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
 visible = false
-margin_top = 170.0
+margin_top = 242.0
 margin_right = 1920.0
-margin_bottom = 293.0
+margin_bottom = 365.0
 
 [node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="0"]
 margin_right = 1920.0
@@ -169,10 +172,12 @@ be deleted."
 align = 1
 
 [node name="Button" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="1"]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_top = 103.0
 margin_right = 1920.0
 margin_bottom = 123.0
 text = "Accept"
+flat = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 

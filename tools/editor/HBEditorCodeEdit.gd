@@ -727,7 +727,7 @@ const CONTROL_FLOW_COLOR := Color("#F989C9")
 const CLASS_COLOR := Color("#7FE0C3")
 const TYPE_COLOR := Color("#41F8BD")
 const ENUM_COLOR := Color("#F88868")
-const STRING_COLOR := Color("#E7D795")
+const STRING_COLOR := Color("#23272A")
 const COMMENT_COLOR := Color("#666A74")
 
 const FONT_LICENSE := """

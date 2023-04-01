@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://menus/visualizer/Visualizer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=2]
@@ -42,7 +42,10 @@
 [ext_resource path="res://rythm_game/VideoPlayerOffset.gd" type="Script" id=51]
 
 [sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.2, 0.231373, 0.309804, 1 )
+bg_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.6, 0.666667, 0.709804, 1 )
 
 [sub_resource type="DynamicFont" id=11]
 size = 17
@@ -52,8 +55,11 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 8 )
 
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.6, 0.666667, 0.709804, 1 )
+
 [sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.14902, 0.172549, 0.231373, 1 )
+bg_color = Color( 1, 1, 1, 1 )
 border_width_top = 1
 border_color = Color( 0.541176, 0.541176, 0.541176, 1 )
 
@@ -68,9 +74,9 @@ script = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+custom_constants/separation = 0
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0.25 )
 margin_right = 1920.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -109,12 +115,14 @@ __meta__ = {
 }
 
 [node name="ExitButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer"]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 20.0
 margin_bottom = 25.0
 icon = ExtResource( 18 )
 flat = true
 
 [node name="OpenButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 25.0
@@ -125,6 +133,7 @@ script = ExtResource( 22 )
 action = "editor_open"
 
 [node name="SaveButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 56.0
 margin_right = 84.0
 margin_bottom = 25.0
@@ -136,6 +145,7 @@ script = ExtResource( 22 )
 action = "editor_save"
 
 [node name="SaveAsButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 88.0
 margin_right = 116.0
 margin_bottom = 25.0
@@ -160,20 +170,24 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="PlaytestButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 716.0
 margin_right = 744.0
 margin_bottom = 25.0
 hint_tooltip = "Play the chart"
 icon = ExtResource( 17 )
+flat = true
 script = ExtResource( 22 )
 action = "editor_playtest"
 
 [node name="PlaytestAtTimeButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 748.0
 margin_right = 776.0
 margin_bottom = 25.0
 hint_tooltip = "Play the chart from the current time"
 icon = ExtResource( 26 )
+flat = true
 script = ExtResource( 22 )
 action = "editor_playtest_at_time"
 
@@ -186,6 +200,7 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 788.0
 margin_right = 816.0
 margin_bottom = 25.0
@@ -197,6 +212,7 @@ action = "editor_play"
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 visible = false
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 1035.0
 margin_right = 1063.0
 margin_bottom = 25.0
@@ -215,6 +231,7 @@ __meta__ = {
 }
 
 [node name="EditorHelpButton" type="MenuButton" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 828.0
 margin_right = 856.0
 margin_bottom = 25.0
@@ -224,6 +241,7 @@ items = [ "Editor manual", null, 0, false, false, 0, 0, null, "", false, "Commun
 
 [node name="EditorSettingsPopupButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
 unique_name_in_owner = true
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 860.0
 margin_right = 888.0
 margin_bottom = 25.0
@@ -235,13 +253,14 @@ action = "editor_settings"
 
 [node name="SexButton" type="Button" parent="VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer" groups=["extended_disabled_ui"]]
 visible = false
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 914.0
 margin_right = 948.0
 margin_bottom = 25.0
 text = "Sex"
 
 [node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer"]
-margin_top = 54.0
+margin_top = 50.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 size_flags_horizontal = 3
@@ -249,22 +268,27 @@ size_flags_vertical = 3
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/VSplitContainer"]
 margin_right = 1920.0
-margin_bottom = 680.0
+margin_bottom = 682.0
 size_flags_vertical = 3
 split_offset = 320
 
 [node name="Control" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer"]
 margin_right = 320.0
-margin_bottom = 680.0
+margin_bottom = 682.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
-[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control"]
-self_modulate = Color( 1, 1, 1, 0.5 )
+[node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 14 )
+
+[node name="LeftTabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/Control/Panel"]
+unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.33484
-margin_bottom = -1.33484
+margin_bottom = 0.665161
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 tab_align = 0
@@ -272,13 +296,13 @@ tab_align = 0
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer"]
 margin_left = 328.0
 margin_right = 1920.0
-margin_bottom = 680.0
+margin_bottom = 682.0
 size_flags_horizontal = 3
 split_offset = -250
 
 [node name="Preview" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer"]
 margin_right = 1334.0
-margin_bottom = 680.0
+margin_bottom = 682.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
@@ -343,9 +367,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -1.00006
 theme = ExtResource( 4 )
+alignment = 1
 
 [node name="WaveformButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_right = 28.0
+margin_left = 3.0
+margin_right = 31.0
 margin_bottom = 26.0
 hint_tooltip = "Toggle waveform"
 toggle_mode = true
@@ -355,8 +381,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_waveform"
 
 [node name="SfxButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 32.0
-margin_right = 60.0
+margin_left = 35.0
+margin_right = 63.0
 margin_bottom = 26.0
 hint_tooltip = "Toggle hitsound sfx"
 toggle_mode = true
@@ -368,8 +394,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_sfx"
 
 [node name="ShowBGButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 64.0
-margin_right = 92.0
+margin_left = 67.0
+margin_right = 95.0
 margin_bottom = 26.0
 hint_tooltip = "Show background image"
 toggle_mode = true
@@ -380,8 +406,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_bg"
 
 [node name="ShowVideoButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 96.0
-margin_right = 124.0
+margin_left = 99.0
+margin_right = 127.0
 margin_bottom = 26.0
 hint_tooltip = "Show video"
 toggle_mode = true
@@ -392,8 +418,8 @@ script = ExtResource( 22 )
 action = "editor_toggle_video"
 
 [node name="ShowGridbutton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 128.0
-margin_right = 156.0
+margin_left = 131.0
+margin_right = 159.0
 margin_bottom = 26.0
 hint_tooltip = "Show grid"
 toggle_mode = true
@@ -404,8 +430,8 @@ script = ExtResource( 22 )
 action = "editor_grid"
 
 [node name="GridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
-margin_left = 160.0
-margin_right = 188.0
+margin_left = 163.0
+margin_right = 191.0
 margin_bottom = 26.0
 hint_tooltip = "Snap to grid"
 toggle_mode = true
@@ -416,14 +442,15 @@ script = ExtResource( 22 )
 action = "editor_grid_snap"
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 192.0
-margin_right = 210.0
+margin_left = 195.0
+margin_right = 213.0
 margin_bottom = 25.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "x:"
 
 [node name="SpinBox" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui"]]
-margin_left = 214.0
-margin_right = 278.0
+margin_left = 217.0
+margin_right = 281.0
 margin_bottom = 26.0
 min_value = 1.0
 max_value = 368.0
@@ -435,14 +462,15 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer"]
-margin_left = 282.0
-margin_right = 300.0
+margin_left = 285.0
+margin_right = 303.0
 margin_bottom = 25.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "y:"
 
 [node name="SpinBox2" type="SpinBox" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer" groups=["extended_disabled_ui"]]
-margin_left = 304.0
-margin_right = 368.0
+margin_left = 307.0
+margin_right = 371.0
 margin_bottom = 26.0
 min_value = 1.0
 max_value = 368.0
@@ -483,16 +511,23 @@ font = SubResource( 11 )
 [node name="Control2" type="Control" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer"]
 margin_left = 1342.0
 margin_right = 1592.0
-margin_bottom = 680.0
+margin_bottom = 682.0
 size_flags_stretch_ratio = 0.3
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2"]
-self_modulate = Color( 1, 1, 1, 0.5 )
+[node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="RightTabContainer" type="TabContainer" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/Panel"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 2.0
 tab_align = 0
 
-[node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer" instance=ExtResource( 31 )]
+[node name="Inspector" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/Panel/RightTabContainer" instance=ExtResource( 31 )]
+unique_name_in_owner = true
 margin_left = 5.0
 margin_top = 37.0
 margin_right = -5.0
@@ -503,9 +538,9 @@ size_flags_stretch_ratio = 0.3
 
 [node name="EditorTimelineContainer" type="Panel" parent="VBoxContainer/VSplitContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 688.0
+margin_top = 690.0
 margin_right = 1920.0
-margin_bottom = 1026.0
+margin_bottom = 1030.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 __meta__ = {
@@ -522,14 +557,14 @@ self_modulate = Color( 1, 1, 1, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1920.0
-margin_bottom = 303.0
+margin_bottom = 305.0
 rect_min_size = Vector2( 0, 0 )
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer"]
-margin_top = 303.0
+margin_top = 305.0
 margin_right = 1920.0
-margin_bottom = 338.0
+margin_bottom = 340.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
@@ -551,6 +586,7 @@ __meta__ = {
 }
 
 [node name="LayerVisibilityButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 28.0
 margin_bottom = 35.0
 hint_tooltip = "Edit Layer visibility."
@@ -565,6 +601,7 @@ margin_right = 36.0
 margin_bottom = 35.0
 
 [node name="TimelineGridSnapButton" type="Button" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer" groups=["extended_disabled_ui", "update_shortcuts"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 40.0
 margin_right = 68.0
 margin_bottom = 35.0
@@ -593,6 +630,7 @@ margin_right = 260.0
 margin_bottom = 35.0
 
 [node name="PlaybackSpeedSlider" type="HSlider" parent="VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 264.0
 margin_right = 464.0
 margin_bottom = 35.0

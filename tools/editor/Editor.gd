@@ -21,7 +21,7 @@ onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineCon
 onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/RhythmGame")
 onready var game_preview = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview")
 onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
-onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
+onready var inspector = get_node("%Inspector")
 onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
 onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
 onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
@@ -41,7 +41,7 @@ onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitCon
 onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
 onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
 onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
-onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
+onready var left_tab_container = get_node("%LeftTabContainer")
 onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
 onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
 onready var settings_editor = get_node("%EditorGlobalSettings")
@@ -49,7 +49,7 @@ onready var song_settings_editor = get_node("%EditorGlobalSettings").song_settin
 onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
 onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
 onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
-onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
+onready var right_tab_container = get_node("%RightTabContainer")
 onready var contextual_menu = get_node("%ContextualMenu")
 onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
 onready var no_timing_map_dialog = get_node("%NoTimingMapDialog")
@@ -87,8 +87,8 @@ var hold_sizes := {}
 var timing_point_creation_queue := []
 
 var ui_module_locations = {
-	"left_panel": "VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2",
-	"right_panel": "VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer",
+	"left_panel": "%LeftTabContainer",
+	"right_panel": "%RightTabContainer",
 }
 
 var modules := []
@@ -604,9 +604,9 @@ func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	inspector.inspect(selected)
 	notify_selected_changed()
 	
-	var current_module = right_panel.get_current_tab_control()
-	if right_panel.current_tab != 0 and not current_module.blocks_switch_to_inspector:
-		right_panel.current_tab = 0
+	var current_module = right_tab_container.get_current_tab_control()
+	if right_tab_container.current_tab != 0 and not current_module.blocks_switch_to_inspector:
+		right_tab_container.current_tab = 0
 
 func select_all():
 	if selected.size() > 0:
@@ -623,7 +623,7 @@ func select_all():
 			item.select()
 	
 	selected.sort_custom(self, "_sort_current_items_impl")
-	right_panel.current_tab = 0
+	right_tab_container.current_tab = 0
 	inspector.inspect(selected)
 	release_owned_focus()
 	notify_selected_changed()
@@ -2219,9 +2219,9 @@ func hold_calculator_toggled():
 
 func _on_left_HSplitContainer_dragged(offset: int):
 	if offset < 20:
-		toolbox_tab_container.visible = false
+		left_tab_container.visible = false
 	else:
-		toolbox_tab_container.visible = true
+		left_tab_container.visible = true
 	
 	UserSettings.user_settings.editor_left_panel_offset = offset
 	UserSettings.save_user_settings()
@@ -2374,12 +2374,12 @@ func _on_SaveConfirmationDialog_confirmed():
 
 func guide_user_to_timing_changes():
 	var idx := 0
-	for i in right_panel.get_child_count():
-		if right_panel.get_child(i) == sync_module:
+	for i in right_tab_container.get_child_count():
+		if right_tab_container.get_child(i) == sync_module:
 			idx = i
 			break
 	
-	right_panel.current_tab = idx
+	right_tab_container.current_tab = idx
 	sync_module.create_timing_change_button.button.grab_focus()
 
 func keep_settings_button_enabled():

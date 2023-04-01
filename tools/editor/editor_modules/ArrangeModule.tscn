@@ -157,6 +157,7 @@ value = 16.0
 script = ExtResource( 4 )
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1" groups=["disabled_ui"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 112.0
 margin_right = 1908.0
 margin_bottom = 16.0
@@ -387,6 +388,7 @@ suffix = "º"
 script = ExtResource( 4 )
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
+self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 122.0
 margin_right = 1908.0
 margin_bottom = 16.0

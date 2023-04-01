@@ -20,9 +20,10 @@ func _ready():
 func set_style(use_lighter: bool):
 	var stylebox = get_stylebox("panel")
 	if use_lighter:
-		stylebox.bg_color = Color("#2D3444")
+		stylebox.bg_color = Color("#7289DA")
 	else:
-		stylebox.bg_color = Color("#252b38")
+		stylebox.bg_color = Color("#4E59D4")
+
 func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 	return (a.data.time) < (b.data.time)
 

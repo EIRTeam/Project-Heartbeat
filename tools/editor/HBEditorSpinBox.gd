@@ -5,6 +5,9 @@ class_name HBEditorSpinBox
 signal input_accepted
 signal input_rejected
 
+func _ready():
+	self_modulate = Color("#23272A")
+
 func _input(event):
 	if event.is_action_pressed("gui_accept") or event.is_action_pressed("gui_cancel"):
 		if get_focus_owner() == get_line_edit():
