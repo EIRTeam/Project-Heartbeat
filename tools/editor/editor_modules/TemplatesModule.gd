@@ -7,6 +7,7 @@ onready var create_template_button: HBEditorButton = get_node("%CreateTemplateBu
 onready var template_name_confirmation_dialog: ConfirmationDialog = get_node("%TemplateNameConfirmationDialog")
 onready var template_name_line_edit: HBEditorLineEdit = get_node("%TemplateNameLineEdit")
 onready var save_all_checkbox: CheckBox = get_node("%SaveAllCheckBox")
+onready var autohide_checkbox: CheckBox = get_node("%AutoHideCheckBox")
 onready var template_deletion_confirmation_dialog: ConfirmationDialog = get_node("%TemplateDeletionConfirmationDialog")
 onready var template_deletion_tree: Tree = get_node("%TemplateDeletionTree")
 onready var really_delete_confirmation_dialog: ConfirmationDialog = get_node("%ReallyReallyDeleteConfirmationDialog")
@@ -14,6 +15,7 @@ onready var really_delete_confirmation_dialog: ConfirmationDialog = get_node("%R
 onready var default_templates = preload("res://tools/editor/editor_modules/TemplatesModule/DefaultTemplates.gd").new()
 
 var templates := []
+var buttons := []
 
 func _ready():
 	template_deletion_confirmation_dialog.get_ok().set_text("Delete")
@@ -116,6 +118,7 @@ func update_templates():
 	
 	transforms.clear()
 	template_deletion_tree.clear()
+	buttons.clear()
 	
 	var root = template_deletion_tree.create_item()
 	
@@ -134,7 +137,10 @@ func update_templates():
 		button.connect("mouse_exited", self, "hide_transform")
 		button.connect("pressed", self, "apply_transform", [transform_idx])
 		
+		button.set_meta("template", template)
+		
 		templates_container.add_child(button)
+		buttons.append(button)
 		
 		var item = template_deletion_tree.create_item(root)
 		
@@ -143,8 +149,41 @@ func update_templates():
 		item.set_text(0, template.name)
 		
 		item.set_meta("filename", template.filename)
+	
+	update_visibility()
+
+func update_visibility():
+	var types_at_times := {}
+	for item in get_selected():
+		var time = item.data.time
+		if not time in types_at_times:
+			types_at_times[time] = []
+		
+		types_at_times[time].append(item.data.note_type)
+	
+	var common_types := []
+	for type in HBBaseNote.NOTE_TYPE.values():
+		var found_in_all := true
+		
+		for types in types_at_times.values():
+			if not type in types:
+				found_in_all = false
+				
+				break
+		
+		if found_in_all:
+			common_types.append(type)
+	
+	for button in buttons:
+		var template = button.get_meta("template")
+		
+		button.visible = true
+		if template.autohide and not template.are_types_valid(common_types):
+			button.visible = false
 
 func update_selected():
+	update_visibility()
+	
 	if not get_selected():
 		create_template_button.set_disabled(true)
 		return
@@ -161,6 +200,7 @@ func create_template():
 	var selected := get_selected()
 	var template := template_from_note_array(selected, save_all_checkbox.pressed)
 	template.name = template_name_line_edit.text if template_name_line_edit.text else "New Template"
+	template.autohide = autohide_checkbox.pressed
 	
 	var result = template.save()
 	if result == ERR_ALREADY_EXISTS:

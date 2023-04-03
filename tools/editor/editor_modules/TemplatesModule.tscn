@@ -107,8 +107,9 @@ action = "editor_delete_templates"
 
 [node name="TemplateNameConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="0"]
 unique_name_in_owner = true
+visible = true
 margin_right = 254.0
-margin_bottom = 122.0
+margin_bottom = 151.0
 theme = ExtResource( 4 )
 window_title = "Create Template"
 dialog_text = "Please input a name for the template:"
@@ -120,11 +121,11 @@ anchor_bottom = 0.529
 margin_left = 8.0
 margin_top = 33.0
 margin_right = -8.0
-margin_bottom = 22.462
+margin_bottom = 36.121
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer" index="0"]
 margin_right = 238.0
-margin_bottom = 54.0
+margin_bottom = 83.0
 alignment = 1
 
 [node name="TemplateNameLineEdit" type="LineEdit" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="0"]
@@ -146,6 +147,14 @@ Disable this for templates which
 only modify certain properties."
 pressed = true
 text = "Save all properties"
+
+[node name="AutoHideCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+margin_top = 58.0
+margin_right = 238.0
+margin_bottom = 83.0
+hint_tooltip = "If enabled, this template will be hidden unless the notes selected have the exact same type than the originals."
+text = "Automatically hide template"
 
 [node name="TemplateDeletionConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="1"]
 unique_name_in_owner = true

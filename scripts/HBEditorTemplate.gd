@@ -8,6 +8,7 @@ var name := "New Template"
 var filename := "new_template.json" # Internal, not serialized
 
 var saved_properties := []
+var autohide := false
 
 # Ugly hack to get clean de/serialization
 # Im sorry, me
@@ -23,7 +24,7 @@ var heart_template: HBBaseNote
 
 func _init():
 	serializable_fields += [
-		"name", "saved_properties",
+		"name", "saved_properties", "autohide",
 		"up_template", "down_template", "left_template", "right_template", 
 		"slide_left_template", "slide_right_template", "slide_chain_left_template", "slide_chain_right_template", 
 		"heart_template",
@@ -126,3 +127,10 @@ func get_transform() -> EditorTransformationTemplate:
 	transform.template = self
 	
 	return transform
+
+func are_types_valid(types: Array) -> bool:
+	for type in HBBaseNote.NOTE_TYPE.values():
+		if has_type_template(type) != (type in types):
+			return false
+	
+	return true

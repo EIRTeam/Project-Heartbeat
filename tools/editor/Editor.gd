@@ -571,12 +571,21 @@ func scale_msec(msec: int) -> float:
 func scale_pixels(pixels: float) -> float:
 	return (pixels * scale / 500) * 1000.0
 
+var selected_changed := false
 func notify_selected_changed():
+	if not selected_changed:
+		call_deferred("_notify_selected_changed_impl")
+		
+		selected_changed = true
+
+func _notify_selected_changed_impl():
 	info_label.text = "Timing points %d/%d" % [selected.size(), current_notes.size()]
 	timeline.update_selected()
 	
 	for module in modules:
 		module.update_selected()
+	
+	selected_changed = false
 
 func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	if inclusive:
