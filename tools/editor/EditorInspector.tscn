@@ -48,7 +48,6 @@ margin_right = 1900.0
 margin_bottom = 25.0
 
 [node name="CopyIcon" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 28.0
 margin_bottom = 25.0
 hint_tooltip = "Copies the selected note's properties (except time)"
@@ -56,7 +55,6 @@ icon = ExtResource( 4 )
 flat = true
 
 [node name="PasteIcon" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 25.0

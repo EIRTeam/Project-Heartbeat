@@ -84,8 +84,6 @@ func set_tooltip(new_tooltip):
 func set_texture(new_texture):
 	texture = new_texture
 	button.icon = new_texture
-	button.modulate = Color("#23272C")
-	button.flat = true
 
 func set_disabled(disabled: bool):
 	button.disabled = disabled

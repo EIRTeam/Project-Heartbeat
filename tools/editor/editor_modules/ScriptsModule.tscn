@@ -36,7 +36,6 @@ align = 1
 
 [node name="ScriptRunnerTree" type="Tree" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_top = 18.0
 margin_right = 1920.0
 margin_bottom = 908.0
@@ -47,7 +46,6 @@ script = ExtResource( 13 )
 
 [node name="ScriptManagerButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 885.0
 margin_top = 912.0
 margin_right = 1035.0
@@ -56,7 +54,6 @@ rect_min_size = Vector2( 150, 150 )
 hint_tooltip = "Open the script manager."
 size_flags_horizontal = 4
 icon = ExtResource( 11 )
-flat = true
 expand_icon = true
 script = ExtResource( 8 )
 action = "editor_open_script_manager"
@@ -99,7 +96,6 @@ size_flags_horizontal = 3
 
 [node name="SaveButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" groups=["prevent_focus"]]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 28.0
 margin_bottom = 25.0
 hint_tooltip = "Save this script"
@@ -110,7 +106,6 @@ action = "editor_save"
 
 [node name="SaveAsButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" groups=["prevent_focus"]]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 25.0
@@ -122,7 +117,6 @@ action = "editor_save_as"
 
 [node name="NewFileButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="2" groups=["prevent_focus"]]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 25.0
@@ -134,7 +128,6 @@ action = "editor_new_script"
 
 [node name="OpenDirButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="3" groups=["prevent_focus"]]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_left = 96.0
 margin_right = 124.0
 margin_bottom = 25.0
@@ -179,7 +172,6 @@ size_flags_vertical = 3
 
 [node name="FileTree" type="Tree" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" groups=["prevent_focus"]]
 unique_name_in_owner = true
-self_modulate = Color( 0.137255, 0.152941, 0.164706, 1 )
 margin_right = 278.0
 margin_bottom = 571.0
 size_flags_horizontal = 3

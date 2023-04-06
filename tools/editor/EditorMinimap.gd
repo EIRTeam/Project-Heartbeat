@@ -109,12 +109,12 @@ func draw_layer_line(x_pos, y_pos, layer_i, section):
 	var color = section.color if section else null
 	if fmod(layer_i, 2) == 1:
 		if not color:
-			color = Color("#7289DA")
+			color = Color("#252b38")
 		else:
 			color = color.darkened(0.4)
 	else:
 		if not color:
-			color = Color("#4E5D94")
+			color = Color("#2D3444")
 		else:
 			color = color.darkened(0.3)
 	

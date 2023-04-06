@@ -5,7 +5,7 @@
 
 [sub_resource type="StyleBoxFlat" id=1]
 resource_local_to_scene = true
-bg_color = Color( 0.6, 0.666667, 0.709804, 1 )
+bg_color = Color( 0.145098, 0.168627, 0.219608, 1 )
 border_width_bottom = 1
 border_color = Color( 1, 1, 1, 0.25098 )
 
@@ -16,6 +16,9 @@ rect_min_size = Vector2( 50, 35 )
 mouse_filter = 1
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="EditorTimelinePreview" parent="." instance=ExtResource( 2 )]
 margin_bottom = 25.0
