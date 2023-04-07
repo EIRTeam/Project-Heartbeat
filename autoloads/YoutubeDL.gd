@@ -28,6 +28,7 @@ signal video_downloaded(id, result)
 signal song_cached(song)
 signal song_queued(song)
 signal song_download_start(song)
+signal song_caching_failed(song)
 
 var cache_meta_mutex = Mutex.new()
 var cache_meta: Dictionary = {
@@ -69,6 +70,7 @@ class CachingQueueEntry:
 	var current_process: Process
 	var aborted := false
 	var thread: Thread
+	signal download_progress_changed(download_progress, download_speed)
 
 	func abort_download():
 		mutex.lock()
@@ -82,16 +84,18 @@ class CachingQueueEntry:
 		
 		while process.get_available_stdout_lines() > 0:
 			lines.append(process.get_stdout_line())
-			
+		var progress_changed = false
 		for i in range(lines.size()-1, -1, -1):
 			var line := lines[i] as String
 			if line.begins_with("PHD:"):
-				var regex_out := YoutubeDL.DOWNLOAD_REGEX.search(line) as RegExMatch
-				if regex_out:
-					var downloaded_bytes := regex_out.get_string(1).to_int()
-					var total_bytes := regex_out.get_string(2).to_int()
-					var total_bytes_estimate := regex_out.get_string(3).to_int()
-					var speed := regex_out.get_string(4).to_int()
+				var l := line.substr(4)
+				l = l.strip_edges()
+				var s := l.split("-")
+				if s.size() == 4:
+					var downloaded_bytes := s[0].to_int()
+					var total_bytes := s[1].to_int()
+					var total_bytes_estimate := s[2].to_int()
+					var speed := s[3].to_int()
 					if total_bytes == 0:
 						# Guard against dividing by 0
 						total_bytes = max(total_bytes_estimate, 1)
@@ -100,6 +104,9 @@ class CachingQueueEntry:
 					download_size = total_bytes
 					download_speed = speed
 					mutex.unlock()
+					progress_changed = true
+		if progress_changed:
+			call_deferred("emit_signal", "download_progress_changed", download_progress, download_speed)
 
 func _init():
 	var compile_out := DOWNLOAD_REGEX.compile("PHD:([0-9]+)-([0-9]+)-([0-9]+)-([0-9]*\\.[0-9]+)")
@@ -292,7 +299,6 @@ func get_ytdl_shared_params(handle_temp_files := false):
 		"--force-ipv4",
 		"--compat-options", "youtube-dl",
 		"--no-part",
-		#"--limit-rate", "4M",
 		"--newline",
 		"--output-na-placeholder", "0",
 		"--progress-template", "PHD:%(progress.downloaded_bytes)s-%(progress.total_bytes)s-%(progress.total_bytes_estimate)s-%(progress.speed)s",
@@ -482,7 +488,8 @@ func show_error(output: String, message: String, song: HBSong):
 	Log.log(self, message.format({"song_title": song.get_visible_title(), "error_message": output}), Log.LogLevel.ERROR)
 	
 func _video_downloaded(thread: Thread, result):
-	thread.wait_to_finish()
+	if thread:
+		thread.wait_to_finish()
 
 	if not result.video_id in tracked_video_downloads:
 		return
@@ -516,6 +523,8 @@ func _video_downloaded(thread: Thread, result):
 	if not has_error:
 		song.emit_signal("song_cached")
 		emit_signal("song_cached", song)
+	else:
+		emit_signal("song_caching_failed", song)
 	process_queue()
 	emit_signal("video_downloaded",  result.video_id, result)
 	save_cache()
@@ -543,7 +552,6 @@ func download_video(entry: CachingQueueEntry):
 		Log.log(self, "Error parsing youtube url: " + url)
 		return ERR_FILE_NOT_FOUND
 		
-	video_ids_being_cached.append(video_id)
 	# Videos may still be downloaded if they are not on disk
 	if video_id in cache_meta.cache:
 		var all_found = true
@@ -560,12 +568,13 @@ func download_video(entry: CachingQueueEntry):
 				# No need to download what we already have
 				download_video = false
 		if all_found:
-			Log.log(self, "Already cached, no need to download again")
+			Log.log(self, "Already cached, no need to download again! (%s)" % [video_id])
 			emit_signal("video_downloaded", video_id, {})
 			if video_id in tracked_video_downloads:
 				DownloadProgress.remove_notification(tracked_video_downloads[video_id].progress_thing, true)
 				tracked_video_downloads.erase(video_id)
-			return
+			return ERR_ALREADY_EXISTS
+	video_ids_being_cached.append(video_id)
 	emit_signal("song_download_start", song)
 	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry})
 	entry.thread = thread
@@ -622,37 +631,54 @@ func cache_song(song: HBSong, variant := -1):
 		progress_thing.life_timer = 2.0
 		progress_thing.text = "Downloading media for %s failed: Invalid URL" % [song.get_visible_title()]
 
-func process_queue():
+func process_queue(offset := 0):
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
 		yield(self, "youtube_dl_status_updated")
-	if caching_queue.size() > 0:
+	if caching_queue.size() > offset:
 		if tracked_video_downloads.size() >= UserSettings.user_settings.max_simultaneous_media_downloads:
 			return
-		var entry = caching_queue[0]
+		var entry = caching_queue[offset]
+		
+		var song := entry.song as HBSong
+		var variant = song.get_variant_data(entry.variant)
+		
 		if YoutubeDL.status == YoutubeDL.YOUTUBE_DL_STATUS.READY:
-			var song := entry.song as HBSong
-			var variant = song.get_variant_data(entry.variant)
 			var video_id = entry.video_id
-			if not video_id in video_ids_being_cached:
-				var result = download_video(entry)
-				if not video_id in tracked_video_downloads:
-					var progress_thing = PROGRESS_THING.instance()
-					DownloadProgress.add_notification(progress_thing)
-					progress_thing.spinning = true
-					progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
-					progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
-					if entry.variant != -1:
-						progress_thing.text += " (%s)" % [variant.variant_name]
-					tracked_video_downloads[video_id] = {
-						"progress_thing": progress_thing,
-						"song": song,
-						"entry": entry,
-						"video_id": video_id
-					}
-					caching_queue.remove(0)
-					emit_signal("song_queued", entry)
-					if tracked_video_downloads.size() < UserSettings.user_settings.max_simultaneous_media_downloads:
-						process_queue()
+			if video_id in video_ids_being_cached:
+				process_queue(offset+1)
+				return
+			var result = download_video(entry)
+			if result == ERR_ALREADY_EXISTS:
+				caching_queue.remove(offset)
+				var progress_thing = PROGRESS_THING.instance()
+				DownloadProgress.add_notification(progress_thing, true)
+				progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
+				progress_thing.text = "Finished downloading media for %s (Already downloaded)." % [song.get_visible_title()]
+				progress_thing.life_timer = 5.0
+				emit_signal("song_cached", entry)
+				process_queue(offset)
+				return
+			if video_id in tracked_video_downloads:
+				process_queue(offset+1)
+				return
+			
+			var progress_thing = PROGRESS_THING.instance()
+			DownloadProgress.add_notification(progress_thing)
+			progress_thing.spinning = true
+			progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
+			progress_thing.text = "Downloading media for %s" % [song.get_visible_title()]
+			if entry.variant != -1:
+				progress_thing.text += " (%s)" % [variant.variant_name]
+			tracked_video_downloads[video_id] = {
+				"progress_thing": progress_thing,
+				"song": song,
+				"entry": entry,
+				"video_id": video_id
+			}
+			caching_queue.remove(offset)
+			emit_signal("song_queued", entry)
+			if tracked_video_downloads.size() < UserSettings.user_settings.max_simultaneous_media_downloads:
+				process_queue(offset)
 func _process(delta):
 	for video_id in tracked_video_downloads:
 		var entry := tracked_video_downloads[video_id].entry as CachingQueueEntry
@@ -692,6 +718,7 @@ func _process(delta):
 					format_info["speed"] = tr(" at %s/s" % ["".humanize_size(download_speed)])
 				var dl_str := tr("Downloading {download_type} for {song_title} ({percentage}{size}{speed})").format(format_info)
 				progress_thing.text = dl_str
+				progress_thing.set_progress(progress_percentage)
 		tracked_video_downloads[video_id]["last_caching_stage"] = stage
 func is_already_downloading(song, variant := -1):
 	var in_queue = false

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://autoloads/DownloadProgressThing.gd" type="Script" id=1]
 [ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://graphics/check.svg" type="Texture" id=3]
 [ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 77.0
@@ -37,6 +38,7 @@ corner_radius_bottom_left = 1024
 [node name="HBoxContainer" type="Control"]
 margin_right = 70.0
 margin_bottom = 70.0
+theme = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -46,7 +48,7 @@ easing = 0.392293
 [node name="Panel" type="Panel" parent="."]
 margin_left = 45.0
 margin_top = 18.0
-margin_right = 307.0
+margin_right = 295.0
 margin_bottom = 52.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
@@ -65,6 +67,15 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_type_variation = "DownloadProgressThingProgressBar"
+max_value = 1.0
+step = 0.0
+percent_visible = false
 
 [node name="Control" type="Panel" parent="."]
 margin_right = 70.0
@@ -85,6 +96,3 @@ margin_bottom = -10.0
 rect_pivot_offset = Vector2( 25, 25 )
 texture = ExtResource( 3 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}

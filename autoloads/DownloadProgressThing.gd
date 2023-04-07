@@ -10,6 +10,7 @@ onready var label = get_node("Panel/Label")
 onready var panel = get_node("Panel")
 onready var icon_panel = get_node("Control")
 onready var icon_texture_rect = get_node("Control/TextureRect")
+onready var progress_bar = get_node("%ProgressBar")
 export(float, EASE) var easing
 signal disappear
 func set_spinning(val):
@@ -128,14 +129,13 @@ func appear(to_offset: float):
 	appear_t = 0.0
 	rect_position = Vector2(MARGIN.x, get_parent().rect_size.y)
 	move_to_offset(to_offset)
-func _quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float):
-	var q0 = p0.linear_interpolate(p1, t)
-	var q1 = p1.linear_interpolate(p2, t)
-	var r = q0.linear_interpolate(q1, t)
-	return r
+
 func disappear():
 	move_time = 1.5
 	move_to_offset(target_offset+50)
 	opacity_t_sign = -1.0
 	disappearing = true
 	emit_signal("disappear")
+
+func set_progress(val: float):
+	progress_bar.value = val

@@ -15,6 +15,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	YoutubeDL.connect("song_cached", self, "_on_song_cached")
 	YoutubeDL.connect("song_queued", self, "_on_song_queued")
 	YoutubeDL.connect("song_download_start", self, "_on_song_download_start")
+	YoutubeDL.connect("song_caching_failed", self, "_on_song_caching_failed")
 	
 	populate()
 	
@@ -66,6 +67,9 @@ func _on_song_queued(song: HBSong):
 func _on_song_download_start(song: HBSong):
 	if song in song_map:
 		song_map[song].set_downloading(true)
+
+func _on_song_caching_failed(song: HBSong):
+	populate()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
