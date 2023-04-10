@@ -45,10 +45,10 @@ func _process(delta):
 		if current_song:
 			variant_offset = current_song.get_variant_offset(selected_variant) / 1000.0
 		time += variant_offset
-		game.time = time
+		game.time_msec = time * 1000.0
 	
 	if is_playing() and game.audio_playback.is_playing():
-		emit_signal("time_changed", game.time)
+		emit_signal("time_changed", game.time_msec / 1000.0)
 
 func get_song_volume():
 	return SongDataCache.get_song_volume_offset(current_song) * current_song.volume
@@ -97,7 +97,7 @@ func pause():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
 	game.pause_game()
 	
-	game.seek_new(game.time * 1000.0, true)
+	game.seek_new(game.time_msec, true)
 	game._process(0)
 	
 	game.previewing = false
@@ -119,10 +119,8 @@ func seek(value: int):
 			play_from_pos(value)
 	
 	game._process(0)
-	emit_signal("time_changed", game.time)
+	emit_signal("time_changed", game.time_msec / 1000.0)
 	
-	game.delete_rogue_notes(value / 1000.0)
-
 func _on_timing_params_changed():
 	game._on_viewport_size_changed()
 
@@ -143,7 +141,6 @@ func play_from_pos(position: float):
 		_audio_play_offset = position / 1000.0
 		game.seek(position)
 		game.start()
-		game.delete_rogue_notes(position / 1000.0)
 		game.hold_release()
 		emit_signal("time_changed", position / 1000.0)
 		game.set_process(true)

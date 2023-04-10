@@ -25,18 +25,16 @@ var finished_note_groups := []
 # Note group indices sorted by end time
 var note_groups_by_end_time := []
 # TPs that were previously hit
-var last_hit_index = 0
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
-var time: float
+var time_msec: int
+var time_nsec: int
 var current_combo = 0
 var disable_intro_skip = false
 
 # Used for normalization
 var _volume_offset = 0.0
 
-# Notes currently being shown to the user
-var notes_on_screen = []
 var current_song: HBSong = HBSong.new()
 var current_difficulty: String = ""
 
@@ -46,9 +44,6 @@ var size = Vector2(1280, 720) setget set_size
 # editor stuff
 var editing = false
 var previewing = false
-
-# Contains a dictionary that maps HBTimingPoint -> its drawer (if it has one)
-var timing_point_to_drawer_map = {}
 
 var modifiers = []
 
@@ -276,30 +271,6 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		audio_playback.volume *= 2
 	game_ui._on_song_set(song, difficulty, assets, modifiers)
 
-func make_group(notes: Array, extra_notes: Array, group_position, group_time):
-	var group = NoteGroup.new()
-	group.notes = notes + extra_notes
-	group.time = group_time
-	
-	var highest_time_out = 0
-
-	for point in group.notes:
-		point.set_meta("group_position", group_position)
-		point.set_meta("group", group)
-	var array = PoolByteArray()
-	array.resize(group.notes.size())
-	group.hit_notes = array
-	if group.hit_notes.size() == 0:
-		breakpoint
-	for i in range(group.hit_notes.size()):
-		group.hit_notes[i] = 0
-	for note in group.notes:
-		highest_time_out = max(highest_time_out, note.get_time_out(get_note_speed_at_time(note.time)))
-	
-	group.precalculated_timeout = highest_time_out
-	
-	return group
-	
 func _process_timing_points_into_groups(points):
 	# Group:time map
 	var groups := {}
@@ -353,9 +324,6 @@ func _set_timing_points(points):
 	note_groups_by_end_time = note_groups.duplicate()
 	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
 	
-	last_hit_index = timing_points.size()
-	remove_all_notes_from_screen()
-	
 	var song_length = audio_playback.get_length_msec() + audio_playback.offset
 	if current_song.end_time > 0:
 		song_length = min(song_length, float(current_song.end_time))
@@ -363,8 +331,6 @@ func _set_timing_points(points):
 	update_bpm_map()
 	
 	timing_points = _process_timing_points_into_groups(points)
-	last_hit_index = timing_points.size()
-	remove_all_notes_from_screen()
 
 # Previously get_bpm_at_time
 func get_note_speed_at_time(bpm_time: int) -> float:
@@ -392,17 +358,6 @@ func get_section_at_time(section_time):
 	
 	return section_changes[current_time] if current_time else null
 
-func _sort_notes_by_appear_time(a: HBTimingPoint, b: HBTimingPoint):
-	var ta = 0
-	var tb = 0
-	
-	if a is HBBaseNote:
-		ta = a.get_time_out(get_note_speed_at_time(a.time))
-	if b is HBBaseNote:
-		tb = b.get_time_out(get_note_speed_at_time(b.time))
-	
-	return (a.time - ta) > (b.time - tb)
-
 func _sort_notes_by_time(a: HBTimingPoint, b: HBTimingPoint):
 	return a.time < b.time
 
@@ -428,8 +383,6 @@ func _on_viewport_size_changed():
 	cache_playing_field_size()
 	emit_signal("size_changed")
 
-var _on_frame = false
-
 var handled_event_uids_this_frame := []
 var unhandled_input_events_this_frame := []
 
@@ -437,7 +390,7 @@ func _process_input(event):
 	if event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) or event.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 		if Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.UP][0]) and Input.is_action_pressed(HBGame.NOTE_TYPE_TO_ACTIONS_MAP[HBNoteData.NOTE_TYPE.LEFT][0]):
 			if current_song.allows_intro_skip and _intro_skip_enabled:
-				if time*1000.0 < get_time_to_intro_skip_to():
+				if time_msec < get_time_to_intro_skip_to():
 					_intro_skip_enabled = false
 					seek(get_time_to_intro_skip_to())
 					start()
@@ -505,7 +458,6 @@ func _sort_groups_by_hit_time(a, b):
 func _process_groups():
 	if note_groups.size() == 0:
 		return
-	var time_msec := int(time * 1000.0)
 	# Find the first group that is still alive in our window
 	var final_search_point := note_groups.bsearch_custom(time_msec, self, "_group_compare_start", false)
 	var first_search_point := note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end", true)
@@ -544,8 +496,8 @@ func _process_game(_delta):
 		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
 	if (not editing or previewing) and audio_playback:
-		time = audio_playback.get_playback_position_nsec() / 1000_000_000.0
-		time -= latency_compensation / 1000.0
+		time_msec = audio_playback.get_playback_position_nsec() / 1000_000.0
+		time_msec -= latency_compensation
 
 		if not editing:
 			var end_time = audio_playback.get_length_msec() + audio_playback.offset
@@ -567,9 +519,9 @@ func _process_game(_delta):
 		var group = current_note_groups[i] as HBNoteGroup
 		# Ignore timing points that are not happening now
 		var start_time_msec := group.get_start_time_msec() as int
-		if time * 1000.0 < start_time_msec:
+		if time_msec < start_time_msec:
 			break
-		if time * 1000.0 >= start_time_msec:
+		if time_msec >= start_time_msec:
 			for modifier in modifiers:
 				if modifier.processing_notes:
 					var drawers = []
@@ -577,9 +529,9 @@ func _process_game(_delta):
 						var drw = group.note_drawers.get(note, null)
 						if drw:
 							drawers.append(drw)
-					modifier._process_note(drawers, time, get_note_speed_at_time(time))
+					modifier._process_note(drawers, time_msec / 1000.0, get_note_speed_at_time(time_msec))
 	
-	emit_signal("time_changed", time)
+	emit_signal("time_changed", time_msec / 1000.0)
 	
 	var new_closest_multi_notes = []
 	for group in current_note_groups:
@@ -598,7 +550,7 @@ func _process_game(_delta):
 		
 	closest_multi_notes = new_closest_multi_notes
 	if _intro_skip_enabled:
-		if time*1000.0 >= get_time_to_intro_skip_to():
+		if time_msec >= get_time_to_intro_skip_to():
 			emit_signal("end_intro_skip_period")
 			_intro_skip_enabled = false
 			
@@ -629,27 +581,11 @@ func toggle_ui():
 func set_current_combo(combo: int):
 	current_combo = combo
 
-# removes a note from screen (and from the timing points list if not in the editor)
-func remove_note_from_screen(i, update_last_hit = true):
-	if i != -1:
-		if update_last_hit:
-			if notes_on_screen[i].has_meta("group_position"):
-				var group = notes_on_screen[i].get_meta("group")
-				group.hit_notes[group.notes.find(notes_on_screen[i])] = 1
-		var drawer = get_note_drawer(notes_on_screen[i])
-		game_ui.get_notes_node().remove_child(drawer)
-		if is_connected("time_changed", drawer, "_on_game_time_changed"):
-			disconnect("time_changed", drawer, "_on_game_time_changed")
-		notes_on_screen.remove(i)
-
-func delete_rogue_notes(pos = time):
-	pass
-		
 func restart():
 	var max_score := result.max_score as int
 	_prevent_finishing = true
 	get_tree().paused = false
-	time = current_song.start_time / 1000.0
+	time_msec = current_song.start_time
 	game_ui._on_reset()
 	seek_new(current_song.start_time, true)
 	autoplay_scheduled_sounds.clear()
@@ -659,7 +595,6 @@ func restart():
 	# Find slide hold chains
 	result.max_score = max_score
 	
-	timing_point_to_drawer_map = {}
 	if voice_audio_playback:
 		voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
 		voice_audio_playback.stop()
@@ -667,10 +602,6 @@ func restart():
 	audio_playback.stop()
 	game_input_manager.reset()
 	autoplay_scheduled_sounds.clear()
-
-			
-func _on_note_removed(note):
-	remove_note_from_screen(notes_on_screen.find(note))
 
 func pause_game():
 	if audio_playback:
@@ -707,7 +638,7 @@ func play_from_pos(position: float):
 	audio_playback.schedule_start_time(0)
 	audio_playback.seek(position * 1000.0)
 	audio_playback.start()
-	time = position
+	time_msec = position * 1000
 func add_score(score_to_add):
 	if not previewing:
 		result.score += score_to_add
@@ -724,64 +655,8 @@ func _on_game_finished():
 			else:
 				_prevent_finishing = false
 
-# Connects multi notes to their respective master notes
-func hookup_multi_notes(notes: Array):
-	for note in notes:
-		var note_drawer = get_note_drawer(note)
-		note_drawer.connected_notes = notes
-		note_drawer.note_master = false
-	get_note_drawer(notes[0]).note_master = true
-
-# returns the note drawer for the given timing point
-func get_note_drawer(timing_point):
-	var drawer = null
-	if timing_point_to_drawer_map.has(timing_point):
-		drawer = timing_point_to_drawer_map[timing_point]
-	return drawer
-		
-func remove_all_notes_from_screen():
-	notes_on_screen = []
-	for point in timing_point_to_drawer_map:
-		if point in timing_point_to_drawer_map:
-			if timing_point_to_drawer_map[point]:
-				if not timing_point_to_drawer_map[point].is_queued_for_deletion():
-					if _cached_notes:
-						cached_note_drawers.erase(point)
-					timing_point_to_drawer_map[point].free()
-	timing_point_to_drawer_map = {}
-	
-func get_closest_notes():
-	var closest_notes = []
-	for note_c in notes_on_screen:
-		var note = get_note_drawer(note_c).note_data
-		if note is HBSustainNote and get_note_drawer(note_c).pressed:
-			continue
-		if closest_notes.size() > 0:
-			if closest_notes[0].time > note.time:
-				closest_notes = [note]
-			elif note.time == closest_notes[0].time:
-				closest_notes.append(note)
-		else:
-			closest_notes = [note]
-	return closest_notes
-	
-func get_closest_notes_of_type(note_type: int) -> Array:
-	var closest_notes = []
-	for note_c in notes_on_screen:
-		var note = get_note_drawer(note_c).note_data
-		if note.note_type == note_type:
-			if closest_notes.size() > 0:
-				if closest_notes[0].time > note.time:
-					closest_notes = [note]
-				elif note.time == closest_notes[0].time:
-					closest_notes.append(note)
-			else:
-				closest_notes = [note]
-	return closest_notes
-
 func get_note_scale():
 	return UserSettings.user_settings.note_size * ((playing_field_size_length / BASE_SIZE.length()) * 0.95)
-
 
 func remap_coords(coords: Vector2):
 	coords = coords / BASE_SIZE
@@ -799,38 +674,9 @@ func inv_map_coords(coords: Vector2):
 	var y = (coords.y - ((size.y - playing_field_size.y) / 2.0)) / playing_field_size.y * BASE_SIZE.y
 	return Vector2(x, y)
 
-func _create_note_drawer_impl(timing_point: HBBaseNote):
-	var note_drawer
-	note_drawer = timing_point.get_drawer().instance()
-	note_drawer.game = self
-	note_drawer.note_data = timing_point
-	note_drawer._note_init()
-	game_ui.get_notes_node().add_child(note_drawer)
-	game_ui.get_notes_node().remove_child(note_drawer)
-	return note_drawer
-	
 func bsearch_time(a, b):
 	return a.time < b.time
 	
-# creates and connects a new note drawer
-func create_note_drawer(timing_point: HBBaseNote):
-	var note_drawer
-	if not _cached_notes:
-		note_drawer = _create_note_drawer_impl(timing_point)
-	else:
-		note_drawer = cached_note_drawers[timing_point]
-	game_ui.get_notes_node().add_child(note_drawer)
-	note_drawer.connect("notes_judged", self, "_on_notes_judged")
-	note_drawer.connect("note_removed", self, "_on_note_removed", [timing_point])
-	if timing_point in timing_point_to_drawer_map:
-		if not timing_point_to_drawer_map[timing_point].is_queued_for_deletion():
-			timing_point_to_drawer_map[timing_point].free()
-			timing_point_to_drawer_map.erase(timing_point)
-	timing_point_to_drawer_map[timing_point] = note_drawer
-	var pos = notes_on_screen.bsearch_custom(timing_point, self, "bsearch_time")
-	notes_on_screen.insert(pos, timing_point)
-	connect("time_changed", note_drawer, "_on_game_time_changed")
-	return note_drawer
 func set_game_ui(ui: HBRhythmGameUIBase):
 	game_ui = ui
 	ui.game = self
@@ -883,72 +729,11 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	if current_combo > result.max_combo:
 		result.max_combo = current_combo
 		
-	var judgement_info = {"judgement": final_judgement, "target_time": judgement_target_time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
+	var judgement_info = {"judgement": final_judgement, "target_time": judgement_target_time, "time": time_msec, "wrong": wrong, "avg_pos": avg_pos}
 	emit_signal("note_judged", judgement_info)
-
-func _on_notes_judged(notes: Array, judgement, wrong):
-	#print("JUDGED %d notes, with judgement %d %s" % [notes.size(), judgement, str(wrong)])
-	
-	# Simultaneous slides are a special case...
-	# we have to process each note individually
-#	for n in notes:
-#		if n is HBNoteData:
-#			if n != note and n.is_slide_note():
-#				_on_notes_judged([n], judgement, wrong)
-	# Some notes might be considered more than 1 at the same time? connected ones aren't
-	notes_judged_this_frame += notes
-
-	var notes_hit = 1
-	if not editing or previewing:
-		# Rating graphic
-		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
-			# Missed a note
-			if judgement < judge.JUDGE_RATINGS.SAFE:
-				if UserSettings.user_settings.enable_voice_fade:
-					if voice_audio_playback:
-						voice_audio_playback.volume = 0.0
-			set_current_combo(0)
-		else:
-			set_current_combo(current_combo + notes_hit)
-			if voice_audio_playback:
-				voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
-			result.notes_hit += notes_hit
-
-		if not wrong:
-			result.note_ratings[judgement] += notes_hit
-		else:
-			result.wrong_note_ratings[judgement] += notes_hit
-
-		result.total_notes += notes_hit
-
-		if current_combo > result.max_combo:
-			result.max_combo = current_combo
-
-		# We average the notes position so that multinote ratings are centered
-		var avg_pos = Vector2()
-		for n in notes:
-			avg_pos += n.position
-		avg_pos = avg_pos / float(notes.size())
-
-		var target_time = notes[0].time
-		var drawer = get_note_drawer(notes[0])
-		if notes[0] is HBSustainNote and drawer.pressed:
-			target_time = notes[0].end_time
-
-		var judgement_info = {"judgement": judgement, "target_time": target_time, "time": int(time * 1000), "wrong": wrong, "avg_pos": avg_pos}
-
-		emit_signal("note_judged", judgement_info)
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		var shit_to_delete = [timing_point_to_drawer_map]
-		if _cached_notes:
-			shit_to_delete = [cached_note_drawers]
-		for c in shit_to_delete:
-			for note in c:
-				if not c[note].is_queued_for_deletion():
-					c[note].queue_free()
-		
 		editor_clear_notes()
 
 # Tracks a sound and auto frees it when its finished
@@ -961,10 +746,9 @@ func untrack_sound(sound: ShinobuSoundPlayer):
 	tracked_sounds.erase(sound)
 
 func seek_new(new_position_msec: int, reset_notes := false):
-	var new_position_secs := new_position_msec * 0.001
 	autoplay_scheduled_sounds.clear()
 	seek(new_position_msec)
-	time = new_position_secs
+	time_msec = new_position_msec
 	if reset_notes:
 		last_culled_note_group = -1
 		for group in current_note_groups:

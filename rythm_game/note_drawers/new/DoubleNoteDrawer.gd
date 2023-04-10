@@ -17,7 +17,7 @@ func set_is_multi_note(val):
 	
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
-	var is_input_in_range: bool = abs((game.time * 1000.0) - note_data.time) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs((game.time_msec) - note_data.time) < game.judge.get_target_window_msec()
 	return event.is_action_pressed(action) and is_input_in_range and not waiting_for_multi_judgement
 
 func process_input(event: InputEventHB):
@@ -43,7 +43,7 @@ func process_input(event: InputEventHB):
 		game.add_child(current_note_sound)
 
 func _on_note_pressed(event = null):
-	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec/1000.0, note_data.time/1000.0) as int
 	if not is_autoplay_enabled():
 		if note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:
 			fire_and_forget_user_sfx("double_heart_note_hit")

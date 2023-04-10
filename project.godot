@@ -509,11 +509,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/timing_points/HBNoteData.gd"
 }, {
-"base": "Node2D",
-"class": "HBNoteDrawer",
-"language": "GDScript",
-"path": "res://rythm_game/note_drawers/NoteDrawer.gd"
-}, {
 "base": "Reference",
 "class": "HBNoteGroup",
 "language": "GDScript",
@@ -1049,11 +1044,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd"
 }, {
-"base": "Node2D",
-"class": "SlideNoteDrawer",
-"language": "GDScript",
-"path": "res://rythm_game/note_drawers/SlideNoteDrawer.gd"
-}, {
 "base": "HBTask",
 "class": "SongAssetLoadAsyncTask",
 "language": "GDScript",
@@ -1220,7 +1210,6 @@ _global_script_class_icons={
 "HBNewDoubleNoteDrawer": "",
 "HBNewNoteDrawer": "",
 "HBNoteData": "",
-"HBNoteDrawer": "",
 "HBNoteGroup": "",
 "HBOptionControlsSectionAction": "",
 "HBPPDSong": "",
@@ -1328,7 +1317,6 @@ _global_script_class_icons={
 "SineDrawerCPU": "",
 "SineDrawerSustain": "",
 "SkinEditorViewport": "",
-"SlideNoteDrawer": "",
 "SongAssetLoadAsyncTask": "",
 "SongLoaderDSC": "",
 "SongLoaderHB": "",
@@ -1356,8 +1344,8 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 config/version="Early Access v0.2.9"
-config/build_time=1668226336
-config/build_commit="70404e6b11ef298b06feb884e00b129f0d014bbf"
+config/build_time=1680906167
+config/build_commit="33bd37b64e5f6e94e9d399a1765df15ea9bb562a"
 config/service_environment="production"
 
 [audio]

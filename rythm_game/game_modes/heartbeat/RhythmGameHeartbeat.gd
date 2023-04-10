@@ -16,16 +16,13 @@ const WRONG_COLOR = "#ff6524"
 const SLIDE_HOLD_PIECE_SCORE = 10
 const TRAIL_RESOLUTION = 60
 
-# Number of slide hold pieces that are turned blue per second on slide chains
-const BLUE_SLIDE_PIECES_PER_SECOND = 93.75
-
 # Notes currently being held (modern style)
 var held_notes = []
 # Map of notes currently being held, mapped as note_tpye -> event uid
 var held_note_event_map = {}
-var current_hold_score = 0.0
-var current_hold_start_time = 0.0
-var accumulated_hold_score = 0.0  # for when you hit another hold note after already holding
+var current_hold_score: int = 0
+var current_hold_start_time: int = 0
+var accumulated_hold_score: int = 0  # for when you hit another hold note after already holding
 
 const STARTING_HEALTH_VALUE = 50
 var health := STARTING_HEALTH_VALUE
@@ -35,14 +32,6 @@ var fail_combo := 0
 # It's a list key, contains an array of slide notes
 # hold pieces.
 var slide_hold_chains = {}
-
-# List of slide hold note chains that are active
-# It is an array of dictionaris, each dictionary contains a slide hold piece array
-# (this array contains only remaining ones in the chain), this uses "pieces" as key
-# it also has an AudioStreamPlayer for the loop, called sfx_player
-# it finally contains a reference to the original slide note that starts the chain
-# as slide_note
-var active_slide_hold_chains = []
 
 var precalculated_note_trails = {}
 
@@ -96,35 +85,6 @@ func get_note_trail_points(note_data: HBBaseNote):
 	else:
 		return _precalculate_note_trail(note_data)
 
-func make_group(notes: Array, extra_notes: Array, group_position, time):
-	var group = .make_group(notes, extra_notes, group_position, time)
-	
-	var slide_count = 0
-	var has_chain = false
-	for note in group.notes:
-		if note is HBNoteData:
-			if note.is_slide_hold_piece():
-				has_chain = true
-				if slide_count > 1:
-					break
-			if note.is_slide_note():
-				slide_count += 1
-				if has_chain and slide_count > 1:
-					break
-	
-	# Game disables some optimizations when simultaneous slide chains exist.
-	if slide_count > 1 and has_chain:
-		group.notes.sort_custom(self, "_sort_notes_by_appear_time")
-	
-	return group
-
-func kill_active_slide_chains():
-	for note in notes_on_screen:
-		if note in slide_hold_chains:
-			var drawer = get_note_drawer(note)
-			if drawer:
-				if drawer.is_slide_chain_active():
-					drawer.kill_note()
 func _set_timing_points(points):
 	._set_timing_points(points)
 
@@ -140,11 +100,9 @@ func _game_ready():
 	sfx_pool.add_sfx("slide_chain_fail", UserSettings.user_settings.get_sound_volume_linear("slide_chain_fail"))
 	sfx_pool.add_sfx("double_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_note_hit"))
 	sfx_pool.add_sfx("double_heart_note_hit", UserSettings.user_settings.get_sound_volume_linear("double_heart_note_hit"))
-	#SLIDE: 9dbup
 
 func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
-	active_slide_hold_chains = []
 	_potential_result = HBResult.new()
 	_potential_result.max_score = chart.get_max_score()
 	.set_chart(chart)
@@ -188,23 +146,6 @@ func _on_unhandled_action_release(action, event_uid):
 					emit_signal("hold_released_early")
 					break
 
-
-func get_closest_notes():
-	var closest_notes = []
-	for note_c in notes_on_screen:
-		var note = get_note_drawer(note_c).note_data
-		if (note is HBSustainNote and get_note_drawer(note_c).pressed) \
-				or (note is HBNoteData and note.is_slide_note() and get_note_drawer(note_c).is_sliding()):
-			continue
-		if closest_notes.size() > 0:
-			if closest_notes[0].time > note.time:
-				closest_notes = [note]
-			elif note.time == closest_notes[0].time:
-				closest_notes.append(note)
-		else:
-			closest_notes = [note]
-	return closest_notes
-
 # plays note SFX automatically
 func play_note_sfx(slide = false):
 	if not sfx_enabled:
@@ -214,12 +155,6 @@ func play_note_sfx(slide = false):
 		sfx_pool.play_sfx("note_hit")
 	else:
 		sfx_pool.play_sfx("slide_empty")
-func create_note_drawer(timing_point: HBBaseNote):
-	var note_drawer = .create_note_drawer(timing_point)
-	if timing_point is HBNoteData:
-		if timing_point.is_slide_note():
-			note_drawer.slide_chain_master = timing_point in slide_hold_chains
-	return note_drawer
 
 func set_game_input_manager(manager: HBGameInputManager):
 	.set_game_input_manager(manager)
@@ -247,10 +182,10 @@ func _process_game(_delta):
 	
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
-		var max_time = current_hold_start_time + (MAX_HOLD / 1000.0)
-		var curr_hold_time = min(time, max_time)
-		current_hold_score = max(((curr_hold_time - current_hold_start_time) * 1000.0) * held_notes.size(), 0)
-		if time >= max_time:
+		var max_time = current_hold_start_time + MAX_HOLD
+		var curr_hold_time = min(time_msec, max_time)
+		current_hold_score = max(((curr_hold_time - current_hold_start_time)) * held_notes.size(), 0)
+		if time_msec >= max_time:
 			current_hold_score = int(current_hold_score + accumulated_hold_score)
 			emit_signal("max_hold")
 			emit_signal("hold_score_changed", accumulated_hold_score + current_hold_score + MAX_HOLD)
@@ -258,15 +193,6 @@ func _process_game(_delta):
 			add_hold_score(MAX_HOLD)
 		else:
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
-	var closest_notes = get_closest_notes()
-	if closest_notes.size() > 0:
-		if not closest_notes[0] is HBNoteData:
-			MobileControls.set_input_mode(0)
-		else:
-			if closest_notes[0].is_slide_note():
-				MobileControls.set_input_mode(1)
-			else:
-				MobileControls.set_input_mode(0)
 	# autoplay code
 	if game_mode == GAME_MODE.AUTOPLAY:
 		if not result.used_cheats:
@@ -299,10 +225,6 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 		else:
 			increase_health()
 	
-#	for judgement in judgements:
-#		if judgement.note_data.note_type in HEART_HACK_TYPES:
-#			_heart_hack_frame = Engine.get_frames_drawn()
-	
 	if not judgements[0].note_data is HBNoteData or (judgements[0].note_data is HBNoteData and not judgements[0].note_data.is_slide_hold_piece()):
 		if final_judgement == judge.JUDGE_RATINGS.WORST or wrong:
 			add_score(0)
@@ -327,7 +249,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 					held_note_event_map[n.note_type].append(event.event_uid)
 					# Holds start at (note time-FINE window) regardless of at what time you hit them
 					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
-					start_hold(n.note_type, false, (n.time - fine_window_ms) / 1000.0)
+					start_hold(n.note_type, false, n.time - fine_window_ms)
 	if not editing:
 		var start_time = current_song.start_time
 		var end_time = audio_playback.get_length_msec()
@@ -338,7 +260,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 		current_duration -= start_time
 		current_duration -= audio_playback.get_length_msec() - end_time
 		
-		var progress: float = (time * 1000.0) - start_time
+		var progress: float = time_msec - start_time
 		progress = progress / float(current_duration)
 		
 
@@ -348,68 +270,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 		result._percentage_graph.append(point)
 		result._song_end_time = end_time
 
-# called when a note or group of notes is judged
-# this doesn't take care of adding the score
-func _on_notes_judged(notes: Array, judgement, wrong, judge_events={}):
-	._on_notes_judged(notes, judgement, wrong)
-	
-	if health_system_enabled:
-		if judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
-			remove_health()
-		else:
-			increase_health()
-	
-	for note in notes:
-		if note.note_type in HEART_HACK_TYPES:
-			_heart_hack_frame = Engine.get_frames_drawn()
-	
-	if not notes[0] is HBNoteData or (notes[0] is HBNoteData and not notes[0].is_slide_hold_piece()):
-		if judgement == judge.JUDGE_RATINGS.WORST or wrong:
-			add_score(0)
-	for n in notes:
-		if n.note_type in held_notes:
-			hold_release()
-			emit_signal("hold_released_early")
-			break
-
-	if judgement < judge.JUDGE_RATINGS.FINE or wrong:
-		hold_release()
-		emit_signal("hold_released_early")
-	else:
-		for n in notes:
-			if n is HBNoteData:
-				n = n as HBNoteData
-				if n.hold:
-					var event = judge_events[n]
-					if not n.note_type in held_note_event_map:
-						held_note_event_map[n.note_type] = []
-					held_note_event_map[n.note_type].clear()
-					held_note_event_map[n.note_type].append(event.event_uid)
-					# Holds start at (note time-FINE window) regardless of at what time you hit them
-					var fine_window_ms = judge.get_window_for_rating(HBJudge.JUDGE_RATINGS.FINE)
-					start_hold(n.note_type, false, (n.time - fine_window_ms) / 1000.0)
-	if not editing:
-		var start_time = current_song.start_time
-		var end_time = audio_playback.get_length_msec()
-		if current_song.end_time > 0:
-			end_time = current_song.end_time
-			
-		var current_duration = audio_playback.get_length_msec()
-		current_duration -= start_time
-		current_duration -= audio_playback.get_length_msec() - end_time
-		
-		var progress: float = (time * 1000.0) - start_time
-		progress = progress / float(current_duration)
-		
-
-		var point := Vector2(progress * 100.0, result.get_percentage() * 100.0)
-		if judgement < judge.JUDGE_RATINGS.FINE or wrong:
-			result._combo_break_points.append(point)
-		result._percentage_graph.append(point)
-		result._song_end_time = end_time
-	
 func restart():
-	kill_active_slide_chains()
 	hold_release()
 	held_note_event_map = {}
 	_potential_result = HBResult.new()
@@ -418,32 +279,6 @@ func restart():
 		health = 50
 		game_ui.set_health(50, false)
 	.restart()
-
-# used by the editor and practice mode to delete slide chain pieces that have no
-# parent and sustain notes
-func delete_rogue_notes(pos = time):
-	.delete_rogue_notes(pos)
-	var notes_to_remove = []
-	
-	for i in range(notes_on_screen.size() - 1, -1, -1):
-		if notes_on_screen[i] is HBBaseNote:
-			var group = notes_on_screen[i].get_meta("group") as NoteGroup
-			if group.time - group.precalculated_timeout > pos * 1000.0:
-				notes_to_remove.append(notes_on_screen[i])
-	for note in notes_to_remove:
-		if note in notes_on_screen:
-			remove_note_from_screen(notes_on_screen.find(note), false)
-
-func remove_note_from_screen(i, update_last_hit = true):
-	if i != -1:
-		if not editing or previewing:
-			if update_last_hit:
-				if notes_on_screen[i].has_meta("group_position"):
-					if not active_slide_hold_chains.size() > 0:
-						var nhi = notes_on_screen[i].get_meta("group_position")
-						if nhi < last_hit_index:
-							last_hit_index = nhi
-	.remove_note_from_screen(i, update_last_hit)
 
 var _potential_result = HBResult.new()
 func get_potential_result():
@@ -481,12 +316,13 @@ func _on_game_finished():
 				emit_signal("hold_released_early")
 	._on_game_finished()
 
-func start_hold(note_type, auto_juggle=false, hold_start_time := time):
+func start_hold(note_type, auto_juggle=false, hold_start_time := time_msec):
 	if note_type in held_notes:
 		hold_release()
 	if held_notes.size() > 0:
 		accumulated_hold_score += current_hold_score
 	current_hold_score = 0
+	print("HOLD", hold_start_time)
 	current_hold_start_time = hold_start_time
 	held_notes.append(note_type)
 	emit_signal("hold_started", held_notes)

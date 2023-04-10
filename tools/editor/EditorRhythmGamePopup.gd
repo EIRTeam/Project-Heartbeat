@@ -31,8 +31,6 @@ func _init():
 	name = "EditorRhythmGamePopup"
 
 func play_song_from_position(song: HBSong, chart: HBChart, difficulty: String, time: float, enable_bg: bool, enable_video: bool):
-	rhythm_game.remove_all_notes_from_screen()
-	
 	var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
 	rhythm_game.audio_playback.volume = volume
 	if rhythm_game.voice_audio_playback:
@@ -214,7 +212,7 @@ func update_stats_label():
 	
 	for i in range(last_notes.size()-1, -1, -1):
 		var n_time = last_notes[i]
-		if n_time < (rhythm_game.time * 1000.0) - 1000.0:
+		if n_time < (rhythm_game.time_msec) - 1000:
 			last_notes.remove(i)
 	
 	if stats_total_notes > 0 :
@@ -224,12 +222,12 @@ func update_stats_label():
 	if stats_passed_notes:
 		avg_latency = stats_latency_sum / float(stats_passed_notes)
 	
-	var section = rhythm_game.get_section_at_time(rhythm_game.time * 1000.0)
-	var current_speed = rhythm_game.get_note_speed_at_time(rhythm_game.time * 1000.0)
+	var section = rhythm_game.get_section_at_time(rhythm_game.time_msec)
+	var current_speed = rhythm_game.get_note_speed_at_time(rhythm_game.time_msec)
 	var current_bpm = 0.0
 	var current_time_sig = "4/4"
 	for timing_change in rhythm_game.timing_changes:
-		if timing_change.time > rhythm_game.time * 1000.0:
+		if timing_change.time > rhythm_game.time_msec:
 			break
 		
 		current_bpm = timing_change.bpm

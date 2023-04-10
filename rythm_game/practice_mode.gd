@@ -76,7 +76,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	video_player.play()
 	video_player.paused = false
 	game._process(0)
-	video_player.set_stream_position(game.time)
+	video_player.set_stream_position(game.time_msec / 1000.0)
 	practice_seek_gui.hide()
 	update_stats_label()
 	
@@ -106,7 +106,7 @@ func pause():
 	if get_tree().paused:
 		pre_pause_game_mode = game.game_mode
 		game.game_mode = HBRhythmGame.GAME_MODE.EDITOR_SEEK
-		last_pause_time = game.time
+		last_pause_time = game.time_msec / 1000.0
 		game.editing = true
 		video_player.paused = true
 		update_time_label()
@@ -122,7 +122,7 @@ func pause():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		video_player.set_stream_position(game.time)
+		video_player.set_stream_position(game.time_msec / 1000.0)
 
 
 func _process(delta):
@@ -141,7 +141,7 @@ func _process(delta):
 		if practice_gui_mode == PRACTICE_GUI.SEEK:
 			if Input.is_action_pressed("gui_left") or Input.is_action_pressed("gui_right"):
 				var dir = Input.get_action_strength("gui_right") - Input.get_action_strength("gui_left")
-				go_to_time(game.time * 1000.0 + dir * delta * 10000.0)
+				go_to_time(game.time_msec + dir * delta * 10000.0)
 				update_progress_bar()
 				update_time_label()
 				
@@ -195,7 +195,7 @@ func _process(delta):
 	
 	if not get_tree().paused or practice_gui_mode == PRACTICE_GUI.SEEK:
 		if Input.is_action_just_pressed("practice_set_waypoint"):
-			set_waypoint(game.time * 1000.0)
+			set_waypoint(game.time_msec)
 	
 	if not get_tree().paused or practice_gui_mode in [PRACTICE_GUI.SEEK, PRACTICE_GUI.SECTION_SEEK]:
 		if Input.is_action_just_pressed("practice_go_to_waypoint"):
@@ -216,7 +216,7 @@ func _set_mode(new_mode: int, update: bool = false):
 			if game.current_song.sections:
 				section = 0
 				for _section in game.current_song.sections:
-					if _section.time <= game.time * 1000.0:
+					if _section.time <= game.time_msec:
 						section += 1
 				
 				update_section()
@@ -265,7 +265,7 @@ func update_time_label():
 	var current_duration = game.audio_playback.get_length_msec()
 	current_duration -= start_time
 	current_duration -= game.audio_playback.get_length_msec() - end_time
-	var time_str = HBUtils.format_time(game.time * 1000.0 - start_time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
+	var time_str = HBUtils.format_time(game.time_msec - start_time, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	var song_length_str = HBUtils.format_time(current_duration, HBUtils.TimeFormat.FORMAT_MINUTES | HBUtils.TimeFormat.FORMAT_SECONDS)
 	
 	seek_time_label.text = "%s/%s" % [time_str, song_length_str]
@@ -287,12 +287,12 @@ func go_to_time(time: float):
 		video_player.paused = false
 	else:
 		game.seek_new(time, true)
-		game.time = time / 1000.0
+		game.time_msec = time
 		game._process(0)
 		update_progress_bar()
 		video_player.paused = true
-		video_player.set_stream_position(game.time / 1000.0)
-	video_player.set_stream_position(game.time)
+		video_player.set_stream_position(game.time_msec / 1000.0)
+	video_player.set_stream_position(game.time_msec / 1000.0)
 
 func reset_stats():
 	stats_passed_notes = 0
@@ -322,7 +322,7 @@ func update_progress_bar():
 	current_duration -= start_time
 	current_duration -= game.audio_playback.get_length_msec() - end_time
 	
-	var progress: float = game.time * 1000.0 - start_time
+	var progress: float = game.time_msec - start_time
 	progress = progress / float(current_duration)
 	
 	seek_progress_bar.value = progress
@@ -348,7 +348,7 @@ func update_progress_bar_waypoint():
 func update_stats_label():
 	for i in range(notes_in_second.size()-1, -1, -1):
 		var n_time = notes_in_second[i]
-		if n_time < (game.time * 1000.0) - 1000.0:
+		if n_time < (game.time_msec - 1000):
 			notes_in_second.remove(i)
 	
 	var passed_percentage = 0.0
@@ -363,12 +363,12 @@ func update_stats_label():
 			avg_latency += latency_data[note_i]
 		avg_latency /= min(latency_data.size(), 40)
 	
-	var current_section = game.get_section_at_time(game.time * 1000.0)
-	var current_speed = game.get_note_speed_at_time(game.time * 1000.0)
+	var current_section = game.get_section_at_time(game.time_msec)
+	var current_speed = game.get_note_speed_at_time(game.time_msec)
 	var current_bpm = 0.0
 	var current_time_sig = "4/4"
 	for timing_change in game.timing_changes:
-		if timing_change.time > game.time * 1000.0:
+		if timing_change.time > game.time_msec:
 			break
 		
 		current_bpm = timing_change.bpm

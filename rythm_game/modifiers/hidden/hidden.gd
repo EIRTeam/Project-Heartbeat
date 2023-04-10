@@ -19,17 +19,19 @@ func _set_note_drawer_a(note_drawer, time: float, bpm: float):
 	var a_o = 1.0 - smoothstep(HIDDEN_PERCENTAGE_START, HIDDEN_PERCENTAGE_START+HIDDEN_DURATION, perc)
 	
 	for node_data in note_drawer.layer_bound_node_datas:
-		if node_data is HBNoteDrawer.LayerBoundNodeData:
+		if node_data is HBNewNoteDrawer.LayerBoundNodeData:
 			if node_data.layer_name != "HitParticles" and node_data.layer_name != "SlideChainPieces":
 				node_data.node.modulate.a = a_o
 	note_drawer.modulate.a = a_o
 	
 func _process_note(note_drawers: Array, time: float, bpm: float):
-	for note_drawer in note_drawers:
-		if note_drawer is SlideNoteDrawer:
-			for drw in note_drawer.slide_chain_drawers.values():
-				_set_note_drawer_a(drw, time, bpm)
-		_set_note_drawer_a(note_drawer, time, bpm)
+	# TODO: this
+	pass
+	#for note_drawer in note_drawers:
+	#	if note_drawer is HBSlideN:
+	#		for drw in note_drawer.slide_chain_drawers.values():
+	#			_set_note_drawer_a(drw, time, bpm)
+	#	_set_note_drawer_a(note_drawer, time, bpm)
 			
 
 					

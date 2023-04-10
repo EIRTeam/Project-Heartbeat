@@ -10,10 +10,6 @@ func _init():
 func get_serialized_type():
 	return "DoubleNote"
 	
-# Gets the scene that takes care of drawing this note
-func get_drawer():
-	return preload("res://rythm_game/note_drawers/DoubleNoteDrawer.tscn")
-
 static func can_show_in_editor():
 	return false
 

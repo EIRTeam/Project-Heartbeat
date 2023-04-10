@@ -29,10 +29,10 @@ func handles_input(event: InputEventHB):
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	if pressed:
 		if not event.is_pressed():
-			var is_input_in_range: bool = abs((game.time * 1000.0) - note_data.end_time) < game.judge.get_target_window_msec()
+			var is_input_in_range: bool = abs(game.time_msec - note_data.end_time) < game.judge.get_target_window_msec()
 			return event.is_action_released(action)
 	else:
-		var is_input_in_range: bool = abs((game.time * 1000.0) - note_data.time) < game.judge.get_target_window_msec()
+		var is_input_in_range: bool = abs(game.time_msec - note_data.time) < game.judge.get_target_window_msec()
 		return event.is_action_pressed(action) and is_input_in_range
 	return false
 
@@ -43,7 +43,7 @@ func process_input(event: InputEventHB):
 		_on_pressed(event)
 		
 func _on_end_release(event := null):
-	var judgement := game.judge.judge_note(game.time, note_data.end_time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec, note_data.end_time/1000.0) as int
 	judgement = max(judgement, 0)
 	notify_release_judgement(judgement)
 	emit_signal("finished")
@@ -63,7 +63,7 @@ func _on_pressed(event = null, judge := true):
 		sustain_loop.start()
 	if not is_autoplay_enabled():
 		fire_and_forget_user_sfx("note_hit")
-	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec / 1000.0, note_data.time/1000.0) as int
 	if judge:
 		emit_signal("judged", judgement, false, note_data.time, event)
 		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:

@@ -68,10 +68,10 @@ func pause():
 	video_player.paused = true
 func _process(delta):
 	if $Label.visible:
-		$Label.text = HBUtils.format_time(game.time * 1000.0)
-		$Label.text += "\n BPM: " + str(game.get_note_speed_at_time(game.time * 1000.0))
+		$Label.text = HBUtils.format_time(game.time_msec)
+		$Label.text += "\n BPM: " + str(game.get_note_speed_at_time(game.time_msec))
 		$Label.text += "\nVP:%s" % [video_player.stream_position]
-		$Label.text += "\nDIFF:%.2f" % [video_player.stream_position - game.time]
+		$Label.text += "\nDIFF:%.2f" % [video_player.stream_position - game.time_msec / 1000.0]
 
 func set_visualizer_processing_enabled(enabled):
 	if UserSettings.user_settings.visualizer_enabled:

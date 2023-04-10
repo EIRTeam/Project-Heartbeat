@@ -136,7 +136,7 @@ func process_input(event: InputEventHB) -> bool:
 	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
 	
 	# For pressed inputs we first figure out if any of our notes will accept it
-	var is_input_in_range: bool = abs((game.time * 1000.0) - get_hit_time_msec()) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
 	for i in range(note_drawers.size()-1, -1, -1):
 		var note := note_drawers.keys()[i] as HBBaseNote
 		var note_drawer := note_drawers[note] as HBNewNoteDrawer
@@ -207,7 +207,7 @@ func _on_wrong():
 	for judgement in note_judgement_infos.values():
 		judgement.wrong = true
 	# Calculate the "average" judgement (see calculate_judgement above)
-	var final_judgement := game.judge.judge_note(game.time, note_datas[0].time/1000.0) as int
+	var final_judgement := game.judge.judge_note(game.time_msec / 1000.0, note_datas[0].time/1000.0) as int
 	if note_judgement_infos.size() > 0:
 		var c := calculate_judgement(note_judgement_infos.values())
 		if c != -1:

@@ -16,7 +16,6 @@ func _init():
 	name = "EmbeddedRhythmGameHeartbeat"
 	
 func play_song(song: HBSong, chart: HBChart):
-	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.resume()
 	rhythm_game.set_chart(chart)
 	rhythm_game.set_process_input(true)
@@ -65,7 +64,6 @@ func set_game_size():
 	rhythm_game.size = rect_size
 
 func restart():
-	rhythm_game.remove_all_notes_from_screen()
 	rhythm_game.play_from_pos(_last_time)
 	reset_stats()
 

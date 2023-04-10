@@ -72,7 +72,7 @@ func _fade_in_done():
 	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
-	video_player.set_stream_position(game.time)
+	video_player.set_stream_position(game.time_msec / 1000.0)
 	rescale_video_player()
 	
 	pause_menu_disabled = false
@@ -95,7 +95,7 @@ func start_fade_in():
 		game.seek(song.start_time)
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
-	game.time = song.start_time / 1000.0
+	game.time_msec = song.start_time
 	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
@@ -216,7 +216,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 					video_player.paused = true
 				video_player.play()
 				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
-				if game.time < 0.0:
+				if game.time_msec < 0:
 					video_player.paused = true
 				video_player_panel.show()
 				if visualizer and UserSettings.user_settings.visualizer_enabled:
@@ -261,19 +261,19 @@ func _on_resumed():
 		game.set_process(true)
 		game._process(0)
 		video_player.paused = false
-		video_player.set_stream_position(game.time)
-		if game.time < 0.0:
+		video_player.set_stream_position(game.time_msec / 1000.0)
+		if game.time_msec < 0:
 			video_player.paused = true
 	else:
 		# Called when resuming with rollback
 		game.notify_rollback()
 		HBGame.fire_and_forget_sound(HBGame.rollback_sfx, HBGame.sfx_group)
 		game.editing = true
-		game.time = last_pause_time
+		game.time_msec = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
 		video_player.set_stream_position(last_pause_time - ROLLBACK_TIME)
-		if game.time < 0.0:
+		if game.time_msec < 0:
 			video_player.paused = true
 		vhs_panel.show()
 		
@@ -314,8 +314,8 @@ func _show_results(game_info: HBGameInfo):
 func _on_paused():
 	get_tree().paused = true
 	set_process(false)
-	if game.time - last_pause_time >= ROLLBACK_TIME and game.time > 0:
-		last_pause_time = game.time
+	if game.time_msec / 1000.0 - last_pause_time >= ROLLBACK_TIME and game.time_msec > 0:
+		last_pause_time = game.time_msec / 1000.0
 		rollback_on_resume = true
 		game.set_process(false)
 		game.editing = true
@@ -358,10 +358,10 @@ func _process(delta):
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	if rollback_on_resume:
-		game.seek_new((game.time - delta) * 1000.0)
+		game.seek_new(game.time_msec - delta * 1000.0)
 		game._process(0)
 #		$Label.text += "%f" % [last_pause_time]
-		if game.time <= last_pause_time - ROLLBACK_TIME:
+		if game.time_msec / 1000.0 <= last_pause_time - ROLLBACK_TIME:
 			game.seek_new((last_pause_time - ROLLBACK_TIME) * 1000.0)
 			rollback_on_resume = false
 			vhs_panel.hide()
@@ -374,7 +374,7 @@ func seek(pos: float):
 	if current_game_info:
 		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
 			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
-	game.time = pos
+	game.time_msec = pos * 1000.0
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
 	var scene = MainMenu.instance()

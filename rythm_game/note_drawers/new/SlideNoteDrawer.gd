@@ -69,7 +69,7 @@ func get_slide_chain_pieces() -> Array:
 	
 func handles_input(event: InputEventHB) -> bool:
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
-	var is_input_in_range: bool = abs((game.time * 1000.0) - note_data.time) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs(game.time_msec - note_data.time) < game.judge.get_target_window_msec()
 	if not is_slide_chain() and pressed and is_multi_note:
 		return false
 	return event.is_action_pressed(action) and is_input_in_range
@@ -82,7 +82,7 @@ func process_input(event: InputEventHB):
 		_on_pressed()
 
 func _on_pressed():
-	var judgement := game.judge.judge_note(game.time, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec / 1000.0, note_data.time/1000.0) as int
 	judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Slide notes always give at least a fine
 	if is_slide_chain():
 		judgement = HBJudge.JUDGE_RATINGS.COOL # Slide chains can never be a fine
