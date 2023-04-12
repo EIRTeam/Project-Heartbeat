@@ -176,10 +176,6 @@ func show_slide_hold_score(piece_position, accumulated_score, is_end):
 
 func _pre_process_game():
 	._pre_process_game()
-
-func _process_game(_delta):
-	._process_game(_delta)
-	
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + MAX_HOLD
@@ -193,6 +189,10 @@ func _process_game(_delta):
 			add_hold_score(MAX_HOLD)
 		else:
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
+
+func _process_game(_delta):
+	._process_game(_delta)
+
 	# autoplay code
 	if game_mode == GAME_MODE.AUTOPLAY:
 		if not result.used_cheats:
@@ -322,7 +322,6 @@ func start_hold(note_type, auto_juggle=false, hold_start_time := time_msec):
 	if held_notes.size() > 0:
 		accumulated_hold_score += current_hold_score
 	current_hold_score = 0
-	print("HOLD", hold_start_time)
 	current_hold_start_time = hold_start_time
 	held_notes.append(note_type)
 	emit_signal("hold_started", held_notes)

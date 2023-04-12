@@ -491,21 +491,6 @@ func _process_groups():
 # godot is stupid and calls _process on both parent and child
 func _process_game(_delta):
 	_sfx_debounce_t += _delta
-	var latency_compensation = UserSettings.user_settings.lag_compensation
-	if current_song.id in UserSettings.user_settings.per_song_settings:
-		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
-
-	if (not editing or previewing) and audio_playback:
-		time_msec = audio_playback.get_playback_position_nsec() / 1000_000.0
-		time_msec -= latency_compensation
-
-		if not editing:
-			var end_time = audio_playback.get_length_msec() + audio_playback.offset
-			if current_song.end_time > 0:
-				end_time = min(end_time, float(current_song.end_time))
-
-			if (audio_playback.get_playback_position_nsec() / 1000_000.0) >= end_time or audio_playback.is_at_stream_end() and not _finished:
-				_on_game_finished()
 	
 	_process_groups()
 	
@@ -567,7 +552,21 @@ func _process_game(_delta):
 			sfx_debounce_times.erase(sound_name)
 func _pre_process_game():
 	game_input_manager.flush_inputs()
+	var latency_compensation = UserSettings.user_settings.lag_compensation
+	if current_song.id in UserSettings.user_settings.per_song_settings:
+		latency_compensation += UserSettings.user_settings.per_song_settings[current_song.id].lag_compensation
 
+	if (not editing or previewing) and audio_playback:
+		time_msec = audio_playback.get_playback_position_nsec() / 1000_000.0
+		time_msec -= latency_compensation
+
+		if not editing:
+			var end_time = audio_playback.get_length_msec() + audio_playback.offset
+			if current_song.end_time > 0:
+				end_time = min(end_time, float(current_song.end_time))
+
+			if (audio_playback.get_playback_position_nsec() / 1000_000.0) >= end_time or audio_playback.is_at_stream_end() and not _finished:
+				_on_game_finished()
 func _process(delta):
 	_pre_process_game()
 	_process_game(delta)
