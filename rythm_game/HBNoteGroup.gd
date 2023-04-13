@@ -207,7 +207,7 @@ func _on_wrong():
 	for judgement in note_judgement_infos.values():
 		judgement.wrong = true
 	# Calculate the "average" judgement (see calculate_judgement above)
-	var final_judgement := game.judge.judge_note(game.time_msec / 1000.0, note_datas[0].time/1000.0) as int
+	var final_judgement := game.judge.judge_note(game.time_msec, note_datas[0].time) as int
 	if note_judgement_infos.size() > 0:
 		var c := calculate_judgement(note_judgement_infos.values())
 		if c != -1:

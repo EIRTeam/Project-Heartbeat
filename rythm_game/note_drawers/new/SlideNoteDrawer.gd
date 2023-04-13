@@ -82,7 +82,7 @@ func process_input(event: InputEventHB):
 		_on_pressed()
 
 func _on_pressed():
-	var judgement := game.judge.judge_note(game.time_msec / 1000.0, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
 	judgement = max(HBJudge.JUDGE_RATINGS.FINE, judgement) # Slide notes always give at least a fine
 	if is_slide_chain():
 		judgement = HBJudge.JUDGE_RATINGS.COOL # Slide chains can never be a fine

@@ -43,7 +43,7 @@ func process_input(event: InputEventHB):
 		_on_pressed(event)
 		
 func _on_end_release(event := null):
-	var judgement := game.judge.judge_note(game.time_msec, note_data.end_time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec, note_data.end_time) as int
 	judgement = max(judgement, 0)
 	notify_release_judgement(judgement)
 	emit_signal("finished")
@@ -63,7 +63,7 @@ func _on_pressed(event = null, judge := true):
 		sustain_loop.start()
 	if not is_autoplay_enabled():
 		fire_and_forget_user_sfx("note_hit")
-	var judgement := game.judge.judge_note(game.time_msec / 1000.0, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
 	if judge:
 		emit_signal("judged", judgement, false, note_data.time, event)
 		if not pressed and judgement < HBJudge.JUDGE_RATINGS.FINE:

@@ -11,7 +11,7 @@ func process_input(event: InputEventHB):
 	_on_note_pressed(event)
 
 func _on_note_pressed(event = null):
-	var judgement := game.judge.judge_note(game.time_msec / 1000.0, note_data.time/1000.0) as int
+	var judgement := game.judge.judge_note(game.time_msec, note_data.time) as int
 	if not is_autoplay_enabled():
 		var sfx_type := "note_hit"
 		if note_data.note_type == HBBaseNote.NOTE_TYPE.HEART:

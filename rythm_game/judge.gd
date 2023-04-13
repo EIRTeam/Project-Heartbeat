@@ -37,8 +37,8 @@ const RATING_TO_WRONG_TEXT_MAP = {
 
 var timing_window_scale = 1.0
 
-func judge_note (input: float, target_note_timing: float):
-	var diff =  (input - target_note_timing)*1000
+func judge_note(hit_time_msec: int, target_note_time: int) -> int:
+	var diff =  hit_time_msec - target_note_time
 	var closest = 128 * timing_window_scale
 	
 	if diff < -get_target_window_msec():
