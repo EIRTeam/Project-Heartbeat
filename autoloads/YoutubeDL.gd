@@ -4,7 +4,7 @@ const LOG_NAME = "YoutubeDL"
 
 var YOUTUBE_DL_DIR = "user://youtube_dl"
 var CACHE_FILE = "user://youtube_dl/cache/yt_cache.json"
-const VIDEO_EXT = "webm"
+const VIDEO_EXT = "mp4"
 const AUDIO_EXT = "ogg"
 enum YOUTUBE_DL_STATUS {
 	READY,
@@ -231,7 +231,7 @@ func _init_ytdl():
 		var f := File.new()
 		while not curr.empty():
 			var video_id := curr.get_file().get_basename()
-			if curr.get_extension() in ["webm", "ogg"]:
+			if curr.get_extension() in ["webm", "ogg", "mp4"]:
 				if not video_id in cache_meta.cache:
 					if f.open(cache_dir.plus_file(curr), File.READ) == OK:
 						unused_cache_size += f.get_len()
@@ -271,7 +271,10 @@ func get_ffprobe_executable():
 
 
 func get_video_path(video_id, global=false) -> String:
-	var path = get_cache_dir() + "/" + video_id + ".webm"
+	var ext := "mp4"
+	if video_id in cache_meta.cache:
+		ext = cache_meta.cache[video_id].get("video_ext", "mp4")
+	var path = get_cache_dir() + "/" + video_id + "." + ext
 	if global:
 		path = ProjectSettings.globalize_path(path)
 	return path
@@ -413,7 +416,7 @@ func _download_video(userdata):
 				result["audio"] = false
 				audio_download_ok = false
 			else:
-				# Final step: Checking if hte file that should exist actually exists
+				# Final step: Checking if the file that should exist actually exists
 				if audio_exists(userdata.video_id):
 					cache_meta_mutex.lock()
 					cache_meta.cache[userdata.video_id]["audio"] = true
@@ -428,8 +431,7 @@ func _download_video(userdata):
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
-		var video_params = ["-f", "bestvideo[ext=webm][vcodec^=vp9][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", userdata.video_id + ".webm", "https://youtu.be/" + userdata.video_id]
-		
+		var video_params = ["-f", "bestvideo[ext=mp4][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", userdata.video_id + ".mp4", "https://youtu.be/" + userdata.video_id]
 		
 		entry.mutex.lock()
 		if entry.aborted:
@@ -531,6 +533,7 @@ func _video_downloaded(thread: Thread, result):
 	
 func video_exists(video_id):
 	var file = File.new()
+	print("CHECK VIDEO", video_id)
 	return file.file_exists(get_video_path(video_id))
 func audio_exists(video_id):
 	var file = File.new()
