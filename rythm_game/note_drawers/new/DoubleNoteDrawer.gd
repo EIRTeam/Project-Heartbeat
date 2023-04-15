@@ -63,7 +63,8 @@ func process_note(time_msec: int):
 	
 	if is_autoplay_enabled():
 		if is_in_autoplay_schedule_range(time_msec, note_data.time) and not scheduled_autoplay_sound:
-			schedule_autoplay_sound("double_note_hit", time_msec, note_data.time)
+			var hit_sound := "double_heart_note_hit" if note_data.note_type == HBBaseNote.NOTE_TYPE.HEART else "double_note_hit"
+			schedule_autoplay_sound(hit_sound, time_msec, note_data.time)
 		if time_msec > note_data.time:
 			_on_note_pressed(null)
 	
