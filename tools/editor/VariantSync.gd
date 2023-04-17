@@ -26,6 +26,8 @@ func set_offset(val):
 	variant_editor.offset = val
 
 func _input(event):
+	if not is_visible_in_tree():
+		return
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_MIDDLE:
 			_drag_x_start = base_editor.get_local_mouse_position().x
