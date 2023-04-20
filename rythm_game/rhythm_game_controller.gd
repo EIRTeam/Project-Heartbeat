@@ -6,7 +6,7 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 
 const FADE_OUT_TIME = 1.0
 
-const ROLLBACK_TIME = 1.3 # Rollback time after pausing and unpausing
+const ROLLBACK_TIME = 1300 # Rollback time after pausing and unpausing
 var rollback_on_resume = false
 onready var fade_out_tween = get_node("FadeOutTween")
 onready var fade_in_tween = get_node("FadeInTween")
@@ -24,7 +24,7 @@ onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationP
 onready var pause_menu = get_node("PauseMenu")
 onready var game_over_tween := Tween.new()
 var pause_disabled = false
-var last_pause_time = 0.0
+var last_pause_time := 0
 var pause_menu_disabled = false
 var prevent_showing_results = false
 var prevent_scene_changes = false
@@ -42,6 +42,7 @@ var current_assets = {}
 var playing_game_over_animation := false
 
 var skin_override: HBUISkin
+var rollback_delta := 0.0
 
 func _ready():
 	connect("resized", self, "set_game_size")
@@ -272,7 +273,7 @@ func _on_resumed():
 		game.time_msec = last_pause_time
 		rollback_label_animation_player.play("appear")
 		pause_menu_disabled = true
-		video_player.set_stream_position(last_pause_time - ROLLBACK_TIME)
+		video_player.set_stream_position((last_pause_time - ROLLBACK_TIME) / 1000.0)
 		if game.time_msec < 0:
 			video_player.paused = true
 		vhs_panel.show()
@@ -314,9 +315,10 @@ func _show_results(game_info: HBGameInfo):
 func _on_paused():
 	get_tree().paused = true
 	set_process(false)
-	if game.time_msec / 1000.0 - last_pause_time >= ROLLBACK_TIME and game.time_msec > 0:
-		last_pause_time = game.time_msec / 1000.0
+	if game.time_msec - last_pause_time >= ROLLBACK_TIME and game.time_msec > 0:
+		last_pause_time = game.time_msec
 		rollback_on_resume = true
+		rollback_delta = 0
 		game.set_process(false)
 		game.editing = true
 	video_player.paused = true
@@ -341,9 +343,17 @@ var _last_time = 0.0
 
 #var prev_aht = 0
 
+# latency compensated target rollback time
+func get_target_rollback_time_msec() -> int:
+	var latency_compensation = UserSettings.user_settings.lag_compensation
+	if current_game_info:
+		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
+			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
+	return last_pause_time - ROLLBACK_TIME + latency_compensation
+	
 func _process(delta):
-#	$Label.visible = Diagnostics.fps_label.visible
-#	$Label.text = "off: %d\n" % [game.audio_playback.offset]
+	$Label.visible = Diagnostics.fps_label.visible
+	$Label.text = "pos: %d\n" % [game.time_msec]
 #	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game.audio_playback.volume]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
 #	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]
@@ -353,28 +363,19 @@ func _process(delta):
 #	else:
 #		prev_aht = AHT
 #	$Label.text = "GT: %d\nAHT: %d\ndiff: %d" % [int(game.time*1000.0), AHT, int(game.time*1000.0) - AHT]
-	var latency_compensation = UserSettings.user_settings.lag_compensation
-	if current_game_info:
-		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
-			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
 	if rollback_on_resume:
-		game.seek_new(game.time_msec - delta * 1000.0)
+		rollback_delta -= delta * 1000.0
+		game.seek_new(max(last_pause_time + rollback_delta, last_pause_time - ROLLBACK_TIME))
 		game._process(0)
 #		$Label.text += "%f" % [last_pause_time]
-		if game.time_msec / 1000.0 <= last_pause_time - ROLLBACK_TIME:
-			game.seek_new((last_pause_time - ROLLBACK_TIME) * 1000.0)
+		if game.time_msec <= last_pause_time - ROLLBACK_TIME:
+			game.seek_new(get_target_rollback_time_msec())
 			rollback_on_resume = false
 			vhs_panel.hide()
 			pause_menu_disabled = false
 			rollback_label_animation_player.play("disappear")
 			game.editing = false
 			_on_resumed()
-func seek(pos: float):
-	var latency_compensation = UserSettings.user_settings.lag_compensation
-	if current_game_info:
-		if current_game_info.song_id in UserSettings.user_settings.per_song_settings:
-			latency_compensation += UserSettings.user_settings.per_song_settings[current_game_info.song_id].lag_compensation
-	game.time_msec = pos * 1000.0
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
 	var scene = MainMenu.instance()
@@ -392,7 +393,7 @@ func _on_PauseMenu_restarted():
 		var modifier = ModifierLoader.get_modifier_by_id(modifier_id).new() as HBModifier
 		modifier.modifier_settings = current_game_info.modifiers[modifier_id]
 		modifiers.append(modifier)
-	last_pause_time = 0.0
+	last_pause_time = 0
 	rollback_on_resume = false
 	game.restart()
 	video_player.stream_position = current_game_info.get_song().start_time / 1000.0

@@ -106,7 +106,7 @@ func pause():
 	if get_tree().paused:
 		pre_pause_game_mode = game.game_mode
 		game.game_mode = HBRhythmGame.GAME_MODE.EDITOR_SEEK
-		last_pause_time = game.time_msec / 1000.0
+		last_pause_time = game.time_msec
 		game.editing = true
 		video_player.paused = true
 		update_time_label()
