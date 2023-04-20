@@ -138,7 +138,7 @@ const EDITOR_ACTIONS := {
 		"editor_triangle_inverted",
 		"editor_create_template",
 		"editor_refresh_templates",
-		"editor_delete_templates",
+		"editor_open_templates_dir",
 	],
 	"Events": [
 		"editor_create_timing_change",

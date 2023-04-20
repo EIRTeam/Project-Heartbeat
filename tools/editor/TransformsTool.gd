@@ -2,25 +2,6 @@ extends MarginContainer
 
 class_name HBEditorTransforms
 
-# warning-ignore:unused_signal
-signal show_transform(transformation)
-# warning-ignore:unused_signal
-signal hide_transform()
-# warning-ignore:unused_signal
-signal apply_transform(transformation)
-
-onready var vertical_transform
-
-onready var button_container = get_node("ScrollContainer/SyncButtonContainer")
-
-var use_stage_center := false setget set_use_stage_center
-
-var editor: HBEditor
-
-func set_use_stage_center(val):
-	use_stage_center = val
-	editor.song_editor_settings.set("transforms_use_center", val)
-
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
 	
@@ -320,7 +301,6 @@ class MakeCircleTransform:
 	var separation := 96 setget set_separation
 	var eigths_per_circle := 16 setget set_epr
 	var entry_angle_offset := 0.0
-	var start_note := 0 setget set_start_note
 	# -1 for outside, 1 for inside
 	var inside = -1 setget set_inside
 	
@@ -329,9 +309,6 @@ class MakeCircleTransform:
 	
 	func set_epr(val):
 		eigths_per_circle = val
-	
-	func set_start_note(val):
-		start_note = val
 	
 	func set_inside(val):
 		if val:
@@ -362,24 +339,20 @@ class MakeCircleTransform:
 		var transformation_result = {}
 		
 		var sustain_compensation = 0
-		var time_offset
+		var time_offset = editor.get_time_as_eight(notes[0].time)
 		
 		var radius = separation * eigths_per_circle / TAU
 		var start_rev = 0.0
-		var center
-		
-		if start_note < notes.size():
-			time_offset = editor.get_time_as_eight(notes[start_note].time)
-			center = notes[start_note].position
-		else:
-			time_offset = editor.get_time_as_eight(notes[0].time)
-			center = notes[0].position
+		var center = notes[0].position
 		
 		if center.y > 540:
 			start_rev = 0.5
 			center.y -= radius
 		else:
 			center.y += radius
+		
+		if not notes[0].pos_modified:
+			center = Vector2(960, 540)
 		
 		var angle_offset = (start_rev + 0.75) * TAU
 		

@@ -319,7 +319,7 @@ func fill_localized_arrays():
 		"editor_triangle_inverted": tr("Inverted triangle"),
 		"editor_create_template": tr("Create template"),
 		"editor_refresh_templates": tr("Refresh templates"),
-		"editor_delete_templates": tr("Popup template deletion menu"),
+		"editor_open_templates_dir": tr("Open the templates dir (to manage them)"),
 		#  Events
 		"editor_create_timing_change": tr("Create timing change"),
 		"editor_create_speed_change": tr("Create speed change"),
