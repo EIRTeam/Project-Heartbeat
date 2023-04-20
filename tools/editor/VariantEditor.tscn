@@ -3,8 +3,8 @@
 [ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=1]
 [ext_resource path="res://tools/editor/VariantEditor.gd" type="Script" id=2]
 [ext_resource path="res://tools/editor/VariantSync.tscn" type="PackedScene" id=3]
-[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=4]
-[ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=5]
+[ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=4]
+[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=5]
 
 [node name="PanelContainer" type="VBoxContainer"]
 margin_right = 588.0

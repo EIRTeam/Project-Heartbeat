@@ -212,17 +212,17 @@ _global_script_classes=[ {
 "base": "Container",
 "class": "HBEditorButton",
 "language": "GDScript",
-"path": "res://menus/HBEditorButton.gd"
+"path": "res://tools/editor/controls/HBEditorButton.gd"
 }, {
 "base": "HBEditorTextEdit",
 "class": "HBEditorCodeEdit",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorCodeEdit.gd"
+"path": "res://tools/editor/controls/HBEditorCodeEdit.gd"
 }, {
 "base": "ColorPickerButton",
 "class": "HBEditorColorPickerButton",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorColorPickerButton.gd"
+"path": "res://tools/editor/controls/HBEditorColorPickerButton.gd"
 }, {
 "base": "PopupMenu",
 "class": "HBEditorContextualMenuControl",
@@ -232,7 +232,7 @@ _global_script_classes=[ {
 "base": "LineEdit",
 "class": "HBEditorLineEdit",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorLineEdit.gd"
+"path": "res://tools/editor/controls/HBEditorLineEdit.gd"
 }, {
 "base": "Control",
 "class": "HBEditorModule",
@@ -247,7 +247,7 @@ _global_script_classes=[ {
 "base": "MultiSpinBox",
 "class": "HBEditorMultiSpinBox",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorMultiSpinBox.gd"
+"path": "res://tools/editor/controls/HBEditorMultiSpinBox.gd"
 }, {
 "base": "HBEditorWidget",
 "class": "HBEditorNoteMovementWidget",
@@ -267,7 +267,7 @@ _global_script_classes=[ {
 "base": "SpinBox",
 "class": "HBEditorSpinBox",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorSpinBox.gd"
+"path": "res://tools/editor/controls/HBEditorSpinBox.gd"
 }, {
 "base": "HBSerializable",
 "class": "HBEditorTemplate",
@@ -277,7 +277,7 @@ _global_script_classes=[ {
 "base": "TextEdit",
 "class": "HBEditorTextEdit",
 "language": "GDScript",
-"path": "res://tools/editor/HBEditorTextEdit.gd"
+"path": "res://tools/editor/controls/HBEditorTextEdit.gd"
 }, {
 "base": "MarginContainer",
 "class": "HBEditorTransforms",
@@ -2301,7 +2301,7 @@ editor_refresh_templates={
 "deadzone": 0.5,
 "events": [  ]
 }
-editor_delete_templates={
+editor_open_templates_dir={
 "deadzone": 0.5,
 "events": [  ]
 }

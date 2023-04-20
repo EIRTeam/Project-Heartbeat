@@ -33,11 +33,11 @@ func _init():
 func get_serialized_type() -> String:
 	return "EditorTemplate"
 
-func save() -> int:
+func save(base_path: String = EDITOR_TEMPLATES_PATH) -> int:
 	var file := File.new()
 	
 	self.filename = self.name.to_lower().replace(" ", "_") + ".json"
-	var path := HBUtils.join_path(EDITOR_TEMPLATES_PATH, filename)
+	var path := HBUtils.join_path(base_path, filename)
 	
 	if file.file_exists(path):
 		return ERR_ALREADY_EXISTS

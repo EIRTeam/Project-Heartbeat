@@ -2,7 +2,7 @@
 
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/editor/editor_modules/PresetsModule.gd" type="Script" id=2]
-[ext_resource path="res://menus/HBEditorButton.gd" type="Script" id=3]
+[ext_resource path="res://tools/editor/controls/HBEditorButton.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=4]
 [ext_resource path="res://graphics/icons/vertical-multi-right.png" type="Texture" id=5]
 [ext_resource path="res://graphics/icons/quad-inside.png" type="Texture" id=6]

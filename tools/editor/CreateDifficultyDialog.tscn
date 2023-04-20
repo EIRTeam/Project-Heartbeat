@@ -5,8 +5,8 @@
 [ext_resource path="res://tools/editor/arcade_style.png" type="Texture" id=3]
 [ext_resource path="res://tools/editor/console_style.png" type="Texture" id=4]
 [ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=5]
-[ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=6]
-[ext_resource path="res://tools/editor/HBEditorSpinBox.gd" type="Script" id=7]
+[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=6]
+[ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=7]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog"]
 visible = true
