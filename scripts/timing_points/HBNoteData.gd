@@ -1,8 +1,6 @@
 # Base class for modern-style notes
 extends HBBaseNote
 
-var drawer = load("res://rythm_game/note_drawers/SingleNoteDrawer.tscn")
-var slide_drawer = load("res://rythm_game/note_drawers/SlideNoteDrawer.tscn")
 class_name HBNoteData
 
 var hold = false setget set_hold # If this is a modern-style hold note

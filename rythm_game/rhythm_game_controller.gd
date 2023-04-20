@@ -352,8 +352,8 @@ func get_target_rollback_time_msec() -> int:
 	return last_pause_time - ROLLBACK_TIME + latency_compensation
 	
 func _process(delta):
-	$Label.visible = Diagnostics.fps_label.visible
-	$Label.text = "pos: %d\n" % [game.time_msec]
+#	$Label.visible = Diagnostics.fps_label.visible
+#	$Label.text = "pos: %d\n" % [game.time_msec]
 #	$Label.text = "pos %d \n audiopos %d \n diff %f \n LHI: %d\nAudio norm off: %.2f\n" % [game.audio_playback.get_playback_position_msec(), game.audio_playback.get_playback_position_msec(), game.time - video_player.stream_position, game.last_hit_index, game.audio_playback.volume]
 #	$Label.text += "al: %.4f %.4f\n" % [AudioServer.get_time_to_next_mix(), AudioServer.get_output_latency()]
 #	$Label.text += "Ticks: %d\n BT: %d" % [OS.get_ticks_usec(), game.time_begin]

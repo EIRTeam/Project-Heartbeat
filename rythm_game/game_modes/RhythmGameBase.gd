@@ -28,7 +28,6 @@ var note_groups_by_end_time := []
 var result = HBResult.new()
 var judge = preload("res://rythm_game/judge.gd").new()
 var time_msec: int
-var time_nsec: int
 var current_combo = 0
 var disable_intro_skip = false
 
