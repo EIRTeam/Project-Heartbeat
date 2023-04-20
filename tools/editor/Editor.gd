@@ -231,7 +231,7 @@ func _ready():
 	connect("timing_information_changed", rhythm_game, "update_bpm_map")
 
 const HELP_URLS = [
-	"https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718",
+	"https://ph-editor.eirteam.moe/",
 	"https://steamcommunity.com/sharedfiles/filedetails/?id=2465841098"
 ]
 	
