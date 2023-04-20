@@ -326,8 +326,13 @@ func create_template():
 		template_name_confirmation_dialog.dialog_text = "That name is already in use!"
 		
 		return
+	elif result == ERR_FILE_BAD_PATH:
+		template_name_confirmation_dialog.dialog_text = "The name has to contain an ASCII character."
+		
+		return
 	elif result != OK:
 		Log.log(self, "Could not save template: " + str(result), Log.LogLevel.ERROR)
+		
 		return
 	
 	template_name_confirmation_dialog.hide()

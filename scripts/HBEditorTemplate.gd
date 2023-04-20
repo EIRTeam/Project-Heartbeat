@@ -36,7 +36,10 @@ func get_serialized_type() -> String:
 func save(base_path: String = EDITOR_TEMPLATES_PATH) -> int:
 	var file := File.new()
 	
-	self.filename = self.name.to_lower().replace(" ", "_") + ".json"
+	self.filename = HBUtils.get_valid_filename(self.name.to_lower()) + ".json"
+	if self.filename == ".json":
+		return ERR_FILE_BAD_PATH
+	
 	var path := HBUtils.join_path(base_path, filename)
 	
 	if file.file_exists(path):
