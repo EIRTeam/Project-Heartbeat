@@ -11,4 +11,6 @@ func _ready():
 		HBEditorTransforms.SidewaysQuadPreset.new(),
 		HBEditorTransforms.TrianglePreset.new(false),
 		HBEditorTransforms.TrianglePreset.new(true),
+		HBEditorTransforms.StraightVerticalMultiPreset.new(),
+		HBEditorTransforms.DiagonalMultiPreset.new(),
 	]

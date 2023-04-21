@@ -310,8 +310,10 @@ func fill_localized_arrays():
 		#  Presets and Templates
 		"editor_vertical_multi_left": tr("Vertical multi left"),
 		"editor_vertical_multi_right": tr("Vertical multi right"),
-		"editor_horizontal_multi_top": tr("Vertical multi top"),
-		"editor_horizontal_multi_bottom": tr("Vertical multi bottom"),
+		"editor_vertical_multi_straight": tr("Straight vertical multi"),
+		"editor_horizontal_multi_top": tr("Horizontal multi top"),
+		"editor_horizontal_multi_bottom": tr("Horizontal multi bottom"),
+		"editor_horizontal_multi_diagonal": tr("Diagonal multi"),
 		"editor_quad": tr("Quad"),
 		"editor_inner_quad": tr("Quad (From inside)"),
 		"editor_sideways_quad": tr("Sideways quad"),

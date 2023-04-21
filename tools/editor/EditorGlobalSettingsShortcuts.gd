@@ -129,8 +129,10 @@ const EDITOR_ACTIONS := {
 	"Presets and Templates": [
 		"editor_vertical_multi_left",
 		"editor_vertical_multi_right",
+		"editor_vertical_multi_straight",
 		"editor_horizontal_multi_top",
 		"editor_horizontal_multi_bottom",
+		"editor_horizontal_multi_diagonal",
 		"editor_quad",
 		"editor_inner_quad",
 		"editor_sideways_quad",

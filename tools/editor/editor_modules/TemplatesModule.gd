@@ -272,6 +272,9 @@ func update_templates():
 func update_visibility():
 	var types_at_times := {}
 	for item in get_selected():
+		if not item.data is HBBaseNote:
+			continue
+		
 		var time = item.data.time
 		if not time in types_at_times:
 			types_at_times[time] = []
