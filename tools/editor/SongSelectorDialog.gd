@@ -54,3 +54,7 @@ func _on_ppd_file_selected(path):
 func _on_search_text_changed(new_text: String):
 	song_selector.search = new_text.to_lower()
 	song_selector.populate_tree()
+
+func _popup():
+	song_selector.populate_tree()
+	popup_centered_ratio(0.35)
