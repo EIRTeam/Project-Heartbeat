@@ -533,7 +533,6 @@ func _video_downloaded(thread: Thread, result):
 	
 func video_exists(video_id):
 	var file = File.new()
-	print("CHECK VIDEO", video_id)
 	return file.file_exists(get_video_path(video_id))
 func audio_exists(video_id):
 	var file = File.new()
