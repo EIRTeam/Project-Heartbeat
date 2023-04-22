@@ -174,7 +174,7 @@ func update_shortcuts():
 
 
 func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
-	arrange_angle_spinbox.value = rad2deg(fmod(-angle + 2*PI, 2*PI))
+	arrange_angle_spinbox.value = rad2deg(fmod(angle + 2*PI, 2*PI))
 	reverse_arrange_checkbox.pressed = reverse
 
 func _apply_arrange():
