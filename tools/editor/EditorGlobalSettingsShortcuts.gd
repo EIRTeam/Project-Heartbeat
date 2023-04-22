@@ -129,8 +129,10 @@ const EDITOR_ACTIONS := {
 	"Presets and Templates": [
 		"editor_vertical_multi_left",
 		"editor_vertical_multi_right",
+		"editor_vertical_multi_straight",
 		"editor_horizontal_multi_top",
 		"editor_horizontal_multi_bottom",
+		"editor_horizontal_multi_diagonal",
 		"editor_quad",
 		"editor_inner_quad",
 		"editor_sideways_quad",
@@ -138,7 +140,7 @@ const EDITOR_ACTIONS := {
 		"editor_triangle_inverted",
 		"editor_create_template",
 		"editor_refresh_templates",
-		"editor_delete_templates",
+		"editor_open_templates_dir",
 	],
 	"Events": [
 		"editor_create_timing_change",

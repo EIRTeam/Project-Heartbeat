@@ -13,7 +13,7 @@ func _draw():
 	if hovering:
 		border_color = Color.red
 	border_color.a = 0.75
-#	draw_rect(Rect2(Vector2(0,0), rect_size), inside_color, true)
+	
 	draw_rect(Rect2(Vector2(0,0), rect_size), border_color, false, 2.0)
 
 

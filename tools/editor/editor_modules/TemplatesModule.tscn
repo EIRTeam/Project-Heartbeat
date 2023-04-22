@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
-[ext_resource path="res://tools/icons/icon_remove_biggest.svg" type="Texture" id=2]
+[ext_resource path="res://graphics/icons/folder-open-big.svg" type="Texture" id=2]
 [ext_resource path="res://tools/editor/editor_modules/TemplatesModule.gd" type="Script" id=3]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=4]
-[ext_resource path="res://tools/editor/HBEditorLineEdit.gd" type="Script" id=5]
-[ext_resource path="res://menus/HBEditorButton.gd" type="Script" id=6]
+[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=5]
+[ext_resource path="res://tools/editor/controls/HBEditorButton.gd" type="Script" id=6]
 [ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=7]
 [ext_resource path="res://graphics/icons/template-edit.svg" type="Texture" id=9]
 [ext_resource path="res://graphics/icons/refresh-biggest.svg" type="Texture" id=10]
@@ -59,7 +59,7 @@ script = ExtResource( 7 )
 unique_name_in_owner = true
 margin_right = 637.0
 margin_bottom = 685.0
-rect_min_size = Vector2( 73, 685 )
+rect_min_size = Vector2( 65, 685 )
 size_flags_horizontal = 3
 script = ExtResource( 6 )
 text = "Create
@@ -76,7 +76,7 @@ action = "editor_create_template"
 margin_left = 641.0
 margin_right = 1278.0
 margin_bottom = 685.0
-rect_min_size = Vector2( 73, 668 )
+rect_min_size = Vector2( 65, 668 )
 size_flags_horizontal = 3
 script = ExtResource( 6 )
 text = "Refresh
@@ -87,28 +87,33 @@ button_mode = "function"
 function_name = "load_templates"
 action = "editor_refresh_templates"
 
-[node name="DeleteTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["template_buttons"]]
+[node name="ManageTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["template_buttons"]]
 margin_left = 1282.0
 margin_right = 1920.0
 margin_bottom = 685.0
-rect_min_size = Vector2( 73, 669 )
+rect_min_size = Vector2( 65, 669 )
 size_flags_horizontal = 3
 script = ExtResource( 6 )
-text = "Delete
-template(s)"
-tooltip = "Open a dialog for deleting some
-templates."
+text = "Manage
+templates"
+tooltip = "Open the templates directory.
+Subdirectories correspond to subdivisions
+on the list. 
+Delete a template by removing its file, or
+change its subfolder."
 texture = ExtResource( 2 )
 button_mode = "function"
-function_name = "_on_delete_templates_pressed"
-action = "editor_delete_templates"
+function_name = "_on_manage_templates_pressed"
+action = "editor_open_templates_dir"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 
 [node name="TemplateNameConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="0"]
 unique_name_in_owner = true
-margin_right = 254.0
-margin_bottom = 122.0
+visible = true
+margin_right = 422.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 150, 52.5 )
 theme = ExtResource( 4 )
 window_title = "Create Template"
 dialog_text = "Please input a name for the template:"
@@ -120,16 +125,17 @@ anchor_bottom = 0.529
 margin_left = 8.0
 margin_top = 33.0
 margin_right = -8.0
-margin_bottom = 22.462
+margin_bottom = 46.606
+rect_clip_content = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer" index="0"]
-margin_right = 238.0
-margin_bottom = 54.0
+margin_right = 406.0
+margin_bottom = 112.0
 alignment = 1
 
 [node name="TemplateNameLineEdit" type="LineEdit" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="0"]
 unique_name_in_owner = true
-margin_right = 238.0
+margin_right = 406.0
 margin_bottom = 25.0
 placeholder_text = "Lino's terrific template"
 script = ExtResource( 5 )
@@ -137,7 +143,7 @@ script = ExtResource( 5 )
 [node name="SaveAllCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
 margin_top = 29.0
-margin_right = 238.0
+margin_right = 406.0
 margin_bottom = 54.0
 hint_tooltip = "If enabled, will save every
 property as part of the template.
@@ -147,45 +153,32 @@ only modify certain properties."
 pressed = true
 text = "Save all properties"
 
-[node name="TemplateDeletionConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="1"]
+[node name="AutoHideCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
-margin_right = 278.0
-margin_bottom = 283.0
-theme = ExtResource( 4 )
-window_title = "Create Template"
-dialog_text = "Please select which templates to delete:"
+margin_top = 58.0
+margin_right = 406.0
+margin_bottom = 83.0
+hint_tooltip = "If enabled, this template will be hidden unless the notes selected have the exact same type than the originals."
+text = "Automatically hide template"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TemplateDeletionConfirmationDialog" index="3"]
-anchor_right = 1.0
-anchor_bottom = 0.529
-margin_left = 8.0
-margin_top = 33.0
-margin_right = -8.0
-margin_bottom = 92.293
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="3"]
+margin_top = 87.0
+margin_right = 406.0
+margin_bottom = 112.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateDeletionConfirmationDialog/MarginContainer" index="0"]
-margin_right = 262.0
-margin_bottom = 209.0
-alignment = 1
+[node name="Label" type="Label" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 71.0
+margin_bottom = 25.0
+text = "Category: "
 
-[node name="TemplateDeletionTree" type="Tree" parent="CanvasLayer/TemplateDeletionConfirmationDialog/MarginContainer/VBoxContainer" index="0"]
+[node name="CategoryOptionButton" type="OptionButton" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
 unique_name_in_owner = true
-margin_right = 262.0
-margin_bottom = 209.0
-size_flags_vertical = 3
-hide_root = true
-
-[node name="ReallyReallyDeleteConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="2"]
-unique_name_in_owner = true
-margin_right = 306.0
-margin_bottom = 94.0
-theme = ExtResource( 4 )
-dialog_text = "Do you really want to delete those templates?
-This action cannot be undone!"
-dialog_autowrap = true
+margin_left = 75.0
+margin_right = 406.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Uncategorized"
+clip_text = true
 
 [connection signal="confirmed" from="CanvasLayer/TemplateNameConfirmationDialog" to="." method="create_template"]
-[connection signal="text_accepted" from="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/TemplateNameLineEdit" to="." method="_template_name_accepted"]
 [connection signal="text_changed" from="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/TemplateNameLineEdit" to="." method="_template_name_changed"]
-[connection signal="confirmed" from="CanvasLayer/TemplateDeletionConfirmationDialog" to="CanvasLayer/ReallyReallyDeleteConfirmationDialog" method="popup_centered"]
-[connection signal="confirmed" from="CanvasLayer/ReallyReallyDeleteConfirmationDialog" to="." method="delete_templates"]

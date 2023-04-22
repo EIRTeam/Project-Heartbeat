@@ -110,6 +110,7 @@ func _draw():
 
 func _on_start_dragging():
 	drag_origin = rect_position
+	internal_pos = rect_position
 
 func _on_finish_dragging():
 	editor._commit_selected_property_change("position")

@@ -415,6 +415,7 @@ func _unhandled_input(event):
 
 func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	var layer := find_layer_by_name(layer_name)
+	var second_layer := "2" in layer_name
 	var map := editor.get_timing_map()
 	
 	var first_pos = _area_select_start
@@ -448,6 +449,8 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 	if note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
 		first_slide.position.x += 32 * piece_count
 	
+	first_slide.set_meta("second_layer", second_layer)
+	
 	var first_timeline_item = first_slide.get_timeline_item()
 	
 	editor.undo_redo.create_action("Create slide chain")
@@ -480,6 +483,8 @@ func make_slide(note_type: int, piece_note_type: int, layer_name: String):
 			slide_piece.position.x += 48 + 32 * i
 		else:
 			slide_piece.position.x -= 48 + 32 * i
+		
+		slide_piece.set_meta("second_layer", second_layer)
 		
 		var timeline_item = slide_piece.get_timeline_item()
 		

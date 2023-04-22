@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/straight-vertical-multi.svg-62b0a494ed158ccf7e440939ec7be6df.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://graphics/icons/straight-vertical-multi.svg"
+dest_files=[ "res://.import/straight-vertical-multi.svg-62b0a494ed158ccf7e440939ec7be6df.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=50.0

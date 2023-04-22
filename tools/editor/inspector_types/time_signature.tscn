@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://tools/editor/inspector_types/time_signature.gd" type="Script" id=1]
-[ext_resource path="res://tools/editor/HBEditorMultiSpinBox.gd" type="Script" id=2]
+[ext_resource path="res://tools/editor/controls/HBEditorMultiSpinBox.gd" type="Script" id=2]
 
 [node name="TimeSignature" type="HBoxContainer"]
 margin_right = 26.0

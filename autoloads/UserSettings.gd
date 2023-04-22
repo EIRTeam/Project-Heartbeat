@@ -310,8 +310,10 @@ func fill_localized_arrays():
 		#  Presets and Templates
 		"editor_vertical_multi_left": tr("Vertical multi left"),
 		"editor_vertical_multi_right": tr("Vertical multi right"),
-		"editor_horizontal_multi_top": tr("Vertical multi top"),
-		"editor_horizontal_multi_bottom": tr("Vertical multi bottom"),
+		"editor_vertical_multi_straight": tr("Straight vertical multi"),
+		"editor_horizontal_multi_top": tr("Horizontal multi top"),
+		"editor_horizontal_multi_bottom": tr("Horizontal multi bottom"),
+		"editor_horizontal_multi_diagonal": tr("Diagonal multi"),
 		"editor_quad": tr("Quad"),
 		"editor_inner_quad": tr("Quad (From inside)"),
 		"editor_sideways_quad": tr("Sideways quad"),
@@ -319,7 +321,7 @@ func fill_localized_arrays():
 		"editor_triangle_inverted": tr("Inverted triangle"),
 		"editor_create_template": tr("Create template"),
 		"editor_refresh_templates": tr("Refresh templates"),
-		"editor_delete_templates": tr("Popup template deletion menu"),
+		"editor_open_templates_dir": tr("Open the templates dir (to manage them)"),
 		#  Events
 		"editor_create_timing_change": tr("Create timing change"),
 		"editor_create_speed_change": tr("Create speed change"),

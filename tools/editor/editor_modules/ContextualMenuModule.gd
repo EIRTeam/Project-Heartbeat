@@ -2,8 +2,6 @@ extends HBEditorModule
 
 var offset_spinbox
 
-var hovered_time = 0
-
 var button_change_submenu: PopupMenu
 var selection_modifier_submenu: HBEditorContextualMenuControl
 var type_selection_modifier_submenu: HBEditorContextualMenuControl
@@ -50,8 +48,6 @@ func set_editor(p_editor):
 	.set_editor(p_editor)
 	
 	var contextual_menu := get_contextual_menu()
-	contextual_menu.connect("about_to_show", self, "_on_contextual_menu_about_to_show")
-	
 	contextual_menu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
 	
 	selection_modifier_submenu = HBEditorContextualMenuControl.new()
@@ -279,10 +275,8 @@ func change_note_type(new_type: String):
 		
 		undo_redo.commit_action()
 
-func _on_contextual_menu_about_to_show():
-	hovered_time = get_time_being_hovered()
+func update_selected():
 	var contextual_menu := get_contextual_menu()
-	contextual_menu.set_contextual_item_disabled("paste", editor.copied_points.size() == 0)
 	
 	var disable_all = get_selected().size() <= 0
 	
@@ -577,6 +571,7 @@ func make_slide():
 				new_note.oscillation_amplitude = start_data.oscillation_amplitude
 				new_note.oscillation_frequency = start_data.oscillation_frequency
 				new_note.entry_angle = start_data.entry_angle
+				new_note.set_meta("second_layer", "2" in start._layer.layer_name)
 				
 				var new_item = new_note.get_timeline_item()
 				

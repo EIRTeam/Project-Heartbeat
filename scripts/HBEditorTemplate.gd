@@ -8,6 +8,7 @@ var name := "New Template"
 var filename := "new_template.json" # Internal, not serialized
 
 var saved_properties := []
+var autohide := false
 
 # Ugly hack to get clean de/serialization
 # Im sorry, me
@@ -19,24 +20,32 @@ var slide_left_template: HBBaseNote
 var slide_right_template: HBBaseNote
 var slide_chain_left_template: HBBaseNote
 var slide_chain_right_template: HBBaseNote
+var slide_left_2_template: HBBaseNote
+var slide_right_2_template: HBBaseNote
+var slide_chain_left_2_template: HBBaseNote
+var slide_chain_right_2_template: HBBaseNote
 var heart_template: HBBaseNote
 
 func _init():
 	serializable_fields += [
-		"name", "saved_properties",
+		"name", "saved_properties", "autohide",
 		"up_template", "down_template", "left_template", "right_template", 
 		"slide_left_template", "slide_right_template", "slide_chain_left_template", "slide_chain_right_template", 
+		"slide_left_2_template", "slide_right_2_template", "slide_chain_left_2_template", "slide_chain_right_2_template", 
 		"heart_template",
 	]
 
 func get_serialized_type() -> String:
 	return "EditorTemplate"
 
-func save() -> int:
+func save(base_path: String = EDITOR_TEMPLATES_PATH) -> int:
 	var file := File.new()
 	
-	self.filename = self.name.to_lower().replace(" ", "_") + ".json"
-	var path := HBUtils.join_path(EDITOR_TEMPLATES_PATH, filename)
+	self.filename = HBUtils.get_valid_filename(self.name.to_lower()) + ".json"
+	if self.filename == ".json":
+		return ERR_FILE_BAD_PATH
+	
+	var path := HBUtils.join_path(base_path, filename)
 	
 	if file.file_exists(path):
 		return ERR_ALREADY_EXISTS
@@ -61,7 +70,7 @@ func save() -> int:
 	return OK
 
 
-func _get_template(note_type: int) -> HBBaseNote:
+func _get_template(note_type: int, second_layer: bool) -> HBBaseNote:
 	# Sigh
 	match note_type:
 		HBBaseNote.NOTE_TYPE.UP:
@@ -73,23 +82,35 @@ func _get_template(note_type: int) -> HBBaseNote:
 		HBBaseNote.NOTE_TYPE.RIGHT:
 			return self.right_template
 		HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
-			return self.slide_left_template
+			if not second_layer:
+				return self.slide_left_template
+			else:
+				return self.slide_left_2_template
 		HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
-			return self.slide_right_template
+			if not second_layer:
+				return self.slide_right_template
+			else:
+				return self.slide_right_2_template
 		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
-			return self.slide_chain_left_template
+			if not second_layer:
+				return self.slide_chain_left_template
+			else:
+				return self.slide_chain_left_2_template
 		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
-			return self.slide_chain_right_template
+			if not second_layer:
+				return self.slide_chain_right_template
+			else:
+				return self.slide_chain_right_2_template
 		HBBaseNote.NOTE_TYPE.HEART:
 			return self.heart_template
 		_:
 			return null
 
-func has_type_template(note_type: int) -> bool:
-	return _get_template(note_type) != null
+func has_type_template(note_type: int, second_layer: bool = false) -> bool:
+	return _get_template(note_type, second_layer) != null
 
-func get_type_template(note_type: int) -> Dictionary:
-	var note_data := _get_template(note_type)
+func get_type_template(note_type: int, second_layer: bool = false) -> Dictionary:
+	var note_data := _get_template(note_type, second_layer)
 	
 	var template := {}
 	for property in saved_properties:
@@ -109,13 +130,25 @@ func set_type_template(note_data: HBBaseNote):
 		HBBaseNote.NOTE_TYPE.RIGHT:
 			self.right_template = note_data
 		HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
-			self.slide_left_template = note_data
+			if not note_data.get_meta("second_layer", false):
+				self.slide_left_template = note_data
+			else:
+				self.slide_left_2_template = note_data
 		HBBaseNote.NOTE_TYPE.SLIDE_RIGHT:
-			self.slide_right_template = note_data
+			if not note_data.get_meta("second_layer", false):
+				self.slide_right_template = note_data
+			else:
+				self.slide_right_2_template = note_data
 		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT:
-			self.slide_chain_left_template = note_data
+			if not note_data.get_meta("second_layer", false):
+				self.slide_chain_left_template = note_data
+			else:
+				self.slide_chain_left_2_template = note_data
 		HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_RIGHT:
-			self.slide_chain_right_template = note_data
+			if not note_data.get_meta("second_layer", false):
+				self.slide_chain_right_template = note_data
+			else:
+				self.slide_chain_right_2_template = note_data
 		HBBaseNote.NOTE_TYPE.HEART:
 			self.heart_template = note_data
 		_:
@@ -126,3 +159,27 @@ func get_transform() -> EditorTransformationTemplate:
 	transform.template = self
 	
 	return transform
+
+# WARNING: FOOTGUN AHEAD
+# Make sure the types array is populated with dictionaries of the type 
+# {type: HBBaseNote.NOTE_TYPE, second_layer: bool}
+# Also, remember that DICTIONARY EQUALITY IS A LIE, you have to use hash
+# THIS ALSO APPLIES TO THE IN OPERATOR, so remember to loop manually
+# - Lino, 22/04/23
+func are_types_valid(types: Array) -> bool:
+	if not types:
+		return false
+	
+	for is_second_layer in [true, false]:
+		for type in HBBaseNote.NOTE_TYPE.values():
+			var type_in_types := false
+			for t in types:
+				if {"type": type, "second_layer": is_second_layer}.hash() == t.hash():
+					type_in_types = true
+					
+					break
+			
+			if has_type_template(type, is_second_layer) != type_in_types:
+				return false
+	
+	return true

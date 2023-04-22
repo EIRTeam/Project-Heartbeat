@@ -174,7 +174,7 @@ func update_shortcuts():
 
 
 func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
-	arrange_angle_spinbox.value = rad2deg(fmod(-angle + 2*PI, 2*PI))
+	arrange_angle_spinbox.value = rad2deg(fmod(angle + 2*PI, 2*PI))
 	reverse_arrange_checkbox.pressed = reverse
 
 func _apply_arrange():
@@ -295,10 +295,17 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	pos_compensation = anchor.position
 	time_compensation = anchor.time
 	
+	if anchor is HBSustainNote and reverse:
+		time_compensation = anchor.end_time
+	
 	for selected_item in selected:
 		if selected_item.data is HBBaseNote:
 			# Real snapping hours
 			var eight_diff = get_time_as_eight(selected_item.data.time) - \
+							 get_time_as_eight(time_compensation)
+			
+			if reverse and selected_item.data is HBSustainNote:
+				eight_diff = get_time_as_eight(selected_item.data.end_time) - \
 							 get_time_as_eight(time_compensation)
 			
 			if selected_item.data is HBNoteData and selected_item.data.is_slide_note():
@@ -326,7 +333,10 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 			
 			pos_compensation = new_pos
 			if selected_item.data is HBSustainNote:
-				time_compensation = selected_item.data.end_time
+				if reverse:
+					time_compensation = selected_item.data.time
+				else:
+					time_compensation = selected_item.data.end_time
 			else:
 				time_compensation = selected_item.data.time
 	

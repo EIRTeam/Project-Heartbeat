@@ -1,24 +1,25 @@
 extends HBEditorModule
 
 const EDITOR_TEMPLATES_PATH := "user://editor_templates"
+const DOWN_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_down.svg")
+const RIGHT_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")
 
 onready var templates_container: VBoxContainer = get_node("%TemplatesVBoxContainer")
 onready var create_template_button: HBEditorButton = get_node("%CreateTemplateButton")
 onready var template_name_confirmation_dialog: ConfirmationDialog = get_node("%TemplateNameConfirmationDialog")
 onready var template_name_line_edit: HBEditorLineEdit = get_node("%TemplateNameLineEdit")
 onready var save_all_checkbox: CheckBox = get_node("%SaveAllCheckBox")
-onready var template_deletion_confirmation_dialog: ConfirmationDialog = get_node("%TemplateDeletionConfirmationDialog")
-onready var template_deletion_tree: Tree = get_node("%TemplateDeletionTree")
-onready var really_delete_confirmation_dialog: ConfirmationDialog = get_node("%ReallyReallyDeleteConfirmationDialog")
+onready var autohide_checkbox: CheckBox = get_node("%AutoHideCheckBox")
+onready var category_option_button: OptionButton = get_node("%CategoryOptionButton")
 
 onready var default_templates = preload("res://tools/editor/editor_modules/TemplatesModule/DefaultTemplates.gd").new()
 
 var templates := []
+var templates_file_tree := {}
+var buttons := []
+var category_list := []
 
 func _ready():
-	template_deletion_confirmation_dialog.get_ok().set_text("Delete")
-	really_delete_confirmation_dialog.get_ok().set_text("Delete")
-	
 	load_templates()
 
 static func template_from_note_array(notes: Array, save_all_properties: bool) -> HBEditorTemplate:
@@ -54,6 +55,8 @@ static func template_from_note_array(notes: Array, save_all_properties: bool) ->
 		var note_ser = note.serialize()
 		var note_copy = HBSerializable.deserialize(note_ser) as HBBaseNote
 		
+		note_copy.set_meta("second_layer", note.get_meta("second_layer", false))
+		
 		template.set_type_template(note_copy)
 	
 	template.saved_properties = properties
@@ -64,35 +67,49 @@ func load_templates():
 	var dir := Directory.new()
 	
 	if not dir.dir_exists(EDITOR_TEMPLATES_PATH):
-		var result = dir.make_dir(EDITOR_TEMPLATES_PATH)
+		var officials_path := HBUtils.join_path(EDITOR_TEMPLATES_PATH, "official_templates")
+		var result = dir.make_dir_recursive(officials_path)
 		
 		if result != OK:
-			Log.log(self, "Error creating templates directory: " + result, Log.LogLevel.ERROR)
+			Log.log(self, "Error creating templates directory: " + str(result), Log.LogLevel.ERROR)
 			return
 		
 		for template in default_templates.default_templates:
-			template.save()
+			template.save(officials_path)
+		
+		UserSettings.user_settings.editor_templates_visibility = {"__all": true, "__uncategorized": false, "user://editor_templates/official_templates": false}
 	
 	templates.clear()
+	templates_file_tree.clear()
 	
-	var result := dir.open(EDITOR_TEMPLATES_PATH)
+	templates_file_tree = traverse_dir(EDITOR_TEMPLATES_PATH, true)
+	
+	update_templates()
+
+func traverse_dir(path: String, root: bool = false) -> Dictionary:
+	var dir := Directory.new()
+	var tree := {}
+	
+	var result := dir.open(path)
 	if result != OK:
 		Log.log(self, "Error opening templates directory: " + str(result), Log.LogLevel.ERROR)
-		return
+		return {}
 	
 	result = dir.list_dir_begin(true)
 	if result != OK:
 		Log.log(self, "Error listing templates directory: " + str(result), Log.LogLevel.ERROR)
-		return
+		return {}
 	
 	var next = dir.get_next()
 	while next:
+		var full_path := HBUtils.join_path(path, next)
+		
 		if next.ends_with(".json"):
 			var file := File.new()
 			
-			result = file.open(HBUtils.join_path(EDITOR_TEMPLATES_PATH, next), File.READ)
+			result = file.open(full_path, File.READ)
 			if result != OK:
-				Log.log(self, "Error opening template file (" + HBUtils.join_path(EDITOR_TEMPLATES_PATH, next) + "): " + str(result), Log.LogLevel.ERROR)
+				Log.log(self, "Error opening template file (" + full_path + "): " + str(result), Log.LogLevel.ERROR)
 				next = dir.get_next()
 				
 				continue
@@ -100,51 +117,205 @@ func load_templates():
 			var json_result = JSON.parse(file.get_as_text()).result
 			
 			if json_result == null:
-				return
+				Log.log(self, "Error deserializing template file " + full_path, Log.LogLevel.ERROR)
+				next = dir.get_next()
+				
+				continue
 			
 			var template = HBEditorTemplate.deserialize(json_result)
 			template.filename = next
+			
 			templates.append(template)
+			
+			if root:
+				if not tree.has("uncategorized"):
+					tree["uncategorized"] = {}
+					tree["uncategorized"].__full_path = "__uncategorized"
+				
+				tree["uncategorized"][next] = template
+			else:
+				tree[next] = template
+		
+		if dir.current_is_dir():
+			tree[next] = traverse_dir(full_path)
+			tree[next].__full_path = full_path
+			
+			if not full_path in UserSettings.user_settings.editor_templates_visibility:
+				UserSettings.user_settings.editor_templates_visibility[full_path] = false
+				UserSettings.save_user_settings()
 		
 		next = dir.get_next()
 	
-	update_templates()
+	return tree
+
+func create_dropdown(parent: VBoxContainer, name: String, full_path: String) -> VBoxContainer:
+	var open = false
+	if full_path in UserSettings.user_settings.editor_templates_visibility:
+		open = UserSettings.user_settings.editor_templates_visibility[full_path]
+	
+	var hbox_container := HBoxContainer.new()
+	hbox_container.size_flags_horizontal = SIZE_EXPAND_FILL
+	
+	var dropdown_button := Button.new()
+	dropdown_button.flat = true
+	dropdown_button.icon = DOWN_ICON if open else RIGHT_ICON
+	dropdown_button.set_meta("full_path", full_path)
+	
+	var label := Label.new()
+	label.size_flags_horizontal = SIZE_EXPAND_FILL
+	label.text = name.replace("_", " ").replace("-", " ").capitalize()
+	
+	hbox_container.add_child(dropdown_button)
+	hbox_container.add_child(label)
+	
+	var margin_container := MarginContainer.new()
+	margin_container.size_flags_horizontal = SIZE_EXPAND_FILL
+	margin_container.add_constant_override("margin_left", 16)
+	
+	var vbox_container := VBoxContainer.new()
+	vbox_container.size_flags_horizontal = SIZE_EXPAND_FILL
+	vbox_container.visible = open
+	
+	margin_container.add_child(vbox_container)
+	
+	parent.add_child(hbox_container)
+	parent.add_child(margin_container)
+	
+	dropdown_button.connect("pressed", self, "_toggle_dropdown", [dropdown_button, vbox_container])
+	
+	return vbox_container
+
+func _toggle_dropdown(dropdown_button: Button, vbox_container: VBoxContainer):
+	var new_open = not vbox_container.visible
+	
+	dropdown_button.icon = DOWN_ICON if new_open else RIGHT_ICON
+	vbox_container.visible = new_open
+	
+	var full_path = dropdown_button.get_meta("full_path")
+	UserSettings.user_settings.editor_templates_visibility[full_path] = new_open
+	UserSettings.save_user_settings()
+
+func create_button(template: HBEditorTemplate) -> Button:
+	var button := Button.new()
+	button.text = template.name
+	button.size_flags_horizontal = SIZE_EXPAND_FILL
+	
+	var transform = template.get_transform()
+	transform.set_editor(editor)
+	transforms.append(transform)
+	
+	var transform_idx = transforms.size() - 1
+	button.connect("mouse_entered", self, "show_transform", [transform_idx])
+	button.connect("mouse_exited", self, "hide_transform")
+	button.connect("pressed", self, "apply_transform", [transform_idx])
+	
+	button.set_meta("template", template)
+	
+	buttons.append(button)
+	
+	return button
+
+func build_template_tree(file_tree: Dictionary, parent: VBoxContainer):
+	var subfolders := []
+	var inner_templates := []
+	
+	for filename in file_tree:
+		var value = file_tree[filename]
+		
+		if value is HBEditorTemplate:
+			inner_templates.append(value)
+		elif value is Dictionary:
+			subfolders.append({"name": filename, "files": value, "full_path": value.__full_path})
+	
+	subfolders.sort_custom(self, "_sort_subfolders_by_name")
+	for subfolder in subfolders:
+		var dropdown = create_dropdown(parent, subfolder.name, subfolder.full_path)
+		
+		if subfolder.full_path != "__uncategorized":
+			var full_path_name = subfolder.full_path.trim_prefix("user://") \
+										  .replace("_", " ").replace("-", " ") \
+										  .replace("/", " > ") \
+										  .capitalize()
+			category_option_button.add_item(full_path_name, category_list.size())
+			
+			category_list.append(subfolder.full_path)
+		
+		build_template_tree(subfolder.files, dropdown)
+	
+	inner_templates.sort_custom(self, "_sort_templates_by_name")
+	for template in inner_templates:
+		var button := create_button(template)
+		parent.add_child(button)
 
 func update_templates():
 	for child in templates_container.get_children():
 		child.queue_free()
 	
 	transforms.clear()
-	template_deletion_tree.clear()
-	
-	var root = template_deletion_tree.create_item()
+	buttons.clear()
+	category_option_button.clear()
+	category_list.clear()
 	
 	templates.sort_custom(self, "_sort_templates_by_name")
+	
+	var all_folder := create_dropdown(templates_container, "all", "__all")
 	for template in templates:
-		var button := Button.new()
-		button.text = template.name
-		button.size_flags_horizontal = SIZE_EXPAND_FILL
+		var button := create_button(template)
+		all_folder.add_child(button)
+	
+	category_list.append(EDITOR_TEMPLATES_PATH)
+	category_option_button.add_item("Uncategorized", 0)
+	category_option_button.select(0)
+	
+	build_template_tree(templates_file_tree, templates_container)
+	
+	update_visibility()
+
+func update_visibility():
+	var types_at_times := {}
+	for item in get_selected():
+		if not item.data is HBBaseNote:
+			continue
 		
-		var transform = template.get_transform()
-		transform.set_editor(editor)
-		transforms.append(transform)
+		var time = item.data.time
+		if not time in types_at_times:
+			types_at_times[time] = []
 		
-		var transform_idx = transforms.size() - 1
-		button.connect("mouse_entered", self, "show_transform", [transform_idx])
-		button.connect("mouse_exited", self, "hide_transform")
-		button.connect("pressed", self, "apply_transform", [transform_idx])
+		types_at_times[time].append({"type": item.data.note_type, "second_layer": item.data.get_meta("second_layer", false)})
+	
+	var common_types := []
+	for is_second_layer in [true, false]:
+		for type in HBBaseNote.NOTE_TYPE.values():
+			var found_in_all := true
+			
+			for types in types_at_times.values():
+				var found := false
+				
+				for t in types:
+					if t.hash() == {"type": type, "second_layer": is_second_layer}.hash():
+						found = true
+						
+						break
+				
+				if not found:
+					found_in_all = false
+					
+					break
+			
+			if found_in_all:
+				common_types.append({"type": type, "second_layer": is_second_layer})
+	
+	for button in buttons:
+		var template = button.get_meta("template")
 		
-		templates_container.add_child(button)
-		
-		var item = template_deletion_tree.create_item(root)
-		
-		item.set_cell_mode(0, TreeItem.CELL_MODE_CHECK)
-		item.set_editable(0, true)
-		item.set_text(0, template.name)
-		
-		item.set_meta("filename", template.filename)
+		button.visible = true
+		if template.autohide and not template.are_types_valid(common_types):
+			template.are_types_valid(common_types)
+			button.visible = false
 
 func update_selected():
+	update_visibility()
+	
 	if not get_selected():
 		create_template_button.set_disabled(true)
 		return
@@ -161,36 +332,25 @@ func create_template():
 	var selected := get_selected()
 	var template := template_from_note_array(selected, save_all_checkbox.pressed)
 	template.name = template_name_line_edit.text if template_name_line_edit.text else "New Template"
+	template.autohide = autohide_checkbox.pressed
 	
-	var result = template.save()
+	var path = category_list[category_option_button.get_selected_id()]
+	
+	var result = template.save(path)
 	if result == ERR_ALREADY_EXISTS:
 		template_name_confirmation_dialog.dialog_text = "That name is already in use!"
 		
 		return
+	elif result == ERR_FILE_BAD_PATH:
+		template_name_confirmation_dialog.dialog_text = "The name has to contain an ASCII character."
+		
+		return
 	elif result != OK:
 		Log.log(self, "Could not save template: " + str(result), Log.LogLevel.ERROR)
+		
 		return
 	
 	template_name_confirmation_dialog.hide()
-	
-	templates.append(template)
-	update_templates()
-
-func delete_templates():
-	var root := template_deletion_tree.get_root()
-	var next := root.get_children()
-	
-	var dir := Directory.new()
-	while next:
-		if next.is_checked(0):
-			# Delete this template
-			var path = HBUtils.join_path(EDITOR_TEMPLATES_PATH, next.get_meta("filename"))
-			
-			var result = dir.remove(path)
-			if result != OK:
-				Log.log(self, "Could not remove template \"" + next.get_text(0) + "\": " + str(result), Log.LogLevel.ERROR)
-		 
-		next = next.get_next()
 	
 	load_templates()
 
@@ -209,8 +369,11 @@ func _on_create_template_pressed():
 	template_name_line_edit.clear()
 	template_name_line_edit.call_deferred("grab_focus")
 
-func _on_delete_templates_pressed():
-	template_deletion_confirmation_dialog.popup_centered()
+func _on_manage_templates_pressed():
+	OS.shell_open(ProjectSettings.globalize_path(EDITOR_TEMPLATES_PATH))
 
 static func _sort_templates_by_name(a: HBEditorTemplate, b: HBEditorTemplate) -> bool:
+	return a.name < b.name
+
+static func _sort_subfolders_by_name(a: Dictionary, b: Dictionary) -> bool:
 	return a.name < b.name

@@ -13,8 +13,9 @@ func _ready():
 
 func add_contextual_item(label: String, item_name: String):
 	if not item_name in name_id_map.values():
-		add_item(label)
-		var id = get_item_count()-1
+		var id = get_item_count()
+		
+		add_item(label, id)
 		name_id_map[id] = item_name
 	else:
 		Log.log(self, "Adding an existing contextual item")

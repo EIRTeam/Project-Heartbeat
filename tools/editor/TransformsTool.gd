@@ -2,25 +2,6 @@ extends MarginContainer
 
 class_name HBEditorTransforms
 
-# warning-ignore:unused_signal
-signal show_transform(transformation)
-# warning-ignore:unused_signal
-signal hide_transform()
-# warning-ignore:unused_signal
-signal apply_transform(transformation)
-
-onready var vertical_transform
-
-onready var button_container = get_node("ScrollContainer/SyncButtonContainer")
-
-var use_stage_center := false setget set_use_stage_center
-
-var editor: HBEditor
-
-func set_use_stage_center(val):
-	use_stage_center = val
-	editor.song_editor_settings.set("transforms_use_center", val)
-
 class FlipHorizontallyTransformation:
 	extends EditorTransformation
 	
@@ -320,7 +301,6 @@ class MakeCircleTransform:
 	var separation := 96 setget set_separation
 	var eigths_per_circle := 16 setget set_epr
 	var entry_angle_offset := 0.0
-	var start_note := 0 setget set_start_note
 	# -1 for outside, 1 for inside
 	var inside = -1 setget set_inside
 	
@@ -329,9 +309,6 @@ class MakeCircleTransform:
 	
 	func set_epr(val):
 		eigths_per_circle = val
-	
-	func set_start_note(val):
-		start_note = val
 	
 	func set_inside(val):
 		if val:
@@ -362,24 +339,20 @@ class MakeCircleTransform:
 		var transformation_result = {}
 		
 		var sustain_compensation = 0
-		var time_offset
+		var time_offset = editor.get_time_as_eight(notes[0].time)
 		
 		var radius = separation * eigths_per_circle / TAU
 		var start_rev = 0.0
-		var center
-		
-		if start_note < notes.size():
-			time_offset = editor.get_time_as_eight(notes[start_note].time)
-			center = notes[start_note].position
-		else:
-			time_offset = editor.get_time_as_eight(notes[0].time)
-			center = notes[0].position
+		var center = notes[0].position
 		
 		if center.y > 540:
 			start_rev = 0.5
 			center.y -= radius
 		else:
 			center.y += radius
+		
+		if not notes[0].pos_modified:
+			center = Vector2(960, 540)
 		
 		var angle_offset = (start_rev + 0.75) * TAU
 		
@@ -465,6 +438,11 @@ class MultiPresetTemplate:
 		
 		return n.note_type in note_map
 	
+	func get_anchor(group: Array) -> HBBaseNote:
+		group.sort_custom(self, "sort_by_note_type")
+		
+		return group[0]
+	
 	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
 		return 0
 	
@@ -487,8 +465,6 @@ class MultiPresetTemplate:
 				angle = 110.0 if type < 2 else 70.0
 		elif group_type == GROUP_TYPE.OPPOSING_SLIDES:
 			if notes_at_time.size() == 2:
-				var index = notes_at_time.find(n)
-				
 				angle = 110.0 if type % 2 else 70.0
 			else:
 				angle = 110.0 if type >= 2 else 70.0
@@ -530,8 +506,7 @@ class MultiPresetTemplate:
 			if extended_group.size() == 1 or group_type == GROUP_TYPE.INVALID:
 				continue
 			
-			group.sort_custom(self, "sort_by_note_type")
-			var anchor = group[0]
+			var anchor = get_anchor(group)
 			
 			for note in extended_group:
 				var type = process_type(note, anchor, group_type)
@@ -577,19 +552,19 @@ class VerticalMultiPreset:
 		
 		return pos
 	
-	func process_angle(n: HBBaseNote, notes_at_time: Array, group_type: int) -> float:
+	func process_angle(n: HBBaseNote, group: Array, group_type: int) -> float:
 		var angle: float
 			
-		if notes_at_time.size() == 2:
-			var index = notes_at_time.find(n)
+		if group.size() == 2:
+			var index = group.find(n)
 			
 			angle = -45.0 if index == 0 else 45.0
 		else:
 			var sum = 0
-			for note in notes_at_time:
+			for note in group:
 				sum += note.get_meta("relative_type")
 			
-			var average = sum / notes_at_time.size()
+			var average = sum / group.size()
 			angle = -45.0 if n.get_meta("relative_type") <= average else 45.0
 		
 		return angle
@@ -599,6 +574,24 @@ class VerticalMultiPreset:
 			a = fmod((-a + 180.0), 360.0)
 		
 		return a
+
+class StraightVerticalMultiPreset:
+	extends VerticalMultiPreset
+	
+	func _init(dir = 1).(dir):
+		pass
+	
+	func check_group(group: Array) -> int:
+		if group.size() > 2:
+			return GROUP_TYPE.INVALID
+		
+		return .check_group(group)
+	
+	func modify_angle(a: float) -> float:
+		if a > 180.0 or a < 0:
+			return 270.0
+		
+		return 90.0
 
 class HorizontalMultiPreset:
 	extends MultiPresetTemplate
@@ -631,6 +624,49 @@ class HorizontalMultiPreset:
 				type += 2
 		
 		return type
+
+class DiagonalMultiPreset:
+	extends HorizontalMultiPreset
+	
+	func _init(dir = 1).(dir):
+		pass
+	
+	func check_group(group: Array) -> int:
+		if group.size() > 2:
+			return GROUP_TYPE.INVALID
+		
+		return .check_group(group)
+	
+	static func get_center_distance(position: Vector2) -> float:
+		return abs(540 - position.y)
+	
+	static func sort_by_center_distance(a: HBBaseNote, b: HBBaseNote) -> bool:
+		return get_center_distance(a.position) > get_center_distance(b.position)
+	
+	func get_anchor(group: Array) -> HBBaseNote:
+		group.sort_custom(self, "sort_by_center_distance")
+		
+		return group[0]
+	
+	func process_position(n: HBBaseNote, anchor: HBBaseNote) -> Vector2:
+		var pos := n.position
+		pos.x = 240 + 480 * n.get_meta("relative_type")
+		
+		if n != anchor:
+			pos.y = 1080 - anchor.position.y
+		
+		n.set_meta("new_pos", pos)
+		return pos
+	
+	func process_angle(n: HBBaseNote, group: Array, group_type: int) -> float:
+		var anchor = group[0]
+		var other = group[1]
+		
+		var anchor_x = 240 + 480 * anchor.get_meta("relative_type")
+		var other_x = 240 + 480 * other.get_meta("relative_type")
+		var center = Vector2((anchor_x + other_x) / 2.0, 540)
+		
+		return 180 - rad2deg(center.angle_to_point(n.get_meta("new_pos")))
 
 class QuadPreset:
 	extends EditorTransformation
