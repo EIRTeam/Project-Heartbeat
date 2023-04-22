@@ -586,7 +586,7 @@ func download_video(entry: CachingQueueEntry):
 	
 func get_video_id(url: String):
 	var regex = RegEx.new()
-	regex.compile("^.*(youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)([^#\\&\\?]*).*")
+	regex.compile("^.*(youtu\\.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=|\\/shorts\\/)([^#\\&\\?]*).*")
 	var result = regex.search(url)
 	if result:
 		return result.get_string(2)
