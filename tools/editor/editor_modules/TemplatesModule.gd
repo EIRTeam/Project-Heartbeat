@@ -55,6 +55,8 @@ static func template_from_note_array(notes: Array, save_all_properties: bool) ->
 		var note_ser = note.serialize()
 		var note_copy = HBSerializable.deserialize(note_ser) as HBBaseNote
 		
+		note_copy.set_meta("second_layer", note.get_meta("second_layer", false))
+		
 		template.set_type_template(note_copy)
 	
 	template.saved_properties = properties
@@ -279,26 +281,36 @@ func update_visibility():
 		if not time in types_at_times:
 			types_at_times[time] = []
 		
-		types_at_times[time].append(item.data.note_type)
+		types_at_times[time].append({"type": item.data.note_type, "second_layer": item.data.get_meta("second_layer", false)})
 	
 	var common_types := []
-	for type in HBBaseNote.NOTE_TYPE.values():
-		var found_in_all := true
-		
-		for types in types_at_times.values():
-			if not type in types:
-				found_in_all = false
+	for is_second_layer in [true, false]:
+		for type in HBBaseNote.NOTE_TYPE.values():
+			var found_in_all := true
+			
+			for types in types_at_times.values():
+				var found := false
 				
-				break
-		
-		if found_in_all:
-			common_types.append(type)
+				for t in types:
+					if t.hash() == {"type": type, "second_layer": is_second_layer}.hash():
+						found = true
+						
+						break
+				
+				if not found:
+					found_in_all = false
+					
+					break
+			
+			if found_in_all:
+				common_types.append({"type": type, "second_layer": is_second_layer})
 	
 	for button in buttons:
 		var template = button.get_meta("template")
 		
 		button.visible = true
 		if template.autohide and not template.are_types_valid(common_types):
+			template.are_types_valid(common_types)
 			button.visible = false
 
 func update_selected():

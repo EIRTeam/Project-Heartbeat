@@ -571,6 +571,7 @@ func make_slide():
 				new_note.oscillation_amplitude = start_data.oscillation_amplitude
 				new_note.oscillation_frequency = start_data.oscillation_frequency
 				new_note.entry_angle = start_data.entry_angle
+				new_note.set_meta("second_layer", "2" in start._layer.layer_name)
 				
 				var new_item = new_note.get_timeline_item()
 				

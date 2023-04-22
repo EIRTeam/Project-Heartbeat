@@ -375,6 +375,8 @@ func _init():
 			var note_ser = note.serialize()
 			var note_copy = HBSerializable.deserialize(note_ser) as HBBaseNote
 			
+			note_copy.set_meta("second_layer", note.get_meta("second_layer", false))
+			
 			template.set_type_template(note_copy)
 		
 		default_templates.append(template)
