@@ -1572,10 +1572,19 @@ func paste_note_data(notes: Array):
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
 			
+			if selected_item.data is HBSustainNote:
+				new_data.end_time = selected_item.data.end_time
+			
 			for property in new_data.get_inspector_properties():
 				if selected_item.data.get(property) != null:  # HACK: There is no Object.has() method :/
 					undo_redo.add_do_property(selected_item.data, property, new_data.get(property))
 					undo_redo.add_undo_property(selected_item.data, property, selected_item.data.get(property))
+					
+					undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", property)
+					undo_redo.add_do_method(selected_item, "sync_value", property)
+					
+					undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property)
+					undo_redo.add_undo_method(selected_item, "sync_value", property)
 			
 			undo_redo.add_do_method(selected_item, "update_widget_data")
 			undo_redo.add_undo_method(selected_item, "update_widget_data")
