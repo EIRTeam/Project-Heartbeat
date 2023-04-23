@@ -107,6 +107,15 @@ func _get_template(note_type: int, second_layer: bool) -> HBBaseNote:
 			return null
 
 func has_type_template(note_type: int, second_layer: bool = false) -> bool:
+	if note_type in [
+						HBNoteData.NOTE_TYPE.UP,
+						HBNoteData.NOTE_TYPE.DOWN,
+						HBNoteData.NOTE_TYPE.LEFT,
+						HBNoteData.NOTE_TYPE.RIGHT,
+						HBNoteData.NOTE_TYPE.HEART
+					] and second_layer:
+		return false
+	
 	return _get_template(note_type, second_layer) != null
 
 func get_type_template(note_type: int, second_layer: bool = false) -> Dictionary:
