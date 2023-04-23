@@ -255,9 +255,9 @@ func schedule_autoplay_sound(user_sfx_name: String, game_time_msec: int, target_
 		scheduled_autoplay_sound.stop()
 		scheduled_autoplay_sound = null
 	
-	if not note_data.time in game.autoplay_scheduled_sounds:
-		game.autoplay_scheduled_sounds[note_data.time] = []
-	var sounds: Array = game.autoplay_scheduled_sounds[note_data.time]
+	if not target_time_msec in game.autoplay_scheduled_sounds:
+		game.autoplay_scheduled_sounds[target_time_msec] = []
+	var sounds: Array = game.autoplay_scheduled_sounds[target_time_msec]
 	if user_sfx_name in sounds:
 		return
 	else:
