@@ -125,7 +125,7 @@ func process_group(time_msec: int) -> bool:
 	
 	return should_finish
 
-# Called by the game each frame to process new input events, returns true if the input should pass through
+# Called by the game each frame to process new input events, returns false if the input should pass through
 # this group
 func process_input(event: InputEventHB) -> bool:
 	var will_consume_input := finished_notes.size() != note_datas.size()
@@ -134,9 +134,29 @@ func process_input(event: InputEventHB) -> bool:
 	# from getting a wrong on slides when using the heart action
 	var heart_bypass_hack := false
 	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
+	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
+	
+	if is_input_in_range and not is_analog_event:
+		# We count how many inputs in this event are normal non-analog notes, to check if the amount of inputs is higher than our note count
+		# this is to prevent "cheater" macros with too many note inputs assigned, however we only do this check on notes that have not been judged
+		# Note: this check should only be done for note groups that contain non-analog notes
+		var non_analog_note_input_count := 0
+		for action in event.actions:
+			if not action in ["slide_left", "slide_right", "heart_note"]:
+				non_analog_note_input_count += 1
+		
+		var non_analog_note_count := 0
+		for note in note_datas:
+			if not note in note_judgement_infos:
+				var is_analog_note: bool = note.note_type in [HBBaseNote.NOTE_TYPE.HEART, HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT]
+				if not is_analog_note:
+					non_analog_note_count += 1
+		if non_analog_note_count > 0 and non_analog_note_input_count > note_datas.size():
+			_on_wrong()
+			game._play_empty_note_sound(event)
+			return true
 	
 	# For pressed inputs we first figure out if any of our notes will accept it
-	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
 	for i in range(note_drawers.size()-1, -1, -1):
 		var note := note_drawers.keys()[i] as HBBaseNote
 		var note_drawer := note_drawers[note] as HBNewNoteDrawer
