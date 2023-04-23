@@ -136,7 +136,7 @@ func process_input(event: InputEventHB) -> bool:
 	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
 	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
 	
-	if is_input_in_range and not is_analog_event:
+	if is_input_in_range and not is_analog_event and event.is_pressed():
 		# We count how many inputs in this event are normal non-analog notes, to check if the amount of inputs is higher than our note count
 		# this is to prevent "cheater" macros with too many note inputs assigned, however we only do this check on notes that have not been judged
 		# Note: this check should only be done for note groups that contain non-analog notes
