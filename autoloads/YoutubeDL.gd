@@ -71,6 +71,7 @@ class CachingQueueEntry:
 	var aborted := false
 	var thread: Thread
 	signal download_progress_changed(download_progress, download_speed)
+	var extension := ""
 
 	func abort_download():
 		mutex.lock()
@@ -91,7 +92,7 @@ class CachingQueueEntry:
 				var l := line.substr(4)
 				l = l.strip_edges()
 				var s := l.split("-")
-				if s.size() == 4:
+				if s.size() == 5:
 					var downloaded_bytes := s[0].to_int()
 					var total_bytes := s[1].to_int()
 					var total_bytes_estimate := s[2].to_int()
@@ -105,6 +106,8 @@ class CachingQueueEntry:
 					download_speed = speed
 					mutex.unlock()
 					progress_changed = true
+					if extension.empty():
+						extension = s[4]
 		if progress_changed:
 			call_deferred("emit_signal", "download_progress_changed", download_progress, download_speed)
 
@@ -304,7 +307,7 @@ func get_ytdl_shared_params(handle_temp_files := false):
 		"--no-part",
 		"--newline",
 		"--output-na-placeholder", "0",
-		"--progress-template", "PHD:%(progress.downloaded_bytes)s-%(progress.total_bytes)s-%(progress.total_bytes_estimate)s-%(progress.speed)s",
+		"--progress-template", "PHD:%(progress.downloaded_bytes)s-%(progress.total_bytes)s-%(progress.total_bytes_estimate)s-%(progress.speed)s-%(info.ext)s",
 	]
 	
 	if handle_temp_files:
@@ -431,7 +434,9 @@ func _download_video(userdata):
 		var video_height = UserSettings.user_settings.desired_video_resolution
 		var video_fps = UserSettings.user_settings.desired_video_fps
 		Log.log(self, "Start downloading video for %s" % [userdata.video_id])
-		var video_params = ["-f", "bestvideo[ext=mp4][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", userdata.video_id + ".mp4", "https://youtu.be/" + userdata.video_id]
+		var video_params = [
+			"-f", "bestvideo[vcodec!^=av01][height<=%d][fps<=%d]" % [video_height, video_fps], "-o", userdata.video_id + ".%(ext)s", "https://youtu.be/" + userdata.video_id,
+			"--match-filter", "ext=mp4", "--match-filter", "ext=webm", "--force-overwrites"]
 		
 		entry.mutex.lock()
 		if entry.aborted:
@@ -443,29 +448,35 @@ func _download_video(userdata):
 		entry.current_process = download_process
 		entry.download_progress = -1.0
 		entry.download_size = -1.0
+		entry.extension = ""
 		entry.mutex.unlock()
 		
 		while download_process.get_exit_status() == -1:
 			entry.process_download_progress(download_process)
 		
 		var exit_code := download_process.get_exit_status()
-		
-		if exit_code != OK:
+
+		if exit_code != OK or entry.extension.empty():
 			result["video"] = false
-			result["video_out"] = get_ytdl_error(download_process)
+			if exit_code != OK:
+				result["video_out"] = get_ytdl_error(download_process)
+			else:
+				result["video_out"] = "Error obtaining downloaded video metadata despite succesful download, this is likely a bug, please report."
 		else:
 			result["video"] = true
-			if video_exists(userdata.video_id):
+			var video_path := get_video_path(userdata.video_id).get_basename() + "." + entry.extension
+			var f := File.new()
+			if f.file_exists(video_path):
 				cache_meta_mutex.lock()
 				cache_meta.cache[userdata.video_id]["video"] = true
-				cache_meta.cache[userdata.video_id]["video_ext"] = VIDEO_EXT
+				cache_meta.cache[userdata.video_id]["video_ext"] = entry.extension
 				cache_meta.cache[userdata.video_id]["video_fps"] = video_fps
 				cache_meta.cache[userdata.video_id]["video_resolution"] = video_height
 				cache_meta_mutex.unlock()
 			else:
 				result["video"] = false
 				Log.log(self, "Error downloading video " + userdata.video_id + " ")
-				result["video_out"] = "Unknown error"
+				result["video_out"] = "Unknown error (file not found after download)"
 	Log.log(self, "Video download finish!")
 	call_deferred("_video_downloaded", userdata.thread, result)
 	
