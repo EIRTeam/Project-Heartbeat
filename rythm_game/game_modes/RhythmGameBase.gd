@@ -580,6 +580,9 @@ func set_current_combo(combo: int):
 	current_combo = combo
 
 func restart():
+	if current_song.allows_intro_skip and not disable_intro_skip:
+		if earliest_note_time / 1000.0 > current_song.intro_skip_min_time:
+			_intro_skip_enabled = true
 	var max_score := result.max_score as int
 	_prevent_finishing = true
 	get_tree().paused = false
