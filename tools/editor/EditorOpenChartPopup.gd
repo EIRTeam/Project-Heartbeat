@@ -102,7 +102,7 @@ func populate_tree():
 			if search_line_edit.text.empty() or search_line_edit.text.to_lower() in (field + origin).to_lower():
 				var item = tree.create_item()
 				
-				item.set_text(0, song.title + origin)
+				item.set_text(0, song.get_visible_title() + origin)
 				
 				item.set_meta("song", song)
 				item.set_meta("hidden", hidden and not HBGame.enable_editor_dev_mode)
