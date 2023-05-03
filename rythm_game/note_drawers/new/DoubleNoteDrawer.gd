@@ -23,7 +23,6 @@ func handles_input(event: InputEventHB) -> bool:
 	return event.is_action_pressed(action) and is_input_in_range and not waiting_for_multi_judgement
 
 func process_input(event: InputEventHB):
-	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	if current_note_sound:
 		current_note_sound.stop()
 		current_note_sound.queue_free()

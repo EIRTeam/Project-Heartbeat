@@ -11,9 +11,6 @@ const TRACKED_ACTIONS = ["note_up", "note_down", "note_left", "note_right", "sli
 const DIRECT_AXIS = [JOY_AXIS_0, JOY_AXIS_1, JOY_AXIS_2, JOY_AXIS_3]
 const DIRECT_AXIS_ACTIONS = ["heart_note", "slide_left", "slide_right"]
 
-var last_direct_axis_values = [0, 0, 0, 0]
-var last_direct_axis_slide_dirs = [0, 0]
-
 const BIDIRECTIONAL_ACTIONS = [
 	"heart_note"
 ]
@@ -25,17 +22,14 @@ var last_axis_values = {}
 var current_sending_actions_count = 0
 
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
-var dja_prev_status = [false, false]
-var dja_prev_heart_status = [false, false]
-var dja_prev_slide_status = [false, false]
+var dja_last_filtered_axis_values = [Vector2(), Vector2()]
+var dja_joystick_wma_history := [PoolVector2Array(), PoolVector2Array()]
 
 func reset():
 	.reset()
-	dja_prev_status = [false, false]
 	current_sending_actions_count = 0
 	last_axis_values = {}
 	current_actions = []
-	last_direct_axis_values = [0, 0, 0, 0]
 	digital_action_tracking = {}
 	
 
@@ -66,13 +60,8 @@ func _get_action_deadzone(action: String):
 func _get_analog_action_held_count(action):
 	var count = 0
 	if UserSettings.should_use_direct_joystick_access() and action in DIRECT_AXIS_ACTIONS:
-		var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_0)
-		var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_1)
-		var x2 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_2)
-		var y2 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_3)
-		
-		var v1 = Vector2(x1, y1)
-		var v2 = Vector2(x2, y2)
+		var v1 = dja_last_filtered_axis_values[0]
+		var v2 = dja_last_filtered_axis_values[1]
 		var deadzone = _get_action_deadzone(action)
 		if action == "heart_note":
 			if v1.length() > deadzone:
@@ -80,14 +69,14 @@ func _get_analog_action_held_count(action):
 			if v2.length() > deadzone:
 				count += 1
 		elif action == "slide_left":
-			if v1.length() > deadzone and _is_in_slide_range(v1, Vector2.LEFT):
+			if v1.x < 0 and v1.length() > deadzone and _is_in_slide_range(v1):
 				count += 1
-			if v2.length() > deadzone and _is_in_slide_range(v2, Vector2.LEFT):
+			if v2.x < 0 and v2.length() > deadzone and _is_in_slide_range(v2):
 				count += 1
 		elif action == "slide_right":
-			if v1.length() > deadzone and _is_in_slide_range(v1, Vector2.RIGHT):
+			if v1.x > 0 and v1.length() > deadzone and _is_in_slide_range(v1):
 				count += 1
-			if v2.length() > deadzone and _is_in_slide_range(v2, Vector2.RIGHT):
+			if v2.x > 0 and v2.length() > deadzone and _is_in_slide_range(v2):
 				count += 1
 	for device in last_axis_values:
 		if action in last_axis_values[device]:
@@ -99,89 +88,93 @@ func _get_analog_action_held_count(action):
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
 
-func _is_in_slide_range(value: Vector2, direction: Vector2):
-	return value.normalized().dot(direction) > DJA_SLIDE_DOT_THRESHOLD
+func _is_in_slide_range(value: Vector2):
+	return abs((Vector2.RIGHT * sign(value.x)).angle_to(value)) < deg2rad(UserSettings.user_settings.direct_joystick_slider_angle_window) * 0.5
 
 func _handle_direct_axis_input():
 	var deadzone = _get_action_deadzone("heart_note")
 
-	current_sending_actions_count = 1
-	
-
-	for axis in range(2):
-		var event_uid = get_dja_event_uid(axis)
-		var off = 2 * axis
-		var axis_x = JOY_AXIS_0 + off
-		var axis_y = JOY_AXIS_1 + off
-		var x1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
-		var y1 = Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
-		var current_value = Vector2(x1, y1)
-		var prev_value = Vector2(last_direct_axis_values[axis_x], last_direct_axis_values[axis_y])
-		last_direct_axis_values[axis_x] = current_value.x
-		last_direct_axis_values[axis_y] = current_value.y
+	current_sending_actions_count = 0
+	var press_actions_to_send = []
+	var press_actions_event_uids = []
+	var action_state = []
+	for joystick in range(2):
+		var event_uid := get_dja_event_uid(joystick)
+		var off := 2 * joystick
+		var axis_x := JOY_AXIS_0 + off
+		var axis_y := JOY_AXIS_1 + off
+		var x1 := Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
+		var y1 := Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
+		var curr_value := Vector2(x1, y1)
 		
-		if not prev_value.is_equal_approx(current_value):
-			if prev_value.length() > deadzone and current_value.normalized().dot(prev_value.normalized()) < 0.0:
-#				prints("REBOUND IGNORE!!!", current_value, prev_value, current_value.normalized().dot(prev_value.normalized()), current_value.length())
-				current_value = Vector2.ZERO
-				dja_prev_status[axis] = false
-			if current_value.length() > deadzone and (prev_value.length() < deadzone or not dja_prev_status[axis]):
-				current_actions = ["heart_note"]
-				# Ignores rebound
-				#print(current_value.normalized().dot(prev_value.normalized()))
-#				print("SEND!!!", current_value)
-	#
-				var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
-				var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
-				
-				if _is_in_slide_range(current_value, slide_direction):
-					current_actions.append(slide_action)
-					send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-					dja_prev_slide_status[axis] = true
-					last_direct_axis_slide_dirs[axis] = sign(x1)
-				if not dja_prev_heart_status[axis]:
-					send_input("heart_note", true, current_actions.size(), event_uid, current_actions)
-					dja_prev_heart_status[axis] = true
-				dja_prev_status[axis] = true
-			elif (prev_value.length() > deadzone or dja_prev_status[axis]) and current_value.length() < deadzone:
-				send_input("slide_right", false, current_actions.size(), event_uid, current_actions)
-				send_input("slide_left", false, current_actions.size(), event_uid, current_actions)
-				send_input("heart_note", false, current_actions.size(), event_uid, current_actions)
-				dja_prev_status[axis] = false
-				dja_prev_slide_status[axis] = false
-				dja_prev_heart_status[axis] = false
-				last_direct_axis_slide_dirs[axis] = 0
-			elif current_value.length() > deadzone:
-				# This allows moving the joystick around the perimeter of the circle to do slides, but only
-				# if we are currently doing a slide
-				var slide_direction := Vector2.RIGHT if sign(x1) == 1 else Vector2.LEFT
-				var prev_slide_direction := Vector2.RIGHT if sign(prev_value.x) == 1 else Vector2.LEFT
-				if not _is_in_slide_range(current_value, prev_slide_direction):
-					if dja_prev_slide_status[axis]:
-						send_input("slide_right", false, current_actions.size(), event_uid, current_actions)
-						send_input("slide_left", false, current_actions.size(), event_uid, current_actions)
-						dja_prev_status[axis] = false
-						dja_prev_slide_status[axis] = false
-				
-				if last_direct_axis_slide_dirs[axis] != 0 and last_direct_axis_slide_dirs[axis] != sign(x1):
-					if _is_in_slide_range(current_value, slide_direction):
-						var slide_action := "slide_right" if sign(x1) == 1 else "slide_left"
-						current_actions.append(slide_action)
-						send_input(slide_action, true, current_actions.size(), event_uid, current_actions)
-						last_direct_axis_slide_dirs[axis] = sign(x1)
-						dja_prev_status[axis] = true
-						dja_prev_slide_status[axis] = true
+		var prev_filtered_input := dja_last_filtered_axis_values[joystick] as Vector2
+		var filtered_input := curr_value
+		var factor: float = UserSettings.user_settings.direct_joystick_filter_factor
+		
+		# WMA
+		var pva := dja_joystick_wma_history[joystick] as PoolVector2Array
+		if pva.size() != 20:
+			pva.resize(20)
+			pva.fill(Vector2.ZERO)
+		var wma_total := 0.0
+		var wma_sum := Vector2()
+		# Move WMA to the right and do WMA computation
+		for i in range(1, pva.size()):
+			wma_total += (i * i * i)
+			wma_sum += pva[i] * (i * i * i)
+			pva[i-1] = pva[i]
+		wma_sum += curr_value * (pva.size() * pva.size() * pva.size())
+		wma_total += (pva.size() * pva.size() * pva.size())
+		wma_sum /= wma_total
+		
+		pva[pva.size()-1] = curr_value
+		dja_joystick_wma_history[joystick] = pva
+		
+		filtered_input = wma_sum
+		
+		var is_in_slide_window: = abs((Vector2.RIGHT * sign(filtered_input.x)).angle_to(filtered_input)) < deg2rad(UserSettings.user_settings.direct_joystick_slider_angle_window) * 0.5
+		var curr_length := filtered_input.length()
+		var prev_length := prev_filtered_input.length()
+		# We need to check for the sign here to make sure we don't compare against 0, since that could be an issue
+		if sign(filtered_input.x) != 0 and is_in_slide_window:
+			if curr_length > deadzone and (prev_length < deadzone or sign(prev_filtered_input.x) != sign(filtered_input.x)):
+				press_actions_to_send.push_back("slide_right" if filtered_input.x > 0.0 else "slide_left")
+				press_actions_event_uids.push_back(event_uid)
+				action_state.push_back(true)
+		
+		# Sometimes, when quickly turning the stick to the opposite direction the whole deadzone is skipped
+		# this ensures that we still trigger those events if necessary
+		var is_opposite := abs(prev_filtered_input.angle_to(-filtered_input)) < deg2rad(90.0 * 0.5)
+		if curr_length > deadzone and (prev_length < deadzone or is_opposite):
+			press_actions_to_send.push_back("heart_note")
+			press_actions_event_uids.push_back(event_uid)
+			action_state.push_back(true)
+		# Heart note release
+		if (curr_length < deadzone and prev_length > deadzone) or (prev_length > deadzone and is_opposite):
+			press_actions_to_send.push_back("heart_note")
+			press_actions_event_uids.push_back(event_uid)
+			action_state.push_back(false)
+		dja_last_filtered_axis_values[joystick] = filtered_input
+	
+	if press_actions_to_send.size() > 0:
+		current_sending_actions_count = press_actions_to_send.size()
+		for i in range(press_actions_to_send.size()):
+			send_input(press_actions_to_send[i], action_state[i], press_actions_to_send.size(), press_actions_event_uids[i], press_actions_to_send)
 
-
-func _process(delta):
+func flush_inputs():
 	if UserSettings.should_use_direct_joystick_access() and is_processing_input():
 		_handle_direct_axis_input()
+	.flush_inputs()
 
 func _input_received(event):
 	var actions_to_send = []
 	var releases_to_send = []
 	if event is InputEventHB:
 		return
+		
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		if UserSettings.controller_device_idx != event.device:
+			return
 	if not event is InputEventAction and not event is InputEventMouseMotion:
 		var found_actions = []
 		

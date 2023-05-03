@@ -10,6 +10,7 @@ func _ready():
 	$ToolsList/ResourcePackEditorButton.connect("pressed", self, "_on_ResourcePackEditorButton_pressed")
 	$ToolsList/SwitchExporterButton.connect("pressed", self, "_on_SwitchExporterButton_pressed")
 	$ToolsList/LatencyCalculatorButton.connect("pressed", self, "_on_LatencyCalculatorButton_pressed")
+	$ToolsList/DJADebugButton.connect("pressed", self, "_on_dja_debug_button_pressed")
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	._on_menu_enter(force_hard_transition, args)
 	$ToolsList.grab_focus()
@@ -44,6 +45,9 @@ func _on_ResourcePackEditorButton_pressed():
 
 func _on_SwitchExporterButton_pressed():
 	get_tree().change_scene_to(load("res://tools/SwitchExporter/SwitchExporter.tscn"))
+
+func _on_dja_debug_button_pressed():
+	get_tree().change_scene_to(load("res://tools/InputManagerTester.tscn"))
 
 func _on_LatencyCalculatorButton_pressed():
 	change_to_menu("latency_tester")
