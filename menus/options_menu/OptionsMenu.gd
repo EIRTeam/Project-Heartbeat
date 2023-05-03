@@ -63,6 +63,20 @@ var OPTIONS = {
 			"name": tr("Use direct joystick access with known controllers"),
 			"description": tr("Allows the game to access controller joysticks directly, used to make slide and heart notes more consistent, only available on controllers marked as known")
 		},
+		"direct_joystick_filter_factor": {
+			"name": tr("Analog filter factor"),
+			"description": tr("Factor used when filtering analog inputs, higher means less filtering\nNote: This only works with direct joystick access."),
+			"minimum": 0.1,
+			"maximum": 1.0,
+			"step": 0.05
+		},
+		"direct_joystick_slider_angle_window": {
+			"name": tr("Analog slider angle deadzone"),
+			"description": tr("Angle used to define the angular deadzone of sliders\nNote: This only works with direct joystick access."),
+			"minimum": 15,
+			"maximum": 120,
+			"step": 5
+		},
 		"enable_vibration": {
 			"name": tr("Enable vibration"),
 			"description": tr("If enabled allows the controller to vibrate.")

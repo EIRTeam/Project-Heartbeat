@@ -53,7 +53,7 @@ enum EVENT_FLAGS {
 	IS_DJA = 2 << 0
 }
 
-func get_dja_event_uid(axis: int):
+func get_dja_event_uid(axis: int) -> int:
 	var flags = EVENT_FLAGS.IS_DJA
 	var ev_device = UserSettings.controller_device_idx
 	var ev_scancode = axis
