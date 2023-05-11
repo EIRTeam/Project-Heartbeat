@@ -552,7 +552,7 @@ func get_sound_path(sfx_name: String) -> String:
 	if file.file_exists(file_path):
 		return file_path
 	
-	return HBUserSettings.DEFAULT_SOUNDS[sound_name]
+	return HBUserSettings.DEFAULT_SOUNDS[sfx_name]
 
 func should_use_direct_joystick_access() -> bool:
 	return user_settings.use_direct_joystick_access and Input.is_joy_known(controller_device_idx)
