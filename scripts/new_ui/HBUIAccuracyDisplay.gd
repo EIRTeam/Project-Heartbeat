@@ -151,6 +151,7 @@ func set_judge(judge: HBJudge):
 
 func reset():
 	last_judgements = []
+	update()
 
 func _on_note_judged(judgement_info):
 	if UserSettings.user_settings.show_latency:
