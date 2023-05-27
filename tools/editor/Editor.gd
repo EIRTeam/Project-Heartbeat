@@ -1572,7 +1572,7 @@ func paste_note_data(notes: Array):
 			new_data.note_type = selected_item.data.note_type
 			new_data.time = selected_item.data.time
 			
-			if selected_item.data is HBSustainNote:
+			if selected_item.data is HBSustainNote and new_data is HBSustainNote:
 				new_data.end_time = selected_item.data.end_time
 			
 			for property in new_data.get_inspector_properties():
