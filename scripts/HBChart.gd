@@ -148,7 +148,7 @@ func port_chart(song):
 				# Migrate timing info
 				var base_timing_change = HBTimingChange.new()
 				base_timing_change.time = self.editor_settings.offset * 1000.0
-				base_timing_change.bpm = self.editor_settings.bpm
+				base_timing_change.bpm = song.bpm
 				
 				base_timing_change.time_signature.numerator = self.editor_settings.beats_per_bar
 				if self.editor_settings.beats_per_bar == 1:
