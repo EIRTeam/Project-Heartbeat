@@ -136,10 +136,25 @@ func process_input(event: InputEventHB) -> bool:
 	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
 	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
 	
-	if is_input_in_range and not is_analog_event and event.is_pressed():
+	var is_macro = event.actions.size() > 1
+	var is_multi = note_datas.size() > 1
+	var has_note_type = false
+
+	for note in note_datas:
+		var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note.note_type][0] as String
+		if action in event.actions:
+			has_note_type = true
+			break
+	
+	# In multi notes, when a note type is pressed that is in the list of notes contained we disable wrongs
+	# in general
+	var single_in_multi_wrong_bypass = has_note_type and (is_multi and not is_macro)
+	
+	if is_input_in_range and not is_analog_event and event.is_pressed() and not single_in_multi_wrong_bypass:
 		# We count how many inputs in this event are normal non-analog notes, to check if the amount of inputs is higher than our note count
 		# this is to prevent "cheater" macros with too many note inputs assigned, however we only do this check on notes that have not been judged
 		# Note: this check should only be done for note groups that contain non-analog notes
+		# We should, hoever, ignore if the the action is not a macro
 		var non_analog_note_input_count := 0
 		for action in event.actions:
 			if not action in ["slide_left", "slide_right", "heart_note"]:
@@ -181,7 +196,7 @@ func process_input(event: InputEventHB) -> bool:
 	
 	if event.is_pressed() and note_judgement_infos.size() != note_datas.size():
 		if not input_was_consumed_by_note and is_input_in_range:
-			if not heart_bypass_hack:
+			if not heart_bypass_hack and not single_in_multi_wrong_bypass:
 				# we got a wrong, pass it to the game
 				_on_wrong()
 				game._play_empty_note_sound(event)
