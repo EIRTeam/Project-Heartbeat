@@ -12,6 +12,7 @@ const TITLE_TEMPLATE = "[font=res://fonts/new_fonts/roboto_black_35.tres]%s[/fon
 const SCROLL_SPEED = 1500.0
 
 const PH_AUTHORS = {
+	"Patrons": preload("res://patrons.gd").PATRONS,
 	"Programming": {
 		"Álex Román Núñez (EIREXE)": "Lead developer, engine developer",
 		"Lino Bigatti": "Volunteer developer",
@@ -160,8 +161,15 @@ func make_title(label: RichTextLabel, title: String):
 func show_ph_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
 	label.bbcode_text = ""
+	
+	label.bbcode_text += "\n"
+	make_title(label, "Patrons")
+	make_credits_dumb(label, PH_AUTHORS.Patrons)
+	
+	label.bbcode_text += "\n"
 	make_title(label, "Programming")
 	make_credits_simple(label, PH_AUTHORS.Programming)
+
 	label.bbcode_text += "\n"
 	make_title(label, "Art")
 	make_credits_links(label, PH_AUTHORS.Art)
