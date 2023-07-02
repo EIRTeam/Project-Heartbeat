@@ -18,6 +18,7 @@ const TYPE_SELECTION_ITEMS = {
 }
 
 func _ready():
+	super._ready()
 	for action in [
 			"make_normal", "toggle_double", "toggle_sustain", "make_slide", "toggle_hold",
 			"select_all", "deselect", "shift_selection_left", "shift_selection_right",
@@ -34,7 +35,7 @@ func _ready():
 	add_shortcut("editor_change_note_down", "change_note_button_by", [1])
 
 func get_shortcut_from_action(action: String) -> int:
-	var action_list = InputMap.get_action_list(action)
+	var action_list = InputMap.action_get_events(action)
 	var event = InputEventKey.new()
 	
 	for ev in action_list:
@@ -42,17 +43,17 @@ func get_shortcut_from_action(action: String) -> int:
 			event = ev
 			break
 	
-	return event.get_scancode_with_modifiers()
+	return event.get_keycode_with_modifiers()
 
 func set_editor(p_editor):
-	.set_editor(p_editor)
+	super.set_editor(p_editor)
 	
 	var contextual_menu := get_contextual_menu()
-	contextual_menu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
+	contextual_menu.connect("item_pressed", Callable(self, "_on_contextual_menu_item_pressed"))
 	
 	selection_modifier_submenu = HBEditorContextualMenuControl.new()
 	selection_modifier_submenu.name = "SelectionModifierSubmenu"
-	selection_modifier_submenu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
+	selection_modifier_submenu.connect("item_pressed", Callable(self, "_on_contextual_menu_item_pressed"))
 	
 	selection_modifier_submenu.add_contextual_item("Select all", "select_all")
 	selection_modifier_submenu.add_contextual_item("Deselect", "deselect")
@@ -66,7 +67,7 @@ func set_editor(p_editor):
 	
 	type_selection_modifier_submenu = HBEditorContextualMenuControl.new()
 	type_selection_modifier_submenu.name = "TypeSelectionModifierSubmenu"
-	type_selection_modifier_submenu.connect("item_pressed", self, "_on_contextual_menu_item_pressed")
+	type_selection_modifier_submenu.connect("item_pressed", Callable(self, "_on_contextual_menu_item_pressed"))
 	
 	for type in TYPE_SELECTION_ITEMS.keys():
 		var action = "select_only_" + type
@@ -83,7 +84,7 @@ func set_editor(p_editor):
 	
 	button_change_submenu = PopupMenu.new()
 	button_change_submenu.name = "ChangeButtonSubmenu"
-	button_change_submenu.connect("index_pressed", self, "_on_button_change_submenu_index_pressed")
+	button_change_submenu.connect("index_pressed", Callable(self, "_on_button_change_submenu_index_pressed"))
 	
 	for type in BUTTON_CHANGE_ALLOWED_TYPES:
 		var pretty_name = type.capitalize()
@@ -220,21 +221,21 @@ func change_note_button(new_button_name):
 			
 			var new_item = new_data.get_timeline_item()
 			
-			undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
-			undo_redo.add_do_method(item, "deselect")
-			undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
+			undo_redo.add_do_method(self.add_item_to_layer.bind(new_layer, new_item))
+			undo_redo.add_do_method(item.deselect)
+			undo_redo.add_undo_method(self.remove_item_from_layer.bind(new_layer, new_item))
 			
-			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-			undo_redo.add_undo_method(new_item, "deselect")
-			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+			undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+			undo_redo.add_undo_method(new_item.deselect)
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 			
 			changed_buttons.append(new_item)
 		
-		undo_redo.add_do_method(self, "timing_points_changed")
-		undo_redo.add_undo_method(self, "timing_points_changed")
+		undo_redo.add_do_method(self.timing_points_changed)
+		undo_redo.add_undo_method(self.timing_points_changed)
 		
-		undo_redo.add_undo_method(self, "deselect_all")
-		undo_redo.add_do_method(self, "deselect_all")
+		undo_redo.add_undo_method(self.deselect_all)
+		undo_redo.add_do_method(self.deselect_all)
 		
 		undo_redo.commit_action()
 	
@@ -259,19 +260,19 @@ func change_note_type(new_type: String):
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 			var new_item = new_data.get_timeline_item()
 			
-			undo_redo.add_do_method(self, "add_item_to_layer", item._layer, new_item)
-			undo_redo.add_do_method(item, "deselect")
-			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+			undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
+			undo_redo.add_do_method(item.deselect)
+			undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
 
-			undo_redo.add_undo_method(self, "remove_item_from_layer", item._layer, new_item)
-			undo_redo.add_undo_method(new_item, "deselect")
-			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+			undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+			undo_redo.add_undo_method(new_item.deselect)
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 		
-		undo_redo.add_do_method(self, "timing_points_changed")
-		undo_redo.add_undo_method(self, "timing_points_changed")
+		undo_redo.add_do_method(self.timing_points_changed)
+		undo_redo.add_undo_method(self.timing_points_changed)
 		
-		undo_redo.add_do_method(self, "deselect_all")
-		undo_redo.add_undo_method(self, "deselect_all")
+		undo_redo.add_do_method(self.deselect_all)
+		undo_redo.add_undo_method(self.deselect_all)
 		
 		undo_redo.commit_action()
 
@@ -365,22 +366,22 @@ func change_note_button_by(amount):
 			var new_item = new_data.get_timeline_item()
 			new_items.append(new_item)
 			
-			undo_redo.add_do_method(self, "add_item_to_layer", new_layer, new_item)
-			undo_redo.add_undo_method(self, "remove_item_from_layer", new_layer, new_item)
+			undo_redo.add_do_method(self.add_item_to_layer.bind(new_layer, new_item))
+			undo_redo.add_undo_method(self.remove_item_from_layer.bind(new_layer, new_item))
 			
-			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+			undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "deselect_all")
-	undo_redo.add_undo_method(self, "deselect_all")
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
 	
 	var selected = get_selected()
 	for i in new_items.size():
-		undo_redo.add_do_method(self, "select_item", new_items[i], true)
-		undo_redo.add_undo_method(self, "select_item", selected[i], true)
+		undo_redo.add_do_method(self.select_item.bind(new_items[i], true))
+		undo_redo.add_undo_method(self.select_item.bind(selected[i], true))
 	
 	undo_redo.commit_action()
 
@@ -415,7 +416,7 @@ func toggle_sustain():
 	if selected.size() < 1:
 		return
 	
-	selected.sort_custom(self, "_sort_by_data_time")
+	selected.sort_custom(Callable(self, "_sort_by_data_time"))
 	
 	for item in selected:
 		if item.data is HBBaseNote and not item.data is HBSustainNote and \
@@ -447,16 +448,16 @@ func toggle_sustain():
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBSustainNote
 		var new_item = new_data.get_timeline_item()
 		
-		undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
-		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
-		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, start)
-		undo_redo.add_do_method(start, "deselect")
-		undo_redo.add_do_method(end, "deselect")
+		undo_redo.add_do_method(self.add_item_to_layer.bind(start._layer, new_item))
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(end._layer, end))
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(end._layer, start))
+		undo_redo.add_do_method(start.deselect)
+		undo_redo.add_do_method(end.deselect)
 		
-		undo_redo.add_undo_method(new_item, "deselect")
-		undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
-		undo_redo.add_undo_method(self, "add_item_to_layer", start._layer, start)
-		undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
+		undo_redo.add_undo_method(new_item.deselect)
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(start._layer, new_item))
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(start._layer, start))
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(end._layer, end))
 	
 	for item in open_sustains:
 		var data = item.data as HBBaseNote
@@ -468,13 +469,13 @@ func toggle_sustain():
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
-		undo_redo.add_do_method(self, "add_item_to_layer", item._layer, new_item)
-		undo_redo.add_do_method(item, "deselect")
-		undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
+		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
+		undo_redo.add_do_method(item.deselect)
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
 
-		undo_redo.add_undo_method(self, "remove_item_from_layer", item._layer, new_item)
-		undo_redo.add_undo_method(new_item, "deselect")
-		undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+		undo_redo.add_undo_method(new_item.deselect)
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 	
 	for item in existing_sustains:
 		var data = item.data as HBBaseNote
@@ -485,19 +486,19 @@ func toggle_sustain():
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
-		undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-		undo_redo.add_do_method(item, "deselect")
-		undo_redo.add_do_method(self, "add_item_to_layer", item._layer, new_item)
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+		undo_redo.add_do_method(item.deselect)
+		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
 		
-		undo_redo.add_undo_method(self, "remove_item_from_layer", item._layer, new_item)
-		undo_redo.add_undo_method(new_item, "deselect")
-		undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+		undo_redo.add_undo_method(new_item.deselect)
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "deselect_all")
-	undo_redo.add_undo_method(self, "deselect_all")
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
 	
 	undo_redo.commit_action()
 
@@ -517,7 +518,7 @@ func make_slide():
 	if selected.size() < 1:
 		return
 	
-	selected.sort_custom(self, "_sort_by_data_time")
+	selected.sort_custom(Callable(self, "_sort_by_data_time"))
 	
 	for item in selected:
 		if item.data is HBNoteData and item.data.is_slide_note():
@@ -575,23 +576,23 @@ func make_slide():
 				
 				var new_item = new_note.get_timeline_item()
 				
-				undo_redo.add_do_method(self, "add_item_to_layer", start._layer, new_item)
-				undo_redo.add_undo_method(self, "remove_item_from_layer", start._layer, new_item)
-				undo_redo.add_undo_method(new_item, "deselect")
+				undo_redo.add_do_method(self.add_item_to_layer.bind(start._layer, new_item))
+				undo_redo.add_undo_method(self.remove_item_from_layer.bind(start._layer, new_item))
+				undo_redo.add_undo_method(new_item.deselect)
 		
-		undo_redo.add_do_method(self, "remove_item_from_layer", end._layer, end)
-		undo_redo.add_undo_method(self, "add_item_to_layer", end._layer, end)
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(end._layer, end))
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(end._layer, end))
 		
-		undo_redo.add_do_method(start, "deselect")
-		undo_redo.add_do_method(end, "deselect")
-		undo_redo.add_undo_method(start, "deselect")
-		undo_redo.add_undo_method(end, "deselect")
+		undo_redo.add_do_method(start.deselect)
+		undo_redo.add_do_method(end.deselect)
+		undo_redo.add_undo_method(start.deselect)
+		undo_redo.add_undo_method(end.deselect)
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "deselect_all")
-	undo_redo.add_undo_method(self, "deselect_all")
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
 	
 	undo_redo.commit_action()
 
@@ -625,19 +626,19 @@ func toggle_double():
 		var new_data = HBSerializable.deserialize(new_data_ser) as HBBaseNote
 		var new_item = new_data.get_timeline_item()
 		
-		undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-		undo_redo.add_do_method(item, "deselect")
-		undo_redo.add_do_method(self, "add_item_to_layer", item._layer, new_item)
+		undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+		undo_redo.add_do_method(item.deselect)
+		undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
 		
-		undo_redo.add_undo_method(self, "remove_item_from_layer", item._layer, new_item)
-		undo_redo.add_undo_method(new_item, "deselect")
-		undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+		undo_redo.add_undo_method(new_item.deselect)
+		undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "deselect_all")
-	undo_redo.add_undo_method(self, "deselect_all")
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
 	
 	undo_redo.commit_action()
 
@@ -660,20 +661,20 @@ func toggle_hold():
 			var new_data = HBSerializable.deserialize(new_data_ser) as HBNoteData
 			var new_item = new_data.get_timeline_item()
 			
-			undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-			undo_redo.add_do_method(self, "add_item_to_layer", item._layer, new_item)
+			undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+			undo_redo.add_do_method(self.add_item_to_layer.bind(item._layer, new_item))
 			
-			undo_redo.add_undo_method(self, "remove_item_from_layer", item._layer, new_item)
-			undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+			undo_redo.add_undo_method(self.remove_item_from_layer.bind(item._layer, new_item))
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 	
-	undo_redo.add_do_method(editor.inspector, "sync_visible_values_with_data")
-	undo_redo.add_undo_method(editor.inspector, "sync_visible_values_with_data")
+	undo_redo.add_do_method(editor.inspector.sync_visible_values_with_data)
+	undo_redo.add_undo_method(editor.inspector.sync_visible_values_with_data)
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "deselect_all")
-	undo_redo.add_undo_method(self, "deselect_all")
+	undo_redo.add_do_method(self.deselect_all)
+	undo_redo.add_undo_method(self.deselect_all)
 	
 	undo_redo.commit_action()
 
@@ -695,7 +696,7 @@ func _get_base_type(item) -> String:
 
 func shift_selection_by(by: int):
 	var items := get_timeline_items()
-	items.sort_custom(self, "_sort_by_data_time")
+	items.sort_custom(Callable(self, "_sort_by_data_time"))
 	
 	var selected := get_selected()
 	
@@ -834,7 +835,7 @@ func smooth_bpm():
 	if cut_off and not start_t in times_to_interpolate:
 		times_to_interpolate.append(start_t)
 	
-	times_to_interpolate.invert()
+	times_to_interpolate.reverse()
 	
 	if not times_to_interpolate:
 		return
@@ -864,15 +865,15 @@ func smooth_bpm():
 		
 		var item = new_speed_change.get_timeline_item()
 		
-		undo_redo.add_do_method(self, "add_item_to_layer", events_layer, item)
+		undo_redo.add_do_method(self.add_item_to_layer.bind(events_layer, item))
 		
-		undo_redo.add_undo_method(self, "deselect_item", item)
-		undo_redo.add_undo_method(self, "remove_item_from_layer", events_layer, item)
+		undo_redo.add_undo_method(self.deselect_item.bind(item))
+		undo_redo.add_undo_method(self.remove_item_from_layer.bind(events_layer, item))
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "sort_items")
-	undo_redo.add_undo_method(self, "sort_items")
+	undo_redo.add_do_method(self.sort_items)
+	undo_redo.add_undo_method(self.sort_items)
 	
 	undo_redo.commit_action()

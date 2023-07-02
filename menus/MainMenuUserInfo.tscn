@@ -1,133 +1,111 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://s460eaf516lj"]
 
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=3]
-[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=4]
-[ext_resource path="res://menus/MainMenuUserInfo.gd" type="Script" id=5]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="2"]
+[ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="3"]
+[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="4"]
+[ext_resource type="Script" path="res://menus/MainMenuUserInfo.gd" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
-shadow_color = Color( 0.94902, 0.239216, 0.819608, 0.501961 )
+[sub_resource type="StyleBoxFlat" id="1"]
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
+shadow_color = Color(0.94902, 0.239216, 0.819608, 0.501961)
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=90]
-bg_color = Color( 1, 1, 1, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_bottom = 5
-border_color = Color( 0.890196, 0.890196, 0.890196, 1 )
-
-[sub_resource type="StyleBoxFlat" id=89]
-bg_color = Color( 1, 1, 1, 0.501961 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color( 0.890196, 0.890196, 0.890196, 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 35
-use_filter = true
-font_data = ExtResource( 2 )
+[sub_resource type="FontFile" id="2"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("2")])
+face_index = null
+embolden = null
+transform = null
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(0, 135)
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.2
-margin_right = 0.00012207
-margin_bottom = -82.0
-rect_min_size = Vector2( 0, 135 )
-custom_styles/panel = ExtResource( 1 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 0.00012207
+offset_bottom = -82.0
+theme_override_styles/panel = ExtResource("1")
+script = ExtResource("5")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 10
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_left = 20.0
-margin_top = 10.0
-margin_right = 1900.0
-margin_bottom = 125.0
-custom_constants/separation = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
-margin_right = 104.0
-margin_bottom = 115.0
-rect_min_size = Vector2( 104, 0 )
-texture = ExtResource( 3 )
-expand = true
+custom_minimum_size = Vector2(104, 0)
+layout_mode = 2
+texture = ExtResource("3")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/TextureRect"]
 visible = false
 show_behind_parent = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 119.0
-margin_right = 1880.0
-margin_bottom = 115.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 20
+theme_override_constants/separation = 20
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 1761.0
-margin_bottom = 53.0
-custom_constants/separation = 25
+layout_mode = 2
+theme_override_constants/separation = 25
 
 [node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 1761.0
-margin_bottom = 53.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "Player"
-valign = 2
+vertical_alignment = 2
 clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 73.0
-margin_right = 1761.0
-margin_bottom = 115.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 
 [node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_top = 11.0
-margin_right = 1639.0
-margin_bottom = 31.0
-rect_min_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-custom_styles/fg = SubResource( 90 )
-custom_styles/bg = SubResource( 89 )
 value = 50.0
-percent_visible = false
+show_percentage = false
 
 [node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1649.0
-margin_right = 1761.0
-margin_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "Level 1"
-valign = 1
+vertical_alignment = 1

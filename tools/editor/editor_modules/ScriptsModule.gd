@@ -3,21 +3,21 @@ extends HBEditorModule
 const EDITOR_SCRIPTS_PATH = "user://editor_scripts/"
 const SCRIPT_META_FIELDS = ["name", "description", "usage"]
 
-onready var file_manager_tree: Tree = get_node("%FileTree")
-onready var script_runner_tree: Tree = get_node("%ScriptRunnerTree")
-onready var script_editor: HBEditorTextEdit = get_node("%ScriptEditor")
-onready var error_label: Label = get_node("%ErrorLabel")
-onready var script_editor_dialog: WindowDialog = get_node("%ScriptEditorDialog")
-onready var save_confirmation_dialog: ConfirmationDialog = get_node("%SaveDialog")
-onready var delete_confirmation_dialog: ConfirmationDialog = get_node("%DeleteDialog")
-onready var reload_dialog: ConfirmationDialog = get_node("%ReloadDialog")
-onready var file_name_line_edit: LineEdit = get_node("%FileNameLineEdit")
-onready var focus_trap_line_edit: LineEdit = get_node("%FocusTrapLineEdit")
+@onready var file_manager_tree: Tree = get_node("%FileTree")
+@onready var script_runner_tree: Tree = get_node("%ScriptRunnerTree")
+@onready var script_editor: HBEditorTextEdit = get_node("%ScriptEditor")
+@onready var error_label: Label = get_node("%ErrorLabel")
+@onready var script_editor_dialog: Window = get_node("%ScriptEditorDialog")
+@onready var save_confirmation_dialog: ConfirmationDialog = get_node("%SaveDialog")
+@onready var delete_confirmation_dialog: ConfirmationDialog = get_node("%DeleteDialog")
+@onready var reload_dialog: ConfirmationDialog = get_node("%ReloadDialog")
+@onready var file_name_line_edit: LineEdit = get_node("%FileNameLineEdit")
+@onready var focus_trap_line_edit: LineEdit = get_node("%FocusTrapLineEdit")
 
-onready var load_icon = preload("res://tools/icons/icon_load.svg")
-onready var copy_icon = preload("res://tools/icons/icon_action_copy.svg")
-onready var delete_icon = preload("res://tools/icons/icon_remove.svg")
-onready var run_icon = preload("res://graphics/icons/console-line.svg")
+@onready var load_icon = preload("res://tools/icons/icon_load.svg")
+@onready var copy_icon = preload("res://tools/icons/icon_action_copy.svg")
+@onready var delete_icon = preload("res://tools/icons/icon_remove.svg")
+@onready var run_icon = preload("res://graphics/icons/console-line.svg")
 
 var watcher: DirectoryWatcher
 
@@ -34,13 +34,12 @@ var _block_actions: bool = false
 var requested_action: String
 
 func _ready():
+	super._ready()
 	# Create and load defaults
-	var dir = Directory.new()
-	if not dir.dir_exists(EDITOR_SCRIPTS_PATH):
-		dir.make_dir(EDITOR_SCRIPTS_PATH)
-	
-	var file = File.new()
-	file.open("res://tools/editor/editor_modules/ScriptsModule/ScriptRunnerScriptTemplate.gd", File.READ)
+	if not DirAccess.dir_exists_absolute(EDITOR_SCRIPTS_PATH):
+		DirAccess.make_dir_absolute(EDITOR_SCRIPTS_PATH)
+	script_editor_dialog.close_requested.connect(_close_script_editor)
+	var file := FileAccess.open("res://tools/editor/editor_modules/ScriptsModule/ScriptRunnerScriptTemplate.gd", FileAccess.READ)
 	script_template = file.get_as_text()
 	script_editor.text = script_template
 	
@@ -49,15 +48,15 @@ func _ready():
 	file_manager_tree.set_column_expand(1, true)
 	file_manager_tree.set_column_expand(2, true)
 	file_manager_tree.set_column_expand(3, true)
-	file_manager_tree.set_column_min_width(0, 9)
-	file_manager_tree.set_column_min_width(1, 1)
-	file_manager_tree.set_column_min_width(2, 1)
-	file_manager_tree.set_column_min_width(3, 1)
+	file_manager_tree.set_column_custom_minimum_width(0, 9)
+	file_manager_tree.set_column_custom_minimum_width(1, 1)
+	file_manager_tree.set_column_custom_minimum_width(2, 1)
+	file_manager_tree.set_column_custom_minimum_width(3, 1)
 	
 	script_runner_tree.set_column_expand(0, true)
 	script_runner_tree.set_column_expand(1, true)
-	script_runner_tree.set_column_min_width(0, 9)
-	script_runner_tree.set_column_min_width(1, 1)
+	script_runner_tree.set_column_custom_minimum_width(0, 9)
+	script_runner_tree.set_column_custom_minimum_width(1, 1)
 	
 	populate_file_lists()
 	
@@ -66,22 +65,22 @@ func _ready():
 	watcher.add_scan_directory(EDITOR_SCRIPTS_PATH)
 	watcher.scan_delay = 3.0
 	
-	watcher.connect("files_created", self, "_on_files_created")
-	watcher.connect("files_deleted", self, "_on_files_deleted")
-	watcher.connect("files_modified", self, "_on_files_modified")
+	watcher.connect("files_created", Callable(self, "_on_files_created"))
+	watcher.connect("files_deleted", Callable(self, "_on_files_deleted"))
+	watcher.connect("files_modified", Callable(self, "_on_files_modified"))
 	
 	add_child(watcher)
 	
 	# Change text for the confirmation dialog
-	save_confirmation_dialog.get_ok().set_text("Yes")
-	save_confirmation_dialog.get_cancel().set_text("Go back")
+	save_confirmation_dialog.get_ok_button().set_text("Yes")
+	save_confirmation_dialog.get_cancel_button().set_text("Go back")
 	
 	# Change text for the delete dialog
-	delete_confirmation_dialog.get_ok().set_text("Yes")
+	delete_confirmation_dialog.get_ok_button().set_text("Yes")
 	
 	# Change text for the reload dialog
-	reload_dialog.get_ok().set_text("Reload")
-	reload_dialog.get_cancel().set_text("Keep editing")
+	reload_dialog.get_ok_button().set_text("Reload")
+	reload_dialog.get_cancel_button().set_text("Keep editing")
 
 func _on_files_created(files: Array):
 	populate_file_lists()
@@ -112,9 +111,9 @@ func _on_files_modified(files: Array):
 			continue
 		
 		if current_path == path:
-			var file := File.new()
+			var file := FileAccess.open(path, FileAccess.READ)
 			
-			if file.open(path, File.READ) == OK:
+			if FileAccess.get_open_error() == OK:
 				var time = file.get_modified_time(path)
 				
 				if time > last_modified_time:
@@ -133,8 +132,8 @@ func _on_files_modified(files: Array):
 
 func parse_meta(script_name: String) -> Dictionary:
 	var meta := {}
-	var file := File.new()
-	if file.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, script_name), File.READ) == OK:
+	var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, script_name), FileAccess.READ)
+	if FileAccess.get_open_error() == OK:
 		var script_contents := file.get_as_text()
 		
 		# Meta syntax looks like:
@@ -175,7 +174,7 @@ func set_item_meta(item: TreeItem, script_name: String, meta: Dictionary):
 		tooltip += "\n"
 		tooltip += HBUtils.wrap_text("Usage: " + meta["usage"])
 	
-	item.set_tooltip(0, tooltip)
+	item.set_tooltip_text(0, tooltip)
 
 func create_script_runner_item(script_name: String, meta: Dictionary):
 	var item := script_runner_tree.create_item(script_runner_tree.get_root())
@@ -196,9 +195,9 @@ func populate_file_lists():
 	
 	# Get script list and meta tags
 	scripts.clear()
-	var dir = Directory.new()
-	if dir.open(EDITOR_SCRIPTS_PATH) == OK:
-		dir.list_dir_begin()
+	var dir = DirAccess.open(EDITOR_SCRIPTS_PATH)
+	if DirAccess.get_open_error() == OK:
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var dir_name = dir.get_next()
 		
 		while dir_name != "":
@@ -238,8 +237,8 @@ func popup_focus_trap(item: TreeItem, p_action: String):
 	
 	focus_trap_line_edit.text = item.get_text(0)
 	
-	focus_trap_line_edit.rect_position = area_rect.position + Vector2(12, 4)
-	focus_trap_line_edit.rect_size = area_rect.size - Vector2(7, 0)
+	focus_trap_line_edit.position = area_rect.position + Vector2(12, 4)
+	focus_trap_line_edit.size = area_rect.size - Vector2(7, 0)
 	focus_trap_line_edit.visible = true
 	focus_trap_line_edit.grab_focus()
 	
@@ -295,9 +294,9 @@ func _on_script_runner_button_pressed(item: TreeItem, column: int, id: int):
 
 var _open_file_name: String = ""
 func open_file():
-	var file := File.new()
+	var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, _open_file_name), FileAccess.READ)
 	
-	if file.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, _open_file_name), File.READ) == OK:
+	if FileAccess.get_open_error() == OK:
 		script_editor.text = file.get_as_text()
 		current_script_name = _open_file_name
 		
@@ -311,9 +310,9 @@ func save_file(save_as: bool = false):
 	if _block_actions:
 		return
 	
-	var file := File.new()
-	if file.file_exists(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name)) and not save_as:
-		if file.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name), File.WRITE) == OK:
+	if FileAccess.file_exists(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name)) and not save_as:
+		var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name), FileAccess.WRITE)
+		if FileAccess.get_open_error() == OK:
 			# File exists
 			file.store_string(script_editor.get_text())
 			_set_modified(false)
@@ -350,8 +349,7 @@ func open_scripts_dir():
 	OS.shell_open(ProjectSettings.globalize_path(EDITOR_SCRIPTS_PATH))
 
 func check_valid_file_name(file_name: String):
-	var dir := Directory.new()
-	if dir.file_exists(HBUtils.join_path(EDITOR_SCRIPTS_PATH, file_name)):
+	if FileAccess.file_exists(HBUtils.join_path(EDITOR_SCRIPTS_PATH, file_name)):
 		return "File already exists"
 	
 	if not file_name.ends_with(".gd"):
@@ -388,13 +386,13 @@ func _on_name_accepted():
 	if action == "save":
 		contents = script_editor.get_text()
 	elif action == "move" or action == "duplicate":
-		var file := File.new()
-		if file.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, old_file_name), File.READ) == OK:
+		var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, old_file_name), FileAccess.READ)
+		if FileAccess.get_open_error() == OK:
 			contents = file.get_as_text()
 	
 	# Save the contents
-	var file := File.new()
-	if file.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, new_file_name), File.WRITE) == OK:
+	var file := FileAccess.open(HBUtils.join_path(EDITOR_SCRIPTS_PATH, new_file_name), FileAccess.WRITE)
+	if FileAccess.get_open_error() == OK:
 		file.store_string(contents)
 	
 	if action == "move":
@@ -463,10 +461,9 @@ func _set_modified(p_modified: bool, record_modification: bool = true):
 	file_name += " (Modified)" if modified else ""
 	file_name_line_edit.set_text(file_name)
 	
-	var file := File.new()
 	var path := HBUtils.join_path(EDITOR_SCRIPTS_PATH, current_script_name)
-	if record_modification and current_script_name != "" and file.open(path, File.READ) == OK:
-		last_modified_time = file.get_modified_time(path)
+	if record_modification and current_script_name != "" and FileAccess.file_exists(path):
+		last_modified_time = FileAccess.get_modified_time(path)
 
 func block_actions():
 	_block_actions = true
@@ -487,9 +484,6 @@ func block_actions():
 	get_node("%SaveAsButton").disabled = true
 	get_node("%NewFileButton").disabled = true
 	
-	script_editor_dialog.get_close_button().disabled = true
-	script_editor_dialog.get_close_button().focus_mode = FOCUS_NONE
-
 func unblock_actions():
 	# We dont need to unblock copy and open since we are refreshing the list anyways
 	# But we do need to unblock focus
@@ -500,9 +494,6 @@ func unblock_actions():
 	get_node("%SaveButton").disabled = false
 	get_node("%SaveAsButton").disabled = false
 	get_node("%NewFileButton").disabled = false
-	
-	script_editor_dialog.get_close_button().disabled = false
-	script_editor_dialog.get_close_button().focus_mode = FOCUS_ALL
 	
 	_block_actions = false
 
@@ -524,9 +515,9 @@ func _keep_editing():
 	_set_modified(true, false)
 
 func run_script(script_path: String):
-	var file := File.new()
-	var err := file.open(script_path, File.READ)
-	
+	var file := FileAccess.open(script_path, FileAccess.READ)
+	var err := FileAccess.get_open_error()
+
 	if err == OK:
 		var script = GDScript.new()
 		script.source_code = file.get_as_text()
@@ -572,8 +563,8 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 					undo_redo.add_do_property(target_item.data, property_name, changed_property_list[property_name])
 					undo_redo.add_undo_property(target_item.data, property_name, target_item.data.get(property_name))
 					
-					undo_redo.add_undo_method(target_item._layer, "place_child", target_item)
-					undo_redo.add_do_method(target_item._layer, "place_child", target_item)
+					undo_redo.add_undo_method(target_item._layer.place_child.bind(target_item))
+					undo_redo.add_do_method(target_item._layer.place_child.bind(target_item))
 					
 					if property_name == "note_type":
 						# When note type is changed we also change the layer
@@ -588,11 +579,11 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 							
 							var target_layer := find_layer_by_name(target_layer_name)
 							
-							undo_redo.add_do_method(editor, "remove_item_from_layer", source_layer, target_item)
-							undo_redo.add_do_method(editor, "add_item_to_layer", target_layer, target_item)
+							undo_redo.add_do_method(editor.remove_item_from_layer.bind(source_layer, target_item))
+							undo_redo.add_do_method(editor.add_item_to_layer.bind(target_layer, target_item))
 							
-							undo_redo.add_undo_method(editor, "remove_item_from_layer", target_layer, target_item)
-							undo_redo.add_undo_method(editor, "add_item_to_layer", source_layer, target_item)
+							undo_redo.add_undo_method(editor.remove_item_from_layer.bind(target_layer, target_item))
+							undo_redo.add_undo_method(editor.add_item_to_layer.bind(source_layer, target_item))
 					if property_name == "position":
 						undo_redo.add_do_property(target_item.data, "pos_modified", true)
 						undo_redo.add_undo_property(target_item.data, "pos_modified", target_item.data.pos_modified)
@@ -608,10 +599,10 @@ func _process_changed_values(inst: ScriptRunnerScript, meta: Dictionary):
 			
 			create_timing_point(layer, timing_point.get_timeline_item())
 		
-		undo_redo.add_do_method(self, "timing_points_changed")
-		undo_redo.add_undo_method(self, "timing_points_changed")
-		undo_redo.add_do_method(self, "sync_inspector_values")
-		undo_redo.add_undo_method(self, "sync_inspector_values")
+		undo_redo.add_do_method(self.timing_points_changed)
+		undo_redo.add_undo_method(self.timing_points_changed)
+		undo_redo.add_do_method(self.sync_inspector_values)
+		undo_redo.add_undo_method(self.sync_inspector_values)
 		undo_redo.commit_action()
 
 func user_settings_changed():

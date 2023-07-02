@@ -1,11 +1,11 @@
 extends HBEditorModule
 
-onready var bpm_dialog = get_node("%SpeedChangeDialog")
-onready var bpm_dialog_spinbox = get_node("%SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox")
-onready var lyric_dialog = get_node("%LyricDialog")
-onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/LineEdit")
-onready var section_dialog = get_node("%SectionDialog")
-onready var section_dialog_line_edit = get_node("%SectionDialog/MarginContainer/LineEdit")
+@onready var bpm_dialog = get_node("%SpeedChangeDialog")
+@onready var bpm_dialog_spinbox = get_node("%SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox")
+@onready var lyric_dialog = get_node("%LyricDialog")
+@onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/LineEdit")
+@onready var section_dialog = get_node("%SectionDialog")
+@onready var section_dialog_line_edit = get_node("%SectionDialog/MarginContainer/LineEdit")
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel", false, true):
@@ -46,7 +46,7 @@ func create_lyrics_event(event_obj: HBTimingPoint):
 			break
 	
 	var timeline_item = event_obj.get_timeline_item() as EditorLyricPhraseTimelineItem
-	timeline_item.connect("phrases_changed", self, "sync_lyrics")
+	timeline_item.connect("phrases_changed", Callable(self, "sync_lyrics"))
 	
 	create_timing_point(ev_layer, timeline_item)
 	editor.sync_lyrics()

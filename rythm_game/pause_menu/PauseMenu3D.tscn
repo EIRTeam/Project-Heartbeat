@@ -1,107 +1,140 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=3 uid="uid://b8q7hs3athysl"]
 
-[ext_resource path="res://scripts/3DUIQuad.gd" type="Script" id=1]
-[ext_resource path="res://menus/song_list/SongListPreview.tscn" type="PackedScene" id=2]
-[ext_resource path="res://rythm_game/pause_menu/PauseMenuLeft.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/GLES2ViewportRTHack.gd" type="Script" id=6]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=7]
-[ext_resource path="res://rythm_game/pause_menu/PauseMenu3D.gd" type="Script" id=8]
+[ext_resource type="Script" path="res://scripts/3DUIQuad.gd" id="1"]
+[ext_resource type="PackedScene" path="res://menus/song_list/SongListPreview.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://rythm_game/pause_menu/PauseMenuLeft.tscn" id="3"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3_1t27u"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4_5ae4a"]
+[ext_resource type="Script" path="res://menus/GLES2ViewportRTHack.gd" id="6"]
+[ext_resource type="PackedScene" path="res://menus/HBConfirmationWindow.tscn" id="7"]
+[ext_resource type="Script" path="res://rythm_game/pause_menu/PauseMenu3D.gd" id="8"]
 
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 1.6, 0.9 )
-
-[sub_resource type="ViewportTexture" id=2]
-flags = 5
+[sub_resource type="ViewportTexture" id="ViewportTexture_jjm3g"]
 viewport_path = NodePath("ViewportLeft")
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8q8w6"]
 resource_local_to_scene = true
-flags_transparent = true
-flags_unshaded = true
-flags_albedo_tex_force_srgb = true
-params_diffuse_mode = 1
-albedo_texture = SubResource( 2 )
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_jjm3g")
 
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.8, 0.45, 0.01 )
+[sub_resource type="PlaneMesh" id="1"]
+material = SubResource("StandardMaterial3D_8q8w6")
+size = Vector2(1.6, 0.9)
 
-[sub_resource type="PlaneMesh" id=5]
-size = Vector2( 0.45, 0.9 )
+[sub_resource type="BoxShape3D" id="4"]
+size = Vector3(0.8, 0.45, 0.01)
 
-[sub_resource type="ViewportTexture" id=6]
-flags = 5
+[sub_resource type="ViewportTexture" id="ViewportTexture_eevwr"]
 viewport_path = NodePath("ViewportRight")
 
-[sub_resource type="SpatialMaterial" id=7]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6eyj"]
 resource_local_to_scene = true
-flags_transparent = true
-flags_unshaded = true
-flags_albedo_tex_force_srgb = true
-params_diffuse_mode = 1
-albedo_texture = SubResource( 6 )
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_eevwr")
 
-[sub_resource type="BoxShape" id=8]
-extents = Vector3( 0.225, 0.45, 0.01 )
+[sub_resource type="PlaneMesh" id="5"]
+material = SubResource("StandardMaterial3D_o6eyj")
+size = Vector2(0.45, 0.9)
 
-[node name="Spatial" type="Spatial"]
-script = ExtResource( 8 )
+[sub_resource type="BoxShape3D" id="8"]
+size = Vector3(0.225, 0.45, 0.01)
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.399 )
+[node name="Node3D" type="Node3D"]
+script = ExtResource("8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.399)
 fov = 47.0
 
-[node name="ViewportLeft" type="Viewport" parent="."]
-size = Vector2( 1920, 1080 )
+[node name="ViewportLeft" type="SubViewport" parent="."]
 transparent_bg = true
-render_target_v_flip = true
+size = Vector2i(1920, 1080)
 
-[node name="MarginContainer" parent="ViewportLeft" instance=ExtResource( 3 )]
+[node name="MarginContainer" parent="ViewportLeft" instance=ExtResource("3")]
+anchors_preset = 4
 
-[node name="ViewportRight" type="Viewport" parent="."]
-size = Vector2( 720, 1440 )
+[node name="VBoxContainer" parent="ViewportLeft/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Panel" parent="ViewportLeft/MarginContainer/VBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="Label" parent="ViewportLeft/MarginContainer/VBoxContainer/Panel" index="0"]
+layout_mode = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_right = 1.0
+offset_bottom = 23.0
+
+[node name="HBListContainer" parent="ViewportLeft/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+
+[node name="ResumeButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="0"]
+layout_mode = 2
+normal_style = ExtResource("3_1t27u")
+hover_style = ExtResource("4_5ae4a")
+
+[node name="RestartButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="1"]
+layout_mode = 2
+normal_style = ExtResource("3_1t27u")
+hover_style = ExtResource("4_5ae4a")
+
+[node name="SongSettingsButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="2"]
+layout_mode = 2
+normal_style = ExtResource("3_1t27u")
+hover_style = ExtResource("4_5ae4a")
+
+[node name="QuitButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="3"]
+layout_mode = 2
+normal_style = ExtResource("3_1t27u")
+hover_style = ExtResource("4_5ae4a")
+
+[node name="ViewportRight" type="SubViewport" parent="."]
 transparent_bg = true
-render_target_v_flip = true
+size = Vector2i(720, 1440)
 
-[node name="Panel" parent="ViewportRight" instance=ExtResource( 2 )]
+[node name="Panel" parent="ViewportRight" instance=ExtResource("2")]
+layout_mode = 3
+anchors_preset = 15
+grow_vertical = 2
 
-[node name="AreaLeft" type="Area" parent="."]
-transform = Transform( 0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.410275, -0.0357335, -0.0632664 )
-script = ExtResource( 1 )
-viewport_path = NodePath("../ViewportLeft")
+[node name="AreaLeft" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.410275, -0.0357335, -0.0632664)
+script = ExtResource("1")
+node_viewport = NodePath("../ViewportLeft")
+node_quad = NodePath("MeshInstance3D")
+node_area = NodePath(".")
 
-[node name="MeshInstance" type="MeshInstance" parent="AreaLeft"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 3 )
-script = ExtResource( 6 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaLeft"]
+transform = Transform3D(1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0)
+mesh = SubResource("1")
+script = ExtResource("6")
 
-[node name="CollisionShape" type="CollisionShape" parent="AreaLeft"]
-shape = SubResource( 4 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaLeft"]
+shape = SubResource("4")
 
-[node name="AreaRight" type="Area" parent="."]
-transform = Transform( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.218914, -0.0753061, 0.201707 )
-script = ExtResource( 1 )
-viewport_path = NodePath("../ViewportRight")
+[node name="AreaRight" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.218914, -0.0753061, 0.201707)
+script = ExtResource("1")
+node_viewport = NodePath("../ViewportRight")
+node_quad = NodePath("MeshInstance3D")
+node_area = NodePath(".")
 
-[node name="MeshInstance" type="MeshInstance" parent="AreaRight"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.19209e-07, -1.53967e-09, 0.00945042 )
-mesh = SubResource( 5 )
-material/0 = SubResource( 7 )
-script = ExtResource( 6 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaRight"]
+transform = Transform3D(1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.19209e-07, -1.53967e-09, 0.00945042)
+mesh = SubResource("5")
+script = ExtResource("6")
 
-[node name="CollisionShape" type="CollisionShape" parent="AreaRight"]
-shape = SubResource( 8 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaRight"]
+shape = SubResource("8")
 
-[node name="RestartPopup" parent="." instance=ExtResource( 7 )]
-margin_left = -275.0
-margin_right = 275.0
+[node name="RestartPopup" parent="." instance=ExtResource("7")]
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
 
-[node name="QuitPopup" parent="." instance=ExtResource( 7 )]
-margin_left = -275.0
-margin_right = 275.0
+[node name="QuitPopup" parent="." instance=ExtResource("7")]
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"

@@ -1,12 +1,10 @@
 extends HBoxContainer
-onready var title_label = get_node("TitleLabel")
-onready var author_label = get_node("AuthorLabel")
-onready var circle_text_rect = get_node("CircleLabel")
-onready var difficulty_label = get_node("DifficultyLabel")
-var song: HBSong setget set_song
-var difficulty setget set_difficulty
-
-var ready = false
+@onready var title_label = get_node("TitleLabel")
+@onready var author_label = get_node("AuthorLabel")
+@onready var circle_text_rect = get_node("CircleLabel")
+@onready var difficulty_label = get_node("DifficultyLabel")
+var song: HBSong: set = set_song
+var difficulty : set = set_difficulty
 
 var queued_task_for_ready: SongAssetLoadAsyncTask
 
@@ -27,8 +25,8 @@ func set_song(value):
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
 	if circle_logo_path:
 		var task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
-		task.connect("assets_loaded", self, "_on_assets_loaded")
-		if not ready:
+		task.connect("assets_loaded", Callable(self, "_on_assets_loaded"))
+		if not is_node_ready():
 			queued_task_for_ready = task
 		else:
 			AsyncTaskQueue.queue_task(task)
@@ -45,17 +43,16 @@ func set_difficulty(value):
 		
 func _on_resized():
 	if circle_text_rect:
-		if circle_text_rect.texture and circle_text_rect.texture.get_data():
+		if circle_text_rect.texture and circle_text_rect.texture.get_image():
 			var ratio = circle_text_rect.texture.get_width() / float(circle_text_rect.texture.get_height())
-			circle_text_rect.rect_min_size.x = min(rect_size.y * ratio, 350)
-			circle_text_rect.rect_min_size.y = rect_size.y
+			circle_text_rect.custom_minimum_size.x = min(size.y * ratio, 350)
+			circle_text_rect.custom_minimum_size.y = size.y
 		else:
-			circle_text_rect.rect_min_size = Vector2.ZERO
-			circle_text_rect.rect_size = Vector2.ZERO
+			circle_text_rect.custom_minimum_size = Vector2.ZERO
+			circle_text_rect.size = Vector2.ZERO
 
 func _ready():
-	connect("resized", self, "_on_resized")
-	ready = true
+	connect("resized", Callable(self, "_on_resized"))
 	if queued_task_for_ready:
 		AsyncTaskQueue.queue_task(queued_task_for_ready)
 	_on_resized()

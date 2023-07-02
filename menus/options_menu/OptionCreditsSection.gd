@@ -2,16 +2,16 @@ extends MarginContainer
 
 signal back
 
-onready var rich_text_label: RichTextLabel = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/MarginContainer/RichTextLabel")
-onready var game_tab_button: HBHovereableButton = get_node("VBoxContainer/HBoxContainer/GameTab")
-onready var engine_tab_button: HBHovereableButton = get_node("VBoxContainer/HBoxContainer/EngineTab")
-onready var button_container: HBSimpleMenu = get_node("VBoxContainer/HBoxContainer")
-onready var scroll_container: ScrollContainer = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
+@onready var rich_text_label: RichTextLabel = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/MarginContainer/RichTextLabel")
+@onready var game_tab_button: HBHovereableButton = get_node("VBoxContainer/HBoxContainer/GameTab")
+@onready var engine_tab_button: HBHovereableButton = get_node("VBoxContainer/HBoxContainer/EngineTab")
+@onready var button_container: HBSimpleMenu = get_node("VBoxContainer/HBoxContainer")
+@onready var scroll_container: ScrollContainer = get_node("VBoxContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer")
 
 const TITLE_TEMPLATE = "[font=res://fonts/new_fonts/roboto_black_35.tres]%s[/font]\n\n"
 const SCROLL_SPEED = 1500.0
 
-const PH_AUTHORS = {
+var PH_AUTHORS = {
 	"Patrons": preload("res://patrons.gd").PATRONS,
 	"Programming": {
 		"Álex Román Núñez (EIREXE)": "Lead developer, engine developer",
@@ -138,59 +138,59 @@ const ENGINE_COPYRIGHT_INFO_ADDITIONS = [
 func make_credits_simple(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
 		var oc = credits[ind]
-		label.bbcode_text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
+		label.text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
 
 func make_credits_links(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
 		var oc = credits[ind][0]
-		label.bbcode_text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
+		label.text += "[u]%s[/u][indent]%s[/indent]\n" % [ind, oc]
 
 func make_credits_list(label: RichTextLabel, credits: Dictionary):
 	for ind in credits:
-		label.bbcode_text += "[u]%s[/u]\n" % [ind]
+		label.text += "[u]%s[/u]\n" % [ind]
 		for oc in credits[ind]:
-			label.bbcode_text += "[indent]%s[/indent]\n" % [oc]
+			label.text += "[indent]%s[/indent]\n" % [oc]
 
 func make_credits_dumb(label: RichTextLabel, credits: Array):
 	for credit in credits:
-		label.bbcode_text += "%s\n" % [credit]
+		label.text += "%s\n" % [credit]
 
 func make_title(label: RichTextLabel, title: String):
-	label.bbcode_text += TITLE_TEMPLATE % title
+	label.text += TITLE_TEMPLATE % title
 
 func show_ph_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
-	label.bbcode_text = ""
+	label.text = ""
 	
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Patrons")
 	make_credits_dumb(label, PH_AUTHORS.Patrons)
 	
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Programming")
 	make_credits_simple(label, PH_AUTHORS.Programming)
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Art")
 	make_credits_links(label, PH_AUTHORS.Art)
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Music")
 	make_credits_list(label, PH_AUTHORS.Music)
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Charting")
 	make_credits_list(label, PH_AUTHORS.Charting)
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Charting Software")
 	make_credits_list(label, PH_AUTHORS["Charting software"])
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Licenses")
 	make_credits_dumb(label, PH_AUTHORS.Licenses)
 
-	label.bbcode_text += "\n"
+	label.text += "\n"
 	make_title(label, "Others")
 	make_credits_simple(label, PH_AUTHORS.Others)
 	
@@ -198,14 +198,14 @@ func show_copyright_info_engine(info: Dictionary):
 	var title = info.name
 	make_title(rich_text_label, title)
 	for part in info.parts:
-		rich_text_label.bbcode_text += "License: %s \n" % [part.license]
+		rich_text_label.text += "License: %s \n" % [part.license]
 		for copyright in part.copyright:
-			rich_text_label.bbcode_text += "[u][indent]%s[/indent][/u]\n" % [copyright]
-	rich_text_label.bbcode_text += "\n"
+			rich_text_label.text += "[u][indent]%s[/indent][/u]\n" % [copyright]
+	rich_text_label.text += "\n"
 	
 func show_engine_credits(label: RichTextLabel):
 	scroll_container.scroll_vertical = 0
-	rich_text_label.bbcode_text = ""
+	rich_text_label.text = ""
 	for info in ENGINE_COPYRIGHT_INFO_ADDITIONS:
 		show_copyright_info_engine(info)
 	for info in Engine.get_copyright_info():
@@ -215,14 +215,14 @@ func _ready():
 	if player_name == "Player":
 		player_name = "You"
 	PH_AUTHORS.Others[player_name] = "Thanks to whom this game is possible"
-	engine_tab_button.connect("pressed", self, "show_engine_credits", [rich_text_label])
-	engine_tab_button.connect("hovered", self, "show_engine_credits", [rich_text_label])
-	game_tab_button.connect("pressed", self, "show_ph_credits", [rich_text_label])
-	game_tab_button.connect("hovered", self, "show_ph_credits", [rich_text_label])
-	button_container.connect("focus_exited", self, "_on_focus_exited")
+	engine_tab_button.connect("pressed", Callable(self, "show_engine_credits").bind(rich_text_label))
+	engine_tab_button.connect("hovered", Callable(self, "show_engine_credits").bind(rich_text_label))
+	game_tab_button.connect("pressed", Callable(self, "show_ph_credits").bind(rich_text_label))
+	game_tab_button.connect("hovered", Callable(self, "show_ph_credits").bind(rich_text_label))
+	button_container.connect("focus_exited", Callable(self, "_on_focus_exited"))
 	show_ph_credits(rich_text_label)
 	set_process(false)
-	connect("focus_entered", self, "_on_focus_entered")
+	connect("focus_entered", Callable(self, "_on_focus_entered"))
 	
 func _on_focus_entered():
 	set_process(true)

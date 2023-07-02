@@ -6,8 +6,8 @@
 bg_color = Color( 0, 0, 0, 0.5 )
 
 [node name="Panel" type="Panel"]
-margin_right = 80.0
-margin_bottom = 10.0
-rect_min_size = Vector2( 80, 10 )
-custom_styles/panel = SubResource( 1 )
+offset_right = 80.0
+offset_bottom = 10.0
+custom_minimum_size = Vector2( 80, 10 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )

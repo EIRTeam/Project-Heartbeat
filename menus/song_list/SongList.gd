@@ -7,21 +7,21 @@ var current_difficulty
 var current_song: HBSong
 var pevent_pregame_screen = false
 #onready var difficulty_list = get_node("VBoxContainer/DifficultyList")
-onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
-onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
-onready var sort_by_list = get_node("CenterContainer/SortByPanel")
-onready var sort_by_list_container = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer")
-onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/FolderPath")
-onready var folder_manager = get_node("FolderManager")
-onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
-onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel9")
-onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
-onready var song_count_indicator = get_node("SongCountIndicator")
-onready var search_text_input = get_node("SearchTextInput")
-onready var sort_by_option_button: HBHovereableOptionButton = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/OptionButton")
-onready var sort_mode_label: Label = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/Label")
-onready var has_media_checkbox: CheckBox = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/HasMediaCheckbox")
-onready var has_media_filter_texture_rect := get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/TextureRect2")
+@onready var song_container = get_node("VBoxContainer/MarginContainer/VBoxContainer")
+@onready var filter_type_container = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer")
+@onready var sort_by_list = get_node("CenterContainer/SortByPanel")
+@onready var sort_by_list_container = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer")
+@onready var folder_path = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/FolderPath")
+@onready var folder_manager = get_node("FolderManager")
+@onready var add_to_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel8")
+@onready var manage_folders_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel9")
+@onready var remove_item_prompt = get_node("VBoxContainer/Prompts/HBoxContainer/HBoxContainer/Panel10")
+@onready var song_count_indicator = get_node("SongCountIndicator")
+@onready var search_text_input = get_node("SearchTextInput")
+@onready var sort_by_option_button: HBHovereableOptionButton = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/OptionButton")
+@onready var sort_mode_label: Label = get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/Label")
+@onready var has_media_checkbox: CheckBox = get_node("CenterContainer/SortByPanel/MarginContainer/VBoxContainer/HasMediaCheckbox")
+@onready var has_media_filter_texture_rect := get_node("VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2/TextureRect2")
 
 var force_next_song_update = false
 
@@ -56,9 +56,9 @@ func populate_sort_by_list():
 	sort_by_option_button.set_block_signals(false)
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	if PlatformService.service_provider.implements_ugc:
-		PlatformService.service_provider.ugc_provider.connect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
+		PlatformService.service_provider.ugc_provider.connect("ugc_song_meta_updated", Callable(self, "_on_ugc_song_meta_updated"))
 #	populate_difficulties()
 #	if args.has("song_difficulty"):
 ##		_select_difficulty(args.song_difficulty)
@@ -76,7 +76,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	sort_by_list.hide()
 		
 	has_media_checkbox.set_block_signals(true)
-	has_media_checkbox.pressed = UserSettings.user_settings.filter_has_media
+	has_media_checkbox.button_pressed = UserSettings.user_settings.filter_has_media
 	has_media_checkbox.set_block_signals(false)
 	has_media_filter_texture_rect.visible = UserSettings.user_settings.filter_has_media
 		
@@ -90,18 +90,17 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	if args.has("song"):
 		song_to_select = args.song
 	update_songs(song_to_select, difficulty_to_select)
-	MouseTrap.cache_song_overlay.connect("done", song_container, "grab_focus", [], CONNECT_DEFERRED)
-	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
-	MouseTrap.ppd_dialog.connect("file_selected", self, "_on_ppd_audio_file_selected")
-	MouseTrap.ppd_dialog.connect("file_selector_hidden", song_container, "grab_focus", [], CONNECT_DEFERRED)
-	MouseTrap.ppd_dialog.connect("popup_hide", song_container, "grab_focus", [], CONNECT_DEFERRED)
+	MouseTrap.cache_song_overlay.connect("done", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
+	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
+	MouseTrap.ppd_dialog.connect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
+	MouseTrap.ppd_dialog.connect("file_selector_hidden", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
+	MouseTrap.ppd_dialog.connect("popup_hide", Callable(song_container, "grab_focus").bind(), CONNECT_DEFERRED)
 #	song_container.hard_arrange_all()
 	#sort_button_texture_rect.texture = IconPackLoader.get_graphic("UP", "note")
 	#fav_button_texture_rect.texture = IconPackLoader.get_graphic("LEFT", "note")
 	if "force_url_request" in args:
 		_on_PPDAudioBrowseWindow_accept()
 	song_container.grab_focus()
-	song_container.call_deferred("grab_focus")
 
 	
 func _on_ugc_song_meta_updated():
@@ -128,14 +127,14 @@ func _on_ugc_item_installed(type, item):
 		force_next_song_update = true
 
 func _on_menu_exit(force_hard_transition = false):
-	._on_menu_exit(force_hard_transition)
-	MouseTrap.cache_song_overlay.disconnect("done", song_container, "grab_focus")
-	MouseTrap.ppd_dialog.disconnect("youtube_url_selected", self, "_on_youtube_url_selected")
-	MouseTrap.ppd_dialog.disconnect("file_selected", self, "_on_ppd_audio_file_selected")
-	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", song_container, "grab_focus")
-	MouseTrap.ppd_dialog.disconnect("popup_hide", song_container, "grab_focus")
+	super._on_menu_exit(force_hard_transition)
+	MouseTrap.cache_song_overlay.disconnect("done", Callable(song_container, "grab_focus"))
+	MouseTrap.ppd_dialog.disconnect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
+	MouseTrap.ppd_dialog.disconnect("file_selected", Callable(self, "_on_ppd_audio_file_selected"))
+	MouseTrap.ppd_dialog.disconnect("file_selector_hidden", Callable(song_container, "grab_focus"))
+	MouseTrap.ppd_dialog.disconnect("popup_hide", Callable(song_container, "grab_focus"))
 	if PlatformService.service_provider.implements_ugc:
-		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", self, "_on_ugc_song_meta_updated")
+		PlatformService.service_provider.ugc_provider.disconnect("ugc_song_meta_updated", Callable(self, "_on_ugc_song_meta_updated"))
 	HBGame.rich_presence.update_activity({
 		"state": "On main menu"
 	})
@@ -145,22 +144,23 @@ func set_media_checkbox(pressed: bool):
 	song_container.set_songs(SongLoader.songs.values(), null, null, true)
 	has_media_filter_texture_rect.visible = pressed
 func _ready():
-	has_media_checkbox.connect("toggled", self, "set_media_checkbox")
-	sort_by_option_button.connect("selected", self, "set_sort")
-	song_container.connect("song_hovered", self, "_on_song_hovered")
-	song_container.connect("hover_nonsong", self, "_on_non_song_hovered")
-	song_container.connect("difficulty_selected", self, "_on_difficulty_selected")
-	song_container.connect("updated_folders", self, "_on_folder_path_updated")
-	$PPDAudioBrowseWindow.connect("accept", self, "_on_PPDAudioBrowseWindow_accept")
-	$PPDAudioBrowseWindow.connect("cancel", song_container, "grab_focus")
+	super._ready()
+	has_media_checkbox.connect("toggled", Callable(self, "set_media_checkbox"))
+	sort_by_option_button.connect("selected", Callable(self, "set_sort"))
+	song_container.connect("song_hovered", Callable(self, "_on_song_hovered"))
+	song_container.connect("hover_nonsong", Callable(self, "_on_non_song_hovered"))
+	song_container.connect("difficulty_selected", Callable(self, "_on_difficulty_selected"))
+	song_container.connect("updated_folders", Callable(self, "_on_folder_path_updated"))
+	$PPDAudioBrowseWindow.connect("accept", Callable(self, "_on_PPDAudioBrowseWindow_accept"))
+	$PPDAudioBrowseWindow.connect("cancel", Callable(song_container, "grab_focus"))
 
-	folder_manager.connect("closed", self, "_on_folder_manager_closed")
-	folder_manager.connect("folder_selected", self, "_on_folder_selected")
+	folder_manager.connect("closed", Callable(self, "_on_folder_manager_closed"))
+	folder_manager.connect("folder_selected", Callable(self, "_on_folder_selected"))
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
-		ugc.connect("ugc_item_installed", self, "_on_ugc_item_installed")
-	search_text_input.connect("entered", self, "_on_search_entered")
-	search_text_input.connect("cancel", song_container, "grab_focus")
+		ugc.connect("ugc_item_installed", Callable(self, "_on_ugc_item_installed"))
+	search_text_input.connect("entered", Callable(self, "_on_search_entered"))
+	search_text_input.connect("cancel", Callable(song_container, "grab_focus"))
 	
 func _on_search_entered(text: String):
 	song_container.search_term = text.to_lower()
@@ -244,8 +244,8 @@ func populate_buttons():
 		button.text = filter_types[filter_type]
 		filter_type_container.add_child(button)
 		if filter_type == UserSettings.user_settings.filter_mode:
-			filter_type_container.select_button(button.get_position_in_parent(), false)
-		button.connect("hovered", self, "set_filter", [filter_type])
+			filter_type_container.select_button(button.get_index(), false)
+		button.connect("hovered", Callable(self, "set_filter").bind(filter_type))
 		
 func set_filter(filter_name, save=true):
 	song_container.search_term = ""
@@ -292,13 +292,13 @@ func _on_song_hovered(song: HBSong):
 	HBGame.rich_presence.update_activity({
 		"state": "In song list",
 		"details": "%s" % [current_song.title],
-		"start_timestamp": OS.get_unix_time()
+		"start_timestamp": Time.get_unix_time_from_system()
 	})
 
 func should_receive_input(event):
 	var shift = false
 	if event is InputEventKey:
-		shift = event.shift
+		shift = event.shift_pressed
 	
 	return song_container.has_focus() and not shift
 	
@@ -309,11 +309,11 @@ func _unhandled_input(event):
 				filter_type_container._gui_input(event)
 		elif event.is_action_pressed("gui_search"):
 			search_text_input.line_edit.text = song_container.search_term
-			search_text_input.line_edit.caret_position = song_container.search_term.length()
+			search_text_input.line_edit.caret_column = song_container.search_term.length()
 			search_text_input.popup_centered()
 		elif event.is_action_pressed("gui_cancel"):
 			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			if song_container.search_term:
 				song_container.search_term = ""
 				update_path_label()
@@ -322,7 +322,7 @@ func _unhandled_input(event):
 			else:
 				change_to_menu("main_menu")
 		elif event.is_action_pressed("gui_sort_by"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			show_order_by_list()
 		elif event.is_action_pressed("contextual_option"):
 			if UserSettings.user_settings.filter_mode == "folders":
@@ -361,10 +361,9 @@ func _on_difficulty_selected(song: HBSong, difficulty):
 		MouseTrap.cache_song_overlay.show_download_prompt(song)
 	
 func _on_ppd_audio_file_selected(path: String):
-	var directory = Directory.new()
 	current_song.audio = path.get_file()
 	var song_path = current_song.get_song_audio_res_path()
-	directory.copy(path, song_path)
+	DirAccess.copy_absolute(path, song_path)
 func _on_PPDAudioBrowseWindow_accept():
 	MouseTrap.ppd_dialog.ask_for_file()
 func _on_youtube_url_selected(url):

@@ -2,20 +2,20 @@
 
 [ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=1]
 [ext_resource path="res://menus/media_download_queue/MediaDownloadQueue.gd" type="Script" id=2]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=3]
+[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=4]
 [ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://fonts/orbitron-bold.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://fonts/orbitron-bold.otf" type="FontFile" id=6]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 40
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 5
+spacing_top = 5
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 45
 use_filter = true
 font_data = ExtResource( 4 )
@@ -24,35 +24,35 @@ fallback/0 = ExtResource( 3 )
 [node name="MarginContainer" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 15
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 1905.0
-margin_bottom = 1065.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1905.0
+offset_bottom = 1065.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1890.0
-margin_bottom = 45.0
+offset_right = 1890.0
+offset_bottom = 45.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 353.0
-margin_bottom = 45.0
-custom_fonts/font = SubResource( 2 )
+offset_right = 353.0
+offset_bottom = 45.0
+theme_override_fonts/font = SubResource( 2 )
 text = "adasdasdsadas"
 
 [node name="HBUniversalScrollList" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 49.0
-margin_right = 1890.0
-margin_bottom = 1015.0
+offset_top = 49.0
+offset_right = 1890.0
+offset_bottom = 1015.0
 focus_mode = 2
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -64,31 +64,31 @@ horizontal_step = 0
 enable_wrap_around = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBUniversalScrollList"]
-margin_right = 1890.0
-margin_bottom = 966.0
+offset_right = 1890.0
+offset_bottom = 966.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 1019.0
-margin_right = 1890.0
-margin_bottom = 1050.0
+offset_top = 1019.0
+offset_right = 1890.0
+offset_bottom = 1050.0
 alignment = 1
 
 [node name="Panel4" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
-margin_left = 883.0
-margin_right = 1007.0
-margin_bottom = 31.0
-rect_min_size = Vector2( 124, 31 )
+offset_left = 883.0
+offset_right = 1007.0
+offset_bottom = 31.0
+custom_minimum_size = Vector2( 124, 31 )
 action_name = "gui_cancel"
 text = "Back"
 
 [node name="Label" type="Label" parent="."]
-margin_left = 15.0
-margin_top = 517.0
-margin_right = 1905.0
-margin_bottom = 563.0
-custom_fonts/font = SubResource( 1 )
+offset_left = 15.0
+offset_top = 517.0
+offset_right = 1905.0
+offset_bottom = 563.0
+theme_override_fonts/font = SubResource( 1 )
 text = "No downloads queued!"
-align = 1
+horizontal_alignment = 1

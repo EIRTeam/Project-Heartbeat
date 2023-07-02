@@ -2,12 +2,12 @@ extends Panel
 
 const MemberScene = preload("res://multiplayer/lobby/Member.tscn")
 
-onready var members_container = get_node("MarginContainer/VBoxContainer")
+@onready var members_container = get_node("MarginContainer/VBoxContainer")
 
 var lobby: HBLobby
 
 func add_member(member: HBServiceMember, is_owner, owned_by_local_user):
-	var scene = MemberScene.instance()
+	var scene = MemberScene.instantiate()
 	scene.size_flags_horizontal = scene.SIZE_EXPAND_FILL
 	members_container.add_child(scene)
 	scene.lobby = lobby

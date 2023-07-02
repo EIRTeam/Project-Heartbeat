@@ -1,16 +1,17 @@
 extends HBMenu
 
-onready var start_menu = get_node("VBoxContainer/StartMenu")
+@onready var start_menu = get_node("VBoxContainer/StartMenu")
 
 const APRIL_FOOLS_LOGO = preload("res://graphics/logo_april.png")
 
 signal right
 
 func _ready():
-	var date_time = OS.get_datetime()
+	super._ready()
+	var date_time = Time.get_datetime_dict_from_system()
 	if date_time.day == 1 and date_time.month == 4:
 		$TextureRect2.texture = APRIL_FOOLS_LOGO
-	start_menu.connect("navigate_to_menu", self, "change_to_menu")
+	start_menu.connect("navigate_to_menu", Callable(self, "change_to_menu"))
 	if not PlatformService.service_provider.implements_lobby_list or HBGame.demo_mode:
 		get_tree().call_group("mponly", "free")
 	if HBGame.demo_mode:
@@ -19,7 +20,7 @@ func _ready():
 		get_tree().call_group("demo_only", "free")
 		
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	start_menu.grab_focus()
 	
 func _on_discord_server_pressed():
@@ -28,7 +29,7 @@ func _on_discord_server_pressed():
 func _input(event):
 	if event.is_action_pressed("gui_right"):
 		if start_menu.has_focus():
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			emit_signal("right")
 			HBGame.fire_and_forget_sound(HBGame.menu_press_sfx, HBGame.sfx_group)
 

@@ -2,17 +2,17 @@ extends Control
 
 class_name HBEditorSettings
 
-onready var tree: Tree = get_node("Tree")
-onready var color_picker_texture = load("res://tools/icons/ColorPick.svg")
+@onready var tree: Tree = get_node("Tree")
+@onready var color_picker_texture = load("res://tools/icons/ColorPick.svg")
 
-var editor: HBEditor setget set_editor
+var editor: HBEditor: set = set_editor
 var settings
 var settings_base
 
 func _ready():
-	tree.connect("item_edited", self, "_on_tree_item_edited", [], CONNECT_DEFERRED)
-	tree.connect("custom_popup_edited", self, "_on_custom_popup_edited")
-	tree.connect("button_pressed", self, "_on_button_pressed")
+	tree.connect("item_edited", Callable(self, "_on_tree_item_edited").bind(), CONNECT_DEFERRED)
+	tree.connect("custom_popup_edited", Callable(self, "_on_custom_popup_edited"))
+	tree.connect("button_clicked", Callable(self, "_on_button_pressed"))
 
 func set_editor(val):
 	editor = val
@@ -189,7 +189,7 @@ func create_item(option, parent):
 			for item_name in data:
 				popup_menu.add_item(item_name)
 				popup_menu.set_item_disabled(popup_menu.get_item_count()-1, !data[item_name])
-			popup_menu.connect("index_pressed", self, "_on_list_item_selected", [item])
+			popup_menu.connect("index_pressed", Callable(self, "_on_list_item_selected").bind(item))
 			tree.add_child(popup_menu)
 			item.set_meta("popup_menu", popup_menu)
 			
@@ -215,7 +215,7 @@ func create_item(option, parent):
 			
 			var color_picker := ColorPicker.new()
 			color_picker.color = settings_base[option.var]
-			color_picker.connect("color_changed", self, "_on_color_changed", [item])
+			color_picker.connect("color_changed", Callable(self, "_on_color_changed").bind(item))
 			item.set_meta("color_picker", color_picker)
 			
 			for preset in option.presets:
@@ -223,11 +223,11 @@ func create_item(option, parent):
 			for preset in UserSettings.user_settings.color_presets:
 				color_picker.add_preset(Color(preset))
 			
-			color_picker.connect("preset_added", self, "_on_colorpicker_preset_added", [item])
-			color_picker.connect("preset_removed", self, "_on_colorpicker_preset_removed", [item])
+			color_picker.connect("preset_added", Callable(self, "_on_colorpicker_preset_added").bind(item))
+			color_picker.connect("preset_removed", Callable(self, "_on_colorpicker_preset_removed").bind(item))
 			
-			var popup := WindowDialog.new()
-			popup.window_title = option.name
+			var popup := Window.new()
+			popup.title = option.name
 			popup.add_child(color_picker)
 			add_child(popup)
 			item.set_meta("popup", popup)
@@ -240,10 +240,8 @@ func create_item(option, parent):
 func update(ignore = []):
 	var root := tree.get_root()
 	
-	var item := root.get_children() as TreeItem
-	while item:
+	for item in root.get_children():
 		if item in ignore or not item.has_meta("property_name"):
-			item = item.get_next_visible()
 			continue
 		
 		var property_name := item.get_meta("property_name") as String
@@ -279,8 +277,6 @@ func update(ignore = []):
 				var color_picker = item.get_meta("color_picker")
 				color_picker.color = value
 		
-		item = item.get_next_visible()
-
 func _hide():
 	var item = tree.get_selected()
 	
@@ -341,7 +337,7 @@ func _on_list_item_selected(idx: int, edited: TreeItem):
 	_on_tree_item_edited()
 
 
-func _on_button_pressed(item: TreeItem, column_id: int, id: int):
+func _on_button_pressed(item: TreeItem, column_id: int, id: int, _mouse_button: int):
 	var type := item.get_meta("type") as String
 	match type:
 		"Color":

@@ -9,6 +9,7 @@ var layers_item: TreeItem
 var note_resolution_item: TreeItem
 
 func _ready():
+	super._ready()
 	settings = {
 		"Timeline": [
 			{"name": tr("Note resolution"), "var": "note_resolution", "type": "Int", "options": {"min": 1, "max": 128, "set_var": true}},
@@ -22,7 +23,7 @@ func _ready():
 	}
 
 func populate():
-	.populate()
+	super.populate()
 	
 	if not editor:
 		return
@@ -36,10 +37,10 @@ func set_editor(val):
 	editor = val
 	
 	load_settings(editor.song_editor_settings)
-	editor.connect("song_editor_settings_changed", self, "update")
+	editor.connect("song_editor_settings_changed", Callable(self, "update"))
 	
-	connect("layer_visibility_changed", editor.timeline, "change_layer_visibility")
-	connect("layer_visibility_changed", editor, "_on_layer_visibility_changed")
+	connect("layer_visibility_changed", Callable(editor.timeline, "change_layer_visibility"))
+	connect("layer_visibility_changed", Callable(editor, "_on_layer_visibility_changed"))
 	
 	populate()
 
@@ -47,10 +48,10 @@ func load_settings(settings):
 	settings_base = settings
 
 func update_setting(property_name: String, new_value):
-	editor.disconnect("song_editor_settings_changed", self, "update")
+	editor.disconnect("song_editor_settings_changed", Callable(self, "update"))
 	settings_base.set(property_name, new_value)
 	editor.load_settings(settings_base, true)
-	editor.connect("song_editor_settings_changed", self, "update")
+	editor.connect("song_editor_settings_changed", Callable(self, "update"))
 	
 	if property_name == "selected_variant":
 		editor.update_media()
@@ -112,7 +113,7 @@ func _get_nice_name(layer: String):
 		var i = name.find("_")
 		name[i] = " "
 	
-	if layer[-1].is_valid_integer():
+	if layer[-1].is_valid_int():
 		name[-1] = " "
 		name += layer[-1]
 	

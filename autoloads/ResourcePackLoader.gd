@@ -47,10 +47,9 @@ var current_skin: HBUISkin
 var fallback_skin: HBUISkin
 
 func _init_resource_pack_loader():
-	var dir = Directory.new()
 	for location in ICON_PACK_LOCATIONS:
-		if not dir.file_exists(location):
-			dir.make_dir_recursive(location)
+		if not FileAccess.file_exists(location):
+			DirAccess.make_dir_recursive_absolute(location)
 		_load_icon_packs_from_path(location)
 	rebuild_final_atlases()
 	var fallback_skin_rp := HBResourcePack.load_from_directory("res://graphics/resource_packs/default_skin") as HBResourcePack
@@ -77,8 +76,7 @@ func _setup_fallback_pack(fallback: HBResourcePack):
 	for file_name in GRAPHICS_FILE_NAMES:
 		var image := fallback.get_graphic_image(file_name)
 		if image:
-			var texture = ImageTexture.new()
-			texture.create_from_image(image)
+			var texture = ImageTexture.create_from_image(image)
 			atlas_increment += 1
 			texture.resource_path = "PH_RPL_" + file_name + "_" + str(atlas_increment)
 			
@@ -132,13 +130,12 @@ func rebuild_final_atlases():
 		if pack:
 			var image := pack.get_graphic_image(file_name)
 			if image:
-				var texture := ImageTexture.new()
-				texture.create_from_image(image)
+				var texture := ImageTexture.create_from_image(image)
 				selected_pack_textures[file_name] = texture
 	soft_rebuild_final_atlas()
 	
 func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_settings.resource_pack) -> int:
-	var time_start = OS.get_ticks_usec()
+	var time_start = Time.get_ticks_usec()
 	var selected_pack := resource_packs.get(pack_to_use, null) as HBResourcePack
 	var use_fallback = false
 	if selected_pack:
@@ -148,7 +145,7 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 				"fallback": fallback_images[atlas_name],
 				"selected": selected_pack_atlas
 			}, 1, true)
-			var atlas_texture := at.texture as Texture
+			var atlas_texture := at.texture as Texture2D
 			atlas_increment += 1
 			at.texture.resource_path = "PH_RESOURCE_PACK_LOADER_ATLAS_" + str(atlas_increment)
 			var fallback_region_pos := at.atlas_data.fallback.region.position as Vector2
@@ -172,23 +169,21 @@ func rebuild_final_atlas(atlas_name: String, pack_to_use=UserSettings.user_setti
 		else:
 			# If the resource pack used for this atlas is not present, we use the fallback only
 			var fallback_image := fallback_images[atlas_name] as Image
-			var fallback_image_tex := ImageTexture.new()
-
-			fallback_image_tex.create_from_image(fallback_image)
+			var fallback_image_tex := ImageTexture.create_from_image(fallback_image)
 			atlas_increment += 1
 			fallback_image_tex.resource_path = "PH_RESOURCE_PACK_LOADER_FALLBACK_ATLAS_" + str(atlas_increment)
 			
 			fallback_textures = HBUtils.merge_dict(fallback_textures, fallback_pack.create_atlas_textures(fallback_image_tex, atlas_name))
 			_final_atlases[atlas_name] = fallback_image_tex
 			return ERR_FILE_MISSING_DEPENDENCIES
-	var time_end = OS.get_ticks_usec()
+	var time_end = Time.get_ticks_usec()
 	print("atlas rebuild took %d microseconds" % [(time_end - time_start)])
 	return OK
 func _load_icon_packs_from_path(path: String):
-	var dir := Directory.new()
 	var value = {}
-	if dir.open(path) == OK:
-		dir.list_dir_begin()
+	var dir := DirAccess.open(path)
+	if DirAccess.get_open_error() == OK:
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var dir_name = dir.get_next()
 
 		while dir_name != "":
@@ -205,7 +200,7 @@ func _load_icon_packs_from_path(path: String):
 			dir_name = dir.get_next()
 	return value
 	
-func get_graphic(graphic_name: String) -> Texture:
+func get_graphic(graphic_name: String) -> Texture2D:
 	return final_textures.get(graphic_name, missing_texture)
 
 func get_note_trail_color(note_i: int) -> Color:

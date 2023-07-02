@@ -21,7 +21,7 @@ var error_message := ""
 
 var entries := {}
 
-var file: File
+var file: FileAccess
 
 var roms_found := []
 
@@ -34,7 +34,7 @@ func read_table_from_chunk(expected_signature: String) -> Array:
 	var table = CriUTFTable.new()
 	return table.read_from_chunk(file, expected_signature)
 	
-func open(_file: File):
+func open(_file: FileAccess):
 	
 	file = _file
 	
@@ -50,7 +50,7 @@ func open(_file: File):
 	
 	for row in toc:
 		var entry := CPKEntry.new()
-		entry.name = row.get("DirName").plus_file(row.get("FileName")).replace("\\", "/")
+		entry.name = row.get("DirName").path_join(row.get("FileName")).replace("\\", "/")
 		
 		entry.position = row.get("FileOffset")
 		entry.length = row.get("FileSize")
@@ -79,7 +79,7 @@ func load_file(file_path: String) -> StreamPeerBuffer:
 
 	file.seek(entry.position)
 
-	var out := PoolByteArray()
+	var out := PackedByteArray()
 	out.resize(entry.length)
 
 	var file_buff := file.get_buffer(entry.length)
@@ -97,7 +97,7 @@ func load_text_file(file_path: String) -> String:
 func get_file_rom_paths(file_path: String) -> Array:
 	var rom_paths := []
 	for rom in roms_found:
-		var rom_path := rom.plus_file(file_path) as String
+		var rom_path := rom.path_join(file_path) as String
 		if has_file_internal(rom_path):
 			rom_paths.append(rom_path)
 			break

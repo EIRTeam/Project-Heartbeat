@@ -14,7 +14,7 @@ var difficulty_ranges = {
 	GH_DIFFICULTIES.EXTREME: [96, 100]
 }
 
-onready var item_list = get_node("MarginContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer/ItemList")
+@onready var item_list = get_node("MarginContainer/VBoxContainer/Panel/ScrollContainer/VBoxContainer/ItemList")
 
 func load_smf(path: String):
 	var smf_loader = SMFLoader.new()

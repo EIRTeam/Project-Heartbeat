@@ -1,99 +1,89 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://vcxq815cuid"]
 
-[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=1]
-[ext_resource path="res://graphics/icons/folder-open-big.svg" type="Texture" id=2]
-[ext_resource path="res://tools/editor/editor_modules/TemplatesModule.gd" type="Script" id=3]
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=4]
-[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=5]
-[ext_resource path="res://tools/editor/controls/HBEditorButton.gd" type="Script" id=6]
-[ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=7]
-[ext_resource path="res://graphics/icons/template-edit.svg" type="Texture" id=9]
-[ext_resource path="res://graphics/icons/refresh-biggest.svg" type="Texture" id=10]
+[ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://cnu3rcdufdon2" path="res://graphics/icons/folder-open-big.svg" id="2"]
+[ext_resource type="Script" path="res://tools/editor/editor_modules/TemplatesModule.gd" id="3"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="6"]
+[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://da7e4ysio6w08" path="res://graphics/icons/template-edit.svg" id="9"]
+[ext_resource type="Texture2D" uid="uid://xfs0cidycw2w" path="res://graphics/icons/refresh-biggest.svg" id="10"]
 
-[node name="EditorModule" instance=ExtResource( 1 )]
-script = ExtResource( 3 )
+[node name="EditorModule" instance=ExtResource("1")]
+script = ExtResource("3")
 module_location = "left_panel"
 module_name = "Templates"
 priority = 3
 button_group_name = "template_buttons"
 
+[node name="MarginContainer" parent="." index="0"]
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-margin_right = 1920.0
-margin_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
-margin_right = 1920.0
-margin_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Apply template..."
-align = 1
+horizontal_alignment = 1
 
 [node name="TemplatesVBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
-margin_top = 18.0
-margin_right = 1920.0
-margin_bottom = 18.0
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
-margin_top = 22.0
-margin_right = 1920.0
-margin_bottom = 26.0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
-margin_top = 30.0
-margin_right = 1920.0
-margin_bottom = 44.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Manage templates..."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
-margin_top = 48.0
-margin_right = 1920.0
-margin_bottom = 733.0
-script = ExtResource( 7 )
+layout_mode = 2
+script = ExtResource("7")
 
 [node name="CreateTemplateButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["template_buttons"]]
 unique_name_in_owner = true
-margin_right = 637.0
-margin_bottom = 685.0
-rect_min_size = Vector2( 65, 685 )
+custom_minimum_size = Vector2(175, 747)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 6 )
+script = ExtResource("6")
 text = "Create
 custom
 template"
 tooltip = "Creates a template out of the
 selected notes."
-texture = ExtResource( 9 )
+texture = ExtResource("9")
 button_mode = "function"
 function_name = "_on_create_template_pressed"
 action = "editor_create_template"
 
 [node name="RefreshTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["template_buttons"]]
-margin_left = 641.0
-margin_right = 1278.0
-margin_bottom = 685.0
-rect_min_size = Vector2( 65, 668 )
+custom_minimum_size = Vector2(175, 713)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 6 )
+script = ExtResource("6")
 text = "Refresh
 templates"
 tooltip = "Refreshes the template list."
-texture = ExtResource( 10 )
+texture = ExtResource("10")
 button_mode = "function"
 function_name = "load_templates"
 action = "editor_refresh_templates"
 
 [node name="ManageTemplatesButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["template_buttons"]]
-margin_left = 1282.0
-margin_right = 1920.0
-margin_bottom = 685.0
-rect_min_size = Vector2( 65, 669 )
+custom_minimum_size = Vector2(175, 714)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 6 )
+script = ExtResource("6")
 text = "Manage
 templates"
 tooltip = "Open the templates directory.
@@ -101,7 +91,7 @@ Subdirectories correspond to subdivisions
 on the list. 
 Delete a template by removing its file, or
 change its subfolder."
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 button_mode = "function"
 function_name = "_on_manage_templates_pressed"
 action = "editor_open_templates_dir"
@@ -110,74 +100,58 @@ action = "editor_open_templates_dir"
 
 [node name="TemplateNameConfirmationDialog" type="ConfirmationDialog" parent="CanvasLayer" index="0"]
 unique_name_in_owner = true
-visible = true
-margin_right = 422.0
-margin_bottom = 186.0
-rect_min_size = Vector2( 150, 52.5 )
-theme = ExtResource( 4 )
-window_title = "Create Template"
+size = Vector2i(308, 196)
+theme = ExtResource("4")
 dialog_text = "Please input a name for the template:"
 dialog_hide_on_ok = false
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TemplateNameConfirmationDialog" index="3"]
+clip_contents = true
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.529
-margin_left = 8.0
-margin_top = 33.0
-margin_right = -8.0
-margin_bottom = 46.606
-rect_clip_content = true
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 43.316
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer" index="0"]
-margin_right = 406.0
-margin_bottom = 112.0
+layout_mode = 2
 alignment = 1
 
 [node name="TemplateNameLineEdit" type="LineEdit" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="0"]
 unique_name_in_owner = true
-margin_right = 406.0
-margin_bottom = 25.0
+layout_mode = 2
 placeholder_text = "Lino's terrific template"
-script = ExtResource( 5 )
+script = ExtResource("5")
 
 [node name="SaveAllCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="1"]
 unique_name_in_owner = true
-margin_top = 29.0
-margin_right = 406.0
-margin_bottom = 54.0
-hint_tooltip = "If enabled, will save every
+layout_mode = 2
+tooltip_text = "If enabled, will save every
 property as part of the template.
 If disabled, only modified properties will be saved. 
 Disable this for templates which
 only modify certain properties."
-pressed = true
 text = "Save all properties"
 
 [node name="AutoHideCheckBox" type="CheckBox" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
-margin_top = 58.0
-margin_right = 406.0
-margin_bottom = 83.0
-hint_tooltip = "If enabled, this template will be hidden unless the notes selected have the exact same type than the originals."
+layout_mode = 2
+tooltip_text = "If enabled, this template will be hidden unless the notes selected have the exact same type than the originals."
 text = "Automatically hide template"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer" index="3"]
-margin_top = 87.0
-margin_right = 406.0
-margin_bottom = 112.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 71.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Category: "
 
 [node name="CategoryOptionButton" type="OptionButton" parent="CanvasLayer/TemplateNameConfirmationDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
 unique_name_in_owner = true
-margin_left = 75.0
-margin_right = 406.0
-margin_bottom = 25.0
+layout_mode = 2
 size_flags_horizontal = 3
-text = "Uncategorized"
 clip_text = true
 
 [connection signal="confirmed" from="CanvasLayer/TemplateNameConfirmationDialog" to="." method="create_template"]

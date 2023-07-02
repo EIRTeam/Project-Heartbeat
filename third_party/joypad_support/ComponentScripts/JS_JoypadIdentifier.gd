@@ -27,9 +27,9 @@ enum JoyPads {
 var joypad_type: int = JoyPads.NO_JOYPAD
 
 # private variables
-onready var _prompts_ps: ResourcePreloader = get_node("Playstation")
-onready var _prompts_xbox: ResourcePreloader = get_node("Xbox")
-onready var _prompts_nintendo: ResourcePreloader = get_node("Nintendo")
+@onready var _prompts_ps: ResourcePreloader = get_node("Playstation")
+@onready var _prompts_xbox: ResourcePreloader = get_node("Xbox")
+@onready var _prompts_nintendo: ResourcePreloader = get_node("Nintendo")
 
 ### ---------------------------------------
 

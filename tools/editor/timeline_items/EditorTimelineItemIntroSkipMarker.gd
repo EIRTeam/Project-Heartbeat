@@ -10,9 +10,9 @@ func _init():
 	update_affects_timing_points = true
 
 func get_editor_size():
-	return Vector2(100, rect_size.y)
+	return Vector2(100, size.y)
 
-func get_editor_description():
+func get_ph_editor_description():
 	return """Sets the time to skip to when the intro skip feature is used
 	This MUST be before the first note, otherwise the default 5000 ms margin is used
 	Make sure to change \"Intro Skip Minimum Time\" in the metadata editor too."""

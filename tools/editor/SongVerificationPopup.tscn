@@ -5,12 +5,12 @@
 
 [node name="SongVerificationPopup" type="AcceptDialog"]
 visible = true
-margin_left = 345.0
-margin_top = 225.0
-margin_right = 916.0
-margin_bottom = 523.0
+offset_left = 345.0
+offset_top = 225.0
+offset_right = 916.0
+offset_bottom = 523.0
 theme = ExtResource( 2 )
-popup_exclusive = true
+exclusive = true
 window_title = "Song verification results"
 dialog_autowrap = true
 script = ExtResource( 1 )
@@ -21,10 +21,10 @@ __meta__ = {
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -41.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -41.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -2,8 +2,8 @@ extends Control
 
 class_name HBTabbedContainer
 
-onready var button_container = get_node("VBoxContainer/HBoxContainer2/HBoxContainer")
-onready var tab_container = get_node("VBoxContainer/TabContainer")
+@onready var button_container = get_node("VBoxContainer/HBoxContainer2/HBoxContainer")
+@onready var tab_container = get_node("VBoxContainer/TabContainer")
 var tabs = {}
 var tab_buttons = {}
 var current_tab
@@ -22,7 +22,7 @@ func _ready():
 	button_container.grab_focus()
 	button_container.stop_hover_on_focus_exit = false
 	button_container.ignore_down = true
-	button_container.connect("hover", self, "_on_button_container_hover")
+	button_container.connect("hovered", Callable(self, "_on_button_container_hover"))
 	button_container.prev_action = "gui_tab_left"
 	button_container.next_action = "gui_tab_right"
 
@@ -35,7 +35,7 @@ func show_tab(tab_name: String):
 	current_tab = tabs[tab_name]
 	tab_container.add_child(current_tab)
 	
-	button_container.select_button(tab_buttons[tab_name].get_position_in_parent(), false)
+	button_container.select_button(tab_buttons[tab_name].get_index(), false)
 	if current_tab is TabbedContainerTab:
 		current_tab._enter_tab()
 

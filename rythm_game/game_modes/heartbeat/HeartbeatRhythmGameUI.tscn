@@ -1,12 +1,12 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="FontFile" id=3]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/GameOverMessageRandom.gd" type="Script" id=4]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://graphics/wrong_rating_cross.png" type="Texture" id=6]
-[ext_resource path="res://graphics/aiko_sad.png" type="Texture" id=7]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=5]
+[ext_resource path="res://graphics/wrong_rating_cross.png" type="Texture2D" id=6]
+[ext_resource path="res://graphics/aiko_sad.png" type="Texture2D" id=7]
 [ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.gd" type="Script" id=10]
 [ext_resource path="res://rythm_game/rating_label.gd" type="Script" id=26]
 [ext_resource path="res://rythm_game/SlideHoldScoreText.tscn" type="PackedScene" id=31]
@@ -22,16 +22,16 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.4, 0.8, 1.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFontData" id=13]
+[sub_resource type="FontFile" id=13]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="FontFile" id=14]
 resource_local_to_scene = true
 size = 45
 outline_size = 5
@@ -41,7 +41,7 @@ use_filter = true
 font_data = SubResource( 13 )
 fallback/0 = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="FontFile" id=15]
 resource_local_to_scene = true
 size = 45
 outline_size = 5
@@ -55,30 +55,30 @@ fallback/0 = ExtResource( 2 )
 length = 0.1
 step = 0.016
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
+tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.048, 0.096 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.048, 0.096 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.75, 0.75 ), Vector2( 0.8, 0.8 ), Vector2( 0.75, 0.75 ) ]
 }
 
 [sub_resource type="Gradient" id=17]
-offsets = PoolRealArray( 0.3, 1 )
-colors = PoolColorArray( 0.0705882, 0.0392157, 0.14902, 0.74902, 0.0705882, 0.0392157, 0.14902, 0 )
+offsets = PackedFloat32Array( 0.3, 1 )
+colors = PackedColorArray( 0.0705882, 0.0392157, 0.14902, 0.74902, 0.0705882, 0.0392157, 0.14902, 0 )
 
-[sub_resource type="GradientTexture" id=18]
+[sub_resource type="GradientTexture2D" id=18]
 gradient = SubResource( 17 )
 
 [sub_resource type="StyleBoxTexture" id=19]
 texture = SubResource( 18 )
 region_rect = Rect2( 0, 0, 2048, 1 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="FontFile" id=20]
 size = 40
 use_mipmaps = true
 use_filter = true
@@ -104,10 +104,10 @@ __meta__ = {
 }
 
 [node name="SlideHoldScoreText" parent="AboveNotesUI/Control" instance=ExtResource( 31 )]
-margin_left = 202.697
-margin_top = 329.212
-margin_right = 591.697
-margin_bottom = 369.212
+offset_left = 202.697
+offset_top = 329.212
+offset_right = 591.697
+offset_bottom = 369.212
 
 [node name="UnderNotesUI" type="Node2D" parent="."]
 z_index = -50
@@ -115,9 +115,9 @@ z_index = -50
 [node name="Control" type="Control" parent="UnderNotesUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.950073
-margin_right = 1920.95
-margin_bottom = 1080.0
+offset_left = 0.950073
+offset_right = 1920.95
+offset_bottom = 1080.0
 
 [node name="Label" type="Label" parent="UnderNotesUI/Control"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -125,11 +125,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -154.5
-margin_top = -23.5
-margin_right = 154.5
-margin_bottom = 23.5
-custom_fonts/font = ExtResource( 5 )
+offset_left = -154.5
+offset_top = -23.5
+offset_right = 154.5
+offset_bottom = 23.5
+theme_override_fonts/font = ExtResource( 5 )
 text = "Fast forward!"
 
 [node name="IntroSkipFastForwardAnimationPlayer" type="AnimationPlayer" parent="UnderNotesUI/Control/Label"]
@@ -145,9 +145,9 @@ z_index = -2
 [node name="Control" type="Control" parent="Lyrics"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.950073
-margin_right = 1920.95
-margin_bottom = 1080.0
+offset_left = 0.950073
+offset_right = 1920.95
+offset_bottom = 1080.0
 mouse_filter = 2
 
 [node name="LyricsView" parent="Lyrics/Control" instance=ExtResource( 34 )]
@@ -155,10 +155,10 @@ anchor_left = 0.05
 anchor_top = 0.15
 anchor_right = 0.95
 anchor_bottom = 0.9
-margin_top = 0.0
-margin_right = 0.00012207
-margin_bottom = 0.0
-custom_fonts/font = SubResource( 14 )
+offset_top = 0.0
+offset_right = 0.00012207
+offset_bottom = 0.0
+theme_override_fonts/font = SubResource( 14 )
 font1 = SubResource( 14 )
 font2 = SubResource( 15 )
 
@@ -169,10 +169,10 @@ mouse_filter = 2
 ratio = 1.7778
 
 [node name="Control" type="Control" parent="AspectRatioContainer"]
-margin_left = -6.10352e-05
-margin_top = 0.00671387
-margin_right = 1920.0
-margin_bottom = 1079.99
+offset_left = -6.10352e-05
+offset_top = 0.00671387
+offset_right = 1920.0
+offset_bottom = 1079.99
 mouse_filter = 2
 
 [node name="GameLayer" type="Node2D" parent="AspectRatioContainer/Control"]
@@ -184,38 +184,38 @@ position = Vector2( 0, 1 )
 
 [node name="DebugLabel" type="Label" parent="CanvasLayer"]
 visible = false
-margin_right = 40.0
-margin_bottom = 14.0
+offset_right = 40.0
+offset_bottom = 14.0
 text = "(NT)esss"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="."]
-margin_left = 43.0
-margin_top = 66.0
-margin_right = 712.0
-margin_bottom = 344.0
-rect_scale = Vector2( 0.75, 0.75 )
-rect_pivot_offset = Vector2( 334, 139 )
+offset_left = 43.0
+offset_top = 66.0
+offset_right = 712.0
+offset_bottom = 344.0
+scale = Vector2( 0.75, 0.75 )
+pivot_offset = Vector2( 334, 139 )
 size_flags_vertical = 0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.5 )
-custom_constants/shadow_offset_x = 4
-custom_constants/shadow_offset_y = 4
-custom_fonts/font = ExtResource( 5 )
+theme_override_colors/font_shadow_color = Color( 0, 0, 0, 0.5 )
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource( 5 )
 text = "WORST"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource( 26 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="WrongRatingCross" type="TextureRect" parent="RatingLabel"]
-margin_left = 440.0
-margin_right = 480.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 64, 64 )
+offset_left = 440.0
+offset_right = 480.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 64, 64 )
 texture = ExtResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RatingLabel"]
@@ -224,8 +224,8 @@ anims/rating_appear = SubResource( 16 )
 [node name="UserUI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -0.735077
-margin_bottom = -0.735107
+offset_top = -0.735077
+offset_bottom = -0.735107
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -245,49 +245,49 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="Panel" type="PanelContainer" parent="CanvasLayer2/GameOverMessage"]
-margin_top = 377.0
-margin_right = 1920.0
-margin_bottom = 703.0
+offset_top = 377.0
+offset_right = 1920.0
+offset_bottom = 703.0
 mouse_filter = 2
 size_flags_horizontal = 3
-custom_styles/panel = SubResource( 19 )
+theme_override_styles/panel = SubResource( 19 )
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2/GameOverMessage/Panel"]
-margin_right = 1920.0
-margin_bottom = 326.0
+offset_right = 1920.0
+offset_bottom = 326.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_top = 100
-custom_constants/margin_bottom = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer"]
-margin_top = 100.0
-margin_right = 1920.0
-margin_bottom = 226.0
+offset_top = 100.0
+offset_right = 1920.0
+offset_bottom = 226.0
 size_flags_horizontal = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 
 [node name="Control" type="Control" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
-margin_left = 221.0
-margin_right = 221.0
-margin_bottom = 126.0
+offset_left = 221.0
+offset_right = 221.0
+offset_bottom = 126.0
 size_flags_horizontal = 6
 size_flags_stretch_ratio = 0.3
 
-[node name="Sprite" type="Sprite" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer/Control"]
 texture = ExtResource( 7 )
 
 [node name="Label" type="Label" parent="CanvasLayer2/GameOverMessage/Panel/MarginContainer/VBoxContainer"]
-margin_left = 443.0
-margin_right = 1920.0
-margin_bottom = 126.0
+offset_left = 443.0
+offset_right = 1920.0
+offset_bottom = 126.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 20 )
+theme_override_fonts/font = SubResource( 20 )
 text = "ASSIGNMENT: TERMINATED
 SUBJECT: AIKO
 REASON: FAILURE TO PRESS MISSION-CRITICAL BUTTONS"
-valign = 1
+vertical_alignment = 1
 autowrap = true
 script = ExtResource( 4 )
 
@@ -301,19 +301,19 @@ mouse_filter = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
-margin_right = 1920.0
-margin_bottom = 540.0
+offset_right = 1920.0
+offset_bottom = 540.0
 mouse_filter = 2
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffTop"]
-margin_top = 540.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_top = 540.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 mouse_filter = 2
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0 )
@@ -322,19 +322,19 @@ color = Color( 0, 0, 0, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
-margin_right = 1920.0
-margin_bottom = 540.0
+offset_right = 1920.0
+offset_bottom = 540.0
 mouse_filter = 2
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0 )
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2/GameOverTurnOff/GameOverTurnOffBottom"]
-margin_top = 540.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_top = 540.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 mouse_filter = 2
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )

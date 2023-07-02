@@ -86,8 +86,8 @@ class HBSongMMPLUS:
 	# array of dicts
 	var mod_infos := []
 	
-	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap). \
-	(_pv_data, _game_fs_access, _opcode_map):
+	func _init(_pv_data: DSCPVData, _game_fs_access: DSCGameFSAccess, _opcode_map: DSCOpcodeMap):
+		super._init(_pv_data, _game_fs_access, _opcode_map)
 		preview_image = "PLACEHOLDER"
 		background_image = "PLACEHOLDER"
 		circle_image = "PLACEHOLDER"
@@ -103,8 +103,7 @@ class HBSongMMPLUS:
 		if variant != -1:
 			audio_path = pv_data.variants.values()[variant].get("song_file_name", audio_path)
 		var audio_data := game_fs_access.load_file_as_buffer(audio_path)
-		var audio_stream := AudioStreamOGGVorbis.new()
-		audio_stream.data = audio_data.data_array
+		var audio_stream := PHNative.load_ogg_from_buffer(audio_data.data_array)
 		return audio_stream
 	
 	func get_song_select_sprite_set():
@@ -135,7 +134,7 @@ class HBSongMMPLUS:
 					mod_name = "UNK"
 				if mod_name:
 					meta.append("Mod: %s" % [mod_name])
-		meta.append_array(.get_meta_string())
+		meta.append_array(super.get_meta_string())
 		return meta
 
 func _init_loader() -> int:
@@ -246,17 +245,17 @@ class DSCGameFSAccess:
 	func _init(_game_location: String, mdata_loader: MDATALoader):
 		game_location = _game_location
 		
-		var dir = Directory.new()
-		if not dir.dir_exists(_game_location):
+		if not DirAccess.dir_exists_absolute(_game_location):
 			is_valid = false
 		for mdata_name in mdata_loader.mdatas:
 			var mdata_rom_dir = mdata_loader.mdatas[mdata_name]
-			if dir.dir_exists(mdata_rom_dir):
+			if DirAccess.dir_exists_absolute(mdata_rom_dir):
 				subroms.append(mdata_name)
 				search_paths.append(mdata_rom_dir)
 		search_paths.append(game_location)
-		if dir.open(game_location) == OK:
-			dir.list_dir_begin()
+		var dir := DirAccess.open(game_location)
+		if DirAccess.get_open_error() == OK:
+			dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 			var dir_name = dir.get_next()
 			while dir_name != "":
 				if dir.current_is_dir():
@@ -266,10 +265,9 @@ class DSCGameFSAccess:
 				dir_name = dir.get_next()
 				
 	func get_file_path(path: String):
-		var file := File.new()
 		for s_path in search_paths:
 			var file_path = HBUtils.join_path(s_path, path)
-			if file.file_exists(file_path):
+			if FileAccess.file_exists(file_path):
 				return file_path
 		return ""
 		
@@ -279,9 +277,8 @@ class DSCGameFSAccess:
 		if not file_path:
 			return spb
 		else:
-			var f := File.new()
-			f.open(file_path, File.READ)
-			spb.data_array = f.get_buffer(f.get_len())
+			var f := FileAccess.open(file_path, FileAccess.READ)
+			spb.data_array = f.get_buffer(f.get_length())
 		return spb
 		
 class MMPLUSModFSAccess:
@@ -290,27 +287,26 @@ class MMPLUSModFSAccess:
 	var mod_location: String
 	var base_game_fs_access: MMPLUSFSAccess
 	func _init(_game_location: String, _mod_name: String, _base_game_fs_access: MMPLUSFSAccess, \
-			mdata_loader: MDATALoader).(_game_location, mdata_loader):
+			mdata_loader: MDATALoader):
+		super._init(_game_location, mdata_loader)
 		mod_name = _mod_name
-		mod_location = _game_location.plus_file("mods").plus_file(_mod_name)
+		mod_location = _game_location.path_join("mods").path_join(_mod_name)
 		base_game_fs_access = _base_game_fs_access
-		var d := Directory.new()
-		if d.dir_exists(mod_location):
+		if DirAccess.dir_exists_absolute(mod_location):
 			is_valid = true
 	func get_file_path(path: String):
-		var f := File.new()
-		if f.file_exists(path):
+		if FileAccess.file_exists(path):
 			return path
-		var full_file_path := mod_location.plus_file(path)
-		return full_file_path if f.file_exists(full_file_path) else ""
+		var full_file_path := mod_location.path_join(path)
+		return full_file_path if FileAccess.file_exists(full_file_path) else ""
 		
 	func load_file_as_buffer(path: String) -> StreamPeerBuffer:
-		var f := File.new()
 		var full_file_path = get_file_path(path)
 		if full_file_path:
-			if f.open(full_file_path, File.READ) == OK:
+			var f := FileAccess.open(full_file_path, FileAccess.READ)
+			if FileAccess.get_open_error() == OK:
 				var spb := StreamPeerBuffer.new()
-				spb.data_array = f.get_buffer(f.get_len())
+				spb.data_array = f.get_buffer(f.get_length())
 				return spb
 		return StreamPeerBuffer.new()
 class MMPLUSFSAccess:
@@ -345,24 +341,22 @@ class MMPLUSFSAccess:
 	# mod filesystems, ordered by priority
 	var mod_fs := []
 	
-	func _init(_game_location: String, mdata_loader: MDATALoader).(_game_location, mdata_loader):
-		var f := File.new()
-		
+	func _init(_game_location: String, mdata_loader: MDATALoader):
+		super(_game_location, mdata_loader)
 		cpk_archives[REGION_CPK_NAME].set_meta("rom", REGION_ROM_NAME)
 		cpk_archives[MAIN_CPK_NAME].set_meta("rom", MAIN_ROM_NAME)
 		cpk_archives[REGION_DLC_CPK_NAME].set_meta("rom", REGION_DLC_ROM_NAME)
 		cpk_archives[DLC_CPK_NAME].set_meta("rom", DLC_ROM_NAME)
 		
 		for file in [REGION_CPK_NAME, MAIN_CPK_NAME, REGION_DLC_CPK_NAME, DLC_CPK_NAME]:
-			var cpk_path := _game_location.plus_file(file)
-			if not f.file_exists(cpk_path):
+			var cpk_path := _game_location.path_join(file)
+			if not FileAccess.file_exists(cpk_path):
 				if file == DLC_CPK_NAME or file == REGION_DLC_CPK_NAME:
 					has_dlc = false
 				if file == MAIN_CPK_NAME:
 					return
 			else:
-				var farchive := File.new()
-				farchive.open(cpk_path, File.READ)
+				var farchive := FileAccess.open(cpk_path, FileAccess.READ)
 				cpk_archives[file].open(farchive)
 		if not has_dlc:
 			cpk_archives.erase(REGION_DLC_CPK_NAME)
@@ -418,13 +412,12 @@ class MDATALoader:
 	var mdatas: Dictionary = {}
 	func _init(_path: String):
 		path = _path
-		var dir = Directory.new()
 		
-		if not dir.dir_exists(_path):
+		if not DirAccess.dir_exists_absolute(_path):
 			return
-		if dir.open(_path) == OK:
-			var file = File.new()
-			dir.list_dir_begin()
+		var dir = DirAccess.open(_path)
+		if DirAccess.get_open_error() == OK:
+			dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 			var dir_name = dir.get_next()
 			var mdata_names = []
 			while dir_name != "":
@@ -433,25 +426,26 @@ class MDATALoader:
 						if dir_name.length() == 4:
 							var mdata_path = HBUtils.join_path(_path, dir_name)
 							var info_path = HBUtils.join_path(mdata_path, "info.txt")
-							if file.file_exists(info_path):
+							if FileAccess.file_exists(info_path):
 								mdata_names.append(dir_name)
 				dir_name = dir.get_next()
 				
 			mdata_names.sort()
-			mdata_names.invert()
+			mdata_names.reverse()
 			for mdata_name in mdata_names:
 				var mdata_path = HBUtils.join_path(_path, mdata_name)
 				mdatas[mdata_name] = mdata_path
 			for mdata_name in mdatas:
 				var mdata_dir_path = mdatas[mdata_name]
 				var info_path = HBUtils.join_path(mdata_dir_path, "info.txt")
-				if file.open(info_path, File.READ) == OK:
+				var file := FileAccess.open(info_path, FileAccess.READ)
+				if FileAccess.get_open_error() == OK:
 					while not file.eof_reached():
 						var line = file.get_line()
 						if line.begins_with("depend"):
 							var spl_k = line.split(".")
 							if spl_k.size() > 1:
-								if spl_k[1].is_valid_integer():
+								if spl_k[1].is_valid_int():
 									var spl = line.split("=")
 									if spl.size() > 1:
 										var val = spl[1]
@@ -551,11 +545,10 @@ func parse_pvdb(pvdb: String) -> Dictionary:
 					pv_data.metadata[meta_name] = value
 	return pv_datas
 func load_pv_datas_from_pvdb(pvdb_path: String) -> Dictionary:
-	var file = File.new()
-	if not file.file_exists(pvdb_path):
+	if not FileAccess.file_exists(pvdb_path):
 		Log.log(self, "Error loading DSC songs from %s PVDB does not exist" % [pvdb_path], Log.LogLevel.ERROR)
 		return {}
-	file.open(pvdb_path, File.READ)
+	var file = FileAccess.open(pvdb_path, FileAccess.READ)
 	var pv_datas = parse_pvdb(file.get_as_text())
 	return pv_datas
 	
@@ -584,25 +577,24 @@ func load_songs_mmplus() -> Array:
 				main_pvdb[pv_id] = dlc_pvdb[pv_id]
 	
 	var pv_ids_to_ignore := [67, 68]
-	var mods_config_path := GAME_LOCATION.plus_file("config.toml") as String
+	var mods_config_path := GAME_LOCATION.path_join("config.toml") as String
 	
 	var mods_pv_db := {}
 	var mod_filesystems := []
 	
 	# Load and merge mods DBs
-	var d := Directory.new()
-	if d.file_exists(mods_config_path):
+	if DirAccess.dir_exists_absolute(mods_config_path):
 		var mods_toml := TOMLParser.from_file(mods_config_path)
 		
-		var mods_path := GAME_LOCATION.plus_file(mods_toml.default.get("mods", "mods")) as String
-		
-		if d.open(mods_path) == OK:
-			d.list_dir_begin(true)
+		var mods_path := GAME_LOCATION.path_join(mods_toml.default.get("mods", "mods")) as String
+		var d := DirAccess.open(mods_path)
+		if DirAccess.get_open_error() == OK:
+			d.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 			
 			var current_file := d.get_next()
 			while current_file != "":
 				if d.current_is_dir():
-					var config_toml_path := mods_path.plus_file(current_file).plus_file("config.toml")
+					var config_toml_path := mods_path.path_join(current_file).path_join("config.toml")
 					if not d.file_exists(config_toml_path):
 						current_file = d.get_next()
 						continue
@@ -616,16 +608,16 @@ func load_songs_mmplus() -> Array:
 					var mod_fs_access := MMPLUSModFSAccess.new(GAME_LOCATION, current_file, fs_access, mdata_loader)
 					mod_filesystems.push_back(mod_fs_access)
 					fs_access.mod_fs.push_back(mod_fs_access)
-					var mod_dir := mods_path.plus_file(current_file)
-					for n in [mod_dir.plus_file("rom/mod_pv_db.txt"), mod_dir.plus_file("rom/eden39_pv_db.txt")]:
-						var f := File.new()
-						if not f.file_exists(n):
+					var mod_dir := mods_path.path_join(current_file)
+					for n in [mod_dir.path_join("rom/mod_pv_db.txt"), mod_dir.path_join("rom/eden39_pv_db.txt")]:
+						if not FileAccess.file_exists(n):
 							continue
-						var err := f.open(n, File.READ)
+						var f := FileAccess.open(n, FileAccess.READ)
+						var err := FileAccess.get_open_error()
 						if err != OK:
 							propagate_error("Error %d loading pvdb from mod" % [err], true)
 						var buffer := f.get_as_text()
-						if not buffer.empty():
+						if not buffer.is_empty():
 							var pvdb_text := buffer
 							fs_access = mod_fs_access
 							

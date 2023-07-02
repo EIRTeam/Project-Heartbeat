@@ -1,25 +1,25 @@
 [gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=1]
 [ext_resource path="res://scripts/RichTextWordRainbow.gd" type="Script" id=2]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=4]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=5]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=6]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=7]
 [ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=8]
-[ext_resource path="res://graphics/icons/thumb-down.svg" type="Texture" id=9]
-[ext_resource path="res://graphics/icons/thumb-up.svg" type="Texture" id=10]
-[ext_resource path="res://graphics/icons/twitter.svg" type="Texture" id=11]
+[ext_resource path="res://graphics/icons/thumb-down.svg" type="Texture2D" id=9]
+[ext_resource path="res://graphics/icons/thumb-up.svg" type="Texture2D" id=10]
+[ext_resource path="res://graphics/icons/twitter.svg" type="Texture2D" id=11]
 [ext_resource path="res://rythm_game/ResultsScreen.gd" type="Script" id=12]
 [ext_resource path="res://menus/SongTitleScrolling.tscn" type="PackedScene" id=13]
 [ext_resource path="res://menus/tabbed_container/TabbedContainer.tscn" type="PackedScene" id=14]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=17]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=17]
 
-[sub_resource type="DynamicFontData" id=2]
+[sub_resource type="FontFile" id=2]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 45
 use_mipmaps = true
 use_filter = true
@@ -76,95 +76,95 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 30
-custom_constants/margin_top = 30
-custom_constants/margin_left = 30
-custom_constants/margin_bottom = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 30.0
-margin_top = 30.0
-margin_right = 1890.0
-margin_bottom = 1050.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1890.0
+offset_bottom = 1050.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_right = 1860.0
-margin_bottom = 1020.0
+offset_right = 1860.0
+offset_bottom = 1020.0
 size_flags_vertical = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_right = 1860.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 60 )
-custom_constants/separation = 19
+offset_right = 1860.0
+offset_bottom = 60.0
+custom_minimum_size = Vector2( 0, 60 )
+theme_override_constants/separation = 19
 
 [node name="SongTitle" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer" instance=ExtResource( 13 )]
-margin_right = 1860.0
-margin_bottom = 60.0
+offset_right = 1860.0
+offset_bottom = 60.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_top = 70.0
-margin_right = 1860.0
-margin_bottom = 125.0
-custom_constants/separation = 30
+offset_top = 70.0
+offset_right = 1860.0
+offset_bottom = 125.0
+theme_override_constants/separation = 30
 
 [node name="ResultRatingLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_right = 314.0
-margin_bottom = 55.0
-custom_fonts/font = ExtResource( 6 )
+offset_right = 314.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource( 6 )
 text = "(NT)PERFECT"
 
 [node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_left = 344.0
-margin_right = 1087.0
-margin_bottom = 55.0
+offset_left = 344.0
+offset_right = 1087.0
+offset_bottom = 55.0
 size_flags_horizontal = 3
-custom_fonts/normal_font = SubResource( 3 )
-custom_styles/normal = SubResource( 1 )
+theme_override_fonts/normal_font = SubResource( 3 )
+theme_override_styles/normal = SubResource( 1 )
 bbcode_enabled = true
-bbcode_text = "[word_rainbow]HI-SCORE!!![/word_rainbow]"
+text = "[word_rainbow]HI-SCORE!!![/word_rainbow]"
 text = "HI-SCORE!!!"
 fit_content_height = true
 custom_effects = [ SubResource( 6 ) ]
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_left = 1117.0
-margin_right = 1860.0
-margin_bottom = 55.0
+offset_left = 1117.0
+offset_right = 1860.0
+offset_bottom = 55.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 6 )
+theme_override_fonts/font = ExtResource( 6 )
 text = "(NT)100.00%"
-align = 2
+horizontal_alignment = 2
 
 [node name="TabbedContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" instance=ExtResource( 14 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 135.0
-margin_right = 1860.0
-margin_bottom = 952.0
+offset_top = 135.0
+offset_right = 1860.0
+offset_bottom = 952.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_top = 962.0
-margin_right = 1860.0
-margin_bottom = 1020.0
+offset_top = 962.0
+offset_right = 1860.0
+offset_bottom = 1020.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.07
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
-margin_right = 1860.0
-margin_bottom = 58.0
+offset_right = 1860.0
+offset_bottom = 58.0
 size_flags_horizontal = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="Panel3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2"]
-margin_right = 1860.0
-margin_bottom = 58.0
+offset_right = 1860.0
+offset_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
@@ -178,20 +178,20 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer"]
-margin_right = 1860.0
-margin_bottom = 58.0
+offset_right = 1860.0
+offset_bottom = 58.0
 focus_mode = 2
 alignment = 1
 script = ExtResource( 3 )
 
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 758.0
-margin_right = 853.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/normal = ExtResource( 8 )
+offset_left = 758.0
+offset_right = 853.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/normal = ExtResource( 8 )
 text = "Retry"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -200,14 +200,14 @@ normal_style = ExtResource( 8 )
 hover_style = SubResource( 4 )
 
 [node name="ShareOnTwitterButton" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 857.0
-margin_right = 985.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/normal = ExtResource( 8 )
+offset_left = 857.0
+offset_right = 985.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/normal = ExtResource( 8 )
 text = "Share"
 icon = ExtResource( 11 )
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -216,13 +216,13 @@ normal_style = ExtResource( 8 )
 hover_style = SubResource( 4 )
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer"]
-margin_left = 989.0
-margin_right = 1102.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/normal = ExtResource( 8 )
+offset_left = 989.0
+offset_right = 1102.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/normal = ExtResource( 8 )
 text = "Return"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -232,10 +232,10 @@ hover_style = SubResource( 4 )
 
 [node name="RatingPopup" type="Popup" parent="."]
 visible = true
-margin_left = 319.0
-margin_top = 235.0
-margin_right = 1069.0
-margin_bottom = 411.0
+offset_left = 319.0
+offset_top = 235.0
+offset_right = 1069.0
+offset_bottom = 411.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -243,7 +243,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="RatingPopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 5 )
+theme_override_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -251,77 +251,77 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="RatingPopup/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 40
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RatingPopup/Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 40.0
-margin_right = 740.0
-margin_bottom = 166.0
-custom_constants/separation = 40
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 740.0
+offset_bottom = 166.0
+theme_override_constants/separation = 40
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
-margin_right = 730.0
-margin_bottom = 39.0
+offset_right = 730.0
+offset_bottom = 39.0
 text = "What did you think of the song you just played?"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="RatingPopup/Panel/MarginContainer/VBoxContainer"]
-margin_top = 79.0
-margin_right = 730.0
-margin_bottom = 124.0
+offset_top = 79.0
+offset_right = 730.0
+offset_bottom = 124.0
 focus_mode = 2
-custom_constants/separation = 20
+theme_override_constants/separation = 20
 alignment = 1
 script = ExtResource( 3 )
 
 [node name="UpvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 84.0
-margin_right = 122.0
-margin_bottom = 45.0
+offset_left = 84.0
+offset_right = 122.0
+offset_bottom = 45.0
 icon = ExtResource( 10 )
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 
 [node name="DownvoteButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 142.0
-margin_right = 180.0
-margin_bottom = 45.0
+offset_left = 142.0
+offset_right = 180.0
+offset_bottom = 45.0
 icon = ExtResource( 9 )
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 
 [node name="NoOpinionButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 200.0
-margin_right = 356.0
-margin_bottom = 45.0
+offset_left = 200.0
+offset_right = 356.0
+offset_bottom = 45.0
 text = "No opinion"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 
 [node name="SkipButton" type="Button" parent="RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 376.0
-margin_right = 646.0
-margin_bottom = 45.0
+offset_left = 376.0
+offset_right = 646.0
+offset_bottom = 45.0
 text = "Don't ask me again"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 5 )
 
 [node name="HBConfirmationWindow" parent="." instance=ExtResource( 7 )]
 visible = true
-margin_left = -427.0
-margin_top = -143.0
-margin_right = 425.0
-margin_bottom = 224.0
+offset_left = -427.0
+offset_top = -143.0
+offset_right = 425.0
+offset_bottom = 224.0
 has_cancel = false
 text = ""

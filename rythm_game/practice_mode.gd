@@ -1,25 +1,25 @@
 extends "res://rythm_game/rhythm_game_controller.gd"
 
-onready var ingame_stats_label = get_node("PracticeModeUIIngame/HBoxContainer/Label")
-onready var quit_confirmation = get_node("QuitConfirmation")
-onready var song_settings_editor = get_node("SettingsGUI/VBoxContainer/MarginContainer/PerSongSettingsEditor")
+@onready var ingame_stats_label = get_node("PracticeModeUIIngame/HBoxContainer/Label")
+@onready var quit_confirmation = get_node("QuitConfirmation")
+@onready var song_settings_editor = get_node("SettingsGUI/VBoxContainer/MarginContainer/PerSongSettingsEditor")
 
-onready var practice_seek_gui = get_node("SeekGUI")
-onready var practice_section_seek_gui = get_node("SectionSeekGUI")
-onready var practice_settings_gui = get_node("SettingsGUI")
-onready var practice_speed_gui = get_node("SpeedControlGUI")
+@onready var practice_seek_gui = get_node("SeekGUI")
+@onready var practice_section_seek_gui = get_node("SectionSeekGUI")
+@onready var practice_settings_gui = get_node("SettingsGUI")
+@onready var practice_speed_gui = get_node("SpeedControlGUI")
 
-onready var seek_progress_bar = get_node("SeekGUI/VBoxContainer/VBoxContainer/ProgressBar")
-onready var section_seek_progress_bar = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar")
+@onready var seek_progress_bar = get_node("SeekGUI/VBoxContainer/VBoxContainer/ProgressBar")
+@onready var section_seek_progress_bar = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar")
 
-onready var seek_progess_bar_waypoint = get_node("SeekGUI/VBoxContainer/VBoxContainer/ProgressBar/ProgresBarWaypoint")
-onready var section_seek_progess_bar_waypoint = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar/ProgresBarWaypoint")
+@onready var seek_progess_bar_waypoint = get_node("SeekGUI/VBoxContainer/VBoxContainer/ProgressBar/ProgresBarWaypoint")
+@onready var section_seek_progess_bar_waypoint = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/ProgressBar/ProgresBarWaypoint")
 
-onready var seek_time_label = get_node("SeekGUI/VBoxContainer/VBoxContainer/Label")
-onready var section_seek_time_label = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/Label")
+@onready var seek_time_label = get_node("SeekGUI/VBoxContainer/VBoxContainer/Label")
+@onready var section_seek_time_label = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/Label")
 
-onready var section_label = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/Label2")
-onready var speed_label = get_node("SpeedControlGUI/VBoxContainer/VBoxContainer/Label")
+@onready var section_label = get_node("SectionSeekGUI/VBoxContainer/VBoxContainer/Label2")
+@onready var speed_label = get_node("SpeedControlGUI/VBoxContainer/VBoxContainer/Label")
 
 
 var stats_passed_notes = 0
@@ -46,27 +46,28 @@ enum PRACTICE_GUI {
 	OPTIONS,
 	SPEED,
 }
-var practice_gui_mode := 0 setget _set_mode
+var practice_gui_mode := 0: set = _set_mode
 
 var pitch_shift_effect := Shinobu.instantiate_pitch_shift()
 
 var pre_pause_game_mode: int = HBRhythmGame.GAME_MODE.NORMAL
 
 func _ready():
-	game.connect("note_judged", self, "_on_note_judged")
-	quit_confirmation.connect("accept", Diagnostics.gamepad_visualizer, "hide")
-	quit_confirmation.connect("accept", self, "_on_PauseMenu_quit")
-	quit_confirmation.connect("accept", song_settings_editor, "toggle_input")
-	quit_confirmation.connect("cancel", song_settings_editor, "toggle_input")
+	super._ready()
+	game.connect("note_judged", Callable(self, "_on_note_judged"))
+	quit_confirmation.connect("accept", Callable(Diagnostics.gamepad_visualizer, "hide"))
+	quit_confirmation.connect("accept", Callable(self, "_on_PauseMenu_quit"))
+	quit_confirmation.connect("accept", Callable(song_settings_editor, "toggle_input"))
+	quit_confirmation.connect("cancel", Callable(song_settings_editor, "toggle_input"))
 	update_stats_label()
 	practice_seek_gui.hide()
 	game.disable_ending = true
 	game.health_system_enabled = false
 	Diagnostics.gamepad_visualizer.show()
-	song_settings_editor.connect("back", self, "pause")
+	song_settings_editor.connect("back", Callable(self, "pause"))
 
 func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
-	.set_song(song, difficulty, modifiers, true, assets)
+	super.set_song(song, difficulty, modifiers, true, assets)
 	fade_in_tween.remove_all()
 	_fade_in_done()
 	disable_intro_skip = true
@@ -85,7 +86,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("pause"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		pause()
 
 func pause():
@@ -112,7 +113,7 @@ func pause():
 		update_time_label()
 		update_progress_bar()
 		
-		_set_mode(practice_gui_mode, true)
+		_set_mode_impl(practice_gui_mode, true)
 	else:
 		video_player.paused = false
 		game.game_mode = pre_pause_game_mode
@@ -191,7 +192,7 @@ func _process(delta):
 			new_speed = clamp(new_speed, 0.1, 2.0)
 			
 			if new_speed != playback_speed:
-				set_speed(new_speed)
+				set_velocity(new_speed)
 	
 	if not get_tree().paused or practice_gui_mode == PRACTICE_GUI.SEEK:
 		if Input.is_action_just_pressed("practice_set_waypoint"):
@@ -202,7 +203,9 @@ func _process(delta):
 			go_to_time(waypoint)
 			reset_stats()
 
-func _set_mode(new_mode: int, update: bool = false):
+func _set_mode(new_mode: int):
+	_set_mode_impl(new_mode)
+func _set_mode_impl(new_mode: int, update := false):
 	new_mode += PRACTICE_GUI.size()
 	new_mode = new_mode % PRACTICE_GUI.size()
 	
@@ -349,7 +352,7 @@ func update_stats_label():
 	for i in range(notes_in_second.size()-1, -1, -1):
 		var n_time = notes_in_second[i]
 		if n_time < (game.time_msec - 1000):
-			notes_in_second.remove(i)
+			notes_in_second.remove_at(i)
 	
 	var passed_percentage = 0.0
 	var avg_latency = 0.0
@@ -422,7 +425,7 @@ func _on_SeekButton_seeked(seek_pos):
 	update_time_label()
 
 
-func set_speed(value: float):
+func set_velocity(value: float):
 	playback_speed = value
 	
 	game.audio_playback.set_pitch_scale(playback_speed)

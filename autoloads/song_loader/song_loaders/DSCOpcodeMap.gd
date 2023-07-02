@@ -9,9 +9,10 @@ var _game_info_entry_n: String
 var opcode_names_to_id = {}
 
 func _init(map_path = "res://autoloads/song_loader/song_loaders/dsc_opcode_db.json", _game = "FT"):
-	var file = File.new()
-	file.open(map_path, File.READ)
-	opcode_db = parse_json(file.get_as_text())
+	var file := FileAccess.open(map_path, FileAccess.READ)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	opcode_db = test_json_conv.get_data()
 	if _game == "MMPLUS":
 		_game = "FT"
 	game = _game

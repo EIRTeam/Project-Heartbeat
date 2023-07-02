@@ -10,9 +10,9 @@ extends Control
 # private variables
 
 # onready variables
-onready var _instruction_label: Label = get_node("Instruction")
-onready var _test_label: Label = get_node("Fallback")
-onready var _test_prompt: TextureRect = get_node("Prompt")
+@onready var _instruction_label: Label = get_node("Instruction")
+@onready var _test_label: Label = get_node("Fallback")
+@onready var _test_prompt: TextureRect = get_node("Prompt")
 
 ### ---------------------------------------
 
@@ -26,8 +26,8 @@ func _ready():
 				"JoypadSupport is or it's equivalent.1")
 		assert(false)
 	
-	JoypadSupport.connect("joypad_connected", self, "_on_JoypadSupport_joypad_connected")
-	JoypadSupport.connect("joypad_disconnected", self, "_on_JoypadSupport_joypad_disconnected")
+	JoypadSupport.connect("joypad_connected", Callable(self, "_on_JoypadSupport_joypad_connected"))
+	JoypadSupport.connect("joypad_disconnected", Callable(self, "_on_JoypadSupport_joypad_disconnected"))
 	_update_joypad_name()
 
 
@@ -53,7 +53,7 @@ func _unhandled_input(event):
 ### Private Methods -----------------------
 
 func _handle_keyboard_input(key_event: InputEventKey) -> void:
-	_show_prompt_or_text(JoypadSupport.prompts_keyboard, key_event.scancode)
+	_show_prompt_or_text(JoypadSupport.prompts_keyboard, key_event.keycode)
 
 
 func _handle_mouse_input(mouse_event: InputEventMouseButton) -> void:
@@ -64,14 +64,14 @@ func _handle_joypad_button_input(pad_event: InputEventJoypadButton) -> void:
 	_show_prompt_or_text(JoypadSupport.prompts_joypad, pad_event.button_index)
 
 
-func _show_prompt_or_text(prompts: ResourcePreloader, scancode: int) -> void:
+func _show_prompt_or_text(prompts: ResourcePreloader, keycode: int) -> void:
 	_instruction_label.hide()
-	if prompts.has_resource(str(scancode)):
-			_test_prompt.texture = prompts.get_resource(str(scancode))
+	if prompts.has_resource(str(keycode)):
+			_test_prompt.texture = prompts.get_resource(str(keycode))
 			_test_label.text = ""
 	else:
 		_test_prompt.texture = null
-		_test_label.text = "%s"%[OS.get_scancode_string(scancode)]
+		_test_label.text = "%s"%[OS.get_keycode_string(keycode)]
 
 
 func _update_joypad_name():

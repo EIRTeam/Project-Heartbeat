@@ -1,6 +1,6 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var color_picker_button = get_node("ColorPickerButton")
+@onready var color_picker_button = get_node("ColorPickerButton")
 var color_picker: ColorPicker
 var default_presets = []
 var inputs: Array
@@ -18,10 +18,10 @@ func _ready():
 	for preset in UserSettings.user_settings.color_presets:
 		color_picker.add_preset(Color(preset))
 	
-	color_picker_button.connect("input_accepted", self, "_on_colorpicker_color_accepted")
-	color_picker_button.connect("input_rejected", self, "_on_colorpicker_color_rejected")
-	color_picker.connect("preset_added", self, "_on_colorpicker_preset_added")
-	color_picker.connect("preset_removed", self, "_on_colorpicker_preset_removed")
+	color_picker_button.connect("input_accepted", Callable(self, "_on_colorpicker_color_accepted"))
+	color_picker_button.connect("input_rejected", Callable(self, "_on_colorpicker_color_rejected"))
+	color_picker.connect("preset_added", Callable(self, "_on_colorpicker_preset_added"))
+	color_picker.connect("preset_removed", Callable(self, "_on_colorpicker_preset_removed"))
 
 func _on_colorpicker_color_accepted():
 	var values = {}

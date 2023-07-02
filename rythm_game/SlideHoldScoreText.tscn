@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rythm_game/SlideHoldScoreText.gd" type="Script" id=1]
-[ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/orbitron-black-mono.otf" type="FontFile" id=2]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 20
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -12,7 +12,7 @@ use_filter = true
 extra_spacing_char = 5
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 20
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -22,8 +22,8 @@ extra_spacing_char = 5
 font_data = ExtResource( 2 )
 
 [node name="SlideHoldScoreText" type="Control"]
-margin_right = 389.0
-margin_bottom = 40.0
+offset_right = 389.0
+offset_bottom = 40.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -38,19 +38,19 @@ __meta__ = {
 }
 
 [node name="MaxScoreLabel" type="Label" parent="VBoxContainer"]
-margin_right = 389.0
-margin_bottom = 20.0
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
+offset_right = 389.0
+offset_bottom = 20.0
+theme_override_fonts/font = SubResource( 1 )
+theme_override_colors/font_color = Color( 1, 0.72549, 0, 1 )
 text = "MAX SCORE"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="VBoxContainer"]
-margin_top = 24.0
-margin_right = 389.0
-margin_bottom = 44.0
-custom_fonts/font = SubResource( 2 )
+offset_top = 24.0
+offset_right = 389.0
+offset_bottom = 44.0
+theme_override_fonts/font = SubResource( 2 )
 text = "+10"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1

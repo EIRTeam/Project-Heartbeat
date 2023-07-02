@@ -31,13 +31,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -372.0
-margin_top = -258.0
-margin_right = 372.0
-margin_bottom = 258.0
+offset_left = -372.0
+offset_top = -258.0
+offset_right = 372.0
+offset_bottom = 258.0
 focus_mode = 2
 theme = ExtResource( 5 )
-custom_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -46,25 +46,25 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 734.0
-margin_bottom = 501.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 734.0
+offset_bottom = 501.0
 focus_mode = 2
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 
 [node name="HBScrollList" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-margin_right = 724.0
-margin_bottom = 441.0
+offset_right = 724.0
+offset_bottom = 441.0
 focus_mode = 2
 size_flags_vertical = 3
 script = ExtResource( 4 )
@@ -73,23 +73,23 @@ horizontal_step = 0
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBScrollList"]
-margin_right = 724.0
-margin_bottom = 441.0
+offset_right = 724.0
+offset_bottom = 441.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 451.0
-margin_right = 724.0
-margin_bottom = 491.0
-rect_min_size = Vector2( 0, 40 )
-custom_constants/separation = 15
+offset_top = 451.0
+offset_right = 724.0
+offset_bottom = 491.0
+custom_minimum_size = Vector2( 0, 40 )
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Panel4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 59.0
-margin_right = 201.0
-rect_min_size = Vector2( 142, 39 )
+offset_left = 59.0
+offset_right = 201.0
+custom_minimum_size = Vector2( 142, 39 )
 action_name = "gui_left"
 text = "Close"
 
@@ -97,13 +97,13 @@ text = "Close"
 input_action = "gui_left"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 132.0
+offset_right = 132.0
 text = "Close"
 
 [node name="Panel5" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 216.0
-margin_right = 350.0
-rect_min_size = Vector2( 134, 39 )
+offset_left = 216.0
+offset_right = 350.0
+custom_minimum_size = Vector2( 134, 39 )
 action_name = "gui_right"
 text = "Open"
 
@@ -111,13 +111,13 @@ text = "Open"
 input_action = "gui_right"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel5/HBoxContainer" index="1"]
-margin_right = 124.0
+offset_right = 124.0
 text = "Open"
 
 [node name="Panel8" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 365.0
-margin_right = 518.0
-rect_min_size = Vector2( 153, 39 )
+offset_left = 365.0
+offset_right = 518.0
+custom_minimum_size = Vector2( 153, 39 )
 action_name = "gui_accept"
 text = "Select"
 
@@ -125,13 +125,13 @@ text = "Select"
 input_action = "gui_accept"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel8/HBoxContainer" index="1"]
-margin_right = 143.0
+offset_right = 143.0
 text = "Select"
 
 [node name="Panel7" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 533.0
-margin_right = 665.0
-rect_min_size = Vector2( 132, 39 )
+offset_left = 533.0
+offset_right = 665.0
+custom_minimum_size = Vector2( 132, 39 )
 action_name = "gui_cancel"
 text = "Back"
 
@@ -139,12 +139,12 @@ text = "Back"
 input_action = "gui_cancel"
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Panel7/HBoxContainer" index="1"]
-margin_right = 122.0
+offset_right = 122.0
 text = "Back"
 
 [node name="DeleteConfirmationWindow" parent="." instance=ExtResource( 8 )]
-margin_left = -275.0
-margin_right = 275.0
+offset_left = -275.0
+offset_right = 275.0
 text = "Do you want to delete this folder?"
 
 [node name="Panel" type="Panel" parent="."]
@@ -153,11 +153,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -152.0
-margin_top = -105.5
-margin_right = 152.0
-margin_bottom = 105.5
-custom_styles/panel = ExtResource( 1 )
+offset_left = -152.0
+offset_top = -105.5
+offset_right = 152.0
+offset_bottom = 105.5
+theme_override_styles/panel = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -165,31 +165,31 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 294.0
-margin_bottom = 201.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 294.0
+offset_bottom = 201.0
 focus_mode = 2
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 script = ExtResource( 2 )
 orientation = 1
 
 [node name="TextInputCreate" parent="." instance=ExtResource( 9 )]
-margin_left = -275.0
-margin_right = 275.0
+offset_left = -275.0
+offset_right = 275.0
 
 [node name="TextInputRename" parent="." instance=ExtResource( 9 )]
-margin_left = -275.0
-margin_right = 275.0
+offset_left = -275.0
+offset_right = 275.0
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel4"]
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Panel5"]

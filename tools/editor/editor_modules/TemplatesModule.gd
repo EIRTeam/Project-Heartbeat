@@ -4,15 +4,15 @@ const EDITOR_TEMPLATES_PATH := "user://editor_templates"
 const DOWN_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_down.svg")
 const RIGHT_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")
 
-onready var templates_container: VBoxContainer = get_node("%TemplatesVBoxContainer")
-onready var create_template_button: HBEditorButton = get_node("%CreateTemplateButton")
-onready var template_name_confirmation_dialog: ConfirmationDialog = get_node("%TemplateNameConfirmationDialog")
-onready var template_name_line_edit: HBEditorLineEdit = get_node("%TemplateNameLineEdit")
-onready var save_all_checkbox: CheckBox = get_node("%SaveAllCheckBox")
-onready var autohide_checkbox: CheckBox = get_node("%AutoHideCheckBox")
-onready var category_option_button: OptionButton = get_node("%CategoryOptionButton")
+@onready var templates_container: VBoxContainer = get_node("%TemplatesVBoxContainer")
+@onready var create_template_button: HBEditorButton = get_node("%CreateTemplateButton")
+@onready var template_name_confirmation_dialog: ConfirmationDialog = get_node("%TemplateNameConfirmationDialog")
+@onready var template_name_line_edit: HBEditorLineEdit = get_node("%TemplateNameLineEdit")
+@onready var save_all_checkbox: CheckBox = get_node("%SaveAllCheckBox")
+@onready var autohide_checkbox: CheckBox = get_node("%AutoHideCheckBox")
+@onready var category_option_button: OptionButton = get_node("%CategoryOptionButton")
 
-onready var default_templates = preload("res://tools/editor/editor_modules/TemplatesModule/DefaultTemplates.gd").new()
+@onready var default_templates = preload("res://tools/editor/editor_modules/TemplatesModule/DefaultTemplates.gd").new()
 
 var templates := []
 var templates_file_tree := {}
@@ -20,6 +20,7 @@ var buttons := []
 var category_list := []
 
 func _ready():
+	super._ready()
 	load_templates()
 
 static func template_from_note_array(notes: Array, save_all_properties: bool) -> HBEditorTemplate:
@@ -64,11 +65,9 @@ static func template_from_note_array(notes: Array, save_all_properties: bool) ->
 	return template
 
 func load_templates():
-	var dir := Directory.new()
-	
-	if not dir.dir_exists(EDITOR_TEMPLATES_PATH):
+	if not DirAccess.dir_exists_absolute(EDITOR_TEMPLATES_PATH):
 		var officials_path := HBUtils.join_path(EDITOR_TEMPLATES_PATH, "official_templates")
-		var result = dir.make_dir_recursive(officials_path)
+		var result = DirAccess.make_dir_recursive_absolute(officials_path)
 		
 		if result != OK:
 			Log.log(self, "Error creating templates directory: " + str(result), Log.LogLevel.ERROR)
@@ -87,15 +86,15 @@ func load_templates():
 	update_templates()
 
 func traverse_dir(path: String, root: bool = false) -> Dictionary:
-	var dir := Directory.new()
 	var tree := {}
 	
-	var result := dir.open(path)
+	var dir := DirAccess.open(path)
+	var result := DirAccess.get_open_error()
 	if result != OK:
 		Log.log(self, "Error opening templates directory: " + str(result), Log.LogLevel.ERROR)
 		return {}
 	
-	result = dir.list_dir_begin(true)
+	result = dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	if result != OK:
 		Log.log(self, "Error listing templates directory: " + str(result), Log.LogLevel.ERROR)
 		return {}
@@ -105,16 +104,17 @@ func traverse_dir(path: String, root: bool = false) -> Dictionary:
 		var full_path := HBUtils.join_path(path, next)
 		
 		if next.ends_with(".json"):
-			var file := File.new()
-			
-			result = file.open(full_path, File.READ)
-			if result != OK:
+			var file := FileAccess.open(full_path, FileAccess.READ)
+			var file_error := FileAccess.get_open_error()
+			if file_error != OK:
 				Log.log(self, "Error opening template file (" + full_path + "): " + str(result), Log.LogLevel.ERROR)
 				next = dir.get_next()
 				
 				continue
 			
-			var json_result = JSON.parse(file.get_as_text()).result
+			var test_json_conv = JSON.new()
+			test_json_conv.parse(file.get_as_text())
+			var json_result = test_json_conv.get_data()
 			
 			if json_result == null:
 				Log.log(self, "Error deserializing template file " + full_path, Log.LogLevel.ERROR)
@@ -170,7 +170,7 @@ func create_dropdown(parent: VBoxContainer, name: String, full_path: String) -> 
 	
 	var margin_container := MarginContainer.new()
 	margin_container.size_flags_horizontal = SIZE_EXPAND_FILL
-	margin_container.add_constant_override("margin_left", 16)
+	margin_container.add_theme_constant_override("offset_left", 16)
 	
 	var vbox_container := VBoxContainer.new()
 	vbox_container.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -181,7 +181,7 @@ func create_dropdown(parent: VBoxContainer, name: String, full_path: String) -> 
 	parent.add_child(hbox_container)
 	parent.add_child(margin_container)
 	
-	dropdown_button.connect("pressed", self, "_toggle_dropdown", [dropdown_button, vbox_container])
+	dropdown_button.connect("pressed", Callable(self, "_toggle_dropdown").bind(dropdown_button, vbox_container))
 	
 	return vbox_container
 
@@ -205,9 +205,9 @@ func create_button(template: HBEditorTemplate) -> Button:
 	transforms.append(transform)
 	
 	var transform_idx = transforms.size() - 1
-	button.connect("mouse_entered", self, "show_transform", [transform_idx])
-	button.connect("mouse_exited", self, "hide_transform")
-	button.connect("pressed", self, "apply_transform", [transform_idx])
+	button.connect("mouse_entered", Callable(self, "show_transform").bind(transform_idx))
+	button.connect("mouse_exited", Callable(self, "hide_transform"))
+	button.connect("pressed", Callable(self, "apply_transform").bind(transform_idx))
 	
 	button.set_meta("template", template)
 	
@@ -227,7 +227,7 @@ func build_template_tree(file_tree: Dictionary, parent: VBoxContainer):
 		elif value is Dictionary:
 			subfolders.append({"name": filename, "files": value, "full_path": value.__full_path})
 	
-	subfolders.sort_custom(self, "_sort_subfolders_by_name")
+	subfolders.sort_custom(Callable(self, "_sort_subfolders_by_name"))
 	for subfolder in subfolders:
 		var dropdown = create_dropdown(parent, subfolder.name, subfolder.full_path)
 		
@@ -242,7 +242,7 @@ func build_template_tree(file_tree: Dictionary, parent: VBoxContainer):
 		
 		build_template_tree(subfolder.files, dropdown)
 	
-	inner_templates.sort_custom(self, "_sort_templates_by_name")
+	inner_templates.sort_custom(Callable(self, "_sort_templates_by_name"))
 	for template in inner_templates:
 		var button := create_button(template)
 		parent.add_child(button)
@@ -256,7 +256,7 @@ func update_templates():
 	category_option_button.clear()
 	category_list.clear()
 	
-	templates.sort_custom(self, "_sort_templates_by_name")
+	templates.sort_custom(Callable(self, "_sort_templates_by_name"))
 	
 	var all_folder := create_dropdown(templates_container, "all", "__all")
 	for template in templates:
@@ -330,9 +330,9 @@ func update_selected():
 
 func create_template():
 	var selected := get_selected()
-	var template := template_from_note_array(selected, save_all_checkbox.pressed)
+	var template := template_from_note_array(selected, save_all_checkbox.button_pressed)
 	template.name = template_name_line_edit.text if template_name_line_edit.text else "New Template"
-	template.autohide = autohide_checkbox.pressed
+	template.autohide = autohide_checkbox.button_pressed
 	
 	var path = category_list[category_option_button.get_selected_id()]
 	

@@ -15,18 +15,9 @@ static func get_version_string(with_line_breaks := false):
 	if with_line_breaks:
 		result = result.replace(" - ", "\n")
 	var sha = ProjectSettings.get("application/config/build_commit").substr(0, 7)
-	var datetime = OS.get_datetime_from_unix_time(ProjectSettings.get("application/config/build_time")) 
+	var datetime = Time.get_datetime_dict_from_unix_time(ProjectSettings.get("application/config/build_time")) 
 	var date = "%02d/%02d/%02d" % [datetime.day, datetime.month, datetime.year]
 	var time = " %02d:%02d:%d" % [datetime.hour, datetime.minute, datetime.second]
-	var video_driver = OS.get_video_driver_name(OS.get_current_video_driver())
-	var video_adapter_name = VisualServer.get_video_adapter_name().to_lower()
-	if "angle" in video_adapter_name:
-		var backend = "OpenGL"
-		if "vulkan" in video_adapter_name:
-			backend = "Vulkan"
-		elif "direct3d11" in video_adapter_name:
-			backend = "DirectX 11"
-		video_driver += " on ANGLE %s" % [backend] 
 	
 	var version = "%d.%d.%d" % [MAJOR, MINOR, PATCH]
 	
@@ -43,7 +34,6 @@ static func get_version_string(with_line_breaks := false):
 	result = result.format({
 		"ver_name": ver_name + demo_string,
 		"status": status,
-		"video_driver": video_driver,
 		"audio_driver": Shinobu.get_current_backend_name(),
 		"os_name": os_name,
 		"version": version,

@@ -7,7 +7,7 @@ func _init():
 
 func _init_plugin():
 	# Base init plugin must always be called after local init
-	._init_plugin()
+	super._init_plugin()
 	
 const HIDDEN_PERCENTAGE_START = 0.75
 const HIDDEN_DURATION = 0.1

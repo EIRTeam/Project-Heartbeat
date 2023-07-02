@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.image"
+uid="uid://c6r4mg71fnreq"
+path="res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/playstation/icon.png"
-dest_files=[ "res://.import/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.image" ]
+dest_files=["res://.godot/imported/icon.png-2db7bb0f32b2e59cde3550d4f78d6a59.image"]
 
 [params]
 

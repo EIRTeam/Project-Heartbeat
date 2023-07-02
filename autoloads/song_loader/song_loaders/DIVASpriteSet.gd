@@ -47,12 +47,10 @@ class DIVASprite:
 	var ycbcr_atlas: AtlasTexture
 	
 	func allocate():
-		var image_texture := ImageTexture.new()
-		image_texture.create_from_image(diva_texture.texture_data)
+		var image_texture := ImageTexture.create_from_image(diva_texture.texture_data)
 		atlas = image_texture
 		if ycbcr_atlas and diva_texture.texture_data_ycbcr_2:
-			var image_texture_2 := ImageTexture.new()
-			image_texture_2.create_from_image(diva_texture.texture_data_ycbcr_2)
+			var image_texture_2 := ImageTexture.create_from_image(diva_texture.texture_data_ycbcr_2)
 			ycbcr_atlas.atlas = image_texture_2
 	
 	func is_ycbcr() -> bool:
@@ -61,8 +59,8 @@ class DIVASprite:
 		var shader_mat := ShaderMaterial.new()
 		if is_ycbcr():
 			shader_mat.shader = preload("res://menus/diva_ycbcr.gdshader")
-			shader_mat.set_shader_param("texture_ya", self)
-			shader_mat.set_shader_param("texture_cbcr", ycbcr_atlas)
+			shader_mat.set_shader_parameter("texture_ya", self)
+			shader_mat.set_shader_parameter("texture_cbcr", ycbcr_atlas)
 		else:
 			shader_mat.shader = preload("res://menus/diva_sprite.gdshader")
 		return shader_mat
@@ -157,7 +155,7 @@ func diva_to_godot_format(diva_format: int) -> int:
 			# Unsupported MonkaS, should be RGB5
 			godot_format = -1
 		DIVA_FORMATS.RGB5A1:
-			godot_format = Image.FORMAT_RGBA5551
+			godot_format = -1
 		DIVA_FORMATS.RGBA4:
 			godot_format = Image.FORMAT_RGBA4444
 		DIVA_FORMATS.DXT1:
@@ -209,19 +207,16 @@ func read_texture_data_from_offset(texture_data, texture_data_offset: int) -> bo
 	buffer.seek(buffer.get_position()+4)
 	
 	var data_size := buffer.get_32()
-	var image := Image.new()
-	image.create_from_data(width, height, false, godot_format, buffer.get_data(data_size)[1])
+	var image := Image.create_from_data(width, height, false, godot_format, buffer.get_data(data_size)[1])
 	var ret := true
 	
 	if ENABLE_TEXTURE_ALLOCATION:
 		if texture_data.texture and format == DIVA_ATI2_FORMAT:
-			texture_data.texture_ycbcr_2 = ImageTexture.new()
-			texture_data.texture_ycbcr_2.create_from_image(image)
+			texture_data.texture_ycbcr_2 = ImageTexture.create_from_image(image)
 			texture_data.texture_data_ycbcr_2 = image
 			ret = false
 		else:
-			texture_data.texture = ImageTexture.new()
-			texture_data.texture.create_from_image(image)
+			texture_data.texture = ImageTexture.create_from_image(image)
 			texture_data.texture_data = image
 	else:
 		if texture_data.texture_data and format == DIVA_ATI2_FORMAT:

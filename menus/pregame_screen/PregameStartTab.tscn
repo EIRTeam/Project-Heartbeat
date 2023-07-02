@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/pregame_screen/PregameStartTab.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=5]
 [ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]
-[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture2D" id=8]
 
 [sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 10.0
@@ -40,9 +40,9 @@ __meta__ = {
 }
 
 [node name="Panel" type="Control" parent="."]
-margin_right = 1920.0
-margin_bottom = 768.0
-rect_clip_content = true
+offset_right = 1920.0
+offset_bottom = 768.0
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
@@ -55,26 +55,26 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 768.0
+offset_right = 1920.0
+offset_bottom = 768.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 611.0
+offset_right = 1920.0
+offset_bottom = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1277.0
-margin_bottom = 611.0
+offset_right = 1277.0
+offset_bottom = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -82,55 +82,55 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1267.0
-margin_bottom = 601.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1267.0
+offset_bottom = 601.0
 focus_mode = 2
 script = ExtResource( 6 )
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer"]
-margin_right = 1257.0
-margin_bottom = 591.0
+offset_right = 1257.0
+offset_bottom = 591.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel2" type="Panel" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1281.0
-margin_right = 1920.0
-margin_bottom = 611.0
+offset_left = 1281.0
+offset_right = 1920.0
+offset_bottom = 611.0
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="StatsLabel" type="Label" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
-align = 1
-valign = 1
+theme_override_fonts/font = ExtResource( 1 )
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel2" type="Panel" parent="Panel/HBoxContainer/VBoxContainer"]
-margin_top = 615.0
-margin_right = 1920.0
-margin_bottom = 768.0
+offset_top = 615.0
+offset_right = 1920.0
+offset_bottom = 768.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -138,54 +138,54 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
-margin_left = 641.0
-margin_right = 681.0
-margin_bottom = 153.0
+offset_left = 641.0
+offset_right = 681.0
+offset_bottom = 153.0
 texture = ExtResource( 8 )
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer/Panel2/HBoxContainer"]
-margin_left = 691.0
-margin_top = 64.0
-margin_right = 1278.0
-margin_bottom = 88.0
-custom_fonts/font = ExtResource( 1 )
+offset_left = 691.0
+offset_top = 64.0
+offset_right = 1278.0
+offset_bottom = 88.0
+theme_override_fonts/font = ExtResource( 1 )
 text = "Modifiers are not allowed in the leaderboard"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel2" type="Panel" parent="."]
-margin_top = 772.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_top = 772.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1910.0
-margin_bottom = 298.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1910.0
+offset_bottom = 298.0
 focus_mode = 2
 size_flags_vertical = 3
 alignment = 1
@@ -196,15 +196,15 @@ __meta__ = {
 orientation = 1
 
 [node name="StartButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
-margin_top = 74.0
-margin_right = 1900.0
-margin_bottom = 118.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/normal = SubResource( 3 )
+offset_top = 74.0
+offset_right = 1900.0
+offset_bottom = 118.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/pressed = SubResource( 4 )
+theme_override_styles/normal = SubResource( 3 )
 text = "Start"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
@@ -213,15 +213,15 @@ normal_style = SubResource( 3 )
 hover_style = SubResource( 4 )
 
 [node name="StartPractice" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
-margin_top = 122.0
-margin_right = 1900.0
-margin_bottom = 166.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/normal = SubResource( 3 )
+offset_top = 122.0
+offset_right = 1900.0
+offset_bottom = 166.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/pressed = SubResource( 4 )
+theme_override_styles/normal = SubResource( 3 )
 text = "Start Practice"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
@@ -230,15 +230,15 @@ normal_style = SubResource( 3 )
 hover_style = SubResource( 4 )
 
 [node name="BackButton" type="Button" parent="Panel2/MarginContainer/VBoxContainer"]
-margin_top = 170.0
-margin_right = 1900.0
-margin_bottom = 214.0
-custom_fonts/font = ExtResource( 1 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/normal = SubResource( 3 )
+offset_top = 170.0
+offset_right = 1900.0
+offset_bottom = 214.0
+theme_override_fonts/font = ExtResource( 1 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/pressed = SubResource( 4 )
+theme_override_styles/normal = SubResource( 3 )
 text = "Back"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false,

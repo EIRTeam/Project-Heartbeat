@@ -18,7 +18,7 @@ const button_text = "Press any button"
 ### Built in Engine Methods ---------------
 
 func _ready():
-	yield(JoypadSupport, "ready")
+	await JoypadSupport.ready
 	_choose_text()
 	pass
 

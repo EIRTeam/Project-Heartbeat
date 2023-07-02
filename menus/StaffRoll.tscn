@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://graphics/Logo.png" type="Texture" id=2]
-[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=3]
-[ext_resource path="res://graphics/sugano_logo.png" type="Texture" id=4]
-[ext_resource path="res://graphics/credits/credits_image.png" type="Texture" id=5]
-[ext_resource path="res://graphics/credits/flag.png" type="Texture" id=6]
+[ext_resource path="res://fonts/Default_Font.tres" type="FontFile" id=1]
+[ext_resource path="res://graphics/Logo.png" type="Texture2D" id=2]
+[ext_resource path="res://fonts/SongLabelIngame.tres" type="FontFile" id=3]
+[ext_resource path="res://graphics/sugano_logo.png" type="Texture2D" id=4]
+[ext_resource path="res://graphics/credits/credits_image.png" type="Texture2D" id=5]
+[ext_resource path="res://graphics/credits/flag.png" type="Texture2D" id=6]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
@@ -21,139 +21,139 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.22766
-margin_right = 1.22766
-margin_bottom = 190.0
-custom_constants/separation = 50
+offset_left = 1.22766
+offset_right = 1.22766
+offset_bottom = 190.0
+theme_override_constants/separation = 50
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
+offset_right = 1920.0
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 0, 100 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer"]
-margin_top = 150.0
-margin_right = 1920.0
-margin_bottom = 550.0
-rect_min_size = Vector2( 0, 400 )
+offset_top = 150.0
+offset_right = 1920.0
+offset_bottom = 550.0
+custom_minimum_size = Vector2( 0, 400 )
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
-margin_top = 600.0
-margin_right = 1920.0
-margin_bottom = 699.0
+offset_top = 600.0
+offset_right = 1920.0
+offset_bottom = 699.0
 text = "Made by EIREXE (Álex Román)
 
 With special thanks to the following people:"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 749.0
-margin_right = 1920.0
-margin_bottom = 922.0
+offset_top = 749.0
+offset_right = 1920.0
+offset_bottom = 922.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 637.0
-margin_bottom = 173.0
+offset_right = 637.0
+offset_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 637.0
-margin_bottom = 36.0
+offset_right = 637.0
+offset_bottom = 36.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Charting Team"
-align = 1
+horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 40.0
-margin_right = 637.0
-margin_bottom = 173.0
+offset_top = 40.0
+offset_right = 637.0
+offset_bottom = 173.0
 size_flags_horizontal = 3
 text = "Blizzin
 Twoncity
 Henttus
 Starbeat"
-align = 1
+horizontal_alignment = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 641.0
-margin_right = 1278.0
-margin_bottom = 173.0
+offset_left = 641.0
+offset_right = 1278.0
+offset_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 637.0
-margin_bottom = 36.0
+offset_right = 637.0
+offset_bottom = 36.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Background Artists"
-align = 1
+horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 40.0
-margin_right = 637.0
-margin_bottom = 139.0
+offset_top = 40.0
+offset_right = 637.0
+offset_bottom = 139.0
 size_flags_horizontal = 3
 text = "Emmilly Lima (sadnesswaifu)
 Guinii4
 Mariale (_unangelito)"
-align = 1
+horizontal_alignment = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 1282.0
-margin_right = 1920.0
-margin_bottom = 173.0
+offset_left = 1282.0
+offset_right = 1920.0
+offset_bottom = 173.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
-margin_right = 638.0
-margin_bottom = 36.0
+offset_right = 638.0
+offset_bottom = 36.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Music provided by"
-align = 1
+horizontal_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
-margin_top = 40.0
-margin_right = 638.0
-margin_bottom = 90.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 40.0
+offset_right = 638.0
+offset_bottom = 90.0
+custom_minimum_size = Vector2( 0, 50 )
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 972.0
-margin_right = 1920.0
-margin_bottom = 1008.0
+offset_top = 972.0
+offset_right = 1920.0
+offset_bottom = 1008.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Thank you to the following people for keeping me alive:"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 1058.0
-margin_right = 1920.0
-margin_bottom = 1667.0
+offset_top = 1058.0
+offset_right = 1920.0
+offset_bottom = 1667.0
 alignment = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 637.0
-margin_bottom = 609.0
+offset_right = 637.0
+offset_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer3"]
-margin_right = 637.0
-margin_bottom = 609.0
+offset_right = 637.0
+offset_bottom = 609.0
 size_flags_horizontal = 3
 text = "Emmilly Lima
 Estrella
@@ -173,17 +173,17 @@ Pol
 Edu (vendido)
 the 2 Angelas
 Júlia"
-align = 1
+horizontal_alignment = 1
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 641.0
-margin_right = 1278.0
-margin_bottom = 609.0
+offset_left = 641.0
+offset_right = 1278.0
+offset_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer4"]
-margin_right = 637.0
-margin_bottom = 575.0
+offset_right = 637.0
+offset_bottom = 575.0
 size_flags_horizontal = 3
 text = "The great Brian
 Ivanex
@@ -202,17 +202,17 @@ Uterkon
 TheFireRed
 JDe
 Jordi"
-align = 1
+horizontal_alignment = 1
 
 [node name="VBoxContainer5" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 1282.0
-margin_right = 1920.0
-margin_bottom = 609.0
+offset_left = 1282.0
+offset_right = 1920.0
+offset_bottom = 609.0
 size_flags_horizontal = 3
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer5"]
-margin_right = 638.0
-margin_bottom = 235.0
+offset_right = 638.0
+offset_bottom = 235.0
 size_flags_horizontal = 3
 text = "My new mates from Castellbisbal
 My long-time friends the R... commando
@@ -221,11 +221,11 @@ The Godot community
 The PonySomnio people
 The Eurobeat-prime community
 The Modding 2nd community"
-align = 1
+horizontal_alignment = 1
 
 [node name="TextureRect3" type="TextureRect" parent="VBoxContainer"]
-margin_top = 1717.0
-margin_right = 1920.0
-margin_bottom = 2060.0
+offset_top = 1717.0
+offset_right = 1920.0
+offset_bottom = 2060.0
 texture = ExtResource( 6 )
 stretch_mode = 4

@@ -10,7 +10,7 @@ var resources := HBSkinResources.new()
 var rating_label_top_margin := 160
 
 # not serialized
-var _path: String setget set_path
+var _path: String: set = set_path
 
 func set_path(val):
 	_path = val
@@ -25,7 +25,7 @@ func get_serialized_type():
 	return "Skin"
 
 func is_empty() -> bool:
-	return screens.empty()
+	return screens.is_empty()
 
 func get_components(screen: String, cache) -> Dictionary:
 	var layered_components := {}

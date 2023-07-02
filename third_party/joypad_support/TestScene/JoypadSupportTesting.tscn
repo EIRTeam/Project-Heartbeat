@@ -2,8 +2,8 @@
 
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptLegendConfirmCancel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://third_party/joypad_support/TestScene/JoypadSupportTesting.gd" type="Script" id=2]
-[ext_resource path="res://third_party/joypad_supportFonts/OrbitronBlack80.font" type="BitmapFont" id=3]
-[ext_resource path="res://third_party/joypad_supportFonts/OrbitronBlack30.font" type="BitmapFont" id=5]
+[ext_resource path="res://third_party/joypad_supportFonts/OrbitronBlack80.font" type="FontFile" id=3]
+[ext_resource path="res://third_party/joypad_supportFonts/OrbitronBlack30.font" type="FontFile" id=5]
 
 [sub_resource type="Theme" id=1]
 Label/colors/font_color = Color( 1, 1, 1, 1 )
@@ -28,24 +28,24 @@ __meta__ = {
 
 [node name="JoypadName" type="Label" parent="."]
 anchor_right = 1.0
-margin_top = 27.0
-margin_bottom = 63.0
+offset_top = 27.0
+offset_bottom = 63.0
 grow_horizontal = 2
 grow_vertical = 2
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="IdentifiedLayout" type="Label" parent="."]
 anchor_right = 1.0
-margin_top = 75.0
-margin_bottom = 111.0
+offset_top = 75.0
+offset_bottom = 111.0
 grow_horizontal = 2
 grow_vertical = 2
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -55,18 +55,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -537.0
-margin_top = -18.0
-margin_right = 537.0
-margin_bottom = 18.0
+offset_left = -537.0
+offset_top = -18.0
+offset_right = 537.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Press any button or key to display its prompt or fallback name.
 
 The prompts below is just for testing how they might be shown in game and
 to provide an example of how to use he Prompt_input_action scene."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -75,12 +75,12 @@ __meta__ = {
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -7.0
-margin_bottom = 7.0
+offset_top = -7.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_fonts/font = ExtResource( 3 )
-align = 1
+theme_override_fonts/font = ExtResource( 3 )
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -90,10 +90,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

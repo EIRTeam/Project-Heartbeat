@@ -250,13 +250,12 @@ var last_event_type:int = 0
 	@return	smf or null(read error)
 """
 func read_file( path:String ) -> SMF:
-	var f = File.new( )
-
-	if f.open( path, f.READ ) != OK:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f.get_open_error() != OK:
 		push_error( "cant read file %s" % path )
 		breakpoint
 	var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
-	stream.set_data_array( f.get_buffer( f.get_len( ) ) )
+	stream.set_data_array( f.get_buffer( f.get_length( ) ) )
 	stream.big_endian = true
 	f.close( )
 
@@ -264,10 +263,10 @@ func read_file( path:String ) -> SMF:
 
 """
 	配列から読み込み
-	@param	data	PoolByteArray
+	@param	data	PackedByteArray
 	@return	smf or null(read error)
 """
-func read_data( data:PoolByteArray ) -> SMF:
+func read_data( data:PackedByteArray ) -> SMF:
 	var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
 	stream.set_data_array( data )
 	stream.big_endian = true
@@ -553,7 +552,7 @@ func _read_string( stream:StreamPeerBuffer, size:int ) -> String:
 	書き込む
 	@param	smf	SMF structure
 	@param	running_status	use running status
-	@return	PoolByteArray
+	@return	PackedByteArray
 """
 func write( smf, running_status:bool = false ):
 	var stream:StreamPeerBuffer = StreamPeerBuffer.new( )
@@ -602,7 +601,7 @@ func _write_variable_int( stream:StreamPeerBuffer, i:int ):
 """
 func _write_track( stream:StreamPeerBuffer, track, running_status:bool ):
 	var events:Array = track.events.duplicate( )
-	events.sort_custom( TrackEventSorter, "sort" )
+	events.sort_custom(Callable(TrackEventSorter, "sort"))
 
 	var buf:StreamPeerBuffer = StreamPeerBuffer.new( )
 	buf.big_endian = true
@@ -707,60 +706,55 @@ func _write_system_event( stream:StreamPeerBuffer, event ):
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x01 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write text event" )
 				breakpoint
 		MIDISystemEventType.copyright:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x02 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write copyright text" )
 				breakpoint
 		MIDISystemEventType.track_name:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x03 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write track name text" )
 				breakpoint
 		MIDISystemEventType.instrument_name:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x04 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write instrument name" )
 				breakpoint
 		MIDISystemEventType.lyric:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x05 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write lyric text" )
 				breakpoint
 		MIDISystemEventType.marker:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x06 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) ) != OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) ) != OK:
 				push_error( "cant write marker text" )
 				breakpoint
 		MIDISystemEventType.cue_point:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x07 )
 			self._write_variable_int( stream, len( event.text ) )
-			if stream.put_data( event.text.to_ascii( ) )!= OK:
+			if stream.put_data( event.text.to_ascii_buffer( ) )!= OK:
 				push_error( "cant write cue point" )
 				breakpoint
 
 		MIDISystemEventType.midi_channel_prefix:
 			stream.put_u8( 0xFF )
 			stream.put_u8( 0x20 )
-			stream.put_u8( 0x01 )
-			stream.put_u8( event.prefix )
-		MIDISystemEventType.midi_channel_port:
-			stream.put_u8( 0xFF )
-			stream.put_u8( 0x21 )
 			stream.put_u8( 0x01 )
 			stream.put_u8( event.prefix )
 		MIDISystemEventType.end_of_track:

@@ -70,7 +70,7 @@ func test_image_from_fs():
 func test_image_from_fs_async():
 	var image = HBUtils.image_from_fs_async("res://graphics/credits/credits_image.png")
 	gut.p(image)
-	assert_true(image is Texture)
+	assert_true(image is Texture2D)
 func test_thousands_sep():
 	assert_eq(HBUtils.thousands_sep(1000000, "UwU"), "UwU1,000,000")
 func test_thousands_sep_negative():

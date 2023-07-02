@@ -1,19 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://b5jfxpr0tscsc"]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
-[ext_resource path="res://menus/options_menu/OptionMenuButton.gd" type="Script" id=2]
-[ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=3]
-[ext_resource path="res://styles/OptionButtonHover.tres" type="StyleBox" id=4]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionMenuButton.gd" id="2"]
+[ext_resource type="StyleBox" path="res://styles/OptionButtonNormal.tres" id="3"]
+[ext_resource type="StyleBox" path="res://styles/OptionButtonHover.tres" id="4"]
 
 [node name="Controls" type="Button"]
-margin_right = 217.0
-margin_bottom = 81.0
-rect_min_size = Vector2( 0, 64 )
-custom_styles/hover = ExtResource( 4 )
-custom_styles/normal = ExtResource( 3 )
-custom_fonts/font = ExtResource( 1 )
+custom_minimum_size = Vector2(0, 64)
+offset_right = 217.0
+offset_bottom = 81.0
+theme_override_fonts/font = ExtResource("1")
+theme_override_styles/normal = ExtResource("3")
+theme_override_styles/hover = ExtResource("4")
 text = "(NT)Controls"
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")

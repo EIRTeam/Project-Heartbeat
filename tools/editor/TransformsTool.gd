@@ -24,7 +24,7 @@ class FlipHorizontallyTransformation:
 		var chains = []
 		var current_chain = []
 		
-		notes.invert()
+		notes.reverse()
 		for note in notes:
 			if note is HBNoteData:
 				if note.is_slide_note():
@@ -51,7 +51,7 @@ class FlipHorizontallyTransformation:
 		var biggest := 1920
 		var smallest := 0
 		if local:
-			notes.sort_custom(self, "_sort_by_x_pos")
+			notes.sort_custom(Callable(self, "_sort_by_x_pos"))
 			biggest = notes[-1].position.x
 			smallest = notes[0].position.x
 		
@@ -92,7 +92,7 @@ class FlipVerticallyTransformation:
 		var biggest := 1080
 		var smallest := 0
 		if local:
-			notes.sort_custom(self, "_sort_by_y_pos")
+			notes.sort_custom(Callable(self, "_sort_by_y_pos"))
 			biggest = notes[-1].position.y
 			smallest = notes[0].position.y
 		
@@ -133,7 +133,7 @@ class RotateTransformation:
 		for n in notes:
 			if not n is HBBaseNote:
 				notes.erase(n)
-		notes.sort_custom(self, "_sort_by_x_pos")
+		notes.sort_custom(Callable(self, "_sort_by_x_pos"))
 		
 		var center: Vector2
 		if pivot_mode == PIVOT_MODE_RELATIVE_CENTER:
@@ -148,7 +148,7 @@ class RotateTransformation:
 		for n in notes:
 			var final_pos = n.position as Vector2
 			final_pos = final_pos - center
-			final_pos = final_pos.rotated(deg2rad(rotation))
+			final_pos = final_pos.rotated(deg_to_rad(rotation))
 			final_pos += center
 			transformation_result[n] = {
 				"position": final_pos,
@@ -181,9 +181,9 @@ class IncrementAnglesTransform:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 	
-		notes.sort_custom(self, "_sort_by_time")
+		notes.sort_custom(Callable(self, "_sort_by_time"))
 		if backwards:
-			notes.invert()
+			notes.reverse()
 		
 		if notes.size() > 1:
 			var previous_note := notes[0] as HBBaseNote
@@ -222,8 +222,8 @@ class InterpolateAngleTransform:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		if notes.size() > 2:
-			var min_angle = deg2rad(notes[0].entry_angle) as float
-			var max_angle = deg2rad(notes[-1].entry_angle) as float
+			var min_angle = deg_to_rad(notes[0].entry_angle) as float
+			var max_angle = deg_to_rad(notes[-1].entry_angle) as float
 			
 			var min_time = notes[0].time
 			var max_time = notes[-1].time
@@ -233,7 +233,7 @@ class InterpolateAngleTransform:
 				if float(max_time - min_time) > 0:
 					t = float(note.time - min_time) / float(max_time - min_time)
 				
-				var new_angle = rad2deg(lerp_angle(min_angle, max_angle, t))
+				var new_angle = rad_to_deg(lerp_angle(min_angle, max_angle, t))
 				new_angle = fmod(new_angle + 360, 360.0)
 				transformation_result[note] = {
 					"entry_angle": new_angle
@@ -298,11 +298,11 @@ class MakeCircleTransform:
 	extends EditorTransformation
 	
 	var direction: int
-	var separation := 96 setget set_separation
-	var eigths_per_circle := 16 setget set_epr
+	var separation := 96: set = set_separation
+	var eigths_per_circle := 16: set = set_epr
 	var entry_angle_offset := 0.0
 	# -1 for outside, 1 for inside
-	var inside = -1 setget set_inside
+	var inside = -1: set = set_inside
 	
 	func set_separation(val):
 		separation = val
@@ -439,7 +439,7 @@ class MultiPresetTemplate:
 		return n.note_type in note_map
 	
 	func get_anchor(group: Array) -> HBBaseNote:
-		group.sort_custom(self, "sort_by_note_type")
+		group.sort_custom(Callable(self, "sort_by_note_type"))
 		
 		return group[0]
 	
@@ -482,7 +482,7 @@ class MultiPresetTemplate:
 	func transform_notes(notes: Array):
 		var transformation_result = {}
 		
-		notes.sort_custom(self, "sort_by_note_type")
+		notes.sort_custom(Callable(self, "sort_by_note_type"))
 		
 		var note_groups := {}
 		for note in notes:
@@ -512,7 +512,7 @@ class MultiPresetTemplate:
 				var type = process_type(note, anchor, group_type)
 				note.set_meta("relative_type", type)
 			
-			extended_group.sort_custom(self, "sort_by_relative_type")
+			extended_group.sort_custom(Callable(self, "sort_by_relative_type"))
 			
 			for note in extended_group:
 				var pos = process_position(note, anchor)
@@ -533,7 +533,8 @@ class MultiPresetTemplate:
 class VerticalMultiPreset:
 	extends MultiPresetTemplate
 	
-	func _init(dir).(dir):
+	func _init(dir):
+		super(dir)
 		pass
 	
 	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
@@ -578,14 +579,15 @@ class VerticalMultiPreset:
 class StraightVerticalMultiPreset:
 	extends VerticalMultiPreset
 	
-	func _init(dir = 1).(dir):
+	func _init(dir = 1):
+		super(dir)
 		pass
 	
 	func check_group(group: Array) -> int:
 		if group.size() > 2:
 			return GROUP_TYPE.INVALID
 		
-		return .check_group(group)
+		return super.check_group(group)
 	
 	func modify_angle(a: float) -> float:
 		if a > 180.0 or a < 0:
@@ -596,7 +598,8 @@ class StraightVerticalMultiPreset:
 class HorizontalMultiPreset:
 	extends MultiPresetTemplate
 	
-	func _init(dir).(dir):
+	func _init(dir):
+		super(dir)
 		pass
 	
 	func process_type(n: HBBaseNote, anchor: HBBaseNote, group_type: int) -> int:
@@ -628,14 +631,15 @@ class HorizontalMultiPreset:
 class DiagonalMultiPreset:
 	extends HorizontalMultiPreset
 	
-	func _init(dir = 1).(dir):
+	func _init(dir = 1):
+		super(dir)
 		pass
 	
 	func check_group(group: Array) -> int:
 		if group.size() > 2:
 			return GROUP_TYPE.INVALID
 		
-		return .check_group(group)
+		return super.check_group(group)
 	
 	static func get_center_distance(position: Vector2) -> float:
 		return abs(540 - position.y)
@@ -644,7 +648,7 @@ class DiagonalMultiPreset:
 		return get_center_distance(a.position) > get_center_distance(b.position)
 	
 	func get_anchor(group: Array) -> HBBaseNote:
-		group.sort_custom(self, "sort_by_center_distance")
+		group.sort_custom(Callable(self, "sort_by_center_distance"))
 		
 		return group[0]
 	
@@ -666,7 +670,7 @@ class DiagonalMultiPreset:
 		var other_x = 240 + 480 * other.get_meta("relative_type")
 		var center = Vector2((anchor_x + other_x) / 2.0, 540)
 		
-		return 180 - rad2deg(center.angle_to_point(n.get_meta("new_pos")))
+		return 180 - rad_to_deg(center.angle_to_point(n.get_meta("new_pos")))
 
 class QuadPreset:
 	extends EditorTransformation
@@ -735,7 +739,7 @@ class QuadPreset:
 				if extended_group.size() != 4:
 					continue
 			
-			note_groups[time].sort_custom(self, "sort_by_center_distance")
+			note_groups[time].sort_custom(Callable(self, "sort_by_center_distance"))
 			
 			var anchor := Vector2(240, 240)
 			for note in note_groups[time]:
@@ -828,7 +832,7 @@ class SidewaysQuadPreset:
 				if extended_group.size() != 4:
 					continue
 			
-			note_groups[time].sort_custom(self, "sort_by_distance")
+			note_groups[time].sort_custom(Callable(self, "sort_by_distance"))
 			
 			var distance := 216.0
 			for note in note_groups[time]:
@@ -952,7 +956,7 @@ class TrianglePreset:
 			else:
 				self.left = false
 			
-			note_groups[time].sort_custom(self, "sort_by_distance")
+			note_groups[time].sort_custom(Callable(self, "sort_by_distance"))
 			
 			var distance := 276.0
 			for note in note_groups[time]:
@@ -963,7 +967,7 @@ class TrianglePreset:
 			if extended_group:
 				note_groups[time] = extended_group
 			
-			note_groups[time].sort_custom(self, "sort_by_note_type")
+			note_groups[time].sort_custom(Callable(self, "sort_by_note_type"))
 			
 			for i in range(note_groups[time].size()):
 				var note = note_groups[time][i] as HBBaseNote

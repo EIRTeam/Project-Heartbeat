@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/notes_atlas.png-9c40fbc1517f82c4bfb4f6fedff3e815.image"
+uid="uid://dq17nxkscm3hk"
+path="res://.godot/imported/notes_atlas.png-9c40fbc1517f82c4bfb4f6fedff3e815.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/nintendo/atlases/notes_atlas.png"
-dest_files=[ "res://.import/notes_atlas.png-9c40fbc1517f82c4bfb4f6fedff3e815.image" ]
+dest_files=["res://.godot/imported/notes_atlas.png-9c40fbc1517f82c4bfb4f6fedff3e815.image"]
 
 [params]
 

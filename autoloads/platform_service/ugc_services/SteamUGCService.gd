@@ -34,13 +34,14 @@ const FILE_TO_UGC_TYPE = {
 
 const DOWNLOAD_PROGRESS_THING = preload("res://autoloads/DownloadProgressThing.tscn")
 
-func _init().():
+func _init():
+	super()
 	LOG_NAME = "SteamUGCService"
-	Steam.connect("item_created", self, "_on_item_created")
-	Steam.connect("item_updated", self, "_on_item_updated")
-	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
-	Steam.connect("item_downloaded", self, "_on_item_downloaded")
-	Steam.connect("item_installed", self, "_on_item_installed")
+	Steam.connect("item_created", Callable(self, "_on_item_created"))
+	Steam.connect("item_updated", Callable(self, "_on_item_updated"))
+	Steam.connect("ugc_query_completed", Callable(self, "_on_ugc_query_completed"))
+	Steam.connect("item_downloaded", Callable(self, "_on_item_downloaded"))
+	Steam.connect("item_installed", Callable(self, "_on_item_installed"))
 	_init_ugc()
 func _init_ugc():
 	pass
@@ -89,7 +90,7 @@ func reload_ugc_songs():
 		ResourcePackLoader.reload_skin()
 
 func _track_item_download(item_id):
-	var notification = DOWNLOAD_PROGRESS_THING.instance()
+	var notification = DOWNLOAD_PROGRESS_THING.instantiate()
 	notification.type = HBDownloadProgressThing.TYPE.NORMAL
 	updating_items.append(item_id)
 	update_items_notification_thing[item_id] = notification
@@ -111,12 +112,11 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 	var install_info = Steam.getItemInstallInfo(item_id)
 	if install_info.ret:
 		var folder = install_info.folder
-		var file = File.new()
 		var item
 		var item_type
 		for file_name in FILE_TO_UGC_TYPE:
 			item_type = FILE_TO_UGC_TYPE[file_name]
-			if file.file_exists(folder + "/%s" % [file_name]):
+			if FileAccess.file_exists(folder + "/%s" % [file_name]):
 				var type = FILE_TO_UGC_TYPE[file_name]
 				if type == "song":
 	#				Log.log(self, "Loading workshop song from %s" % folder)
@@ -152,7 +152,7 @@ func _add_downloaded_item(item_id, fire_signal=false) -> String:
 func _on_item_installed(app_id, item_id):
 	if app_id == Steam.getAppID():
 		_add_downloaded_item(item_id, true)
-		var result_notification = DOWNLOAD_PROGRESS_THING.instance()
+		var result_notification = DOWNLOAD_PROGRESS_THING.instantiate()
 		result_notification.life_timer = 2.0
 		result_notification.type = HBDownloadProgressThing.TYPE.SUCCESS
 		success_install_things[item_id] = result_notification
@@ -172,7 +172,7 @@ func _on_item_downloaded(result, item_id, app_id):
 		
 
 		if result != 1:
-			var result_notification = DOWNLOAD_PROGRESS_THING.instance()
+			var result_notification = DOWNLOAD_PROGRESS_THING.instantiate()
 			result_notification.life_timer = 2.0
 			DownloadProgress.add_notification(result_notification, true)
 			result_notification.type = HBDownloadProgressThing.TYPE.ERROR
@@ -230,7 +230,7 @@ func _on_ugc_query_completed(update_handle, result, number_of_results, number_of
 func download_item(item_id: int):
 	return Steam.downloadItem(item_id, true)
 func create_item():
-	Steam.createItem(Steam.getAppID(), WORKSHOP_FILE_TYPES.COMMUNITY)
+	Steam.createItem(Steam.getAppID(), int(WORKSHOP_FILE_TYPES.COMMUNITY))
 func set_item_title(update_id, title: String):
 	Steam.setItemTitle(update_id, title)
 func set_item_description(update_id, description: String):
@@ -267,7 +267,7 @@ func has_user_item_vote(item_id):
 	
 func get_user_item_vote(item_id):
 	Steam.getUserItemVote(item_id)
-	var r = yield(Steam, "get_item_vote_result")
+	var r = await Steam.get_item_vote_result
 	var result = {
 		"result": r[0],
 		"file_id": r[1],

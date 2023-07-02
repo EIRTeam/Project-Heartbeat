@@ -6,16 +6,16 @@ var directions_map := {}
 
 const DIRECTIONS = [HBNoteData.NOTE_TYPE.RIGHT, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.UP]
 
-var off_texture: Texture setget set_off_texture
-var on_texture: Texture setget set_on_texture
-var stylebox: StyleBox = HBUIStyleboxFlat.new() setget set_stylebox
+var off_texture: Texture2D: set = set_off_texture
+var on_texture: Texture2D: set = set_on_texture
+var stylebox: StyleBox = HBUIStyleboxFlat.new(): set = set_stylebox
 
-var center_offset := 70 setget set_center_offset
+var center_offset := 70: set = set_center_offset
 
 var panel := Panel.new()
 
-var texture_width := 128.0 setget set_texture_width
-var texture_height := 128.0 setget set_texture_height
+var texture_width := 128.0: set = set_texture_width
+var texture_height := 128.0: set = set_texture_height
 
 func set_texture_width(val):
 	texture_width = val
@@ -37,7 +37,7 @@ func set_off_texture(val):
 
 func set_stylebox(val):
 	stylebox = val
-	panel.add_stylebox_override("panel", stylebox)
+	panel.add_theme_stylebox_override("panel", stylebox)
 
 func set_center_offset(val):
 	center_offset = val
@@ -65,16 +65,16 @@ func update_texture_rect_positions():
 				var texture_rect_size = Vector2(texture_width, texture_height)
 				
 				if off_texture:
-					var new_position = Vector2.RIGHT.rotated(deg2rad(90 * i)) * center_offset
-					off_texture_rect.rect_size = texture_rect_size
-					off_texture_rect.rect_position = (rect_size * 0.5) + new_position - (texture_rect_size / 2.0)
+					var new_position = Vector2.RIGHT.rotated(deg_to_rad(90 * i)) * center_offset
+					off_texture_rect.size = texture_rect_size
+					off_texture_rect.position = (size * 0.5) + new_position - (texture_rect_size / 2.0)
 				if on_texture:
-					var new_position = Vector2.RIGHT.rotated(deg2rad(90 * i)) * center_offset
-					on_texture_rect.rect_size = texture_rect_size
-					on_texture_rect.rect_position = (rect_size * 0.5) + new_position - (texture_rect_size / 2.0)
+					var new_position = Vector2.RIGHT.rotated(deg_to_rad(90 * i)) * center_offset
+					on_texture_rect.size = texture_rect_size
+					on_texture_rect.position = (size * 0.5) + new_position - (texture_rect_size / 2.0)
 
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"stylebox", "on_texture", "off_texture", "center_offset", "texture_width", "texture_height"
 	])
@@ -94,8 +94,9 @@ func _get_property_list():
 	return list
 
 func _ready():
+	super._ready()
 	add_child(panel)
-	panel.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
 	for i in range(DIRECTIONS.size()):
 		var direction := DIRECTIONS[i] as int
@@ -121,7 +122,7 @@ func _ready():
 	set_texture_height(texture_height)
 	set_texture_width(texture_width)
 	
-	panel.connect("resized", self, "_on_panel_resized")
+	panel.connect("resized", Callable(self, "_on_panel_resized"))
 	call_deferred("_on_panel_resized")
 	directions_map[HBNoteData.NOTE_TYPE.UP].on.show()
 	directions_map[HBNoteData.NOTE_TYPE.LEFT].on.show()
@@ -129,7 +130,7 @@ func _ready():
 	directions_map[HBNoteData.NOTE_TYPE.DOWN].off.show()
 	
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["on_texture"] = resource_storage.get_texture_name(on_texture)
 	out_dict["off_texture"] = resource_storage.get_texture_name(off_texture)
 	out_dict["stylebox"] = serialize_stylebox(stylebox, resource_storage)
@@ -139,7 +140,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	return out_dict
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	on_texture = cache.get_texture(dict.get("on_texture", ""))
 	off_texture = cache.get_texture(dict.get("off_texture", ""))
 	stylebox = deserialize_stylebox(dict.get("stylebox", {}), cache, stylebox)

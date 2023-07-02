@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="BitmapFont" id=1]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=1]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=2]
 
 
@@ -20,53 +20,53 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -352.0
-margin_top = -99.0
-margin_right = -50.0
-margin_bottom = -19.0
+offset_left = -352.0
+offset_top = -99.0
+offset_right = -50.0
+offset_bottom = -19.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
 theme = SubResource( 1 )
-custom_constants/separation = 30
+theme_override_constants/separation = 30
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AcceptPrompt" type="HBoxContainer" parent="."]
-margin_right = 222.0
-margin_bottom = 80.0
-custom_constants/separation = 10
+offset_right = 222.0
+offset_bottom = 80.0
+theme_override_constants/separation = 10
 
 [node name="Prompt_ui_accept" parent="AcceptPrompt" instance=ExtResource( 2 )]
-margin_right = 80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
+offset_right = 80.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2( 80, 80 )
 input_action = "ui_accept"
 
 [node name="Confirm" type="Label" parent="AcceptPrompt"]
-margin_left = 90.0
-margin_top = 22.0
-margin_right = 222.0
-margin_bottom = 58.0
+offset_left = 90.0
+offset_top = 22.0
+offset_right = 222.0
+offset_bottom = 58.0
 text = "Confirm"
 
 [node name="CancelPrompt" type="HBoxContainer" parent="."]
-margin_left = 252.0
-margin_right = 458.0
-margin_bottom = 80.0
-custom_constants/separation = 10
+offset_left = 252.0
+offset_right = 458.0
+offset_bottom = 80.0
+theme_override_constants/separation = 10
 
 [node name="Prompt_ui_cancel" parent="CancelPrompt" instance=ExtResource( 2 )]
-margin_right = 80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
+offset_right = 80.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2( 80, 80 )
 input_action = "ui_cancel"
 
 [node name="Cancel" type="Label" parent="CancelPrompt"]
-margin_left = 90.0
-margin_top = 22.0
-margin_right = 206.0
-margin_bottom = 58.0
+offset_left = 90.0
+offset_top = 22.0
+offset_right = 206.0
+offset_bottom = 58.0
 text = "Cancel"

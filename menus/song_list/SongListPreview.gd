@@ -1,22 +1,23 @@
 extends HBMenu
 
-onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
+@onready var preview_texture_rect = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
 
-onready var author_info = get_node("SongListPreview/VBoxContainer/AuthorInfo")
-onready var cover_art_texture2 = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect/TextureRect2")
-onready var cover_art_texture = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
-onready var circle_panel = get_node("SongListPreview/VBoxContainer/CirclePanel")
-onready var circle_texture_rect = get_node("SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2")
-onready var song_cover_panel = get_node("SongListPreview/VBoxContainer/SongCoverPanel")
+@onready var author_info = get_node("SongListPreview/VBoxContainer/AuthorInfo")
+@onready var cover_art_texture2 = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect/TextureRect2")
+@onready var cover_art_texture = get_node("SongListPreview/VBoxContainer/SongCoverPanel/TextureRect")
+@onready var circle_panel = get_node("SongListPreview/VBoxContainer/CirclePanel")
+@onready var circle_texture_rect = get_node("SongListPreview/VBoxContainer/CirclePanel/MarginContainer/TextureRect2")
+@onready var song_cover_panel = get_node("SongListPreview/VBoxContainer/SongCoverPanel")
 const DEFAULT_IMAGE_PATH = "res://graphics/no_preview.png"
 var DEFAULT_IMAGE_TEXTURE = preload("res://graphics/no_preview_texture.png")
 var current_task: SongAssetLoadAsyncTask
 var current_song
-onready var list_tween := Tween.new()
+@onready var list_tween := Threen.new()
 signal song_assets_loaded(song, assets)
 func _ready():
+	super._ready()
 	is_ready = true
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	hide()
 	add_child(list_tween)
 	_on_resized()
@@ -36,14 +37,14 @@ func _notification(what):
 	
 func animate_cover_art():
 	list_tween.remove_all()
-	preview_texture_rect.rect_pivot_offset = preview_texture_rect.rect_size / 2.0
-	cover_art_texture2.rect_position = Vector2(20, 20)
-	var x_target = song_cover_panel.get_constant("margin_left")
+	preview_texture_rect.pivot_offset = preview_texture_rect.size / 2.0
+	cover_art_texture2.position = Vector2(20, 20)
+	var x_target = song_cover_panel.get_theme_constant("offset_left")
 	cover_art_texture.modulate.a = 0.0
-	list_tween.interpolate_property(cover_art_texture, "rect_position:x", 500, x_target, ANIMATION_DURATION, Tween.TRANS_QUAD, Tween.EASE_OUT)
-	list_tween.interpolate_property(cover_art_texture, "rect_position:y", 0, 0, ANIMATION_DURATION, Tween.TRANS_QUAD, Tween.EASE_OUT)
-	list_tween.interpolate_property(cover_art_texture, "modulate:a", 0.0, 1.0, ANIMATION_DURATION, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	list_tween.interpolate_property(cover_art_texture, "rect_rotation", 20, -4, ANIMATION_DURATION, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	list_tween.interpolate_property(cover_art_texture, "position:x", 500, x_target, ANIMATION_DURATION, Threen.TRANS_QUAD, Threen.EASE_OUT)
+	list_tween.interpolate_property(cover_art_texture, "position:y", 0, 0, ANIMATION_DURATION, Threen.TRANS_QUAD, Threen.EASE_OUT)
+	list_tween.interpolate_property(cover_art_texture, "modulate:a", 0.0, 1.0, ANIMATION_DURATION, Threen.TRANS_LINEAR, Threen.EASE_OUT)
+	list_tween.interpolate_property(cover_art_texture, "rotation", deg_to_rad(20), deg_to_rad(-4), ANIMATION_DURATION, Threen.TRANS_QUAD, Threen.EASE_OUT)
 	list_tween.start()
 func _on_song_assets_loaded(assets):
 	if not get_tree():
@@ -56,7 +57,8 @@ func _on_song_assets_loaded(assets):
 		else:
 			circle_panel.hide()
 			author_info.show()
-		if "preview" in assets:
+		if "preview" in assets: 
+			var img: Image = assets.preview.get_image()
 			cover_art_texture.texture = assets.preview
 		else:
 			cover_art_texture.texture = DEFAULT_IMAGE_TEXTURE
@@ -85,7 +87,7 @@ func select_song(song: HBSong):
 	
 	var song_meta = song.get_meta_string()
 	
-	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/SongMetaLabel.text = PoolStringArray(song_meta).join('\n')
+	$SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer/SongMetaLabel.text = '\n'.join(PackedStringArray(song_meta))
 	$SongListPreview/VBoxContainer/TitleLabel.text = song.get_visible_title()
 	var auth = ""
 	if song.artist_alias:
@@ -107,9 +109,9 @@ func select_song(song: HBSong):
 	current_song = song
 	
 	current_task = SongAssetLoadAsyncTask.new(["circle_image", "preview", "background", "circle_logo"], song)
-	current_task.connect("assets_loaded", self, "_on_song_assets_loaded")
+	current_task.connect("assets_loaded", Callable(self, "_on_song_assets_loaded"))
 	AsyncTaskQueue.queue_task(current_task)
 
 func _on_resized():
-	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.rect_min_size.y = rect_size.x
-	$SongListPreview/VBoxContainer/SongCoverPanel.rect_min_size.y = rect_size.x
+	$SongListPreview/VBoxContainer/SongCoverPanel/TextureRect.custom_minimum_size.y = size.x
+	$SongListPreview/VBoxContainer/SongCoverPanel.custom_minimum_size.y = size.x

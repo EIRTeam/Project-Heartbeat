@@ -2,7 +2,7 @@
 
 [ext_resource path="res://rythm_game/note_drawers/NoteGraphic.gd" type="Script" id=2]
 
-[node name="Note" type="Sprite"]
+[node name="Note" type="Sprite2D"]
 position = Vector2( 588.453, 54.8522 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )

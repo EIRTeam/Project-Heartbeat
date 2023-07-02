@@ -10,31 +10,31 @@ var _end_time_drag_moving = false
 var _end_time_dragging = false
 var _end_time_drag_last
 
-onready var hack = get_node("TextureRect2/Control")
+@onready var hack = get_node("TextureRect2/Control")
 
 func _init():
 	_class_name = "EditorTimelineItemSustainNote" # Workaround for godot#4708
 	_inheritance.append("EditorTimelineItemSingleNote")
 
 func set_texture():
-	.set_texture()
+	super.set_texture()
 	if data is HBSustainNote:
 		$TextureRect2.texture = HBNoteData.get_note_graphic(data.note_type, "sustain_note")
-	$TextureRect2.set_deferred("rect_size", Vector2(get_size().y, get_size().y))
+	$TextureRect2.set_deferred("size", Vector2(get_size().y, get_size().y))
 	_on_end_time_changed()
 
 func _draw():
 	if data is HBSustainNote:
 		var width = 5
 		
-		var y = ($TextureRect.rect_size.y - width)/2
+		var y = ($TextureRect.size.y - width)/2
 		var start = Vector2(0.0, y)
 		var size = Vector2(editor.scale_msec(data.get_duration()), width)
 		var color = ResourcePackLoader.get_note_trail_color(data.note_type).darkened(0.15)
 		
 		draw_rect(Rect2(start, size), color)
 		hack.set_enable_hack(false)
-		if rect_global_position.x <= 0.0:
+		if global_position.x <= 0.0:
 			hack.set_enable_hack(true)
 			hack.run_uwu_hack(size.x, color)
 		
@@ -43,8 +43,8 @@ func _on_view_port_size_changed():
 		_on_end_time_changed()
 		
 func _on_end_time_changed():
-	$TextureRect2.rect_position.x = editor.scale_msec(data.get_duration())-get_size().y / 2
-	update()
+	$TextureRect2.position.x = editor.scale_msec(data.get_duration())-get_size().y / 2
+	queue_redraw()
 
 func _process(delta):
 	if _end_time_dragging:
@@ -69,7 +69,7 @@ func _input(event):
 			_end_time_drag_moving = false
 			_end_time_drag_start_position = get_viewport().get_mouse_position()
 			_end_time_drag_start_time = data.end_time
-			_end_time_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+			_end_time_drag_x_offset = (global_position - get_viewport().get_mouse_position()).x
 			_end_time_drag_last = data.end_time
 			set_process(true)
 	
@@ -81,6 +81,6 @@ func _input(event):
 			if _drag_start_time != data.end_time:
 				editor._commit_selected_property_change("end_time")
 func sync_value(property_name: String):
-	.sync_value(property_name)
+	super.sync_value(property_name)
 	if property_name == "end_time":
 		_on_end_time_changed()

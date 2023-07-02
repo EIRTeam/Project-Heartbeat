@@ -1,12 +1,13 @@
 # Base class for any game entity that has a "time"
 extends HBSerializable
+class_name HBTimingPoint
+
 var time: int
 
-class_name HBTimingPoint
 var _class_name: String = "HBTimingPoint" # Workaround for godot#4708
 var _inheritance: Array = [] # HACK: ClassDB.get_parent_class() is retarded
 
-var LOG_NAME setget ,get_log_name
+var LOG_NAME : get = get_log_name
 
 func get_log_name():
 	return get_serialized_type()

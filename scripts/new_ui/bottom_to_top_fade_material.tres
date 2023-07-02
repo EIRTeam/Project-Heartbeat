@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dd76o2frgu4f6"]
 
-[sub_resource type="Shader" id=10]
+[sub_resource type="Shader" id="10"]
 code = "shader_type canvas_item;
 
 void fragment() {
@@ -8,4 +8,4 @@ void fragment() {
 }"
 
 [resource]
-shader = SubResource( 10 )
+shader = SubResource("10")

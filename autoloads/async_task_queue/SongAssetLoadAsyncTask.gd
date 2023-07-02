@@ -15,13 +15,14 @@ var safe_texture_loading = false
 
 var variant := -1
 
-func _init(_requested_assets: Array, _song: HBSong, _variant := -1).():
+func _init(_requested_assets: Array, _song: HBSong, _variant := -1):
+	super()
 	requested_assets = _requested_assets
 	requested_assets_queue = _requested_assets.duplicate(true)
 	song = _song
 	variant = _variant
 
-func _process_audio_loudness(audio_to_normalize: AudioStreamOGGVorbis):
+func _process_audio_loudness(audio_to_normalize: AudioStreamOggVorbis):
 	var audio_normalizer = HBAudioNormalizer.new()
 	loaded_assets["audio_loudness"] = 0.0
 	audio_normalizer.set_target_ogg(audio_to_normalize)
@@ -38,14 +39,14 @@ func _case_sensitivity_hack(path: String):
 	if path.begins_with("res://"):
 		return path
 	if OS.get_name() == "X11":
-		var dir = Directory.new()
 		var file_name = path.get_file().to_lower()
 		var out_path = null
-		if dir.file_exists(path):
+		if FileAccess.file_exists(path):
 			out_path = path
 		else:
-			if dir.open(path.get_base_dir()) == OK:
-				dir.list_dir_begin()
+			var dir := DirAccess.open(path.get_base_dir())
+			if DirAccess.get_open_error() == OK:
+				dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 				var dir_name = dir.get_next()
 				while dir_name != "":
 					if not dir.current_is_dir():
@@ -95,22 +96,22 @@ func _task_process() -> bool:
 		"audio":
 			if song.has_audio():
 				loaded_asset = song.get_audio_stream(variant)
-				var audio_ogg := loaded_asset as AudioStreamOGGVorbis
+				var audio_ogg := loaded_asset as AudioStreamOggVorbis
 				if not song.youtube_url and song.uses_dsc_style_channels() and "voice" in requested_assets_queue:
 					var spb := StreamPeerBuffer.new()
-					spb.data_array = audio_ogg.data
+					spb.data_array = audio_ogg.packet_sequence.packet_data
 					if HBUtils.get_ogg_channel_count_buff(spb) >= 4:
 						loaded_assets["voice"] = audio_ogg
-						loaded_assets["voice_shinobu"] = audio_ogg.data
+						loaded_assets["voice_shinobu"] = audio_ogg.get_meta("raw_file_data")
 					requested_assets_queue.erase("voice")
 				if "audio_loudness" in requested_assets_queue:
 					_process_audio_loudness(audio_ogg)
 					requested_assets_queue.erase("audio_loudness")
-				loaded_assets["audio_shinobu"] = audio_ogg.data
+				loaded_assets["audio_shinobu"] = audio_ogg.get_meta("raw_file_data")
 		"voice":
 			if song.voice:
 				loaded_asset = song.get_voice_stream()
-				loaded_assets["voice_shinobu"] = loaded_asset.data
+				loaded_assets["voice_shinobu"] = loaded_asset.get_meta("raw_file_data")
 		"circle_image":
 			if sprite_set:
 				for sprite in sprite_set.sprites:
@@ -134,10 +135,10 @@ func _task_process() -> bool:
 	return requested_assets_queue.size() == 0
 
 func _on_task_finished_processing(data):
+	print("FINISHED PROCESSING")
 	for asset_name in data:
 		if data[asset_name] is Image:
-			var texture = ImageTexture.new()
-			texture.create_from_image(data[asset_name], HBGame.platform_settings.texture_mode)
+			var texture = ImageTexture.create_from_image(data[asset_name]) #,HBGame.platform_settings.texture_mode
 			data[asset_name] = texture
 		elif data[asset_name] is DIVASpriteSet.DIVASprite:
 			data[asset_name].allocate()

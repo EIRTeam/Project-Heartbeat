@@ -5,7 +5,6 @@ enum TIMING_MODE {
 	NAIVE
 }
 
-var texture_mode = ImageTexture.FLAGS_DEFAULT
 var timing_mode = TIMING_MODE.PRECISE
 var supports_rich_presence = true
 

@@ -12,7 +12,7 @@ func register_texture_to_plist(property_list: Array, texture_name: String):
 	property_list.push_back({
 		"name": texture_name,
 		"hint": PROPERTY_HINT_RESOURCE_TYPE,
-		"hint_string": "Texture",
+		"hint_string": "Texture2D",
 		"type": TYPE_OBJECT
 	})
 
@@ -33,17 +33,17 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 		"anchor_left": anchor_left,
 		"anchor_right": anchor_right,
 		
-		"margin_bottom": margin_bottom,
-		"margin_top": margin_top,
-		"margin_left": margin_left,
-		"margin_right": margin_right,
+		"margin_bottom": offset_bottom,
+		"margin_top": offset_top,
+		"margin_left": offset_left,
+		"margin_right": offset_right,
 		"component_type": get_component_id()
 	}
 	
 func _ready():
 	add_to_group(get_component_id())
 	
-func get_texture_name(texture: Texture) -> String:
+func get_texture_name(texture: Texture2D) -> String:
 	if not texture:
 		return ""
 	if not texture.has_meta("texture_name"):
@@ -57,44 +57,45 @@ func get_hb_inspector_whitelist() -> Array:
 		"modulate"
 	]
 
-func set_control_font(control: Control, property_name: String, font: DynamicFont):
-	if font.font_data:
+func set_control_font(control: Control, property_name: String, font: Font):
+	if font is HBUIFont and font.base_font:
 		control.set(property_name, font)
 	else:
-		var ff := HBGame.fallback_font.duplicate() as DynamicFont
+		var ff := HBGame.fallback_font.duplicate() as Font
 		ff.size = font.size
 		ff.outline_size = font.outline_size
 		ff.outline_color = font.outline_color
 		control.set(property_name, ff)
 
-func set_control_font_override(control: Control, property_name: String, font: DynamicFont):
+func set_control_font_override(control: Control, property_name: String, font: Font):
 	control.remove_meta("%s_font_override" % property_name)
-	if font.font_data:
-		control.add_font_override(property_name, font)
+	if font is HBUIFont and font.base_font:
+		control.add_theme_font_override(property_name, font)
 	else:
-		var ff := HBGame.fallback_font.duplicate() as DynamicFont
+		var ff := HBGame.fallback_font.duplicate() as Font
 		ff.size = font.size
 		ff.outline_size = font.outline_size
 		ff.outline_color = font.outline_color
-		control.add_font_override(property_name, ff)
+		control.add_theme_font_override(property_name, ff)
 		control.set_meta("%s_font_override" % property_name, ff)
 
 func get_color_from_dict(dict: Dictionary, key: String, backup: Color):
 	var col := dict.get(key, "") as String
+	col = col.substr(2) + col.substr(0, 2)
 	if col:
 		return Color(col)
 	return backup
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	set_anchor(MARGIN_LEFT, dict.get("anchor_left", 0.0), false, true)
-	set_anchor(MARGIN_BOTTOM, dict.get("anchor_bottom", 0.0), false, true)
-	set_anchor(MARGIN_TOP, dict.get("anchor_top", 0.0), false, true)
-	set_anchor(MARGIN_RIGHT, dict.get("anchor_right", 0.0), false, true)
+	set_anchor(SIDE_LEFT, dict.get("anchor_left", 0.0), false, true)
+	set_anchor(SIDE_BOTTOM, dict.get("anchor_bottom", 0.0), false, true)
+	set_anchor(SIDE_TOP, dict.get("anchor_top", 0.0), false, true)
+	set_anchor(SIDE_RIGHT, dict.get("anchor_right", 0.0), false, true)
 
-	margin_bottom = dict.get("margin_bottom", 0.0)
-	margin_top = dict.get("margin_top", 0.0)
-	margin_left = dict.get("margin_left", 0.0)
-	margin_right = dict.get("margin_right", 0.0)
+	offset_bottom = dict.get("margin_bottom", 0.0)
+	offset_top = dict.get("margin_top", 0.0)
+	offset_left = dict.get("margin_left", 0.0)
+	offset_right = dict.get("margin_right", 0.0)
 	
 	name = dict.get("name", get_component_name().capitalize().replace(" ", ""))
 	
@@ -109,8 +110,8 @@ func serialize_font(font: HBUIFont, resource_storage: HBInspectorResourceStorage
 		"fallback_hint": font.fallback_hint,
 		"outline_size": font.outline_size,
 		"outline_color": font.outline_color.to_html(),
-		"extra_spacing_top": font.extra_spacing_top,
-		"extra_spacing_bottom": font.extra_spacing_bottom,
+		"spacing_top": font.spacing_top,
+		"spacing_bottom": font.spacing_bottom,
 		"extra_spacing_char": font.extra_spacing_char
 	}
 	
@@ -162,22 +163,22 @@ func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallbac
 			stylebox.border_width_bottom = dict.get("border_width_bottom", 0)
 			stylebox.border_width_right = dict.get("border_width_right", 0)
 			stylebox.border_width_left = dict.get("border_width_left", 0)
-			stylebox.bg_color = Color(dict.get("bg_color", "#999999"))
-			stylebox.border_color = Color(dict.get("border_color", "#cccccc"))
+			stylebox.bg_color = get_color_from_dict(dict, "bg_color", Color("#999999"))
+			stylebox.border_color = get_color_from_dict(dict, "border_color", Color("#cccccc"))
 			stylebox.corner_detail = dict.get("corner_detail", 8)
 			stylebox.anti_aliasing = dict.get("anti_aliasing", true)
 			stylebox.corner_radius_bottom_left = dict.get("corner_radius_bottom_left", 0)
 			stylebox.corner_radius_bottom_right = dict.get("corner_radius_bottom_right", 0)
 			stylebox.corner_radius_top_left = dict.get("corner_radius_top_left", 0)
 			stylebox.corner_radius_top_right = dict.get("corner_radius_top_right", 0)
-			stylebox.shadow_color = Color(dict.get("shadow_color", "#cc000000"))
+			stylebox.shadow_color = get_color_from_dict(dict, "bg_color", Color("#000000cc"))
 			stylebox.shadow_size = dict.get("shadow_size", 0)
 		"texture":
 			stylebox = HBUIStyleboxTexture.new()
 			stylebox.axis_stretch_horizontal = dict.get("axis_stretch_horizontal", 0)
 			stylebox.axis_stretch_vertical = dict.get("axis_stretch_vertical", 0)
 			stylebox.draw_center = dict.get("draw_center", true)
-			stylebox.modulate_color = dict.get("modulate_color", Color.white)
+			stylebox.modulate_color = get_color_from_dict(dict, "modulate_color", Color.WHITE)
 			stylebox.texture = cache.get_texture(dict.get("texture", ""))
 	# Shared properties
 	if stylebox:
@@ -189,13 +190,13 @@ func deserialize_stylebox(dict: Dictionary, cache: HBSkinResourcesCache, fallbac
 	
 func deserialize_font(data: Dictionary, font: HBUIFont, cache: HBSkinResourcesCache):
 	if data:
-		font.font_data = cache.get_font(data.get("name", ""))
+		font.base_font = cache.get_font(data.get("name", ""))
 		# Font size 0 crashes the engine... guard against it
-		font.size = max(1, data.get("size", font.size))
+		font.target_size = max(1, data.get("size", font.target_size))
 		font.fallback_hint = data.get("fallback_hint", font.fallback_hint)
 		font.outline_size = data.get("outline_size", font.outline_size)
 		font.outline_color = get_color_from_dict(data, "outline_color", font.outline_color)
-		font.extra_spacing_top = data.get("extra_spacing_top", font.extra_spacing_top)
-		font.extra_spacing_bottom = data.get("extra_spacing_bottom", font.extra_spacing_bottom)
-		font.extra_spacing_char = data.get("extra_spacing_char", font.extra_spacing_char)
+		font.spacing_top = data.get("spacing_top", font.spacing_top)
+		font.spacing_bottom = data.get("spacing_bottom", font.spacing_bottom)
+		font.spacing_glyph = data.get("extra_spacing_char", font.spacing_glyph)
 	

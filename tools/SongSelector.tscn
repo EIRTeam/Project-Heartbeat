@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dredw5kkx2whg"]
 
-[ext_resource path="res://tools/SongSelector.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://tools/SongSelector.gd" id="1"]
 
 [node name="SongSelector" type="Tree"]
-margin_right = 470.0
-margin_bottom = 297.0
+offset_right = 470.0
+offset_bottom = 297.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 hide_root = true
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [connection signal="item_selected" from="." to="." method="_on_SongSelector_item_selected"]

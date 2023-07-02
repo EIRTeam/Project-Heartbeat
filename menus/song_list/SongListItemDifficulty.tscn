@@ -1,184 +1,165 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://cqmf6tqu6khsv"]
 
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=5]
-[ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://menus/song_list/SongListItemDifficulty.gd" type="Script" id=7]
-[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=8]
-[ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=9]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="1"]
+[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="3"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="5"]
+[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="6"]
+[ext_resource type="Script" path="res://menus/song_list/SongListItemDifficulty.gd" id="7"]
+[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="8"]
+[ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="9"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 36
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 7
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 4 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("6"), ExtResource("4")])
+face_index = null
+embolden = null
+transform = null
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="DynamicFont" id=2]
-size = 36
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 7
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 3 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("1"), ExtResource("3")])
+face_index = null
+embolden = null
+transform = null
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Control" type="Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 10
 anchor_right = 1.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
+offset_bottom = 100.0
+grow_horizontal = 2
+size_flags_horizontal = 3
 focus_mode = 2
 mouse_filter = 2
-size_flags_horizontal = 3
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("7")
 node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
-margin_left = 25.0
-margin_right = 1720.0
-margin_bottom = 100.0
+layout_mode = 0
+offset_left = 25.0
+offset_right = 1720.0
+offset_bottom = 100.0
 focus_mode = 0
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 8 )
-custom_styles/normal = ExtResource( 8 )
-custom_constants/hseparation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/h_separation = 0
+theme_override_styles/normal = ExtResource("8")
+theme_override_styles/hover = ExtResource("9")
+theme_override_styles/pressed = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
 anchor_right = 0.935
 anchor_bottom = 1.0
-margin_right = -0.825073
+offset_right = -0.825073
 mouse_filter = 2
-custom_constants/margin_top = 0
-custom_constants/margin_left = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-margin_left = 30.0
-margin_right = 1583.0
-margin_bottom = 100.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/separation = -15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/separation = -15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer"]
-margin_right = 706.0
-margin_bottom = 100.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer"]
-margin_right = 706.0
-margin_bottom = 100.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 706.0
-margin_bottom = 100.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="StarTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_right = 48.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 48, 35 )
-mouse_filter = 2
+custom_minimum_size = Vector2(48, 35)
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StarsLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 52.0
-margin_right = 106.0
-margin_bottom = 100.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "10 "
-valign = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_left = 110.0
-margin_right = 196.0
-margin_bottom = 100.0
-custom_constants/separation = -10
+layout_mode = 2
+theme_override_constants/separation = -10
 
 [node name="ArcadeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_right = 48.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 48, 35 )
-mouse_filter = 2
+custom_minimum_size = Vector2(48, 35)
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ConsoleTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_left = 38.0
-margin_right = 86.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 48, 35 )
-mouse_filter = 2
+custom_minimum_size = Vector2(48, 35)
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DifficultyLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 200.0
-margin_right = 403.0
-margin_bottom = 100.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "EXTREME"
-valign = 1
+vertical_alignment = 1
 
 [node name="BadgeTexture" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 407.0
-margin_right = 407.0
-margin_bottom = 100.0
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
+stretch_mode = 3
 
 [node name="ScoreLabel" type="Label" parent="Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 411.0
-margin_right = 706.0
-margin_bottom = 100.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "CHEAP - 100%"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]
+[connection signal="pressed" from="Control" to="." method="emit_signal" binds= ["pressed"]]

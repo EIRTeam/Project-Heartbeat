@@ -1,16 +1,16 @@
 extends HBMenu
 
-onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
+@onready var song_title = get_node("MarginContainer/VBoxContainer/SongTitle")
 var button_container
 var modifier_button_container
 var modifier_scroll_container
 var button_panel
-onready var modifier_selector = get_node("ModifierLoader")
-onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
-onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
+@onready var modifier_selector = get_node("ModifierLoader")
+@onready var modifier_settings_editor = get_node("ModifierSettingsOptionSection")
+@onready var per_song_settings_editor = get_node("PerSongSettingsEditor")
 var leaderboard_legal_text
-onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
-onready var tabbed_container = get_node("MarginContainer/VBoxContainer/TabbedContainer")
+@onready var ppd_video_url_change_confirmation_prompt = get_node("VideoURLChangePopup")
+@onready var tabbed_container = get_node("MarginContainer/VBoxContainer/TabbedContainer")
 var stats_label
 var current_song: HBSong
 var current_difficulty: String
@@ -26,17 +26,18 @@ var background_image
 
 const LEADERBOARD_TAB = preload("res://menus/new_leaderboard_control/LeaderboardViewTab.tscn")
 
-var leaderboard_tab_normal = LEADERBOARD_TAB.instance()
-var leaderboard_tab_modifiers = LEADERBOARD_TAB.instance()
+var leaderboard_tab_normal = LEADERBOARD_TAB.instantiate()
+var leaderboard_tab_modifiers = LEADERBOARD_TAB.instantiate()
 
-onready var delete_song_media_popup := get_node("%DeleteSongMediaPopup")
+@onready var delete_song_media_popup := get_node("%DeleteSongMediaPopup")
 
 func _ready():
-	connect("resized", self, "_on_resized")
+	super._ready()
+	connect("resized", Callable(self, "_on_resized"))
 	_on_resized()
 	
 	# Hacky af...
-	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instance()
+	var pregame_start_tab = preload("res://menus/pregame_screen/PregameStartTab.tscn").instantiate()
 	
 	tabbed_container.add_tab("Song", tr("Song"), pregame_start_tab)
 	
@@ -52,20 +53,20 @@ func _ready():
 	
 	
 	modifier_settings_editor.hide()
-	modifier_selector.connect("back", self, "_modifier_loader_back")
-	modifier_selector.connect("modifier_selected", self, "_on_user_added_modifier")
-	modifier_settings_editor.connect("back", self, "_modifier_settings_editor_back")
-	modifier_settings_editor.connect("changed", self, "_on_modifier_setting_changed")
-	per_song_settings_editor.connect("back", self, "_modifier_loader_back")
-	ppd_video_url_change_confirmation_prompt.connect("cancel", modifier_scroll_container, "grab_focus")
-	delete_song_media_popup.connect("cancel", modifier_scroll_container, "grab_focus")
-	ppd_video_url_change_confirmation_prompt.connect("accept", self, "_on_ppd_video_url_confirmed")
-	button_container.connect("out_from_top", self, "_on_button_list_out_from_top")
+	modifier_selector.connect("back", Callable(self, "_modifier_loader_back"))
+	modifier_selector.connect("modifier_selected", Callable(self, "_on_user_added_modifier"))
+	modifier_settings_editor.connect("back", Callable(self, "_modifier_settings_editor_back"))
+	modifier_settings_editor.connect("changed", Callable(self, "_on_modifier_setting_changed"))
+	per_song_settings_editor.connect("back", Callable(self, "_modifier_loader_back"))
+	ppd_video_url_change_confirmation_prompt.connect("cancel", Callable(modifier_scroll_container, "grab_focus"))
+	delete_song_media_popup.connect("cancel", Callable(modifier_scroll_container, "grab_focus"))
+	ppd_video_url_change_confirmation_prompt.connect("accept", Callable(self, "_on_ppd_video_url_confirmed"))
+	button_container.connect("out_from_top", Callable(self, "_on_button_list_out_from_top"))
 	#per_song_settings_editor.show_editor()
 	
-	pregame_start_tab.start_button.connect("pressed", self, "_on_StartButton_pressed")
-	pregame_start_tab.start_practice_button.connect("pressed", self, "_on_StartPractice_pressed")
-	pregame_start_tab.back_button.connect("pressed", self, "_on_BackButton_pressed")
+	pregame_start_tab.start_button.connect("pressed", Callable(self, "_on_StartButton_pressed"))
+	pregame_start_tab.start_practice_button.connect("pressed", Callable(self, "_on_StartPractice_pressed"))
+	pregame_start_tab.back_button.connect("pressed", Callable(self, "_on_BackButton_pressed"))
 	pregame_start_tab.back_button.set_meta("sfx", HBGame.menu_back_sfx)
 var current_assets
 var current_song_assets
@@ -80,7 +81,7 @@ func _on_user_added_modifier(modifier_id: String):
 	if not modifier_id in game_info.modifiers:
 		game_info.add_new_modifier(modifier_id)
 		var button = add_modifier_control(modifier_id)
-		modifier_scroll_container.select_item(button.get_position_in_parent())
+		modifier_scroll_container.select_item(button.get_index())
 	modifier_scroll_container.grab_focus()
 	UserSettings.save_user_settings()
 	draw_leaderboard_legality()
@@ -103,17 +104,17 @@ func _modifier_loader_back():
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
-	yield(get_tree(), "idle_frame")
-	var inv = 1.0 / (rect_size.y / BASE_HEIGHT)
+	await get_tree().process_frame
+	var inv = 1.0 / (size.y / BASE_HEIGHT)
 	button_panel.size_flags_stretch_ratio = inv
 
 func _on_menu_exit(force_hard_transition=false):
-	._on_menu_exit(force_hard_transition)
-	MouseTrap.cache_song_overlay.disconnect("done", button_container, "grab_focus")
+	super._on_menu_exit(force_hard_transition)
+	MouseTrap.cache_song_overlay.disconnect("done", Callable(button_container, "grab_focus"))
 	
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	if args.has("song"):
 		current_song = args.song
 	button_container.select_button(0)
@@ -141,12 +142,12 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	update_song_stats_label()
 	tabbed_container.show_tab("Song")
 	
-	MouseTrap.cache_song_overlay.connect("done", button_container, "grab_focus", [], CONNECT_DEFERRED)
+	MouseTrap.cache_song_overlay.connect("done", Callable(button_container, "grab_focus").bind(), CONNECT_DEFERRED)
 func update_song_stats_label():
 	var stats = HBGame.song_stats.get_song_stats(current_song.id)
 	var highest_score_string = tr("Never played")
 	if ScoreHistory.has_result(current_song.id, current_difficulty):
-		var result := ScoreHistory.get_result(current_song.id, current_difficulty) as HBHistoryEntry
+		var result := ScoreHistory.get_data(current_song.id, current_difficulty) as HBHistoryEntry
 		var pass_percentage = result.highest_score_info.result.get_percentage()
 		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
 		highest_score_string = "%s (%.2f %%)" % [thousands_sep_score, pass_percentage*100]
@@ -171,8 +172,8 @@ func _on_StartButton_pressed():
 	game_info.variant = selected_variant
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
-		game_info.time = OS.get_unix_time()
-		var scene = new_scene.instance()
+		game_info.time = Time.get_unix_time_from_system()
+		var scene = new_scene.instantiate()
 		get_tree().current_scene.queue_free()
 		get_tree().root.add_child(scene)
 		get_tree().current_scene = scene
@@ -183,15 +184,15 @@ func _on_StartButton_pressed():
 
 func add_modifier_control(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
-	var button = preload("res://menus/pregame_screen/ModifierButton.tscn").instance()
+	var button = preload("res://menus/pregame_screen/ModifierButton.tscn").instantiate()
 	modifier_button_container.add_child(button)
 	
 	var modifier = modifier_class.new() as HBModifier
 	modifier.modifier_settings = game_info.modifiers[modifier_id]
 	button.text = modifier.get_modifier_list_name()
-	button.connect("edit_modifier", self, "_on_open_modifier_settings_selected", [modifier_id])
-	button.connect("remove_modifier", self, "_on_remove_modifier_selected", [modifier_id, button])
-	if modifier_class.get_option_settings().empty():
+	button.connect("edit_modifier", Callable(self, "_on_open_modifier_settings_selected").bind(modifier_id))
+	button.connect("remove_modifier", Callable(self, "_on_remove_modifier_selected").bind(modifier_id, button))
+	if modifier_class.get_option_settings().is_empty():
 		button.remove_settings_button()
 	modifier_buttons[modifier_id] = button
 	return button
@@ -214,7 +215,7 @@ func _on_modify_song_settings_pressed():
 	
 
 func _on_remove_modifier_selected(modifier_id: String, modifier_button):
-	var current_button_i = modifier_button.get_position_in_parent()
+	var current_button_i = modifier_button.get_index()
 	var new_button_i = current_button_i-1
 	new_button_i = clamp(new_button_i, 0, modifier_button_container.get_child_count()-1)
 	modifier_scroll_container.select_item(new_button_i)
@@ -240,19 +241,19 @@ func add_buttons():
 	modify_song_settings_option.text = "Song settings"
 	modify_song_settings_option.expand_icon = true
 	modify_song_settings_option.icon = preload("res://graphics/icons/settings.svg")
-	modify_song_settings_option.connect("pressed", self, "_on_modify_song_settings_pressed")
+	modify_song_settings_option.connect("pressed", Callable(self, "_on_modify_song_settings_pressed"))
 	modifier_button_container.add_child(modify_song_settings_option)
 	
 	if current_song is HBPPDSong and not current_song.uses_native_video:
 		var change_video_link_button = HBHovereableButton.new()
 		change_video_link_button.text = "Change PPD video URL"
-		change_video_link_button.connect("pressed", self, "_on_ppd_video_change_button_pressed")
+		change_video_link_button.connect("pressed", Callable(self, "_on_ppd_video_change_button_pressed"))
 		modifier_button_container.add_child(change_video_link_button)
 	elif current_song.get_fs_origin() == current_song.SONG_FS_ORIGIN.USER and current_song.youtube_url:
 			var delete_media = HBHovereableButton.new()
 			delete_media.text = "Delete song media"
-			delete_media.connect("pressed", delete_song_media_popup, "popup_centered")
-			delete_media.connect("pressed", delete_song_media_popup, "grab_focus")
+			delete_media.connect("pressed", Callable(delete_song_media_popup, "popup_centered"))
+			delete_media.connect("pressed", Callable(delete_song_media_popup, "grab_focus"))
 			modifier_button_container.add_child(delete_media)
 			
 	
@@ -261,7 +262,7 @@ func add_buttons():
 		var open_leaderboard_button = HBHovereableButton.new()
 		open_leaderboard_button.expand_icon = true
 		open_leaderboard_button.text = tr("View leaderboards on the website")
-		open_leaderboard_button.connect("pressed", self, "_on_open_leaderboard_pressed")
+		open_leaderboard_button.connect("pressed", Callable(self, "_on_open_leaderboard_pressed"))
 		open_leaderboard_button.icon = preload("res://graphics/icons/table.svg")
 		modifier_button_container.add_child(open_leaderboard_button)
 	
@@ -269,18 +270,18 @@ func add_buttons():
 	add_modifier_button.text = "Add modifier"
 	add_modifier_button.expand_icon = true
 	add_modifier_button.icon = preload("res://graphics/icons/icon_add.svg")
-	add_modifier_button.connect("pressed", self, "_on_add_modifier_pressed")
+	add_modifier_button.connect("pressed", Callable(self, "_on_add_modifier_pressed"))
 	modifier_button_container.add_child(add_modifier_button)
 	
 	variant_select = null
 	
 	if current_song.song_variants.size() > 0:
 		var last_variant = HBGame.song_stats.get_song_stats(current_song.id).selected_variant
-		variant_select = preload("res://menus/options_menu/OptionSelect.tscn").instance()
+		variant_select = preload("res://menus/options_menu/OptionSelect.tscn").instantiate()
 		variant_select.options = [-1]
 		variant_select.text = tr("Video/Audio variant")
 		variant_select.options_pretty = ["Default"]
-		variant_select.connect("back", modifier_scroll_container, "grab_focus")
+		variant_select.connect("back", Callable(modifier_scroll_container, "grab_focus"))
 		for i in range(current_song.song_variants.size()):
 			variant_select.options.append(i)
 			variant_select.options_pretty.append(current_song.get_variant_data(i).variant_name)
@@ -306,13 +307,13 @@ func _on_add_modifier_pressed():
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		_on_BackButton_pressed()
 	else:
 		if modifier_scroll_container.has_focus():
 			var selected = modifier_scroll_container.get_selected_item()
 			if selected:
-				selected._gui_input(event)
+				selected.gui_input.emit(event)
 
 func _on_BackButton_pressed():
 	per_song_settings_editor.hide()
@@ -349,8 +350,8 @@ func _on_StartPractice_pressed():
 	game_info.variant = selected_variant
 	if current_song_assets == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
-		game_info.time = OS.get_unix_time()
-		var scene = new_scene.instance()
+		game_info.time = Time.get_unix_time_from_system()
+		var scene = new_scene.instantiate()
 		get_tree().current_scene.queue_free()
 		get_tree().root.add_child(scene)
 		get_tree().current_scene = scene

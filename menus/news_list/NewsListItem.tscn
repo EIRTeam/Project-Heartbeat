@@ -1,78 +1,93 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://csftab5uoigrn"]
 
-[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=2]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://menus/news_list/NewsListItem.gd" type="Script" id=6]
-[ext_resource path="res://menus/ScrollingLabelShader.shader" type="Shader" id=8]
+[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="5"]
+[ext_resource type="Script" path="res://menus/news_list/NewsListItem.gd" id="6"]
+[ext_resource type="Shader" path="res://menus/ScrollingLabelShader.gdshader" id="8"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 35
-use_filter = true
-font_data = ExtResource( 5 )
-fallback/0 = ExtResource( 4 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("5"), ExtResource("4")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 8 )
-shader_param/pos = null
-shader_param/size = null
-shader_param/enabled = false
-shader_param/fade_size = null
+[sub_resource type="ShaderMaterial" id="2"]
+shader = ExtResource("8")
+shader_parameter/pos = null
+shader_parameter/size = null
+shader_parameter/enabled = false
+shader_parameter/fade_size = null
 
-[sub_resource type="DynamicFont" id=3]
-size = 35
-use_filter = true
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 4 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("1"), ExtResource("4")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [node name="Button" type="Button"]
-margin_right = 331.0
-margin_bottom = 206.0
-rect_min_size = Vector2( 0, 100 )
-custom_styles/hover = ExtResource( 2 )
-custom_styles/normal = ExtResource( 3 )
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 100)
+offset_right = 331.0
+offset_bottom = 206.0
+theme_override_styles/normal = ExtResource("3")
+theme_override_styles/hover = ExtResource("2")
+script = ExtResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 14
-custom_constants/margin_top = 14
-custom_constants/margin_left = 14
-custom_constants/margin_bottom = 14
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 317.0
-margin_bottom = 192.0
+layout_mode = 2
 mouse_filter = 2
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DateLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 303.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 1 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("1")
 text = "asdsadsadas"
+autowrap_mode = 3
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-material = SubResource( 2 )
-margin_top = 46.0
-margin_right = 303.0
-margin_bottom = 178.0
-rect_min_size = Vector2( 0, 42 )
-custom_fonts/font = SubResource( 3 )
+material = SubResource("2")
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_fonts/font = SubResource("3")
 text = "ddddddddddddd asd sad sadsa dsad asdsa da"
-autowrap = true
+autowrap_mode = 3

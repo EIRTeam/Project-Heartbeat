@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/multi_laser.png-1a6818367fe22e07182a5019ff8bc9b4.image"
+uid="uid://cermc8p0vnejs"
+path="res://.godot/imported/multi_laser.png-1a6818367fe22e07182a5019ff8bc9b4.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/fallback/graphics/multi_laser.png"
-dest_files=[ "res://.import/multi_laser.png-1a6818367fe22e07182a5019ff8bc9b4.image" ]
+dest_files=["res://.godot/imported/multi_laser.png-1a6818367fe22e07182a5019ff8bc9b4.image"]
 
 [params]
 

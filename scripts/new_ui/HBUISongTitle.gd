@@ -2,18 +2,18 @@ extends HBUIComponent
 
 class_name HBUISongTitle
 
-onready var hbox_container := HBoxContainer.new()
-onready var circle_logo_margin_container := MarginContainer.new()
-onready var circle_logo_texture_rect := TextureRect.new()
-onready var title_label := HBUIDynamicLabel.new()
-onready var artist_label := HBUIDynamicLabel.new()
+@onready var hbox_container := HBoxContainer.new()
+@onready var circle_logo_margin_container := MarginContainer.new()
+@onready var circle_logo_texture_rect := TextureRect.new()
+@onready var title_label := HBUIDynamicLabel.new()
+@onready var artist_label := HBUIDynamicLabel.new()
 
-var artist_font := HBUIFont.new() setget set_artist_font
-var title_font := HBUIFont.new() setget set_title_font
-var element_separation := 15 setget set_element_separation
-var hide_artist_label := false setget set_hide_artist_label
-var hide_circle_logo := false setget set_hide_circle_logo
-var hide_title_label := false setget set_hide_title_label
+var artist_font := HBUIFont.new(): set = set_artist_font
+var title_font := HBUIFont.new(): set = set_title_font
+var element_separation := 15: set = set_element_separation
+var hide_artist_label := false: set = set_hide_artist_label
+var hide_circle_logo := false: set = set_hide_circle_logo
+var hide_title_label := false: set = set_hide_title_label
 
 func set_hide_artist_label(val):
 	hide_artist_label = val
@@ -37,7 +37,7 @@ func set_hide_circle_logo(val):
 func set_element_separation(val):
 	element_separation = val
 	if is_inside_tree():
-		hbox_container.add_constant_override("separation", element_separation)
+		hbox_container.add_theme_constant_override("separation", element_separation)
 
 func set_artist_font(val):
 	artist_font = val
@@ -56,7 +56,7 @@ static func get_component_name() -> String:
 	return "Song Title Label"
 
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"artist_font", "title_font", "element_separation", "hide_artist_label",
 		"hide_circle_logo", "hide_title_label"
@@ -64,6 +64,7 @@ func get_hb_inspector_whitelist() -> Array:
 	return whitelist
 
 func _ready():
+	super._ready()
 	circle_logo_texture_rect.expand = true
 	circle_logo_texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	
@@ -72,8 +73,8 @@ func _ready():
 	artist_label.uppercase = true
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.clip_text = true
-	artist_label.valign = Label.VALIGN_BOTTOM
-	title_label.valign = Label.VALIGN_BOTTOM
+	artist_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
+	title_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
 	
 	add_child(hbox_container)
 	circle_logo_margin_container.add_child(circle_logo_texture_rect)
@@ -81,28 +82,22 @@ func _ready():
 	hbox_container.add_child(circle_logo_margin_container)
 	hbox_container.add_child(artist_label)
 	hbox_container.add_child(title_label)
-	hbox_container.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-	
-	artist_font.use_filter = true
-	artist_font.use_mipmaps = true
-	
-	title_font.use_filter = true
-	title_font.use_mipmaps = true
+	hbox_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
 	set_element_separation(element_separation)
 	set_artist_font(artist_font)
 	set_title_font(title_font)
 	set_hide_artist_label(hide_artist_label)
 	set_hide_circle_logo(hide_artist_label)
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 
 func _on_resized():
 	if circle_logo_texture_rect.texture:
-		var image = circle_logo_texture_rect.texture.get_data() as Image
+		var image = circle_logo_texture_rect.texture.get_image() as Image
 		var ratio = image.get_width() / image.get_height()
-		var new_size = Vector2(hbox_container.rect_size.y * ratio, hbox_container.rect_size.y)
+		var new_size = Vector2(hbox_container.size.y * ratio, hbox_container.size.y)
 		new_size.x = clamp(new_size.x, 0, 250)
-		circle_logo_margin_container.rect_min_size = new_size
+		circle_logo_margin_container.custom_minimum_size = new_size
 
 func set_song(song: HBSong, assets, variant := -1):
 	circle_logo_margin_container.hide()
@@ -112,8 +107,7 @@ func set_song(song: HBSong, assets, variant := -1):
 			circle_logo_margin_container.show()
 			circle_logo_texture_rect.show()
 			var image = HBUtils.image_from_fs(circle_logo_path)
-			var it = ImageTexture.new()
-			it.create_from_image(image, Texture.FLAGS_DEFAULT)
+			var it = ImageTexture.create_from_image(image) #,Texture2D.FLAGS_DEFAULT
 			circle_logo_texture_rect.texture = it
 			_on_resized()
 		else:
@@ -134,7 +128,7 @@ func set_song(song: HBSong, assets, variant := -1):
 		artist_label.text = song.artist
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["artist_font"] = serialize_font(artist_font, resource_storage)
 	out_dict["title_font"] = serialize_font(title_font, resource_storage)
 	out_dict["element_separation"] = element_separation
@@ -144,7 +138,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	return out_dict
 	
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	deserialize_font(dict.get("artist_font", {}), artist_font, cache)
 	deserialize_font(dict.get("title_font", {}), title_font, cache)
 	element_separation = dict.get("element_separation", 15)

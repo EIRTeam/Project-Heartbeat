@@ -7,7 +7,7 @@ func _init():
 
 func _init_plugin():
 	# Base init plugin must always be called after local init
-	._init_plugin()
+	super._init_plugin()
 func _preprocess_timing_points(points: Array) -> Array:
 	randomize()
 	var notes = [HBNoteData.NOTE_TYPE.UP, HBNoteData.NOTE_TYPE.DOWN, HBNoteData.NOTE_TYPE.LEFT, HBNoteData.NOTE_TYPE.RIGHT]

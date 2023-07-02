@@ -2,25 +2,25 @@ extends HBInspectorPropertyEditor
 
 class_name HBInspectorPropertyEditFont
 
-onready var font_selector_option_button := OptionButton.new()
+@onready var font_selector_option_button := OptionButton.new()
 
-var resource_storage: HBInspectorResourceStorage setget set_resource_storage
+var resource_storage: HBInspectorResourceStorage: set = set_resource_storage
 
 var current_font: HBUIFont
 
 var current_font_name := ""
 
-onready var size_spinbox := SpinBox.new()
+@onready var size_spinbox := SpinBox.new()
 
-onready var fallback_hint_selector := OptionButton.new()
+@onready var fallback_hint_selector := OptionButton.new()
 
-onready var outline_size_spinbox := SpinBox.new()
+@onready var outline_size_spinbox := SpinBox.new()
 
-onready var outline_color_picker := ColorPickerButton.new()
+@onready var outline_color_picker := ColorPickerButton.new()
 
-onready var extra_character_spacing_spinbox := SpinBox.new()
-onready var extra_spacing_top_spinbox := SpinBox.new()
-onready var extra_spacing_bottom_spinbox := SpinBox.new()
+@onready var extra_character_spacing_spinbox := SpinBox.new()
+@onready var extra_spacing_top_spinbox := SpinBox.new()
+@onready var extra_spacing_bottom_spinbox := SpinBox.new()
 
 func update_font_list():
 	var fonts := resource_storage.get_fonts()
@@ -48,18 +48,18 @@ func make_label_container(label_n: String) -> HBoxContainer:
 	return h
 		
 func _init_inspector():
-	._init_inspector()
-	resource_storage.connect("fonts_changed", self, "_on_resource_storage_fonts_changed")
-	resource_storage.connect("font_removed", self, "_on_resource_storage_fonts_removed")
-	yield(self, "ready")
+	super._init_inspector()
+	resource_storage.connect("fonts_changed", Callable(self, "_on_resource_storage_fonts_changed"))
+	resource_storage.connect("font_removed", Callable(self, "_on_resource_storage_fonts_removed"))
+	await self.ready
 	update_font_list()
 	vbox_container.add_child(font_selector_option_button)
 	
 	var h := make_label_container("Size")
 	h.add_child(size_spinbox)
-	size_spinbox.connect("value_changed", self, "_on_size_value_changed")
+	size_spinbox.connect("value_changed", Callable(self, "_on_size_value_changed"))
 	
-	font_selector_option_button.connect("item_selected", self, "_on_item_selected")
+	font_selector_option_button.connect("item_selected", Callable(self, "_on_item_selected"))
 
 	h = make_label_container("Fallback")
 
@@ -69,19 +69,19 @@ func _init_inspector():
 	fallback_hint_selector.add_item("Bold", HBUIFont.FALLBACK_HINT.BOLD)
 	fallback_hint_selector.add_item("Black", HBUIFont.FALLBACK_HINT.BLACK)
 	
-	fallback_hint_selector.connect("item_selected", self, "_on_fallback_hint_item_selected")
+	fallback_hint_selector.connect("item_selected", Callable(self, "_on_fallback_hint_item_selected"))
 
 	h = make_label_container("Outline Size")
 
 	h.add_child(outline_size_spinbox)
 	
-	outline_size_spinbox.connect("value_changed", self, "_on_outline_size_changed")
+	outline_size_spinbox.connect("value_changed", Callable(self, "_on_outline_size_changed"))
 
 	h = make_label_container("Outline Color")
 	h.add_child(outline_color_picker)
 	
 	outline_color_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	outline_color_picker.connect("color_changed", self, "_on_outline_color_changed")
+	outline_color_picker.connect("color_changed", Callable(self, "_on_outline_color_changed"))
 	
 	var spacing_label := Label.new()
 	spacing_label.text = "Extra spacing"
@@ -96,20 +96,20 @@ func _init_inspector():
 	h = make_label_container("Char")
 	h.add_child(extra_character_spacing_spinbox)
 	
-	extra_spacing_top_spinbox.connect("value_changed", self, "_on_extra_spacing_top_value_changed")
-	extra_character_spacing_spinbox.connect("value_changed", self, "_on_extra_spacing_char_value_changed")
-	extra_spacing_bottom_spinbox.connect("value_changed", self, "_on_extra_spacing_bottom_value_changed")
+	extra_spacing_top_spinbox.connect("value_changed", Callable(self, "_on_extra_spacing_top_value_changed"))
+	extra_character_spacing_spinbox.connect("value_changed", Callable(self, "_on_extra_spacing_char_value_changed"))
+	extra_spacing_bottom_spinbox.connect("value_changed", Callable(self, "_on_extra_spacing_bottom_value_changed"))
 
 	size_spinbox.set_block_signals(true)
 	size_spinbox.min_value = 1
 	size_spinbox.max_value = 255
 	size_spinbox.set_block_signals(false)
 func _on_extra_spacing_top_value_changed(val: int):
-	current_font.extra_spacing_top = val
+	current_font.spacing_top = val
 	emit_signal("value_changed", current_font)
 
 func _on_extra_spacing_bottom_value_changed(val: int):
-	current_font.extra_spacing_bottom = val
+	current_font.spacing_bottom = val
 	emit_signal("value_changed", current_font)
 
 func _on_extra_spacing_char_value_changed(val: int):
@@ -117,7 +117,7 @@ func _on_extra_spacing_char_value_changed(val: int):
 	emit_signal("value_changed", current_font)
 
 func set_property_data(data: Dictionary):
-	.set_property_data(data)
+	super.set_property_data(data)
 	
 func _on_resource_storage_fonts_changed():
 	update_font_list()
@@ -155,11 +155,11 @@ func _update_controls():
 	outline_color_picker.set_block_signals(false)
 	
 	extra_spacing_bottom_spinbox.set_block_signals(true)
-	extra_spacing_bottom_spinbox.value = current_font.extra_spacing_bottom
+	extra_spacing_bottom_spinbox.value = current_font.spacing_bottom
 	extra_spacing_bottom_spinbox.set_block_signals(false)
 	
 	extra_spacing_top_spinbox.set_block_signals(true)
-	extra_spacing_top_spinbox.value = current_font.extra_spacing_top
+	extra_spacing_top_spinbox.value = current_font.spacing_top
 	extra_spacing_top_spinbox.set_block_signals(false)
 	
 	extra_character_spacing_spinbox.set_block_signals(true)
@@ -191,7 +191,7 @@ func _on_outline_color_changed(color: Color):
 	emit_signal("value_changed", current_font)
 
 func set_value(val):
-	.set_value(val)
+	super.set_value(val)
 	current_font = val
 	current_font_name = resource_storage.get_font_name(val.font_data)
 	if is_inside_tree():

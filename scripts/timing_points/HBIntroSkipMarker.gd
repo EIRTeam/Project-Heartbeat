@@ -14,6 +14,6 @@ static func can_show_in_editor():
 
 func get_timeline_item():
 	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemIntroSkipMarker.tscn")
-	var timeline_item = timeline_item_scene.instance()
+	var timeline_item = timeline_item_scene.instantiate()
 	timeline_item.data = self
 	return timeline_item

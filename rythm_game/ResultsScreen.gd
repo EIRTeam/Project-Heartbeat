@@ -1,24 +1,24 @@
 extends HBMenu
 
-var game_info : HBGameInfo setget set_game_info
+var game_info : HBGameInfo: set = set_game_info
 
-onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
-onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/SongTitle")
-onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
-onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
-onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
-onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
-onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
-onready var rating_popup = get_node("RatingPopup")
-onready var upvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/UpvoteButton")
-onready var downvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/DownvoteButton")
-onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
-onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
-onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
-onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
-onready var hi_score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/Label")
-onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
-onready var error_window = get_node("HBConfirmationWindow")
+@onready var percentage_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/PercentageLabel")
+@onready var title_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/SongTitle")
+@onready var buttons = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
+@onready var return_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton2")
+@onready var button_panel = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3")
+@onready var button_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer")
+@onready var retry_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/HBHovereableButton")
+@onready var rating_popup = get_node("RatingPopup")
+@onready var upvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/UpvoteButton")
+@onready var downvote_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/DownvoteButton")
+@onready var skip_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/SkipButton")
+@onready var no_opinion_button = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer/NoOpinionButton")
+@onready var rating_buttons_container = get_node("RatingPopup/Panel/MarginContainer/VBoxContainer/HBoxContainer")
+@onready var share_on_twitter_button = get_node("MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/VBoxContainer2/Panel3/MarginContainer/VBoxContainer/ShareOnTwitterButton")
+@onready var hi_score_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/Label")
+@onready var result_rating_label = get_node("MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer2/ResultRatingLabel")
+@onready var error_window = get_node("HBConfirmationWindow")
 var rating_results_scenes = {}
 const ResultRating = preload("res://rythm_game/results_screen/ResultRating.tscn")
 const BASE_HEIGHT = 720.0
@@ -32,14 +32,14 @@ var mp_entries = {}
 var current_song: HBSong
 var current_assets
 
-onready var tabbed_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/TabbedContainer")
-onready var results_tab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instance()
-onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instance()
+@onready var tabbed_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/TabbedContainer")
+@onready var results_tab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
+@onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 
 func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
 	return a.score > b.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	buttons.grab_focus()
 	if args.has("assets"):
 		current_assets = args.assets
@@ -58,25 +58,25 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 			lb_entry.score = entry.get_capped_score()
 			lb_entry.percentage = entry.get_percentage()
 			lb_entries.append(lb_entry)
-		lb_entries.sort_custom(self, "custom_sort_mp_entries")
+		lb_entries.sort_custom(Callable(self, "custom_sort_mp_entries"))
 		for entry_i in lb_entries.size():
 			lb_entries[entry_i].rank = entry_i+1
 		emit_signal("show_song_results_mp", lb_entries)
 	if args.has("lobby"):
 		mp_lobby = args.lobby
-		buttons.select_button(return_button.get_position_in_parent())
+		buttons.select_button(return_button.get_index())
 		# To be able to handle a song starting while we look at results		
-		mp_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
+		mp_lobby.connect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
 	
 	
 func _on_menu_exit(force_hard_transition=false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	if mp_lobby:
-		mp_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
+		mp_lobby.disconnect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
 		mp_lobby = null
 # called when authority sends a game start packet, sets up mp and starts loading
 func _on_lobby_loading_start():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene
@@ -86,17 +86,18 @@ func _on_lobby_loading_start():
 func _on_resized():
 	# We have to wait a frame for the resize to happen...
 	# seriously wtf
-	if (rect_size.y / BASE_HEIGHT) > 0:
-		var inv = 0.1 / (rect_size.y / BASE_HEIGHT)
+	if (size.y / BASE_HEIGHT) > 0:
+		var inv = 0.1 / (size.y / BASE_HEIGHT)
 		button_panel.size_flags_stretch_ratio = inv
 
 func _ready():
-	error_window.connect("accept", buttons, "grab_focus")
+	super._ready()
+	error_window.connect("accept", Callable(buttons, "grab_focus"))
 	
-	connect("resized", self, "_on_resized")
-	ScoreHistory.connect("score_entered", self, "_on_score_entered")
-	ScoreHistory.connect("score_uploaded", self, "_on_score_uploaded")
-	ScoreHistory.connect("score_upload_failed", self, "_on_score_upload_failed")
+	connect("resized", Callable(self, "_on_resized"))
+	ScoreHistory.connect("score_entered", Callable(self, "_on_score_entered"))
+	ScoreHistory.connect("score_uploaded", Callable(self, "_on_score_uploaded"))
+	ScoreHistory.connect("score_upload_failed", Callable(self, "_on_score_upload_failed"))
 	_on_resized()
 	var values = HBJudge.JUDGE_RATINGS.values()
 	tabbed_container.add_tab("results", tr("Results"), results_tab)
@@ -104,22 +105,22 @@ func _ready():
 	
 	for i in range(values.size()-1, -1, -1):
 		var rating = values[i]
-		var rating_scene = ResultRating.instance()
+		var rating_scene = ResultRating.instantiate()
 		rating_scene.odd = i % 2 == 0
 		results_tab.rating_results_container.add_child(rating_scene)
 		rating_results_scenes[rating] = rating_scene
 		rating_scene.rating = rating
-	return_button.connect("pressed", self, "_on_return_button_pressed")
-	retry_button.connect("pressed", self, "_on_retry_button_pressed")
-	share_on_twitter_button.connect("pressed", self, "_on_share_on_twitter_pressed")
+	return_button.connect("pressed", Callable(self, "_on_return_button_pressed"))
+	retry_button.connect("pressed", Callable(self, "_on_retry_button_pressed"))
+	share_on_twitter_button.connect("pressed", Callable(self, "_on_share_on_twitter_pressed"))
 	if PlatformService.service_provider.implements_ugc:
 		var rate_buttons = [upvote_button, downvote_button, skip_button, no_opinion_button]
 		for button in rate_buttons:
-			button.connect("pressed", rating_popup, "hide")
-			button.connect("pressed", buttons, "grab_focus")
-		upvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.UPVOTE])
-		downvote_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.DOWNVOTE])
-		skip_button.connect("pressed", self, "_on_vote_button_pressed", [HBUGCService.USER_ITEM_VOTE.SKIP])
+			button.connect("pressed", Callable(rating_popup, "hide"))
+			button.connect("pressed", Callable(buttons, "grab_focus"))
+		upvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.UPVOTE))
+		downvote_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.DOWNVOTE))
+		skip_button.connect("pressed", Callable(self, "_on_vote_button_pressed").bind(HBUGCService.USER_ITEM_VOTE.SKIP))
 func _on_share_on_twitter_pressed():
 	var song = SongLoader.songs[game_info.song_id] as HBSong
 	var result_pretty = HBUtils.thousands_sep(game_info.result.score)
@@ -134,8 +135,8 @@ func _on_vote_button_pressed(vote):
 func _on_retry_button_pressed():
 	
 	var new_scene = preload("res://menus/LoadingScreen.tscn")
-	game_info.time = OS.get_unix_time()
-	var scene = new_scene.instance()
+	game_info.time = Time.get_unix_time_from_system()
+	var scene = new_scene.instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
@@ -156,7 +157,7 @@ func set_game_info(val: HBGameInfo):
 	hi_score_label.hide()
 	var result = game_info.result as HBResult
 	
-	var previous_entry = ScoreHistory.get_result(game_info.song_id, game_info.difficulty)
+	var previous_entry = ScoreHistory.get_data(game_info.song_id, game_info.difficulty)
 	
 	for rating in rating_results_scenes:
 		var rating_scene = rating_results_scenes[rating]
@@ -182,15 +183,15 @@ func set_game_info(val: HBGameInfo):
 	var highest_percentage = previous_entry.highest_percentage if previous_entry else 0.0
 	var highest_score = previous_entry.highest_score if previous_entry else 0
 	
-	results_tab.current_percent_label.bbcode_text = percentage_text
-	results_tab.current_score_label.bbcode_text = str(result.score)
+	results_tab.current_percent_label.text = percentage_text
+	results_tab.current_score_label.text = str(result.score)
 	results_tab.hiscore_percent_label.text = ("%.2f" % (highest_percentage * 100.0)) + " %"
 	results_tab.hiscore_score_label.text = str(highest_score)
 	
 	if score_percentage > highest_percentage and game_info.is_leaderboard_legal():
-		results_tab.current_percent_label.bbcode_text = "[word_rainbow]" + results_tab.current_percent_label.text + "[/word_rainbow]"
+		results_tab.current_percent_label.text = "[word_rainbow]" + results_tab.current_percent_label.text + "[/word_rainbow]"
 	if result.score > highest_score and game_info.is_leaderboard_legal():
-		results_tab.current_score_label.bbcode_text = "[word_rainbow]" + results_tab.current_score_label.text + "[/word_rainbow]"
+		results_tab.current_score_label.text = "[word_rainbow]" + results_tab.current_score_label.text + "[/word_rainbow]"
 
 	result_rating_label.text = HBUtils.find_key(HBResult.RESULT_RATING, result.get_result_rating())
 	if game_info.is_leaderboard_legal():
@@ -240,7 +241,7 @@ func set_game_info(val: HBGameInfo):
 			if song.comes_from_ugc():
 				var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 				if not ugc.has_user_item_vote(song.ugc_id):
-					var vote = yield(ugc.get_user_item_vote(song.ugc_id), "completed")
+					var vote = await ugc.get_user_item_vote(song.ugc_id).completed
 					if vote == HBUGCService.USER_ITEM_VOTE.NOT_VOTED:
 						# UGC songs can be rated at the end of the game
 						rating_popup.popup_centered()

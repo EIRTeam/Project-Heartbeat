@@ -29,14 +29,17 @@ enum USER_ITEM_VOTE {
 }
 
 func _init():
-	var file = File.new()
-	if file.file_exists(UGC_DATA_PATH):
-		var err = file.open(UGC_DATA_PATH, File.READ)
+	if FileAccess.file_exists(UGC_DATA_PATH):
+		
+		var file = FileAccess.open(UGC_DATA_PATH, FileAccess.READ)
+		var err = FileAccess.get_open_error()
 		if err == OK:
 			var content = file.get_as_text()
-			var result = JSON.parse(content) as JSONParseResult
-			if result.error == OK:
-				ugc_data = HBUtils.merge_dict(ugc_data, result.result)
+			var test_json_conv = JSON.new()
+			var json_err := test_json_conv.parse(content)
+			var result = test_json_conv.data
+			if json_err == OK:
+				ugc_data = HBUtils.merge_dict(ugc_data, result)
 			else:
 				Log.log(self, "Error deserializing ugc data with error on line %d %s" % [result.error_line, result.error_string])
 		else:
@@ -73,9 +76,8 @@ func get_update_progress(update_id):
 	pass
 	
 func save_ugc_data():
-	var file = File.new()
-	file.open(UGC_DATA_PATH, File.WRITE)
-	var json = JSON.print(ugc_data, "  ")
+	var file := FileAccess.open(UGC_DATA_PATH, FileAccess.WRITE)
+	var json = JSON.stringify(ugc_data, "  ")
 	file.store_string(json)
 	
 func skip_vote(item_id):

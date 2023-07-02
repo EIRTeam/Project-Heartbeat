@@ -8,7 +8,7 @@ var time_begin
 var time_delay
 var _audio_play_offset
 var playback_speed := 1.0
-var chart: HBChart setget set_chart
+var chart: HBChart: set = set_chart
 var current_song: HBSong
 var selected_variant := -1
 
@@ -31,7 +31,7 @@ func _init(_game: HBRhythmGame):
 func _process(delta):
 	var time = 0.0
 	if is_playing() and false:
-		time = (OS.get_ticks_usec() - time_begin) / 1000000.0
+		time = (Time.get_ticks_usec() - time_begin) / 1000000.0
 		time *= playback_speed
 		# Compensate for latency.
 		time -= time_delay
@@ -61,15 +61,16 @@ func set_song(song: HBSong, variant=-1):
 	
 	godot_audio_stream = song.get_audio_stream(selected_variant)
 	
-	if not SongDataCache.is_song_audio_loudness_cached(song):
-		var norm = HBAudioNormalizer.new()
-		norm.set_target_ogg(godot_audio_stream)
-		print("Loudness cache not found, normalizing...")
-		while not norm.work_on_normalization():
-			pass
-		var res = norm.get_normalization_result()
-		SongDataCache.update_loudness_for_song(song, res)
-	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.data)
+	#if not SongDataCache.is_song_audio_loudness_cached(song):
+		#var norm = HBAudioNormalizer.new()
+		# TODO: GD4
+		#norm.set_target_ogg(godot_audio_stream)
+		#print("Loudness cache not found, normalizing...")
+		#while not norm.work_on_normalization():
+		#	pass
+		#var res = norm.get_normalization_result()
+		#SongDataCache.update_loudness_for_song(song, res)
+	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.get_meta("raw_file_data"))
 	if game.audio_playback:
 		game.audio_playback.queue_free()
 	if game.voice_audio_playback:
@@ -81,17 +82,17 @@ func set_song(song: HBSong, variant=-1):
 	
 	var volume_db = get_song_volume()
 	
-	game.audio_playback.volume = db2linear(volume_db)
+	game.audio_playback.volume = db_to_linear(volume_db)
 	voice_source = null
 	if song.voice:
 		var voice_audio_stream = song.get_voice_stream()
-		voice_source = Shinobu.register_sound_from_memory("voice", voice_audio_stream.data)
+		voice_source = Shinobu.register_sound_from_memory("voice", voice_audio_stream.get_meta("raw_file_data"))
 		game.voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_source.instantiate(HBGame.music_group))
 		add_child(game.voice_audio_playback)
 		game.voice_audio_playback.offset = current_song.get_variant_data(variant).variant_offset
-		game.voice_audio_playback.volume = db2linear(volume_db)
+		game.voice_audio_playback.volume = db_to_linear(volume_db)
 	
-	set_speed(playback_speed, UserSettings.user_settings.editor_pitch_compensation)
+	set_velocity(playback_speed, UserSettings.user_settings.editor_pitch_compensation)
 
 func pause():
 	game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
@@ -136,7 +137,7 @@ func play_from_pos(position: float):
 		game.seek_new(position)
 		game.start()
 		
-		time_begin = OS.get_ticks_usec()
+		time_begin = Time.get_ticks_usec()
 		time_delay = AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()
 		_audio_play_offset = position / 1000.0
 		game.seek(position)
@@ -150,7 +151,7 @@ func set_lyrics(phrases: Array):
 	lyrics_view.set_phrases(phrases)
 
 
-func set_speed(value: float, correction: bool):
+func set_velocity(value: float, correction: bool):
 	playback_speed = value
 	
 	if not game.audio_playback:

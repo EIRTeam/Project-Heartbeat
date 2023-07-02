@@ -1,29 +1,30 @@
 extends HBMenu
 
-onready var buttons_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2")
-onready var subscribe_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton")
-onready var unsubscribe_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton")
-onready var title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label")
-onready var up_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/UpVoteLabel")
-onready var down_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/DownVoteLabel")
-onready var description_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label")
-onready var description_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel")
-onready var description_margin_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer")
-onready var item_image_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/TextureRect")
-onready var star_progress = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control/TextureProgress")
-onready var show_in_song_list_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton")
-onready var unsubscribed_confirmation_window = get_node("UnsubscribedConfirmationWindow")
-onready var author_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label2")
+@onready var buttons_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2")
+@onready var subscribe_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton")
+@onready var unsubscribe_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton")
+@onready var title_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label")
+@onready var up_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/UpVoteLabel")
+@onready var down_vote_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer/DownVoteLabel")
+@onready var description_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer/Label")
+@onready var description_panel = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel")
+@onready var description_margin_container = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer")
+@onready var item_image_rect = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/TextureRect")
+@onready var star_progress = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control/TextureProgressBar")
+@onready var show_in_song_list_button = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton")
+@onready var unsubscribed_confirmation_window = get_node("UnsubscribedConfirmationWindow")
+@onready var author_label = get_node("MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer/Label2")
 var item_data: HBWorkshopPreviewData
 var installing = false
 var image_request: HTTPRequest
 func _ready():
-	description_margin_container.connect("minimum_size_changed", self, "_on_description_margin_minimum_size_changed")
-	unsubscribed_confirmation_window.connect("hide", buttons_container, "grab_focus")
-	Steam.connect("persona_state_change", self, "_on_persona_state_changed")
-	PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", self, "_on_ugc_item_installed")
+	super._ready()
+	description_margin_container.connect("minimum_size_changed", Callable(self, "_on_description_margin_minimum_size_changed"))
+	unsubscribed_confirmation_window.connect("hide", Callable(buttons_container, "grab_focus"))
+	Steam.connect("persona_state_change", Callable(self, "_on_persona_state_changed"))
+	PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", Callable(self, "_on_ugc_item_installed"))
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	installing = false
 	if "item" in args:
 		var item = args.item as HBWorkshopPreviewData
@@ -41,7 +42,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		title_label.text = item.title
 		up_vote_label.text = str(item.up_votes)
 		down_vote_label.text = str(item.down_votes)
-		description_label.bbcode_text = item.description
+		description_label.text = item.description
 		
 		star_progress.visible = (item.up_votes + item.down_votes) != 0
 		if item.up_votes + item.down_votes != 0:
@@ -49,7 +50,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 		if not Steam.requestUserInformation(item_data.steam_id_owner, true):
 			update_author_label()
 		else:
-			Steam.connect("persona_state_change", self, "_on_persona_state_changed")
+			Steam.connect("persona_state_change", Callable(self, "_on_persona_state_changed"))
 		call_deferred("_on_description_margin_minimum_size_changed")
 	if "item_image" in args:
 		if args.item_image:
@@ -59,16 +60,16 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 			if "request" in args:
 				if is_instance_valid(image_request):
 					image_request = args.request
-					image_request.connect("request_completed", self, "_on_request_completed")
+					image_request.connect("request_completed", Callable(self, "_on_request_completed"))
 
-func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	if result == OK and response_code == 200:
 		item_image_rect.texture = HBUtils.array2texture(body)
 
 func _on_menu_exit(force_hard_transition = false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	if image_request and is_instance_valid(image_request):
-		image_request.disconnect("request_completed", self, "_on_request_completed")
+		image_request.disconnect("request_completed", Callable(self, "_on_request_completed"))
 
 func update_author_label():
 	var pers = Steam.getFriendPersonaName(item_data.steam_id_owner)
@@ -79,11 +80,11 @@ func _on_persona_state_changed(steam_id: int, flags: int):
 		update_author_label()
 
 func _on_description_margin_minimum_size_changed():
-	description_panel.rect_min_size.y = description_margin_container.get_minimum_size().y
-	description_panel.rect_size.y = 0
+	description_panel.custom_minimum_size.y = description_margin_container.get_minimum_size().y
+	description_panel.size.y = 0
 
 func _on_TextureRect_resized():
-	item_image_rect.rect_min_size.y = item_image_rect.rect_size.x
+	item_image_rect.custom_minimum_size.y = item_image_rect.size.x
 
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
@@ -99,7 +100,7 @@ func _on_SubscribeButton_pressed():
 	Steam.subscribeItem(item_data.item_id)
 	subscribe_button.hide()
 	unsubscribe_button.show()
-	buttons_container.select_button(unsubscribe_button.get_position_in_parent())
+	buttons_container.select_button(unsubscribe_button.get_index())
 
 func _on_ugc_item_installed(item_type, item):
 	if installing and item and item.ugc_id == item_data.item_id:

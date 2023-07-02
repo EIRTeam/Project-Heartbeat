@@ -60,7 +60,7 @@ func get_timing_points(ordered=true):
 		var items = layer.timing_points
 		points += items
 	if ordered:
-		points.sort_custom(self, "_note_comparison")
+		points.sort_custom(Callable(self, "_note_comparison"))
 	return points
 	
 func get_serialized_type():
@@ -182,13 +182,13 @@ func backport_chart(song):
 				events_layer.timing_points.erase(note)
 			
 			# Merge tempo map
-			song.timing_changes.sort_custom(self, "_note_comparison")
-			song.timing_changes.invert()
+			song.timing_changes.sort_custom(Callable(self, "_note_comparison"))
+			song.timing_changes.reverse()
 			
 			speed_events.append(HBBPMChange.new())
 			speed_events.append_array(song.timing_changes)
-			speed_events.sort_custom(self, "_note_comparison")
-			speed_events.invert()
+			speed_events.sort_custom(Callable(self, "_note_comparison"))
+			speed_events.reverse()
 			
 			# Build fixed bpm map
 			var bpm = song.timing_changes[0].bpm if song.timing_changes else 120
@@ -283,7 +283,7 @@ func get_slide_hold_chains():
 		var layer_i = get_layer_i(layer_name)
 		if layer_i != -1:
 			var points = layers[layer_i].timing_points
-			points.sort_custom(self, "_note_comparison")
+			points.sort_custom(Callable(self, "_note_comparison"))
 			var r = get_slide_hold_chains_for_points(points)
 			slide_hold_chains = HBUtils.merge_dict(slide_hold_chains, r)
 	return slide_hold_chains

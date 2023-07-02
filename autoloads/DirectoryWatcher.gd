@@ -1,9 +1,6 @@
 extends Node
 class_name DirectoryWatcher
 
-var _file := File.new()
-var _directory := Directory.new()
-
 var _directory_list: Dictionary
 var _to_delete: Array
 
@@ -34,24 +31,24 @@ func remove_scan_directory(directory: String):
 	_to_delete.append(directory)
 
 func _process(delta: float) -> void:
-	if _directory_list.empty():
+	if _directory_list.is_empty():
 		push_error("No directory to watch. Please kill me ;_;")
 		return
 	
 	if _current_delay > 0:
 		_current_delay -= delta
 		return
-	
+	var _directory: DirAccess
 	while _remaining_steps > 0:
-		if _current_directory_name.empty():
+		if _current_directory_name.is_empty():
 			_current_directory_name = _directory_list.keys()[_current_directory]
-			_directory.open(_current_directory_name)
-			_directory.list_dir_begin(true, false)
+			_directory = DirAccess.open(_current_directory_name)
+			_directory.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		
 		var directory: Dictionary = _directory_list[_current_directory_name]
 		
 		var file := _directory.get_next()
-		if file.empty():
+		if file.is_empty():
 			_current_directory += 1
 			_current_directory_name = ""
 			
@@ -60,27 +57,27 @@ func _process(delta: float) -> void:
 				directory.new.clear()
 				directory.modified.clear()
 			else:
-				if not directory.new.empty():
+				if not directory.new.is_empty():
 					emit_signal("files_created", directory.new)
 					directory.new.clear()
 				
-				if not directory.modified.empty():
+				if not directory.modified.is_empty():
 					emit_signal("files_modified", directory.modified)
 					directory.modified.clear()
 				
 				var deleted := []
 				for path in directory.previous:
 					if not path in directory.current:
-						deleted.append(_directory.get_current_dir().plus_file(path))
+						deleted.append(_directory.get_current_dir().path_join(path))
 				
-				if not deleted.empty():
+				if not deleted.is_empty():
 					emit_signal("files_deleted", deleted)
 			
 			directory.previous = directory.current
 			directory.current = {}
 			
 			if _current_directory == _directory_list.size():
-				if not _to_delete.empty():
+				if not _to_delete.is_empty():
 					for dir in _to_delete:
 						_directory_list.erase(dir)
 				
@@ -91,9 +88,9 @@ func _process(delta: float) -> void:
 		else:
 			if _directory.current_is_dir():
 				continue
-			var full_file := _directory.get_current_dir().plus_file(file)
+			var full_file := _directory.get_current_dir().path_join(file)
 			
-			directory.current[file] = _file.get_modified_time(full_file)
+			directory.current[file] = FileAccess.get_modified_time(full_file)
 			if directory.previous.get(file, -1) == -1:
 				directory.new.append(full_file)
 			elif directory.current[file] > directory.previous[file]:

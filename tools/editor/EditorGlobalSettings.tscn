@@ -1,198 +1,130 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://b8lwp32xk453o"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://tools/editor/EditorGlobalSettings.gd" type="Script" id=2]
-[ext_resource path="res://tools/editor/EditorGlobalSettingsShortcuts.gd" type="Script" id=3]
-[ext_resource path="res://tools/editor/settings/EditorSettingsSong.gd" type="Script" id=4]
-[ext_resource path="res://tools/editor/settings/EditorSettingsGlobal.gd" type="Script" id=5]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Script" path="res://tools/editor/EditorGlobalSettings.gd" id="2"]
+[ext_resource type="Script" path="res://tools/editor/EditorGlobalSettingsShortcuts.gd" id="3"]
+[ext_resource type="Script" path="res://tools/editor/settings/EditorSettingsSong.gd" id="4"]
+[ext_resource type="Script" path="res://tools/editor/settings/EditorSettingsGlobal.gd" id="5"]
 
-[node name="EditorGlobalSettings" type="WindowDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 655.0
-margin_top = 396.0
-margin_right = -555.0
-margin_bottom = -284.0
-theme = ExtResource( 1 )
-popup_exclusive = true
-window_title = "Editor settings"
-script = ExtResource( 2 )
+[node name="EditorGlobalSettings" type="Window"]
+exclusive = true
+theme = ExtResource("1")
+script = ExtResource("2")
 
 [node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 5.0
-margin_right = -10.0
-margin_bottom = -10.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 10.0
+offset_top = 5.0
+offset_right = -10.0
+offset_bottom = -10.0
 
 [node name="General" type="MarginContainer" parent="TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 37.0
-margin_right = -5.0
-margin_bottom = -5.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-script = ExtResource( 5 )
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("5")
 
 [node name="Tree" type="Tree" parent="TabContainer/General"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 670.0
-margin_bottom = 333.0
+layout_mode = 2
 columns = 2
 hide_root = true
 
 [node name="Song" type="MarginContainer" parent="TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-script = ExtResource( 4 )
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("4")
 
 [node name="Tree" type="Tree" parent="TabContainer/Song"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 670.0
-margin_bottom = 338.0
+layout_mode = 2
 columns = 2
 hide_root = true
 
 [node name="Shortcuts" type="MarginContainer" parent="TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 670.0
-margin_bottom = 338.0
+layout_mode = 2
 
 [node name="Panel" type="Control" parent="TabContainer/Shortcuts/VBoxContainer"]
-margin_right = 660.0
-margin_bottom = 328.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/separation = 10
 
 [node name="Tree" type="Tree" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
-margin_right = 660.0
-margin_bottom = 293.0
+layout_mode = 2
 size_flags_vertical = 3
 columns = 3
 hide_root = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Button" type="Button" parent="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer"]
-margin_top = 303.0
-margin_right = 660.0
-margin_bottom = 328.0
+layout_mode = 2
 text = "Reset all to default"
 
-[node name="WindowDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-margin_left = -5.0
-margin_top = -32.0
-margin_right = 310.0
-margin_bottom = 91.0
-rect_min_size = Vector2( 150, 52.5 )
-popup_exclusive = true
+[node name="Window" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -41.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -41.0
 alignment = 1
 
-[node name="BindingLabel" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
-margin_right = 299.0
-margin_bottom = 45.0
+[node name="BindingLabel" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer"]
+layout_mode = 2
 text = "Press the new button combination for
 \"Shortcut Here\""
-align = 1
+horizontal_alignment = 1
 
-[node name="CombinationLabel" type="RichTextLabel" parent="TabContainer/Shortcuts/VBoxContainer/Panel/WindowDialog/VBoxContainer"]
-margin_top = 49.0
-margin_right = 299.0
-margin_bottom = 75.0
+[node name="CombinationLabel" type="RichTextLabel" parent="TabContainer/Shortcuts/VBoxContainer/Panel/Window/VBoxContainer"]
+layout_mode = 2
 bbcode_enabled = true
-fit_content_height = true
 
 [node name="ConflictDialog" type="AcceptDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-visible = true
-margin_right = 352.0
-margin_bottom = 168.0
-rect_min_size = Vector2( 150, 52.5 )
-popup_exclusive = true
-window_title = "Please Confirm..."
+size = Vector2i(906, 132)
 dialog_text = "This shortcut is conflicting with the following actions:"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog"]
-margin_left = 8.0
-margin_top = 33.0
-margin_right = 344.0
-margin_bottom = 127.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 898.0
+offset_bottom = 83.0
 
 [node name="ItemList" type="ItemList" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
-margin_right = 336.0
-margin_bottom = 65.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="TabContainer/Shortcuts/VBoxContainer/Panel/ConflictDialog/VBoxContainer"]
-margin_top = 69.0
-margin_right = 336.0
-margin_bottom = 94.0
+layout_mode = 2
 text = "What should be done?"
-align = 1
+horizontal_alignment = 1
 
 [node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-margin_right = 304.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 150, 52.5 )
-popup_exclusive = true
 dialog_text = "Do you want to reset this shortcut to default?"
 
 [node name="ResetAllConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
-margin_right = 200.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 150, 52.5 )
-popup_exclusive = true
 dialog_text = "Do you want to reset all shortcuts to default?"
 
-[connection signal="popup_hide" from="." to="." method="_about_to_hide"]
 [connection signal="pressed" from="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer/Button" to="TabContainer/Shortcuts/VBoxContainer/Panel/ResetAllConfirmationDialog" method="popup_centered"]

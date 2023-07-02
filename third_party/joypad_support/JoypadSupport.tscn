@@ -1,154 +1,154 @@
 [gd_scene load_steps=154 format=2]
 
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_6.png" type="Texture" id=1]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_6.png" type="Texture2D" id=1]
 [ext_resource path="res://third_party/joypad_support/PressAnyInput.gd" type="Script" id=2]
 [ext_resource path="res://third_party/joypad_support/JoypadSupport.gd" type="Script" id=3]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_0.png" type="Texture" id=4]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_1.png" type="Texture" id=5]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_2.png" type="Texture" id=6]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_3.png" type="Texture" id=7]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_4.png" type="Texture" id=8]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_5.png" type="Texture" id=9]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_7.png" type="Texture" id=10]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_8.png" type="Texture" id=11]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_9.png" type="Texture" id=12]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_BackSlash.png" type="Texture" id=13]
-[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Left.png" type="Texture" id=14]
-[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Simple.png" type="Texture" id=15]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_A.png" type="Texture" id=16]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Alt.png" type="Texture" id=17]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Down.png" type="Texture" id=18]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Left.png" type="Texture" id=19]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Right.png" type="Texture" id=20]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Up.png" type="Texture" id=21]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Asterisk.png" type="Texture" id=22]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_B.png" type="Texture" id=23]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Backspace_Alt.png" type="Texture" id=24]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Bracket_Left.png" type="Texture" id=25]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Bracket_Right.png" type="Texture" id=26]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_C.png" type="Texture" id=27]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Caps_Lock.png" type="Texture" id=28]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Command.png" type="Texture" id=29]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Ctrl.png" type="Texture" id=30]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_D.png" type="Texture" id=31]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Del.png" type="Texture" id=32]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_E.png" type="Texture" id=33]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_End.png" type="Texture" id=34]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Enter_Alt.png" type="Texture" id=35]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Enter_Tall.png" type="Texture" id=36]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Esc.png" type="Texture" id=37]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F1.png" type="Texture" id=38]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F2.png" type="Texture" id=39]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F3.png" type="Texture" id=40]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F4.png" type="Texture" id=41]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F5.png" type="Texture" id=42]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F6.png" type="Texture" id=43]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F7.png" type="Texture" id=44]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F8.png" type="Texture" id=45]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F9.png" type="Texture" id=46]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F10.png" type="Texture" id=47]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F11.png" type="Texture" id=48]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F12.png" type="Texture" id=49]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F.png" type="Texture" id=50]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_G.png" type="Texture" id=51]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_H.png" type="Texture" id=52]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Home.png" type="Texture" id=53]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_I.png" type="Texture" id=54]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Insert.png" type="Texture" id=55]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_J.png" type="Texture" id=56]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_K.png" type="Texture" id=57]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_L.png" type="Texture" id=58]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_M.png" type="Texture" id=59]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Mark_Left.png" type="Texture" id=60]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Mark_Right.png" type="Texture" id=61]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Minus.png" type="Texture" id=62]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_N.png" type="Texture" id=63]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Num_Lock.png" type="Texture" id=64]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_O.png" type="Texture" id=65]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_P.png" type="Texture" id=66]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Page_Down.png" type="Texture" id=67]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Page_Up.png" type="Texture" id=68]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Plus.png" type="Texture" id=69]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Plus_Tall.png" type="Texture" id=70]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Print_Screen.png" type="Texture" id=71]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Q.png" type="Texture" id=72]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Question.png" type="Texture" id=73]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Quote.png" type="Texture" id=74]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_R.png" type="Texture" id=75]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_S.png" type="Texture" id=76]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Semicolon.png" type="Texture" id=77]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Shift.png" type="Texture" id=78]
-[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Middle.png" type="Texture" id=79]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Slash.png" type="Texture" id=80]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Space.png" type="Texture" id=81]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_T.png" type="Texture" id=82]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Tab.png" type="Texture" id=83]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Tilda.png" type="Texture" id=84]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_U.png" type="Texture" id=85]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_V.png" type="Texture" id=86]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_W.png" type="Texture" id=87]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Win.png" type="Texture" id=88]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_X.png" type="Texture" id=89]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Y.png" type="Texture" id=90]
-[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Z.png" type="Texture" id=91]
-[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Right.png" type="Texture" id=92]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_X.png" type="Texture" id=93]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Right.png" type="Texture" id=94]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Square.png" type="Texture" id=95]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Y.png" type="Texture" id=96]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_0.png" type="Texture2D" id=4]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_1.png" type="Texture2D" id=5]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_2.png" type="Texture2D" id=6]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_3.png" type="Texture2D" id=7]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_4.png" type="Texture2D" id=8]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_5.png" type="Texture2D" id=9]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_7.png" type="Texture2D" id=10]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_8.png" type="Texture2D" id=11]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_9.png" type="Texture2D" id=12]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_BackSlash.png" type="Texture2D" id=13]
+[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Left.png" type="Texture2D" id=14]
+[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Simple.png" type="Texture2D" id=15]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_A.png" type="Texture2D" id=16]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Alt.png" type="Texture2D" id=17]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Down.png" type="Texture2D" id=18]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Left.png" type="Texture2D" id=19]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Right.png" type="Texture2D" id=20]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Arrow_Up.png" type="Texture2D" id=21]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Asterisk.png" type="Texture2D" id=22]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_B.png" type="Texture2D" id=23]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Backspace_Alt.png" type="Texture2D" id=24]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Bracket_Left.png" type="Texture2D" id=25]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Bracket_Right.png" type="Texture2D" id=26]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_C.png" type="Texture2D" id=27]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Caps_Lock.png" type="Texture2D" id=28]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Command.png" type="Texture2D" id=29]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Ctrl.png" type="Texture2D" id=30]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_D.png" type="Texture2D" id=31]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Del.png" type="Texture2D" id=32]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_E.png" type="Texture2D" id=33]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_End.png" type="Texture2D" id=34]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Enter_Alt.png" type="Texture2D" id=35]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Enter_Tall.png" type="Texture2D" id=36]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Esc.png" type="Texture2D" id=37]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F1.png" type="Texture2D" id=38]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F2.png" type="Texture2D" id=39]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F3.png" type="Texture2D" id=40]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F4.png" type="Texture2D" id=41]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F5.png" type="Texture2D" id=42]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F6.png" type="Texture2D" id=43]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F7.png" type="Texture2D" id=44]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F8.png" type="Texture2D" id=45]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F9.png" type="Texture2D" id=46]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F10.png" type="Texture2D" id=47]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F11.png" type="Texture2D" id=48]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F12.png" type="Texture2D" id=49]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_F.png" type="Texture2D" id=50]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_G.png" type="Texture2D" id=51]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_H.png" type="Texture2D" id=52]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Home.png" type="Texture2D" id=53]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_I.png" type="Texture2D" id=54]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Insert.png" type="Texture2D" id=55]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_J.png" type="Texture2D" id=56]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_K.png" type="Texture2D" id=57]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_L.png" type="Texture2D" id=58]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_M.png" type="Texture2D" id=59]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Mark_Left.png" type="Texture2D" id=60]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Mark_Right.png" type="Texture2D" id=61]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Minus.png" type="Texture2D" id=62]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_N.png" type="Texture2D" id=63]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Num_Lock.png" type="Texture2D" id=64]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_O.png" type="Texture2D" id=65]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_P.png" type="Texture2D" id=66]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Page_Down.png" type="Texture2D" id=67]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Page_Up.png" type="Texture2D" id=68]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Plus.png" type="Texture2D" id=69]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Plus_Tall.png" type="Texture2D" id=70]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Print_Screen.png" type="Texture2D" id=71]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Q.png" type="Texture2D" id=72]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Question.png" type="Texture2D" id=73]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Quote.png" type="Texture2D" id=74]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_R.png" type="Texture2D" id=75]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_S.png" type="Texture2D" id=76]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Semicolon.png" type="Texture2D" id=77]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Shift.png" type="Texture2D" id=78]
+[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Middle.png" type="Texture2D" id=79]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Slash.png" type="Texture2D" id=80]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Space.png" type="Texture2D" id=81]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_T.png" type="Texture2D" id=82]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Tab.png" type="Texture2D" id=83]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Tilda.png" type="Texture2D" id=84]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_U.png" type="Texture2D" id=85]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_V.png" type="Texture2D" id=86]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_W.png" type="Texture2D" id=87]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Win.png" type="Texture2D" id=88]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_X.png" type="Texture2D" id=89]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Y.png" type="Texture2D" id=90]
+[ext_resource path="res://third_party/joypad_support/Prompts/Keyboard/Keyboard_Black_Z.png" type="Texture2D" id=91]
+[ext_resource path="res://third_party/joypad_support/Prompts/Mouse/Keyboard_Black_Mouse_Right.png" type="Texture2D" id=92]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_X.png" type="Texture2D" id=93]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Right.png" type="Texture2D" id=94]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Square.png" type="Texture2D" id=95]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Y.png" type="Texture2D" id=96]
 [ext_resource path="res://third_party/joypad_support/ComponentScripts/JS_JoypadIdentifier.gd" type="Script" id=97]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Left_Stick.png" type="Texture" id=98]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_LT.png" type="Texture" id=99]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Minus.png" type="Texture" id=100]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Plus.png" type="Texture" id=101]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_RB.png" type="Texture" id=102]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Left_Stick.png" type="Texture2D" id=98]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_LT.png" type="Texture2D" id=99]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Minus.png" type="Texture2D" id=100]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Plus.png" type="Texture2D" id=101]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_RB.png" type="Texture2D" id=102]
 [ext_resource path="res://third_party/joypad_support/ComponentScripts/JS_InputMapProfiles.gd" type="Script" id=103]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Right_Stick.png" type="Texture" id=104]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_RT.png" type="Texture" id=105]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_LB.png" type="Texture" id=106]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Left_Stick.png" type="Texture" id=107]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Options.png" type="Texture" id=108]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Right_Stick.png" type="Texture" id=109]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Right.png" type="Texture" id=110]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Up.png" type="Texture" id=111]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Up.png" type="Texture" id=112]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad.png" type="Texture" id=113]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Left.png" type="Texture" id=114]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Circle.png" type="Texture" id=115]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_R1.png" type="Texture" id=116]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_A.png" type="Texture" id=117]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Up.png" type="Texture" id=118]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Y.png" type="Texture" id=119]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Menu.png" type="Texture" id=120]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_RB.png" type="Texture" id=121]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_RT.png" type="Texture" id=122]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Right_Stick.png" type="Texture" id=123]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Left.png" type="Texture" id=124]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Windows.png" type="Texture" id=125]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Left_Stick.png" type="Texture" id=126]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_X.png" type="Texture" id=127]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Right_Stick.png" type="Texture2D" id=104]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_RT.png" type="Texture2D" id=105]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_LB.png" type="Texture2D" id=106]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Left_Stick.png" type="Texture2D" id=107]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Options.png" type="Texture2D" id=108]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Right_Stick.png" type="Texture2D" id=109]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Right.png" type="Texture2D" id=110]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Up.png" type="Texture2D" id=111]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Up.png" type="Texture2D" id=112]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad.png" type="Texture2D" id=113]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Left.png" type="Texture2D" id=114]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Circle.png" type="Texture2D" id=115]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_R1.png" type="Texture2D" id=116]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_A.png" type="Texture2D" id=117]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Up.png" type="Texture2D" id=118]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Y.png" type="Texture2D" id=119]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Menu.png" type="Texture2D" id=120]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_RB.png" type="Texture2D" id=121]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_RT.png" type="Texture2D" id=122]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Right_Stick.png" type="Texture2D" id=123]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Left.png" type="Texture2D" id=124]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Windows.png" type="Texture2D" id=125]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Left_Stick.png" type="Texture2D" id=126]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_X.png" type="Texture2D" id=127]
 [ext_resource path="res://third_party/joypad_support/ComponentScripts/JS_Config.gd" type="Script" id=128]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_LB.png" type="Texture" id=130]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Triangle.png" type="Texture" id=131]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_B.png" type="Texture" id=132]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad.png" type="Texture" id=133]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_R2.png" type="Texture" id=134]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Down.png" type="Texture" id=135]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_LT.png" type="Texture" id=136]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Square.png" type="Texture" id=137]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Left.png" type="Texture" id=138]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Down.png" type="Texture" id=139]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Right.png" type="Texture" id=140]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Touch_Pad.png" type="Texture" id=141]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad.png" type="Texture" id=142]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_L1.png" type="Texture" id=143]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_L2.png" type="Texture" id=145]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_B.png" type="Texture" id=146]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Cross.png" type="Texture" id=147]
-[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Share.png" type="Texture" id=148]
-[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Down.png" type="Texture" id=149]
-[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_A.png" type="Texture" id=150]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=151]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_LB.png" type="Texture2D" id=130]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Triangle.png" type="Texture2D" id=131]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_B.png" type="Texture2D" id=132]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad.png" type="Texture2D" id=133]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_R2.png" type="Texture2D" id=134]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_Dpad_Down.png" type="Texture2D" id=135]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_LT.png" type="Texture2D" id=136]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Square.png" type="Texture2D" id=137]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Left.png" type="Texture2D" id=138]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad_Down.png" type="Texture2D" id=139]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Right.png" type="Texture2D" id=140]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Touch_Pad.png" type="Texture2D" id=141]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Dpad.png" type="Texture2D" id=142]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_L1.png" type="Texture2D" id=143]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_L2.png" type="Texture2D" id=145]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_B.png" type="Texture2D" id=146]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Cross.png" type="Texture2D" id=147]
+[ext_resource path="res://third_party/joypad_support/Prompts/PS4/PS4_Share.png" type="Texture2D" id=148]
+[ext_resource path="res://third_party/joypad_support/Prompts/Switch/Switch_Dpad_Down.png" type="Texture2D" id=149]
+[ext_resource path="res://third_party/joypad_support/Prompts/Xbox One/XboxOne_A.png" type="Texture2D" id=150]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=151]
 
 [sub_resource type="Animation" id=1]
 resource_name = "base"
@@ -160,8 +160,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -172,8 +172,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
@@ -184,8 +184,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"clips": PoolStringArray( "" ),
-"times": PoolRealArray( 0 )
+"clips": PackedStringArray( "" ),
+"times": PackedFloat32Array( 0 )
 }
 
 [sub_resource type="Animation" id=2]
@@ -198,8 +198,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -210,8 +210,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
@@ -222,8 +222,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"clips": PoolStringArray( "", "blink_loop" ),
-"times": PoolRealArray( 0, 0.3 )
+"clips": PackedStringArray( "", "blink_loop" ),
+"times": PackedFloat32Array( 0, 0.3 )
 }
 
 [sub_resource type="Animation" id=3]
@@ -235,8 +235,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
@@ -250,8 +250,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.4 ) ]
 }
@@ -264,13 +264,13 @@ script = ExtResource( 3 )
 script = ExtResource( 97 )
 
 [node name="Playstation" type="ResourcePreloader" parent="JoypadIdentifier"]
-resources = [ PoolStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad", "Screenshot" ), [ ExtResource( 147 ), ExtResource( 115 ), ExtResource( 141 ), ExtResource( 108 ), ExtResource( 111 ), ExtResource( 139 ), ExtResource( 138 ), ExtResource( 94 ), ExtResource( 137 ), ExtResource( 131 ), ExtResource( 143 ), ExtResource( 116 ), ExtResource( 145 ), ExtResource( 134 ), ExtResource( 107 ), ExtResource( 123 ), ExtResource( 142 ), ExtResource( 148 ) ] ]
+resources = [ PackedStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad", "Screenshot" ), [ ExtResource( 147 ), ExtResource( 115 ), ExtResource( 141 ), ExtResource( 108 ), ExtResource( 111 ), ExtResource( 139 ), ExtResource( 138 ), ExtResource( 94 ), ExtResource( 137 ), ExtResource( 131 ), ExtResource( 143 ), ExtResource( 116 ), ExtResource( 145 ), ExtResource( 134 ), ExtResource( 107 ), ExtResource( 123 ), ExtResource( 142 ), ExtResource( 148 ) ] ]
 
 [node name="Xbox" type="ResourcePreloader" parent="JoypadIdentifier"]
-resources = [ PoolStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad" ), [ ExtResource( 150 ), ExtResource( 132 ), ExtResource( 125 ), ExtResource( 120 ), ExtResource( 112 ), ExtResource( 135 ), ExtResource( 124 ), ExtResource( 110 ), ExtResource( 93 ), ExtResource( 119 ), ExtResource( 106 ), ExtResource( 121 ), ExtResource( 136 ), ExtResource( 122 ), ExtResource( 126 ), ExtResource( 109 ), ExtResource( 133 ) ] ]
+resources = [ PackedStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad" ), [ ExtResource( 150 ), ExtResource( 132 ), ExtResource( 125 ), ExtResource( 120 ), ExtResource( 112 ), ExtResource( 135 ), ExtResource( 124 ), ExtResource( 110 ), ExtResource( 93 ), ExtResource( 119 ), ExtResource( 106 ), ExtResource( 121 ), ExtResource( 136 ), ExtResource( 122 ), ExtResource( 126 ), ExtResource( 109 ), ExtResource( 133 ) ] ]
 
 [node name="Nintendo" type="ResourcePreloader" parent="JoypadIdentifier"]
-resources = [ PoolStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad", "Screenshot" ), [ ExtResource( 146 ), ExtResource( 117 ), ExtResource( 100 ), ExtResource( 101 ), ExtResource( 118 ), ExtResource( 149 ), ExtResource( 114 ), ExtResource( 140 ), ExtResource( 96 ), ExtResource( 127 ), ExtResource( 130 ), ExtResource( 102 ), ExtResource( 99 ), ExtResource( 105 ), ExtResource( 98 ), ExtResource( 104 ), ExtResource( 113 ), ExtResource( 95 ) ] ]
+resources = [ PackedStringArray( "0", "1", "10", "11", "12", "13", "14", "15", "2", "3", "4", "5", "6", "7", "8", "9", "Dpad", "Screenshot" ), [ ExtResource( 146 ), ExtResource( 117 ), ExtResource( 100 ), ExtResource( 101 ), ExtResource( 118 ), ExtResource( 149 ), ExtResource( 114 ), ExtResource( 140 ), ExtResource( 96 ), ExtResource( 127 ), ExtResource( 130 ), ExtResource( 102 ), ExtResource( 99 ), ExtResource( 105 ), ExtResource( 98 ), ExtResource( 104 ), ExtResource( 113 ), ExtResource( 95 ) ] ]
 
 [node name="ControlProfiles" type="Node" parent="."]
 script = ExtResource( 103 )
@@ -282,10 +282,10 @@ _file_name = "joypad_settings.save"
 _actions_to_save = [ "boost", "dash", "shoot" ]
 
 [node name="Keyboard" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "126", "16777217", "16777218", "16777220", "16777221", "16777222", "16777223", "16777224", "16777226", "16777229", "16777230", "16777231", "16777232", "16777233", "16777234", "16777235", "16777236", "16777237", "16777238", "16777239", "16777240", "16777241", "16777242", "16777244", "16777245", "16777246", "16777247", "16777248", "16777249", "16777250", "16777251", "16777252", "16777253", "16777254", "16777255", "16777260", "16777261", "16777345", "16777346", "16777347", "16777349", "16777350", "16777351", "16777352", "16777353", "16777354", "16777355", "16777356", "16777357", "16777358", "16777359", "32", "34", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "59", "61", "63", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93" ), [ ExtResource( 84 ), ExtResource( 37 ), ExtResource( 83 ), ExtResource( 24 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 55 ), ExtResource( 32 ), ExtResource( 71 ), ExtResource( 53 ), ExtResource( 34 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 20 ), ExtResource( 18 ), ExtResource( 68 ), ExtResource( 67 ), ExtResource( 78 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 17 ), ExtResource( 28 ), ExtResource( 64 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 88 ), ExtResource( 88 ), ExtResource( 22 ), ExtResource( 80 ), ExtResource( 62 ), ExtResource( 70 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 81 ), ExtResource( 74 ), ExtResource( 69 ), ExtResource( 60 ), ExtResource( 62 ), ExtResource( 61 ), ExtResource( 80 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 77 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 16 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 33 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 52 ), ExtResource( 54 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ), ExtResource( 63 ), ExtResource( 65 ), ExtResource( 66 ), ExtResource( 72 ), ExtResource( 75 ), ExtResource( 76 ), ExtResource( 82 ), ExtResource( 85 ), ExtResource( 86 ), ExtResource( 87 ), ExtResource( 89 ), ExtResource( 90 ), ExtResource( 91 ), ExtResource( 25 ), ExtResource( 13 ), ExtResource( 26 ) ] ]
+resources = [ PackedStringArray( "126", "16777217", "16777218", "16777220", "16777221", "16777222", "16777223", "16777224", "16777226", "16777229", "16777230", "16777231", "16777232", "16777233", "16777234", "16777235", "16777236", "16777237", "16777238", "16777239", "16777240", "16777241", "16777242", "16777244", "16777245", "16777246", "16777247", "16777248", "16777249", "16777250", "16777251", "16777252", "16777253", "16777254", "16777255", "16777260", "16777261", "16777345", "16777346", "16777347", "16777349", "16777350", "16777351", "16777352", "16777353", "16777354", "16777355", "16777356", "16777357", "16777358", "16777359", "32", "34", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "59", "61", "63", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93" ), [ ExtResource( 84 ), ExtResource( 37 ), ExtResource( 83 ), ExtResource( 24 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 55 ), ExtResource( 32 ), ExtResource( 71 ), ExtResource( 53 ), ExtResource( 34 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 20 ), ExtResource( 18 ), ExtResource( 68 ), ExtResource( 67 ), ExtResource( 78 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 17 ), ExtResource( 28 ), ExtResource( 64 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 88 ), ExtResource( 88 ), ExtResource( 22 ), ExtResource( 80 ), ExtResource( 62 ), ExtResource( 70 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 81 ), ExtResource( 74 ), ExtResource( 69 ), ExtResource( 60 ), ExtResource( 62 ), ExtResource( 61 ), ExtResource( 80 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 1 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 77 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 16 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 33 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 52 ), ExtResource( 54 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ), ExtResource( 63 ), ExtResource( 65 ), ExtResource( 66 ), ExtResource( 72 ), ExtResource( 75 ), ExtResource( 76 ), ExtResource( 82 ), ExtResource( 85 ), ExtResource( 86 ), ExtResource( 87 ), ExtResource( 89 ), ExtResource( 90 ), ExtResource( 91 ), ExtResource( 25 ), ExtResource( 13 ), ExtResource( 26 ) ] ]
 
 [node name="Mouse" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "1", "2", "3", "4", "5", "NeutralMouse" ), [ ExtResource( 14 ), ExtResource( 92 ), ExtResource( 79 ), ExtResource( 79 ), ExtResource( 79 ), ExtResource( 15 ) ] ]
+resources = [ PackedStringArray( "1", "2", "3", "4", "5", "NeutralMouse" ), [ ExtResource( 14 ), ExtResource( 92 ), ExtResource( 79 ), ExtResource( 79 ), ExtResource( 79 ), ExtResource( 15 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "base"
@@ -307,13 +307,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -7.0
-margin_right = 20.0
-margin_bottom = 7.0
+offset_left = -20.0
+offset_top = -7.0
+offset_right = 20.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_fonts/font = ExtResource( 151 )
+theme_override_fonts/font = ExtResource( 151 )
 text = "Press any button"
 script = ExtResource( 2 )
 __meta__ = {

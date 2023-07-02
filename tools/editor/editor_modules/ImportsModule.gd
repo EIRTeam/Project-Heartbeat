@@ -3,14 +3,14 @@ extends HBEditorModule
 const DOWN_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_down.svg")
 const RIGHT_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")
 
-onready var importer_option_button := get_node("%ImporterOptionButton")
-onready var file_dialog := get_node("%FileDialog")
-onready var offset_spinbox := get_node("%OffsetSpinBox")
-onready var link_stars_checkbox := get_node("%LinkStarsCheckBox")
-onready var replace_chart_checkbox := get_node("%ReplaceChartCheckBox")
-onready var advanced_options_button := get_node("%AdvancedOptionsButton")
-onready var tempo_map_hbox_container := get_node("%TempoMapHBoxContainer")
-onready var tempo_map_option_button := get_node("%TempoMapOptionButton")
+@onready var importer_option_button := get_node("%ImporterOptionButton")
+@onready var file_dialog := get_node("%FileDialog")
+@onready var offset_spinbox := get_node("%OffsetSpinBox")
+@onready var link_stars_checkbox := get_node("%LinkStarsCheckBox")
+@onready var replace_chart_checkbox := get_node("%ReplaceChartCheckBox")
+@onready var advanced_options_button := get_node("%AdvancedOptionsButton")
+@onready var tempo_map_hbox_container := get_node("%TempoMapHBoxContainer")
+@onready var tempo_map_option_button := get_node("%TempoMapOptionButton")
 
 class HBEditorImporter:
 	extends VBoxContainer
@@ -19,7 +19,7 @@ class HBEditorImporter:
 	signal finished_processing
 	
 	var last_dir
-	var filter setget , get_filter
+	var filter : get = get_filter
 	var chart: HBChart
 	var timing_changes: Array
 	
@@ -31,7 +31,7 @@ class HBEditorImporter:
 	
 	static func build_timing_map(_timing_changes: Array, end_t: int) -> Array:
 		var timing_changes_inv = _timing_changes.duplicate()
-		timing_changes_inv.invert()
+		timing_changes_inv.reverse()
 		
 		var timing_map := []
 		for timing_change in timing_changes_inv:
@@ -41,7 +41,7 @@ class HBEditorImporter:
 			for i in range(diff / ms_per_eight + 1, 0, -1):
 				timing_map.append(int(timing_change.time + (i - 1) * ms_per_eight))
 		
-		timing_map.invert()
+		timing_map.reverse()
 		return timing_map
 	
 	static func autoplace(data: HBBaseNote, timing_map: Array) -> HBBaseNote:
@@ -132,8 +132,10 @@ class PPDImporter:
 		var bpm := 120.0
 		var meta_path = HBUtils.join_path(path.get_base_dir(), "data.ini")
 		
-		var file := File.new()
-		if file.file_exists(meta_path) and file.open(meta_path, File.READ) == OK:
+		var file: FileAccess
+		if FileAccess.file_exists(meta_path):
+			file = FileAccess.open(meta_path, FileAccess.READ)
+		if file and FileAccess.get_open_error() == OK:
 			var song = HBPPDSong.from_ini(file.get_as_text(), "")
 			bpm = song.bpm
 		
@@ -183,8 +185,8 @@ class MIDIImporter:
 		"bare": "Import file as-is",
 	}
 	
-	var midi_loader_popup = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopup.tscn").instance()
-	var midi_loader_popup_gh = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.tscn").instance()
+	var midi_loader_popup = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopup.tscn").instantiate()
+	var midi_loader_popup_gh = preload("res://tools/editor/editor_modules/MIDILoader/MIDILoaderPopupGH.tscn").instantiate()
 	var options_button: OptionButton
 	var editor: HBEditor
 	var offset: int
@@ -232,10 +234,10 @@ class MIDIImporter:
 	func _ready():
 		last_dir = "last_midi_dir"
 		
-		midi_loader_popup.connect("track_import_accepted", self, "track_import_accepted")
+		midi_loader_popup.connect("track_import_accepted", Callable(self, "track_import_accepted"))
 		add_child(midi_loader_popup)
 		
-		midi_loader_popup_gh.connect("track_import_accepted", self, "track_import_accepted")
+		midi_loader_popup_gh.connect("track_import_accepted", Callable(self, "track_import_accepted"))
 		add_child(midi_loader_popup_gh)
 		
 		options_button = OptionButton.new()
@@ -293,7 +295,7 @@ class MIDIImporter:
 					bpm = 60_000_000.0 / tempo
 					
 					if tempo_mode == "round" or tempo_mode == "round_and_snap":
-						bpm = stepify(bpm, 0.01)
+						bpm = snapped(bpm, 0.01)
 					
 					if tempo_mode == "round_and_snap":
 						tempo = 60_000_000.0 / bpm
@@ -362,6 +364,7 @@ var importers = [
 var current_importer_idx := 0
 
 func _ready():
+	super._ready()
 	for item in importers:
 		importer_option_button.add_item(item.name)
 		
@@ -419,26 +422,26 @@ func _on_file_selected(path: String):
 	importer.instance.file_selected(path, editor, offset_spinbox.value, vargs)
 	
 	if importer.name == "MIDI file":
-		yield(importer.instance, "finished_processing")
+		await importer.instance.finished_processing
 	var chart = importer.instance.chart
 	var timing_changes = importer.instance.timing_changes
 	
 	if chart:
 		undo_redo.create_action("Import " + importer.name)
 		
-		undo_redo.add_do_method(self, "deselect_all")
-		undo_redo.add_undo_method(self, "deselect_all")
+		undo_redo.add_do_method(self.deselect_all)
+		undo_redo.add_undo_method(self.deselect_all)
 		
 		if replace_chart_checkbox.pressed:
 			if timing_changes:
 				undo_redo.add_do_property(editor.current_song, "timing_changes", timing_changes)
 				undo_redo.add_undo_property(editor.current_song, "timing_changes", editor.current_song.timing_changes)
 			
-			undo_redo.add_do_method(editor, "from_chart", chart, true, true)
-			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
+			undo_redo.add_do_method(editor.from_chart.bind(chart, true, true))
+			undo_redo.add_undo_method(editor.from_chart.bind(editor.get_chart(), true, true))
 		else:
-			undo_redo.add_do_method(editor, "from_chart", chart, true, true, true)
-			undo_redo.add_undo_method(editor, "from_chart", editor.get_chart(), true, true)
+			undo_redo.add_do_method(editor.from_chart.bind(chart, true, true, true))
+			undo_redo.add_undo_method(editor.from_chart.bind(editor.get_chart(), true, true))
 		
 		undo_redo.commit_action()
 
@@ -447,7 +450,7 @@ func _select(item: EditorTimelineItem):
 	editor.selected.append(item)
 
 func _finish_selecting():
-	editor.selected.sort_custom(self, "_sort_current_items_impl")
+	editor.selected.sort_custom(Callable(self, "_sort_current_items_impl"))
 	editor.inspector.inspect(editor.selected)
 	editor.release_owned_focus()
 	editor.notify_selected_changed()

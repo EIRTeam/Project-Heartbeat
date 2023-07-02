@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://tools/icons/EditorControlAnchor.svg" type="Texture" id=1]
+[ext_resource path="res://tools/icons/EditorControlAnchor.svg" type="Texture2D" id=1]
 [ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_corner.gd" type="Script" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -17,16 +17,16 @@ corner_radius_bottom_left = 16
 anti_aliasing = false
 
 [node name="Panel" type="Panel"]
-margin_right = 16.0
-margin_bottom = 16.0
-custom_styles/panel = SubResource( 1 )
+offset_right = 16.0
+offset_bottom = 16.0
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 40.0
-margin_bottom = 40.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource( 1 )
 flip_h = true

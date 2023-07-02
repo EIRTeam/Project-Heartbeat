@@ -2,11 +2,11 @@ extends HBUIComponent
 
 class_name HBUICosmeticTextureRect
 
-onready var texture_rect := TextureRect.new()
+@onready var texture_rect := TextureRect.new()
 
-var texture: Texture setget set_texture
+var texture: Texture2D: set = set_texture
 
-var stretch_mode := TextureRect.STRETCH_KEEP_ASPECT_CENTERED setget set_stretch_mode
+var stretch_mode := TextureRect.STRETCH_KEEP_ASPECT_CENTERED: set = set_stretch_mode
 
 enum FADE_DIRECTION {
 	NONE,
@@ -19,7 +19,7 @@ var fade_materials := {
 	FADE_DIRECTION.TOP_TO_BOTTOM: preload("res://scripts/new_ui/top_to_bottom_fade_material.tres")
 }
 
-export(FADE_DIRECTION) var fade_direction := FADE_DIRECTION.NONE setget set_fade_direction
+@export var fade_direction := FADE_DIRECTION.NONE: set = set_fade_direction
 
 func set_fade_direction(val):
 	fade_direction = val
@@ -41,24 +41,25 @@ static func get_component_id() -> String:
 	return "cosmetic_texture_rect"
 	
 static func get_component_name() -> String:
-	return "Cosmetic Texture Rect" 
+	return "Cosmetic Texture2D Rect" 
 
 func _ready():
+	super._ready()
 	texture_rect.expand = true
 	add_child(texture_rect)
-	texture_rect.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	texture_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	set_texture(texture)
 	set_stretch_mode(stretch_mode)
 	set_fade_direction(fade_direction)
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"texture", "stretch_mode", "fade_direction"
 	])
 	return whitelist
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["texture"] = resource_storage.get_texture_name(texture)
 	out_dict["stretch_mode"] = stretch_mode
 	out_dict["fade_direction"] = fade_direction
@@ -78,7 +79,7 @@ func _get_property_list():
 	return list
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	texture = cache.get_texture(dict.get("texture", ""))
 	stretch_mode = dict.get("stretch_mode", TextureRect.STRETCH_KEEP_CENTERED)
 	fade_direction = dict.get("fade_direction", FADE_DIRECTION.NONE)

@@ -14,7 +14,8 @@ var sort_by_prop: String
 var song_id_to_select
 var difficulty_to_select
 var search_term: String
-func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null, _search_term := "").():
+func _init(_songs: Array, _filter_by: String, _sort_by: String, _song_id_to_select=null, _difficulty_to_select=null, _search_term := ""):
+	super()
 	songs = _songs
 	filter_by = _filter_by
 	sort_by_prop = _sort_by
@@ -58,11 +59,11 @@ func sort_and_filter_songs():
 		
 		if should_add_song:
 			for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
-				if search_term.empty() or search_term in field:
+				if search_term.is_empty() or search_term in field:
 					_filtered_songs.append(song)
 					break
 	
-	_filtered_songs.sort_custom(self, "sort_array")
+	_filtered_songs.sort_custom(Callable(self, "sort_array"))
 	return _filtered_songs
 		
 func sort_array(a: HBSong, b: HBSong):
@@ -98,10 +99,10 @@ func sort_array(a: HBSong, b: HBSong):
 		return b_prop < a_prop
 		
 func _create_song_item(song: HBSong):
-	var item = SongListItem.instance()
+	var item = SongListItem.instantiate()
 	item.use_parent_material = true
 	item.set_song(song)
-	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	return item
 func _task_process() -> bool:
 	out_mutex.lock()

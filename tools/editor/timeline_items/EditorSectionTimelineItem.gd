@@ -2,7 +2,7 @@ extends EditorTimelineItem
 
 class_name EditorSectionTimelineItem
 
-onready var label = get_node("Label")
+@onready var label = get_node("Label")
 
 func _init():
 	_class_name = "EditorSectionTimelineItem" # Workaround for godot#4708
@@ -11,21 +11,21 @@ func _init():
 	data = HBChartSection.new()
 
 func _ready():
-	._ready()
+	super._ready()
 	
-	label.connect("resized", self, "_on_label_resized")
+	label.connect("resized", Callable(self, "_on_label_resized"))
 	label.text = data.name
 
 
 func get_editor_size():
-	return rect_size
+	return size
 
-func get_editor_description():
+func get_ph_editor_description():
 	return """Marks a section of the chart with a specific name and color."""
 
 
 func sync_value(property_name: String):
-	.sync_value(property_name)
+	super.sync_value(property_name)
 	if property_name == "color" or property_name == "time":
 		editor.timeline.update()
 		editor.timeline.minimap.update()
@@ -34,4 +34,4 @@ func sync_value(property_name: String):
 
 
 func _on_label_resized():
-	rect_size.x = label.rect_size.x
+	size.x = label.size.x

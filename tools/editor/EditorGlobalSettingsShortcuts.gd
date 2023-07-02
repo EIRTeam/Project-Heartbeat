@@ -2,24 +2,24 @@ extends Control
 
 class_name EditorGlobalSettingsShortcuts
 
-onready var bind_window: ConfirmationDialog = get_node("WindowDialog")
-onready var binding_label: Label = get_node("WindowDialog/VBoxContainer/BindingLabel")
-onready var combination_label: RichTextLabel = get_node("WindowDialog/VBoxContainer/CombinationLabel")
-onready var reset_to_default_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ResetToDefaultButton")
-onready var clear_button: Button = get_node("WindowDialog/VBoxContainer/HBoxContainer/ClearButton")
-onready var reset_all_confirmation_dialog: ConfirmationDialog = get_node("ResetAllConfirmationDialog")
-onready var reset_confirmation_dialog: ConfirmationDialog = get_node("ResetConfirmationDialog")
-onready var conflict_dialog: AcceptDialog = get_node("ConflictDialog")
-onready var conflict_list: ItemList = get_node("ConflictDialog/VBoxContainer/ItemList")
+@onready var bind_window: ConfirmationDialog = get_node("Window")
+@onready var binding_label: Label = get_node("Window/VBoxContainer/BindingLabel")
+@onready var combination_label: RichTextLabel = get_node("Window/VBoxContainer/CombinationLabel")
+@onready var reset_to_default_button: Button = get_node("Window/VBoxContainer/HBoxContainer/ResetToDefaultButton")
+@onready var clear_button: Button = get_node("Window/VBoxContainer/HBoxContainer/ClearButton")
+@onready var reset_all_confirmation_dialog: ConfirmationDialog = get_node("ResetAllConfirmationDialog")
+@onready var reset_confirmation_dialog: ConfirmationDialog = get_node("ResetConfirmationDialog")
+@onready var conflict_dialog: AcceptDialog = get_node("ConflictDialog")
+@onready var conflict_list: ItemList = get_node("ConflictDialog/VBoxContainer/ItemList")
 
-onready var tree: Tree = get_node("VBoxContainer/Tree")
+@onready var tree: Tree = get_node("VBoxContainer/Tree")
 
-onready var add_icon = preload("res://graphics/icons/icon_add.svg")
-onready var remove_icon = preload("res://tools/icons/icon_remove.svg")
-onready var reset_icon = preload("res://graphics/icons/refresh-small.svg")
+@onready var add_icon = preload("res://graphics/icons/icon_add.svg")
+@onready var remove_icon = preload("res://tools/icons/icon_remove.svg")
+@onready var reset_icon = preload("res://graphics/icons/refresh-small.svg")
 
 var temp_event: InputEvent
-var editor: HBEditor setget set_editor
+var editor: HBEditor: set = set_editor
 
 const EDITOR_ACTIONS := {
 	"Menus": [
@@ -207,29 +207,29 @@ func _ready():
 	tree.set_column_expand(0, true)
 	tree.set_column_expand(1, true)
 	tree.set_column_expand(2, true)
-	tree.set_column_min_width(0, 20)
-	tree.set_column_min_width(1, 1)
-	tree.set_column_min_width(2, 1)
+	tree.set_column_custom_minimum_width(0, 20)
+	tree.set_column_custom_minimum_width(1, 1)
+	tree.set_column_custom_minimum_width(2, 1)
 	
-	tree.connect("item_activated", self, "_on_item_double_clicked")
-	tree.connect("button_pressed", self, "_on_button_pressed")
-	tree.connect("item_collapsed", self, "_on_item_collapsed")
+	tree.connect("item_activated", Callable(self, "_on_item_double_clicked"))
+	tree.connect("button_clicked", Callable(self, "_on_button_pressed"))
+	tree.connect("item_collapsed", Callable(self, "_on_item_collapsed"))
 	
 	for category in EDITOR_ACTIONS:
 		folded[category] = true
 	
-	bind_window.connect("confirmed", self, "_on_bind_window_confirmed")
-	bind_window.get_cancel().connect("pressed", self, "set_process_input", [false])
+	bind_window.connect("confirmed", Callable(self, "_on_bind_window_confirmed"))
+	bind_window.get_cancel_button().connect("pressed", Callable(self, "set_process_input").bind(false))
 	
-	reset_confirmation_dialog.connect("confirmed", self, "_reset_impl")
-	reset_all_confirmation_dialog.connect("confirmed", self, "reset_all_to_default")
+	reset_confirmation_dialog.connect("confirmed", Callable(self, "_reset_impl"))
+	reset_all_confirmation_dialog.connect("confirmed", Callable(self, "reset_all_to_default"))
 	
-	conflict_dialog.get_ok().text = "Cancel"
+	conflict_dialog.get_ok_button().text = "Cancel"
 	conflict_dialog.add_button("Clear Other Shortcuts", false, "clear_conflicts")
 	conflict_dialog.add_button("Add Anyways", false, "force")
 	
-	conflict_dialog.connect("confirmed", self, "_cancel_conflict_resolution")
-	conflict_dialog.connect("custom_action", self, "_on_conflict_resolution_selected")
+	conflict_dialog.connect("confirmed", Callable(self, "_cancel_conflict_resolution"))
+	conflict_dialog.connect("custom_action", Callable(self, "_on_conflict_resolution_selected"))
 	
 	populate()
 
@@ -258,12 +258,12 @@ func get_mapping_conflicts(event: InputEvent, og_event: InputEvent, og_action: S
 	
 	for category in EDITOR_ACTIONS:
 		for action_name in EDITOR_ACTIONS[category]:
-			var event_list = InputMap.get_action_list(action_name)
+			var event_list = InputMap.action_get_events(action_name)
 			
 			for ev in event_list:
-				if ev.shortcut_match(event, true) and \
+				if ev.is_match(event, true) and \
 				   HBUtils.get_event_text(ev) != "None" and \
-				   not (og_event.shortcut_match(event) and action_name == og_action) and \
+				   not (og_event.is_match(event) and action_name == og_action) and \
 				   not action_name in conflict_free_actions:
 					mapping_conflicts.append({"action_name": action_name, "event": ev})
 					
@@ -291,10 +291,10 @@ func populate():
 			action_item.add_button(1, add_icon, -1, false, "Add Shortcut")
 			action_item.add_button(2, reset_icon, -1, false, "Reset To Default")
 			
-			action_item.set_meta("is_shortcut", false)
+			action_item.set_meta("matches_event", false)
 			action_item.set_meta("action_name", action_name)
 			
-			var event_list = InputMap.get_action_list(action_name)
+			var event_list = InputMap.action_get_events(action_name)
 			for event in event_list:
 				if not event is InputEventWithModifiers:
 					continue
@@ -312,7 +312,7 @@ func populate():
 				
 				item.add_button(2, remove_icon, -1, false, "Delete Shortcut")
 				
-				item.set_meta("is_shortcut", true)
+				item.set_meta("matches_event", true)
 				item.set_meta("event", event)
 				item.set_meta("event_text", event_text)
 				item.set_meta("action_name", action_name)
@@ -320,13 +320,13 @@ func populate():
 func _on_item_double_clicked():
 	if tree.get_selected_column() == 0 or tree.get_selected_column() == 1:
 		selected_item = tree.get_selected()
-		if not selected_item.get_meta("is_shortcut", false):
+		if not selected_item.get_meta("matches_event", false):
 			return
 		
 		popup_binding_window(selected_item)
 
-func _on_button_pressed(item: TreeItem, column: int, id: int):
-	if item.get_meta("is_shortcut"):
+func _on_button_pressed(item: TreeItem, column: int, id: int, mouse_button: int):
+	if item.get_meta("matches_event"):
 		match column:
 			2:
 				erase_shortcut(item)
@@ -356,7 +356,7 @@ func popup_binding_window(item: TreeItem):
 	var split = binding_label.text.split("\n")
 	binding_label.text = split[0] + '\n"' + action_text + '"'
 	
-	if item.get_meta("is_shortcut", false):
+	if item.get_meta("matches_event", false):
 		var event = item.get_meta("event")
 		set_temp_event(event)
 	else:
@@ -379,7 +379,7 @@ func _on_bind_window_confirmed():
 	if temp_event and selected_item:
 		var action_name: String = selected_item.get_meta("action_name")
 		
-		if selected_item.get_meta("is_shortcut", false):
+		if selected_item.get_meta("matches_event", false):
 			var event: InputEvent = selected_item.get_meta("event")
 			
 			InputMap.action_erase_event(action_name, event)
@@ -422,7 +422,7 @@ func _on_conflict_resolution_selected(action: String):
 func set_temp_event(event: InputEvent):
 	temp_event = event
 	
-	var og_event = selected_item.get_meta("event") if selected_item.get_meta("is_shortcut", false) else InputEventKey.new()
+	var og_event = selected_item.get_meta("event") if selected_item.get_meta("matches_event", false) else InputEventKey.new()
 	var conflict := get_mapping_conflicts(temp_event, og_event, selected_item.get_meta("action_name"), false)
 	
 	var text = "[center]"
@@ -435,23 +435,22 @@ func set_temp_event(event: InputEvent):
 		text += "[/color]"
 	text += "[/center]"
 	
-	combination_label.bbcode_text = text
+	combination_label.text = text
 
 func _input(event):
 	if event is InputEventKey:
 		if event.is_pressed():
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			set_temp_event(event)
 	elif event is InputEventMouseButton:
 		# I wanna KMS
 		if event.is_pressed() \
-		   and not bind_window.get_close_button().get_global_rect().has_point(get_global_mouse_position()) \
-		   and not bind_window.get_ok().get_global_rect().has_point(get_global_mouse_position()) \
-		   and not bind_window.get_cancel().get_global_rect().has_point(get_global_mouse_position()):
+		   and not bind_window.get_ok_button().get_global_rect().has_point(get_global_mouse_position()) \
+		   and not bind_window.get_cancel_button().get_global_rect().has_point(get_global_mouse_position()):
 			set_temp_event(event)
 
 func erase_shortcut(item: TreeItem):
-	if not item.get_meta("is_shortcut", false):
+	if not item.get_meta("matches_event", false):
 		return
 	
 	var action_name = item.get_meta("action_name")
@@ -465,7 +464,7 @@ func erase_shortcut(item: TreeItem):
 	populate()
 
 func popup_reset_window(item: TreeItem):
-	if item.get_meta("is_shortcut", false):
+	if item.get_meta("matches_event", false):
 		return
 	
 	reset_action_name = item.get_meta("action_name")
@@ -482,7 +481,7 @@ func _reset_impl():
 	populate()
 
 func reset_action(action_name: String):
-	var event_list = InputMap.get_action_list(action_name)
+	var event_list = InputMap.action_get_events(action_name)
 	
 	for event in event_list:
 		if not event is InputEventWithModifiers:

@@ -5,7 +5,7 @@ func _ready():
 	var file = load("res://out2.webm").get_file()
 	print(file)
 	stream.set_file(file)
-	var vp = $VideoPlayer
+	var vp = $VideoStreamPlayer
 	vp.stream = stream
 
 	var sp = vp.stream_position
@@ -19,9 +19,9 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("show_hidden"):
-		$VideoPlayer.stream_position = 5
+		$VideoStreamPlayer.stream_position = 5
 
 
 func _on_VideoPlayer_finished():
 	print("ENDED")
-	$VideoPlayer.stream_position = 5
+	$VideoStreamPlayer.stream_position = 5

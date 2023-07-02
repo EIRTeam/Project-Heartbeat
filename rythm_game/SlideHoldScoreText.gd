@@ -8,7 +8,7 @@ var fade_out_t = FADE_OUT_TIME
 var travel_up_t = TRAVEL_UP_TIME
 var target_opacity = 0.0
 var starting_point = Vector2.ZERO
-var _game: HBRhythmGame setget set_game
+var _game: HBRhythmGame: set = set_game
 
 func set_game(val):
 	_game = val
@@ -32,9 +32,9 @@ func _process(delta: float):
 		fade_out_t = clamp(fade_out_t+delta, 0, FADE_OUT_TIME)
 	travel_up_t = clamp(travel_up_t+delta, 0, TRAVEL_UP_TIME)
 	modulate.a = 1.0 - (fade_out_t / FADE_OUT_TIME)
-	var remapped_starting_point = _game.remap_coords(starting_point) - rect_size / 2
+	var remapped_starting_point = _game.remap_coords(starting_point) - size / 2
 	remapped_starting_point.y += _game.remap_coords(OFFSET).y
 	var target_point = remapped_starting_point
 	target_point.y -= _game.remap_coords(Vector2(0, TRAVEL_UP_HEIGHT)).y
-	rect_position = remapped_starting_point.linear_interpolate(target_point, travel_up_t / TRAVEL_UP_TIME)
+	position = remapped_starting_point.lerp(target_point, travel_up_t / TRAVEL_UP_TIME)
 	

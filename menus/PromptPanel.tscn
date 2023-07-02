@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/Default_Font.tres" type="FontFile" id=1]
 [ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/PromptPanel.gd" type="Script" id=3]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=4]
 
 [node name="Panel4" type="Panel"]
-margin_right = 54.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 54, 31 )
-custom_styles/panel = ExtResource( 2 )
+offset_right = 54.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 54, 31 )
+theme_override_styles/panel = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -23,15 +23,15 @@ __meta__ = {
 }
 
 [node name="PromptInputAction" parent="HBoxContainer" instance=ExtResource( 4 )]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
+offset_right = 40.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 40, 0 )
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 44.0
-margin_right = 44.0
-margin_bottom = 40.0
+offset_left = 44.0
+offset_right = 44.0
+offset_bottom = 40.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
-align = 1
-valign = 1
+theme_override_fonts/font = ExtResource( 1 )
+horizontal_alignment = 1
+vertical_alignment = 1

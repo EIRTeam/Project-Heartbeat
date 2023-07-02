@@ -36,7 +36,7 @@ func serialize(serialize_defaults = false):
 			elif _field is int or _field is float or _field is String or _field is bool:
 				serialized_data[field] = get(field)
 			else:
-				serialized_data[field] = var2str(get(field))
+				serialized_data[field] = var_to_str(get(field))
 		return HBUtils.merge_dict(serialized_data, {
 			"type": get_serialized_type()
 		})
@@ -108,7 +108,7 @@ static func deserialize(data: Dictionary):
 					
 					object.set(field, deserialized)
 				else:
-					object.set(field , str2var(data[field]))
+					object.set(field , str_to_var(data[field]))
 		return object
 	
 static func get_serializable_types():
@@ -117,14 +117,15 @@ func get_serialized_type():
 	pass
 
 static func from_file(path: String):
-	var file = File.new()
-	if file.open(path, File.READ) == OK:
+	var file := FileAccess.open(path, FileAccess.READ)
+	if FileAccess.get_open_error() == OK:
 		var data = file.get_as_text()
-		var json_result := JSON.parse(data)
-		if json_result.error == OK:
-			return deserialize(json_result.result)
+		var json_result := JSON.new()
+		
+		if json_result.parse(data) == OK:
+			return deserialize(json_result.data)
 		else:
-			print("Error parsing JSON file %s on line %d %s" % [path, json_result.error_line, json_result.error_string], Log.LogLevel.ERROR)
+			print("Error parsing JSON file %s on line %d %s" % [path, json_result.get_error_line(), json_result.get_error_message()], Log.LogLevel.ERROR)
 			
 	else:
 		print("Error opening JSON file %s" % [path], Log.LogLevel.ERROR)
@@ -135,19 +136,18 @@ func save_to_file(path: String):
 		print("ERROR: Data was not serialized.")
 		return
 	
-	var json = JSON.print(data, "  ")
+	var json = JSON.stringify(data, "  ")
 	if not json:
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file := File.new()
-	var err = file.open(path, File.WRITE)
-	if err == OK:
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if FileAccess.get_open_error() == OK:
 		file.store_string(json)
 	else:
-		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), err])
+		print("Error when saving serialized object %s, error: %s" % [get_serialized_type(), FileAccess.get_open_error()])
 	
-	return err
+	return FileAccess.get_open_error()
 
 static func can_show_in_editor():
 	return false

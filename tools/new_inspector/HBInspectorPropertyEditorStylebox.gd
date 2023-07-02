@@ -26,12 +26,12 @@ var control_container := VBoxContainer.new()
 var current_stylebox: StyleBox
 
 func _init_inspector():
-	._init_inspector()
-	yield(self, "ready")
+	super._init_inspector()
+	await self.ready
 	vbox_container.add_child(control_container)
 
 func set_property_data(data: Dictionary):
-	.set_property_data(data)
+	super.set_property_data(data)
 
 func _on_color_changed(col: Color):
 	value = col
@@ -46,7 +46,7 @@ func _create_float_editor(property_name: String, step := 0.01):
 	hb.add_child(sp)
 	sp.step = step
 	sp.value = current_stylebox.get(property_name)
-	sp.connect("value_changed", self, "_on_float_property_changed", [property_name])
+	sp.connect("value_changed", Callable(self, "_on_float_property_changed").bind(property_name))
 	control_container.add_child(hb)
 	property_controls[property_name] = sp
 	
@@ -58,7 +58,7 @@ func _create_bool_editor(property_name: String):
 	hb.add_child(l)
 	hb.add_child(cb)
 	cb.set_value(current_stylebox.get(property_name))
-	cb.connect("toggled", self, "value_changed", [property_name])
+	cb.connect("toggled", Callable(self, "value_changed").bind(property_name))
 	control_container.add_child(hb)
 	property_controls[property_name] = cb
 
@@ -70,7 +70,7 @@ func _create_color_editor(property_name: String):
 	hb.add_child(l)
 	hb.add_child(cb)
 	cb.color = current_stylebox.get(property_name)
-	cb.connect("color_changed", self, "_on_color_property_changed", [property_name])
+	cb.connect("color_changed", Callable(self, "_on_color_property_changed").bind(property_name))
 	control_container.add_child(hb)
 	property_controls[property_name] = cb
 	
@@ -108,7 +108,7 @@ func _create_editors_flat():
 	_create_float_editor("shadow_size", 1)
 
 func set_value(val):
-	.set_value(val)
+	super.set_value(val)
 	if is_inside_tree():
 		if val is StyleBoxFlat:
 			_create_editors_flat()

@@ -47,18 +47,18 @@ const BUILTIN_TYPES := [
 	"Dictionary",
 	"Nodepath",
 	"Plane",
-	"PoolByteArray",
-	"PoolColorArray",
-	"PoolIntArray",
-	"PoolRealArray",
-	"PoolStringArray",
-	"PoolVector2Array",
-	"PoolVector3Array",
+	"PackedByteArray",
+	"PackedColorArray",
+	"PackedInt32Array",
+	"PackedFloat32Array",
+	"PackedStringArray",
+	"PackedVector2Array",
+	"PackedVector3Array",
 	"Quad",
 	"RID",
 	"Rect2",
 	"String",
-	"Transform",
+	"Transform3D",
 	"Transform2D",
 	"Variant",
 	"Vector2",
@@ -91,7 +91,7 @@ const GDSCRIPT_BUILTINS = [
 	"assert",
 	"atan",
 	"atan2",
-	"bytes2var",
+	"bytes_to_var",
 	"cartesian2polar",
 	"ceil",
 	"char",
@@ -99,12 +99,12 @@ const GDSCRIPT_BUILTINS = [
 	"convert",
 	"cos",
 	"cosh",
-	"db2linear",
+	"db_to_linear",
 	"decimals",
-	"dectime",
+	"move_toward",
 	"deep_equal",
-	"deg2rad",
-	"dict2inst",
+	"deg_to_rad",
+	"dict_to_inst",
 	"ease",
 	"exp",
 	"floor",
@@ -113,7 +113,7 @@ const GDSCRIPT_BUILTINS = [
 	"funcref",
 	"get_stack",
 	"hash",
-	"inst2dict",
+	"inst_to_dict",
 	"instance_from_id",
 	"inverse_lerp",
 	"is_equal_approx",
@@ -124,7 +124,7 @@ const GDSCRIPT_BUILTINS = [
 	"len",
 	"lerp",
 	"lerp_angle",
-	"linear2db",
+	"linear_to_db",
 	"load",
 	"log",
 	"max",
@@ -146,14 +146,14 @@ const GDSCRIPT_BUILTINS = [
 	"printt",
 	"push_error",
 	"push_warning",
-	"rad2deg",
-	"rand_range",
+	"rad_to_deg",
+	"randf_range",
 	"rand_seed",
 	"randf",
 	"randi",
 	"randomize",
 	"range",
-	"range_lerp",
+	"remap",
 	"round",
 	"seed",
 	"sign",
@@ -162,17 +162,17 @@ const GDSCRIPT_BUILTINS = [
 	"smoothstep",
 	"sqrt",
 	"step_decimals",
-	"stepify",
+	"snapped",
 	"str",
-	"str2var",
+	"str_to_var",
 	"tan",
 	"tanh",
-	"to_json",
+	"JSON.new().stringify",
 	"type_exists",
 	"typeof",
 	"validate_json",
-	"var2bytes",
-	"var2str",
+	"var_to_bytes",
+	"var_to_str",
 	"weakref",
 	"wrapf",
 	"wrapi",
@@ -221,7 +221,7 @@ const GLOBALSCOPE_ENUM_ITEMS = [
 	"KEY_PAGEUP",
 	"KEY_PAGEDOWN",
 	"KEY_SHIFT",
-	"KEY_CONTROL",
+	"KEY_CTRL",
 	"KEY_META",
 	"KEY_ALT",
 	"KEY_CAPSLOCK",
@@ -451,20 +451,20 @@ const GLOBALSCOPE_ENUM_ITEMS = [
 	"KEY_MASK_CMD",
 	"KEY_MASK_KPAD",
 	"KEY_MASK_GROUP_SWITCH",
-	"BUTTON_LEFT",
-	"BUTTON_RIGHT",
-	"BUTTON_MIDDLE",
-	"BUTTON_XBUTTON1",
-	"BUTTON_XBUTTON2",
-	"BUTTON_WHEEL_UP",
-	"BUTTON_WHEEL_DOWN",
-	"BUTTON_WHEEL_LEFT",
-	"BUTTON_WHEEL_RIGHT",
-	"BUTTON_MASK_LEFT",
-	"BUTTON_MASK_RIGHT",
-	"BUTTON_MASK_MIDDLE",
-	"BUTTON_MASK_XBUTTON1",
-	"BUTTON_MASK_XBUTTON2",
+	"MOUSE_BUTTON_LEFT",
+	"MOUSE_BUTTON_RIGHT",
+	"MOUSE_BUTTON_MIDDLE",
+	"MOUSE_BUTTON_XBUTTON1",
+	"MOUSE_BUTTON_XBUTTON2",
+	"MOUSE_BUTTON_WHEEL_UP",
+	"MOUSE_BUTTON_WHEEL_DOWN",
+	"MOUSE_BUTTON_WHEEL_LEFT",
+	"MOUSE_BUTTON_WHEEL_RIGHT",
+	"MOUSE_BUTTON_MASK_LEFT",
+	"MOUSE_BUTTON_MASK_RIGHT",
+	"MOUSE_BUTTON_MASK_MIDDLE",
+	"MOUSE_BUTTON_MASK_XBUTTON1",
+	"MOUSE_BUTTON_MASK_XBUTTON2",
 	"JOY_INVALID_OPTION",
 	"JOY_BUTTON_0",
 	"JOY_BUTTON_1",
@@ -669,30 +669,30 @@ const GLOBALSCOPE_ENUM_ITEMS = [
 	"TYPE_NIL",
 	"TYPE_BOOL",
 	"TYPE_INT",
-	"TYPE_REAL",
+	"TYPE_FLOAT",
 	"TYPE_STRING",
 	"TYPE_VECTOR2",
 	"TYPE_RECT2",
 	"TYPE_VECTOR3",
 	"TYPE_TRANSFORM2D",
 	"TYPE_PLANE",
-	"TYPE_QUAT",
+	"TYPE_QUATERNION",
 	"TYPE_AABB",
 	"TYPE_BASIS",
-	"TYPE_TRANSFORM",
+	"TYPE_TRANSFORM3D",
 	"TYPE_COLOR",
 	"TYPE_NODE_PATH",
 	"TYPE_RID",
 	"TYPE_OBJECT",
 	"TYPE_DICTIONARY",
 	"TYPE_ARRAY",
-	"TYPE_RAW_ARRAY",
-	"TYPE_INT_ARRAY",
-	"TYPE_REAL_ARRAY",
-	"TYPE_STRING_ARRAY",
-	"TYPE_VECTOR2_ARRAY",
-	"TYPE_VECTOR3_ARRAY",
-	"TYPE_COLOR_ARRAY",
+	"TYPE_PACKED_BYTE_ARRAY",
+	"TYPE_PACKED_INT32_ARRAY",
+	"TYPE_PACKED_FLOAT32_ARRAY",
+	"TYPE_PACKED_STRING_ARRAY",
+	"TYPE_PACKED_VECTOR2_ARRAY",
+	"TYPE_PACKED_VECTOR3_ARRAY",
+	"TYPE_PACKED_COLOR_ARRAY",
 	"TYPE_MAX",
 	"OP_EQUAL",
 	"OP_NOT_EQUAL",
@@ -834,44 +834,43 @@ DEALINGS IN THE FONT SOFTWARE.
 func _init():
 	var font_license_path := "user://font_license.txt"
 	
-	var file = File.new()
-	if not file.file_exists(font_license_path):
-		file.open(font_license_path, File.WRITE)
-		
+	if not FileAccess.file_exists(font_license_path):
+		var file := FileAccess.open(font_license_path, FileAccess.WRITE)
 		file.store_string(FONT_LICENSE)
 
 func _ready():
+	syntax_highlighter = CodeHighlighter.new()
 	for keyword in KEYWORDS:
-		add_keyword_color(keyword, KEYWORD_COLOR)
+		syntax_highlighter.keyword_colors[keyword] = KEYWORD_COLOR
 	
 	for fn in GDSCRIPT_BUILTINS:
-		add_keyword_color(fn, KEYWORD_COLOR)
+		syntax_highlighter.keyword_colors[fn] = KEYWORD_COLOR
 	
 	for keyword in CONTROL_FLOW_KEYWORDS:
-		add_keyword_color(keyword, CONTROL_FLOW_COLOR)
+		syntax_highlighter.keyword_colors[keyword] = CONTROL_FLOW_COLOR
 	
 	for _class in ClassDB.get_class_list():
-		add_keyword_color(_class, CLASS_COLOR)
+		syntax_highlighter.keyword_colors[_class] = CLASS_COLOR
 	for _class in CUSTOM_CLASSES:
-		add_keyword_color(_class, CLASS_COLOR)
+		syntax_highlighter.keyword_colors[_class] = CLASS_COLOR
 	
 	# ClassDB doesnt hold itself
-	add_keyword_color("ClassDB", CLASS_COLOR)
+	syntax_highlighter.keyword_colors["ClassDB"] = CLASS_COLOR
 	
 	for type in BUILTIN_TYPES:
-		add_keyword_color(type, TYPE_COLOR)
+		syntax_highlighter.keyword_colors[type] = TYPE_COLOR
 	
 	for item in GLOBALSCOPE_ENUM_ITEMS:
-		add_keyword_color(item, ENUM_COLOR)
+		syntax_highlighter.keyword_colors[item] = ENUM_COLOR
 	
-	add_color_region('"', '"', STRING_COLOR)
-	add_color_region("'", "'", STRING_COLOR)
-	add_color_region("#", "", COMMENT_COLOR)
+	syntax_highlighter.add_color_region('"', '"', STRING_COLOR)
+	syntax_highlighter.add_color_region("'", "'", STRING_COLOR)
+	syntax_highlighter.add_color_region("#", "", COMMENT_COLOR)
 	
 	update_font_size()
 
 func _gui_input(event):
-	if event is InputEventKey and visible and get_focus_owner() == self:
+	if event is InputEventKey and visible and get_viewport().gui_get_focus_owner() == self:
 		if event.is_action_pressed("editor_scale_up", false, true):
 			UserSettings.user_settings.editor_code_font_size += 1
 			UserSettings.save_user_settings()
@@ -883,4 +882,4 @@ func _gui_input(event):
 			update_font_size()
 
 func update_font_size():
-	get_font("font").set_size(UserSettings.user_settings.editor_code_font_size)
+	add_theme_font_size_override("font_size", UserSettings.user_settings.editor_code_font_size)

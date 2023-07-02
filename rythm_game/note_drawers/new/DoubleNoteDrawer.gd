@@ -8,10 +8,10 @@ var current_frame_held_count := 0
 var processed_held_count := 0
 	
 func note_init():
-	.note_init()
+	super.note_init()
 	
 func set_is_multi_note(val):
-	.set_is_multi_note(val)
+	super.set_is_multi_note(val)
 	if is_inside_tree():
 		note_graphics.set_note_type(note_data.note_type, val, true)
 		note_target_graphics.set_note_type(note_data, val)
@@ -73,7 +73,7 @@ func _on_note_pressed(event = null):
 		show_note_hit_effect(note_data.position)
 
 func process_note(time_msec: int):
-	.process_note(time_msec)
+	super.process_note(time_msec)
 	
 	var action := HBGame.NOTE_TYPE_TO_ACTIONS_MAP[note_data.note_type][0] as String
 	var new_held_count = game.game_input_manager.get_action_press_count(action)

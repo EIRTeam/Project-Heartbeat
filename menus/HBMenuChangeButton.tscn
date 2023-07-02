@@ -1,25 +1,25 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/HBMenuChangeButton.gd" type="Script" id=1]
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=2]
 [ext_resource path="res://styles/NewButtonStyleHover.tres" type="StyleBox" id=3]
 [ext_resource path="res://styles/NewButtonStyle.tres" type="StyleBox" id=5]
 
 [node name="StartButton" type="Button"]
-margin_left = 9.0
-margin_top = 83.0
-margin_right = 417.0
-margin_bottom = 147.0
-rect_pivot_offset = Vector2( 768.465, 260.259 )
+offset_left = 9.0
+offset_top = 83.0
+offset_right = 417.0
+offset_bottom = 147.0
+pivot_offset = Vector2( 768.465, 260.259 )
 focus_mode = 0
-custom_styles/hover = ExtResource( 3 )
-custom_styles/pressed = ExtResource( 3 )
-custom_styles/normal = ExtResource( 5 )
-custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_constants/hseparation = 69
+theme_override_styles/hover = ExtResource( 3 )
+theme_override_styles/pressed = ExtResource( 3 )
+theme_override_styles/normal = ExtResource( 5 )
+theme_override_fonts/font = ExtResource( 2 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_constants/h_separation = 69
 text = "(NT)Rhythm Game"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

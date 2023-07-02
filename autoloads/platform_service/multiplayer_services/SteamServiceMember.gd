@@ -4,11 +4,12 @@ class_name SteamServiceMember
 
 var steam_avatar_cached = false
 
-func _init(id).(id):
+func _init(id):
+	super(id)
 	# Do we actually need to do this or does steam cache getFriendPersonaName?
 	Steam.requestUserInformation(id, false)
 	member_name = Steam.getFriendPersonaName(id)
-	Steam.connect("persona_state_change", self, "_persona_state_change")
+	Steam.connect("persona_state_change", Callable(self, "_persona_state_change"))
 	cache_steam_avatar()
 
 func _persona_state_change(steam_id, flags):
@@ -22,11 +23,7 @@ func cache_steam_avatar():
 	var size = Steam.getImageSize(img_handle)
 	var dict = Steam.getImageRGBA(img_handle)
 	var buffer = dict.buffer
-	var avatar_image = Image.new()
-	var avatar_texture = ImageTexture.new()
-	avatar_image.create(size.width, size.height, false, Image.FORMAT_RGBAF)
-	
-	avatar_image.lock()
+	var avatar_image = Image.create(size.width, size.height, false, Image.FORMAT_RGBAF)
 	
 	for y in range(size.height):
 		for x in range(size.width):
@@ -36,9 +33,7 @@ func cache_steam_avatar():
 			var b = float(buffer[pixel+2]) / 255.0
 			var a = float(buffer[pixel+3]) / 255.0
 			avatar_image.set_pixel(x, y, Color(r, g, b, a))
-	avatar_image.unlock()
-	avatar_image.save_png("user://avatar.png")
-	avatar_texture.create_from_image(avatar_image)
+	var avatar_texture = ImageTexture.create_from_image(avatar_image)
 	avatar = avatar_texture
 	steam_avatar_cached = true
 

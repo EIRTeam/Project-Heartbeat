@@ -1,19 +1,19 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var numerator_spinbox = get_node("NumeratorSpinbox")
-onready var denominator_spinbox = get_node("DenominatorSpinbox")
+@onready var numerator_spinbox = get_node("NumeratorSpinbox")
+@onready var denominator_spinbox = get_node("DenominatorSpinbox")
 
 func sync_value(input_array):
 	numerator_spinbox.inputs = input_array
 	denominator_spinbox.inputs = input_array
 	
-	update()
+	queue_redraw()
 
 func _ready():
 	numerator_spinbox.property_name = property_name
 	denominator_spinbox.property_name = property_name
-	numerator_spinbox.connect("values_changed", self, "_on_Spinbox_values_changed")
-	denominator_spinbox.connect("values_changed", self, "_on_Spinbox_values_changed")
+	numerator_spinbox.connect("values_changed", Callable(self, "_on_Spinbox_values_changed"))
+	denominator_spinbox.connect("values_changed", Callable(self, "_on_Spinbox_values_changed"))
 
 func _on_Spinbox_values_changed():
 	var values = {}

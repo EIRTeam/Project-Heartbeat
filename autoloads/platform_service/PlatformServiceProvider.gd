@@ -37,7 +37,7 @@ func init_platform() -> int:
 		add_child(multiplayer_provider)
 	return 0
 
-func get_avatar() -> Texture:
+func get_avatar() -> Texture2D:
 	return DEFAULT_AVATAR
 
 func run_callbacks():
@@ -45,10 +45,10 @@ func run_callbacks():
 
 func get_achivements():
 	return []
-func write_remote_file_async(file_name: String, data: PoolByteArray):
+func write_remote_file_async(file_name: String, data: PackedByteArray):
 	pass
 # Remote storage (for save sync)
-func write_remote_file(file_name: String, data: PoolByteArray):
+func write_remote_file(file_name: String, data: PackedByteArray):
 	pass
 
 func write_remote_file_from_path(file_name: String, path: String):

@@ -71,8 +71,8 @@ var gestures = []
 signal swipe_canceled(start_position)
 # warning-ignore:unused_signal
 signal swipe_started(direction)
-export(float) var swipe_min_distance = 20.0
-onready var timer: Node = $SwipeTimeout
+@export var swipe_min_distance: float = 20.0
+@onready var timer: Node = $SwipeTimeout
 var swipe_start_position: = Vector2()
 var last_drag = 0
 var input_mode = InputMode.TAPS
@@ -103,10 +103,10 @@ func _input(event: InputEvent) -> void:
 				add_child(swipe_status_timer)
 				var gesture = GestureManager.new(event_index, event.position, event.position, input_mode)
 				gestures.append(gesture)
-				gesture.connect("swipe_started", self, "_on_swipe_started", [gesture])
-				gesture.connect("swipe_ended", self, "_on_swipe_ended", [gesture])
-				gesture.connect("tap_started", self, "_on_tap_started", [gesture])
-				gesture.connect("tap_ended", self, "_on_tap_ended", [gesture])
+				gesture.connect("swipe_started", Callable(self, "_on_swipe_started").bind(gesture))
+				gesture.connect("swipe_ended", Callable(self, "_on_swipe_ended").bind(gesture))
+				gesture.connect("tap_started", Callable(self, "_on_tap_started").bind(gesture))
+				gesture.connect("tap_ended", Callable(self, "_on_tap_ended").bind(gesture))
 				gesture.begin_detection()
 			else:
 				print("IGNORING TOCH CUZ WE ALREADY HAVE IT")
@@ -116,7 +116,7 @@ func _input(event: InputEvent) -> void:
 				status.release_touch()
 				remove_gesture(status)
 	if event is InputEventScreenDrag:
-		var cur = OS.get_ticks_usec()
+		var cur = Time.get_ticks_usec()
 		last_drag = cur
 		if current_gesture:
 			var gesture := current_gesture as GestureManager
@@ -145,11 +145,11 @@ func remove_gesture(gesture: GestureManager):
 		if ges.index > gesture.index:
 			ges.index -= 1
 func _on_tap_started(position: Vector2, gesture: GestureManager):
-	var button = clamp(int(position.x / (get_viewport().get_size_override().x/4.0)), 0, 3)
+	var button = clamp(int(position.x / (get_viewport().get_size_2d_override().x/4.0)), 0, 3)
 	var action = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[button][0]
 	send_event(action, true, gesture.index)
 
 func _on_tap_ended(position: Vector2, gesture: GestureManager):
-	var button = int(position.x / (OS.get_real_window_size().x / 4.0))
+	var button = int(position.x / (get_window().get_size_with_decorations().x / 4.0))
 	var action = HBGame.NOTE_TYPE_TO_ACTIONS_MAP[button][0]
 	send_event(action, false, gesture.index)

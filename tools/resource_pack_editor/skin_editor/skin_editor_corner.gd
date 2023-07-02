@@ -2,15 +2,15 @@ extends Panel
 
 class_name HBSkinEditorCorner
 
-var anchor_graphic_rotation := 0.0 setget set_anchor_graphic_rotation
-var anchor_graphic_visible := false setget set_anchor_graphic_visible
+var anchor_graphic_rotation := 0.0: set = set_anchor_graphic_rotation
+var anchor_graphic_visible := false: set = set_anchor_graphic_visible
 
-onready var anchor_graphic = get_node("TextureRect")
+@onready var anchor_graphic = get_node("TextureRect")
 
 func set_anchor_graphic_rotation(val):
 	anchor_graphic_rotation = val
 	if is_inside_tree():
-		anchor_graphic.rect_rotation = val
+		anchor_graphic.rotation = val
 		
 func set_anchor_graphic_visible(val):
 	anchor_graphic_visible = val
@@ -27,5 +27,5 @@ func _ready():
 
 func get_anchor_graphic_global_rect() -> Rect2:
 	var rect := anchor_graphic.get_rect() as Rect2
-	rect.position -= anchor_graphic.rect_position
-	return anchor_graphic.get_global_transform().xform(rect)
+	rect.position -= anchor_graphic.position
+	return anchor_graphic.get_global_transform() * (rect)

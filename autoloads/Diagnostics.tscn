@@ -1,354 +1,274 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://dq5y3eypts76p"]
 
-[ext_resource path="res://autoloads/Diagnostics.gd" type="Script" id=1]
-[ext_resource path="res://fonts/new_fonts/roboto_black_15.tres" type="DynamicFont" id=2]
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=3]
-[ext_resource path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=5]
+[ext_resource type="Script" path="res://autoloads/Diagnostics.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/new_fonts/roboto_black_15.tres" id="2"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="3"]
+[ext_resource type="PackedScene" path="res://autoloads/gamepad_visualizer/GamepadVisualizer.tscn" id="4"]
+[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="5"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 23
-font_data = ExtResource( 5 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("5")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [node name="CanvasLayer" type="CanvasLayer"]
-pause_mode = 2
+process_mode = 3
 layer = 2
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="Version Label" type="Label" parent="."]
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -18.0
-margin_right = 120.0
-custom_fonts/font = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_top = -18.0
+offset_right = 120.0
+theme = ExtResource("3")
+theme_override_fonts/font = ExtResource("2")
 
-[node name="WindowDialog" type="WindowDialog" parent="."]
-visible = true
-margin_left = 345.0
-margin_top = 163.0
-margin_right = 1105.0
-margin_bottom = 583.0
-theme = ExtResource( 3 )
+[node name="Window" type="Window" parent="."]
+position = Vector2i(0, 24)
+size = Vector2i(1920, 1080)
+content_scale_aspect = 4
 
-[node name="TabContainer" type="TabContainer" parent="WindowDialog"]
+[node name="TabContainer" type="TabContainer" parent="Window"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
+offset_left = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+theme = ExtResource("3")
 
-[node name="Game" type="MarginContainer" parent="WindowDialog/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 37.0
-margin_right = -5.0
-margin_bottom = -5.0
+[node name="Game" type="MarginContainer" parent="Window/TabContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Game"]
-margin_right = 730.0
-margin_bottom = 368.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game"]
+layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_right = 730.0
-margin_bottom = 228.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer"]
-margin_right = 730.0
-margin_bottom = 228.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FrameRateLabel" type="Label" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 730.0
-margin_bottom = 25.0
+[node name="FrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "FPS:"
 
-[node name="AVGFrameRateLabel" type="Label" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 730.0
-margin_bottom = 54.0
+[node name="AVGFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Avg:"
 
-[node name="MinFrameRateLabel" type="Label" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 58.0
-margin_right = 730.0
-margin_bottom = 83.0
+[node name="MinFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Min:"
 
-[node name="MaxFrameRateLabel" type="Label" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 730.0
-margin_bottom = 112.0
+[node name="MaxFrameRateLabel" type="Label" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Max:"
 
-[node name="ResetButton" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 116.0
-margin_right = 730.0
-margin_bottom = 141.0
+[node name="ResetButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Reset"
 
-[node name="OpenStrayNodeTester" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 145.0
-margin_right = 730.0
-margin_bottom = 170.0
+[node name="OpenStrayNodeTester" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Open Stray Node Test Scene"
 
-[node name="PrintOrphanedNodesButton" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 174.0
-margin_right = 730.0
-margin_bottom = 199.0
+[node name="PrintOrphanedNodesButton" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Print Stray Nodes"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 203.0
-margin_right = 730.0
-margin_bottom = 228.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="InstanceID" type="SpinBox" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 64.0
-margin_bottom = 25.0
+[node name="InstanceID" type="SpinBox" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 max_value = 9.22337e+18
 
-[node name="PropertyName" type="LineEdit" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 68.0
-margin_right = 116.0
-margin_bottom = 25.0
+[node name="PropertyName" type="LineEdit" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="PrintPropertyValue" type="Button" parent="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 120.0
-margin_right = 730.0
-margin_bottom = 25.0
+[node name="PrintPropertyValue" type="Button" parent="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Print property"
 
-[node name="HSeparator" type="HSeparator" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 232.0
-margin_right = 730.0
-margin_bottom = 236.0
+[node name="HSeparator" type="HSeparator" parent="Window/TabContainer/Game/VBoxContainer"]
+layout_mode = 2
 
-[node name="AutoplayCheckbox" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 240.0
-margin_right = 730.0
-margin_bottom = 265.0
+[node name="AutoplayCheckbox" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer"]
+layout_mode = 2
 focus_mode = 0
 text = "Enable autoplay"
 
-[node name="TransparentViewport" type="CheckBox" parent="WindowDialog/TabContainer/Game/VBoxContainer"]
-margin_top = 269.0
-margin_right = 730.0
-margin_bottom = 294.0
+[node name="TransparentViewport" type="CheckBox" parent="Window/TabContainer/Game/VBoxContainer"]
+layout_mode = 2
 text = "Enable transparent viewport (slower)"
 
-[node name="Service" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Service" type="MarginContainer" parent="Window/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Service"]
-margin_right = 730.0
-margin_bottom = 373.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Service"]
+layout_mode = 2
 
-[node name="Button" type="Button" parent="WindowDialog/TabContainer/Service/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="Button" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+layout_mode = 2
 text = "Clear achievment..."
 
-[node name="Button2" type="Button" parent="WindowDialog/TabContainer/Service/VBoxContainer"]
-margin_top = 29.0
-margin_right = 750.0
-margin_bottom = 54.0
+[node name="Button2" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+layout_mode = 2
 text = "Obtain achivement"
 
-[node name="Button3" type="Button" parent="WindowDialog/TabContainer/Service/VBoxContainer"]
-margin_top = 58.0
-margin_right = 750.0
-margin_bottom = 83.0
+[node name="Button3" type="Button" parent="Window/TabContainer/Service/VBoxContainer"]
+layout_mode = 2
 text = "Set achievment progress"
 
-[node name="Logs" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Logs" type="MarginContainer" parent="Window/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Logs"]
-margin_right = 730.0
-margin_bottom = 373.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Logs"]
+layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowDialog/TabContainer/Logs/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/TabContainer/Logs/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
-margin_right = 60.0
-margin_bottom = 25.0
+[node name="Label" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 text = "Filter by:"
 
-[node name="LogFilterOptionButton" type="OptionButton" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
-margin_left = 64.0
-margin_right = 107.0
-margin_bottom = 25.0
-text = "All"
-items = [ "All", null, false, 0, null ]
-selected = 0
+[node name="LogFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="Label2" type="Label" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
-margin_left = 111.0
-margin_right = 176.0
-margin_bottom = 25.0
+[node name="Label2" type="Label" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 text = "Log level:"
 
-[node name="LogLevelFilterOptionButton" type="OptionButton" parent="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer"]
-margin_left = 180.0
-margin_right = 253.0
-margin_bottom = 25.0
-text = "ERROR"
-items = [ "INFO", null, false, 0, null, "WARN", null, false, 1, null, "ERROR", null, false, 2, null ]
-selected = 2
+[node name="LogLevelFilterOptionButton" type="OptionButton" parent="Window/TabContainer/Logs/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="WindowDialog/TabContainer/Logs/VBoxContainer"]
-margin_top = 29.0
-margin_right = 750.0
-margin_bottom = 383.0
+[node name="ScrollContainer" type="ScrollContainer" parent="Window/TabContainer/Logs/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer"]
-margin_right = 750.0
-margin_bottom = 354.0
-focus_mode = 2
+[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Logs/VBoxContainer/ScrollContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_mode = 2
 bbcode_enabled = true
 selection_enabled = true
 
-[node name="Network" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Network" type="MarginContainer" parent="Window/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Network"]
-margin_right = 730.0
-margin_bottom = 373.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Network"]
+layout_mode = 2
 
-[node name="AuthTokenButton" type="Button" parent="WindowDialog/TabContainer/Network/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="AuthTokenButton" type="Button" parent="Window/TabContainer/Network/VBoxContainer"]
+layout_mode = 2
 text = "Copy auth token"
 
-[node name="HSplitContainer" type="HSplitContainer" parent="WindowDialog/TabContainer/Network/VBoxContainer"]
-margin_top = 29.0
-margin_right = 750.0
-margin_bottom = 383.0
+[node name="HSplitContainer" type="HSplitContainer" parent="Window/TabContainer/Network/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
 split_offset = 371
 
-[node name="Tree" type="Tree" parent="WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer"]
-margin_right = 372.0
-margin_bottom = 354.0
+[node name="Tree" type="Tree" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer"]
+layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer"]
-margin_left = 380.0
-margin_right = 750.0
-margin_bottom = 354.0
+[node name="RichTextLabel" type="RichTextLabel" parent="Window/TabContainer/Network/VBoxContainer/HSplitContainer"]
+layout_mode = 2
 focus_mode = 2
 selection_enabled = true
 
-[node name="Workshop" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Workshop" type="MarginContainer" parent="Window/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Workshop"]
-margin_right = 730.0
-margin_bottom = 373.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Workshop"]
+layout_mode = 2
 
-[node name="WorkshopRefreshButton" type="Button" parent="WindowDialog/TabContainer/Workshop/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="WorkshopRefreshButton" type="Button" parent="Window/TabContainer/Workshop/VBoxContainer"]
+layout_mode = 2
 text = "Refresh"
 
-[node name="WorkshopTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Workshop/VBoxContainer"]
+[node name="WorkshopTextEdit" type="TextEdit" parent="Window/TabContainer/Workshop/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 29.0
-margin_right = 750.0
-margin_bottom = 383.0
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Editor" type="MarginContainer" parent="WindowDialog/TabContainer"]
+[node name="Editor" type="MarginContainer" parent="Window/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/TabContainer/Editor"]
-margin_right = 730.0
-margin_bottom = 373.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/TabContainer/Editor"]
+layout_mode = 2
 
-[node name="CommitActionButton" type="Button" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="CommitActionButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer"]
+layout_mode = 2
 text = "Commit stray actions"
 
-[node name="PrintShortcutsButton" type="Button" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
-margin_right = 750.0
-margin_bottom = 25.0
+[node name="PrintShortcutsButton" type="Button" parent="Window/TabContainer/Editor/VBoxContainer"]
+layout_mode = 2
 text = "Print editor shortcuts"
 
-[node name="ShortcutsTextEdit" type="TextEdit" parent="WindowDialog/TabContainer/Editor/VBoxContainer"]
-margin_top = 29.0
-margin_right = 750.0
-margin_bottom = 383.0
+[node name="ShortcutsTextEdit" type="TextEdit" parent="Window/TabContainer/Editor/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="FPSLabel" type="Label" parent="."]
+anchors_preset = 10
 anchor_right = 1.0
-margin_right = -10.0
-margin_bottom = 24.0
-custom_fonts/font = SubResource( 1 )
+offset_right = -10.0
+offset_bottom = 24.0
+theme_override_fonts/font = SubResource("1")
 text = "FPS: 15"
-align = 2
+horizontal_alignment = 2
 
-[node name="GamepadVisualizer" parent="." instance=ExtResource( 4 )]
-margin_left = 1.18921
-margin_right = 1.18921
+[node name="GamepadVisualizer" parent="." instance=ExtResource("4")]
+layout_mode = 3
+anchors_preset = 15
+offset_left = 1.18921
+offset_right = 1.18921
+grow_horizontal = 2
+grow_vertical = 2
 
-[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]
-[connection signal="toggled" from="WindowDialog/TabContainer/Game/VBoxContainer/TransparentViewport" to="." method="_on_TransparentViewport_toggled"]
-[connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
-[connection signal="item_selected" from="WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Workshop/VBoxContainer/WorkshopRefreshButton" to="." method="_on_WorkshopRefreshButton_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Editor/VBoxContainer/CommitActionButton" to="." method="_on_CommitActionButton_pressed"]
-[connection signal="pressed" from="WindowDialog/TabContainer/Editor/VBoxContainer/PrintShortcutsButton" to="." method="_on_PrintShortcutsButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PrintPropertyValue" to="." method="_on_PrintPropertyValue_pressed"]
+[connection signal="toggled" from="Window/TabContainer/Game/VBoxContainer/TransparentViewport" to="." method="_on_TransparentViewport_toggled"]
+[connection signal="item_selected" from="Window/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
+[connection signal="item_selected" from="Window/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton" to="." method="_on_LogFilterOptionButton_item_selected"]
+[connection signal="pressed" from="Window/TabContainer/Workshop/VBoxContainer/WorkshopRefreshButton" to="." method="_on_WorkshopRefreshButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Editor/VBoxContainer/CommitActionButton" to="." method="_on_CommitActionButton_pressed"]
+[connection signal="pressed" from="Window/TabContainer/Editor/VBoxContainer/PrintShortcutsButton" to="." method="_on_PrintShortcutsButton_pressed"]

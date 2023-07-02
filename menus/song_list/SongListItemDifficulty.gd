@@ -4,14 +4,14 @@ class_name HBSongListItemDifficulty
 
 var difficulty: String
 
-onready var score_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ScoreLabel")
-onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
-onready var stars_container = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer")
-onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarTextureRect")
-onready var stars_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarsLabel")
-onready var arcade_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ArcadeTexture")
-onready var console_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ConsoleTexture")
-onready var badge_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BadgeTexture")
+@onready var score_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/ScoreLabel")
+@onready var difficulty_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/DifficultyLabel")
+@onready var stars_container = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer")
+@onready var stars_texture_rect = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarTextureRect")
+@onready var stars_label = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/StarsLabel")
+@onready var arcade_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ArcadeTexture")
+@onready var console_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ConsoleTexture")
+@onready var badge_texture = get_node("Control/MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BadgeTexture")
 var song: HBSong
 #onready var star_texture_rect = get_node("TextureRect")
 
@@ -25,6 +25,7 @@ const clear_badges = {
 
 
 func _ready():
+	super._ready()
 	arcade_texture.hide()
 	console_texture.hide()
 
@@ -37,7 +38,7 @@ func set_song_difficulty(value: HBSong, _difficulty: String):
 		stars_label.text = "x %d " % [song.charts[difficulty].stars]
 	difficulty_label.text = difficulty.to_upper() + "  "
 	if ScoreHistory.has_result(value.id, difficulty):
-		var result := ScoreHistory.get_result(value.id, difficulty) as HBHistoryEntry
+		var result := ScoreHistory.get_data(value.id, difficulty) as HBHistoryEntry
 		var pass_percentage = result.highest_percentage
 		var thousands_sep_score = HBUtils.thousands_sep(result.highest_score)
 		var rating = HBUtils.find_key(HBResult.RESULT_RATING, result.highest_rating)

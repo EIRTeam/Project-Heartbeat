@@ -1,4 +1,4 @@
-tool
+@tool
 extends RichTextEffect
 class_name RichTextWordRainbow
 

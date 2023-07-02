@@ -1,0 +1,174 @@
+[gd_scene load_steps=20 format=3 uid="uid://bki0flmhuamc5"]
+
+[ext_resource type="Texture2D" uid="uid://nvvk7w8i3cci" path="res://graphics/credits/flag.png" id="1_pnjfj"]
+[ext_resource type="Texture2D" uid="uid://4ayk4syw8k14" path="res://graphics/predarkenedbg.png" id="2_jfxcy"]
+[ext_resource type="Script" path="res://rythm_game/SongBackground.gd" id="3_r5g2s"]
+[ext_resource type="Texture2D" uid="uid://cpv1kmmpnhti5" path="res://graphics/default_avatar.png" id="4_7pktu"]
+[ext_resource type="PackedScene" uid="uid://d2xoywdaxsuvs" path="res://menus/MainMenuVisualizer.tscn" id="5_1vks6"]
+[ext_resource type="PackedScene" uid="uid://cqek6mlx05vhe" path="res://menus/LogoVisualizer.tscn" id="6_xhb60"]
+[ext_resource type="PackedScene" uid="uid://ddwcdis3ndvvm" path="res://menus/music_player/MainMenuMusicPlayer.tscn" id="7_ivt0y"]
+[ext_resource type="Script" path="res://scripts/3DUIQuad.gd" id="8_otou7"]
+[ext_resource type="Script" path="res://menus/GLES2ViewportRTHack.gd" id="9_vle8t"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kjbhm"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7340"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_kjbhm")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_07kpk"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_q7340")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vi6ku"]
+bg_color = Color(0.129412, 0.0705882, 0.258824, 1)
+
+[sub_resource type="Animation" id="14"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background1:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background2:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lghsi"]
+_data = {
+"1to2": SubResource("14")
+}
+
+[sub_resource type="QuadMesh" id="QuadMesh_mjsre"]
+resource_local_to_scene = true
+size = Vector2(1.6, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xc0vk"]
+size = Vector3(0.8, 0.45, 0.01)
+
+[sub_resource type="QuadMesh" id="QuadMesh_civk0"]
+resource_local_to_scene = true
+size = Vector2(0.45, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0r623"]
+size = Vector3(0.225, 0.45, 0.01)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="SubViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_pnjfj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.258819, -0.965926, 0, 0.965926, -0.258819, 0, 0, -1.6932)
+mesh = SubResource("PlaneMesh_07kpk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vi6ku")
+
+[node name="Background1" type="TextureRect" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.75)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("2_jfxcy")
+expand_mode = 1
+stretch_mode = 7
+script = ExtResource("3_r5g2s")
+
+[node name="Background2" type="TextureRect" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("4_7pktu")
+expand_mode = 1
+stretch_mode = 7
+script = ExtResource("3_r5g2s")
+
+[node name="MainMenuVisualizer2" parent="CanvasLayer" instance=ExtResource("5_1vks6")]
+mouse_filter = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+ratio = 0.665
+
+[node name="Control" parent="CanvasLayer/AspectRatioContainer" instance=ExtResource("6_xhb60")]
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_lghsi")
+}
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="MainMenuMusicPlayer" parent="CanvasLayer2" instance=ExtResource("7_ivt0y")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AreaLeft" type="Area3D" parent="."]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -0.24791, 0, -0.518273)
+script = ExtResource("8_otou7")
+viewport_path = NodePath("../SubViewport")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaLeft"]
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0.0118276)
+mesh = SubResource("QuadMesh_mjsre")
+skeleton = NodePath("")
+script = ExtResource("9_vle8t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaLeft"]
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.00420611, -0.0040324, 0.00213248)
+shape = SubResource("BoxShape3D_xc0vk")
+
+[node name="AreaRight" type="Area3D" parent="."]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0.651739, 0, -0.235812)
+script = ExtResource("8_otou7")
+viewport_path = NodePath("../SubViewport")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaRight"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 5.96046e-08, 0, 0.00996158)
+mesh = SubResource("QuadMesh_civk0")
+skeleton = NodePath("")
+script = ExtResource("9_vle8t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaRight"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_0r623")

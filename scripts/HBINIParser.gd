@@ -5,6 +5,7 @@ static func parse(contents: String) -> Dictionary:
 	var dict = {}
 	var current_section = ""
 	for line in contents.split('\n'):
+		line = line.strip_edges()
 		if line.begins_with("[") and line.ends_with("]"):
 			current_section = line.substr(1, line.length()-2)
 			dict[current_section] = {}

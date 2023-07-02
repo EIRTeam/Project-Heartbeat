@@ -203,7 +203,7 @@ var editor_main_grid_color := Color(0.5, 0.5, 0.5)
 var editor_main_grid_width := 2.0
 var editor_secondary_grid_color := Color(0.5, 0.5, 0.5)
 var editor_secondary_grid_width := 1.0
-var editor_multinote_cross_color := Color.white
+var editor_multinote_cross_color := Color.WHITE
 var editor_multinote_cross_width := 1.0
 
 var editor_show_waveform := true
@@ -346,27 +346,28 @@ func get_lyrics_color() -> Color:
 	return color
 
 func get_lyrics_halign():
-	var alignment = Label.ALIGN_LEFT
+	var alignment = HORIZONTAL_ALIGNMENT_LEFT
 	if lyrics_position.ends_with("center"):
-		alignment = Label.ALIGN_CENTER
+		alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if lyrics_position.ends_with("right"):
-		alignment = Label.ALIGN_RIGHT
+		alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	return alignment
 	
 func get_lyrics_valign():
-	var alignment = Label.VALIGN_TOP
+	var alignment = VERTICAL_ALIGNMENT_TOP
 	if lyrics_position.begins_with("bottom"):
-		alignment = Label.VALIGN_BOTTOM
+		alignment = VERTICAL_ALIGNMENT_BOTTOM
 	return alignment
 
 static func deserialize(data: Dictionary):
-	var result = .deserialize(data)
+	var result = super.deserialize(data)
 	result.input_map = {}
 	if data.has("input_map"):
 		for action_name in data.input_map:
 			result.input_map[action_name] = []
 			for action in data.input_map[action_name]:
-				result.input_map[action_name].append(str2var(action))
+				result.input_map[action_name].append(str_to_var(action))
+				print(str_to_var(action))
 	
 	result.root_folder.folder_name = "Root"
 	
@@ -384,12 +385,12 @@ static func deserialize(data: Dictionary):
 	return result
 	
 func serialize(serialize_defaults=false):
-	var base_data = .serialize()
+	var base_data = super.serialize()
 	var new_input_map = {}
 	for action_name in base_data.input_map:
 		new_input_map[action_name] = []
 		for action in base_data.input_map[action_name]:
-			new_input_map[action_name].append(var2str(action))
+			new_input_map[action_name].append(var_to_str(action))
 	base_data.input_map = new_input_map
 	
 	var pss = {}
@@ -411,7 +412,7 @@ func get_serialized_type():
 	return "UserSettings"
 
 func get_sound_volume_db(sound_name: String) -> float:
-	return linear2db(UserSettings.user_settings.custom_sound_volumes[sound_name])
+	return linear_to_db(UserSettings.user_settings.custom_sound_volumes[sound_name])
 
 func get_sound_volume_linear(sound_name: String) -> float:
 	return UserSettings.user_settings.custom_sound_volumes[sound_name]

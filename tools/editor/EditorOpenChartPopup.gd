@@ -1,20 +1,20 @@
 extends ConfirmationDialog
 
-onready var tree = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tree")
-onready var new_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/NewSongButton")
-onready var add_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/AddDifficultyButton")
-onready var edit_data_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/EditDataButton")
-onready var song_meta_editor_dialog = get_node("SongMetaEditorDialog")
-onready var song_meta_editor = get_node("SongMetaEditorDialog/SongMetaEditor")
-onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
-onready var create_song_dialog = get_node("CreateSongDialog")
-onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/DeleteChartButton")
-onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
-onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/VerifySongButton")
-onready var verify_song_popup = get_node("SongVerificationPopup")
-onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
-onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
-onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
+@onready var tree = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Tree")
+@onready var new_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/NewSongButton")
+@onready var add_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/AddDifficultyButton")
+@onready var edit_data_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/EditDataButton")
+@onready var song_meta_editor_dialog = get_node("SongMetaEditorDialog")
+@onready var song_meta_editor = get_node("SongMetaEditorDialog/SongMetaEditor")
+@onready var create_difficulty_dialog = get_node("CreateDifficultyDialog")
+@onready var create_song_dialog = get_node("CreateSongDialog")
+@onready var delete_chart_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/DeleteChartButton")
+@onready var delete_confirmation_dialog = get_node("DeleteConfirmationDialog")
+@onready var verify_song_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/VerifySongButton")
+@onready var verify_song_popup = get_node("SongVerificationPopup")
+@onready var upload_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainerSong/UploadToWorkshopButton")
+@onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
+@onready var search_line_edit: LineEdit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SearchLineEdit")
 signal chart_selected(song, difficulty, hidden)
 
 const LOG_NAME = "EditorOpenChartPopup"
@@ -23,20 +23,20 @@ const LOG_NAME = "EditorOpenChartPopup"
 var show_hidden = false
 
 func _ready():
-	connect("about_to_show", self, "_on_about_to_show")
-	tree.connect("item_selected", self, "_on_item_selected")
-	edit_data_button.connect("pressed", self, "_show_meta_editor")
-	new_song_button.connect("pressed", create_song_dialog, "popup_centered")
-	create_song_dialog.connect("confirmed", self, "_on_CreateSongDialog_confirmed")
+	connect("about_to_popup", Callable(self, "_on_about_to_show"))
+	tree.connect("item_selected", Callable(self, "_on_item_selected"))
+	edit_data_button.connect("pressed", Callable(self, "_show_meta_editor"))
+	new_song_button.connect("pressed", Callable(create_song_dialog, "popup_centered"))
+	create_song_dialog.connect("confirmed", Callable(self, "_on_CreateSongDialog_confirmed"))
 #	call_deferred("popup_centered")
-	connect("confirmed", self, "_on_confirmed")
-	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
-	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
-	delete_chart_button.connect("pressed", delete_confirmation_dialog, "popup_centered")
-	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
-	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
-	upload_button.connect("pressed", self, "_on_upload_to_workshop_pressed")
-	search_line_edit.connect("text_changed", self, "_on_search_text_changed")
+	connect("confirmed", Callable(self, "_on_confirmed"))
+	add_chart_button.connect("pressed", Callable(create_difficulty_dialog, "popup_centered"))
+	create_difficulty_dialog.connect("difficulty_created", Callable(self, "_on_difficulty_created"))
+	delete_chart_button.connect("pressed", Callable(delete_confirmation_dialog, "popup_centered"))
+	delete_confirmation_dialog.connect("confirmed", Callable(self, "_on_chart_deleted"))
+	verify_song_button.connect("pressed", Callable(self, "_on_verify_button_pressed"))
+	upload_button.connect("pressed", Callable(self, "_on_upload_to_workshop_pressed"))
+	search_line_edit.connect("text_changed", Callable(self, "_on_search_text_changed"))
 	
 func _on_search_text_changed(_new_text: String):
 	populate_tree()
@@ -73,7 +73,7 @@ func populate_tree():
 	delete_chart_button.disabled = true
 	verify_song_button.disabled = true
 	upload_button.disabled = true
-	get_ok().disabled = true
+	get_ok_button().disabled = true
 	
 	tree.clear()
 	var _root = tree.create_item()
@@ -99,7 +99,7 @@ func populate_tree():
 			origin = " (DSC Loader)"
 		
 		for field in [song.title, song.romanized_title, song.original_title]:
-			if search_line_edit.text.empty() or search_line_edit.text.to_lower() in (field + origin).to_lower():
+			if search_line_edit.text.is_empty() or search_line_edit.text.to_lower() in (field + origin).to_lower():
 				var item = tree.create_item()
 				
 				item.set_text(0, song.get_visible_title() + origin)
@@ -122,10 +122,10 @@ func _on_item_selected():
 	var item = tree.get_selected()
 	
 	if item.has_meta("difficulty"):
-		get_ok().disabled = false
+		get_ok_button().disabled = false
 		delete_chart_button.disabled = item.get_meta("hidden")
 	else:
-		get_ok().disabled = true
+		get_ok_button().disabled = true
 		delete_chart_button.disabled = true
 	
 	edit_data_button.disabled = false
@@ -145,9 +145,9 @@ func _show_meta_editor():
 	song_meta_editor.hidden = tree.get_selected().get_meta("hidden")
 	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
 	
-	song_meta_editor_dialog.rect_size = Vector2.ZERO
-	song_meta_editor_dialog.popup_centered_minsize(Vector2(500, 650))
-	song_meta_editor_dialog.get_ok().disabled = tree.get_selected().get_meta("hidden")
+	song_meta_editor_dialog.size = Vector2.ZERO
+	song_meta_editor_dialog.popup_centered_clamped(Vector2(500, 650))
+	song_meta_editor_dialog.get_ok_button().disabled = tree.get_selected().get_meta("hidden")
 
 func _on_CreateSongDialog_confirmed():
 	if $CreateSongDialog/VBoxContainer/LineEdit.text != "":
@@ -165,7 +165,7 @@ func _on_CreateSongDialog_confirmed():
 
 func show_error(error: String):
 	$AcceptDialog.dialog_text = error
-	$AcceptDialog.rect_size = Vector2.ZERO
+	$AcceptDialog.size = Vector2.ZERO
 	$AcceptDialog.popup_centered(Vector2(500, 100))
 func _on_confirmed():
 	var item = tree.get_selected()
@@ -185,7 +185,7 @@ func _on_confirmed():
 				for i in range(errors[error_class].size()-1, -1, -1):
 					var error = errors[error_class][i]
 					if error.type == HBSongVerification.CHART_ERROR.FILE_NOT_FOUND:
-						errors[error_class].remove(i)
+						errors[error_class].remove_at(i)
 		
 		if verification.has_fatal_error(errors):
 			var err = "Some errors need to be resolved before you can edit your chart, warnings don't need to be resolved but it's very recommended"
@@ -223,10 +223,9 @@ func _on_difficulty_created(difficulty: String, stars, uses_console_style = fals
 			chart.editor_settings.hidden_layers.append("SLIDE_LEFT")
 			chart.editor_settings.hidden_layers.append("SLIDE_RIGHT")
 			chart.editor_settings.hidden_layers.erase("HEART")
-		var json = JSON.print(chart.serialize(), "  ")
+		var json = JSON.stringify(chart.serialize(), "  ")
 		
-		var f = File.new()
-		f.open(song.get_chart_path(difficulty.to_lower()), File.WRITE)
+		var f = FileAccess.open(song.get_chart_path(difficulty.to_lower()), FileAccess.WRITE)
 		f.store_string(json)
 		
 		populate_tree()
@@ -237,7 +236,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("show_hidden"):
 		show_hidden = not show_hidden
 		
-		window_title = "Select a song to edit / display" if show_hidden else "Select a song to edit"
+		title = "Select a song to edit / display" if show_hidden else "Select a song to edit"
 		
 		populate_tree()
 
@@ -245,9 +244,8 @@ func _on_chart_deleted():
 	var song = tree.get_selected().get_meta("song") as HBSong
 	var difficulty = tree.get_selected().get_meta("difficulty")
 	var chart_path = song.get_chart_path(difficulty)
-	var dir = Directory.new()
-	if dir.file_exists(chart_path):
-		dir.remove(chart_path)
+	if FileAccess.file_exists(chart_path):
+		DirAccess.remove_absolute(chart_path)
 	else:
 		Log.log(self, "Attempted to remove chart %s from song %s failed becuase the chart doesn't exist on disk" % [chart_path, song.id])
 	song.charts.erase(difficulty)

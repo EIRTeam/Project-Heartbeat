@@ -1,170 +1,132 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://bs014ypkeybga"]
 
-[ext_resource path="res://menus/SongTitle.tscn" type="PackedScene" id=1]
-[ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=2]
-[ext_resource path="res://menus/song_list/SongListItem.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/menu_star.png" type="Texture" id=4]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=6]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=7]
-[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=8]
-
-[sub_resource type="DynamicFont" id=1]
-size = 30
-outline_size = 4
-outline_color = Color( 0, 0, 0, 0.486275 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 15
-font_data = ExtResource( 5 )
+[ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="1"]
+[ext_resource type="StyleBox" path="res://styles/SongListItemNormal.tres" id="2"]
+[ext_resource type="Script" path="res://menus/song_list/SongListItem.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="4"]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="5"]
+[ext_resource type="StyleBox" path="res://styles/SongListItemHover.tres" id="6"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
+[ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="8"]
 
 [node name="Control" type="Control"]
-use_parent_material = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 10
 anchor_right = 1.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
+offset_bottom = 100.0
+grow_horizontal = 2
+size_flags_horizontal = 3
 focus_mode = 2
 mouse_filter = 2
-size_flags_horizontal = 3
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")
 node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
-use_parent_material = true
-margin_left = 60.0
-margin_top = 25.0
-margin_right = 1720.0
-margin_bottom = 75.0
-focus_mode = 0
+layout_mode = 0
+offset_left = 60.0
+offset_top = 25.0
+offset_right = 1720.0
+offset_bottom = 75.0
 size_flags_horizontal = 3
-theme = ExtResource( 7 )
-custom_constants/hseparation = 0
-custom_styles/hover = ExtResource( 6 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+focus_mode = 0
+theme = ExtResource("7")
+theme_override_constants/h_separation = 0
+theme_override_styles/normal = ExtResource("2")
+theme_override_styles/hover = ExtResource("6")
+theme_override_styles/pressed = ExtResource("6")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
-use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_top = 0
-custom_constants/margin_left = 62
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 62
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
-use_parent_material = true
-margin_left = 62.0
-margin_right = 1660.0
-margin_bottom = 50.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/separation = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/separation = 7
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
-use_parent_material = true
-margin_right = 945.0
-margin_bottom = 50.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/margin_top = 6
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 6
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
-use_parent_material = true
-margin_top = 6.0
-margin_right = 945.0
-margin_bottom = 44.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-use_parent_material = true
-margin_right = 945.0
-margin_bottom = 38.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_right = 124.0
-margin_bottom = 38.0
-custom_constants/separation = -10
+layout_mode = 2
+theme_override_constants/separation = -10
 
 [node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_right = 48.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 48, 0 )
-expand = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+expand_mode = 1
 stretch_mode = 7
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_left = 38.0
-margin_right = 86.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 48, 0 )
-expand = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+expand_mode = 1
 stretch_mode = 7
 
 [node name="DownloadTextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-use_parent_material = true
-margin_left = 76.0
-margin_right = 124.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 48, 0 )
-texture = ExtResource( 8 )
-expand = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
 stretch_mode = 6
 
-[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 134.0
-margin_right = 945.0
-margin_bottom = 38.0
+[node name="HBoxContainer2" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
+use_parent_material = false
+layout_mode = 2
 mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
-use_parent_material = true
-margin_left = -87.747
-margin_top = -35.0
-margin_right = 87.253
-margin_bottom = 90.0
-rect_min_size = Vector2( 175, 125 )
-mouse_filter = 2
+custom_minimum_size = Vector2(175, 125)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -62.5
+offset_right = 88.0
+offset_bottom = 62.5
+grow_vertical = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StarsLabel" type="Label" parent="Control/TextureRect"]
-use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.397217
-margin_right = 0.397217
-custom_fonts/font = SubResource( 1 )
+offset_top = 6.615
+offset_bottom = 6.61502
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.486275)
+theme_override_constants/outline_size = 19
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 30
 text = "(NT)1"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="pressed" from="Control" to="." method="emit_signal" binds= [ "pressed" ]]
+[connection signal="pressed" from="Control" to="." method="emit_signal" binds= ["pressed"]]

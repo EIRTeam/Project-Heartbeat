@@ -76,10 +76,10 @@ func _ready():
 	
 	timer.wait_time = 5
 	timer.one_shot = false
-	timer.connect("timeout", self, "_on_retry_timer_timed_out")
+	timer.connect("timeout", Callable(self, "_on_retry_timer_timed_out"))
 	
-	PlatformService.service_provider.connect("ticket_ready", self, "_on_ticket_ready")
-	PlatformService.service_provider.connect("ticket_failed", self, "_on_ticket_failed")
+	PlatformService.service_provider.connect("ticket_ready", Callable(self, "_on_ticket_ready"))
+	PlatformService.service_provider.connect("ticket_failed", Callable(self, "_on_ticket_failed"))
 	if "--enable-network-diagnostics" in OS.get_cmdline_args():
 		enable_diagnostics = true
 	var cmdline_args = OS.get_cmdline_args()
@@ -123,7 +123,9 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		data.request_type = request_type
 		emit_signal("diagnostics_response_received", data)
 	if response_code == 200 and result == OK:
-		var json = JSON.parse(body.get_string_from_utf8()).result
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(body.get_string_from_utf8())
+		var json = test_json_conv.data
 		call(request_type_methods[request_type], json, params)
 	else:
 		emit_signal("request_failed", params.handle, response_code)
@@ -133,7 +135,9 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 			print("TIMER ON!!!")
 		if request_type == REQUEST_TYPE.ENTER_RESULT:
 			var failure_reason = "Unknown error (%d)" % [response_code]
-			var json = JSON.parse(body.get_string_from_utf8()) as JSONParseResult
+			var test_json_conv = JSON.new()
+			test_json_conv.parse(body.get_string_from_utf8())
+			var json = test_json_conv.data
 			if json.error == OK:
 				if "error_message" in json.result:
 					failure_reason = json.result.error_message
@@ -153,7 +157,9 @@ func _on_logged_in(json, _params):
 	#HBBackend.get_song_results(SongLoader.songs["ugc_2185496110"], "extreme")
 	
 func get_jwt_data():
-	return JSON.parse(Marshalls.base64_to_utf8(jwt_token.split(".")[1]) + "}").result
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(Marshalls.base64_to_utf8(jwt_token.split(".")[1]) + "}")
+	return test_json_conv.data
 	
 func make_request(url: String, payload: Dictionary, method, type, params = {}, no_auth = false, ignore_jwt_expiration = false):
 	
@@ -165,7 +171,7 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 	params)
 	
 	if not ignore_jwt_expiration:
-		if not jwt_token or (get_jwt_data()["exp"] - OS.get_unix_time() < 60):
+		if not jwt_token or (get_jwt_data()["exp"] - Time.get_unix_time_from_system() < 60):
 			if not waiting_for_auth:
 				renew_auth()
 			queued_requests.append({
@@ -180,22 +186,22 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 	
 	var requester = HTTPRequest.new()
 	requester.use_threads = true
-	requester.connect("request_completed", self, "_on_request_completed", [type, requester, params])
+	requester.connect("request_completed", Callable(self, "_on_request_completed").bind(type, requester, params))
 	add_child(requester)
 	var headers = ["Content-Type: application/json"]
 	if not no_auth:
 		headers += ["Authorization: Bearer " + jwt_token]
-	requester.request(service_env.url + url,  headers, service_env.validate_domain, method, JSON.print(payload))
+	requester.request(service_env.url + url,  headers, method, JSON.stringify(payload))
 	
 	if enable_diagnostics:
 		var request_data = RequestData.new()
 		request_data.url = url
-		request_data.body = JSON.print(payload, "  ")
+		request_data.body = JSON.stringify(payload, "  ")
 		request_data.method = {
 			HTTPClient.METHOD_POST: "POST",
 			HTTPClient.METHOD_GET: "GET"
 		}[method]
-		request_data.headers = headers
+		request_data.headers = str(headers)
 		emit_signal("diagnostics_created_request", request_data)
 	return request_handle_i
 func login_steam():
@@ -235,7 +241,7 @@ func upload_result(song: HBSong, game_info: HBGameInfo):
 			return
 		request.song_ugc_id = str(song.ugc_id)
 	var chart_hash = song.generate_chart_hash(game_info.difficulty)
-	if not chart_hash.empty():
+	if not chart_hash.is_empty():
 		request["chart_hash"] = chart_hash
 	else:
 		Log.log(self, "Empty chart hash for song " + song.title, Log.LogLevel.WARN)
@@ -288,7 +294,7 @@ func get_song_entries(song: HBSong, difficulty: String, include_modifiers = fals
 	if song is HBPPDSong:
 		type = "ppd"
 		song_uid = song.guid
-	var params = [type, song_uid, difficulty.percent_encode(), str(page), str(include_modifiers).to_lower()]
+	var params = [type, song_uid, difficulty.uri_encode(), str(page), str(include_modifiers).to_lower()]
 	return make_request("/api/leaderboard/get-results/%s/%s/%s?page=%s&modifiers=%s" % params, {}, HTTPClient.METHOD_GET, REQUEST_TYPE.GET_ENTRIES, {"page": page})
 
 func renew_auth():

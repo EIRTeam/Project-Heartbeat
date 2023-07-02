@@ -1,12 +1,12 @@
 extends Panel
 
-onready var scroll_list_container = get_node("MarginContainer/VBoxContainer/HBScrollList/VBoxContainer")
-onready var scroll_list = get_node("MarginContainer/VBoxContainer/HBScrollList")
-onready var delete_confirmation_window = get_node("DeleteConfirmationWindow")
-onready var folder_option_window = get_node("Panel")
-onready var folder_options = get_node("Panel/MarginContainer/VBoxContainer")
-onready var text_input_window_create = get_node("TextInputCreate")
-onready var text_input_window_rename = get_node("TextInputRename")
+@onready var scroll_list_container = get_node("MarginContainer/VBoxContainer/HBScrollList/VBoxContainer")
+@onready var scroll_list = get_node("MarginContainer/VBoxContainer/HBScrollList")
+@onready var delete_confirmation_window = get_node("DeleteConfirmationWindow")
+@onready var folder_option_window = get_node("Panel")
+@onready var folder_options = get_node("Panel/MarginContainer/VBoxContainer")
+@onready var text_input_window_create = get_node("TextInputCreate")
+@onready var text_input_window_rename = get_node("TextInputRename")
 const FolderButton = preload("res://menus/FolderManagerFolderButton.tscn")
 
 enum MODE {
@@ -25,42 +25,42 @@ func _ready():
 	text_input_window_create.text_input_description = tr("Enter the new folder name")
 	text_input_window_rename.text_input_description = tr("Enter the new folder name")
 	
-	delete_confirmation_window.connect("accept", self, "delete_selected_folder")
-	delete_confirmation_window.connect("cancel", scroll_list, "grab_focus")
+	delete_confirmation_window.connect("accept", Callable(self, "delete_selected_folder"))
+	delete_confirmation_window.connect("cancel", Callable(scroll_list, "grab_focus"))
 	
-	text_input_window_create.connect("entered", self, "create_folder")
-	text_input_window_rename.connect("entered", self, "rename_folder")
-	text_input_window_create.connect("cancel", scroll_list, "grab_focus")
-	text_input_window_rename.connect("cancel", scroll_list, "grab_focus")
+	text_input_window_create.connect("entered", Callable(self, "create_folder"))
+	text_input_window_rename.connect("entered", Callable(self, "rename_folder"))
+	text_input_window_create.connect("cancel", Callable(scroll_list, "grab_focus"))
+	text_input_window_rename.connect("cancel", Callable(scroll_list, "grab_focus"))
 	
 	var folder_options_buttons = []
 	
 	var add_subfolder_button = HBHovereableButton.new()
 	add_subfolder_button.text = "Add subfolder"
-	add_subfolder_button.connect("pressed", text_input_window_create, "popup_centered")
+	add_subfolder_button.connect("pressed", Callable(text_input_window_create, "popup_centered"))
 	folder_options_buttons.append(add_subfolder_button)
 	
 	var rename_folder_button = HBHovereableButton.new()
 	rename_folder_button.text = "Rename folder"
-	rename_folder_button.connect("pressed", self, "_on_rename_folder_pressed")
+	rename_folder_button.connect("pressed", Callable(self, "_on_rename_folder_pressed"))
 	folder_options_buttons.append(rename_folder_button)
 	no_root_buttons.append(rename_folder_button)
 	
 	var delete_folder_button = HBHovereableButton.new()
 	delete_folder_button.text = "Delete folder"
-	delete_folder_button.connect("pressed", delete_confirmation_window, "popup_centered")
+	delete_folder_button.connect("pressed", Callable(delete_confirmation_window, "popup_centered"))
 	folder_options_buttons.append(delete_folder_button)
 	no_root_buttons.append(delete_folder_button)
 	
 	for button in folder_options_buttons:
 		folder_options.add_child(button)
-		button.connect("pressed", folder_option_window, "hide")
+		button.connect("pressed", Callable(folder_option_window, "hide"))
 	
 func _on_rename_folder_pressed():
 	var folder = scroll_list.get_selected_item().folder as HBFolder
 	text_input_window_rename.line_edit.text = folder.folder_name
 	
-	text_input_window_rename.line_edit.caret_position = text_input_window_rename.line_edit.text.length()
+	text_input_window_rename.line_edit.caret_column = text_input_window_rename.line_edit.text.length()
 	text_input_window_rename.popup_centered()
 	
 func get_folder_name(folder, depth):
@@ -71,13 +71,13 @@ func get_folder_name(folder, depth):
 		c_name += "-"
 	return c_name + " " + subf_name
 func add_folder_item(folder: HBFolder, depth = 0):
-	var folder_button = FolderButton.instance()
+	var folder_button = FolderButton.instantiate()
 	folder_button.folder = folder
 	folder_button.depth = depth+1
 	folder_button.text = get_folder_name(folder, depth+1)
-	folder_button.connect("pressed", self, "_on_folder_selected", [folder_button])
+	folder_button.connect("pressed", Callable(self, "_on_folder_selected").bind(folder_button))
 	if scroll_list.get_selected_item():
-		scroll_list_container.add_child_below_node(scroll_list.get_selected_item(), folder_button)
+		scroll_list.get_selected_item().add_sibling(folder_button)
 	else:
 		scroll_list_container.add_child(folder_button)
 		
@@ -140,7 +140,7 @@ func delete_selected_folder():
 	var current_folder_item = scroll_list.get_selected_item()
 	
 	hide_folders(current_folder_item)
-	var pos = scroll_list.get_selected_item().get_position_in_parent()
+	var pos = scroll_list.get_selected_item().get_index()
 	if scroll_list.get_selected_item().depth > 0:
 		for i in range(pos, -1, -1):
 			var child = scroll_list_container.get_child(i)
@@ -167,7 +167,7 @@ func delete_selected_folder():
 	UserSettings.save_user_settings()
 	
 func hide_folders(folder_item):
-	var pos = folder_item.get_position_in_parent()
+	var pos = folder_item.get_index()
 	var final_pos = pos
 	for i in range(pos+1, scroll_list_container.get_child_count()):
 		var child = scroll_list_container.get_child(i)
@@ -186,22 +186,22 @@ func hide_folders(folder_item):
 func _unhandled_input(event):
 	if scroll_list.has_focus():
 		if event.is_action_pressed("gui_left"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			hide_folders(scroll_list.get_selected_item())
 		if event.is_action_pressed("gui_right"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			var selected_folder = scroll_list.get_selected_item().folder as HBFolder
-			var pos_in_parent = scroll_list.get_selected_item().get_position_in_parent()
+			var pos_in_parent = scroll_list.get_selected_item().get_index()
 			if pos_in_parent < scroll_list_container.get_child_count() - 1:
 				if scroll_list_container.get_child(pos_in_parent+1).depth > scroll_list.get_selected_item().depth:
 					return
 			show_folders_for(selected_folder, scroll_list.get_selected_item().depth)
 		if event.is_action_pressed("gui_cancel"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			emit_signal("closed")
 			hide()
 	if folder_options.has_focus():
 		if event.is_action_pressed("gui_cancel") and folder_option_window.visible:
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			scroll_list.grab_focus()
 			folder_option_window.hide()

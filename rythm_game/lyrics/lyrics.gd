@@ -5,12 +5,12 @@ var current_phrase: HBLyricsPhrase
 
 const LYRIC_MARGIN = 200
 
-onready var overlay_label = get_node("Label2")
+@onready var overlay_label = get_node("Label2")
 
 var last_time = 0
 
-export(DynamicFont) var font1
-export(DynamicFont) var font2
+@export var font1: FontFile
+@export var font2: FontFile
 
 const BASE_FONT_SIZE = 45
 const BASE_OUTLINE_SIZE = 5
@@ -84,16 +84,16 @@ func set_current_phrase(phrase: HBLyricsPhrase):
 	
 func _ready():
 	update_labels()
-	connect("resized", self, "_on_resized")
-	align = UserSettings.user_settings.get_lyrics_halign()
-	overlay_label.align = align
+	connect("resized", Callable(self, "_on_resized"))
+	horizontal_alignment = UserSettings.user_settings.get_lyrics_halign()
+	overlay_label.horizontal_alignment = horizontal_alignment
 	
-	valign = UserSettings.user_settings.get_lyrics_valign()
-	overlay_label.valign = valign
+	vertical_alignment = UserSettings.user_settings.get_lyrics_valign()
+	overlay_label.vertical_alignment = vertical_alignment
 	
-	$Label2.add_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
-	add_font_override("font", font1)
-	$Label2.add_font_override("font", font2)
+	$Label2.add_theme_color_override("font_color", UserSettings.user_settings.get_lyrics_color())
+	add_theme_font_override("font", font1)
+	$Label2.add_theme_font_override("font", font2)
 	_on_resized()
 	
 	
@@ -108,12 +108,12 @@ func update_labels():
 		text = ""
 	
 func _on_resized():
-	var font_size = int(BASE_FONT_SIZE * rect_size.x / 1920.0)
-	var outline_size = int(BASE_OUTLINE_SIZE * rect_size.x / 1920.0)
-	font1.size = font_size
-	font1.outline_size = outline_size
-	font2.size = font_size
-	font2.outline_size = outline_size
+	var font_size = int(BASE_FONT_SIZE * size.x / 1920.0)
+	var outline_size = int(BASE_OUTLINE_SIZE * size.x / 1920.0)
+	add_theme_font_size_override("font_size", font_size)
+	add_theme_constant_override("outline_size", outline_size)
+	$Label2.add_theme_font_size_override("font_size", font_size)
+	$Label2.add_theme_constant_override("outline_size", outline_size)
 func set_phrases(array: Array):
 	phrases = array
 	overlay_label.text = ""

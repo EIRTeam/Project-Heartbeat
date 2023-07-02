@@ -6,7 +6,7 @@ var editor
 
 var layer_name : String = "New Layer"
 
-onready var preview = get_node("EditorTimelinePreview")
+@onready var preview = get_node("EditorTimelinePreview")
 
 var timing_points = []
 var _cull_start_time = 0
@@ -18,7 +18,7 @@ func _ready():
 
 
 func set_style(use_lighter: bool):
-	var stylebox = get_stylebox("panel")
+	var stylebox = get_theme_stylebox("panel")
 	if use_lighter:
 		stylebox.bg_color = Color("#2D3444")
 	else:
@@ -28,24 +28,24 @@ func _sort_timing_points(a: EditorTimelineItem, b: EditorTimelineItem):
 
 func place_child(child: EditorTimelineItem):
 	var x_pos = max(editor.scale_msec(child.data.time), 0.0)
-	child.rect_position = Vector2(x_pos, 0)
-	child.rect_size = child.get_editor_size()
+	child.position = Vector2(x_pos, 0)
+	child.size = child.get_editor_size()
 	child.sync_value("end_time")
 
 func place_preview(start: float, duration: float):
 	var x_pos = max(editor.scale_msec(start), 0)
-	preview.rect_position = Vector2(x_pos, 0)
-	preview.set_deferred("rect_size", Vector2(editor.scale_msec(duration), preview.rect_size.y))
+	preview.position = Vector2(x_pos, 0)
+	preview.set_deferred("size", Vector2(editor.scale_msec(duration), preview.size.y))
 	
 	
 func add_item(item: EditorTimelineItem):
-	var insert_pos = timing_points.bsearch_custom(item.data.time, self, "bsearch_time")
+	var insert_pos = timing_points.bsearch_custom(item.data.time, self.bsearch_time)
 	item._layer = self
 	item.editor = editor
 	place_child(item)
 	
-	if not item.is_connected("time_changed", self, "_on_time_changed"):
-		item.connect("time_changed", self, "_on_time_changed", [item])
+	if not item.is_connected("time_changed", Callable(self, "_on_time_changed")):
+		item.connect("time_changed", Callable(self, "_on_time_changed").bind(item))
 	
 	add_child(item)
 	
@@ -59,7 +59,7 @@ func add_item(item: EditorTimelineItem):
 			item.hide()
 
 func _on_time_changed(child):
-	timing_points.sort_custom(self, "_sort_timing_points")
+	timing_points.sort_custom(Callable(self, "_sort_timing_points"))
 	place_child(child)
 
 func remove_item(item: EditorTimelineItem):
@@ -67,7 +67,7 @@ func remove_item(item: EditorTimelineItem):
 	if item.get_parent() == self:
 		remove_child(item)
 
-func can_drop_data(position, data):
+func _can_drop_data(position, data):
 	if data is EditorTimelineItem:
 		if not data in get_children():
 			preview.show()
@@ -86,8 +86,8 @@ func bsearch_time(a, b):
 	return a_t < b_t
 
 func _on_time_cull_changed(start_time, end_time):
-	var early_note_i = timing_points.bsearch_custom(start_time, self, "bsearch_time")
-	var late_note_i = timing_points.bsearch_custom(end_time, self, "bsearch_time")
+	var early_note_i = timing_points.bsearch_custom(start_time, self.bsearch_time)
+	var late_note_i = timing_points.bsearch_custom(end_time, self.bsearch_time)
 	
 	_cull_start_time = start_time
 	_cull_end_time = end_time
@@ -145,7 +145,7 @@ func _gui_input(event):
 				ln = new_val
 		
 		if ln in HBNoteData.NOTE_TYPE.keys():
-			if event.doubleclick and event.button_index == BUTTON_LEFT:
+			if event.double_click and event.button_index == MOUSE_BUTTON_LEFT:
 				var new_note = HBNoteData.new()
 				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
 				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
@@ -161,7 +161,7 @@ func _gui_input(event):
 					item.data = new_note
 					editor.user_create_timing_point(self, item)
 				
-				get_tree().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 
 func _on_EditorLayer_mouse_exited():
 	preview.hide()

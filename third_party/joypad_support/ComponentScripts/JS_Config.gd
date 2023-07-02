@@ -18,16 +18,14 @@ var should_autodetect_joypad_skin: = true
 var was_ui_accept_manually_swapped: = false
 var actions: = {}
 
-onready var chosen_skin: int = JS_JoypadIdentifier.JoyPads.UNINDENTIFIED
+@onready var chosen_skin: int = JS_JoypadIdentifier.JoyPads.UNINDENTIFIED
 
 # private variables
-export var _version: = 1.0
-export var _dir_path: = "user://"
-export var _file_name: = ""
-export(Array, String) var _actions_to_save = []
+@export var _version: = 1.0
+@export var _dir_path: = "user://"
+@export var _file_name: = ""
+@export var _actions_to_save = [] # (Array, String)
 
-var _directory = Directory.new()
-var _file = File.new()
 var _full_path: = ""
 var _serialized_data = {}
 var _base_serialized_data = {}
@@ -38,7 +36,7 @@ var _base_serialized_data = {}
 ### Built in Engine Methods ---------------
 func _ready():
 	return
-	#_full_path = _dir_path.plus_file(_file_name)
+	#_full_path = _dir_path.path_join(_file_name)
 	#_base_serialized_data = _build_serialized_data()
 	#check_savefile()
 
@@ -47,17 +45,17 @@ func _ready():
 
 ### Public Methods ------------------------
 func check_savefile():
-	if not _directory.dir_exists(_dir_path):
-		_directory.make_dir_recursive(_dir_path)
+	if not DirAccess.dir_exists_absolute(_dir_path):
+		DirAccess.make_dir_recursive_absolute(_dir_path)
 	
-	if not _file.file_exists(_full_path):
+	if not FileAccess.file_exists(_full_path):
 		reset_savefile()
 	
 	read()
 
 
 func reset_savefile():
-	if not _serialized_data.empty():
+	if not _serialized_data.is_empty():
 		_translate_serialized_data(_base_serialized_data)
 	save()
 
@@ -88,14 +86,14 @@ func _build_serialized_data() -> Dictionary:
 	var settings: = {}
 	settings["version"] = _version
 	
-	if actions.empty():
+	if actions.is_empty():
 		_build_actions_dictionary()
 	
 	settings["actions"] = {}
 	for action in actions:
 		settings["actions"][action] = []
 		for event in actions[action]:
-			settings["actions"][action].append(var2str(event))
+			settings["actions"][action].append(var_to_str(event))
 	
 	settings["was_ui_accept_manually_swapped"] = was_ui_accept_manually_swapped
 	settings["should_autodetect_joypad_skin"] = should_autodetect_joypad_skin
@@ -114,13 +112,13 @@ func _translate_serialized_data(data: Dictionary) -> void:
 	for action in data.actions:
 		actions[action] = []
 		for event_str in data.actions[action]:
-			actions[action].push_back(str2var(event_str))
+			actions[action].push_back(str_to_var(event_str))
 
 # Bellow Here things would go into the extended script if you change this to extend a Futur BaseSaveFile
 func _build_actions_dictionary() -> void:
 	for action in _actions_to_save:
 		actions[action] = []
-		for event in InputMap.get_action_list(action):
+		for event in InputMap.action_get_events(action):
 			actions[action].append(event)
 
 

@@ -1,209 +1,124 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://bi00tlp38rnc3"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://tools/editor/WorkshopUploadForm.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Script" path="res://tools/editor/WorkshopUploadForm.gd" id="2"]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id="1"]
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.2, 0.231373, 0.309804, 1 )
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.2, 0.231373, 0.309804, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color( 0.462745, 0.478431, 0.52549, 1 )
+border_color = Color(0.462745, 0.478431, 0.52549, 1)
 
-[node name="WindowDialog" type="WindowDialog"]
-margin_left = 302.0
-margin_top = 123.0
-margin_right = 819.0
-margin_bottom = 525.0
-rect_min_size = Vector2( 517, 402 )
-theme = ExtResource( 1 )
-resizable = true
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Window" type="Window"]
+theme = ExtResource("1")
+script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 507.0
-margin_bottom = 392.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="DataLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 497.0
-margin_bottom = 25.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 497.0
-margin_bottom = 54.0
+layout_mode = 2
 text = "Title"
 
 [node name="TitleLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
-margin_top = 58.0
-margin_right = 497.0
-margin_bottom = 83.0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 497.0
-margin_bottom = 112.0
+layout_mode = 2
 text = "Description"
 
 [node name="DescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-margin_top = 116.0
-margin_right = 497.0
-margin_bottom = 148.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Label4" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 152.0
-margin_right = 497.0
-margin_bottom = 177.0
+layout_mode = 2
 text = "Changelog"
 
 [node name="UpdateDescriptionLineEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
-margin_top = 181.0
-margin_right = 497.0
-margin_bottom = 213.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
-margin_top = 217.0
-margin_right = 497.0
-margin_bottom = 221.0
+layout_mode = 2
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 225.0
-margin_right = 497.0
-margin_bottom = 290.0
+layout_mode = 2
 text = "Before uploading, please make sure that:
 - You don't upload content you don't have the rights or permission to upload.
 - Your upload doesn't break the Steam terms of service"
 
 [node name="CheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer"]
-margin_top = 294.0
-margin_right = 497.0
-margin_bottom = 319.0
+layout_mode = 2
 text = "I comply with the conditions stated"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
-margin_top = 323.0
-margin_right = 497.0
-margin_bottom = 353.0
-rect_min_size = Vector2( 0, 30 )
-custom_styles/normal = SubResource( 1 )
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("1")
 bbcode_enabled = true
-bbcode_text = "[b]By submitting this item, you agree to the [url=http://steamcommunity.com/sharedfiles/workshoplegalagreement]workshop terms of service[/url][/b]"
 text = "By submitting this item, you agree to the workshop terms of service"
 
 [node name="UploadButton" type="Button" parent="MarginContainer/VBoxContainer"]
-margin_top = 357.0
-margin_right = 497.0
-margin_bottom = 382.0
+layout_mode = 2
 disabled = true
 text = "Upload"
 
 [node name="UploadDialog" type="Popup" parent="."]
-visible = true
-margin_left = 69.0
-margin_top = 123.0
-margin_right = 418.0
-margin_bottom = 196.0
-popup_exclusive = true
+exclusive = true
 
 [node name="Panel" type="Panel" parent="UploadDialog"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -1.0
-custom_styles/panel = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_bottom = -1.0
+theme_override_styles/panel = SubResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="UploadDialog/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -32.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_bottom = -32.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UploadDialog/Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 339.0
-margin_bottom = 56.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Label" type="Label" parent="UploadDialog/Panel/MarginContainer/VBoxContainer"]
-margin_right = 329.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Uploading to the workshop, hold tight."
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="UploadDialog/Panel/MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 329.0
-margin_bottom = 46.0
+layout_mode = 2
 max_value = 1.0
 step = 0.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PostUploadDialog" type="AcceptDialog" parent="."]
-margin_left = 69.35
-margin_top = 122.55
-margin_right = 418.35
-margin_bottom = 258.55
-popup_exclusive = true
-window_title = "¡Alerta!"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
-margin_left = 69.35
-margin_top = 122.55
-margin_right = 418.35
-margin_bottom = 258.55
-popup_exclusive = true
-window_title = "¡Alerta!"
 dialog_text = "There "
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="FileNotFoundDialog" type="ConfirmationDialog" parent="."]
-margin_left = 69.35
-margin_top = 122.55
-margin_right = 418.35
-margin_bottom = 258.55
-popup_exclusive = true
-window_title = "Please Confirm..."
+size = Vector2i(200, 273)
 dialog_text = "This song appears to have been uploaded previously, but we cannot find it on the workshop anymore, would you like to instead upload it from scratch?"
 dialog_autowrap = true

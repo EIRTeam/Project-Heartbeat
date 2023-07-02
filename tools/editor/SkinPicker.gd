@@ -2,11 +2,11 @@ extends ConfirmationDialog
 
 class_name HBEditorSkinPicker
 
-onready var option_button: OptionButton = get_node("%SkinPickerOptionButton")
+@onready var option_button: OptionButton = get_node("%SkinPickerOptionButton")
 
 var visible_ids := []
 
-var selected_value := 0 setget set_selected_value
+var selected_value := 0: set = set_selected_value
 
 signal skin_selected(skin_ugc_id)
 
@@ -41,9 +41,9 @@ func populate_list():
 					option_button.set_block_signals(false)
 
 func _ready():
-	option_button.connect("item_selected", self, "_on_skin_selected")
+	option_button.connect("item_selected", Callable(self, "_on_skin_selected"))
 	populate_list()
-	connect("confirmed", self, "_on_confirmed")
+	connect("confirmed", Callable(self, "_on_confirmed"))
 	
 func _on_confirmed():
 	emit_signal("skin_selected", selected_value)

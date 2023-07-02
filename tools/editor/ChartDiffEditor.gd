@@ -1,6 +1,6 @@
 extends ScrollContainer
 
-onready var container = get_node("MarginContainer/HBoxContainer/VBoxContainer")
+@onready var container = get_node("MarginContainer/HBoxContainer/VBoxContainer")
 const DIFF = preload("res://tools/editor/ChartDiff.tscn")
 
 func populate(song: HBSong, enabled: bool):
@@ -9,7 +9,7 @@ func populate(song: HBSong, enabled: bool):
 		i.queue_free()
 	
 	for chart_diff in song.charts:
-		var diff = DIFF.instance()
+		var diff = DIFF.instantiate()
 		diff.size_flags_horizontal = SIZE_EXPAND_FILL
 		container.add_child(diff)
 		

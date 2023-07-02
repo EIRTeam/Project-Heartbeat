@@ -5,15 +5,15 @@ class_name LeaderboardView
 signal entries_received(handle, entries, total_pages)
 signal entries_request_failed()
 var current_request_handle
-onready var entries_container = self
+@onready var entries_container = self
 
 const LeaderboardItem = preload("res://menus/new_leaderboard_control/LeaderboardItem.tscn")
 
-export(NodePath) var labels_node_path
+@export var labels_node_path: NodePath
 
 func _ready():
-	HBBackend.connect("entries_received", self, "_on_entries_received")
-	HBBackend.connect("request_failed", self, "_on_request_failed")
+	HBBackend.connect("entries_received", Callable(self, "_on_entries_received"))
+	HBBackend.connect("request_failed", Callable(self, "_on_request_failed"))
 	#var test_song = SongLoader.songs["ugc_2091437358"]
 	#print(test_song.title)
 	#fetch_entries(test_song, "extreme", false)
@@ -47,14 +47,14 @@ func _on_entries_received(handle, entries, total_pages):
 		emit_signal("entries_received", handle, entries, total_pages)
 		
 		if get_tree():
-			yield(get_tree(), "idle_frame")
+			await get_tree().process_frame
 
 func set_entries(entries: Array):
 	for item in entries_container.get_children():
 		entries_container.remove_child(item)
 		item.queue_free()
 	for entry in entries:
-		var item = LeaderboardItem.instance()
+		var item = LeaderboardItem.instantiate()
 		item.entry = entry
 		entries_container.add_child(item)
 

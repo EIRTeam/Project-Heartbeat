@@ -1,11 +1,11 @@
 extends Panel
-var FREQ_MAX = 44100.0 / 2.5 setget set_freq_max
+var FREQ_MAX = 44100.0 / 2.5: set = set_freq_max
 const VU_COUNT = 256 # high VU_COUNTS break on windows
-var MIN_DB = 60 setget set_min_db
-var spectrum_image := Image.new()
-var spectrum_image_texture := ImageTexture.new()
-export(StyleBox) var fallback_stylebox: StyleBox
-export(bool) var ingame = false
+var MIN_DB = 60: set = set_min_db
+var spectrum_image: Image
+var spectrum_image_texture: ImageTexture
+@export var fallback_stylebox: StyleBox
+@export var ingame: bool = false
 func set_freq_max(value: float):
 	FREQ_MAX = value
 
@@ -14,15 +14,11 @@ func set_min_db(value):
 
 func _ready():
 	add_to_group("song_backgrounds")
-	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
-		# GLES2 doesn't like R8
-		spectrum_image.create(VU_COUNT, 1, false, Image.FORMAT_RGB8)
-	else:
-		spectrum_image.create(VU_COUNT, 1, false, Image.FORMAT_R8)
-	spectrum_image_texture.create_from_image(spectrum_image, Texture.FLAG_FILTER)
+	spectrum_image = Image.create(VU_COUNT, 1, false, Image.FORMAT_R8)
+	spectrum_image_texture = ImageTexture.create_from_image(spectrum_image) #,Texture2D.FLAG_FILTER
 	var mat := material as ShaderMaterial
-	mat.set_shader_param("audio", spectrum_image_texture)
-	mat.set_shader_param("FREQ_RANGE", VU_COUNT)
+	mat.set_shader_parameter("audio", spectrum_image_texture)
+	mat.set_shader_parameter("FREQ_RANGE", VU_COUNT)
 	set("z", -1000)
 	if not UserSettings.user_settings.visualizer_enabled:
 		if ingame and UserSettings.user_settings.background_dim == 0:
@@ -31,7 +27,7 @@ func _ready():
 			set_physics_process(false)
 			material = CanvasItemMaterial.new()
 			if fallback_stylebox:
-				add_stylebox_override("panel", fallback_stylebox)
+				add_theme_stylebox_override("panel", fallback_stylebox)
 	else:
 		_background_dim_changed(UserSettings.user_settings.background_dim)
 
@@ -40,19 +36,13 @@ func _background_dim_changed(new_dim: float):
 		var box = fallback_stylebox as StyleBoxFlat
 		box.bg_color.a = 0.5 + (new_dim * 0.5)
 
-func _process(delta: float):
-	update()
-
-func _physics_process(delta):
-	spectrum_image.lock()
-	
+func _process(delta):
 	for i in range(VU_COUNT):
 		var magnitude := HBGame.spectrum_snapshot.get_value_at_i(i) as float
 		spectrum_image.set_pixel(i, 0, Color(magnitude, 0.0, 0.0))
 	
-	spectrum_image.unlock()
-	spectrum_image_texture.set_data(spectrum_image)
+	spectrum_image_texture.update(spectrum_image)
 	var mat := material as ShaderMaterial
-	mat.set_shader_param("size", rect_size)
+	mat.set_shader_parameter("size", size)
 
  

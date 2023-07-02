@@ -1,22 +1,22 @@
 extends "Option.gd"
 
-var text = "" setget set_text
+var text = "": set = set_text
 # warning-ignore:unused_signal
 signal pressed
 
-onready var selected_text = get_node("HBoxContainer/Control/Label2")
-onready var controller_select_dropdown = get_node("CanvasLayer/DropDown")
-onready var controller_select_list = get_node("CanvasLayer/DropDown/MarginContainer/Control")
-onready var controller_item_container = get_node("CanvasLayer/DropDown/MarginContainer/Control/VBoxContainer")
+@onready var selected_text = get_node("HBoxContainer/Control/Label2")
+@onready var controller_select_dropdown = get_node("CanvasLayer/DropDown")
+@onready var controller_select_list = get_node("CanvasLayer/DropDown/MarginContainer/Control")
+@onready var controller_item_container = get_node("CanvasLayer/DropDown/MarginContainer/Control/VBoxContainer")
 func set_text(val):
 	text = val
 	$HBoxContainer/Label.text = val
 
 func _ready():
 	controller_select_dropdown.hide()
-	connect("pressed", self, "_on_pressed")
+	connect("pressed", Callable(self, "_on_pressed"))
 	show_current()
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	Input.connect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 	
 func _gui_input(event: InputEvent):
 	pass
@@ -44,15 +44,15 @@ func show_list():
 		button.text = Input.get_joy_name(controller)
 		if Input.is_joy_known(controller):
 			button.text += tr(" (known)")
-		button.connect("pressed", self, "_on_controller_button_pressed", [controller])
+		button.connect("pressed", Callable(self, "_on_controller_button_pressed").bind(controller))
 		controller_item_container.add_child(button)
 		if Input.get_joy_guid(controller) == UserSettings.controller_guid:
-			button_to_select = button.get_position_in_parent()
+			button_to_select = button.get_index()
 	controller_select_dropdown.show()
 	controller_select_list.grab_focus()
 	controller_select_list.select_item(button_to_select)
 func _on_pressed():
-	_old_focus = get_focus_owner()
+	_old_focus = get_viewport().gui_get_focus_owner()
 	show_list()
 	
 func _on_controller_button_pressed(device: int):

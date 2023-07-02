@@ -1,74 +1,74 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://bk36n81tgbx1g"]
 
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=1]
-[ext_resource path="res://fonts/SongLabelAuthor.tres" type="DynamicFont" id=2]
-[ext_resource path="res://menus/SongTitle.gd" type="Script" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://fonts/orbitron-bold.otf" type="DynamicFontData" id=5]
+[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="1"]
+[ext_resource type="FontFile" path="res://fonts/SongLabelAuthor.tres" id="2"]
+[ext_resource type="Script" path="res://menus/SongTitle.gd" id="3"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="5"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 27
-use_mipmaps = true
-use_filter = true
-extra_spacing_bottom = -7
-font_data = ExtResource( 5 )
-fallback/0 = ExtResource( 4 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("5"), ExtResource("4")])
+face_index = null
+embolden = null
+transform = null
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="SongTitle" type="HBoxContainer"]
 use_parent_material = true
-margin_right = 1612.0
-margin_bottom = 39.0
+offset_right = 1612.0
+offset_bottom = 39.0
 size_flags_vertical = 3
-custom_constants/separation = 20
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_horizontal_guides_": [ 34.2132, 24.8105 ]
-}
+theme_override_constants/separation = 20
+script = ExtResource("3")
 
 [node name="DifficultyLabel" type="Label" parent="."]
 visible = false
 use_parent_material = true
-margin_right = 185.0
-margin_bottom = 50.0
+layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "(NT)[EXTREME]"
-align = 3
-valign = 1
+horizontal_alignment = 3
+vertical_alignment = 1
 uppercase = true
 
 [node name="TitleLabel" type="Label" parent="."]
 use_parent_material = true
-margin_right = 238.0
-margin_bottom = 39.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "(NT)Song Title"
-valign = 1
+vertical_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="."]
 use_parent_material = true
-margin_left = 258.0
-margin_right = 525.0
-margin_bottom = 39.0
+layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "(NT)Ken asdsad"
-align = 3
-valign = 1
+horizontal_alignment = 3
+vertical_alignment = 1
 uppercase = true
 
 [node name="CircleLabel" type="TextureRect" parent="."]
 use_parent_material = true
-margin_left = 545.0
-margin_right = 795.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 250, 0 )
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
 size_flags_vertical = 3
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+expand_mode = 1
+stretch_mode = 5

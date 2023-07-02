@@ -8,21 +8,21 @@ const FADE_OUT_TIME = 1.0
 
 const ROLLBACK_TIME = 1300 # Rollback time after pausing and unpausing
 var rollback_on_resume = false
-onready var fade_out_tween = get_node("FadeOutTween")
-onready var fade_in_tween = get_node("FadeInTween")
-onready var game : HBRhythmGame
+@onready var fade_out_tween = get_node("FadeOutThreen")
+@onready var fade_in_tween = get_node("FadeInThreen")
+@onready var game : HBRhythmGame
 
-onready var game_ui_container = get_node("GameUIContainer")
+@onready var game_ui_container = get_node("GameUIContainer")
 
 var game_ui: HBRhythmGameUIBase
 
-onready var visualizer = get_node("Node2D/Visualizer")
-onready var vhs_panel = get_node("VHS")
-onready var background_texture = get_node("Node2D/TextureRect")
-onready var video_player_panel = get_node("Node2D/Panel")
-onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
-onready var pause_menu = get_node("PauseMenu")
-onready var game_over_tween := Tween.new()
+@onready var visualizer = get_node("Node2D/Visualizer")
+@onready var vhs_panel = get_node("VHS")
+@onready var background_texture = get_node("Node2D/TextureRect")
+@onready var video_player_panel = get_node("Node2D/Panel")
+@onready var rollback_label_animation_player = get_node("RollbackLabel/AnimationPlayer")
+@onready var pause_menu = get_node("PauseMenu")
+@onready var game_over_tween := Threen.new()
 var pause_disabled = false
 var last_pause_time := 0
 var pause_menu_disabled = false
@@ -33,7 +33,7 @@ var disable_intro_skip = false
 
 var current_game_info: HBGameInfo 
 
-onready var video_player = get_node("Node2D/Panel/VideoPlayer")
+@onready var video_player = get_node("Node2D/Panel/VideoStreamPlayer")
 
 signal fade_out_finished(game_info)
 signal user_quit()
@@ -45,7 +45,7 @@ var skin_override: HBUISkin
 var rollback_delta := 0.0
 
 func _ready():
-	connect("resized", self, "set_game_size")
+	connect("resized", Callable(self, "set_game_size"))
 	MainMenu = load("res://menus/MainMenu3D.tscn")
 	
 	game = HBRhythmGame.new()
@@ -53,15 +53,15 @@ func _ready():
 	
 	DownloadProgress.holding_back_notifications = true
 
-	fade_in_tween.connect("tween_all_completed", self, "_fade_in_done")
-	game.connect("intro_skipped", self, "_on_intro_skipped")
+	fade_in_tween.connect("tween_all_completed", Callable(self, "_fade_in_done"))
+	game.connect("intro_skipped", Callable(self, "_on_intro_skipped"))
 	
 	set_process(false)
 	game.set_process(false)
-	game.connect("song_cleared", self, "_on_RhythmGame_song_cleared")
-	game.connect("game_over", self, "_on_RhythmGame_game_over")
+	game.connect("song_cleared", Callable(self, "_on_RhythmGame_song_cleared"))
+	game.connect("game_over", Callable(self, "_on_RhythmGame_game_over"))
 	add_child(game_over_tween)
-	game_over_tween.pause_mode = Node.PAUSE_MODE_PROCESS
+	game_over_tween.process_mode = Node.PROCESS_MODE_ALWAYS
 	$Label.visible = false
 	game.health_system_enabled = UserSettings.user_settings.enable_health
 func _on_intro_skipped(new_time):
@@ -83,8 +83,8 @@ func start_fade_in():
 	UserSettings.enable_menu_fps_limits = false
 	$FadeIn.modulate.a = 1.0
 	$FadeIn.show()
-	var original_color = Color.white
-	var target_color = Color.white
+	var original_color = Color.WHITE
+	var target_color = Color.WHITE
 	target_color.a = 0.0
 	var song = SongLoader.songs[current_game_info.song_id] as HBSong
 	var start_offset := 0
@@ -97,7 +97,7 @@ func start_fade_in():
 	game.schedule_play_start(start_offset + FADE_OUT_TIME * 1000)
 	game.start()
 	game.time_msec = song.start_time
-	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	fade_in_tween.interpolate_property($FadeIn, "modulate", original_color, target_color, FADE_OUT_TIME, Threen.TRANS_LINEAR, Threen.EASE_IN_OUT)
 	fade_in_tween.start()
 	pause_menu_disabled = true
 	HBGame.song_stats.song_played(song.id)
@@ -116,7 +116,7 @@ func start_session(game_info: HBGameInfo, assets=null):
 	var game_mode = HBGame.get_game_mode_for_song(song)
 	
 	if game_mode is HBGameMode:
-		game_ui = game_mode.get_ui().instance()
+		game_ui = game_mode.get_ui().instantiate()
 		game_ui.skin_override = skin_override
 		game_ui_container.add_child(game_ui)
 		game.set_game_ui(game_ui)
@@ -161,8 +161,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				background_texture.material = assets.background.get_material()
 	else:
 		var image = HBUtils.image_from_fs(bg_path)
-		var image_texture = ImageTexture.new()
-		image_texture.create_from_image(image, HBGame.platform_settings.texture_mode)
+		var image_texture = ImageTexture.create_from_image(image) #,HBGame.platform_settings.texture_mode
 		background_texture.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, assets, modifiers)
@@ -186,7 +185,7 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 		"state": "Playing a song",
 		"large_image_key": large_image_name,
 		"details": title,
-		"start_timestamp": OS.get_unix_time(),
+		"start_timestamp": Time.get_unix_time_from_system(),
 		"large_image_tooltip": title
 	})
 		
@@ -230,24 +229,24 @@ func rescale_video_player():
 	if video_texture:
 		var video_size = video_texture.get_size()
 		var video_ar = video_size.x / video_size.y
-		var new_size_x = rect_size.y * video_ar
-		if new_size_x <= rect_size.x:
+		var new_size_x = size.y * video_ar
+		if new_size_x <= size.x:
 			# side black bars (or none)
-			video_player.rect_size = Vector2(new_size_x, rect_size.y)
+			video_player.size = Vector2(new_size_x, size.y)
 		else:
 			# bottom and top black bars
-			video_player.rect_size = Vector2(rect_size.x, rect_size.x / video_ar)
+			video_player.size = Vector2(size.x, size.x / video_ar)
 		# Center that shit
-		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
-		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
+		video_player.position.x = (size.x - video_player.size.x) / 2.0
+		video_player.position.y = (size.y - video_player.size.y) / 2.0
 
 func set_game_size():
-	game.size = rect_size
+	game.size = size
 	if visualizer:
-		visualizer.rect_size = rect_size
+		visualizer.size = size
 	
-	background_texture.rect_size = rect_size
-	video_player_panel.rect_size = rect_size
+	background_texture.size = size
+	video_player_panel.size = size
 	
 	rescale_video_player()
 
@@ -279,7 +278,7 @@ func _on_resumed():
 		vhs_panel.show()
 		
 func _input(event):
-	if event.is_action_pressed("hide_ui") and event.shift and event.control:
+	if event.is_action_pressed("hide_ui") and event.shift_pressed and event.is_command_or_control_pressed():
 		game_ui._on_toggle_ui()
 		$Node2D.visible = game_ui.is_ui_visible()
 func _unhandled_input(event):
@@ -294,14 +293,14 @@ func _unhandled_input(event):
 			else:
 				_on_resumed()
 				$PauseMenu._on_resumed()
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 
 
 func _show_results(game_info: HBGameInfo):
 	get_tree().paused = false
 	if not prevent_scene_changes:
 		if not prevent_showing_results:
-			var scene = MainMenu.instance()
+			var scene = MainMenu.instantiate()
 			var old_scene = get_tree().current_scene
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "results"
@@ -326,14 +325,14 @@ func _on_paused():
 	$PauseMenu.show_pause(current_game_info.song_id)
 
 func _on_RhythmGame_song_cleared(result: HBResult):
-	var original_color = Color.black
+	var original_color = Color.BLACK
 	original_color.a = 0
-	var target_color = Color.black
+	var target_color = Color.BLACK
 	$FadeToBlack.show()
 	current_game_info.result = result
-	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	fade_out_tween.connect("tween_all_completed", self, "_show_results", [current_game_info])
-	fade_out_tween.connect("tween_all_completed", self, "_on_fade_out_finished")
+	fade_out_tween.interpolate_property($FadeToBlack, "modulate", original_color, target_color, FADE_OUT_TIME,Threen.TRANS_LINEAR, Threen.EASE_IN_OUT)
+	fade_out_tween.connect("tween_all_completed", Callable(self, "_show_results").bind(current_game_info))
+	fade_out_tween.connect("tween_all_completed", Callable(self, "_on_fade_out_finished"))
 	fade_out_tween.start()
 	
 func _on_fade_out_finished():
@@ -378,7 +377,7 @@ func _process(delta):
 			_on_resumed()
 func _on_PauseMenu_quit():
 	emit_signal("user_quit")
-	var scene = MainMenu.instance()
+	var scene = MainMenu.instantiate()
 	get_tree().current_scene.queue_free()
 	scene.starting_menu = "song_list"
 	scene.starting_menu_args = {"song": current_game_info.song_id, "song_difficulty": current_game_info.difficulty}
@@ -402,7 +401,7 @@ func _on_PauseMenu_restarted():
 	game.set_process(true)
 	game.editing = false
 	game.game_input_manager.set_process_input(false)
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	start_fade_in()
 
 func _on_RhythmGame_game_over():
@@ -413,25 +412,25 @@ func _on_RhythmGame_game_over():
 		game.voice_audio_playback.volume = 0
 		game.voice_audio_playback.stop()
 	vhs_panel.show()
-	vhs_panel.material.set_shader_param("desaturation", 0.5)
+	vhs_panel.material.set_shader_parameter("desaturation", 0.5)
 	game_ui.play_game_over()
-	game_over_tween.interpolate_property(game_ui.game_layer_node, "rotation", 0, deg2rad(90), 1.0, Tween.TRANS_BOUNCE, Tween.EASE_IN)
-	game_over_tween.interpolate_property(game_ui.game_layer_node, "position", game_ui.game_layer_node.position, rect_size, 1.0, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+	game_over_tween.interpolate_property(game_ui.game_layer_node, "rotation", 0, deg_to_rad(90), 1.0, Threen.TRANS_BOUNCE, Threen.EASE_IN)
+	game_over_tween.interpolate_property(game_ui.game_layer_node, "position", game_ui.game_layer_node.position, size, 1.0, Threen.TRANS_BOUNCE, Threen.EASE_IN)
 	game_over_tween.start()
 	get_tree().paused = true
 	game.pause_game()
-	yield(game_over_tween, "tween_all_completed")
-	yield(get_tree().create_timer(2.0), "timeout")
+	await game_over_tween.tween_all_completed
+	await get_tree().create_timer(2.0).timeout
 	game_ui.play_tv_off_animation()
-	yield(game_ui, "tv_off_animation_finished")
+	await game_ui.tv_off_animation_finished
 	current_game_info.result = game.result
 	current_game_info.result.failed = true
 	_show_results(current_game_info)
-	vhs_panel.material.set_shader_param("desaturation", 0.25)
+	vhs_panel.material.set_shader_parameter("desaturation", 0.25)
 
 func _notification(what):
 	match what:
-		NOTIFICATION_WM_FOCUS_OUT:
+		NOTIFICATION_APPLICATION_FOCUS_OUT:
 			if not pause_disabled and UserSettings.user_settings.pause_on_focus_loss and \
 			not get_tree().paused and not pause_menu_disabled:
 				_on_paused()

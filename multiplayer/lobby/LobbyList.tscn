@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://graphics/icons/refresh.svg" type="Texture" id=1]
+[ext_resource path="res://graphics/icons/refresh.svg" type="Texture2D" id=1]
 [ext_resource path="res://multiplayer/lobby/LobbyList.gd" type="Script" id=2]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=3]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=5]
 [ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=8]
@@ -12,14 +12,14 @@
 [sub_resource type="Animation" id=1]
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("../CenterContainer2/TextureRect2:rect_rotation")
+tracks/0/path = NodePath("../CenterContainer2/TextureRect2:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1e-05 ),
+"times": PackedFloat32Array( 0, 0.5, 1 ),
+"transitions": PackedFloat32Array( 1, 1, 1e-05 ),
 "update": 0,
 "values": [ 180.0, 0.0, -180.0 ]
 }
@@ -36,54 +36,54 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
-custom_constants/margin_top = 35
-custom_constants/margin_bottom = 35
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_bottom = 35
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_top = 35.0
-margin_right = 1920.0
-margin_bottom = 1045.0
-custom_constants/separation = 28
+offset_top = 35.0
+offset_right = 1920.0
+offset_bottom = 1045.0
+theme_override_constants/separation = 28
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LobbiesFoundLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 47.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 1920.0
+offset_bottom = 47.0
+theme_override_fonts/font = ExtResource( 3 )
 
 [node name="CreateLobbyMenu" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 75.0
-margin_right = 1920.0
-margin_bottom = 125.0
+offset_top = 75.0
+offset_right = 1920.0
+offset_bottom = 125.0
 focus_mode = 2
-custom_constants/separation = 9
+theme_override_constants/separation = 9
 script = ExtResource( 7 )
 
 [node name="CreateLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/CreateLobbyMenu"]
-margin_right = 53.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+offset_right = 53.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 50, 50 )
 text = "Create"
 script = ExtResource( 4 )
 
 [node name="RefreshLobbyListButton" type="Button" parent="MarginContainer/VBoxContainer/CreateLobbyMenu"]
-margin_left = 62.0
-margin_right = 112.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+offset_left = 62.0
+offset_right = 112.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 50, 50 )
 icon = ExtResource( 1 )
 expand_icon = true
 script = ExtResource( 4 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 153.0
-margin_right = 1920.0
-margin_bottom = 1010.0
+offset_top = 153.0
+offset_right = 1920.0
+offset_bottom = 1010.0
 focus_mode = 2
 size_flags_vertical = 3
 script = ExtResource( 6 )
@@ -92,16 +92,16 @@ horizontal_step = 0
 scroll_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
-margin_right = 1920.0
-margin_bottom = 857.0
+offset_right = 1920.0
+offset_bottom = 857.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/ScrollContainer/CenterContainer"]
-margin_left = 960.0
-margin_top = 428.0
-margin_right = 960.0
-margin_bottom = 428.0
+offset_left = 960.0
+offset_top = 428.0
+offset_right = 960.0
+offset_bottom = 428.0
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 4
@@ -111,8 +111,8 @@ playback_speed = -1.0
 "anims/Nueva Animación" = SubResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
-margin_right = 1920.0
-margin_bottom = 857.0
+offset_right = 1920.0
+offset_bottom = 857.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

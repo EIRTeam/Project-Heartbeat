@@ -1,12 +1,12 @@
 extends HBEditorModule
 
-onready var arrange_menu := get_node("ArrangeMenu")
-onready var arrange_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBEditorSpinBox")
-onready var reverse_arrange_checkbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
-onready var circle_size_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HSlider")
-onready var circle_size_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/HBEditorSpinBox")
-onready var rotation_angle_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HSlider")
-onready var rotation_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer/HBEditorSpinBox")
+@onready var arrange_menu := get_node("ArrangeMenu")
+@onready var arrange_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBEditorSpinBox")
+@onready var reverse_arrange_checkbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/CheckBox")
+@onready var circle_size_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HSlider")
+@onready var circle_size_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/HBEditorSpinBox")
+@onready var rotation_angle_slider := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HSlider")
+@onready var rotation_angle_spinbox := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer/HBEditorSpinBox")
 
 var autoarrange_shortcuts = [
 	"editor_arrange_r",
@@ -22,6 +22,7 @@ var autoarrange_shortcuts = [
 var size_testing_circle_transform := HBEditorTransforms.MakeCircleTransform.new(1)
 
 func _ready():
+	super._ready()
 	transforms = [
 		HBEditorTransforms.MakeCircleTransform.new(1),
 		HBEditorTransforms.MakeCircleTransform.new(-1),
@@ -44,38 +45,38 @@ func _ready():
 	add_shortcut("editor_circle_size_bigger", "increase_circle_size", [], true)
 	add_shortcut("editor_circle_size_smaller", "decrease_circle_size", [], true)
 	
-	arrange_menu.connect("angle_changed", self, "arrange_selected_notes_by_time")
-	arrange_menu.connect("angle_changed", self, "_update_slope_info")
+	arrange_menu.connect("angle_changed", Callable(self, "arrange_selected_notes_by_time"))
+	arrange_menu.connect("angle_changed", Callable(self, "_update_slope_info"))
 	
 	for i in range(4):
-		circle_size_slider.connect("value_changed", transforms[i], "set_epr")
-	circle_size_slider.connect("value_changed", self, "preview_size")
-	circle_size_slider.connect("drag_started", self, "_toggle_dragging_size_slider")
-	circle_size_slider.connect("drag_ended", self, "_toggle_dragging_size_slider")
-	circle_size_slider.connect("drag_ended", self, "hide_transform")
+		circle_size_slider.connect("value_changed", Callable(transforms[i], "set_epr"))
+	circle_size_slider.connect("value_changed", Callable(self, "preview_size"))
+	circle_size_slider.connect("drag_started", Callable(self, "_toggle_dragging_size_slider"))
+	circle_size_slider.connect("drag_ended", Callable(self, "_toggle_dragging_size_slider"))
+	circle_size_slider.connect("drag_ended", Callable(self, "hide_transform"))
 	circle_size_slider.share(circle_size_spinbox)
 	
 	for i in range(4):
-		circle_size_spinbox.connect("value_changed", transforms[i], "set_epr")
-	circle_size_spinbox.connect("value_changed", self, "_set_circle_size")
+		circle_size_spinbox.connect("value_changed", Callable(transforms[i], "set_epr"))
+	circle_size_spinbox.connect("value_changed", Callable(self, "_set_circle_size"))
 	
-	rotation_angle_slider.connect("value_changed", self, "_set_rotation_angle")
-	rotation_angle_slider.connect("value_changed", self, "preview_angle")
-	rotation_angle_slider.connect("drag_started", self, "_toggle_dragging_angle_slider")
-	rotation_angle_slider.connect("drag_ended", self, "_toggle_dragging_angle_slider")
-	rotation_angle_slider.connect("drag_ended", self, "hide_transform")
+	rotation_angle_slider.connect("value_changed", Callable(self, "_set_rotation_angle"))
+	rotation_angle_slider.connect("value_changed", Callable(self, "preview_angle"))
+	rotation_angle_slider.connect("drag_started", Callable(self, "_toggle_dragging_angle_slider"))
+	rotation_angle_slider.connect("drag_ended", Callable(self, "_toggle_dragging_angle_slider"))
+	rotation_angle_slider.connect("drag_ended", Callable(self, "hide_transform"))
 	rotation_angle_slider.share(rotation_angle_spinbox)
 	
-	rotation_angle_spinbox.connect("value_changed", self, "_set_rotation_angle")
+	rotation_angle_spinbox.connect("value_changed", Callable(self, "_set_rotation_angle"))
 	
 	remove_child(arrange_menu)
 
 func set_editor(p_editor):
-	.set_editor(p_editor)
+	super.set_editor(p_editor)
 	
 	arrange_menu.set_editor(p_editor)
 	editor.game_preview.add_child(arrange_menu)
-	editor.game_preview.rect_clip_content = true
+	editor.game_preview.clip_contents = true
 
 var arranging := false
 var selected_ring := "inner"
@@ -87,13 +88,13 @@ func _input(event: InputEvent):
 	
 	if event.is_action_pressed("editor_show_arrange_menu"):
 		if selected.size() >= 2 and editor.game_preview.get_global_rect().has_point(get_global_mouse_position()):
-			selected.sort_custom(self, "_order_items")
+			selected.sort_custom(Callable(self, "_order_items"))
 			
 			original_notes.clear()
 			for item in selected:
 				original_notes.append(item.data.clone())
 			
-			original_notes.sort_custom(self, "_order_timing_points")
+			original_notes.sort_custom(Callable(self, "_order_timing_points"))
 			
 			arranging = true
 			arrange_menu.popup()
@@ -104,7 +105,7 @@ func _input(event: InputEvent):
 				if old_angle > 180:
 					old_angle = old_angle - 360
 				
-				old_angle = deg2rad(-old_angle)
+				old_angle = deg_to_rad(-old_angle)
 				
 				var old_distance
 				match selected_ring:
@@ -127,7 +128,7 @@ func _input(event: InputEvent):
 		arrange_menu.hide()
 		
 		var mouse_pos := get_global_mouse_position() - Vector2(120, 120)
-		var mouse_distance := mouse_pos.distance_to(arrange_menu.rect_position)
+		var mouse_distance := mouse_pos.distance_to(arrange_menu.position)
 		
 		selected_ring = "inner"
 		if mouse_distance > 70:
@@ -146,16 +147,16 @@ func user_settings_changed():
 	size_testing_circle_transform.separation = UserSettings.user_settings.editor_circle_separation
 
 func update_shortcuts():
-	.update_shortcuts()
+	super.update_shortcuts()
 	
-	var arrange_event_list = InputMap.get_action_list("editor_show_arrange_menu")
+	var arrange_event_list = InputMap.action_get_events("editor_show_arrange_menu")
 	var arrange_ev = arrange_event_list[0] if arrange_event_list else null
 	
 	if arrange_ev:
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.show()
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.text = \
 			"Hold " + get_event_text(arrange_ev) + " for quick placing."
-		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.hint_tooltip = \
+		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.tooltip_text = \
 			"The arrange wheel helps you place notes quickly.\n" + \
 			"Hold Shift for reverse arranging.\n" + \
 			"Hold Control to toggle automatic angles.\n" + \
@@ -163,28 +164,28 @@ func update_shortcuts():
 	else:
 		$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/Label.hide()
 	
-	var size_up_event_list = InputMap.get_action_list("editor_circle_size_bigger")
-	var size_down_event_list = InputMap.get_action_list("editor_circle_size_smaller")
+	var size_up_event_list = InputMap.action_get_events("editor_circle_size_bigger")
+	var size_down_event_list = InputMap.action_get_events("editor_circle_size_smaller")
 	var size_up_ev = size_up_event_list[0] if size_up_event_list else null
 	var size_down_ev = size_down_event_list[0] if size_down_event_list else null
 	
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.hint_tooltip = "Amount of 8th notes required for \na full revolution."
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.hint_tooltip += "\nShortcut (increase): " + get_event_text(size_up_ev)
-	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.hint_tooltip += "\nShortcut (decrease): " + get_event_text(size_down_ev)
+	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text = "Amount of 8th notes required for \na full revolution."
+	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (increase): " + get_event_text(size_up_ev)
+	$MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2.tooltip_text += "\nShortcut (decrease): " + get_event_text(size_down_ev)
 
 
 func _update_slope_info(angle: float, reverse: bool, _autoangle_toggle: bool):
-	arrange_angle_spinbox.value = rad2deg(fmod(angle + 2*PI, 2*PI))
-	reverse_arrange_checkbox.pressed = reverse
+	arrange_angle_spinbox.value = rad_to_deg(fmod(angle + 2*PI, 2*PI))
+	reverse_arrange_checkbox.button_pressed = reverse
 
 func _apply_arrange():
 	original_notes.clear()
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
-	original_notes.sort_custom(self, "_order_timing_points")
+	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
-	arrange_selected_notes_by_time(deg2rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
+	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
 	
 	commit_arrange()
 
@@ -193,7 +194,7 @@ func _apply_arrange_shortcut(direction: int):
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
-	original_notes.sort_custom(self, "_order_timing_points")
+	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
 	var angle = 45
 	
@@ -205,9 +206,9 @@ func _apply_arrange_shortcut(direction: int):
 			angle = -angle
 			angle += 180
 		
-		arrange_selected_notes_by_time(deg2rad(angle), reverse_arrange_checkbox.pressed, false)
+		arrange_selected_notes_by_time(deg_to_rad(angle), reverse_arrange_checkbox.pressed, false)
 	else:
-		arrange_selected_notes_by_time(direction * deg2rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
+		arrange_selected_notes_by_time(direction * deg_to_rad(90) / 2.0, reverse_arrange_checkbox.pressed, false)
 	
 	commit_arrange()
 
@@ -216,7 +217,7 @@ func _apply_center_arrange():
 	for item in get_selected():
 		original_notes.append(item.data.clone())
 	
-	original_notes.sort_custom(self, "_order_timing_points")
+	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
 	arrange_selected_notes_by_time(null, reverse_arrange_checkbox.pressed, false)
 	
@@ -232,7 +233,7 @@ static func _order_timing_points(a: HBTimingPoint, b: HBTimingPoint):
 var original_notes: Array
 func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool):
 	var selected = get_selected()
-	selected.sort_custom(self, "_order_items")
+	selected.sort_custom(Callable(self, "_order_items"))
 	if selected.size() < 2:
 		return
 	
@@ -290,7 +291,7 @@ func arrange_selected_notes_by_time(angle, reverse: bool, toggle_autoangle: bool
 	var anchor = original_notes[0]
 	if reverse:
 		anchor = original_notes[-1]
-		selected.invert()
+		selected.reverse()
 	
 	pos_compensation = anchor.position
 	time_compensation = anchor.time
@@ -380,8 +381,8 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool)
 		if rotated_quadrant in [1, 3]:
 			new_angle += PI if quadrant in [0, 1] else 0.0
 			
-			var left_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(0, 1080))
-			var right_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
+			var left_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(0, 1080))
+			var right_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(1920, 0), Vector2(1920, 1080))
 			
 			var left_distance = new_pos.distance_to(left_point)
 			var right_distance = new_pos.distance_to(right_point)
@@ -391,8 +392,8 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool)
 		else:
 			new_angle += PI if quadrant in [1, 2] else 0.0
 			
-			var top_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 0), Vector2(1920, 0))
-			var bottom_point = Geometry.get_closest_point_to_segment_2d(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
+			var top_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 0), Vector2(1920, 0))
+			var bottom_point = Geometry2D.get_closest_point_to_segment(new_pos, Vector2(0, 1080), Vector2(1920, 1080))
 			
 			var top_distance = new_pos.distance_to(top_point)
 			var bottom_distance = new_pos.distance_to(bottom_point)
@@ -424,7 +425,7 @@ func autoangle(note: HBBaseNote, new_pos: Vector2, arrange_angle, reverse: bool)
 		if reverse:
 			oscillation_frequency = -oscillation_frequency
 		
-		return [fmod(rad2deg(new_angle), 360.0), oscillation_frequency]
+		return [fmod(rad_to_deg(new_angle), 360.0), oscillation_frequency]
 	else:
 		return [note.entry_angle, note.oscillation_frequency]
 

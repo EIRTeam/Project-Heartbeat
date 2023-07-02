@@ -1,6 +1,6 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var line_edit = get_node("LineEdit")
+@onready var line_edit = get_node("LineEdit")
 
 var inputs: Array
 var default: bool
@@ -18,8 +18,8 @@ func sync_value(input_array: Array):
 	line_edit.set_block_signals(false)
 
 func _ready():
-	line_edit.connect("text_entered", self, "_on_lineedit_value_changed")
-	line_edit.connect("focus_entered", self, "_on_lineedit_focus_entered")
+	line_edit.connect("text_submitted", Callable(self, "_on_lineedit_value_changed"))
+	line_edit.connect("focus_entered", Callable(self, "_on_lineedit_focus_entered"))
 
 func _on_lineedit_value_changed(value):
 	if value == "Multiple Values...":

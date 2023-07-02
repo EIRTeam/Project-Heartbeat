@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/notes_atlas.png-0598ffcda43f2d81187f170e4ae7afba.image"
+uid="uid://bpj6oy418mk8w"
+path="res://.godot/imported/notes_atlas.png-0598ffcda43f2d81187f170e4ae7afba.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/playstation/atlases/notes_atlas.png"
-dest_files=[ "res://.import/notes_atlas.png-0598ffcda43f2d81187f170e4ae7afba.image" ]
+dest_files=["res://.godot/imported/notes_atlas.png-0598ffcda43f2d81187f170e4ae7afba.image"]
 
 [params]
 

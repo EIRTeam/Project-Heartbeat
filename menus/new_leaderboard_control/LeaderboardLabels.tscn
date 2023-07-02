@@ -1,21 +1,21 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=2]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=1]
+[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=2]
 [ext_resource path="res://menus/new_leaderboard_control/LeaderboardLabels.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "spin"
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_rotation")
+tracks/0/path = NodePath("TextureRect:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1e-05 ),
+"times": PackedFloat32Array( 0, 0.5, 1 ),
+"transitions": PackedFloat32Array( 1, 1, 1e-05 ),
 "update": 0,
 "values": [ 180.0, 0.0, -180.0 ]
 }
@@ -32,10 +32,10 @@ __meta__ = {
 [node name="ErrorLabel" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource( 1 )
 text = "Error fetching leaderboard items"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -44,10 +44,10 @@ __meta__ = {
 [node name="NotAvailableLabel" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource( 1 )
 text = "Leaderboards are not available for this song"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -56,10 +56,10 @@ __meta__ = {
 [node name="NotFoundLabel" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource( 1 )
 text = "There are no entries for this song yet, soyez le premier! (be the first!)"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -75,11 +75,11 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer2"]
-margin_left = 960.0
-margin_top = 540.0
-margin_right = 960.0
-margin_bottom = 540.0
-rect_rotation = 169.899
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
+rotation = 169.899
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )

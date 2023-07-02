@@ -1,6 +1,6 @@
-const SONG_STATS_PATH = "user://song_stats.hbdict"
-
 class_name HBSongStatsLoader
+
+const SONG_STATS_PATH = "user://song_stats.hbdict"
 
 const LOG_NAME = "SongStats"
 
@@ -13,10 +13,9 @@ func _init_song_stats():
 	load_user_stats()
 
 func load_user_stats():
-	var file = File.new()
 	var ss_path = HBGame.platform_settings.user_dir_redirect(get_song_stats_path())
-	if file.file_exists(ss_path):
-		file.open(ss_path, File.READ)
+	if FileAccess.file_exists(ss_path):
+		var file = FileAccess.open(ss_path, FileAccess.READ)
 		var new_stats = file.get_var()
 		if new_stats is Dictionary:
 			for song_id in new_stats:
@@ -29,9 +28,8 @@ func load_user_stats():
 			Log.log(self, "Deserialized song stats file did not contain a dictionary", Log.LogLevel.ERROR)
 		file.close()
 func save_song_stats():
-	var file = File.new()
 	var ss_path = HBGame.platform_settings.user_dir_redirect(get_song_stats_path())
-	file.open(ss_path, File.WRITE)
+	var file = FileAccess.open(ss_path, FileAccess.WRITE)
 	var serialized_song_stats = {}
 	for song_id in song_stats:
 		var stats = song_stats[song_id] as HBSongStats

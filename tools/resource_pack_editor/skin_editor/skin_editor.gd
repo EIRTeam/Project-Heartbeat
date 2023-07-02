@@ -1,17 +1,17 @@
 extends Panel
 
-onready var aspect_ratio_button: OptionButton = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/MenuButton")
-onready var aspect_ratio_container: AspectRatioContainer = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer")
-onready var viewport: Viewport = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport")
-onready var edit_root: Control = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control")
-onready var edit_layer: Control = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/EditLayer")
-onready var outliner: HBSkinEditorOutliner = get_node("HSplitContainer/HBoxContainer/Control/TabContainer2/Outline/ScrollContainer/Outline")
-onready var component_widget_margin: HBSkinEditorWidget = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/SkinEditorWidgetMargin")
-onready var component_widget_anchor: HBSkinEditorWidget = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/SkinEditorWidgetAnchor")
-onready var inspector: HBInspectorMK2 = get_node("HSplitContainer/Panel2/HBoxContainer/TabContainer/Inspector")
-onready var skin_resource_editor: HBSkinResourceEditor = get_node("HSplitContainer/HBoxContainer/Control/TabContainer/Resources/HBSkinResourceEditor")
-onready var screen_option_button: OptionButton = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ScreenButton")
-onready var error_popup := AcceptDialog.new()
+@onready var aspect_ratio_button: OptionButton = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/MenuButton")
+@onready var aspect_ratio_container: AspectRatioContainer = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer")
+@onready var viewport: SubViewport = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport")
+@onready var edit_root: Control = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control")
+@onready var edit_layer: Control = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/EditLayer")
+@onready var outliner: HBSkinEditorOutliner = get_node("HSplitContainer/HBoxContainer/Control/TabContainer2/Outline/ScrollContainer/Outline")
+@onready var component_widget_margin: HBSkinEditorWidget = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/SkinEditorWidgetMargin")
+@onready var component_widget_anchor: HBSkinEditorWidget = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/SkinEditorWidgetAnchor")
+@onready var inspector: HBInspectorMK2 = get_node("HSplitContainer/Panel2/HBoxContainer/TabContainer/Inspector")
+@onready var skin_resource_editor: HBSkinResourceEditor = get_node("HSplitContainer/HBoxContainer/Control/TabContainer/Resources/HBSkinResourceEditor")
+@onready var screen_option_button: OptionButton = get_node("HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ScreenButton")
+@onready var error_popup := AcceptDialog.new()
 
 var layers := {}
 
@@ -21,7 +21,7 @@ const ASPECT_RATIOS = [
 	16/10.0
 ]
 
-var resource_pack: HBResourcePack setget set_resource_pack
+var resource_pack: HBResourcePack: set = set_resource_pack
 
 const SCREEN_GAMEPLAY = 0
 
@@ -45,8 +45,8 @@ func set_resource_pack(val):
 		skin_resource_editor.from_skin_resource_cache(cache)
 		
 		inspector.resource_storage = skin_resource_editor.resource_storage
-		inspector.resource_storage.connect("texture_removed", self, "_on_resource_storage_texture_removed")
-		inspector.resource_storage.connect("font_removed", self, "_on_resource_storage_font_removed")
+		inspector.resource_storage.connect("texture_removed", Callable(self, "_on_resource_storage_texture_removed"))
+		inspector.resource_storage.connect("font_removed", Callable(self, "_on_resource_storage_font_removed"))
 		
 		var layered_components := skin.get_components(get_current_screen(), cache)
 		_on_screen_selected()
@@ -58,7 +58,7 @@ func set_resource_pack(val):
 	
 func show_error(error: String):
 	error_popup.dialog_text = error
-	error_popup.popup_centered_minsize()
+	error_popup.popup_centered_clamped()
 	
 func get_current_screen() -> String:
 	var out := ""
@@ -77,20 +77,20 @@ func get_screen_layers(screen: int):
 func _ready():
 	add_child(error_popup)
 	screen_option_button.add_item("Gameplay", SCREEN_GAMEPLAY)
-	aspect_ratio_button.connect("item_selected", self, "_on_aspect_ratio_item_selected")
-	outliner.connect("component_selected", self, "_on_component_selected")
-	component_widget_anchor.connect("changed", inspector, "property_changed_notified")
-	component_widget_margin.connect("changed", inspector, "property_changed_notified")
+	aspect_ratio_button.connect("item_selected", Callable(self, "_on_aspect_ratio_item_selected"))
+	outliner.connect("component_selected", Callable(self, "_on_component_selected"))
+	component_widget_anchor.connect("changed", Callable(inspector, "property_changed_notified"))
+	component_widget_margin.connect("changed", Callable(inspector, "property_changed_notified"))
 
-	error_popup.popup_exclusive = true
-	outliner.connect("item_removed", self, "_on_item_removed")
-	outliner.connect("moved_component_to_layer", self, "_on_outliner_moved_component_to_layer")
+	error_popup.exclusive = true
+	outliner.connect("item_removed", Callable(self, "_on_item_removed"))
+	outliner.connect("moved_component_to_layer", Callable(self, "_on_outliner_moved_component_to_layer"))
 	component_widget_anchor.mode = HBSkinEditorWidget.WIDGET_MODE.ANCHOR
 	component_widget_anchor.hide()
 	component_widget_margin.hide()
-	component_widget_margin.connect("changed", component_widget_anchor, "_copy_anchor_from_target_node")
-	skin_resource_editor.connect("resource_deleted", self, "save_skin")
-	skin_resource_editor.connect("resource_added", self, "save_skin")
+	component_widget_margin.connect("changed", Callable(component_widget_anchor, "_copy_anchor_from_target_node"))
+	skin_resource_editor.connect("resource_deleted", Callable(self, "save_skin"))
+	skin_resource_editor.connect("resource_added", Callable(self, "save_skin"))
 
 func _on_screen_selected():
 	outliner.clear_layers()
@@ -102,7 +102,7 @@ func _on_screen_selected():
 		outliner.add_layer(layer)
 		var layer_control := Control.new()
 		layer_control.name = layer
-		layer_control.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+		layer_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		edit_layer.add_child(layer_control)
 		layers[layer] = layer_control
 	
@@ -116,7 +116,7 @@ func _on_resource_storage_texture_removed(texture_name: String):
 			if component is HBUIComponent:
 				for cname in component.get_hb_inspector_whitelist():
 					if typeof(component.get(cname)) == TYPE_OBJECT:
-						var texture := component.get(cname) as Texture
+						var texture := component.get(cname) as Texture2D
 						if texture:
 							if inspector.resource_storage.get_texture_name(texture) == texture_name:
 								component.set(cname, null)
@@ -138,10 +138,10 @@ func _on_aspect_ratio_item_selected(index: int):
 	aspect_ratio_container.ratio = ASPECT_RATIOS[index]
 	viewport.size = Vector2((ASPECT_RATIOS[index] * 1080) * 1.1, 1080 * 1.1)
 	var real_size := Vector2((ASPECT_RATIOS[index] * 1080), 1080)
-	edit_root.margin_left = -real_size.x * 0.5
-	edit_root.margin_right = real_size.x * 0.5
-	edit_root.margin_top = -real_size.y * 0.5
-	edit_root.margin_bottom = real_size.y * 0.5
+	edit_root.offset_left = -real_size.x * 0.5
+	edit_root.offset_right = real_size.x * 0.5
+	edit_root.offset_top = -real_size.y * 0.5
+	edit_root.offset_bottom = real_size.y * 0.5
 	component_widget_anchor._copy_anchor_from_target_node()
 	component_widget_margin._copy_margin_from_target_node()
 
@@ -157,8 +157,8 @@ func _on_HBSkinEditorComponentPicker_component_picked(component):
 		show_error("You must select a layer before adding components")
 		return
 	var cmp := component.new() as HBUIComponent
-	cmp.rect_size = Vector2(128, 128)
-	cmp.rect_position = Vector2(1920, 1080) * 0.5
+	cmp.size = Vector2(128, 128)
+	cmp.position = Vector2(1920, 1080) * 0.5
 	cmp.name = cmp.get_component_name().capitalize().replace(" ", "")
 	layers[outliner.get_selected_layer()].add_child(cmp, true)
 	outliner.add_component(cmp, outliner.get_selected_layer())
@@ -178,9 +178,8 @@ func skin_to_dict() -> Dictionary:
 	
 func save_skin():
 	var skin_dict := skin_to_dict()
-	var js := JSON.print(skin_dict, "  ")
-	var f := File.new()
-	f.open(resource_pack.get_skin_config_path(), File.WRITE)
+	var js := JSON.stringify(skin_dict, "  ")
+	var f := FileAccess.open(resource_pack.get_skin_config_path(), FileAccess.WRITE)
 	f.store_string(js)
 	f.close()
 	resource_pack.save_pack()

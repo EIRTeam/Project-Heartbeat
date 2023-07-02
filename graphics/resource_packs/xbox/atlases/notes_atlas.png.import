@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image"
+uid="uid://c34mhikth7k6k"
+path="res://.godot/imported/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/xbox/atlases/notes_atlas.png"
-dest_files=[ "res://.import/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image" ]
+dest_files=["res://.godot/imported/notes_atlas.png-c9cc491084e1404dc63a36cba2ab4ecd.image"]
 
 [params]
 

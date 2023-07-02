@@ -1,60 +1,64 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
 
-[ext_resource path="res://fonts/Default_Font_thin.tres" type="DynamicFont" id=1]
-[ext_resource path="res://menus/song_list/SongList.gd" type="Script" id=2]
-[ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=4]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=7]
-[ext_resource path="res://graphics/icons/sort-ascending.png" type="Texture" id=8]
-[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=9]
-[ext_resource path="res://menus/song_list/SongListSongContainer.gd" type="Script" id=10]
-[ext_resource path="res://menus/FolderManager.tscn" type="PackedScene" id=11]
-[ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=12]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=13]
-[ext_resource path="res://menus/HBHovereableCheckbox.tscn" type="PackedScene" id=14]
-[ext_resource path="res://menus/HBHovereableOptionButton.tscn" type="PackedScene" id=15]
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=16]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=17]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=18]
+[ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="1"]
+[ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://menus/HBConfirmationWindow.tscn" id="5"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
+[ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
+[ext_resource type="PackedScene" path="res://menus/FolderManager.tscn" id="11"]
+[ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
+[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="16"]
+[ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="17"]
+[ext_resource type="FontFile" path="res://fonts/Rating_Font.tres" id="18"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 resource_name = "spin"
-loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ 0.0, 360.0 ]
+"values": [0.0, 360.0]
 }
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_igfnq"]
+_data = {
+"spin": SubResource("1")
+}
+
+[sub_resource type="StyleBoxFlat" id="5"]
 content_margin_left = 10.0
-content_margin_right = 10.0
 content_margin_top = 4.0
+content_margin_right = 10.0
 content_margin_bottom = 4.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.74902 )
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_color = Color(0, 0, 0, 0.25098)
 shadow_size = 10
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id="2"]
 code = "shader_type canvas_item;
 
 uniform vec2 pos;
@@ -80,157 +84,139 @@ void fragment() {
 
 }"
 
-[sub_resource type="ShaderMaterial" id=3]
-shader = SubResource( 2 )
-shader_param/pos = null
-shader_param/size = null
-shader_param/enabled = null
-shader_param/fade_size = null
+[sub_resource type="ShaderMaterial" id="3"]
+shader = SubResource("2")
+shader_parameter/pos = null
+shader_parameter/size = null
+shader_parameter/enabled = null
+shader_parameter/fade_size = null
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 10.0
-content_margin_right = 10.0
 content_margin_top = 10.0
+content_margin_right = 10.0
 content_margin_bottom = 10.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.74902 )
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
 [node name="SongListMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
-theme = ExtResource( 6 )
-script = ExtResource( 2 )
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6")
+script = ExtResource("2")
 
 [node name="SpinnerContainer" type="CenterContainer" parent="."]
 visible = false
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="SpinnerContainer"]
-margin_left = 914.0
-margin_top = 494.0
-margin_right = 986.0
-margin_bottom = 566.0
-rect_pivot_offset = Vector2( 36, 36 )
-texture = ExtResource( 17 )
+layout_mode = 2
+texture = ExtResource("17")
 stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SpinnerContainer/TextureRect"]
-anims/spin = SubResource( 1 )
+libraries = {
+"": SubResource("AnimationLibrary_igfnq")
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 0.995
-margin_top = 10.0
+offset_top = 10.0
 size_flags_horizontal = 3
-custom_constants/separation = 5
+theme_override_constants/separation = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
-margin_right = 1900.0
-margin_bottom = 47.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2"]
-margin_right = 1900.0
-margin_bottom = 47.0
-rect_min_size = Vector2( 0, 40 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 alignment = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 282.0
-margin_bottom = 47.0
-custom_styles/panel = SubResource( 5 )
+layout_mode = 2
+theme_override_styles/panel = SubResource("5")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer"]
-margin_left = 10.0
-margin_top = 4.0
-margin_right = 272.0
-margin_bottom = 43.0
+layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-margin_right = 39.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 39, 0 )
-texture = ExtResource( 8 )
-expand = true
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
 stretch_mode = 4
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-margin_left = 43.0
-margin_right = 175.0
-margin_bottom = 39.0
+layout_mode = 2
 text = "Difficulty"
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
-margin_left = 179.0
-margin_right = 218.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 39, 0 )
-texture = ExtResource( 9 )
-expand = true
+custom_minimum_size = Vector2(39, 0)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
 stretch_mode = 4
 
-[node name="PromptInputAction" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" instance=ExtResource( 13 )]
-margin_left = 222.0
-margin_right = 262.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 40, 0 )
+[node name="PromptInputAction" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" instance=ExtResource("13")]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
 input_action = "note_up"
 
 [node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-material = SubResource( 3 )
-margin_left = 286.0
-margin_right = 1896.0
-margin_bottom = 47.0
+material = SubResource("3")
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 12 )
-font_1 = ExtResource( 1 )
-font_2 = ExtResource( 16 )
+script = ExtResource("12")
+font_1 = ExtResource("1")
+font_2 = ExtResource("16")
 text_2 = ""
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 1900.0
-margin_right = 1900.0
-margin_bottom = 47.0
-custom_constants/separation = 10
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 2
-script = ExtResource( 7 )
+script = ExtResource("7")
 stop_hover_on_focus_exit = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 show_behind_parent = true
-margin_top = 52.0
-margin_right = 1900.0
-margin_bottom = 999.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/margin_right = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer"]
-margin_right = 1900.0
-margin_bottom = 947.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 10 )
+focus_mode = 2
+script = ExtResource("10")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_fade = true
@@ -239,180 +225,151 @@ items_to_report_visibility_to = 9
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-use_parent_material = true
-margin_right = 1900.0
-margin_bottom = 947.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
 visible = false
-margin_top = 446.0
-margin_right = 1900.0
-margin_bottom = 501.0
-custom_fonts/font = ExtResource( 18 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("18")
 text = "No folders found, add some!"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Prompts" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 1004.0
-margin_right = 1900.0
-margin_bottom = 1044.0
-rect_min_size = Vector2( 0, 40 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 size_flags_stretch_ratio = 1.25
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts"]
-margin_right = 1900.0
-margin_bottom = 40.0
+layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer"]
-margin_right = 1900.0
-margin_bottom = 40.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 377.0
-margin_right = 501.0
-rect_min_size = Vector2( 124, 39 )
+[node name="Panel7" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(136, 53)
+layout_mode = 2
 action_name = "note_up"
 text = "Sort"
 
-[node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 511.0
-margin_right = 674.0
-rect_min_size = Vector2( 163, 39 )
+[node name="Panel13" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(184, 53)
+layout_mode = 2
 action_name = "gui_search"
 text = "Search"
 
-[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 684.0
-margin_right = 852.0
-rect_min_size = Vector2( 168, 39 )
+[node name="Panel8" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(188, 53)
+layout_mode = 2
 action_name = "contextual_option"
 text = "Add to..."
 
-[node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 862.0
-margin_right = 1031.0
-rect_min_size = Vector2( 169, 39 )
+[node name="Panel9" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(193, 53)
+layout_mode = 2
 action_name = "contextual_option"
 text = "Manage"
 
-[node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1041.0
-margin_right = 1218.0
-rect_min_size = Vector2( 177, 39 )
+[node name="Panel10" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(201, 53)
+layout_mode = 2
 action_name = "contextual_option"
 text = "Remove"
 
-[node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1228.0
-margin_right = 1381.0
-rect_min_size = Vector2( 153, 39 )
+[node name="Panel11" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(170, 53)
+layout_mode = 2
 action_name = "gui_accept"
 text = "Select"
 
-[node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 1391.0
-margin_right = 1523.0
-rect_min_size = Vector2( 132, 39 )
+[node name="Panel12" parent="VBoxContainer/Prompts/HBoxContainer/HBoxContainer" instance=ExtResource("4")]
+custom_minimum_size = Vector2(146, 53)
+layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
-[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource( 5 )]
-margin_left = -314.0
-margin_right = 257.0
-margin_bottom = 162.0
+[node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 6 )
+theme = ExtResource("6")
 
 [node name="SortByPanel" type="PanelContainer" parent="CenterContainer"]
-margin_left = 678.0
-margin_top = 415.0
-margin_right = 1222.0
-margin_bottom = 644.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/SortByPanel"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 534.0
-margin_bottom = 219.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/SortByPanel/MarginContainer"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 509.0
-margin_bottom = 194.0
-focus_mode = 2
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 20
-script = ExtResource( 7 )
+focus_mode = 2
+theme_override_constants/separation = 20
+script = ExtResource("7")
 orientation = 1
 enable_wrap_around = true
 
 [node name="Label" type="Label" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer"]
-margin_right = 494.0
-margin_bottom = 39.0
+layout_mode = 2
 text = "Sort & filter settings"
-align = 1
+horizontal_alignment = 1
 
-[node name="OptionButton" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource( 15 )]
-margin_top = 59.0
-margin_right = 494.0
-margin_bottom = 114.0
+[node name="OptionButton" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource("15")]
+layout_mode = 2
 
-[node name="HasMediaCheckbox" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
-margin_top = 134.0
-margin_right = 494.0
-margin_bottom = 179.0
+[node name="HasMediaCheckbox" parent="CenterContainer/SortByPanel/MarginContainer/VBoxContainer" instance=ExtResource("14")]
+layout_mode = 2
 text = "Has downloaded media"
 
-[node name="FolderManager" parent="." instance=ExtResource( 11 )]
+[node name="FolderManager" parent="." instance=ExtResource("11")]
 visible = false
+layout_mode = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 744.0
+offset_bottom = 516.0
 
 [node name="SongCountIndicator" type="Label" parent="."]
+layout_mode = 0
 anchor_left = 0.015
 anchor_top = 0.945
 anchor_right = 0.015
 anchor_bottom = 1.0
-margin_left = 0.200001
-margin_top = 12.4
-margin_right = 290.2
-custom_fonts/font = ExtResource( 18 )
+offset_left = 0.200001
+offset_top = 12.4
+offset_right = 290.2
+theme_override_fonts/font = ExtResource("18")
 text = "123/123"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+vertical_alignment = 1
 
-[node name="SearchTextInput" parent="." instance=ExtResource( 3 )]
-margin_left = -275.0
-margin_right = 275.0
+[node name="SearchTextInput" parent="." instance=ExtResource("3")]
 text = "Enter the search term:"
 
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]
@@ -420,4 +377,4 @@ text = "Enter the search term:"
 [connection signal="hide_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="hide"]
 [connection signal="show_no_folder_label" from="VBoxContainer/MarginContainer/VBoxContainer" to="VBoxContainer/MarginContainer/Label" method="show"]
 [connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="show"]
-[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= [ "spin" ]]
+[connection signal="start_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer/TextureRect/AnimationPlayer" method="play" binds= ["spin"]]

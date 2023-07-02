@@ -1,47 +1,39 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://c7isl8t15nu1i"]
 
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
-[ext_resource path="res://menus/options_menu/OptionsMenu.gd" type="Script" id=4]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionsMenu.gd" id="4"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_bottom = 1080.0
+layout_mode = 2
 focus_mode = 2
-script = ExtResource( 1 )
+script = ExtResource("1")
 stop_hover_on_focus_exit = false
 orientation = 1
 enable_wrap_around = true
 
 [node name="Panel" type="Control" parent="."]
-margin_left = 4.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Content" type="MarginContainer" parent="Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 30
-custom_constants/margin_bottom = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="Panel" type="Panel" parent="Panel"]
 visible = false
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = ExtResource("3")

@@ -4,4 +4,4 @@ class_name NoteGroup
 var time: int = 0
 var precalculated_timeout: int = 0
 var notes: Array
-var hit_notes: PoolByteArray
+var hit_notes: PackedByteArray

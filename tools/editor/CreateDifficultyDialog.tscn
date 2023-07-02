@@ -2,21 +2,21 @@
 
 [ext_resource path="res://tools/editor/CreateDifficultyDialog.gd" type="Script" id=1]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=2]
-[ext_resource path="res://tools/editor/arcade_style.png" type="Texture" id=3]
-[ext_resource path="res://tools/editor/console_style.png" type="Texture" id=4]
-[ext_resource path="res://tools/icons/icon_help.svg" type="Texture" id=5]
+[ext_resource path="res://tools/editor/arcade_style.png" type="Texture2D" id=3]
+[ext_resource path="res://tools/editor/console_style.png" type="Texture2D" id=4]
+[ext_resource path="res://tools/icons/icon_help.svg" type="Texture2D" id=5]
 [ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=6]
 [ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=7]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog"]
 visible = true
-margin_left = 586.0
-margin_top = 343.0
-margin_right = 1047.0
-margin_bottom = 616.0
-rect_min_size = Vector2( 150, 52.5 )
+offset_left = 586.0
+offset_top = 343.0
+offset_right = 1047.0
+offset_bottom = 616.0
+custom_minimum_size = Vector2( 150, 52.5 )
 theme = ExtResource( 2 )
-popup_exclusive = true
+exclusive = true
 window_title = "Add new chart"
 script = ExtResource( 1 )
 __meta__ = {
@@ -26,63 +26,63 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -41.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -41.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 445.0
-margin_bottom = 25.0
+offset_right = 445.0
+offset_bottom = 25.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_right = 66.0
-margin_bottom = 25.0
+offset_right = 66.0
+offset_bottom = 25.0
 text = "Difficulty:"
 
 [node name="DifficultySelectOptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
-margin_left = 70.0
-margin_right = 445.0
-margin_bottom = 25.0
+offset_left = 70.0
+offset_right = 445.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 text = "Easy"
 items = [ "Easy", null, false, 0, null, "Normal", null, false, 1, null, "Hard", null, false, 2, null, "Extreme", null, false, 3, null ]
 selected = 0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 29.0
-margin_right = 445.0
-margin_bottom = 54.0
+offset_top = 29.0
+offset_right = 445.0
+offset_bottom = 54.0
 
 [node name="CustomDifficultyCheckbox" type="CheckBox" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 161.0
-margin_bottom = 25.0
+offset_right = 161.0
+offset_bottom = 25.0
 text = "Use Custom Difficulty"
 
 [node name="CustomDifficultyLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 165.0
-margin_right = 445.0
-margin_bottom = 25.0
+offset_left = 165.0
+offset_right = 445.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 script = ExtResource( 6 )
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 58.0
-margin_right = 445.0
-margin_bottom = 83.0
+offset_top = 58.0
+offset_right = 445.0
+offset_bottom = 83.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
-margin_right = 106.0
-margin_bottom = 25.0
+offset_right = 106.0
+offset_bottom = 25.0
 text = "Difficulty rating:"
 
 [node name="StarsSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer3"]
-margin_left = 110.0
-margin_right = 445.0
-margin_bottom = 25.0
+offset_left = 110.0
+offset_right = 445.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 max_value = 10.0
 step = 0.001
@@ -92,34 +92,34 @@ custom_arrow_step = 0.5
 script = ExtResource( 7 )
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 87.0
-margin_right = 445.0
-margin_bottom = 91.0
+offset_top = 87.0
+offset_right = 445.0
+offset_bottom = 91.0
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 95.0
-margin_right = 445.0
-margin_bottom = 120.0
+offset_top = 95.0
+offset_right = 445.0
+offset_bottom = 120.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
-margin_right = 85.0
-margin_bottom = 25.0
+offset_right = 85.0
+offset_bottom = 25.0
 text = "Chart preset"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer4"]
-margin_left = 89.0
-margin_right = 114.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 25, 0 )
-hint_tooltip = "Project Heartbeat features two gameplay styles, these two can be mixed but it's not encouraged, you can do this (or change between the two styles) in the layer tab of the editor."
+offset_left = 89.0
+offset_right = 114.0
+offset_bottom = 25.0
+custom_minimum_size = Vector2( 25, 0 )
+tooltip_text = "Project Heartbeat features two gameplay styles, these two can be mixed but it's not encouraged, you can do this (or change between the two styles) in the layer tab of the editor."
 texture = ExtResource( 5 )
 expand = true
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
-margin_top = 124.0
-margin_right = 445.0
-margin_bottom = 224.0
-rect_min_size = Vector2( 0, 100 )
+offset_top = 124.0
+offset_right = 445.0
+offset_bottom = 224.0
+custom_minimum_size = Vector2( 0, 100 )
 text = "6 button/arcade style"
 icon = ExtResource( 3 )
 expand_icon = true

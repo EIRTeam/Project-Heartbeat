@@ -5,20 +5,20 @@ const MIDDLE_RING_RADIUS = [44, 61]
 const OUTER_RING_RADIUS = [61, 69]
 
 var mouse_distance: int
-var rotation: float
+var arc_rotation: float
 
 func _draw():
 	if mouse_distance > 70:
-		_draw_arc(OUTER_RING_RADIUS[0], OUTER_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.6), Color.red)
+		_draw_arc(OUTER_RING_RADIUS[0], OUTER_RING_RADIUS[1], 0, arc_rotation, Color(255, 0, 0, 0.7).lightened(0.6), Color.RED)
 	elif mouse_distance > 44:
-		_draw_arc(MIDDLE_RING_RADIUS[0], MIDDLE_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
+		_draw_arc(MIDDLE_RING_RADIUS[0], MIDDLE_RING_RADIUS[1], 0, arc_rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.RED)
 	else:
-		_draw_arc(INNER_RING_RADIUS[0], INNER_RING_RADIUS[1], 0, rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.red)
+		_draw_arc(INNER_RING_RADIUS[0], INNER_RING_RADIUS[1], 0, arc_rotation, Color(255, 0, 0, 0.7).lightened(0.5), Color.RED)
 
 func _draw_arc(radius_from, radius_to, angle_from, angle_to, color: Color, line_color: Color):
 	var n_points = 32
-	var points_arc = PoolVector2Array()
-	var colors = PoolColorArray([color])
+	var points_arc = PackedVector2Array()
+	var colors = PackedColorArray([color])
 	
 	var angle_diff = angle_to - angle_from
 	for i in range(n_points + 1):

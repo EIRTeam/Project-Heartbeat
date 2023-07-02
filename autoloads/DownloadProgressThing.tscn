@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://autoloads/DownloadProgressThing.gd" type="Script" id=1]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://graphics/check.svg" type="Texture" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=2]
+[ext_resource path="res://graphics/check.svg" type="Texture2D" id=3]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=4]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -16,7 +16,7 @@ expand_margin_right = 77.0
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 15
 use_filter = true
 font_data = ExtResource( 2 )
@@ -36,8 +36,8 @@ corner_radius_bottom_right = 1024
 corner_radius_bottom_left = 1024
 
 [node name="HBoxContainer" type="Control"]
-margin_right = 70.0
-margin_bottom = 70.0
+offset_right = 70.0
+offset_bottom = 70.0
 theme = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -46,11 +46,11 @@ __meta__ = {
 easing = 0.392293
 
 [node name="Panel" type="Panel" parent="."]
-margin_left = 45.0
-margin_top = 18.0
-margin_right = 295.0
-margin_bottom = 52.0
-custom_styles/panel = SubResource( 1 )
+offset_left = 45.0
+offset_top = 18.0
+offset_right = 295.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -58,11 +58,11 @@ __meta__ = {
 [node name="Label" type="Label" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 32.0
-rect_min_size = Vector2( 0, 34 )
-custom_fonts/font = SubResource( 2 )
+offset_left = 32.0
+custom_minimum_size = Vector2( 0, 34 )
+theme_override_fonts/font = SubResource( 2 )
 text = "asdasdsadsadsa"
-valign = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -78,10 +78,10 @@ step = 0.0
 percent_visible = false
 
 [node name="Control" type="Panel" parent="."]
-margin_right = 70.0
-margin_bottom = 70.0
+offset_right = 70.0
+offset_bottom = 70.0
 size_flags_horizontal = 3
-custom_styles/panel = SubResource( 3 )
+theme_override_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -89,10 +89,10 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
-rect_pivot_offset = Vector2( 25, 25 )
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+pivot_offset = Vector2( 25, 25 )
 texture = ExtResource( 3 )
 expand = true

@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/notes_atlas.png-0bb80f6d3d5cdf64880bb258a3c650ec.image"
+uid="uid://dpt3c4e0imdei"
+path="res://.godot/imported/notes_atlas.png-0bb80f6d3d5cdf64880bb258a3c650ec.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/fallback/atlases/notes_atlas.png"
-dest_files=[ "res://.import/notes_atlas.png-0bb80f6d3d5cdf64880bb258a3c650ec.image" ]
+dest_files=["res://.godot/imported/notes_atlas.png-0bb80f6d3d5cdf64880bb258a3c650ec.image"]
 
 [params]
 

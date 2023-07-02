@@ -4,14 +4,15 @@ class_name HBSongListFolderBack
 
 var folder: HBFolder
 
-onready var folder_name_control = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/FolderName")
-onready var button = get_node("Control")
+@onready var folder_name_control = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/FolderName")
+@onready var button = get_node("Control")
 
 #onready var star_texture_rect = get_node("TextureRect")
 signal folder_selected(folder)
 
 func _ready():
-	button.connect("pressed", self, "emit_signal", ["pressed"])
+	super._ready()
+	button.connect("pressed", Callable(self, "emit_signal").bind("pressed"))
 
 func set_folder(val: HBFolder):
 	folder = val

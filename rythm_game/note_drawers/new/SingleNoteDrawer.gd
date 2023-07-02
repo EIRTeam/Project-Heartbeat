@@ -40,7 +40,7 @@ func _on_note_pressed(event = null):
 		show_note_hit_effect(note_data.position)
 
 func process_note(time_msec: int):
-	.process_note(time_msec)
+	super.process_note(time_msec)
 	
 	if is_autoplay_enabled():
 		if not scheduled_autoplay_sound:

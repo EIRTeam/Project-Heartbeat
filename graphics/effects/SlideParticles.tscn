@@ -1,33 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://dssxtjqhuhlbn"]
 
-[ext_resource path="res://graphics/slide_fx_star.png" type="Texture" id=1]
-[ext_resource path="res://graphics/effects/SlideParticles.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="1"]
+[ext_resource type="Script" path="res://graphics/effects/SlideParticles.gd" id="2"]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.328283, 0.993569 )
-colors = PoolColorArray( 0.988235, 1, 1, 0.501961, 1, 1, 1, 0 )
+[sub_resource type="Gradient" id="1"]
+offsets = PackedFloat32Array(0.328283, 0.993569)
+colors = PackedColorArray(0.988235, 1, 1, 0.501961, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture2D" id="2"]
+gradient = SubResource("1")
 
-[sub_resource type="ParticlesMaterial" id=8]
-flag_disable_z = true
+[sub_resource type="ParticleProcessMaterial" id="8"]
 spread = 25.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1000.0
-initial_velocity_random = 0.75
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 250.0
-scale = 0.75
-color_ramp = SubResource( 2 )
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("2")
 
-[node name="Node2D" type="Particles2D"]
+[node name="Node2D" type="GPUParticles2D"]
 emitting = false
 amount = 12
+process_material = SubResource("8")
+texture = ExtResource("1")
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 8 )
-texture = ExtResource( 1 )
-script = ExtResource( 2 )
+script = ExtResource("2")

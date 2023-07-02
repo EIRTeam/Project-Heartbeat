@@ -5,7 +5,7 @@ class_name HBDurationNoteData
 var duration = 3000
 
 func _init():
-	._init()
+	super._init()
 	serializable_fields += ["duration"]
 
 func get_duration():

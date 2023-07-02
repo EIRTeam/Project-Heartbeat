@@ -1,13 +1,13 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://graphics/default_avatar.png" type="Texture2D" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
 [ext_resource path="res://multiplayer/lobby/Member.gd" type="Script" id=3]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://graphics/icons/crown.svg" type="Texture" id=5]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=4]
+[ext_resource path="res://graphics/icons/crown.svg" type="Texture2D" id=5]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=6]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 20
 use_mipmaps = true
 use_filter = true
@@ -15,79 +15,79 @@ font_data = ExtResource( 4 )
 fallback/0 = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer"]
-margin_right = 327.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 300, 50 )
+offset_right = 327.0
+offset_bottom = 60.0
+custom_minimum_size = Vector2( 300, 50 )
 size_flags_horizontal = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 10.0
-margin_right = 327.0
-margin_bottom = 50.0
+offset_left = 10.0
+offset_right = 327.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 317.0
-margin_bottom = 50.0
+offset_right = 317.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
-custom_constants/separation = 27
+theme_override_constants/separation = 27
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-margin_right = 50.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
+offset_right = 50.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 50, 50 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 77.0
-margin_right = 317.0
-margin_bottom = 50.0
+offset_left = 77.0
+offset_right = 317.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_right = 103.0
-margin_bottom = 50.0
+offset_right = 103.0
+offset_bottom = 50.0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 13.0
-margin_right = 103.0
-margin_bottom = 37.0
+offset_top = 13.0
+offset_right = 103.0
+offset_bottom = 37.0
 size_flags_vertical = 5
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource( 1 )
 text = "(NT)EIREXE"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 107.0
-margin_right = 131.0
-margin_bottom = 50.0
+offset_left = 107.0
+offset_right = 131.0
+offset_bottom = 50.0
 texture = ExtResource( 5 )
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 135.0
-margin_right = 240.0
-margin_bottom = 50.0
+offset_left = 135.0
+offset_right = 240.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="SetAsHostButton" type="Button" parent="VBoxContainer/HBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 11.0
-margin_right = 93.0
-margin_bottom = 50.0
+offset_left = 11.0
+offset_right = 93.0
+offset_bottom = 50.0
 text = "Set as host"
 script = ExtResource( 6 )

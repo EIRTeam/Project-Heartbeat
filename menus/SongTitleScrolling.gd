@@ -1,9 +1,9 @@
 extends HBoxContainer
-onready var title_label = get_node("TitleLabel")
-onready var circle_text_rect = get_node("CircleLabel")
-onready var difficulty_label = get_node("DifficultyLabel")
-var song: HBSong setget set_song
-var difficulty setget set_difficulty
+@onready var title_label = get_node("TitleLabel")
+@onready var circle_text_rect = get_node("CircleLabel")
+@onready var difficulty_label = get_node("DifficultyLabel")
+var song: HBSong: set = set_song
+var difficulty : set = set_difficulty
 
 var current_asset_task: SongAssetLoadAsyncTask
 
@@ -25,7 +25,7 @@ func set_song(value):
 	if circle_logo_path:
 #		author_label.hide()
 		current_asset_task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
-		current_asset_task.connect("assets_loaded", self, "_on_assets_loaded")
+		current_asset_task.connect("assets_loaded", Callable(self, "_on_assets_loaded"))
 		AsyncTaskQueue.queue_task(current_asset_task)
 	else:
 		circle_text_rect.texture = null
@@ -40,18 +40,18 @@ func set_difficulty(value):
 		
 func _on_resized():
 	if circle_text_rect:
-		if circle_text_rect.texture and circle_text_rect.texture.get_data():
-			var image = circle_text_rect.texture.get_data() as Image
+		if circle_text_rect.texture and circle_text_rect.texture.get_image():
+			var image = circle_text_rect.texture.get_image() as Image
 			var ratio = image.get_width() / image.get_height()
-			var new_size = Vector2(rect_size.y * ratio, rect_size.y)
+			var new_size = Vector2(size.y * ratio, size.y)
 			new_size.x = clamp(new_size.x, 0, 250)
-			circle_text_rect.rect_min_size = new_size
+			circle_text_rect.custom_minimum_size = new_size
 		else:
-			circle_text_rect.rect_min_size = Vector2.ZERO
-			circle_text_rect.rect_size = Vector2.ZERO
+			circle_text_rect.custom_minimum_size = Vector2.ZERO
+			circle_text_rect.size = Vector2.ZERO
 
 func _ready():
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	_on_resized()
 
 func _on_assets_loaded(assets):

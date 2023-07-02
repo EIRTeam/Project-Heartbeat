@@ -2,23 +2,23 @@
 
 [ext_resource path="res://menus/song_list/SongList.tscn" type="PackedScene" id=1]
 [ext_resource path="res://multiplayer/lobby/LobbySongSelector.gd" type="Script" id=2]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=3]
 
 [node name="SongListMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="LobbyTitleLabel" type="Label" parent="VBoxContainer" index="0"]
-margin_right = 1280.0
-margin_bottom = 31.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 1280.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Selecting song for"
 
 [node name="VBoxContainer2" parent="VBoxContainer" index="1"]
-margin_top = 41.0
-margin_bottom = 86.0
+offset_top = 41.0
+offset_bottom = 86.0
 
 [node name="MarginContainer" parent="VBoxContainer" index="2"]
-margin_top = 96.0
+offset_top = 96.0
 
 [node name="VBoxContainer" parent="VBoxContainer/MarginContainer" index="0"]
-margin_bottom = 614.0
+offset_bottom = 614.0

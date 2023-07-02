@@ -1,6 +1,6 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var option_button = get_node("OptionButton")
+@onready var option_button = get_node("OptionButton")
 
 var inputs: Array = []
 var presets: Array = []
@@ -12,7 +12,7 @@ func sync_value(input_array: Array):
 	select_current()
 
 func _ready():
-	option_button.connect("item_selected", self, "_on_item_selected")
+	option_button.connect("item_selected", Callable(self, "_on_item_selected"))
 
 func select_current():
 	var last = inputs[0].get(property_name)

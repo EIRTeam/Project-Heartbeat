@@ -6,12 +6,12 @@
 [node name="Control" type="ConfirmationDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 230.0
-margin_top = 129.0
-margin_right = -229.0
-margin_bottom = -129.0
+offset_left = 230.0
+offset_top = 129.0
+offset_right = -229.0
+offset_bottom = -129.0
 theme = ExtResource( 1 )
-popup_exclusive = true
+exclusive = true
 window_title = "Select which tracks to import..."
 resizable = true
 script = ExtResource( 2 )
@@ -22,32 +22,32 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -41.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 0
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -41.0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 10.0
-margin_right = 1435.0
-margin_bottom = 763.0
+offset_left = 10.0
+offset_right = 1435.0
+offset_bottom = 763.0
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 1425.0
-margin_bottom = 25.0
+offset_right = 1425.0
+offset_bottom = 25.0
 text = "Tracks to import"
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 1425.0
-margin_bottom = 763.0
+offset_top = 29.0
+offset_right = 1425.0
+offset_bottom = 763.0
 size_flags_vertical = 3
 
 [node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/Panel"]

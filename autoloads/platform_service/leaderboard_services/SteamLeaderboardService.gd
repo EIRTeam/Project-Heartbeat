@@ -6,9 +6,9 @@ var queued_leaderboard_uploads = {}
 var queued_leaderboard_entry_loads = {}
 
 func _init():
-	Steam.connect("leaderboard_find_result", self, "_on_leaderboard_found_internal", [])
-	Steam.connect("leaderboard_scores_downloaded", self, "_on_leaderboard_entries_downloaded")
-	Steam.connect("leaderboard_score_uploaded", self, "_on_leaderboard_uploaded")
+	Steam.connect("leaderboard_find_result", Callable(self, "_on_leaderboard_found_internal").bind())
+	Steam.connect("leaderboard_scores_downloaded", Callable(self, "_on_leaderboard_entries_downloaded"))
+	Steam.connect("leaderboard_score_uploaded", Callable(self, "_on_leaderboard_uploaded"))
 func find_leadeboard(leaderboard_name: String):
 	print("finding leaderboard ", leaderboard_name)
 	Steam.findLeaderboard(leaderboard_name)
@@ -54,7 +54,7 @@ func upload_score(leaderboard_name, score, percentage):
 	queued_leaderboard_uploads[leaderboard_name] = [score, int(percentage*10000)]
 	find_leadeboard(leaderboard_name)
 func _on_upload_score(leaderboard_name, leaderboard_handle, score, percentage):
-	Steam.uploadLeaderboardScore(score, LEADERBOARD_UPLOAD_SCORE_METHOD.KEEP_BEST, PoolIntArray([percentage]))
+	Steam.uploadLeaderboardScore(score, LEADERBOARD_UPLOAD_SCORE_METHOD.KEEP_BEST, PackedInt32Array([percentage]))
 
 func _on_leaderboard_uploaded(success, score, score_changed, new_rank, old_rank):
 	if success:

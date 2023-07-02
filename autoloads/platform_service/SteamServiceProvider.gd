@@ -7,8 +7,8 @@ func _init():
 	implements_leaderboards = true
 	implements_ugc = true
 	implements_leaderboard_auth = true
-	Steam.connect("get_auth_session_ticket_response", self, "_on_get_auth_session_ticket_response")
-	Steam.connect("gamepad_text_input_dismissed", self, "_on_gamepad_input_dismissed")
+	Steam.connect("get_auth_session_ticket_response", Callable(self, "_on_get_auth_session_ticket_response"))
+	Steam.connect("gamepad_text_input_dismissed", Callable(self, "_on_gamepad_input_dismissed"))
 	
 func _on_gamepad_input_dismissed(submitted: bool, text: String):
 	emit_signal("gamepad_input_dismissed", submitted, text)
@@ -19,15 +19,11 @@ func _on_get_auth_session_ticket_response(auth_id, result):
 	else:
 		emit_signal("ticket_failed", result)
 	
-func get_avatar() -> Texture:
+func get_avatar() -> Texture2D:
 	var img_handle = Steam.getMediumFriendAvatar(Steam.getSteamID())
 	var size = Steam.getImageSize(img_handle)
 	var buffer = Steam.getImageRGBA(img_handle).buffer
-	var avatar_image = Image.new()
-	var avatar_texture = ImageTexture.new()
-	avatar_image.create(size.width, size.height, false, Image.FORMAT_RGBAF)
-	
-	avatar_image.lock()
+	var avatar_image = Image.create(size.width, size.height, false, Image.FORMAT_RGBAF)
 	
 	for y in range(size.height):
 		for x in range(size.width):
@@ -37,12 +33,10 @@ func get_avatar() -> Texture:
 			var b = float(buffer[pixel+2]) / 255.0
 			var a = float(buffer[pixel+3]) / 255.0
 			avatar_image.set_pixel(x, y, Color(r, g, b, a))
-	avatar_image.unlock()
-	avatar_texture.create_from_image(avatar_image)
+	var avatar_texture = ImageTexture.create_from_image(avatar_image)
 	return avatar_texture
 func init_platform() -> int:
 	if Engine.has_singleton("Steam"):
-
 		var init = Steam.steamInit()
 		
 		Log.log(self, init.verbal)
@@ -52,11 +46,11 @@ func init_platform() -> int:
 		friendly_username = Steam.getPersonaName()
 		user_id = Steam.getSteamID()
 		multiplayer_provider = SteamMultiplayerService.new()
-		multiplayer_provider.connect("lobby_join_requested", self, "_on_lobby_join_requested")
+		multiplayer_provider.connect("lobby_join_requested", Callable(self, "_on_lobby_join_requested"))
 		leaderboard_provider = SteamLeaderboardService.new()
 		ugc_provider = SteamUGCService.new()
 		
-		.init_platform()
+		super.init_platform()
 		
 		return OK
 	else:
@@ -71,7 +65,7 @@ var MainMenu = load("res://menus/MainMenu3D.tscn")
 		
 func _on_lobby_join_requested(lobby: HBLobby):
 	lobby.join_lobby()
-	lobby.connect("lobby_joined", self, "_on_lobby_joined_from_invite", [lobby])
+	lobby.connect("lobby_joined", Callable(self, "_on_lobby_joined_from_invite").bind(lobby))
 func _on_lobby_joined_from_invite(response, lobby: HBLobby):
 	var args = { "lobby": lobby }
 	
@@ -80,7 +74,7 @@ func _on_lobby_joined_from_invite(response, lobby: HBLobby):
 			var menu: HBMainMenu = get_tree().current_scene
 			menu._on_change_to_menu("lobby", false, args)
 		else:
-			var scene = MainMenu.instance()
+			var scene = MainMenu.instantiate()
 			get_tree().current_scene.queue_free()
 			scene.starting_menu = "lobby"
 			scene.starting_menu_args = args
@@ -95,7 +89,7 @@ func run_callbacks():
 func get_achivements():
 	pass
 
-func write_remote_file(file_name: String, data: PoolByteArray):
+func write_remote_file(file_name: String, data: PackedByteArray):
 	Log.log(self, "Writing to remote file: %s" % [file_name])
 	return Steam.fileWrite(file_name, data, data.size())
 
@@ -108,19 +102,19 @@ func _write_remote_file_async(userdata):
 	if result:
 		Log.log(self, "Wrote succesfully to remote file (asynchronously): %s" % [userdata.file_name])
 	call_deferred("_wait_for_thread_HACK", userdata.thread)
-func write_remote_file_async(file_name: String, data: PoolByteArray):
+func write_remote_file_async(file_name: String, data: PackedByteArray):
 	var thread = Thread.new()
 	Log.log(self, "Writing to remote file (asynchronously): %s" % [file_name])	
-	var result = thread.start(self, "_write_remote_file_async", {"file_name": file_name, "data": data, "thread": thread})
+	var result = thread.start(Callable(self, "_write_remote_file_async").bind({"file_name": file_name, "data": data, "thread": thread}))
 	if result != OK:
 		Log.log(self, "Error starting thread for writing remote file: " + str(result), Log.LogLevel.ERROR)
 
 # Write a file to remote
 func write_remote_file_from_path(file_name: String, path: String):
-	var file = File.new()
-	if file.open(path, File.READ) == OK:
-		var buffer = file.get_buffer(file.get_len())
-		var result = Steam.fileWrite(file_name, buffer, file.get_len())
+	var file = FileAccess.open(path, FileAccess.READ)
+	if FileAccess.get_open_error() == OK:
+		var buffer = file.get_buffer(file.get_length())
+		var result = Steam.fileWrite(file_name, buffer, file.get_length())
 		if not result:
 			Log.log(self, "Error writing file to remote storage: %s" % [file_name])
 	else:
@@ -147,9 +141,9 @@ func read_remote_file(file_name: String):
 	return result
 func read_remote_file_to_path(file_name: String, target_path: String):
 	var result = read_remote_file(file_name)
-	var file = File.new()
 	if result.result:
-		var err = file.open(target_path, File.WRITE)
+		var file := FileAccess.open(target_path, FileAccess.WRITE)
+		var err := FileAccess.get_open_error()
 		if err == OK:
 			file.store_buffer(result.buffer)
 		else:
@@ -177,7 +171,7 @@ func show_gamepad_text_input(existing_text := "", multi_line := false, descripti
 	return Steam.showGamepadTextInput(Steam.GAMEPAD_TEXT_INPUT_MODE_NORMAL, line_mode, description, 1024, existing_text)
 
 func show_floating_gamepad_text_input(multi_line := false) -> bool:
-	var ws := OS.window_size
+	var ws := get_window().size
 	var height = ws.y
 	var position_y = (height / 3.0) * 2.0
 	var input_height = (height / 3.0)
@@ -189,15 +183,15 @@ func show_floating_gamepad_text_input(multi_line := false) -> bool:
 const MMPLUS_APPID := 1761390
 
 func setup_system_mm_plus():
-	var owns_mmplus := Steam.isSubscribedApp(MMPLUS_APPID)
+	var owns_mmplus: bool = Steam.isSubscribedApp(MMPLUS_APPID)
 	if not owns_mmplus:
 		HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NOT_OWNED
 		return
-	var is_mmplus_installed := Steam.isAppInstalled(MMPLUS_APPID)
+	var is_mmplus_installed: bool = Steam.isAppInstalled(MMPLUS_APPID)
 	if not is_mmplus_installed:
 		HBGame.mmplus_error = HBGame.MMPLUS_ERROR.NOT_INSTALLED
 		return
-	var mmplus_path := Steam.getAppInstallDir(MMPLUS_APPID)
+	var mmplus_path: String = Steam.getAppInstallDir(MMPLUS_APPID)
 	var dsc_loader = SongLoaderDSC.new()
 	dsc_loader.GAME_LOCATION = mmplus_path
 	dsc_loader.game_type = "MMPLUS"

@@ -1,4 +1,4 @@
-tool
+@tool
 extends Control
 
 class_name HBEditorAxisGizmoArrow
@@ -14,11 +14,11 @@ signal dragged(relative_movement)
 signal start_dragging
 signal finish_dragging
 
-export(DIRECTION) var direction = DIRECTION.Y
+@export var direction: DIRECTION = DIRECTION.Y
 var fired_drag_start = false
 func _ready():
-	connect("mouse_entered", self, "_on_mouse_entered")
-	connect("mouse_exited", self, "_on_mouse_exited")
+	connect("mouse_entered", Callable(self, "_on_mouse_entered"))
+	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	
 func _input(event):
 	if hovering:
@@ -34,35 +34,35 @@ func _input(event):
 	
 func _on_mouse_entered():
 	hovering = true
-	update()
+	queue_redraw()
 func _on_mouse_exited():
 	hovering = false
-	update()
+	queue_redraw()
 	
 func _draw_x_cap():
 	var color = get_gizmo_color()
-	var point1 = Vector2(rect_size.x + cap_size*3, rect_size.y/2)
-	var point2 = Vector2(rect_size.x, -cap_size)
-	var point3 = Vector2(rect_size.x, rect_size.y+cap_size)
-	draw_colored_polygon(PoolVector2Array([point1, point2, point3]), color)
+	var point1 = Vector2(size.x + cap_size*3, size.y/2)
+	var point2 = Vector2(size.x, -cap_size)
+	var point3 = Vector2(size.x, size.y+cap_size)
+	draw_colored_polygon(PackedVector2Array([point1, point2, point3]), color)
 	
 func _draw_y_cap():
 	var color = get_gizmo_color()
-	var point1 = Vector2(rect_size.x/2, -cap_size*3)
+	var point1 = Vector2(size.x/2, -cap_size*3)
 	var point2 = Vector2(0-cap_size, 0)
-	var point3 = Vector2(rect_size.x+cap_size, 0)
-	draw_colored_polygon(PoolVector2Array([point1, point2, point3]), color)
+	var point3 = Vector2(size.x+cap_size, 0)
+	draw_colored_polygon(PackedVector2Array([point1, point2, point3]), color)
 	
 func get_gizmo_color():
 	if hovering:
-		return Color.yellow
+		return Color.YELLOW
 	elif direction == DIRECTION.X:
-		return Color.red
+		return Color.RED
 	else:
-		return Color.green
+		return Color.GREEN
 	
 func _draw():
-	draw_rect(Rect2(Vector2(), rect_size), get_gizmo_color())
+	draw_rect(Rect2(Vector2(), size), get_gizmo_color())
 	if direction == DIRECTION.X:
 		_draw_x_cap()
 	else:

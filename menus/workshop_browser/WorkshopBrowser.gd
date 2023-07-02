@@ -10,25 +10,25 @@ var query_handle
 
 const RESULTS_PER_PAGE = 50.0
 
-onready var grid_container = get_node("MarginContainer/Control/ScrollContainer/GridContainer")
-onready var scroll_container = get_node("MarginContainer/Control/ScrollContainer")
-onready var pagination_label = get_node("MarginContainer/Control/HBoxContainer/Label")
-onready var pagination_container = get_node("MarginContainer/Control/HBoxContainer")
-onready var loading_spinner = get_node("MarginContainer/CenterContainer2")
-onready var loading_spinner_animation_player = get_node("MarginContainer/CenterContainer2/AnimationPlayer")
-onready var pagination_back_button = get_node("MarginContainer/Control/HBoxContainer/HBHovereableButton")
-onready var pagination_forward_button = get_node("MarginContainer/Control/HBoxContainer/HBHovereableButton2")
-onready var search_prompt = get_node("HBConfirmationWindow")
-onready var search_title_label = get_node("MarginContainer/Control/HBoxContainer2/SearchTitle")
-onready var sort_by_container = get_node("Panel/MarginContainer/VBoxContainer")
-onready var sort_by_popup = get_node("Panel")
-onready var tag_button_container = get_node("MarginContainer/Control/HBoxContainer4/HBoxContainer3")
-onready var star_filter_panel_container: PanelContainer = get_node("%StarFilterPanelContainer")
-onready var star_filter_vbox_container: VBoxContainer = get_node("%StarFilterVBoxContainer")
+@onready var grid_container = get_node("MarginContainer/Control/ScrollContainer/GridContainer")
+@onready var scroll_container = get_node("MarginContainer/Control/ScrollContainer")
+@onready var pagination_label = get_node("MarginContainer/Control/HBoxContainer/Label")
+@onready var pagination_container = get_node("MarginContainer/Control/HBoxContainer")
+@onready var loading_spinner = get_node("MarginContainer/CenterContainer2")
+@onready var loading_spinner_animation_player = get_node("MarginContainer/CenterContainer2/AnimationPlayer")
+@onready var pagination_back_button = get_node("MarginContainer/Control/HBoxContainer/HBHovereableButton")
+@onready var pagination_forward_button = get_node("MarginContainer/Control/HBoxContainer/HBHovereableButton2")
+@onready var search_prompt = get_node("HBConfirmationWindow")
+@onready var search_title_label = get_node("MarginContainer/Control/HBoxContainer2/SearchTitle")
+@onready var sort_by_container = get_node("Panel/MarginContainer/VBoxContainer")
+@onready var sort_by_popup = get_node("Panel")
+@onready var tag_button_container = get_node("MarginContainer/Control/HBoxContainer4/HBoxContainer3")
+@onready var star_filter_panel_container: PanelContainer = get_node("%StarFilterPanelContainer")
+@onready var star_filter_vbox_container: VBoxContainer = get_node("%StarFilterVBoxContainer")
 
 var current_page = 1
 
-onready var pagination_debounce_timer = Timer.new()
+@onready var pagination_debounce_timer = Timer.new()
 
 var total_items = 0
 var filter_by_stars := false
@@ -37,7 +37,7 @@ var _debounced_page = 1
 
 var current_query: HBWorkshopBrowserQuery
 
-var filter_tag setget set_filter_tag
+var filter_tag : set = set_filter_tag
 
 func get_filter_tags():
 	var tags := []
@@ -94,24 +94,25 @@ class QueryRequestSearch:
 		return "Search: \"%s\"" % [search_text]
 		
 func _ready():
+	super._ready()
 	star_filter_panel_container.hide()
 	for filter_name in HBGame.CHART_DIFFICULTY_TAGS:
-		var hovereable_checkbox: HBHovereableCheckbox = preload("res://menus/HBHovereableCheckbox.tscn").instance()
+		var hovereable_checkbox: HBHovereableCheckbox = preload("res://menus/HBHovereableCheckbox.tscn").instantiate()
 		hovereable_checkbox.text = "★ " + filter_name
 		hovereable_checkbox.set_meta("filter_name", filter_name)
 		star_filter_vbox_container.add_child(hovereable_checkbox)
 	
 	var button_filter_songs = HBHovereableButton.new()
 	button_filter_songs.text = tr("Charts")
-	button_filter_songs.connect("hovered", self, "set_filter_tag", ["Charts"])
+	button_filter_songs.connect("hovered", Callable(self, "set_filter_tag").bind("Charts"))
 	
 	var button_filter_skins = HBHovereableButton.new()
 	button_filter_skins.text = tr("Skins")
-	button_filter_skins.connect("hovered", self, "set_filter_tag", ["Skins"])
+	button_filter_skins.connect("hovered", Callable(self, "set_filter_tag").bind("Skins"))
 	
 	var button_filter_note_packs = HBHovereableButton.new()
 	button_filter_note_packs.text = tr("Note Packs")
-	button_filter_note_packs.connect("hovered", self, "set_filter_tag", ["Note Packs"])
+	button_filter_note_packs.connect("hovered", Callable(self, "set_filter_tag").bind("Note Packs"))
 	tag_button_container.add_child(button_filter_songs)
 	tag_button_container.add_child(button_filter_skins)
 	tag_button_container.add_child(button_filter_note_packs)
@@ -119,11 +120,11 @@ func _ready():
 	tag_button_container.next_action = "gui_tab_right"
 	tag_button_container.prev_action = "gui_tab_left"
 	
-	Steam.connect("ugc_query_completed", self, "_on_ugc_query_completed")
+	Steam.connect("ugc_query_completed", Callable(self, "_on_ugc_query_completed"))
 #	scroll_container.vertical_step = grid_container.columns
-	pagination_back_button.connect("pressed", self, "_on_user_navigate_button_pressed", [-1])
-	pagination_forward_button.connect("pressed", self, "_on_user_navigate_button_pressed", [1])
-	pagination_debounce_timer.connect("timeout", self, "_on_pagination_debounce_timeout")
+	pagination_back_button.connect("pressed", Callable(self, "_on_user_navigate_button_pressed").bind(-1))
+	pagination_forward_button.connect("pressed", Callable(self, "_on_user_navigate_button_pressed").bind(1))
+	pagination_debounce_timer.connect("timeout", Callable(self, "_on_pagination_debounce_timeout"))
 	pagination_debounce_timer.one_shot = true
 	pagination_debounce_timer.wait_time = 0.5
 	add_child(pagination_debounce_timer)
@@ -135,13 +136,13 @@ func _ready():
 		var sort_by_mode_text = HBWorkshopBrowserQuery.sort_by_mode_to_string(sort_mode)
 		var button = HBHovereableButton.new()
 		button.text = sort_by_mode_text
-		button.connect("pressed", self, "_on_sort_by_button_pressed", [sort_mode])
+		button.connect("pressed", Callable(self, "_on_sort_by_button_pressed").bind(sort_mode))
 		sort_by_container.add_child(button)
-	sort_by_popup.rect_size.y = $Panel/MarginContainer.get_minimum_size().y
+	sort_by_popup.size.y = $Panel/MarginContainer.get_minimum_size().y
 	sort_by_popup.hide()
 	
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	pagination_debounce_timer.stop()
 	current_page = _debounced_page
 	filter_tag = "Charts"
@@ -223,13 +224,15 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 				var metadata = Steam.getQueryUGCMetadata(handle, i)
 				var item = null
 				if metadata:
-					var parsed_json = parse_json(metadata)
+					var test_json_conv = JSON.new()
+					test_json_conv.parse(metadata)
+					var parsed_json = test_json_conv.get_data()
 					if parsed_json:
 						item = HBSerializable.deserialize(parsed_json)
 				if data.result == 1:
 					var url = Steam.getQueryUGCPreviewURL(handle, i)
 					var prev_data = HBWorkshopPreviewData.new()
-					var scene = THUMBNAIL_SCENE.instance()
+					var scene = THUMBNAIL_SCENE.instantiate()
 					prev_data.preview_url = url
 					prev_data.title = data.title
 					prev_data.description = data.description
@@ -240,7 +243,7 @@ func _on_ugc_query_completed(handle, result, total_results, number_of_matching_r
 					prev_data.metadata = item
 					prev_data.tag = filter_tag
 					grid_container.add_child(scene)
-					scene.connect("pressed", self, "_on_item_selected", [scene])
+					scene.connect("pressed", Callable(self, "_on_item_selected").bind(scene))
 					scene.set_data(prev_data)
 			if total_results > 0:
 				scroll_container.select_item(0)
@@ -266,7 +269,7 @@ func _unhandled_input(event):
 	elif prompt_visible:
 		pass # do nothing
 	elif event.is_action_pressed("note_left"):
-		star_filter_panel_container.rect_position = (rect_size / 2.0) - (star_filter_vbox_container.rect_size / 2.0)
+		star_filter_panel_container.position = (size / 2.0) - (star_filter_vbox_container.size / 2.0)
 		star_filter_panel_container.show()
 		star_filter_vbox_container.grab_focus()
 	elif event.is_action_pressed("gui_sort_by"):

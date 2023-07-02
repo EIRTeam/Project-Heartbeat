@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=2]
+[ext_resource path="res://graphics/predarkenedbg.png" type="Texture2D" id=2]
 [ext_resource path="res://tools/SwitchExporter/SwitchExporter.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -18,82 +18,82 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2.0
-margin_right = 2.0
+offset_left = 2.0
+offset_right = 2.0
 texture = ExtResource( 2 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WindowDialog" type="WindowDialog" parent="."]
+[node name="Window" type="Window" parent="."]
 visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -405.0
-margin_top = -237.0
-margin_right = 406.0
-margin_bottom = 245.0
-popup_exclusive = true
+offset_left = -405.0
+offset_top = -237.0
+offset_right = 406.0
+offset_bottom = 245.0
+exclusive = true
 window_title = "Switch Exporter"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="WindowDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="Window"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowDialog/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 801.0
-margin_bottom = 472.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 801.0
+offset_bottom = 472.0
 
-[node name="Label" type="RichTextLabel" parent="WindowDialog/MarginContainer/VBoxContainer"]
-margin_right = 791.0
-margin_bottom = 36.0
-custom_styles/normal = SubResource( 1 )
+[node name="Label" type="RichTextLabel" parent="Window/MarginContainer/VBoxContainer"]
+offset_right = 791.0
+offset_bottom = 36.0
+theme_override_styles/normal = SubResource( 1 )
 bbcode_enabled = true
-bbcode_text = "For workshop songs to show here, you need to download their media first from the song list.
+text = "For workshop songs to show here, you need to download their media first from the song list.
 For more info on the homebrew switch version, click [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2544452341]here[/url]."
 text = "For workshop songs to show here, you need to download their media first from the song list.
 For more info on the homebrew switch version, click here."
 fit_content_height = true
 scroll_active = false
 
-[node name="Tree" type="Tree" parent="WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 40.0
-margin_right = 791.0
-margin_bottom = 404.0
+[node name="Tree" type="Tree" parent="Window/MarginContainer/VBoxContainer"]
+offset_top = 40.0
+offset_right = 791.0
+offset_bottom = 404.0
 size_flags_vertical = 3
 columns = 2
 hide_root = true
 
-[node name="ExportButton" type="Button" parent="WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 408.0
-margin_right = 791.0
-margin_bottom = 433.0
+[node name="ExportButton" type="Button" parent="Window/MarginContainer/VBoxContainer"]
+offset_top = 408.0
+offset_right = 791.0
+offset_bottom = 433.0
 text = "Export..."
 
-[node name="CloseButton" type="Button" parent="WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 437.0
-margin_right = 791.0
-margin_bottom = 462.0
+[node name="CloseButton" type="Button" parent="Window/MarginContainer/VBoxContainer"]
+offset_top = 437.0
+offset_right = 791.0
+offset_bottom = 462.0
 text = "Close"
 
 [node name="FileDialog" type="FileDialog" parent="."]
-margin_right = 827.0
-margin_bottom = 441.0
+offset_right = 827.0
+offset_bottom = 441.0
 window_title = "Abrir un Directorio"
 mode = 2
 access = 2
@@ -101,6 +101,6 @@ show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
-[connection signal="meta_clicked" from="WindowDialog/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
-[connection signal="pressed" from="WindowDialog/MarginContainer/VBoxContainer/ExportButton" to="FileDialog" method="popup_centered"]
+[connection signal="meta_clicked" from="Window/MarginContainer/VBoxContainer/Label" to="." method="_on_Label_meta_clicked"]
+[connection signal="pressed" from="Window/MarginContainer/VBoxContainer/ExportButton" to="FileDialog" method="popup_centered"]
 [connection signal="dir_selected" from="FileDialog" to="." method="_on_FileDialog_dir_selected"]

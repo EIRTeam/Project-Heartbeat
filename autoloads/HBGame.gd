@@ -111,7 +111,7 @@ const EXCELLENT_THRESHOLD = 0.95
 const GREAT_THRESHOLD = 0.90
 const PASS_THRESHOLD = 0.75
 
-onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_for_type('VideoStreamGDNative')
+@onready var has_mp4_support = "mp4" in ResourceLoader.get_recognized_extensions_for_type('VideoStreamGDNative')
 
 var menu_press_sfx: ShinobuSoundSourceMemory
 var rollback_sfx: ShinobuSoundSourceMemory
@@ -147,16 +147,16 @@ func _ready():
 var spectrum_analyzer: ShinobuSpectrumAnalyzerEffect
 	
 func register_sound_from_path(name_hint: String, path: String) -> ShinobuSoundSourceMemory:
-	var f := File.new()
-	if f.open(path, File.READ) != OK:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if FileAccess.get_open_error() != OK:
 		prints("Oh cock, error registering sound from path!", path)
-	return Shinobu.register_sound_from_memory(name_hint, f.get_buffer(f.get_len()))
+	return Shinobu.register_sound_from_memory(name_hint, f.get_buffer(f.get_length()))
 	
 func fire_and_forget_sound(source: ShinobuSoundSource, group: ShinobuGroup):
 	var instance := source.instantiate(group)
 	add_child(instance)
 	instance.start()
-	instance.pause_mode = Node.PAUSE_MODE_PROCESS
+	instance.process_mode = Node.PROCESS_MODE_ALWAYS
 	fire_and_forget_sounds.append(instance)
 	
 func _register_basic_sfx():
@@ -186,7 +186,7 @@ func _process(delta):
 		var sound := fire_and_forget_sounds[i] as ShinobuSoundPlayer
 		if sound.is_at_stream_end():
 			sound.queue_free()
-		fire_and_forget_sounds.remove(i)
+		fire_and_forget_sounds.remove_at(i)
 
 	
 func _register_ui_components():
@@ -239,9 +239,8 @@ func _game_init():
 				push_error("Argument game_location requires an input")
 
 	UserSettings._init_user_settings()
-	var dir := Directory.new()
 	
-	if not dir.dir_exists(UserSettings.user_settings.content_path):
+	if not DirAccess.dir_exists_absolute(UserSettings.user_settings.content_path):
 		content_dir = "user://"
 		print("Content dir does not exist, falling back to user://")
 	else:
@@ -276,8 +275,6 @@ func _game_init():
 	YoutubeDL._init_ytdl()
 	
 	register_game_mode(HBHeartbeatGameMode.new())
-	if not OS.has_feature("mobile") or OS.get_name() == "Switch":
-		MobileControls.get_child(0).hide()
 		
 	rich_presence = HBRichPresence.new()
 	if not OS.has_feature("no_rich_presence") and not OS.has_feature("editor"):
@@ -289,8 +286,8 @@ func _game_init():
 
 	song_stats = HBSongStatsLoader.new()
 	song_stats._init_song_stats()
-	if not dir.dir_exists(UserSettings.CUSTOM_SOUND_PATH):
-		dir.make_dir_recursive(UserSettings.CUSTOM_SOUND_PATH)
+	if not DirAccess.dir_exists_absolute(UserSettings.CUSTOM_SOUND_PATH):
+		DirAccess.make_dir_recursive_absolute(UserSettings.CUSTOM_SOUND_PATH)
 	
 func register_game_mode(game_mode: HBGameMode):
 	game_modes.append(game_mode)
@@ -305,19 +302,18 @@ func is_on_steam_deck() -> bool:
 	return force_steam_deck_mode or PlatformService.service_provider.is_steam_deck()
 
 func save_empty_streamer_images():
-	var empty_image = Image.new()
+	var empty_image: Image
 	
 	var bg_size: Vector2 = HBGame.STREAMER_MODE_BACKGROUND_IMAGE_SIZE
 	var preview_size: Vector2 = HBGame.STREAMER_MODE_PREVIEW_IMAGE_SIZE
-	empty_image.create(bg_size.x, bg_size.y, false, Image.FORMAT_RGBA8)
-	empty_image.fill(Color.transparent)
+	empty_image = Image.create(bg_size.x, bg_size.y, false, Image.FORMAT_RGBA8)
+	empty_image.fill(Color.TRANSPARENT)
 	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_BG_PATH)
-	empty_image.create(preview_size.x, preview_size.y, false, Image.FORMAT_RGBA8)
-	empty_image.fill(Color.transparent)
+	empty_image = Image.create(preview_size.x, preview_size.y, false, Image.FORMAT_RGBA8)
+	empty_image.fill(Color.TRANSPARENT)
 	empty_image.save_png(STREAMER_MODE_CURRENT_SONG_PREVIEW_PATH)
 	
-	var f := File.new()
-	f.open(STREAMER_MODE_CURRENT_SONG_TITLE_PATH, File.WRITE)
+	var f := FileAccess.open(STREAMER_MODE_CURRENT_SONG_TITLE_PATH, FileAccess.WRITE)
 	f.store_string("")
 	f.close()
 

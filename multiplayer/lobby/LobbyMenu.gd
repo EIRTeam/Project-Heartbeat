@@ -1,13 +1,13 @@
 extends HBMenu
 
-onready var chat_box = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat/MarginContainer/RichTextLabel")
-onready var member_list = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MemberList")
-onready var lobby_name_label = get_node("MarginContainer/VBoxContainer/Label")
-onready var chat_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit")
-onready var options_vertical_menu = get_node ("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer")
-onready var waiting_for_song_confirmation_prompt = get_node("WaitingForSongConfirmation")
-onready var song_confirmation_error_prompt = get_node("SongConfirmationError")
-onready var downloading_message_prompt = get_node("DownloadingMesssage")
+@onready var chat_box = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat/MarginContainer/RichTextLabel")
+@onready var member_list = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MemberList")
+@onready var lobby_name_label = get_node("MarginContainer/VBoxContainer/Label")
+@onready var chat_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/LineEdit")
+@onready var options_vertical_menu = get_node ("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer")
+@onready var waiting_for_song_confirmation_prompt = get_node("WaitingForSongConfirmation")
+@onready var song_confirmation_error_prompt = get_node("SongConfirmationError")
+@onready var downloading_message_prompt = get_node("DownloadingMesssage")
 
 var lobby: HBLobby
 var selected_song: HBSong
@@ -20,22 +20,23 @@ var checking_song_availabilities = false
 var waiting_for_ugc_downloads_to_complete = false
 
 func _ready():
+	super._ready()
 	var starting_song = SongLoader.songs.values()[0]
 	select_song(starting_song, starting_song.charts.keys()[0])
-	options_vertical_menu.connect("bottom", self, "_options_vertical_menu_from_bottom")
-	waiting_for_song_confirmation_prompt.connect("cancel", self, "_on_song_availability_check_cancelled")
-	waiting_for_song_confirmation_prompt.connect("cancel", options_vertical_menu, "grab_focus")
-	song_confirmation_error_prompt.connect("accept", options_vertical_menu, "grab_focus")
+	options_vertical_menu.connect("bottom", Callable(self, "_options_vertical_menu_from_bottom"))
+	waiting_for_song_confirmation_prompt.connect("cancel", Callable(self, "_on_song_availability_check_cancelled"))
+	waiting_for_song_confirmation_prompt.connect("cancel", Callable(options_vertical_menu, "grab_focus"))
+	song_confirmation_error_prompt.connect("accept", Callable(options_vertical_menu, "grab_focus"))
 func select_song(song: HBSong, difficulty: String):
 	selected_song = song
 	selected_difficulty = difficulty
 	emit_signal("song_selected", selected_song)
 	
 func _on_menu_exit(force_hard_transition=false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	
 func _on_menu_enter(force_hard_transition=false, args={}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	if lobby:
 		connect_lobby(lobby)
 	if args.has("lobby"):
@@ -52,7 +53,7 @@ func _on_menu_enter(force_hard_transition=false, args={}):
 		if lobby.get_song():
 			select_song(lobby.get_song(), lobby.song_difficulty)
 	# HACK! Else we select the wrong button when we don't do this
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	options_vertical_menu.grab_focus()
 	update_member_list()
 	_check_ownership_changed()
@@ -85,29 +86,29 @@ func _on_host_changed():
 	update_member_list()
 	_check_ownership_changed()
 	var msg = lobby.get_lobby_owner().member_name + " is the new host."
-	append_service_message(msg, Color.green)
+	append_service_message(msg, Color.GREEN)
 
 func connect_lobby(_lobby: HBLobby):
-	if not _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
-		_lobby.connect("lobby_chat_message", self, "_on_chat_message_received")
-		_lobby.connect("lobby_chat_update", self, "_on_lobby_chat_update")
-		_lobby.connect("lobby_data_updated", self, "update_lobby_data_display")
-		_lobby.connect("lobby_loading_start", self, "_on_lobby_loading_start")
-		_lobby.connect("user_song_availability_update", self, "_on_user_song_availability_update")
-		_lobby.connect("check_songs_request_received", self, "_on_check_songs_request_received")
-		_lobby.connect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
-		_lobby.connect("host_changed", self, "_on_host_changed")
+	if not _lobby.is_connected("lobby_chat_message", Callable(self, "_on_chat_message_received")):
+		_lobby.connect("lobby_chat_message", Callable(self, "_on_chat_message_received"))
+		_lobby.connect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
+		_lobby.connect("lobby_data_updated", Callable(self, "update_lobby_data_display"))
+		_lobby.connect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
+		_lobby.connect("user_song_availability_update", Callable(self, "_on_user_song_availability_update"))
+		_lobby.connect("check_songs_request_received", Callable(self, "_on_check_songs_request_received"))
+		_lobby.connect("reported_ugc_song_downloaded", Callable(self, "_on_ugc_song_downloaded"))
+		_lobby.connect("host_changed", Callable(self, "_on_host_changed"))
 	
 func disconnect_lobby(_lobby: HBLobby):
-	if _lobby.is_connected("lobby_chat_message", self, "_on_chat_message_received"):
-		_lobby.disconnect("lobby_chat_message", self, "_on_chat_message_received")
-		_lobby.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
-		_lobby.disconnect("lobby_data_updated", self, "update_lobby_data_display")
-		_lobby.disconnect("lobby_loading_start", self, "_on_lobby_loading_start")
-		_lobby.disconnect("user_song_availability_update", self, "_on_user_song_availability_update")
-		_lobby.disconnect("check_songs_request_received", self, "_on_check_songs_request_received")
-		_lobby.disconnect("reported_ugc_song_downloaded", self, "_on_ugc_song_downloaded")
-		_lobby.disconnect("host_changed", self, "_on_host_changed")
+	if _lobby.is_connected("lobby_chat_message", Callable(self, "_on_chat_message_received")):
+		_lobby.disconnect("lobby_chat_message", Callable(self, "_on_chat_message_received"))
+		_lobby.disconnect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
+		_lobby.disconnect("lobby_data_updated", Callable(self, "update_lobby_data_display"))
+		_lobby.disconnect("lobby_loading_start", Callable(self, "_on_lobby_loading_start"))
+		_lobby.disconnect("user_song_availability_update", Callable(self, "_on_user_song_availability_update"))
+		_lobby.disconnect("check_songs_request_received", Callable(self, "_on_check_songs_request_received"))
+		_lobby.disconnect("reported_ugc_song_downloaded", Callable(self, "_on_ugc_song_downloaded"))
+		_lobby.disconnect("host_changed", Callable(self, "_on_host_changed"))
 	
 func set_lobby(_lobby: HBLobby):
 	if self.lobby:
@@ -124,17 +125,17 @@ func set_lobby(_lobby: HBLobby):
 func _on_chat_message_received(member: HBServiceMember, message, type):
 	match type:
 		HBLobby.CHAT_MESSAGE_TYPE.MESSAGE:
-			chat_box.bbcode_text += "\n" + member.get_member_name() + ": " + str(message)
+			chat_box.text += "\n" + member.get_member_name() + ": " + str(message)
 
-func append_service_message(message: String, color=Color.red):
-	chat_box.bbcode_text += "\n[color=#%s]%s[/color]" % [color.to_html(false).to_upper(), message]
+func append_service_message(message: String, color=Color.RED):
+	chat_box.text += "\n[color=#%s]%s[/color]" % [color.to_html(false).to_upper(), message]
 
 func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMember, state):
 	var msg
-	var color = Color.red
+	var color = Color.RED
 	if state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.JOINED:
 		msg = " has joined."
-		color = Color.green
+		color = Color.GREEN
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.LEFT:
 		msg = " has left."
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.DISCONNECTED:
@@ -144,7 +145,7 @@ func _on_lobby_chat_update(changed: HBServiceMember, making_change: HBServiceMem
 	elif state == HBLobby.LOBBY_CHAT_UPDATE_STATUS.BANNED:
 		msg = " has been banned."
 	else:
-		color = Color.purple
+		color = Color.PURPLE
 		msg = " has managed to break space-time."
 	
 	msg = str(changed.member_name) + msg
@@ -167,8 +168,8 @@ func _on_ugc_song_downloaded(user: HBServiceMember, ugc_id: int):
 	if ugc_id == selected_song.ugc_id:
 		song_availabilities[user] = true
 	var found_false = false
-	for user in song_availabilities:
-		if not song_availabilities[user]:
+	for lobby_user in song_availabilities:
+		if not song_availabilities[lobby_user]:
 			found_false = true
 	if not found_false:
 		start_multiplayer_session_authority()
@@ -241,16 +242,16 @@ func _on_SelectSongButton_pressed():
 
 func _on_LineEdit_gui_input(event: InputEvent):
 	if event.is_action_pressed("gui_up") and not event.is_echo():
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		options_vertical_menu.grab_focus()
 		options_vertical_menu.select_button(options_vertical_menu.get_child_count()-1)
 	if event.is_action_pressed("gui_accept") and not event.is_echo():
 		send_chat_message()
 	if event is InputEventKey:
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 
 func start_multiplayer_session_authority():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene
@@ -268,7 +269,7 @@ func _on_StartGameButton_pressed():
 	
 # called when authority sends a game start packet, sets up mp and starts loading
 func _on_lobby_loading_start():
-	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instance()
+	var rhythm_game_multiplayer_scene = preload("res://rythm_game/rhythm_game_multiplayer.tscn").instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(rhythm_game_multiplayer_scene)
 	get_tree().current_scene = rhythm_game_multiplayer_scene

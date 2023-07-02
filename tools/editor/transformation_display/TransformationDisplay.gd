@@ -17,12 +17,12 @@ var game
 
 var hide_timer: Timer
 
-onready var background_color_rect = get_node("ColorRect")
+@onready var background_color_rect = get_node("ColorRect")
 
 func _ready():
 	hide_timer = Timer.new()
 	hide_timer.wait_time = 0.1
-	hide_timer.connect("timeout", self, "hide")
+	hide_timer.connect("timeout", Callable(self, "hide"))
 	add_child(hide_timer)
 	
 	hide()
@@ -36,7 +36,7 @@ func _ready():
 		var l2 = angle_line_2d.duplicate() as Line2D
 		add_child(l2)
 		l2.hide()
-		var points = PoolVector2Array()
+		var points = PackedVector2Array()
 		points.resize(2)
 		l2.points = points
 		angle_line_2ds.append(l2)
@@ -86,8 +86,8 @@ func _point_sort(a, b):
 	var d2 = (b.x - center.x) * (b.x - center.x) + (b.y - center.y) * (b.y - center.y)
 	return d1 > d2
 
-func _draw_note_graphic(center_pos: Vector2, note_type: int, target_graphic: String, note_modulate = Color.white):
-	var texture = HBNoteData.get_note_graphic(note_type, target_graphic) as Texture
+func _draw_note_graphic(center_pos: Vector2, note_type: int, target_graphic: String, note_modulate = Color.WHITE):
+	var texture = HBNoteData.get_note_graphic(note_type, target_graphic) as Texture2D
 	var note_texture_size = texture.get_size() * get_note_scale()
 	var draw_pos = center_pos - note_texture_size / 2.0
 	
@@ -99,7 +99,7 @@ func _draw_note_graphic(center_pos: Vector2, note_type: int, target_graphic: Str
 	draw_texture_rect(timing_arm_texture, Rect2(timing_arm_draw_pos, timing_arm_texture_size), false, note_modulate)
 
 func _create_laser(scale_x):
-	var laser = preload("res://rythm_game/Laser.tscn").instance()
+	var laser = preload("res://rythm_game/Laser.tscn").instantiate()
 	laser.width_scale = scale_x
 	return laser
 
@@ -108,7 +108,7 @@ func _draw_transformation():
 
 	var scale_x = (remap_coords(Vector2(1.0, 1.0)) - remap_coords(Vector2.ZERO)).x
 	
-	var trail_points = PoolVector2Array()
+	var trail_points = PackedVector2Array()
 	trail_points.resize(TRAIL_RESOLUTION)
 	
 	for line in angle_line_2ds:
@@ -155,7 +155,7 @@ func _draw_transformation():
 			var distance = get_transformed_value(note_to_transform, transformation_map, "distance")
 			
 			var p = Vector2(distance, 0)
-			p = p.rotated(deg2rad(entry_angle))
+			p = p.rotated(deg_to_rad(entry_angle))
 			l2.points[1] = note_center_pos + p
 			
 			l2.default_color = ResourcePackLoader.get_note_trail_color(note_type)
@@ -174,7 +174,7 @@ func _draw_transformation():
 			
 		draw_polyline(trail_points, sine_color, 4.0, true)
 
-		var note_modulate = Color.white
+		var note_modulate = Color.WHITE
 
 		if not note_to_transform in notes_to_transform:
 			note_modulate = Color(0.75, 0.75, 0.75)
@@ -200,10 +200,10 @@ func _draw_transformation():
 						center += point
 					center /= float(positions.size())
 					
-					positions.sort_custom(self, "_point_sort")
+					positions.sort_custom(Callable(self, "_point_sort"))
 					positions.append(positions[0])
 					var laser = _create_laser(scale_x)
-					add_child_below_node($ColorRect, laser)
+					$ColorRect.add_sibling(laser)
 					laser.show_behind_parent = true
 					laser.positions = positions
 					multi_lasers.append(laser)

@@ -14,7 +14,7 @@ class TestSerialization:
 		_type_test(HBNoteData, "time_out", TYPE_INT, 12)
 
 	func test_serialize_float():
-		_type_test(HBNoteData, "entry_angle", TYPE_REAL, 12.5)
+		_type_test(HBNoteData, "entry_angle", TYPE_FLOAT, 12.5)
 
 	func test_serialize_string():
 		_type_test(HBSong, "title", TYPE_STRING, "Hello, I am a test title!")
@@ -45,7 +45,7 @@ class TestDeserialization:
 		_type_test(HBNoteData, "time_out", TYPE_INT, 12)
 
 	func test_deserialize_float():
-		_type_test(HBNoteData, "entry_angle", TYPE_REAL, 12.5)
+		_type_test(HBNoteData, "entry_angle", TYPE_FLOAT, 12.5)
 
 	func test_deserialize_string():
 		_type_test(HBSong, "title", TYPE_STRING, "Hello, I am a test title!")

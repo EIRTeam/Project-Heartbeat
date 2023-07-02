@@ -2,26 +2,26 @@ extends Control
 
 class_name HBEditorModule
 
-signal show_transform(transformation)
-signal hide_transform()
-signal apply_transform(transformation)
+signal shown_transform(transformation)
+signal hidden_transform()
+signal applied_transform(transformation)
 
-var editor: HBEditor setget set_editor
+var editor: HBEditor: set = set_editor
 var undo_redo: UndoRedo
 
 var shortcuts = []
 
-export(String, "left_panel", "right_panel") var module_location
+@export var module_location: String # (String, "left_panel", "right_panel")
 var parent: TabContainer
 var tab_idx: int
 
-export(String) var module_name
+@export var module_name: String
 
-export(int) var priority
+@export var priority: int
 
-export(String) var button_group_name = "buttons"
+@export var button_group_name: String = "buttons"
 
-export(bool) var blocks_switch_to_inspector = false
+@export var blocks_switch_to_inspector: bool = false
 
 var transforms: Array
 var _current_transform
@@ -33,8 +33,8 @@ func _ready():
 func set_editor(_editor: HBEditor):
 	editor = _editor
 	undo_redo = _editor.undo_redo
-	editor.connect("modules_update_settings", self, "song_editor_settings_changed")
-	editor.connect("modules_update_user_settings", self, "user_settings_changed")
+	editor.connect("modules_update_settings", Callable(self, "song_editor_settings_changed"))
+	editor.connect("modules_update_user_settings", Callable(self, "user_settings_changed"))
 	
 	# Add module to GUI
 	if module_location:
@@ -45,9 +45,9 @@ func set_editor(_editor: HBEditor):
 	else:
 		editor.add_child(self)
 	
-	connect("show_transform", editor, "_show_transform_on_current_notes")
-	connect("hide_transform", editor.game_preview.transform_preview, "_hide")
-	connect("apply_transform", editor, "_apply_transform_on_current_notes")
+	connect("shown_transform", Callable(editor, "_show_transform_on_current_notes"))
+	connect("hidden_transform", Callable(editor.game_preview.transform_preview, "_hide"))
+	connect("applied_transform", Callable(editor, "_apply_transform_on_current_notes"))
 	
 	for transform in transforms:
 		transform.set_editor(editor)
@@ -62,7 +62,7 @@ func update_selected():
 	pass
 
 func _input(event: InputEvent):
-	if get_focus_owner() is LineEdit or get_focus_owner() is TextEdit:
+	if get_viewport().gui_get_focus_owner() is LineEdit or get_viewport().gui_get_focus_owner() is TextEdit:
 		return
 	
 	if shortcuts_blocked():
@@ -74,12 +74,10 @@ func _input(event: InputEvent):
 				continue
 			
 			if event.is_action_pressed(shortcut.action, shortcut.echo, true):
-				var function = FuncRef.new()
-				function.set_function(shortcut.function)
-				function.set_instance(self)
-				function.call_funcv(shortcut.args)
+				var function = Callable(self, shortcut.function)
+				function.callv(shortcut.args)
 				
-				get_tree().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 				break
 
 func add_shortcut(action: String, function_name: String, vararg: Array = [], echo: bool = false, control = null):
@@ -90,7 +88,7 @@ func add_shortcut(action: String, function_name: String, vararg: Array = [], ech
 func update_shortcuts():
 	for button in get_tree().get_nodes_in_group(button_group_name):
 		if button.action:
-			var action_list = InputMap.get_action_list(button.action)
+			var action_list = InputMap.action_get_events(button.action)
 			var event = action_list[0] if action_list else InputEventKey.new()
 			var ev_text = get_event_text(event)
 			
@@ -179,18 +177,18 @@ func get_song_settings():
 	return editor.song_editor_settings
 
 func show_transform(id: int):
-	emit_signal("show_transform", transforms[id])
+	emit_signal("shown_transform", transforms[id])
 	_current_transform = id
 
 func apply_transform(id: int):
-	emit_signal("apply_transform", transforms[id])
+	emit_signal("applied_transform", transforms[id])
 	
 	if _current_transform:
 		show_transform(_current_transform)
 
 # Having a catchall arg is stupid but we need it for drag_ended pokeKMS
 func hide_transform(catchall = null):
-	emit_signal("hide_transform")
+	emit_signal("hidden_transform")
 	_current_transform = null
 
 func select_item(item: EditorTimelineItem, inclusive: bool = false):

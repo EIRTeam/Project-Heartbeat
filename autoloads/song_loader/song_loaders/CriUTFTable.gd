@@ -20,7 +20,7 @@ enum FIELD_TYPES {
 	TYPE_BYTE_ARRAY
 }
 
-const SIGNATURE := PoolByteArray([0x40, 0x55, 0x54, 0x46])
+var SIGNATURE := PackedByteArray([0x40, 0x55, 0x54, 0x46])
 
 var has_error := false
 var error_message := ""
@@ -88,7 +88,7 @@ func read_string(data: StreamPeerBuffer, encoding := ENCODING.SHIFT_JIS):
 
 func read(data: StreamPeerBuffer):
 	data.big_endian = true
-	var magic := data.get_data(4)[1] as PoolByteArray
+	var magic := data.get_data(4)[1] as PackedByteArray
 	if magic != SIGNATURE:
 		propagate_error("Invalid UTF table signature, expected @UTF")
 		return
@@ -174,7 +174,7 @@ func read_value(data: StreamPeerBuffer, value_type: int):
 			
 			var out_position := data.get_position()
 			
-			var bytes: PoolByteArray
+			var bytes: PackedByteArray
 			
 			if offset > 0:
 				data.seek(base_offset + data_pool_offset + offset)
@@ -186,9 +186,9 @@ func read_value(data: StreamPeerBuffer, value_type: int):
 			data.seek(out_position)
 	return value
 		
-func read_bytes(file: File, length: int):
+func read_bytes(file: FileAccess, length: int):
 	var row_bytes := file.get_buffer(length)
-	if row_bytes.subarray(0, 3) != SIGNATURE:
+	if row_bytes.slice(0, 3) != SIGNATURE:
 		# Masked!?
 		var curr := 25951
 		for i in range(length):
@@ -197,7 +197,7 @@ func read_bytes(file: File, length: int):
 	var spb := StreamPeerBuffer.new()
 	spb.data_array = row_bytes
 	return read(spb)
-func read_from_chunk(file: File, expected_signature: String):
+func read_from_chunk(file: FileAccess, expected_signature: String):
 	var b := file.get_buffer(4)
 	if (b.get_string_from_utf8() != expected_signature):
 		propagate_error("Invalid signature, expected %s" % [expected_signature])

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=2]
 [ext_resource path="res://menus/options_menu/OptionSelect.gd" type="Script" id=3]
 [ext_resource path="res://menus/HBHovereableOptionButton.tscn" type="PackedScene" id=5]
 
@@ -26,40 +26,40 @@ shadow_size = 10
 
 [node name="Control" type="Panel"]
 anchor_right = 1.0
-rect_min_size = Vector2( 0, 64 )
+custom_minimum_size = Vector2( 0, 64 )
 mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
+offset_left = 20.0
+offset_right = -20.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 314.0
-margin_bottom = 64.0
+offset_right = 314.0
+offset_bottom = 64.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "(NT)Boolean Option"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 318.0
-margin_right = 1880.0
-margin_bottom = 64.0
+offset_left = 318.0
+offset_right = 1880.0
+offset_bottom = 64.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="OptionButton" parent="HBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
-margin_left = 1173.0
-margin_right = 1562.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 300, 0 )
-custom_styles/normal = SubResource( 3 )
+offset_left = 1173.0
+offset_right = 1562.0
+offset_bottom = 64.0
+custom_minimum_size = Vector2( 300, 0 )
+theme_override_styles/normal = SubResource( 3 )
 normal_style = SubResource( 3 )
 
 [connection signal="back" from="HBoxContainer/HBoxContainer/OptionButton" to="." method="_on_OptionButton_back"]

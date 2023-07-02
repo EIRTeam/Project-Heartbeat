@@ -12,8 +12,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VideoPlayer" type="VideoPlayer" parent="."]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 stream = SubResource( 1 )
-[connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]
+[connection signal="finished" from="VideoStreamPlayer" to="." method="_on_VideoPlayer_finished"]

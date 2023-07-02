@@ -1,15 +1,15 @@
 extends ConfirmationDialog
 
-onready var tree: Tree = get_node("VBoxContainer/VBoxContainer/Tree")
-onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/VBoxContainer/TextEdit")
-onready var icon_pack_creator_skin_specific_options := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions")
-onready var copy_original_skin_checkbox := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions/CopyOriginalSkinCheckbox")
-onready var pack_type_option_button := get_node("CreateIconPackDialog/VBoxContainer/HBoxContainer/PackTypeOptionButton")
+@onready var tree: Tree = get_node("VBoxContainer/VBoxContainer/Tree")
+@onready var create_icon_pack_dialog_text_edit = get_node("CreateIconPackDialog/VBoxContainer/TextEdit")
+@onready var icon_pack_creator_skin_specific_options := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions")
+@onready var copy_original_skin_checkbox := get_node("CreateIconPackDialog/VBoxContainer/SkinSpecificOptions/CopyOriginalSkinCheckbox")
+@onready var pack_type_option_button := get_node("CreateIconPackDialog/VBoxContainer/HBoxContainer/PackTypeOptionButton")
 
-onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
+@onready var workshop_upload_dialog = get_node("WorkshopUploadDialog")
 
-onready var workshop_upload_button = get_node("VBoxContainer/VBoxContainer2/UploadToWorkshopButton")
-onready var delete_resource_pack_button = get_node("VBoxContainer/VBoxContainer2/DeleteResourcePackButton")
+@onready var workshop_upload_button = get_node("VBoxContainer/VBoxContainer2/UploadToWorkshopButton")
+@onready var delete_resource_pack_button = get_node("VBoxContainer/VBoxContainer2/DeleteResourcePackButton")
 
 signal pack_opened(pack)
 
@@ -29,7 +29,7 @@ func populate_list(allow_builtin=false):
 		item.set_meta("pack", ResourcePackLoader.fallback_pack)
 
 func _ready():
-	connect("about_to_show", self, "_on_about_to_show")
+	connect("about_to_popup", Callable(self, "_on_about_to_show"))
 	workshop_upload_button.disabled = true
 	delete_resource_pack_button.disabled = true
 func _on_about_to_show():
@@ -38,17 +38,16 @@ func _on_about_to_show():
 func _on_CreateIconPackDialog_confirmed():
 	var file_name := HBUtils.get_valid_filename(create_icon_pack_dialog_text_edit.text) as String
 	if file_name.strip_edges() != "":
-		var dir := Directory.new()
 		var meta_path = HBUtils.join_path("user://editor_resource_packs", file_name)
-		if not dir.file_exists(meta_path):
-			dir.make_dir_recursive(meta_path)
+		if not DirAccess.dir_exists_absolute(meta_path):
+			DirAccess.make_dir_recursive_absolute(meta_path)
 		var pack := HBResourcePack.new()
 		pack.pack_name = create_icon_pack_dialog_text_edit.text
 		pack._path = meta_path
 		pack.pack_type = pack_type_option_button.selected
 		pack._id = file_name
 		if copy_original_skin_checkbox.pressed:
-			HBUtils.copy_recursive(ResourcePackLoader.fallback_skin._path.plus_file("skin_resources"), pack.get_skin_resources_path())
+			HBUtils.copy_recursive(ResourcePackLoader.fallback_skin._path.path_join("skin_resources"), pack.get_skin_resources_path())
 			ResourcePackLoader.fallback_skin.save_to_file(pack.get_skin_config_path())
 		else:
 			var skin := HBUISkin.new()

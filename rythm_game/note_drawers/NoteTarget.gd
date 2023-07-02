@@ -2,10 +2,10 @@ extends Node2D
 
 class_name NoteTarget
 
-var arm_position = 0 setget set_arm_position
-var arm2_position = 0 setget set_arm2_position
+var arm_position = 0: set = set_arm_position
+var arm2_position = 0: set = set_arm2_position
 
-onready var progress_circle_rect = get_node("Node2D/TextureRect")
+@onready var progress_circle_rect = get_node("Node2D/TextureRect")
 
 func set_arm_position(value):
 	arm_position = value
@@ -32,20 +32,20 @@ func _ready():
 func set_note_type(note_data: HBBaseNote, multi = false, blue=false):
 	# set the texture to the correct one
 	if note_data.get_serialized_type() == "SustainNote":
-		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type ,"sustain_note_target")
+		$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type ,"sustain_note_target")
 	elif note_data.get_serialized_type() == "DoubleNote":
-		$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_note_target")
+		$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "double_note_target")
 	else:
 		if blue:
-			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
+			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "target_blue")
 		elif multi:
-			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
-			$Sprite/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text_multi.png")
-			$Sprite/HoldTextSprite.visible = note_data.hold
+			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "multi_note_target")
+			$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text_multi.png")
+			$Sprite2D/HoldTextSprite.visible = note_data.hold
 		else:
-			$Sprite/HoldTextSprite.visible = note_data.hold
-			$Sprite/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text.png")
-			$Sprite.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
+			$Sprite2D/HoldTextSprite.visible = note_data.hold
+			$Sprite2D/HoldTextSprite.texture = ResourcePackLoader.get_graphic("hold_text.png")
+			$Sprite2D.texture = HBNoteData.get_note_graphic(note_data.note_type, "target")
 			
 	var arm_disabled_types = [
 		HBNoteData.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT,

@@ -33,8 +33,8 @@ var _draw_selected_box = false
 func _ready():
 	deselect()
 	set_process(false)
-	update()
-	VisualServer.canvas_item_set_z_index(get_canvas_item(), 1)
+	queue_redraw()
+	RenderingServer.canvas_item_set_z_index(get_canvas_item(), 1)
 	add_to_group("editor_timeline_items")
 
 func set_start(value: int):
@@ -44,7 +44,7 @@ func set_start(value: int):
 
 
 func get_editor_size():
-	return Vector2(0, rect_size.y)
+	return Vector2(0, size.y)
 func _process(delta):
 	if _dragging:
 		if abs(get_viewport().get_mouse_position().x - _drag_start_position.x) > SIDE_MOVEMENT_DEADZONE or _drag_moving:
@@ -62,7 +62,7 @@ func _process(delta):
 
 func deselect():
 	_draw_selected_box = false
-	update()
+	queue_redraw()
 	if widget:
 		widget.queue_free()
 		widget = null
@@ -79,17 +79,17 @@ func _gui_input(event: InputEvent):
 	if global_rect.has_point(get_global_mouse_position()):
 		if event.is_action_pressed("editor_select") and not editor.game_playback.is_playing(): 
 			if event is InputEventWithModifiers:
-				get_tree().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 				if not self in editor.selected:
-					editor.select_item(self, event.shift)
-				elif event.shift:
+					editor.select_item(self, event.shift_pressed)
+				elif event.shift_pressed:
 					editor.deselect_item(self)
 				
-				if not event.shift:
+				if not event.shift_pressed:
 					_drag_moving = false
 					_drag_start_position = get_viewport().get_mouse_position()
 					_drag_start_time = data.time
-					_drag_x_offset = (rect_global_position - get_viewport().get_mouse_position()).x
+					_drag_x_offset = (global_position - get_viewport().get_mouse_position()).x
 					_drag_last = data.time
 					set_process(true)
 					_dragging = true
@@ -109,12 +109,12 @@ func stop_dragging():
 
 func select():
 	_draw_selected_box = true
-	update()
+	queue_redraw()
 func _draw_timeline_item_selected():
 	if _draw_selected_box:
-		var selected_rect_size = Vector2(rect_size.y, rect_size.y) * 0.85
-		var selected_square_rect = Rect2((Vector2(0.0, rect_size.y) - selected_rect_size) / 2.0, selected_rect_size)
-		draw_rect(selected_square_rect, Color.yellow, false, 1.0)
+		var selected_rect_size = Vector2(size.y, size.y) * 0.85
+		var selected_square_rect = Rect2((Vector2(0.0, size.y) - selected_rect_size) / 2.0, selected_rect_size)
+		draw_rect(selected_square_rect, Color.YELLOW, false, 1.0)
 func _draw():
 	_draw_timeline_item_selected()
 		
@@ -127,8 +127,8 @@ func get_editor_widget() -> PackedScene:
 func connect_widget(_widget: HBEditorWidget):
 	self.widget = _widget
 	update_widget_data()
-	if not editor.game_preview.widget_area.is_connected("widget_area_input", self, "_widget_area_input"):
-		editor.game_preview.widget_area.connect("widget_area_input", self, "_widget_area_input")
+	if not editor.game_preview.widget_area.is_connected("widget_area_input", Callable(self, "_widget_area_input")):
+		editor.game_preview.widget_area.connect("widget_area_input", Callable(self, "_widget_area_input"))
 
 func _widget_area_input(event: InputEvent):
 	if widget:
@@ -138,8 +138,8 @@ func update_widget_data():
 	if widget:
 		widget.starting_pos = data.position
 		var new_pos = editor.rhythm_game.remap_coords(data.position)
-		self.widget.rect_position = new_pos - self.widget.rect_size / 2
-		widget.entry_angle = deg2rad(data.entry_angle)
+		self.widget.position = new_pos - self.widget.size / 2
+		widget.entry_angle = deg_to_rad(data.entry_angle)
 		if not widget.note_data:
 			widget.note_data = data
 
@@ -153,5 +153,5 @@ func sync_value(property_name: String):
 		if widget:
 			widget.arrange_gizmo()
 
-func get_editor_description() -> String:
+func get_ph_editor_description() -> String:
 	return ""

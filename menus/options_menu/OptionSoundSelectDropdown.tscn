@@ -1,93 +1,80 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://cirrqo7iy3t7a"]
 
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=1]
-[ext_resource path="res://menus/options_menu/OptionSoundSelectDropdown.gd" type="Script" id=3]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
-[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=5]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="1"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionSoundSelectDropdown.gd" id="3"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="4"]
+[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxEmpty" id="3"]
+
+[sub_resource type="StyleBoxFlat" id="2"]
 content_margin_left = 10.0
-content_margin_right = 10.0
 content_margin_top = 10.0
+content_margin_right = 10.0
 content_margin_bottom = 10.0
-bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxEmpty" id=3]
-
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id="4"]
 script/source = "extends HBUniversalScrollList
 
 signal back
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed(\"gui_cancel\"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		emit_signal(\"back\")
 "
 
 [node name="Panel" type="Panel"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 2
-custom_styles/panel = ExtResource( 1 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = ExtResource("1")
+script = ExtResource("3")
 
 [node name="Button" type="Button" parent="."]
 visible = false
-margin_right = 12.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 5 )
-custom_styles/hover = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
+layout_mode = 0
+offset_right = 12.0
+offset_bottom = 20.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5")
+theme_override_styles/normal = SubResource("3")
+theme_override_styles/hover = SubResource("2")
 text = "asdsadsadsad"
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="Control" type="ScrollContainer" parent="MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1910.0
-margin_bottom = 1070.0
+layout_mode = 2
 focus_mode = 2
-script = SubResource( 4 )
+script = SubResource("4")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_wrap_around = true
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control"]
-margin_right = 1900.0
-margin_bottom = 1060.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="back" from="MarginContainer/Control" to="." method="_on_Control_back"]

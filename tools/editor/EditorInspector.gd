@@ -12,11 +12,11 @@ const INSPECTOR_TYPES = {
 	"time_signature": preload("res://tools/editor/inspector_types/time_signature.tscn"),
 }
 
-onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")
-onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxContainer/PropertyContainer")
-onready var copy_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/CopyIcon")
-onready var paste_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/PasteIcon")
-onready var description_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/DescriptionLabel")
+@onready var title_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/TitleLabel")
+@onready var property_container = get_node("MarginContainer/ScrollContainer/VBoxContainer/PropertyContainer")
+@onready var copy_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/CopyIcon")
+@onready var paste_icon = get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/PasteIcon")
+@onready var description_label = get_node("MarginContainer/ScrollContainer/VBoxContainer/DescriptionLabel")
 
 var inspecting_items: Array
 var inspecting_properties = {}
@@ -36,8 +36,8 @@ func get_inspector_type(type: String):
 	return INSPECTOR_TYPES[type]
 
 func _ready():
-	copy_icon.connect("pressed", self, "_on_copy_pressed")
-	paste_icon.connect("pressed", self, "_on_paste_pressed")
+	copy_icon.connect("pressed", Callable(self, "_on_copy_pressed"))
+	paste_icon.connect("pressed", Callable(self, "_on_paste_pressed"))
 	copy_icon.disabled = true
 	paste_icon.disabled = true
 
@@ -102,7 +102,7 @@ func _on_paste_pressed():
 	emit_signal("notes_pasted", copied_notes)
 
 func update_label():
-	var item_description = get_common_inspecting_class().get_editor_description()
+	var item_description = get_common_inspecting_class().get_ph_editor_description()
 	description_label.text = ""
 	if item_description != "":
 		description_label.text += "%s" % [item_description]
@@ -124,7 +124,7 @@ func update_label():
 func stop_inspecting():
 	for item in inspecting_items:
 		if item and is_instance_valid(item):
-			item.disconnect("property_changed", self, "update_value")
+			item.disconnect("property_changed", Callable(self, "update_value"))
 	inspecting_items = []
 	
 	for child in property_container.get_children():
@@ -187,13 +187,13 @@ func inspect(items: Array):
 		child.free()
 	
 	for item in inspecting_items:
-		if not item.is_connected("property_changed", self, "update_value"):
-			item.connect("property_changed", self, "update_value")
+		if not item.is_connected("property_changed", Callable(self, "update_value")):
+			item.connect("property_changed", Callable(self, "update_value"))
 	
 	var properties = common_data_class.get_inspector_properties()
 	for property_name in properties.keys():
 		var property = properties[property_name]
-		var inspector_editor = get_inspector_type(property.type).instance()
+		var inspector_editor = get_inspector_type(property.type).instantiate()
 		inspector_editor.property_name = property_name
 		
 		var name = property_name.capitalize()
@@ -213,15 +213,15 @@ func inspect(items: Array):
 		property_container.add_child(label)
 		labels[property_name] = label
 		
-		inspector_editor.connect("values_changed", self, "_on_property_value_changed_by_user", [property_name])
-		inspector_editor.connect("value_change_committed", self, "_on_property_value_commited_by_user", [property_name])
+		inspector_editor.connect("values_changed", Callable(self, "_on_property_value_changed_by_user").bind(property_name))
+		inspector_editor.connect("value_change_committed", Callable(self, "_on_property_value_commited_by_user").bind(property_name))
 		property_container.add_child(inspector_editor)
 		inspecting_properties[property_name] = inspector_editor
 		
 		if property_name == "position":
 			var reset_position_button = Button.new()
 			reset_position_button.text = "Reset to default"
-			reset_position_button.connect("pressed", self, "_on_reset_pos_pressed")
+			reset_position_button.connect("pressed", Callable(self, "_on_reset_pos_pressed"))
 			reset_position_button.size_flags_horizontal = reset_position_button.SIZE_EXPAND_FILL
 			property_container.add_child(reset_position_button)
 	

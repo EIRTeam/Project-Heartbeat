@@ -10,7 +10,7 @@ signal end_intro_skip_period
 signal score_added(added_score)
 signal show_multi_hint(new_closest_multi_notes)
 signal hide_multi_hint
-signal toggle_ui
+signal ui_toggled
 signal size_changed
 
 const BASE_SIZE = Vector2(1920, 1080)
@@ -18,7 +18,7 @@ const MAX_SCALE = 1.5
 const MAX_NOTE_SFX = 4
 const INTRO_SKIP_MARGIN = 5000 # the time before the first note we warp to when doing intro skip 
 
-var timing_points = [] setget _set_timing_points
+var timing_points = []: set = _set_timing_points
 var note_groups := []
 var finished_note_groups := []
 
@@ -38,7 +38,7 @@ var current_song: HBSong = HBSong.new()
 var current_difficulty: String = ""
 
 # size for scaling
-var size = Vector2(1280, 720) setget set_size
+var size = Vector2(1280, 720): set = set_size
 
 # editor stuff
 var editing = false
@@ -94,7 +94,7 @@ var current_variant = -1
 var notes_judged_this_frame = []
 
 var section_changes := {}
-var timing_changes := [] setget set_timing_changes
+var timing_changes := []: set = set_timing_changes
 
 var tracked_sounds := []
 
@@ -119,13 +119,13 @@ func _init():
 var _cached_notes = false
 
 func _game_ready():
-	get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	set_current_combo(0)
 	
 	add_child(sfx_pool)
 	
-	pause_mode = Node.PAUSE_MODE_STOP
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 
 func _ready():
 	_game_ready()
@@ -133,7 +133,6 @@ func _ready():
 func set_game_input_manager(manager: HBGameInputManager):
 	game_input_manager = manager
 	add_child(game_input_manager)
-	MobileControls.set_input_manager(manager)
 
 # TODO: generalize this
 func set_chart(chart: HBChart):
@@ -234,7 +233,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		section_changes[section.time] = section
 	
 	timing_changes = current_song.timing_changes.duplicate()
-	timing_changes.sort_custom(self, "_sort_notes_by_time")
+	timing_changes.sort_custom(Callable(self, "_sort_notes_by_time"))
 	
 	# Fallback
 	if not timing_changes:
@@ -264,7 +263,7 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 		_song_volume = song.get_volume_db() * user_song_settings.volume
 	else:
 		_song_volume = song.get_volume_db()
-	audio_playback.volume = db2linear(_song_volume + _volume_offset)
+	audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
 	# If I understand correctly, diva songs that use two channels have half the volume because they are played twice
 	if song is SongLoaderDSC.HBSongMMPLUS and audio_playback.get_channel_count() <= 2:
 		audio_playback.volume *= 2
@@ -281,7 +280,7 @@ func _process_timing_points_into_groups(points):
 			if not note.time in groups:
 				group = HBNoteGroup.new()
 				group.game = self
-				group.connect("notes_judged", self, "_on_notes_judged_new")
+				group.connect("notes_judged", Callable(self, "_on_notes_judged_new"))
 				groups[note.time] = group
 			else:
 				group = groups[note.time]
@@ -307,7 +306,7 @@ func _set_timing_points(points):
 					note.remove_meta("group")
 	
 	timing_points = points
-	timing_points.sort_custom(self, "_sort_notes_by_time")
+	timing_points.sort_custom(Callable(self, "_sort_notes_by_time"))
 	
 	# When timing points change, the bpm map might change
 	intro_skip_marker = null
@@ -321,7 +320,7 @@ func _set_timing_points(points):
 	
 	note_groups = _process_timing_points_into_groups(points)
 	note_groups_by_end_time = note_groups.duplicate()
-	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
+	note_groups_by_end_time.sort_custom(Callable(self, "_sort_groups_by_end_time"))
 	
 	var song_length = audio_playback.get_length_msec() + audio_playback.offset
 	if current_song.end_time > 0:
@@ -458,8 +457,8 @@ func _process_groups():
 	if note_groups.size() == 0:
 		return
 	# Find the first group that is still alive in our window
-	var final_search_point := note_groups.bsearch_custom(time_msec, self, "_group_compare_start", false)
-	var first_search_point := note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end", true)
+	var final_search_point := note_groups.bsearch_custom(time_msec, self._group_compare_start, false)
+	var first_search_point := note_groups_by_end_time.bsearch_custom(time_msec, self._group_compare_end, true)
 	if first_search_point == note_groups_by_end_time.size():
 		first_search_point -= 1
 	first_search_point = note_groups.find(note_groups_by_end_time[first_search_point])
@@ -476,7 +475,7 @@ func _process_groups():
 				group_order_dirty = true
 	
 	if group_order_dirty:
-		current_note_groups.sort_custom(self, "_sort_groups_by_start_time")
+		current_note_groups.sort_custom(Callable(self, "_sort_groups_by_start_time"))
 		
 	last_culled_note_group = final_search_point-1
 	
@@ -496,7 +495,7 @@ func _process_game(_delta):
 	for i in range(tracked_sounds.size()-1, -1, -1):
 		var sound := tracked_sounds[i] as ShinobuSoundPlayer
 		if sound.is_at_stream_end():
-			tracked_sounds.remove(i)
+			tracked_sounds.remove_at(i)
 			sound.queue_free()
 	
 	for i in range(current_note_groups.size()):
@@ -574,7 +573,7 @@ func _process(delta):
 
 
 func toggle_ui():
-	emit_signal("toggle_ui")
+	emit_signal("ui_toggled")
 
 func set_current_combo(combo: int):
 	current_combo = combo
@@ -597,7 +596,7 @@ func restart():
 	result.max_score = max_score
 	
 	if voice_audio_playback:
-		voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
+		voice_audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
 		voice_audio_playback.stop()
 	set_current_combo(0)
 	audio_playback.stop()
@@ -681,13 +680,13 @@ func bsearch_time(a, b):
 func set_game_ui(ui: HBRhythmGameUIBase):
 	game_ui = ui
 	ui.game = self
-	connect("note_judged", ui, "_on_note_judged")
-	connect("intro_skipped", ui, "_on_intro_skipped")
-	connect("end_intro_skip_period", ui, "_on_end_intro_skip_period")
-	connect("score_added", ui, "_on_score_added")
-	connect("toggle_ui", ui, "_on_toggle_ui")
-	connect("hide_multi_hint", ui, "_on_hide_multi_hint")
-	connect("show_multi_hint", ui, "_on_show_multi_hint")
+	connect("note_judged", Callable(ui, "_on_note_judged"))
+	connect("intro_skipped", Callable(ui, "_on_intro_skipped"))
+	connect("end_intro_skip_period", Callable(ui, "_on_end_intro_skip_period"))
+	connect("score_added", Callable(ui, "_on_score_added"))
+	connect("ui_toggled", Callable(ui, "_on_toggle_ui"))
+	connect("hide_multi_hint", Callable(ui, "_on_hide_multi_hint"))
+	connect("show_multi_hint", Callable(ui, "_on_show_multi_hint"))
 
 func _play_empty_note_sound(event: InputEventHB):
 	if event.is_pressed():
@@ -718,7 +717,7 @@ func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_tar
 	else:
 		set_current_combo(current_combo+1)
 		if voice_audio_playback:
-			voice_audio_playback.volume = db2linear(_song_volume + _volume_offset)
+			voice_audio_playback.volume = db_to_linear(_song_volume + _volume_offset)
 		result.notes_hit += 1
 	if not wrong:
 		result.note_ratings[final_judgement] += 1
@@ -799,23 +798,23 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 			last_culled_note_group = -1
 	else:
 		if point is HBBPMChange:
-			bpm_changes.insert(bpm_changes.bsearch_custom(point, self, "_sort_notes_by_time"), point)
+			bpm_changes.insert(bpm_changes.bsearch_custom(point, self._sort_notes_by_time), point)
 			update_bpm_map()
 		elif point is HBTimingChange:
-			timing_changes.insert(timing_changes.bsearch_custom(point, self, "_sort_notes_by_time"), point)
+			timing_changes.insert(timing_changes.bsearch_custom(point, self._sort_notes_by_time), point)
 			update_bpm_map()
 		else:
 			print("TODO: Handle addition of non note timing points")
 
 func _editor_sort_groups():
-	note_groups.sort_custom(self, "_sort_groups_by_start_time")
-	note_groups_by_end_time.sort_custom(self, "_sort_groups_by_end_time")
+	note_groups.sort_custom(Callable(self, "_sort_groups_by_start_time"))
+	note_groups_by_end_time.sort_custom(Callable(self, "_sort_groups_by_end_time"))
 
 func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HBNoteGroup:
 	var group_i := -1
 	
 	if sorted_groups:
-		group_i = note_groups_by_end_time.bsearch_custom(time_msec, self, "_group_compare_end")
+		group_i = note_groups_by_end_time.bsearch_custom(time_msec, self._group_compare_end)
 	else:
 		for i in range(note_groups_by_end_time.size()):
 			var group = note_groups_by_end_time[i]
@@ -873,8 +872,8 @@ func editor_clear_notes():
 		for note_data in group.note_datas:
 			note_data.set_meta("editor_group", null)
 		
-		if group.is_connected("notes_judged", self, "_on_notes_judged_new"):
-			group.disconnect("notes_judged", self, "_on_notes_judged_new")
+		if group.is_connected("notes_judged", Callable(self, "_on_notes_judged_new")):
+			group.disconnect("notes_judged", Callable(self, "_on_notes_judged_new"))
 		
 		group.reset_group()
 	
@@ -900,7 +899,7 @@ func debounce_sound(sound_name: String):
 
 func set_timing_changes(p_timing_changes):
 	timing_changes = p_timing_changes.duplicate()
-	timing_changes.sort_custom(self, "_sort_notes_by_time")
+	timing_changes.sort_custom(Callable(self, "_sort_notes_by_time"))
 
 func update_bpm_map():
 	bpm_map.clear()
@@ -914,7 +913,7 @@ func update_bpm_map():
 	
 	var speed_changes = bpm_changes.duplicate()
 	speed_changes.append_array(timing_changes)
-	speed_changes.sort_custom(self, "_sort_notes_by_time")
+	speed_changes.sort_custom(Callable(self, "_sort_notes_by_time"))
 	
 	var current_bpm = timing_changes[0].bpm if timing_changes else 120
 	var current_bpm_change := HBBPMChange.new()

@@ -1,7 +1,9 @@
-extends WindowDialog
+extends Window
 
+func _ready():
+	hide()
 
 func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.scancode == KEY_ESCAPE and event.pressed:
+		if event.keycode == KEY_ESCAPE and event.pressed:
 			self.hide()

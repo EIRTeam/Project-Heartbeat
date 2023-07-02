@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://n2yd8i4x5hox"]
 
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=1]
-[ext_resource path="res://fonts/SongLabelAuthor.tres" type="DynamicFont" id=2]
-[ext_resource path="res://menus/SongTitleScrolling.gd" type="Script" id=3]
-[ext_resource path="res://menus/ScrollingLabel.gd" type="Script" id=4]
+[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="1"]
+[ext_resource type="FontFile" path="res://fonts/SongLabelAuthor.tres" id="2"]
+[ext_resource type="Script" path="res://menus/SongTitleScrolling.gd" id="3"]
+[ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="4"]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id="3"]
 code = "shader_type canvas_item;
 
 uniform vec2 pos;
@@ -31,52 +31,45 @@ void fragment() {
 
 }"
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id="4"]
 resource_local_to_scene = true
-shader = SubResource( 3 )
-shader_param/pos = null
-shader_param/size = null
-shader_param/res = null
-shader_param/enabled = null
-shader_param/fade_size = null
+shader = SubResource("3")
+shader_parameter/pos = null
+shader_parameter/size = null
+shader_parameter/res = null
+shader_parameter/enabled = null
+shader_parameter/fade_size = null
 
 [node name="SongTitle" type="HBoxContainer"]
-margin_right = 422.0
-margin_bottom = 50.0
+offset_right = 422.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 20
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_horizontal_guides_": [ 34.2132, 24.8105 ]
-}
+theme_override_constants/separation = 20
+script = ExtResource("3")
 
 [node name="DifficultyLabel" type="Label" parent="."]
 visible = false
-margin_right = 185.0
-margin_bottom = 50.0
+layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.75
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "(NT)[EXTREME]"
-align = 3
-valign = 1
+horizontal_alignment = 3
+vertical_alignment = 1
 uppercase = true
 
 [node name="CircleLabel" type="TextureRect" parent="."]
-margin_right = 250.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 250, 0 )
-expand = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+expand_mode = 1
 stretch_mode = 6
 
 [node name="TitleLabel" type="Control" parent="."]
-material = SubResource( 4 )
-margin_left = 270.0
-margin_right = 422.0
-margin_bottom = 50.0
+material = SubResource("4")
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 4 )
-font_1 = ExtResource( 2 )
-font_2 = ExtResource( 1 )
+script = ExtResource("4")
+font_1 = ExtResource("2")
+font_2 = ExtResource("1")

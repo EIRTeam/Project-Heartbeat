@@ -16,34 +16,34 @@ script = ExtResource( 4 )
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 30
-custom_constants/margin_top = 30
-custom_constants/margin_left = 30
-custom_constants/margin_bottom = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 30.0
-margin_top = 30.0
-margin_right = 1890.0
-margin_bottom = 1050.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1890.0
+offset_bottom = 1050.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SongTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
-margin_right = 1860.0
-rect_min_size = Vector2( 0, 50 )
+offset_right = 1860.0
+custom_minimum_size = Vector2( 0, 50 )
 size_flags_vertical = 1
 
 [node name="TabbedContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource( 13 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 54.0
-margin_right = 1860.0
-margin_bottom = 1020.0
+offset_top = 54.0
+offset_right = 1860.0
+offset_bottom = 1020.0
 size_flags_vertical = 3
 
 [node name="ModifierLoader" parent="." instance=ExtResource( 6 )]
@@ -55,27 +55,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -506.5
-margin_top = -285.0
-margin_right = 506.5
-margin_bottom = 285.0
+offset_left = -506.5
+offset_top = -285.0
+offset_right = 506.5
+offset_bottom = 285.0
 
 [node name="PerSongSettingsEditor" parent="." instance=ExtResource( 10 )]
 focus_mode = 2
 
 [node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0"]
-margin_left = 1.49829
-margin_top = -1.49835
-margin_right = 1.49829
-margin_bottom = -1.49835
+offset_left = 1.49829
+offset_top = -1.49835
+offset_right = 1.49829
+offset_bottom = -1.49835
 
 [node name="VideoURLChangePopup" parent="." instance=ExtResource( 12 )]
 text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
 
 [node name="DeleteSongMediaPopup" parent="." instance=ExtResource( 12 )]
 unique_name_in_owner = true
-margin_left = -275.0
-margin_right = 275.0
+offset_left = -275.0
+offset_right = 275.0
 text = "Are you sure you want to delete this song's media?"
 
 [connection signal="accept" from="DeleteSongMediaPopup" to="." method="_on_DeleteSongMediaPopup_accept"]

@@ -8,11 +8,11 @@ enum ANGLE_BACKEND {
 	D3D11
 }
 
-onready var angle_backend = ANGLE_BACKEND.NO_ANGLE
+var angle_backend = ANGLE_BACKEND.NO_ANGLE
 
 func _init():
 	var args = OS.get_cmdline_args()
-	if "angle" in VisualServer.get_video_adapter_name().to_lower():
+	if "angle" in RenderingServer.get_video_adapter_name().to_lower():
 		angle_backend = ANGLE_BACKEND.VULKAN
 		for i in range(args.size()):
 			var arg = args[i]
@@ -25,5 +25,3 @@ func _init():
 						"d3d11":
 							angle_backend = ANGLE_BACKEND.D3D11
 	
-	if angle_backend == ANGLE_BACKEND.VULKAN:
-		texture_mode = Texture.FLAGS_DEFAULT & ~(Texture.FLAG_MIPMAPS)

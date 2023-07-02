@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/effects_atlas.png-51b73415b360f99c824d02d3c988c844.image"
+uid="uid://bcrbnl23om1q3"
+path="res://.godot/imported/effects_atlas.png-51b73415b360f99c824d02d3c988c844.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/fallback/atlases/effects_atlas.png"
-dest_files=[ "res://.import/effects_atlas.png-51b73415b360f99c824d02d3c988c844.image" ]
+dest_files=["res://.godot/imported/effects_atlas.png-51b73415b360f99c824d02d3c988c844.image"]
 
 [params]
 

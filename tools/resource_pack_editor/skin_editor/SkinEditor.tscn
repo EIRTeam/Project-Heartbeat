@@ -1,353 +1,300 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=20 format=3 uid="uid://bg77snqocggfy"]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://fonts/SongLabelIngame.tres" type="DynamicFont" id=3]
-[ext_resource path="res://fonts/SongLabelAuthorInGame.tres" type="DynamicFont" id=4]
-[ext_resource path="res://fonts/orbitron-light.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=7]
-[ext_resource path="res://menus/DynamicallyResizingLabel.gd" type="Script" id=8]
-[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=9]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" type="Script" id=11]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" type="Script" id=13]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" type="Script" id=14]
-[ext_resource path="res://graphics/background.png" type="Texture" id=15]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" type="PackedScene" id=16]
-[ext_resource path="res://tools/new_inspector/new_inspector.tscn" type="PackedScene" id=17]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" type="Script" id=18]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" type="Script" id=19]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
+[ext_resource type="FontFile" path="res://fonts/SongLabelIngame.tres" id="3"]
+[ext_resource type="FontFile" path="res://fonts/SongLabelAuthorInGame.tres" id="4"]
+[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="5"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="7"]
+[ext_resource type="Script" path="res://menus/DynamicallyResizingLabel.gd" id="8"]
+[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="9"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="11"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="13"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="14"]
+[ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="15"]
+[ext_resource type="PackedScene" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://dycvec2jy0kmy" path="res://tools/new_inspector/new_inspector.tscn" id="17"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="18"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="19"]
 
-[sub_resource type="ViewportTexture" id=6]
-viewport_path = NodePath("VBoxContainer/TabContainer/Skin/HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport")
+[sub_resource type="ViewportTexture" id="6"]
+viewport_path = NodePath("HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport")
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 77.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.501961)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 3
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_bottom_right = 1024
 corner_detail = 1
 expand_margin_right = 77.0
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="DynamicFont" id=5]
-size = 25
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = 5
-font_data = ExtResource( 5 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="5"]
+fallbacks = Array[Font]([ExtResource("5"), ExtResource("2")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id="3"]
 
 [node name="Skin" type="Panel"]
-self_modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = -5.0
+offset_bottom = -5.0
 mouse_filter = 2
-script = ExtResource( 11 )
+script = ExtResource("11")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 split_offset = 266
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer"]
-margin_right = 298.0
-margin_bottom = 1043.0
+layout_mode = 2
 
 [node name="Control" type="VSplitContainer" parent="HSplitContainer/HBoxContainer"]
-margin_right = 274.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="TabContainer2" type="TabContainer" parent="HSplitContainer/HBoxContainer/Control"]
-margin_right = 274.0
-margin_bottom = 341.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="Outline" type="ItemList" parent="HSplitContainer/HBoxContainer/Control/TabContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 auto_height = true
-script = ExtResource( 19 )
+script = ExtResource("19")
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/HBoxContainer/Control"]
-margin_top = 353.0
-margin_right = 274.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_vertical = 3
-tab_align = 0
 
 [node name="Components" type="ScrollContainer" parent="HSplitContainer/HBoxContainer/Control/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
 
 [node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="HSplitContainer/HBoxContainer/Control/TabContainer/Components"]
-margin_right = 266.0
-margin_bottom = 654.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 18 )
+script = ExtResource("18")
 
 [node name="Resources" type="Control" parent="HSplitContainer/HBoxContainer/Control/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
 [node name="Button" type="Button" parent="HSplitContainer/HBoxContainer"]
-margin_left = 278.0
-margin_right = 298.0
-margin_bottom = 1043.0
+layout_mode = 2
 text = "<"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="HSplitContainer"]
-margin_left = 310.0
-margin_right = 1910.0
-margin_bottom = 1043.0
+layout_mode = 2
 
 [node name="Panel2" type="Control" parent="HSplitContainer/HSplitContainer"]
-margin_right = 1280.0
-margin_bottom = 1043.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="Button" type="Button" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer"]
 visible = false
-margin_right = 19.0
-margin_bottom = 1043.0
+layout_mode = 2
 text = ">"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer"]
-margin_right = 1280.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
-margin_right = 1280.0
-margin_bottom = 20.0
+layout_mode = 2
 
 [node name="MenuButton" type="OptionButton" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 57.0
-margin_bottom = 20.0
-text = "16:9"
-items = [ "16:9", null, false, 0, null, "4:3", null, false, 1, null ]
-selected = 0
+layout_mode = 2
 
 [node name="ModeButton" type="OptionButton" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 61.0
-margin_right = 133.0
-margin_bottom = 20.0
-text = "Margin"
-items = [ "Margin", null, false, 0, null, "Anchor", null, false, 1, null ]
-selected = 0
+layout_mode = 2
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
-margin_top = 24.0
-margin_right = 1280.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ratio = 1.778
 alignment_vertical = 0
 
 [node name="TextureRect" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer"]
-margin_right = 1280.0
-margin_bottom = 719.91
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 0
-size_flags_horizontal = 3
-texture = SubResource( 6 )
-expand = true
+texture = SubResource("6")
+expand_mode = 1
 flip_v = true
-script = ExtResource( 14 )
+script = ExtResource("14")
 
-[node name="Viewport" type="Viewport" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect"]
-size = Vector2( 1920, 1080 )
-render_target_update_mode = 3
-script = ExtResource( 13 )
+[node name="SubViewport" type="SubViewport" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect"]
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+script = ExtResource("13")
 
-[node name="Control" type="Control" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport"]
+[node name="Control" type="Control" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
+[node name="TextureRect2" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
-texture = ExtResource( 15 )
-expand = true
+texture = ExtResource("15")
+expand_mode = 1
 stretch_mode = 7
 
-[node name="Node2D" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control" instance=ExtResource( 9 )]
+[node name="Node2D" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("9")]
 visible = false
+anchors_preset = 0
 
-[node name="Panel" type="Panel" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
+[node name="Panel" type="Panel" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 405.6
-margin_top = 200.858
-margin_right = -1120.0
-margin_bottom = -169.622
-rect_min_size = Vector2( 0, 70 )
+offset_left = 405.6
+offset_top = 200.858
+offset_right = -1120.0
+offset_bottom = -169.622
 size_flags_horizontal = 3
-theme = ExtResource( 7 )
-custom_styles/panel = SubResource( 4 )
+theme = ExtResource("7")
+theme_override_styles/panel = SubResource("4")
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel"]
+layout_mode = 0
 anchor_left = 0.07
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -14.2907
-margin_right = -1.01001
-margin_bottom = 2.462
-rect_scale = Vector2( 1, 0.996064 )
-custom_constants/margin_top = 4
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = -14.2907
+offset_right = -1.01001
+offset_bottom = 2.462
+scale = Vector2(1, 0.996064)
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer"]
-margin_top = 4.0
-margin_right = 392.0
-margin_bottom = 707.0
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = -7
+theme_override_constants/separation = -7
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer"]
-margin_right = 392.0
-margin_bottom = 355.0
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/separation = 15
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_bottom = 355.0
-custom_constants/margin_top = 3
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
 
-[node name="CircleImage" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
-margin_top = 3.0
-margin_bottom = 355.0
+[node name="CircleImage" type="TextureRect" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-expand = true
+expand_mode = 1
 stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="SongAuthor" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 15.0
-margin_top = 154.0
-margin_right = 237.0
-margin_bottom = 200.0
+[node name="SongAuthor" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "(NT)NOSONG"
-valign = 1
+vertical_alignment = 1
 uppercase = true
 
-[node name="SongName" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 252.0
-margin_top = 155.0
-margin_right = 392.0
-margin_bottom = 199.0
+[node name="SongName" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "(NT)LOADED"
-valign = 1
+vertical_alignment = 1
 clip_text = true
-script = ExtResource( 8 )
+script = ExtResource("8")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer"]
-margin_top = 348.0
-margin_right = 392.0
-margin_bottom = 703.0
-rect_clip_content = true
+[node name="HBoxContainer2" type="HBoxContainer" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DifficultyLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_top = 158.0
-margin_right = 245.0
-margin_bottom = 197.0
+[node name="DifficultyLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
 size_flags_vertical = 6
-custom_fonts/font = SubResource( 5 )
+theme_override_fonts/font = SubResource("5")
 text = "(NT)[DIFFICULTY]"
-valign = 1
+vertical_alignment = 1
 uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ModifierLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 249.0
-margin_top = 158.0
-margin_right = 392.0
-margin_bottom = 197.0
+[node name="ModifierLabel" type="Label" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
 text = "Nightcore"
-valign = 1
+vertical_alignment = 1
 
-[node name="EditLayer" type="Control" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="EditLayer" type="Control" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="SkinEditorWidget" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control" instance=ExtResource( 16 )]
-custom_styles/panel = SubResource( 3 )
+[node name="SkinEditorWidget" parent="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("16")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 86.0
+theme_override_styles/panel = SubResource("3")
 target_node_path = NodePath("../Panel")
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/HSplitContainer"]
-margin_left = 1292.0
-margin_right = 1600.0
-margin_bottom = 1043.0
-tab_align = 0
+layout_mode = 2
 
-[node name="Inspector" parent="HSplitContainer/HSplitContainer/TabContainer" instance=ExtResource( 17 )]
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+[node name="Inspector" parent="HSplitContainer/HSplitContainer/TabContainer" instance=ExtResource("17")]
+layout_mode = 2
 
 [connection signal="component_picked" from="HSplitContainer/HBoxContainer/Control/TabContainer/Components/HBSkinEditorComponentPicker" to="." method="_on_HBSkinEditorComponentPicker_component_picked"]
-[connection signal="pressed" from="HSplitContainer/HBoxContainer/Button" to="HSplitContainer" method="set_collapsed" binds= [ true ]]
 [connection signal="pressed" from="HSplitContainer/HBoxContainer/Button" to="HSplitContainer/HBoxContainer/Button" method="hide"]
 [connection signal="pressed" from="HSplitContainer/HBoxContainer/Button" to="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" method="show"]
-[connection signal="pressed" from="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" to="HSplitContainer" method="set_collapsed" binds= [ false ]]
+[connection signal="pressed" from="HSplitContainer/HBoxContainer/Button" to="HSplitContainer" method="set_collapsed" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" to="HSplitContainer/HBoxContainer/Button" method="show"]
 [connection signal="pressed" from="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" to="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" method="hide"]
+[connection signal="pressed" from="HSplitContainer/HSplitContainer/Panel2/HBoxContainer/Button" to="HSplitContainer" method="set_collapsed" binds= [false]]

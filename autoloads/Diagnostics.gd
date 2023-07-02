@@ -4,7 +4,7 @@ var _seconds_since_startup = 0.0
 var _frames_drawn_offset = 0.0
 var _max_fps = 0.0
 var _min_fps = 10000000
-var enable_autoplay = false setget set_autoplay
+var enable_autoplay = false: set = set_autoplay
 var known_log_names = []
 # LogCaller : message dict
 var log_messages = {}
@@ -13,45 +13,46 @@ var editor_undo_redo: UndoRedo
 func set_autoplay(value):
 	enable_autoplay = value
 
-onready var frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/FrameRateLabel")
-onready var average_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/AVGFrameRateLabel")
-onready var min_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MinFrameRateLabel")
-onready var max_frame_rate_label = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MaxFrameRateLabel")
-onready var autoplay_checkbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/AutoplayCheckbox")
-onready var log_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton")
-onready var log_rich_text_label = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/ScrollContainer/RichTextLabel")
-onready var log_level_filter_option_button = get_node("WindowDialog/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
-onready var fps_label = get_node("FPSLabel")
-onready var gamepad_visualizer = get_node("GamepadVisualizer")
-onready var network_tree = get_node("WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer/Tree")
-onready var tree_root = network_tree.create_item()
-onready var network_body_RTL = get_node("WindowDialog/TabContainer/Network/VBoxContainer/HSplitContainer/RichTextLabel")
-onready var auth_token_button = get_node("WindowDialog/TabContainer/Network/VBoxContainer/AuthTokenButton")
-onready var instance_id_spinbox = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
-onready var property_name_line_edit = get_node("WindowDialog/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
-onready var workshop_debug_text_edit: TextEdit = get_node("%WorkshopTextEdit")
+@onready var frame_rate_label = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/FrameRateLabel")
+@onready var average_frame_rate_label = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/AVGFrameRateLabel")
+@onready var min_frame_rate_label = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MinFrameRateLabel")
+@onready var max_frame_rate_label = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/MaxFrameRateLabel")
+@onready var autoplay_checkbox = get_node("Window/TabContainer/Game/VBoxContainer/AutoplayCheckbox")
+@onready var log_filter_option_button = get_node("Window/TabContainer/Logs/VBoxContainer/HBoxContainer/LogFilterOptionButton")
+@onready var log_rich_text_label = get_node("Window/TabContainer/Logs/VBoxContainer/ScrollContainer/RichTextLabel")
+@onready var log_level_filter_option_button = get_node("Window/TabContainer/Logs/VBoxContainer/HBoxContainer/LogLevelFilterOptionButton")
+@onready var fps_label = get_node("FPSLabel")
+@onready var gamepad_visualizer = get_node("GamepadVisualizer")
+@onready var network_tree = get_node("Window/TabContainer/Network/VBoxContainer/HSplitContainer/Tree")
+@onready var tree_root = network_tree.create_item()
+@onready var network_body_RTL = get_node("Window/TabContainer/Network/VBoxContainer/HSplitContainer/RichTextLabel")
+@onready var auth_token_button = get_node("Window/TabContainer/Network/VBoxContainer/AuthTokenButton")
+@onready var instance_id_spinbox = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/InstanceID")
+@onready var property_name_line_edit = get_node("Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PropertyName")
+@onready var workshop_debug_text_edit: TextEdit = get_node("%WorkshopTextEdit")
 
 var logging_enabled: bool = "--logging-enabled" in OS.get_cmdline_args()
 
 func _ready():
-	Log.connect("message_logged", self, "_on_message_logged")
-	autoplay_checkbox.connect("toggled", self, "set_autoplay")
-	$WindowDialog.hide()
+	Log.connect("message_logged", Callable(self, "_on_message_logged"))
+	autoplay_checkbox.connect("toggled", Callable(self, "set_autoplay"))
+	$Window.hide()
 	fps_label.hide()
 	gamepad_visualizer.hide()
 	network_tree.hide_root = true
-	network_tree.connect("item_selected", self, "_on_network_item_selected")
-	HBBackend.connect("diagnostics_response_received", self, "_on_response_received")
-	HBBackend.connect("diagnostics_created_request", self, "_on_request_created")
-	auth_token_button.connect("pressed", self, "_on_auth_token_button_pressed")
-	$WindowDialog.connect("visibility_changed", self, "_on_visibility_changed")
+	network_tree.connect("item_selected", Callable(self, "_on_network_item_selected"))
+	HBBackend.connect("diagnostics_response_received", Callable(self, "_on_response_received"))
+	HBBackend.connect("diagnostics_created_request", Callable(self, "_on_request_created"))
+	auth_token_button.connect("pressed", Callable(self, "_on_auth_token_button_pressed"))
+	$Window.connect("visibility_changed", Callable(self, "_on_visibility_changed"))
+	print("diagnostics on startup")
 	
 func _on_visibility_changed():
-	if $WindowDialog.visible:
+	if $Window.visible:
 		show_log_messages()
 	
 func _on_auth_token_button_pressed():
-	OS.clipboard = HBBackend.jwt_token
+	DisplayServer.clipboard_set(HBBackend.jwt_token)
 	
 func _on_request_created(request_data: HBBackend.RequestData):
 	var item = network_tree.create_item(tree_root)
@@ -71,7 +72,7 @@ func _on_network_item_selected():
 		if request.headers is String:
 			headers = request.headers
 		elif request.headers is Array:
-			headers = PoolStringArray(request.headers).join("\n")
+			headers = "\n".join(headers)
 		network_body_RTL.text = "%s\n%s" % [headers, request.body]
 	else:
 		var body = item.get_meta("response_body")
@@ -79,9 +80,9 @@ func _on_network_item_selected():
 func _input(event):
 	if event.is_action_pressed("toggle_diagnostics", false, true):
 		var window_size = get_viewport().size * 0.75
-		$WindowDialog.rect_size = window_size
-		$WindowDialog.rect_position = get_viewport().size / 8.0
-		$WindowDialog.visible = !$WindowDialog.visible
+		$Window.size = window_size
+		$Window.position = get_viewport().size / 8.0
+		$Window.visible = !$Window.visible
 	
 	if event.is_action_pressed("toggle_fps", false, true):
 		fps_label.visible = !fps_label.visible
@@ -90,13 +91,13 @@ func _input(event):
 		var img = get_viewport().get_texture().get_data()
 		# Flip it on the y-axis (because it's flipped).
 		img.flip_y()
-		var dir = Directory.new()
-		if not dir.dir_exists("user://debug_screenshot"):
-			dir.make_dir("user://debug_screenshot")
-		img.save_png("user://debug_screenshot/%d.png" % [OS.get_unix_time()])
+		if not DirAccess.dir_exists_absolute("user://debug_screenshot"):
+			DirAccess.make_dir_absolute("user://debug_screenshot")
+		img.save_png("user://debug_screenshot/%d.png" % [Time.get_unix_time_from_system()])
 	
 	if event.is_action_pressed("toggle_gamepad_view", false, true):
 		gamepad_visualizer.visible = !gamepad_visualizer.visible 
+		
 func _process(delta):
 	_seconds_since_startup += delta
 	
@@ -122,9 +123,9 @@ func _on_ResetButton_pressed():
 	_max_fps = 0.0
 
 func show_log_messages():
-	if not $WindowDialog.visible:
+	if not $Window.visible:
 		return
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	var messages_to_show = []
 	var selected_log_filter = log_filter_option_button.get_item_text(log_filter_option_button.selected)
 	if log_filter_option_button.selected > 0:
@@ -145,7 +146,7 @@ func show_log_messages():
 				color = "yellow"
 			messages += "[color=%s][%s][/color] %s: %s\n" % [color, HBUtils.find_key(Log.LogLevel, message.log_level), message.caller, message.message]
 	var text_label_text = "[code]%s[/code]" % messages
-	log_rich_text_label.bbcode_text = text_label_text
+	log_rich_text_label.text = text_label_text
 func _on_message_logged(logger_name, message, log_level):
 	if not logger_name in known_log_names:
 		known_log_names.append(logger_name)
@@ -160,7 +161,7 @@ func _on_LogFilterOptionButton_item_selected(id):
 
 
 func _on_PrintOrphanedNodesButton_pressed():
-	print_stray_nodes()
+	print_orphan_nodes()
 
 
 func _on_PrintPropertyValue_pressed():
@@ -168,7 +169,7 @@ func _on_PrintPropertyValue_pressed():
 
 
 func _on_OpenStrayNodeTester_pressed():
-		var scene = preload("res://tools/MemoryLeakTester.tscn").instance()
+		var scene = preload("res://tools/MemoryLeakTester.tscn").instantiate()
 		get_tree().current_scene.queue_free()
 		get_tree().root.add_child(scene)
 		get_tree().current_scene = scene
@@ -178,13 +179,13 @@ func _on_TransparentViewport_toggled(button_pressed):
 	get_viewport().transparent_bg = button_pressed
 
 func _on_WorkshopRefreshButton_pressed():
-	var strings := PoolStringArray()
+	var strings := PackedStringArray()
 	
 	for item_id in Steam.getSubscribedItems():
-		var state := Steam.getItemState(item_id)
+		var state: int = Steam.getItemState(item_id)
 		var item_str := "ugc_%d" % [item_id]
 		var out_str := ""
-		var flags := PoolStringArray()
+		var flags := PackedStringArray()
 		
 		if item_str in SongLoader.songs:
 			out_str = "%s (%d): " % [SongLoader.songs[item_str].title, item_id]
@@ -206,14 +207,14 @@ func _on_WorkshopRefreshButton_pressed():
 		if state & Steam.ITEM_STATE_DOWNLOAD_PENDING:
 			flags.append("Download Pending")
 		
-		out_str += flags.join(", ")
+		out_str += ", ".join(flags)
 		strings.append(out_str)
-	workshop_debug_text_edit.text = strings.join("\n")
+	workshop_debug_text_edit.text = "\n".join(strings)
 
 func _on_PrintShortcutsButton_pressed():
 	var shortcuts := []
-	for category in EditorGlobalSettingsShortcuts.EDITOR_EVENTS:
-		for action in EditorGlobalSettingsShortcuts.EDITOR_EVENTS[category]:
+	for category in EditorGlobalSettingsShortcuts.EDITOR_ACTIONS:
+		for action in EditorGlobalSettingsShortcuts.EDITOR_ACTIONS[category]:
 			var event_list = UserSettings.base_input_map[action]
 			var event_text = get_event_text(event_list[0]) if event_list else ""
 			
@@ -225,7 +226,7 @@ func _on_PrintShortcutsButton_pressed():
 			}
 			shortcuts.append(shortcut_obj)
 	
-	$WindowDialog/TabContainer/Shortcuts/VBoxContainer/ShortcutsTextEdit.text = JSON.print(shortcuts, "\t")
+	$Window/TabContainer/Shortcuts/VBoxContainer/ShortcutsTextEdit.text = JSON.stringify(shortcuts, "\t")
 
 func get_event_text(event: InputEvent):
 	if event is InputEventKey:

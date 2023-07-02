@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/sustain_trail.png-c353b7944fd0c6712e3a8700cc5c66f2.image"
+uid="uid://b20bxp5nvfh3c"
+path="res://.godot/imported/sustain_trail.png-c353b7944fd0c6712e3a8700cc5c66f2.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/fallback/graphics/sustain_trail.png"
-dest_files=[ "res://.import/sustain_trail.png-c353b7944fd0c6712e3a8700cc5c66f2.image" ]
+dest_files=["res://.godot/imported/sustain_trail.png-c353b7944fd0c6712e3a8700cc5c66f2.image"]
 
 [params]
 

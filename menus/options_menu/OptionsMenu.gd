@@ -3,7 +3,7 @@ extends HBMenu
 var OPTIONS = {
 	tr("Game"): {
 		"__section_label": {
-			"label_callback": funcref(self, "_version_info_callback")
+			"label_callback": self._version_info_callback
 		},
 		"locale": {
 			"name": tr("Language"),
@@ -90,14 +90,14 @@ var OPTIONS = {
 		},
 	},
 	tr("Controls"): {
-		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instance()
+		"__section_override": preload("res://menus/options_menu/OptionControlsSection.tscn").instantiate()
 	},
 	tr("Content"): {
-		"__section_override": preload("res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn").instance()
+		"__section_override": preload("res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.tscn").instantiate()
 	},
 	tr("Audio"): {
 		"__section_label": {
-			"label_callback": funcref(self, "_audio_buffer_info_callback")
+			"label_callback": self._audio_buffer_info_callback
 		},
 		"audio_buffer_size": {
 			"name": tr("Target audio buffer size (Requires restart)"),
@@ -105,7 +105,7 @@ var OPTIONS = {
 			"minimum": 1,
 			"maximum": 12,
 			"step": 1,
-			"postfix_callback": funcref(self, "_audio_buffer_postfix_callback")
+			"postfix_callback": self._audio_buffer_postfix_callback
 		},
 		"play_hit_sounds_only_when_hit": {
 			"name": tr("Play hit sounds only when a note is hit"),
@@ -159,7 +159,7 @@ var OPTIONS = {
 			"name": tr("Display"),
 			"description": tr("Display to display the game in"),
 			"minimum": -1,
-			"maximum": OS.get_screen_count(),
+			"maximum": DisplayServer.get_screen_count(),
 			"step": 1,
 			"text_overrides": {
 				-1: tr("Current")
@@ -314,15 +314,15 @@ var OPTIONS = {
 		},
 	},
 	tr("Res. Packs"): {
-		"__section_override": preload("res://menus/options_menu/OptionResourcePacksSection.tscn").instance()
+		"__section_override": preload("res://menus/options_menu/OptionResourcePacksSection.tscn").instantiate()
 	},
 	tr("Credits"): {
-		"__section_override": preload("res://menus/options_menu/OptionCreditsSection.tscn").instance()
+		"__section_override": preload("res://menus/options_menu/OptionCreditsSection.tscn").instantiate()
 	}
 }
 
-onready var sections = get_node("Panel/Content")
-onready var buttons = get_node("VBoxContainer")
+@onready var sections = get_node("Panel/Content")
+@onready var buttons = get_node("VBoxContainer")
 
 const OptionMenuButton = preload("res://menus/options_menu/OptionMenuButton.tscn")
 const OptionSection = preload("res://menus/options_menu/OptionSection.tscn")
@@ -334,6 +334,7 @@ func _set_sound_volume(volume, sound: String):
 	UserSettings.save_user_settings()
 
 func _ready():
+	super._ready()
 	for sound_type in HBUserSettings.DEFAULT_SOUNDS.keys():
 		var sound_pretty_name = sound_type.capitalize().to_lower()
 		sound_pretty_name = sound_pretty_name.substr(0, 1).to_upper() + sound_pretty_name.substr(1)
@@ -358,37 +359,37 @@ func _ready():
 			"value_source": UserSettings.user_settings.custom_sound_volumes
 		}
 	add_default_values()
-	buttons.connect("hover", self, "_on_button_hover")
+	buttons.connect("hovered", Callable(self, "_on_button_hover"))
 	for section_name in OPTIONS:
-		var option_button = OptionMenuButton.instance()
+		var option_button = OptionMenuButton.instantiate()
 		option_button.text = section_name
-		option_button.connect("pressed", self, "_on_SectionButton_press", [section_name])
+		option_button.connect("pressed", Callable(self, "_on_SectionButton_press").bind(section_name))
 		buttons.add_child(option_button)
 		if OPTIONS[section_name].has("__section_override"):
 			var section = OPTIONS[section_name].__section_override
 			# Some sections, such as controls remapping, use their own thing
 			sections.add_child(section)
 			section_name_to_section_control[section_name] = section
-			section.connect("back", self, "_on_back")
+			section.connect("back", Callable(self, "_on_back"))
 		else:
-			var section = OptionSection.instance()
+			var section = OptionSection.instantiate()
 
-			section.connect("back", self, "_on_back")
-			section.connect("changed", self, "_on_value_changed")
+			section.connect("back", Callable(self, "_on_back"))
+			section.connect("changed", Callable(self, "_on_value_changed"))
 			section.settings_source = UserSettings.user_settings
 			sections.add_child(section)
 			section.section_data = OPTIONS[section_name]
 			
 			if "__section_label" in OPTIONS[section_name]:
 				if "label_callback" in OPTIONS[section_name]["__section_label"]:
-					var fr = OPTIONS[section_name]["__section_label"]["label_callback"] as FuncRef
-					var text = fr.call_func()
+					var fr = OPTIONS[section_name]["__section_label"]["label_callback"] as Callable
+					var text = fr.call()
 					section.section_text = text
 			
 			section_name_to_section_control[section_name] = section
 		
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	$VBoxContainer.grab_focus()
 
 func add_default_values():
@@ -426,8 +427,6 @@ func _on_value_changed(property_name, new_value):
 		ResourcePackLoader.soft_rebuild_final_atlas()
 	if property_name == "button_prompt_override":
 		UserSettings.set_joypad_prompts()
-	if property_name == "color_remap":
-		ColorBlindOverlay.update_overlay()
 	UserSettings.apply_user_settings(property_name in ["display_mode", "display"])
 	UserSettings.save_user_settings()
 
@@ -438,7 +437,7 @@ func _unhandled_input(event):
 	if $VBoxContainer.has_focus():
 		if event.is_action_pressed("gui_cancel"):
 			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			change_to_menu("main_menu")
 
 func _audio_buffer_postfix_callback(value: int):
@@ -455,7 +454,7 @@ func _input(event):
 				code_p += 1
 				if code_p == CODE.size():
 					code_p = 0
-					get_tree().set_input_as_handled()
+					get_viewport().set_input_as_handled()
 					change_to_menu("staff_roll")
 			else:
 				code_p = 0

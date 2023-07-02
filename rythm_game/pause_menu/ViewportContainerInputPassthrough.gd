@@ -1,8 +1,8 @@
-extends ViewportContainer
+extends SubViewportContainer
 
 func _ready():
 	pass
 
 func _unhandled_input(event):
 	$ViewPort3D.unhandled_input(event)
-	get_tree().set_input_as_handled()
+	get_viewport().set_input_as_handled()

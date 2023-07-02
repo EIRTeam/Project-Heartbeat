@@ -41,8 +41,8 @@ class DummySongListEntry:
 	var song: HBSong
 
 	func _init():
-		set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-		rect_min_size.y = 100
+		set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+		custom_minimum_size.y = 100
 	func hover():
 		pass
 	func stop_hover():
@@ -60,10 +60,11 @@ func get_starting_folder(starting_folders: Array, path: Array) -> Array:
 			break
 	return starting_folders
 func _ready():
+	super._ready()
 	sort_by_prop = UserSettings.user_settings.sort_mode
 	if UserSettings.user_settings.filter_mode == "workshop":
 		sort_by_prop = UserSettings.user_settings.workshop_tab_sort_mode
-	connect("selected_item_changed", self, "_on_selected_item_changed")
+	connect("selected_item_changed", Callable(self, "_on_selected_item_changed"))
 	focus_mode = Control.FOCUS_ALL
 
 func _on_selected_item_changed():
@@ -95,11 +96,11 @@ func go_to_root():
 	navigate_folder(UserSettings.user_settings.root_folder)
 
 func _create_song_item(song: HBSong):
-	var item = SongListItem.instance()
+	var item = SongListItem.instantiate()
 	item.use_parent_material = true
 	item.set_song(song)
-	item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
-	item.connect("pressed", self, "_on_song_selected", [song])
+	item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	item.connect("pressed", Callable(self, "_on_song_selected").bind(song))
 	return item
 func update_items():
 	for i in item_container.get_children():
@@ -116,18 +117,18 @@ func update_items():
 	var current_folder = folder_stack[folder_stack.size()-1] as HBFolder
 	
 	if folder_stack.size() > 1:
-		var back_item = SongListItemFolderBack.instance()
-		back_item.connect("pressed", self, "navigate_back")
-		back_item.connect("pressed", self, "update_items")
+		var back_item = SongListItemFolderBack.instantiate()
+		back_item.connect("pressed", Callable(self, "navigate_back"))
+		back_item.connect("pressed", Callable(self, "update_items"))
 		item_container.add_child(back_item)
 	
-	var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
-	rand.connect("pressed", self, "_on_random_pressed")
+	var rand = RANDOM_SELECT_BUTTON_SCENE.instantiate()
+	rand.connect("pressed", Callable(self, "_on_random_pressed"))
 	item_container.add_child(rand)
 	
 	for subfolder in current_folder.subfolders:
-		var item = SongListItemFolder.instance()
-		item.connect("pressed", self, "navigate_folder", [subfolder])
+		var item = SongListItemFolder.instantiate()
+		item.connect("pressed", Callable(self, "navigate_folder").bind(subfolder))
 		item.set_folder(subfolder)
 		item_container.add_child(item)
 		
@@ -140,12 +141,12 @@ func update_items():
 			folder_songs.append(SongLoader.songs[song_id])
 	var old_sort_by_mode = sort_by_prop
 	sort_by_prop = current_folder.sort_mode
-	folder_songs.sort_custom(self, "sort_array")
+	folder_songs.sort_custom(Callable(self, "sort_array"))
 	sort_by_prop = old_sort_by_mode
 		
 	for song in folder_songs:
 		for field in [song.title.to_lower(), song.original_title.to_lower(), song.romanized_title.to_lower()]:
-			if search_term.empty() or search_term in field:
+			if search_term.is_empty() or search_term in field:
 				var item = _create_song_item(song)
 				item_container.add_child(item)
 				break
@@ -184,7 +185,7 @@ func _on_song_selected(song: HBSong):
 		song_difficulty_items_map = {}
 		song_difficulty_items_map[song] = {}
 		var selected_item = get_selected_item()
-		var pos = selected_item.get_position_in_parent()
+		var pos = selected_item.get_index()
 		#prevent_hard_arrange = true
 		
 		
@@ -192,28 +193,28 @@ func _on_song_selected(song: HBSong):
 		for difficulty in song.charts:
 			difficulty_map.append({"diff": difficulty, "stars": song.charts[difficulty]["stars"]})
 		
-		difficulty_map.sort_custom(self, "_sort_by_difficulty")
+		difficulty_map.sort_custom(Callable(self, "_sort_by_difficulty"))
 		
 		for entry in difficulty_map:
 			
-			var item = SongListItemDifficulty.instance()
+			var item = SongListItemDifficulty.instantiate()
 			item_container.add_child(item)
 			pos += 1
 			item_container.move_child(item, pos)
-			item.rect_position = selected_item.rect_position
+			item.position = selected_item.position
 			# TODO: ITEM SCALES!
 #			item.rect_scale = Vector2(scale_factor, scale_factor)
-			item.set_anchors_and_margins_preset(Control.PRESET_TOP_WIDE)
+			item.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 			item.set_song_difficulty(song, entry["diff"])
 			if selected_item is HBSongListItem:
 				if song.is_chart_note_usage_known_all():
 					item.show_note_usage()
 				else:
 					if selected_item.task:
-						selected_item.task.connect("assets_loaded", item, "_on_note_usage_loaded")
+						selected_item.task.connect("assets_loaded", Callable(item, "_on_note_usage_loaded"))
 					else:
 						print("Error connecting note usage task, BUG?")
-			item.connect("pressed", self, "_on_difficulty_selected", [song, entry["diff"]])
+			item.connect("pressed", Callable(self, "_on_difficulty_selected").bind(song, entry["diff"]))
 			song_difficulty_items_map[song][entry["diff"]] = item
 
 static func _sort_by_difficulty(a, b):
@@ -229,7 +230,7 @@ func select_song_by_id(song_id: String, difficulty=null):
 					select_item(child_i)
 					if not song in song_difficulty_items_map:
 						_on_song_selected(song)
-					select_item(song_difficulty_items_map[song][difficulty].get_position_in_parent())
+					select_item(song_difficulty_items_map[song][difficulty].get_index())
 				else:
 					select_item(child_i)
 
@@ -287,12 +288,12 @@ func set_filter(filter_name: String):
 func _on_dummy_sighted(song: HBSong):
 	var dummy = filtered_song_items[song]
 	var item = _create_song_item(song)
-	item_container.add_child_below_node(dummy, item)
+	dummy.add_sibling(item)
 	item_container.remove_child(dummy)
 	dummy.queue_free()
-	item.rect_position = dummy.rect_position
+	item.position = dummy.position
 	filtered_song_items[song] = item
-	if item.get_position_in_parent() == current_selected_item:
+	if item.get_index() == current_selected_item:
 		force_scroll()
 		_on_selected_item_changed()
 		
@@ -324,9 +325,9 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 
 	filtered_song_items = {}
 
-	if search_term.empty():
-		var rand = RANDOM_SELECT_BUTTON_SCENE.instance()
-		rand.connect("pressed", self, "_on_random_pressed")
+	if search_term.is_empty():
+		var rand = RANDOM_SELECT_BUTTON_SCENE.instantiate()
+		rand.connect("pressed", Callable(self, "_on_random_pressed"))
 		item_container.add_child(rand)
 
 	var base_dummy := DummySongListEntry.new()
@@ -334,7 +335,7 @@ func _on_songs_filtered(filtered_songs: Array, song_id_to_select=null, song_diff
 		var dummy := base_dummy.duplicate()
 		item_container.add_child(dummy)
 		dummy.song = song
-		dummy.connect("dummy_sighted", self, "_on_dummy_sighted", [song])
+		dummy.connect("dummy_sighted", Callable(self, "_on_dummy_sighted").bind(song))
 		filtered_song_items[song] = dummy
 	
 
@@ -396,7 +397,7 @@ func set_songs(_songs: Array, select_song_id=null, select_difficulty=null, force
 		AsyncTaskQueueLight.abort_task(current_filter_task)
 		
 	current_filter_task = HBFilterSongsTask.new(songs, filter_by, sort_by_prop, select_song_id, select_difficulty, search_term)
-	current_filter_task.connect("songs_filtered", self, "_on_songs_filtered")
+	current_filter_task.connect("songs_filtered", Callable(self, "_on_songs_filtered"))
 
 #	selected_option = null
 	
@@ -407,7 +408,8 @@ func _on_difficulty_selected(song, difficulty):
 	emit_signal("difficulty_selected", song, difficulty)
 
 func _input(event: InputEvent):
-	if event is InputEventKey and event.shift:
+	super._input(event)
+	if event is InputEventKey and event.shift_pressed:
 		var c = char(event.unicode)
 		if c.length() == 1:
 			for song in songs:
@@ -415,14 +417,11 @@ func _input(event: InputEvent):
 					select_song_by_id(song.id)
 					break
 	if event.is_action_pressed("gui_page_down"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		select_item(min(current_selected_item+PAGE_CHANGE_COUNT, item_container.get_child_count()-1))
 	elif event.is_action_pressed("gui_page_up"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		select_item(max(current_selected_item-PAGE_CHANGE_COUNT, 0))
-
-func _gui_input(event):
-	pass
 
 func _on_create_new_folder():
 	var parent = folder_stack[folder_stack.size()-1]

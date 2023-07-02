@@ -4,17 +4,17 @@
 [ext_resource path="res://tools/editor/timeline_items/sustain_end_line_HACK.gd" type="Script" id=2]
 
 [node name="EditorTimelineItemSingleNote" type="Control"]
-margin_right = 166.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
+offset_right = 166.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect2" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 mouse_filter = 0
 expand = true
 stretch_mode = 6
@@ -32,8 +32,8 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 expand = true
 stretch_mode = 6
 __meta__ = {

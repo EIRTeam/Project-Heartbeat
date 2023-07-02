@@ -6,7 +6,7 @@ func register_texture_to_plist(property_list: Array, texture_name: String):
 	property_list.push_back({
 		"name": texture_name,
 		"hint": PROPERTY_HINT_RESOURCE_TYPE,
-		"hint_string": "Texture",
+		"hint_string": "Texture2D",
 		"type": TYPE_OBJECT
 	})
 

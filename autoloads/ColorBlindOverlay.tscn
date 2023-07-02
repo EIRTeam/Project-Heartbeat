@@ -5,8 +5,10 @@
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 uniform int mode = 0;
+uniform sampler2D screen_tex: hint_screen_texture, filter_linear_mipmap;
+
 void fragment() {
-    vec4 px = texture(SCREEN_TEXTURE, SCREEN_UV);
+    vec4 px = texture(screen_tex, SCREEN_UV);
     if (mode==1) { px = px.gbra; }
     if (mode==2) { px = px.brga; }
     if (mode==3) { px = px.bgra; }

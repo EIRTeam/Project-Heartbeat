@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=1]
 [ext_resource path="res://multiplayer/lobby/MemberList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=4]
 [ext_resource path="res://styles/OptionButtonNormal.tres" type="StyleBox" id=5]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=6]
 [ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=7]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=8]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=8]
 [ext_resource path="res://multiplayer/lobby/LobbyMenu.gd" type="Script" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -47,68 +47,68 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 30
-custom_constants/margin_top = 30
-custom_constants/margin_left = 30
-custom_constants/margin_bottom = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 30.0
-margin_top = 30.0
-margin_right = 1890.0
-margin_bottom = 1050.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1890.0
+offset_bottom = 1050.0
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_right = 1860.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 1 )
+offset_right = 1860.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource( 1 )
 text = "(NT)LOBBY_NAME"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 28.0
-margin_right = 1860.0
-margin_bottom = 1020.0
+offset_top = 28.0
+offset_right = 1860.0
+offset_bottom = 1020.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1860.0
-margin_bottom = 992.0
+offset_right = 1860.0
+offset_bottom = 992.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 1860.0
-margin_bottom = 678.0
+offset_right = 1860.0
+offset_bottom = 678.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 1237.0
-margin_bottom = 678.0
+offset_right = 1237.0
+offset_bottom = 678.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1227.0
-margin_bottom = 668.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1227.0
+offset_bottom = 668.0
 focus_mode = 2
 size_flags_horizontal = 3
 alignment = 2
@@ -121,14 +121,14 @@ orientation = 1
 [node name="SelectSongButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
 ]]
-margin_top = 518.0
-margin_right = 1217.0
-margin_bottom = 562.0
+offset_top = 518.0
+offset_right = 1217.0
+offset_bottom = 562.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
-custom_fonts/font = ExtResource( 8 )
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/font = ExtResource( 8 )
 text = "Select Song..."
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 6 )
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
@@ -138,13 +138,13 @@ hover_style = SubResource( 2 )
 "steam_only",
 ]]
 visible = false
-margin_top = 268.0
-margin_right = 790.0
-margin_bottom = 308.0
-custom_styles/normal = SubResource( 1 )
-custom_fonts/font = ExtResource( 8 )
+offset_top = 268.0
+offset_right = 790.0
+offset_bottom = 308.0
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/font = ExtResource( 8 )
 text = "Invite friend..."
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 6 )
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
@@ -152,27 +152,27 @@ hover_style = SubResource( 2 )
 [node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer" groups=[
 "owner_only",
 ]]
-margin_top = 566.0
-margin_right = 1217.0
-margin_bottom = 610.0
+offset_top = 566.0
+offset_right = 1217.0
+offset_bottom = 610.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
-custom_fonts/font = ExtResource( 8 )
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/font = ExtResource( 8 )
 text = "Start Game"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 6 )
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
 
 [node name="LeaveLobbyButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Panel/MarginContainer/VBoxContainer"]
-margin_top = 614.0
-margin_right = 1217.0
-margin_bottom = 658.0
+offset_top = 614.0
+offset_right = 1217.0
+offset_bottom = 658.0
 focus_mode = 0
-custom_styles/normal = SubResource( 1 )
-custom_fonts/font = ExtResource( 8 )
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/font = ExtResource( 8 )
 text = "Leave This Lobby"
-align = 0
+horizontal_alignment = 0
 script = ExtResource( 6 )
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
@@ -180,38 +180,38 @@ hover_style = SubResource( 2 )
 [node name="MemberList" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1241.0
-margin_right = 1860.0
-margin_bottom = 678.0
+offset_left = 1241.0
+offset_right = 1860.0
+offset_bottom = 678.0
 size_flags_horizontal = 3
 
 [node name="Chat" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 682.0
-margin_right = 1860.0
-margin_bottom = 953.0
+offset_top = 682.0
+offset_right = 1860.0
+offset_bottom = 953.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Chat/MarginContainer"]
-margin_left = 20.0
-margin_top = 10.0
-margin_right = 1850.0
-margin_bottom = 271.0
-custom_styles/focus = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
-custom_fonts/normal_font = ExtResource( 8 )
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 1850.0
+offset_bottom = 271.0
+theme_override_styles/focus = SubResource( 3 )
+theme_override_styles/normal = SubResource( 4 )
+theme_override_fonts/normal_font = ExtResource( 8 )
 bbcode_enabled = true
 scroll_active = false
 scroll_following = true
@@ -221,25 +221,25 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 957.0
-margin_right = 1860.0
-margin_bottom = 991.0
+offset_top = 957.0
+offset_right = 1860.0
+offset_bottom = 991.0
 
 [node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1805.0
-margin_bottom = 34.0
+offset_right = 1805.0
+offset_bottom = 34.0
 focus_mode = 1
 size_flags_horizontal = 3
-custom_styles/read_only = ExtResource( 3 )
-custom_styles/focus = ExtResource( 3 )
-custom_styles/normal = ExtResource( 3 )
+theme_override_styles/read_only = ExtResource( 3 )
+theme_override_styles/focus = ExtResource( 3 )
+theme_override_styles/normal = ExtResource( 3 )
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1809.0
-margin_right = 1860.0
-margin_bottom = 34.0
+offset_left = 1809.0
+offset_right = 1860.0
+offset_bottom = 34.0
 focus_mode = 1
-custom_styles/normal = ExtResource( 5 )
+theme_override_styles/normal = ExtResource( 5 )
 text = "Send"
 
 [node name="WaitingForSongConfirmation" parent="." instance=ExtResource( 7 )]
@@ -249,10 +249,10 @@ accept_text = ""
 cancel_text = "Cancel"
 
 [node name="SongConfirmationError" parent="." instance=ExtResource( 7 )]
-margin_left = -509.0
-margin_top = -201.0
-margin_right = 430.0
-margin_bottom = 202.0
+offset_left = -509.0
+offset_top = -201.0
+offset_right = 430.0
+offset_bottom = 202.0
 has_cancel = false
 text = "Song not owned by:"
 accept_text = "Okay"
@@ -260,10 +260,10 @@ cancel_text = ""
 
 [node name="DownloadingMesssage" parent="." instance=ExtResource( 7 )]
 visible = true
-margin_left = -509.0
-margin_top = -201.0
-margin_right = 430.0
-margin_bottom = 202.0
+offset_left = -509.0
+offset_top = -201.0
+offset_right = 430.0
+offset_bottom = 202.0
 has_cancel = false
 has_accept = false
 text = "Downloading song data..."

@@ -1,23 +1,23 @@
-[gd_resource type="AudioBusLayout" load_steps=5 format=2]
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://ws1lonen08wb"]
 
-[sub_resource type="AudioEffectSpectrumAnalyzer" id=1]
+[sub_resource type="AudioEffectSpectrumAnalyzer" id="1"]
 resource_name = "SpectrumAnalyzer"
 
-[sub_resource type="AudioEffectCompressor" id=2]
+[sub_resource type="AudioEffectCompressor" id="2"]
 resource_name = "Compressor"
 threshold = -25.0
 ratio = 2.0
 gain = 20.0
 release_ms = 2000.0
 
-[sub_resource type="AudioEffectReverb" id=3]
+[sub_resource type="AudioEffectReverb" id="3"]
 resource_name = "Reverb"
 room_size = 0.6
 damping = 0.7
 dry = 0.25
 wet = 0.75
 
-[sub_resource type="AudioEffectReverb" id=4]
+[sub_resource type="AudioEffectReverb" id="4"]
 resource_name = "Reverb"
 room_size = 0.6
 damping = 0.3
@@ -25,53 +25,53 @@ hipass = 1.0
 
 [resource]
 bus/0/volume_db = -0.130497
-bus/1/name = "Music"
+bus/1/name = &"Music"
 bus/1/solo = false
 bus/1/mute = false
 bus/1/bypass_fx = false
 bus/1/volume_db = 0.0
-bus/1/send = "Master"
-bus/1/effect/0/effect = SubResource( 1 )
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("1")
 bus/1/effect/0/enabled = true
-bus/2/name = "MenuMusic"
+bus/2/name = &"MenuMusic"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
 bus/2/volume_db = 0.0
-bus/2/send = "Music"
-bus/3/name = "MenuMusicCompressor"
+bus/2/send = &"Music"
+bus/3/name = &"MenuMusicCompressor"
 bus/3/solo = false
 bus/3/mute = false
 bus/3/bypass_fx = false
 bus/3/volume_db = 0.0
-bus/3/send = "MenuMusic"
-bus/3/effect/0/effect = SubResource( 2 )
+bus/3/send = &"MenuMusic"
+bus/3/effect/0/effect = SubResource("2")
 bus/3/effect/0/enabled = true
-bus/4/name = "SFX"
+bus/4/name = &"SFX"
 bus/4/solo = false
 bus/4/mute = false
 bus/4/bypass_fx = false
 bus/4/volume_db = 0.0
-bus/4/send = "Master"
-bus/5/name = "SlideSFX"
+bus/4/send = &"Master"
+bus/5/name = &"SlideSFX"
 bus/5/solo = false
 bus/5/mute = false
 bus/5/bypass_fx = false
 bus/5/volume_db = 0.0
-bus/5/send = "SFX"
-bus/5/effect/0/effect = SubResource( 3 )
+bus/5/send = &"SFX"
+bus/5/effect/0/effect = SubResource("3")
 bus/5/effect/0/enabled = false
-bus/6/name = "EchoSFX"
+bus/6/name = &"EchoSFX"
 bus/6/solo = false
 bus/6/mute = false
 bus/6/bypass_fx = false
 bus/6/volume_db = 0.0
-bus/6/send = "SFX"
-bus/6/effect/0/effect = SubResource( 4 )
+bus/6/send = &"SFX"
+bus/6/effect/0/effect = SubResource("4")
 bus/6/effect/0/enabled = true
-bus/7/name = "Vocals"
+bus/7/name = &"Vocals"
 bus/7/solo = false
 bus/7/mute = false
 bus/7/bypass_fx = false
 bus/7/volume_db = 0.0
-bus/7/send = "Music"
+bus/7/send = &"Music"

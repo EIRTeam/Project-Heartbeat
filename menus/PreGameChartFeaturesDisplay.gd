@@ -1,12 +1,12 @@
 extends Control
 
-onready var tween := Tween.new()
+@onready var tween := Threen.new()
 
 const ANIMATION_DURATION = 0.5
 const ANIMATION_DELAY = 0.25
 const SECTION_SCENE = preload("res://menus/PregameChartFeatureDisplaySection.tscn")
 
-onready var item_container: VBoxContainer = get_node("MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer")
+@onready var item_container: VBoxContainer = get_node("MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer")
 
 var item_controls = []
 
@@ -14,7 +14,7 @@ var t = 0.0
 
 enum FEATURES_DISPLAY_TYPES {
 	NORMAL_NOTES,
-	HOLD_NOTES
+	HOLD_NOTES,
 	SLIDE_NOTES,
 	SLIDE_CHAINS,
 	DOUBLE_NOTES,
@@ -80,13 +80,13 @@ func make_controls(features: Array):
 		var feature = features[i]
 		if fmod(i, 4) == 0:
 			curr_container = HBoxContainer.new()
-			curr_container.alignment = BoxContainer.ALIGN_CENTER
+			curr_container.alignment = BoxContainer.ALIGNMENT_CENTER
 			item_container.add_child(curr_container)
 		var feature_title = feature_titles[feature]
 		var feature_description = feature_descriptions[feature]
 		var feature_actions_o = feature_actions.get(feature, [])
 		var feature_actions_plus_one_o = feature_actions_plus_one.get(feature, [])
-		var control = SECTION_SCENE.instance()
+		var control = SECTION_SCENE.instantiate()
 		control.title = feature_title
 		control.description = feature_description
 		control.actions = feature_actions_o
@@ -107,11 +107,11 @@ func animate_controls():
 		var delay = i * ANIMATION_DELAY
 		var child = item_controls[i]
 		child.modulate.a = 0.0
-		child.rect_scale = Vector2(0.5, 0.5)
-		child.rect_pivot_offset = child.rect_size * 0.5
+		child.scale = Vector2(0.5, 0.5)
+		child.pivot_offset = child.size * 0.5
 		child.show()
-		tween.interpolate_property(child, "rect_scale", Vector2(0.5, 0.5), Vector2.ONE, duration, Tween.TRANS_BOUNCE, Tween.EASE_OUT, delay)
-		tween.interpolate_property(child, "modulate:a", 0.0, 1.0, duration, Tween.TRANS_ELASTIC, Tween.EASE_OUT, delay)
+		tween.interpolate_property(child, "scale", Vector2(0.5, 0.5), Vector2.ONE, duration, Threen.TRANS_BOUNCE, Threen.EASE_OUT, delay)
+		tween.interpolate_property(child, "modulate:a", 0.0, 1.0, duration, Threen.TRANS_ELASTIC, Threen.EASE_OUT, delay)
 		tween.start()
 		
 

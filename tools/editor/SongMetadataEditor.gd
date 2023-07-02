@@ -1,71 +1,71 @@
 extends Panel
 
-var song_meta: HBSong setget set_song_meta
+var song_meta: HBSong: set = set_song_meta
 signal song_meta_saved
 
 var current_downloading_id = ""
 
-onready var add_variant_dialog_youtube_url = get_node("AddVariantDialog/VBoxContainer/LineEdit2")
-onready var add_variant_dialog_name = get_node("AddVariantDialog/VBoxContainer/LineEdit")
+@onready var add_variant_dialog_youtube_url = get_node("AddVariantDialog/VBoxContainer/LineEdit2")
+@onready var add_variant_dialog_name = get_node("AddVariantDialog/VBoxContainer/LineEdit")
 
-onready var title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongTitle")
-onready var romanized_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongRomanizedTitle")
-onready var artist_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtist")
-onready var artist_alias_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtistAlias")
-onready var vocals_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongVocals")
-onready var writers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongWriters")
-onready var creator_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongCreator")
-onready var original_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongOriginalTitle")
-onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongComposers")
+@onready var title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongTitle")
+@onready var romanized_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongRomanizedTitle")
+@onready var artist_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtist")
+@onready var artist_alias_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongArtistAlias")
+@onready var vocals_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongVocals")
+@onready var writers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongWriters")
+@onready var creator_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongCreator")
+@onready var original_title_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongOriginalTitle")
+@onready var composers_edit = get_node("TabContainer/Metadata/MarginContainer/VBoxContainer/SongComposers")
 
-onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
-onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
-onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewEndSpinBox")
-onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
+@onready var audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileLineEdit")
+@onready var preview_start_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewSpinBox")
+@onready var preview_end_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/SongPreviewEndSpinBox")
+@onready var voice_audio_filename_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileLineEdit")
 
-onready var difficulties_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer")
+@onready var difficulties_container = get_node("TabContainer/Charts/MarginContainer/HBoxContainer/VBoxContainer")
 
-onready var preview_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
-onready var background_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
+@onready var preview_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageLineEdit")
+@onready var background_image_filename_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageLineEdit")
 
-onready var circle_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
-onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
+@onready var circle_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageLineEdit")
+@onready var circle_logo_image_line_edit = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoLineEdit")
 
-onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/YoutubeURL")
-onready var use_youtube_as_video = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsVideo")
-onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsAudio")
+@onready var youtube_url_line_edit = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/YoutubeURL")
+@onready var use_youtube_as_video = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsVideo")
+@onready var use_youtube_as_audio = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/UseYoutubeAsAudio")
 
-onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11/IntroSkipCheckbox")
-onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/IntroSkipTimeSpinbox")
+@onready var intro_skip_checkbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/Label11/IntroSkipCheckbox")
+@onready var intro_skip_min_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/IntroSkipTimeSpinbox")
 
-onready var start_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/StartTimeSpinbox")
-onready var end_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/EndTimeSpinbox")
+@onready var start_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/StartTimeSpinbox")
+@onready var end_time_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/EndTimeSpinbox")
 
-onready var volume_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/VolumeSpinbox")
-onready var chart_ed = get_node("TabContainer/Charts")
-onready var hide_artist_name_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HideArtistName")
-onready var epilepsy_warning_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/EpilepsyWarning")
+@onready var volume_spinbox = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/VolumeSpinbox")
+@onready var chart_ed = get_node("TabContainer/Charts")
+@onready var hide_artist_name_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HideArtistName")
+@onready var epilepsy_warning_checkbox = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/EpilepsyWarning")
 
-onready var alternative_video_container = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/VBoxContainer")
+@onready var alternative_video_container = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/VBoxContainer")
 
-onready var skin_label: Label = get_node("%SkinLabel")
-onready var clear_skin_button: Button = get_node("%ClearSkinButton")
-onready var skin_picker: HBEditorSkinPicker = get_node("%SkinPicker")
-onready var select_skin_button: Button = get_node("%SelectSkinButton")
+@onready var skin_label: Label = get_node("%SkinLabel")
+@onready var clear_skin_button: Button = get_node("%ClearSkinButton")
+@onready var skin_picker: HBEditorSkinPicker = get_node("%SkinPicker")
+@onready var select_skin_button: Button = get_node("%SelectSkinButton")
 
-onready var select_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton")
-onready var select_voice_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton")
+@onready var select_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer2/SelectAudioFileButton")
+@onready var select_voice_audio_button: Button = get_node("TabContainer/Technical Data/MarginContainer/VBoxContainer/HBoxContainer3/SelectVoiceAudioFileButton")
 
-onready var select_preview_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageButton")
-onready var select_background_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton")
-onready var select_circle_image_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageButton")
-onready var select_circle_logo_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoButton")
+@onready var select_preview_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer3/SelectPreviewImageButton")
+@onready var select_background_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer4/SelectBackgroundImageButton")
+@onready var select_circle_image_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer5/SelectCircleImageButton")
+@onready var select_circle_logo_button: Button = get_node("TabContainer/Graphics/MarginContainer/VBoxContainer/HBoxContainer6/SelectCircleLogoButton")
 
-onready var add_variant_button: Button = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/AddVariantButton")
+@onready var add_variant_button: Button = get_node("TabContainer/Alternative Videos/MarginContainer/VBoxContainer/AddVariantButton")
 
 const VARIANT_EDITOR = preload("res://tools/editor/VariantEditor.tscn")
 
-var hidden: bool = false setget set_hidden
+var show_hidden: bool = false: set = set_hidden
 
 func set_song_meta(value):
 	song_meta = value
@@ -74,9 +74,9 @@ func set_song_meta(value):
 	romanized_title_edit.text = song_meta.romanized_title
 	artist_edit.text = song_meta.artist
 	artist_alias_edit.text = song_meta.artist_alias
-	vocals_edit.text = PoolStringArray(song_meta.vocals).join("\n")
-	writers_edit.text = PoolStringArray(song_meta.writers).join("\n")
-	composers_edit.text = PoolStringArray(song_meta.composers).join("\n")
+	vocals_edit.text = "\n".join(song_meta.vocals)
+	writers_edit.text = "\n".join(song_meta.writers)
+	composers_edit.text = "\n".join(song_meta.composers)
 	creator_edit.text = song_meta.creator
 	original_title_edit.text = song_meta.original_title
 	audio_filename_edit.text = song_meta.audio
@@ -87,27 +87,27 @@ func set_song_meta(value):
 	preview_end_edit.value = song_meta.preview_end
 	background_image_filename_edit.text = song_meta.background_image
 	preview_image_filename_edit.text = song_meta.preview_image
-	use_youtube_as_audio.pressed = song_meta.use_youtube_for_audio
-	use_youtube_as_video.pressed = song_meta.use_youtube_for_video
+	use_youtube_as_audio.button_pressed = song_meta.use_youtube_for_audio
+	use_youtube_as_video.button_pressed = song_meta.use_youtube_for_video
 	youtube_url_line_edit.text = song_meta.youtube_url
-	intro_skip_checkbox.pressed = song_meta.allows_intro_skip
+	intro_skip_checkbox.button_pressed = song_meta.allows_intro_skip
 	intro_skip_min_time_spinbox.value = song_meta.intro_skip_min_time
-	hide_artist_name_checkbox.pressed = song_meta.hide_artist_name
+	hide_artist_name_checkbox.button_pressed = song_meta.hide_artist_name
 	start_time_spinbox.value = song_meta.start_time
 	end_time_spinbox.value = song_meta.end_time
 	volume_spinbox.value = song_meta.volume
-	epilepsy_warning_checkbox.pressed = song_meta.show_epilepsy_warning
+	epilepsy_warning_checkbox.button_pressed = song_meta.show_epilepsy_warning
 	
 	for child in alternative_video_container.get_children():
 		child.queue_free()
 	
 	for variant in song_meta.song_variants:
-		var variant_editor = VARIANT_EDITOR.instance()
+		var variant_editor = VARIANT_EDITOR.instantiate()
 		alternative_video_container.add_child(variant_editor)
 		variant_editor.set_variant(variant)
 		variant_editor.song = song_meta
-		variant_editor.connect("deleted", variant_editor, "queue_free")
-		variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+		variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
+		variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 	
 	chart_ed.populate(value, not hidden)
 	
@@ -129,10 +129,10 @@ func set_song_meta(value):
 		
 	
 func _ready():
-	YoutubeDL.connect("video_downloaded", self, "_on_video_downloaded")
-	clear_skin_button.connect("pressed", self, "_on_clear_skin_button_pressed")
-	select_skin_button.connect("pressed", skin_picker, "popup_centered")
-	skin_picker.connect("skin_selected", self, "_on_skin_selected")
+	YoutubeDL.connect("video_downloaded", Callable(self, "_on_video_downloaded"))
+	clear_skin_button.connect("pressed", Callable(self, "_on_clear_skin_button_pressed"))
+	select_skin_button.connect("pressed", Callable(skin_picker, "popup_centered"))
+	skin_picker.connect("skin_selected", Callable(self, "_on_skin_selected"))
 	_update_paths()
 
 func _on_skin_selected(skin_ugc_id: int):
@@ -155,7 +155,7 @@ func _on_clear_skin_button_pressed():
 	clear_skin_button.disabled = true
 
 func save_meta():
-	if hidden:
+	if show_hidden:
 		return
 	
 	song_meta.title = title_edit.text
@@ -212,13 +212,12 @@ func save_meta():
 
 
 func _on_AudioFileDialog_file_selected(path: String):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var audio_path := song_meta.get_song_audio_res_path() as String
 	
-	dir.copy(path, audio_path)
+	DirAccess.copy_absolute(path, audio_path)
 	song_meta.audio = audio_path.get_file()
 	audio_filename_edit.text = song_meta.audio
 	save_meta()
@@ -229,16 +228,15 @@ func _on_AudioFileDialog_file_selected(path: String):
 
 
 func _on_BackgroundFileDialog_file_selected(path):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.background_image = "background." + extension
 	
 	var image_path := song_meta.get_song_background_image_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	background_image_filename_edit.text = song_meta.background_image
 	save_meta()
 	
@@ -248,16 +246,15 @@ func _on_BackgroundFileDialog_file_selected(path):
 
 
 func _on_PreviewFileDialog_file_selected(path):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.preview_image = "preview." + extension
 	
 	var image_path := song_meta.get_song_preview_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	preview_image_filename_edit.text = song_meta.preview_image
 	save_meta()
 	
@@ -267,13 +264,12 @@ func _on_PreviewFileDialog_file_selected(path):
 
 
 func _on_VoiceAudioFileDialog_file_selected(path):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var audio_path := song_meta.get_song_voice_res_path() as String
 	
-	dir.copy(path, audio_path)
+	DirAccess.copy_absolute(path, audio_path)
 	song_meta.voice = audio_path.get_file()
 	voice_audio_filename_edit.text = song_meta.voice
 	save_meta()
@@ -284,16 +280,15 @@ func _on_VoiceAudioFileDialog_file_selected(path):
 
 
 func _on_CircleFileDialog_file_selected(path):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.circle_image = "circle." + extension
 	
 	var image_path := song_meta.get_song_circle_image_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	circle_image_line_edit.text = song_meta.circle_image
 	save_meta()
 	
@@ -303,16 +298,15 @@ func _on_CircleFileDialog_file_selected(path):
 
 
 func _on_CircleLogoFileDialog_file_selected(path):
-	if hidden:
+	if show_hidden:
 		return
 	
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	song_meta.circle_logo = "circle_logo." + extension
 	
 	var image_path := song_meta.get_song_circle_logo_image_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	circle_logo_image_line_edit.text = song_meta.circle_logo
 	save_meta()
 	
@@ -331,14 +325,14 @@ func _update_paths():
 
 
 func _on_AddVariantButton_pressed():
-	var variant_editor = VARIANT_EDITOR.instance()
+	var variant_editor = VARIANT_EDITOR.instantiate()
 	alternative_video_container.add_child(variant_editor)
 	variant_editor.song = song_meta
-	variant_editor.connect("deleted", variant_editor, "queue_free")
-	variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+	variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
+	variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 
 func _on_show_download_prompt(variant: int):
-	if hidden:
+	if show_hidden:
 		return
 	
 	save_meta()
@@ -380,11 +374,11 @@ func _on_video_downloaded(id, result):
 			user_add_variant(id)
 
 func user_add_variant(id: String):
-	var variant_editor = VARIANT_EDITOR.instance()
+	var variant_editor = VARIANT_EDITOR.instantiate()
 	alternative_video_container.add_child(variant_editor)
 	variant_editor.song = song_meta
-	variant_editor.connect("deleted", variant_editor, "queue_free")
-	variant_editor.connect("show_download_prompt", self, "_on_show_download_prompt")
+	variant_editor.connect("deleted", Callable(variant_editor, "queue_free"))
+	variant_editor.connect("show_download_prompt", Callable(self, "_on_show_download_prompt"))
 	var norm = HBAudioNormalizer.new()
 	norm.set_target_ogg(HBUtils.load_ogg(YoutubeDL.get_audio_path(id)))
 	while not norm.work_on_normalization():
@@ -438,7 +432,7 @@ func set_enabled(enabled: bool):
 	
 	add_variant_button.disabled = not enabled
 
-func set_hidden(p_hidden: bool):
-	hidden = p_hidden
+func set_hidden(p_show_hidden: bool):
+	show_hidden = p_show_hidden
 	
-	set_enabled(not hidden)
+	set_enabled(not show_hidden)

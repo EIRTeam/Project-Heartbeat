@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://graphics/default_avatar.png" type="Texture" id=3]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=2]
+[ext_resource path="res://graphics/default_avatar.png" type="Texture2D" id=3]
+[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=4]
+[ext_resource path="res://fonts/orbitron-black-mono.otf" type="FontFile" id=5]
 [ext_resource path="res://rythm_game/MultiplayerScoreboardItem.gd" type="Script" id=6]
 [ext_resource path="res://rythm_game/ScoreCounter.gd" type="Script" id=7]
 
@@ -22,39 +22,39 @@ corner_detail = 20
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 15
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
 fallback/0 = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 20
 outline_size = 3
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 3
-extra_spacing_bottom = 1
+spacing_top = 3
+spacing_bottom = 1
 extra_spacing_char = 5
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 20
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 7
+spacing_top = 7
 font_data = ExtResource( 4 )
 
 [node name="MultiplayerScoreboardItem" type="Panel"]
-margin_top = 322.0
-margin_right = 256.0
-margin_bottom = 398.0
-rect_min_size = Vector2( 0, 83 )
-custom_styles/panel = SubResource( 1 )
+offset_top = 322.0
+offset_right = 256.0
+offset_bottom = 398.0
+custom_minimum_size = Vector2( 0, 83 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -63,62 +63,62 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 273.0
-margin_bottom = 78.0
-custom_constants/separation = 13
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 273.0
+offset_bottom = 78.0
+theme_override_constants/separation = 13
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
-margin_right = 73.0
-margin_bottom = 73.0
-rect_min_size = Vector2( 73, 0 )
+offset_right = 73.0
+offset_bottom = 73.0
+custom_minimum_size = Vector2( 73, 0 )
 texture = ExtResource( 3 )
 expand = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 86.0
-margin_right = 268.0
-margin_bottom = 73.0
+offset_left = 86.0
+offset_right = 268.0
+offset_bottom = 73.0
 size_flags_horizontal = 3
-custom_constants/separation = 2
+theme_override_constants/separation = 2
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MemberNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 182.0
-margin_bottom = 18.0
-custom_fonts/font = SubResource( 2 )
+offset_right = 182.0
+offset_bottom = 18.0
+theme_override_fonts/font = SubResource( 2 )
 text = "(NT)EIREXE"
 
 [node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 20.0
-margin_right = 182.0
-margin_bottom = 44.0
-custom_fonts/font = SubResource( 3 )
+offset_top = 20.0
+offset_right = 182.0
+offset_bottom = 44.0
+theme_override_fonts/font = SubResource( 3 )
 text = "(NT)0000000"
-valign = 1
+vertical_alignment = 1
 script = ExtResource( 7 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 182.0
-margin_bottom = 73.0
+offset_top = 46.0
+offset_right = 182.0
+offset_bottom = 73.0
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 110.0
-margin_bottom = 27.0
-custom_fonts/font = SubResource( 4 )
+offset_right = 110.0
+offset_bottom = 27.0
+theme_override_fonts/font = SubResource( 4 )
 text = "(NT)COOL"
-valign = 1
+vertical_alignment = 1

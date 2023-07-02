@@ -1,21 +1,21 @@
-extends WindowDialog
+extends Window
 
 var current_song: HBSong
 var current_resource_pack: HBResourcePack
-onready var compliance_checkbox = get_node("MarginContainer/VBoxContainer/CheckBox")
-onready var upload_button = get_node("MarginContainer/VBoxContainer/UploadButton")
-onready var data_label = get_node("MarginContainer/VBoxContainer/DataLabel")
-onready var description_line_edit = get_node("MarginContainer/VBoxContainer/DescriptionLineEdit")
-onready var title_line_edit = get_node("MarginContainer/VBoxContainer/TitleLineEdit")
-onready var changelog_label = get_node("MarginContainer/VBoxContainer/Label4")
-onready var changelog_line_edit = get_node("MarginContainer/VBoxContainer/UpdateDescriptionLineEdit")
+@onready var compliance_checkbox = get_node("MarginContainer/VBoxContainer/CheckBox")
+@onready var upload_button = get_node("MarginContainer/VBoxContainer/UploadButton")
+@onready var data_label = get_node("MarginContainer/VBoxContainer/DataLabel")
+@onready var description_line_edit = get_node("MarginContainer/VBoxContainer/DescriptionLineEdit")
+@onready var title_line_edit = get_node("MarginContainer/VBoxContainer/TitleLineEdit")
+@onready var changelog_label = get_node("MarginContainer/VBoxContainer/Label4")
+@onready var changelog_line_edit = get_node("MarginContainer/VBoxContainer/UpdateDescriptionLineEdit")
 
-onready var upload_dialog = get_node("UploadDialog")
-onready var post_upload_dialog = get_node("PostUploadDialog")
-onready var error_dialog = get_node("ErrorDialog")
-onready var file_not_found_dialog = get_node("FileNotFoundDialog")
-onready var upload_status_label = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/Label")
-onready var upload_progress_bar = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/ProgressBar")
+@onready var upload_dialog = get_node("UploadDialog")
+@onready var post_upload_dialog = get_node("PostUploadDialog")
+@onready var error_dialog = get_node("ErrorDialog")
+@onready var file_not_found_dialog = get_node("FileNotFoundDialog")
+@onready var upload_status_label = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/Label")
+@onready var upload_progress_bar = get_node("UploadDialog/Panel/MarginContainer/VBoxContainer/ProgressBar")
 const LOG_NAME = "WorkshopUploadForm"
 
 var uploading_new = false
@@ -26,7 +26,7 @@ enum MODE {
 	RESOURCE_PACK
 }
 
-export(MODE) var mode = MODE.SONG
+@export var upload_form_mode: MODE = MODE.SONG
 
 const UGC_STATUS_TEXTS = {
 	0: "Invalid, BUG?",
@@ -37,7 +37,7 @@ const UGC_STATUS_TEXTS = {
 	5: "Committing changes"
 }
 
-const ERR_MAP = {
+var ERR_MAP = {
 	Steam.RESULT_OK: "",
 	Steam.RESULT_FAIL: "Generic failure",
 	Steam.RESULT_INVALID_PARAM: "Invalid parameter",
@@ -49,15 +49,14 @@ const ERR_MAP = {
 func _ready():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider
-		ugc.connect("item_created", self, "_on_item_created")
-		ugc.connect("item_update_result", self, "_on_item_updated")
-		ugc.connect("ugc_details_request_done", self, "_on_ugc_details_request_done")
-	compliance_checkbox.connect("toggled", self, "_on_compliance_checkbox_toggled")
-	post_upload_dialog.connect("confirmed", self, "_on_post_upload_accepted")
-	upload_button.connect("pressed", self, "start_upload")
-	file_not_found_dialog.connect("confirmed", self, "_on_file_not_found_confirmed")
-	file_not_found_dialog.get_close_button().hide()
-	file_not_found_dialog.get_cancel().connect("pressed", self, "hide")
+		ugc.connect("item_created", Callable(self, "_on_item_created"))
+		ugc.connect("item_update_result", Callable(self, "_on_item_updated"))
+		ugc.connect("ugc_details_request_done", Callable(self, "_on_ugc_details_request_done"))
+	compliance_checkbox.connect("toggled", Callable(self, "_on_compliance_checkbox_toggled"))
+	post_upload_dialog.connect("confirmed", Callable(self, "_on_post_upload_accepted"))
+	upload_button.connect("pressed", Callable(self, "start_upload"))
+	file_not_found_dialog.connect("confirmed", Callable(self, "_on_file_not_found_confirmed"))
+	file_not_found_dialog.get_cancel_button().connect("pressed", Callable(self, "hide"))
 func _on_compliance_checkbox_toggled(pressed):
 	upload_button.disabled = !pressed
 	
@@ -72,18 +71,17 @@ func _on_file_not_found_confirmed():
 			current_resource_pack.ugc_service_name = ""
 	
 func set_resource_pack(resource_pack: HBResourcePack):
-	mode = MODE.RESOURCE_PACK
+	upload_form_mode = MODE.RESOURCE_PACK
 	current_resource_pack = resource_pack
 	
 	var ugc = PlatformService.service_provider.ugc_provider
 	changelog_line_edit.text = ""
 	description_line_edit.text = ""
 	
-	var f = File.new()
-	if not f.file_exists(resource_pack.get_pack_icon_path()):
+	if not FileAccess.file_exists(resource_pack.get_pack_icon_path()):
 		error_dialog.dialog_text = "Your pack needs an icon to be uploaded to the workshop!"
 		error_dialog.popup_centered()
-		yield(error_dialog, "hide")
+		await error_dialog.hide
 		hide()
 		return
 	
@@ -100,7 +98,7 @@ func set_resource_pack(resource_pack: HBResourcePack):
 		data_label.text = "Updating new item: %s" % resource_pack.pack_name
 	
 func set_song(song: HBSong):
-	mode = MODE.SONG
+	upload_form_mode = MODE.SONG
 	current_song = song
 	var ugc = PlatformService.service_provider.ugc_provider
 	changelog_line_edit.text = ""
@@ -118,7 +116,7 @@ func set_song(song: HBSong):
 		data_label.text = "Updating new item: %s" % song.get_sanitized_field("title")
 		
 func do_metadata_size_check(dict: Dictionary) -> bool:
-	if to_json(dict).to_utf8().size() > 5000:
+	if JSON.new().stringify(dict).to_utf8_buffer().size() > 5000:
 		error_dialog.dialog_text = "There was an error uploading your item, %s" % ["Metadata encoding failed, maybe make the title or difficulty names smaller?"]
 		error_dialog.popup_centered()
 		return false
@@ -196,19 +194,19 @@ func get_song_meta_dict() -> Dictionary:
 	return out_dir
 	
 func upload_song(song: HBSong, ugc_id):
-	var handle := Steam.createQueryUGCDetailsRequest([ugc_id])
+	var handle: int = Steam.createQueryUGCDetailsRequest([ugc_id])
 	Steam.setAllowCachedResponse(handle, 0)
 	Steam.setReturnChildren(handle, true)
 	Steam.sendQueryUGCRequest(handle)
 	var new_handle := -1
 	if new_handle != Steam.UGC_UPDATE_HANDLE_INVALID:
 		while new_handle != handle:
-			var data: Array = yield(Steam, "ugc_query_completed")
+			var data: Array = await Steam.ugc_query_completed
 			new_handle = data[0]
 			
-		var result := Steam.getQueryUGCResult(handle, 0)
+		var result: Dictionary = Steam.getQueryUGCResult(handle, 0)
 		if result.result == Steam.RESULT_OK:
-			var dependencies := Steam.getQueryUGCChildren(handle, 0, result.num_children)
+			var dependencies: Dictionary = Steam.getQueryUGCChildren(handle, 0, result.num_children)
 			for child_i in range(result.num_children):
 				var child_ugc_id := dependencies.children[child_i] as int
 				Steam.removeDependency(ugc_id, child_ugc_id)
@@ -221,7 +219,7 @@ func upload_song(song: HBSong, ugc_id):
 	ugc.set_item_description(update_id, description_line_edit.text)
 	song.save_chart_info()
 	var out_dir = get_song_meta_dict()
-	ugc.set_item_metadata(update_id, JSON.print(out_dir))
+	ugc.set_item_metadata(update_id, JSON.stringify(out_dir))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
 	if uploading_new:
 		var video_id = YoutubeDL.get_video_id(song.youtube_url)
@@ -253,7 +251,7 @@ func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
 	uploading_id = update_id
 	ugc.set_item_title(update_id, title_line_edit.text)
 	ugc.set_item_description(update_id, description_line_edit.text)
-	ugc.set_item_metadata(update_id, JSON.print(resource_pack.serialize()))
+	ugc.set_item_metadata(update_id, JSON.stringify(resource_pack.serialize()))
 	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(resource_pack._path))
 	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
 

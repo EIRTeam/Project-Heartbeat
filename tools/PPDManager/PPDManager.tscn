@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://graphics/predarkenedbg.png" type="Texture" id=2]
+[ext_resource path="res://graphics/predarkenedbg.png" type="Texture2D" id=2]
 [ext_resource path="res://tools/PPDManager/PPDManager.gd" type="Script" id=3]
 [ext_resource path="res://tools/PPDManager/PPDDownloader.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/download.svg" type="Texture2D" id=5]
 [ext_resource path="res://tools/PPDManager/PPDManagerPopup.tscn" type="PackedScene" id=6]
-[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture" id=7]
+[ext_resource path="res://graphics/icons/settings-box.svg" type="Texture2D" id=7]
 [ext_resource path="res://tools/PPDManager/PPDImporter.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -35,20 +35,20 @@ __meta__ = {
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.0
-margin_bottom = -1.0
+offset_top = -1.0
+offset_bottom = -1.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ToolsPopup" type="WindowDialog" parent="CenterContainer"]
+[node name="ToolsPopup" type="Window" parent="CenterContainer"]
 visible = true
-margin_left = 460.0
-margin_top = 340.0
-margin_right = 1460.0
-margin_bottom = 740.0
-rect_min_size = Vector2( 1000, 400 )
+offset_left = 460.0
+offset_top = 340.0
+offset_right = 1460.0
+offset_bottom = 740.0
+custom_minimum_size = Vector2( 1000, 400 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -56,49 +56,49 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/ToolsPopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ToolsPopup/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 990.0
-margin_bottom = 390.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 990.0
+offset_bottom = 390.0
 
 [node name="PPDDownloaderButton" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
-margin_right = 980.0
-margin_bottom = 50.0
+offset_right = 980.0
+offset_bottom = 50.0
 text = "PPD Downloader"
 icon = ExtResource( 5 )
 
 [node name="PPDManagerSongs" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
-margin_top = 54.0
-margin_right = 980.0
-margin_bottom = 104.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 54.0
+offset_right = 980.0
+offset_bottom = 104.0
+custom_minimum_size = Vector2( 0, 50 )
 text = "Manage PPD Songs"
 icon = ExtResource( 7 )
 
 [node name="PPDImporter" type="Button" parent="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer"]
-margin_top = 108.0
-margin_right = 980.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 0, 50 )
-text = "Import PPD Songs Directory"
+offset_top = 108.0
+offset_right = 980.0
+offset_bottom = 158.0
+custom_minimum_size = Vector2( 0, 50 )
+text = "Import PPD Songs DirAccess"
 icon = ExtResource( 7 )
 
 [node name="PPDDownloader" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.05945
-margin_top = -0.529724
-margin_right = 1.05945
-margin_bottom = -0.529785
+offset_left = 1.05945
+offset_top = -0.529724
+offset_right = 1.05945
+offset_bottom = -0.529785
 mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 4 )
@@ -106,18 +106,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="WindowDialog" parent="PPDDownloader"]
+[node name="Panel" type="Window" parent="PPDDownloader"]
 visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -293.5
-margin_top = -66.0
-margin_right = 293.5
-margin_bottom = 66.0
-rect_min_size = Vector2( 371, 82 )
-popup_exclusive = true
+offset_left = -293.5
+offset_top = -66.0
+offset_right = 293.5
+offset_bottom = 66.0
+custom_minimum_size = Vector2( 371, 82 )
+exclusive = true
 window_title = "PPD Downloader Tool"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -126,75 +126,75 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="PPDDownloader/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PPDDownloader/Panel/MarginContainer"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 572.0
-margin_bottom = 117.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 572.0
+offset_bottom = 117.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
-margin_right = 557.0
-margin_bottom = 44.0
+offset_right = 557.0
+offset_bottom = 44.0
 size_flags_vertical = 3
-custom_colors/default_color = Color( 1, 1, 0, 1 )
-custom_styles/normal = SubResource( 1 )
+theme_override_colors/default_color = Color( 1, 1, 0, 1 )
+theme_override_styles/normal = SubResource( 1 )
 text = "WARNING: This is an experimental feature, it may be slow on some computers, performance will be improved in a future update."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
-margin_top = 48.0
-margin_right = 557.0
-margin_bottom = 73.0
+offset_top = 48.0
+offset_right = 557.0
+offset_bottom = 73.0
 
 [node name="Label" type="Label" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 135.0
-margin_bottom = 25.0
+offset_right = 135.0
+offset_bottom = 25.0
 text = "PPD download URL: "
 
 [node name="URLLineEdit" type="LineEdit" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 139.0
-margin_right = 557.0
-margin_bottom = 25.0
+offset_left = 139.0
+offset_right = 557.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="PPDDownloader/Panel/MarginContainer/VBoxContainer"]
-margin_top = 77.0
-margin_right = 557.0
-margin_bottom = 102.0
+offset_top = 77.0
+offset_right = 557.0
+offset_bottom = 102.0
 text = "Download and install..."
 
-[node name="WaitDialog" type="WindowDialog" parent="PPDDownloader"]
+[node name="WaitDialog" type="Window" parent="PPDDownloader"]
 visible = true
-margin_right = 304.0
-margin_bottom = 77.0
-popup_exclusive = true
+offset_right = 304.0
+offset_bottom = 77.0
+exclusive = true
 window_title = "Downloading..."
 
 [node name="Label" type="Label" parent="PPDDownloader/WaitDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Downloading, please wait..."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PPDManagerPopup" parent="." instance=ExtResource( 6 )]
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 visible = true
-margin_left = 1.05945
-margin_top = -0.529724
-margin_right = 305.059
-margin_bottom = 76.4703
+offset_left = 1.05945
+offset_top = -0.529724
+offset_right = 305.059
+offset_bottom = 76.4703
 window_title = ""
 dialog_text = "Erorr downloading: asdsadsa"
 dialog_autowrap = true
@@ -211,114 +211,114 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WindowDialog" type="WindowDialog" parent="PPDImporter"]
+[node name="Window" type="Window" parent="PPDImporter"]
 visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -353.5
-margin_top = -141.5
-margin_right = 353.5
-margin_bottom = 141.5
-popup_exclusive = true
+offset_left = -353.5
+offset_top = -141.5
+offset_right = 353.5
+offset_bottom = 141.5
+exclusive = true
 window_title = "PPD Importer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="PPDImporter/WindowDialog"]
+[node name="MarginContainer" type="MarginContainer" parent="PPDImporter/Window"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PPDImporter/WindowDialog/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 697.0
-margin_bottom = 273.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PPDImporter/Window/MarginContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 697.0
+offset_bottom = 273.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_right = 687.0
-margin_bottom = 25.0
+[node name="Label" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_right = 687.0
+offset_bottom = 25.0
 text = "This tool allows you to use your existing PPD installation into PH, the game will require a restart afterwards."
 autowrap = true
 
-[node name="PPDFoldersCheckbox" type="CheckBox" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 687.0
-margin_bottom = 54.0
+[node name="PPDFoldersCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 29.0
+offset_right = 687.0
+offset_bottom = 54.0
 pressed = true
 text = "Create folder with my PPD folder structure in the \"folders\" tab"
 
-[node name="HidePPDEXtSongsCheckbox" type="CheckBox" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 58.0
-margin_right = 687.0
-margin_bottom = 83.0
+[node name="HidePPDEXtSongsCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 58.0
+offset_right = 687.0
+offset_bottom = 83.0
 pressed = true
 text = "Hide PPD importer songs from the PPD tab"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 687.0
-margin_bottom = 112.0
+[node name="HBoxContainer" type="HBoxContainer" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 87.0
+offset_right = 687.0
+offset_bottom = 112.0
 
-[node name="Label2" type="Label" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 264.0
-margin_bottom = 25.0
+[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer"]
+offset_right = 264.0
+offset_bottom = 25.0
 text = "PPD Folder Name (Overwritten if it exists)"
 
-[node name="LineEdit" type="LineEdit" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 268.0
-margin_right = 687.0
-margin_bottom = 25.0
+[node name="LineEdit" type="LineEdit" parent="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer"]
+offset_left = 268.0
+offset_right = 687.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 text = "PPD"
 
-[node name="PPDOGGCheckbox" type="CheckBox" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 116.0
-margin_right = 687.0
-margin_bottom = 141.0
+[node name="PPDOGGCheckbox" type="CheckBox" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 116.0
+offset_right = 687.0
+offset_bottom = 141.0
 text = "Convert all song audio to OGG now (Uncheck if you have a lot of songs, takes ~2-4 s per song)"
 
-[node name="Button" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 145.0
-margin_right = 687.0
-margin_bottom = 170.0
-text = "Select PPD Songs Directory & Import"
+[node name="Button" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 145.0
+offset_right = 687.0
+offset_bottom = 170.0
+text = "Select PPD Songs DirAccess & Import"
 
-[node name="Label2" type="Label" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 174.0
-margin_right = 687.0
-margin_bottom = 199.0
+[node name="Label2" type="Label" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 174.0
+offset_right = 687.0
+offset_bottom = 199.0
 text = "Current installation path: %s"
 autowrap = true
 
-[node name="RemoveInstallationButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 203.0
-margin_right = 687.0
-margin_bottom = 228.0
+[node name="RemoveInstallationButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 203.0
+offset_right = 687.0
+offset_bottom = 228.0
 disabled = true
 text = "Remove install"
 
-[node name="CloseButton" type="Button" parent="PPDImporter/WindowDialog/MarginContainer/VBoxContainer"]
-margin_top = 232.0
-margin_right = 687.0
-margin_bottom = 257.0
+[node name="CloseButton" type="Button" parent="PPDImporter/Window/MarginContainer/VBoxContainer"]
+offset_top = 232.0
+offset_right = 687.0
+offset_bottom = 257.0
 text = "Close"
 
 [node name="PPDImporterFileDialog" type="FileDialog" parent="PPDImporter"]
-margin_right = 427.0
-margin_bottom = 152.0
+offset_right = 427.0
+offset_bottom = 152.0
 window_title = "Abrir un Directorio"
 mode = 2
 access = 2
@@ -326,16 +326,16 @@ show_hidden_files = true
 current_dir = "/home/eirexe/Project Heartbeat/Project Heartbeat"
 current_path = "/home/eirexe/Project Heartbeat/Project Heartbeat/"
 
-[node name="WaitDialog" type="WindowDialog" parent="PPDImporter"]
+[node name="WaitDialog" type="Window" parent="PPDImporter"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -430.0
-margin_top = -38.0
-margin_right = 431.0
-margin_bottom = 39.0
-popup_exclusive = true
+offset_left = -430.0
+offset_top = -38.0
+offset_right = 431.0
+offset_bottom = 39.0
+exclusive = true
 window_title = "Importing..."
 __meta__ = {
 "_edit_use_anchors_": false
@@ -345,29 +345,29 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Importing, please wait..."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RestartAcceptDialog" type="AcceptDialog" parent="PPDImporter"]
 visible = true
-margin_left = 857.032
-margin_top = 455.485
-margin_right = 949.032
-margin_bottom = 529.485
-popup_exclusive = true
+offset_left = 857.032
+offset_top = 455.485
+offset_right = 949.032
+offset_bottom = 529.485
+exclusive = true
 window_title = ""
 dialog_text = "Import complete, please restart the game."
 
 [node name="RemoveInstallationConfirmationDialog" type="ConfirmationDialog" parent="PPDImporter"]
 visible = true
-margin_left = 184.0
-margin_top = 225.0
-margin_right = 484.0
-margin_bottom = 339.0
-popup_exclusive = true
+offset_left = 184.0
+offset_top = 225.0
+offset_right = 484.0
+offset_bottom = 339.0
+exclusive = true
 dialog_text = "Do you want to remove your existing PPD install? This will remove the songs from the game but not from the hard drive."
 dialog_autowrap = true
 __meta__ = {
@@ -377,10 +377,10 @@ __meta__ = {
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDDownloaderButton" to="PPDDownloader" method="show_panel"]
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDManagerSongs" to="PPDManagerPopup" method="popup_centered"]
 [connection signal="pressed" from="CenterContainer/ToolsPopup/MarginContainer/VBoxContainer/PPDImporter" to="PPDImporter" method="show_panel"]
-[connection signal="toggled" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/PPDFoldersCheckbox" to="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
-[connection signal="toggled" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox" to="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
-[connection signal="pressed" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/Button" to="PPDImporter/PPDImporterFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
-[connection signal="pressed" from="PPDImporter/WindowDialog/MarginContainer/VBoxContainer/RemoveInstallationButton" to="PPDImporter/RemoveInstallationConfirmationDialog" method="popup_centered"]
+[connection signal="toggled" from="PPDImporter/Window/MarginContainer/VBoxContainer/PPDFoldersCheckbox" to="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
+[connection signal="toggled" from="PPDImporter/Window/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox" to="PPDImporter/Window/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" method="set_editable"]
+[connection signal="pressed" from="PPDImporter/Window/MarginContainer/VBoxContainer/Button" to="PPDImporter/PPDImporterFileDialog" method="popup_centered_ratio" binds= [ 0.5 ]]
+[connection signal="pressed" from="PPDImporter/Window/MarginContainer/VBoxContainer/RemoveInstallationButton" to="PPDImporter/RemoveInstallationConfirmationDialog" method="popup_centered"]
 [connection signal="dir_selected" from="PPDImporter/PPDImporterFileDialog" to="PPDImporter" method="_on_PPDImporterFileDialog_dir_selected"]
 [connection signal="confirmed" from="PPDImporter/RestartAcceptDialog" to="PPDImporter" method="_on_RestartAcceptDialog_confirmed"]
 [connection signal="confirmed" from="PPDImporter/RemoveInstallationConfirmationDialog" to="PPDImporter" method="_on_RemoveInstallationConfirmationDialog_confirmed"]

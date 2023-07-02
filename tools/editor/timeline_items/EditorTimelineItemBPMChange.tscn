@@ -5,10 +5,10 @@
 [sub_resource type="StyleBoxFlat" id=1]
 
 [node name="EditorTimelineItemNote" type="Panel"]
-margin_right = 166.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = SubResource( 1 )
+offset_right = 166.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,5 +18,5 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Speed"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1

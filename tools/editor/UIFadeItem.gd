@@ -1,6 +1,6 @@
 extends ColorRect
 
-onready var tween = Tween.new()
+@onready var tween = Threen.new()
 
 func _ready():
 	add_child(tween)

@@ -1,20 +1,20 @@
 extends "Option.gd"
 
-var text = "" setget set_text
+var text = "": set = set_text
 var sound_name = ""
 # warning-ignore:unused_signal
 signal pressed
 
-onready var selected_text = get_node("HBoxContainer/Control/Label2")
-onready var pack_select_dropdown = get_node("CanvasLayer/DropDown")
+@onready var selected_text = get_node("HBoxContainer/Control/Label2")
+@onready var pack_select_dropdown = get_node("CanvasLayer/DropDown")
 func set_text(val):
 	text = val
 	$HBoxContainer/Label.text = val
 
 func _ready():
 	pack_select_dropdown.hide()
-	connect("pressed", self, "_on_pressed")
-	pack_select_dropdown.connect("selected_sound_changed", self, "_on_selected_sound_changed")
+	connect("pressed", Callable(self, "_on_pressed"))
+	pack_select_dropdown.connect("selected_sound_changed", Callable(self, "_on_selected_sound_changed"))
 	show_current()
 	pack_select_dropdown.sound_name = sound_name
 func _gui_input(event: InputEvent):
@@ -28,7 +28,7 @@ func show_current():
 var _old_focus
 	
 func _on_pressed():
-	_old_focus = get_focus_owner()
+	_old_focus = get_viewport().gui_get_focus_owner()
 	pack_select_dropdown.show()
 	pack_select_dropdown.grab_focus()
 func _on_selected_sound_changed(new_sound):

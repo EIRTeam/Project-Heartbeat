@@ -16,7 +16,7 @@ var chart: HBChart
 
 
 func _init(_pattern: Dictionary, _audio_path: String, _loudness: float, _offset: int = 0):
-	._init()
+	super._init()
 	pattern = _pattern
 	audio_path = _audio_path
 	loudness = _loudness

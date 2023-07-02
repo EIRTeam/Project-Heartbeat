@@ -15,7 +15,7 @@ func add_request(url: String) -> HTTPRequest:
 	var req = HTTPRequest.new()
 	req.set_meta("url", url)
 	queue.append(req)
-	req.connect("request_completed", self, "_on_request_completed", [req])
+	req.connect("request_completed", Callable(self, "_on_request_completed").bind(req))
 	add_child(req)
 	update_queue()
 	return req

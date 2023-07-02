@@ -5,7 +5,7 @@ const MIDDLE_RING_RADIUS = [44, 61]
 const OUTER_RING_RADIUS = [61, 69]
 
 func _draw():
-	var color := Color.lightgray
+	var color := Color.LIGHT_GRAY
 	color.a = 0.8
 	
 	_draw_ring(INNER_RING_RADIUS[0], INNER_RING_RADIUS[1], color)
@@ -29,8 +29,8 @@ func _draw():
 	var inner_snaps := get_snaps(inner_mode_info)
 	var middle_snaps := get_snaps(middle_mode_info)
 	
-	_draw_snaps(inner_snaps, INNER_RING_RADIUS[0] + 2, INNER_RING_RADIUS[1], Color.black)
-	_draw_snaps(middle_snaps, MIDDLE_RING_RADIUS[0] + 8, MIDDLE_RING_RADIUS[1], Color.black)
+	_draw_snaps(inner_snaps, INNER_RING_RADIUS[0] + 2, INNER_RING_RADIUS[1], Color.BLACK)
+	_draw_snaps(middle_snaps, MIDDLE_RING_RADIUS[0] + 8, MIDDLE_RING_RADIUS[1], Color.BLACK)
 
 func get_snaps(mode_info: Dictionary) -> Array:
 	var snaps := []
@@ -53,12 +53,12 @@ func get_snaps(mode_info: Dictionary) -> Array:
 		HBUserSettings.EDITOR_ARRANGE_MODES.DISTANCE:
 			snaps = [0, 90, 180, 270]
 			
-			var angle = rad2deg(Vector2.ZERO.angle_to_point(Vector2(mode_info.diagonal_step.x, mode_info.diagonal_step.y)))
+			var angle = rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(mode_info.diagonal_step.x, mode_info.diagonal_step.y)))
 			snaps.append_array([angle, 180 - angle, 180 + angle, 360 - angle])
 		HBUserSettings.EDITOR_ARRANGE_MODES.FAKE_SLOPE:
 			snaps = [0, 90, 180, 270]
 			
-			var angle = rad2deg(Vector2.ZERO.angle_to_point(Vector2(UserSettings.user_settings.editor_arrange_separation, mode_info.vertical_step)))
+			var angle = rad_to_deg(Vector2.ZERO.angle_to_point(Vector2(UserSettings.user_settings.editor_arrange_separation, mode_info.vertical_step)))
 			snaps.append_array([angle, 180 - angle, 180 + angle, 360 - angle])
 		HBUserSettings.EDITOR_ARRANGE_MODES.FREE:
 			pass
@@ -67,8 +67,8 @@ func get_snaps(mode_info: Dictionary) -> Array:
 
 func _draw_ring(radius_from: int, radius_to: int, color: Color):
 	var n_points := 64
-	var points_arc := PoolVector2Array()
-	var colors := PoolColorArray([color])
+	var points_arc := PackedVector2Array()
+	var colors := PackedColorArray([color])
 	
 	var angle_step := 2*PI / n_points
 	
@@ -87,4 +87,4 @@ func _draw_snaps(snaps: Array, radius_from: int, radius_to: int, color: Color):
 	var end := Vector2(radius_to, 0)
 	
 	for angle in snaps:
-		draw_line(start.rotated(deg2rad(angle)), end.rotated(deg2rad(angle)), color)
+		draw_line(start.rotated(deg_to_rad(angle)), end.rotated(deg_to_rad(angle)), color)

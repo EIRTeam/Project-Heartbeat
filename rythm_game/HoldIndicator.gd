@@ -1,16 +1,16 @@
 extends Control
 
-var current_holds = [] setget set_current_holds
-var current_score = 0 setget set_current_score
+var current_holds = []: set = set_current_holds
+var current_score = 0: set = set_current_score
 var icon_nodes = {}
 
-onready var current_score_label = get_node("Panel/MarginContainer/HBoxContainer/HBoxContainer/ScoreLabel")
-onready var hold_count_label = get_node("Panel/HoldCount")
-onready var panel = get_node("Panel")
-onready var max_combo_label = get_node("MaxComboContainer/Control/MarginContainer/HBoxContainer/MaxComboLabel")
-onready var max_combo_container = get_node("MaxComboContainer")
-onready var bonus_label = get_node("Panel/MarginContainer/HBoxContainer/BonusLabel")
-onready var hold_note_icons_container = get_node("Panel/MarginContainer/HBoxContainer/HoldNoteIcons")
+@onready var current_score_label = get_node("Panel/MarginContainer/HBoxContainer/HBoxContainer/ScoreLabel")
+@onready var hold_count_label = get_node("Panel/HoldCount")
+@onready var panel = get_node("Panel")
+@onready var max_combo_label = get_node("MaxComboContainer/Control/MarginContainer/HBoxContainer/MaxComboLabel")
+@onready var max_combo_container = get_node("MaxComboContainer")
+@onready var bonus_label = get_node("Panel/MarginContainer/HBoxContainer/BonusLabel")
+@onready var hold_note_icons_container = get_node("Panel/MarginContainer/HBoxContainer/HoldNoteIcons")
 const APPEAR_T = 0.15
 const APPEAR_LEAD_IN = 0.1
 const SCALE_T = 0.15
@@ -36,21 +36,21 @@ func _ready():
 		var texture_rect = TextureRect.new()
 		texture_rect.expand = true
 		texture_rect.texture = ResourcePackLoader.get_graphic("%s_note.png" % [HBGame.NOTE_TYPE_TO_STRING_MAP[type]])
-		texture_rect.rect_min_size = Vector2(35, 35)
+		texture_rect.custom_minimum_size = Vector2(35, 35)
 		texture_rect.show()
 		hold_note_icons_container.add_child(texture_rect)
 		icon_nodes[type_name] = texture_rect
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	call_deferred("_on_resized")
 	set_process(false)
 	
 func _on_resized():
 	for texture_rect in icon_nodes.values():
 		texture_rect = texture_rect as TextureRect
-		texture_rect.rect_min_size.x = panel.rect_size.y
-		texture_rect.rect_size.x = panel.rect_size.y
-		texture_rect.rect_size.y = panel.rect_size.y
-	$Panel/MarginContainer.rect_size = $Panel.rect_size
+		texture_rect.custom_minimum_size.x = panel.size.y
+		texture_rect.size.x = panel.size.y
+		texture_rect.size.y = panel.size.y
+	$Panel/MarginContainer.size = $Panel.size
 
 func set_current_holds(val):
 	current_holds = val
@@ -78,9 +78,9 @@ func _process(delta):
 	modulate.a = clamp(appear_t - APPEAR_LEAD_IN, 0.0, APPEAR_T + APPEAR_LEAD_IN) / APPEAR_T
 	scale_t += scale_t_inc * delta
 	scale_t = clamp(scale_t, 0.0, SCALE_T)
-	rect_scale.y = scale_t / SCALE_T
+	scale.y = scale_t / SCALE_T
 	
-	rect_pivot_offset = (rect_size - Vector2(0, max_combo_container.rect_size.y) ) / 2.0
+	pivot_offset = (size - Vector2(0, max_combo_container.size.y) ) / 2.0
 	
 	max_appear_t += max_appear_t_inc * delta
 	max_appear_t = clamp(max_appear_t, 0.0, APPEAR_T)

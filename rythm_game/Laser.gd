@@ -4,16 +4,16 @@ class_name MultiLaser
 
 const LASER_RES = 16
 
-var positions = [] setget set_positions
+var positions = []: set = set_positions
 var line_2ds = []
-export(bool) var disable_animation = false
-export(float) var phase_shift = 0.0
-export(float) var frequency = 5.0
-export(float) var timescale = 1.0
-var width_scale = 1.0 setget set_width_scale
+@export var disable_animation: bool = false
+@export var phase_shift: float = 0.0
+@export var frequency: float = 5.0
+@export var timescale: float = 1.0
+var width_scale = 1.0: set = set_width_scale
 var t = 0.0
 
-export(Color) var color = Color("#0567ff") setget set_color
+@export var color: Color = Color("#0567ff"): set = set_color
 
 func set_color(val):
 	color = val
@@ -28,10 +28,10 @@ func set_positions(val):
 	while line_2ds.size() < positions.size():
 		var line_2d = Line2D.new()
 		line_2d.texture = ResourcePackLoader.get_graphic("multi_laser.png")
-		line_2d.points = PoolVector2Array([Vector2.ZERO, Vector2.ZERO])
+		line_2d.points = PackedVector2Array([Vector2.ZERO, Vector2.ZERO])
 		line_2d.texture_mode = Line2D.LINE_TEXTURE_STRETCH
 		
-		line_2d.default_color = Color.white
+		line_2d.default_color = Color.WHITE
 		if not disable_animation:
 			line_2d.material = preload("res://rythm_game/Laser_material.tres")
 		add_child(line_2d)

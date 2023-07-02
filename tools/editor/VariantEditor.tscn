@@ -1,105 +1,70 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bc347khpk1ja0"]
 
-[ext_resource path="res://tools/icons/icon_remove.svg" type="Texture" id=1]
-[ext_resource path="res://tools/editor/VariantEditor.gd" type="Script" id=2]
-[ext_resource path="res://tools/editor/VariantSync.tscn" type="PackedScene" id=3]
-[ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=4]
-[ext_resource path="res://tools/editor/controls/HBEditorLineEdit.gd" type="Script" id=5]
+[ext_resource type="Texture2D" uid="uid://cjgss627udi13" path="res://tools/icons/icon_remove.svg" id="1"]
+[ext_resource type="Script" path="res://tools/editor/VariantEditor.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://xipkuscb13ti" path="res://tools/editor/VariantSync.tscn" id="3"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorLineEdit.gd" id="5"]
 
 [node name="PanelContainer" type="VBoxContainer"]
-margin_right = 588.0
-margin_bottom = 188.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 588.0
+offset_bottom = 188.0
+script = ExtResource("2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 588.0
-margin_bottom = 212.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="DeleteButton" type="Button" parent="VBoxContainer"]
-margin_right = 28.0
-margin_bottom = 22.0
+layout_mode = 2
 size_flags_horizontal = 0
-icon = ExtResource( 1 )
+icon = ExtResource("1")
 
 [node name="AudioOnlyCheckbox" type="CheckBox" parent="VBoxContainer"]
-margin_top = 26.0
-margin_right = 588.0
-margin_bottom = 50.0
+layout_mode = 2
 text = "Use audio only"
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 54.0
-margin_right = 588.0
-margin_bottom = 68.0
+layout_mode = 2
 text = "Variant Name"
 
 [node name="LineEditName" type="LineEdit" parent="VBoxContainer"]
-margin_top = 72.0
-margin_right = 588.0
-margin_bottom = 96.0
+layout_mode = 2
 caret_blink = true
-caret_blink_speed = 0.5
-script = ExtResource( 5 )
+caret_blink_interval = 0.5
+script = ExtResource("5")
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
-margin_top = 100.0
-margin_right = 588.0
-margin_bottom = 114.0
+layout_mode = 2
 text = "Variant URL"
 
 [node name="LineEditURL" type="LineEdit" parent="VBoxContainer"]
-margin_top = 118.0
-margin_right = 588.0
-margin_bottom = 142.0
+layout_mode = 2
 editable = false
 caret_blink = true
-caret_blink_speed = 0.5
-script = ExtResource( 5 )
+caret_blink_interval = 0.5
+script = ExtResource("5")
 
 [node name="Label3" type="Label" parent="VBoxContainer"]
-margin_top = 146.0
-margin_right = 588.0
-margin_bottom = 160.0
+layout_mode = 2
 text = "Variant Offset"
 
 [node name="OffsetSpinBox" type="SpinBox" parent="VBoxContainer"]
-margin_top = 164.0
-margin_right = 588.0
-margin_bottom = 188.0
+layout_mode = 2
 min_value = -2e+10
 max_value = 2e+10
 custom_arrow_step = 0.1
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="ButtonSync" type="Button" parent="VBoxContainer"]
-margin_top = 192.0
-margin_right = 588.0
-margin_bottom = 212.0
+layout_mode = 2
 text = "Sync variant"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 visible = false
-margin_top = 170.0
-margin_right = 588.0
-margin_bottom = 174.0
+layout_mode = 2
 
-[node name="WindowDialog" parent="." instance=ExtResource( 3 )]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 170.0
-margin_right = 588.0
-margin_bottom = 240.0
-rect_min_size = Vector2( 150, 52.5 )
+[node name="Window" parent="." instance=ExtResource("3")]
 
 [connection signal="pressed" from="VBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonSync" to="." method="_on_ButtonSync_pressed"]
-[connection signal="offset_changed" from="WindowDialog" to="." method="_on_WindowDialog_offset_changed"]
+[connection signal="position_offset_changed" from="Window" to="." method="_on_WindowDialog_offset_changed"]

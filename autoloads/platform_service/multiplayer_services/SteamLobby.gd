@@ -15,7 +15,7 @@ func set_song_difficulty(val):
 	game_info.difficulty = val
 	
 func send_game_info_update():
-	Steam.setLobbyData(_lobby_id, "game_info", JSON.print(game_info.serialize()))
+	Steam.setLobbyData(_lobby_id, "game_info", JSON.stringify(game_info.serialize()))
 	set_song_id(game_info.song_id)
 	set_song_name(SongLoader.songs[game_info.song_id].title)
 func get_lobby_name():
@@ -41,22 +41,25 @@ func get_song_id():
 func get_song_difficulty():
 	return game_info.difficulty
 
-func _init(lobby_id).(lobby_id):
+func _init(lobby_id):
+	super(lobby_id)
 	self._lobby_id = lobby_id
-	connect("game_done", self, "_on_game_done")
+	connect("game_done", Callable(self, "_on_game_done"))
 func join_lobby():
 	Log.log(self, "Attempting to join lobby " + str(_lobby_id))
 	Steam.joinLobby(_lobby_id)
-	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
+	Steam.connect("lobby_joined", Callable(self, "_on_lobby_joined").bind(), CONNECT_ONE_SHOT)
 
 func obtain_game_info():
 	var gif = Steam.getLobbyData(_lobby_id, "game_info")
-	var json = JSON.parse(gif) as JSONParseResult
-	if json.error == OK:
-		game_info = HBGameInfo.deserialize(json.result)
+	var test_json_conv = JSON.new()
+	var json_err := test_json_conv.parse(gif)
+	var json = test_json_conv.get_data()
+	if json_err == OK:
+		game_info = HBGameInfo.deserialize(test_json_conv.data)
 		game_info.song_id = Marshalls.base64_to_utf8(Steam.getLobbyData(_lobby_id, "song_id_base64"))
 	else:
-		Log.log(self, "Error obtaining game_info from lobby %d error on line %d: %s" % [_lobby_id, json.error_line, json.error_string])
+		Log.log(self, "Error obtaining game_info from lobby %d error on line %d: %s" % [_lobby_id, test_json_conv.get_error_line(), test_json_conv.get_error_message()])
 
 func update_lobby_members():
 	members.clear()
@@ -74,14 +77,14 @@ func _on_lobby_joined(lobby_id, permissions, locked, response):
 	if lobby_id == _lobby_id:
 		if response == LOBBY_ENTER_RESPONSE.SUCCESS:
 			connected = true
-			Steam.connect("lobby_message", self, "_on_lobby_message")
-			Steam.connect("lobby_chat_update", self, "_on_lobby_chat_update")
-			Steam.connect("lobby_data_update", self, "_on_lobby_data_updated")
-			Steam.connect("p2p_session_request", self, "_on_p2p_session_request")
-			Steam.connect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
-			PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", self, "_on_ugc_item_downloaded")
-			YoutubeDL.connect("song_cached", self, "_on_song_cached")
-			PlatformService.service_provider.connect("run_mp_callbacks", self, "_on_p2p_packet_received")
+			Steam.connect("lobby_message", Callable(self, "_on_lobby_message"))
+			Steam.connect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
+			Steam.connect("lobby_data_update", Callable(self, "_on_lobby_data_updated"))
+			Steam.connect("p2p_session_request", Callable(self, "_on_p2p_session_request"))
+			Steam.connect("p2p_session_connect_fail", Callable(self, "_on_p2p_session_connect_fail"))
+			PlatformService.service_provider.ugc_provider.connect("ugc_item_installed", Callable(self, "_on_ugc_item_downloaded"))
+			YoutubeDL.connect("song_cached", Callable(self, "_on_song_cached"))
+			PlatformService.service_provider.connect("run_mp_callbacks", Callable(self, "_on_p2p_packet_received"))
 			update_lobby_members()
 			if not is_owned_by_local_user():
 				obtain_game_info()
@@ -109,7 +112,9 @@ func execute_command_message(user: HBServiceMember, message: String):
 	var command = message.substr(1, -1).split(" ")[0]
 	if is_owned_by_local_user():
 		if command == "song_available_update":
-			var data = JSON.parse(message.split(" ", true, 1)[1]).result
+			var test_json_conv = JSON.new()
+			var json_er := test_json_conv.parse(message.split(" ", true, 1)[1])
+			var data = test_json_conv.get_data()
 			var song_id = Marshalls.base64_to_utf8(data.song_id)
 			var song_available = data.available
 
@@ -131,7 +136,7 @@ func execute_command_message(user: HBServiceMember, message: String):
 				var song = SongLoader.songs[song_id] as HBSong
 				if song.is_cached():
 					dict.available = true
-			send_chat_message("/song_available_update %s" % [JSON.print(dict)])
+			send_chat_message("/song_available_update %s" % [JSON.stringify(dict)])
 	
 	if command == "update_lobby_host":
 		emit_signal("host_changed")
@@ -210,21 +215,22 @@ func _on_lobby_chat_update(lobby_id, changed_id, making_change_id, chat_state):
 	emit_signal("lobby_chat_update", changed, making_change, chat_state)
 func create_lobby():
 	Log.log(self, "Attempting to create lobby")
-	Steam.connect("lobby_created", self, "_on_lobby_created", [], CONNECT_ONESHOT)
-	Steam.connect("lobby_joined", self, "_on_lobby_joined", [], CONNECT_ONESHOT)
-	Steam.createLobby(HBLobby.LOBBY_TYPE.PUBLIC, 5)
+	Steam.connect("lobby_created", Callable(self, "_on_lobby_created").bind(), CONNECT_ONE_SHOT)
+	Steam.connect("lobby_joined", Callable(self, "_on_lobby_joined").bind(), CONNECT_ONE_SHOT)
+	var lobby_type: int = HBLobby.LOBBY_TYPE.PUBLIC
+	Steam.createLobby(lobby_type, 5)
 
 func leave_lobby():
 	Log.log(self, "Leaving lobby")
 	Steam.leaveLobby(_lobby_id)
-	Steam.disconnect("lobby_message", self, "_on_lobby_message")
-	Steam.disconnect("lobby_chat_update", self, "_on_lobby_chat_update")
-	Steam.disconnect("lobby_data_update", self, "_on_lobby_data_updated")
-	Steam.disconnect("p2p_session_request", self, "_on_p2p_session_request")
-	Steam.disconnect("p2p_session_connect_fail", self, "_on_p2p_session_connect_fail")
-	PlatformService.service_provider.ugc_provider.disconnect("ugc_item_downloaded", self, "_on_ugc_item_downloaded")
-	YoutubeDL.disconnect("song_cached", self, "_on_song_cached")
-	PlatformService.service_provider.disconnect("run_mp_callbacks", self, "_on_p2p_packet_received")
+	Steam.disconnect("lobby_message", Callable(self, "_on_lobby_message"))
+	Steam.disconnect("lobby_chat_update", Callable(self, "_on_lobby_chat_update"))
+	Steam.disconnect("lobby_data_update", Callable(self, "_on_lobby_data_updated"))
+	Steam.disconnect("p2p_session_request", Callable(self, "_on_p2p_session_request"))
+	Steam.disconnect("p2p_session_connect_fail", Callable(self, "_on_p2p_session_connect_fail"))
+	PlatformService.service_provider.ugc_provider.disconnect("ugc_item_downloaded", Callable(self, "_on_ugc_item_downloaded"))
+	YoutubeDL.disconnect("song_cached", Callable(self, "_on_song_cached"))
+	PlatformService.service_provider.disconnect("run_mp_callbacks", Callable(self, "_on_p2p_packet_received"))
 	emit_signal("lobby_left")
 
 func is_owned_by_local_user():
@@ -250,7 +256,7 @@ func send_packet(data, send_type, channel, to_owner = false):
 
 func start_session():
 	if is_owned_by_local_user():
-		var data = PoolByteArray()
+		var data = PackedByteArray()
 		Steam.setLobbyJoinable(_lobby_id, false)
 		data.append(PACKET_TYPE.HANDSHAKE)
 		send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
@@ -263,13 +269,13 @@ func _on_p2p_packet_received():
 	var size = Steam.getAvailableP2PPacketSize(0)
 	if size > 0:
 		var packet = Steam.readP2PPacket(size, 0)
-		if packet.empty():
+		if packet.is_empty():
 			Log.log(self, "Empty P2P packet received with non-zero size")
 		var packet_type = packet.data[0]
 		var packet_data: Dictionary
 		#Log.log(self, get_lobby_name() + " Received P2P packet of type " + HBUtils.find_key(PACKET_TYPE, packet_type))
 		if size > 1:
-			packet_data = bytes2var(packet.data.subarray(1, size - 1))
+			packet_data = bytes_to_var(packet.data.subarray(1, size - 1))
 		if is_owned_by_local_user():
 			match packet_type:
 				PACKET_TYPE.LOADED:
@@ -303,19 +309,19 @@ func _on_p2p_session_request(remote_id):
 		Log.log(self, "User " + str(remote_id) + " is not in our lobby but tried to send us a P2P packet" + str(_lobby_id))
 	_on_p2p_packet_received()
 func notify_game_loaded():
-	var data = PoolByteArray()
+	var data = PackedByteArray()
 	data.append(PACKET_TYPE.LOADED)
 	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
 
 func start_game():
-	var data = PoolByteArray()
+	var data = PackedByteArray()
 	data.append(PACKET_TYPE.START_GAME)
 	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
 # Lets everyone else know that our score (and last rating) has changed
 func send_note_hit_update(score, rating):
-	var data = PoolByteArray()
+	var data = PackedByteArray()
 	data.append(PACKET_TYPE.NOTE_HIT)
-	data.append_array(var2bytes({
+	data.append_array(var_to_bytes({
 		"score": score,
 		"rating": rating
 	}))
@@ -338,9 +344,9 @@ func _on_p2p_session_connect_fail(lobby_id, session_error):
 		Log.log(self, "Session failure with "+str(lobby_id)+" [unknown error "+str(session_error)+"].")
 
 func notify_game_finished(result: HBResult):
-	var data = PoolByteArray()
+	var data = PackedByteArray()
 	data.append(PACKET_TYPE.GAME_DONE)
-	data.append_array(var2bytes(result.serialize()))
+	data.append_array(var_to_bytes(result.serialize()))
 	send_packet(data, PACKET_SEND_TYPE.RELIABLE, 0)
 	game_results[get_member_by_id(Steam.getSteamID())] = result
 	game_info.result = result

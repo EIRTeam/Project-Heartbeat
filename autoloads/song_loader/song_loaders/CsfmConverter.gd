@@ -109,7 +109,7 @@ static func musical_time_to_ms(beat: int, timing_changes: Array):
 	
 	return round(time * 1000.0)
 
-static func get_count_and_pointer(file: File, address: int = 0):
+static func get_count_and_pointer(file: FileAccess, address: int = 0):
 	var original_address = file.get_position()
 	if address:
 		file.seek(address)
@@ -122,7 +122,7 @@ static func get_count_and_pointer(file: File, address: int = 0):
 		file.seek(original_address)
 	return {"count": count, "address": data_address}
 
-static func get_entry_count_field_count_and_pointer(file: File, address: int = 0):
+static func get_entry_count_field_count_and_pointer(file: FileAccess, address: int = 0):
 	var original_address = file.get_position()
 	if address:
 		file.seek(address)
@@ -136,7 +136,7 @@ static func get_entry_count_field_count_and_pointer(file: File, address: int = 0
 		file.seek(original_address)
 	return {"entry_count": entry_count, "field_count": field_count, "address": data_address}
 
-static func get_string(file: File, address: int):
+static func get_string(file: FileAccess, address: int):
 	var original_address = file.get_position()
 	file.seek(address)
 	
@@ -147,9 +147,9 @@ static func get_string(file: File, address: int):
 		data.append(byte)
 	
 	file.seek(original_address)
-	return PoolByteArray(data).get_string_from_ascii()
+	return PackedByteArray(data).get_string_from_ascii()
 
-static func get_data(file: File):
+static func get_data(file: FileAccess):
 	var name_address := file.get_64()
 	var name = get_string(file, name_address)
 	var data := {"name": name.to_lower().replace(" ", "_"), "data": null}
@@ -266,8 +266,8 @@ func _sort_by_note_type(a, b):
 
 
 func convert_comfy_chart(file_path: String, offset: int):
-	var file := File.new()
-	if file.open(file_path, File.READ) != OK:
+	var file := FileAccess.open(file_path, FileAccess.READ)
+	if FileAccess.get_open_error() != OK:
 		print("ERROR: Invalid file.")
 		return null
 	
@@ -381,7 +381,7 @@ func convert_comfy_chart(file_path: String, offset: int):
 		time_groups[note_data.time].append(note_data)
 	
 	for time in time_groups:
-		time_groups[time].sort_custom(self, "_sort_by_note_type")
+		time_groups[time].sort_custom(Callable(self, "_sort_by_note_type"))
 		
 		for note_data in time_groups[time]:
 			if note_data.pos_modified:

@@ -10,14 +10,15 @@ func get_leadearboard_control():
 	return $Panel/MarginContainer/Leaderboard
 
 func _ready():
-	get_leadearboard_control().connect(\"entries_set\", self, \"show\")
+	super._ready()
+	get_leadearboard_control().connect(\"entries_set\", Callable(self, \"show\"))
 
 func _on_menu_enter(force_hard_transition = false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	hide()
 
 func _on_menu_exit(force_hard_transition = false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	
 	hide()
 
@@ -27,29 +28,29 @@ func _on_menu_exit(force_hard_transition = false):
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="."]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1915.0
-margin_bottom = 1075.0
-custom_styles/panel = ExtResource( 2 )
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 1915.0
+offset_bottom = 1075.0
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,8 +58,8 @@ __meta__ = {
 [node name="Leaderboard" parent="Panel/MarginContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1905.0
-margin_bottom = 1065.0
-rect_clip_content = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 1905.0
+offset_bottom = 1065.0
+clip_contents = true

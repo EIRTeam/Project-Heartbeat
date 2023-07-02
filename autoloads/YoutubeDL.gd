@@ -48,7 +48,7 @@ var unused_video_ids := []
 enum CACHING_STAGE {
 	STARTING,
 	DOWNLOADING_AUDIO,
-	PROCESSING_AUDIO
+	PROCESSING_AUDIO,
 	DOWNLOADING_VIDEO,
 }
 
@@ -106,7 +106,7 @@ class CachingQueueEntry:
 					download_speed = speed
 					mutex.unlock()
 					progress_changed = true
-					if extension.empty():
+					if extension.is_empty():
 						extension = s[4]
 		if progress_changed:
 			call_deferred("emit_signal", "download_progress_changed", download_progress, download_speed)
@@ -124,10 +124,10 @@ func _youtube_dl_updated(thread: Thread):
 func _update_youtube_dl(userdata):
 	Log.log(self, "Updating YTDL...")
 	var thread = userdata.thread
-	var dir = Directory.new()
 	var failed = false
-	if dir.open("res://third_party/youtube_dl") == OK:
-		dir.list_dir_begin()
+	var dir = DirAccess.open("res://third_party/youtube_dl")
+	if DirAccess.get_open_error() == OK:
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var dir_name = dir.get_next()
 		while dir_name != "":
 			if not dir.current_is_dir():
@@ -151,7 +151,7 @@ func _update_youtube_dl(userdata):
 	call_deferred("_youtube_dl_updated", thread)
 func update_youtube_dl():
 	var thread = Thread.new()
-	var result = thread.start(self, "_update_youtube_dl", {"thread": thread})
+	var result = thread.start(Callable(self, "_update_youtube_dl").bind({"thread": thread}))
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl copy: " + str(result), Log.LogLevel.ERROR)
 		
@@ -164,10 +164,10 @@ func _ready():
 func ensure_perms():
 	if OS.get_name() == "X11":
 		# Ensure YTDL can be executed on linoox
-		OS.execute("chmod", ["+x", get_ytdl_executable()], true)
-		OS.execute("chmod", ["+x", get_ffmpeg_executable()], true)
-		OS.execute("chmod", ["+x", get_ffprobe_executable()], true)
-		OS.execute("chmod", ["+x", get_aria2_executable()], true)
+		OS.execute("chmod", ["+x", get_ytdl_executable()])
+		OS.execute("chmod", ["+x", get_ffmpeg_executable()])
+		OS.execute("chmod", ["+x", get_ffprobe_executable()])
+		OS.execute("chmod", ["+x", get_aria2_executable()])
 
 func get_aria2_executable():
 	var path
@@ -183,38 +183,33 @@ func _init_ytdl():
 	
 	clean_temp_folder()
 	
-	var dir = Directory.new()
 	# A few versions ago we shipped certs with ytdl, but we don't do that anymore
-	var old_cert_file = YOUTUBE_DL_DIR + "/ca-certificates.crt"
-	if dir.file_exists(old_cert_file):
-		dir.remove(old_cert_file)
-	if not dir.dir_exists(YOUTUBE_DL_DIR):
-		dir.make_dir(YOUTUBE_DL_DIR)
-	if not dir.dir_exists(get_cache_dir()):
-		dir.make_dir_recursive(get_cache_dir())
-	if not dir.dir_exists(CACHE_FILE.get_base_dir()):
-		dir.make_dir(CACHE_FILE.get_base_dir())
-	if dir.file_exists(CACHE_FILE):
-		var file = File.new()
-		file.open(CACHE_FILE, File.READ)
-		var json = JSON.parse(file.get_as_text()) as JSONParseResult
-		if json.error == OK:
-			cache_meta = json.result
+	if not DirAccess.dir_exists_absolute(YOUTUBE_DL_DIR):
+		DirAccess.make_dir_recursive_absolute(YOUTUBE_DL_DIR)
+	if not DirAccess.dir_exists_absolute(get_cache_dir()):
+		DirAccess.make_dir_recursive_absolute(get_cache_dir())
+	if not DirAccess.dir_exists_absolute(CACHE_FILE.get_base_dir()):
+		DirAccess.make_dir_recursive_absolute(CACHE_FILE.get_base_dir())
+	if FileAccess.file_exists(CACHE_FILE):
+		var file = FileAccess.open(CACHE_FILE, FileAccess.READ)
+		var test_json_conv = JSON.new()
+		var err := test_json_conv.parse(file.get_as_text())
+		if err == OK:
+			cache_meta = test_json_conv.data
 			for id in cache_meta.cache:
 				if not cache_meta.cache[id] is Dictionary:
 					cache_meta.cache[id] = {}
 		else:
-			Log.log(self, "Error loading cache meta: " + str(json.error))
+			Log.log(self, "Error loading cache meta: " + str(test_json_conv.get_error_message()))
 	ensure_perms()
-	if dir.file_exists(YOUTUBE_DL_DIR + "/VERSION"):
+	if FileAccess.file_exists(YOUTUBE_DL_DIR + "/VERSION"):
 		
-		var file = File.new()
-		file.open(YOUTUBE_DL_DIR + "/VERSION", File.READ)
+		var file := FileAccess.open(YOUTUBE_DL_DIR + "/VERSION", FileAccess.READ)
 		var local_version = int(file.get_as_text())
 		Log.log(self, "Found youtube-dl version " + str(local_version))
 		file.close()
 		
-		file.open("res://third_party/youtube_dl/VERSION", File.READ)
+		file = FileAccess.open("res://third_party/youtube_dl/VERSION", FileAccess.READ)
 		var version = int(file.get_as_text())
 		
 		if version > local_version:
@@ -225,29 +220,28 @@ func _init_ytdl():
 	else:
 		update_youtube_dl()
 	
-	var d := Directory.new()
 	var cache_dir := get_cache_dir() as String
 	
-	if d.open(cache_dir) == OK:
-		d.list_dir_begin(true)
+	var d := DirAccess.open(cache_dir)
+	if DirAccess.get_open_error() == OK:
+		d.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var curr := d.get_next()
-		var f := File.new()
-		while not curr.empty():
+		while not curr.is_empty():
 			var video_id := curr.get_file().get_basename()
 			if curr.get_extension() in ["webm", "ogg", "mp4"]:
 				if not video_id in cache_meta.cache:
-					if f.open(cache_dir.plus_file(curr), File.READ) == OK:
-						unused_cache_size += f.get_len()
+					var f := FileAccess.open(cache_dir.path_join(curr), FileAccess.READ)
+					if FileAccess.get_open_error() == OK:
+						unused_cache_size += f.get_length()
 						if not video_id in unused_video_ids:
 							unused_video_ids.append(video_id)
 					f.close()
 			curr = d.get_next()
 
 func save_cache():
-	var file = File.new()
-	var video_cache_str := JSON.print(cache_meta, "  ")
+	var video_cache_str := JSON.stringify(cache_meta, "  ")
 	if video_cache_str:
-		file.open(CACHE_FILE, File.WRITE)
+		var file = FileAccess.open(CACHE_FILE, FileAccess.WRITE)
 		file.store_string(video_cache_str)
 	
 func get_ytdl_executable():
@@ -325,7 +319,6 @@ func get_ytdl_shared_params(handle_temp_files := false):
 	return shared_params
 
 func cleanup_video_media(video_id: String, video := false, audio := false):
-	var d := Directory.new()
 	var video_path := get_video_path(video_id, true)
 	var audio_path_temp := get_audio_path(video_id, true, true)
 	var audio_path := get_audio_path(video_id, true)
@@ -338,11 +331,11 @@ func cleanup_video_media(video_id: String, video := false, audio := false):
 		paths.append(audio_path_temp)
 	
 	for path in paths:
-		if d.file_exists(path):
-			d.remove(path)
+		if FileAccess.file_exists(path):
+			DirAccess.remove_absolute(path)
 
 func clean_temp_folder():
-	HBUtils.remove_recursive(get_cache_dir().plus_file("temp"))
+	HBUtils.remove_recursive(get_cache_dir().path_join("temp"))
 
 func _download_video(userdata):
 	var download_video = userdata.download_video
@@ -399,23 +392,22 @@ func _download_video(userdata):
 			entry.caching_stage = CACHING_STAGE.PROCESSING_AUDIO
 			entry.current_process = ffmpeg_process
 			entry.mutex.unlock()
-			var dir = Directory.new()
 			
 			while ffmpeg_process.get_exit_status() == -1:
 				entry.process_download_progress(ffmpeg_process)
 				
-			dir.remove(get_audio_path(userdata.video_id, true, true))
+			DirAccess.remove_absolute(get_audio_path(userdata.video_id, true, true))
 				
 			var ffmpeg_error_code := ffmpeg_process.get_exit_status()
 			
 			# Audio conversion error handling
 			if ffmpeg_error_code != OK:
-				var stderr_lines := PoolStringArray()
+				var stderr_lines := PackedStringArray()
 				
 				for _i in range(ffmpeg_process.get_available_stderr_lines()):
 					stderr_lines.append(ffmpeg_process.get_stderr_line())
 				
-				result["audio_out"] = stderr_lines.join("")
+				result["audio_out"] = "".join(stderr_lines)
 				result["audio"] = false
 				audio_download_ok = false
 			else:
@@ -456,7 +448,7 @@ func _download_video(userdata):
 		
 		var exit_code := download_process.get_exit_status()
 
-		if exit_code != OK or entry.extension.empty():
+		if exit_code != OK or entry.extension.is_empty():
 			result["video"] = false
 			if exit_code != OK:
 				result["video_out"] = get_ytdl_error(download_process)
@@ -465,8 +457,7 @@ func _download_video(userdata):
 		else:
 			result["video"] = true
 			var video_path := get_video_path(userdata.video_id).get_basename() + "." + entry.extension
-			var f := File.new()
-			if f.file_exists(video_path):
+			if FileAccess.file_exists(video_path):
 				cache_meta_mutex.lock()
 				cache_meta.cache[userdata.video_id]["video"] = true
 				cache_meta.cache[userdata.video_id]["video_ext"] = entry.extension
@@ -481,7 +472,7 @@ func _download_video(userdata):
 	call_deferred("_video_downloaded", userdata.thread, result)
 	
 func show_error(output: String, message: String, song: HBSong):
-	var progress_thing = PROGRESS_THING.instance()
+	var progress_thing = PROGRESS_THING.instantiate()
 	DownloadProgress.add_notification(progress_thing, true)
 	progress_thing.type = HBDownloadProgressThing.TYPE.ERROR
 	var error_message = output.split("\n")
@@ -524,7 +515,7 @@ func _video_downloaded(thread: Thread, result):
 			has_error = true
 			show_error(result.audio_out, "Error downloading audio for {song_title}. ({error_message})", current_song)
 	if not has_error:
-		var progress_thing = PROGRESS_THING.instance()
+		var progress_thing = PROGRESS_THING.instantiate()
 		DownloadProgress.add_notification(progress_thing, true)
 		progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
 		progress_thing.text = "Finished downloading media for %s." % [tracked_video_downloads[result.video_id].song.get_visible_title()]
@@ -543,11 +534,9 @@ func _video_downloaded(thread: Thread, result):
 	save_cache()
 	
 func video_exists(video_id):
-	var file = File.new()
-	return file.file_exists(get_video_path(video_id))
+	return FileAccess.file_exists(get_video_path(video_id))
 func audio_exists(video_id):
-	var file = File.new()
-	return file.file_exists(get_audio_path(video_id))
+	return FileAccess.file_exists(get_audio_path(video_id))
 	
 ## Starts threaded video download immediately
 func download_video(entry: CachingQueueEntry):
@@ -589,7 +578,7 @@ func download_video(entry: CachingQueueEntry):
 			return ERR_ALREADY_EXISTS
 	video_ids_being_cached.append(video_id)
 	emit_signal("song_download_start", song)
-	var result = thread.start(self, "_download_video", {"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry})
+	var result = thread.start(Callable(self, "_download_video").bind({"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry}))
 	entry.thread = thread
 	if result != OK:
 		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
@@ -600,7 +589,8 @@ func get_video_id(url: String):
 	var result = regex.search(url)
 	if result:
 		return result.get_string(2)
-
+	else:
+		breakpoint
 func validate_video_url(url):
 	return get_video_id(url) != null
 
@@ -638,7 +628,7 @@ func cache_song(song: HBSong, variant := -1):
 		caching_queue.append(entry)
 		process_queue()
 	else:
-		var progress_thing = PROGRESS_THING.instance()
+		var progress_thing = PROGRESS_THING.instantiate()
 		DownloadProgress.add_notification(progress_thing)
 		progress_thing.set_type(HBDownloadProgressThing.TYPE.ERROR)
 		progress_thing.life_timer = 2.0
@@ -646,7 +636,7 @@ func cache_song(song: HBSong, variant := -1):
 
 func process_queue(offset := 0):
 	if YoutubeDL.status != YoutubeDL.YOUTUBE_DL_STATUS.READY:
-		yield(self, "youtube_dl_status_updated")
+		await self.youtube_dl_status_updated
 	if caching_queue.size() > offset:
 		if tracked_video_downloads.size() >= UserSettings.user_settings.max_simultaneous_media_downloads:
 			return
@@ -662,8 +652,8 @@ func process_queue(offset := 0):
 				return
 			var result = download_video(entry)
 			if result == ERR_ALREADY_EXISTS:
-				caching_queue.remove(offset)
-				var progress_thing = PROGRESS_THING.instance()
+				caching_queue.remove_at(offset)
+				var progress_thing = PROGRESS_THING.instantiate()
 				DownloadProgress.add_notification(progress_thing, true)
 				progress_thing.type = HBDownloadProgressThing.TYPE.SUCCESS
 				progress_thing.text = "Finished downloading media for %s (Already downloaded)." % [song.get_visible_title()]
@@ -675,7 +665,7 @@ func process_queue(offset := 0):
 				process_queue(offset+1)
 				return
 			
-			var progress_thing = PROGRESS_THING.instance()
+			var progress_thing = PROGRESS_THING.instantiate()
 			DownloadProgress.add_notification(progress_thing)
 			progress_thing.spinning = true
 			progress_thing.set_type(HBDownloadProgressThing.TYPE.NORMAL)
@@ -688,7 +678,7 @@ func process_queue(offset := 0):
 				"entry": entry,
 				"video_id": video_id
 			}
-			caching_queue.remove(offset)
+			caching_queue.remove_at(offset)
 			emit_signal("song_queued", entry)
 			if tracked_video_downloads.size() < UserSettings.user_settings.max_simultaneous_media_downloads:
 				process_queue(offset)
@@ -748,7 +738,7 @@ func cancel_song_download(entry: CachingQueueEntry):
 			caching_queue.erase(entry)
 	else:
 		var download_data := tracked_video_downloads.get(get_video_id(variant_data.variant_url), {}) as Dictionary
-		if not download_data.empty():
+		if not download_data.is_empty():
 			tracked_video_downloads.erase(entry.video_id)
 			video_ids_being_cached.erase(entry.video_id)
 			entry.abort_download()
@@ -767,13 +757,14 @@ func get_video_info_json(video_url: String):
 	var shared_params = get_ytdl_shared_params()
 	shared_params += ["--dump-json", video_url]
 	var cmd_out = []
-	var err = OS.execute(get_ytdl_executable(), shared_params, true, cmd_out, false)
+	var err = OS.execute(get_ytdl_executable(), shared_params, cmd_out, true)
 	var out_dict = {}
 	if err == OK:
 		for line in cmd_out[0].split("\n"):
-			var parse_result := JSON.parse(line)
-			if parse_result.error == OK:
-				out_dict = parse_result.result
+			var test_json_conv = JSON.new()
+			var parse_err := test_json_conv.parse(line)
+			if parse_err == OK:
+				out_dict = test_json_conv.data
 				break
 	else:
 		var error_str := "Unknown error"
@@ -799,6 +790,6 @@ func clear_unused_media():
 	unused_video_ids.clear()
 
 func _notification(what):
-	if what == NOTIFICATION_WM_QUIT_REQUEST:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		for entry in caching_queue:
 			entry.abort_download()

@@ -2,8 +2,8 @@
 
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=3]
-[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=4]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=3]
+[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture2D" id=4]
 [ext_resource path="res://menus/ModifierSelector.gd" type="Script" id=5]
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=6]
 
@@ -12,10 +12,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -361.0
-margin_top = -267.0
-margin_right = 361.0
-margin_bottom = 267.0
+offset_left = -361.0
+offset_top = -267.0
+offset_right = 361.0
+offset_bottom = 267.0
 theme = ExtResource( 6 )
 script = ExtResource( 5 )
 __meta__ = {
@@ -30,27 +30,27 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-margin_right = 722.0
-margin_bottom = 392.0
+offset_right = 722.0
+offset_bottom = 392.0
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 712.0
-margin_bottom = 382.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 712.0
+offset_bottom = 382.0
 focus_mode = 2
 script = ExtResource( 1 )
 __meta__ = {
@@ -59,53 +59,53 @@ __meta__ = {
 orientation = 1
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
-margin_top = 396.0
-margin_right = 722.0
-margin_bottom = 534.0
+offset_top = 396.0
+offset_right = 722.0
+offset_bottom = 534.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.35
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_left = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
-margin_left = 20.0
-margin_right = 702.0
-margin_bottom = 138.0
-custom_constants/separation = 15
+offset_left = 20.0
+offset_right = 702.0
+offset_bottom = 138.0
+theme_override_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
-margin_right = 30.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 30, 0 )
+offset_right = 30.0
+offset_bottom = 138.0
+custom_minimum_size = Vector2( 30, 0 )
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 30.0
-margin_bottom = 138.0
+offset_right = 30.0
+offset_bottom = 138.0
 size_flags_vertical = 3
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/HBoxContainer"]
-margin_left = 45.0
-margin_right = 682.0
-margin_bottom = 138.0
+offset_left = 45.0
+offset_right = 682.0
+offset_bottom = 138.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Makes everyone sound like anime girls, who would have thought?"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true

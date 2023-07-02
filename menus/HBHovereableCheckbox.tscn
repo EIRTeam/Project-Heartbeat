@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://HBHovereableCheckbox.gd" type="Script" id=1]
-[ext_resource path="res://graphics/icons/checkbox-marked-small.png" type="Texture" id=2]
-[ext_resource path="res://graphics/icons/checkbox-blank-outline-small.png" type="Texture" id=3]
-[ext_resource path="res://fonts/Default_Font_Bigger.tres" type="DynamicFont" id=4]
+[ext_resource path="res://graphics/icons/checkbox-marked-small.png" type="Texture2D" id=2]
+[ext_resource path="res://graphics/icons/checkbox-blank-outline-small.png" type="Texture2D" id=3]
+[ext_resource path="res://fonts/Default_Font_Bigger.tres" type="FontFile" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 4.0
@@ -30,22 +30,22 @@ content_margin_bottom = 2.0
 [sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="CheckBox" type="CheckBox"]
-margin_top = 152.0
-margin_right = 190.0
-margin_bottom = 192.0
-custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
-custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
-custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 4 )
-custom_icons/checked = ExtResource( 2 )
-custom_icons/unchecked = ExtResource( 3 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 3 )
-custom_styles/hover_pressed = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
+offset_top = 152.0
+offset_right = 190.0
+offset_bottom = 192.0
+theme_override_colors/font_focus_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_hover_pressed_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_hover_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_pressed_color = Color( 1, 1, 1, 1 )
+theme_override_fonts/font = ExtResource( 4 )
+theme_override_icons/checked = ExtResource( 2 )
+theme_override_icons/unchecked = ExtResource( 3 )
+theme_override_styles/hover = SubResource( 1 )
+theme_override_styles/pressed = SubResource( 2 )
+theme_override_styles/focus = SubResource( 3 )
+theme_override_styles/hover_pressed = SubResource( 1 )
+theme_override_styles/normal = SubResource( 2 )
 text = "asdasdasdsadsadasdsa"
 script = ExtResource( 1 )
 normal_style = SubResource( 2 )

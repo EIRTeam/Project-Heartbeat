@@ -67,7 +67,7 @@ static func pv_time_to_ms(pv_time: int):
 	# 72k pv time units: 20 mins
 	return (pv_time * 20.0) / 72000.0
 
-static func swap_endianness(src: PoolByteArray):
+static func swap_endianness(src: PackedByteArray):
 	var out = src
 	
 	var i = 0
@@ -134,11 +134,11 @@ static func edit_time_to_ms(bar: int, beat: int, bpm_changes: Array, signature_c
 
 
 static func convert_edit_to_chart(file_path: String, offset: int, convert_link_stars: bool) -> Array:
-	var file := File.new()
-	if file.open(file_path, File.READ) != OK:
+	var file := FileAccess.open(file_path, FileAccess.READ)
+	if FileAccess.get_open_error() != OK:
 		print("ERROR: Invalid file.")
 		return [null, []]
-	file.endian_swap = true
+	file.big_endian = true
 	
 	# Header data
 	var magic_bytes = 0x00000064
@@ -365,7 +365,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 		
 		if raw_type in [NOTE_TYPE.LINK_STAR, NOTE_TYPE.LINK_STAR_END]:
 			if previous_link_star:
-				entry_angle = rad2deg(position.angle_to_point(previous_link_star.position)) + 90
+				entry_angle = rad_to_deg(position.angle_to_point(previous_link_star.position)) + 90
 				
 				if convert_link_stars:
 					entry_angle += 90
@@ -391,7 +391,7 @@ static func convert_edit_to_chart(file_path: String, offset: int, convert_link_s
 	# something thats more elegant.
 	var tempo_changes = []
 	var _tempo_changes = bpm_changes + time_signature_changes
-	_tempo_changes.sort_custom(HBUtils, "_sort_by_bar")
+	_tempo_changes.sort_custom(Callable(HBUtils, "_sort_by_bar"))
 	
 	var last_tempo_change
 	for tempo_change in _tempo_changes:

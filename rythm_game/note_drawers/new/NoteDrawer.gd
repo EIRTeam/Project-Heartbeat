@@ -2,7 +2,7 @@ extends Node2D
 
 class_name HBNewNoteDrawer
 
-var note_data: HBBaseNote setget set_note_data
+var note_data: HBBaseNote: set = set_note_data
 var appear_animation_enabled := true
 var disable_autoplay := false # disables autoplay for some notes, used for slide chain pieces mainly
 
@@ -13,12 +13,12 @@ const SCHEDULE_MARGIN := 100
 
 func set_note_data(val):
 	note_data = val
-	note_data.connect("parameter_changed", self, "_on_note_parameter_changed_received")
+	note_data.connect("parameter_changed", Callable(self, "_on_note_parameter_changed_received"))
 
 var parameters_changed_this_frame := []
 
 func _on_note_parameter_changed_received(parameter_name: String):
-	if parameters_changed_this_frame.empty():
+	if parameters_changed_this_frame.is_empty():
 		call_deferred("_on_note_parameter_changed")
 	parameters_changed_this_frame.append(parameter_name)
 
@@ -37,11 +37,11 @@ func _on_note_parameter_changed():
 var sine_drawer: SineDrawerCPU
 var disable_trail_margin := false
 
-onready var appear_animation_tween := Tween.new()
-onready var note_target_graphics: NoteTarget = get_node("NoteTarget")
-onready var note_graphics: NoteGraphics = get_node("Note")
+@onready var appear_animation_tween := Threen.new()
+@onready var note_target_graphics: NoteTarget = get_node("NoteTarget")
+@onready var note_graphics: NoteGraphics = get_node("Note")
 
-onready var current_note_tween: SceneTreeTween
+@onready var current_note_tween: Tween
 
 var layer_bound_node_datas = []
 
@@ -50,21 +50,21 @@ signal remove_node_from_layer(layer_name, node)
 signal judged(judgement, independent, target_time, event)
 signal finished
 
-onready var appear_particles_node = preload("res://menus/AppearParticles.tscn").instance()
+@onready var appear_particles_node = preload("res://menus/AppearParticles.tscn").instantiate()
 
 var game
 
 class LayerBoundNodeData:
 	var node: Node2D
 	var remote_transform = null
-	var source_transform = source_transform
+	var source_transform
 	var layer_name: String
 	var node_self_visibility = false # for storing the old visibility of the node
 	
 	func _on_node_self_visibility_changed():
 		node_self_visibility = node.visible
 
-var enable_trail := false setget set_enable_trail
+var enable_trail := false: set = set_enable_trail
 
 func set_enable_trail(val):
 	if enable_trail != val:
@@ -78,7 +78,7 @@ func set_enable_trail(val):
 			free_node_bind(sine_drawer)
 			sine_drawer.queue_free()
 
-var is_multi_note := false setget set_is_multi_note
+var is_multi_note := false: set = set_is_multi_note
 
 func set_is_multi_note(val):
 	if is_inside_tree():
@@ -137,7 +137,7 @@ func bind_node_to_layer(node: Node2D, layer_name: String, source_transform = nul
 		data.remote_transform = remote_transform
 		data.source_transform = source_transform
 	data.node_self_visibility = node.visible
-	node.connect("visibility_changed", data, "_on_node_self_visibility_changed")
+	node.connect("visibility_changed", Callable(data, "_on_node_self_visibility_changed"))
 	node.set_meta("layer_bind", data)
 	if is_inside_tree():
 		add_bind_to_tree(data)
@@ -220,7 +220,7 @@ func _notification(what):
 
 func show_note_hit_effect(target_pos: Vector2):
 	var effect_scene = preload("res://graphics/effects/NoteHitEffect.tscn")
-	var effect = effect_scene.instance()
+	var effect = effect_scene.instantiate()
 	effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
 	game.game_ui.get_drawing_layer_node("HitParticles").add_child(effect)
 	effect.position = target_pos

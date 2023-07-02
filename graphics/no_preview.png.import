@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/no_preview.png-03df5aad51de2249cb267151d941e2a8.image"
+uid="uid://c2e01eeefmo4n"
+path="res://.godot/imported/no_preview.png-03df5aad51de2249cb267151d941e2a8.image"
 
 [deps]
 
 source_file="res://graphics/no_preview.png"
-dest_files=[ "res://.import/no_preview.png-03df5aad51de2249cb267151d941e2a8.image" ]
+dest_files=["res://.godot/imported/no_preview.png-03df5aad51de2249cb267151d941e2a8.image"]
 
 [params]
 

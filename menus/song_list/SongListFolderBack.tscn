@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://graphics/icons/undo-variant.svg" type="Texture" id=1]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=2]
+[ext_resource path="res://graphics/icons/undo-variant.svg" type="Texture2D" id=1]
+[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=2]
 [ext_resource path="res://styles/SongListItemHover.tres" type="StyleBox" id=3]
 [ext_resource path="res://styles/SongListItemNormal.tres" type="StyleBox" id=4]
 [ext_resource path="res://menus/song_list/SongListFolderBack.gd" type="Script" id=5]
@@ -12,8 +12,8 @@ default_font = ExtResource( 2 )
 [node name="Control" type="Control"]
 use_parent_material = true
 anchor_right = 1.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 0, 100 )
 focus_mode = 2
 size_flags_horizontal = 3
 script = ExtResource( 5 )
@@ -24,16 +24,16 @@ node_to_scale_path = NodePath("Control")
 
 [node name="Control" type="Button" parent="."]
 use_parent_material = true
-margin_left = 50.0
-margin_top = 25.0
-margin_right = 1720.0
-margin_bottom = 75.0
+offset_left = 50.0
+offset_top = 25.0
+offset_right = 1720.0
+offset_bottom = 75.0
 focus_mode = 0
 size_flags_horizontal = 3
-custom_styles/hover = ExtResource( 3 )
-custom_styles/pressed = ExtResource( 3 )
-custom_styles/normal = ExtResource( 4 )
-custom_constants/hseparation = 0
+theme_override_styles/hover = ExtResource( 3 )
+theme_override_styles/pressed = ExtResource( 3 )
+theme_override_styles/normal = ExtResource( 4 )
+theme_override_constants/h_separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -43,69 +43,69 @@ use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_top = 0
-custom_constants/margin_left = 62
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 62
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 use_parent_material = true
-margin_left = 62.0
-margin_right = 1670.0
-margin_bottom = 50.0
+offset_left = 62.0
+offset_right = 1670.0
+offset_bottom = 50.0
 mouse_filter = 2
-custom_constants/separation = 7
+theme_override_constants/separation = 7
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/HBoxContainer"]
 use_parent_material = true
-margin_right = 137.0
-margin_bottom = 50.0
+offset_right = 137.0
+offset_bottom = 50.0
 mouse_filter = 2
-custom_constants/margin_top = 7
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer"]
 use_parent_material = true
-margin_top = 7.0
-margin_right = 137.0
-margin_bottom = 50.0
+offset_top = 7.0
+offset_right = 137.0
+offset_bottom = 50.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 use_parent_material = true
-margin_right = 137.0
-margin_bottom = 43.0
+offset_right = 137.0
+offset_bottom = 43.0
 mouse_filter = 2
 size_flags_vertical = 3
-custom_constants/separation = 20
+theme_override_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="FolderName" type="Label" parent="Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 use_parent_material = true
-margin_right = 137.0
-margin_bottom = 43.0
+offset_right = 137.0
+offset_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 7
 theme = SubResource( 2 )
 text = "Go back"
-valign = 1
+vertical_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
 use_parent_material = true
-margin_left = -87.747
-margin_top = -35.0
-margin_right = 87.253
-margin_bottom = 90.0
-rect_min_size = Vector2( 175, 125 )
+offset_left = -87.747
+offset_top = -35.0
+offset_right = 87.253
+offset_bottom = 90.0
+custom_minimum_size = Vector2( 175, 125 )
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2

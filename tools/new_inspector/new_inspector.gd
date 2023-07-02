@@ -2,21 +2,21 @@ extends PanelContainer
 
 class_name HBInspectorMK2
 
-onready var vbox_container := get_node("ScrollContainer/VBoxContainer")
+@onready var vbox_container := get_node("ScrollContainer/VBoxContainer")
 
 var current_object: Object
 var resource_storage := HBInspectorResourceStorage.new()
-onready var name_label := Label.new()
+@onready var name_label := Label.new()
 
 signal value_changed(object)
 
 class TestObj:
 	extends Control
-	export var test1: float = 1.0
-	export var test2: int = 1
+	@export var test1: float = 1.0
+	@export var test2: int = 1
 	func get_hb_inspector_whitelist() -> Array:
 		return [
-			"margin_left", "margin_right", "margin_top", "margin_bottom",
+			"offset_left", "offset_right", "offset_top", "offset_bottom",
 			"anchor_left", "anchor_right", "anchor_top", "anchor_bottom"
 		]
 
@@ -52,7 +52,7 @@ func inspect(to_inspect: Object):
 						sc = HBInspectorPropertyEditorEnum.new()
 					else:
 						sc = HBInspectorPropertyEditorReal.new()
-				TYPE_REAL:
+				TYPE_FLOAT:
 					sc = HBInspectorPropertyEditorReal.new()
 				TYPE_COLOR:
 					sc = HBInspectorPropertyEditorColor.new()
@@ -65,12 +65,12 @@ func inspect(to_inspect: Object):
 					elif property.get("hint", PROPERTY_HINT_NONE) == PROPERTY_HINT_RESOURCE_TYPE:
 						var hint_str := property.get("hint_string", "") as String
 						match hint_str: 
-							"Texture":
+							"Texture2D":
 								sc = HBInspectorPropertyEditTexture.new()
 								sc.resource_storage = resource_storage
 					else:
 						match property.get("class_name", ""):
-							"DynamicFont":
+							"FontFile":
 								sc = HBInspectorPropertyEditFont.new()
 								sc.resource_storage = resource_storage
 			if sc:
@@ -80,7 +80,7 @@ func inspect(to_inspect: Object):
 				property_inspectors[property.name] = sc
 				sc.set_property_data(property)
 				sc.set_value(current_object.get(property.name))
-				sc.connect("value_changed", self, "_on_user_value_changed", [property.name])
+				sc.connect("value_changed", Callable(self, "_on_user_value_changed").bind(property.name))
 
 func _on_user_value_changed(value, property_name: String):
 	current_object.set(property_name, value)

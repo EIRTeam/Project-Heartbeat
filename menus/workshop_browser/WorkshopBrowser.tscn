@@ -1,146 +1,124 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=3 uid="uid://d1ybtyf1sffqy"]
 
-[ext_resource path="res://menus/workshop_browser/WorkshopBrowser.gd" type="Script" id=1]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=2]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/menu-left.svg" type="Texture" id=4]
-[ext_resource path="res://graphics/icons/menu-right.svg" type="Texture" id=5]
-[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=6]
-[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=7]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=8]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=9]
-[ext_resource path="res://menus/HBTextInput.tscn" type="PackedScene" id=10]
-[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=11]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=12]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=13]
+[ext_resource type="Script" path="res://menus/workshop_browser/WorkshopBrowser.gd" id="1"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://bpgc6vwbd27s7" path="res://graphics/icons/menu-left.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://u7u60edt283r" path="res://graphics/icons/menu-right.svg" id="5"]
+[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="6"]
+[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="8"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="9"]
+[ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="11"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12"]
+[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 resource_name = "spin"
-loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1e-05 ),
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1e-05),
 "update": 0,
-"values": [ 180.0, 0.0, -180.0 ]
+"values": [180.0, 0.0, -180.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lg87n"]
+_data = {
+"spin": SubResource("1")
 }
 
 [node name="WorkshopBrowser" type="Control"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1910.0
-margin_bottom = 1070.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1910.0
+offset_bottom = 1070.0
+script = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -0.840897
-margin_bottom = -0.840942
-theme = ExtResource( 9 )
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+offset_top = -0.840897
+offset_bottom = -0.840942
+theme = ExtResource("9")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="Control" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1895.0
-margin_bottom = 1055.0
-custom_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Control"]
-margin_right = 1890.0
-margin_bottom = 31.0
-custom_constants/separation = 10
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="PromptInputAction2" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource( 13 )]
-margin_left = 927.0
-margin_right = 935.0
-margin_bottom = 31.0
+[node name="PromptInputAction2" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource("13")]
+layout_mode = 2
 input_action = "gui_tab_left"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer4"]
-margin_left = 945.0
-margin_right = 945.0
-margin_bottom = 31.0
-custom_constants/separation = 10
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
-script = ExtResource( 3 )
+script = ExtResource("3")
 
-[node name="PromptInputAction" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource( 13 )]
-margin_left = 955.0
-margin_right = 963.0
-margin_bottom = 31.0
+[node name="PromptInputAction" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource("13")]
+layout_mode = 2
 input_action = "gui_tab_right"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control"]
-margin_top = 41.0
-margin_right = 1890.0
-margin_bottom = 81.0
-rect_min_size = Vector2( 0, 40 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 
-[node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource( 11 )]
-margin_right = 163.0
-rect_min_size = Vector2( 163, 39 )
+[node name="Panel4" parent="MarginContainer/Control/HBoxContainer2" instance=ExtResource("11")]
+custom_minimum_size = Vector2(127, 33)
+layout_mode = 2
 action_name = "gui_search"
 text = "Search"
 
 [node name="SearchTitle" type="Label" parent="MarginContainer/Control/HBoxContainer2"]
-margin_left = 167.0
-margin_right = 1392.0
-margin_bottom = 39.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Most popular for the last week"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
-margin_left = 1396.0
-margin_right = 1705.0
-margin_bottom = 40.0
+layout_mode = 2
 alignment = 2
 
-[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource( 11 )]
-margin_right = 309.0
-rect_min_size = Vector2( 309, 39 )
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer" instance=ExtResource("11")]
+custom_minimum_size = Vector2(220, 33)
+layout_mode = 2
 action_name = "note_left"
 text = "Filter by Difficulty"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer2"]
-margin_left = 1709.0
-margin_right = 1890.0
-margin_bottom = 40.0
+layout_mode = 2
 alignment = 2
 
-[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" instance=ExtResource( 11 )]
-margin_right = 181.0
-rect_min_size = Vector2( 181, 39 )
+[node name="Panel5" parent="MarginContainer/Control/HBoxContainer2/HBoxContainer2" instance=ExtResource("11")]
+custom_minimum_size = Vector2(139, 33)
+layout_mode = 2
 action_name = "note_up"
 text = "Sort by..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Control"]
-margin_top = 91.0
-margin_right = 1890.0
-margin_bottom = 978.0
-focus_mode = 2
+layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+focus_mode = 2
+script = ExtResource("7")
 container_path = NodePath("GridContainer")
 horizontal_step = 0
 enable_fade = true
@@ -148,155 +126,105 @@ scroll_mode = 1
 
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer"]
 use_parent_material = true
-margin_right = 1890.0
-margin_bottom = 887.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Control"]
-margin_top = 988.0
-margin_right = 1890.0
-margin_bottom = 1050.0
-rect_min_size = Vector2( 0, 40 )
-focus_neighbour_top = NodePath("../ScrollContainer")
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_neighbor_top = NodePath("../ScrollContainer")
 focus_mode = 2
-custom_constants/separation = 29
+theme_override_constants/separation = 29
 alignment = 1
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="HBHovereableButton" type="Button" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 816.0
-margin_right = 878.0
-margin_bottom = 62.0
-icon = ExtResource( 4 )
-script = ExtResource( 2 )
+layout_mode = 2
+icon = ExtResource("4")
+script = ExtResource("2")
 
 [node name="Label" type="Label" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 907.0
-margin_right = 983.0
-margin_bottom = 61.0
-custom_fonts/font = ExtResource( 6 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6")
 text = "1/1"
 
 [node name="HBHovereableButton2" type="Button" parent="MarginContainer/Control/HBoxContainer"]
-margin_left = 1012.0
-margin_right = 1074.0
-margin_bottom = 62.0
-icon = ExtResource( 5 )
-script = ExtResource( 2 )
+layout_mode = 2
+icon = ExtResource("5")
+script = ExtResource("2")
 
 [node name="CenterContainer2" type="CenterContainer" parent="MarginContainer"]
 visible = false
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1895.0
-margin_bottom = 1055.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/CenterContainer2"]
-margin_left = 945.0
-margin_top = 525.0
-margin_right = 945.0
-margin_bottom = 525.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 8 )
-expand = true
+texture = ExtResource("8")
+expand_mode = 1
 stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/CenterContainer2"]
-playback_speed = -1.0
-anims/spin = SubResource( 1 )
+libraries = {
+"": SubResource("AnimationLibrary_lg87n")
+}
 
-[node name="HBConfirmationWindow" parent="." instance=ExtResource( 10 )]
-visible = true
-margin_left = -275.0
-margin_right = 275.0
-margin_bottom = 101.0
-
-[node name="VBoxContainer" parent="HBConfirmationWindow/Panel/MarginContainer" index="0"]
-margin_bottom = 194.0
+[node name="HBConfirmationWindow" parent="." instance=ExtResource("10")]
+visible = false
 
 [node name="Label" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="0"]
-margin_top = 55.0
-margin_bottom = 94.0
 text = "Enter your search:"
 
-[node name="LineEdit" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="1"]
-margin_top = 104.0
-margin_bottom = 139.0
-
-[node name="Panel4" parent="HBConfirmationWindow/Panel/HBoxContainer" index="0"]
-margin_left = 109.0
-margin_right = 269.0
-
-[node name="Label" parent="HBConfirmationWindow/Panel/HBoxContainer/Panel4/HBoxContainer" index="1"]
-margin_right = 150.0
-
-[node name="CancelButton" parent="HBConfirmationWindow/Panel/HBoxContainer" index="1"]
-margin_left = 284.0
-margin_right = 441.0
-
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -205.5
-margin_top = -113.0
-margin_right = 205.5
-margin_bottom = 113.0
-custom_styles/panel = ExtResource( 12 )
+offset_left = -205.5
+offset_top = -113.0
+offset_right = 205.5
+offset_bottom = 113.0
+theme_override_styles/panel = ExtResource("12")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 401.0
-margin_bottom = 216.0
-focus_mode = 2
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 10
-script = ExtResource( 3 )
-__meta__ = {
-"_editor_description_": ""
-}
+focus_mode = 2
+theme_override_constants/separation = 10
+script = ExtResource("3")
 
 [node name="StarFilterPanelContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-margin_right = 92.0
-margin_bottom = 110.0
-custom_styles/panel = ExtResource( 12 )
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 110.0
+theme_override_styles/panel = ExtResource("12")
 
 [node name="StarFilterVBoxContainer" type="VBoxContainer" parent="StarFilterPanelContainer"]
 unique_name_in_owner = true
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 90.0
-margin_bottom = 108.0
+layout_mode = 2
 focus_mode = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 orientation = 1
 enable_wrap_around = true
 
 [connection signal="out_from_bottom" from="MarginContainer/Control/ScrollContainer" to="." method="_on_ScrollContainer_out_from_bottom"]
 [connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
-[connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="select_item" binds= [ 0 ]]
+[connection signal="bottom" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="select_item" binds= [0]]
 [connection signal="out_from_top" from="MarginContainer/Control/HBoxContainer" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="cancel" from="HBConfirmationWindow" to="MarginContainer/Control/ScrollContainer" method="grab_focus"]
 [connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]

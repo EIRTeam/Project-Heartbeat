@@ -4,19 +4,19 @@
 [ext_resource path="res://tools/editor/widgets/MovementGizmo.gd" type="Script" id=3]
 
 [node name="NoteMovementWidget" type="Control"]
-margin_right = 100.0
-margin_bottom = 100.0
+offset_right = 100.0
+offset_bottom = 100.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MovementGizmo" type="Control" parent="."]
-margin_left = 40.0
-margin_top = 40.0
-margin_right = 60.0
-margin_bottom = 60.0
-rect_pivot_offset = Vector2( 20, 20 )
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 60.0
+offset_bottom = 60.0
+pivot_offset = Vector2( 20, 20 )
 script = ExtResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -25,10 +25,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 mouse_filter = 2
 expand = true
 stretch_mode = 1

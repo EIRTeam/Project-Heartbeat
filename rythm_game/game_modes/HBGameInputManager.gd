@@ -11,7 +11,7 @@ func _init():
 	name = "GameInputManager"
 
 func _ready():
-	pause_mode = Node.PAUSE_MODE_PROCESS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func get_action_press_count(action):
 	return 0
@@ -71,7 +71,7 @@ func get_event_uid(event):
 	var ev_scancode = 0
 	ev_device = event.device
 	if event is InputEventKey:
-		ev_scancode = event.scancode
+		ev_scancode = event.keycode
 	elif event is InputEventJoypadButton:
 		ev_scancode = event.button_index
 	elif event is InputEventJoypadMotion:

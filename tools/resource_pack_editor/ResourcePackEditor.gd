@@ -1,37 +1,37 @@
 extends Control
 
-onready var tree: Tree = get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/Tree")
-onready var open_resource_pack_dialog := get_node("OpenResourcePackDialog")
-onready var open_graphic_file_dialog := get_node("FileDialog")
+@onready var tree: Tree = get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/Tree")
+@onready var open_resource_pack_dialog := get_node("OpenResourcePackDialog")
+@onready var open_graphic_file_dialog := get_node("FileDialog")
 
 const SUBGRAPHIC_TYPES := ["note", "target", "multi_note", "multi_note_target"]
 const SUBGRAPHIC_TYPES_NORMAL_NOTES := ["sustain_note", "sustain_target", "double_target", "double_note"]
 
 
-onready var top_level_tab_container := get_node("VBoxContainer/TabContainer")
-onready var atlas_preview_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewTextureRect")
-onready var atlas_preview_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
-onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
-onready var metatlas_tab_container := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer")
+@onready var top_level_tab_container := get_node("VBoxContainer/TabContainer")
+@onready var atlas_preview_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewTextureRect")
+@onready var atlas_preview_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/AtlasPreviewLabel")
+@onready var remove_graphic_confirmation_dialog := get_node("RemoveGraphicConfirmationDialog")
+@onready var metatlas_tab_container := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer")
 
-onready var error_dialog := get_node("ErrorDialog")
-onready var resize_confirmation_dialog := get_node("ResizeConfirmationDialog")
+@onready var error_dialog := get_node("ErrorDialog")
+@onready var resize_confirmation_dialog := get_node("ResizeConfirmationDialog")
 
-onready var color_picker_popup := get_node("ColorPickerPopup")
-onready var color_picker_popup_color_picker := get_node("ColorPickerPopup/ColorPicker")
+@onready var color_picker_popup := get_node("ColorPickerPopup")
+@onready var color_picker_popup_color_picker := get_node("ColorPickerPopup/ColorPicker")
 
 # Meta data
-onready var icon_pack_title_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/TitleLineEdit")
-onready var icon_pack_creator_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/PackCreatorLineEdit")
+@onready var icon_pack_title_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/TitleLineEdit")
+@onready var icon_pack_creator_line_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/PackCreatorLineEdit")
 
-onready var pack_icon_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect")
-onready var no_pack_icon_image_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect/NoPreviewImageLabel")
+@onready var pack_icon_texture_rect := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect")
+@onready var no_pack_icon_image_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect/NoPreviewImageLabel")
 
-onready var description_text_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel")
-onready var description_text_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel/DescriptionTextEdit")
+@onready var description_text_label := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel")
+@onready var description_text_edit := get_node("VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel/DescriptionTextEdit")
 
-onready var skin_editor := get_node("VBoxContainer/TabContainer/Skin")
-onready var texture_editor := get_node("VBoxContainer/TabContainer/Textures")
+@onready var skin_editor := get_node("VBoxContainer/TabContainer/Skin")
+@onready var texture_editor := get_node("VBoxContainer/TabContainer/Textures")
 
 enum ITEM_BUTTONS {
 	BROWSE,
@@ -65,24 +65,24 @@ var first_time_save_atlases = []
 
 func _ready():
 	top_level_tab_container.set_tab_title(0, "Resource Pack")
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
-	tree.connect("button_pressed", self, "_on_button_pressed")
-	tree.connect("item_edited", self, "_on_item_edited")
+	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	tree.connect("button_pressed", Callable(self, "_on_button_pressed"))
+	tree.connect("item_edited", Callable(self, "_on_item_edited"))
 	open_resource_pack_dialog.popup_centered()
 	
 	# It's mandatory to open a pack on startup, if not the user gets sent back to the menu
-	open_resource_pack_dialog.get_cancel().connect("pressed", self, "_exit")
-	open_resource_pack_dialog.get_close_button().connect("pressed", self, "_exit")
-	open_resource_pack_dialog.connect("pack_opened", self, "_on_OpenResourcePackDialog_pack_opened")
+	open_resource_pack_dialog.get_cancel_button().connect("pressed", Callable(self, "_exit"))
+	open_resource_pack_dialog.close_requested.connect(_exit)
+	open_resource_pack_dialog.connect("pack_opened", Callable(self, "_on_OpenResourcePackDialog_pack_opened"))
 	tree.set_column_expand(0, true)
 	tree.set_column_expand(1, false)
-	tree.set_column_min_width(1, 150)
+	tree.set_column_custom_minimum_width(1, 150)
 	
 	$FileDialog.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 	$FileDialogPackIcon.set_current_dir(UserSettings.user_settings.last_graphics_dir)
 	
 func _exit():
-	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
+	get_tree().change_scene_to_packed(load("res://menus/MainMenu3D.tscn"))
 
 func get_resources_dir_for_atlas(atlas_name: String) -> String:
 	if atlas_name == "__no_atlas":
@@ -102,15 +102,13 @@ func add_graphic_item(parent: TreeItem, text: String, resource_name: String, atl
 	item.set_meta("resize_to_recommended", true)
 	item.set_meta("atlas_name", atlas_name)
 	var resource_path = HBUtils.join_path(resources_dir, resource_name)
-	var file = File.new()
-	if file.file_exists(resource_path):
+	if FileAccess.file_exists(resource_path):
 		if not resource_name in current_pack.notes_atlas_data:
 			first_time_save_atlases.append(atlas_name)
 		var img = Image.new()
 		img.load(resource_path)
 		resource_images_per_atlas[atlas_name][resource_name] = img
-		var icon = ImageTexture.new()
-		icon.create_from_image(img)
+		var icon = ImageTexture.create_from_image(img)
 		item.set_icon(0, icon)
 		
 	item.add_button(1, preload("res://tools/icons/icon_folder.svg"), ITEM_BUTTONS.BROWSE, false, "Browse graphic")
@@ -124,7 +122,7 @@ func add_range_item(parent: TreeItem, text: String, property_name: String, minim
 	item.set_cell_mode(0, TreeItem.CELL_MODE_CHECK)
 	item.set_meta("property_name", property_name)
 	item.set_meta("item_type", ITEM_TYPES.RANGE)
-	item.set_tooltip(0, "Override this property")
+	item.set_tooltip_text(0, "Override this property")
 	item.set_cell_mode(1, TreeItem.CELL_MODE_RANGE)
 	tree.set_block_signals(true)
 	item.set_range_config(1, minimum, maximum, step)
@@ -147,7 +145,7 @@ func add_color_item(parent: TreeItem, text: String, property_name: String):
 	item.set_checked(0, property_name in current_pack.property_overrides)
 	tree.set_block_signals(false)
 	
-	item.set_tooltip(0, "Override this property")
+	item.set_tooltip_text(0, "Override this property")
 	item.set_meta("property_name", property_name)
 	item.set_meta("item_type", ITEM_TYPES.COLOR_PICKER)
 	item.add_button(1, preload("res://tools/icons/ColorPick.svg"), ITEM_BUTTONS.PICK_COLOR, false, "Pick color")
@@ -216,7 +214,7 @@ func _on_button_pressed(item: TreeItem, _column: int, id: int):
 			color_picker_popup_color_picker.set_block_signals(true)
 			color_picker_popup_color_picker.color = current_pack.get(_currently_editing_property) as Color
 			color_picker_popup_color_picker.set_block_signals(false)
-			color_picker_popup.rect_global_position = get_global_mouse_position()
+			color_picker_popup.global_position = get_global_mouse_position()
 			color_picker_popup.popup()
 		ITEM_BUTTONS.RESET_PROPERTY:
 			var default_val = _default_pack.get(_currently_editing_property)
@@ -261,15 +259,14 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 	icon_pack_creator_line_edit.text = pack.pack_author_name
 	
 	# Disconnects these so we won't be kicked to the menu if close the modal
-	if open_resource_pack_dialog.get_cancel().is_connected("pressed", self, "_exit"):
-		open_resource_pack_dialog.get_cancel().disconnect("pressed", self, "_exit")
-		open_resource_pack_dialog.get_close_button().disconnect("pressed", self, "_exit")
+	if open_resource_pack_dialog.get_cancel_button().is_connected("pressed", Callable(self, "_exit")):
+		open_resource_pack_dialog.get_cancel_button().disconnect("pressed", Callable(self, "_exit"))
+		open_resource_pack_dialog.close_requested.connect(self._exit)
 	pack_icon_texture_rect.texture = null
 	no_pack_icon_image_label.show()
 	var pack_icon := current_pack.get_pack_icon()
 	if pack_icon:
-		var pack_icon_tex := ImageTexture.new()
-		pack_icon_tex.create_from_image(pack_icon)
+		var pack_icon_tex := ImageTexture.create_from_image(pack_icon)
 		no_pack_icon_image_label.hide()
 		pack_icon_texture_rect.texture = pack_icon_tex
 	description_text_edit.text = current_pack.pack_description
@@ -278,23 +275,22 @@ func _on_OpenResourcePackDialog_pack_opened(pack: HBResourcePack):
 func _generate_atlas(atlas_name: String, save=true):
 	if atlas_name == "__no_atlas":
 		return
-	var time_start = OS.get_ticks_usec()
+	var time_start = Time.get_ticks_usec()
 	var out = HBUtils.pack_images_turbo16(resource_images_per_atlas[atlas_name], 1)
 	current_pack.set(atlas_name + "_atlas_data", out.atlas_data)
-	var texture := out.texture as Texture
+	var texture := out.texture as Texture2D
 	atlas_preview_texture_rect.set_atlas(out)
 	atlas_preview_label.text = "Atlas size: %s" % [str(texture.get_size())]
 	if save:
 		current_pack.save_pack()
 		var atlas_path := current_pack.get_atlas_path(atlas_name)
-		var d = Directory.new()
-		if not d.dir_exists(atlas_path.get_base_dir()):
-			d.make_dir_recursive(atlas_path.get_base_dir())
+		if not DirAccess.dir_exists_absolute(atlas_path.get_base_dir()):
+			DirAccess.make_dir_recursive_absolute(atlas_path.get_base_dir())
 		if texture.get_size().length() > 0:
-			var err := texture.get_data().save_png(atlas_path)
+			var err: Error = texture.get_image().save_png(atlas_path)
 			if err != OK:
 				show_error("Error saving atlas, error code %d" % [err])
-	var time_end = OS.get_ticks_usec()
+	var time_end = Time.get_ticks_usec()
 	print("_generate_atlas took %d microseconds" % [(time_end - time_start)])
 
 func set_resource_image(atlas_name: String, resource_name: String, image: Image):
@@ -303,31 +299,29 @@ func set_resource_image(atlas_name: String, resource_name: String, image: Image)
 	resource_images_per_atlas[atlas_name][resource_name] = image
 	resource_item.set_button_disabled(1, ITEM_BUTTONS.REMOVE, false)
 	image.save_png(HBUtils.join_path(resources_dir, resource_name))
-	var tex = ImageTexture.new()
-	tex.create_from_image(image)
+	var tex = ImageTexture.create_from_image(image)
 	resource_item.set_icon(0, tex)
 	_generate_atlas(atlas_name)
 
 func _on_FileDialog_file_selected(path):
-	var dir = Directory.new()
 	var resource_item := resource_items[_currently_opening_resource] as TreeItem
 	var resources_dir = get_resources_dir_for_atlas(resource_item.get_meta("atlas_name" as String))
-	if not dir.dir_exists(resources_dir):
-		dir.make_dir_recursive(resources_dir)
+	if not DirAccess.dir_exists_absolute(resources_dir):
+		DirAccess.make_dir_recursive_absolute(resources_dir)
 	var img := Image.new()
 	var img_err = img.load(path)
 	if img_err == OK:
 		_currently_opened_image = img
 		if resource_item.get_meta("require_square"):
 			if img.get_size().x != img.get_size().y:
-				var recommended_size := resource_item.get_meta("recommended_size") as Vector2
+				var recommended_size := resource_item.get_meta("recommended_size") as Vector2i
 				var err = "Error loading image, it must be square, preferably %d by %d pixels" % \
 					[recommended_size.x, recommended_size.y]
 				show_error(err)
 				return
 		if resource_item.get_meta("resize_to_recommended"):
 			var image_size := img.get_size()
-			var recommended_size := resource_item.get_meta("recommended_size") as Vector2
+			var recommended_size := resource_item.get_meta("recommended_size") as Vector2i
 			if image_size != recommended_size:
 				var d_vals = {
 					"image_x": image_size.x,
@@ -356,13 +350,12 @@ func _user_regenerate_atlas(from_disk = false):
 	_generate_atlas("notes")
 
 func _on_RemoveGraphicConfirmationDialog_confirmed():
-	var f := Directory.new()
 	var resource_item := resource_items[_currently_opening_resource] as TreeItem
 	var atlas_name = resource_item.get_meta("atlas_name") as String
 	var resources_dir := get_resources_dir_for_atlas(atlas_name)
 	var resource_path := HBUtils.join_path(resources_dir, _currently_opening_resource)
-	if f.file_exists(resource_path):
-		f.remove(resource_path)
+	if FileAccess.file_exists(resource_path):
+		DirAccess.remove_absolute(resource_path)
 		if _currently_opening_resource in resource_images_per_atlas[atlas_name]:
 			resource_images_per_atlas[atlas_name].erase(_currently_opening_resource)
 		var item := resource_items[_currently_opening_resource] as TreeItem
@@ -444,8 +437,7 @@ func _replace_preview_image(path: String):
 		else:
 			var err_img := img.save_png(current_pack.get_pack_icon_path())
 			if show_error_code("Error saving resource pack image", err_img) == OK:
-				var texture := ImageTexture.new()
-				texture.create_from_image(img)
+				var texture := ImageTexture.create_from_image(img)
 				pack_icon_texture_rect.texture = texture
 				no_pack_icon_image_label.hide()
 	
@@ -456,7 +448,7 @@ func _replace_preview_image(path: String):
 
 func _on_PreviewBBCodeCheckbox_toggled(button_pressed):
 	if button_pressed:
-		description_text_label.bbcode_text = description_text_edit.text
+		description_text_label.text = description_text_edit.text
 		description_text_label.bbcode_enabled = true
 	description_text_edit.visible = !button_pressed
 

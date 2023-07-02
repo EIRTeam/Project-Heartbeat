@@ -2,30 +2,30 @@ extends HBUIComponent
 
 class_name HBUIHoldIndicator
 
-var hold_count_font := HBUIFont.new() setget set_hold_count_font
-var main_font := HBUIFont.new() setget set_main_font
-var max_hold_bonus_font := HBUIFont.new() setget set_max_hold_bonus_font
-var score_font := HBUIFont.new() setget set_score_font
+var hold_count_font := HBUIFont.new(): set = set_hold_count_font
+var main_font := HBUIFont.new(): set = set_main_font
+var max_hold_bonus_font := HBUIFont.new(): set = set_max_hold_bonus_font
+var score_font := HBUIFont.new(): set = set_score_font
 
-var main_stylebox: StyleBox = HBUIStyleboxFlat.new() setget set_main_stylebox
-var max_hold_bonus_stylebox: StyleBox = HBUIStyleboxFlat.new() setget set_max_hold_bonus_stylebox
+var main_stylebox: StyleBox = HBUIStyleboxFlat.new(): set = set_main_stylebox
+var max_hold_bonus_stylebox: StyleBox = HBUIStyleboxFlat.new(): set = set_max_hold_bonus_stylebox
 
-var max_hold_bonus_min_width := 0.0 setget set_max_hold_bonus_min_width
+var max_hold_bonus_min_width := 0.0: set = set_max_hold_bonus_min_width
 
-onready var vbox_container := VBoxContainer.new()
-onready var main_panel := PanelContainer.new()
-onready var hold_count_label := Label.new()
-onready var score_label := Label.new()
-onready var bonus_label := Label.new()
+@onready var vbox_container := VBoxContainer.new()
+@onready var main_panel := PanelContainer.new()
+@onready var hold_count_label := Label.new()
+@onready var score_label := Label.new()
+@onready var bonus_label := Label.new()
 
-onready var max_hold_bonus_container := PanelContainer.new()
-onready var max_hold_bonus_label := Label.new()
+@onready var max_hold_bonus_container := PanelContainer.new()
+@onready var max_hold_bonus_label := Label.new()
 
-onready var hold_note_icons_container = HBoxContainer.new()
+@onready var hold_note_icons_container = HBoxContainer.new()
 
 var icon_nodes := {}
-var current_holds = [] setget set_current_holds
-var current_score = 0 setget set_current_score
+var current_holds = []: set = set_current_holds
+var current_score = 0: set = set_current_score
 
 const APPEAR_T = 0.15
 const APPEAR_LEAD_IN = 0.1
@@ -63,12 +63,12 @@ func set_current_score(val):
 func set_main_stylebox(val):
 	main_stylebox = val
 	if is_inside_tree():
-		main_panel.add_stylebox_override("panel", main_stylebox)
+		main_panel.add_theme_stylebox_override("panel", main_stylebox)
 
 func set_max_hold_bonus_stylebox(val):
 	max_hold_bonus_stylebox = val
 	if is_inside_tree():
-		max_hold_bonus_container.add_stylebox_override("panel", max_hold_bonus_stylebox)
+		max_hold_bonus_container.add_theme_stylebox_override("panel", max_hold_bonus_stylebox)
 
 func set_hold_count_font(val):
 	hold_count_font = val
@@ -96,17 +96,18 @@ func set_max_hold_bonus_font(val):
 func set_max_hold_bonus_min_width(val):
 	max_hold_bonus_min_width = val
 	if is_inside_tree():
-		max_hold_bonus_container.rect_min_size.x = val
+		max_hold_bonus_container.custom_minimum_size.x = val
 
 func _ready():
+	super._ready()
 	bonus_label.text = "QUADRUPLE BONUS"
 	score_label.text = "+1000"
 	hold_count_label.text = "4"
 	max_hold_bonus_label.text = "Max Hold Bonus! +3300"
 	
-	vbox_container.connect("resized", self, "_on_vbox_container_resized")
+	vbox_container.connect("resized", Callable(self, "_on_vbox_container_resized"))
 	
-	vbox_container.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	vbox_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
 	add_child(vbox_container)
 	
@@ -115,38 +116,38 @@ func _ready():
 	var main_panel_hb := HBoxContainer.new()
 	main_panel.add_child(main_panel_hb)
 	add_child(hold_count_label)
-	main_panel_hb.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	main_panel_hb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
-	main_panel_hb.add_constant_override("separation", 20)
+	main_panel_hb.add_theme_constant_override("separation", 20)
 	main_panel_hb.add_child(bonus_label)
 	main_panel_hb.add_child(hold_note_icons_container)
 	main_panel_hb.add_child(score_label)
 	var max_combo_hb := HBoxContainer.new()
-	max_combo_hb.alignment = BoxContainer.ALIGN_CENTER
+	max_combo_hb.alignment = BoxContainer.ALIGNMENT_CENTER
 	
 	max_combo_hb.add_child(max_hold_bonus_container)
 	vbox_container.add_child(max_combo_hb)
 	
 	max_hold_bonus_container.add_child(max_hold_bonus_label)
-	max_hold_bonus_label.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	max_hold_bonus_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
-	bonus_label.valign = Label.VALIGN_CENTER
-	score_label.valign = Label.VALIGN_CENTER
+	bonus_label.vertical_alignment =VERTICAL_ALIGNMENT_CENTER
+	score_label.vertical_alignment =VERTICAL_ALIGNMENT_CENTER
 	hold_note_icons_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hold_count_label.valign = Label.VALIGN_CENTER
-	max_hold_bonus_label.valign = Label.VALIGN_CENTER
+	hold_count_label.vertical_alignment =VERTICAL_ALIGNMENT_CENTER
+	max_hold_bonus_label.vertical_alignment =VERTICAL_ALIGNMENT_CENTER
 	
-	score_label.align = Label.ALIGN_RIGHT
-	max_hold_bonus_label.align = Label.ALIGN_CENTER
+	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	max_hold_bonus_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 
 	for type_name in HBNoteData.NOTE_TYPE:
 		var type = HBNoteData.NOTE_TYPE[type_name]
 		var texture_rect = TextureRect.new()
 		texture_rect.expand = true
 		texture_rect.texture = ResourcePackLoader.get_graphic("%s_note.png" % [HBGame.NOTE_TYPE_TO_STRING_MAP[type]])
-		texture_rect.rect_min_size = Vector2(35, 35)
+		texture_rect.custom_minimum_size = Vector2(35, 35)
 		texture_rect.show()
 		hold_note_icons_container.add_child(texture_rect)
 		icon_nodes[type_name] = texture_rect
@@ -166,26 +167,26 @@ func fit_hold_count_label():
 	if hold_count_label.has_meta("font_font_override"):
 		test_f = hold_count_label.get_meta("font_font_override")
 	var size := test_f.get_string_size(hold_count_label.text)
-	hold_count_label.rect_size = size
-	hold_count_label.rect_position.x = -size.x * 0.5
-	hold_count_label.rect_position.y = (main_panel.rect_size.y - size.y) * 0.5
+	hold_count_label.size = size
+	hold_count_label.position.x = -size.x * 0.5
+	hold_count_label.position.y = (main_panel.size.y - size.y) * 0.5
 
 func _on_vbox_container_resized():
-	rect_min_size = vbox_container.get_minimum_size()
+	custom_minimum_size = vbox_container.get_minimum_size()
 
 func _on_resized():
 	fit_hold_count_label()
 	
 	for texture_rect in icon_nodes.values():
-		texture_rect.rect_min_size = Vector2.ZERO
-		texture_rect.rect_size = Vector2.ZERO
-		texture_rect.minimum_size_changed()
-	minimum_size_changed()
+		texture_rect.custom_minimum_size = Vector2.ZERO
+		texture_rect.size = Vector2.ZERO
+		texture_rect.update_minimum_size()
+	update_minimum_size()
 	for texture_rect in icon_nodes.values():
 		texture_rect = texture_rect as TextureRect
-		texture_rect.rect_min_size.x = hold_note_icons_container.rect_size.y
-		texture_rect.rect_size.x = hold_note_icons_container.rect_size.y
-		texture_rect.rect_size.y = hold_note_icons_container.rect_size.y
+		texture_rect.custom_minimum_size.x = hold_note_icons_container.size.y
+		texture_rect.size.x = hold_note_icons_container.size.y
+		texture_rect.size.y = hold_note_icons_container.size.y
 	_on_vbox_container_resized()
 func _process(delta):
 	disappear_cooldown_t -= delta
@@ -198,9 +199,9 @@ func _process(delta):
 	modulate.a = clamp(appear_t - APPEAR_LEAD_IN, 0.0, APPEAR_T + APPEAR_LEAD_IN) / APPEAR_T
 	scale_t += scale_t_inc * delta
 	scale_t = clamp(scale_t, 0.0, SCALE_T)
-	rect_scale.y = scale_t / SCALE_T
+	scale.y = scale_t / SCALE_T
 	
-	rect_pivot_offset = (rect_size - Vector2(0, max_hold_bonus_container.rect_size.y) ) / 2.0
+	pivot_offset = (size - Vector2(0, max_hold_bonus_container.size.y) ) / 2.0
 	
 	max_appear_t += max_appear_t_inc * delta
 	max_appear_t = clamp(max_appear_t, 0.0, APPEAR_T)
@@ -232,7 +233,7 @@ static func get_component_name() -> String:
 	return "Hold Indicator"
 
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"main_font", "max_hold_bonus_font", "hold_count_font", "score_font",
 		"main_stylebox", "max_hold_bonus_stylebox", "max_hold_bonus_min_width"
@@ -240,7 +241,7 @@ func get_hb_inspector_whitelist() -> Array:
 	return whitelist
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["main_font"] = serialize_font(main_font, resource_storage)
 	out_dict["max_hold_bonus_font"] = serialize_font(max_hold_bonus_font, resource_storage)
 	out_dict["score_font"] = serialize_font(score_font, resource_storage)
@@ -259,7 +260,7 @@ func _get_property_list():
 	return list
 	
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	deserialize_font(dict.get("main_font", {}), main_font, cache)
 	deserialize_font(dict.get("max_hold_bonus_font", {}), max_hold_bonus_font, cache)
 	deserialize_font(dict.get("score_font", {}), score_font, cache)

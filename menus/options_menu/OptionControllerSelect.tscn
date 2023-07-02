@@ -1,136 +1,113 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://c2f3bbp66ng6a"]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=2]
-[ext_resource path="res://menus/options_menu/OptionControllerSelect.gd" type="Script" id=3]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="2"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionControllerSelect.gd" id="3"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+bg_color = Color(0.19, 0.07, 0.3, 0.75)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id="2"]
 script/source = "extends HBUniversalScrollList
 
 signal back
 
 func _gui_input(event):
 	if event.is_action_pressed(\"gui_cancel\"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		emit_signal(\"back\")
 "
 
 [node name="OptionSelect" type="Panel"]
 use_parent_material = true
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
 anchor_right = 1.0
-rect_min_size = Vector2( 0, 64 )
 mouse_filter = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
+offset_left = 20.0
+offset_right = -20.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 use_parent_material = true
-margin_right = 314.0
-margin_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
-align = 1
-valign = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
 use_parent_material = true
-margin_left = 318.0
-margin_right = 1880.0
-margin_bottom = 64.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 2
 
 [node name="Label2" type="Label" parent="HBoxContainer/Control"]
 use_parent_material = true
-margin_left = 1248.0
-margin_right = 1562.0
-margin_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
-align = 1
-valign = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DropDown" type="Panel" parent="CanvasLayer"]
 use_parent_material = true
+anchors_preset = -1
 anchor_left = 0.25
 anchor_top = 0.25
 anchor_right = 0.75
 anchor_bottom = 0.75
 focus_mode = 2
 mouse_filter = 2
-theme = ExtResource( 2 )
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("2")
+theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/DropDown"]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="Control" type="ScrollContainer" parent="CanvasLayer/DropDown/MarginContainer"]
 use_parent_material = true
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 950.0
-margin_bottom = 530.0
-focus_mode = 2
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = SubResource( 2 )
+focus_mode = 2
+mouse_filter = 2
+script = SubResource("2")
 container_path = NodePath("VBoxContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DropDown/MarginContainer/Control"]
 use_parent_material = true
-margin_right = 940.0
-margin_bottom = 520.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[connection signal="back" from="CanvasLayer/DropDown/MarginContainer/Control" to="." method="close_dropdown"]
+mouse_filter = 2

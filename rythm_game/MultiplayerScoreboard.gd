@@ -2,13 +2,13 @@ extends VBoxContainer
 
 const SCOREBOARD_ITEM_SCENE = preload("res://rythm_game/MultiplayerScoreboardItem.tscn")
 
-var members = [] setget set_members
+var members = []: set = set_members
 var member_item_map = {}
 
 func set_members(val):
 	members = val
 	for member in members:
-		var item_scene = SCOREBOARD_ITEM_SCENE.instance()
+		var item_scene = SCOREBOARD_ITEM_SCENE.instantiate()
 		add_child(item_scene)
 		item_scene.member = member
 		member_item_map[member.member_id] = item_scene
@@ -18,7 +18,7 @@ func set_last_note_hit_for_member(member, score, last_rating):
 	item.score = score
 	item.last_rating = last_rating
 	var member_items = member_item_map.values()
-	member_items.sort_custom(self, "_sort_member_items")
+	member_items.sort_custom(Callable(self, "_sort_member_items"))
 	for i in get_children():
 		remove_child(i)
 	for i in member_items:

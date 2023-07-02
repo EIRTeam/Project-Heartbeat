@@ -1,29 +1,29 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=13 format=3 uid="uid://ddwcdis3ndvvm"]
 
-[ext_resource path="res://menus/SongTitleScrolling.tscn" type="PackedScene" id=1]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=4]
-[ext_resource path="res://menus/music_player/MainMenuMusicPlayer.gd" type="Script" id=5]
-[ext_resource path="res://graphics/no_preview_texture.png" type="Texture" id=6]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=7]
-[ext_resource path="res://graphics/logo-eirteam.png" type="Texture" id=8]
+[ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="1"]
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
+[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="3"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
+[ext_resource type="Script" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
+[ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="6"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="7"]
+[ext_resource type="Texture2D" uid="uid://45l2drxdvruu" path="res://graphics/logo-eirteam.png" id="8"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.74902 )
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.74902)
 border_width_left = 100
 border_width_top = 5
 border_width_bottom = 5
-border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+border_color = Color(0.929412, 0.215686, 0.8, 0.501961)
 corner_radius_top_left = 1024
 corner_detail = 1
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id="3"]
 code = "shader_type canvas_item;
 
 uniform vec2 pos;
@@ -49,157 +49,135 @@ void fragment() {
 
 }"
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id="5"]
 resource_local_to_scene = true
-shader = SubResource( 3 )
-shader_param/pos = null
-shader_param/size = null
-shader_param/res = null
-shader_param/enabled = null
-shader_param/fade_size = null
+shader = SubResource("3")
+shader_parameter/pos = null
+shader_parameter/size = null
+shader_parameter/res = null
+shader_parameter/enabled = null
+shader_parameter/fade_size = null
 
-[sub_resource type="DynamicFont" id=4]
-size = 15
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 2 )
-fallback/0 = ExtResource( 7 )
+[sub_resource type="FontFile" id="4"]
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("7")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="MainMenuMusicPlayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = ExtResource( 5 )
+script = ExtResource("5")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_top = 0.944
 anchor_right = 1.0
 anchor_bottom = 0.944
-margin_top = -100.0
+offset_top = -100.0
 mouse_filter = 2
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MusicPlayer" type="Panel" parent="HBoxContainer"]
-margin_left = 1020.0
-margin_right = 1920.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 900, 100 )
+custom_minimum_size = Vector2(900, 100)
+layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
-theme = ExtResource( 4 )
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("4")
+theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MusicPlayer"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 15
-custom_constants/margin_left = 190
-custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 190
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer"]
-margin_left = 190.0
-margin_top = 15.0
-margin_right = 880.0
-margin_bottom = 85.0
-custom_constants/separation = 10
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer"]
-margin_right = 690.0
-margin_bottom = 70.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 10
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 75.0
-margin_bottom = 70.0
-rect_min_size = Vector2( 75, 0 )
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
 size_flags_stretch_ratio = 0.6
-texture = ExtResource( 6 )
-expand = true
+texture = ExtResource("6")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 85.0
-margin_right = 690.0
-margin_bottom = 70.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 alignment = 1
 
-[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 1 )]
-margin_right = 605.0
-margin_bottom = 31.0
+[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("1")]
+layout_mode = 2
 
 [node name="CircleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="1"]
-margin_bottom = 31.0
-texture = ExtResource( 8 )
+texture = ExtResource("8")
 
 [node name="TitleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="2"]
-material = SubResource( 5 )
-margin_right = 605.0
-margin_bottom = 31.0
-rect_clip_content = true
+material = SubResource("5")
+clip_contents = true
 
 [node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 605.0
-margin_bottom = 70.0
-custom_constants/separation = 16
+layout_mode = 2
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="PlaybackCurrentTimeLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_right = 81.0
-margin_bottom = 24.0
-custom_fonts/font = SubResource( 4 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("4")
 text = "(NT)1:02/"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_left = 97.0
-margin_right = 510.0
-margin_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 10.0
-margin_right = 413.0
-margin_bottom = 13.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.0
 value = 0.5
-percent_visible = false
 
 [node name="PlaybackMaxLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_left = 526.0
-margin_right = 605.0
-margin_bottom = 24.0
-custom_fonts/font = SubResource( 4 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("4")
 text = "(NT)4:00"
-align = 2
+horizontal_alignment = 2
 
-[node name="PromptInputAction" parent="HBoxContainer/MusicPlayer" instance=ExtResource( 3 )]
+[node name="PromptInputAction" parent="HBoxContainer/MusicPlayer" instance=ExtResource("3")]
+layout_mode = 0
 anchor_left = 0.073
 anchor_top = 0.2
 anchor_right = 0.079
 anchor_bottom = 0.8
-margin_left = 0.300003
-margin_right = 55.9
-margin_bottom = 0.0
+offset_left = 0.300003
+offset_right = 55.9
+offset_bottom = 0.0
 input_action = "gui_show_song"
 
 [editable path="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle"]

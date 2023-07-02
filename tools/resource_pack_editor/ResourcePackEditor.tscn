@@ -1,721 +1,529 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=3 uid="uid://2e1c78lgxfkv"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://tools/icons/icon_back.svg" type="Texture" id=2]
-[ext_resource path="res://tools/resource_pack_editor/ResourcePackEditor.gd" type="Script" id=3]
-[ext_resource path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" type="Script" id=4]
-[ext_resource path="res://tools/icons/icon_save.svg" type="Texture" id=5]
-[ext_resource path="res://tools/icons/icon_load.svg" type="Texture" id=6]
-[ext_resource path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" type="Script" id=7]
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=8]
-[ext_resource path="res://tools/editor/WorkshopUploadForm.tscn" type="PackedScene" id=9]
-[ext_resource path="res://graphics/background.png" type="Texture" id=10]
-[ext_resource path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" type="PackedScene" id=11]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" type="Script" id=12]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" type="PackedScene" id=18]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" type="Script" id=20]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" type="Script" id=21]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" type="Script" id=22]
-[ext_resource path="res://tools/new_inspector/new_inspector.tscn" type="PackedScene" id=23]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" type="Script" id=24]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/HBSkinResourceEditor.gd" type="Script" id=25]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://l36o42nwrfnr" path="res://tools/icons/icon_back.svg" id="2"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/ResourcePackEditor.gd" id="3"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/OpenResourcePackDialog.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://c0fe7cjb2bknm" path="res://tools/icons/icon_save.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" id="7"]
+[ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="8"]
+[ext_resource type="PackedScene" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
+[ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
+[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="12"]
+[ext_resource type="PackedScene" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="18"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="20"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="21"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="22"]
+[ext_resource type="PackedScene" path="res://tools/new_inspector/new_inspector.tscn" id="23"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="24"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinResourceEditor.gd" id="25"]
 
-[sub_resource type="ViewportTexture" id=6]
-flags = 4
-viewport_path = NodePath("VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport")
+[sub_resource type="ViewportTexture" id="6"]
+viewport_path = NodePath("VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport")
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id="3"]
 
-[sub_resource type="InputEventAction" id=1]
-action = "editor_save"
-pressed = true
-
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
+[sub_resource type="Shortcut" id="2"]
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-script = ExtResource( 3 )
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1")
+script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 1080.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Textures" type="Panel" parent="VBoxContainer/TabContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures"]
+layout_mode = 0
 anchor_left = -0.00116924
 anchor_right = 0.998831
 anchor_bottom = 1.0
-margin_top = -1.49832
-margin_bottom = -1.49829
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+offset_top = -1.49832
+offset_bottom = -1.49829
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 1890.0
-margin_bottom = 1023.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer"]
-margin_right = 1870.0
-margin_bottom = 1003.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Tree" type="Tree" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer"]
-margin_right = 931.0
-margin_bottom = 1003.0
+layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer"]
-margin_left = 939.0
-margin_right = 1870.0
-margin_bottom = 1003.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Metadata" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 906.0
-margin_bottom = 951.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer"]
-margin_right = 891.0
-margin_bottom = 936.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_right = 891.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Resource Pack Title"
 
 [node name="TitleLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 891.0
-margin_bottom = 54.0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 58.0
-margin_right = 891.0
-margin_bottom = 83.0
+layout_mode = 2
 text = "Author"
 
 [node name="PackCreatorLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 891.0
-margin_bottom = 112.0
+layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 116.0
-margin_right = 891.0
-margin_bottom = 141.0
+layout_mode = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 78.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Description"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 82.0
-margin_right = 891.0
-margin_bottom = 25.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="PreviewBBCodeCheckbox" type="CheckBox" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
-margin_left = 679.0
-margin_right = 809.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Preview BBCode"
 
 [node name="DescriptionTextLabel" type="RichTextLabel" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 145.0
-margin_right = 891.0
-margin_bottom = 345.0
-rect_min_size = Vector2( 0, 200 )
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
 
 [node name="DescriptionTextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/DescriptionTextLabel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 349.0
-margin_right = 891.0
-margin_bottom = 374.0
+layout_mode = 2
 text = "Pack Image (512x512)"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer"]
-margin_top = 378.0
-margin_right = 891.0
-margin_bottom = 634.0
-rect_min_size = Vector2( 0, 256 )
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
 
 [node name="PackIconTextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer"]
-margin_right = 295.0
-margin_bottom = 256.0
+layout_mode = 2
 size_flags_horizontal = 3
 stretch_mode = 6
 
 [node name="NoPreviewImageLabel" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/PackIconTextureRect"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 8 )
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8")
 text = "No Image :("
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer"]
-margin_left = 299.0
-margin_right = 891.0
-margin_bottom = 256.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 250.0
-margin_right = 341.0
-margin_bottom = 256.0
+layout_mode = 2
 size_flags_stretch_ratio = 1.5
 alignment = 1
 
 [node name="Button" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 115.0
-margin_right = 91.0
-margin_bottom = 140.0
+layout_mode = 2
 size_flags_horizontal = 0
 text = "Select Image"
 
 [node name="Atlas Preview" type="MarginContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 906.0
-margin_bottom = 951.0
+layout_mode = 2
 
 [node name="AtlasPreviewLabel" type="Label" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
-margin_right = 891.0
-margin_bottom = 25.0
+layout_mode = 2
 
 [node name="RegnerateAtlasButton" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
-margin_top = 29.0
-margin_right = 891.0
-margin_bottom = 54.0
+layout_mode = 2
 text = "Regenerate atlas"
 
 [node name="RegenerateAtlasFromDisk" type="Button" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
-margin_top = 58.0
-margin_right = 891.0
-margin_bottom = 83.0
-hint_tooltip = "Regenerates the atlast but first reloads note graphics from disk"
+layout_mode = 2
+tooltip_text = "Regenerates the atlast but first reloads note graphics from disk"
 text = "Regenerate atlas (reload from disk)"
 
 [node name="AtlasPreviewTextureRect" type="Control" parent="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer"]
-margin_top = 87.0
-margin_right = 891.0
-margin_bottom = 907.0
+layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource( 7 )
+script = ExtResource("7")
 
 [node name="Skin" type="Panel" parent="VBoxContainer/TabContainer"]
-visible = false
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
 mouse_filter = 2
-script = ExtResource( 22 )
+script = ExtResource("22")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/TabContainer/Skin"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 split_offset = 269
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer"]
-margin_right = 302.0
-margin_bottom = 1043.0
+layout_mode = 2
 
 [node name="Control" type="VSplitContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer"]
-margin_right = 279.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="TabContainer2" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control"]
-margin_right = 279.0
-margin_bottom = 621.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
 
 [node name="Outline" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Outline" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer2/Outline/ScrollContainer"]
-margin_right = 269.0
-margin_bottom = 584.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 24 )
+script = ExtResource("24")
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control"]
-margin_top = 629.0
-margin_right = 279.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_vertical = 3
-tab_align = 0
 
 [node name="Components" type="ScrollContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
 [node name="HBSkinEditorComponentPicker" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components"]
-margin_right = 269.0
-margin_bottom = 377.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 12 )
+script = ExtResource("12")
 
 [node name="Resources" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+layout_mode = 2
 
 [node name="HBSkinResourceEditor" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Resources"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 25 )
+script = ExtResource("25")
 
 [node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer"]
-margin_left = 283.0
-margin_right = 302.0
-margin_bottom = 1043.0
+layout_mode = 2
 text = "<"
 
 [node name="Panel2" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer"]
-margin_left = 310.0
-margin_right = 1910.0
-margin_bottom = 1043.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="Button" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
 visible = false
-margin_right = 19.0
-margin_bottom = 1043.0
+layout_mode = 2
 text = ">"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
-margin_right = 1286.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
-margin_right = 1286.0
-margin_bottom = 25.0
+layout_mode = 2
 
 [node name="MenuButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 55.0
-margin_bottom = 25.0
-text = "16:9"
-items = [ "16:9", null, false, 0, null, "4:3", null, false, 1, null, "16:10 (Steam Deck)", null, false, 2, null ]
-selected = 0
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 59.0
-margin_right = 1286.0
-margin_bottom = 25.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="HelpButton" type="Button" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1155.0
-margin_right = 1195.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Help"
 
 [node name="ScreenButton" type="OptionButton" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-margin_left = 1199.0
-margin_right = 1227.0
-margin_bottom = 25.0
+layout_mode = 2
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 1286.0
-margin_bottom = 1043.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 ratio = 1.778
 alignment_vertical = 0
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer"]
-margin_right = 1286.0
-margin_bottom = 723.285
-mouse_filter = 0
+layout_mode = 2
 size_flags_horizontal = 3
-texture = SubResource( 6 )
-expand = true
-flip_v = true
-script = ExtResource( 20 )
+mouse_filter = 0
+texture = SubResource("6")
+expand_mode = 1
+script = ExtResource("20")
 
-[node name="Viewport" type="Viewport" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect"]
-size = Vector2( 2112, 1188 )
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect"]
+size = Vector2i(2112, 1188)
 render_target_update_mode = 3
-script = ExtResource( 21 )
+script = ExtResource("21")
 
-[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport"]
+[node name="Control" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport"]
+layout_mode = 3
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -960.0
-margin_top = -540.0
-margin_right = 960.0
-margin_bottom = 540.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
-texture = ExtResource( 10 )
-expand = true
+texture = ExtResource("10")
+expand_mode = 1
 stretch_mode = 7
 
-[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
+[node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 192.0
-margin_top = 108.0
-margin_right = -192.0
-margin_bottom = -108.0
+offset_left = 192.0
+offset_top = 108.0
+offset_right = -192.0
+offset_bottom = -108.0
 editor_only = false
 
-[node name="Node2D" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control" instance=ExtResource( 11 )]
+[node name="Node2D" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("11")]
 visible = false
+anchors_preset = 0
 
-[node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control"]
+[node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="SkinEditorWidgetAnchor" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control" instance=ExtResource( 18 )]
-custom_styles/panel = SubResource( 3 )
+[node name="SkinEditorWidgetAnchor" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("18")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 86.0
+theme_override_styles/panel = SubResource("3")
 
-[node name="SkinEditorWidgetMargin" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/Viewport/Control" instance=ExtResource( 18 )]
-custom_styles/panel = SubResource( 3 )
+[node name="SkinEditorWidgetMargin" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("18")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 86.0
+theme_override_styles/panel = SubResource("3")
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer"]
-margin_left = 1290.0
-margin_right = 1600.0
-margin_bottom = 1043.0
-tab_align = 0
+layout_mode = 2
 
-[node name="Inspector" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/TabContainer" instance=ExtResource( 23 )]
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+[node name="Inspector" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/TabContainer" instance=ExtResource("23")]
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
-margin_bottom = 25.0
+offset_bottom = 25.0
 mouse_filter = 2
 
 [node name="BackButton" type="Button" parent="HBoxContainer"]
-margin_right = 20.0
-margin_bottom = 25.0
-icon = ExtResource( 2 )
+layout_mode = 2
+icon = ExtResource("2")
 
 [node name="OpenButton" type="Button" parent="HBoxContainer"]
-margin_left = 24.0
-margin_right = 52.0
-margin_bottom = 25.0
+layout_mode = 2
 shortcut_in_tooltip = false
-icon = ExtResource( 6 )
+icon = ExtResource("6")
 
 [node name="SaveButton" type="Button" parent="HBoxContainer"]
-margin_left = 56.0
-margin_right = 84.0
-margin_bottom = 25.0
+layout_mode = 2
+shortcut = SubResource("2")
 shortcut_in_tooltip = false
-shortcut = SubResource( 2 )
-icon = ExtResource( 5 )
+icon = ExtResource("5")
 
 [node name="OpenResourcePackDialog" type="ConfirmationDialog" parent="."]
-visible = true
-margin_left = 1057.91
-margin_top = 494.835
-margin_right = 1594.91
-margin_bottom = 787.835
-popup_exclusive = true
-window_title = "Please Confirm..."
+position = Vector2i(0, 24)
+size = Vector2i(200, 166)
 dialog_hide_on_ok = false
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="VBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 529.0
-margin_bottom = 410.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 115.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
-margin_right = 344.0
-margin_bottom = 402.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Tree" type="Tree" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer"]
-margin_right = 344.0
-margin_bottom = 402.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="OpenResourcePackDialog/VBoxContainer"]
-margin_left = 348.0
-margin_right = 521.0
-margin_bottom = 402.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="CreateResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
-margin_right = 173.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Create Resource Pack"
 
 [node name="DeleteResourcePackButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
-margin_top = 29.0
-margin_right = 173.0
-margin_bottom = 54.0
+layout_mode = 2
 text = "Delete Resource Pack"
 
 [node name="UploadToWorkshopButton" type="Button" parent="OpenResourcePackDialog/VBoxContainer/VBoxContainer2"]
-margin_top = 58.0
-margin_right = 173.0
-margin_bottom = 83.0
+layout_mode = 2
 text = "Upload to Workshop"
 
 [node name="CreateIconPackDialog" type="ConfirmationDialog" parent="OpenResourcePackDialog"]
-visible = true
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 529.0
-margin_bottom = 410.0
-window_title = "Please Confirm..."
+position = Vector2i(0, 24)
+size = Vector2i(200, 132)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -41.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -51.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
-margin_right = 505.0
-margin_bottom = 25.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer"]
-margin_right = 38.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Type"
 
 [node name="PackTypeOptionButton" type="OptionButton" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/HBoxContainer"]
-margin_left = 42.0
-margin_right = 505.0
-margin_bottom = 25.0
+layout_mode = 2
 size_flags_horizontal = 3
-text = "Icon Pack"
-items = [ "Icon Pack", null, false, 0, null, "Skin", null, false, 1, null ]
-selected = 0
 
 [node name="TextEdit" type="LineEdit" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
-margin_top = 29.0
-margin_right = 505.0
-margin_bottom = 54.0
+layout_mode = 2
 placeholder_text = "EIREXE's super awesome icon pack"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SkinSpecificOptions" type="VBoxContainer" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer"]
 visible = false
-margin_top = 58.0
-margin_right = 505.0
-margin_bottom = 83.0
+layout_mode = 2
 
 [node name="CopyOriginalSkinCheckbox" type="CheckBox" parent="OpenResourcePackDialog/CreateIconPackDialog/VBoxContainer/SkinSpecificOptions"]
-margin_right = 505.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Copy original game skin"
 
-[node name="WorkshopUploadDialog" parent="OpenResourcePackDialog" instance=ExtResource( 9 )]
-visible = true
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 529.0
-margin_bottom = 410.0
+[node name="WorkshopUploadDialog" parent="OpenResourcePackDialog" instance=ExtResource("9")]
+position = Vector2i(0, 24)
+visible = false
 
 [node name="FileDialog" type="FileDialog" parent="."]
-margin_right = 656.0
-margin_bottom = 368.0
-custom_colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
-window_title = "Open a File"
-mode = 0
+theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
 access = 2
-filters = PoolStringArray( "*.png ; Portable Network Graphics" )
+filters = PackedStringArray("*.png ; Portable Network Graphics")
 
 [node name="FileDialogPackIcon" type="FileDialog" parent="."]
-margin_right = 656.0
-margin_bottom = 368.0
-custom_colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
-window_title = "Open a File"
-mode = 0
+theme_override_colors/folder_icon_color = Color(0, 0, 0, 1)
 access = 2
-filters = PoolStringArray( "*.png ; Portable Network Graphics" )
+filters = PackedStringArray("*.png ; Portable Network Graphics")
 
 [node name="RemoveGraphicConfirmationDialog" type="ConfirmationDialog" parent="."]
-margin_right = 200.0
-margin_bottom = 74.0
-popup_exclusive = true
-window_title = "Please Confirm..."
 dialog_text = "This will delete the file for this graphic, do you want to do this?"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
-margin_right = 92.0
-margin_bottom = 74.0
-popup_exclusive = true
-window_title = "¡Alerta!"
 
 [node name="ResizeConfirmationDialog" type="ConfirmationDialog" parent="."]
-margin_right = 200.0
-margin_bottom = 74.0
-popup_exclusive = true
-window_title = "Please Confirm..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorPickerPopup" type="PopupPanel" parent="."]
-margin_left = 1059.31
-margin_top = 271.301
-margin_right = 1383.31
-margin_bottom = 769.301
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorPicker" type="ColorPicker" parent="ColorPickerPopup"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 316.0
-margin_bottom = 490.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 298.0
+offset_bottom = 591.0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-visible = true
-margin_left = 684.702
-margin_top = 432.148
-margin_right = 884.702
-margin_bottom = 506.148
-window_title = "Please Confirm..."
+position = Vector2i(0, 24)
+size = Vector2i(456, 132)
 dialog_text = "Do you really want to quit? Any unsaved progress will be lost."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="toggled" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer/PreviewBBCodeCheckbox" to="." method="_on_PreviewBBCodeCheckbox_toggled"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Metadata/ScrollContainer/VBoxContainer/HBoxContainer/HBoxContainer/VBoxContainer/Button" to="FileDialogPackIcon" method="popup_centered"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegnerateAtlasButton" to="." method="_user_regenerate_atlas"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegenerateAtlasFromDisk" to="." method="_user_regenerate_atlas" binds= [ true ]]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Textures/MarginContainer/VBoxContainer/HSplitContainer/TabContainer/Atlas Preview/VBoxContainer/RegenerateAtlasFromDisk" to="." method="_user_regenerate_atlas" binds= [true]]
 [connection signal="component_picked" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Control/TabContainer/Components/HBSkinEditorComponentPicker" to="VBoxContainer/TabContainer/Skin" method="_on_HBSkinEditorComponentPicker_component_picked"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer" method="set_collapsed" binds= [ true ]]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" method="hide"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" method="show"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer" method="set_collapsed" binds= [ false ]]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer" method="set_collapsed" binds= [true]]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/HBoxContainer/Button" method="show"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" method="hide"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/Button" to="VBoxContainer/TabContainer/Skin/HSplitContainer" method="set_collapsed" binds= [false]]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/BackButton" to="ConfirmationDialog" method="popup_centered"]
 [connection signal="pressed" from="HBoxContainer/OpenButton" to="OpenResourcePackDialog" method="popup_centered"]

@@ -2,9 +2,9 @@ extends HBInspectorPropertyEditor
 
 class_name HBInspectorPropertyEditTexture
 
-onready var option_button := OptionButton.new()
+@onready var option_button := OptionButton.new()
 
-var resource_storage: HBInspectorResourceStorage setget set_resource_storage
+var resource_storage: HBInspectorResourceStorage: set = set_resource_storage
 
 var current_texture_name := ""
 
@@ -24,16 +24,16 @@ func set_resource_storage(val):
 	if is_inside_tree():
 		update_texture_list()
 func _init_inspector():
-	._init_inspector()
-	resource_storage.connect("textures_changed", self, "_on_resource_storage_textures_changed")
-	resource_storage.connect("texture_removed", self, "_on_resource_storage_texture_removed")
-	yield(self, "ready")
+	super._init_inspector()
+	resource_storage.connect("textures_changed", Callable(self, "_on_resource_storage_textures_changed"))
+	resource_storage.connect("texture_removed", Callable(self, "_on_resource_storage_texture_removed"))
+	await self.ready
 	update_texture_list()
 	vbox_container.add_child(option_button)
-	option_button.connect("item_selected", self, "_on_item_selected")
+	option_button.connect("item_selected", Callable(self, "_on_item_selected"))
 
 func set_property_data(data: Dictionary):
-	.set_property_data(data)
+	super.set_property_data(data)
 	
 func _on_resource_storage_textures_changed():
 	update_texture_list()
@@ -61,7 +61,7 @@ func _on_item_selected(val: int):
 		emit_signal("value_changed", null)
 
 func set_value(val):
-	.set_value(val)
+	super.set_value(val)
 	current_texture_name = resource_storage.get_texture_name(val)
 	if is_inside_tree():
 		_update_selected_texture()

@@ -7,35 +7,41 @@ var note_data: HBBaseNote
 var time_out
 var game
 
-var time = 0.0 setget set_time
+var time = 0.0: set = set_time
 
 var line = Line2D.new()
-var trail_margin = 0.0 setget set_trail_margin
+var trail_margin = 0.0: set = set_trail_margin
 func set_time(val):
 	time = val
 	var shad_mat = line.material as ShaderMaterial
-	shad_mat.set_shader_param("time", time)
+	shad_mat.set_shader_parameter("time", time)
 func set_trail_margin(val):
 	trail_margin = val
 	var shad_mat = line.material as ShaderMaterial
-	shad_mat.set_shader_param("trail_margin", val)
+	shad_mat.set_shader_parameter("trail_margin", val)
 	
 func _init():
 	name = "SineDrawerCPU"
 	
+func contrast(p_color: Color):
+	var color = Color(p_color)
+	color.r = fmod(color.r + 0.5, 1.0);
+	color.g = fmod(color.g + 0.5, 1.0);
+	color.b = fmod(color.b + 0.5, 1.0);
+	return color
 func generate_trail_points():
 	var points = game.get_note_trail_points(note_data)
 	line.points = points.points1
 	var color = ResourcePackLoader.get_note_trail_color(note_data.note_type)
-	var color_late = color.contrasted()
+	var color_late = contrast(color)
 	var color_early = color
 	color_late.a = 0.0
 	color_early.a = 0.7
 
 	var shad_mat = line.material as ShaderMaterial
-	shad_mat.set_shader_param("color_start", color_early)
-	shad_mat.set_shader_param("color_end", color_late)
-	shad_mat.set_shader_param("texture_scale", note_data.oscillation_frequency*2)
+	shad_mat.set_shader_parameter("color_start", color_early)
+	shad_mat.set_shader_parameter("color_end", color_late)
+	shad_mat.set_shader_parameter("texture_scale", note_data.oscillation_frequency*2)
 	
 	_on_resized()
 	
@@ -47,7 +53,7 @@ func _on_resized():
 
 func setup():
 	var new_material = ShaderMaterial.new()
-	new_material.shader = preload("res://rythm_game/CPUTrailShader.shader")
+	new_material.shader = preload("res://rythm_game/CPUTrailShader.gdshader")
 	line.material = new_material
 	
 	line.texture = ResourcePackLoader.get_graphic("note_trail.png")
@@ -57,7 +63,7 @@ func setup():
 		add_child(line)
 
 	generate_trail_points()
-	line.material.set_shader_param("leading", float(int(UserSettings.user_settings.leading_trail_enabled)))
+	line.material.set_shader_parameter("leading", float(int(UserSettings.user_settings.leading_trail_enabled)))
 	z_index = -2
 	z_as_relative = false
 func _ready():

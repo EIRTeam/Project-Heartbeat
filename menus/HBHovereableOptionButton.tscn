@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://menus/HBHovereableOptionButton.gd" type="Script" id=1]
-[ext_resource path="res://graphics/icons/GuiOptionArrow.svg" type="Texture" id=2]
-[ext_resource path="res://fonts/Default_Font_Bigger.tres" type="DynamicFont" id=3]
+[ext_resource path="res://graphics/icons/GuiOptionArrow.svg" type="Texture2D" id=2]
+[ext_resource path="res://fonts/Default_Font_Bigger.tres" type="FontFile" id=3]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=4]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=5]
 
@@ -54,48 +54,48 @@ shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
 [node name="OptionButton" type="Button"]
-margin_right = 389.0
-margin_bottom = 55.0
-custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
-custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 3 )
-custom_styles/hover = SubResource( 2 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/normal = SubResource( 1 )
+offset_right = 389.0
+offset_bottom = 55.0
+theme_override_colors/font_focus_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_hover_color = Color( 1, 1, 1, 1 )
+theme_override_colors/font_pressed_color = Color( 1, 1, 1, 1 )
+theme_override_constants/h_separation = 8
+theme_override_fonts/font = ExtResource( 3 )
+theme_override_styles/hover = SubResource( 2 )
+theme_override_styles/pressed = SubResource( 3 )
+theme_override_styles/focus = SubResource( 4 )
+theme_override_styles/normal = SubResource( 1 )
 text = "Elemento 0kjjkjkjkj"
 icon = ExtResource( 2 )
-icon_align = 2
+icon_alignment = 2
 script = ExtResource( 1 )
 normal_style = SubResource( 1 )
 hover_style = SubResource( 2 )
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
-margin_left = 27.0
-margin_top = 37.0
-margin_right = 41.0
-margin_bottom = 92.0
-custom_styles/panel = ExtResource( 5 )
+offset_left = 27.0
+offset_top = 37.0
+offset_right = 41.0
+offset_bottom = 92.0
+theme_override_styles/panel = ExtResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 12.0
-margin_bottom = 53.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 12.0
+offset_bottom = 53.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 5.0
-margin_bottom = 46.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 5.0
+offset_bottom = 46.0
 focus_mode = 2
 script = ExtResource( 4 )
 orientation = 1

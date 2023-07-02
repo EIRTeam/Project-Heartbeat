@@ -1,7 +1,7 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var x_spinbox = get_node("%XSpinbox")
-onready var y_spinbox = get_node("%YSpinbox")
+@onready var x_spinbox = get_node("%XSpinbox")
+@onready var y_spinbox = get_node("%YSpinbox")
 
 func sync_value(input_array: Array):
 	x_spinbox.inputs = input_array
@@ -10,8 +10,8 @@ func sync_value(input_array: Array):
 func _ready():
 	x_spinbox.property_name = property_name
 	y_spinbox.property_name = property_name
-	x_spinbox.connect("values_changed", self, "emit_value_changed_signal")
-	y_spinbox.connect("values_changed", self, "emit_value_changed_signal")
+	x_spinbox.connect("values_changed", Callable(self, "emit_value_changed_signal"))
+	y_spinbox.connect("values_changed", Callable(self, "emit_value_changed_signal"))
 
 func emit_value_changed_signal():
 	var values = {}

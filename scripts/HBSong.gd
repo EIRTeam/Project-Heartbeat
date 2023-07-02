@@ -20,15 +20,16 @@ var title := ""
 var romanized_title := ""
 var artist := ""
 var artist_alias := ""
-var composers = [] setget set_composers
-var writers = [] setget set_writers
-var vocals = [] setget set_vocals
+var composers = []: set = set_composers
+var writers = []: set = set_writers
+var vocals = []: set = set_vocals
 var audio = ""
 var video = ""
 var voice = ""
 var creator = ""
 var original_title = ""
-var bpm = 150.0 setget set_bpm
+var bpm = 150.0: set = set_bpm, get = get_bpm
+var _bpm_proxy: float
 var bpm_string = "150"
 var preview_start = 0
 var preview_end = -1
@@ -55,7 +56,7 @@ var audio_loudness := 0.0
 var song_variants = []
 var sections = []
 var skin_ugc_id := 0
-var timing_changes := [] setget set_timing_changes
+var timing_changes := []: set = set_timing_changes
 
 # not serialized
 var loader = ""
@@ -88,19 +89,19 @@ func get_meta_string():
 	var song_meta = []
 	if writers.size() > 0:
 		var writer_text = tr("Written by: ")
-		song_meta.append(writer_text + PoolStringArray(writers).join(", "))
+		song_meta.append(writer_text + ", ".join(PackedStringArray(writers)))
 	if vocals.size() > 0 and vocals[0] != "":
 		var vocals_text = tr("Vocals by: ")
-		song_meta.append(vocals_text + PoolStringArray(vocals).join(", "))
+		song_meta.append(vocals_text + ", ".join(PackedStringArray(vocals)))
 	if composers.size() > 0:
 		var composers_text = tr("Composed by: ")
-		song_meta.append(composers_text + PoolStringArray(composers).join(", "))
+		song_meta.append(composers_text + ", ".join(PackedStringArray(composers)))
 	if creator != "":
 		song_meta.append(tr("Chart by: %s") % creator)
 	return song_meta
 	
 func get_volume_db() -> float:
-	return linear2db(volume)
+	return linear_to_db(volume)
 	
 func get_fs_origin():
 	if path.begins_with("res://"):
@@ -108,22 +109,22 @@ func get_fs_origin():
 	return SONG_FS_ORIGIN.USER 
 	
 func get_chart_path(difficulty):
-	return path.plus_file("/%s" % [charts[difficulty].file])
+	return path.path_join("/%s" % [charts[difficulty].file])
 	
 func get_song_audio_res_path():
 	if audio:
-		return path.plus_file("/%s" % [audio])
+		return path.path_join("/%s" % [audio])
 	else:
-		return path.plus_file(HBUtils.get_valid_filename(title)) + ".ogg"
+		return path.path_join(HBUtils.get_valid_filename(title)) + ".ogg"
 		
 func get_song_voice_res_path():
 	if voice:
-		return path.plus_file("/%s" % [voice])
+		return path.path_join("/%s" % [voice])
 	else:
-		return path.plus_file("/%s" % ["voice.ogg"])
+		return path.path_join("/%s" % ["voice.ogg"])
 func get_song_preview_res_path():
 	if preview_image != "":
-		return path.plus_file("/%s" % [preview_image])
+		return path.path_join("/%s" % [preview_image])
 	else:
 		return null
 
@@ -134,29 +135,29 @@ func uses_dsc_style_channels() -> bool:
 	return false
 func get_song_background_image_res_path():
 	if background_image != "":
-		return path.plus_file("/%s" % [background_image])
+		return path.path_join("/%s" % [background_image])
 	else:
 		return "res://graphics/background.png"
 		
 func get_song_circle_image_res_path():
 	if circle_image != "":
-		return path.plus_file("/%s" % [circle_image])
+		return path.path_join("/%s" % [circle_image])
 	else:
 		return null
 		
 func get_song_video_res_path():
 	if video != "":
-		return path.plus_file("/%s" % [video])
+		return path.path_join("/%s" % [video])
 	else:
 		return null
 func get_song_circle_logo_image_res_path():
 	if circle_logo != "":
-		return path.plus_file("/%s" % [circle_logo])
+		return path.path_join("/%s" % [circle_logo])
 	else:
 		return null
 		
 func get_meta_path():
-	return path.plus_file("song.json")
+	return path.path_join("song.json")
 	
 		
 # If video is enabled for this type of song
@@ -207,7 +208,7 @@ func get_artist_sort_text():
 		return ""
 func get_video_stream(variant := -1):
 	var video_path = get_song_video_res_path()
-	if use_youtube_for_video:
+	if use_youtube_for_video and not youtube_url.is_empty():
 		if is_cached(variant):
 			if variant == -1 or song_variants[variant].audio_only:
 				video_path = YoutubeDL.get_video_path(YoutubeDL.get_video_id(youtube_url))
@@ -219,7 +220,7 @@ func get_video_stream(variant := -1):
 	print("Loading video stream ", video_path)
 	
 	if video_path:
-		var video_stream = VideoStreamGDNative.new()
+		var video_stream = VideoStream.new()
 		video_stream.set_file(video_path)
 		
 		return video_stream
@@ -231,8 +232,7 @@ func get_voice_stream():
 	
 func save_song():
 	# Ensure song directory exists
-	var dir := Directory.new()
-	dir.make_dir_recursive(path)
+	DirAccess.make_dir_recursive_absolute(path)
 	
 	save_to_file(get_meta_path())
 
@@ -275,9 +275,10 @@ func get_min_score():
 
 func get_chart_for_difficulty(difficulty) -> HBChart:
 	var chart_path = get_chart_path(difficulty)
-	var file = File.new()
-	file.open(chart_path, File.READ)
-	var result = JSON.parse(file.get_as_text()).result
+	var file = FileAccess.open(chart_path, FileAccess.READ)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	var result = test_json_conv.data
 	var chart = HBChart.new()
 	if not result:
 		return null
@@ -300,9 +301,8 @@ func is_chart_note_usage_known_all():
 
 # Returns note usage, used in main menu badges
 func get_chart_note_usage(difficulty: String):
-	var f = File.new()
 	# HACKish...
-	if not f.file_exists(get_chart_path(difficulty)):
+	if not FileAccess.file_exists(get_chart_path(difficulty)):
 		return []
 	var cache = SongDataCache.get_cache_for_song(self) as HBSongCacheEntry
 	if difficulty in charts:
@@ -319,8 +319,8 @@ func get_chart_note_usage(difficulty: String):
 func generate_chart_hash(chart: String) -> String:
 	if chart in charts:
 		var chart_p := get_chart_path(chart) as String
-		var f := File.new()
-		if f.open(chart_p, File.READ) == OK:
+		var f := FileAccess.open(chart_p, FileAccess.READ)
+		if FileAccess.get_open_error() == OK:
 			return f.get_as_text().sha1_text()
 	return ""
 
@@ -347,20 +347,20 @@ func save_chart_info():
 func set_writers(value):
 	writers = value
 	for i in range(writers.size()-1, -1, -1):
-		if (writers[i] as String).strip_edges().empty():
-			writers.remove(i)
+		if (writers[i] as String).strip_edges().is_empty():
+			writers.remove_at(i)
 			
 func set_composers(value):
 	composers = value
 	for i in range(composers.size()-1, -1, -1):
-		if (composers[i] as String).strip_edges().empty():
-			composers.remove(i)
+		if (composers[i] as String).strip_edges().is_empty():
+			composers.remove_at(i)
 			
 func set_vocals(value):
 	vocals = value
 	for i in range(vocals.size()-1, -1, -1):
-		if (vocals[i] as String).strip_edges().empty():
-			vocals.remove(i)
+		if (vocals[i] as String).strip_edges().is_empty():
+			vocals.remove_at(i)
 
 func get_variant_offset(variant := -1) -> int:
 	if variant == -1:
@@ -397,8 +397,12 @@ func set_timing_changes(p_timing_changes: Array):
 
 func set_bpm(p_bpm: float):
 	bpm = p_bpm
+	_bpm_proxy = p_bpm
 	
 	update_bpm_string()
+
+func get_bpm() -> float:
+	return _bpm_proxy
 
 func update_bpm_string():
 	var bpm_range = [INF, -INF]
@@ -412,7 +416,7 @@ func update_bpm_string():
 		if bpm:
 			bpm_string = "%d" % bpm
 	else:
-		bpm = timing_changes[0].bpm
+		_bpm_proxy = timing_changes[0].bpm
 		
 		if bpm_range[0] != bpm_range[1]:
 			bpm_string = "%s-%s" % [str(bpm_range[0]), str(bpm_range[1])]

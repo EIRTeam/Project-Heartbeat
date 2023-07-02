@@ -1,6 +1,6 @@
 extends Control
-var editor
 class_name HBEditorWidget
+var editor
 
 func _ready():
 	pass

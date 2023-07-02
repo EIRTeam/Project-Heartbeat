@@ -1,25 +1,25 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://rythm_game/note_drawers/NoteTarget.gd" type="Script" id=3]
-[ext_resource path="res://graphics/progress_circle.png" type="Texture" id=5]
+[ext_resource path="res://graphics/progress_circle.png" type="Texture2D" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 64, 64 )
+size = Vector2( 64, 64 )
 
 [node name="NoteTarget" type="StaticBody2D"]
 input_pickable = true
 script = ExtResource( 3 )
 
-[node name="TimingArm2" type="Sprite" parent="."]
+[node name="TimingArm2" type="Sprite2D" parent="."]
 offset = Vector2( 0, -31 )
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="TextureRect" type="TextureProgress" parent="Node2D"]
-margin_left = -128.0
-margin_top = -128.0
-margin_right = 128.0
-margin_bottom = 128.0
+[node name="TextureRect" type="TextureProgressBar" parent="Node2D"]
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
 mouse_filter = 2
 max_value = 1.0
 step = 0.0
@@ -29,14 +29,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
-[node name="HoldTextSprite" type="Sprite" parent="Sprite"]
+[node name="HoldTextSprite" type="Sprite2D" parent="Sprite2D"]
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource( 1 )
 
-[node name="TimingArm" type="Sprite" parent="."]
+[node name="TimingArm" type="Sprite2D" parent="."]
 offset = Vector2( 0, -31 )

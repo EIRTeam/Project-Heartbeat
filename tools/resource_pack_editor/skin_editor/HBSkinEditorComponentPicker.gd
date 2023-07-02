@@ -27,7 +27,7 @@ func update_list():
 	for component in components:
 		var but := Button.new()
 		but.text = component.get_component_name()
-		but.connect("pressed", self, "_on_component_picked", [component])
+		but.connect("pressed", Callable(self, "_on_component_picked").bind(component))
 		add_child(but)
 func _on_component_picked(component):
 	emit_signal("component_picked", component)

@@ -1,6 +1,6 @@
 class_name HBJudge
 enum JUDGE_RATINGS {
-	WORST
+	WORST,
 	SAD,
 	SAFE,
 	FINE,

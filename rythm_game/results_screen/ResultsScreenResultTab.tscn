@@ -1,36 +1,36 @@
 [gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
-[ext_resource path="res://graphics/icons/chevron-double-up.svg" type="Texture" id=4]
-[ext_resource path="res://graphics/icons/plus-thick.svg" type="Texture" id=5]
+[ext_resource path="res://graphics/icons/chevron-double-up.svg" type="Texture2D" id=4]
+[ext_resource path="res://graphics/icons/plus-thick.svg" type="Texture2D" id=5]
 [ext_resource path="res://rythm_game/results_screen/ResultsScreenResultTab.gd" type="Script" id=6]
 [ext_resource path="res://scripts/RichTextWordRainbow.gd" type="Script" id=7]
-[ext_resource path="res://graphics/icons/score_update_arrow.svg" type="Texture" id=8]
+[ext_resource path="res://graphics/icons/score_update_arrow.svg" type="Texture2D" id=8]
 
-[sub_resource type="DynamicFontData" id=1]
+[sub_resource type="FontFile" id=1]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 70
 use_filter = true
 font_data = SubResource( 1 )
 fallback/0 = ExtResource( 1 )
 
-[sub_resource type="DynamicFontData" id=3]
+[sub_resource type="FontFile" id=3]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 80
 use_filter = true
 font_data = SubResource( 3 )
 
 [sub_resource type="StyleBoxEmpty" id=5]
 
-[sub_resource type="DynamicFontData" id=6]
+[sub_resource type="FontFile" id=6]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="FontFile" id=7]
 size = 80
 use_mipmaps = true
 use_filter = true
@@ -47,81 +47,81 @@ script = ExtResource( 7 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_horizontal = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_vertical = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2"]
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_horizontal = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 838.0
+offset_right = 1920.0
+offset_bottom = 838.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.77
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 
 [node name="Panel" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
-margin_right = 952.0
-margin_bottom = 838.0
+offset_right = 952.0
+offset_bottom = 838.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2.0
-margin_right = 2.0
+offset_left = 2.0
+offset_right = 2.0
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel2" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer"]
-margin_left = 967.0
-margin_right = 1920.0
-margin_bottom = 838.0
+offset_left = 967.0
+offset_right = 1920.0
+offset_bottom = 838.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 1
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingResultsContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
-margin_left = 1.0
-margin_top = 15.0
-margin_right = 938.0
-margin_bottom = 823.0
+offset_left = 1.0
+offset_top = 15.0
+offset_right = 938.0
+offset_bottom = 823.0
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -129,38 +129,38 @@ __meta__ = {
 
 [node name="LevelUpContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
 visible = false
-margin_right = 937.0
-margin_bottom = 269.0
+offset_right = 937.0
+offset_bottom = 269.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
-margin_left = 205.0
-margin_right = 445.0
-margin_bottom = 269.0
+offset_left = 205.0
+offset_right = 445.0
+offset_bottom = 269.0
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/LevelUpContainer"]
-margin_left = 449.0
-margin_top = 93.0
-margin_right = 732.0
-margin_bottom = 176.0
-custom_fonts/font = SubResource( 2 )
+offset_left = 449.0
+offset_top = 93.0
+offset_right = 732.0
+offset_bottom = 176.0
+theme_override_fonts/font = SubResource( 2 )
 text = "Level up!"
 
 [node name="ExperienceContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
 visible = false
-margin_right = 937.0
-margin_bottom = 269.0
+offset_right = 937.0
+offset_bottom = 269.0
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
-margin_left = 224.0
-margin_top = 59.0
-margin_right = 374.0
-margin_bottom = 209.0
-rect_min_size = Vector2( 150, 150 )
+offset_left = 224.0
+offset_top = 59.0
+offset_right = 374.0
+offset_bottom = 209.0
+custom_minimum_size = Vector2( 150, 150 )
 size_flags_horizontal = 10
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.67
@@ -169,195 +169,195 @@ expand = true
 stretch_mode = 5
 
 [node name="ExperienceLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ExperienceContainer"]
-margin_left = 378.0
-margin_right = 937.0
-margin_bottom = 269.0
+offset_left = 378.0
+offset_right = 937.0
+offset_bottom = 269.0
 size_flags_horizontal = 7
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource( 2 )
 text = "Gained 
 1000xp!"
-valign = 1
+vertical_alignment = 1
 autowrap = true
 
 [node name="PercentContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-margin_right = 937.0
-margin_bottom = 404.0
+offset_right = 937.0
+offset_bottom = 404.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer"]
-margin_top = 138.0
-margin_right = 937.0
-margin_bottom = 266.0
+offset_top = 138.0
+offset_right = 937.0
+offset_bottom = 266.0
 alignment = 1
 
 [node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
-margin_right = 414.0
-margin_bottom = 128.0
+offset_right = 414.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+theme_override_fonts/font = SubResource( 4 )
 text = "(NT) %"
-align = 2
+horizontal_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
-margin_left = 418.0
-margin_right = 518.0
-margin_bottom = 128.0
+offset_left = 418.0
+offset_right = 518.0
+offset_bottom = 128.0
 size_flags_vertical = 0
 texture = ExtResource( 8 )
 stretch_mode = 1
 
 [node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/PercentContainer/HBoxContainer"]
-margin_left = 522.0
-margin_right = 937.0
-margin_bottom = 128.0
+offset_left = 522.0
+offset_right = 937.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
-custom_styles/normal = SubResource( 5 )
-custom_fonts/normal_font = SubResource( 7 )
+theme_override_styles/normal = SubResource( 5 )
+theme_override_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
-bbcode_text = "[word_rainbow](NT) %[/word_rainbow]"
+text = "[word_rainbow](NT) %[/word_rainbow]"
 text = "(NT) %"
 fit_content_height = true
 custom_effects = [ SubResource( 8 ) ]
 
 [node name="ScoreContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer"]
-margin_top = 404.0
-margin_right = 937.0
-margin_bottom = 808.0
+offset_top = 404.0
+offset_right = 937.0
+offset_bottom = 808.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer"]
-margin_top = 138.0
-margin_right = 937.0
-margin_bottom = 266.0
+offset_top = 138.0
+offset_right = 937.0
+offset_bottom = 266.0
 alignment = 1
 
 [node name="Previous" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
-margin_right = 414.0
-margin_bottom = 128.0
+offset_right = 414.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+theme_override_fonts/font = SubResource( 4 )
 text = "(NT)"
-align = 2
+horizontal_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
-margin_left = 418.0
-margin_right = 518.0
-margin_bottom = 128.0
+offset_left = 418.0
+offset_right = 518.0
+offset_bottom = 128.0
 size_flags_vertical = 0
 texture = ExtResource( 8 )
 stretch_mode = 1
 
 [node name="Current" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/HBoxContainer/Panel2/MarginContainer/RatingResultsContainer/ScoreContainer/HBoxContainer"]
-margin_left = 522.0
-margin_right = 937.0
-margin_bottom = 128.0
+offset_left = 522.0
+offset_right = 937.0
+offset_bottom = 128.0
 size_flags_horizontal = 3
-custom_styles/normal = SubResource( 5 )
-custom_fonts/normal_font = SubResource( 7 )
+theme_override_styles/normal = SubResource( 5 )
+theme_override_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
-bbcode_text = "[word_rainbow](NT)[/word_rainbow]"
+text = "[word_rainbow](NT)[/word_rainbow]"
 text = "(NT)"
 fit_content_height = true
 custom_effects = [ SubResource( 9 ) ]
 
 [node name="Panel2" type="Panel" parent="VBoxContainer2/HBoxContainer2/VBoxContainer"]
-margin_top = 853.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+offset_top = 853.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 0
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer"]
-margin_left = 10.0
-margin_right = 1910.0
-margin_bottom = 227.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 0
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 0
+offset_left = 10.0
+offset_right = 1910.0
+offset_bottom = 227.0
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer"]
-margin_left = 15.0
-margin_right = 1885.0
-margin_bottom = 227.0
+offset_left = 15.0
+offset_right = 1885.0
+offset_bottom = 227.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 97.0
-margin_right = 1870.0
-margin_bottom = 111.0
+offset_top = 97.0
+offset_right = 1870.0
+offset_bottom = 111.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_right = 1696.0
-margin_bottom = 14.0
+offset_right = 1696.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "TOTAL NOTES"
 
 [node name="TotalNotesLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 1700.0
-margin_right = 1870.0
-margin_bottom = 14.0
+offset_left = 1700.0
+offset_right = 1870.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "(NT)700"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer"]
-margin_top = 115.0
-margin_right = 1870.0
-margin_bottom = 129.0
+offset_top = 115.0
+offset_right = 1870.0
+offset_bottom = 129.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 1696.0
-margin_bottom = 14.0
+offset_right = 1696.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "COMBO"
 
 [node name="ComboLabel" type="Label" parent="VBoxContainer2/HBoxContainer2/VBoxContainer/Panel2/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1700.0
-margin_right = 1870.0
-margin_bottom = 14.0
+offset_left = 1700.0
+offset_right = 1870.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "(NT)700"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

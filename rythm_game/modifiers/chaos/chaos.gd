@@ -7,14 +7,14 @@ func _init():
 
 func _init_plugin():
 	# Base init plugin must always be called after local init
-	._init_plugin()
+	super._init_plugin()
 func _preprocess_timing_points(points: Array) -> Array:
 	randomize()
 	var anime_seed = "Oshino shinobu is best waifu"
 	var gen_seed = 0
-	for i in anime_seed.to_ascii():
+	for i in anime_seed.to_ascii_buffer():
 		gen_seed += i
-	rand_seed(gen_seed)
+	rand_from_seed(gen_seed)
 	var notes = [HBBaseNote.NOTE_TYPE.UP, HBBaseNote.NOTE_TYPE.DOWN, HBBaseNote.NOTE_TYPE.LEFT, HBBaseNote.NOTE_TYPE.RIGHT]
 	notes.shuffle()
 	var note_types_to_randomize = [

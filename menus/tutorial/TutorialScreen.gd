@@ -1,14 +1,14 @@
- extends HBMenu
+extends HBMenu
 
-onready var page_label: Label = get_node("Panel/MarginContainer/VBoxContainer/Label")
-onready var page_container = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer")
-onready var previous_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/PreviousArrow")
-onready var next_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/NextArrow")
+@onready var page_label: Label = get_node("Panel/MarginContainer/VBoxContainer/Label")
+@onready var page_container = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer")
+@onready var previous_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/PreviousArrow")
+@onready var next_arrow = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/NextArrow")
 
 var page = -1
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	go_to_page(0)
 	
 func go_to_page(next_page: int):

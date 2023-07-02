@@ -1,4 +1,4 @@
-extends Viewport
+extends SubViewport
 
 class_name SkinEditorViewport
 

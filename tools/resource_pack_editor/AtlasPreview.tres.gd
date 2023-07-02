@@ -6,39 +6,39 @@ const CHECKERBOARD_PATTERN = preload("res://tools/icon_pack_creator/Checkerboard
 """
 		var video_size = video_texture.get_size()
 		var video_ar = video_size.x / video_size.y
-		var new_size_x = rect_size.y * video_ar
-		if new_size_x <= rect_size.x:
+		var new_size_x = size.y * video_ar
+		if new_size_x <= size.x:
 			# side black bars (or none)
-			video_player.rect_size = Vector2(new_size_x, rect_size.y)
+			video_player.size = Vector2(new_size_x, size.y)
 		else:
 			# bottom and top black bars
-			video_player.rect_size = Vector2(rect_size.x, rect_size.x / video_ar)
+			video_player.size = Vector2(size.x, size.x / video_ar)
 		# Center that shit
-		video_player.rect_position.x = (rect_size.x - video_player.rect_size.x) / 2.0
-		video_player.rect_position.y = (rect_size.y - video_player.rect_size.y) / 2.0
+		video_player.position.x = (size.x - video_player.size.x) / 2.0
+		video_player.position.y = (size.y - video_player.size.y) / 2.0
 """
 
 func set_atlas(_atlas: Dictionary):
 	atlas = _atlas
 #	texture = atlas.texture
 
-	update()
+	queue_redraw()
 func _draw():
 	if atlas:
 		var size := atlas.texture.get_size() as Vector2
 		if size.length() > 0:
 			var ratio = size.x / size.y
-			var new_size_x = rect_size.y * ratio
+			var new_size_x = size.y * ratio
 			var new_size = Vector2()
-			if new_size_x <= rect_size.x:
-				new_size = Vector2(new_size_x, rect_size.y)
+			if new_size_x <= size.x:
+				new_size = Vector2(new_size_x, size.y)
 			else:
-				new_size = Vector2(rect_size.x, rect_size.x / ratio)
+				new_size = Vector2(size.x, size.x / ratio)
 			texture_size_physical = new_size
 		
-			var col = Color.blue
+			var col = Color.BLUE
 			col.a = 0.25
-			var col2 = Color.blue
+			var col2 = Color.BLUE
 			var r = Rect2(Vector2.ZERO, texture_size_physical)
 			draw_texture_rect(CHECKERBOARD_PATTERN, r, true)
 			var tex_r = texture_size_physical / size

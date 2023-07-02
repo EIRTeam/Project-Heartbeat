@@ -1,38 +1,38 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://menus/tutorial/page2/keyboard.png" type="Texture" id=2]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=1]
+[ext_resource path="res://menus/tutorial/page2/keyboard.png" type="Texture2D" id=2]
 
 [node name="Page2" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 1265.0
-margin_bottom = 705.0
-custom_constants/separation = 15
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1265.0
+offset_bottom = 705.0
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 1250.0
-margin_bottom = 47.0
-custom_fonts/font = ExtResource( 1 )
+offset_right = 1250.0
+offset_bottom = 47.0
+theme_override_fonts/font = ExtResource( 1 )
 text = "Default keyboard controls"
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
 anchor_top = 0.00289855
 anchor_bottom = 0.00289855
-margin_top = 62.0
-margin_right = 1250.0
-margin_bottom = 690.0
+offset_top = 62.0
+offset_right = 1250.0
+offset_bottom = 690.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )

@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-signal change_to_menu(menu_name)
+signal changed_to_menu(menu_name)
 
 var MENUS = {} # should be HBMenu
 
@@ -10,4 +10,4 @@ func change_to_menu(menu_name: String, force_hard_transition=false, args = {}):
 	if not menu_name in MENUS:
 		Log.log(self, "Error loading menu %s, menu not found" % menu_name, Log.LogLevel.ERROR)
 		return
-	emit_signal("change_to_menu", menu_name, force_hard_transition, args)
+	emit_signal("changed_to_menu", menu_name, force_hard_transition, args)

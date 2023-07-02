@@ -4,7 +4,7 @@ class_name HBRhythmGame
 
 signal max_hold
 signal hold_score_changed
-signal show_slide_hold_score
+signal shown_slide_hold_score
 signal hold_released
 signal hold_released_early
 signal hold_started(held_notes)
@@ -59,8 +59,8 @@ func precalculate_note_trails(points):
 			prev_point = point
 	
 func _precalculate_note_trail(note_data: HBBaseNote):
-	var points = PoolVector2Array()
-	var points2 = PoolVector2Array()
+	var points = PackedVector2Array()
+	var points2 = PackedVector2Array()
 	
 	points.resize(TRAIL_RESOLUTION)
 	points2.resize(TRAIL_RESOLUTION)
@@ -86,10 +86,10 @@ func get_note_trail_points(note_data: HBBaseNote):
 		return _precalculate_note_trail(note_data)
 
 func _set_timing_points(points):
-	._set_timing_points(points)
+	super._set_timing_points(points)
 
 func _game_ready():
-	._game_ready()
+	super._game_ready()
 	sfx_pool.add_sfx("note_hit", UserSettings.user_settings.get_sound_volume_linear("note_hit"))
 	sfx_pool.add_sfx("slide_hit", UserSettings.user_settings.get_sound_volume_linear("slide_hit"))
 	sfx_pool.add_sfx("slide_empty", UserSettings.user_settings.get_sound_volume_linear("slide_empty"))
@@ -105,10 +105,10 @@ func set_chart(chart: HBChart):
 	slide_hold_chains = chart.get_slide_hold_chains()
 	_potential_result = HBResult.new()
 	_potential_result.max_score = chart.get_max_score()
-	.set_chart(chart)
+	super.set_chart(chart)
 
 func set_song(song: HBSong, difficulty: String, assets = null, modifiers = []):
-	.set_song(song, difficulty, assets, modifiers)
+	super.set_song(song, difficulty, assets, modifiers)
 	if not editing:
 		precalculate_note_trails(timing_points)
 	else:
@@ -134,7 +134,7 @@ func _process_input(event):
 			if event.action in HBGame.NOTE_TYPE_TO_ACTIONS_MAP[type] and type in held_notes:
 				if not event.event_uid in held_note_event_map[type]:
 					held_note_event_map[type].append(event.event_uid)
-	._process_input(event)
+	super._process_input(event)
 
 func _on_unhandled_action_release(action, event_uid):
 	for note_type in held_notes:
@@ -157,25 +157,25 @@ func play_note_sfx(slide = false):
 		sfx_pool.play_sfx("slide_empty")
 
 func set_game_input_manager(manager: HBGameInputManager):
-	.set_game_input_manager(manager)
-	manager.connect("unhandled_release", self, "_on_unhandled_action_release")
+	super.set_game_input_manager(manager)
+	manager.connect("unhandled_release", Callable(self, "_on_unhandled_action_release"))
 
 func set_game_ui(ui: HBRhythmGameUIBase):
-	.set_game_ui(ui)
+	super.set_game_ui(ui)
 	if not health_system_enabled:
 		ui.set_health(100, false)
-	connect("hold_started", ui, "_on_hold_started")
-	connect("hold_released_early", ui, "_on_hold_released_early")
-	connect("hold_released", ui, "_on_hold_released")
-	connect("max_hold", ui, "_on_max_hold")
-	connect("hold_score_changed", ui, "_on_hold_score_changed")
-	connect("show_slide_hold_score", ui, "_on_show_slide_hold_score")
+	connect("hold_started", Callable(ui, "_on_hold_started"))
+	connect("hold_released_early", Callable(ui, "_on_hold_released_early"))
+	connect("hold_released", Callable(ui, "_on_hold_released"))
+	connect("max_hold", Callable(ui, "_on_max_hold"))
+	connect("hold_score_changed", Callable(ui, "_on_hold_score_changed"))
+	connect("shown_slide_hold_score", Callable(ui, "_on_show_slide_hold_score"))
 
 func show_slide_hold_score(piece_position, accumulated_score, is_end):
 	emit_signal("show_slide_hold_score", piece_position, accumulated_score, is_end)
 
 func _pre_process_game():
-	._pre_process_game()
+	super._pre_process_game()
 	# Hold combo increasing and shit
 	if held_notes.size() > 0:
 		var max_time = current_hold_start_time + MAX_HOLD
@@ -191,7 +191,7 @@ func _pre_process_game():
 			emit_signal("hold_score_changed", current_hold_score + accumulated_hold_score)
 
 func _process_game(_delta):
-	._process_game(_delta)
+	super._process_game(_delta)
 
 	# autoplay code
 	if game_mode == GAME_MODE.AUTOPLAY:
@@ -217,7 +217,7 @@ func increase_health():
 	fail_combo = 0
 
 func _on_notes_judged_new(final_judgement: int, judgements: Array, judgement_target_time: int, wrong: bool):
-	._on_notes_judged_new(final_judgement, judgements, judgement_target_time, wrong)
+	super._on_notes_judged_new(final_judgement, judgements, judgement_target_time, wrong)
 	
 	if health_system_enabled:
 		if final_judgement < HBJudge.JUDGE_RATINGS.FINE or wrong:
@@ -278,7 +278,7 @@ func restart():
 	if health_system_enabled:
 		health = 50
 		game_ui.set_health(50, false)
-	.restart()
+	super.restart()
 
 var _potential_result = HBResult.new()
 func get_potential_result():
@@ -286,19 +286,19 @@ func get_potential_result():
 
 func add_score(score_to_add):
 	_potential_result.score += 1000.0
-	.add_score(score_to_add)
+	super.add_score(score_to_add)
 func add_hold_score(score_to_add):
 	result.hold_bonus += score_to_add
 	_potential_result.hold_bonus += score_to_add
 	_potential_result.score += score_to_add
-	.add_score(score_to_add)
+	super.add_score(score_to_add)
 
 
 func add_slide_chain_score(score_to_add):
 	result.slide_bonus += score_to_add
 	_potential_result.slide_bonus += score_to_add
 	_potential_result.score += score_to_add
-	.add_score(score_to_add)
+	super.add_score(score_to_add)
 
 func hold_release():
 	if held_notes.size() > 0:
@@ -314,7 +314,7 @@ func _on_game_finished():
 			if not _prevent_finishing:
 				hold_release()
 				emit_signal("hold_released_early")
-	._on_game_finished()
+	super._on_game_finished()
 
 func start_hold(note_type, auto_juggle=false, hold_start_time := time_msec):
 	if note_type in held_notes:
@@ -357,7 +357,7 @@ func editor_unorphan_subnotes():
 			slide_note_array = editor_left_slide_notes
 		
 		
-		var pos := slide_note_array.bsearch_custom(note, self, "_sort_notes_by_time")
+		var pos := slide_note_array.bsearch_custom(note, self._sort_notes_by_time)
 		pos = min(pos, max(slide_note_array.size()-1, 0))
 		if pos < slide_note_array.size():
 			var slide_note := slide_note_array[pos] as HBBaseNote
@@ -371,8 +371,8 @@ func editor_unorphan_subnotes():
 					slide_chain.slide = slide_note
 					slide_hold_chains[slide_note] = slide_chain
 				slide_chain.pieces.append(note)
-				slide_chain.pieces.sort_custom(self, "_sort_notes_by_time")
-				editor_orphaned_subnotes.remove(i)
+				slide_chain.pieces.sort_custom(Callable(self, "_sort_notes_by_time"))
+				editor_orphaned_subnotes.remove_at(i)
 
 func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 	if point is HBBaseNote:
@@ -389,9 +389,9 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 						editor_orphaned_subnotes.append_array(slide_chain.pieces)
 				
 				if note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:
-					editor_left_slide_notes.insert(editor_left_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
+					editor_left_slide_notes.insert(editor_left_slide_notes.bsearch_custom(note_data, self._sort_notes_by_time), note_data)
 				elif note_data.note_type == HBNoteData.NOTE_TYPE.SLIDE_RIGHT:
-					editor_right_slide_notes.insert(editor_right_slide_notes.bsearch_custom(note_data, self, "_sort_notes_by_time"), note_data)
+					editor_right_slide_notes.insert(editor_right_slide_notes.bsearch_custom(note_data, self._sort_notes_by_time), note_data)
 				
 				if editor_orphaned_subnotes.size() > 0:
 					editor_unorphan_subnotes()
@@ -401,7 +401,7 @@ func editor_add_timing_point(point: HBTimingPoint, sort_groups: bool = true):
 				
 				return
 	
-	.editor_add_timing_point(point, sort_groups)
+	super.editor_add_timing_point(point, sort_groups)
 
 func editor_remove_timing_point(point: HBTimingPoint):
 	if point is HBNoteData:
@@ -436,10 +436,10 @@ func editor_remove_timing_point(point: HBTimingPoint):
 				slide_hold_chains.erase(chain.slide)
 				editor_orphaned_subnotes.append_array(chain.pieces)
 				editor_unorphan_subnotes()
-	.editor_remove_timing_point(point)
+	super.editor_remove_timing_point(point)
 
 func editor_clear_notes():
-	.editor_clear_notes()
+	super.editor_clear_notes()
 	for slide in slide_hold_chains:
 		slide.set_meta("editor_group", null)
 	slide_hold_chains.clear()

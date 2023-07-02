@@ -5,8 +5,8 @@ class_name SteamMultiplayerService
 const LOG_NAME = "SteamMultiplayerService"
 
 func _init():
-	Steam.connect("lobby_match_list", self , "_on_lobby_list_returned")
-	Steam.connect("join_requested", self, "_on_lobby_join_requested")
+	Steam.connect("lobby_match_list", Callable(self, "_on_lobby_list_returned"))
+	Steam.connect("join_requested", Callable(self, "_on_lobby_join_requested"))
 	
 func _check_cmd():
 	var arguments = OS.get_cmdline_args()

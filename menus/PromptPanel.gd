@@ -1,8 +1,8 @@
-tool
+@tool
 extends Panel
 
-export(String) var action_name setget set_action_name
-export(String) var text setget set_text
+@export var action_name: String: set = set_action_name
+@export var text: String: set = set_text
 
 func set_action_name(val):
 	action_name = val
@@ -14,12 +14,12 @@ func set_text(val):
 	call_deferred("_on_resize")
 
 func _ready():
-	connect("resized", self, "_on_resize")
+	connect("resized", Callable(self, "_on_resize"))
 	set_action_name(action_name)
 	set_text(text)
-	$HBoxContainer/Label.connect("minimum_size_changed", self, "_on_resize")
+	$HBoxContainer/Label.connect("minimum_size_changed", Callable(self, "_on_resize"))
 	_on_resize()
 	
 func _on_resize():
-	rect_min_size = $HBoxContainer.get_minimum_size() + Vector2(10, 0)
-	rect_size.x = 0
+	custom_minimum_size = $HBoxContainer.get_minimum_size() + Vector2(10, 0)
+	size.x = 0

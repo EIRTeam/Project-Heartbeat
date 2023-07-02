@@ -1,28 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://b7kuh4s2ai5a5"]
 
-[ext_resource path="res://tools/editor/timeline_items/EditorSectionTimelineItem.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://tools/editor/timeline_items/EditorSectionTimelineItem.gd" id="2"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.6, 0.6, 0.6, 0.501961 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.6, 0.6, 0.6, 0.501961)
 
 [node name="EditorTimelineItem" type="Panel"]
 show_behind_parent = true
-margin_right = 166.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = SubResource( 1 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 35)
+offset_right = 166.0
+offset_bottom = 35.0
+theme_override_styles/panel = SubResource("1")
+script = ExtResource("2")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 text = "Section"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -2,31 +2,31 @@ extends Label
 
 class_name HBUIDynamicLabel
 
-var font: HBUIFont = preload("res://fonts/skined_fallback_font.tres") setget set_font
+var font: HBUIFont = preload("res://fonts/skined_fallback_font.tres"): set = set_font
 var _internal_font: HBUIFont
 
 func set_font(val):
 	font = val
 	_internal_font = font.duplicate()
-	add_font_override("font", _internal_font)
+	add_theme_font_override("font", _internal_font)
 	_fit_font()
 func _ready():
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	
 func _fit_font():
 	if _internal_font:
-		_internal_font.size = font.size
+		_internal_font.target_size = font.target_size
 		if not clip_text:
 			set_text(text)
-			yield(get_tree(), "idle_frame")
+			await get_tree().process_frame
 		else:
 			return
 		var string_size := _internal_font.get_string_size(text)
-		if not autowrap:
-			while string_size.x > rect_size.x:
-				_internal_font.size -= 1
+		if not autowrap_mode == TextServer.AUTOWRAP_ARBITRARY:
+			while string_size.x > size.x:
+				_internal_font.target_size -= 1
 				string_size = _internal_font.get_string_size(text)
-				if _internal_font.size <= 1:
+				if _internal_font.target_size <= 1:
 					break
 
 func _on_resized():

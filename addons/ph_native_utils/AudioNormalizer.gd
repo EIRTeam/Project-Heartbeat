@@ -5,14 +5,16 @@ const TARGET_VOLUME = -14.0
 var normalizer = null
 
 func _init():
-	var AudioNormalizer = preload("res://addons/ph_native_utils/AudioNormalizer.gdns") as NativeScript
-	if not AudioNormalizer.library.get_current_library_path().empty():
-		normalizer = AudioNormalizer.new()
-		normalizer.set_target_loudness(TARGET_VOLUME)
+	pass
+	# TODO: Replace this
+	#var AudioNormalizer = preload("res://addons/ph_native_utils/AudioNormalizer.gdns") as NativeScript
+	#if not AudioNormalizer.library.get_current_library_path().is_empty():
+		#normalizer = AudioNormalizer.new()
+		#normalizer.set_target_loudness(TARGET_VOLUME)
 static func get_offset_from_loudness(loudness: float) -> float:
 	return TARGET_VOLUME - loudness
 
-func set_target_ogg(stream: AudioStreamOGGVorbis):
+func set_target_ogg(stream: AudioStreamOggVorbis):
 	if normalizer:
 		normalizer.set_target_ogg(stream.data)
 

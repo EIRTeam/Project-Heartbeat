@@ -1,7 +1,7 @@
 class_name EditorTransformation
 
 var use_stage_center := false
-var editor setget set_editor
+var editor : set = set_editor
 
 func transform_notes(notes: Array):
 	pass

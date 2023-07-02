@@ -1,11 +1,11 @@
 extends "Option.gd"
 
-onready var option_button := get_node("HBoxContainer/HBoxContainer/OptionButton")
+@onready var option_button := get_node("HBoxContainer/HBoxContainer/OptionButton")
 
 var options = ["No", "Yes"]
 var options_pretty = []
 var selected_option = -1
-var text setget set_text
+var text : set = set_text
 
 func set_text(value):
 	text = value
@@ -24,13 +24,13 @@ func set_value(val):
 func _ready():
 	focus_mode = Control.FOCUS_ALL
 	for option_i in range(options.size()):
-		var option_text := options[option_i] as String
+		var option_text := str(options[option_i])
 		var option_value = options[option_i]
 		if options_pretty.size() > option_i:
 			option_text = options_pretty[option_i]
 		option_button.add_item(option_text, option_value)
 	set_value(value)
-	option_button.connect("selected", self, "_on_option_selected")
+	option_button.connect("selected", Callable(self, "_on_option_selected"))
 
 func _on_option_selected(id):
 	var options_str := []
@@ -41,6 +41,7 @@ func _on_option_selected(id):
 		selected_option = i
 	
 func hover():
+	super.hover()
 	option_button.hover()
 func stop_hover():
 	if is_inside_tree():
@@ -48,7 +49,7 @@ func stop_hover():
 	
 func _gui_input(event):
 	if event.is_action_pressed("gui_accept"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		option_button._on_pressed()
 
 func _on_OptionButton_selected(id):

@@ -1,107 +1,89 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://bo3yjn1jcs8j5"]
 
-[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://graphics/Logo.png" type="Texture" id=2]
-[ext_resource path="res://menus/RandomQuote.gd" type="Script" id=3]
-[ext_resource path="res://menus/StartMenu.gd" type="Script" id=4]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
-[ext_resource path="res://menus/PressStartMenu.gd" type="Script" id=6]
-[ext_resource path="res://fonts/RatingFontSmaller.tres" type="DynamicFont" id=7]
-[ext_resource path="res://graphics/party_hat.png" type="Texture" id=8]
+[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="2"]
+[ext_resource type="Script" path="res://menus/RandomQuote.gd" id="3"]
+[ext_resource type="Script" path="res://menus/StartMenu.gd" id="4"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
+[ext_resource type="Script" path="res://menus/PressStartMenu.gd" id="6"]
+[ext_resource type="FontFile" path="res://fonts/RatingFontSmaller.tres" id="7"]
+[ext_resource type="Texture2D" uid="uid://dpavg7fpmvy8v" path="res://graphics/party_hat.png" id="8"]
 
 [node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource( 5 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("5")
+script = ExtResource("4")
 
-[node name="AudioIn" type="Tween" parent="."]
+[node name="AudioIn" type="Threen" parent="."]
 
-[node name="AudioOut" type="Tween" parent="."]
+[node name="AudioOut" type="Threen" parent="."]
 
 [node name="PressStart" type="Control" parent="."]
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.568787
-margin_right = -0.568848
+offset_left = -0.568787
+offset_right = -0.568848
 mouse_filter = 2
-custom_constants/separation = 32
+theme_override_constants/separation = 32
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect3" type="TextureRect" parent="PressStart/VBoxContainer"]
-margin_top = 354.0
-margin_right = 1920.0
-margin_bottom = 554.0
-rect_min_size = Vector2( 0, 200 )
-mouse_filter = 2
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource( 2 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="BirthdayHat" type="TextureRect" parent="PressStart/VBoxContainer/TextureRect3"]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -682.56
-margin_top = -253.0
-margin_right = 168.0
-margin_bottom = 16.0
-texture = ExtResource( 8 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = -682.56
+offset_top = -253.0
+offset_right = 168.0
+offset_bottom = 16.0
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PressStart/VBoxContainer"]
-margin_top = 586.0
-margin_right = 1920.0
-margin_bottom = 725.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/separation = 70
+theme_override_constants/separation = 70
 
 [node name="RandomQuote" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 38.0
-custom_fonts/font = ExtResource( 7 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 text = "(NT)On the wings of a dream"
-align = 1
-valign = 1
-script = ExtResource( 3 )
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3")
 
 [node name="Label" type="Label" parent="PressStart/VBoxContainer/VBoxContainer"]
-margin_top = 108.0
-margin_right = 1920.0
-margin_bottom = 139.0
-custom_fonts/font = ExtResource( 1 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1")
 text = "Press any key"
-align = 1
-valign = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
+vertical_alignment = 3
 
 [connection signal="start_pressed" from="PressStart" to="." method="_on_PressStart_start_pressed"]
 [connection signal="birthday_triggered" from="PressStart/VBoxContainer/VBoxContainer/RandomQuote" to="PressStart/VBoxContainer/TextureRect3/BirthdayHat" method="show"]

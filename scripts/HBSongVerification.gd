@@ -77,17 +77,15 @@ func verify_meta(song: HBSong):
 		}
 		errors.append(error)
 	elif not (song.youtube_url and song.use_youtube_for_audio):
-		var file = File.new()
 		var audio_path = song.get_song_audio_res_path()
-		if not file.file_exists(audio_path):
+		if not FileAccess.file_exists(audio_path):
 			var error = {
 				"type": META_ERROR.AUDIO_NOT_FOUND,
 				"string": "The song's audio file does not exist on disk",
 			}
 			errors.append(error)
 	if song.voice:
-		var file = File.new()
-		if not file.file_exists(song.get_song_voice_res_path()):
+		if not FileAccess.file_exists(song.get_song_voice_res_path()):
 			var error = {
 				"type": META_ERROR.AUDIO_NOT_FOUND,
 				"string": "The song's voice audio file does not exist on disk",
@@ -100,19 +98,18 @@ func verify_meta(song: HBSong):
 		}
 		errors.append(error)
 	else:
-		var file = File.new()
-		if not file.file_exists(song.get_song_preview_res_path()):
+		if not FileAccess.file_exists(song.get_song_preview_res_path()):
 			var error = {
 				"type": META_ERROR.PREVIEW_FILE_MISSING,
 				"string": "The song preview image file does not exist on disk",
 			}
 			errors.append(error)
 		else:
-			file.open(song.get_song_preview_res_path(), File.READ)
-			if file.get_len() > 1000000:
+			var file := FileAccess.open(song.get_song_preview_res_path(), FileAccess.READ)
+			if file.get_length() > 1000000:
 				var error = {
 					"type": META_ERROR.PREVIEW_FILE_TOO_BIG,
-					"string": "The song preview image file is too big (should be under 1 MB!), it currently is %.2f MB" % [file.get_len() / 1000000.0],
+					"string": "The song preview image file is too big (should be under 1 MB!), it currently is %.2f MB" % [file.get_length() / 1000000.0],
 				}
 				errors.append(error)
 		
@@ -123,13 +120,13 @@ func verify_meta(song: HBSong):
 			}
 			errors.append(error)
 		
-		var dir := Directory.new()
 		
-		if dir.dir_exists(song.path):
+		if DirAccess.dir_exists_absolute(song.path):
 			var found_folder = false
-			var found_illegal_files := PoolStringArray()
-			if dir.open(song.path) == OK:
-				dir.list_dir_begin(true)
+			var found_illegal_files := PackedStringArray()
+			var dir := DirAccess.open(song.path)
+			if DirAccess.get_open_error() == OK:
+				dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 				var dir_name = dir.get_next()
 				while dir_name != "":
 					if not dir.current_is_dir():
@@ -140,12 +137,12 @@ func verify_meta(song: HBSong):
 						found_folder = true
 					dir_name = dir.get_next()
 			if found_illegal_files.size() > 0:
-				var legal_shit = PoolStringArray()
+				var legal_shit = PackedStringArray()
 				for extension in LEGAL_FILE_EXTENSIONS:
 					legal_shit.append(".%s" % [extension])
 				var error = {
 					"type": META_ERROR.ILLEGAL_FILES,
-					"string": "The song's folder contained files that aren't allowed, allowed types are: %s.\nWe found the following disallowed files: %s.\nPlease remove them before uploading to the workshop." % [legal_shit.join(", "), found_illegal_files.join(",\n")],
+					"string": "The song's folder contained files that aren't allowed, allowed types are: %s.\nWe found the following disallowed files: %s.\nPlease remove them before uploading to the workshop." % [", ".join(legal_shit), ",\n".join(found_illegal_files)],
 				}
 				errors.append(error)
 			if found_folder:
@@ -168,9 +165,8 @@ func verify_meta(song: HBSong):
 	return errors
 func verify_audio(song: HBSong):
 	var errors = []
-	var file = File.new()
 	if song.audio:
-		if file.file_exists(song.get_song_audio_res_path()):
+		if FileAccess.file_exists(song.get_song_audio_res_path()):
 			var err_audio = HBUtils.verify_ogg(song.get_song_audio_res_path())
 			if err_audio == HBUtils.OGG_ERRORS.NOT_AN_OGG:
 				var error = {
@@ -185,7 +181,7 @@ func verify_audio(song: HBSong):
 				}
 				errors.append(error)
 	if song.voice:
-		if file.file_exists(song.get_song_voice_res_path()):
+		if FileAccess.file_exists(song.get_song_voice_res_path()):
 			var err_audio = HBUtils.verify_ogg(song.get_song_voice_res_path())
 			if err_audio == HBUtils.OGG_ERRORS.NOT_AN_OGG:
 				var error = {
@@ -207,21 +203,21 @@ func verify_audio(song: HBSong):
 func verify_chart(song: HBSong, difficulty: String):
 	var path = song.get_chart_path(difficulty)
 	var errors = []
-	var file = File.new()
-
-	if not file.file_exists(path):
+	if not FileAccess.file_exists(path):
 		var error = {
 			"type": CHART_ERROR.FILE_NOT_FOUND,
 			"string": "Couldn't find this chart's file",
 		}
 		errors.append(error)
 	else:
-		file.open(path, File.READ)
-		var result = JSON.parse(file.get_as_text()) as JSONParseResult
-		if result.error != OK:
+		var file := FileAccess.open(path, FileAccess.READ)
+		var test_json_conv = JSON.new()
+		var json_err := test_json_conv.parse(file.get_as_text())
+		var result = test_json_conv.data
+		if json_err != OK:
 			var error = {
 				"type": CHART_ERROR.FILE_INVALID_JSON,
-				"string": "Chart JSON Invalid:\n " + str(result.error) + " at line " + str(result.error_line)
+				"string": "Chart JSON Invalid:\n " + str(test_json_conv.get_error_message()) + " at line " + str(test_json_conv.get_error_line())
 			}
 			errors.append(error)
 		else:
@@ -230,7 +226,7 @@ func verify_chart(song: HBSong, difficulty: String):
 			var found_left_slide = false
 			var found_right_slide = false
 			var points = chart.get_timing_points()
-			points.invert()
+			points.reverse()
 			for point in points:
 				if point is HBBaseNote:
 					if point.note_type == HBNoteData.NOTE_TYPE.SLIDE_LEFT:

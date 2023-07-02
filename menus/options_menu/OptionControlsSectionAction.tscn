@@ -1,16 +1,16 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=1]
 [ext_resource path="res://menus/options_menu/OptionControlsSectionAction.gd" type="Script" id=2]
-[ext_resource path="res://graphics/icons/icon_add_big.svg" type="Texture" id=3]
+[ext_resource path="res://graphics/icons/icon_add_big.svg" type="Texture2D" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.270588, 0.105882, 0.431373, 0.501961 )
 
 [node name="Control" type="Panel"]
 anchor_right = 1.0
-rect_min_size = Vector2( 0, 64 )
-custom_styles/panel = SubResource( 1 )
+custom_minimum_size = Vector2( 0, 64 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -19,41 +19,41 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
+offset_left = 20.0
+offset_right = -20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
-margin_right = 64.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 0 )
+offset_right = 64.0
+offset_bottom = 64.0
+custom_minimum_size = Vector2( 64, 0 )
 expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 68.0
-margin_right = 341.0
-margin_bottom = 64.0
+offset_left = 68.0
+offset_right = 341.0
+offset_bottom = 64.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource( 1 )
 text = "(NT)Action Name"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 345.0
-margin_right = 1880.0
-margin_bottom = 64.0
+offset_left = 345.0
+offset_right = 1880.0
+offset_bottom = 64.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer"]
-margin_left = 1471.0
-margin_right = 1535.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
+offset_left = 1471.0
+offset_right = 1535.0
+offset_bottom = 64.0
+custom_minimum_size = Vector2( 64, 64 )
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer/Panel"]
 anchor_right = 1.0

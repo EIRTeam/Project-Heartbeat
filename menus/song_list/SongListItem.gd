@@ -5,20 +5,21 @@ class_name HBSongListItem
 var song : HBSong
 
 var prev_focus
-onready var button = get_node("Control")
+@onready var button = get_node("Control")
 #onready var star_texture_rect = get_node("TextureRect")
 
-onready var stars_label = get_node("Control/TextureRect/StarsLabel")
-onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2")
-onready var stars_texture_rect = get_node("Control/TextureRect")
+@onready var stars_label = get_node("Control/TextureRect/StarsLabel")
+@onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2")
+@onready var stars_texture_rect = get_node("Control/TextureRect")
 var task: SongAssetLoadAsyncTask
 
-onready var arcade_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
-onready var console_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect2")
-onready var download_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect")
+@onready var arcade_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
+@onready var console_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect2")
+@onready var download_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect")
 #HBNoteData.get_note_graphic(data.note_type, "note")
 
 func _ready():
+	super._ready()
 	arcade_texture_rect.hide()
 	console_texture_rect.hide()
 
@@ -27,9 +28,9 @@ func _on_song_cached():
 
 func set_song(value: HBSong):
 	if song:
-		song.disconnect("song_cached", self, "_on_song_cached")
+		song.disconnect("song_cached", Callable(self, "_on_song_cached"))
 	song = value
-	song.connect("song_cached", self, "_on_song_cached")
+	song.connect("song_cached", Callable(self, "_on_song_cached"))
 	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/DownloadTextureRect").visible = not song.is_cached() and song.youtube_url
 	get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2").song = song
 	var max_stars = value.get_max_score()
@@ -94,6 +95,6 @@ func _become_visible():
 			_show_note_usage()
 		else:
 			task = SongAssetLoadAsyncTask.new(["note_usage"], song)
-			task.connect("assets_loaded", self, "_on_note_usage_loaded")
+			task.connect("assets_loaded", Callable(self, "_on_note_usage_loaded"))
 			AsyncTaskQueueLight.queue_task(task)
 		

@@ -1,9 +1,9 @@
 extends Control
 
-var current_song: HBSong setget set_current_song
+var current_song: HBSong: set = set_current_song
 signal back
 
-onready var editor = get_node("PerSongSettingsOptionSection")
+@onready var editor = get_node("PerSongSettingsOptionSection")
 
 var ingame := false
 
@@ -58,9 +58,9 @@ func set_current_song(val):
 	editor.section_data = sec_data_dupl
 
 func _ready():
-	editor.connect("back", self, "_on_back")
-	editor.connect("back", editor, "hide")
-	editor.connect("changed", self, "_on_per_song_setting_changed")
+	editor.connect("back", Callable(self, "_on_back"))
+	editor.connect("back", Callable(editor, "hide"))
+	editor.connect("changed", Callable(self, "_on_per_song_setting_changed"))
 	editor.hide()
 	
 func _on_back():

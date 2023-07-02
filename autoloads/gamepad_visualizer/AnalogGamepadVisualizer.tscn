@@ -6,11 +6,11 @@
 bg_color = Color( 0, 0, 0, 0.5 )
 
 [node name="Panel" type="Panel"]
-margin_left = 620.0
-margin_right = 660.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 0 )
-custom_styles/panel = SubResource( 1 )
+offset_left = 620.0
+offset_right = 660.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 40, 0 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

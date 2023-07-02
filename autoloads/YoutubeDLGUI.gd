@@ -1,3 +1,3 @@
 extends Control
 
-export(float, EASE) var easing
+@export var easing # (float, EASE)

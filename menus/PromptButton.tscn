@@ -5,9 +5,9 @@
 [ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=3]
 
 [node name="Control" type="Button"]
-margin_right = 30.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 30, 39 )
+offset_right = 30.0
+offset_bottom = 45.0
+custom_minimum_size = Vector2( 30, 39 )
 focus_mode = 0
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
@@ -25,12 +25,12 @@ __meta__ = {
 }
 
 [node name="PromptInputAction" parent="HBoxContainer" instance=ExtResource( 1 )]
-margin_right = 8.0
-margin_bottom = 45.0
+offset_right = 8.0
+offset_bottom = 45.0
 input_action = "gui_left"
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 12.0
-margin_top = 3.0
-margin_right = 20.0
-margin_bottom = 42.0
+offset_left = 12.0
+offset_top = 3.0
+offset_right = 20.0
+offset_bottom = 42.0

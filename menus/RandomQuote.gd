@@ -4,7 +4,7 @@ signal birthday_triggered
 
 const QUOTES = [
 	"On the wings of a dream", # TTFAF reference
-	"Dangerous choking hazard!", # Reference to plastic instruments
+	"Dangerous choking hazard!", # RefCounted to plastic instruments
 	"No plastic instruments required!",
 	"Voca- what?", # Vocaloid reference
 	"Ahh, this stuff is really fresh", # Famous sample
@@ -14,12 +14,12 @@ const QUOTES = [
 	"NO SHE DID NOT CREATE MINECRAFT YOU MANIAC", # Miku meme
 	"Many hentai games led to this", # Most of EIREXE's previous serious projects were adult games
 	"Mental rhythm therapy", # EIREXE reference
-	"Allô, oui c'est Twingo", # Reference to the legendary Renault Twingo
+	"Allô, oui c'est Twingo", # RefCounted to the legendary Renault Twingo
 	"He will attack if you go out through this door", # Twingo meme
-	"Alex's singing passion", # Reference to miku's singing passion (a hard song)
-	"Excellent-o", # Reference to miku's pronounciation of excellent in PD games
-	"STOP BEING THEM", # Reference to daniel ricciardo
-	"You can be my new best friend", # Reference
+	"Alex's singing passion", # RefCounted to miku's singing passion (a hard song)
+	"Excellent-o", # RefCounted to miku's pronounciation of excellent in PD games
+	"STOP BEING THEM", # RefCounted to daniel ricciardo
+	"You can be my new best friend", # RefCounted
 	"International Turururru Association", # ???
 	"Into the Heartbeat", # WOWOWOWOO YOU BETTER TAKE YOUR CHANCES RIGHT NOW
 	"Stop being them", # Daniel Ricciardo reference
@@ -29,7 +29,7 @@ const QUOTES = [
 	"Project Heartbeat V-Spec Nur", # Nissan Skyline R34 reference
 	"The heart is a lie, she plans to burn you", # Portalish reference (also hi xna)
 	"If she saves you, it's likely her name starts with an E", # Sadnesswaifu yosi yosi
-	"Smooooooooth operatooooooor", # Reference to Carlos Sainz Junior
+	"Smooooooooth operatooooooor", # RefCounted to Carlos Sainz Junior
 	"Rolling around at the speed of tuturu", # ????
 	"Shoutouts to SimpleFlips",
 	"I'll never break under their madness, I'll be miles above, my head up to the sky", # Ace - I'll never break
@@ -37,11 +37,11 @@ const QUOTES = [
 	"The hate us because they ain't us", # The Interview reference
 	"Now featuring 100% more leaderboards",
 	"Project Project Disappointment", # PPD reference
-	"Project Heartbeat Install from scratch tutorial", # Reference to hisokeee's video.
-	"Sé que, si perdo, vosaltres també perdeu", # Reference to gohan's bird scene in Catalan,
+	"Project Heartbeat Install from scratch tutorial", # RefCounted to hisokeee's video.
+	"Sé que, si perdo, vosaltres també perdeu", # RefCounted to gohan's bird scene in Catalan,
 	"T'has de enfrontar amb mi. Endevant, mira'm els ulls! No tinc cap por. Estic Segur.", # ditto
 	"Shinoboooo", # Oshino Shinobu reference
-	"Not portable *", # Reference to PH not being officially available on portable systems, despite there being a homebrew switch port
+	"Not portable *", # RefCounted to PH not being officially available on portable systems, despite there being a homebrew switch port
 	":v",
 	"The CEO of button mashing", # It is you
 	"Bwoah", # Kimi raikkonen reference
@@ -59,7 +59,7 @@ const QUOTES = [
 	"Better on Linux (tm)", # Fuck you micosoft
 	"I'm sorry, I hate to interrupt this. But this is quite honestly the biggest load of limp wristed twaddle I ever heard during my five weeks on television.", # James may quote
 	"Illo Illo Illo", # Illojuan
-	"I really love Rustle's work /that/ floor man, that floor", # Reference to hentai artist Rustle
+	"I really love Rustle's work /that/ floor man, that floor", # RefCounted to hentai artist Rustle
 	"You're winner!", # Big rigs reference
 	"DIVALLER compatible",
 	"Powered by Godot",
@@ -92,7 +92,7 @@ const BIRTHDAYS = {
 }
 
 func _ready():
-	var date_time = OS.get_datetime()
+	var date_time = Time.get_datetime_dict_from_system()
 	randomize()
 	if date_time.day == 14 and date_time.month == 2:
 		text = "Love is in the air!"

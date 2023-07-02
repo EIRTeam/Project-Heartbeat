@@ -1,87 +1,87 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=2]
-[ext_resource path="res://menus/tutorial/page3/multi_note_example.png" type="Texture" id=3]
-[ext_resource path="res://menus/tutorial/page3/multi_slide_example.png" type="Texture" id=4]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=1]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=2]
+[ext_resource path="res://menus/tutorial/page3/multi_note_example.png" type="Texture2D" id=3]
+[ext_resource path="res://menus/tutorial/page3/multi_slide_example.png" type="Texture2D" id=4]
 
 [node name="Page3" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 1265.0
-margin_bottom = 705.0
-custom_constants/separation = 15
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1265.0
+offset_bottom = 705.0
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 1250.0
-margin_bottom = 47.0
-custom_fonts/font = ExtResource( 1 )
+offset_right = 1250.0
+offset_bottom = 47.0
+theme_override_fonts/font = ExtResource( 1 )
 text = "Multi notes"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 62.0
-margin_right = 1250.0
-margin_bottom = 690.0
+offset_top = 62.0
+offset_right = 1250.0
+offset_bottom = 690.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 623.0
-margin_bottom = 628.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_horizontal = 3
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 623.0
-margin_bottom = 312.0
+offset_right = 623.0
+offset_bottom = 312.0
 size_flags_vertical = 3
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 316.0
-margin_right = 623.0
-margin_bottom = 628.0
+offset_top = 316.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_vertical = 3
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 627.0
-margin_right = 1250.0
-margin_bottom = 628.0
+offset_left = 627.0
+offset_right = 1250.0
+offset_bottom = 628.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 623.0
-margin_bottom = 312.0
+offset_right = 623.0
+offset_bottom = 312.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "Hitting multis requires you to hit different notes at the same time.
 
 Multi notes are denoted by being red in color."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 316.0
-margin_right = 623.0
-margin_bottom = 628.0
+offset_top = 316.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "Multi slides also exist and might require you press the same direction on the two analog sticks."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true

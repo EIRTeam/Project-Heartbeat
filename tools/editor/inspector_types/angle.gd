@@ -1,8 +1,8 @@
-tool
+@tool
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var spinbox = get_node("Spinbox")
-onready var angle_edit = get_node("AngleEdit")
+@onready var spinbox = get_node("Spinbox")
+@onready var angle_edit = get_node("AngleEdit")
 
 func sync_value(input_array: Array):
 	var min_angle = INF
@@ -13,12 +13,12 @@ func sync_value(input_array: Array):
 		max_angle = max(max_angle, input.get(property_name))
 	
 	angle_edit.start_angle = min_angle
-	angle_edit.end_angle = max_angle if max_angle != angle_edit.start_angle else null
+	angle_edit.end_angle = max_angle if max_angle != angle_edit.start_angle else min_angle
 	spinbox.inputs = input_array
 
 func _ready():
 	spinbox.property_name = property_name
-	spinbox.connect("values_changed", self, "_on_Spinbox_values_changed")
+	spinbox.connect("values_changed", Callable(self, "_on_Spinbox_values_changed"))
 
 func _on_angle_changed(value):
 	value = fmod(fmod(value, 360.0) + 360, 360.0)

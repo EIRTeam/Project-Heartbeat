@@ -3,68 +3,68 @@
 [ext_resource path="res://menus/tutorial/TutorialScreen.gd" type="Script" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://menus/tutorial/page2/page2.tscn" type="PackedScene" id=3]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=4]
 [ext_resource path="res://menus/tutorial/page4/Page4.tscn" type="PackedScene" id=5]
 [ext_resource path="res://menus/tutorial/page1/page1.tscn" type="PackedScene" id=6]
 [ext_resource path="res://menus/tutorial/pagefinal/page_final.tscn" type="PackedScene" id=7]
 [ext_resource path="res://menus/tutorial/page3/page3.tscn" type="PackedScene" id=8]
-[ext_resource path="res://graphics/icons/menu-left.svg" type="Texture" id=9]
-[ext_resource path="res://graphics/icons/menu-right.svg" type="Texture" id=10]
+[ext_resource path="res://graphics/icons/menu-left.svg" type="Texture2D" id=9]
+[ext_resource path="res://graphics/icons/menu-right.svg" type="Texture2D" id=10]
 [ext_resource path="res://menus/tutorial/page5/Page5.tscn" type="PackedScene" id=11]
 [ext_resource path="res://menus/tutorial/page6/Page6.tscn" type="PackedScene" id=12]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 50
-custom_constants/margin_top = 50
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_bottom = 50
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="."]
-margin_left = 50.0
-margin_top = 50.0
-margin_right = 1230.0
-margin_bottom = 670.0
-custom_styles/panel = ExtResource( 2 )
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1230.0
+offset_bottom = 670.0
+theme_override_styles/panel = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
-margin_right = 1180.0
-margin_bottom = 610.0
+offset_right = 1180.0
+offset_bottom = 610.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-margin_right = 1180.0
-margin_bottom = 586.0
+offset_right = 1180.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="PreviousArrow" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 48.0
-margin_bottom = 586.0
+offset_right = 48.0
+offset_bottom = 586.0
 texture = ExtResource( 9 )
 stretch_mode = 6
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 52.0
-margin_right = 1128.0
-margin_bottom = 586.0
+offset_left = 52.0
+offset_right = 1128.0
+offset_bottom = 586.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -74,40 +74,40 @@ __meta__ = {
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="Page2" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 3 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="Page3" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 8 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 291.0
+offset_right = 1076.0
+offset_bottom = 291.0
 size_flags_vertical = 3
 
 [node name="Page4" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 5 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="Page5" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 11 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 424.0
+offset_right = 1076.0
+offset_bottom = 424.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -115,8 +115,8 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -124,22 +124,22 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1076.0
-margin_bottom = 586.0
+offset_right = 1076.0
+offset_bottom = 586.0
 size_flags_vertical = 3
 
 [node name="NextArrow" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1132.0
-margin_right = 1180.0
-margin_bottom = 586.0
+offset_left = 1132.0
+offset_right = 1180.0
+offset_bottom = 586.0
 texture = ExtResource( 10 )
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 590.0
-margin_right = 1180.0
-margin_bottom = 610.0
-custom_fonts/font = ExtResource( 4 )
+offset_top = 590.0
+offset_right = 1180.0
+offset_bottom = 610.0
+theme_override_fonts/font = ExtResource( 4 )
 text = "1/6"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1

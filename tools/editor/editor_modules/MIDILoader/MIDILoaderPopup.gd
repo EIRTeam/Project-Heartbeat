@@ -2,13 +2,13 @@ extends ConfirmationDialog
 
 signal track_import_accepted(smf, note_range, tracks)
 
-onready var track_tree: Tree = get_node("%Tree")
+@onready var track_tree: Tree = get_node("%Tree")
 
 var current_smf: SMFLoader.SMF
 var track_root: TreeItem
 
 func _ready():
-	connect("confirmed", self, "_on_confirmed")
+	connect("confirmed", Callable(self, "_on_confirmed"))
 
 func load_smf(path: String):
 	var smf_loader = SMFLoader.new()
@@ -17,8 +17,8 @@ func load_smf(path: String):
 
 func populate_tracks():
 	track_tree.clear()
-	track_tree.set_column_min_width(0, 1)
-	track_tree.set_column_min_width(1, 11)
+	track_tree.set_column_custom_minimum_width(0, 1)
+	track_tree.set_column_custom_minimum_width(1, 11)
 	
 	track_root = track_tree.create_item()
 	track_root.set_cell_mode(0, TreeItem.CELL_MODE_CHECK)

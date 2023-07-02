@@ -1,5 +1,5 @@
 extends AcceptDialog
-onready var song_selector = get_node("%SongSelector")
+@onready var song_selector = get_node("%SongSelector")
 
 enum SELECTOR_MODE {
 	CHART,
@@ -11,28 +11,28 @@ enum SAVE_MODE {
 	SAVE
 }
 
-export(bool) var from_ppd_allowed = false
+@export var from_ppd_allowed: bool = false
 
-export(SELECTOR_MODE) var mode = SELECTOR_MODE.CHART
-export (SAVE_MODE) var save_mode = SAVE_MODE.LOAD
+@export var selector_mode: SELECTOR_MODE = SELECTOR_MODE.CHART
+@export var save_mode: SAVE_MODE = SAVE_MODE.LOAD
 signal chart_selected(song_id, difficulty)
 signal song_selected(song_id)
 signal ppd_chart_selected(path)
 
 func _ready():
-	song_selector.mode = mode
+	song_selector.mode = selector_mode
 	if save_mode == SAVE_MODE.LOAD: 
-		get_ok().text = "Load"
+		get_ok_button().text = "Load"
 	else:
-		get_ok().text = "Save"
+		get_ok_button().text = "Save"
 	
-	get_ok().connect("pressed", self, "_on_OK_pressed")
+	get_ok_button().connect("pressed", Callable(self, "_on_OK_pressed"))
 	
 	if from_ppd_allowed and save_mode == SAVE_MODE.LOAD:
 		var ppd_button = add_button("From PPD")
-		ppd_button.connect("pressed", self, "_on_ppd_button_pressed")
+		ppd_button.connect("pressed", Callable(self, "_on_ppd_button_pressed"))
 	
-	$PPDFileDialog.connect("file_selected", self, "_on_ppd_file_selected")
+	$PPDFileDialog.connect("file_selected", Callable(self, "_on_ppd_file_selected"))
 
 func _on_ppd_button_pressed():
 	$PPDImportConfirmationDialog.popup_centered()

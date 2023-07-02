@@ -6,10 +6,10 @@
 [sub_resource type="StyleBoxFlat" id=1]
 
 [node name="EditorTimelineItem" type="Panel"]
-margin_right = 166.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_styles/panel = SubResource( 1 )
+offset_right = 166.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 0, 50 )
+theme_override_styles/panel = SubResource( 1 )
 script = ExtResource( 2 )
 
 [node name="SelectedPanel" parent="." instance=ExtResource( 1 )]

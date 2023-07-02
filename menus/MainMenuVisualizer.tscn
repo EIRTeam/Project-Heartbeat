@@ -1,12 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://d2xoywdaxsuvs"]
 
-[ext_resource path="res://menus/visualizer/Visualizer.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://menus/visualizer/Visualizer.gd" id="1"]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id="1"]
 code = "shader_type canvas_item;
 const float MATH_PI	= float( 3.14159265359 );
 uniform float FREQ_RANGE = 64.0;
-uniform sampler2D audio : hint_white;
+uniform sampler2D audio : hint_default_white;
 uniform sampler2D background;
 float getfrequency(float x) {
 	return texture(audio, vec2(floor(x * FREQ_RANGE) / FREQ_RANGE, 0.0)).x + 0.06;
@@ -89,22 +89,24 @@ void fragment()
 	COLOR = vec4( color.rgb * vec3(0.7), color.a);
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/FREQ_RANGE = 64.0
+[sub_resource type="ShaderMaterial" id="2"]
+shader = SubResource("1")
+shader_parameter/FREQ_RANGE = 64.0
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.075175, 0.0405, 0.15, 0.501961 )
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.075175, 0.0405, 0.15, 0.501961)
 
 [node name="MainMenuVisualizer2" type="Panel"]
-material = SubResource( 2 )
+material = SubResource("2")
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
-fallback_stylebox = SubResource( 3 )
+script = ExtResource("1")
+fallback_stylebox = SubResource("3")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 0
 anchor_right = 1.0
-rect_min_size = Vector2( 0, 100 )
-expand = true
+expand_mode = 1
 stretch_mode = 1

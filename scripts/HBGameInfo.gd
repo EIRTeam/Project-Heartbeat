@@ -18,8 +18,8 @@ var song_id = ""
 var difficulty = ""
 var variant = -1
 func _init():
-	._init()
-	time = OS.get_unix_time()
+	super._init()
+	time = Time.get_unix_time_from_system()
 	
 	serializable_fields += ["game_session_type", "time", "result", "modifiers",
 	"used_autoplay", "song_id", "difficulty"]
@@ -33,7 +33,7 @@ static func deserialize(data: Dictionary):
 			res.modifiers[modifier_id] = modifier_settings
 	return res
 func serialize(serialize_defaults=false):
-	var base_data = .serialize(serialize_defaults)
+	var base_data = super.serialize(serialize_defaults)
 	var new_modifiers = {}
 	for modifier_id in modifiers:
 		new_modifiers[modifier_id] = modifiers[modifier_id].serialize(serialize_defaults)

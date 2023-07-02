@@ -3,10 +3,10 @@ extends CanvasLayer
 const PER_NOTIFICATION_OFFSET = 90.0
 var notifications = []
 # When the user plays, we hold back notifications
-var holding_back_notifications = false setget set_holding_back_notifications
+var holding_back_notifications = false: set = set_holding_back_notifications
 var held_back_notifications = []
 
-onready var control = get_node("DownloadProgressGUI")
+@onready var control = get_node("DownloadProgressGUI")
 
 const PROGRESS_THING_SCENE = preload("res://autoloads/DownloadProgressThing.tscn")
 
@@ -18,7 +18,7 @@ func add_notification(notification_scene: HBDownloadProgressThing, can_be_held_b
 		notification_scene.appear(PER_NOTIFICATION_OFFSET)
 		set_offsets(PER_NOTIFICATION_OFFSET)
 		notifications.push_front(notification_scene)
-		notification_scene.connect("disappear", self, "remove_notification", [notification_scene])
+		notification_scene.connect("disappeared", Callable(self, "remove_notification").bind(notification_scene))
 
 func set_holding_back_notifications(val):
 	holding_back_notifications = val

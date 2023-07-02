@@ -1,21 +1,21 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/leaderboard_control/LeaderboardControl.gd" type="Script" id=1]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture" id=3]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=2]
+[ext_resource path="res://graphics/icons/refresh-big.svg" type="Texture2D" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "spin"
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_rotation")
+tracks/0/path = NodePath("TextureRect:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1e-05 ),
+"times": PackedFloat32Array( 0, 0.5, 1 ),
+"transitions": PackedFloat32Array( 1, 1, 1e-05 ),
 "update": 0,
 "values": [ 180.0, 0.0, -180.0 ]
 }
@@ -31,8 +31,8 @@ __meta__ = {
 [node name="Entries" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_clip_content = true
-custom_constants/separation = 0
+clip_contents = true
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -42,25 +42,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1910.0
-margin_bottom = 1070.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1910.0
+offset_bottom = 1070.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "Leaderboard not available for this song"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
@@ -74,10 +74,10 @@ __meta__ = {
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer2"]
 visible = false
-margin_left = 960.0
-margin_top = 540.0
-margin_right = 960.0
-margin_bottom = 540.0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 3 )

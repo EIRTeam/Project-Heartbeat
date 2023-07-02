@@ -108,15 +108,15 @@ signal reported_ugc_song_downloaded(user, ugc_id)
 
 var _lobby_id
 
-var lobby_name := "How can my little lobby can be this cute" setget set_lobby_name, get_lobby_name
+var lobby_name := "How can my little lobby can be this cute": get = get_lobby_name, set = set_lobby_name
 var connected := false
-var member_count: int = 1 setget ,get_lobby_member_count
-var max_members: int = 10 setget ,get_max_lobby_members
-var song_name: String = "imademo_2012" setget set_song_name,get_song_name
-var song_id: String = "imademo_2012" setget set_song_id,get_song_id
-var song_difficulty: String = "extreme" setget set_song_difficulty,get_song_difficulty
+var member_count: int = 1: get = get_lobby_member_count
+var max_members: int = 10: get = get_max_lobby_members
+var song_name: String = "imademo_2012": get = get_song_name, set = set_song_name
+var song_id: String = "imademo_2012": get = get_song_id, set = set_song_id
+var song_difficulty: String = "extreme": get = get_song_difficulty, set = set_song_difficulty
 var members: Dictionary = {}
-var lobby_owner: HBServiceMember setget ,get_lobby_owner
+var lobby_owner: HBServiceMember: get = get_lobby_owner
 var pure = true # pure lobbies perform checks
 var game_results = {}
 var game_info: HBGameInfo = HBGameInfo.new()

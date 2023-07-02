@@ -6,7 +6,7 @@ const USER_SETTINGS_PATH = "user://user_settings.json"
 const LOG_NAME = "UserSettings"
 var base_input_map = {}
 
-var CUSTOM_SOUND_PATH = "user://custom_sounds" setget , _get_custom_sounds_path
+var CUSTOM_SOUND_PATH = "user://custom_sounds": get = _get_custom_sounds_path
 
 var debounce_timer = Timer.new()
 # when in controller mode, this counts down to hide the mouse
@@ -60,10 +60,11 @@ func _ready():
 	add_child(debounce_timer)
 	debounce_timer.wait_time = 1.0
 	debounce_timer.one_shot = true
-	debounce_timer.connect("timeout", self, "_save_user_settings")
+	debounce_timer.connect("timeout", Callable(self, "_save_user_settings"))
 
 	add_child(mouse_hide_timer)
-	mouse_hide_timer.connect("timeout", Input, "set_mouse_mode", [Input.MOUSE_MODE_HIDDEN])
+	#TODO GD4
+	#mouse_hide_timer.connect("timeout", Callable(Input, "set_mouse_mode").bind(Input.MOUSE_MODE_HIDDEN))
 	# Godot simulates joy connections on startup, this makes sure we skip them
 
 func _on_joy_connection_changed(device_idx: int, is_connected: bool):
@@ -81,7 +82,7 @@ func get_input_map():
 	for action_name in InputMap.get_actions():
 		if action_name in action_names:
 			map[action_name] = []
-			for event in InputMap.get_action_list(action_name):
+			for event in InputMap.action_get_events(action_name):
 				if event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventKey or event is InputEventMouseButton:
 					map[action_name].append(event)
 	return map
@@ -102,10 +103,10 @@ func _init_user_settings():
 			if action_name in ["gui_accept", "gui_cancel"]:
 				for event in base_input_map[action_name]:
 					if event is InputEventJoypadButton:
-						if event.button_index == JOY_SONY_X:
-							event.button_index = JOY_SONY_CIRCLE
-						elif event.button_index == JOY_SONY_CIRCLE:
-							event.button_index = JOY_SONY_X
+						if event.button_index == JOY_BUTTON_A:
+							event.button_index = JOY_BUTTON_B
+						elif event.button_index == JOY_BUTTON_B:
+							event.button_index = JOY_BUTTON_A
 	print("Shinobu: Setting buffer size to %d ms" % [user_settings.audio_buffer_size])
 	Shinobu.desired_buffer_size_msec = user_settings.audio_buffer_size
 	Shinobu.initialize()
@@ -113,7 +114,7 @@ func _init_user_settings():
 	apply_user_settings(true)
 	load_input_map()
 	set_joypad_prompts()
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	Input.connect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 
 
 func fill_localized_arrays():
@@ -365,7 +366,7 @@ func load_input_map():
 					action.device = controller_device_idx
 				InputMap.action_add_event(action_name, action)
 	current_mode = PROMPT_MODE.JOYPAD
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	
 func map_actions_to_controller():
 	for _device_idx in Input.get_connected_joypads():
@@ -396,7 +397,7 @@ func _input(event):
 			map_actions_to_controller()
 		if current_mode != PROMPT_MODE.JOYPAD:
 			current_mode = PROMPT_MODE.JOYPAD
-			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+			#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 			set_joypad_prompts()
 			JoypadSupport._set_joypad(event.device, true)
 	elif event is InputEventKey or event is InputEventMouseButton:
@@ -413,17 +414,18 @@ func _input(event):
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				mouse_hide_timer.start()
 func load_user_settings():
-	var file := File.new()
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
-	if file.file_exists(usp):
-		if file.open(usp, File.READ) == OK:
-			var result = JSON.parse(file.get_as_text())
-			if result.error == OK:
-				if result.result:
-					user_settings = HBUserSettings.deserialize(result.result)
+	var file := FileAccess.open(usp, FileAccess.READ)
+	if FileAccess.file_exists(usp):
+		if file.get_open_error() == OK:
+			var test_json_conv = JSON.new()
+			var result := test_json_conv.parse(file.get_as_text())
+			if result == OK:
+				if test_json_conv.data:
+					user_settings = HBUserSettings.deserialize(test_json_conv.data)
 				Log.log(self, "Successfully loaded user settings from " + usp)
 			else:
-				Log.log(self, "Error loading user settings, on line %d: %s" % [result.error_line, result.error_string], Log.LogLevel.ERROR)
+				Log.log(self, "Error loading user settings, on line %d: %s" % [test_json_conv.get_error_line(), test_json_conv.get_error_message()], Log.LogLevel.ERROR)
 	
 func set_joypad_prompts():
 	match user_settings.button_prompt_override:
@@ -449,34 +451,36 @@ func apply_user_settings(apply_display := false):
 	register_user_fx()
 	HBGame.spectrum_snapshot.enabled = user_settings.visualizer_enabled
 
-var enable_menu_fps_limits := false setget set_enable_menu_fps_limits
+var enable_menu_fps_limits := false: set = set_enable_menu_fps_limits
 
 func set_enable_menu_fps_limits(val):
 	enable_menu_fps_limits = val
+	_update_fps_limits
 	_update_fps_limits()
-
 func _update_fps_limits():
-	OS.vsync_enabled = user_settings.vsync_enabled
-	Engine.target_fps = 0
+	print("vsync mode", DisplayServer.VSYNC_ENABLED if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = 0
 	if not user_settings.vsync_enabled:
 		if enable_menu_fps_limits:
-			Engine.target_fps = 0
-			OS.vsync_enabled = true
+			Engine.max_fps = 0
+			print(get_window().get_window_id())
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
 		else:
-			Engine.target_fps = int(user_settings.fps_limit)
+			Engine.max_fps = int(user_settings.fps_limit)
 func get_current_display():
-	return min(UserSettings.user_settings.display, OS.get_screen_count()-1)
+	return min(UserSettings.user_settings.display, DisplayServer.get_screen_count()-1)
 
 func save_user_settings():
 	debounce_timer.start(0)
 func _save_user_settings():
-	var file := File.new()
 	var usp = HBGame.platform_settings.user_dir_redirect(USER_SETTINGS_PATH)
 	user_settings.input_map = get_input_map()
-	if file.open(usp, File.WRITE) == OK:
-		var contents = JSON.print(user_settings.serialize(), "  ")
+	var file := FileAccess.open(usp, FileAccess.WRITE)
+	if FileAccess.get_open_error() == OK:
+		var contents = JSON.stringify(user_settings.serialize(), "  ")
 		file.store_string(contents)
-		PlatformService.service_provider.write_remote_file_async(usp.get_file(), contents.to_utf8())
+		PlatformService.service_provider.write_remote_file_async(usp.get_file(), contents.to_utf8_buffer())
 
 func get_event_name(event: InputEvent):
 	var ret = ""
@@ -488,11 +492,11 @@ func get_event_name(event: InputEvent):
 	elif event is InputEventJoypadButton:
 		ret = get_button_name(event)
 	elif event is InputEventKey:
-		ret = OS.get_scancode_string(event.scancode)
+		ret = OS.get_keycode_string(event.keycode)
 	return ret
 	
 func apply_display_mode():
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	var curr_display = get_current_display()
 	var display_mode = UserSettings.user_settings.display_mode
 	if HBGame.is_on_steam_deck():
@@ -500,23 +504,23 @@ func apply_display_mode():
 		
 	match display_mode:
 		"fullscreen":
-			OS.window_borderless = true
-			OS.window_fullscreen = true
+			get_window().borderless = true
+			get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (true) else Window.MODE_WINDOWED
 			
 		"borderless":
-			OS.window_borderless = true
-			OS.window_fullscreen = false
-			OS.window_position = OS.get_screen_position(curr_display)
+			get_window().borderless = true
+			get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (false) else Window.MODE_WINDOWED
+			get_window().position = DisplayServer.screen_get_position(curr_display)
 			# HACK! adding one to the pixel height prevents godot
 			# from going into exclusive FS mode on Windows
 			if OS.get_name() == "Windows":
-				OS.window_size = OS.get_screen_size(curr_display) + Vector2(0, 1)
+				get_window().size = DisplayServer.screen_get_size(curr_display) + Vector2i(0, 1)
 			else:
-				OS.window_size = OS.get_screen_size(curr_display)
+				get_window().size = DisplayServer.screen_get_size(curr_display)
 		"windowed":
-			OS.window_borderless = false
-			OS.window_fullscreen = false
-			OS.window_position = OS.get_screen_position(curr_display) + (OS.get_screen_size(curr_display) / 2.0) - OS.window_size / 2.0
+			get_window().borderless = false
+			get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (false) else Window.MODE_WINDOWED
+			get_window().position = DisplayServer.screen_get_position(curr_display) + (DisplayServer.screen_get_size(curr_display) / 2) - get_window().size / 2
 			
 	
 func apply_volumes():
@@ -547,9 +551,8 @@ func get_content_directories(only_editable=false):
 func get_sound_path(sfx_name: String) -> String:
 	var sound_name = user_settings.custom_sounds[sfx_name]
 	
-	var file := File.new()
 	var file_path = "%s/%s" % [UserSettings.CUSTOM_SOUND_PATH, sound_name] if sound_name != "default" else HBUserSettings.DEFAULT_SOUNDS[sfx_name] 
-	if file.file_exists(file_path):
+	if FileAccess.file_exists(file_path):
 		return file_path
 	
 	return HBUserSettings.DEFAULT_SOUNDS[sfx_name]

@@ -10,10 +10,11 @@ func _init():
 	update_affects_timing_points = true
 
 func _ready():
+	super._ready()
 	sync_text()
 
 func get_editor_size():
-	return Vector2(50, rect_size.y)
+	return Vector2(50, size.y)
 
 # Allow editing one at a time
 func get_inspector_properties():
@@ -47,11 +48,11 @@ func get_inspector_properties():
 		},
 	})
 
-func get_editor_description():
+func get_ph_editor_description():
 	return "Changes the note speed (requires notes to have auto time-out enabled)"
 
 func sync_value(property_name: String):
-	.sync_value(property_name)
+	super.sync_value(property_name)
 	
 	if property_name in ["usage", "speed_factor", "bpm"]:
 		sync_text()
@@ -66,5 +67,5 @@ func sync_text():
 	
 	# HACK: Resize the label after an idle frame, else we are just getting the old size
 	$Label.text = text
-	yield(get_tree(), "idle_frame")
-	rect_size.x = $Label.rect_size.x
+	await get_tree().process_frame
+	size.x = $Label.size.x

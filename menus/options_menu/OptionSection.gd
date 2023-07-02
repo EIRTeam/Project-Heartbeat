@@ -1,6 +1,6 @@
 extends Control
 
-onready var section_data = {} setget _set_section_data
+@onready var section_data = {}: set = _set_section_data
 
 const OptionBool = preload("res://menus/options_menu/OptionBool.tscn")
 const OptionRange = preload("res://menus/options_menu/OptionRange.tscn")
@@ -11,13 +11,13 @@ signal back
 signal changed(property_name, new_value)
 signal value_changed
 
-onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer/VBoxContainer")
-onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer")
-onready var section_label = get_node("VBoxContainer/Panel2/MarginContainer/container/SectionInfoLabel")
+@onready var options_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer/VBoxContainer")
+@onready var scroll_container = get_node("VBoxContainer/Panel2/MarginContainer/container/ScrollContainer")
+@onready var section_label = get_node("VBoxContainer/Panel2/MarginContainer/container/SectionInfoLabel")
 var settings_source
 var postfix = ""
 
-var section_text := "" setget set_section_text
+var section_text := "": set = set_section_text
 
 func set_section_text(val):
 	if val:
@@ -28,8 +28,8 @@ func set_section_text(val):
 		section_label.hide()
 
 func _ready():
-	connect("focus_entered", self, "_on_focus_entered")
-	connect("focus_exited", self, "_on_focus_exited")
+	connect("focus_entered", Callable(self, "_on_focus_entered"))
+	connect("focus_exited", Callable(self, "_on_focus_exited"))
 	focus_mode = Control.FOCUS_ALL
 	set_process_input(false)
 	section_label.hide()
@@ -48,21 +48,21 @@ func _set_section_data(val):
 		if option.has('type'):
 			match option.type:
 				"sound_type_selector":
-					option_scene = OptionSoundSelect.instance()
+					option_scene = OptionSoundSelect.instantiate()
 					option_scene.sound_name = option.sound_name
 				"controller_selector":
-					option_scene = OptionControllerSelect.instance()
+					option_scene = OptionControllerSelect.instantiate()
 				"options":
-					option_scene = OptionSelect.instance()
+					option_scene = OptionSelect.instantiate()
 					option_scene.options = option.options
 					option_scene.options_pretty = option.options_pretty
 					option_scene.value = option.default_value
 		else:
 			match typeof(option.default_value):
 				TYPE_BOOL:
-					option_scene = OptionBool.instance()
-				TYPE_REAL, TYPE_INT:
-					option_scene = OptionRange.instance()
+					option_scene = OptionBool.instantiate()
+				TYPE_FLOAT, TYPE_INT:
+					option_scene = OptionRange.instantiate()
 					if option.has("maximum"):
 						option_scene.maximum = option.maximum
 					if option.has("minimum"):
@@ -89,16 +89,16 @@ func _set_section_data(val):
 			option_scene.value = sett_src.get(option_name)
 			option_scene.text = section_data[option_name].name
 			if not "signal_method" in section_data[option_name]:
-				option_scene.connect("changed", self, "_on_value_changed", [option_name])
+				option_scene.connect("changed", Callable(self, "_on_value_changed").bind(option_name))
 			else:
 				var binds = []
 				if "signal_binds" in section_data[option_name]:
 					binds = section_data[option_name].signal_binds
-				option_scene.connect("changed", section_data[option_name].signal_object, section_data[option_name].signal_method, binds)
-			option_scene.connect("hover", self, "_on_option_hovered", [option_name])
+				option_scene.connect("changed", Callable(section_data[option_name].signal_object, section_data[option_name].signal_method).bind(binds))
+			option_scene.connect("hovered", Callable(self, "_on_option_hovered").bind(option_name))
 			if option_scene.has_signal("back"):
-				option_scene.connect("back", self, "_on_option_back")
-			connect("value_changed", option_scene, "update_disabled")
+				option_scene.connect("back", Callable(self, "_on_option_back"))
+			connect("value_changed", Callable(option_scene, "update_disabled"))
 			option_scene.update_disabled()
 		if section_data.size() > 0:
 			# We force a hover on the first section data to make sure the description
@@ -126,9 +126,9 @@ func toggle_input():
 func _unhandled_input(event):
 	if visible and not input_disabled:
 		if event.is_action_pressed("gui_cancel"):
-			if get_focus_owner() == scroll_container:
+			if get_viewport().gui_get_focus_owner() == scroll_container:
 				HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-				get_tree().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 				emit_signal("back")
 				if scroll_container.get_selected_item():
 					scroll_container.get_selected_item().stop_hover()

@@ -3,8 +3,8 @@ extends Node
 class_name ShinobuGodotSoundPlaybackOffset
 
 var playback: ShinobuSoundPlayer
-var volume := 0.0 setget set_volume, get_volume
-var pitch_scale setget set_pitch_scale, get_pitch_scale
+var volume := 0.0: get = get_volume, set = set_volume
+var pitch_scale : get = get_pitch_scale, set = set_pitch_scale
 
 func set_pitch_scale(val):
 	playback.pitch_scale = val

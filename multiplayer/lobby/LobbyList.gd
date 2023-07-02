@@ -1,47 +1,48 @@
 extends HBMenu
 
-onready var scroll_list = get_node("MarginContainer/VBoxContainer/ScrollContainer")
-onready var lobbies_found_label = get_node("MarginContainer/VBoxContainer/LobbiesFoundLabel")
-onready var create_lobby_button = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu/CreateLobbyButton")
-onready var create_lobby_menu = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu")
-onready var loadingu = get_node("MarginContainer/VBoxContainer/ScrollContainer/CenterContainer")
-onready var refresh_lobby_button = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu/RefreshLobbyListButton")
-onready var status_prompt = get_node("StatusPrompt")
-onready var error_prompt = get_node("ErrorPrompt")
+@onready var scroll_list = get_node("MarginContainer/VBoxContainer/ScrollContainer")
+@onready var lobbies_found_label = get_node("MarginContainer/VBoxContainer/LobbiesFoundLabel")
+@onready var create_lobby_button = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu/CreateLobbyButton")
+@onready var create_lobby_menu = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu")
+@onready var loadingu = get_node("MarginContainer/VBoxContainer/ScrollContainer/CenterContainer")
+@onready var refresh_lobby_button = get_node("MarginContainer/VBoxContainer/CreateLobbyMenu/RefreshLobbyListButton")
+@onready var status_prompt = get_node("StatusPrompt")
+@onready var error_prompt = get_node("ErrorPrompt")
 
 const LobbyListItem = preload("res://multiplayer/lobby/LobbyListItem.tscn")
 
 func _ready():
-	scroll_list.connect("out_from_top", self, "_on_out_from_top")
-	create_lobby_menu.connect("bottom", self, "_on_create_lobby_menu_down")
-	refresh_lobby_button.connect("pressed", self, "refresh_lobby_list")
+	super._ready()
+	scroll_list.connect("out_from_top", Callable(self, "_on_out_from_top"))
+	create_lobby_menu.connect("bottom", Callable(self, "_on_create_lobby_menu_down"))
+	refresh_lobby_button.connect("pressed", Callable(self, "refresh_lobby_list"))
 func _on_menu_enter(force_hard_transition=false, args={}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
-	mp_provider.connect("lobby_match_list", self, "_on_get_lobby_list")
+	mp_provider.connect("lobby_match_list", Callable(self, "_on_get_lobby_list"))
 	refresh_lobby_list()
 	create_lobby_menu.grab_focus()
 	
 func _on_menu_exit(force_hard_transition=false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
-	mp_provider.disconnect("lobby_match_list", self, "_on_get_lobby_list")
+	mp_provider.disconnect("lobby_match_list", Callable(self, "_on_get_lobby_list"))
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		change_to_menu("main_menu")
 	
 func _on_get_lobby_list(lobbies):
 	var first_child
 	for lobby in lobbies:
 			
-		var item = LobbyListItem.instance()
+		var item = LobbyListItem.instantiate()
 		scroll_list.item_container.add_child(item)
 		item.set_lobby(lobby)
-		item.connect("pressed", self, "_on_lobby_button_pressed", [lobby])
+		item.connect("pressed", Callable(self, "_on_lobby_button_pressed").bind(lobby))
 		if not first_child:
 			first_child = item
 #	if first_child:
@@ -72,13 +73,13 @@ func _on_create_lobby_menu_down():
 func _on_lobby_button_pressed(lobby: HBLobby):
 	
 	if lobby.song_id in SongLoader.songs or lobby.song_id.begins_with("ugc_"):
-		lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby], CONNECT_ONESHOT)
+		lobby.connect("lobby_joined", Callable(self, "_on_lobby_joined").bind(lobby), CONNECT_ONE_SHOT)
 		lobby.join_lobby()
 	else:
 		show_error("You do not have this song")
 
 func show_error(error: String):
-	error_prompt.connect("accept", self, "_on_error_prompt_accepted", [get_focus_owner()], CONNECT_ONESHOT)
+	error_prompt.connect("accept", Callable(self, "_on_error_prompt_accepted").bind(get_viewport().gui_get_focus_owner()), CONNECT_ONE_SHOT)
 	error_prompt.text = error
 	error_prompt.popup_centered_ratio(0.5)
 func _on_error_prompt_accepted(old_focus):
@@ -100,8 +101,8 @@ func _on_lobby_joined(response, lobby: HBLobby):
 func _on_CreateLobbyButton_pressed():
 	var mp_provider = PlatformService.service_provider.multiplayer_provider
 	var lobby = mp_provider.create_lobby() as HBLobby
-	lobby.connect("lobby_joined", self, "_on_lobby_joined", [lobby])
-	lobby.connect("lobby_created", self, "_on_lobby_created", [lobby], CONNECT_ONESHOT)
+	lobby.connect("lobby_joined", Callable(self, "_on_lobby_joined").bind(lobby))
+	lobby.connect("lobby_created", Callable(self, "_on_lobby_created").bind(lobby), CONNECT_ONE_SHOT)
 	lobby.create_lobby()
 	
 func _on_lobby_created(response, lobby: HBLobby):

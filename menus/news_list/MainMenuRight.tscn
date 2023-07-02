@@ -1,16 +1,16 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://menus/news_list/MainMenuRight.gd" type="Script" id=1]
-[ext_resource path="res://fonts/Roboto-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/Roboto-Black.ttf" type="FontFile" id=2]
 [ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=3]
 [ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/discord_main_join.svg" type="Texture" id=5]
-[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="DynamicFont" id=6]
-[ext_resource path="res://graphics/icons/twitter_main.svg" type="Texture" id=7]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=8]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://graphics/icons/discord_main_join.svg" type="Texture2D" id=5]
+[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="FontFile" id=6]
+[ext_resource path="res://graphics/icons/twitter_main.svg" type="Texture2D" id=7]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=8]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=9]
 [ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=10]
-[ext_resource path="res://graphics/icons/account_main.svg" type="Texture" id=11]
+[ext_resource path="res://graphics/icons/account_main.svg" type="Texture2D" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 25.0
@@ -41,7 +41,7 @@ corner_radius_bottom_left = 5
 shadow_color = Color( 0, 0, 0, 0.25 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 35
 use_filter = true
 font_data = ExtResource( 2 )
@@ -60,33 +60,33 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 0.856
-margin_bottom = -0.480042
-custom_constants/separation = 25
+offset_bottom = -0.480042
+theme_override_constants/separation = 25
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SocialButtons" type="VBoxContainer" parent="VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 773.0
-focus_neighbour_bottom = NodePath("../NewsButtons")
+offset_right = 1920.0
+offset_bottom = 773.0
+focus_neighbor_bottom = NodePath("../NewsButtons")
 focus_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 alignment = 1
 script = ExtResource( 10 )
 orientation = 1
 
 [node name="OpenProfileButton" type="Button" parent="VBoxContainer/SocialButtons"]
-margin_top = 184.0
-margin_right = 1920.0
-margin_bottom = 309.0
-rect_min_size = Vector2( 0, 125 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 6 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
+offset_top = 184.0
+offset_right = 1920.0
+offset_bottom = 309.0
+custom_minimum_size = Vector2( 0, 125 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_fonts/font = ExtResource( 6 )
+theme_override_styles/hover = SubResource( 1 )
+theme_override_styles/normal = SubResource( 2 )
 text = "My profile"
 icon = ExtResource( 11 )
 script = ExtResource( 4 )
@@ -94,15 +94,15 @@ normal_style = SubResource( 2 )
 hover_style = SubResource( 1 )
 
 [node name="DiscordButton" type="Button" parent="VBoxContainer/SocialButtons"]
-margin_top = 324.0
-margin_right = 1920.0
-margin_bottom = 449.0
-rect_min_size = Vector2( 0, 125 )
+offset_top = 324.0
+offset_right = 1920.0
+offset_bottom = 449.0
+custom_minimum_size = Vector2( 0, 125 )
 focus_mode = 0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 6 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_fonts/font = ExtResource( 6 )
+theme_override_styles/hover = SubResource( 1 )
+theme_override_styles/normal = SubResource( 2 )
 icon = ExtResource( 5 )
 script = ExtResource( 4 )
 normal_style = SubResource( 2 )
@@ -111,26 +111,26 @@ hover_style = SubResource( 1 )
 [node name="Label" type="Label" parent="VBoxContainer/SocialButtons/DiscordButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 123.0
-custom_fonts/font = ExtResource( 6 )
+offset_left = 123.0
+theme_override_fonts/font = ExtResource( 6 )
 text = "Join the Discord server!"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TwitterButton" type="Button" parent="VBoxContainer/SocialButtons"]
-margin_top = 464.0
-margin_right = 1920.0
-margin_bottom = 589.0
-rect_min_size = Vector2( 0, 125 )
+offset_top = 464.0
+offset_right = 1920.0
+offset_bottom = 589.0
+custom_minimum_size = Vector2( 0, 125 )
 focus_mode = 0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 6 )
-custom_styles/hover = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
+theme_override_colors/font_color = Color( 1, 1, 1, 1 )
+theme_override_fonts/font = ExtResource( 6 )
+theme_override_styles/hover = SubResource( 1 )
+theme_override_styles/normal = SubResource( 2 )
 icon = ExtResource( 7 )
 script = ExtResource( 4 )
 normal_style = SubResource( 2 )
@@ -139,68 +139,68 @@ hover_style = SubResource( 1 )
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SocialButtons/TwitterButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 123.0
-margin_bottom = -7.62939e-06
+offset_left = 123.0
+offset_bottom = -7.62939e-06
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
-margin_top = 12.0
-margin_right = 1797.0
-margin_bottom = 65.0
-custom_fonts/font = ExtResource( 6 )
+offset_top = 12.0
+offset_right = 1797.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource( 6 )
 text = "Follow us on Twitter!"
-align = 1
-valign = 2
+horizontal_alignment = 1
+vertical_alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label2" type="Label" parent="VBoxContainer/SocialButtons/TwitterButton/VBoxContainer"]
-margin_top = 69.0
-margin_right = 1797.0
-margin_bottom = 111.0
-custom_fonts/font = SubResource( 3 )
+offset_top = 69.0
+offset_right = 1797.0
+offset_bottom = 111.0
+theme_override_fonts/font = SubResource( 3 )
 text = "@PHeartbeatGame"
-align = 1
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 798.0
-margin_right = 1920.0
-margin_bottom = 898.0
-rect_min_size = Vector2( 0, 100 )
+offset_top = 798.0
+offset_right = 1920.0
+offset_bottom = 898.0
+custom_minimum_size = Vector2( 0, 100 )
 
 [node name="Panel" type="Panel" parent="VBoxContainer/VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 100.0
+offset_right = 1920.0
+offset_bottom = 100.0
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.41418
-margin_bottom = -1.41418
-custom_fonts/font = ExtResource( 8 )
+offset_top = -1.41418
+offset_bottom = -1.41418
+theme_override_fonts/font = ExtResource( 8 )
 text = "NEWS"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NewsButtons" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 923.0
-margin_right = 1920.0
-margin_bottom = 923.0
-focus_neighbour_top = NodePath("../SocialButtons")
+offset_top = 923.0
+offset_right = 1920.0
+offset_bottom = 923.0
+focus_neighbor_top = NodePath("../SocialButtons")
 focus_mode = 2
-custom_constants/separation = 25
+theme_override_constants/separation = 25
 script = ExtResource( 10 )
 orientation = 1
 

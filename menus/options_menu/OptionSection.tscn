@@ -1,108 +1,95 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cloehp50oox4y"]
 
-[ext_resource path="res://menus/options_menu/OptionSection.gd" type="Script" id=1]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=3]
-[ext_resource path="res://graphics/icons/icon_information_sign.svg" type="Texture" id=4]
-[ext_resource path="res://fonts/Default_Font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=6]
+[ext_resource type="Script" path="res://menus/options_menu/OptionSection.gd" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://cai6nkgeq8ftu" path="res://graphics/icons/icon_information_sign.svg" id="4"]
+[ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="5"]
+[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="6"]
 
 [node name="OptionSection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
-margin_right = 1920.0
-margin_bottom = 860.0
-rect_clip_content = true
+clip_contents = true
+layout_mode = 2
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource("3")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+clip_contents = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 1.0
-margin_bottom = 1.0
-rect_clip_content = true
-custom_constants/margin_right = 20
-custom_constants/margin_top = 30
-custom_constants/margin_left = 30
-custom_constants/margin_bottom = 30
+offset_top = 1.0
+offset_bottom = 1.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 30
 
 [node name="container" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer"]
-margin_left = 30.0
-margin_top = 30.0
-margin_right = 1900.0
-margin_bottom = 830.0
-custom_constants/separation = 30
+layout_mode = 2
+theme_override_constants/separation = 30
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer/container"]
-margin_right = 1870.0
-margin_bottom = 756.0
-focus_mode = 2
+layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource( 6 )
+focus_mode = 2
+script = ExtResource("6")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_wrap_around = true
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/container/ScrollContainer"]
-margin_right = 1870.0
-margin_bottom = 756.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SectionInfoLabel" type="Label" parent="VBoxContainer/Panel2/MarginContainer/container"]
-margin_top = 786.0
-margin_right = 1870.0
-margin_bottom = 800.0
+layout_mode = 2
 text = "test lolololo"
-align = 1
-autowrap = true
+horizontal_alignment = 1
 
 [node name="Panel" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 864.0
-margin_right = 1920.0
-margin_bottom = 1080.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource("3")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 1918.0
-margin_bottom = 214.0
-custom_constants/margin_right = 50
-custom_constants/margin_top = 15
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 15
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer"]
-margin_left = 50.0
-margin_top = 15.0
-margin_right = 1866.0
-margin_bottom = 197.0
-custom_constants/separation = 15
+layout_mode = 2
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_right = 40.0
-margin_bottom = 182.0
-texture = ExtResource( 4 )
-stretch_mode = 4
+layout_mode = 2
+texture = ExtResource("4")
+stretch_mode = 5
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer"]
-margin_left = 55.0
-margin_right = 1816.0
-margin_bottom = 182.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 5 )
-valign = 1
-autowrap = true
+theme_override_fonts/font = ExtResource("5")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

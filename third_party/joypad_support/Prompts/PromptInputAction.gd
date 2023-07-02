@@ -25,10 +25,10 @@ enum ForceType {
 const DIRECTION_IMAGE_SIZE_MULTIPLIER = 0.75
 
 # export variables
-export var input_action: = "" setget _set_input_action
-export(ForceType) var force_type: = ForceType.NONE
-export(int) var skip_inputs = 0
-export(bool) var disable_axis_direction_display = false
+@export var input_action: = "": set = _set_input_action
+@export var force_type := ForceType.NONE
+@export var skip_inputs: int = 0
+@export var disable_axis_direction_display: bool = false
 
 # public variables
 # private variables
@@ -39,12 +39,12 @@ var _event_joyaxis: String = ""
 var _event_joyaxis_direction = 0.0
 
 # onready variables
-onready var _prompt: TextureRect = get_node("HBoxContainer/Prompt")
-onready var _fallback: Label = get_node("Fallback")
-onready var _direction_left: TextureRect =  get_node("HBoxContainer/LeftPrompt")
-onready var _direction_right: TextureRect =  get_node("HBoxContainer/RightPrompt")
-onready var _direction_up: TextureRect =  get_node("HBoxContainer/UpPrompt")
-onready var _direction_down: TextureRect =  get_node("HBoxContainer/DownPrompt")
+@onready var _prompt: TextureRect = get_node("HBoxContainer/Prompt")
+@onready var _fallback: Label = get_node("Fallback")
+@onready var _direction_left: TextureRect =  get_node("HBoxContainer/LeftPrompt")
+@onready var _direction_right: TextureRect =  get_node("HBoxContainer/RightPrompt")
+@onready var _direction_up: TextureRect =  get_node("HBoxContainer/UpPrompt")
+@onready var _direction_down: TextureRect =  get_node("HBoxContainer/DownPrompt")
 
 ### ---------------------------------------
 
@@ -64,12 +64,12 @@ func _ready():
 	
 	# Both call backs do the same thing here, but kept them separate to facilitade customization
 	# or expansion of each event separately
-	JoypadSupport.connect("joypad_connected", self, "_on_JoypadSupport_joypad_connected")
-	JoypadSupport.connect("joypad_disconnected", self, "_on_JoypadSupport_joypad_disconnected")
-	JoypadSupport.connect("joypad_manually_changed", self, "_on_JoypadSupport_joypad_manually_changed")
-	JoypadSupport.connect("input_remapped", self, "_on_JoypadSupport_input_remapped")
+	JoypadSupport.connect("joypad_connected", Callable(self, "_on_JoypadSupport_joypad_connected"))
+	JoypadSupport.connect("joypad_disconnected", Callable(self, "_on_JoypadSupport_joypad_disconnected"))
+	JoypadSupport.connect("joypad_manually_changed", Callable(self, "_on_JoypadSupport_joypad_manually_changed"))
+	JoypadSupport.connect("input_remapped", Callable(self, "_on_JoypadSupport_input_remapped"))
 
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	
 	_on_resized()
 
@@ -87,10 +87,10 @@ func _set_input_action(value) -> void:
 		_setup()
 
 func _on_resized():
-	rect_min_size.x = rect_size.y
+	custom_minimum_size.x = size.y
 	for dir in [_direction_left, _direction_right, _direction_up, _direction_down]:
 		if dir.visible:
-			rect_min_size.x += rect_size.y * DIRECTION_IMAGE_SIZE_MULTIPLIER
+			custom_minimum_size.x += size.y * DIRECTION_IMAGE_SIZE_MULTIPLIER
 
 func _setup() -> void:
 	_reset_event_variables()
@@ -99,7 +99,7 @@ func _setup() -> void:
 		_setup_event_variables()
 		_setup_prompt_appearence()
 	else:
-		if not Engine.editor_hint:
+		if not Engine.is_editor_hint():
 			push_warning("Couldn't find %s in input map list: %s"%[input_action, actions_list])
 			assert(false)
 
@@ -113,7 +113,7 @@ func _reset_event_variables() -> void:
 
 
 func _setup_event_variables() -> void:
-	var event_list: = InputMap.get_action_list(input_action)
+	var event_list: = InputMap.action_get_events(input_action)
 	var _skip_count_keyboard = skip_inputs+1
 	var _skip_count_mouse = skip_inputs+1
 	var _skip_count_joybutton = skip_inputs+1
@@ -121,7 +121,7 @@ func _setup_event_variables() -> void:
 	if event_list.size() > 0:
 		for event in event_list:
 			if event is InputEventKey and (_event_keyboard == "" or _skip_count_keyboard > 0):
-				_event_keyboard = str((event as InputEventKey).scancode)
+				_event_keyboard = str((event as InputEventKey).keycode)
 				_skip_count_keyboard -= 1
 			elif event is InputEventMouseButton and (_event_mouse == "" or _skip_count_mouse > 0):
 				_event_mouse = str((event as InputEventMouseButton).button_index)
@@ -134,7 +134,7 @@ func _setup_event_variables() -> void:
 				_event_joyaxis_direction = event.axis_value
 				_skip_count_joyaxis -= 1
 	else:
-		if not Engine.editor_hint:
+		if not Engine.is_editor_hint():
 			push_error("input map action has no events in it!" + \
 					" Register events for it in the Project Settings or through code")
 			assert(false)
@@ -162,12 +162,12 @@ func _setup_prompt_appearence() -> void:
 func _set_joypad_direction_display(string_index: String):
 	var idx = int(string_index)
 	if not disable_axis_direction_display:
-		if idx == JOY_ANALOG_LX or idx == JOY_ANALOG_RX:
+		if idx == JOY_AXIS_LEFT_X or idx == JOY_AXIS_RIGHT_X:
 			if _event_joyaxis_direction < 0.0:
 				_direction_left.show()
 			else:
 				_direction_right.show()
-		elif idx == JOY_ANALOG_LY or idx == JOY_ANALOG_RY:
+		elif idx == JOY_AXIS_LEFT_Y or idx == JOY_AXIS_RIGHT_Y:
 			if _event_joyaxis_direction < 0.0:
 				_direction_up.show()
 			else:
@@ -197,7 +197,8 @@ func _set_prompt_texture() -> bool:
 
 
 func _set_prompt_for(string_index: String) -> bool:
-	var prompt_texture: Texture =  _get_prompt_texture_for(string_index)
+	return false
+	var prompt_texture: Texture2D =  _get_prompt_texture_for(string_index)
 	var success = prompt_texture.resource_path != ""
 	
 	if success:
@@ -205,7 +206,7 @@ func _set_prompt_for(string_index: String) -> bool:
 	
 	return success
 
-func _get_prompt_texture_for(string_index: String) -> Texture:
+func _get_prompt_texture_for(string_index: String) -> Texture2D:
 	var prompt_texture
 	match string_index:
 		_event_keyboard:
@@ -264,7 +265,8 @@ func _get_fallback_string_for(string_index: String) -> String:
 		_event_mouse:
 			fallback_string = "Mouse Button %s"%[index]
 		_event_joybutton:
-			fallback_string = Input.get_joy_button_string(index)
+			# TODO: Migrate this
+			fallback_string = "WAO"
 		_event_joybutton:
 			fallback_string = "Axis %s"%[index]
 		_:
@@ -272,21 +274,21 @@ func _get_fallback_string_for(string_index: String) -> String:
 	
 	return fallback_string
 
-func _get_keyboard_string(scancode: int) -> String:
+func _get_keyboard_string(keycode: int) -> String:
 	var string = ""
-	match scancode:
+	match keycode:
 		KEY_TAB:
 			string = "Tab"
 		KEY_BACKTAB:
 			string = "Tab"
 		_:
-			string = OS.get_scancode_string(scancode)
+			string = OS.get_keycode_string(keycode)
 	
 	return string
 
 
 func push_match_event_variables_error() -> void:
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 	
 	push_error("If you got here it's because the string index doesn't match any " + \
@@ -299,7 +301,7 @@ func push_match_event_variables_error() -> void:
 
 
 func _push_fallback_failed_error() -> void:
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 #	return
 #	push_error("Unable to set prompt or fallback text for any of the events in %s: "\

@@ -1,15 +1,15 @@
 extends Control
 
-onready var sticks_container: HBoxContainer = get_node("%SticksContainer")
-onready var input_man: HeartbeatInputManager = get_node("%HeartbeatInputManager")
-onready var event_log: RichTextLabel = get_node("%EventLog")
+@onready var sticks_container: HBoxContainer = get_node("%SticksContainer")
+@onready var input_man: HeartbeatInputManager = get_node("%HeartbeatInputManager")
+@onready var event_log: RichTextLabel = get_node("%EventLog")
 
 const STICK_COUNT := 2
 const STICK_HISTORY := 100
 
 class StickInfo:
 	var container: Control
-	var last_joystick_inputs: PoolVector2Array
+	var last_joystick_inputs: PackedVector2Array
 	var last_filtered_output: Vector2
 
 var stick_infos: Array
@@ -37,12 +37,12 @@ func _ready():
 		aspect_ratio_c.add_child(c_rect)
 		var info := StickInfo.new()
 		info.container = c_rect
-		var pva := PoolVector2Array()
+		var pva := PackedVector2Array()
 		pva.resize(STICK_HISTORY)
 		info.last_joystick_inputs = pva
 		sticks_container.add_child(aspect_ratio_c)
 		stick_infos.push_back(info)
-	update()
+	queue_redraw()
 
 func _draw_stick_debug(stick_idx: int):
 	var info: StickInfo = stick_infos[stick_idx]
@@ -50,18 +50,18 @@ func _draw_stick_debug(stick_idx: int):
 	draw_set_transform_matrix(container.get_global_transform_with_canvas())
 
 	var deadzone := input_man._get_action_deadzone("heart_note") as float
-	var radius = container.rect_size.x * 0.5
-	var center := container.rect_size * 0.5
+	var radius = container.size.x * 0.5
+	var center := container.size * 0.5
 
-	draw_arc(center, radius, 0, deg2rad(360), 30, Color.gray)
-	draw_arc(center, radius * deadzone, 0, deg2rad(360), 30, Color.mediumpurple)
+	draw_arc(center, radius, 0, deg_to_rad(360), 30, Color.GRAY)
+	draw_arc(center, radius * deadzone, 0, deg_to_rad(360), 30, Color.MEDIUM_PURPLE)
 	var axis0 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_0 + stick_idx * 2)
 	var axis1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_1 + stick_idx * 2)
 	var input := Vector2(axis0, axis1)
 	var filtered_input := input
 	var factor := UserSettings.user_settings.direct_joystick_filter_factor
 	filtered_input = (filtered_input * factor) + (info.last_filtered_output * (1.0 - factor))
-	var slide_angle := deg2rad(UserSettings.user_settings.direct_joystick_slider_angle_window)
+	var slide_angle := deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window)
 	
 	info.last_filtered_output = filtered_input
 		
@@ -69,24 +69,24 @@ func _draw_stick_debug(stick_idx: int):
 		info.last_joystick_inputs[i-1] = info.last_joystick_inputs[i]
 	info.last_joystick_inputs[STICK_HISTORY-1] = filtered_input
 	
-	draw_line(center, center + Vector2(radius, 0).rotated(-slide_angle * 0.5), Color.red)
-	draw_line(center, center + Vector2(radius, 0).rotated(slide_angle * 0.5), Color.red)
-	draw_line(center, center + Vector2(-radius, 0).rotated(-slide_angle * 0.5), Color.red)
-	draw_line(center, center + Vector2(-radius, 0).rotated(slide_angle * 0.5), Color.red)
+	draw_line(center, center + Vector2(radius, 0).rotated(-slide_angle * 0.5), Color.RED)
+	draw_line(center, center + Vector2(radius, 0).rotated(slide_angle * 0.5), Color.RED)
+	draw_line(center, center + Vector2(-radius, 0).rotated(-slide_angle * 0.5), Color.RED)
+	draw_line(center, center + Vector2(-radius, 0).rotated(slide_angle * 0.5), Color.RED)
 
-	var col := Color.green
+	var col := Color.GREEN
 
 	for i in range(STICK_HISTORY-1):
-		col.a = range_lerp(i / float(STICK_HISTORY-2), 0.0, 1.0, 0.1, 0.9) * 0.5
+		col.a = remap(i / float(STICK_HISTORY-2), 0.0, 1.0, 0.1, 0.9) * 0.5
 		draw_circle(center + info.last_joystick_inputs[i] * radius, 4, col)
 
-	draw_circle(center + input * radius, 4, Color.blue)
-	draw_circle(center + filtered_input * radius, 4, Color.red)
+	draw_circle(center + input * radius, 4, Color.BLUE)
+	draw_circle(center + filtered_input * radius, 4, Color.RED)
 
 func _process(delta):
 	event_ids_processed_this_frame.clear()
 	input_man.flush_inputs()
-	update()
+	queue_redraw()
 	input_man._frame_end()
 func _draw():
 	for stick in range(STICK_COUNT):
@@ -95,7 +95,7 @@ func _draw():
 
 var MainMenu = load("res://menus/MainMenu3D.tscn")
 func _on_ReturnToMainMenuButton_pressed():
-	var scene = MainMenu.instance()
+	var scene = MainMenu.instantiate()
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene

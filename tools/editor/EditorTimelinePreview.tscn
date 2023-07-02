@@ -1,18 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://3yxayegc4i16"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0, 0, 0, 0.627451 )
+border_color = Color(0, 0, 0, 0.627451)
 
 [node name="EditorTimelinePreview" type="Panel"]
-margin_right = 219.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 35)
+offset_right = 219.0
+offset_bottom = 35.0
+theme_override_styles/panel = SubResource("1")

@@ -32,9 +32,8 @@ func update_note_usage(difficulty: String, note_usage: Array):
 	var song = get_song()
 	note_usage_mutex.lock()
 	note_usage_cache.note_usages[difficulty] = note_usage
-	var f = File.new()
 	var path = song.get_chart_path(difficulty)
-	var modified = f.get_modified_time(path)
+	var modified = FileAccess.get_modified_time(path)
 	if modified > note_usage_cache.modified:
 		note_usage_cache.modified = modified
 	note_usage_mutex.unlock()

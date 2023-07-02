@@ -1,13 +1,13 @@
 extends HBMenu
 
-onready var offset_label = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/OffsetLabel")
-onready var rhythm_game = get_node("MarginContainer/VBoxContainer/EmbeddedRhythmGame")
-onready var tutorial_popup = get_node("TutorialPopup")
-onready var substract_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton")
-onready var add_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
-onready var next_test_button = get_node("MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton")
-onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction2")
-onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
+@onready var offset_label = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/OffsetLabel")
+@onready var rhythm_game = get_node("MarginContainer/VBoxContainer/EmbeddedRhythmGame")
+@onready var tutorial_popup = get_node("TutorialPopup")
+@onready var substract_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/SubstractButton")
+@onready var add_button = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
+@onready var next_test_button = get_node("MarginContainer/VBoxContainer/MarginContainer2/MarginContainer/VBoxContainer/HBoxContainer2/ChangeTestButton")
+@onready var add_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction2")
+@onready var substract_button_prompt = get_node("MarginContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/PromptInputAction")
 
 var offset := 0
 var player: ShinobuSoundPlayer
@@ -37,7 +37,7 @@ signal resume_background_player
 
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
-	._on_menu_enter(force_hard_transition, args)
+	super._on_menu_enter(force_hard_transition, args)
 	
 	UserSettings.enable_menu_fps_limits = false
 	
@@ -81,7 +81,7 @@ func _on_menu_enter(force_hard_transition=false, args = {}):
 	var sound_source := HBGame.register_sound_from_path("latency_tester_song", song.audio_path) as ShinobuSoundSource
 	
 	player = sound_source.instantiate(HBGame.music_group)
-	player.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
+	player.volume = db_to_linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
 	add_child(player)
 	
 	rhythm_game.set_audio(player, null)
@@ -98,7 +98,7 @@ func update_mode():
 	tutorial_popup.text = tutorials[mode]
 	next_test_button.button_text = next_test[mode]
 	
-	Diagnostics.autoplay_checkbox.pressed = (mode == 0)
+	Diagnostics.autoplay_checkbox.button_pressed = (mode == 0)
 	
 	rhythm_game.restart()
 
@@ -125,7 +125,7 @@ func _on_AddButton_pressed():
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel"):
 		HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		_on_BackButton_pressed()
 	if event.is_action_pressed("gui_left", true):
 		_on_SubstractButton_pressed()
@@ -141,10 +141,10 @@ func _unhandled_input(event):
 		_on_ChangeTestButton_pressed()
 
 func _on_menu_exit(force_hard_transition = false):
-	._on_menu_exit(force_hard_transition)
+	super._on_menu_exit(force_hard_transition)
 	player.stop()
 	emit_signal("resume_background_player")
-	Diagnostics.autoplay_checkbox.pressed = false
+	Diagnostics.autoplay_checkbox.button_pressed = false
 	UserSettings.enable_menu_fps_limits = true
 
 

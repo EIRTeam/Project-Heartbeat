@@ -13,10 +13,10 @@ var default_keyboard: Array = [
 ]
 
 var default_joypad = [
-	JS_InputMapAction.new("gui_up", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_DPAD_UP),
-	JS_InputMapAction.new("gui_down", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_DPAD_DOWN),
-	JS_InputMapAction.new("gui_left", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_DPAD_LEFT),
-	JS_InputMapAction.new("gui_right", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_DPAD_RIGHT),
+	JS_InputMapAction.new("gui_up", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_BUTTON_DPAD_UP),
+	JS_InputMapAction.new("gui_down", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_BUTTON_DPAD_DOWN),
+	JS_InputMapAction.new("gui_left", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_BUTTON_DPAD_LEFT),
+	JS_InputMapAction.new("gui_right", JS_InputMapAction.Types.JOYPAD_BUTTON, JOY_BUTTON_DPAD_RIGHT),
 ]
 
 

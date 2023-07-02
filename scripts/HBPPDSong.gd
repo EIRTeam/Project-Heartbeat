@@ -76,17 +76,17 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 
 # If video is enabled for this type of song
 func has_video_enabled():
-	if .has_video_enabled():
+	if super.has_video_enabled():
 		return not UserSettings.user_settings.disable_ppd_video
 
 func get_song_video_res_path():
 	if uses_native_video:
 		if video != "":
-			return path.plus_file("/%s" % [video])
+			return path.path_join("/%s" % [video])
 		else:
 			return null
 	else:
-		return .get_song_video_res_path()
+		return super.get_song_video_res_path()
 
 func line2phrase(line: String):
 	var split_l = line.split(":")
@@ -100,10 +100,10 @@ func line2phrase(line: String):
 	phrase.lyrics = [lyric]
 	return phrase
 func cache_lyrics():
-	var lyrics_txt = path.plus_file("kasi.txt")
-	var file = File.new()
-	if file.file_exists(lyrics_txt):
-		var err = file.open(lyrics_txt, File.READ)
+	var lyrics_txt = path.path_join("kasi.txt")
+	if FileAccess.file_exists(lyrics_txt):
+		var file = FileAccess.open(lyrics_txt, FileAccess.READ)
+		var err = FileAccess.get_open_error()
 		if err == OK:
 			var lyr = []
 			var lines = []
@@ -129,22 +129,22 @@ func get_chart_for_difficulty(difficulty) -> HBChart:
 	return PPDLoader.PPD2HBChart(chart_path, bpm, ppd_offset)
 
 func get_meta_path():
-	return path.plus_file("data.ini")
+	return path.path_join("data.ini")
 
 func get_serialized_type():
 	return "PPDSong"
 
 func is_cached(variant := -1):
 	if uses_native_video:
-		var f = File.new()
-		return (video and f.file_exists(get_song_video_res_path())) and f.file_exists(get_song_audio_res_path())
+		return (video and FileAccess.file_exists(get_song_video_res_path())) and FileAccess.file_exists(get_song_audio_res_path())
 	else:
-		return .is_cached(variant)
+		return super.is_cached(variant)
 
 func get_video_stream(variant := -1):
 	if uses_native_video:
-		var video_stream = VideoStreamGDNative.new()
+		# TODOGD4: Replace This
+		var video_stream = VideoStreamTheora.new()
 		video_stream.set_file(get_song_video_res_path())
 		return video_stream
 	else:
-		return .get_video_stream(variant)
+		return super.get_video_stream(variant)

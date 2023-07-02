@@ -1,20 +1,20 @@
 extends Control
 
-onready var download_confirm_popup = get_node("DownloadConfirmPopup")
-onready var downloading_prompt = get_node("DownloadingPrompt")
-onready var error_prompt = get_node("ErrorPrompt")
-onready var accept_button_audio = get_node("DownloadConfirmPopup/Panel/HBoxContainer/AcceptButtonAudio")
-onready var button_menu = get_node("DownloadConfirmPopup/Panel/HBoxContainer")
+@onready var download_confirm_popup = get_node("DownloadConfirmPopup")
+@onready var downloading_prompt = get_node("DownloadingPrompt")
+@onready var error_prompt = get_node("ErrorPrompt")
+@onready var accept_button_audio = get_node("DownloadConfirmPopup/Panel/HBoxContainer/AcceptButtonAudio")
+@onready var button_menu = get_node("DownloadConfirmPopup/Panel/HBoxContainer")
 signal done
 var current_song_downloading: HBSong
 var current_variant = -1
 
 func _ready():
-	download_confirm_popup.connect("accept", self, "_on_download_prompt_accepted")
-	download_confirm_popup.connect("cancel", self, "emit_signal", ["done"])
-	error_prompt.connect("accept", self, "_on_error_prompt_accepted")
-	accept_button_audio.connect("pressed", download_confirm_popup, "hide")
-	accept_button_audio.connect("pressed", self, "_on_download_prompt_accepted", [true])
+	download_confirm_popup.connect("accept", Callable(self, "_on_download_prompt_accepted"))
+	download_confirm_popup.connect("cancel", Callable(self, "emit_signal").bind("done"))
+	error_prompt.connect("accept", Callable(self, "_on_error_prompt_accepted"))
+	accept_button_audio.connect("pressed", Callable(download_confirm_popup, "hide"))
+	accept_button_audio.connect("pressed", Callable(self, "_on_download_prompt_accepted").bind(true))
 func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_option = false):
 	HBGame.fire_and_forget_sound(HBGame.menu_validate_sfx, HBGame.sfx_group)
 	var variant = song.get_variant_data(variant_n)

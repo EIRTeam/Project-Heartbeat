@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/icon.png-5ea3b79c18ba3fe167d738507b46df81.image"
+uid="uid://cgd20hnpduqvg"
+path="res://.godot/imported/icon.png-5ea3b79c18ba3fe167d738507b46df81.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/nintendo/icon.png"
-dest_files=[ "res://.import/icon.png-5ea3b79c18ba3fe167d738507b46df81.image" ]
+dest_files=["res://.godot/imported/icon.png-5ea3b79c18ba3fe167d738507b46df81.image"]
 
 [params]
 

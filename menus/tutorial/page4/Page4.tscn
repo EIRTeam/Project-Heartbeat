@@ -1,85 +1,85 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://menus/tutorial/page4/slide chain.png" type="Texture" id=1]
-[ext_resource path="res://fonts/Rating_Font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=3]
-[ext_resource path="res://menus/tutorial/page4/hold_notes.png" type="Texture" id=4]
+[ext_resource path="res://menus/tutorial/page4/slide chain.png" type="Texture2D" id=1]
+[ext_resource path="res://fonts/Rating_Font.tres" type="FontFile" id=2]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=3]
+[ext_resource path="res://menus/tutorial/page4/hold_notes.png" type="Texture2D" id=4]
 
 [node name="Page4" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 15
-custom_constants/margin_top = 15
-custom_constants/margin_left = 15
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_bottom = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 1265.0
-margin_bottom = 705.0
-custom_constants/separation = 15
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 1265.0
+offset_bottom = 705.0
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 1250.0
-margin_bottom = 47.0
-custom_fonts/font = ExtResource( 2 )
+offset_right = 1250.0
+offset_bottom = 47.0
+theme_override_fonts/font = ExtResource( 2 )
 text = "Slide chains and hold notes"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 62.0
-margin_right = 1250.0
-margin_bottom = 690.0
+offset_top = 62.0
+offset_right = 1250.0
+offset_bottom = 690.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 623.0
-margin_bottom = 628.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_horizontal = 3
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 623.0
-margin_bottom = 312.0
+offset_right = 623.0
+offset_bottom = 312.0
 size_flags_vertical = 3
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 316.0
-margin_right = 623.0
-margin_bottom = 628.0
+offset_top = 316.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_vertical = 3
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 627.0
-margin_right = 1250.0
-margin_bottom = 628.0
+offset_left = 627.0
+offset_right = 1250.0
+offset_bottom = 628.0
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 623.0
-margin_bottom = 312.0
+offset_right = 623.0
+offset_bottom = 312.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Slide chains are slides that you can hold for extra points. Slide chains will progressively become blue, if the slide is fully blue you can let go of it."
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 316.0
-margin_right = 623.0
-margin_bottom = 628.0
+offset_top = 316.0
+offset_right = 623.0
+offset_bottom = 628.0
 size_flags_vertical = 7
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "Hold notes are notes that give you extra points by holding them after you hit them,, if you manage to hold them for long enough you'll get a nice bonus!"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true

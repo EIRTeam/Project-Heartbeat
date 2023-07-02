@@ -1,7 +1,7 @@
 extends VBoxContainer
 
-onready var toggle_tool_button = get_node("HBoxContainer/ToggleToolButton")
-onready var tool_name_label = get_node("HBoxContainer/ToolName")
+@onready var toggle_tool_button = get_node("HBoxContainer/ToggleToolButton")
+@onready var tool_name_label = get_node("HBoxContainer/ToolName")
 
 const DOWN_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_down.svg")
 const RIGHT_ICON = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")

@@ -1,7 +1,7 @@
 extends TabbedContainerTab
 
-onready var chart_control = get_node("MarginContainer/VBoxContainer/Panel/Chart")
-onready var minimap_control = get_node("MarginContainer/VBoxContainer/Panel2/MarginContainer/Control")
+@onready var chart_control = get_node("MarginContainer/VBoxContainer/Panel/Chart")
+@onready var minimap_control = get_node("MarginContainer/VBoxContainer/Panel2/MarginContainer/Control")
 var game_info: HBGameInfo
 
 func set_game_info(_game_info: HBGameInfo):

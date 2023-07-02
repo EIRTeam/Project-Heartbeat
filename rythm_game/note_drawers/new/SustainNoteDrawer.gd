@@ -2,7 +2,7 @@ extends HBNewNoteDrawer
 
 class_name HBSustainNoteDrawer
 
-onready var note_graphic2 = get_node("Note2")
+@onready var note_graphic2 = get_node("Note2")
 
 var pressed := false
 var notified_release_judgement := false
@@ -14,12 +14,12 @@ func set_enable_trail(val):
 	enable_trail = val
 
 func set_is_multi_note(val):
-	.set_is_multi_note(val)
+	super.set_is_multi_note(val)
 	if is_inside_tree():
 		note_graphic2.set_note_type(note_data.note_type, val)
 
 func note_init():
-	.note_init()
+	super.note_init()
 	sine_drawer = SineDrawerSustain.new()
 	sine_drawer.game = game
 	sine_drawer.note_data = note_data
@@ -42,7 +42,7 @@ func process_input(event: InputEventHB):
 	else:
 		_on_pressed(event)
 		
-func _on_end_release(event := null):
+func _on_end_release(event = null):
 	var judgement := game.judge.judge_note(game.time_msec, note_data.end_time) as int
 	judgement = max(judgement, 0)
 	notify_release_judgement(judgement)
@@ -88,11 +88,11 @@ func is_in_editor_mode():
 	return game.game_mode == 1
 
 func process_note(time_msec: int):
-	.process_note(time_msec)
+	super.process_note(time_msec)
 	
 	if is_autoplay_enabled():
 		if not scheduled_autoplay_sound:
-			var target_time := note_data.time if not pressed else note_data.end_time
+			var target_time: int = note_data.time if not pressed else note_data.end_time
 			if is_in_autoplay_schedule_range(time_msec, target_time):
 				var note_sfx := "note_hit" if not pressed else "sustain_note_release"
 				schedule_autoplay_sound(note_sfx, time_msec, target_time)
@@ -133,7 +133,7 @@ func process_note(time_msec: int):
 		sustain_loop.pitch_scale = 1.0 + duration_progress * 0.1
 
 func update_graphic_positions_and_scale(time_msec: int):
-	.update_graphic_positions_and_scale(time_msec)
+	super.update_graphic_positions_and_scale(time_msec)
 	var time_out := note_data.get_time_out(game.get_note_speed_at_time(note_data.time))
 	
 	var time_out_distance = time_out - (note_data.time - time_msec) - note_data.get_duration()
@@ -147,7 +147,7 @@ func update_graphic_positions_and_scale(time_msec: int):
 	update_arm_position(time_msec)
 
 func draw_trail(time_msec: int):
-	.draw_trail(time_msec)
+	super.draw_trail(time_msec)
 	if pressed:
 		sine_drawer.time = 1.0
 	var time_out = note_data.get_time_out(game.get_note_speed_at_time(note_data.time))

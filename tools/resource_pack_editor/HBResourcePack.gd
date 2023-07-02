@@ -7,7 +7,7 @@ enum NOTE_SUBGRAPHICS {
 	target,
 	multi_note,
 	multi_note_target,
-	double_target
+	double_target,
 	double_note,
 	sustain_note,
 	sustain_target,
@@ -88,7 +88,7 @@ func get_note_graphic_file_name(note_i: int, subgraphic_i: int) -> String:
 # Creates the atlas textures
 # optional margin for having multiple atlases in one texture (batching optimization)
 # atlas_name should be the atlas name, aka icon for icon_atlas_data
-func create_atlas_textures(texture: Texture, atlas_name: String, offset=Vector2(0, 0)) -> Dictionary:
+func create_atlas_textures(texture: Texture2D, atlas_name: String, offset=Vector2(0, 0)) -> Dictionary:
 	var _atlas_textures = {}
 	var atlas_data = get(atlas_name + "_atlas_data")
 	for file_name in atlas_data:
@@ -120,17 +120,15 @@ func get_atlas_path(atlas_name: String) -> String:
 
 func get_atlas_image(atlas_name: String) -> Image:
 	var path := get_atlas_path(atlas_name)
-	var file := File.new()
-	if file.file_exists(path) or ResourceLoader.exists(path):
+	if FileAccess.file_exists(path) or ResourceLoader.exists(path):
 		var img := HBUtils.image_from_fs(path) as Image
 		if img:
 			return img
 	return null
 
 func get_graphic_image(graphic_name: String) -> Image:
-	var file := File.new()
 	var file_path = HBUtils.join_path(_path, HBUtils.join_path("graphics", graphic_name))
-	if file.file_exists(file_path) or ResourceLoader.exists(file_path):
+	if FileAccess.file_exists(file_path) or ResourceLoader.exists(file_path):
 		var img := HBUtils.image_from_fs(file_path) as Image
 		if img:
 			return img
@@ -142,16 +140,15 @@ func get_pack_icon_path() -> String:
 	return HBUtils.join_path(_path, "icon.png")
 
 func get_pack_icon() -> Image:
-	var f := File.new()
 	var pack_icon_path := get_pack_icon_path()
-	if f.file_exists(pack_icon_path) or ResourceLoader.exists(pack_icon_path):
+	if FileAccess.file_exists(pack_icon_path) or ResourceLoader.exists(pack_icon_path):
 		var img := HBUtils.image_from_fs(pack_icon_path) as Image
 		if img:
 			return img
 	return null
 	
 func get_skin_config_path() -> String:
-	return _path.plus_file("skin.json")
+	return _path.path_join("skin.json")
 
 func get_skin() -> HBUISkin:
 	var skin := HBUISkin.from_file(get_skin_config_path()) as HBUISkin

@@ -21,8 +21,8 @@ func _ready():
 				"not a Button there is no meaning in using it.")
 		assert(false)
 	
-	JoypadSupport.connect("joypad_connected", self, "_on_JoypadSupport_joypad_connected")
-	JoypadSupport.connect("joypad_disconnected", self, "_on_JoypadSupport_joypad_disconnected")
+	JoypadSupport.connect("joypad_connected", Callable(self, "_on_JoypadSupport_joypad_connected"))
+	JoypadSupport.connect("joypad_disconnected", Callable(self, "_on_JoypadSupport_joypad_disconnected"))
 
 ### ---------------------------------------
 

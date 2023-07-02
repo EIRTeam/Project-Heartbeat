@@ -1,6 +1,7 @@
 extends HBEditorSettings
 
 func _ready():
+	super._ready()
 	settings = {
 		"General": [
 			{"name": tr("Automatically save when \"Play\" is pressed"), "var": "editor_autosave_enabled", "type": "Bool"},
@@ -52,7 +53,7 @@ func _ready():
 			{"name": tr("Draw grid only inside safe area"), "var": "editor_grid_safe_area_only", "type": "Bool"},
 			{"name": tr("Enable multinote indicators"), "var": "editor_multinote_crosses_enabled", "type": "Bool", "options": {"update_affects_conditions": true}},
 			{"x_name": tr("Grid row spacing"), "y_name": tr("Grid column spacing"), "var": "editor_grid_resolution", "type": "Vector2", "options": {"suffix": "px", "min": 1, "max": 368, "step": 1}},
-			{"name": tr("Dashes per grid space"), "var": "editor_dashes_per_grid_space", "type": "Int", "options": {"condition": "editor_grid_type == EDITOR_GRID_TYPE.DASHED", "min": 3, "max": 10}},
+			{"name": tr("Dashes per grid space"), "var": "editor_dashes_per_grid_space", "type": "Int", "options": {"condition": "editor_grid_type == EDITOR_GRID_TYPES.DASHED", "min": 3, "max": 10}},
 			{"name": tr("Grid subdivisions"), "var": "editor_grid_subdivisions", "type": "Int", "options": {"condition": "editor_grid_type == EDITOR_GRID_TYPES.SUBDIVIDED", "min": 0, "max": 5}},
 		],
 		"Visual": [
@@ -60,7 +61,7 @@ func _ready():
 			{"name": tr("Main grid line width"), "var": "editor_main_grid_width", "type": "Float", "options": {"step": 0.05, "min": 1.0, "max": 3.0}},
 			{"name": tr("Secondary grid line color"), "var": "editor_secondary_grid_color", "type": "Color", "presets": [Color(0.5, 0.5, 0.5)], "options": {"condition": "editor_grid_type != 0"}},
 			{"name": tr("Secondary grid line width"), "var": "editor_secondary_grid_width", "type": "Float", "options": {"condition": "editor_grid_type != 0", "step": 0.05, "min": 1.0, "max": 3.0}},
-			{"name": tr("Multinote cross color"), "var": "editor_multinote_cross_color", "type": "Color", "presets": [Color.white], "options": {"condition": "editor_multinote_crosses_enabled"}},
+			{"name": tr("Multinote cross color"), "var": "editor_multinote_cross_color", "type": "Color", "presets": [Color.WHITE], "options": {"condition": "editor_multinote_crosses_enabled"}},
 			{"name": tr("Multinote cross width"), "var": "editor_multinote_cross_width", "type": "Float", "options": {"condition": "editor_multinote_crosses_enabled", "step": 0.05, "min": 1.0, "max": 3.0}},
 		],
 		"Scripts": [
@@ -69,7 +70,7 @@ func _ready():
 	}
 	
 	settings_base = UserSettings.user_settings
-	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "update")
+	UserSettings.user_settings.connect("editor_grid_resolution_changed", Callable(self, "update"))
 
 func update_setting(property_name: String, new_value):
 	settings_base.set(property_name, new_value)
@@ -79,9 +80,9 @@ func update_setting(property_name: String, new_value):
 		editor.grid_renderer.update()
 	
 	if property_name == "editor_grid_resolution":
-		UserSettings.user_settings.disconnect("editor_grid_resolution_changed", self, "update")
+		UserSettings.user_settings.disconnect("editor_grid_resolution_changed", Callable(self, "update"))
 		UserSettings.user_settings.emit_signal("editor_grid_resolution_changed")
-		UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "update")
+		UserSettings.user_settings.connect("editor_grid_resolution_changed", Callable(self, "update"))
 	
 	if property_name == "editor_show_hold_calculator":
 		editor.hold_calculator_toggled()

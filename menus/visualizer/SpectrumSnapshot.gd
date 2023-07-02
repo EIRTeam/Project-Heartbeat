@@ -2,7 +2,7 @@ extends Node
 
 class_name HBSpectrumSnapshot
 
-var arr := PoolRealArray()
+var arr := PackedFloat32Array()
 const STEP := 78 # 78 hz step
 const min_freq := 20
 var max_freq := 20_000
@@ -15,12 +15,12 @@ var decay_per_ms := 0.0024
 
 var definition := 256
 
-onready var timer := Timer.new()
+@onready var timer := Timer.new()
 const UPDATE_INTERVAL_SEC = 0.050
 
 var analyzer: ShinobuSpectrumAnalyzerEffect
 
-var enabled := true setget set_enabled
+var enabled := true: set = set_enabled
 
 func set_enabled(val):
 	enabled = val
@@ -37,13 +37,13 @@ func _init(_definition):
 func _ready():
 	add_child(timer)
 	timer.wait_time = UPDATE_INTERVAL_SEC
-	timer.connect("timeout", self, "snap")
+	timer.connect("timeout", Callable(self, "snap"))
 	timer.start()
 	set_enabled(enabled)
 		
 func set_volume(volume_db: float):
-	max_db = volume_db + linear2db(HBGame.music_group.volume)
-	min_db = BASE_MIN_DB + volume_db + linear2db(HBGame.music_group.volume)
+	max_db = volume_db + linear_to_db(HBGame.music_group.volume)
+	min_db = BASE_MIN_DB + volume_db + linear_to_db(HBGame.music_group.volume)
 	
 func snap():
 	var interval = (max_freq - min_freq) / float(definition)
@@ -61,7 +61,7 @@ func snap():
 		
 		
 		var mag = analyzer.get_magnitude_for_frequency_range(freqrange_low, freqrange_high)
-		mag = linear2db(mag.length())
+		mag = linear_to_db(mag.length())
 		mag = (mag - min_db) / (max_db - min_db)
 		mag += 0.3 * (freq - min_freq) / (max_freq - min_freq)
 		mag = clamp(mag, 0.00, 1)

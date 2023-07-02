@@ -1,8 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://c6tt3iq5mqtat"]
 
-[ext_resource path="res://fonts/Tools_Font.tres" type="DynamicFont" id=1]
+[ext_resource type="FontFile" path="res://fonts/Tools_Font.tres" id="1"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends Control
 
 enum AFTButtons {
@@ -43,8 +43,7 @@ func is_hold(button: int):
 func test_pvdb_loading():
 	var AFT_LOCATION = \"/home/eirexe/Descargas/PDAFT/SBZV_7.01\"
 	var PVDB_LOCATION = HBUtils.join_path(AFT_LOCATION, \"rom/pv_db.txt\")
-	var file = File.new()
-	file.open(PVDB_LOCATION, File.READ)
+	var file = FileAccess.open(PVDB_LOCATION, FileAccess.READ)
 	var found_pv_ids = []
 	var pv_data = {}
 	while not file.eof_reached():
@@ -87,7 +86,9 @@ func _ready():
 	MouseTrap.disable_mouse_trap()
 	#test_pvdb_loading()
 	#return
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	(get_viewport() as Window).content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	(get_viewport() as Window).content_scale_aspect = Window.CONTENT_SCALE_ASPECT_EXPAND
+	(get_viewport() as Window).min_size = Vector2(1280, 720)
 	var opcode_map = DSCOpcodeMap.new()
 	var r = preload(\"res://autoloads/song_loader/song_loaders/DSCConverter.gd\").load_dsc_file(\"/home/eirexe/.config/rpcs3/dev_hdd0/game/NPJB00134/USRDIR/rom/script/pv_044_extreme.dsc\", opcode_map)
 	var rtl: RichTextLabel = $RichTextLabel
@@ -107,24 +108,22 @@ func _ready():
 			rtl.text += \" \" + str(param)
 		rtl.text += \"\\n\"
 	var d = chart.serialize()
-	var f = File.new()
-	f.open(\"user:///songs/test_chart/extreme.json\", File.WRITE)
-	f.store_string(JSON.print(d, \"  \"))
+	var f := FileAccess.open(\"user:///songs/test_chart/extreme.json\", FileAccess.WRITE)
+	f.store_string(JSON.stringify(d, \"  \"))
 	f.close()
 "
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("1")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/normal_font = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_fonts/normal_font = ExtResource("1")

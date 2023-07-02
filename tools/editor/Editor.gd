@@ -15,50 +15,50 @@ const EDITOR_LAYER_SCENE = preload("res://tools/editor/EditorLayer.tscn")
 const EDITOR_TIMELINE_ITEM_SCENE = preload("res://tools/editor/timeline_items/EditorTimelineItemSingleNote.tscn")
 const EDITOR_MODULES_DIR = "res://tools/editor/editor_modules"
 
-onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
-onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
-onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
-onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/RhythmGame")
-onready var game_preview = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview")
-onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
-onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
-onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
-onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
-onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instance()
-onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
-onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
-onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
-onready var game_playback = EditorPlayback.new(rhythm_game)
-onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
-onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
-onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
-onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
-onready var timeline_snap_button = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton")
-onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
-onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
-onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
-onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
-onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
-onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
-onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
-onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
-onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
-onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
-onready var settings_editor = get_node("%EditorGlobalSettings")
-onready var song_settings_editor = get_node("%EditorGlobalSettings").song_settings_tab
-onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
-onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
-onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
-onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
-onready var contextual_menu = get_node("%ContextualMenu")
-onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
-onready var no_timing_map_dialog = get_node("%NoTimingMapDialog")
-onready var settings_editor_button = get_node("%EditorSettingsPopupButton")
+@onready var save_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveButton")
+@onready var save_as_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton")
+@onready var timeline = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/EditorTimeline")
+@onready var rhythm_game = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/RhythmGame")
+@onready var game_preview = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview")
+@onready var grid_renderer = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/GridRenderer")
+@onready var inspector = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer/Inspector")
+@onready var current_title_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/CurrentTitleButton")
+@onready var open_chart_popup_dialog = get_node("Popups/OpenChartPopupDialog")
+@onready var rhythm_game_playtest_popup = preload("res://tools/editor/EditorRhythmGamePopup.tscn").instantiate()
+@onready var play_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PlayButton")
+@onready var pause_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PauseButton")
+@onready var editor_help_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/EditorHelpButton")
+@onready var game_playback = EditorPlayback.new(rhythm_game)
+@onready var message_shower = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/MessageShower")
+@onready var first_time_message_dialog := get_node("Popups/FirstTimeMessageDialog")
+@onready var info_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/HBoxContainer/InfoLabel")
+@onready var waveform_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/WaveformButton")
+@onready var timeline_snap_button = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/TimelineGridSnapButton")
+@onready var show_bg_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowBGButton")
+@onready var show_video_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowVideoButton")
+@onready var grid_snap_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/GridSnapButton")
+@onready var show_grid_button = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/ShowGridbutton")
+@onready var grid_x_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox")
+@onready var grid_y_spinbox = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview/Node2D/WidgetArea/Panel/HBoxContainer/SpinBox2")
+@onready var sex_button = get_node("VBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/SexButton")
+@onready var toolbox_tab_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/Control/TabContainer2")
+@onready var playback_speed_label = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedLabel")
+@onready var playback_speed_slider = get_node("VBoxContainer/VSplitContainer/EditorTimelineContainer/VBoxContainer/Panel/MarginContainer/HBoxContainer/PlaybackSpeedSlider")
+@onready var settings_editor = get_node("%EditorGlobalSettings")
+@onready var song_settings_editor = get_node("%EditorGlobalSettings").song_settings_tab
+@onready var botton_panel_vbox_container = get_node("VBoxContainer/VSplitContainer")
+@onready var left_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer")
+@onready var right_panel_vbox_container = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer")
+@onready var right_panel = get_node("VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer")
+@onready var contextual_menu = get_node("%ContextualMenu")
+@onready var save_confirmation_dialog = get_node("%SaveConfirmationDialog")
+@onready var no_timing_map_dialog = get_node("%NoTimingMapDialog")
+@onready var settings_editor_button = get_node("%EditorSettingsPopupButton")
 
 const LOG_NAME = "HBEditor"
 
 var playhead_position := 0
-var scale = 1.5 # Seconds per 500 pixels
+var editor_scale = 1.5 # Seconds per 500 pixels
 var selected: Array = []
 var copied_points: Array = []
 
@@ -72,7 +72,7 @@ var undo_redo = UndoRedo.new()
 
 var song_editor_settings: HBPerSongEditorSettings = HBPerSongEditorSettings.new()
 
-onready var fine_position_timer = Timer.new()
+@onready var fine_position_timer = Timer.new()
 
 var current_notes := []
 
@@ -100,7 +100,7 @@ var eight_map := {"times": [], "eights": []}
 var signature_map := []
 var metronome_map := []
 
-var hidden: bool = false
+var editor_hidden: bool = false
 
 var modified: bool = false
 
@@ -108,31 +108,31 @@ func _sort_current_items_impl(a, b):
 	return a.data.time < b.data.time
 
 func sort_current_items():
-	current_notes.sort_custom(self, "_sort_current_items_impl")
+	current_notes.sort_custom(Callable(self, "_sort_current_items_impl"))
 
 func _insert_note_at_time_bsearch(item: EditorTimelineItem, time: int):
 	return item.data.time < time
 
 func insert_note_at_time(item: EditorTimelineItem):
-	var pos = current_notes.bsearch_custom(item.data.time, self, "_insert_note_at_time_bsearch")
+	var pos = current_notes.bsearch_custom(item.data.time, self._insert_note_at_time_bsearch)
 	current_notes.insert(pos, item)
 
 func _sort_modules(a, b):
 	return a.priority < b.priority
 
 func load_modules():
-	var dir := Directory.new()
-	if dir.open(EDITOR_MODULES_DIR) == OK:
-		dir.list_dir_begin()
+	var dir := DirAccess.open(EDITOR_MODULES_DIR)
+	if DirAccess.get_open_error() == OK:
+		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = dir.get_next()
 		
 		while file_name != "":
 			if not dir.current_is_dir() and not file_name.begins_with("."):
 				if file_name.ends_with(".tscn"):
-					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instantiate()
 					modules.append(module)
 				elif file_name.ends_with(".tscn.converted.res"):
-					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instance()
+					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instantiate()
 					modules.append(module)
 				elif file_name.ends_with(".gd"):
 					if not dir.file_exists(file_name.trim_suffix(".gd") + ".tscn") and "Module" in file_name:
@@ -145,7 +145,7 @@ func load_modules():
 			
 			file_name = dir.get_next()
 	
-	modules.sort_custom(self, "_sort_modules")
+	modules.sort_custom(Callable(self, "_sort_modules"))
 	for module in modules:
 		module.set_editor(self)
 
@@ -159,35 +159,37 @@ func update_shortcuts():
 func _ready():
 	UserSettings.enable_menu_fps_limits = false
 	add_child(game_playback)
-	game_playback.connect("playback_speed_changed", self, "_on_playback_speed_changed")
-	game_playback.connect("time_changed", self, "_on_game_playback_time_changed")
+	game_playback.connect("playback_speed_changed", Callable(self, "_on_playback_speed_changed"))
+	game_playback.connect("time_changed", Callable(self, "_on_game_playback_time_changed"))
 	Input.set_use_accumulated_input(true)
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
-	OS.window_borderless = false
-	OS.window_fullscreen = false
-	OS.window_maximized = true
+	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	get_window().borderless = false
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (false) else Window.MODE_WINDOWED
+	get_window().mode = Window.MODE_MAXIMIZED if (true) else Window.MODE_WINDOWED
 	timeline.editor = self
 	timeline.set_layers_offset(0)
 	add_child(fine_position_timer)
 	fine_position_timer.wait_time = 0.5
-	fine_position_timer.connect("timeout", self, "apply_fine_position")
+	fine_position_timer.connect("timeout", Callable(self, "apply_fine_position"))
 	rhythm_game.set_process_unhandled_input(false)
 	rhythm_game.game_mode = HBRhythmGameBase.GAME_MODE.EDITOR_SEEK
 	
-	inspector.connect("properties_changed", self, "_change_selected_properties")
-	inspector.connect("property_change_committed", self, "_commit_selected_property_change")
-	inspector.connect("reset_pos", self, "reset_note_position")
+	inspector.connect("properties_changed", Callable(self, "_change_selected_properties"))
+	inspector.connect("property_change_committed", Callable(self, "_commit_selected_property_change"))
+	inspector.connect("reset_pos", Callable(self, "reset_note_position"))
 	
 	# You HAVE to open a chart, this ensures that if no chart is selected we return
 	# to the main menu
-	open_chart_popup_dialog.get_cancel().connect("pressed", self, "exit")
-	open_chart_popup_dialog.get_close_button().connect("pressed", self, "exit")
-	open_chart_popup_dialog.connect("chart_selected", self, "load_song")
+	open_chart_popup_dialog.get_cancel_button().connect("pressed", Callable(self, "exit"))
+	open_chart_popup_dialog.close_requested.connect(self.exit)
+	open_chart_popup_dialog.connect("chart_selected", Callable(self, "load_song"))
+	open_chart_popup_dialog.close_requested.connect(self.reveal_ui)
+	open_chart_popup_dialog.confirmed.connect(self.reveal_ui)
+	rhythm_game_playtest_popup.connect("quit", Callable(self, "_on_playtest_quit"))
+	editor_help_button.get_popup().connect("index_pressed", Callable(self, "_on_editor_help_button_pressed"))
 	
-	rhythm_game_playtest_popup.connect("quit", self, "_on_playtest_quit")
-	editor_help_button.get_popup().connect("index_pressed", self, "_on_editor_help_button_pressed")
-	
-	inspector.connect("notes_pasted", self, "paste_note_data")
+	inspector.connect("notes_pasted", Callable(self, "paste_note_data"))
 	
 	MouseTrap.disable_mouse_trap()
 	
@@ -195,20 +197,20 @@ func _ready():
 		first_time_message_dialog.popup_centered()
 	else:
 		_show_open_chart_dialog()
-	first_time_message_dialog.get_ok().text = "Got it!"
-	first_time_message_dialog.get_ok().connect("pressed", self, "_on_acknowledge_first_time_message")
+	first_time_message_dialog.get_ok_button().text = "Got it!"
+	first_time_message_dialog.get_ok_button().connect("pressed", Callable(self, "_on_acknowledge_first_time_message"))
 	
-	connect("timing_points_changed", self, "_cache_hold_sizes")
+	connect("timing_points_changed", Callable(self, "_cache_hold_sizes"))
 	
 	settings_editor.song_settings_tab.set_editor(self)
 	settings_editor.general_settings_tab.set_editor(self)
 	settings_editor.shortcuts_tab.set_editor(self)
 	
-	UserSettings.user_settings.connect("editor_grid_resolution_changed", self, "_update_grid_resolution")
+	UserSettings.user_settings.connect("editor_grid_resolution_changed", Callable(self, "_update_grid_resolution"))
 	
-	connect("scale_changed", timeline, "_on_editor_scale_changed")
+	connect("scale_changed", Callable(timeline, "_on_editor_scale_changed"))
 	
-	game_preview.connect("preview_size_changed", self, "_on_preview_size_changed")
+	game_preview.connect("preview_size_changed", Callable(self, "_on_preview_size_changed"))
 	
 	load_modules()
 	
@@ -218,17 +220,17 @@ func _ready():
 	
 	update_user_settings()
 	
-	Diagnostics.fps_label.get_font("font").size = 11
+	Diagnostics.fps_label.add_theme_font_size_override("font_size", 11)
 	Diagnostics.editor_undo_redo = undo_redo
 	
-	undo_redo.connect("version_changed", self, "_on_version_changed")
+	undo_redo.connect("version_changed", Callable(self, "_on_version_changed"))
 	
-	save_confirmation_dialog.get_ok().text = "Yes"
-	save_confirmation_dialog.get_cancel().text = "Go back"
+	save_confirmation_dialog.get_ok_button().text = "Yes"
+	save_confirmation_dialog.get_cancel_button().text = "Go back"
 	
-	settings_editor_button.connect("pressed", self, "keep_settings_button_enabled")
+	settings_editor_button.connect("pressed", Callable(self, "keep_settings_button_enabled"))
 	
-	connect("timing_information_changed", rhythm_game, "update_bpm_map")
+	connect("timing_information_changed", Callable(rhythm_game, "update_bpm_map"))
 
 const HELP_URLS = [
 	"https://ph-editor.eirteam.moe/",
@@ -264,7 +266,7 @@ func _show_transform_on_current_notes(transformation):
 	
 	game_preview.transform_preview.transformation = transformation
 	game_preview.transform_preview.notes_to_transform = base_transform_notes
-	game_preview.transform_preview.update()
+	game_preview.transform_preview.queue_redraw()
 	game_preview.transform_preview.hide_timer.stop()
 	game_preview.transform_preview.show()
 
@@ -302,12 +304,12 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 				for property_name in transformation_result[note]:
 					if property_name in item.data:
 						undo_redo.add_do_property(item.data, property_name, transformation_result[item.data][property_name])
-						undo_redo.add_do_method(item.data, "emit_signal", "parameter_changed", property_name)
-						undo_redo.add_do_method(item, "sync_value", property_name)
+						undo_redo.add_do_method(item.data.emit_signal.bind("parameter_changed", property_name))
+						undo_redo.add_do_method(item.sync_value.bind(property_name))
 						
 						undo_redo.add_undo_property(item.data, property_name, item.data.get(property_name))
-						undo_redo.add_undo_method(item.data, "emit_signal", "parameter_changed", property_name)
-						undo_redo.add_undo_method(item, "sync_value", property_name)
+						undo_redo.add_undo_method(item.data.emit_signal.bind("parameter_changed", property_name))
+						undo_redo.add_undo_method(item.sync_value.bind(property_name))
 						
 						if property_name == "note_type":
 							# When note type is changed we also change the layer
@@ -322,38 +324,38 @@ func _apply_transform_on_current_notes(transformation: EditorTransformation):
 								note.set_meta("second_layer", target_layer_name.ends_with("2"))
 								
 								var target_layer = timeline.find_layer_by_name(target_layer_name)
-								undo_redo.add_do_method(self, "remove_item_from_layer", source_layer, item)
-								undo_redo.add_do_method(self, "add_item_to_layer", target_layer, item)
+								undo_redo.add_do_method(self.remove_item_from_layer.bind(source_layer, item))
+								undo_redo.add_do_method(self.add_item_to_layer.bind(target_layer, item))
 								
-								undo_redo.add_undo_method(self, "remove_item_from_layer", target_layer, item)
-								undo_redo.add_undo_method(self, "add_item_to_layer", source_layer, item)
+								undo_redo.add_undo_method(self.remove_item_from_layer.bind(target_layer, item))
+								undo_redo.add_undo_method(self.add_item_to_layer.bind(source_layer, item))
 						if property_name == "position":
 							undo_redo.add_do_property(item.data, "pos_modified", true)
 							undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
 			
-			undo_redo.add_do_method(item, "update_widget_data")
-			undo_redo.add_undo_method(item, "update_widget_data")
+			undo_redo.add_do_method(item.update_widget_data)
+			undo_redo.add_undo_method(item.update_widget_data)
 		
-		undo_redo.add_do_method(self, "force_game_process")
-		undo_redo.add_undo_method(self, "force_game_process")
+		undo_redo.add_do_method(self.force_game_process)
+		undo_redo.add_undo_method(self.force_game_process)
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
 		
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_do_method(inspector.sync_visible_values_with_data)
+		undo_redo.add_undo_method(inspector.sync_visible_values_with_data)
 		
 		undo_redo.commit_action()
 
 func _show_open_chart_dialog():
-	open_chart_popup_dialog.popup_centered_minsize(Vector2(600, 250))
+	open_chart_popup_dialog.popup_centered_clamped(Vector2(600, 250))
 	
 func change_scale(new_scale):
-	if new_scale < scale and scale < 1.0:
+	if new_scale < editor_scale and editor_scale < 1.0:
 		return
-	var prev_scale = scale
-	scale = new_scale
-	scale = max(new_scale, 0.1)
+	var prev_scale = editor_scale
+	editor_scale = new_scale
+	editor_scale = max(new_scale, 0.1)
 	emit_signal("scale_changed", prev_scale, new_scale)
 
 func get_items_at_time(time: int):
@@ -373,7 +375,7 @@ func _unhandled_input(event: InputEvent):
 		return
 	
 	if event is InputEventKey and event.pressed and not sex_button.visible:
-		if event.scancode == konami_sequence[konami_index]:
+		if event.keycode == konami_sequence[konami_index]:
 			konami_index += 1
 			
 			if konami_index == konami_sequence.size():
@@ -390,7 +392,7 @@ func _unhandled_input(event: InputEvent):
 			var diff_y = event.get_action_strength("editor_fine_position_down") - event.get_action_strength("editor_fine_position_up")
 			var off = Vector2(int(diff_x), int(diff_y))
 			fine_position_selected(off)
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	
 	if event.is_action("editor_move_left", true) or \
 		event.is_action("editor_move_right", true) or \
@@ -404,10 +406,10 @@ func _unhandled_input(event: InputEvent):
 			var off = Vector2(int(diff_x * grid_size.y), int(diff_y * grid_size.x))
 			
 			fine_position_selected(off)
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	
 	if event.is_action("gui_undo", true) and event.pressed:
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_undo():
 			if undo_redo.get_current_action_name() == "MERGE":
@@ -418,7 +420,7 @@ func _unhandled_input(event: InputEvent):
 			undo_redo.undo()
 	
 	if event.is_action("gui_redo", true) and event.pressed:
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		apply_fine_position()
 		if undo_redo.has_redo():
 			undo_redo.redo()
@@ -454,7 +456,7 @@ func _unhandled_input(event: InputEvent):
 				if event.is_action_pressed(action, false, true) or (type in [HBBaseNote.NOTE_TYPE.SLIDE_LEFT, HBBaseNote.NOTE_TYPE.SLIDE_RIGHT] and event.is_action_pressed(action)):
 					var layer = null
 					for layer_c in timeline.get_visible_layers():
-						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type) + ("2" if event.shift else ""):
+						if layer_c.layer_name == HBUtils.find_key(HBBaseNote.NOTE_TYPE, type) + ("2" if event.shift_pressed else ""):
 							layer = layer_c
 							break
 					
@@ -492,17 +494,17 @@ func _unhandled_input(event: InputEvent):
 							
 							var new_item = new_data.get_timeline_item()
 							
-							undo_redo.add_do_method(self, "add_item_to_layer", layer, new_item)
-							undo_redo.add_undo_method(self, "remove_item_from_layer", layer, new_item)
+							undo_redo.add_do_method(self.add_item_to_layer.bind(layer, new_item))
+							undo_redo.add_undo_method(self.remove_item_from_layer.bind(layer, new_item))
 							
-							undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-							undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+							undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+							undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 						
-						undo_redo.add_do_method(self, "deselect_all")
-						undo_redo.add_undo_method(self, "deselect_all")
+						undo_redo.add_do_method(self.deselect_all)
+						undo_redo.add_undo_method(self.deselect_all)
 						
-						undo_redo.add_do_method(self, "_on_timing_points_changed")
-						undo_redo.add_undo_method(self, "_on_timing_points_changed")
+						undo_redo.add_do_method(self._on_timing_points_changed)
+						undo_redo.add_undo_method(self._on_timing_points_changed)
 						
 						undo_redo.commit_action()
 					else:
@@ -514,11 +516,11 @@ func _unhandled_input(event: InputEvent):
 									
 									undo_redo.create_action("Remove note")
 									
-									undo_redo.add_do_method(self, "remove_item_from_layer", item._layer, item)
-									undo_redo.add_undo_method(self, "add_item_to_layer", item._layer, item)
+									undo_redo.add_do_method(self.remove_item_from_layer.bind(item._layer, item))
+									undo_redo.add_undo_method(self.add_item_to_layer.bind(item._layer, item))
 									
-									undo_redo.add_do_method(self, "_on_timing_points_changed")
-									undo_redo.add_undo_method(self, "_on_timing_points_changed")
+									undo_redo.add_do_method(self._on_timing_points_changed)
+									undo_redo.add_undo_method(self._on_timing_points_changed)
 									
 									undo_redo.commit_action()
 									
@@ -538,7 +540,7 @@ func _unhandled_input(event: InputEvent):
 					found_note = true
 					break
 			if found_note:
-				get_tree().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 				break
 	
 	if event.is_action_pressed("editor_show_docs", false, true):
@@ -554,7 +556,7 @@ func get_timing_points() -> Array:
 	for layer in layers:
 		points += layer.get_timing_points()
 	
-	points.sort_custom(self, "_note_comparison")
+	points.sort_custom(Callable(self, "_note_comparison"))
 	return points
 
 func get_timeline_items() -> Array:
@@ -565,11 +567,11 @@ func get_timeline_items() -> Array:
 	return items
 
 func scale_msec(msec: int) -> float:
-	return ((msec/1000.0)/scale)*500.0
+	return ((msec/1000.0)/editor_scale)*500.0
 
 # pixels to msec
 func scale_pixels(pixels: float) -> float:
-	return (pixels * scale / 500) * 1000.0
+	return (pixels * editor_scale / 500) * 1000.0
 
 var selected_changed := false
 func notify_selected_changed():
@@ -604,12 +606,12 @@ func select_item(item: EditorTimelineItem, inclusive: bool = false):
 	
 	var widget := item.get_editor_widget()
 	if widget:
-		var widget_instance = widget.instance() as HBEditorWidget
+		var widget_instance = widget.instantiate() as HBEditorWidget
 		widget_instance.editor = self
 		game_preview.widget_area.add_child(widget_instance)
 		item.connect_widget(widget_instance)
 	
-	selected.sort_custom(self, "_sort_current_items_impl")
+	selected.sort_custom(Callable(self, "_sort_current_items_impl"))
 	inspector.inspect(selected)
 	notify_selected_changed()
 	
@@ -631,7 +633,7 @@ func select_all():
 			selected.append(item)
 			item.select()
 	
-	selected.sort_custom(self, "_sort_current_items_impl")
+	selected.sort_custom(Callable(self, "_sort_current_items_impl"))
 	right_panel.current_tab = 0
 	inspector.inspect(selected)
 	release_owned_focus()
@@ -687,26 +689,26 @@ func apply_fine_position():
 		for item in fine_position_originals:
 			undo_redo.add_undo_property(item.data, "position", fine_position_originals[item][0])
 			undo_redo.add_undo_property(item.data, "pos_modified", fine_position_originals[item][1])
-			undo_redo.add_undo_method(item, "update_widget_data")
-			undo_redo.add_undo_method(item, "sync_value", "position")
+			undo_redo.add_undo_method(item.update_widget_data)
+			undo_redo.add_undo_method(item.sync_value.bind("position"))
 			undo_redo.add_do_property(item.data, "position", item.data.position)
 			undo_redo.add_do_property(item.data, "pos_modified", true)
-			undo_redo.add_do_method(item, "update_widget_data")
-			undo_redo.add_do_method(item, "sync_value", "position")
+			undo_redo.add_do_method(item.update_widget_data)
+			undo_redo.add_do_method(item.sync_value.bind("position"))
 		
 		fine_position_originals = {}
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
 		
-		undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-		undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+		undo_redo.add_do_method(inspector.sync_visible_values_with_data)
+		undo_redo.add_undo_method(inspector.sync_visible_values_with_data)
 		
 		undo_redo.commit_action()
 
 func show_contextual_menu():
 	contextual_menu.popup()
-	var popup_offset = get_global_mouse_position() + contextual_menu.rect_size - get_viewport_rect().size
+	var popup_offset = get_global_mouse_position() + contextual_menu.size - get_viewport_rect().size
 	popup_offset.x = max(popup_offset.x, 0)
 	popup_offset.y = max(popup_offset.y, 0)
 	contextual_menu.set_global_position(get_global_mouse_position() - popup_offset)
@@ -744,8 +746,8 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 
 	if property_name == "time":
 		for selected_item in selected:
-			undo_redo.add_do_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
-			undo_redo.add_undo_method(rhythm_game, "editor_remove_timing_point", selected_item.data)
+			undo_redo.add_do_method(rhythm_game.editor_remove_timing_point.bind(selected_item.data))
+			undo_redo.add_undo_method(rhythm_game.editor_remove_timing_point.bind(selected_item.data))
 	
 	var note_cache = cache_notes_at_time()
 	
@@ -789,48 +791,48 @@ func _commit_selected_property_change(property_name: String, create_action: bool
 					undo_redo.add_undo_property(selected_item.data, "pos_modified", selected_item.data.pos_modified)
 				
 				undo_redo.add_do_property(selected_item.data, property_name, selected_item.data.get(property_name))
-				undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
-				undo_redo.add_do_method(selected_item._layer, "place_child", selected_item)
+				undo_redo.add_do_method(selected_item.data.emit_signal.bind("parameter_changed", property_name))
+				undo_redo.add_do_method(selected_item._layer.place_child(selected_item))
 				
 				undo_redo.add_undo_property(selected_item.data, property_name, old_property_values[selected_item][property_name])
-				undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property_name)
-				undo_redo.add_undo_method(selected_item._layer, "place_child", selected_item)
+				undo_redo.add_undo_method(selected_item.data.emit_signal.bind("parameter_changed", property_name))
+				undo_redo.add_undo_method(selected_item._layer.place_child.bind(selected_item))
 				
-				undo_redo.add_do_method(selected_item, "update_widget_data")
-				undo_redo.add_do_method(selected_item, "sync_value", property_name)
+				undo_redo.add_do_method(selected_item.update_widget_data)
+				undo_redo.add_do_method(selected_item.sync_value.bind(property_name))
 				
-				undo_redo.add_undo_method(selected_item, "update_widget_data")
-				undo_redo.add_undo_method(selected_item, "sync_value", property_name)
+				undo_redo.add_undo_method(selected_item.update_widget_data)
+				undo_redo.add_undo_method(selected_item.sync_value.bin(property_name))
 			
 			old_property_values[selected_item].erase(property_name)
 
-	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_do_method(self, "sync_lyrics")
-	undo_redo.add_undo_method(self, "sync_lyrics")
+	undo_redo.add_do_method(inspector.sync_visible_values_with_data)
+	undo_redo.add_undo_method(inspector.sync_visible_values_with_data)
+	undo_redo.add_do_method(self.sync_lyrics)
+	undo_redo.add_undo_method(self.sync_lyrics)
 	
 	if property_name == "time":
-		undo_redo.add_do_method(self, "sort_current_items")
+		undo_redo.add_do_method(self.sort_current_items)
 		
 		for selected_item in selected:
-			undo_redo.add_do_method(rhythm_game, "editor_add_timing_point", selected_item.data)
-			undo_redo.add_undo_method(rhythm_game, "editor_add_timing_point", selected_item.data)
+			undo_redo.add_do_method(rhythm_game.editor_add_timing_point.bind(selected_item.data))
+			undo_redo.add_undo_method(rhythm_game.editor_add_timing_point.bind(selected_item.data))
 		
-		undo_redo.add_do_method(self, "_cache_hold_sizes")
-		undo_redo.add_undo_method(self, "_cache_hold_sizes")
+		undo_redo.add_do_method(self._cache_hold_sizes)
+		undo_redo.add_undo_method(self._cache_hold_sizes)
 	elif property_name == "hold":
-		undo_redo.add_do_method(self, "_cache_hold_sizes")
-		undo_redo.add_undo_method(self, "_cache_hold_sizes")
+		undo_redo.add_do_method(self._cache_hold_sizes)
+		undo_redo.add_undo_method(self._cache_hold_sizes)
 	
-	undo_redo.add_do_method(self, "force_game_process")
-	undo_redo.add_undo_method(self, "force_game_process")
+	undo_redo.add_do_method(self.force_game_process)
+	undo_redo.add_undo_method(self.force_game_process)
 	
 	if sync_timing:
-		undo_redo.add_do_method(self, "_on_timing_information_changed")
-		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+		undo_redo.add_do_method(self._on_timing_information_changed)
+		undo_redo.add_undo_method(self._on_timing_information_changed)
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
 	
 	if create_action:
 		undo_redo.commit_action()
@@ -847,19 +849,19 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 	undo_redo.create_action(action_name)
 	
 	undo_redo.add_do_property(child.data, property_name, new_value)
-	undo_redo.add_do_method(child._layer, "place_child", child)
+	undo_redo.add_do_method(child._layer.place_child.bind(child))
 	
 	undo_redo.add_undo_property(child.data, property_name, old_value)
-	undo_redo.add_undo_method(child._layer, "place_child", child)
+	undo_redo.add_undo_method(child._layer.place_child.bind(child))
 	
 	if property_name == "position":
-		undo_redo.add_do_method(child, "update_widget_data")
-		undo_redo.add_undo_method(child, "update_widget_data")
+		undo_redo.add_do_method(child.update_widget_data)
+		undo_redo.add_undo_method(child.update_widget_data)
 	
 	if  property_name == "bpm" or property_name == "time_signature" or \
 		(property_name == "time" and child.data is HBTimingChange):
-		undo_redo.add_do_method(self, "_on_timing_information_changed")
-		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+		undo_redo.add_do_method(self._on_timing_information_changed)
+		undo_redo.add_undo_method(self._on_timing_information_changed)
 	
 	undo_redo.commit_action()
 	inspector.sync_visible_values_with_data()
@@ -873,16 +875,16 @@ func _on_timing_point_property_changed(property_name: String, old_value, new_val
 		if not note_type_string == layer.layer_name:
 			for l in timeline.get_layers():
 				if l.layer_name == note_type_string:
-					l.drop_data(null, selected)
+					l._drop_data(null, selected)
 					break
 
 func add_item_to_layer(layer: EditorLayer, item: EditorTimelineItem, sort_groups: bool = true):
 	if item.update_affects_timing_points:
-		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
-			item.connect("property_changed", self, "_on_timing_point_property_changed", [item, true])
+		if not item.is_connected("property_changed", Callable(self, "_on_timing_point_property_changed")):
+			item.connect("property_changed", Callable(self, "_on_timing_point_property_changed").bind(item, true))
 	else:
-		if not item.is_connected("property_changed", self, "_on_timing_point_property_changed"):
-			item.connect("property_changed", self, "_on_timing_point_property_changed", [item])
+		if not item.is_connected("property_changed", Callable(self, "_on_timing_point_property_changed")):
+			item.connect("property_changed", Callable(self, "_on_timing_point_property_changed").bind(item))
 	
 	insert_note_at_time(item)
 	layer.add_item(item)
@@ -915,11 +917,11 @@ func _on_game_playback_time_changed(time: float):
 	if abs(prev_time / 1000.0 - time) > 0.001:
 		playhead_position = max(time * 1000.0, 0.0)
 	
-	timeline.update()
+	timeline.queue_redraw()
 	
 	if game_playback.is_playing():
 		timeline.ensure_playhead_is_visible()
-		var playback_offset_with_ln = (timeline.rect_size.x / 2.0)
+		var playback_offset_with_ln = (timeline.size.x / 2.0)
 		var current_playhead_offset = playback_offset_with_ln - timeline.calculate_playhead_position().x
 		var target_offset = timeline._offset - current_playhead_offset
 		emit_signal("playhead_position_changed")
@@ -996,8 +998,8 @@ func paste(time: int):
 			
 			var new_item = timing_point.get_timeline_item() as EditorTimelineItem
 			
-			undo_redo.add_do_method(self, "add_item_to_layer", timeline_item._layer, new_item)
-			undo_redo.add_undo_method(self, "remove_item_from_layer", timeline_item._layer, new_item)
+			undo_redo.add_do_method(self.add_item_to_layer.bind(timeline_item._layer, new_item))
+			undo_redo.add_undo_method(self.remove_item_from_layer.bind(timeline_item._layer, new_item))
 			
 			if copy.item is EditorSectionTimelineItem:
 				sync_timing = true
@@ -1006,13 +1008,13 @@ func paste(time: int):
 				multi_check_times.append(timing_point.time)
 		
 		if sync_timing:
-			undo_redo.add_do_method(timeline, "update")
-			undo_redo.add_undo_method(timeline, "update")
+			undo_redo.add_do_method(timeline.queue_redraw)
+			undo_redo.add_undo_method(timeline.queue_redraw)
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
-		undo_redo.add_do_method(self, "sync_lyrics")
-		undo_redo.add_undo_method(self, "sync_lyrics")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
+		undo_redo.add_do_method(self.sync_lyrics)
+		undo_redo.add_undo_method(self.sync_lyrics)
 		
 		undo_redo.commit_action()
 		check_for_multi_changes(multi_check_times)
@@ -1028,8 +1030,8 @@ func delete_selected():
 		
 		message_shower._show_notification("Delete notes")
 		
-		undo_redo.add_do_method(self, "deselect_all")
-		undo_redo.add_undo_method(self, "deselect_all")
+		undo_redo.add_do_method(self.deselect_all)
+		undo_redo.add_undo_method(self.deselect_all)
 		
 		var first := true
 		var sync_timing := false
@@ -1037,12 +1039,12 @@ func delete_selected():
 		for selected_item in selected:
 			selected_item.deselect()
 			
-			undo_redo.add_do_method(self, "remove_item_from_layer", selected_item._layer, selected_item)
-			undo_redo.add_undo_method(self, "add_item_to_layer", selected_item._layer, selected_item)
+			undo_redo.add_do_method(self.remove_item_from_layer.bind(selected_item._layer, selected_item))
+			undo_redo.add_undo_method(self.add_item_to_layer.bind(selected_item._layer, selected_item))
 			
 			if selected_item is EditorSectionTimelineItem:
-				undo_redo.add_do_method(timeline, "update")
-				undo_redo.add_undo_method(timeline, "update")
+				undo_redo.add_do_method(timeline.queue_redraw)
+				undo_redo.add_undo_method(timeline.queue_redraw)
 			
 			if selected_item.data is HBTimingChange:
 				sync_timing = true
@@ -1050,20 +1052,20 @@ func delete_selected():
 			if not deleted_times.has(selected_item.data.time):
 				deleted_times.append(selected_item.data.time)
 			
-			undo_redo.add_undo_method(self, "select_item", selected_item, not first)
+			undo_redo.add_undo_method(self.select_item.bind(selected_item, not first))
 			
 			if first:
 				first = false
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
 		
-		undo_redo.add_do_method(self, "sync_lyrics")
-		undo_redo.add_undo_method(self, "sync_lyrics")
+		undo_redo.add_do_method(self.sync_lyrics)
+		undo_redo.add_undo_method(self.sync_lyrics)
 		
 		if sync_timing:
-			undo_redo.add_do_method(self, "_on_timing_information_changed")
-			undo_redo.add_undo_method(self, "_on_timing_information_changed")
+			undo_redo.add_do_method(self._on_timing_information_changed)
+			undo_redo.add_undo_method(self._on_timing_information_changed)
 		
 		selected = []
 		undo_redo.commit_action()
@@ -1119,19 +1121,19 @@ func check_for_multi_changes(times: Array, item_cache: Array = []):
 					# There isnt any multi, so clear all multi-related properties
 					_clear_multi_params(note)
 				
-				undo_redo.add_do_method(note.get_meta("timeline_item"), "update_widget_data")
-				undo_redo.add_undo_method(note.get_meta("timeline_item"), "update_widget_data")
+				undo_redo.add_do_method(note.get_meta("timeline_item").update_widget_data)
+				undo_redo.add_undo_method(note.get_meta("timeline_item").update_widget_data)
 			
 			# Set correct multi angles
 			_set_multi_angles(notes_at_time)
 			
 			for note in notes_at_time:
 				for property_name in ["position", "entry_angle", "oscillation_frequency", "oscillation_amplitude", "distance"]:
-					undo_redo.add_do_method(note, "emit_signal", "parameter_changed", property_name)
-					undo_redo.add_undo_method(note, "emit_signal", "parameter_changed", property_name)
+					undo_redo.add_do_method(note.emit_signal.bind("parameter_changed", property_name))
+					undo_redo.add_undo_method(note.emit_signal.bind("parameter_changed", property_name))
 		
-		undo_redo.add_do_method(self, "_on_timing_points_changed")
-		undo_redo.add_undo_method(self, "_on_timing_points_changed")
+		undo_redo.add_do_method(self._on_timing_points_changed)
+		undo_redo.add_undo_method(self._on_timing_points_changed)
 		
 		undo_redo.commit_action()
 
@@ -1193,7 +1195,7 @@ func _sort_by_multi_pos(a, b):
 	return multi_pos_a > multi_pos_b
 
 func _set_multi_angles(notes: Array):
-	notes.sort_custom(self, "_sort_by_multi_pos")
+	notes.sort_custom(Callable(self, "_sort_by_multi_pos"))
 	
 	for i in notes.size():
 		var note = notes[i]
@@ -1285,20 +1287,20 @@ func user_create_timing_point(layer: EditorLayer, item: EditorTimelineItem, forc
 	
 	item.data.set_meta("second_layer", layer.layer_name.ends_with("2"))
 	
-	undo_redo.add_do_method(self, "add_item_to_layer", layer, item)
-	undo_redo.add_undo_method(self, "remove_item_from_layer", layer, item)
-	undo_redo.add_undo_method(self, "deselect_item", item)
+	undo_redo.add_do_method(self.add_item_to_layer.bind(layer, item))
+	undo_redo.add_undo_method(self.remove_item_from_layer.bind(layer, item))
+	undo_redo.add_undo_method(self.deselect_item.bind(item))
 	
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(self._on_timing_points_changed)
+	undo_redo.add_undo_method(self._on_timing_points_changed)
 	
 	if item is EditorSectionTimelineItem:
-		undo_redo.add_do_method(timeline, "update")
-		undo_redo.add_undo_method(timeline, "update")
+		undo_redo.add_do_method(timeline.queue_redraw)
+		undo_redo.add_undo_method(timeline.queue_redraw)
 	
 	if item.data is HBTimingChange:
-		undo_redo.add_do_method(self, "_on_timing_information_changed")
-		undo_redo.add_undo_method(self, "_on_timing_information_changed")
+		undo_redo.add_do_method(self._on_timing_information_changed)
+		undo_redo.add_undo_method(self._on_timing_information_changed)
 	
 	undo_redo.commit_action()
 	
@@ -1392,8 +1394,8 @@ func serialize_chart():
 func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	_on_PauseButton_pressed()
 	
-	if song_editor_settings.is_connected("property_changed", self, "emit_signal"):
-		song_editor_settings.disconnect("property_changed", self, "emit_signal")
+	if song_editor_settings.is_connected("property_changed", Callable(self, "emit_signal")):
+		song_editor_settings.disconnect("property_changed", Callable(self, "emit_signal"))
 	
 	song_editor_settings = settings
 	for layer in timeline.get_layers():
@@ -1401,16 +1403,16 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 		timeline.change_layer_visibility(layer_visible, layer.layer_name)
 	
 	emit_signal("timing_information_changed")
-	song_editor_settings.connect("property_changed", self, "emit_signal", ["song_editor_settings_changed"])
+	song_editor_settings.connect("property_changed", Callable(self, "emit_signal").bind("song_editor_settings_changed"))
 	
 	song_settings_editor.load_settings(settings)
 	update_media()
 	
-	timeline_snap_button.pressed = settings.timeline_snap
+	timeline_snap_button.button_pressed = settings.timeline_snap
 	
 	game_preview.settings = settings
-	show_bg_button.pressed = settings.show_bg
-	show_video_button.pressed = settings.show_video
+	show_bg_button.button_pressed = settings.show_bg
+	show_video_button.button_pressed = settings.show_video
 	
 	_on_playback_speed_changed(playback_speed_slider.value)
 	
@@ -1420,14 +1422,14 @@ func load_settings(settings: HBPerSongEditorSettings, skip_settings_menu=false):
 	emit_signal("modules_update_settings", settings)
 
 func update_user_settings():
-	waveform_button.pressed = UserSettings.user_settings.editor_show_waveform
+	waveform_button.button_pressed = UserSettings.user_settings.editor_show_waveform
 	
-	grid_snap_button.pressed = UserSettings.user_settings.editor_grid_snap
-	show_grid_button.pressed = UserSettings.user_settings.editor_show_grid
+	grid_snap_button.button_pressed = UserSettings.user_settings.editor_grid_snap
+	show_grid_button.button_pressed = UserSettings.user_settings.editor_show_grid
 	grid_x_spinbox.value = UserSettings.user_settings.editor_grid_resolution.x
 	grid_y_spinbox.value = UserSettings.user_settings.editor_grid_resolution.y
 	
-	game_playback.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
+	game_playback.set_velocity(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
 	emit_signal("modules_update_user_settings")
 
@@ -1448,7 +1450,7 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		var layer_scene
 		var layer_n
 		if not in_place:
-			layer_scene = EDITOR_LAYER_SCENE.instance()
+			layer_scene = EDITOR_LAYER_SCENE.instantiate()
 			layer_scene.layer_name = layer.name
 			
 			timeline.add_layer(layer_scene)
@@ -1480,7 +1482,7 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	
 	if not in_place:
 		# Lyrics layer
-		var lyrics_layer_scene = EDITOR_LAYER_SCENE.instance()
+		var lyrics_layer_scene = EDITOR_LAYER_SCENE.instantiate()
 		lyrics_layer_scene.layer_name = "Lyrics"
 		var lyrics_layer_visible = not "Lyrics" in song_editor_settings.hidden_layers
 		if not ignore_settings:
@@ -1491,7 +1493,7 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		song_settings_editor.add_layer("Lyrics", lyrics_layer_visible)
 		
 		# Sections layer
-		var sections_layer_scene = EDITOR_LAYER_SCENE.instance()
+		var sections_layer_scene = EDITOR_LAYER_SCENE.instantiate()
 		sections_layer_scene.layer_name = "Sections"
 		var sections_layer_visible = not "Sections" in song_editor_settings.hidden_layers
 		if not ignore_settings:
@@ -1502,7 +1504,7 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 		song_settings_editor.add_layer("Sections", sections_layer_visible)
 		
 		# Timing changes layer
-		var tempo_layer_scene = EDITOR_LAYER_SCENE.instance()
+		var tempo_layer_scene = EDITOR_LAYER_SCENE.instantiate()
 		tempo_layer_scene.layer_name = "Tempo Map"
 		var tempo_layer_visible = not "Tempo Map" in song_editor_settings.hidden_layers
 		if not ignore_settings:
@@ -1547,14 +1549,14 @@ func from_chart(chart: HBChart, ignore_settings = false, importing = false, in_p
 	
 	# Disconnect the cancel action in the chart open dialog, because we already have at least
 	# a chart loaded
-	if open_chart_popup_dialog.get_cancel().is_connected("pressed", self, "exit"):
-		open_chart_popup_dialog.get_cancel().disconnect("pressed", self, "exit")
-		open_chart_popup_dialog.get_close_button().disconnect("pressed", self, "exit")
+	if open_chart_popup_dialog.get_cancel_button().is_connected("pressed", Callable(self, "exit")):
+		open_chart_popup_dialog.get_cancel_button().disconnect("pressed", Callable(self, "exit"))
+		open_chart_popup_dialog.disconnect("close_requested", Callable(self, "exit"))
 	
 	if not in_place:
 		deselect_all()
 	else:
-		selected.sort_custom(self, "_sort_current_items_impl")
+		selected.sort_custom(Callable(self, "_sort_current_items_impl"))
 		notify_selected_changed() 
 	
 	sync_lyrics()
@@ -1580,30 +1582,30 @@ func paste_note_data(notes: Array):
 					undo_redo.add_do_property(selected_item.data, property, new_data.get(property))
 					undo_redo.add_undo_property(selected_item.data, property, selected_item.data.get(property))
 					
-					undo_redo.add_do_method(selected_item.data, "emit_signal", "parameter_changed", property)
-					undo_redo.add_do_method(selected_item, "sync_value", property)
+					undo_redo.add_do_method(selected_item.data.emit_signal.bind("parameter_changed", property))
+					undo_redo.add_do_method(selected_item.sync_value.bind(property))
 					
-					undo_redo.add_undo_method(selected_item.data, "emit_signal", "parameter_changed", property)
-					undo_redo.add_undo_method(selected_item, "sync_value", property)
+					undo_redo.add_undo_method(selected_item.data.emit_signal.bind("parameter_changed", property))
+					undo_redo.add_undo_method(selected_item.sync_value.bind(property))
 			
-			undo_redo.add_do_method(selected_item, "update_widget_data")
-			undo_redo.add_undo_method(selected_item, "update_widget_data")
+			undo_redo.add_do_method(selected_item.update_widget_data)
+			undo_redo.add_undo_method(selected_item.update_widget_data)
 	
-	undo_redo.add_do_method(self, "_on_timing_points_changed")
-	undo_redo.add_undo_method(self, "_on_timing_points_changed")
+	undo_redo.add_do_method(self._on_timing_points_changed)
+	undo_redo.add_undo_method(self._on_timing_points_changed)
 	
-	undo_redo.add_do_method(self, "force_game_process")
-	undo_redo.add_undo_method(self, "force_game_process")
+	undo_redo.add_do_method(self.force_game_process)
+	undo_redo.add_undo_method(self.force_game_process)
 	
-	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_do_method(inspector.sync_visible_values_with_data)
+	undo_redo.add_undo_method(inspector.sync_visible_values_with_data)
 	
 	undo_redo.commit_action()
 
 	force_game_process()
 
 func _on_SaveSongSelector_chart_selected(song_id, difficulty):
-	if hidden:
+	if editor_hidden:
 		return
 	
 	var song = SongLoader.songs[song_id]
@@ -1614,19 +1616,18 @@ func _on_SaveSongSelector_chart_selected(song_id, difficulty):
 		print("ERROR: Data was not serialized.")
 		return
 	
-	var json = JSON.print(data, "  ")
+	var json = JSON.stringify(data, "  ")
 	if not json:
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file = File.new()
-	file.open(chart_path, File.WRITE)
+	var file = FileAccess.open(chart_path, FileAccess.WRITE)
 	file.store_string(json)
 
 func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	deselect_all()
 	
-	hidden = p_hidden
+	editor_hidden = p_hidden
 	current_song = song
 	
 	var chart = current_song.get_chart_for_difficulty(difficulty)
@@ -1634,7 +1635,7 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	HBGame.rich_presence.update_activity({
 		"state": "In editor",
 		"details": current_song.title,
-		"start_timestamp": OS.get_unix_time()
+		"start_timestamp": Time.get_unix_time_from_system()
 	})
 	
 	add_child(rhythm_game_playtest_popup)
@@ -1645,18 +1646,18 @@ func load_song(song: HBSong, difficulty: String, p_hidden: bool):
 	timeline.set_layers_offset(0)
 	playback_speed_slider.value = 1.0
 	
-	OS.set_window_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
+	get_window().set_title("Project Heartbeat - " + song.get_visible_title() + " - " + difficulty.capitalize())
 	current_title_button.text = "%s (%s)" % [song.get_visible_title(), difficulty.capitalize()]
 	from_chart(chart)
 	current_difficulty = difficulty
 	current_difficulty = difficulty
 	
-	save_button.disabled = hidden
-	save_as_button.disabled = hidden
+	save_button.disabled = editor_hidden
+	save_as_button.disabled = editor_hidden
 	
 	modified = false
 	
-	change_scale(scale)
+	change_scale(editor_scale)
 	seek(0, true)
 	if timing_changes:
 		playhead_position = timing_changes[-1].data.time
@@ -1697,6 +1698,8 @@ func obscure_ui(extended: bool = true):
 			control.get_line_edit().editable = false
 
 func reveal_ui(extended: bool = true):
+	print("REVEAL UI", extended)
+	print_stack()
 	for control in get_tree().get_nodes_in_group("disabled_ui"):
 		if control is BaseButton:
 			control.disabled = false
@@ -1705,8 +1708,8 @@ func reveal_ui(extended: bool = true):
 		if control is SpinBox:
 			control.get_line_edit().editable = true
 	
-	save_button.disabled = hidden
-	save_as_button.disabled = hidden
+	save_button.disabled = editor_hidden
+	save_as_button.disabled = editor_hidden
 	
 	if not extended:
 		notify_selected_changed()
@@ -1723,12 +1726,12 @@ func reveal_ui(extended: bool = true):
 	notify_selected_changed()
 
 func exit():
-	get_tree().change_scene_to(load("res://menus/MainMenu3D.tscn"))
+	get_tree().change_scene_to_packed(load("res://menus/MainMenu3D.tscn"))
 	
-	OS.window_maximized = false
+	get_window().mode = Window.MODE_MAXIMIZED if (false) else Window.MODE_WINDOWED
 	UserSettings.apply_display_mode()
 	
-	Diagnostics.fps_label.get_font("font").size = 23
+	Diagnostics.fps_label.add_theme_font_size_override("font_size", 23)
 	Diagnostics.editor_undo_redo = null
 
 func try_exit():
@@ -1805,8 +1808,8 @@ func _on_timing_information_changed(f=null):
 		if item.data is HBTimingChange:
 			timing_changes.append(item)
 	
-	timing_changes.sort_custom(self, "_sort_current_items_impl")
-	timing_changes.invert()
+	timing_changes.sort_custom(Callable(self, "_sort_current_items_impl"))
+	timing_changes.reverse()
 	
 	var end_t = get_song_length() * 1000
 	for item in timing_changes:
@@ -1833,8 +1836,8 @@ func _on_timing_information_changed(f=null):
 		for i in range(0, end / ms_per_beat + 1):
 			timing_map.append(int(end - (i - 1) * ms_per_beat))
 	
-	timing_map.invert()
-	signature_map.invert()
+	timing_map.reverse()
+	signature_map.reverse()
 	
 	# The eight map consists of 2 arrays, one which holds a time and one which
 	# holds its corresponding "eight index". This allows us to efficiently store
@@ -1854,7 +1857,7 @@ func _on_timing_information_changed(f=null):
 		var start_t = timing_change.data.time
 		
 		var ms_per_eight: float = (60.0 / timing_change.data.bpm) * 1000.0 * 4 / 8.0
-		var eight_count := floor((end_t - start_t) / ms_per_eight)
+		var eight_count: int = floor((end_t - start_t) / ms_per_eight)
 		
 		for j in range(1, eight_count):
 			eight_map.times.append(start_t + j * ms_per_eight)
@@ -1871,12 +1874,12 @@ func _on_timing_information_changed(f=null):
 		eight_map.eights.append(eight)
 	
 	release_owned_focus()
-	timeline.update()
+	timeline.queue_redraw()
 	emit_signal("timing_information_changed")
 
 
 func _on_SaveButton_pressed():
-	if hidden:
+	if editor_hidden:
 		return
 	
 	var chart_path = current_song.get_chart_path(current_difficulty)
@@ -1887,13 +1890,12 @@ func _on_SaveButton_pressed():
 		print("ERROR: Data was not serialized.")
 		return
 	
-	var json = JSON.print(data, "  ")
+	var json = JSON.stringify(data, "  ")
 	if not json:
 		print("ERROR: Data could not be formatted as json.")
 		return
 	
-	var file = File.new()
-	file.open(chart_path, File.WRITE)
+	var file = FileAccess.open(chart_path, FileAccess.WRITE)
 	file.store_string(json)
 	file.close()
 	
@@ -1973,14 +1975,15 @@ func snap_time_to_timeline(time: int) -> int:
 func _on_layer_visibility_changed(visibility: bool, layer_name: String):
 	song_editor_settings.set_layer_visibility(visibility, layer_name)
 	if layer_name == "Sections":
-		timeline.update()
+		timeline.queue_redraw()
 
 # PLAYTEST SHIT
 func _on_PlaytestButton_pressed(at_time):
 	if UserSettings.user_settings.editor_autosave_enabled and modified:
 		_on_SaveButton_pressed()
 	
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
+	#TODOGD4
+	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1920, 1080))
 	_on_PauseButton_pressed()
 	rhythm_game.set_process_input(false)
 	playtesting = true
@@ -1990,21 +1993,22 @@ func _on_PlaytestButton_pressed(at_time):
 	if at_time:
 		play_time = playhead_position
 	rhythm_game_playtest_popup.set_audio(current_song, game_playback.audio_source, game_playback.voice_source, get_selected_variant())
-	rhythm_game_playtest_popup.set_speed(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
+	rhythm_game_playtest_popup.set_velocity(playback_speed_slider.value, UserSettings.user_settings.editor_pitch_compensation)
 	
 	rhythm_game_playtest_popup.play_song_from_position(current_song, get_chart(), current_difficulty, play_time / 1000.0, song_editor_settings.show_bg, song_editor_settings.show_video)
 	
-	Diagnostics.fps_label.get_font("font").size = 23
+	Diagnostics.fps_label.add_theme_font_size_override("font_size", 23)
 
 func _on_playtest_quit():
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	#TODOGD4
+	#get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
 	playtesting = false
 	$VBoxContainer.show()
 	remove_child(rhythm_game_playtest_popup)
 	game_playback._on_timing_params_changed()
 	rhythm_game.set_process_input(true)
 	
-	Diagnostics.fps_label.get_font("font").size = 11
+	Diagnostics.fps_label.add_theme_font_size_override("font_size", 11)
 
 
 func _chronological_compare(a, b):
@@ -2019,7 +2023,7 @@ func get_lyrics():
 			var curr_phrase: HBLyricsPhrase
 			
 			var points = layer.get_timing_points()
-			points.sort_custom(self, "_chronological_compare")
+			points.sort_custom(Callable(self, "_chronological_compare"))
 			
 			for i in range(points.size()):
 				if i < points.size() - 1:
@@ -2062,7 +2066,7 @@ func get_sections():
 	for layer in timeline.get_layers():
 		if layer.layer_name == "Sections":
 			var points = layer.get_timing_points()
-			points.sort_custom(self, "_chronological_compare")
+			points.sort_custom(Callable(self, "_chronological_compare"))
 			
 			for point in points:
 				if point is HBChartSection:
@@ -2093,7 +2097,7 @@ func _cache_hold_sizes():
 		return
 	
 	var points = get_timing_points()
-	points.invert()
+	points.reverse()
 	hold_sizes.clear()
 	
 	var held_notes := {}
@@ -2166,7 +2170,7 @@ func _cache_hold_sizes():
 	# Update items
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
-			item.update()
+			item.queue_redraw()
 
 
 func autoplace(data: HBBaseNote, force: bool = false, selected_data: Array = [], times_cache: Dictionary = {}):
@@ -2232,7 +2236,7 @@ func _on_SexButton_pressed():
 func hold_calculator_toggled():
 	for item in get_timeline_items():
 		if item.data is HBNoteData and item.data.hold:
-			item.update()
+			item.queue_redraw()
 
 
 func _on_left_HSplitContainer_dragged(offset: int):
@@ -2256,7 +2260,7 @@ func _on_VSplitContainer_dragged(offset: int):
 func _on_PlaybackSpeedSlider_value_changed(value):
 	playback_speed_label.text = "x %.2f" % [value]
 	
-	game_playback.set_speed(value, UserSettings.user_settings.editor_pitch_compensation)
+	game_playback.set_velocity(value, UserSettings.user_settings.editor_pitch_compensation)
 
 func _on_playback_speed_changed(speed: float):
 	if speed == 1.0:
@@ -2325,14 +2329,14 @@ func reset_note_position():
 		undo_redo.add_undo_property(item.data, "oscillation_frequency", item.data.oscillation_frequency)
 		undo_redo.add_undo_property(item.data, "pos_modified", item.data.pos_modified)
 		
-		undo_redo.add_do_method(item, "update_widget_data")
-		undo_redo.add_undo_method(item, "update_widget_data")
+		undo_redo.add_do_method(item.update_widget_data)
+		undo_redo.add_undo_method(item.update_widget_data)
 		
 		if not check_multi_times.has(item.data.time):
 			check_multi_times.append(item.data.time)
 	
-	undo_redo.add_do_method(inspector, "sync_visible_values_with_data")
-	undo_redo.add_undo_method(inspector, "sync_visible_values_with_data")
+	undo_redo.add_do_method(inspector.sync_visible_values_with_data)
+	undo_redo.add_undo_method(inspector.sync_visible_values_with_data)
 	
 	undo_redo.commit_action()
 	
@@ -2378,8 +2382,11 @@ func shortcuts_blocked() -> bool:
 		return true
 	
 	for control in get_tree().get_nodes_in_group("block_shortcuts"):
-		if control.is_visible_in_tree():
+		if control is Control and control.is_visible_in_tree():
 			return true
+		if control is Window and control.is_visible():
+			return true
+
 	
 	return false
 
@@ -2419,7 +2426,7 @@ func get_speed_changes() -> Array:
 	
 	var speed_changes = bpm_changes.duplicate()
 	speed_changes.append_array(tempo_changes)
-	speed_changes.sort_custom(self, "_chronological_compare")
+	speed_changes.sort_custom(Callable(self, "_chronological_compare"))
 	
 	return speed_changes
 

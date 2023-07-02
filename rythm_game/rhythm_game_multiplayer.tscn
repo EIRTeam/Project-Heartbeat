@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://fonts/SongLabel.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/SongLabel.tres" type="FontFile" id=1]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
 [ext_resource path="res://rythm_game/rhythm_game_controller.tscn" type="PackedScene" id=3]
 [ext_resource path="res://rythm_game/rhythm_game_multiplayer.gd" type="Script" id=4]
@@ -23,9 +23,9 @@ z_index = -1
 anchor_left = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 204.8
-margin_right = 460.8
-rect_min_size = Vector2( 256, 0 )
+offset_left = 204.8
+offset_right = 460.8
+custom_minimum_size = Vector2( 256, 0 )
 alignment = 1
 script = ExtResource( 5 )
 __meta__ = {
@@ -35,7 +35,7 @@ __meta__ = {
 [node name="MPLoadingLabel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -44,11 +44,11 @@ __meta__ = {
 anchor_left = 0.33
 anchor_right = 0.67
 anchor_bottom = 1.0
-margin_left = -0.400024
-custom_fonts/font = ExtResource( 1 )
+offset_left = -0.400024
+theme_override_fonts/font = ExtResource( 1 )
 text = "Waiting for other players to load!"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false

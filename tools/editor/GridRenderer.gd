@@ -1,7 +1,7 @@
 extends Control
 
-onready var game_preview = get_node("../../../GamePreview")
-onready var game = get_node("../../RhythmGame")
+@onready var game_preview = get_node("../../../GamePreview")
+@onready var game = get_node("../../RhythmGame")
 
 const MULTI_TARGETS = [240, 720, 1200, 1680]
 
@@ -124,11 +124,11 @@ func draw_cross(cross_center: Vector2):
 func set_horizontal(value):
 	UserSettings.user_settings.editor_grid_resolution.x = value
 	UserSettings.user_settings.emit_signal("editor_grid_resolution_changed")
-	update()
+	queue_redraw()
 func set_vertical(value):
 	UserSettings.user_settings.editor_grid_resolution.y = value
 	UserSettings.user_settings.emit_signal("editor_grid_resolution_changed")
-	update()
+	queue_redraw()
 
 func get_grid_size():
 	var grid_size = Vector2(UserSettings.user_settings.editor_grid_resolution.x, UserSettings.user_settings.editor_grid_resolution.y)

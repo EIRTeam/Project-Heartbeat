@@ -2,23 +2,23 @@ extends HBUIComponent
 
 class_name HBUIHealthDisplay
 
-onready var texture_progress_green := TextureProgress.new()
-onready var texture_progress_red := TextureProgress.new()
-onready var health_texture_progress := TextureProgress.new()
-onready var health_tween := Tween.new()
+@onready var texture_progress_green := TextureProgressBar.new()
+@onready var texture_progress_red := TextureProgressBar.new()
+@onready var health_texture_progress := TextureProgressBar.new()
+@onready var health_tween := Threen.new()
 
-var fill_mode := 0 setget set_fill_mode
+var fill_mode := 0: set = set_fill_mode
 
-var progress_texture: Texture setget set_progress_texture
+var progress_texture: Texture2D: set = set_progress_texture
 
-var increase_color := Color(1.0, 1.0, 1.0, 0.5) setget set_increase_color
-var decrease_color := Color(1.0, 1.0, 1.0, 0.5) setget set_decrease_color
-var progress_color := Color.white setget set_progress_color
+var increase_color := Color(1.0, 1.0, 1.0, 0.5): set = set_increase_color
+var decrease_color := Color(1.0, 1.0, 1.0, 0.5): set = set_decrease_color
+var progress_color := Color.WHITE: set = set_progress_color
 
-var health_test := 40.0 setget set_health_test
+var health_test := 40.0: set = set_health_test
 
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"health_test", "increase_color", "decrease_color",
 		"progress_color", "progress_texture", "fill_mode"
@@ -75,9 +75,11 @@ func set_fill_mode(val):
 		texture_progress_green.fill_mode = val
 
 func update_min_size():
-	rect_min_size = health_texture_progress.get_minimum_size()
+	if health_texture_progress:
+		custom_minimum_size = health_texture_progress.get_minimum_size()
 
 func _ready():
+	super._ready()
 	add_child(health_tween)
 	add_child(texture_progress_green)
 	add_child(texture_progress_red)
@@ -87,9 +89,9 @@ func _ready():
 	texture_progress_red.max_value = 100
 	health_texture_progress.max_value = 100
 	
-	texture_progress_green.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-	texture_progress_red.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-	health_texture_progress.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	texture_progress_green.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	texture_progress_red.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	health_texture_progress.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
 	set_fill_mode(fill_mode)
 	set_progress_texture(progress_texture)
@@ -125,7 +127,7 @@ func set_health(health_value: float, animated := false, old_health := -1):
 		health_texture_progress.value = health_value
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["increase_color"] = increase_color.to_html()
 	out_dict["decrease_color"] = decrease_color.to_html()
 	out_dict["progress_color"] = progress_color.to_html()
@@ -134,7 +136,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	return out_dict
 	
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	fill_mode = dict.get("fill_mode", fill_mode)
 	increase_color = get_color_from_dict(dict, "increase_color", increase_color)
 	decrease_color = get_color_from_dict(dict, "decrease_color", decrease_color)

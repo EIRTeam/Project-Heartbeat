@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" type="Script" id=1]
-[ext_resource path="res://fonts/new_fonts/orbitron_regular_25.tres" type="DynamicFont" id=2]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/new_fonts/orbitron_regular_25.tres" type="FontFile" id=2]
+[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=3]
 [ext_resource path="res://default_theme_tools.tres" type="Theme" id=4]
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 32
 use_mipmaps = true
 use_filter = true
@@ -38,43 +38,43 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [node name="SkinEditorWidget" type="PanelContainer"]
-margin_top = 33.0
-margin_right = 127.0
-margin_bottom = 119.0
+offset_top = 33.0
+offset_right = 127.0
+offset_bottom = 119.0
 theme = ExtResource( 4 )
-custom_styles/panel = SubResource( 3 )
+theme_override_styles/panel = SubResource( 3 )
 script = ExtResource( 1 )
 popupmenu_font = SubResource( 4 )
 
 [node name="Outline" type="Panel" parent="."]
-margin_right = 127.0
-margin_bottom = 86.0
+offset_right = 127.0
+offset_bottom = 86.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource( 1 )
 
 [node name="Inside" type="Panel" parent="Outline"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 2 )
+theme_override_styles/panel = SubResource( 2 )
 
 [node name="Label" type="Label" parent="Outline"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "name"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control" type="Control" parent="."]
-margin_right = 127.0
-margin_bottom = 86.0
+offset_right = 127.0
+offset_bottom = 86.0
 mouse_filter = 2
 
 [node name="PopupMenu" type="PopupMenu" parent="Control"]
-margin_right = 504.0
-margin_bottom = 301.0
-custom_fonts/font = SubResource( 4 )
+offset_right = 504.0
+offset_bottom = 301.0
+theme_override_fonts/font = SubResource( 4 )
 items = [ "Elemento 0", null, 0, false, false, 0, 0, null, "", false, "Elemento 1", null, 0, false, false, 1, 0, null, "", false, "Elemento 2", null, 0, false, false, 2, 0, null, "", false ]
 allow_search = true
 

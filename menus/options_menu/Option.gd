@@ -2,14 +2,14 @@ extends Panel
 
 var normal_style
 var hover_style
-var value setget set_value
-signal hover
+var value : set = set_value
+signal hovered
 signal changed(value)
 #warning-ignore:unused_signal
 signal back
 
 var disabled := false
-var disabled_callback: FuncRef
+var disabled_callback: Callable
 
 func set_value(val):
 	value = val
@@ -18,18 +18,18 @@ func _init():
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")
 	stop_hover()
 func hover():
-	add_stylebox_override("panel", hover_style)
-	emit_signal("hover")
+	add_theme_stylebox_override("panel", hover_style)
+	emit_signal("hovered")
 
 func update_disabled():
 	if disabled_callback:
-		disabled = disabled_callback.call_func()
-		modulate = Color.white
+		disabled = disabled_callback.call()
+		modulate = Color.WHITE
 		if disabled:
-			modulate = Color.gray
+			modulate = Color.GRAY
 
 func stop_hover():
-	add_stylebox_override("panel", normal_style)
+	add_theme_stylebox_override("panel", normal_style)
 
 func change_value(new_value):
 	emit_signal("changed", new_value)

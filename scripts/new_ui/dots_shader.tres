@@ -3,7 +3,7 @@
 [resource]
 code = "shader_type canvas_item;
 
-uniform sampler2D bg: hint_albedo;
+uniform sampler2D bg: source_color;
 uniform vec2 texture_size;
 
 void fragment() {

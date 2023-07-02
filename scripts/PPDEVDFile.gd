@@ -34,10 +34,10 @@ func get_slide_scale_at_time(time: float):
 			slide_scale = event.slide_scale
 	return slide_scale
 
-func from_file(file: File, file_length, file_offset):
+func from_file(file: FileAccess, file_length, file_offset):
 	evd_events = get_data_from_evd(file, file_length, file_offset)
 
-static func get_data_from_evd(file: File, file_size, file_offset):
+static func get_data_from_evd(file: FileAccess, file_size, file_offset):
 	var events = []
 	file.seek(file_offset)
 	while file.get_position() < file_offset + file_size:

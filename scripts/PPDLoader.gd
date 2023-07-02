@@ -12,7 +12,7 @@ static func _get_marks_from_ppd_pack(path: String):
 	return data
 	
 # obtains notes and parameters from a ppd file
-static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPDPack):
+static func _get_data_from_ppd_file(file: FileAccess, file_len, file_offset, pack: PPDPack):
 	file.seek(file_offset)
 	var _signature = file.get_buffer(SIGNATURE.length()).get_string_from_utf8()
 	#var u = 0
@@ -37,7 +37,7 @@ static func _get_data_from_ppd_file(file: File, file_len, file_offset, pack: PPD
 				var xml = XMLParser.new()
 				
 				# Because PPD downloader is bad
-				if file_offset + file_len > file.get_len():
+				if file_offset + file_len > file.get_length():
 					# Guard against incomplete downloads
 					return
 				
@@ -235,7 +235,7 @@ static func PPD2HBChart(path: String, base_bpm: int, offset = 0) -> HBChart:
 		
 		note_data.position.x = (note.position.x / 800.0) * 1920
 		note_data.position.y = (note.position.y / 450.0) * 1080
-		note_data.entry_angle = 360 - rad2deg(note.rotation)
+		note_data.entry_angle = 360 - rad_to_deg(note.rotation)
 		
 		note_data.pos_modified = true
 		

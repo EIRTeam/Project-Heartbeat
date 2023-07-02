@@ -5,7 +5,7 @@ enum SELECTOR_MODE {
 	SONG
 }
 
-export(SELECTOR_MODE) var mode = SELECTOR_MODE.CHART
+@export var mode: SELECTOR_MODE = SELECTOR_MODE.CHART
 
 signal chart_selected(song_id, difficulty)
 signal song_selected(song_id)

@@ -59,7 +59,7 @@ var distance: float = 1200.0 # The distance the note travels from spawn point to
 
 var pos_modified: bool = false # whether or not the user has modified the note's position on the editor
 
-export (NOTE_TYPE) var note_type := NOTE_TYPE.RIGHT setget set_note_type
+@export var note_type: NOTE_TYPE = NOTE_TYPE.RIGHT: set = set_note_type
 
 func set_note_type(value):
 	note_type = value
@@ -135,6 +135,7 @@ func get_inspector_properties():
 	}
 
 func _init():
+	super._init()
 	_class_name = "HBBaseNote" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 	

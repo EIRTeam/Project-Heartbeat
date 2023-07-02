@@ -6,23 +6,23 @@ signal out_from_bottom
 signal out_from_top
 signal selected_item_changed
 
-export(NodePath) var container_path
-export(int) var horizontal_step = 1
-export(int) var vertical_step = 1
-export(bool) var enable_fade = false
-export (bool) var enable_wrap_around = false
+@export var container_path: NodePath
+@export var horizontal_step: int = 1
+@export var vertical_step: int = 1
+@export var enable_fade: bool = false
+@export var enable_wrap_around: bool = false
 # When selecting an item, n HBHovereableItems before and after the selected one will
 # receive a visibility report
-export(int) var items_to_report_visibility_to = 6
+@export var items_to_report_visibility_to: int = 6
 
 enum SCROLL_MODE {
 	PAGE,
 	CENTER
 }
 
-export(SCROLL_MODE) var scroll_mode = SCROLL_MODE.PAGE
+@export var scroll_mode: SCROLL_MODE = SCROLL_MODE.PAGE
 
-const FADE_SHADER = preload("res://menus/ScrollListShader.shader")
+const FADE_SHADER = preload("res://menus/ScrollListShader.gdshader")
 const INITIAL_DEBOUNCE_WAIT = 0.3
 const DEBOUNCE_WAIT = 0.1
 
@@ -31,11 +31,11 @@ var debounce_step = 0
 var target_scroll = 0.0
 var current_selected_item = 0
 
-onready var tween = Tween.new()
-onready var initial_input_debounce_timer = Timer.new()
-onready var input_debounce_timer = Timer.new()
+@onready var tween = Threen.new()
+@onready var initial_input_debounce_timer = Timer.new()
+@onready var input_debounce_timer = Timer.new()
 
-onready var item_container: Control = get_node(container_path)
+@onready var item_container: Control = get_node(container_path)
 
 func _ready():
 	add_child(tween)
@@ -44,23 +44,23 @@ func _ready():
 	
 	initial_input_debounce_timer.wait_time = INITIAL_DEBOUNCE_WAIT
 	initial_input_debounce_timer.one_shot = true
-	initial_input_debounce_timer.connect("timeout", self, "_on_initial_input_debounce_timeout")
+	initial_input_debounce_timer.connect("timeout", Callable(self, "_on_initial_input_debounce_timeout"))
 	input_debounce_timer.wait_time = DEBOUNCE_WAIT
-	input_debounce_timer.connect("timeout", self, "_on_input_debounce_timeout")
+	input_debounce_timer.connect("timeout", Callable(self, "_on_input_debounce_timeout"))
 	
-	connect("focus_exited", self, "_on_focus_lost")
-	connect("focus_entered", self, "_on_focus_entered")
-	connect("resized", self, "_on_resized")
+	connect("focus_exited", Callable(self, "_on_focus_lost"))
+	connect("focus_entered", Callable(self, "_on_focus_entered"))
+	connect("resized", Callable(self, "_on_resized"))
 	
-	get_v_scrollbar().connect("visibility_changed", self, "_on_vscrollbar_visibility_changed")
-	get_v_scrollbar().connect("changed", self, "update_fade")
-	get_v_scrollbar().connect("changed", self, "_on_scroll_changed")
-	item_container.connect("resized", self, "force_scroll")
+	get_v_scroll_bar().connect("visibility_changed", Callable(self, "_on_vscrollbar_visibility_changed"))
+	get_v_scroll_bar().connect("changed", Callable(self, "update_fade"))
+	get_v_scroll_bar().connect("changed", Callable(self, "_on_scroll_changed"))
+	item_container.connect("resized", Callable(self, "force_scroll"))
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
 		material = fade_mat
-	
+		RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10, false)
 	_on_resized()
 	
 func _on_scroll_changed():
@@ -68,11 +68,11 @@ func _on_scroll_changed():
 		for i in range(item_container.get_child_count()):
 			var child = item_container.get_child(i)
 			var found_visible_item = false
-			if child.rect_position.y + child.rect_size.y >= scroll_vertical:
+			if child.position.y + child.size.y >= scroll_vertical:
 				for ii in range(items_to_report_visibility_to*2):
-					if child.get_position_in_parent() + ii >= item_container.get_child_count():
+					if child.get_index() + ii >= item_container.get_child_count():
 						break
-					var child2 = item_container.get_child(child.get_position_in_parent() + ii) as HBUniversalListItem
+					var child2 = item_container.get_child(child.get_index() + ii) as HBUniversalListItem
 					if child2:
 						child2._become_visible()
 				found_visible_item = true
@@ -91,18 +91,18 @@ func _on_vscrollbar_visibility_changed():
 	if enable_fade:
 		var mat = material as ShaderMaterial
 		if mat:
-			mat.set_shader_param("enabled", get_v_scrollbar().visible)
+			mat.set_shader_parameter("enabled", get_v_scroll_bar().visible)
 	
 func _on_resized():
 	if enable_fade:
 		var mat = material as ShaderMaterial
 		if mat:
-			mat.set_shader_param("enabled", get_v_scrollbar().visible)
+			mat.set_shader_parameter("enabled", get_v_scroll_bar().visible)
 			# HACK: Makes the fade work inside scaled controls!!
-			mat.set_shader_param("size", get_global_transform().get_scale() * rect_size)
-			mat.set_shader_param("pos", get_global_transform().origin)
+			mat.set_shader_parameter("size", get_global_transform().get_scale() * size)
+			mat.set_shader_parameter("pos", get_global_transform().origin)
 			
-			mat.set_shader_param("fade_size", 150.0 / float(rect_size.x))
+			mat.set_shader_parameter("fade_size", 150.0 / float(size.x))
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
 		var item = item_container.get_child(current_selected_item)
@@ -112,7 +112,7 @@ func get_selected_item():
 	
 func smooth_scroll_to(target: float):
 	tween.remove_all()
-	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	tween.interpolate_property(self, "scroll_vertical", scroll_vertical, target, 0.5, Threen.TRANS_CUBIC, Threen.EASE_OUT)
 	target_scroll = target
 	tween.start()
 
@@ -121,15 +121,15 @@ func update_fade():
 	if enable_fade:
 		var mat = material as ShaderMaterial
 		if mat:
-			var max_scroll = get_v_scrollbar().max_value - rect_size.y
+			var max_scroll = get_v_scroll_bar().max_value - size.y
 			var selected_item = get_selected_item()
-			if selected_item and selected_item.rect_position.y <= target_scroll:
+			if selected_item and selected_item.position.y <= target_scroll:
 				# This ensures that if the target is at the top the fade is disabled so it's visible
-				mat.set_shader_param("top_enabled", clamp(target_scroll, 0, max_scroll) > get_selected_item().rect_position.y)
+				mat.set_shader_parameter("top_enabled", clamp(target_scroll, 0, max_scroll) > get_selected_item().position.y)
 			else:
-				mat.set_shader_param("top_enabled", target_scroll > 0)
+				mat.set_shader_parameter("top_enabled", target_scroll > 0)
 				
-			mat.set_shader_param("bottom_enabled", target_scroll < max_scroll)
+			mat.set_shader_parameter("bottom_enabled", target_scroll < max_scroll)
 	
 func select_item(item_i: int):
 	if item_container.get_child_count() == 0:
@@ -146,11 +146,11 @@ func select_item(item_i: int):
 	current_selected_item = item_i
 	match scroll_mode:
 		SCROLL_MODE.PAGE:
-			if child.rect_position.y + child.rect_size.y > scroll_vertical + rect_size.y or \
-					child.rect_position.y < scroll_vertical:
-				smooth_scroll_to(float(child.rect_position.y))
+			if child.position.y + child.size.y > scroll_vertical + size.y or \
+					child.position.y < scroll_vertical:
+				smooth_scroll_to(float(child.position.y))
 		SCROLL_MODE.CENTER:
-			smooth_scroll_to(float(child.rect_position.y + child.rect_size.y / 2.0 - rect_size.y / 2.0))
+			smooth_scroll_to(float(child.position.y + child.size.y / 2.0 - size.y / 2.0))
 	if child.has_method("hover") and has_focus():
 		child.hover()
 	if old_selected_item != current_selected_item:
@@ -168,7 +168,7 @@ func select_item(item_i: int):
 	
 func force_scroll():
 	if get_selected_item():
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		select_item(current_selected_item)
 	
 func _input(event):
@@ -186,7 +186,7 @@ func _position_change_input(position_change: int):
 	if position_change != 0:
 		var new_pos = current_selected_item + position_change
 		if enable_wrap_around:
-			 new_pos = wrapi(new_pos, 0, item_container.get_child_count())
+			new_pos = wrapi(new_pos, 0, item_container.get_child_count())
 		if new_pos > item_container.get_child_count() - 1:
 			emit_signal("out_from_bottom")
 		if new_pos < 0:
@@ -199,27 +199,26 @@ func _position_change_input(position_change: int):
 
 func _gui_input(event):
 	var position_change = 0
-	
 	if event.is_action_pressed("gui_down"):
 		if vertical_step != 0:
 			position_change += vertical_step
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	if event.is_action_pressed("gui_up"):
 		if vertical_step != 0:
 			position_change -= vertical_step
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	if event.is_action_pressed("gui_right"):
 		if horizontal_step != 0:
 			position_change += horizontal_step
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	if event.is_action_pressed("gui_left"):
 		if horizontal_step != 0:
 			position_change -= horizontal_step
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 	if event.is_action_pressed("gui_accept"):
 		var selected_child = get_selected_item()
 		if selected_child and selected_child.has_signal("pressed"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			var sfx_type = HBGame.menu_forward_sfx
 			if selected_child.has_meta("sfx"):
 				sfx_type = selected_child.get_meta("sfx")

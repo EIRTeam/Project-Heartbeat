@@ -20,7 +20,7 @@ func _init():
 func _ready():
 	add_child(callbacks_timer)
 	callbacks_timer.wait_time = callbacks_rate
-	callbacks_timer.connect("timeout", self, "_on_callbacks_timer_timeout")
+	callbacks_timer.connect("timeout", Callable(self, "_on_callbacks_timer_timeout"))
 	callbacks_timer.start()
 	
 func _initialize_platform():

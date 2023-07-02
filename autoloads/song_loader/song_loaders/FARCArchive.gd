@@ -56,7 +56,7 @@ func propagate_error(err_msg: String):
 
 func _decrypt_farc():
 	spb.seek(0x10)
-	var iv := spb.get_data(0x10)[1] as PoolByteArray
+	var iv := spb.get_data(0x10)[1] as PackedByteArray
 	var aes_context := AESContext.new()
 	aes_context.start(AESContext.MODE_CBC_DECRYPT, KEY, iv)
 	
@@ -183,9 +183,9 @@ func get_file_buffer(file_path: String) -> StreamPeerBuffer:
 		spb.seek(entry.position + 16)
 	else:
 		spb.seek(entry.position)
-	var data := spb.get_data(entry.length)[1] as PoolByteArray
+	var data := spb.get_data(entry.length)[1] as PackedByteArray
 	if entry.is_compressed:
-		new_spb.data_array = data.decompress(entry.unpacked_length, File.COMPRESSION_GZIP)
+		new_spb.data_array = data.decompress(entry.unpacked_length, FileAccess.COMPRESSION_GZIP)
 	else:
 		entry.data_array = data
 	

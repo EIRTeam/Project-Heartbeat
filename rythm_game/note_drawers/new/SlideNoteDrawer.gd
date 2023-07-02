@@ -13,7 +13,7 @@ var current_slide_chain_sound: ShinobuSoundPlayer
 	
 var slide_effect_scene: PackedScene
 	
-var pressed := false setget set_pressed
+var pressed := false: set = set_pressed
 func set_pressed(val):
 	pressed = val
 	note_graphics.visible = !pressed
@@ -22,20 +22,17 @@ func set_pressed(val):
 	note_target_graphics.visible = !pressed
 	
 func _init():
-	if OS.get_current_video_driver() == OS.VIDEO_DRIVER_GLES2:
-		slide_effect_scene = load("res://graphics/effects/SlideParticlesCPU.tscn")
-	else:
-		slide_effect_scene = load("res://graphics/effects/SlideParticles.tscn")
+	slide_effect_scene = load("res://graphics/effects/SlideParticlesCPU.tscn")
 	
 func note_init():
-	.note_init()
+	super.note_init()
 	
 func play_appear_animation():
-	.play_appear_animation()
+	super.play_appear_animation()
 	
 func show_note_hit_effect(target_pos: Vector2):
 	if note_data.is_slide_note():
-		var effect = slide_effect_scene.instance()
+		var effect = slide_effect_scene.instantiate()
 		effect.scale = Vector2.ONE * UserSettings.user_settings.note_size
 		game.game_ui.get_drawing_layer_node("StarParticles").add_child(effect)
 		if note_data.note_type == HBBaseNote.NOTE_TYPE.SLIDE_LEFT:
@@ -43,11 +40,11 @@ func show_note_hit_effect(target_pos: Vector2):
 		effect.position = target_pos
 	
 func create_note_drawer(piece: HBNoteData):
-	var drawer := SINGLE_NOTE_DRAWER_SCENE.instance() as HBNewNoteDrawer
+	var drawer := SINGLE_NOTE_DRAWER_SCENE.instantiate() as HBNewNoteDrawer
 	drawer.game = game
 	drawer.note_data = piece
-	drawer.connect("add_node_to_layer", self, "_on_slide_piece_add_node_to_layer")
-	drawer.connect("remove_node_from_layer", self, "_on_slide_piece_remove_node_from_layer")
+	drawer.connect("add_node_to_layer", Callable(self, "_on_slide_piece_add_node_to_layer"))
+	drawer.connect("remove_node_from_layer", Callable(self, "_on_slide_piece_remove_node_from_layer"))
 	bind_node_to_layer(drawer, "SlideChainPieces")
 	drawer.is_multi_note = false
 	drawer.appear_animation_enabled = false
@@ -140,7 +137,7 @@ func is_slide_direction_pressed():
 	return direction_pressed
 
 func process_note(time_msec: int):
-	.process_note(time_msec)
+	super.process_note(time_msec)
 	
 	if is_autoplay_enabled():
 		if is_in_autoplay_schedule_range(time_msec, note_data.time) and \
@@ -208,7 +205,7 @@ func process_note(time_msec: int):
 					var is_last := i >= slide_chain_pieces.size() - 1
 					if not is_in_editor_mode():
 						game.show_slide_hold_score(piece.position, current_score, is_last)
-						.show_note_hit_effect(piece.position)
+						super.show_note_hit_effect(piece.position)
 					free_node_bind(drawer)
 					drawer.queue_free()
 					chain_piece_drawers.erase(piece)

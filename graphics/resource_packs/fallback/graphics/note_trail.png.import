@@ -2,12 +2,13 @@
 
 importer="image"
 type="Image"
-path="res://.import/note_trail.png-f49d9b8d51e1184ab3fda4d7e59c63b9.image"
+uid="uid://dlwu6d82rhxd6"
+path="res://.godot/imported/note_trail.png-f49d9b8d51e1184ab3fda4d7e59c63b9.image"
 
 [deps]
 
 source_file="res://graphics/resource_packs/fallback/graphics/note_trail.png"
-dest_files=[ "res://.import/note_trail.png-f49d9b8d51e1184ab3fda4d7e59c63b9.image" ]
+dest_files=["res://.godot/imported/note_trail.png-f49d9b8d51e1184ab3fda4d7e59c63b9.image"]
 
 [params]
 

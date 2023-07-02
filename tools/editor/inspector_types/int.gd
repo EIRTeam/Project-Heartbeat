@@ -1,14 +1,14 @@
 extends "res://tools/editor/inspector_types/EditorInspectorType.gd"
 
-onready var spinbox = get_node("Spinbox")
-onready var toggle_negative_button = get_node("ToggleNegativeButton")
+@onready var spinbox = get_node("Spinbox")
+@onready var toggle_negative_button = get_node("ToggleNegativeButton")
 
 func sync_value(input_array):
 	spinbox.inputs = input_array
 
 func _ready():
 	spinbox.property_name = property_name
-	spinbox.connect("values_changed", self, "_on_Spinbox_values_changed")
+	spinbox.connect("values_changed", Callable(self, "_on_Spinbox_values_changed"))
 	toggle_negative_button.hide()
 
 func _on_Spinbox_values_changed():

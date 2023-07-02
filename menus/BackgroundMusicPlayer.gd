@@ -38,7 +38,7 @@ class SongPlayer:
 		if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
 			assets_to_load.append("audio_loudness")
 		current_load_task = SongAssetLoadAsyncTask.new(assets_to_load, song)
-		current_load_task.connect("assets_loaded", self, "_on_song_assets_loaded")
+		current_load_task.connect("assets_loaded", Callable(self, "_on_song_assets_loaded"))
 		AsyncTaskQueue.queue_task(current_load_task)
 		
 		emit_signal("stream_time_changed", song.preview_start / 1000.0)
@@ -129,15 +129,15 @@ class SongPlayer:
 				audio_remap.connect_to_group(HBGame.menu_music_group)
 				audio_playback.connect_sound_to_effect(audio_remap)
 				
-		var tween := Tween.new()
+		var tween := Threen.new()
 		
 		add_child(tween)
 		if audio_playback:
-			tween.interpolate_property(audio_playback, "volume", 0.0, db2linear(target_volume), 0.5)
+			tween.interpolate_property(audio_playback, "volume", 0.0, db_to_linear(target_volume), 0.5)
 		if voice_audio_playback:
-			tween.interpolate_property(voice_audio_playback, "volume", 0.0, db2linear(target_volume), 0.5)
+			tween.interpolate_property(voice_audio_playback, "volume", 0.0, db_to_linear(target_volume), 0.5)
 		
-		tween.connect("tween_all_completed", tween, "queue_free")
+		tween.connect("tween_all_completed", Callable(tween, "queue_free"))
 		
 		tween.start()
 		
@@ -151,15 +151,15 @@ class SongPlayer:
 		
 	func fade_out():
 		set_process(false) # nothing else should fire while fading out...
-		var tween := Tween.new()
+		var tween := Threen.new()
 		
 		add_child(tween)
 		if audio_playback:
-			tween.interpolate_property(audio_playback, "volume", db2linear(target_volume), 0.0, 0.5)
+			tween.interpolate_property(audio_playback, "volume", db_to_linear(target_volume), 0.0, 0.5)
 			if voice_audio_playback:
-				tween.interpolate_property(voice_audio_playback, "volume", db2linear(target_volume), 0.0, 0.5)
+				tween.interpolate_property(voice_audio_playback, "volume", db_to_linear(target_volume), 0.0, 0.5)
 		
-		tween.connect("tween_all_completed", self, "queue_free")
+		tween.connect("tween_all_completed", Callable(self, "queue_free"))
 		
 		tween.start()
 
@@ -174,15 +174,15 @@ func play_song(song: HBSong):
 	var song_player = SongPlayer.new(song, song_idx)
 	song_idx += 1
 	add_child(song_player)
-	song_player.connect("song_assets_loaded", self, "_on_song_assets_loaded")
-	song_player.connect("stream_time_changed", self, "_on_stream_time_changed")
-	song_player.connect("song_ended", self, "_on_song_ended")
+	song_player.connect("song_assets_loaded", Callable(self, "_on_song_assets_loaded"))
+	song_player.connect("stream_time_changed", Callable(self, "_on_stream_time_changed"))
+	song_player.connect("song_ended", Callable(self, "_on_song_ended"))
 	
 	if song_player.load_song_assets() == OK:
 		if current_song_player:
 			current_song_player.fade_out()
-			current_song_player.disconnect("song_assets_loaded", self, "_on_song_assets_loaded")
-			current_song_player.disconnect("stream_time_changed", self, "_on_stream_time_changed")
+			current_song_player.disconnect("song_assets_loaded", Callable(self, "_on_song_assets_loaded"))
+			current_song_player.disconnect("stream_time_changed", Callable(self, "_on_stream_time_changed"))
 		current_song_player = song_player
 	else:
 		song_player.queue_free()

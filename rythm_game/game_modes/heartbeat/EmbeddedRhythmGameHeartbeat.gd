@@ -1,7 +1,7 @@
 extends Control
 
-onready var rhythm_game = HBRhythmGame.new()
-onready var rhythm_game_ui = get_node("RhythmGame")
+@onready var rhythm_game = HBRhythmGame.new()
+@onready var rhythm_game_ui = get_node("RhythmGame")
 signal update_stats
 
 var _last_time = 0.0
@@ -24,11 +24,11 @@ func play_song(song: HBSong, chart: HBChart):
 	reset_stats()
 	
 	if song is HBAutoSong:
-		rhythm_game.audio_playback.volume = db2linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
+		rhythm_game.audio_playback.volume = db_to_linear(HBAudioNormalizer.get_offset_from_loudness(song.loudness))
 		if rhythm_game.voice_audio_playback:
 			rhythm_game.voice_audio_playback.volume = 0.0
 	else:
-		var volume = db2linear(SongDataCache.get_song_volume_offset(song) * song.volume)
+		var volume = db_to_linear(SongDataCache.get_song_volume_offset(song) * song.volume)
 		rhythm_game.audio_playback.volume = volume
 		if rhythm_game.voice_audio_playback:
 			rhythm_game.voice_audio_playback.volume = volume
@@ -46,11 +46,11 @@ func set_audio(audio, voice = null):
 		rhythm_game.voice_audio_playback.stream = ShinobuGodotSoundPlaybackOffset.new(voice)
 
 func _ready():
-	connect("resized", self, "_on_resized")
+	connect("resized", Callable(self, "_on_resized"))
 	rhythm_game_ui._set_ui_visible(false)
 	
 	add_child(rhythm_game)
-	rhythm_game.connect("note_judged", self, "_on_note_judged")
+	rhythm_game.connect("note_judged", Callable(self, "_on_note_judged"))
 	rhythm_game.set_game_ui(rhythm_game_ui)
 	rhythm_game.set_game_input_manager(HeartbeatInputManager.new())
 	rhythm_game.game_input_manager.set_process_input(false)
@@ -61,7 +61,7 @@ func _on_resized():
 	rhythm_game._on_viewport_size_changed()
 
 func set_game_size():
-	rhythm_game.size = rect_size
+	rhythm_game.size = size
 
 func restart():
 	rhythm_game.play_from_pos(_last_time)

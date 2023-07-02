@@ -29,7 +29,7 @@ static func can_show_in_editor():
 
 # Allow editing one at a time
 func get_inspector_properties():
-	return HBUtils.merge_dict(.get_inspector_properties(), {
+	return HBUtils.merge_dict(super.get_inspector_properties(), {
 		"usage": {
 			"type": "list",
 			"params": {
@@ -61,6 +61,6 @@ func get_inspector_properties():
 
 func get_timeline_item():
 	var timeline_item_scene = load("res://tools/editor/timeline_items/EditorTimelineItemBPMChange.tscn")
-	var timeline_item = timeline_item_scene.instance()
+	var timeline_item = timeline_item_scene.instantiate()
 	timeline_item.data = self
 	return timeline_item

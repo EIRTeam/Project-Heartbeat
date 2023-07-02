@@ -1,21 +1,22 @@
-extends WindowDialog
+extends Window
 
-onready var use_youtube_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/UseYouTube")
-onready var file_dialog = get_node("../PPDFileDialog")
-onready var youtube_url_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
-onready var error_dialog = get_node("AcceptDialog")
+@onready var use_youtube_button = get_node("MarginContainer/VBoxContainer/HBoxContainer/UseYouTube")
+@onready var file_dialog = get_node("../PPDFileDialog")
+@onready var youtube_url_line_edit = get_node("MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+@onready var error_dialog = get_node("AcceptDialog")
 signal youtube_url_selected(url)
 
 signal file_selected(file_path)
 signal file_selector_hidden
 func _ready():
-	use_youtube_button.connect("pressed", self, "_on_use_youtube_button_pressed")
-	file_dialog.connect("file_selected", self, "_on_file_selected")
-	file_dialog.connect("popup_hide", self, "_on_file_selector_hidden")
-	connect("about_to_show", self, "_on_about_to_show")
+	use_youtube_button.connect("pressed", Callable(self, "_on_use_youtube_button_pressed"))
+	file_dialog.connect("file_selected", Callable(self, "_on_file_selected"))
+	file_dialog.connect("visibility_changed", Callable(self, "_on_file_selector_visbility_changed"))
+	connect("about_to_popup", Callable(self, "_on_about_to_show"))
 	
-func _on_file_selector_hidden():
-	emit_signal("file_selector_hidden")
+func _on_file_selector_visbility_changed():
+	if not file_dialog.visible:
+		emit_signal("file_selector_hidden")
 	
 func _on_use_youtube_button_pressed():
 	if YoutubeDL.get_video_id(youtube_url_line_edit.text):
@@ -42,7 +43,7 @@ func _on_file_selected(file):
 	
 
 func ask_for_file(youtube_only=false):
-	file_dialog.mode = FileDialog.MODE_OPEN_FILE
+	file_dialog.mode = FileDialog.FILE_MODE_OPEN_FILE
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.filters = ["*.ogg ; OGG"]
 	file_dialog.set_current_dir(UserSettings.user_settings.last_audio_dir)

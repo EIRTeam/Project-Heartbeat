@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menus/PreGameChartFeaturesDisplay.gd" type="Script" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
 [ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=3]
 
-[sub_resource type="DynamicFontData" id=1]
+[sub_resource type="FontFile" id=1]
 font_path = "res://fonts/Roboto-Black.ttf"
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 45
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -16,9 +16,9 @@ font_data = SubResource( 1 )
 fallback/0 = ExtResource( 2 )
 
 [sub_resource type="Gradient" id=3]
-colors = PoolColorArray( 0.639216, 0, 1, 1, 0.733333, 0, 1, 0 )
+colors = PackedColorArray( 0.639216, 0, 1, 1, 0.733333, 0, 1, 0 )
 
-[sub_resource type="GradientTexture" id=4]
+[sub_resource type="GradientTexture2D" id=4]
 gradient = SubResource( 3 )
 
 [sub_resource type="StyleBoxTexture" id=5]
@@ -36,51 +36,51 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 45
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_bottom = 45
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 1920.0
-margin_bottom = 1035.0
-custom_constants/separation = 15
+offset_right = 1920.0
+offset_bottom = 1035.0
+theme_override_constants/separation = 15
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer2"]
-margin_right = 1920.0
-margin_bottom = 967.0
+offset_right = 1920.0
+offset_bottom = 967.0
 size_flags_vertical = 3
-custom_constants/margin_right = 45
-custom_constants/margin_left = 45
+theme_override_constants/margin_right = 45
+theme_override_constants/margin_left = 45
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/MarginContainer"]
-margin_left = 45.0
-margin_right = 1875.0
-margin_bottom = 967.0
+offset_left = 45.0
+offset_right = 1875.0
+offset_bottom = 967.0
 size_flags_vertical = 3
-custom_constants/separation = 15
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
-margin_top = 457.0
-margin_right = 1830.0
-margin_bottom = 510.0
-custom_fonts/font = SubResource( 2 )
+offset_top = 457.0
+offset_right = 1830.0
+offset_bottom = 510.0
+theme_override_fonts/font = SubResource( 2 )
 text = "This chart includes:"
-align = 1
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer2"]
-margin_top = 982.0
-margin_right = 1920.0
-margin_bottom = 1035.0
-rect_min_size = Vector2( 0, 53 )
-custom_styles/panel = SubResource( 5 )
+offset_top = 982.0
+offset_right = 1920.0
+offset_bottom = 1035.0
+custom_minimum_size = Vector2( 0, 53 )
+theme_override_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -93,52 +93,52 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer"]
-margin_right = 1920.0
-margin_bottom = 53.0
-custom_constants/separation = 15
+offset_right = 1920.0
+offset_bottom = 53.0
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer"]
-margin_left = 750.0
-margin_right = 867.0
-margin_bottom = 53.0
-custom_fonts/font = SubResource( 2 )
+offset_left = 750.0
+offset_right = 867.0
+offset_bottom = 53.0
+theme_override_fonts/font = SubResource( 2 )
 text = "Press"
-align = 1
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PromptInputAction" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 882.0
-margin_right = 882.0
-margin_bottom = 53.0
+offset_left = 882.0
+offset_right = 882.0
+offset_bottom = 53.0
 input_action = "pause"
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer"]
-margin_left = 897.0
-margin_right = 913.0
-margin_bottom = 53.0
-custom_fonts/font = SubResource( 2 )
+offset_left = 897.0
+offset_right = 913.0
+offset_bottom = 53.0
+theme_override_fonts/font = SubResource( 2 )
 text = "/"
-align = 1
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PromptInputAction2" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 928.0
-margin_right = 928.0
-margin_bottom = 53.0
+offset_left = 928.0
+offset_right = 928.0
+offset_bottom = 53.0
 input_action = "gui_accept"
 
 [node name="Label4" type="Label" parent="MarginContainer/VBoxContainer2/Panel/MarginContainer/HBoxContainer"]
-margin_left = 943.0
-margin_right = 1169.0
-margin_bottom = 53.0
-custom_fonts/font = SubResource( 2 )
+offset_left = 943.0
+offset_right = 1169.0
+offset_bottom = 53.0
+theme_override_fonts/font = SubResource( 2 )
 text = "to continue"
-align = 1
+horizontal_alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

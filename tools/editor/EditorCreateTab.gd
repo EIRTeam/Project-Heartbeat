@@ -1,7 +1,7 @@
 extends Control
 
 signal create_note_type(note_type)
-onready var note_select_button = get_node("MarginContainer/VBoxContainer/NoteTypeSelectButton")
+@onready var note_select_button = get_node("MarginContainer/VBoxContainer/NoteTypeSelectButton")
 func _ready():
 	for type_name in HBSerializable.get_serializable_types():
 		var type = HBSerializable.get_serializable_types()[type_name]

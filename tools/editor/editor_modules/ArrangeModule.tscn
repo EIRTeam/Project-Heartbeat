@@ -1,165 +1,135 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=20 format=3 uid="uid://dp3dxv1k748mt"]
 
-[ext_resource path="res://graphics/icons/circle-clockwise-inside.png" type="Texture" id=1]
-[ext_resource path="res://graphics/icons/rotate-relative-right.svg" type="Texture" id=2]
-[ext_resource path="res://tools/editor/editor_modules/ArrangeModule.gd" type="Script" id=3]
-[ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/rotate-relative-left.svg" type="Texture" id=5]
-[ext_resource path="res://graphics/icons/circle-counterclockwise-inside.png" type="Texture" id=6]
-[ext_resource path="res://graphics/icons/circle-clockwise.png" type="Texture" id=7]
-[ext_resource path="res://graphics/icons/arrow-left-right.svg" type="Texture" id=8]
-[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=9]
-[ext_resource path="res://graphics/icons/flip-horizontal.svg" type="Texture" id=10]
-[ext_resource path="res://tools/editor/controls/HBEditorButton.gd" type="Script" id=11]
-[ext_resource path="res://graphics/icons/arrange-line.png" type="Texture" id=12]
-[ext_resource path="res://graphics/icons/arrow-up-down.svg" type="Texture" id=13]
-[ext_resource path="res://tools/editor/EditorArrangeMenu.tscn" type="PackedScene" id=14]
-[ext_resource path="res://graphics/icons/circle-counterclockwise.png" type="Texture" id=15]
-[ext_resource path="res://graphics/icons/rotate-relative-center.svg" type="Texture" id=16]
-[ext_resource path="res://graphics/icons/flip-vertical.svg" type="Texture" id=17]
-[ext_resource path="res://graphics/icons/rotate-absolute.svg" type="Texture" id=18]
-[ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=21]
+[ext_resource type="Texture2D" uid="uid://bwwxwl36s1jhe" path="res://graphics/icons/circle-clockwise-inside.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://d0x0jbwaj58e" path="res://graphics/icons/rotate-relative-right.svg" id="2"]
+[ext_resource type="Script" path="res://tools/editor/editor_modules/ArrangeModule.gd" id="3"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://c2gg4gcju4k0o" path="res://graphics/icons/rotate-relative-left.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://bckgutcxcdh0t" path="res://graphics/icons/circle-counterclockwise-inside.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cguvravg1mcvj" path="res://graphics/icons/circle-clockwise.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://2uvl0wk3sttg" path="res://graphics/icons/arrow-left-right.svg" id="8"]
+[ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="9"]
+[ext_resource type="Texture2D" uid="uid://dtcdjl17e1n3u" path="res://graphics/icons/flip-horizontal.svg" id="10"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="11"]
+[ext_resource type="Texture2D" uid="uid://ceowdj325im60" path="res://graphics/icons/arrange-line.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://bqawaajhn8wet" path="res://graphics/icons/arrow-up-down.svg" id="13"]
+[ext_resource type="PackedScene" uid="uid://bknhgu2vawn75" path="res://tools/editor/EditorArrangeMenu.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://dluenhq745a1w" path="res://graphics/icons/circle-counterclockwise.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://bhy1gxhk6i74r" path="res://graphics/icons/rotate-relative-center.svg" id="16"]
+[ext_resource type="Texture2D" uid="uid://n7ot7i7efk77" path="res://graphics/icons/flip-vertical.svg" id="17"]
+[ext_resource type="Texture2D" uid="uid://cfjtyob2diytx" path="res://graphics/icons/rotate-absolute.svg" id="18"]
+[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="21"]
 
-[node name="EditorModule" instance=ExtResource( 9 )]
-script = ExtResource( 3 )
+[node name="EditorModule" instance=ExtResource("9")]
+script = ExtResource("3")
 module_location = "left_panel"
 module_name = "Arrange notes"
 button_group_name = "arrange_buttons"
 
+[node name="MarginContainer" parent="." index="0"]
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-margin_right = 1908.0
-margin_bottom = 2220.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
-margin_right = 1908.0
-margin_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Arrange in a line..."
-align = 1
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
-margin_top = 18.0
-margin_right = 1908.0
-margin_bottom = 526.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 1410.0
-margin_bottom = 508.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-margin_top = 219.0
-margin_right = 1410.0
-margin_bottom = 233.0
-hint_tooltip = "The arrange wheel helps you place notes quickly (Hold Shift for reverse)."
+layout_mode = 2
+tooltip_text = "The arrange wheel helps you place notes quickly (Hold Shift for reverse)."
 mouse_filter = 0
 text = "Hold SHORTCUT for quick placing."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-margin_top = 237.0
-margin_right = 1410.0
-margin_bottom = 261.0
-hint_tooltip = "Angle at which to place the notes."
+layout_mode = 2
+tooltip_text = "Angle at which to place the notes."
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_top = 5.0
-margin_right = 69.0
-margin_bottom = 19.0
+layout_mode = 2
 text = "Line angle:"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 73.0
-margin_right = 1410.0
-margin_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 360.0
 step = 0.1
 suffix = "º"
 custom_arrow_step = 1.0
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
-margin_top = 265.0
-margin_right = 1410.0
-margin_bottom = 289.0
-hint_tooltip = "Arrange from the last note
+layout_mode = 2
+tooltip_text = "Arrange from the last note
 rather than the first."
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="0"]
-margin_left = 638.0
-margin_top = 5.0
-margin_right = 744.0
-margin_bottom = 19.0
+layout_mode = 2
 text = "Place in reverse:"
 
 [node name="CheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" index="1"]
-margin_left = 748.0
-margin_right = 772.0
-margin_bottom = 24.0
-align = 1
+layout_mode = 2
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
-margin_left = 1414.0
-margin_right = 1908.0
-margin_bottom = 508.0
-rect_min_size = Vector2( 36, 508 )
+custom_minimum_size = Vector2(104, 550)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Apply"
 tooltip = "Arrange notes with the selected angle."
-texture = ExtResource( 12 )
+texture = ExtResource("12")
 button_mode = "function"
 function_name = "_apply_arrange"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
-margin_top = 530.0
-margin_right = 1908.0
-margin_bottom = 534.0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
-margin_top = 538.0
-margin_right = 1908.0
-margin_bottom = 552.0
+layout_mode = 2
 text = "Arrange in a circle..."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="4"]
-margin_top = 556.0
-margin_right = 1908.0
-margin_bottom = 580.0
-hint_tooltip = "Amount of 8th notes required for
+layout_mode = 2
+tooltip_text = "Amount of 8th notes required for
 a full revolution."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="0"]
-margin_right = 108.0
-margin_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="0"]
-margin_top = 5.0
-margin_right = 30.0
-margin_bottom = 19.0
+layout_mode = 2
 text = "Size:"
 
 [node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/HBoxContainer" index="1" groups=["disabled_ui"]]
-margin_left = 34.0
-margin_right = 108.0
-margin_bottom = 24.0
+layout_mode = 2
 min_value = 4.0
 max_value = 64.0
 value = 16.0
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" index="1" groups=["disabled_ui"]]
-margin_left = 112.0
-margin_right = 1908.0
-margin_bottom = 16.0
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = 4.0
 max_value = 64.0
@@ -168,228 +138,183 @@ tick_count = 8
 ticks_on_borders = true
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="5"]
-margin_top = 584.0
-margin_right = 1908.0
-margin_bottom = 1105.0
+layout_mode = 2
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="0"]
-margin_right = 948.0
-margin_bottom = 521.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="0"]
-margin_right = 948.0
-margin_bottom = 14.0
+layout_mode = 2
 text = "Outside angles"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer" index="1"]
-margin_top = 18.0
-margin_right = 948.0
-margin_bottom = 521.0
-rect_min_size = Vector2( 130, 0 )
-script = ExtResource( 21 )
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-margin_right = 472.0
-margin_bottom = 503.0
-rect_min_size = Vector2( 63, 486 )
+custom_minimum_size = Vector2(181, 528)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Clockwise"
 tooltip = "Makes a clockwise circle with
 angles pointing outwards."
-texture = ExtResource( 7 )
+texture = ExtResource("7")
 action = "editor_make_circle_cw"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-margin_left = 476.0
-margin_right = 948.0
-margin_bottom = 503.0
-rect_min_size = Vector2( 63, 503 )
+custom_minimum_size = Vector2(181, 551)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Counter
 clockwise"
 tooltip = "Makes a counter-clockwise circle
 with angles pointing outwards."
-texture = ExtResource( 15 )
+texture = ExtResource("15")
 transform_id = 1
 action = "editor_make_circle_ccw"
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="1"]
-margin_left = 952.0
-margin_right = 956.0
-margin_bottom = 521.0
+layout_mode = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3" index="2"]
-margin_left = 960.0
-margin_right = 1908.0
-margin_bottom = 521.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="0"]
-margin_right = 948.0
-margin_bottom = 14.0
+layout_mode = 2
 text = "Inside angles"
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2" index="1"]
-margin_top = 18.0
-margin_right = 948.0
-margin_bottom = 521.0
-rect_min_size = Vector2( 130, 0 )
-script = ExtResource( 21 )
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-margin_right = 472.0
-margin_bottom = 503.0
-rect_min_size = Vector2( 63, 486 )
+custom_minimum_size = Vector2(181, 528)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Clockwise"
 tooltip = "Makes a clockwise circle with
 angles pointing inwards."
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 transform_id = 2
 action = "editor_make_circle_cw_inside"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-margin_left = 476.0
-margin_right = 948.0
-margin_bottom = 503.0
-rect_min_size = Vector2( 63, 503 )
+custom_minimum_size = Vector2(181, 551)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Counter
 clockwise"
 tooltip = "Makes a counter-clockwise circle
 with angles pointing inwards."
-texture = ExtResource( 6 )
+texture = ExtResource("6")
 transform_id = 3
 action = "editor_make_circle_ccw_inside"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="6"]
-margin_top = 1109.0
-margin_right = 1908.0
-margin_bottom = 1113.0
+layout_mode = 2
 
 [node name="Label3" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="7"]
-margin_top = 1117.0
-margin_right = 1908.0
-margin_bottom = 1131.0
+layout_mode = 2
 text = "Flip and mirror..."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="8"]
-margin_top = 1135.0
-margin_right = 1908.0
-margin_bottom = 1640.0
-rect_min_size = Vector2( 312, 0 )
-script = ExtResource( 21 )
+custom_minimum_size = Vector2(312, 0)
+layout_mode = 2
+script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-margin_right = 474.0
-margin_bottom = 505.0
-rect_min_size = Vector2( 75, 505 )
+custom_minimum_size = Vector2(207, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Mirror
 vertically"
 tooltip = "Mirror notes vertically across
 the center of the screen."
-texture = ExtResource( 17 )
+texture = ExtResource("17")
 transform_id = 4
 action = "editor_mirror_v"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-margin_left = 478.0
-margin_right = 952.0
-margin_bottom = 505.0
-rect_min_size = Vector2( 75, 505 )
+custom_minimum_size = Vector2(207, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Mirror
 horizontally"
 tooltip = "Mirror notes horizontally across
 the center of the screen."
-texture = ExtResource( 10 )
+texture = ExtResource("10")
 transform_id = 5
 action = "editor_mirror_h"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["arrange_buttons"]]
-margin_left = 956.0
-margin_right = 1430.0
-margin_bottom = 505.0
-rect_min_size = Vector2( 75, 505 )
+custom_minimum_size = Vector2(207, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Flip
 vertically"
 tooltip = "Flip notes vertically across their
 center."
-texture = ExtResource( 13 )
+texture = ExtResource("13")
 transform_id = 6
 action = "editor_flip_v"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["arrange_buttons"]]
-margin_left = 1434.0
-margin_right = 1908.0
-margin_bottom = 505.0
-rect_min_size = Vector2( 75, 505 )
+custom_minimum_size = Vector2(207, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Flip
 horizontally"
 tooltip = "Flip notes horizontally across
 their center."
-texture = ExtResource( 8 )
+texture = ExtResource("8")
 transform_id = 7
 action = "editor_flip_h"
 
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer" index="9"]
-margin_top = 1644.0
-margin_right = 1908.0
-margin_bottom = 1648.0
+layout_mode = 2
 
 [node name="Label4" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="10"]
-margin_top = 1652.0
-margin_right = 1908.0
-margin_bottom = 1666.0
+layout_mode = 2
 text = "Rotate notes..."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="11"]
-margin_top = 1670.0
-margin_right = 1908.0
-margin_bottom = 1694.0
-hint_tooltip = "Amount of 8th notes required for
+layout_mode = 2
+tooltip_text = "Amount of 8th notes required for
 a full revolution."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="0"]
-margin_right = 118.0
-margin_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="0"]
-margin_top = 5.0
-margin_right = 40.0
-margin_bottom = 19.0
+layout_mode = 2
 text = "Angle:"
 
 [node name="HBEditorSpinBox" type="SpinBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5/HBoxContainer" index="1" groups=["disabled_ui"]]
-margin_left = 44.0
-margin_right = 118.0
-margin_bottom = 24.0
+layout_mode = 2
 min_value = -180.0
 max_value = 180.0
 suffix = "º"
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer5" index="1" groups=["disabled_ui"]]
-margin_left = 122.0
-margin_right = 1908.0
-margin_bottom = 16.0
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = -180.0
 max_value = 180.0
@@ -397,71 +322,62 @@ tick_count = 9
 ticks_on_borders = true
 
 [node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="12"]
-margin_top = 1698.0
-margin_right = 1908.0
-margin_bottom = 2220.0
-rect_min_size = Vector2( 276, 0 )
-script = ExtResource( 21 )
+custom_minimum_size = Vector2(276, 0)
+layout_mode = 2
+script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["arrange_buttons"]]
-margin_right = 474.0
-margin_bottom = 522.0
-rect_min_size = Vector2( 66, 505 )
+custom_minimum_size = Vector2(175, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Around
 center"
 tooltip = "Rotate the notes around the
 center of the selected notes."
-texture = ExtResource( 16 )
+texture = ExtResource("16")
 transform_id = 8
 action = "editor_rotate_center"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["arrange_buttons"]]
-margin_left = 478.0
-margin_right = 952.0
-margin_bottom = 522.0
-rect_min_size = Vector2( 66, 505 )
+custom_minimum_size = Vector2(175, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Around
 left point"
 tooltip = "Rotate the notes around the
 leftmost selected note."
-texture = ExtResource( 5 )
+texture = ExtResource("5")
 transform_id = 9
 action = "editor_rotate_left"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["arrange_buttons"]]
-margin_left = 956.0
-margin_right = 1430.0
-margin_bottom = 522.0
-rect_min_size = Vector2( 66, 505 )
+custom_minimum_size = Vector2(175, 553)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Around
 right point"
 tooltip = "Rotate the notes around the
 rightmost selected note."
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 transform_id = 10
 action = "editor_rotate_right"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="3" groups=["arrange_buttons"]]
-margin_left = 1434.0
-margin_right = 1908.0
-margin_bottom = 522.0
-rect_min_size = Vector2( 66, 522 )
+custom_minimum_size = Vector2(175, 587)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 11 )
+script = ExtResource("11")
 text = "Around
 screen
 center"
 tooltip = "Rotate the notes around the
 absolute screen center."
-texture = ExtResource( 18 )
+texture = ExtResource("18")
 transform_id = 11
 action = "editor_rotate_screen_center"
 
-[node name="ArrangeMenu" parent="." index="1" instance=ExtResource( 14 )]
+[node name="ArrangeMenu" parent="." index="1" instance=ExtResource("14")]
 visible = false

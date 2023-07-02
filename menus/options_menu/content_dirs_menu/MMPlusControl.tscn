@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://graphics/icons/checkbox-blank-outline.png" type="Texture" id=2]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
+[ext_resource path="res://graphics/icons/checkbox-blank-outline.png" type="Texture2D" id=2]
 [ext_resource path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/checkbox-marked.png" type="Texture" id=4]
-[ext_resource path="res://fonts/new_fonts/Comforta.tres" type="DynamicFont" id=5]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://graphics/icons/checkbox-marked.png" type="Texture2D" id=4]
+[ext_resource path="res://fonts/new_fonts/Comforta.tres" type="FontFile" id=5]
+[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=6]
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="FontFile" id=6]
 size = 30
 outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
 use_mipmaps = true
@@ -33,78 +33,78 @@ bg_color = Color( 0.929412, 0.219608, 0.8, 0 )
 [node name="Control" type="Panel"]
 use_parent_material = true
 anchor_right = 1.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 0, 64 )
+offset_bottom = 64.0
+custom_minimum_size = Vector2( 0, 64 )
 mouse_filter = 2
 script = ExtResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
+offset_left = 20.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 use_parent_material = true
-margin_right = 1900.0
-margin_bottom = 64.0
+offset_right = 1900.0
+offset_bottom = 64.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 use_parent_material = true
-margin_right = 867.0
-margin_bottom = 64.0
+offset_right = 867.0
+offset_bottom = 64.0
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 6 )
+theme_override_fonts/font = SubResource( 6 )
 text = "Enable mounting Project DIVA MegaMix+ from Steam"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
 use_parent_material = true
-margin_left = 871.0
-margin_right = 1900.0
-margin_bottom = 64.0
+offset_left = 871.0
+offset_right = 1900.0
+offset_bottom = 64.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer/Control"]
-margin_left = 965.0
-margin_right = 1029.0
-margin_bottom = 64.0
+offset_left = 965.0
+offset_right = 1029.0
+offset_bottom = 64.0
 focus_mode = 0
-custom_icons/checked = ExtResource( 4 )
-custom_icons/unchecked = ExtResource( 2 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/hover_pressed = SubResource( 4 )
-custom_styles/normal = SubResource( 2 )
+theme_override_icons/checked = ExtResource( 4 )
+theme_override_icons/unchecked = ExtResource( 2 )
+theme_override_styles/hover = SubResource( 4 )
+theme_override_styles/pressed = SubResource( 3 )
+theme_override_styles/hover_pressed = SubResource( 4 )
+theme_override_styles/normal = SubResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 68.0
-margin_right = 1900.0
-margin_bottom = 360.0
+offset_top = 68.0
+offset_right = 1900.0
+offset_bottom = 360.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/VBoxContainer"]
-margin_right = 1900.0
-margin_bottom = 28.0
-custom_fonts/normal_font = ExtResource( 5 )
-custom_styles/normal = SubResource( 5 )
+offset_right = 1900.0
+offset_bottom = 28.0
+theme_override_fonts/normal_font = ExtResource( 5 )
+theme_override_styles/normal = SubResource( 5 )
 fit_content_height = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/VBoxContainer"]
-margin_top = 32.0
-margin_right = 1900.0
-margin_bottom = 36.0
+offset_top = 32.0
+offset_right = 1900.0
+offset_bottom = 36.0
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer/VBoxContainer"]
-margin_top = 40.0
-margin_right = 1900.0
-margin_bottom = 292.0
-custom_fonts/normal_font = ExtResource( 5 )
-custom_styles/normal = SubResource( 5 )
+offset_top = 40.0
+offset_right = 1900.0
+offset_bottom = 292.0
+theme_override_fonts/normal_font = ExtResource( 5 )
+theme_override_styles/normal = SubResource( 5 )
 bbcode_enabled = true
-bbcode_text = "
+text = "
 [u]DISCLAIMER[/u]
 
 Project DIVA MegaMix+, Project DIVA and other similar trademarks are the property of SEGA, Crypton Future media and others.

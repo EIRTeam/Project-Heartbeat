@@ -1,37 +1,37 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=2]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://fonts/orbitron-black-mono.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=1]
+[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=3]
+[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="FontFile" id=4]
+[ext_resource path="res://fonts/orbitron-black-mono.otf" type="FontFile" id=5]
 [ext_resource path="res://rythm_game/HoldIndicator.gd" type="Script" id=6]
 [ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=7]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 25
 outline_color = Color( 0.964706, 0.756863, 0.203922, 1 )
 use_filter = true
-extra_spacing_top = 7
+spacing_top = 7
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 24
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 7
+spacing_top = 7
 extra_spacing_char = 2
 font_data = ExtResource( 5 )
 fallback/0 = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 60
 outline_size = 2
 outline_color = Color( 0.490196, 0.219608, 0.505882, 1 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 7
+spacing_top = 7
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
@@ -57,17 +57,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -480.0
-margin_top = -60.5
-margin_right = 480.0
-margin_bottom = 60.5
+offset_left = -480.0
+offset_top = -60.5
+offset_right = 480.0
+offset_bottom = 60.5
 script = ExtResource( 6 )
 
 [node name="Panel" type="Panel" parent="."]
-margin_right = 960.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
-custom_styles/panel = ExtResource( 7 )
+offset_right = 960.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
+theme_override_styles/panel = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -75,88 +75,88 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 11
-custom_constants/margin_left = 43
+theme_override_constants/margin_right = 11
+theme_override_constants/margin_left = 43
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
-margin_left = 43.0
-margin_right = 949.0
-margin_bottom = 35.0
+offset_left = 43.0
+offset_right = 949.0
+offset_bottom = 35.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BonusLabel" type="Label" parent="Panel/MarginContainer/HBoxContainer"]
-margin_right = 298.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 298, 0 )
+offset_right = 298.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 298, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource( 1 )
 text = "QUADRUPLE BONUS"
-valign = 1
+vertical_alignment = 1
 
 [node name="HoldNoteIcons" type="HBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
-margin_left = 302.0
-margin_right = 302.0
-margin_bottom = 35.0
+offset_left = 302.0
+offset_right = 302.0
+offset_bottom = 35.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
-margin_left = 306.0
-margin_right = 604.0
-margin_bottom = 35.0
+offset_left = 306.0
+offset_right = 604.0
+offset_bottom = 35.0
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="ScoreLabel" type="Label" parent="Panel/MarginContainer/HBoxContainer"]
-margin_left = 608.0
-margin_right = 906.0
-margin_bottom = 35.0
+offset_left = 608.0
+offset_right = 906.0
+offset_bottom = 35.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource( 2 )
 text = "+1000"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="HoldCount" type="Label" parent="Panel"]
-margin_left = -33.0
-margin_top = -26.0
-margin_right = 51.0
-margin_bottom = 64.0
+offset_left = -33.0
+offset_top = -26.0
+offset_right = 51.0
+offset_bottom = 64.0
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+theme_override_fonts/font = SubResource( 3 )
 text = "4"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MaxComboContainer" type="Control" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_top = 39.0
-margin_right = 960.0
-margin_bottom = 69.0
-rect_min_size = Vector2( 0, 30 )
+offset_top = 39.0
+offset_right = 960.0
+offset_bottom = 69.0
+custom_minimum_size = Vector2( 0, 30 )
 
 [node name="Control" type="Panel" parent="MaxComboContainer"]
 anchor_left = 0.25
 anchor_right = 0.75
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 4 )
+theme_override_styles/panel = SubResource( 4 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MaxComboContainer/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_left = 0
+theme_override_constants/margin_left = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MaxComboContainer/Control/MarginContainer"]
-margin_right = 480.0
-margin_bottom = 30.0
+offset_right = 480.0
+offset_bottom = 30.0
 
 [node name="MaxComboLabel" type="Label" parent="MaxComboContainer/Control/MarginContainer/HBoxContainer"]
-margin_top = 3.0
-margin_right = 480.0
-margin_bottom = 27.0
+offset_top = 3.0
+offset_right = 480.0
+offset_bottom = 27.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource( 3 )
 text = "(NT)Max Hold Bonus! +3300"
-align = 1
+horizontal_alignment = 1

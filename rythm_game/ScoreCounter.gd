@@ -1,6 +1,6 @@
 extends Label
 
-var score = 0 setget set_score
+var score = 0: set = set_score
 
 var _display_score = 0.0
 

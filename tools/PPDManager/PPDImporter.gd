@@ -2,23 +2,23 @@ extends Control
 
 signal error(error)
 
-onready var wait_dialog = get_node("WaitDialog")
-onready var wait_dialog_label = get_node("WaitDialog/Label")
-onready var window_dialog = get_node("WindowDialog")
-onready var PPD_folders_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
-onready var PPD_ogg_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/PPDOGGCheckbox")
-onready var PPD_folder_name_line_edit = get_node("WindowDialog/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
-onready var PPD_hide_songs_checkbox = get_node("WindowDialog/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
-onready var close_button = get_node("WindowDialog/MarginContainer/VBoxContainer/CloseButton")
-onready var current_install_label = get_node("WindowDialog/MarginContainer/VBoxContainer/Label2")
-onready var remove_installation_button = get_node("WindowDialog/MarginContainer/VBoxContainer/RemoveInstallationButton")
-onready var PPD_importer_file_dialog = get_node("PPDImporterFileDialog")
+@onready var wait_dialog = get_node("WaitDialog")
+@onready var wait_dialog_label = get_node("WaitDialog/Label")
+@onready var window_dialog = get_node("Window")
+@onready var PPD_folders_checkbox = get_node("Window/MarginContainer/VBoxContainer/PPDFoldersCheckbox")
+@onready var PPD_ogg_checkbox = get_node("Window/MarginContainer/VBoxContainer/PPDOGGCheckbox")
+@onready var PPD_folder_name_line_edit = get_node("Window/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+@onready var PPD_hide_songs_checkbox = get_node("Window/MarginContainer/VBoxContainer/HidePPDEXtSongsCheckbox")
+@onready var close_button = get_node("Window/MarginContainer/VBoxContainer/CloseButton")
+@onready var current_install_label = get_node("Window/MarginContainer/VBoxContainer/Label2")
+@onready var remove_installation_button = get_node("Window/MarginContainer/VBoxContainer/RemoveInstallationButton")
+@onready var PPD_importer_file_dialog = get_node("PPDImporterFileDialog")
 
 func _on_import_pressed():
 	pass
 
 func _ready():
-	close_button.connect("pressed", window_dialog, "hide")
+	close_button.connect("pressed", Callable(window_dialog, "hide"))
 	PPD_importer_file_dialog.set_current_dir(UserSettings.user_settings.ppd_songs_directory)
 
 func show_error(err):
@@ -52,7 +52,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 	
 	if PPD_folders_checkbox.pressed or PPD_ogg_checkbox.pressed:
 		show_wait("Finding your songs...")
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		var songs := sl.load_songs() as Array
 		if PPD_ogg_checkbox.pressed:
 			for i in range(songs.size()):
@@ -60,7 +60,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 				# this means the song has an mp4 we need to extract audio from
 				if song.has_audio() and not song.is_cached():
 					show_wait("Converting audio for %s (%d/%d)" % [song.title, i+1, songs.size()])
-					yield(get_tree(), "idle_frame")
+					await get_tree().process_frame
 					var _stream = song.get_audio_stream()
 					if not _stream:
 						UserSettings.user_settings.ppd_songs_directory = predir
@@ -85,7 +85,7 @@ func _on_PPDImporterFileDialog_dir_selected(dir: String):
 
 
 func show_panel():
-	$WindowDialog.popup_centered()
+	$Window.popup_centered()
 	current_install_label.visible = false
 	remove_installation_button.disabled = true
 	if UserSettings.user_settings.ppd_songs_directory:

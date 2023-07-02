@@ -40,6 +40,6 @@ func set_layer_visibility(visibility: bool, layer_name: String):
 	else:
 		hidden_layers.append(layer_name)
 
-func set(property, value):
-	.set(property, value)
+func _set(property, value) -> bool:
 	emit_signal("property_changed")
+	return false

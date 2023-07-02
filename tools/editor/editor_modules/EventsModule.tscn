@@ -1,254 +1,200 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=13 format=3 uid="uid://c1k1pnjjnkelc"]
 
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=1]
-[ext_resource path="res://graphics/icons/lyric-start.png" type="Texture" id=2]
-[ext_resource path="res://graphics/icons/form-textbox.svg" type="Texture" id=3]
-[ext_resource path="res://tools/editor/editor_modules/EventsModule.gd" type="Script" id=4]
-[ext_resource path="res://graphics/icons/section.png" type="Texture" id=5]
-[ext_resource path="res://graphics/icons/metronome.svg" type="Texture" id=6]
-[ext_resource path="res://graphics/icons/fast-forward-mirror.svg" type="Texture" id=7]
-[ext_resource path="res://graphics/icons/lyric-end.png" type="Texture" id=8]
-[ext_resource path="res://tools/editor/controls/HBEditorButton.gd" type="Script" id=9]
-[ext_resource path="res://menus/HBoxRatioContainer.gd" type="Script" id=10]
-[ext_resource path="res://tools/editor/controls/HBEditorSpinBox.gd" type="Script" id=11]
-[ext_resource path="res://tools/editor/EditorModule.tscn" type="PackedScene" id=12]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://ceqe72gds8l5y" path="res://graphics/icons/lyric-start.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c1hgppuw8cf5f" path="res://graphics/icons/form-textbox.svg" id="3"]
+[ext_resource type="Script" path="res://tools/editor/editor_modules/EventsModule.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://dw53q4426l2l6" path="res://graphics/icons/section.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://2fruys8sge51" path="res://graphics/icons/metronome.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://biwcvsf3t751q" path="res://graphics/icons/fast-forward-mirror.svg" id="7"]
+[ext_resource type="Texture2D" uid="uid://dussux3ksusnf" path="res://graphics/icons/lyric-end.png" id="8"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="9"]
+[ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="10"]
+[ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="11"]
+[ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="12"]
 
-[node name="EditorModule" instance=ExtResource( 12 )]
-script = ExtResource( 4 )
+[node name="EditorModule" instance=ExtResource("12")]
+script = ExtResource("4")
 module_location = "right_panel"
 module_name = "Add events"
 button_group_name = "event_buttons"
 
 [node name="VBoxContainer" parent="MarginContainer/ScrollContainer" index="0"]
-margin_right = 1908.0
-margin_bottom = 2924.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer" index="0"]
-margin_right = 1908.0
-margin_bottom = 14.0
+layout_mode = 2
 text = "Create a new event..."
-align = 1
+horizontal_alignment = 1
 
 [node name="HBoxRatioContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="1"]
-margin_top = 18.0
-margin_right = 1908.0
-margin_bottom = 984.0
-rect_min_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 10 )
+script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["event_buttons"]]
-margin_right = 952.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 88, 966 )
+custom_minimum_size = Vector2(246, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Speed change"
 tooltip = "Changes the note speed.
 Requires auto-timeout."
-texture = ExtResource( 6 )
+texture = ExtResource("6")
 button_mode = "function"
 function_name = "popup_speed_change"
 action = "editor_create_speed_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["event_buttons"]]
-margin_left = 956.0
-margin_right = 1908.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 88, 966 )
+custom_minimum_size = Vector2(246, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Intro skip"
 tooltip = "Sets the intro skip time.
 Requires intro skip to be enabled
 and intro skip min time to be
 less than the time of the event."
-texture = ExtResource( 7 )
+texture = ExtResource("7")
 button_mode = "function"
 function_name = "create_intro_skip"
 action = "editor_create_intro_skip"
 
 [node name="HBoxRatioContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="2"]
-margin_top = 988.0
-margin_right = 1908.0
-margin_bottom = 1954.0
-rect_min_size = Vector2( 156, 0 )
+custom_minimum_size = Vector2(156, 0)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 10 )
+script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["event_buttons"]]
-margin_right = 952.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 76, 966 )
+custom_minimum_size = Vector2(222, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Phrase start"
 tooltip = "Shows a lyric phrase to the player."
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 button_mode = "function"
 function_name = "create_phrase_start"
 action = "editor_quick_phrase_start"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["event_buttons"]]
-margin_left = 956.0
-margin_right = 1908.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 76, 966 )
+custom_minimum_size = Vector2(222, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Phrase end"
 tooltip = "Hides a lyric phrase from the player."
-texture = ExtResource( 8 )
+texture = ExtResource("8")
 button_mode = "function"
 function_name = "create_phrase_end"
 action = "editor_quick_phrase_end"
 
 [node name="HBoxRatioContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer" index="3"]
-margin_top = 1958.0
-margin_right = 1908.0
-margin_bottom = 2924.0
-rect_min_size = Vector2( 172, 0 )
+custom_minimum_size = Vector2(172, 0)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 10 )
+script = ExtResource("10")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="0" groups=["event_buttons"]]
-margin_right = 952.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 84, 966 )
+custom_minimum_size = Vector2(232, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Lyric word"
 tooltip = "Creates text inside a phrase
 that will be lit up when the event
 activates."
-texture = ExtResource( 3 )
+texture = ExtResource("3")
 button_mode = "function"
 function_name = "popup_lyric_dialog"
 action = "editor_quick_lyric"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="1" groups=["event_buttons"]]
-margin_left = 956.0
-margin_right = 1908.0
-margin_bottom = 966.0
-rect_min_size = Vector2( 84, 966 )
+custom_minimum_size = Vector2(232, 1011)
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 9 )
+script = ExtResource("9")
 text = "Chart section"
 tooltip = "Creates a new chart section
 with a random color."
-texture = ExtResource( 5 )
+texture = ExtResource("5")
 button_mode = "function"
 function_name = "popup_section_dialog"
 action = "editor_create_section"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 
-[node name="LyricDialog" type="WindowDialog" parent="CanvasLayer" index="0"]
+[node name="LyricDialog" type="Window" parent="CanvasLayer" index="0"]
 unique_name_in_owner = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -164.0
-margin_top = -26.0
-margin_right = 164.0
-margin_bottom = 26.0
-theme = ExtResource( 1 )
-window_title = "Create lyric"
+visible = false
+theme = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/LyricDialog" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/LyricDialog" index="0"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-custom_constants/margin_top = 15
-custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 10.0
+offset_right = -10.0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/LyricDialog/MarginContainer" index="0"]
-margin_top = 15.0
-margin_right = 308.0
-margin_bottom = 40.0
+layout_mode = 2
 placeholder_text = "Lino's Lengthy Lyric"
 
-[node name="SpeedChangeDialog" type="WindowDialog" parent="CanvasLayer" index="1"]
+[node name="SpeedChangeDialog" type="Window" parent="CanvasLayer" index="1"]
 unique_name_in_owner = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -164.0
-margin_top = -26.0
-margin_right = 164.0
-margin_bottom = 26.0
-theme = ExtResource( 1 )
-window_title = "Create speed change"
+visible = false
+theme = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SpeedChangeDialog" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SpeedChangeDialog" index="0"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-custom_constants/margin_top = 15
-custom_constants/margin_bottom = 15
+offset_left = 10.0
+offset_right = -10.0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SpeedChangeDialog/MarginContainer" index="0"]
-margin_top = 15.0
-margin_right = 308.0
-margin_bottom = 40.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer" index="0"]
-margin_right = 148.0
-margin_bottom = 25.0
+layout_mode = 2
 text = "Change note speed by:"
 
 [node name="HBEditorSpinBox" type="SpinBox" parent="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer" index="1"]
-margin_left = 152.0
-margin_right = 308.0
-margin_bottom = 25.0
+layout_mode = 2
 size_flags_horizontal = 3
 step = 0.01
 value = 100.0
 allow_greater = true
 suffix = "%"
 custom_arrow_step = 1.0
-script = ExtResource( 11 )
+script = ExtResource("11")
 
-[node name="SectionDialog" type="WindowDialog" parent="CanvasLayer" index="2"]
+[node name="SectionDialog" type="Window" parent="CanvasLayer" index="2"]
 unique_name_in_owner = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -164.0
-margin_top = -26.0
-margin_right = 164.0
-margin_bottom = 26.0
-theme = ExtResource( 1 )
-window_title = "Create section"
+visible = false
+theme = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SectionDialog" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SectionDialog" index="0"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-custom_constants/margin_top = 15
-custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 10.0
+offset_right = -10.0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/SectionDialog/MarginContainer" index="0"]
-margin_top = 15.0
-margin_right = 308.0
-margin_bottom = 40.0
+layout_mode = 2
 placeholder_text = "Lino's Legendary Section"
 
-[connection signal="text_entered" from="CanvasLayer/LyricDialog/MarginContainer/LineEdit" to="." method="create_quick_lyric"]
+[connection signal="text_submitted" from="CanvasLayer/LyricDialog/MarginContainer/LineEdit" to="." method="create_quick_lyric"]
 [connection signal="input_accepted" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
 [connection signal="input_rejected" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="_speed_change_rejected"]
-[connection signal="text_entered" from="CanvasLayer/SectionDialog/MarginContainer/LineEdit" to="." method="create_chart_section"]
+[connection signal="text_submitted" from="CanvasLayer/SectionDialog/MarginContainer/LineEdit" to="." method="create_chart_section"]

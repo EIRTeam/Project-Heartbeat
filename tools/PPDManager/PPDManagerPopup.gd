@@ -1,27 +1,27 @@
-extends WindowDialog
+extends Window
 
-onready var tree = get_node("MarginContainer/HBoxContainer/Tree")
+@onready var tree = get_node("MarginContainer/HBoxContainer/Tree")
 
-onready var change_URL_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeURLButton")
-onready var change_cover_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeCoverButton")
-onready var change_background_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeBackgroundButton")
+@onready var change_URL_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeURLButton")
+@onready var change_cover_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeCoverButton")
+@onready var change_background_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/ChangeBackgroundButton")
 
-onready var change_background_dialog = get_node("ChangeBackgroundFileDialog")
-onready var change_cover_dialog = get_node("ChangeCoverFileDialog")
-onready var delete_song_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/DeleteSongButton")
+@onready var change_background_dialog = get_node("ChangeBackgroundFileDialog")
+@onready var change_cover_dialog = get_node("ChangeCoverFileDialog")
+@onready var delete_song_button = get_node("MarginContainer/HBoxContainer/VBoxContainer/DeleteSongButton")
 
 signal error(message)
 
 func _ready():
 	tree.hide_root = true
-	connect("about_to_show", self, "populate_tree")
-	tree.connect("item_selected", self, "_on_item_selected")
+	connect("about_to_popup", Callable(self, "populate_tree"))
+	tree.connect("item_selected", Callable(self, "_on_item_selected"))
 	
-	change_background_dialog.connect("file_selected", self, "_on_background_selected")
-	change_cover_dialog.connect("file_selected", self, "_on_cover_selected")
-	MouseTrap.ppd_dialog.connect("youtube_url_selected", self, "_on_youtube_url_selected")
+	change_background_dialog.connect("file_selected", Callable(self, "_on_background_selected"))
+	change_cover_dialog.connect("file_selected", Callable(self, "_on_cover_selected"))
+	MouseTrap.ppd_dialog.connect("youtube_url_selected", Callable(self, "_on_youtube_url_selected"))
 	
-	change_URL_button.connect("pressed", MouseTrap.ppd_dialog, "ask_for_file", [true])
+	change_URL_button.connect("pressed", Callable(MouseTrap.ppd_dialog, "ask_for_file").bind(true))
 	
 func show_error(error: String):
 	emit_signal("error", error)
@@ -64,18 +64,19 @@ func get_current_meta_path():
 func get_current_song_meta() -> HBPPDSong:
 	var meta_path = get_current_meta_path()
 	var curr_song_path = SongLoader.songs[tree.get_selected().get_meta("song_id")].path
-	var file = File.new()
 	var meta = HBPPDSong.new()
-	if file.file_exists(meta_path):
-		if file.open(meta_path, File.READ) == OK:
-			var parse_result = JSON.parse(file.get_as_text())
+	if FileAccess.file_exists(meta_path):
+		var file := FileAccess.open(meta_path, FileAccess.READ)
+		if FileAccess.get_open_error() == OK:
+			var test_json_conv = JSON.new()
+			test_json_conv.parse(file.get_as_text())
+			var parse_result = test_json_conv.get_data()
 			if parse_result.error == OK:
 				meta = HBPPDSong.deserialize(parse_result.result)
 	meta.path = curr_song_path
 	return meta
 	
 func _on_background_selected(path: String):
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	var song_meta = get_current_song_meta()
 	
@@ -83,14 +84,13 @@ func _on_background_selected(path: String):
 	
 	var image_path := song_meta.get_song_background_image_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	song_meta.save_to_file(get_current_meta_path())
 	
 	SongLoader.songs[tree.get_selected().get_meta("song_id")].background_image = song_meta.background_image
 	show_error("Succesfully changed background image")
 
 func _on_cover_selected(path: String):
-	var dir = Directory.new()
 	var extension = path.get_extension()
 	var song_meta = get_current_song_meta()
 	
@@ -98,7 +98,7 @@ func _on_cover_selected(path: String):
 	
 	var image_path := song_meta.get_song_preview_res_path() as String
 	
-	dir.copy(path, image_path)
+	DirAccess.copy_absolute(path, image_path)
 	song_meta.save_to_file(get_current_meta_path())
 	
 	SongLoader.songs[tree.get_selected().get_meta("song_id")].preview_image = song_meta.preview_image

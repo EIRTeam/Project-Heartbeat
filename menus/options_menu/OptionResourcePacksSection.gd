@@ -2,10 +2,10 @@ extends Control
 
 signal back
 
-onready var scroll_container = get_node("VBoxContainer/Panel/ScrollContainer")
-onready var item_container = get_node("VBoxContainer/Panel/ScrollContainer/VBoxContainer")
-onready var rebuilding_note_atlas_container = get_node("CenterContainer")
-onready var categories_container := get_node("VBoxContainer/CategoriesContainer")
+@onready var scroll_container = get_node("VBoxContainer/Panel/ScrollContainer")
+@onready var item_container = get_node("VBoxContainer/Panel/ScrollContainer/VBoxContainer")
+@onready var rebuilding_note_atlas_container = get_node("CenterContainer")
+@onready var categories_container := get_node("VBoxContainer/CategoriesContainer")
 var selected_resource_pack_scene
 
 var CATEGORY_NAMES = {
@@ -22,8 +22,8 @@ func _ready():
 	selected_resource_pack_scene = null
 
 	
-	connect("focus_entered", scroll_container, "grab_focus", [], CONNECT_DEFERRED)
-	connect("focus_entered", scroll_container, "select_item", [0], CONNECT_DEFERRED)
+	connect("focus_entered", Callable(scroll_container, "grab_focus").bind(), CONNECT_DEFERRED)
+	connect("focus_entered", Callable(scroll_container, "select_item").bind(0), CONNECT_DEFERRED)
 	
 func populate_categories():
 	for category in CATEGORY_NAMES:
@@ -32,7 +32,7 @@ func populate_categories():
 		categories_container.add_child(button)
 		if category == HBResourcePack.RESOURCE_PACK_TYPE.NOTE_PACK:
 			categories_container.select_button(0)
-		button.connect("hovered", self, "_on_category_changed", [category])
+		button.connect("hovered", Callable(self, "_on_category_changed").bind(category))
 func show_section():
 	populate()
 	
@@ -47,7 +47,7 @@ func populate():
 		var resource_pack := ResourcePackLoader.resource_packs[pack_id] as HBResourcePack
 		if resource_pack.pack_type != filter_category:
 			continue
-		var pack_scene = preload("res://menus/options_menu/ResourcePackItem.tscn").instance()
+		var pack_scene = preload("res://menus/options_menu/ResourcePackItem.tscn").instantiate()
 		item_container.add_child(pack_scene)
 		pack_scene.set_pack(resource_pack)
 		match resource_pack.pack_type:
@@ -64,7 +64,7 @@ func populate():
 				if is_current:
 					selected_resource_pack_scene = pack_scene
 
-		pack_scene.connect("pressed", self, "_on_resource_pack_pressed", [resource_pack, pack_scene])
+		pack_scene.connect("pressed", Callable(self, "_on_resource_pack_pressed").bind(resource_pack, pack_scene))
 	
 func _input(event):
 	if scroll_container.has_focus():
@@ -72,7 +72,7 @@ func _input(event):
 			categories_container._gui_input(event)
 			return
 		if event.is_action_pressed("gui_cancel"):
-			get_tree().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 			HBGame.fire_and_forget_sound(HBGame.menu_back_sfx, HBGame.sfx_group)
 			emit_signal("back")
 func _on_resource_pack_pressed(resource_pack: HBResourcePack, scene: Control):
@@ -92,8 +92,8 @@ func _on_resource_pack_pressed(resource_pack: HBResourcePack, scene: Control):
 
 				UserSettings.save_user_settings()
 				rebuilding_note_atlas_container.show()
-				yield(get_tree(), "idle_frame")
-				yield(get_tree(), "idle_frame")
+				await get_tree().process_frame
+				await get_tree().process_frame
 				ResourcePackLoader.rebuild_final_atlases()
 				rebuilding_note_atlas_container.hide()
 		HBResourcePack.RESOURCE_PACK_TYPE.SKIN:

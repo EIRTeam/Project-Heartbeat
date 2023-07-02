@@ -1,43 +1,55 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=22 format=3 uid="uid://bgxdiwbsfjwi3"]
 
-[ext_resource path="res://menus/main_menu/MainMenuLeft.gd" type="Script" id=1]
-[ext_resource path="res://graphics/icons/music-box-outline.svg" type="Texture" id=2]
-[ext_resource path="res://graphics/icons/settings.svg" type="Texture" id=3]
-[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://graphics/icons/exit-run.svg" type="Texture" id=5]
-[ext_resource path="res://graphics/icons/tools.svg" type="Texture" id=6]
-[ext_resource path="res://graphics/icons/earth.svg" type="Texture" id=7]
-[ext_resource path="res://graphics/Logo.png" type="Texture" id=8]
-[ext_resource path="res://graphics/icons/discord.svg" type="Texture" id=9]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="DynamicFontData" id=10]
-[ext_resource path="res://graphics/icons/twitter.svg" type="Texture" id=11]
-[ext_resource path="res://graphics/icons/help-circle.svg" type="Texture" id=12]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=13]
-[ext_resource path="res://graphics/icons/discord_main.svg" type="Texture" id=14]
-[ext_resource path="res://menus/main_menu/NetworkStatus.gd" type="Script" id=15]
-[ext_resource path="res://graphics/icons/steam.svg" type="Texture" id=16]
-[ext_resource path="res://graphics/icons/download.svg" type="Texture" id=17]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="DynamicFontData" id=18]
+[ext_resource type="Script" path="res://menus/main_menu/MainMenuLeft.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bwx8jmm5u4dmc" path="res://graphics/icons/music-box-outline.svg" id="2"]
+[ext_resource type="Texture2D" uid="uid://747hv6amarf4" path="res://graphics/icons/settings.svg" id="3"]
+[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="4"]
+[ext_resource type="Texture2D" uid="uid://doafidb2q4jxo" path="res://graphics/icons/exit-run.svg" id="5"]
+[ext_resource type="Texture2D" uid="uid://m0q58fhyueok" path="res://graphics/icons/tools.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://d2kjl2b11qmqm" path="res://graphics/icons/earth.svg" id="7"]
+[ext_resource type="Texture2D" uid="uid://b1mbegd5nhs23" path="res://graphics/Logo.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://d1tqcne0ldeng" path="res://graphics/icons/discord.svg" id="9"]
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="10"]
+[ext_resource type="Texture2D" uid="uid://j24c3y62014l" path="res://graphics/icons/twitter.svg" id="11"]
+[ext_resource type="Texture2D" uid="uid://cgshshdr1fqyn" path="res://graphics/icons/help-circle.svg" id="12"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="13"]
+[ext_resource type="Texture2D" uid="uid://bsw2b863mfxnd" path="res://graphics/icons/discord_main.svg" id="14"]
+[ext_resource type="Script" path="res://menus/main_menu/NetworkStatus.gd" id="15"]
+[ext_resource type="Texture2D" uid="uid://rx4rtkhmkprb" path="res://graphics/icons/steam.svg" id="16"]
+[ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="17"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="18"]
 
-[sub_resource type="DynamicFont" id=3]
-size = 30
-outline_size = 1
-outline_color = Color( 1, 1, 1, 0.501961 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 13 )
-fallback/0 = ExtResource( 18 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("13"), ExtResource("18")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[sub_resource type="GDScript" id=1]
-script/source = "tool
+[sub_resource type="GDScript" id="1"]
+script/source = "@tool
 extends HBMenuChangecontainer
 
 signal navigate_to_menu(menu)
 
 func _ready():
+	super._ready()
 	for child in get_children():
 		if child is HBMenuChangeButton:
-			child.connect(\"pressed\", self, \"_on_child_pressed\", [child.next_menu])
+			child.connect(\"pressed\", Callable(self, \"_on_child_pressed\").bind(child.next_menu))
 
 func _on_child_pressed(next_menu):
 	emit_signal(\"navigate_to_menu\", next_menu)
@@ -46,240 +58,203 @@ func _on_ExitButton_pressed():
 	get_tree().quit()
 "
 
-[sub_resource type="DynamicFont" id=2]
-size = 35
-use_filter = true
-font_data = ExtResource( 10 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("10")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
 [node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1910.0
-margin_bottom = 1070.0
+layout_mode = 2
 alignment = 2
-script = ExtResource( 15 )
+script = ExtResource("15")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 984.0
-margin_right = 1900.0
-margin_bottom = 1020.0
+layout_mode = 2
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 3 )
+theme_override_fonts/font = SubResource("3")
 text = "HeartbeatNET: Connected"
-valign = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 1024.0
-margin_right = 1900.0
-margin_bottom = 1060.0
+layout_mode = 2
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 3 )
+theme_override_fonts/font = SubResource("3")
 text = "HeartbeatNET: Connected"
-valign = 2
 
 [node name="TextureRect2" type="TextureRect" parent="."]
-margin_left = 2.0
-margin_top = 62.0
-margin_right = 805.0
-margin_bottom = 454.636
-rect_min_size = Vector2( 0, 175 )
-texture = ExtResource( 8 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 175)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 62.0
+offset_right = 805.0
+offset_bottom = 454.636
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_bottom = 1.0
-margin_right = 435.0
-margin_bottom = 15.0
-custom_constants/separation = 25
+offset_right = 435.0
+offset_bottom = 15.0
+theme_override_constants/separation = 25
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 135.0
-margin_right = 435.0
-margin_bottom = 385.0
-rect_min_size = Vector2( 0, 250 )
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
 
 [node name="StartMenu" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 410.0
-margin_right = 435.0
-margin_bottom = 960.0
-focus_mode = 2
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 10
-script = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+focus_mode = 2
+theme_override_constants/separation = 10
+script = SubResource("1")
 orientation = 1
 enable_wrap_around = true
 
-[node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 435.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 430, 60 )
+[node name="StartButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Free Play"
-icon = ExtResource( 2 )
+icon = ExtResource("2")
+alignment = 0
 next_menu = "song_list"
 
-[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 70.0
-margin_right = 435.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 430, 60 )
+[node name="WorkshopButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Workshop"
-icon = ExtResource( 16 )
+icon = ExtResource("16")
+alignment = 0
 next_menu = "workshop_browser"
 
-[node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 140.0
-margin_right = 435.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 430, 60 )
+[node name="HowToPlayButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "How to play"
-icon = ExtResource( 12 )
+icon = ExtResource("12")
+alignment = 0
 next_menu = "tutorial"
 
-[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 210.0
-margin_right = 435.0
-margin_bottom = 270.0
-rect_min_size = Vector2( 430, 60 )
+[node name="MultiplayerButton" parent="VBoxContainer/StartMenu" groups=["mponly"] instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Multiplayer"
-icon = ExtResource( 7 )
+icon = ExtResource("7")
+alignment = 0
 next_menu = "lobby_list"
 
-[node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 280.0
-margin_right = 435.0
-margin_bottom = 340.0
-rect_min_size = Vector2( 430, 60 )
+[node name="DownloadQueueButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Downloads"
-icon = ExtResource( 17 )
+icon = ExtResource("17")
+alignment = 0
 next_menu = "download_queue"
 
-[node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=["demo_only"] instance=ExtResource( 4 )]
+[node name="DiscordButton" parent="VBoxContainer/StartMenu" groups=["demo_only"] instance=ExtResource("4")]
 visible = false
-margin_left = 0.0
-margin_top = 210.0
-margin_right = 435.0
-margin_bottom = 270.0
-rect_min_size = Vector2( 430, 60 )
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Discord Server"
-icon = ExtResource( 14 )
+icon = ExtResource("14")
+alignment = 0
 
-[node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 350.0
-margin_right = 435.0
-margin_bottom = 410.0
-rect_min_size = Vector2( 430, 60 )
+[node name="OptionsButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Options"
-icon = ExtResource( 3 )
+icon = ExtResource("3")
+alignment = 0
 next_menu = "options_menu"
 
-[node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=["nodemo"] instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 420.0
-margin_right = 435.0
-margin_bottom = 480.0
-rect_min_size = Vector2( 430, 60 )
+[node name="ToolsButton" parent="VBoxContainer/StartMenu" groups=["nodemo"] instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Tools"
-icon = ExtResource( 6 )
+icon = ExtResource("6")
+alignment = 0
 next_menu = "tools_menu"
 
-[node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource( 4 )]
-margin_left = 0.0
-margin_top = 490.0
-margin_right = 435.0
-margin_bottom = 550.0
-rect_min_size = Vector2( 430, 60 )
+[node name="ExitButton" parent="VBoxContainer/StartMenu" instance=ExtResource("4")]
+custom_minimum_size = Vector2(430, 60)
+layout_mode = 2
 text = "Exit"
-icon = ExtResource( 5 )
+icon = ExtResource("5")
+alignment = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 visible = false
-margin_top = 839.0
-margin_right = 484.0
-margin_bottom = 915.0
-custom_constants/margin_left = 28
+layout_mode = 2
+theme_override_constants/margin_left = 28
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
-margin_left = 28.0
-margin_right = 484.0
-margin_bottom = 76.0
+layout_mode = 2
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" groups=["nodemo"]]
-margin_right = 456.0
-margin_bottom = 36.0
-custom_constants/separation = 12
+layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_right = 50.0
-margin_bottom = 36.0
-rect_min_size = Vector2( 50, 0 )
-texture = ExtResource( 9 )
-expand = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-margin_left = 62.0
-margin_right = 456.0
-margin_bottom = 36.0
-custom_fonts/font = SubResource( 2 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("2")
 text = "discord.gg/qGMdbez"
 
 [node name="VBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 40.0
-margin_right = 456.0
-margin_bottom = 76.0
-custom_constants/separation = 12
+layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_right = 50.0
-margin_bottom = 36.0
-rect_min_size = Vector2( 50, 0 )
-texture = ExtResource( 11 )
-expand = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
-margin_left = 62.0
-margin_right = 425.0
-margin_bottom = 36.0
-custom_fonts/font = SubResource( 2 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("2")
 text = "@PHeartbeatGame"
 
 [connection signal="focus_entered" from="." to="VBoxContainer/StartMenu" method="grab_focus"]

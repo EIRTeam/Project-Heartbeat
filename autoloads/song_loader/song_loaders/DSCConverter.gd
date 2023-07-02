@@ -31,29 +31,29 @@ static func load_dsc_file_from_buff(spb: StreamPeerBuffer, opcode_map: DSCOpcode
 	
 	return opcodes
 static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
-	var file = File.new()
-	if file.open(path, File.READ) != OK:
+	var file = FileAccess.open(path, FileAccess.READ)
+	if FileAccess.get_open_error() != OK:
 		return []
 	
 	# Decrypt files if necessary
-	var data_8: PoolByteArray
-	if file.get_buffer(8) == PoolByteArray("DIVAFILE".to_ascii()):
+	var data_8: PackedByteArray
+	if file.get_buffer(8) == PackedByteArray("DIVAFILE".to_ascii_buffer()):
 		var aes := AESContext.new()
-		var key = PoolByteArray(DIVAFILE_KEY.to_ascii())
+		var key = PackedByteArray(DIVAFILE_KEY.to_ascii_buffer())
 		
 		file.seek(0)
 		aes.start(AESContext.MODE_ECB_DECRYPT, key)
-		data_8 = aes.update(file.get_buffer(file.get_len()))
+		data_8 = aes.update(file.get_buffer(file.get_length()))
 		aes.finish()
 	else:
 		file.seek(0)
-		data_8 = file.get_buffer(file.get_len())
+		data_8 = file.get_buffer(file.get_length())
 	
-	var data := PoolByteArray()
-	for i in range(0, file.get_len(), 4):
-		var bytes := data_8.subarray(i, i + 3)
+	var data := PackedByteArray()
+	for i in range(0, file.get_length(), 4):
+		var bytes := data_8.slice(i, i + 3)
 		if opcode_map.game == "F2":
-			bytes.invert()
+			bytes.reverse()
 		
 		data.append(bytes[0])
 		data.append(bytes[1])
@@ -61,7 +61,7 @@ static func load_dsc_file(path: String, opcode_map: DSCOpcodeMap):
 		data.append(bytes[3])
 	
 	var spb := StreamPeerBuffer.new()
-	spb.data_array = PoolByteArray(Array(data))
+	spb.data_array = PackedByteArray(Array(data))
 	
 	return load_dsc_file_from_buff(spb, opcode_map)
 
@@ -211,7 +211,7 @@ static func convert_dsc_opcodes_to_chart(r: Array, opcode_map: DSCOpcodeMap, off
 			var bpm_change := HBBPMChange.new()
 			bpm_change.time = curr_time / 100.0
 			bpm_change.usage = HBBPMChange.USAGE_TYPES.FIXED_BPM
-			bpm_change.bpm = stepify(bpm, 0.1)
+			bpm_change.bpm = snapped(bpm, 0.1)
 			
 			chart.layers[chart.get_layer_i("Events")].timing_points.append(bpm_change)
 		

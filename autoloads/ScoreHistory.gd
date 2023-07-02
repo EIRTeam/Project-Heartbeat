@@ -14,11 +14,11 @@ var last_song_uploaded
 
 func _ready():
 	load_history()
-	HBBackend.connect("result_entered", self, "_on_leaderboard_score_uploaded")
-	HBBackend.connect("score_enter_failed", self, "_on_score_enter_failed")
+	HBBackend.connect("result_entered", Callable(self, "_on_leaderboard_score_uploaded"))
+	HBBackend.connect("score_enter_failed", Callable(self, "_on_score_enter_failed"))
 	if PlatformService.service_provider.implements_leaderboards:
 		var lb_provider = PlatformService.service_provider.leaderboard_provider
-		lb_provider.connect("score_uploaded", self, "_on_leaderboard_score_uploaded")
+		lb_provider.connect("score_uploaded", Callable(self, "_on_leaderboard_score_uploaded"))
 	
 func _on_score_enter_failed(reason):
 	emit_signal("score_upload_failed", reason)
@@ -28,15 +28,17 @@ func _on_leaderboard_score_uploaded(result):
 	emit_signal("score_uploaded", result)
 
 func load_history():
-	var file := File.new()
-	if file.file_exists(SCORE_HISTORY_PATH):
-		if file.open(SCORE_HISTORY_PATH, File.READ) == OK:
-			var result = JSON.parse(file.get_as_text())
-			if result.error == OK:
-				history_from_dict(result.result)
+	if FileAccess.file_exists(SCORE_HISTORY_PATH):
+		var file := FileAccess.open(SCORE_HISTORY_PATH, FileAccess.READ)
+		if FileAccess.get_open_error() == OK:
+			var test_json_conv = JSON.new()
+			var err := test_json_conv.parse(file.get_as_text())
+			var result = test_json_conv.get_data()
+			if err == OK:
+				history_from_dict(result)
 				Log.log(self, "Successfully loaded score history from " + SCORE_HISTORY_PATH)
 			else:
-				Log.log(self, "Error loading score history, error code: " + str(result.error), Log.LogLevel.ERROR)
+				Log.log(self, "Error loading score history, error code: " + str(test_json_conv.get_error_message()), Log.LogLevel.ERROR)
 
 func history_from_dict(data: Dictionary):
 	var found_error = false
@@ -73,11 +75,11 @@ func history_to_dict() -> Dictionary:
 	return result_dict
 
 func save_history():
-	var file := File.new()
-	if file.open(SCORE_HISTORY_PATH, File.WRITE) == OK:
-		var contents = JSON.print(history_to_dict(), "  ")
+	var file := FileAccess.open(SCORE_HISTORY_PATH, FileAccess.WRITE)
+	if FileAccess.get_open_error() == OK:
+		var contents = JSON.stringify(history_to_dict(), "  ")
 		file.store_string(contents)
-		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8())
+		PlatformService.service_provider.write_remote_file_async(SCORE_HISTORY_PATH.get_file(), contents.to_utf8_buffer())
 		
 func add_result_to_history(game_info: HBGameInfo):
 	var result = game_info.result as HBResult
@@ -116,7 +118,7 @@ func has_result(song_id: String, difficulty: String):
 			
 	return r
 		
-func get_result(song_id: String, difficulty: String) -> HBHistoryEntry:
+func get_data(song_id: String, difficulty: String) -> HBHistoryEntry:
 	var r = null
 	if scores.has(song_id):
 		if scores[song_id].has(difficulty):

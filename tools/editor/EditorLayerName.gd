@@ -1,6 +1,6 @@
 extends Panel
 
-var layer_name: String setget set_layer_name
+var layer_name: String: set = set_layer_name
 
 func set_layer_name(value: String):
 	layer_name = value

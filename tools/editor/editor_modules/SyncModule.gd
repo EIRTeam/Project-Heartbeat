@@ -1,14 +1,14 @@
 extends HBEditorModule
 
-onready var grid_resolution_option_button: OptionButton
-onready var average_bpm_lineedit := get_node("%AverageBPMLineEdit")
-onready var whole_bpm_lineedit := get_node("%WholeBPMLineEdit")
-onready var bpm_spinbox := get_node("%BPMSpinBox")
-onready var time_sig_numerator_spinbox := get_node("%TimeSigNumSpinBox")
-onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
-onready var create_timing_change_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer/HBEditorButton")
-onready var offset_spinbox := get_node("%OffsetSpinBox")
-onready var offset_notes_only_checkbox := get_node("%OffsetNotesOnlyCheckbox")
+@onready var grid_resolution_option_button: OptionButton
+@onready var average_bpm_lineedit := get_node("%AverageBPMLineEdit")
+@onready var whole_bpm_lineedit := get_node("%WholeBPMLineEdit")
+@onready var bpm_spinbox := get_node("%BPMSpinBox")
+@onready var time_sig_numerator_spinbox := get_node("%TimeSigNumSpinBox")
+@onready var time_sig_denominator_spinbox := get_node("%TimeSigDenSpinBox")
+@onready var create_timing_change_button := get_node("MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer/HBEditorButton")
+@onready var offset_spinbox := get_node("%OffsetSpinBox")
+@onready var offset_notes_only_checkbox := get_node("%OffsetNotesOnlyCheckbox")
 
 var bpm := 150.0
 var offset := 0
@@ -35,16 +35,17 @@ var signatures = [
 var original_resolution_tooltip := ""
 
 func _ready():
+	super._ready()
 	add_shortcut("editor_increase_resolution", "increase_resolution_by", [1])
 	add_shortcut("editor_decrease_resolution", "increase_resolution_by", [-1])
 	
 	for i in range(resolutions.size()):
-		add_shortcut("editor_resolution_" + String(resolutions[i]), "set_resolution_shortcut", [i])
+		add_shortcut("editor_resolution_" + str(resolutions[i]), "set_resolution_shortcut", [i])
 	
 	update_shortcuts()
 
 func set_editor(_editor: HBEditor):
-	.set_editor(_editor)
+	super.set_editor(_editor)
 	grid_resolution_option_button = _editor.get_node("%GridResolutionOptionButton")
 	
 	grid_resolution_option_button.add_item("1/4 (Fourths)")
@@ -55,10 +56,10 @@ func set_editor(_editor: HBEditor):
 	grid_resolution_option_button.add_item("1/24 (Twentyfourths)")
 	grid_resolution_option_button.add_item("1/32 (Thirtyseconds)")
 	grid_resolution_option_button.add_item("Custom")
-	original_resolution_tooltip = grid_resolution_option_button.hint_tooltip
+	original_resolution_tooltip = grid_resolution_option_button.tooltip_text
 	
 	_editor.sync_module = self
-	_editor.connect("paused", self, "_on_editor_paused")
+	_editor.connect("paused", Callable(self, "_on_editor_paused"))
 	
 	update_shortcuts()
 
@@ -76,21 +77,21 @@ func song_editor_settings_changed(settings: HBPerSongEditorSettings):
 	timing_information_changed()
 
 func update_shortcuts():
-	.update_shortcuts()
+	super.update_shortcuts()
 	
 	if not grid_resolution_option_button:
 		return
 	
-	var action_list = InputMap.get_action_list("editor_increase_resolution")
+	var action_list = InputMap.action_get_events("editor_increase_resolution")
 	var event = action_list[0] if action_list else InputEventKey.new()
 	var increase_resolution_text = get_event_text(event)
 	
-	action_list = InputMap.get_action_list("editor_decrease_resolution")
+	action_list = InputMap.action_get_events("editor_decrease_resolution")
 	event = action_list[0] if action_list else InputEventKey.new()
 	var decrease_resolution_text = get_event_text(event)
 	
-	grid_resolution_option_button.hint_tooltip = original_resolution_tooltip + "\nShortcut (Increase): " + increase_resolution_text
-	grid_resolution_option_button.hint_tooltip += "\nShortcut (Decrease): " + decrease_resolution_text
+	grid_resolution_option_button.tooltip_text = original_resolution_tooltip + "\nShortcut (Increase): " + increase_resolution_text
+	grid_resolution_option_button.tooltip_text += "\nShortcut (Decrease): " + decrease_resolution_text
 
 
 func increase_resolution_by(amount: int):
@@ -124,7 +125,7 @@ func calculator_pressed():
 	
 	editor.game_playback.game.play_note_sfx()
 	
-	var time = OS.get_ticks_usec() / 1000.0
+	var time = Time.get_ticks_usec() / 1000.0
 	var dt = time - last_pressed_time
 	
 	if dt > 2000:
@@ -138,7 +139,7 @@ func calculator_pressed():
 			dt_sum += delta
 		
 		var average_dt = dt_sum / float(dts.size())
-		var average_bpm = stepify(60.0 / average_dt * 1000.0, 0.01)
+		var average_bpm = snapped(60.0 / average_dt * 1000.0, 0.01)
 		average_bpm_lineedit.text = String(average_bpm) + " BPM"
 		whole_bpm_lineedit.text = String(round(average_bpm)) + " BPM"
 	
@@ -256,25 +257,25 @@ func offset_notes():
 			undo_redo.add_do_property(timing_point, "end_time", new_time + length)
 			undo_redo.add_undo_property(timing_point, "end_time", timing_point.end_time)
 			
-			undo_redo.add_do_method(item, "sync_value", "end_time")
-			undo_redo.add_undo_method(item, "sync_value", "end_time")
+			undo_redo.add_do_method(item.sync_value.bind("end_time"))
+			undo_redo.add_undo_method(item.sync_value.bind("end_time"))
 		
-		undo_redo.add_do_method(item._layer, "place_child", item)
-		undo_redo.add_undo_method(item._layer, "place_child", item)
+		undo_redo.add_do_method(item._layer.place_child.bind(item))
+		undo_redo.add_undo_method(item._layer.place_child.bind(item))
 	
-	undo_redo.add_do_method(self, "sync_inspector_values")
-	undo_redo.add_undo_method(self, "sync_inspector_values")
+	undo_redo.add_do_method(self.sync_inspector_values)
+	undo_redo.add_undo_method(self.sync_inspector_values)
 	
-	undo_redo.add_do_method(self, "timing_points_changed")
-	undo_redo.add_undo_method(self, "timing_points_changed")
+	undo_redo.add_do_method(self.timing_points_changed)
+	undo_redo.add_undo_method(self.timing_points_changed)
 	
-	undo_redo.add_do_method(self, "timing_information_changed")
-	undo_redo.add_undo_method(self, "timing_information_changed")
+	undo_redo.add_do_method(self.timing_information_changed)
+	undo_redo.add_undo_method(self.timing_information_changed)
 	
-	undo_redo.add_do_method(self, "force_game_process")
-	undo_redo.add_undo_method(self, "force_game_process")
+	undo_redo.add_do_method(self.force_game_process)
+	undo_redo.add_undo_method(self.force_game_process)
 	
-	undo_redo.add_do_method(self, "sync_lyrics")
-	undo_redo.add_undo_method(self, "sync_lyrics")
+	undo_redo.add_do_method(self.sync_lyrics)
+	undo_redo.add_undo_method(self.sync_lyrics)
 	
 	undo_redo.commit_action()

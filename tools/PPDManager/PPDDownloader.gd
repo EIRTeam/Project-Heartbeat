@@ -1,10 +1,10 @@
 extends Control
 
-onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")
-onready var wait_dialog = get_node("WaitDialog")
-onready var wait_dialog_label = get_node("WaitDialog/Label")
-onready var download_button = get_node("Panel/MarginContainer/VBoxContainer/Button")
-onready var downloader_panel = get_node("Panel")
+@onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")
+@onready var wait_dialog = get_node("WaitDialog")
+@onready var wait_dialog_label = get_node("WaitDialog/Label")
+@onready var download_button = get_node("Panel/MarginContainer/VBoxContainer/Button")
+@onready var downloader_panel = get_node("Panel")
 var request = HTTPRequest.new()
 var download_request = HTTPRequest.new()
 var GDUnzip = preload("gdunzip.gd")
@@ -22,13 +22,12 @@ func _ready():
 	add_child(download_request)
 	request.use_threads = true
 	download_request.use_threads = true
-	request.connect("request_completed", self, "_on_request_completed")
-	download_request.connect("request_completed", self, "_on_zip_download_completed")
-	download_button.connect("pressed", self, "download_from_url")
-	wait_dialog.get_close_button().hide()
+	request.connect("request_completed", Callable(self, "_on_request_completed"))
+	download_request.connect("request_completed", Callable(self, "_on_zip_download_completed"))
+	download_button.connect("pressed", Callable(self, "download_from_url"))
 
 func show_panel():
-	downloader_panel.popup_centered_minsize(Vector2(587, 82))
+	downloader_panel.popup_centered_clamped(Vector2(587, 82))
 
 func download_from_url():
 	var url = url_line_edit.text.strip_edges()
@@ -45,10 +44,10 @@ func download_from_url():
 	wait_dialog_label.text = "Downloading chart information, please wait..."
 	wait_dialog.popup_centered()
 	current_thumbnail_url = ""
-	request.request(url, [UA], true, HTTPClient.METHOD_GET)
+	request.request(url, [UA], HTTPClient.METHOD_GET)
 func show_error(error: String):
 	emit_signal("error", error)
-func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
 		var body_str = body.get_string_from_utf8()
@@ -58,7 +57,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 		# and this attribute having no value is the reason why apparently, so
 		# we just get rid of it
 		body_str = body_str.replace("allowfullscreen>", ">")
-		body = body_str.to_utf8()
+		body = body_str.to_utf8_buffer()
 		
 		var parser = XMLParser.new()
 		parser.open_buffer(body)
@@ -78,7 +77,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 							var potential_url = parser.get_attribute_value(i)
 							if potential_url != "":
 								video_info_json = YoutubeDL.get_video_info_json(potential_url)
-								if not video_info_json.empty():
+								if not video_info_json.is_empty():
 									yt_url = potential_url
 									found_yt_url = true
 			if parser.get_node_name() == "a":
@@ -87,7 +86,7 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 						if parser.get_attribute_value(i).begins_with("/score-library/download/id/"):
 							download_url = parser.get_attribute_value(i)
 							found_download_url = true
-			if parser.get_node_name() == "h3" and current_title.empty():
+			if parser.get_node_name() == "h3" and current_title.is_empty():
 				if parser.has_attribute("class"):
 					for i in range(parser.get_attribute_count()):
 						if parser.get_attribute_name(i) == "class":
@@ -119,25 +118,24 @@ func _on_request_completed(result: int, response_code: int, headers: PoolStringA
 			
 	#request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray)
 
-func _on_zip_download_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+func _on_zip_download_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	print(result, response_code)
 	wait_dialog.hide()
 	if result == OK and response_code == 200:
 		wait_dialog_label.text = "Installing chart..."
 		wait_dialog.popup_centered()
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		var zip = GDUnzip.new()
 		zip.buffer = body
 		zip.buffer_size = body.size()
 		zip._get_files()
 		
 		var songs_folder = HBUtils.join_path(UserSettings.get_content_directories(true)[0], "songs")
-		var dir = Directory.new()
 		
 		var chart_name = "ppd_%s" % [current_ppd_id]
-		var found_chart_data = !chart_name.empty()
+		var found_chart_data = !chart_name.is_empty()
 		
-		if chart_name.empty():
+		if chart_name.is_empty():
 			wait_dialog.hide()
 			show_error("Error gathering song metadata")
 			return
@@ -151,7 +149,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 			show_error("Error installing chart: data.ini not found")
 			return
 			
-		if dir.dir_exists(HBUtils.join_path(songs_folder, chart_name)):
+		if DirAccess.dir_exists_absolute(HBUtils.join_path(songs_folder, chart_name)):
 			wait_dialog.hide()
 			print(HBUtils.join_path(songs_folder, chart_name))
 			show_error("Cannot install %s, a chart with that folder name already exists!" % [chart_name])
@@ -162,12 +160,11 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 			if f.ends_with(".ppd") or f.ends_with("data.ini"):
 				var extraction_dir = extraction_path.get_base_dir()
 				# ensure path to extract to exists
-				if not dir.dir_exists(extraction_dir):
-					dir.make_dir_recursive(extraction_dir)
+				if not DirAccess.dir_exists_absolute(extraction_dir):
+					DirAccess.make_dir_recursive_absolute(extraction_dir)
 				var uncompressed = zip.uncompress(f)
 				if uncompressed:
-					var file = File.new()
-					file.open(extraction_path, File.WRITE)
+					var file = FileAccess.open(extraction_path, FileAccess.WRITE)
 					file.store_buffer(uncompressed)
 					file.close()
 				else:
@@ -175,7 +172,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 					
 		wait_dialog_label.text = "Downloading video..."
 		wait_dialog.popup_centered()
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		if perform_ytdl_direct_download(HBUtils.join_path(songs_folder, chart_name)) != OK:
 			wait_dialog.hide()
 			show_error("Error downloading video, ask on the discord for troubleshooting")
@@ -186,18 +183,18 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		if current_thumbnail_url:
 			wait_dialog_label.text = "Downloading video thumbnail..."
 			wait_dialog.popup_centered()
-			yield(get_tree(), "idle_frame")
+			await get_tree().process_frame
 			var request = HTTPRequest.new()
 			request.use_threads = true
 			add_child(request)
 			if request.request(current_thumbnail_url) == OK:
-				var request_result = yield(request, "request_completed")
+				var request_result = await request.request_completed
 				var req_result_err = request_result[0]
 				var req_body = request_result[3]
 				if req_result_err == OK:
 					var texture = HBUtils.array2texture(req_body)
 					if texture.get_size() != Vector2.ZERO:
-						texture.get_data().save_png(HBUtils.join_path(songs_folder, chart_name).plus_file("thumbnail.png"))
+						texture.get_image().save_png(HBUtils.join_path(songs_folder, chart_name).path_join("thumbnail.png"))
 						thumbnail_downloaded = true
 				if not thumbnail_downloaded:
 					wait_dialog.hide()
@@ -224,7 +221,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		
 		wait_dialog_label.text = "Calculating audio normalization..."
 		wait_dialog.popup_centered()
-		yield(get_tree(), "idle_frame")
+		await get_tree().process_frame
 		
 		var norm = HBAudioNormalizer.new()
 		norm.set_target_ogg(song.get_audio_stream())
@@ -236,7 +233,7 @@ func _on_zip_download_completed(result: int, response_code: int, headers: PoolSt
 		song_ext.has_audio_loudness = true
 		song_ext.audio_loudness = res
 		
-		song_ext.save_to_file(HBUtils.join_path(songs_folder, chart_name).plus_file("ph_ext.json"))
+		song_ext.save_to_file(HBUtils.join_path(songs_folder, chart_name).path_join("ph_ext.json"))
 		ppd_ldr.set_ppd_youtube_url(song, current_yt_url)
 		SongLoader.songs[chart_name] = song
 		wait_dialog.hide()
@@ -254,7 +251,7 @@ func perform_ytdl_direct_download(folder: String) -> int:
 		"-f", "bestvideo[vcodec^=avc1][ext=mp4][height<=?{height}][fps<=?{fps}]+bestaudio[ext=m4a]/best[ext=mp4][height<=?{height}][fps<=?{fps}]".format({"height": video_height, "fps": video_fps})
 	]
 	
-	var video_file_location = folder.plus_file("video.mp4")
+	var video_file_location = folder.path_join("video.mp4")
 	
 	var o = []
 	
@@ -262,20 +259,17 @@ func perform_ytdl_direct_download(folder: String) -> int:
 	
 	var ee = ""
 	
-	ee = PoolStringArray(shared_params).join(" ")
-	print(ee)
+	ee = " ".join(PackedStringArray(shared_params))
 	
-	OS.execute(YoutubeDL.get_ytdl_executable(), shared_params, true, o, true)
+	OS.execute(YoutubeDL.get_ytdl_executable(), shared_params, o, true)
 	
-	var f = File.new()
-	if not f.file_exists(video_file_location):
-		print(o)
+	if not FileAccess.file_exists(video_file_location):
 		return ERR_BUG
 	else:
-		var audio_target = ProjectSettings.globalize_path(folder.plus_file("audio.ogg"))
+		var audio_target = ProjectSettings.globalize_path(folder.path_join("audio.ogg"))
 		var arguments = ["-i", ProjectSettings.globalize_path(video_file_location), "-vn", "-acodec", "libvorbis", "-y", audio_target]
 		var out = []
-		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, true, out, true)
+		var err = OS.execute(YoutubeDL.get_ffmpeg_executable(), arguments, out, true)
 		if err != OK:
 			return ERR_BUG
 	return OK

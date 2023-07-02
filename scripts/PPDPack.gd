@@ -16,14 +16,13 @@ var valid = true
 const SIGNATURE = "PPDPACKV1"
 func _init(_path: String):
 	path = _path
-	file = File.new()
-	file.open(path, File.READ)
+	
+	file = FileAccess.open(path, FileAccess.READ)
 	
 	var signature = file.get_buffer(SIGNATURE.length()).get_string_from_ascii()
 	if signature != SIGNATURE:
 		Log.log(self, "Erorr when loading pack, signature doesn't match", Log.LogLevel.ERROR)
 		valid = false
-		return ERR_FILE_CORRUPT
 	
 	var length = file.get_8()
 	while length > 0:

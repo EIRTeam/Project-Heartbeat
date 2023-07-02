@@ -8,19 +8,19 @@ var total_pages = 1
 
 var already_have_result = false
 
-onready var leaderboard = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer/Panel") as LeaderboardView
-onready var scroll_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer")
-onready var margin_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer")
+@onready var leaderboard = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer/Panel") as LeaderboardView
+@onready var scroll_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer")
+@onready var margin_container = get_node("VBoxContainer2/VBoxContainer/Panel/ScrollContainer/MarginContainer")
 var scroll_pos = 0.0
 const SCROLL_SPEED = 1000.0
 
-onready var pagination_buttons = get_node("VBoxContainer2/VBoxContainer/HBoxContainer")
+@onready var pagination_buttons = get_node("VBoxContainer2/VBoxContainer/HBoxContainer")
 
-onready var prev_page_button = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/HBHovereableButton")
-onready var next_page_button = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/HBHovereableButton2")
-onready var pages_label = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/Label")
+@onready var prev_page_button = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/HBHovereableButton")
+@onready var next_page_button = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/HBHovereableButton2")
+@onready var pages_label = get_node("VBoxContainer2/VBoxContainer/HBoxContainer/Label")
 func _enter_tab():
-	._enter_tab()
+	super._enter_tab()
 	if not already_have_result:
 		leaderboard.fetch_entries(song, difficulty, include_modifiers, page)
 		already_have_result = true
@@ -31,15 +31,16 @@ func reset():
 	total_pages = 1
 
 func _ready():
-	scroll_container.get_v_scrollbar().add_stylebox_override("grabber", preload("res://styles/Grabber.tres"))
-	scroll_container.get_v_scrollbar().add_stylebox_override("scroll", StyleBoxEmpty.new())
-	scroll_container.get_v_scrollbar().add_icon_override("increment", ImageTexture.new())
-	scroll_container.get_v_scrollbar().add_icon_override("decrement", ImageTexture.new())
-	scroll_container.get_v_scrollbar().rect_min_size = Vector2(20, 0)
-	prev_page_button.connect("pressed", self, "_on_prev_page_pressed")
-	next_page_button.connect("pressed", self, "_on_next_page_pressed")
-	leaderboard.connect("entries_received", self, "_on_entries_received")
-	leaderboard.connect("entries_request_failed", pagination_buttons, "hide")
+	super._ready()
+	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("grabber", preload("res://styles/Grabber.tres"))
+	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("scroll", StyleBoxEmpty.new())
+	scroll_container.get_v_scroll_bar().add_theme_icon_override("increment", ImageTexture.new())
+	scroll_container.get_v_scroll_bar().add_theme_icon_override("decrement", ImageTexture.new())
+	scroll_container.get_v_scroll_bar().custom_minimum_size = Vector2(20, 0)
+	prev_page_button.connect("pressed", Callable(self, "_on_prev_page_pressed"))
+	next_page_button.connect("pressed", Callable(self, "_on_next_page_pressed"))
+	leaderboard.connect("entries_received", Callable(self, "_on_entries_received"))
+	leaderboard.connect("entries_request_failed", Callable(pagination_buttons, "hide"))
 	pagination_buttons.stop_hover_on_focus_exit = false
 	
 func _on_entries_received(handle, entries, _total_pages):
@@ -58,10 +59,10 @@ func update_pages_label():
 	else:
 		if page == 1:
 			prev_page_button.hide()
-			pagination_buttons.select_button(next_page_button.get_position_in_parent())
+			pagination_buttons.select_button(next_page_button.get_index())
 		elif page >= total_pages:
 			next_page_button.hide()
-			pagination_buttons.select_button(prev_page_button.get_position_in_parent())
+			pagination_buttons.select_button(prev_page_button.get_index())
 	pages_label.text = "%d/%d" % [page, total_pages]
 	
 func _on_prev_page_pressed():
@@ -90,5 +91,5 @@ func _process(delta):
 	
 	if speed != 0:
 		scroll_pos += speed * SCROLL_SPEED * delta
-		scroll_pos = clamp(scroll_pos, 0, scroll_container.get_child(0).rect_size.y - scroll_container.rect_size.y)
+		scroll_pos = clamp(scroll_pos, 0, scroll_container.get_child(0).size.y - scroll_container.size.y)
 		scroll_container.scroll_vertical = scroll_pos

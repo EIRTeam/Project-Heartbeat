@@ -7,7 +7,7 @@ func _init():
 
 func _init_plugin():
 	# Base init plugin must always be called after local init
-	._init_plugin()
+	super._init_plugin()
 func _pre_game(song: HBSong, game: HBRhythmGame):
 	game.judge.timing_window_scale = modifier_settings.timing_window / 256.0
 

@@ -2,21 +2,21 @@ extends HBUIComponent
 
 class_name HBUISongProgress
 
-var fill_mode := 0 setget set_fill_mode
+var fill_mode := 0: set = set_fill_mode
 
-onready var texture_progress_ctrl := TextureProgress.new()
+@onready var texture_progress_ctrl := TextureProgressBar.new()
 
-var texture_under: Texture setget set_texture_under
-var texture_over: Texture setget set_texture_over
-var texture_progress: Texture setget set_texture_progress
+var texture_under: Texture2D: set = set_texture_under
+var texture_over: Texture2D: set = set_texture_over
+var texture_progress: Texture2D: set = set_texture_progress
 
-var tint_under := Color.white setget set_tint_under
-var tint_over := Color.white setget set_tint_over
-var tint_progress := Color.white setget set_tint_progress
+var tint_under := Color.WHITE: set = set_tint_under
+var tint_over := Color.WHITE: set = set_tint_over
+var tint_progress := Color.WHITE: set = set_tint_progress
 
-var value := 75.0 setget set_value
-var min_value := 0.0 setget set_min_value
-var max_value := 100.0 setget set_max_value
+var value := 75.0: set = set_value
+var min_value := 0.0: set = set_min_value
+var max_value := 100.0: set = set_max_value
 
 func set_fill_mode(val):
 	fill_mode = val
@@ -42,6 +42,7 @@ static func get_component_id() -> String:
 	return "song_progress"
 
 func _ready():
+	super._ready()
 	set_fill_mode(fill_mode)
 	set_texture_under(texture_under)
 	set_texture_over(texture_over)
@@ -53,7 +54,7 @@ func _ready():
 	set_min_value(min_value)
 	set_max_value(max_value)
 	add_child(texture_progress_ctrl)
-	texture_progress_ctrl.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	texture_progress_ctrl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 func set_tint_under(val):
 	tint_under = val
@@ -86,7 +87,7 @@ func set_texture_progress(val):
 		texture_progress_ctrl.texture_progress = texture_progress
 		
 func get_hb_inspector_whitelist() -> Array:
-	var whitelist := .get_hb_inspector_whitelist()
+	var whitelist := super.get_hb_inspector_whitelist()
 	whitelist.append_array([
 		"fill_mode", "texture_under", "texture_over", "texture_progress",
 		"tint_under", "tint_over", "tint_progress"
@@ -109,7 +110,7 @@ func _get_property_list():
 	return list
 
 func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
-	var out_dict := ._to_dict(resource_storage)
+	var out_dict := super._to_dict(resource_storage)
 	out_dict["texture_under"] = resource_storage.get_texture_name(texture_under)
 	out_dict["texture_over"] = resource_storage.get_texture_name(texture_over)
 	out_dict["texture_progress"] = resource_storage.get_texture_name(texture_progress)
@@ -120,14 +121,14 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	return out_dict
 
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
-	._from_dict(dict, cache)
+	super._from_dict(dict, cache)
 	texture_under = cache.get_texture(dict.get("texture_under"))
 	texture_over = cache.get_texture(dict.get("texture_over"))
 	texture_progress = cache.get_texture(dict.get("texture_progress"))
 	fill_mode = dict.get("fill_mode", 0)
-	tint_under = Color(dict.get("tint_under", "#FFFFFF"))
-	tint_over = Color(dict.get("tint_over", "#FFFFFF"))
-	tint_progress = Color(dict.get("tint_progress", "#FFFFFF"))
+	tint_under = get_color_from_dict(dict, "tint_under", Color.WHITE)
+	tint_over = get_color_from_dict(dict, "tint_over", Color.WHITE)
+	tint_progress = get_color_from_dict(dict, "tint_progress", Color.WHITE)
 
 static func get_component_name() -> String:
 	return "Song Progress Indicator"

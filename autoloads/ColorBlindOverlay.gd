@@ -9,4 +9,4 @@ func update_overlay():
 	else:
 		$Control.show()
 		var mat := $Control.material as ShaderMaterial
-		mat.set_shader_param("mode", UserSettings.user_settings.color_remap)
+		mat.set_shader_parameter("mode", UserSettings.user_settings.color_remap)

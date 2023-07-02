@@ -11,10 +11,10 @@ class OutlinerItem:
 	signal remove_pressed
 	signal contextual_menu_pressed
 	
-	onready var container := HBoxContainer.new()
-	onready var item_name_label := Label.new()
-	onready var line_edit := LineEdit.new()
-	onready var remove_button := Button.new()
+	@onready var container := HBoxContainer.new()
+	@onready var item_name_label := Label.new()
+	@onready var line_edit := LineEdit.new()
+	@onready var remove_button := Button.new()
 	var node: HBUIComponent
 	var layer: String
 	
@@ -32,8 +32,8 @@ class OutlinerItem:
 		set_node(node)
 		line_edit.hide()
 		item_name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line_edit.connect("focus_exited", self, "_on_abort_line_edit")
-		line_edit.connect("text_entered", self, "_on_text_entered")
+		line_edit.connect("focus_exited", Callable(self, "_on_abort_line_edit"))
+		line_edit.connect("text_submitted", Callable(self, "_on_text_entered"))
 		line_edit.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		
 		remove_button.icon = preload("res://tools/icons/icon_remove.svg")
@@ -41,7 +41,7 @@ class OutlinerItem:
 		
 		container.add_child(remove_button)
 		
-		remove_button.connect("pressed", self, "emit_signal", ["remove_pressed"])
+		remove_button.connect("pressed", Callable(self, "emit_signal").bind("remove_pressed"))
 	func set_node(new_node: HBUIComponent):
 		node = new_node
 		item_name_label.text = node.name
@@ -50,10 +50,10 @@ class OutlinerItem:
 		if not selected:
 			selected = true
 			emit_signal("item_selected")
-			add_stylebox_override("panel", get_stylebox("focus", "Button"))
+			add_theme_stylebox_override("panel", get_theme_stylebox("focus", "Button"))
 	func deselect():
 		selected = false
-		add_stylebox_override("panel", null)
+		remove_theme_stylebox_override("panel")
 
 	func _on_abort_line_edit():
 		line_edit.hide()
@@ -69,16 +69,16 @@ class OutlinerItem:
 
 	func _gui_input(event):
 		if event is InputEventMouseButton:
-			if event.button_index == BUTTON_LEFT and event.pressed:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				emit_signal("item_selected")
-				if event.doubleclick:
+				if event.double_click:
 					item_name_label.hide()
 					line_edit.show()
 					line_edit.text = node.name
 					line_edit.grab_focus()
-					line_edit.caret_position = line_edit.text.length()
+					line_edit.caret_column = line_edit.text.length()
 					set_process_input(true)
-			if event.button_index == BUTTON_RIGHT and event.pressed:
+			if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 				emit_signal("item_selected")
 				emit_signal("contextual_menu_pressed")
 				
@@ -88,7 +88,7 @@ class OutlinerItem:
 			if event.pressed:
 				if not line_edit.get_global_rect().has_point(get_global_mouse_position()):
 					_on_abort_line_edit()
-					get_tree().set_input_as_handled()
+					get_viewport().set_input_as_handled()
 class OutlinerLayer:
 	extends VBoxContainer
 	
@@ -96,10 +96,10 @@ class OutlinerLayer:
 	signal item_removed(component)
 	signal contextual_menu_open_request(item)
 	
-	onready var panel_container := PanelContainer.new()
-	onready var name_label := Label.new()
-	onready var children_outer_container := PanelContainer.new()
-	onready var children_container := VBoxContainer.new()
+	@onready var panel_container := PanelContainer.new()
+	@onready var name_label := Label.new()
+	@onready var children_outer_container := PanelContainer.new()
+	@onready var children_container := VBoxContainer.new()
 	
 	var layer_name: String
 	
@@ -119,7 +119,7 @@ class OutlinerLayer:
 		add_child(children_outer_container)
 		children_outer_container.add_child(children_container)
 		set_layer_name(layer_name)
-		children_outer_container.add_stylebox_override("panel", get_stylebox("panel", "Panel"))
+		children_outer_container.add_theme_stylebox_override("panel", get_theme_stylebox("panel", "Panel"))
 	
 	func move_item_to(item: OutlinerItem, position: int):
 		children_container.move_child(item, position)
@@ -129,24 +129,24 @@ class OutlinerLayer:
 			for item in children_container.get_children():
 				item.deselect()
 		selected = false
-		panel_container.add_stylebox_override("panel", null)
+		panel_container.remove_theme_stylebox_override("panel")
 		selected_item = null
 		
 	func select():
 		if not selected:
 			selected = true
 			emit_signal("layer_selected")
-			panel_container.add_stylebox_override("panel", panel_container.get_stylebox("focus", "TextEdit"))
+			panel_container.add_theme_stylebox_override("panel", panel_container.get_theme_stylebox("focus", "TextEdit"))
 	
 	func _gui_input(event):
 		if event is InputEventMouseButton:
-			if event.button_index == BUTTON_LEFT and event.pressed:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				select()
 	func add_item(item: OutlinerItem):
 		item.layer = name_label.text
-		item.connect("item_selected", self, "_on_item_selected", [item])
-		item.connect("remove_pressed", self, "_on_item_removed_pressed", [item])
-		item.connect("contextual_menu_pressed", self, "emit_signal", ["contextual_menu_open_request", item])
+		item.connect("item_selected", Callable(self, "_on_item_selected").bind(item))
+		item.connect("remove_pressed", Callable(self, "_on_item_removed_pressed").bind(item))
+		item.connect("contextual_menu_pressed", Callable(self, "emit_signal").bind("contextual_menu_open_request", item))
 		children_container.add_child(item)
 		
 	func remove_item_from_list(item: OutlinerItem):
@@ -179,7 +179,7 @@ signal moved_component_to_layer(old_layer, new_layer, component)
 
 var selected_layer := ""
 
-onready var popup_menu := PopupMenu.new()
+@onready var popup_menu := PopupMenu.new()
 
 var currently_selected_item: OutlinerItem
 
@@ -202,7 +202,7 @@ func update_contextual_menu():
 	move_to_layer_submenu.name = "MoveToLayerSubmenu"
 	popup_menu.add_child(move_to_layer_submenu, true)
 	popup_menu.add_submenu_item("Move to layer", "MoveToLayerSubmenu")
-	move_to_layer_submenu.connect("id_pressed", self, "_on_move_to_layer_pressed")
+	move_to_layer_submenu.connect("id_pressed", Callable(self, "_on_move_to_layer_pressed"))
 	
 func _on_move_to_layer_pressed(idx: int):
 	layers[currently_selected_item.layer].remove_item_from_list(currently_selected_item)
@@ -217,7 +217,7 @@ func _on_contextual_menu_id_pressed(id: int):
 			if id == CONTEXTUAL_MENU_MOVE_BACK:
 				position_change = -1
 			
-			var current_pos := currently_selected_item.node.get_position_in_parent()
+			var current_pos := currently_selected_item.node.get_index()
 			var new_pos = clamp(current_pos + position_change, 0, currently_selected_item.node.get_parent().get_child_count()-1)
 			if new_pos != current_pos:
 				currently_selected_item.node.get_parent().move_child(currently_selected_item.node, new_pos)
@@ -225,7 +225,7 @@ func _on_contextual_menu_id_pressed(id: int):
 	
 func _ready():
 	add_child(popup_menu)
-	popup_menu.connect("id_pressed", self, "_on_contextual_menu_id_pressed")
+	popup_menu.connect("id_pressed", Callable(self, "_on_contextual_menu_id_pressed"))
 
 func clear_layers():
 	for layer in layers.values():
@@ -239,9 +239,9 @@ func add_layer(layer_name: String):
 	layer.set_layer_name(layer_name)
 	layers[layer_name] = layer
 	add_child(layer)
-	layer.connect("layer_selected", self, "_on_layer_selected", [layer_name])
-	layer.connect("item_removed", self, "_on_item_removed")
-	layer.connect("contextual_menu_open_request", self, "_on_contextual_menu_open_request")
+	layer.connect("layer_selected", Callable(self, "_on_layer_selected").bind(layer_name))
+	layer.connect("item_removed", Callable(self, "_on_item_removed"))
+	layer.connect("contextual_menu_open_request", Callable(self, "_on_contextual_menu_open_request"))
 	update_contextual_menu()
 	
 func _on_item_removed(item: HBUIComponent):
@@ -249,7 +249,7 @@ func _on_item_removed(item: HBUIComponent):
 	
 func add_component(cmp: HBUIComponent, layer: String):
 	var item := OutlinerItem.new(cmp)
-	item.connect("item_selected", self, "_on_item_selected", [item])
+	item.connect("item_selected", Callable(self, "_on_item_selected").bind(item))
 	(layers[layer] as OutlinerLayer).add_item(item)
 
 func _on_layer_selected(layer_name: String):
@@ -268,7 +268,7 @@ func _on_item_selected(item: OutlinerItem):
 
 func _on_contextual_menu_open_request(item: OutlinerItem):
 	popup_menu.popup()
-	popup_menu.rect_global_position = get_global_mouse_position()
+	popup_menu.global_position = get_global_mouse_position()
 
 #func _on_item_edited():
 #	var item := get_edited()

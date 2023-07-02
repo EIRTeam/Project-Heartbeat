@@ -11,8 +11,8 @@ script = ExtResource( 2 )
 z_index = -1
 z_as_relative = false
 
-[node name="Note" type="Sprite" parent="."]
+[node name="Note" type="Sprite2D" parent="."]
 script = ExtResource( 8 )
 
-[node name="Note2" type="Sprite" parent="."]
+[node name="Note2" type="Sprite2D" parent="."]
 script = ExtResource( 8 )

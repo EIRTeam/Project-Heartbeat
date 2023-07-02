@@ -1,6 +1,6 @@
 extends AcceptDialog
 
-onready var tab_container = get_node("TabContainer")
+@onready var tab_container = get_node("TabContainer")
 
 func show_song_verification(errors, for_ugc=true, text=""):
 	popup_centered_ratio(0.5)
@@ -29,8 +29,8 @@ func show_song_verification(errors, for_ugc=true, text=""):
 				tab_container.add_child(scroll_container)
 				var rich_text_label = RichTextLabel.new()
 				rich_text_label.bbcode_enabled = true
-				rich_text_label.size_flags_horizontal = SIZE_EXPAND_FILL
-				rich_text_label.size_flags_vertical = SIZE_EXPAND_FILL
+				rich_text_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				rich_text_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 				scroll_container.add_child(rich_text_label)
 				for error in errors[error_class]:
 					var color = "#FFFFFF"
@@ -44,5 +44,5 @@ func show_song_verification(errors, for_ugc=true, text=""):
 					elif error.warning:
 						error_type = "[u]WARNING[/u]"
 						color = "#FFFF00"
-					rich_text_label.bbcode_text += "[color=%s]%s: %s[/color]\n\n" % [color, error_type, error.string]
+					rich_text_label.text += "[color=%s]%s: %s[/color]\n\n" % [color, error_type, error.string]
 			

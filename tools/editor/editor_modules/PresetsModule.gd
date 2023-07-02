@@ -1,6 +1,7 @@
 extends HBEditorModule
 
 func _ready():
+	super._ready()
 	transforms = [
 		HBEditorTransforms.VerticalMultiPreset.new(-1),
 		HBEditorTransforms.VerticalMultiPreset.new(1),

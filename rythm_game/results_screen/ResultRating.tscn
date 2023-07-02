@@ -1,24 +1,24 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rythm_game/results_screen/ResultRating.gd" type="Script" id=1]
-[ext_resource path="res://fonts/orbitron-black.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=2]
 [ext_resource path="res://styles/ResultRatingStyleOdd.tres" type="StyleBox" id=3]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 1, 1, 0.2 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_top = 7
+spacing_top = 7
 font_data = ExtResource( 2 )
 
 [node name="Panel" type="Panel"]
 anchor_right = 1.0
-margin_bottom = 46.0
-rect_min_size = Vector2( 0, 50 )
+offset_bottom = 46.0
+custom_minimum_size = Vector2( 0, 50 )
 size_flags_vertical = 3
-custom_styles/panel = ExtResource( 3 )
+theme_override_styles/panel = ExtResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,77 +27,77 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 5.0
-custom_constants/margin_right = 25
-custom_constants/margin_top = 10
-custom_constants/margin_left = 16
-custom_constants/margin_bottom = 5
+offset_bottom = 5.0
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_left = 16.0
-margin_top = 10.0
-margin_right = 1895.0
-margin_bottom = 57.0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 1895.0
+offset_bottom = 57.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RatingLabel" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_right = 935.0
-margin_bottom = 47.0
+offset_right = 935.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.894118, 0.439216, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0.894118, 0.439216, 1, 1 )
+theme_override_fonts/font = SubResource( 1 )
+theme_override_colors/font_color = Color( 0.894118, 0.439216, 1, 1 )
+theme_override_colors/font_outline_color = Color( 0.894118, 0.439216, 1, 1 )
 text = "(NT)WORST"
-align = 3
-valign = 2
+horizontal_alignment = 3
+vertical_alignment = 2
 
 [node name="ValueLabel2" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_left = 939.0
-margin_right = 1250.0
-margin_bottom = 47.0
+offset_left = 939.0
+offset_right = 1250.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource( 1 )
 text = ":"
-valign = 2
+vertical_alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ValueLabel3" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 1254.0
-margin_right = 1879.0
-margin_bottom = 47.0
+offset_left = 1254.0
+offset_right = 1879.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="TotalLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
-margin_right = 310.0
-margin_bottom = 47.0
+offset_right = 310.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource( 1 )
 text = "(NT)407/"
-align = 1
-valign = 2
+horizontal_alignment = 1
+vertical_alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/ValueLabel3"]
-margin_left = 314.0
-margin_right = 625.0
-margin_bottom = 47.0
+offset_left = 314.0
+offset_right = 625.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource( 1 )
 text = "(NT)407/"
-align = 1
-valign = 2
+horizontal_alignment = 1
+vertical_alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

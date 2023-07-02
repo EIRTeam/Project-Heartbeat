@@ -4,13 +4,13 @@ func _gui_input(event: InputEvent):
 	if is_visible_in_tree():
 		var scale_trf := Transform2D.IDENTITY
 		var xform := get_global_transform()
-		scale_trf = scale_trf.scaled(rect_size / $Viewport.size)
+		scale_trf = scale_trf.scaled(size / Vector2($SubViewport.size))
 		xform *= scale_trf
-		xform.origin -= rect_global_position
+		xform.origin -= global_position
 		var ev := event.xformed_by(xform.affine_inverse())
 		
-		$Viewport.input(ev)
-		if $Viewport is SkinEditorViewport:
+		$SubViewport.push_input(ev)
+		if $SubViewport is SkinEditorViewport:
 			if ev is InputEventMouse:
-				$Viewport.mouse_position = ev.position
-		$Viewport.trf = xform
+				$SubViewport.mouse_position = ev.position
+		$SubViewport.trf = xform

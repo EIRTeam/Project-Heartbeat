@@ -3,17 +3,17 @@
 [ext_resource path="res://tools/editor/inspector_types/Color.gd" type="Script" id=1]
 [ext_resource path="res://tools/editor/controls/HBEditorColorPickerButton.gd" type="Script" id=2]
 
-[sub_resource type="StreamTexture" id=1]
+[sub_resource type="CompressedTexture2D" id=1]
 
 [node name="Color" type="HBoxContainer"]
-margin_right = 26.0
+offset_right = 26.0
 size_flags_horizontal = 3
 alignment = 1
 script = ExtResource( 1 )
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="."]
-margin_right = 36.0
-margin_bottom = 20.0
+offset_right = 36.0
+offset_bottom = 20.0
 size_flags_horizontal = 3
 text = "Sex"
 icon = SubResource( 1 )

@@ -4,12 +4,12 @@ class_name HBOptionControlsSectionAction
 
 var normal_style
 var hover_style
-var action setget set_action
-var action_name setget set_action_name
-signal hover
+var action : set = set_action
+var action_name : set = set_action_name
+signal hovered
 signal pressed
-onready var icon_panel = get_node("HBoxContainer/HBoxContainer/Panel")
-onready var note_icon := get_node("HBoxContainer/TextureRect")
+@onready var icon_panel = get_node("HBoxContainer/HBoxContainer/Panel")
+@onready var note_icon := get_node("HBoxContainer/TextureRect")
 
 func set_action_name(val):
 	action_name = val
@@ -43,13 +43,13 @@ func _ready():
 	set_action_name(action_name)
 
 func hover():
-	icon_panel.add_stylebox_override("panel", hover_style)
-	emit_signal("hover")
+	icon_panel.add_theme_stylebox_override("panel", hover_style)
+	emit_signal("hovered")
 
 func stop_hover():
-	icon_panel.add_stylebox_override("panel", normal_style)
+	icon_panel.add_theme_stylebox_override("panel", normal_style)
 
 func _gui_input(event):
 	if event.is_action_pressed("gui_accept"):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		emit_signal("pressed")

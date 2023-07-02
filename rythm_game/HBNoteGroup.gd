@@ -72,7 +72,7 @@ func update_multi_note_renderer():
 			center += point
 		center /= float(points.size())
 		points = Array(points)
-		points.sort_custom(self, "_point_sort")
+		points.sort_custom(Callable(self, "_point_sort"))
 		if note_datas.size() > 2:
 			points.append(points[0])
 		laser_renderer.positions = points
@@ -105,7 +105,7 @@ func process_group(time_msec: int) -> bool:
 	var should_finish := note_datas.size() == finished_notes.size()
 	if note_judgement_infos.size() != note_datas.size() and note_datas.size() > 1:
 		if not laser_renderer and note_drawers.size() > 0:
-			laser_renderer = LaserRenderer.instance()
+			laser_renderer = LaserRenderer.instantiate()
 			var base_points := []
 			base_points.resize(note_datas.size() + (1 if note_datas.size() > 2 else 0))
 			base_points.fill(Vector2.ZERO)
@@ -261,17 +261,17 @@ func _on_wrong():
 	emit_signal("notes_judged", final_judgement, note_judgement_infos.values(), get_hit_time_msec(), true)
 
 func create_note_drawer(note_data: HBBaseNote):
-	var note_drawer = note_data.get_drawer_new().instance()
+	var note_drawer = note_data.get_drawer_new().instantiate()
 	note_drawer.game = game
 	note_drawer.note_data = note_data
 	note_drawers[note_data] = note_drawer
-	note_drawer.connect("add_node_to_layer", self, "_on_note_add_node_to_layer")
-	note_drawer.connect("remove_node_from_layer", self, "_on_note_remove_node_from_layer")
+	note_drawer.connect("add_node_to_layer", Callable(self, "_on_note_add_node_to_layer"))
+	note_drawer.connect("remove_node_from_layer", Callable(self, "_on_note_remove_node_from_layer"))
 	game.game_ui.get_notes_node().add_child(note_drawer)
 	note_drawer.is_multi_note = note_datas.size() > 1
 	note_drawer.note_init()
-	note_drawer.connect("judged", self, "_on_note_judged", [note_data])
-	note_drawer.connect("finished", self, "_on_note_finished", [note_data])
+	note_drawer.connect("judged", Callable(self, "_on_note_judged").bind(note_data))
+	note_drawer.connect("finished", Callable(self, "_on_note_finished").bind(note_data))
 	return note_drawer
 				
 func _on_note_add_node_to_layer(layer_name: String, node: Node):

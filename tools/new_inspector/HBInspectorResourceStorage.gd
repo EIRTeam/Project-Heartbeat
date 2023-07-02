@@ -9,7 +9,7 @@ signal font_removed(font_name)
 var textures := {}
 var fonts := {}
 
-func add_texture(name: String, texture: Texture):
+func add_texture(name: String, texture: Texture2D):
 	textures[name] = texture
 	texture.set_meta("texture_name", name)
 	emit_signal("textures_changed")
@@ -20,7 +20,7 @@ func get_texture(name: String):
 func get_font(name: String):
 	return fonts.get(name, null)
 
-func add_font(name: String, font: DynamicFontData):
+func add_font(name: String, font: FontFile):
 	fonts[name] = font
 	font.set_meta("font_name", name)
 	emit_signal("fonts_changed")
@@ -39,13 +39,13 @@ func get_textures() -> Dictionary:
 func get_fonts() -> Dictionary:
 	return fonts
 
-func get_texture_name(texture: Texture) -> String:
+func get_texture_name(texture: Texture2D) -> String:
 	if not texture:
 		return ""
 	assert(texture.has_meta("texture_name"))
 	return texture.get_meta("texture_name")
 
-func get_font_name(font: DynamicFontData):
+func get_font_name(font: FontFile):
 	if not font:
 		return ""
 	assert(font.has_meta("font_name"))
@@ -54,5 +54,5 @@ func get_font_name(font: DynamicFontData):
 func has_texture(texture_name: String) -> bool:
 	return textures.has(texture_name)
 
-func has_font(font_name: String) -> bool:
+func has_theme_font(font_name: String) -> bool:
 	return fonts.has(font_name)

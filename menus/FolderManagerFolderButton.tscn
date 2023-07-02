@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://menus/FolderManagerFolderButton.gd" type="Script" id=1]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="DynamicFont" id=2]
-[ext_resource path="res://graphics/icons/folder-music.svg" type="Texture" id=3]
+[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=2]
+[ext_resource path="res://graphics/icons/folder-music.svg" type="Texture2D" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 content_margin_left = 10.0
@@ -11,14 +11,14 @@ content_margin_top = 10.0
 content_margin_bottom = 10.0
 
 [node name="HBHovereableButton" type="Button"]
-margin_top = 1.0
-margin_right = 1200.0
-margin_bottom = 41.0
-custom_styles/normal = SubResource( 1 )
-custom_fonts/font = ExtResource( 2 )
+offset_top = 1.0
+offset_right = 1200.0
+offset_bottom = 41.0
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "Start"
 icon = ExtResource( 3 )
-align = 0
+horizontal_alignment = 0
 expand_icon = true
 script = ExtResource( 1 )
 __meta__ = {
