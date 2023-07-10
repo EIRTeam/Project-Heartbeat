@@ -30,6 +30,9 @@ func _ready():
 		var action = "select_only_" + type
 		add_shortcut("editor_" + action, "_on_contextual_menu_item_pressed", [action])
 	
+	add_shortcut("editor_select_only_multis", "_on_contextual_menu_item_pressed", ["select_only_multis"])
+	add_shortcut("editor_select_only_singles", "_on_contextual_menu_item_pressed", ["select_only_singles"])
+	
 	add_shortcut("editor_change_note_up", "change_note_button_by", [-1])
 	add_shortcut("editor_change_note_down", "change_note_button_by", [1])
 
@@ -72,6 +75,9 @@ func set_editor(p_editor):
 		var action = "select_only_" + type
 		var text = "Select only " + type.replace("_", " ").capitalize()
 		type_selection_modifier_submenu.add_contextual_item(text, action)
+	
+	type_selection_modifier_submenu.add_contextual_item("Select only Multinotes", "select_only_multis")
+	type_selection_modifier_submenu.add_contextual_item("Select only Single Notes", "select_only_singles")
 	
 	selection_modifier_submenu.add_child(type_selection_modifier_submenu)
 	selection_modifier_submenu.add_submenu_item("Select only...", "TypeSelectionModifierSubmenu")
@@ -119,6 +125,9 @@ func update_shortcuts():
 		
 		type_selection_modifier_submenu.set_contextual_item_accelerator(action, get_shortcut_from_action("editor_" + action))
 	
+	type_selection_modifier_submenu.set_contextual_item_accelerator("select_only_multis", get_shortcut_from_action("editor_select_only_multis"))
+	type_selection_modifier_submenu.set_contextual_item_accelerator("select_only_singles", get_shortcut_from_action("editor_select_only_singles"))
+	
 	for i in range(button_change_submenu.get_item_count()):
 		var name = button_change_submenu.get_item_text(i)
 		
@@ -161,6 +170,10 @@ func _on_contextual_menu_item_pressed(item_name: String):
 			select_subset(3)
 		"select_4th":
 			select_subset(4)
+		"select_only_multis":
+			select_multinotes()
+		"select_only_singles":
+			select_single_notes()
 		"make_normal":
 			change_note_type("Note")
 		"toggle_double":
@@ -295,6 +308,9 @@ func update_selected():
 	for type in TYPE_SELECTION_ITEMS.keys():
 		var action = "select_only_" + type
 		type_selection_modifier_submenu.set_contextual_item_disabled(action, disable_all)
+	
+	type_selection_modifier_submenu.set_contextual_item_disabled("select_only_multis", disable_all)
+	type_selection_modifier_submenu.set_contextual_item_disabled("select_only_singles", disable_all)
 	
 	if disable_all:
 		return
@@ -749,12 +765,21 @@ func select_subset(subset: int):
 	if selected.size() < 1:
 		return
 	
+	var time_groups := {}
+	for item in selected:
+		var t = item.data.time
+		
+		if not t in time_groups:
+			time_groups[t] = []
+		
+		time_groups[t].append(item)
+	
 	var new_selected := []
-	for i in range(selected.size()):
+	for i in range(time_groups.keys().size()):
 		if i % subset != 0:
 			continue
 		
-		new_selected.append(selected[i])
+		new_selected.append_array(time_groups[time_groups.keys()[i]])
 	
 	deselect_all()
 	for item in new_selected:
@@ -769,6 +794,62 @@ func select_type_subset(type: String):
 	for item in selected:
 		if _is_type_selected(item, [type]):
 			new_selected.append(item)
+	
+	deselect_all()
+	for item in new_selected:
+		select_item(item, true)
+
+func select_multinotes():
+	var selected := get_selected()
+	if selected.size() < 1:
+		return
+	
+	var time_groups := {}
+	for item in selected:
+		if not item.data is HBBaseNote:
+			continue
+		
+		var t = item.data.time
+		
+		if not t in time_groups:
+			time_groups[t] = []
+		
+		time_groups[t].append(item)
+	
+	var new_selected := []
+	for group in time_groups.values():
+		if group.size() == 1:
+			continue
+		
+		new_selected.append_array(group)
+	
+	deselect_all()
+	for item in new_selected:
+		select_item(item, true)
+
+func select_single_notes():
+	var selected := get_selected()
+	if selected.size() < 1:
+		return
+	
+	var time_groups := {}
+	for item in selected:
+		if not item.data is HBBaseNote:
+			continue
+		
+		var t = item.data.time
+		
+		if not t in time_groups:
+			time_groups[t] = []
+		
+		time_groups[t].append(item)
+	
+	var new_selected := []
+	for group in time_groups.values():
+		if group.size() != 1:
+			continue
+		
+		new_selected.append_array(group)
 	
 	deselect_all()
 	for item in new_selected:

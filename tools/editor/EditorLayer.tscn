@@ -16,9 +16,6 @@ rect_min_size = Vector2( 50, 35 )
 mouse_filter = 1
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="EditorTimelinePreview" parent="." instance=ExtResource( 2 )]
 margin_bottom = 25.0

@@ -93,6 +93,7 @@ var ui_module_locations = {
 
 var modules := []
 var sync_module
+var events_module
 
 var timing_changes := []
 var timing_map := []
@@ -1873,6 +1874,9 @@ func _on_timing_information_changed(f=null):
 	release_owned_focus()
 	timeline.update()
 	emit_signal("timing_information_changed")
+	
+	if sync_module.create_timing_change_button.button.has_stylebox_override("normal") and timing_map:
+		sync_module.create_timing_change_button.button.remove_stylebox_override("normal")
 
 
 func _on_SaveButton_pressed():
@@ -2397,8 +2401,14 @@ func guide_user_to_timing_changes():
 			idx = i
 			break
 	
+	var glowing_stylebox: StyleBoxFlat = theme.get_stylebox("normal", "Button").duplicate(true)
+	glowing_stylebox.shadow_color = Color("#C964C1")
+	glowing_stylebox.shadow_size = 5
+	
 	right_panel.current_tab = idx
 	sync_module.create_timing_change_button.button.grab_focus()
+	
+	sync_module.create_timing_change_button.button.add_stylebox_override("normal", glowing_stylebox)
 
 func keep_settings_button_enabled():
 	settings_editor_button.disabled = false

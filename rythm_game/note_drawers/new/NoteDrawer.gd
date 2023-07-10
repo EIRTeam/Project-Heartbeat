@@ -66,6 +66,9 @@ class LayerBoundNodeData:
 
 var enable_trail := false setget set_enable_trail
 
+func _ready():
+	appear_animation_enabled = UserSettings.user_settings.enable_appear_animation
+
 func set_enable_trail(val):
 	if enable_trail != val:
 		enable_trail = val

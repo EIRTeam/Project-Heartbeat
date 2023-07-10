@@ -20,6 +20,8 @@ func set_params(params):
 		spinbox.min = params.min
 	if params.has("max"):
 		spinbox.max = params.max
+	if params.has("precision"):
+		spinbox.precision = params.precision
 	if params.has("suffix"):
 		spinbox.suffix = params.suffix
 	if params.has("show_toggle_negative_button"):

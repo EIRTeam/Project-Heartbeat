@@ -66,14 +66,15 @@ var workshop_tab_sort_mode__possibilities = sort_mode__possibilities + [
 ]
 
 
-var leading_trail_enabled = false
-var use_timing_arm = true
+var leading_trail_enabled := false
+var use_timing_arm := true
+var enable_appear_animation := true
 var last_game_info: HBGameInfo = HBGameInfo.new()
-var per_song_settings = {}
-var analog_deadzone = 0.5
-var enable_multi_hint = true
-var disable_menu_music = false
-var use_explicit_rating = true
+var per_song_settings := {}
+var analog_deadzone := 0.5
+var enable_multi_hint := true
+var disable_menu_music := false
+var use_explicit_rating := true
 
 var play_hit_sounds_only_when_hit := false
 var master_volume = 1.0
@@ -298,7 +299,7 @@ func _init():
 		"note_size", "input_map",
 		"fps_limit", "display_mode", "display", "desired_video_fps", "desired_video_resolution", "disable_video",
 		"disable_ppd_video", "use_visualizer_with_video", "filter_mode", "filter_has_media", "sort_mode", "workshop_tab_sort_mode", "leading_trail_enabled",
-		"use_timing_arm", "last_game_info", "per_song_settings", "analog_deadzone",
+		"use_timing_arm", "enable_appear_animation", "last_game_info", "per_song_settings", "analog_deadzone",
 		"enable_multi_hint", "play_hit_sounds_only_when_hit", "master_volume", "music_volume", "sfx_volume", "content_path",
 		"background_dim", "disable_menu_music", "vsync_enabled", "root_folder", 
 		"custom_sounds", "custom_sound_volumes", "last_folder_path", "button_prompt_override", "enable_vibration", "lyrics_enabled", "lyrics_position",

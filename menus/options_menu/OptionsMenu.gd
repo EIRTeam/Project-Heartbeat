@@ -279,6 +279,10 @@ var OPTIONS = {
 			"name": tr("Enable leading lines"),
 			"description": tr("Enables lines that show where the notes are going to go.")
 		},
+		"enable_appear_animation": {
+			"name": tr("Enable appear animation"),
+			"description": tr("Enables a small popup animation when notes appear on screen.")
+		},
 		"left_arrow_override_enabled": {
 			"name": tr("Use arrow instead of left icon"),
 			"description": tr("Replaces all instances of the left icon of the selected icon pack with a left arrow.")

@@ -215,9 +215,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PHAudioStreamEditor" type="PHAudioStreamEditor" parent="."]
 show_behind_parent = true

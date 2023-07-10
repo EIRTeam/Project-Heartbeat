@@ -171,6 +171,8 @@ const EDITOR_ACTIONS := {
 		"editor_select_only_notes",
 		"editor_select_only_double_notes",
 		"editor_select_only_sustains",
+		"editor_select_only_multis",
+		"editor_select_only_singles",
 		"editor_select_only_sections",
 		"editor_select_only_tempo_changes",
 		"editor_select_only_speed_changes",

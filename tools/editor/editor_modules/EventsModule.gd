@@ -7,6 +7,11 @@ onready var lyric_dialog_line_edit = get_node("%LyricDialog/MarginContainer/Line
 onready var section_dialog = get_node("%SectionDialog")
 onready var section_dialog_line_edit = get_node("%SectionDialog/MarginContainer/LineEdit")
 
+func set_editor(_editor: HBEditor):
+	.set_editor(_editor)
+	
+	_editor.events_module = self
+
 func _unhandled_input(event):
 	if event.is_action_pressed("gui_cancel", false, true):
 		if bpm_dialog.visible:

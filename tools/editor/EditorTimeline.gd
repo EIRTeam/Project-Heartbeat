@@ -244,7 +244,7 @@ func _draw_timing_changes():
 	for item in editor.get_timing_changes():
 		var timing_change = item.data as HBTimingChange
 		
-		var tempo_info = "{0} BPM; %d/%d".format([timing_change.bpm]) % [timing_change.time_signature.numerator, timing_change.time_signature.denominator]
+		var tempo_info = "{0} BPM; {1}/{2}".format([timing_change.bpm, timing_change.time_signature.numerator, timing_change.time_signature.denominator])
 		
 		# Always show something at least one on the timeline
 		if timing_change.time < _offset:
@@ -269,11 +269,14 @@ func _draw_timing_changes():
 		timing_changes_x_map[x_pos] = item
 
 func add_layer(layer):
-	layer.editor = editor
-	layers.add_child(layer)
 	var lns = LAYER_NAME_SCENE.instance()
 	lns.layer_name = layer.layer_name
 	layer_names.add_child(lns)
+	
+	layer.editor = editor
+	layer.lns = lns
+	layers.add_child(layer)
+	
 	scale_layers()
 	connect("time_cull_changed", layer, "_on_time_cull_changed")
 	emit_signal("layers_changed")
@@ -378,7 +381,7 @@ func _gui_input(event):
 				modifier_texture.visible = true
 				update()
 		
-		if event.button_index == BUTTON_LEFT and not event.pressed and not event.is_echo() and _area_selecting:
+		if event.button_index == BUTTON_LEFT and (not event.pressed or event.doubleclick) and not event.is_echo() and _area_selecting:
 			get_tree().set_input_as_handled()
 			_area_selecting = false
 			_do_area_select()

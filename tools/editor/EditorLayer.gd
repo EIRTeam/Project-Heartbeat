@@ -5,6 +5,7 @@ class_name EditorLayer
 var editor
 
 var layer_name : String = "New Layer"
+var lns
 
 onready var preview = get_node("EditorTimelinePreview")
 
@@ -144,8 +145,8 @@ func _gui_input(event):
 			if new_val in HBNoteData.NOTE_TYPE.keys():
 				ln = new_val
 		
-		if ln in HBNoteData.NOTE_TYPE.keys():
-			if event.doubleclick and event.button_index == BUTTON_LEFT:
+		if event.doubleclick and event.button_index == BUTTON_LEFT and lns and not lns.get_global_rect().has_point(event.global_position):
+			if ln in HBNoteData.NOTE_TYPE.keys():
 				var new_note = HBNoteData.new()
 				new_note.note_type = HBNoteData.NOTE_TYPE[ln]
 				new_note.time = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
@@ -160,6 +161,18 @@ func _gui_input(event):
 					var item = new_note.get_timeline_item()
 					item.data = new_note
 					editor.user_create_timing_point(self, item)
+				
+				get_tree().set_input_as_handled()
+			
+			if ln == "Sections":
+				editor.playhead_position = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
+				editor.events_module.popup_section_dialog()
+				
+				get_tree().set_input_as_handled()
+			
+			if ln == "Tempo Map":
+				editor.playhead_position = int(editor.snap_time_to_timeline(editor.scale_pixels(get_local_mouse_position().x)))
+				editor.sync_module.show_timing_change_dialog()
 				
 				get_tree().set_input_as_handled()
 

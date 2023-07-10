@@ -26,6 +26,7 @@ func get_inspector_properties():
 			"type": "float",
 			"params": {
 				"min": 0.01,
+				"precision": 4,
 				"suffix": " BPM",
 			}
 		},

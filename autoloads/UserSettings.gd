@@ -225,6 +225,8 @@ func fill_localized_arrays():
 		"editor_select_only_notes": tr("Select only notes"),
 		"editor_select_only_double_notes": tr("Select only double notes"),
 		"editor_select_only_sustains": tr("Select only sustains"),
+		"editor_select_only_multis": tr("Select only multinotes"),
+		"editor_select_only_singles": tr("Select only single notes"),
 		"editor_select_only_sections": tr("Select only sections"),
 		"editor_select_only_tempo_changes": tr("Select only tempo changes"),
 		"editor_select_only_speed_changes": tr("Select only speed changes"),

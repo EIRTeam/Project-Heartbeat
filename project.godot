@@ -2337,6 +2337,14 @@ editor_select_only_speed_changes={
 "deadzone": 0.5,
 "events": [  ]
 }
+editor_select_only_multis={
+"deadzone": 0.5,
+"events": [  ]
+}
+editor_select_only_singles={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [locale]
 

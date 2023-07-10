@@ -14,7 +14,7 @@ func _ready():
 	._ready()
 	
 	label.connect("resized", self, "_on_label_resized")
-	label.text = "%.2f BPM; %d/%d" % [data.bpm, data.time_signature.numerator, data.time_signature.denominator]
+	label.text = "{0} BPM; {1}/{2}".format([data.bpm, data.time_signature.numerator, data.time_signature.denominator])
 
 
 func get_editor_size():
@@ -28,7 +28,7 @@ func sync_value(property_name: String):
 	.sync_value(property_name)
 	
 	if property_name in ["bpm", "time_signature"]:
-		label.text = "%.2f BPM; %d/%d" % [data.bpm, data.time_signature.numerator, data.time_signature.denominator]
+		label.text = "{0} BPM; {1}/{2}".format([data.bpm, data.time_signature.numerator, data.time_signature.denominator])
 
 
 func _on_label_resized():

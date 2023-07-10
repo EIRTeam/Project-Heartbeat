@@ -19,28 +19,35 @@ signal chart_selected(song, difficulty, hidden)
 
 const LOG_NAME = "EditorOpenChartPopup"
 
-# If we should show songs in res://
+# If we should show songs in res://, dsc songs, mm+ songs, ppd songs and workshop songs
 var show_hidden = false
 
 func _ready():
 	connect("about_to_show", self, "_on_about_to_show")
+	connect("confirmed", self, "_on_confirmed")
+	
 	tree.connect("item_selected", self, "_on_item_selected")
-	edit_data_button.connect("pressed", self, "_show_meta_editor")
+	tree.connect("item_activated", self, "_on_confirmed")
+	
 	new_song_button.connect("pressed", create_song_dialog, "popup_centered")
 	create_song_dialog.connect("confirmed", self, "_on_CreateSongDialog_confirmed")
-#	call_deferred("popup_centered")
-	connect("confirmed", self, "_on_confirmed")
+	
 	add_chart_button.connect("pressed", create_difficulty_dialog, "popup_centered")
 	create_difficulty_dialog.connect("difficulty_created", self, "_on_difficulty_created")
+	
 	delete_chart_button.connect("pressed", delete_confirmation_dialog, "popup_centered")
 	delete_confirmation_dialog.connect("confirmed", self, "_on_chart_deleted")
-	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
-	upload_button.connect("pressed", self, "_on_upload_to_workshop_pressed")
+	
+	edit_data_button.connect("pressed", self, "_show_meta_editor")
+	
 	search_line_edit.connect("text_changed", self, "_on_search_text_changed")
 	
+	verify_song_button.connect("pressed", self, "_on_verify_button_pressed")
+	upload_button.connect("pressed", self, "_on_upload_to_workshop_pressed")
+
 func _on_search_text_changed(_new_text: String):
 	populate_tree()
-	
+
 func _on_upload_to_workshop_pressed():
 	var item = tree.get_selected()
 	var song = item.get_meta("song") as HBSong
@@ -60,12 +67,13 @@ func _on_upload_to_workshop_pressed():
 	else:
 		workshop_upload_dialog.set_song(song)
 		workshop_upload_dialog.popup_centered_ratio()
-	
+
 func _on_verify_button_pressed():
 	var item = tree.get_selected()
 	var song = item.get_meta("song") as HBSong
 	var verification = HBSongVerification.new()
 	verify_song_popup.show_song_verification(verification.verify_song(song), false)
+
 func populate_tree():
 	# Disable song-specific buttons
 	add_chart_button.disabled = true
@@ -167,8 +175,12 @@ func show_error(error: String):
 	$AcceptDialog.dialog_text = error
 	$AcceptDialog.rect_size = Vector2.ZERO
 	$AcceptDialog.popup_centered(Vector2(500, 100))
+
 func _on_confirmed():
 	var item = tree.get_selected()
+	
+	if not item.has_meta("difficulty"):
+		return
 	
 	var song = item.get_meta("song") as HBSong
 	if not song.is_cached():
