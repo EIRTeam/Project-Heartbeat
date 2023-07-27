@@ -721,7 +721,7 @@ func load_songs() -> Array:
 		
 		for i in range(pv_data.charts.size()-1, -1, -1):
 			var chart_name = pv_data.charts.keys()[i]
-			if not pv_data.charts[chart_name].dsc_path:
+			if not "dsc_path" in  pv_data.charts[chart_name] or not pv_data.charts[chart_name].dsc_path:
 				pv_data.charts.erase(chart_name)
 				propagate_error(tr("Song ID %s's (%s) difficulty %s did not have a DSC script path") % [pv_data.pv_id_str, chart_name, pv_data.title_en])
 		
