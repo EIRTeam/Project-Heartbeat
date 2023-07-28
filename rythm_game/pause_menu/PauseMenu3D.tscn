@@ -1,49 +1,54 @@
 [gd_scene load_steps=17 format=3 uid="uid://b8q7hs3athysl"]
 
 [ext_resource type="Script" path="res://scripts/3DUIQuad.gd" id="1"]
-[ext_resource type="PackedScene" path="res://menus/song_list/SongListPreview.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://rythm_game/pause_menu/PauseMenuLeft.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://lkkru7no1ko1" path="res://menus/song_list/SongListPreview.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c0ob8f5020lvo" path="res://rythm_game/pause_menu/PauseMenuLeft.tscn" id="3"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3_1t27u"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4_5ae4a"]
 [ext_resource type="Script" path="res://menus/GLES2ViewportRTHack.gd" id="6"]
-[ext_resource type="PackedScene" path="res://menus/HBConfirmationWindow.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
 [ext_resource type="Script" path="res://rythm_game/pause_menu/PauseMenu3D.gd" id="8"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_jjm3g"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_p5g4k"]
 viewport_path = NodePath("ViewportLeft")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8q8w6"]
 resource_local_to_scene = true
+transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_jjm3g")
+albedo_texture = SubResource("ViewportTexture_p5g4k")
 
 [sub_resource type="PlaneMesh" id="1"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_8q8w6")
 size = Vector2(1.6, 0.9)
 
 [sub_resource type="BoxShape3D" id="4"]
-size = Vector3(0.8, 0.45, 0.01)
+size = Vector3(1.6, 0.9, 0.01)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_eevwr"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_0d00l"]
 viewport_path = NodePath("ViewportRight")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6eyj"]
 resource_local_to_scene = true
+transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_eevwr")
+albedo_texture = SubResource("ViewportTexture_0d00l")
 
 [sub_resource type="PlaneMesh" id="5"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_o6eyj")
 size = Vector2(0.45, 0.9)
 
 [sub_resource type="BoxShape3D" id="8"]
-size = Vector3(0.225, 0.45, 0.01)
+size = Vector3(0.45, 0.9, 0.01)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.399)
+current = true
 fov = 47.0
 
 [node name="ViewportLeft" type="SubViewport" parent="."]
@@ -95,9 +100,6 @@ transparent_bg = true
 size = Vector2i(720, 1440)
 
 [node name="Panel" parent="ViewportRight" instance=ExtResource("2")]
-layout_mode = 3
-anchors_preset = 15
-grow_vertical = 2
 
 [node name="AreaLeft" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
 transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0.410275, -0.0357335, -0.0632664)
@@ -130,15 +132,18 @@ script = ExtResource("6")
 shape = SubResource("8")
 
 [node name="RestartPopup" parent="." instance=ExtResource("7")]
+visible = false
 text = "Are you sure you want to restart?"
 accept_text = "Restart"
 cancel_text = "Cancel"
 
 [node name="QuitPopup" parent="." instance=ExtResource("7")]
+visible = false
 text = "Are you sure you want to quit?"
 accept_text = "Quit"
 cancel_text = "Cancel"
 
+[connection signal="input_event" from="AreaLeft" to="." method="_on_area_left_input_event"]
 [connection signal="accept" from="RestartPopup" to="." method="restart"]
 [connection signal="accept" from="QuitPopup" to="." method="quit"]
 

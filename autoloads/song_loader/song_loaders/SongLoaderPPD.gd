@@ -69,7 +69,6 @@ func load_song_meta_from_folder(path: String, id: String):
 						song.audio = dir_name
 						break
 				dir_name = dir.get_next()
-		
 		return song
 	return null
 

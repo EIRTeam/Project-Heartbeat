@@ -1,13 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3 uid="uid://c0ob8f5020lvo"]
 
-[ext_resource path="res://menus/HBMenuChangeButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=2]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
-[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=4]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=5]
-[ext_resource path="res://menus/options_menu/OptionMenuButton.gd" type="Script" id=6]
+[ext_resource type="PackedScene" path="res://menus/HBMenuChangeButton.tscn" id="1"]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="2"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionMenuButton.gd" id="6"]
 
 [node name="MarginContainer" type="MarginContainer"]
+anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -360.0
@@ -16,93 +17,81 @@ offset_bottom = 360.0
 theme_override_constants/margin_left = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 15.0
-offset_right = 431.0
-offset_bottom = 720.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-offset_top = 188.0
-offset_right = 416.0
-offset_bottom = 252.0
-custom_minimum_size = Vector2( 0, 64 )
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource( 4 )
+theme_override_styles/panel = ExtResource("4")
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 25.0
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "PAUSED"
 vertical_alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBListContainer" type="VBoxContainer" parent="VBoxContainer"]
-offset_top = 262.0
-offset_right = 416.0
-offset_bottom = 532.0
-custom_minimum_size = Vector2( 0, 64 )
-focus_mode = 2
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 2
 theme_override_constants/separation = 10
-script = ExtResource( 3 )
+script = ExtResource("3")
 orientation = 1
 enable_wrap_around = true
 
-[node name="ResumeButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 416.0
-offset_bottom = 60.0
-custom_minimum_size = Vector2( 0, 60 )
-pivot_offset = Vector2( 0, 0 )
+[node name="ResumeButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/hover = ExtResource( 4 )
-theme_override_styles/normal = ExtResource( 5 )
+theme_override_styles/normal = ExtResource("5")
+theme_override_styles/hover = ExtResource("4")
 text = "Resume"
-script = ExtResource( 6 )
+alignment = 0
+script = ExtResource("6")
+normal_style = ExtResource("5")
+hover_style = ExtResource("4")
 
-[node name="RestartButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-offset_left = 0.0
-offset_top = 70.0
-offset_right = 416.0
-offset_bottom = 130.0
-custom_minimum_size = Vector2( 0, 60 )
-pivot_offset = Vector2( 0, 0 )
+[node name="RestartButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/hover = ExtResource( 4 )
-theme_override_styles/normal = ExtResource( 5 )
+theme_override_styles/normal = ExtResource("5")
+theme_override_styles/hover = ExtResource("4")
 text = "Restart"
-script = ExtResource( 6 )
+alignment = 0
+script = ExtResource("6")
+normal_style = ExtResource("5")
+hover_style = ExtResource("4")
 
-[node name="SongSettingsButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-offset_left = 0.0
-offset_top = 140.0
-offset_right = 416.0
-offset_bottom = 200.0
-custom_minimum_size = Vector2( 0, 60 )
-pivot_offset = Vector2( 0, 0 )
+[node name="SongSettingsButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
 focus_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/hover = ExtResource( 4 )
-theme_override_styles/normal = ExtResource( 5 )
+theme_override_styles/normal = ExtResource("5")
+theme_override_styles/hover = ExtResource("4")
 text = "Song Settings"
-script = ExtResource( 6 )
+alignment = 0
+script = ExtResource("6")
+normal_style = ExtResource("5")
+hover_style = ExtResource("4")
 
-[node name="QuitButton" parent="VBoxContainer/HBListContainer" instance=ExtResource( 1 )]
-offset_left = 0.0
-offset_top = 210.0
-offset_right = 416.0
-offset_bottom = 270.0
-custom_minimum_size = Vector2( 0, 60 )
-pivot_offset = Vector2( 0, 0 )
+[node name="QuitButton" parent="VBoxContainer/HBListContainer" instance=ExtResource("1")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/hover = ExtResource( 4 )
-theme_override_styles/normal = ExtResource( 5 )
+theme_override_styles/normal = ExtResource("5")
+theme_override_styles/hover = ExtResource("4")
 text = "Quit"
-script = ExtResource( 6 )
+alignment = 0
+script = ExtResource("6")
+normal_style = ExtResource("5")
+hover_style = ExtResource("4")

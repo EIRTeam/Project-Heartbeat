@@ -1,37 +1,40 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://i08qk1n42uwn"]
 
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" type="Script" id=1]
-[ext_resource path="res://fonts/new_fonts/orbitron_regular_25.tres" type="FontFile" id=2]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=3]
-[ext_resource path="res://default_theme_tools.tres" type="Theme" id=4]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/new_fonts/orbitron_regular_25.tres" id="2"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="3"]
+[ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id="3"]
 
-[sub_resource type="FontFile" id=4]
-size = 32
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 3 )
+[sub_resource type="FontFile" id="4"]
+fallbacks = Array[Font]([ExtResource("3")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.639216, 0, 1, 0 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.639216, 0, 1, 0)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color( 1, 1, 1, 1 )
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.639216, 0, 1, 0.25098 )
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.639216, 0, 1, 0.25098)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color( 0.639216, 0, 1, 0 )
+border_color = Color(0.639216, 0, 1, 0)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -41,42 +44,45 @@ corner_radius_bottom_left = 5
 offset_top = 33.0
 offset_right = 127.0
 offset_bottom = 119.0
-theme = ExtResource( 4 )
-theme_override_styles/panel = SubResource( 3 )
-script = ExtResource( 1 )
-popupmenu_font = SubResource( 4 )
+theme = ExtResource("4")
+theme_override_styles/panel = SubResource("3")
+script = ExtResource("1")
+popupmenu_font = SubResource("4")
 
 [node name="Outline" type="Panel" parent="."]
-offset_right = 127.0
-offset_bottom = 86.0
+layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource("1")
 
 [node name="Inside" type="Panel" parent="Outline"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource( 2 )
+theme_override_styles/panel = SubResource("2")
 
 [node name="Label" type="Label" parent="Outline"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="."]
-offset_right = 127.0
-offset_bottom = 86.0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="PopupMenu" type="PopupMenu" parent="Control"]
-offset_right = 504.0
-offset_bottom = 301.0
-theme_override_fonts/font = SubResource( 4 )
-items = [ "Elemento 0", null, 0, false, false, 0, 0, null, "", false, "Elemento 1", null, 0, false, false, 1, 0, null, "", false, "Elemento 2", null, 0, false, false, 2, 0, null, "", false ]
-allow_search = true
+theme_override_fonts/font = SubResource("4")
+item_count = 3
+item_0/text = "Elemento 0"
+item_0/id = 0
+item_1/text = "Elemento 1"
+item_1/id = 1
+item_2/text = "Elemento 2"
+item_2/id = 2
 
 [connection signal="mouse_entered" from="." to="." method="_on_SkinEditorWidget_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_SkinEditorWidget_mouse_exited"]

@@ -1,74 +1,66 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://7jip7aagc551"]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=1]
-[ext_resource path="res://menus/options_menu/OptionSoundSelectDropdown.tscn" type="PackedScene" id=2]
-[ext_resource path="res://menus/options_menu/OptionCustomSoundSelect.gd" type="Script" id=4]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="PackedScene" uid="uid://cirrqo7iy3t7a" path="res://menus/options_menu/OptionSoundSelectDropdown.tscn" id="2"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionCustomSoundSelect.gd" id="4"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+bg_color = Color(0.19, 0.07, 0.3, 0.75)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
 [node name="OptionSelect" type="Panel"]
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
 anchor_right = 1.0
-custom_minimum_size = Vector2( 0, 64 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-offset_right = 317.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
-offset_left = 321.0
-offset_right = 1880.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="Label2" type="Label" parent="HBoxContainer/Control"]
-offset_left = 1242.0
-offset_right = 1559.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="DropDown" parent="CanvasLayer" instance=ExtResource( 2 )]
+[node name="DropDown" parent="CanvasLayer" instance=ExtResource("2")]
+anchors_preset = -1
 anchor_left = 0.25
 anchor_top = 0.25
 anchor_right = 0.75
 anchor_bottom = 0.75
-theme_override_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource("1")

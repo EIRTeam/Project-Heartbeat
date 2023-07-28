@@ -89,9 +89,11 @@ func _init_inspector():
 	
 	h = make_label_container("Top")
 	h.add_child(extra_spacing_top_spinbox)
+	extra_spacing_top_spinbox.min_value = -100
 
 	h = make_label_container("Bottom")
 	h.add_child(extra_spacing_bottom_spinbox)
+	extra_spacing_bottom_spinbox.min_value = -100
 
 	h = make_label_container("Char")
 	h.add_child(extra_character_spacing_spinbox)
@@ -113,7 +115,7 @@ func _on_extra_spacing_bottom_value_changed(val: int):
 	emit_signal("value_changed", current_font)
 
 func _on_extra_spacing_char_value_changed(val: int):
-	current_font.extra_spacing_char = val
+	current_font.spacing_glyph = val
 	emit_signal("value_changed", current_font)
 
 func set_property_data(data: Dictionary):
@@ -139,7 +141,7 @@ func _update_controls():
 	font_selector_option_button.set_block_signals(false)
 	
 	size_spinbox.set_block_signals(true)
-	size_spinbox.value = current_font.size
+	size_spinbox.value = current_font.target_size
 	size_spinbox.set_block_signals(false)
 	
 	fallback_hint_selector.set_block_signals(true)
@@ -163,7 +165,7 @@ func _update_controls():
 	extra_spacing_top_spinbox.set_block_signals(false)
 	
 	extra_character_spacing_spinbox.set_block_signals(true)
-	extra_character_spacing_spinbox.value = current_font.extra_spacing_char
+	extra_character_spacing_spinbox.value = current_font.spacing_glyph
 	extra_character_spacing_spinbox.set_block_signals(false)
 	
 func _on_item_selected(val: int):
@@ -179,7 +181,7 @@ func _on_fallback_hint_item_selected(fallback: int):
 	emit_signal("value_changed", current_font)
 
 func _on_size_value_changed(new_size: int):
-	current_font.size = new_size
+	current_font.target_size = new_size
 	emit_signal("value_changed", current_font)
 
 func _on_outline_size_changed(new_size: int):
@@ -193,7 +195,7 @@ func _on_outline_color_changed(color: Color):
 func set_value(val):
 	super.set_value(val)
 	current_font = val
-	current_font_name = resource_storage.get_font_name(val.font_data)
+	current_font_name = resource_storage.get_font_name(val.base_font)
 	if is_inside_tree():
 		_update_controls()
 

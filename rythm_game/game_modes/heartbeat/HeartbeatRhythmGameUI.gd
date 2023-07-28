@@ -178,7 +178,7 @@ func _show_intro_skip(song: HBSong):
 		if game.earliest_note_time / 1000.0 > song.intro_skip_min_time:
 			get_tree().call_group(SKIP_INTRO_INDICATOR_GROUP, "appear")
 	
-func _on_song_set(song: HBSong, difficulty: String, assets = null, modifiers = []):
+func _on_song_set(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null, modifiers = []):
 	get_tree().set_group(SONG_PROGRESS_INDICATOR_GROUP, "min_value", song.start_time)
 	get_tree().call_group(HOLD_INDICATOR_GROUP, "disappear")
 		

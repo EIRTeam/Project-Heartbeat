@@ -1,136 +1,102 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=15 format=3 uid="uid://b4rr5jg5duobg"]
 
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
-[ext_resource path="res://fonts/new_fonts/roboto_black_45.tres" type="FontFile" id=2]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=3]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=4]
-[ext_resource path="res://menus/workshop_browser/WorkshopItemDetailView.gd" type="Script" id=5]
-[ext_resource path="res://graphics/icons/5-star.png" type="Texture2D" id=6]
-[ext_resource path="res://graphics/icons/0-star.png" type="Texture2D" id=7]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=8]
-[ext_resource path="res://menus/PromptPanel.tscn" type="PackedScene" id=9]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=10]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=11]
-[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=12]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=13]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
+[ext_resource type="FontFile" uid="uid://q172ug5w4fdw" path="res://fonts/new_fonts/roboto_black_45.tres" id="2"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="3"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="4"]
+[ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemDetailView.gd" id="5"]
+[ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="7"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="8"]
+[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="9"]
+[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="9_jse5m"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="10"]
+[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="10_cnllk"]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id="1"]
 
-[sub_resource type="StyleBoxEmpty" id=2]
-
-[sub_resource type="FontFile" id=3]
-size = 25
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 12 )
-fallback/0 = ExtResource( 11 )
-
-[sub_resource type="FontFile" id=4]
-size = 25
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 13 )
-fallback/0 = ExtResource( 11 )
+[sub_resource type="StyleBoxEmpty" id="2"]
 
 [node name="DetailView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1")
+script = ExtResource("5")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_right = 1920.0
-offset_bottom = 1065.0
+layout_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_right = 1920.0
-offset_bottom = 631.0
-custom_minimum_size = Vector2( 0, 133 )
+custom_minimum_size = Vector2(0, 133)
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 25
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
-offset_right = 631.0
-offset_bottom = 631.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2"]
-offset_right = 631.0
-offset_bottom = 631.0
-custom_minimum_size = Vector2( 0, 631 )
+custom_minimum_size = Vector2(0, 631)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
-expand = true
+expand_mode = 1
 stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
-offset_left = 656.0
-offset_right = 1920.0
-offset_bottom = 631.0
-custom_minimum_size = Vector2( 1000, 0 )
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
-offset_right = 1264.0
-offset_bottom = 77.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer"]
-offset_right = 1264.0
-offset_bottom = 77.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = -7
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
-offset_right = 1264.0
-offset_bottom = 53.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
-autowrap = true
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer/VBoxContainer"]
-offset_top = 46.0
-offset_right = 1264.0
-offset_bottom = 77.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "aasdasdasdsadsadsa"
 horizontal_alignment = 2
-autowrap = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
-offset_top = 92.0
-offset_right = 1264.0
-offset_bottom = 137.0
-focus_mode = 2
+layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 2
 theme_override_constants/separation = 23
 alignment = 2
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
-offset_left = 432.0
-offset_right = 570.0
-offset_bottom = 45.0
-custom_minimum_size = Vector2( 138, 0 )
+custom_minimum_size = Vector2(138, 0)
+layout_mode = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/Control"]
+layout_mode = 0
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -11.5
@@ -139,125 +105,105 @@ offset_bottom = 11.5
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.0
-texture_under = ExtResource( 7 )
-texture_progress = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_under = ExtResource("7")
+texture_progress = ExtResource("6")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
-offset_left = 593.0
-offset_right = 634.0
-offset_bottom = 45.0
+layout_mode = 2
 
 [node name="UpVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
-offset_top = 7.0
-offset_right = 10.0
-offset_bottom = 38.0
-theme_override_colors/font_color = Color( 0, 1, 0, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
 text = "1"
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
-offset_left = 14.0
-offset_top = 7.0
-offset_right = 27.0
-offset_bottom = 38.0
+layout_mode = 2
 text = "/"
 
 [node name="DownVoteLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer"]
-offset_left = 31.0
-offset_top = 7.0
-offset_right = 41.0
-offset_bottom = 38.0
-theme_override_colors/font_color = Color( 1, 0, 0, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "1"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
-offset_left = 657.0
-offset_right = 1264.0
-offset_bottom = 45.0
+layout_mode = 2
 focus_mode = 2
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="SubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
-offset_right = 156.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "Subscribe"
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="UnsubscribeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
-offset_left = 160.0
-offset_right = 350.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "Unsubscribe"
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="ShowInSongListButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2"]
-offset_left = 354.0
-offset_right = 607.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "Show in song list"
-script = ExtResource( 3 )
+script = ExtResource("3")
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
-offset_top = 152.0
-offset_right = 1264.0
-offset_bottom = 179.364
-custom_minimum_size = Vector2( 0, 27.364 )
-theme_override_styles/panel = ExtResource( 8 )
+[node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 27.364)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_top = 15
+layout_mode = 2
 theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/Panel/MarginContainer"]
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 1249.0
-offset_bottom = 47.0
-theme_override_styles/focus = SubResource( 1 )
-theme_override_styles/normal = SubResource( 2 )
-theme_override_fonts/bold_font = SubResource( 3 )
-theme_override_fonts/normal_font = SubResource( 4 )
-theme_override_colors/default_color = Color( 1, 1, 1, 1 )
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("9_jse5m")
+theme_override_fonts/bold_font = ExtResource("10_cnllk")
+theme_override_styles/focus = SubResource("1")
+theme_override_styles/normal = SubResource("2")
 bbcode_enabled = true
-fit_content_height = true
+text = "Why do SAFEs exist? 🐦‍
+[b][url=https://store.steampowered.com/app/429660]Tales of Berseria on Steam[/url][/b]
+
+[b][url=https://music.youtube.com/channel/UCJCEjx_2PIFi97rJjjfwrcQ]FLOW[/url]
+[url=https://music.youtube.com/watch?v=brQJDvFeZig]BURN -Game Size- (Tales of Berseria OP)[/url][/b]
+
+Extreme 8* (Arcade)
+75-198 BPM
+
+Feedback appreciated.
+
+Extra BURN: (2 variants)
+ - Rafael Vidaurre
+ - Instrumental"
+fit_content = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 635.0
-offset_right = 1920.0
-offset_bottom = 1065.0
+layout_mode = 2
 size_flags_vertical = 3
 alignment = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-offset_top = 390.0
-offset_right = 1920.0
-offset_bottom = 430.0
-custom_minimum_size = Vector2( 0, 40 )
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 alignment = 1
 
-[node name="Panel4" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 9 )]
-offset_left = 897.0
-offset_right = 1022.0
-custom_minimum_size = Vector2( 125, 31 )
+[node name="Panel4" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("9")]
+custom_minimum_size = Vector2(146, 53)
+layout_mode = 2
 action_name = "gui_cancel"
 text = "Back"
 
-[node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource( 10 )]
+[node name="UnsubscribedConfirmationWindow" parent="." instance=ExtResource("10")]
+unresizable = false
 has_cancel = false
 text = "Item unsubscribed succesfully, will be removed after you restart the game."
 accept_text = "Alright"
 cancel_text = ""
 
-[connection signal="resized" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/TextureRect" to="." method="_on_TextureRect_resized"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/SubscribeButton" to="." method="_on_SubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/UnsubscribeButton" to="." method="_on_UnsubscribeButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/HBoxContainer2/ShowInSongListButton" to="." method="_on_ShowInSongListButton_pressed"]

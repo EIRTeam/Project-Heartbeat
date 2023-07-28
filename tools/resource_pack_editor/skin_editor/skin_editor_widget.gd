@@ -288,13 +288,7 @@ func _ready():
 	
 func _process(delta):
 	queue_redraw()
-	var vp := get_viewport()
 	var mouse_pos := get_global_mouse_position()
-	# ugly hack, this is needed because get_global_mouse_position doesn't really work
-	# in viewports in 3.x
-	if vp is SkinEditorViewport:
-		mouse_pos = vp.trf.affine_inverse() * (mouse_pos)
-#		mouse_pos = vp.mouse_position
 	var par := get_parent_control()
 	if mode == WIDGET_MODE.MARGIN:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):

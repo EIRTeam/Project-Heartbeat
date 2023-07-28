@@ -37,6 +37,8 @@ func update_dots_stylebox():
 			dots_stylebox.border_color.a = 0.0
 			dots_stylebox.bg_color = Color.RED
 			dots_stylebox.draw_center = true
+			dots_panel.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+			
 			dots_panel.add_theme_stylebox_override("panel", dots_stylebox)
 			assert(dots_panel.material is ShaderMaterial)
 			if dots_texture:

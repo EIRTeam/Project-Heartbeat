@@ -21,10 +21,10 @@ var points = [
 	Vector2(50, 50),
 	Vector2(60, 80),
 	Vector2(100, 90),
-] setget set_points
+] : set = set_points
 
 var dots = [
-] setget set_dots
+] : set = set_dots
 
 const DOT_TEXTURE = preload("res://graphics/graph_dot.png")
 

@@ -20,9 +20,9 @@ func set_values():
 	percentage_label.text += "%)"
 	username_label.text = entry.user.member_name
 	rank_label.text = str(entry.rank)
-	user_avatar_texture_rect.texture = entry.user.avatar
+	user_avatar_texture_rect.texture = entry.user.get_avatar()
 	if not entry.user.is_connected("persona_state_change", Callable(self, "_persona_state_change")):
-		entry.user.connect("persona_state_change", Callable(self, "_persona_state_change"))
+		entry.user.persona_state_change.connect(self._persona_state_change)
 	
-func _persona_state_change(flags):
+func _persona_state_change():
 	set_values()

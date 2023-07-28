@@ -4,13 +4,13 @@
 [ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://menus/HBConfirmationWindow.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://dq1i623nxlj8v" path="res://graphics/icons/sort-ascending.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
 [ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
-[ext_resource type="PackedScene" path="res://menus/FolderManager.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
 [ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
 [ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
 [ext_resource type="PackedScene" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
@@ -168,18 +168,19 @@ custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
 texture = ExtResource("8")
 expand_mode = 1
-stretch_mode = 4
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Difficulty"
+vertical_alignment = 1
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(39, 0)
 layout_mode = 2
 texture = ExtResource("9")
 expand_mode = 1
-stretch_mode = 4
+stretch_mode = 5
 
 [node name="PromptInputAction" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" instance=ExtResource("13")]
 custom_minimum_size = Vector2(40, 0)
@@ -300,6 +301,7 @@ action_name = "gui_cancel"
 text = "Back"
 
 [node name="PPDAudioBrowseWindow" parent="." instance=ExtResource("5")]
+visible = false
 text = "The song you selected is a PPD song without an existing audio file, would you like to select one (from disk or YouTube)? This will require yo to use the mouse."
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -347,6 +349,7 @@ text = "Has downloaded media"
 [node name="FolderManager" parent="." instance=ExtResource("11")]
 visible = false
 layout_mode = 0
+anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -370,6 +373,7 @@ text = "123/123"
 vertical_alignment = 1
 
 [node name="SearchTextInput" parent="." instance=ExtResource("3")]
+visible = false
 text = "Enter the search term:"
 
 [connection signal="end_loading" from="VBoxContainer/MarginContainer/VBoxContainer" to="SpinnerContainer" method="hide"]

@@ -55,12 +55,8 @@ func set_song(song: HBSong, length: float, do_animation=true):
 		entry_tween.start()
 	exit_timer.start()
 	
-	var preview_load_task = SongAssetLoadAsyncTask.new(["preview"], song)
-	preview_load_task.connect("assets_loaded", Callable(self, "_on_assets_loaded"))
-	if current_task:
-		AsyncTaskQueue.abort_task(current_task)
-	current_task = preview_load_task
-	AsyncTaskQueue.queue_task(preview_load_task)
+	var preview_load_task := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.PREVIEW])
+	preview_load_task.assets_loaded.connect(_on_assets_loaded)
 func _on_exit_timer_timeout():
 	entry_tween.remove_all()
 	entry_tween.interpolate_property(main_container, "modulate:a", main_container.modulate.a, 0.0, 0.5, Threen.TRANS_LINEAR)
@@ -78,10 +74,13 @@ func set_time(time: float):
 		var playback_progress_bar = get_node("HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/VBoxContainer/ProgressBar")
 		playback_progress_bar.value = time / current_song_length
 
-func _on_assets_loaded(assets):
+func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
+	if token.song == current_song:
+		return
 	image_preview_texture_rect.material = null
-	if "preview" in assets:
-		image_preview_texture_rect.texture = assets.preview
+	var preview_image := token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)
+	if preview_image:
+		image_preview_texture_rect.texture = preview_image
 		if image_preview_texture_rect.texture is DIVASpriteSet.DIVASprite:
 			image_preview_texture_rect.material = image_preview_texture_rect.texture.get_material()
 	else:

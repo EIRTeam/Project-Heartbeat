@@ -326,13 +326,12 @@ func generate_chart_hash(chart: String) -> String:
 
 func save_chart_info():
 	if not SongDataCache.is_song_audio_loudness_cached(self):
-		var norm = HBAudioNormalizer.new()
-		norm.set_target_ogg(get_audio_stream())
+		var token := SongAssetLoader.request_asset_load(self, [SongAssetLoader.ASSET_TYPES.AUDIO, SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS])
+		await token.assets_loaded
+		
+		var loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
 		print("Loudness cache not found, normalizing...")
-		while not norm.work_on_normalization():
-			pass
-		var res = norm.get_normalization_result()
-		SongDataCache.update_loudness_for_song(self, res)
+		SongDataCache.update_loudness_for_song(self, loudness.loudness)
 	
 	has_audio_loudness = true
 	audio_loudness = SongDataCache.audio_normalization_cache[id].loudness

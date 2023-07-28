@@ -1,7 +1,7 @@
 [gd_scene load_steps=43 format=3 uid="uid://fawgnyddv8a"]
 
 [ext_resource type="PackedScene" uid="uid://b3peah64ej2iw" path="res://menus/visualizer/Visualizer.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="2"]
 [ext_resource type="Script" path="res://tools/editor/Editor.gd" id="3"]
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="4"]
 [ext_resource type="Script" path="res://tools/editor/EditorGamePreview.gd" id="5"]
@@ -45,9 +45,6 @@ bg_color = Color(0.2, 0.231373, 0.309804, 1)
 
 [sub_resource type="FontFile" id="11"]
 fallbacks = Array[Font]([ExtResource("8")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -379,6 +376,8 @@ script = ExtResource("50")
 
 [node name="RythmGameUI" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview" instance=ExtResource("2")]
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Preview/GamePreview"]

@@ -41,11 +41,13 @@ func set_element_separation(val):
 
 func set_artist_font(val):
 	artist_font = val
+	print("GOT FONT!", val)
 	if is_inside_tree():
 		set_control_font(artist_label, "font", artist_font)
 
 func set_title_font(val):
 	title_font = val
+	print("GOT TITLE FONT!", val)
 	if is_inside_tree():
 		set_control_font(title_label, "font", title_font)
 
@@ -66,6 +68,7 @@ func get_hb_inspector_whitelist() -> Array:
 func _ready():
 	super._ready()
 	circle_logo_texture_rect.expand = true
+	circle_logo_texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	circle_logo_texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	
 	title_label.text = "今でも... 2012 (Imademo 2012)"
@@ -73,8 +76,8 @@ func _ready():
 	artist_label.uppercase = true
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.clip_text = true
-	artist_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
-	title_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
+	artist_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	title_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	
 	add_child(hbox_container)
 	circle_logo_margin_container.add_child(circle_logo_texture_rect)
@@ -99,7 +102,7 @@ func _on_resized():
 		new_size.x = clamp(new_size.x, 0, 250)
 		circle_logo_margin_container.custom_minimum_size = new_size
 
-func set_song(song: HBSong, assets, variant := -1):
+func set_song(song: HBSong, assets: SongAssetLoader.AssetLoadToken, variant := -1):
 	circle_logo_margin_container.hide()
 	if not assets:
 		var circle_logo_path = song.get_song_circle_logo_image_res_path()
@@ -107,17 +110,17 @@ func set_song(song: HBSong, assets, variant := -1):
 			circle_logo_margin_container.show()
 			circle_logo_texture_rect.show()
 			var image = HBUtils.image_from_fs(circle_logo_path)
-			var it = ImageTexture.create_from_image(image) #,Texture2D.FLAGS_DEFAULT
+			var it = ImageTexture.create_from_image(image)
 			circle_logo_texture_rect.texture = it
 			_on_resized()
 		else:
 			circle_logo_margin_container.hide()
 	else:
-		if "circle_logo" in assets:
-			if assets.circle_logo:
-				circle_logo_margin_container.show()
-				circle_logo_texture_rect.texture = assets.circle_logo
-				_on_resized()
+		var circle_logo := assets.get_asset(SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO)
+		if circle_logo:
+			circle_logo_margin_container.show()
+			circle_logo_texture_rect.texture = circle_logo
+			_on_resized()
 	if hide_circle_logo:
 		circle_logo_margin_container.hide()
 	title_label.text = song.get_visible_title(variant)

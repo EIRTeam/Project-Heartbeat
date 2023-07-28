@@ -1,261 +1,261 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=15 format=3 uid="uid://lkkru7no1ko1"]
 
-[ext_resource path="res://fonts/orbitron-light.otf" type="FontFile" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=2]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=3]
-[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=4]
-[ext_resource path="res://menus/song_list/SongListPreview.gd" type="Script" id=8]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="FontFile" id=9]
-[ext_resource path="res://fonts/Default_Font_thin.tres" type="FontFile" id=10]
-[ext_resource path="res://fonts/SongLabelIngame.tres" type="FontFile" id=11]
+[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="1"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="3"]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="4"]
+[ext_resource type="Script" path="res://menus/song_list/SongListPreview.gd" id="8"]
+[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="9"]
+[ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="10"]
+[ext_resource type="FontFile" path="res://fonts/SongLabelIngame.tres" id="11"]
 
-[sub_resource type="FontFile" id=1]
-size = 45
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
-use_filter = true
-font_data = ExtResource( 4 )
-fallback/0 = ExtResource( 9 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("4"), ExtResource("9")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=2]
-size = 35
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
-use_filter = true
-font_data = ExtResource( 1 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("1"), ExtResource("2")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id="3"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 1, 1, 1, 1 )
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id="4"]
 content_margin_left = 25.0
-content_margin_right = 0.0
 content_margin_top = 10.0
+content_margin_right = 0.0
 content_margin_bottom = 10.0
-bg_color = Color( 0.188235, 0.0745098, 0.301961, 0.501961 )
+bg_color = Color(0.188235, 0.0745098, 0.301961, 0.501961)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="FontFile" id=5]
-size = 35
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 3 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="5"]
+fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=6]
-size = 30
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 3 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="6"]
+fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Panel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("8")
 
 [node name="SongListPreview" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 87
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview"]
-offset_right = 1905.0
-offset_bottom = 993.0
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
-offset_right = 1905.0
-offset_bottom = 46.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "(NT)THE TOP"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap = true
+autowrap_mode = 3
 max_lines_visible = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="OriginalTitleLabel" type="Label" parent="SongListPreview/VBoxContainer"]
-offset_top = 58.0
-offset_right = 1905.0
-offset_bottom = 94.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "(NT)Original title: "
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AuthorInfo" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-offset_top = 106.0
-offset_right = 1905.0
-offset_bottom = 177.0
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-offset_right = 1905.0
-offset_bottom = 31.0
-theme_override_fonts/font = ExtResource( 10 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10")
 text = "by"
 horizontal_alignment = 1
 
 [node name="AuthorLabel" type="Label" parent="SongListPreview/VBoxContainer/AuthorInfo"]
-offset_top = 35.0
-offset_right = 1905.0
-offset_bottom = 71.0
-theme_override_fonts/font = ExtResource( 11 )
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11")
 text = "(NT)DRAGONFORCE"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap = true
+autowrap_mode = 3
 
 [node name="CirclePanel" type="Panel" parent="SongListPreview/VBoxContainer"]
-offset_top = 189.0
-offset_right = 1905.0
-offset_bottom = 259.0
-custom_minimum_size = Vector2( 0, 70 )
-theme_override_styles/panel = SubResource( 3 )
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("3")
 
 [node name="MarginContainer" type="MarginContainer" parent="SongListPreview/VBoxContainer/CirclePanel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_top = 10
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/CirclePanel/MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 1895.0
-offset_bottom = 60.0
-custom_minimum_size = Vector2( 0, 50 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="SongCoverPanel" type="MarginContainer" parent="SongListPreview/VBoxContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
-offset_top = 271.0
-offset_right = 1905.0
-offset_bottom = 626.0
-custom_minimum_size = Vector2( 0, 330.04 )
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 330.04)
+layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_right = 30
 theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 15
 
-[node name="TextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
-modulate = Color( 1, 1, 1, 0 )
-offset_left = 30.0
-offset_right = 1875.0
-offset_bottom = 340.0
-custom_minimum_size = Vector2( 0, 330.04 )
-size_flags_vertical = 3
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Control" type="Control" parent="SongListPreview/VBoxContainer/SongCoverPanel"]
+layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/TextureRect"]
-self_modulate = Color( 0, 0, 0, 0.75 )
-show_behind_parent = true
+[node name="CoverTextureRect" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 330.04)
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_minimum_size = Vector2( 0, 330.04 )
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoverTextureRectShadow" type="TextureRect" parent="SongListPreview/VBoxContainer/SongCoverPanel/Control/CoverTextureRect"]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0.75)
+show_behind_parent = true
+custom_minimum_size = Vector2(0, 330.04)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Control" type="VBoxContainer" parent="SongListPreview/VBoxContainer"]
-offset_top = 638.0
-offset_right = 1905.0
-offset_bottom = 993.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Panel2" type="PanelContainer" parent="SongListPreview/VBoxContainer/Control"]
-offset_right = 1905.0
-offset_bottom = 101.0
+layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource( 4 )
+theme_override_styles/panel = SubResource("4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SongListPreview/VBoxContainer/Control/Panel2"]
-offset_left = 25.0
-offset_top = 10.0
-offset_right = 1905.0
-offset_bottom = 91.0
+layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="BPMLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-offset_right = 1880.0
-offset_bottom = 41.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = SubResource( 5 )
+theme_override_fonts/font = SubResource("5")
 text = "(NT)160 BPM"
 horizontal_alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+autowrap_mode = 3
 
 [node name="SongMetaLabel" type="Label" parent="SongListPreview/VBoxContainer/Control/Panel2/VBoxContainer"]
-offset_top = 45.0
-offset_right = 1880.0
-offset_bottom = 81.0
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = SubResource( 6 )
+theme_override_fonts/font = SubResource("6")
 horizontal_alignment = 1
-autowrap = true
+autowrap_mode = 3

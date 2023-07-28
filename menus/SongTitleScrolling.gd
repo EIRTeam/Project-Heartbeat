@@ -5,8 +5,6 @@ extends HBoxContainer
 var song: HBSong: set = set_song
 var difficulty : set = set_difficulty
 
-var current_asset_task: SongAssetLoadAsyncTask
-
 func set_song(value):
 	song = value
 	title_label.text_2 = song.get_visible_title()
@@ -19,14 +17,10 @@ func set_song(value):
 		title_label.text_1 = song.artist
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
 	
-	if current_asset_task:
-		AsyncTaskQueue.abort_task(current_asset_task)
-	
 	if circle_logo_path:
 #		author_label.hide()
-		current_asset_task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
-		current_asset_task.connect("assets_loaded", Callable(self, "_on_assets_loaded"))
-		AsyncTaskQueue.queue_task(current_asset_task)
+		var token = SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO])
+		token.assets_loaded.connect(_on_assets_loaded)
 	else:
 		circle_text_rect.texture = null
 		_on_resized()
@@ -54,11 +48,12 @@ func _ready():
 	connect("resized", Callable(self, "_on_resized"))
 	_on_resized()
 
-func _on_assets_loaded(assets):
+func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
 #	author_label.hide()
-	if assets.circle_logo:
+	var circle_logo: Texture2D = token.get_asset(SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO)
+	if circle_logo:
 		circle_text_rect.show()
-		circle_text_rect.texture = assets.circle_logo
+		circle_text_rect.texture = circle_logo
 	else:
 		circle_text_rect = null
 	_on_resized()

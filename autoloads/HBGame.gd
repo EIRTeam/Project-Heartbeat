@@ -288,7 +288,8 @@ func _game_init():
 	song_stats._init_song_stats()
 	if not DirAccess.dir_exists_absolute(UserSettings.CUSTOM_SOUND_PATH):
 		DirAccess.make_dir_recursive_absolute(UserSettings.CUSTOM_SOUND_PATH)
-	
+		
+
 func register_game_mode(game_mode: HBGameMode):
 	game_modes.append(game_mode)
 	

@@ -9,7 +9,6 @@ const FILES_TO_SYNC_ON_STARTUP = ["user_settings.json", "history.json", "song_st
 var friendly_username = "Player"
 var user_id = "Player" # unique user id, can be a number
 var multiplayer_provider: HBMultiplayerService
-var leaderboard_provider: HBLeaderboardService
 var ugc_provider: HBUGCService
 var implements_lobby_list = false
 var implements_leaderboards = false

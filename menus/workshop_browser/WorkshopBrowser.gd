@@ -36,6 +36,7 @@ var filter_by_stars := false
 var _debounced_page = 1
 
 var current_query: HBWorkshopBrowserQuery
+var steam_query: HBSteamUGCQuery
 
 var filter_tag : set = set_filter_tag
 
@@ -57,21 +58,19 @@ func set_filter_tag(val):
 
 class QueryRequestAll:
 	extends HBWorkshopBrowserQuery
-	var sort_mode: int
+	var sort_mode: SteamworksConstants.UGCQuery
 	var tags: Array
 	func _init(_sort_mode: int, _tags: Array):
 		sort_mode = _sort_mode
 		tags = _tags
-	func make_query(page: int) -> int:
-		var handle = Steam.createQueryAllUGCRequest(sort_mode, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
+	func make_query(page: int) -> HBSteamUGCQuery:
+		var query = HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE)
+		_apply_sort_mode(sort_mode, query)
 		for tag in tags:
-			Steam.addRequiredTag(handle, tag)
-		Steam.setMatchAnyTag(handle, true)
-		Steam.setReturnMetadata(handle, true)
-		Steam.setReturnLongDescription(handle, true)
-		return handle
+			query.with_tag(tag).match_any_tag().with_metadata(true).with_long_description(true)
+		return query
 	static func get_default(_tags: Array):
-		return QueryRequestAll.new(HBWorkshopBrowserQuery.SORT_BY_MODES.k_EUGCQuery_RankedByTrend, _tags)
+		return QueryRequestAll.new(SteamworksConstants.UGC_QUERY_RANKED_BY_TREND, _tags)
 	func get_query_title() -> String:
 		return sort_by_mode_to_string(sort_mode)
 class QueryRequestSearch:
@@ -81,15 +80,14 @@ class QueryRequestSearch:
 	func _init(_search_text: String, _tags: Array):
 		search_text = _search_text
 		tags = _tags
-	func make_query(page: int) -> int:
-		var handle = Steam.createQueryAllUGCRequest(k_EUGCQuery_RankedByTextSearch, EUGCMatchingUGCType_Items_ReadyToUse, Steam.getAppID(), Steam.getAppID(), page)
-		Steam.setSearchText(handle, search_text)
-		Steam.setReturnMetadata(handle, true)
+	func make_query(page: int) -> HBSteamUGCQuery:
+		var query := HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE)
+		_apply_sort_mode(SteamworksConstants.UGC_QUERY_RANKED_BY_TEXT_SEARCH, query)
+		query.where_search_text(search_text).with_metadata(true).match_any_tag().with_long_description(true)
 		for tag in tags:
-			Steam.addRequiredTag(handle, tag)
-		Steam.setMatchAnyTag(handle, true)
-		Steam.setReturnLongDescription(handle, true)
-		return handle
+			query.with_tag(tag)
+		query.request_page(page)
+		return query
 	func get_query_title() -> String:
 		return "Search: \"%s\"" % [search_text]
 		
@@ -120,7 +118,6 @@ func _ready():
 	tag_button_container.next_action = "gui_tab_right"
 	tag_button_container.prev_action = "gui_tab_left"
 	
-	Steam.connect("ugc_query_completed", Callable(self, "_on_ugc_query_completed"))
 #	scroll_container.vertical_step = grid_container.columns
 	pagination_back_button.connect("pressed", Callable(self, "_on_user_navigate_button_pressed").bind(-1))
 	pagination_forward_button.connect("pressed", Callable(self, "_on_user_navigate_button_pressed").bind(1))
@@ -132,7 +129,7 @@ func _ready():
 	sort_by_container.orientation = HBSimpleMenu.ORIENTATION.VERTICAL
 	
 	# Add sort by buttons
-	for sort_mode in HBWorkshopBrowserQuery.SORT_BY_MODES.values():
+	for sort_mode in HBWorkshopBrowserQuery.SORT_BY_MODES:
 		var sort_by_mode_text = HBWorkshopBrowserQuery.sort_by_mode_to_string(sort_mode)
 		var button = HBHovereableButton.new()
 		button.text = sort_by_mode_text
@@ -168,7 +165,7 @@ func _on_user_navigate_button_pressed(page_offset: int):
 		pagination_debounce_timer.stop()
 	_debounced_page = new_page
 	
-func navigate_to_page(page_n: int, query = null):
+func navigate_to_page(page_n: int, query: HBWorkshopBrowserQuery = null):
 	HTTPRequestQueue.cancel_all_requests()
 	if query:
 		current_query = query
@@ -178,7 +175,9 @@ func navigate_to_page(page_n: int, query = null):
 	loading_spinner_animation_player.play("spin")
 	current_page = page_n
 	current_query.tags = get_filter_tags()
-	query_handle = current_query.make_query(page_n)
+	if steam_query:
+		steam_query.query_completed.disconnect(self._on_ugc_query_completed)
+	steam_query = current_query.make_query(page_n)
 	search_title_label.text = current_query.get_query_title()
 	if filter_by_stars and filter_tag == "Charts":
 		var min_stars := 10000000.0
@@ -202,55 +201,45 @@ func navigate_to_page(page_n: int, query = null):
 		var child = grid_container.get_child(i)
 		grid_container.remove_child(child)
 		child.queue_free()
-	Steam.sendQueryUGCRequest(query_handle)
+	steam_query.request_page(page_n)
+	steam_query.query_completed.connect(self._on_ugc_query_completed)
 func update_pagination_label(page_n: int):
 	var total_pages = get_total_pages()
 	pagination_label.text = "%d/%d" % [page_n, total_pages]
 	pagination_back_button.visible = page_n > 1
 	pagination_forward_button.visible = page_n <  total_pages
-func _on_ugc_query_completed(handle, result, total_results, number_of_matching_results, cached):
+func _on_ugc_query_completed(result: HBSteamUGCQueryPageResult):
 	if not is_inside_tree():
 		return
-	if result == 1:
-		if query_handle == handle:
-			loading_spinner.hide()
-			loading_spinner_animation_player.stop()
-			for i in range(grid_container.get_child_count()-1, -1, -1):
-				var child = grid_container.get_child(i)
-				grid_container.remove_child(child)
-				child.queue_free()
-			for i in range(total_results):
-				var data = Steam.getQueryUGCResult(handle, i)
-				var metadata = Steam.getQueryUGCMetadata(handle, i)
-				var item = null
-				if metadata:
-					var test_json_conv = JSON.new()
-					test_json_conv.parse(metadata)
-					var parsed_json = test_json_conv.get_data()
-					if parsed_json:
-						item = HBSerializable.deserialize(parsed_json)
-				if data.result == 1:
-					var url = Steam.getQueryUGCPreviewURL(handle, i)
-					var prev_data = HBWorkshopPreviewData.new()
-					var scene = THUMBNAIL_SCENE.instantiate()
-					prev_data.preview_url = url
-					prev_data.title = data.title
-					prev_data.description = data.description
-					prev_data.steam_id_owner = data.steam_id_owner
-					prev_data.item_id = data.file_id
-					prev_data.up_votes = data.votes_up
-					prev_data.down_votes = data.votes_down
-					prev_data.metadata = item
-					prev_data.tag = filter_tag
-					grid_container.add_child(scene)
-					scene.connect("pressed", Callable(self, "_on_item_selected").bind(scene))
-					scene.set_data(prev_data)
-			if total_results > 0:
-				scroll_container.select_item(0)
-			total_items = number_of_matching_results
-			update_pagination_label(current_page)
-			if not search_prompt.visible and not sort_by_popup.visible:
-				scroll_container.grab_focus()
+	if result:
+		loading_spinner.hide()
+		loading_spinner_animation_player.stop()
+		for i in range(grid_container.get_child_count()-1, -1, -1):
+			var child = grid_container.get_child(i)
+			grid_container.remove_child(child)
+			child.queue_free()
+		var item_results := result.results
+		for i in range(item_results.size()):
+			var data = item_results[i]
+			var metadata = data.metadata
+			var item = null
+			if metadata:
+				var test_json_conv = JSON.new()
+				test_json_conv.parse(metadata)
+				var parsed_json = test_json_conv.get_data()
+				if parsed_json:
+					item = HBSerializable.deserialize(parsed_json)
+			var scene = THUMBNAIL_SCENE.instantiate()
+			grid_container.add_child(scene)
+			scene.connect("pressed", Callable(self, "_on_item_selected").bind(scene))
+			data.set_meta("item", item)
+			scene.set_data(data)
+		if item_results.size() > 0:
+			scroll_container.select_item(0)
+		total_items = result.total_results
+		update_pagination_label(current_page)
+		if not search_prompt.visible and not sort_by_popup.visible:
+			scroll_container.grab_focus()
 
 func _unhandled_input(event):
 	var prompt_visible: bool = search_prompt.visible or star_filter_panel_container.visible

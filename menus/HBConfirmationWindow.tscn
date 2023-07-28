@@ -1,78 +1,60 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://r6cc2m204dqw"]
 
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
-[ext_resource path="res://menus/HBHovereableButton.gd" type="Script" id=2]
-[ext_resource path="res://menus/HBSimpleMenu.gd" type="Script" id=3]
-[ext_resource path="res://menus/HBConfirmationWindow.gd" type="Script" id=4]
-[ext_resource path="res://styles/PanelStyleTransparentIconHover.tres" type="StyleBox" id=5]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=6]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
+[ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
+[ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
+[ext_resource type="Script" path="res://menus/HBConfirmationWindow.gd" id="4"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="5"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
 content_margin_right = 0.0
-bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
+bg_color = Color(0.19, 0.07, 0.3, 0.75)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.592157, 0.239216, 0.94902, 0.501961 )
+border_color = Color(0.592157, 0.239216, 0.94902, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
 [node name="HBConfirmationWindow" type="Popup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -314.218
-offset_top = -118.0
-offset_right = 235.782
-offset_bottom = 118.0
-theme = ExtResource( 1 )
+visible = true
 exclusive = true
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("1")
+script = ExtResource("4")
 
 [node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 25
 theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
-offset_left = 25.0
-offset_right = 525.0
-offset_bottom = 211.0
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-offset_top = 93.0
-offset_right = 500.0
-offset_bottom = 118.0
+layout_mode = 2
 text = "Are you sure you want to do this?"
 horizontal_alignment = 1
-autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -81,32 +63,27 @@ offset_bottom = -28.0
 focus_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")
 
 [node name="AcceptButton" type="Button" parent="Panel/HBoxContainer"]
-offset_left = 210.0
-offset_right = 265.0
-offset_bottom = 46.0
-custom_minimum_size = Vector2( 55, 0 )
-theme_override_styles/hover = ExtResource( 5 )
-theme_override_styles/pressed = ExtResource( 5 )
-theme_override_styles/normal = ExtResource( 6 )
+unique_name_in_owner = true
+custom_minimum_size = Vector2(55, 0)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("6")
+theme_override_styles/hover = ExtResource("5")
+theme_override_styles/pressed = ExtResource("5")
 text = "Yes"
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="CancelButton" type="Button" parent="Panel/HBoxContainer"]
-offset_left = 285.0
-offset_right = 340.0
-offset_bottom = 46.0
-custom_minimum_size = Vector2( 55, 0 )
-theme_override_styles/hover = ExtResource( 5 )
-theme_override_styles/pressed = ExtResource( 5 )
-theme_override_styles/normal = ExtResource( 6 )
+unique_name_in_owner = true
+custom_minimum_size = Vector2(55, 0)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("6")
+theme_override_styles/hover = ExtResource("5")
+theme_override_styles/pressed = ExtResource("5")
 text = "No"
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [connection signal="about_to_popup" from="." to="." method="_on_Control_about_to_show"]
 [connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="hide"]

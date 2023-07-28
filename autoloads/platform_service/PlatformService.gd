@@ -24,7 +24,7 @@ func _ready():
 	callbacks_timer.start()
 	
 func _initialize_platform():
-	if not Engine.has_singleton("Steam") or not HBGame.platform_settings is HBPlatformSettingsDesktop:
+	if not Engine.has_singleton("Steamworks") or not HBGame.platform_settings is HBPlatformSettingsDesktop:
 		set_service_provider(OfflinePlatformServicePovider.new())
 		return
 	# Try to load steam first, if not fallback to Offline

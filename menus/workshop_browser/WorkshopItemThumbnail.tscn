@@ -1,32 +1,32 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://cvopeb3crui87"]
 
-[ext_resource path="res://menus/workshop_browser/WorkshopItemThumbnail.gd" type="Script" id=1]
-[ext_resource path="res://fonts/NotoSansJP-Black.otf" type="FontFile" id=2]
-[ext_resource path="res://fonts/Roboto-Black.ttf" type="FontFile" id=3]
-[ext_resource path="res://fonts/Roboto-Regular.ttf" type="FontFile" id=4]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=5]
-[ext_resource path="res://graphics/icons/check-circle.svg" type="Texture2D" id=6]
-[ext_resource path="res://graphics/icons/5-star.png" type="Texture2D" id=7]
-[ext_resource path="res://graphics/icons/0-star.png" type="Texture2D" id=8]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=9]
-[ext_resource path="res://graphics/icons/menu_star.png" type="Texture2D" id=10]
-[ext_resource path="res://fonts/orbitron-bold.otf" type="FontFile" id=11]
+[ext_resource type="Script" path="res://menus/workshop_browser/WorkshopItemThumbnail.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://d2jm1b1wu37iv" path="res://fonts/NotoSansJP-Black.otf" id="2"]
+[ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="3"]
+[ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="4"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="5"]
+[ext_resource type="Texture2D" uid="uid://cakqpc84jlapb" path="res://graphics/icons/check-circle.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://6phu22pv2pdj" path="res://graphics/icons/5-star.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://7g6fr4u55qd8" path="res://graphics/icons/0-star.png" id="8"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="9"]
+[ext_resource type="Texture2D" uid="uid://cqsegv1wyr5o7" path="res://graphics/icons/menu_star.png" id="10"]
+[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="11"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 7.0
-content_margin_right = 7.0
 content_margin_top = 7.0
+content_margin_right = 7.0
 content_margin_bottom = 7.0
-bg_color = Color( 0.19, 0.07, 0.3, 0.75 )
-border_color = Color( 1, 1, 1, 0.501961 )
+bg_color = Color(0.19, 0.07, 0.3, 0.75)
+border_color = Color(1, 1, 1, 0.501961)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id="3"]
 code = "shader_type canvas_item;
 
 uniform float radius = 10.0;
@@ -46,234 +46,234 @@ void fragment() {
 	COLOR.a -= 1.0 - smoothstep(1.0, 0.8, UV.x);
 }"
 
-[sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
-shader_param/radius = 2.0
+[sub_resource type="ShaderMaterial" id="4"]
+shader = SubResource("3")
+shader_parameter/radius = 2.0
 
-[sub_resource type="FontFile" id=2]
-size = 35
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 3 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=7]
-size = 25
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 3 )
-fallback/0 = ExtResource( 2 )
+[sub_resource type="FontFile" id="7"]
+fallbacks = Array[Font]([ExtResource("3"), ExtResource("2")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=6]
-size = 30
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 4 )
-fallback/0 = ExtResource( 9 )
+[sub_resource type="FontFile" id="6"]
+fallbacks = Array[Font]([ExtResource("4"), ExtResource("9")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=5]
-size = 35
-use_mipmaps = true
-use_filter = true
-spacing_top = 5
-font_data = ExtResource( 11 )
-fallback/0 = ExtResource( 9 )
+[sub_resource type="FontFile" id="5"]
+fallbacks = Array[Font]([ExtResource("11"), ExtResource("9")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Control" type="Button"]
 use_parent_material = true
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -980.0
-custom_minimum_size = Vector2( 0, 100 )
-focus_mode = 0
 size_flags_horizontal = 3
-theme_override_styles/hover = SubResource( 1 )
-theme_override_styles/normal = ExtResource( 5 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+focus_mode = 0
+theme_override_styles/normal = ExtResource("5")
+theme_override_styles/hover = SubResource("1")
+script = ExtResource("1")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color( 1, 1, 1, 0.25 )
-material = SubResource( 4 )
+self_modulate = Color(1, 1, 1, 0.25)
+material = SubResource("4")
+layout_mode = 0
 anchor_left = 0.15
 anchor_right = 0.85
 anchor_bottom = 1.0
-expand = true
+expand_mode = 1
 stretch_mode = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 use_parent_material = true
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 1915.0
-offset_bottom = 95.0
+layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_right = 100.0
-offset_bottom = 90.0
-custom_minimum_size = Vector2( 100, 0 )
-mouse_filter = 2
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_vertical = 3
-expand = true
+mouse_filter = 2
+expand_mode = 1
 stretch_mode = 6
 
 [node name="Panel" type="ColorRect" parent="MarginContainer/HBoxContainer/TextureRect"]
 use_parent_material = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -40.0
 offset_top = -40.0
-custom_minimum_size = Vector2( 40, 40 )
-color = Color( 0, 0, 0, 0.75 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 0.75)
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/TextureRect/Panel"]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 6 )
-expand = true
+texture = ExtResource("6")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_left = 104.0
-offset_right = 1698.0
-offset_bottom = 90.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 use_parent_material = true
-offset_right = 1594.0
-offset_bottom = 73.0
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = -5
 
 [node name="Label" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 use_parent_material = true
-offset_right = 1594.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label"]
 use_parent_material = true
-offset_right = 38.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-theme_override_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "ds"
 
 [node name="RomanizedTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label"]
 use_parent_material = true
-offset_left = 42.0
-offset_right = 1594.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-theme_override_colors/font_color = Color( 1, 1, 1, 1 )
-theme_override_fonts/font = SubResource( 7 )
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("7")
 text = "asdadsadsadada"
 vertical_alignment = 2
 clip_text = true
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 use_parent_material = true
-offset_top = 37.0
-offset_right = 1594.0
-offset_bottom = 73.0
+layout_mode = 2
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.15
-theme_override_fonts/font = SubResource( 6 )
-autowrap = true
+theme_override_fonts/font = SubResource("6")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_left = 1702.0
-offset_right = 1910.0
-offset_bottom = 90.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.13
 
 [node name="Panel3" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 use_parent_material = true
-offset_right = 208.0
-offset_bottom = 40.0
-custom_minimum_size = Vector2( 0, 40 )
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2/Panel3"]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer"]
 use_parent_material = true
-offset_right = 40.0
-offset_bottom = 41.0
-custom_minimum_size = Vector2( 40, 0 )
-texture = ExtResource( 10 )
-expand = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+texture = ExtResource("10")
+expand_mode = 1
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer"]
 use_parent_material = true
-offset_left = 44.0
-offset_right = 196.0
-offset_bottom = 41.0
-theme_override_fonts/font = SubResource( 5 )
+layout_mode = 2
+theme_override_fonts/font = SubResource("5")
 text = "x10-x10"
 horizontal_alignment = 2
 
 [node name="Panel2" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 use_parent_material = true
-offset_top = 44.0
-offset_right = 208.0
-offset_bottom = 84.0
-custom_minimum_size = Vector2( 0, 40 )
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+color = Color(0, 0, 0, 0)
 
 [node name="TextureRect" type="TextureProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer2/Panel2"]
 use_parent_material = true
+layout_mode = 0
 anchor_left = 0.043
 anchor_top = 0.5
 anchor_right = 1.0
@@ -283,10 +283,5 @@ offset_bottom = 11.5
 max_value = 1.0
 step = 0.0
 value = 0.5
-texture_under = ExtResource( 8 )
-texture_progress = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[connection signal="minimum_size_changed" from="MarginContainer/HBoxContainer/VBoxContainer2/Panel3/HBoxContainer" to="." method="_on_HBoxContainer_minimum_size_changed"]
+texture_under = ExtResource("8")
+texture_progress = ExtResource("7")

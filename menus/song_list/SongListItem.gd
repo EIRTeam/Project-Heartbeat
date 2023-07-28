@@ -11,7 +11,6 @@ var prev_focus
 @onready var stars_label = get_node("Control/TextureRect/StarsLabel")
 @onready var song_title = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2")
 @onready var stars_texture_rect = get_node("Control/TextureRect")
-var task: SongAssetLoadAsyncTask
 
 @onready var arcade_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect")
 @onready var console_texture_rect = get_node("Control/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/TextureRect2")
@@ -84,17 +83,16 @@ func _show_note_usage():
 		console_texture_rect.texture = ResourcePackLoader.get_graphic("heart_note.png")
 		console_texture_rect.show()
 	note_usage_shown = true
-func _on_note_usage_loaded(assets):
-	_show_note_usage()
+func _on_note_usage_loaded(token: SongAssetLoader.AssetLoadToken):
+	if token.song == song:
+		_show_note_usage()
 
 func _become_visible():
 	if note_usage_shown:
 		return
-	if not task:
-		if song.is_chart_note_usage_known_all():
-			_show_note_usage()
-		else:
-			task = SongAssetLoadAsyncTask.new(["note_usage"], song)
-			task.connect("assets_loaded", Callable(self, "_on_note_usage_loaded"))
-			AsyncTaskQueueLight.queue_task(task)
+	if song.is_chart_note_usage_known_all():
+		_show_note_usage()
+	else:
+		var task := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.NOTE_USAGE])
+		task.assets_loaded.connect(_on_note_usage_loaded)
 		

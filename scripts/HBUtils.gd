@@ -183,9 +183,8 @@ static func verify_ogg(path: String):
 	return error
 
 # finds a key by its value
-static func find_key(dictionary, value):
-	var index = dictionary.values().find(value)
-	return dictionary.keys()[index]
+static func find_key(dictionary: Dictionary, value: Variant) -> Variant:
+	return dictionary.find_key(value)
 
 # New note curve calculation function, it's fast
 static func calculate_note_sine(time: float, pos: Vector2, angle: float, frequency: float, amplitude: float, distance: float):
@@ -288,17 +287,18 @@ static func get_experience_to_next_level(level: int) -> int:
 	return 500 + (500 * level)
 
 static func array2texture(body: PackedByteArray) -> Texture2D:
-	var tex = ImageTexture.new()
 	var img = Image.new()
-	if body.slice(0, 2) == PackedByteArray([0xFF, 0xD8, 0xFF]):
-		img.load_jpg_from_buffer(body)
-	elif body.slice(0, 3) == PackedByteArray([0x89, 0x50, 0x4E, 0x47]):
-		img.load_png_from_buffer(body)
-	elif body.slice(0, 3) == PackedByteArray([0x52, 0x49, 0x46, 0x46]):
-		img.load_webp_from_buffer(body)
-
-	tex.create_from_image(img) #,0
-	return tex
+	var err := OK
+	if body.slice(0, 3) == PackedByteArray([0xFF, 0xD8, 0xFF]):
+		err = img.load_jpg_from_buffer(body)
+	elif body.slice(0, 4) == PackedByteArray([0x89, 0x50, 0x4E, 0x47]):
+		err = img.load_png_from_buffer(body)
+	elif body.slice(0, 4) == PackedByteArray([0x52, 0x49, 0x46, 0x46]):
+		err = img.load_webp_from_buffer(body)
+	if err != OK:
+		return ImageTexture.new()
+	var texture = ImageTexture.create_from_image(img)
+	return texture
 
 static func pack_images_turbo16(images: Dictionary, margin=1, strip_transparent=true):
 	var time_start = Time.get_ticks_usec()

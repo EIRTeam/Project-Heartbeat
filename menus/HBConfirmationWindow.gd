@@ -8,22 +8,22 @@ signal cancel
 @export var text: String  = "Are you sure you want to do this?": set = set_text
 @export var accept_text: String  = "Yes": set = set_accept_text
 @export var cancel_text: String  = "No": set = set_cancel_text
-@onready var cancel_button = get_node("Panel/HBoxContainer/CancelButton")
+@onready var cancel_button = get_node("%CancelButton")
 func _ready():
 	exclusive = true
 	_connect_button_signals()
 	connect("cancel", Callable(self, "hide"))
 	connect("accept", Callable(self, "hide"))
 	if not has_cancel:
-		$Panel/HBoxContainer/CancelButton.hide()
+		%CancelButton.hide()
 	if not has_accept:
-		$Panel/HBoxContainer/AcceptButton.hide()
+		%AcceptButton.hide()
 	if not Engine.is_editor_hint():
 		cancel_button.set_meta("sfx", HBGame.menu_back_sfx)
 		
 func _connect_button_signals():
-	$Panel/HBoxContainer/AcceptButton.connect("pressed", Callable(self, "_on_accept_pressed"))
-	$Panel/HBoxContainer/CancelButton.connect("pressed", Callable(self, "_on_cancel_pressed"))
+	%AcceptButton.connect("pressed", Callable(self, "_on_accept_pressed"))
+	%CancelButton.connect("pressed", Callable(self, "_on_cancel_pressed"))
 
 func _on_accept_pressed():
 	emit_signal("accept")
@@ -36,10 +36,10 @@ func set_text(value):
 	$Panel/MarginContainer/VBoxContainer/Label.text = value
 func set_accept_text(value):
 	accept_text = value
-	$Panel/HBoxContainer/AcceptButton.text = value
+	%AcceptButton.text = value
 func set_cancel_text(value):
 	cancel_text = value
-	$Panel/HBoxContainer/CancelButton.text = value
+	%CancelButton.text = value
 
 
 func _on_Control_about_to_show():

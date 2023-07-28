@@ -1,56 +1,49 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://1i2h228g0br"]
 
-[ext_resource path="res://menus/SongTitleScrolling.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/pregame_screen/PreGameScreen.gd" type="Script" id=4]
-[ext_resource path="res://menus/ModifierSelector.tscn" type="PackedScene" id=6]
-[ext_resource path="res://menus/options_menu/OptionSection.tscn" type="PackedScene" id=7]
-[ext_resource path="res://menus/PerSongSettingsEditor.tscn" type="PackedScene" id=10]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=12]
-[ext_resource path="res://menus/tabbed_container/TabbedContainer.tscn" type="PackedScene" id=13]
+[ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="3"]
+[ext_resource type="Script" path="res://menus/pregame_screen/PreGameScreen.gd" id="4"]
+[ext_resource type="PackedScene" path="res://menus/ModifierSelector.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://cloehp50oox4y" path="res://menus/options_menu/OptionSection.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://mk4i5mpqt4hy" path="res://menus/PerSongSettingsEditor.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://menus/tabbed_container/TabbedContainer.tscn" id="13"]
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_top = 30
 theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 30.0
-offset_top = 30.0
-offset_right = 1890.0
-offset_bottom = 1050.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
-[node name="SongTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
-offset_right = 1860.0
-custom_minimum_size = Vector2( 0, 50 )
+[node name="SongTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("3")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 size_flags_vertical = 1
 
-[node name="TabbedContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource( 13 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 54.0
-offset_right = 1860.0
-offset_bottom = 1020.0
+[node name="TabbedContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("13")]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ModifierLoader" parent="." instance=ExtResource( 6 )]
+[node name="ModifierLoader" parent="." instance=ExtResource("6")]
 visible = false
+anchors_preset = 0
 
-[node name="ModifierSettingsOptionSection" parent="." instance=ExtResource( 7 )]
+[node name="ModifierSettingsOptionSection" parent="." instance=ExtResource("7")]
 visible = false
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -60,22 +53,24 @@ offset_top = -285.0
 offset_right = 506.5
 offset_bottom = 285.0
 
-[node name="PerSongSettingsEditor" parent="." instance=ExtResource( 10 )]
+[node name="PerSongSettingsEditor" parent="." instance=ExtResource("10")]
+anchors_preset = 0
 focus_mode = 2
 
 [node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0"]
+layout_mode = 1
 offset_left = 1.49829
 offset_top = -1.49835
 offset_right = 1.49829
 offset_bottom = -1.49835
 
-[node name="VideoURLChangePopup" parent="." instance=ExtResource( 12 )]
+[node name="VideoURLChangePopup" parent="." instance=ExtResource("12")]
+visible = false
 text = "Are you sure you want to change this song's video URL? this requires you use the mouse."
 
-[node name="DeleteSongMediaPopup" parent="." instance=ExtResource( 12 )]
+[node name="DeleteSongMediaPopup" parent="." instance=ExtResource("12")]
 unique_name_in_owner = true
-offset_left = -275.0
-offset_right = 275.0
+visible = false
 text = "Are you sure you want to delete this song's media?"
 
 [connection signal="accept" from="DeleteSongMediaPopup" to="." method="_on_DeleteSongMediaPopup_accept"]

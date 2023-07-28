@@ -52,9 +52,10 @@ func _ready():
 	difficulty_label.text = "[EXTREME]"
 	difficulty_label.uppercase = true
 	modifiers_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	modifiers_label.clip_text = true
-	difficulty_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
-	modifiers_label.vertical_alignment =VERTICAL_ALIGNMENT_BOTTOM
+	modifiers_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	difficulty_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	difficulty_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	modifiers_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	
 	add_child(hbox_container)
 	hbox_container.add_child(difficulty_label)

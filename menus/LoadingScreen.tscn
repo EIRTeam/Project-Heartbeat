@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" path="res://fonts/new_fonts/roboto_regular_25.tres" id="5"]
 [ext_resource type="FontFile" uid="uid://dfpyn56qxyrpb" path="res://fonts/Default_Font.tres" id="6"]
 [ext_resource type="Texture2D" uid="uid://vhdytfcvo7jj" path="res://graphics/Warning sign.svg" id="7"]
-[ext_resource type="PackedScene" path="res://menus/PreGameChartFeaturesDisplay.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://c02nw4pxhmcab" path="res://menus/PreGameChartFeaturesDisplay.tscn" id="8"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.0745098, 0.0392157, 0.14902, 0.501961)
@@ -43,7 +43,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 expand_mode = 1
-stretch_mode = 7
+stretch_mode = 6
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
@@ -192,8 +192,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FeaturesDisplay" parent="LoadingScreenElements" instance=ExtResource("8")]
-visible = false
-anchors_preset = 0
+layout_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="LoadingScreenElements"]
 layout_mode = 0

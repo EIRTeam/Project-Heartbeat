@@ -1,14 +1,8 @@
 extends Node
 
 const CACHE_PATH = "user://cache.json"
-var timer = Timer.new()
+var timer: SceneTreeTimer
 const LOG_NAME = "SongDataCache"
-func _ready():
-	timer.wait_time = 0.5
-	timer.connect("timeout", Callable(self, "_on_save_cache_timed_out"))
-	timer.one_shot = true
-	add_child(timer)
-
 const CURRENT_CACHE_VERSION = 1
 
 var song_cache_mutex = Mutex.new()
@@ -93,7 +87,10 @@ func _on_save_cache_timed_out():
 	
 	
 func save_cache():
-	timer.start(0)
+	if timer:
+		timer = null
+	timer = get_tree().create_timer(0.5)
+	timer.timeout.connect(_on_save_cache_timed_out)
 
 func get_cache_for_song(song):
 	if not song.id in song_meta_cache:

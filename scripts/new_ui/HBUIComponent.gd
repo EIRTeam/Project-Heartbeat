@@ -52,7 +52,7 @@ func get_texture_name(texture: Texture2D) -> String:
 
 func get_hb_inspector_whitelist() -> Array:
 	return [
-		"margin_left", "margin_right", "margin_top", "margin_bottom",
+		"offset_left", "offset_right", "offset_top", "offset_bottom",
 		"anchor_left", "anchor_right", "anchor_top", "anchor_bottom",
 		"modulate"
 	]
@@ -110,9 +110,9 @@ func serialize_font(font: HBUIFont, resource_storage: HBInspectorResourceStorage
 		"fallback_hint": font.fallback_hint,
 		"outline_size": font.outline_size,
 		"outline_color": font.outline_color.to_html(),
-		"spacing_top": font.spacing_top,
-		"spacing_bottom": font.spacing_bottom,
-		"extra_spacing_char": font.extra_spacing_char
+		"extra_spacing_top": font.spacing_top,
+		"extra_spacing_bottom": font.spacing_bottom,
+		"extra_spacing_char": font.spacing_glyph
 	}
 	
 	return out
@@ -196,7 +196,7 @@ func deserialize_font(data: Dictionary, font: HBUIFont, cache: HBSkinResourcesCa
 		font.fallback_hint = data.get("fallback_hint", font.fallback_hint)
 		font.outline_size = data.get("outline_size", font.outline_size)
 		font.outline_color = get_color_from_dict(data, "outline_color", font.outline_color)
-		font.spacing_top = data.get("spacing_top", font.spacing_top)
-		font.spacing_bottom = data.get("spacing_bottom", font.spacing_bottom)
+		#font.spacing_top = data.get("extra_spacing_top", font.spacing_top)
+		font.spacing_bottom = -data.get("extra_spacing_top", font.spacing_bottom)
 		font.spacing_glyph = data.get("extra_spacing_char", font.spacing_glyph)
 	

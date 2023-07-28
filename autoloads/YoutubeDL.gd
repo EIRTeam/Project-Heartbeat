@@ -589,8 +589,6 @@ func get_video_id(url: String):
 	var result = regex.search(url)
 	if result:
 		return result.get_string(2)
-	else:
-		breakpoint
 func validate_video_url(url):
 	return get_video_id(url) != null
 

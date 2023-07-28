@@ -38,7 +38,7 @@ var current_game_info: HBGameInfo
 signal fade_out_finished(game_info)
 signal user_quit()
 
-var current_assets = {}
+var current_assets: SongAssetLoader.AssetLoadToken
 var playing_game_over_animation := false
 
 var skin_override: HBUISkin
@@ -104,7 +104,7 @@ func start_fade_in():
 	HBGame.song_stats.save_song_stats()
 	game.game_input_manager.set_process_input(false)
 
-func start_session(game_info: HBGameInfo, assets=null):
+func start_session(game_info: HBGameInfo, assets: SongAssetLoader.AssetLoadToken = null):
 	current_assets = assets
 	game.set_process(true)
 	if not SongLoader.songs.has(game_info.song_id):
@@ -151,17 +151,19 @@ const SONGS_WITH_IMAGE = [
 	"connected"
 ]
 	
-func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets=null):
+func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_off=false, assets: SongAssetLoader.AssetLoadToken = null):
 	var bg_path = song.get_song_background_image_res_path()
 	if assets:
-		if "background" in assets:
-			background_texture.texture = assets.background
+		var background := assets.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND) as Texture2D
+		if background:
+			background_texture.texture = background
 			background_texture.material = null
-			if assets.background is DIVASpriteSet.DIVASprite:
-				background_texture.material = assets.background.get_material()
+			if background is DIVASpriteSet.DIVASprite:
+				background_texture.material = background.get_material()
 	else:
+		print("No assets, whoops")
 		var image = HBUtils.image_from_fs(bg_path)
-		var image_texture = ImageTexture.create_from_image(image) #,HBGame.platform_settings.texture_mode
+		var image_texture = ImageTexture.create_from_image(image)
 		background_texture.texture = image_texture
 	game.disable_intro_skip = disable_intro_skip
 	game.set_song(song, difficulty, assets, modifiers)

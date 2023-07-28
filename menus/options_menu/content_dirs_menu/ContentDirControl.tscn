@@ -1,75 +1,71 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://goudcfvpe5jy"]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
-[ext_resource path="res://fonts/Default_Font_smoler.tres" type="FontFile" id=2]
-[ext_resource path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" type="Script" id=3]
-[ext_resource path="res://fonts/orbitron-light.otf" type="FontFile" id=4]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
+[ext_resource type="FontFile" path="res://fonts/Default_Font_smoler.tres" id="2"]
+[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/ContentDirControl.gd" id="3"]
+[ext_resource type="FontFile" uid="uid://c6jirt3dd0dye" path="res://fonts/orbitron-light.otf" id="4"]
 
-[sub_resource type="FontFile" id=1]
-size = 25
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 4 )
-fallback/0 = ExtResource( 1 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("4"), ExtResource("1")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="Control" type="Panel"]
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 64.0
-custom_minimum_size = Vector2( 0, 64 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
 theme_override_constants/separation = 52
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label2" type="Label" parent="HBoxContainer"]
-offset_right = 241.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "Content directory"
 vertical_alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-offset_left = 293.0
-offset_right = 1708.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "Content "
 horizontal_alignment = 2
 vertical_alignment = 1
-autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-offset_left = 1760.0
-offset_right = 1880.0
-offset_bottom = 64.0
+layout_mode = 2
 alignment = 2
 
 [node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer"]
-offset_right = 120.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 120, 64 )
+custom_minimum_size = Vector2(120, 64)
+layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "Change"
 horizontal_alignment = 1
 vertical_alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}

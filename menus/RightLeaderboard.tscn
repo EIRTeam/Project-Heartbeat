@@ -1,9 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://cnhab15rxvshl"]
 
-[ext_resource path="res://menus/leaderboard_control/LeaderboardControl.tscn" type="PackedScene" id=1]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
+[ext_resource type="PackedScene" path="res://menus/leaderboard_control/LeaderboardControl.tscn" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends HBMenu
 
 func get_leadearboard_control():
@@ -26,40 +26,28 @@ func _on_menu_exit(force_hard_transition = false):
 "
 
 [node name="Control" type="MarginContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
-script = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = SubResource("1")
 
 [node name="Panel" type="Panel" parent="."]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 1915.0
-offset_bottom = 1075.0
-theme_override_styles/panel = ExtResource( 2 )
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Leaderboard" parent="Panel/MarginContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 1905.0
-offset_bottom = 1065.0
+[node name="Leaderboard" parent="Panel/MarginContainer" instance=ExtResource("1")]
 clip_contents = true
+layout_mode = 2

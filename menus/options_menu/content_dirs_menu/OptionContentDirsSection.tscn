@@ -1,78 +1,61 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://mgckvs6bfy7m"]
 
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=1]
-[ext_resource path="res://styles/PanelStyleTransparent.tres" type="StyleBox" id=2]
-[ext_resource path="res://menus/HBConfirmationWindow.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menus/UniversalScrollList.gd" type="Script" id=4]
-[ext_resource path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" type="Script" id=5]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="3"]
+[ext_resource type="Script" path="res://menus/UniversalScrollList.gd" id="4"]
+[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/OptionContentDirsSection.gd" id="5"]
 
 [node name="OptionContentDirsSection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 2
-theme = ExtResource( 1 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("1")
+script = ExtResource("5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel2" type="Panel" parent="VBoxContainer"]
-offset_right = 1920.0
-offset_bottom = 1080.0
 clip_contents = true
+layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = ExtResource( 2 )
+theme_override_styles/panel = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2"]
+clip_contents = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
 offset_bottom = 1.0
-clip_contents = true
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_top = 15
 theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel2/MarginContainer"]
-offset_left = 30.0
-offset_top = 15.0
-offset_right = 1900.0
-offset_bottom = 1050.0
+layout_mode = 2
 focus_mode = 2
-script = ExtResource( 4 )
+script = ExtResource("4")
 container_path = NodePath("VBoxContainer")
 horizontal_step = 0
 enable_wrap_around = true
 scroll_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2/MarginContainer/ScrollContainer"]
-offset_right = 1870.0
-offset_bottom = 1035.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Popup" type="Popup" parent="."]
-offset_left = 444.0
-offset_top = 242.0
-offset_right = 933.0
-offset_bottom = 483.0
-theme_override_styles/panel = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="Popup"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Press the Key/Button/Axis to bind"
@@ -80,52 +63,40 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ReloadingContentPopup" type="Popup" parent="."]
-visible = true
-offset_left = 444.0
-offset_top = 242.0
-offset_right = 933.0
-offset_bottom = 483.0
-focus_mode = 2
-theme_override_styles/panel = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+size = Vector2i(328, 100)
 
 [node name="Label" type="Label" parent="ReloadingContentPopup"]
+visible = false
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Reloading content..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
-offset_top = -119.36
-offset_bottom = 116.64
+[node name="SetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
+visible = false
 text = "Selecting a new content directory requires using the mouse, would you like to continue?"
 
-[node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource( 3 )]
-offset_top = -119.36
-offset_bottom = 116.64
+[node name="ResetContentDirectoryConfirmationWindow" parent="." instance=ExtResource("3")]
+visible = false
 text = "Are you sure you want to reset the content directory to the default?"
 
-[node name="ContentReloadSuccessPopup" parent="." instance=ExtResource( 3 )]
-offset_top = -119.36
-offset_bottom = 116.64
+[node name="ContentReloadSuccessPopup" parent="." instance=ExtResource("3")]
+visible = false
 has_cancel = false
 text = "Songs reloaded succesfully"
 accept_text = "Alright"
 
-[node name="CacheClearSucccessPopup" parent="." instance=ExtResource( 3 )]
-offset_top = -119.36
-offset_bottom = 116.64
+[node name="CacheClearSucccessPopup" parent="." instance=ExtResource("3")]
+visible = false
 has_cancel = false
 text = "Cache cleared succesfully, please re-run the game."
 accept_text = "Alright"
 
-[node name="SongMediaClearSuccessPopup" parent="." instance=ExtResource( 3 )]
+[node name="SongMediaClearSuccessPopup" parent="." instance=ExtResource("3")]
 unique_name_in_owner = true
-offset_top = -119.36
-offset_bottom = 116.64
+visible = false
 has_cancel = false
 text = "Unused song media cleaned successful!"
 accept_text = "Alright"

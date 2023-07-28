@@ -16,9 +16,6 @@ func _ready():
 	load_history()
 	HBBackend.connect("result_entered", Callable(self, "_on_leaderboard_score_uploaded"))
 	HBBackend.connect("score_enter_failed", Callable(self, "_on_score_enter_failed"))
-	if PlatformService.service_provider.implements_leaderboards:
-		var lb_provider = PlatformService.service_provider.leaderboard_provider
-		lb_provider.connect("score_uploaded", Callable(self, "_on_leaderboard_score_uploaded"))
 	
 func _on_score_enter_failed(reason):
 	emit_signal("score_upload_failed", reason)

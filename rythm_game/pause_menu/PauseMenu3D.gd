@@ -27,3 +27,7 @@ func restart():
 	emit_signal("restarted")
 func quit():
 	emit_signal("quitted")
+
+
+func _on_area_left_input_event(camera, event, position, normal, shape_idx):
+	print(event)

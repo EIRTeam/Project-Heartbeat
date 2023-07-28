@@ -13,6 +13,7 @@ var last_bg = 1
 var starting_song: HBSong
 var visualizer: Control
 var bar_visualizer: Control
+var current_bg_song: HBSong
 
 const BACKGROUND_TRANSITION_TIME = 0.25 # seconds
 
@@ -227,21 +228,25 @@ func _on_change_to_menu(menu_name: String, force_hard_transition=false, args = {
 		left_menu._on_menu_enter(force_hard_transition, args)
 
 var iflag = true # Flag that tells it to ignore the first background change
-func _on_song_started(song, assets):
-	HBGame.spectrum_snapshot.set_volume(player.current_song_player.target_volume)
-	if "audio" in assets:
-		if assets.audio:
-			music_player_control.set_song(song, assets.audio.get_length())
+func _on_background_loaded(token: SongAssetLoader.AssetLoadToken):
+	var background := token.get_asset(SongAssetLoader.ASSET_TYPES.BACKGROUND)
 	if (starting_menu in result_menus) or (not iflag):
-		if song.background_image and fullscreen_menu != MENUS["start_menu"].fullscreen and "background" in assets:
+		if background and fullscreen_menu != MENUS["start_menu"].fullscreen:
 			var mat: ShaderMaterial
-			if assets.background is DIVASpriteSet.DIVASprite:
-				mat = assets.background.get_material()
-			change_to_background(assets.background, false, mat)
+			if background is DIVASpriteSet.DIVASprite:
+				mat = background.get_material()
+			change_to_background(background, false, mat)
 		else:
 			change_to_background(null, true)
 	else:
 		iflag = false
+
+func _on_song_started():
+	current_bg_song = player.current_song_player.song
+	HBGame.spectrum_snapshot.set_volume(player.current_song_player.target_volume)
+	music_player_control.set_song(current_bg_song, player.get_current_song_length())
+	var token := SongAssetLoader.request_asset_load(current_bg_song, [SongAssetLoader.ASSET_TYPES.BACKGROUND])
+	token.assets_loaded.connect(_on_background_loaded)
 	
 func change_to_background(background: Texture2D, use_default = false, material = null):
 	if use_default:

@@ -83,7 +83,7 @@ var bpm_map := {}
 
 var sfx_pool := HBSoundEffectPool.new()
 
-var current_assets
+var current_assets: SongAssetLoader.AssetLoadToken
 
 var intro_skip_marker: HBIntroSkipMarker
 
@@ -152,7 +152,7 @@ func get_chart_from_song(song: HBSong, difficulty) -> HBChart:
 	return song.get_chart_for_difficulty(difficulty)
 
 # TODO: generalize this
-func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
+func set_song(song: HBSong, difficulty: String, assets: SongAssetLoader.AssetLoadToken = null, _modifiers = []):
 	modifiers = _modifiers
 	current_song = song
 	_volume_offset = 0.0
@@ -164,9 +164,18 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 	voice_audio_playback = null
 	if assets:
 		current_assets = assets
-		if "audio_loudness" in assets:
-			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
-		var sound_source := Shinobu.register_sound_from_memory("song", assets.audio_shinobu)
+		var loudness := assets.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS) as SongAssetLoader.AudioNormalizationInfo
+		if loudness:
+			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(loudness.loudness)
+		else:
+			var song_loudness := 0.0
+			if SongDataCache.is_song_audio_loudness_cached(song):
+				song_loudness = SongDataCache.audio_normalization_cache[song.id].loudness
+			elif song.has_audio_loudness:
+				song_loudness = song.audio_loudness
+			_volume_offset = HBAudioNormalizer.get_offset_from_loudness(song_loudness)
+		var audio_data := assets.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO) as SongAssetLoader.SongAudioData
+		var sound_source := audio_data.shinobu
 		audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group, song.uses_dsc_style_channels()))
 		var use_source_channel_count = song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4
 		
@@ -174,11 +183,11 @@ func set_song(song: HBSong, difficulty: String, assets = null, _modifiers = []):
 			audio_playback.queue_free()
 			audio_playback = ShinobuGodotSoundPlaybackOffset.new(sound_source.instantiate(HBGame.music_group))
 		add_child(audio_playback)
-		if "voice" in assets:
-			if assets.voice is AudioStream:
-				var voice_sound_source := Shinobu.register_sound_from_memory("song_voice", assets.voice_shinobu)
-				voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_sound_source.instantiate(HBGame.music_group, use_source_channel_count))
-				add_child(voice_audio_playback)
+		var voice_audio_data := assets.get_asset(SongAssetLoader.ASSET_TYPES.VOICE) as SongAssetLoader.SongAudioData
+		if voice_audio_data:
+			var voice_sound_source := voice_audio_data.shinobu
+			voice_audio_playback = ShinobuGodotSoundPlaybackOffset.new(voice_sound_source.instantiate(HBGame.music_group, use_source_channel_count))
+			add_child(voice_audio_playback)
 		if song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4:
 			if voice_audio_playback:
 				voice_remap = Shinobu.instantiate_channel_remap(voice_audio_playback.get_channel_count(), 2)

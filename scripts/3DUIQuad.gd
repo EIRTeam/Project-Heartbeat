@@ -14,8 +14,18 @@ var last_mouse_pos2D = null
 @export var node_viewport: SubViewport
 @export var node_quad: MeshInstance3D
 @export var node_area: Area3D
+var im := ImmediateMesh.new()
 
 func _ready():
+	var mi := MeshInstance3D.new()
+	add_child(mi)
+	mi.top_level = true
+	mi.global_position = Vector3()
+	mi.mesh = im
+	var mat := StandardMaterial3D.new()
+	mat.set_flag(BaseMaterial3D.FLAG_ALBEDO_FROM_VERTEX_COLOR, true)
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mi.material_override = mat
 	node_area.mouse_entered.connect(self._mouse_entered_area)
 
 	set_process(false)
@@ -51,13 +61,13 @@ func _unhandled_input(event):
 func handle_mouse(event):
 	# Get mesh size to detect edges and make conversions. This code only support PlaneMesh and QuadMesh.
 	quad_mesh_size = node_quad.mesh.size
-
+	
 	# Detect mouse being held to mantain event while outside of bounds. Avoid orphan clicks
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
 		is_mouse_held = event.pressed
 
 	# Find mouse position in Area3D
-	var mouse_pos3D = find_mouse(event.global_position)
+	var mouse_pos3D = find_mouse(event.position)
 
 	# Check if the mouse is outside of bounds, use last position to avoid errors
 	# NOTE: mouse_exited signal was unrealiable in this situation
@@ -109,15 +119,15 @@ func handle_mouse(event):
 	# Finally, send the processed input event to the viewport.
 	node_viewport.push_input(event)
 
-
-func find_mouse(global_position):
+func find_mouse(mouse_global_position):
 	var camera = get_viewport().get_camera_3d()
 	var dist = find_further_distance_to(camera.transform.origin)
 
 	# From camera center to the mouse position in the Area3D.
 	var parameters = PhysicsRayQueryParameters3D.new()
-	parameters.from = camera.project_ray_origin(global_position)
-	parameters.to = parameters.from + camera.project_ray_normal(global_position) * dist
+	parameters.from = camera.project_ray_origin(mouse_global_position)
+	parameters.to = parameters.from + camera.project_ray_normal(mouse_global_position) * dist
+
 
 	# Manually raycasts the area to find the mouse position.
 	parameters.collision_mask = node_area.collision_layer

@@ -36,8 +36,8 @@ var current_assets
 @onready var results_tab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
 @onready var chart_tab = preload("res://rythm_game/results_screen/ResultsScreenGraphTab.tscn").instantiate()
 
-func custom_sort_mp_entries(a: HBLeadearboardEntry, b: HBLeadearboardEntry):
-	return a.score > b.score
+func custom_sort_mp_entries(a: HBBackend.BackendLeaderboardEntry, b: HBBackend.BackendLeaderboardEntry):
+	return b.game_info.result.score > b.game_info.result.score
 func _on_menu_enter(force_hard_transition = false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
 	buttons.grab_focus()
@@ -54,9 +54,9 @@ func _on_menu_enter(force_hard_transition = false, args = {}):
 		var lb_entries = []
 		for member in mp_entries:
 			var entry = mp_entries[member] as HBResult
-			var lb_entry = HBLeadearboardEntry.new(member)
-			lb_entry.score = entry.get_capped_score()
-			lb_entry.percentage = entry.get_percentage()
+			var lb_entry = HBBackend.BackendLeaderboardEntry.new(member, 0, HBGameInfo.new())
+			lb_entry.game_info.result.score = entry.get_capped_score()
+			lb_entry = entry.get_percentage()
 			lb_entries.append(lb_entry)
 		lb_entries.sort_custom(Callable(self, "custom_sort_mp_entries"))
 		for entry_i in lb_entries.size():

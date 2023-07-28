@@ -11,6 +11,7 @@ var ppd_website_id = ""
 var uses_native_video = false
 
 func _init():
+	super._init()
 	serializable_fields += ["ppd_offset", "guid", "ppd_website_id", "uses_native_video"]
 	LOG_NAME = "HBPPDSong"
 # Returns a HBPPDSong meta from an ini file
@@ -18,6 +19,7 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 	var dict = HBINIParser.parse(content)
 	var song := load(script).new() as HBSong
 	song.title = id
+	print("ID!!!!", song.title)
 	song.artist = "[PPD]"
 	if dict.setting.has("authorname"):
 		song.creator = dict.setting.authorname
@@ -71,7 +73,6 @@ static func from_ini(content: String, id: String, ext_data=null, script="res://s
 			var property_name = setting.substr(EXTENDED_PROPERTY_PREFIX.length(), setting.length() - EXTENDED_PROPERTY_PREFIX.length())
 			if property_name in ALLOWED_EXTENDED_PROPERTIES:
 				song.set(property_name, dict.setting[setting])
-	
 	return song
 
 # If video is enabled for this type of song

@@ -19,7 +19,8 @@ var current_resource_pack: HBResourcePack
 const LOG_NAME = "WorkshopUploadForm"
 
 var uploading_new = false
-var uploading_id = null
+var uploading_ugc_item: HBSteamUGCItem = null
+var item_update: HBSteamUGCEditor = null
 
 enum MODE {
 	SONG,
@@ -38,12 +39,12 @@ const UGC_STATUS_TEXTS = {
 }
 
 var ERR_MAP = {
-	Steam.RESULT_OK: "",
-	Steam.RESULT_FAIL: "Generic failure",
-	Steam.RESULT_INVALID_PARAM: "Invalid parameter",
-	Steam.RESULT_ACCESS_DENIED: "The user doesn't own a license for the provided app ID.",
-	Steam.RESULT_FILE_NOT_FOUND: "The provided content folder is not valid.",
-	Steam.RESULT_LIMIT_EXCEEDED: "The preview image is too large, it must be less than 1 Megabyte; or there is not enough space available on your Steam Cloud."
+	SteamworksConstants.RESULT_OK: "",
+	SteamworksConstants.RESULT_FAIL: "Generic failure",
+	SteamworksConstants.RESULT_INVALID_PARAM: "Invalid parameter",
+	SteamworksConstants.RESULT_ACCESS_DENIED: "The user doesn't own a license for the provided app ID.",
+	SteamworksConstants.RESULT_FILE_NOT_FOUND: "The provided content folder is not valid.",
+	SteamworksConstants.RESULT_LIMIT_EXCEEDED: "The preview image is too large, it must be less than 1 Megabyte; or there is not enough space available on your Steam Cloud."
 }
 
 func _ready():
@@ -125,7 +126,7 @@ func do_metadata_size_check(dict: Dictionary) -> bool:
 func start_upload():
 	if PlatformService.service_provider.implements_ugc:
 		var ugc = PlatformService.service_provider.ugc_provider
-		if Steam.getAppOwner() != Steam.getSteamID():
+		if Steamworks.apps.get_app_owner() != Steamworks.user.get_local_user():
 			error_dialog.dialog_text = """
 			There was an error uploading your item:
 			Content can't be uploaded to the Steam workshop from a family shared copy of the game, this is a limitation imposed by Steam.
@@ -178,12 +179,12 @@ func _on_ugc_details_request_done(result, data):
 		file_not_found_dialog.popup_centered()
 		
 func _process(delta):
-	if uploading_id:
+	if item_update:
 		var ugc = PlatformService.service_provider.ugc_provider
-		var progress = ugc.get_update_progress(uploading_id)
-		upload_status_label.text = UGC_STATUS_TEXTS[progress.status]
-		if progress.total > 0:
-			upload_progress_bar.value = progress.processed/float(progress.total)
+		var progress := item_update.get_update_progress()
+		upload_status_label.text = UGC_STATUS_TEXTS[progress.update_status]
+		if progress.bytes_total > 0:
+			upload_progress_bar.value = progress.bytes_processed/float(progress.bytes_total)
 			
 func get_song_meta_dict() -> Dictionary:
 	var serialized = current_song.serialize()
@@ -193,39 +194,31 @@ func get_song_meta_dict() -> Dictionary:
 			out_dir[field] = serialized[field]
 	return out_dir
 	
-func upload_song(song: HBSong, ugc_id):
-	var handle: int = Steam.createQueryUGCDetailsRequest([ugc_id])
-	Steam.setAllowCachedResponse(handle, 0)
-	Steam.setReturnChildren(handle, true)
-	Steam.sendQueryUGCRequest(handle)
-	var new_handle := -1
-	if new_handle != Steam.UGC_UPDATE_HANDLE_INVALID:
-		while new_handle != handle:
-			var data: Array = await Steam.ugc_query_completed
-			new_handle = data[0]
+func upload_song(song: HBSong, ugc_id: int):
+	var query := HBSteamUGCQuery.create_query(SteamworksConstants.UGC_MATCHING_UGC_TYPE_ITEMS_READY_TO_USE)
+	query.allow_cached_response(0).with_children(true).with_file_ids([ugc_id]).request_page(ugc_id)
+	var query_result: HBSteamUGCQueryPageResult = await query.query_completed
 			
-		var result: Dictionary = Steam.getQueryUGCResult(handle, 0)
-		if result.result == Steam.RESULT_OK:
-			var dependencies: Dictionary = Steam.getQueryUGCChildren(handle, 0, result.num_children)
-			for child_i in range(result.num_children):
-				var child_ugc_id := dependencies.children[child_i] as int
-				Steam.removeDependency(ugc_id, child_ugc_id)
-	if song.skin_ugc_id != 0:
-		Steam.addDependency(ugc_id, song.skin_ugc_id)
+	if query_result.results.size() > 0:
+		var item := query_result.results[0]
+		for child_id in item.children:
+			item.remove_dependency(child_id)
+		if song.skin_ugc_id != 0:
+			item.add_dependency(song.skin_ugc_id)
 	var ugc = PlatformService.service_provider.ugc_provider
-	var update_id = ugc.start_item_update(ugc_id)
-	uploading_id = update_id
-	ugc.set_item_title(update_id, title_line_edit.text)
-	ugc.set_item_description(update_id, description_line_edit.text)
 	song.save_chart_info()
 	var out_dir = get_song_meta_dict()
-	ugc.set_item_metadata(update_id, JSON.stringify(out_dir))
-	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(current_song.path))
+	var update := HBSteamUGCItem.from_id(ugc_id).edit() \
+		.with_title(title_line_edit.text) \
+		.with_description(description_line_edit.text) \
+		.with_metadata(JSON.stringify(out_dir)) \
+		.with_content(ProjectSettings.globalize_path(current_song.path)) \
+		.with_preview_file(ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
+		
 	if uploading_new:
 		var video_id = YoutubeDL.get_video_id(song.youtube_url)
 		if video_id:
-			ugc.add_item_preview_video(update_id, video_id)
-	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(current_song.get_song_preview_res_path()))
+			update.with_preview_video_id(video_id)
 
 	var tags := ["Charts"]
 	for chart in song.charts:
@@ -237,40 +230,42 @@ func upload_song(song: HBSong, ugc_id):
 				if stars >= min_stars and stars <= max_stars:
 					if not diff_string in tags:
 						tags.push_back(diff_string)
-
-	Steam.setItemTags(update_id, tags)
+	update.with_tags(tags)
 	if uploading_new:
-		ugc.submit_item_update(update_id, "Initial upload")
+		update.with_changelog("Initial upload")
 	else:
-		ugc.submit_item_update(update_id, changelog_line_edit.text)
+		update.with_changelog(changelog_line_edit.text)
+	update.file_submitted.connect(_on_item_updated.bind(HBSteamUGCItem.from_id(ugc_id)))
 	upload_dialog.popup_centered()
 	
 func upload_resource_pack(resource_pack: HBResourcePack, ugc_id):
-	var ugc = PlatformService.service_provider.ugc_provider
-	var update_id = ugc.start_item_update(ugc_id)
-	uploading_id = update_id
-	ugc.set_item_title(update_id, title_line_edit.text)
-	ugc.set_item_description(update_id, description_line_edit.text)
-	ugc.set_item_metadata(update_id, JSON.stringify(resource_pack.serialize()))
-	ugc.set_item_content_path(update_id, ProjectSettings.globalize_path(resource_pack._path))
-	ugc.set_item_preview(update_id, ProjectSettings.globalize_path(resource_pack.get_pack_icon_path()))
+	item_update = null
+	var item := HBSteamUGCItem.from_id(ugc_id)
+	item_update = item.edit() \
+		.with_title(title_line_edit.text) \
+		.with_description(description_line_edit.text) \
+		.with_metadata(JSON.stringify(resource_pack.serialize())) \
+		.with_preview_file(ProjectSettings.globalize_path(resource_pack.get_pack_icon_path())) \
+		.with_content(ProjectSettings.globalize_path(resource_pack._path))
 
 	var tags := []
 
 	if resource_pack.is_skin():
-		Steam.setItemTags(update_id, ["Skins"])
+		item_update.with_tags(["Skins"])
 	else:
-		Steam.setItemTags(update_id, ["Note Packs"])
+		item_update.with_tags(["Note Packs"])
 	if uploading_new:
-		ugc.submit_item_update(update_id, "Initial upload")
+		item_update.with_changelog("Initial upload")
 	else:
-		ugc.submit_item_update(update_id, changelog_line_edit.text)
+		item_update.with_changelog(changelog_line_edit.text)
+	item_update.submit()
+	item_update.file_submitted.connect(_on_item_updated.bind(HBSteamUGCItem.from_id(ugc_id)))
 	upload_dialog.popup_centered()
 	
-func _on_item_updated(result, tos):
+func _on_item_updated(result: int, tos: bool, item: HBSteamUGCItem):
 	upload_dialog.hide()
-	uploading_id = null
-	if result == 1:
+	item_update = null
+	if result == SteamworksConstants.RESULT_OK:
 		var text = """Item uploaded succesfully, you wil now be redirected to your item's workshop page,
 		if this is the first time you upload this item you will need to set your song's visibility and if you've never uploaded
 		a workshop item before you will need to accept the workshop's terms of service.'"""
@@ -290,21 +285,21 @@ func _on_item_updated(result, tos):
 					current_song.ugc_id = 0
 					current_song.ugc_service_name = ""
 					current_song.save_song()
-					ugc.delete_item(current_song.ugc_id)
-					
-					
+					item.delete_item()
 				MODE.RESOURCE_PACK:
 					current_resource_pack.ugc_id = 0
 					current_resource_pack.ugc_service_name = ""
 					current_resource_pack.save_pack()
-					ugc.delete_item(current_resource_pack.ugc_id)
+					
+					item.delete_item()
 		error_dialog.popup_centered()
 	
 func _on_post_upload_accepted():
 	match mode:
 		MODE.SONG:
-			Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_song.ugc_id])
+			Steamworks.friends.game
+			Steamworks.friends.activate_game_overlay_to_web_page("steam://url/CommunityFilePage/%d" % [current_song.ugc_id], true)
 		MODE.RESOURCE_PACK:
-			Steam.activateGameOverlayToWebPage("steam://url/CommunityFilePage/%d" % [current_resource_pack.ugc_id])
+			Steamworks.friends.activate_game_overlay_to_web_page("steam://url/CommunityFilePage/%d" % [current_resource_pack.ugc_id], true)
 			
 	hide()

@@ -70,7 +70,7 @@ func inspect(to_inspect: Object):
 								sc.resource_storage = resource_storage
 					else:
 						match property.get("class_name", ""):
-							"FontFile":
+							"FontVariation":
 								sc = HBInspectorPropertyEditFont.new()
 								sc.resource_storage = resource_storage
 			if sc:
@@ -79,6 +79,7 @@ func inspect(to_inspect: Object):
 					property_inspectors[property.name].queue_free()
 				property_inspectors[property.name] = sc
 				sc.set_property_data(property)
+				print(current_object.get(property.name))
 				sc.set_value(current_object.get(property.name))
 				sc.connect("value_changed", Callable(self, "_on_user_value_changed").bind(property.name))
 

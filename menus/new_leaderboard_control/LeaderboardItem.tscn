@@ -1,112 +1,95 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://cjjhnnhow7e2e"]
 
-[ext_resource path="res://fonts/orbitron-black.otf" type="FontFile" id=1]
-[ext_resource path="res://menus/new_leaderboard_control/LeaderboardItem.gd" type="Script" id=2]
-[ext_resource path="res://styles/ResultRatingStyleOdd.tres" type="StyleBox" id=3]
+[ext_resource type="FontFile" uid="uid://bh3bd63towye5" path="res://fonts/orbitron-black.otf" id="1"]
+[ext_resource type="Script" path="res://menus/new_leaderboard_control/LeaderboardItem.gd" id="2"]
+[ext_resource type="StyleBox" path="res://styles/ResultRatingStyleOdd.tres" id="3"]
 
-[sub_resource type="FontFile" id=1]
-size = 35
-outline_size = 2
-outline_color = Color( 1, 1, 1, 0.2 )
-use_mipmaps = true
-use_filter = true
-spacing_top = 7
-font_data = ExtResource( 1 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("1")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="NewLeaderboardItem" type="Panel"]
 use_parent_material = true
+custom_minimum_size = Vector2(0, 80)
+anchors_preset = 10
 anchor_right = 1.0
 offset_right = 0.00012207
 offset_bottom = 80.0
-custom_minimum_size = Vector2( 0, 80 )
 mouse_filter = 2
-theme_override_styles/panel = ExtResource( 3 )
-script = ExtResource( 2 )
+theme_override_styles/panel = ExtResource("3")
+script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 use_parent_material = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 use_parent_material = true
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 1917.0
-offset_bottom = 75.0
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Rank" type="Label" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_top = 13.0
-offset_right = 80.0
-offset_bottom = 56.0
-custom_minimum_size = Vector2( 80, 0 )
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 size_flags_stretch_ratio = 0.08
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="UserAvatar" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_left = 90.0
-offset_right = 160.0
-offset_bottom = 70.0
-custom_minimum_size = Vector2( 70, 50 )
+custom_minimum_size = Vector2(70, 50)
+layout_mode = 2
 mouse_filter = 2
-expand = true
+expand_mode = 1
 stretch_mode = 6
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 use_parent_material = true
-offset_left = 170.0
-offset_right = 1912.0
-offset_bottom = 70.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="UserName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 use_parent_material = true
-offset_right = 700.0
-offset_bottom = 70.0
-custom_minimum_size = Vector2( 700, 0 )
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "Eirewe"
 vertical_alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PercentageLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 use_parent_material = true
-offset_left = 710.0
-offset_right = 1742.0
-offset_bottom = 70.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.1
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "1.100.000 (100%)"
 horizontal_alignment = 1
 vertical_alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}

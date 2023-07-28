@@ -61,15 +61,13 @@ func set_song(song: HBSong, variant=-1):
 	
 	godot_audio_stream = song.get_audio_stream(selected_variant)
 	
-	#if not SongDataCache.is_song_audio_loudness_cached(song):
-		#var norm = HBAudioNormalizer.new()
-		# TODO: GD4
-		#norm.set_target_ogg(godot_audio_stream)
-		#print("Loudness cache not found, normalizing...")
-		#while not norm.work_on_normalization():
-		#	pass
-		#var res = norm.get_normalization_result()
-		#SongDataCache.update_loudness_for_song(song, res)
+	if not SongDataCache.is_song_audio_loudness_cached(song):
+		var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.AUDIO, SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS])
+		await token.assets_loaded
+		
+		var loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+		print("Loudness cache2 not found, normalizing...")
+		SongDataCache.update_loudness_for_song(song, loudness.loudness)
 	audio_source = Shinobu.register_sound_from_memory("song", godot_audio_stream.get_meta("raw_file_data"))
 	if game.audio_playback:
 		game.audio_playback.queue_free()

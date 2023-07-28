@@ -1,7 +1,7 @@
 @tool
 extends Panel
 
-@export (HBJudge.JUDGE_RATINGS) var rating : set = set_rating
+@export var rating: HBJudge.JUDGE_RATINGS : set = set_rating
 var total_notes : set = set_total_notes
 var percentage : set = set_percentage
 

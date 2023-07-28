@@ -6,7 +6,14 @@ extends HBoxContainer
 var song: HBSong: set = set_song
 var difficulty : set = set_difficulty
 
-var queued_task_for_ready: SongAssetLoadAsyncTask
+func queue_asset_load():
+	var circle_logo_path = song.get_song_circle_logo_image_res_path()
+	if circle_logo_path:
+		var token := SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO])
+		token.assets_loaded.connect(_on_assets_loaded)
+	else:
+		circle_text_rect.texture = null
+		_on_resized()
 
 func set_song(value):
 	song = value
@@ -23,16 +30,8 @@ func set_song(value):
 	else:
 		_author_label.text = song.artist
 	var circle_logo_path = song.get_song_circle_logo_image_res_path()
-	if circle_logo_path:
-		var task = SongAssetLoadAsyncTask.new(["circle_logo"], song)
-		task.connect("assets_loaded", Callable(self, "_on_assets_loaded"))
-		if not is_node_ready():
-			queued_task_for_ready = task
-		else:
-			AsyncTaskQueue.queue_task(task)
-	else:
-		_circle_text_rect.texture = null
-		_on_resized()
+	if is_inside_tree():
+		queue_asset_load()
 func set_difficulty(value):
 	if not value:
 		difficulty_label.hide()
@@ -53,15 +52,16 @@ func _on_resized():
 
 func _ready():
 	connect("resized", Callable(self, "_on_resized"))
-	if queued_task_for_ready:
-		AsyncTaskQueue.queue_task(queued_task_for_ready)
 	_on_resized()
+	queue_asset_load()
 
-func _on_assets_loaded(assets):
+func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
 #	author_label.hide()
-	if "circle_logo" in assets:
+	var circle_logo: Texture2D = token.get_asset(SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO)
+	
+	if circle_logo:
 		circle_text_rect.show()
-		circle_text_rect.texture = assets.circle_logo
+		circle_text_rect.texture = circle_logo
 	else:
 		circle_text_rect.hide()
 		circle_text_rect.texture = null

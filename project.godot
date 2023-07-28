@@ -15,7 +15,7 @@ run/main_scene="res://base_scene.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat"
 config/project_settings_override="user://ph_override.cfg"
-config/features=PackedStringArray("4.1")
+config/features=PackedStringArray("4.2")
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
@@ -27,12 +27,13 @@ config/service_environment="production"
 
 [audio]
 
+driver/driver="Dummy"
 driver/output_latency=1
 single_threaded_mode=true
 
 [autoload]
 
-Steam="res://autoloads/platform_service/SteamPlaceholder.gd"
+Steam="*res://autoloads/platform_service/SteamPlaceholder.gd"
 Diagnostics="*res://autoloads/Diagnostics.tscn"
 Log="*res://autoloads/Log.gd"
 AsyncTaskQueue="*res://autoloads/async_task_queue/AsyncTaskQueue.gd"
@@ -51,6 +52,7 @@ DownloadProgress="*res://autoloads/DownloadProgressGUI.tscn"
 YoutubeDL="*res://autoloads/YoutubeDL.gd"
 HTTPRequestQueue="*res://autoloads/HTTPRequestQueue.gd"
 ResourcePackLoader="*res://autoloads/ResourcePackLoader.gd"
+SongAssetLoader="*res://autoloads/async_task_queue/SongAssetLoader.gd"
 
 [debug]
 
@@ -65,7 +67,6 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=false
@@ -1033,12 +1034,11 @@ limits/message_queue/max_size_kb=16384
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=2
 renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.01, 0.05, 0.1, 1)
 environment/defaults/default_environment="res://default_env.tres"
-quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
 batching/parameters/max_join_item_commands=64
 batching/parameters/item_reordering_lookahead=32
-quality/depth/hdr=false
-quality/2d/use_nvidia_rect_flicker_workaround=false
+quality/driver/fallback_to_gles2=true

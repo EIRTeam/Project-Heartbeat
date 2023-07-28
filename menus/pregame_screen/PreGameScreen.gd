@@ -68,13 +68,12 @@ func _ready():
 	pregame_start_tab.start_practice_button.connect("pressed", Callable(self, "_on_StartPractice_pressed"))
 	pregame_start_tab.back_button.connect("pressed", Callable(self, "_on_BackButton_pressed"))
 	pregame_start_tab.back_button.set_meta("sfx", HBGame.menu_back_sfx)
-var current_assets
-var current_song_assets
+
+var current_assets: SongAssetLoader.AssetLoadToken
 var variant_select: Control
 
-func set_current_assets(song, assets):
-	if song == current_song:
-		current_song_assets = song
+func set_current_assets(assets: SongAssetLoader.AssetLoadToken):
+	if assets.song == current_song:
 		current_assets = assets
 
 func _on_user_added_modifier(modifier_id: String):
@@ -170,17 +169,17 @@ func _on_StartButton_pressed():
 		stats.selected_variant = selected_variant
 		HBGame.song_stats.song_stats[current_song.id] = stats
 	game_info.variant = selected_variant
-	if current_song_assets == current_song:
-		var new_scene = preload("res://menus/LoadingScreen.tscn")
-		game_info.time = Time.get_unix_time_from_system()
-		var scene = new_scene.instantiate()
-		get_tree().current_scene.queue_free()
-		get_tree().root.add_child(scene)
-		get_tree().current_scene = scene
-		game_info.song_id = current_song.id
-		game_info.difficulty = current_difficulty
-		emit_signal("begin_loading")
-		scene.load_song(game_info, false, current_assets)
+	
+	var new_scene = preload("res://menus/LoadingScreen.tscn")
+	game_info.time = Time.get_unix_time_from_system()
+	var scene = new_scene.instantiate()
+	get_tree().current_scene.queue_free()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	game_info.song_id = current_song.id
+	game_info.difficulty = current_difficulty
+	emit_signal("begin_loading")
+	scene.load_song(game_info, false, current_assets)
 
 func add_modifier_control(modifier_id: String):
 	var modifier_class = ModifierLoader.get_modifier_by_id(modifier_id)
@@ -348,7 +347,7 @@ func _on_StartPractice_pressed():
 		stats.selected_variant = selected_variant
 		HBGame.song_stats.save_song_stats()
 	game_info.variant = selected_variant
-	if current_song_assets == current_song:
+	if current_assets.song == current_song:
 		var new_scene = preload("res://menus/LoadingScreen.tscn")
 		game_info.time = Time.get_unix_time_from_system()
 		var scene = new_scene.instantiate()

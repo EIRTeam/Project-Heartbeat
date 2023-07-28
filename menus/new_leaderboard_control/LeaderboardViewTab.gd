@@ -31,7 +31,6 @@ func reset():
 	total_pages = 1
 
 func _ready():
-	super._ready()
 	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("grabber", preload("res://styles/Grabber.tres"))
 	scroll_container.get_v_scroll_bar().add_theme_stylebox_override("scroll", StyleBoxEmpty.new())
 	scroll_container.get_v_scroll_bar().add_theme_icon_override("increment", ImageTexture.new())

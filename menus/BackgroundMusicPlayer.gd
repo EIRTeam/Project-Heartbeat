@@ -3,7 +3,7 @@ extends Node
 class_name HBBackgroundMusicPlayer
 
 signal stream_time_changed
-signal song_started(song, assets)
+signal song_started(song)
 
 var song_idx = 0
 
@@ -15,7 +15,6 @@ class SongPlayer:
 	var audio_playback: ShinobuSoundPlayer
 	var voice_audio_playback: ShinobuSoundPlayer
 	
-	var current_load_task: SongAssetLoadAsyncTask
 	var song: HBSong
 	
 	signal song_assets_loaded(assets)
@@ -32,14 +31,16 @@ class SongPlayer:
 	func load_song_assets():
 		if not song.has_audio() or not song.is_cached():
 			return ERR_FILE_NOT_FOUND
-		if current_load_task:
-			AsyncTaskQueue.abort_task(current_load_task)
-		var assets_to_load = ["audio", "voice", "preview", "background"]
+		var assets_to_load: Array[SongAssetLoader.ASSET_TYPES] = [
+			SongAssetLoader.ASSET_TYPES.AUDIO,
+			SongAssetLoader.ASSET_TYPES.VOICE,
+			SongAssetLoader.ASSET_TYPES.PREVIEW,
+			SongAssetLoader.ASSET_TYPES.BACKGROUND
+		]
 		if not song.has_audio_loudness and not SongDataCache.is_song_audio_loudness_cached(song):
-			assets_to_load.append("audio_loudness")
-		current_load_task = SongAssetLoadAsyncTask.new(assets_to_load, song)
-		current_load_task.connect("assets_loaded", Callable(self, "_on_song_assets_loaded"))
-		AsyncTaskQueue.queue_task(current_load_task)
+			assets_to_load.append(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+		var token := SongAssetLoader.request_asset_load(song, assets_to_load)
+		token.assets_loaded.connect(_on_song_assets_loaded)
 		
 		emit_signal("stream_time_changed", song.preview_start / 1000.0)
 		
@@ -85,12 +86,15 @@ class SongPlayer:
 	func get_song_voice_audio_name():
 		return "voice_%s_%d" % [str(song.id), song_idx]
 		
-	func _on_song_assets_loaded(assets):
-		if "audio" in assets:
-			if "audio_loudness" in assets:
-				target_volume = HBAudioNormalizer.get_offset_from_loudness(assets.audio_loudness)
+	func _on_song_assets_loaded(token: SongAssetLoader.AssetLoadToken):
+		var audio: SongAssetLoader.SongAudioData = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO)
+		var voice: SongAssetLoader.SongAudioData = token.get_asset(SongAssetLoader.ASSET_TYPES.VOICE)
+		var audio_loudness: SongAssetLoader.AudioNormalizationInfo = token.get_asset(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+		if audio and audio.shinobu:
+			if audio_loudness:
+				target_volume = HBAudioNormalizer.get_offset_from_loudness(audio_loudness.loudness)
 			var song_audio_name = get_song_audio_name()
-			var sound_source := Shinobu.register_sound_from_memory(song_audio_name, assets.audio_shinobu)
+			var sound_source := audio.shinobu
 			audio_playback = sound_source.instantiate(HBGame.menu_music_group, song.uses_dsc_style_channels())
 			var use_source_channel_count := song.uses_dsc_style_channels() and audio_playback.get_channel_count() >= 4
 			if song.uses_dsc_style_channels() and not use_source_channel_count:
@@ -105,9 +109,9 @@ class SongPlayer:
 			
 			#audio_playback.connect_sound_to_effect(HBGame.spectrum_analyzer)
 			
-			if "voice" in assets and assets.voice:
+			if voice and voice.shinobu:
 				var song_voice_audio_name = get_song_voice_audio_name()
-				var voice_source := Shinobu.register_sound_from_memory(song_voice_audio_name, assets.voice_shinobu)
+				var voice_source := voice.shinobu
 				voice_audio_playback = voice_source.instantiate(HBGame.menu_music_group, use_source_channel_count)
 				voice_audio_playback.volume = 0.0
 				voice_audio_playback.seek(song.preview_start)
@@ -141,7 +145,7 @@ class SongPlayer:
 		
 		tween.start()
 		
-		emit_signal("song_assets_loaded", assets)
+		emit_signal("song_assets_loaded")
 		
 		set_process(true)
 		
@@ -194,8 +198,8 @@ func _on_stream_time_changed(time: float):
 func _on_song_ended():
 	play_random_song()
 	
-func _on_song_assets_loaded(assets):
-	emit_signal("song_started", current_song_player.song, assets)
+func _on_song_assets_loaded():
+	emit_signal("song_started")
 
 func play_random_song():
 	randomize()
@@ -216,3 +220,8 @@ func pause():
 	current_song_player.pause()
 func resume():
 	current_song_player.resume()
+
+func get_current_song_length() -> float:
+	if current_song_player.audio_playback:
+		return current_song_player.audio_playback.get_length_msec() * 0.001
+	return -1.0

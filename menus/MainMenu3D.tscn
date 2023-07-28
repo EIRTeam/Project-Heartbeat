@@ -136,20 +136,19 @@ transparent_bg = true
 size = Vector2i(720, 1440)
 script = ExtResource("2_8711a")
 
-[node name="MenuRightContainer" type="Control" parent="ViewportRight"]
+[node name="MenuRightContainer" type="MarginContainer" parent="ViewportRight"]
 custom_minimum_size = Vector2(720, 1440)
-layout_mode = 3
-anchors_preset = 0
 offset_right = 6.10352e-05
 offset_bottom = 0.00012207
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ViewportRight/MenuRightContainer"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 40.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 30

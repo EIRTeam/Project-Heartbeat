@@ -1,30 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://ugik7k8g2kon"]
 
-[ext_resource path="res://fonts/ThinButton.tres" type="FontFile" id=1]
-[ext_resource path="res://menus/options_menu/OptionControlsSectionReset.gd" type="Script" id=2]
+[ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
+[ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionReset.gd" id="2"]
 
 [node name="Control" type="Panel"]
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
 anchor_right = 1.0
-custom_minimum_size = Vector2( 0, 64 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-offset_right = 366.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "Reset default settings"
 horizontal_alignment = 1
 vertical_alignment = 1

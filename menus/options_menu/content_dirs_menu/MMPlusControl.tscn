@@ -1,116 +1,106 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://r1d8rkhhgkpn"]
 
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=1]
-[ext_resource path="res://graphics/icons/checkbox-blank-outline.png" type="Texture2D" id=2]
-[ext_resource path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" type="Script" id=3]
-[ext_resource path="res://graphics/icons/checkbox-marked.png" type="Texture2D" id=4]
-[ext_resource path="res://fonts/new_fonts/Comforta.tres" type="FontFile" id=5]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=6]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="1"]
+[ext_resource type="Texture2D" uid="uid://di30jv0le85ua" path="res://graphics/icons/checkbox-blank-outline.png" id="2"]
+[ext_resource type="Script" path="res://menus/options_menu/content_dirs_menu/MMPlusControl.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://bwhiiioudwqlb" path="res://graphics/icons/checkbox-marked.png" id="4"]
+[ext_resource type="FontFile" path="res://fonts/new_fonts/Comforta.tres" id="5"]
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="6"]
 
-[sub_resource type="FontFile" id=6]
-size = 30
-outline_color = Color( 0.329412, 0.231373, 0.603922, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 1 )
+[sub_resource type="FontFile" id="6"]
+fallbacks = Array[Font]([ExtResource("6"), ExtResource("1")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.6, 0.0901961, 0.556863, 0.74902 )
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.929412, 0.219608, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0)
+
+[sub_resource type="StyleBoxFlat" id="4"]
+bg_color = Color(0.6, 0.0901961, 0.556863, 0.74902)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.929412, 0.219608, 0.8, 0 )
-
-[sub_resource type="StyleBoxEmpty" id=5]
+[sub_resource type="StyleBoxEmpty" id="5"]
 
 [node name="Control" type="Panel"]
 use_parent_material = true
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 64.0
-custom_minimum_size = Vector2( 0, 64 )
 mouse_filter = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 use_parent_material = true
-offset_right = 1900.0
-offset_bottom = 64.0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 use_parent_material = true
-offset_right = 867.0
-offset_bottom = 64.0
+layout_mode = 2
 size_flags_vertical = 7
-theme_override_fonts/font = SubResource( 6 )
+theme_override_fonts/font = SubResource("6")
 text = "Enable mounting Project DIVA MegaMix+ from Steam"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
 use_parent_material = true
-offset_left = 871.0
-offset_right = 1900.0
-offset_bottom = 64.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 2
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer/Control"]
-offset_left = 965.0
-offset_right = 1029.0
-offset_bottom = 64.0
+layout_mode = 2
 focus_mode = 0
-theme_override_icons/checked = ExtResource( 4 )
-theme_override_icons/unchecked = ExtResource( 2 )
-theme_override_styles/hover = SubResource( 4 )
-theme_override_styles/pressed = SubResource( 3 )
-theme_override_styles/hover_pressed = SubResource( 4 )
-theme_override_styles/normal = SubResource( 2 )
+theme_override_icons/checked = ExtResource("4")
+theme_override_icons/unchecked = ExtResource("2")
+theme_override_styles/normal = SubResource("2")
+theme_override_styles/pressed = SubResource("3")
+theme_override_styles/hover = SubResource("4")
+theme_override_styles/hover_pressed = SubResource("4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-offset_top = 68.0
-offset_right = 1900.0
-offset_bottom = 360.0
+layout_mode = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/VBoxContainer"]
-offset_right = 1900.0
-offset_bottom = 28.0
-theme_override_fonts/normal_font = ExtResource( 5 )
-theme_override_styles/normal = SubResource( 5 )
-fit_content_height = true
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5")
+theme_override_styles/normal = SubResource("5")
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/VBoxContainer"]
-offset_top = 32.0
-offset_right = 1900.0
-offset_bottom = 36.0
+layout_mode = 2
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer/VBoxContainer"]
-offset_top = 40.0
-offset_right = 1900.0
-offset_bottom = 292.0
-theme_override_fonts/normal_font = ExtResource( 5 )
-theme_override_styles/normal = SubResource( 5 )
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5")
+theme_override_styles/normal = SubResource("5")
 bbcode_enabled = true
-text = "
-[u]DISCLAIMER[/u]
-
-Project DIVA MegaMix+, Project DIVA and other similar trademarks are the property of SEGA, Crypton Future media and others.
-
-Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.
-Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
 text = "
 DISCLAIMER
 
@@ -118,6 +108,5 @@ Project DIVA MegaMix+, Project DIVA and other similar trademarks are the propert
 
 Project Heartbeat does not encourage piracy, as loading data from Project DIVA MegaMix+ requires ownership the game, which is verified through the Steamworks API.
 Project Heartbeat is simply another engine in which the user can play their legally purchased content, in a similar vein to how the same MP3 file can be played in different MP3 players."
-fit_content_height = true
 
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/Control/CheckBox" to="." method="_on_CheckBox_toggled"]

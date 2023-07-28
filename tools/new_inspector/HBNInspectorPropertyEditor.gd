@@ -12,7 +12,7 @@ const RIGHT_GRAPHIC = preload("res://tools/icons/icon_GUI_tree_arrow_right.svg")
 
 signal value_changed(value)
 
-var value
+var value: Variant
 
 @onready var text_label := Label.new()
 

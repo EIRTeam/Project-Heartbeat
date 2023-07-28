@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://c1v7ncwitep8e"]
 
-[ext_resource path="res://tools/icons/EditorControlAnchor.svg" type="Texture2D" id=1]
-[ext_resource path="res://tools/resource_pack_editor/skin_editor/skin_editor_corner.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://b0jrpncgb14qb" path="res://tools/icons/EditorControlAnchor.svg" id="1"]
+[ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor_corner.gd" id="2"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.525647, 0.1554, 0.74, 1 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.525647, 0.1554, 0.74, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
@@ -19,15 +19,16 @@ anti_aliasing = false
 [node name="Panel" type="Panel"]
 offset_right = 16.0
 offset_bottom = 16.0
-theme_override_styles/panel = SubResource( 1 )
-script = ExtResource( 2 )
+theme_override_styles/panel = SubResource("1")
+script = ExtResource("2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 flip_h = true
 flip_v = true

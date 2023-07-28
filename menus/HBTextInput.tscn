@@ -59,21 +59,20 @@ func _gui_input(event):
 "
 
 [node name="HBConfirmationWindow" type="Popup"]
+size = Vector2i(602, 200)
 visible = true
 exclusive = true
 theme = ExtResource("3")
 script = ExtResource("2")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="PanelContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
@@ -94,35 +93,34 @@ theme_override_styles/normal = SubResource("3")
 theme_override_styles/focus = SubResource("2")
 script = SubResource("4")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
-layout_mode = 0
-offset_top = 162.0
-offset_right = 550.0
-offset_bottom = 208.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Panel4" parent="Panel/HBoxContainer" instance=ExtResource("1")]
-custom_minimum_size = Vector2(126, 33)
+[node name="AcceptButton" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(181, 53)
 layout_mode = 2
 action_name = "gui_accept"
 text = "Accept"
 
-[node name="HBoxContainer" parent="Panel/HBoxContainer/Panel4" index="0"]
+[node name="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton" index="0"]
 layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 
-[node name="PromptInputAction" parent="Panel/HBoxContainer/Panel4/HBoxContainer" index="0"]
+[node name="PromptInputAction" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="0"]
 layout_mode = 2
 input_action = "gui_accept"
 
-[node name="Label" parent="Panel/HBoxContainer/Panel4/HBoxContainer" index="1"]
+[node name="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="1"]
 layout_mode = 2
 text = "Accept"
 
-[node name="CancelButton" parent="Panel/HBoxContainer" instance=ExtResource("1")]
-custom_minimum_size = Vector2(124, 33)
+[node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(177, 53)
 layout_mode = 2
 action_name = "gui_cancel"
 text = "Cancel"
@@ -132,4 +130,4 @@ text = "Cancel"
 [connection signal="focus_entered" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_focus_entered"]
 [connection signal="text_submitted" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
 
-[editable path="Panel/HBoxContainer/Panel4"]
+[editable path="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton"]

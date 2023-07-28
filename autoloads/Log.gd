@@ -22,4 +22,4 @@ func log(caller: Object, message: String, log_level = LogLevel.INFO) -> void:
 	if "LOG_NAME" in caller:
 		caller_name = caller.LOG_NAME
 	print("[%s] %s: %s" % [HBUtils.find_key(LogLevel, log_level), caller_name, message])
-	emit_signal("message_logged", caller.LOG_NAME, message, log_level)
+	emit_signal.call_deferred("message_logged", caller.LOG_NAME, message, log_level)

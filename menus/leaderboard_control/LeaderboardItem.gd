@@ -1,10 +1,16 @@
 @tool
 extends Panel
-class_name HBLeaderboardItemNew
+class_name HBMPLeaderboardEntry
 
 const style_even = preload("res://styles/ResultRatingStyleOdd.tres")
 var odd = false
-var entry : HBLeadearboardEntry
+class Entry:
+	var member: SteamServiceMember
+	var rank: int
+	var score: int
+	var percentage: float
+
+var entry : Entry
 @onready var percentage_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/ValueLabel3/PercentageLabel")
 @onready var username_label = get_node("MarginContainer/HBoxContainer/VBoxContainer/UserName")
 @onready var user_avatar_texture_rect = get_node("MarginContainer/HBoxContainer/UserAvatar")

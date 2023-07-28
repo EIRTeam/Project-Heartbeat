@@ -46,6 +46,7 @@ static func get_component_name() -> String:
 func _ready():
 	super._ready()
 	texture_rect.expand = true
+	texture_rect.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	add_child(texture_rect)
 	texture_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	set_texture(texture)
@@ -63,6 +64,7 @@ func _to_dict(resource_storage: HBInspectorResourceStorage) -> Dictionary:
 	out_dict["texture"] = resource_storage.get_texture_name(texture)
 	out_dict["stretch_mode"] = stretch_mode
 	out_dict["fade_direction"] = fade_direction
+	out_dict["_stretch_mode_version"] = 1
 	return out_dict
 
 func _get_property_list():
@@ -78,8 +80,40 @@ func _get_property_list():
 	
 	return list
 
+func _migrate_stretch_mode(old_stretch_mode: int) -> TextureRect.StretchMode:
+	var new_stretch_mode := TextureRect.STRETCH_SCALE
+	#"Scale On Expand (Compat),Scale,Tile,Keep,Keep Centered,Keep Aspect,Keep Aspect Centered,Keep Aspect Covered"
+	match old_stretch_mode:
+		# Scale on expand, Scale
+		0, 1:
+			new_stretch_mode = TextureRect.STRETCH_SCALE
+		# Tile
+		2:
+			new_stretch_mode = TextureRect.STRETCH_TILE
+		# Keep
+		3:
+			new_stretch_mode = TextureRect.STRETCH_KEEP
+		# Keep centered
+		4:
+			new_stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+		# Keep aspect
+		5:
+			new_stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		# Keep aspect centered
+		6:
+			new_stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		# Keep aspect covered
+		7:
+			new_stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	return new_stretch_mode
+
 func _from_dict(dict: Dictionary, cache: HBSkinResourcesCache):
 	super._from_dict(dict, cache)
 	texture = cache.get_texture(dict.get("texture", ""))
-	stretch_mode = dict.get("stretch_mode", TextureRect.STRETCH_KEEP_CENTERED)
+	if not dict.has("_stretch_mode_version"):
+		# This must be from the old engine, migrate it
+		var old_stretch_mode := dict.get("stretch_mode") as int
+		stretch_mode = _migrate_stretch_mode(old_stretch_mode)
+	else:
+		stretch_mode = dict.get("stretch_mode", TextureRect.STRETCH_KEEP_CENTERED)
 	fade_direction = dict.get("fade_direction", FADE_DIRECTION.NONE)

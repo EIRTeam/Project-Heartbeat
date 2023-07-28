@@ -25,7 +25,7 @@ var jwt_token = ""
 var connected = false
 var waiting_for_auth = false
 var has_user_data = false
-var auth_ticket
+var auth_ticket: HBAuthTicketForWebAPI
 
 var queued_requests = []
 
@@ -206,7 +206,7 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 	return request_handle_i
 func login_steam():
 	var payload = {
-		"steam_ticket": auth_ticket.hex_encode()
+		"steam_ticket": auth_ticket.ticket_data.hex_encode()
 	}
 	return make_request("/auth/steam-login", payload, HTTPClient.METHOD_POST, REQUEST_TYPE.LOGIN, {}, true, true)
 
@@ -301,8 +301,9 @@ func renew_auth():
 	if PlatformService.service_provider.implements_leaderboard_auth:
 		waiting_for_auth = true
 		timer.stop()
-		auth_ticket = PlatformService.service_provider.get_leaderboard_auth_token()
-func _on_ticket_ready():
+		auth_ticket = PlatformService.service_provider.request_new_auth_token()
+		auth_ticket.ticket_received.connect(self._on_ticket_ready)
+func _on_ticket_ready(success: bool):
 	if waiting_for_auth:
 		Log.log(self, "Got ticket, attempting login...")
 		login_steam()
