@@ -294,7 +294,7 @@ func get_ytdl_error(process: Process) -> String:
 	var error := "Unknown error"
 	for _i in range(process.get_available_stderr_lines()):
 		var line := process.get_stderr_line()
-		if "ERROR:" in line:
+		if "ERROR:" in line and not "gameoverlayrenderer.so" in line:
 			error = line
 			break
 	return error
