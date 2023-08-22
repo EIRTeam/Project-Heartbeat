@@ -120,11 +120,11 @@ func read_remote_file(file_name: String):
 		result["result"] = false
 	else:
 		var read_result = Steamworks.remote_storage.file_read(file_name)
-		if not read_result.ret:
+		if not read_result.size() > 0:
 			Log.log(self, "Error reading remote file: %s" % [file_name])
 		else:
-			result["buffer"] = read_result.buf
-		result["result"] = read_result.ret != 0
+			result["buffer"] = read_result
+		result["result"] = read_result.size() != 0
 	return result
 func read_remote_file_to_path(file_name: String, target_path: String):
 	var result = read_remote_file(file_name)

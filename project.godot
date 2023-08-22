@@ -13,7 +13,7 @@ config_version=5
 config/name="Project Heartbeat"
 run/main_scene="res://base_scene.tscn"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="Project Heartbeat"
+config/custom_user_dir_name="Project Heartbeat Laboratorio"
 config/project_settings_override="user://ph_override.cfg"
 config/features=PackedStringArray("4.2")
 boot_splash/image="res://splash.png"
@@ -1035,7 +1035,6 @@ limits/message_queue/max_size_kb=16384
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
-renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.01, 0.05, 0.1, 1)
 environment/defaults/default_environment="res://default_env.tres"
 vram_compression/import_etc=true

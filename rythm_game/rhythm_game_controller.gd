@@ -73,7 +73,8 @@ func _fade_in_done():
 	video_player.show()
 	$FadeIn.hide()
 	game.set_process(true)
-	video_player.set_stream_position(game.time_msec / 1000.0)
+	print("SETTING VIDEO POSITION TO", game.time_msec / 1000.0)
+	video_player.stream_position = game.time_msec / 1000.0
 	rescale_video_player()
 	
 	pause_menu_disabled = false
@@ -215,9 +216,11 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 				if not video_player.stream:
 					video_player.stream = stream
 					video_player.set_stream_position(0)
+					print("SET STREAM TO", 0)
 					video_player.paused = true
 				video_player.play()
 				video_player.set_stream_position(song.get_video_offset(current_game_info.variant) / 1000.0)
+				print("SET STREAM 2 TO ", song.get_video_offset(current_game_info.variant) / 1000.0)
 				if game.time_msec < 0:
 					video_player.paused = true
 				video_player_panel.show()

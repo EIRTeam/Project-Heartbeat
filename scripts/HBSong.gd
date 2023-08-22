@@ -29,7 +29,7 @@ var voice = ""
 var creator = ""
 var original_title = ""
 var bpm = 150.0: set = set_bpm, get = get_bpm
-var _bpm_proxy: float
+var _bpm_proxy := 150.0
 var bpm_string = "150"
 var preview_start = 0
 var preview_end = -1
@@ -220,7 +220,7 @@ func get_video_stream(variant := -1):
 	print("Loading video stream ", video_path)
 	
 	if video_path:
-		var video_stream = VideoStream.new()
+		var video_stream = FFmpegVideoStream.new()
 		video_stream.set_file(video_path)
 		
 		return video_stream

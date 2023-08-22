@@ -24,7 +24,7 @@ func _ready():
 		if ingame and UserSettings.user_settings.background_dim == 0:
 			queue_free()
 		else:
-			set_physics_process(false)
+			set_process(false)
 			material = CanvasItemMaterial.new()
 			if fallback_stylebox:
 				add_theme_stylebox_override("panel", fallback_stylebox)

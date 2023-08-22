@@ -1,10 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://b8q7hs3athysl"]
+[gd_scene load_steps=15 format=3 uid="uid://b8q7hs3athysl"]
 
 [ext_resource type="Script" path="res://scripts/3DUIQuad.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://lkkru7no1ko1" path="res://menus/song_list/SongListPreview.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://c0ob8f5020lvo" path="res://rythm_game/pause_menu/PauseMenuLeft.tscn" id="3"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="3_1t27u"]
-[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="4_5ae4a"]
 [ext_resource type="Script" path="res://menus/GLES2ViewportRTHack.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="7"]
 [ext_resource type="Script" path="res://rythm_game/pause_menu/PauseMenu3D.gd" id="8"]
@@ -56,44 +54,13 @@ transparent_bg = true
 size = Vector2i(1920, 1080)
 
 [node name="MarginContainer" parent="ViewportLeft" instance=ExtResource("3")]
-anchors_preset = 4
-
-[node name="VBoxContainer" parent="ViewportLeft/MarginContainer" index="0"]
-layout_mode = 2
-
-[node name="Panel" parent="ViewportLeft/MarginContainer/VBoxContainer" index="0"]
-layout_mode = 2
 
 [node name="Label" parent="ViewportLeft/MarginContainer/VBoxContainer/Panel" index="0"]
-layout_mode = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 0.0
 offset_right = 1.0
 offset_bottom = 23.0
-
-[node name="HBListContainer" parent="ViewportLeft/MarginContainer/VBoxContainer" index="1"]
-layout_mode = 2
-
-[node name="ResumeButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="0"]
-layout_mode = 2
-normal_style = ExtResource("3_1t27u")
-hover_style = ExtResource("4_5ae4a")
-
-[node name="RestartButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="1"]
-layout_mode = 2
-normal_style = ExtResource("3_1t27u")
-hover_style = ExtResource("4_5ae4a")
-
-[node name="SongSettingsButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="2"]
-layout_mode = 2
-normal_style = ExtResource("3_1t27u")
-hover_style = ExtResource("4_5ae4a")
-
-[node name="QuitButton" parent="ViewportLeft/MarginContainer/VBoxContainer/HBListContainer" index="3"]
-layout_mode = 2
-normal_style = ExtResource("3_1t27u")
-hover_style = ExtResource("4_5ae4a")
 
 [node name="ViewportRight" type="SubViewport" parent="."]
 transparent_bg = true
