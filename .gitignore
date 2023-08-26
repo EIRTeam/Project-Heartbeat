@@ -16,3 +16,5 @@ songs/
 .directory
 *~
 
+# songs/ should not be included in the public source release
+songs/

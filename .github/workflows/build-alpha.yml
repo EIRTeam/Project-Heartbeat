@@ -1,0 +1,58 @@
+on: [ workflow_dispatch, push ]
+
+jobs:
+  build-alpha:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    name: Export Dev Build
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3.3.0
+        with:
+          lfs: true
+
+      - name: get short sha
+        uses: benjlevesque/short-sha@v2.2
+        id: short-sha
+        with:
+          length: 6
+
+      - name: install required packages 
+        run: |
+          sudo apt update
+          sudo apt install -y p7zip-full
+      
+      - name: set up export presets
+        run: |
+          mv alpha_build_export_presets.cfg export_presets.cfg
+      - name: fetch libsteam_api.so
+        run: |
+          wget https://files.catbox.moe/jivt01.so -O /home/runner/work/Project-Heartbeat/Project-Heartbeat/libsteam_api.so
+          mkdir -p /home/runner/.local/share/godot/godot_executable/
+          cp /home/runner/work/Project-Heartbeat/Project-Heartbeat/libsteam_api.so /home/runner/.local/share/godot/godot_executable/
+      - name: export pack
+        id: export
+        uses: firebelley/godot-export@v5.2.0
+        with:
+          godot_executable_download_url: https://files.catbox.moe/oth1p9.zip
+          godot_export_templates_download_url: https://files.catbox.moe/t9xzqs.zip
+          relative_project_path: ./
+          export_debug: true
+          export_as_pack: true
+          cache: true
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Project Heartbeat.pck"
+          path: "${{ steps.export.outputs.build_directory }}/Dev Pack/Project Heartbeat.pck"
+
+      - name: create release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          makeLatest: true
+          tag: ${{ github.ref_name }}-${{ steps.short-sha.outputs.sha }}-alpha
+          name: "Alpha build for branch ${{ github.ref_name }} (commit ${{ steps.short-sha.outputs.sha }})."
+          artifacts: "${{ steps.export.outputs.build_directory }}/Dev Pack/Project Heartbeat.pck"
