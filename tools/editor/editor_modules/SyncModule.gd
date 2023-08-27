@@ -140,8 +140,8 @@ func calculator_pressed():
 		
 		var average_dt = dt_sum / float(dts.size())
 		var average_bpm = snapped(60.0 / average_dt * 1000.0, 0.01)
-		average_bpm_lineedit.text = String(average_bpm) + " BPM"
-		whole_bpm_lineedit.text = String(round(average_bpm)) + " BPM"
+		average_bpm_lineedit.text = str(average_bpm) + " BPM"
+		whole_bpm_lineedit.text = str(round(average_bpm)) + " BPM"
 	
 	last_pressed_time = time
 

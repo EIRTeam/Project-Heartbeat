@@ -18,7 +18,7 @@ func get_editor_size():
 
 # Allow editing one at a time
 func get_inspector_properties():
-	return HBUtils.merge_dict(.get_inspector_properties(), {
+	return HBUtils.merge_dict(super.get_inspector_properties(), {
 		"usage": {
 			"type": "list",
 			"params": {

@@ -415,7 +415,7 @@ func _on_file_selected(path: String):
 	
 	var vargs = {}
 	if importer.name == "F2nd edit":
-		vargs.custom_link_stars = link_stars_checkbox.pressed
+		vargs.custom_link_stars = link_stars_checkbox.button_pressed
 	if importer.name == "MIDI file":
 		vargs.tempo_mode = tempo_map_option_button.get_selected_metadata()
 	
@@ -432,7 +432,7 @@ func _on_file_selected(path: String):
 		undo_redo.add_do_method(self.deselect_all)
 		undo_redo.add_undo_method(self.deselect_all)
 		
-		if replace_chart_checkbox.pressed:
+		if replace_chart_checkbox.button_pressed:
 			if timing_changes:
 				undo_redo.add_do_property(editor.current_song, "timing_changes", timing_changes)
 				undo_redo.add_undo_property(editor.current_song, "timing_changes", editor.current_song.timing_changes)

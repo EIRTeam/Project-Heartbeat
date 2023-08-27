@@ -97,6 +97,9 @@ func create_chart_section(section_name: String):
 	section_dialog_line_edit.release_focus()
 	section_dialog.hide()
 
+func _on_section_dialog_confirmed():
+	create_chart_section(section_dialog_line_edit.text)
+
 func popup_lyric_dialog():
 	lyric_dialog.popup_centered()
 	lyric_dialog_line_edit.grab_focus()
@@ -110,6 +113,9 @@ func create_quick_lyric(lyric_text: String):
 	
 	lyric_dialog_line_edit.release_focus()
 	lyric_dialog.hide()
+
+func _on_lyric_dialog_confirmed():
+	create_quick_lyric(lyric_dialog_line_edit.text)
 
 func _speed_change_rejected():
 	bpm_dialog.hide()

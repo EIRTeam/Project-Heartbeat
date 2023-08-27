@@ -640,6 +640,5 @@ mouse_filter = 2
 [connection signal="pressed" from="Popups/FirstTimeMessageDialog/Label2/LinkButton2" to="." method="open_link" binds= ["https://steamcommunity.com/sharedfiles/filedetails/?id=2048893718"]]
 [connection signal="about_to_popup" from="Popups/EditorGlobalSettings" to="." method="obscure_ui"]
 [connection signal="close_requested" from="Popups/EditorGlobalSettings" to="." method="reveal_ui"]
-[connection signal="close_requested" from="Popups/EditorGlobalSettings" to="Popups/EditorGlobalSettings" method="_about_to_hide"]
 [connection signal="about_to_popup" from="Popups/SexDialog" to="." method="obscure_ui"]
 [connection signal="about_to_popup" from="Popups/NoTimingMapDialog" to="." method="obscure_ui"]

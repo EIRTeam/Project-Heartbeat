@@ -124,6 +124,9 @@ func timing_information_changed():
 func sync_inspector_values():
 	editor.inspector.sync_visible_values_with_data()
 
+func sync_lyrics():
+	editor.sync_lyrics()
+
 func force_game_process():
 	editor.force_game_process()
 

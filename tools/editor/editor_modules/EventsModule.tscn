@@ -191,7 +191,10 @@ theme_override_constants/margin_bottom = 15
 layout_mode = 2
 placeholder_text = "Lino's Legendary Section"
 
+[connection signal="confirmed" from="CanvasLayer/LyricDialog" to="." method="_on_lyric_dialog_confirmed"]
 [connection signal="text_submitted" from="CanvasLayer/LyricDialog/MarginContainer/LineEdit" to="." method="create_quick_lyric"]
+[connection signal="confirmed" from="CanvasLayer/SpeedChangeDialog" to="." method="create_bpm_change"]
 [connection signal="input_accepted" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="create_bpm_change"]
 [connection signal="input_rejected" from="CanvasLayer/SpeedChangeDialog/MarginContainer/HBoxContainer/HBEditorSpinBox" to="." method="_speed_change_rejected"]
+[connection signal="confirmed" from="CanvasLayer/SectionDialog" to="." method="_on_section_dialog_confirmed"]
 [connection signal="text_submitted" from="CanvasLayer/SectionDialog/MarginContainer/LineEdit" to="." method="create_chart_section"]
