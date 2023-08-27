@@ -185,7 +185,7 @@ func _apply_arrange():
 	
 	original_notes.sort_custom(Callable(self, "_order_timing_points"))
 	
-	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.pressed, false)
+	arrange_selected_notes_by_time(deg_to_rad(-arrange_angle_spinbox.value), reverse_arrange_checkbox.button_pressed, false)
 	
 	commit_arrange()
 

@@ -8,9 +8,6 @@
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("5")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -262,6 +259,7 @@ offset_right = 1.18921
 grow_horizontal = 2
 grow_vertical = 2
 
+[connection signal="close_requested" from="Window" to="Window" method="hide"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/OpenStrayNodeTester" to="." method="_on_OpenStrayNodeTester_pressed"]
 [connection signal="pressed" from="Window/TabContainer/Game/VBoxContainer/HBoxContainer/VBoxContainer/PrintOrphanedNodesButton" to="." method="_on_PrintOrphanedNodesButton_pressed"]

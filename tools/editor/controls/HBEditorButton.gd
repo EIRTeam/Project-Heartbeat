@@ -99,7 +99,7 @@ func set_module(_module):
 		if action:
 			module.add_shortcut(action, "apply_transform", [transform_id], echo_action, button)
 	if button_mode == "function":
-		button.connect("pressed", Callable(module, function_name).bind(params))
+		button.connect("pressed", Callable(module, function_name).bindv(params))
 		
 		if action:
 			module.add_shortcut(action, function_name, params, echo_action, button)
