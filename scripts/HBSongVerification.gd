@@ -222,7 +222,7 @@ func verify_chart(song: HBSong, difficulty: String):
 			errors.append(error)
 		else:
 			var chart = HBChart.new()
-			chart.deserialize(result.result, song)
+			chart.deserialize(result, song)
 			var found_left_slide = false
 			var found_right_slide = false
 			var points = chart.get_timing_points()

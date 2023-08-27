@@ -9,7 +9,7 @@ extends Window
 func _input(event):
 	if visible and event.is_action_pressed("gui_cancel", false, true) \
 	   and not get_viewport().gui_get_focus_owner() is LineEdit:
-		hide()
+		close_requested.emit()
 
 
 func _about_to_hide():

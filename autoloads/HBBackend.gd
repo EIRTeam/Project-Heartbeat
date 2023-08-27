@@ -302,7 +302,9 @@ func renew_auth():
 		waiting_for_auth = true
 		timer.stop()
 		auth_ticket = PlatformService.service_provider.request_new_auth_token()
-		auth_ticket.ticket_received.connect(self._on_ticket_ready)
+		if auth_ticket:
+			auth_ticket.ticket_received.connect(self._on_ticket_ready)
+
 func _on_ticket_ready(success: bool):
 	if waiting_for_auth:
 		Log.log(self, "Got ticket, attempting login...")
