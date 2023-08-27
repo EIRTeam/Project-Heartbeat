@@ -62,14 +62,35 @@ layout_mode = 2
 text = "Manage scripts"
 horizontal_alignment = 1
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
-
-[node name="ScriptEditorDialog" type="Popup" parent="CanvasLayer" index="0" groups=["block_shortcuts"]]
+[node name="ScriptEditorDialog" type="Popup" parent="." index="1" groups=["block_shortcuts"]]
 unique_name_in_owner = true
+title = "Script editor"
 exclusive = true
+borderless = false
 theme = ExtResource("1")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScriptEditorDialog" index="0"]
+[node name="SaveDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="0"]
+unique_name_in_owner = true
+theme = ExtResource("1")
+dialog_text = "This file has been modified.
+Do you really want to close it?"
+dialog_autowrap = true
+
+[node name="DeleteDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="1"]
+unique_name_in_owner = true
+theme = ExtResource("1")
+dialog_text = "Do you really want to delete this script?
+This action cannot be undone."
+dialog_autowrap = true
+
+[node name="ReloadDialog" type="ConfirmationDialog" parent="ScriptEditorDialog" index="2"]
+unique_name_in_owner = true
+theme = ExtResource("1")
+dialog_text = "This script has been modified by an external source.
+Do you want to reload it?"
+dialog_autowrap = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ScriptEditorDialog" index="3"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -78,14 +99,14 @@ offset_top = 10.0
 offset_right = -10.0
 offset_bottom = -10.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScriptEditorDialog/MarginContainer" index="0"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScriptEditorDialog/MarginContainer/VBoxContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SaveButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" groups=["prevent_focus"]]
+[node name="SaveButton" type="Button" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="0" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Save this script"
@@ -94,7 +115,7 @@ flat = true
 script = ExtResource("8")
 action = "editor_save"
 
-[node name="SaveAsButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" groups=["prevent_focus"]]
+[node name="SaveAsButton" type="Button" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="1" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Save this script as"
@@ -103,7 +124,7 @@ flat = true
 script = ExtResource("8")
 action = "editor_save_as"
 
-[node name="NewFileButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="2" groups=["prevent_focus"]]
+[node name="NewFileButton" type="Button" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="2" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Create new script"
@@ -112,7 +133,7 @@ flat = true
 script = ExtResource("8")
 action = "editor_new_script"
 
-[node name="OpenDirButton" type="Button" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="3" groups=["prevent_focus"]]
+[node name="OpenDirButton" type="Button" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="3" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Open scripts directory"
@@ -121,20 +142,20 @@ flat = true
 script = ExtResource("8")
 action = "editor_open_scripts_dir"
 
-[node name="ErrorLabel" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="4"]
+[node name="ErrorLabel" type="Label" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.941176, 0.262745, 0.262745, 1)
 
-[node name="Label" type="Label" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="5"]
+[node name="Label" type="Label" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="5"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Currently editing:"
 horizontal_alignment = 2
 
-[node name="FileNameLineEdit" type="LineEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="6" groups=["prevent_focus"]]
+[node name="FileNameLineEdit" type="LineEdit" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer" index="6" groups=["prevent_focus"]]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -142,11 +163,11 @@ text = "New File"
 editable = false
 script = ExtResource("2")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer" index="1"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScriptEditorDialog/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="FileTree" type="Tree" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" groups=["prevent_focus"]]
+[node name="FileTree" type="Tree" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="0" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -154,7 +175,7 @@ size_flags_vertical = 3
 columns = 4
 hide_root = true
 
-[node name="FocusTrapLineEdit" type="LineEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" index="5"]
+[node name="FocusTrapLineEdit" type="LineEdit" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" index="5"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
@@ -164,7 +185,7 @@ offset_right = 48.0
 offset_bottom = -14.0
 script = ExtResource("9")
 
-[node name="ScriptEditor" type="TextEdit" parent="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
+[node name="ScriptEditor" type="TextEdit" parent="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2" index="1" groups=["prevent_focus"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -176,36 +197,15 @@ draw_tabs = true
 minimap_draw = true
 script = ExtResource("5")
 
-[node name="SaveDialog" type="ConfirmationDialog" parent="CanvasLayer" index="1"]
-unique_name_in_owner = true
-theme = ExtResource("1")
-dialog_text = "This file has been modified.
-Do you really want to close it?"
-dialog_autowrap = true
-
-[node name="DeleteDialog" type="ConfirmationDialog" parent="CanvasLayer" index="2"]
-unique_name_in_owner = true
-theme = ExtResource("1")
-dialog_text = "Do you really want to delete this script?
-This action cannot be undone."
-dialog_autowrap = true
-
-[node name="ReloadDialog" type="ConfirmationDialog" parent="CanvasLayer" index="3"]
-unique_name_in_owner = true
-theme = ExtResource("1")
-dialog_text = "This script has been modified by an external source.
-Do you want to reload it?"
-dialog_autowrap = true
-
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ScriptManagerButton" to="." method="_popup_script_editor"]
-[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="save_file"]
-[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="." method="save_file" binds= [true]]
-[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/NewFileButton" to="." method="new_file"]
-[connection signal="pressed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/OpenDirButton" to="." method="open_scripts_dir"]
-[connection signal="cell_selected" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_cell_selected"]
-[connection signal="accepted" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_accepted"]
-[connection signal="rejected" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_rejected"]
-[connection signal="text_changed" from="CanvasLayer/ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/ScriptEditor" to="." method="_text_changed"]
-[connection signal="confirmed" from="CanvasLayer/SaveDialog" to="." method="_do_requested_action"]
-[connection signal="confirmed" from="CanvasLayer/DeleteDialog" to="." method="delete_file"]
-[connection signal="confirmed" from="CanvasLayer/ReloadDialog" to="." method="reload_file"]
+[connection signal="confirmed" from="ScriptEditorDialog/SaveDialog" to="." method="_do_requested_action"]
+[connection signal="confirmed" from="ScriptEditorDialog/DeleteDialog" to="." method="delete_file"]
+[connection signal="confirmed" from="ScriptEditorDialog/ReloadDialog" to="." method="reload_file"]
+[connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="save_file"]
+[connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="." method="save_file" binds= [true]]
+[connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/NewFileButton" to="." method="new_file"]
+[connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/OpenDirButton" to="." method="open_scripts_dir"]
+[connection signal="cell_selected" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_cell_selected"]
+[connection signal="accepted" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_accepted"]
+[connection signal="rejected" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_rejected"]
+[connection signal="text_changed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/ScriptEditor" to="." method="_text_changed"]

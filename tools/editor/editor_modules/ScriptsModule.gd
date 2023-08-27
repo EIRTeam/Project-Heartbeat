@@ -117,7 +117,7 @@ func _on_files_modified(files: Array):
 				var time = file.get_modified_time(path)
 				
 				if time > last_modified_time:
-					if $CanvasLayer.visible:
+					if script_editor_dialog.visible:
 						reload_dialog.popup_centered()
 					else:
 						_set_modified(true, false)
@@ -426,7 +426,6 @@ func update_shortcuts():
 	get_node("%ScriptManagerButton").update_shortcuts()
 
 func _popup_script_editor():
-	$CanvasLayer.visible = true
 	script_editor_dialog.popup_centered_ratio(0.9)
 	
 	obscure_ui()
@@ -440,7 +439,6 @@ func _close_script_editor():
 		script_editor_dialog.popup()
 		save_confirmation_dialog.popup_centered()
 	else:
-		$CanvasLayer.visible = false
 		reveal_ui()
 		
 		watcher.scan_delay = 3.0

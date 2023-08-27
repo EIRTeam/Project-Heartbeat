@@ -544,7 +544,6 @@ script = ExtResource("6")
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
 [node name="DownloadingSongPopup" type="Popup" parent="."]
-visible = true
 exclusive = true
 
 [node name="Panel" type="Panel" parent="DownloadingSongPopup"]

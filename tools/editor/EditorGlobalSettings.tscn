@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://tools/editor/settings/EditorSettingsGlobal.gd" id="5"]
 
 [node name="EditorGlobalSettings" type="Window"]
+title = "Editor Settings"
+position = Vector2i(0, 24)
 exclusive = true
 theme = ExtResource("1")
 script = ExtResource("2")
@@ -19,6 +21,8 @@ offset_left = 10.0
 offset_top = 5.0
 offset_right = -10.0
 offset_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="General" type="MarginContainer" parent="TabContainer"]
 layout_mode = 2
@@ -127,4 +131,6 @@ dialog_text = "Do you want to reset this shortcut to default?"
 [node name="ResetAllConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/Shortcuts/VBoxContainer/Panel"]
 dialog_text = "Do you want to reset all shortcuts to default?"
 
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="close_requested" from="." to="." method="_about_to_hide"]
 [connection signal="pressed" from="TabContainer/Shortcuts/VBoxContainer/Panel/VBoxContainer/Button" to="TabContainer/Shortcuts/VBoxContainer/Panel/ResetAllConfirmationDialog" method="popup_centered"]
