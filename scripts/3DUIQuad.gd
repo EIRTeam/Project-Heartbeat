@@ -67,7 +67,9 @@ func handle_mouse(event):
 		is_mouse_held = event.pressed
 
 	# Find mouse position in Area3D
-	var mouse_pos3D = find_mouse(event.position)
+	# HACK ALERT: event positions are broken when ray_pickable is enabled...
+	# thanks godot
+	var mouse_pos3D = find_mouse(get_viewport().get_mouse_position())
 
 	# Check if the mouse is outside of bounds, use last position to avoid errors
 	# NOTE: mouse_exited signal was unrealiable in this situation
@@ -135,7 +137,8 @@ func find_mouse(mouse_global_position):
 	parameters.collide_with_areas = true
 	var result = get_world_3d().direct_space_state.intersect_ray(parameters)
 
-	if result.size() > 0:
+
+	if result.size() > 0 && result.collider == node_area:
 		return result.position
 	else:
 		return null
