@@ -202,9 +202,13 @@ func _on_song_assets_loaded():
 	emit_signal("song_started")
 
 func play_random_song():
+	if SongLoader.songs.size() == 0:
+		return
 	randomize()
 	var found_song: HBSong
-	while not found_song:
+	var attempts := 0
+	const MAX_ATTEMPTS := 40
+	while not found_song and attempts < MAX_ATTEMPTS:
 		var song := SongLoader.songs.values()[randi() % SongLoader.songs.size()] as HBSong
 		var is_current_song = false
 		if current_song_player:
@@ -213,6 +217,7 @@ func play_random_song():
 				(song.has_audio_loudness or SongDataCache.is_song_audio_loudness_cached(song)) and \
 				not is_current_song:
 			found_song = song
+		attempts += 1
 	if found_song:
 		play_song(found_song)
 
