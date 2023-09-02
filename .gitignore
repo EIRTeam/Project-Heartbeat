@@ -10,6 +10,7 @@
 
 libsteam_api.so
 steam_api64.dll
+songs/
 
 # System/tool-specific ignores
 .directory
