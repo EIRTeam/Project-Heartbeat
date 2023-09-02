@@ -65,8 +65,6 @@ gdscript/warnings/unused_argument=false
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1280
-window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=false
@@ -1035,6 +1033,7 @@ limits/message_queue/max_size_kb=16384
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
+renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.01, 0.05, 0.1, 1)
 environment/defaults/default_environment="res://default_env.tres"
 vram_compression/import_etc=true
