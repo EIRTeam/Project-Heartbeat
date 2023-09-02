@@ -101,11 +101,9 @@ class SongPlayer:
 				audio_playback.queue_free()
 				audio_playback = sound_source.instantiate(HBGame.menu_music_group)
 			add_child(audio_playback)
-			audio_playback.volume = 0.0
 			audio_playback.seek(song.preview_start)
 			# Scheduling starts prevents crackles
 			audio_playback.schedule_start_time(Shinobu.get_dsp_time())
-			audio_playback.start()
 			
 			#audio_playback.connect_sound_to_effect(HBGame.spectrum_analyzer)
 			
@@ -113,7 +111,6 @@ class SongPlayer:
 				var song_voice_audio_name = get_song_voice_audio_name()
 				var voice_source := voice.shinobu
 				voice_audio_playback = voice_source.instantiate(HBGame.menu_music_group, use_source_channel_count)
-				voice_audio_playback.volume = 0.0
 				voice_audio_playback.seek(song.preview_start)
 				voice_audio_playback.schedule_start_time(Shinobu.get_dsp_time())
 				voice_audio_playback.start()
@@ -133,39 +130,30 @@ class SongPlayer:
 				audio_remap.connect_to_group(HBGame.menu_music_group)
 				audio_playback.connect_sound_to_effect(audio_remap)
 				
-		var tween := Threen.new()
-		
-		add_child(tween)
 		if audio_playback:
-			tween.interpolate_property(audio_playback, "volume", 0.0, db_to_linear(target_volume), 0.5)
+			# WARNING: DO NOT SET THE VOLUME FOR THE BACKGORUND MUSIC PLAYER's AUDIO PLAYBACK NODES
+			# OR YOU WILL BE KILLED, AUDIO FADING IS INDEPENDENT FROM VOLUME SO IF YOU DO THAT IT WILL GET
+			# EXPONENTIALLY BOOSTED, KEEP IT AT 1.0 PLEASE
+			audio_playback.fade(500, 0.0, db_to_linear(target_volume))
+			audio_playback.start()
 		if voice_audio_playback:
-			tween.interpolate_property(voice_audio_playback, "volume", 0.0, db_to_linear(target_volume), 0.5)
-		
-		tween.connect("tween_all_completed", Callable(tween, "queue_free"))
-		
-		tween.start()
+			voice_audio_playback.fade(500, 0.0, db_to_linear(target_volume))
+			voice_audio_playback.start()
 		
 		emit_signal("song_assets_loaded")
 		
 		set_process(true)
-		
-		
 
 	var calls := 0
 		
 	func fade_out():
 		set_process(false) # nothing else should fire while fading out...
-		var tween := Threen.new()
-		
-		add_child(tween)
 		if audio_playback:
-			tween.interpolate_property(audio_playback, "volume", db_to_linear(target_volume), 0.0, 0.5)
+			audio_playback.fade(500, db_to_linear(target_volume), 0.0)
 			if voice_audio_playback:
-				tween.interpolate_property(voice_audio_playback, "volume", db_to_linear(target_volume), 0.0, 0.5)
+				voice_audio_playback.fade(500, db_to_linear(target_volume), 0.0)
 		
-		tween.connect("tween_all_completed", Callable(self, "queue_free"))
-		
-		tween.start()
+		get_tree().create_timer(0.5, false).timeout.connect(self.queue_free)
 
 var current_song_player: SongPlayer
 
