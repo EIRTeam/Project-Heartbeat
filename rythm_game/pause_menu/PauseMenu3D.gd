@@ -15,6 +15,7 @@ func _ready():
 	resume_button.connect("pressed", Callable(self, "resume"))
 	restart_button.connect("pressed", Callable(restart_popup, "popup_centered_ratio").bind(0.35))
 	quit_button.connect("pressed", Callable(quit_popup, "popup_centered_ratio").bind(0.35))
+	quit_popup.accept.connect(quit)
 	quit_popup.connect("cancel", Callable(pause_menu_list, "grab_focus"))
 	restart_popup.connect("cancel", Callable(pause_menu_list, "grab_focus"))
 	song_settings_button.connect("pressed", Callable(self, "show_song_settings"))

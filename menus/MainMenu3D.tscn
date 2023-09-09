@@ -31,7 +31,7 @@ material = SubResource("StandardMaterial3D_57r4k")
 size = Vector2(1.6, 0.9)
 
 [sub_resource type="BoxShape3D" id="4"]
-size = Vector3(1.6, 0.9, 0.01)
+size = Vector3(1.6, 0.9, 0.1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bsm36"]
 viewport_path = NodePath("ViewportRight")
@@ -48,7 +48,7 @@ material = SubResource("StandardMaterial3D_xaq6o")
 size = Vector2(0.45, 0.9)
 
 [sub_resource type="BoxShape3D" id="8"]
-size = Vector3(0.45, 0.9, 0.02)
+size = Vector3(0.45, 0.9, 0.1)
 
 [sub_resource type="Animation" id="9"]
 length = 0.3
@@ -120,6 +120,7 @@ size = 0.9
 disable_3d = true
 transparent_bg = true
 size = Vector2i(1920, 1080)
+render_target_update_mode = 3
 script = ExtResource("2_8711a")
 
 [node name="MenuLeftContainer" type="MarginContainer" parent="ViewportLeft"]
@@ -134,6 +135,7 @@ theme_override_constants/margin_left = 0
 disable_3d = true
 transparent_bg = true
 size = Vector2i(720, 1440)
+render_target_update_mode = 3
 script = ExtResource("2_8711a")
 
 [node name="MenuRightContainer" type="MarginContainer" parent="ViewportRight"]
@@ -175,7 +177,7 @@ skeleton = NodePath("")
 script = ExtResource("7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaLeft"]
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.00420609, -0.0040324, 0.00213248)
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0.004, -0.004, -0.05)
 shape = SubResource("4")
 
 [node name="AreaRight" type="Area3D" parent="." node_paths=PackedStringArray("node_viewport", "node_quad", "node_area")]
@@ -192,7 +194,7 @@ skeleton = NodePath("")
 script = ExtResource("7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaRight"]
-transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, -0.05)
 shape = SubResource("8")
 
 [node name="SongListPreviewAnimationPlayer" type="AnimationPlayer" parent="."]

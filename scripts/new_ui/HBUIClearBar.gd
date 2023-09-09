@@ -113,16 +113,18 @@ func set_bottom_clear_margin(val):
 
 func _draw():
 	var origin = Vector2(0,0)
-	if max_value != 0:
-		size.x = size.x * (value / max_value)
-	else:
-		size.x = 0
 	
 	var rect_clear = Rect2(Vector2(size.x * CLEAR_POINT, 0), Vector2(size.x * (1 - CLEAR_POINT), size.y))
 	
 	rect_clear = apply_margin(rect_clear)
 	draw_rect(rect_clear, clear_separator_color)
-	var progress_rect = Rect2(origin, size)
+	
+	var pr_size = size
+	if max_value != 0:
+		pr_size.x = pr_size.x * (value / max_value)
+	else:
+		pr_size.x = 0
+	var progress_rect = Rect2(origin, pr_size)
 	progress_rect = apply_margin(progress_rect)
 	draw_style_box(stylebox, progress_rect)
 	

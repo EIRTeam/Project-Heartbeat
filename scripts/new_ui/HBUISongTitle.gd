@@ -76,8 +76,8 @@ func _ready():
 	artist_label.uppercase = true
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.clip_text = true
-	artist_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	title_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	artist_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
 	add_child(hbox_container)
 	circle_logo_margin_container.add_child(circle_logo_texture_rect)

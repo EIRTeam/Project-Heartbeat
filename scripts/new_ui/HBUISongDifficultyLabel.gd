@@ -54,8 +54,8 @@ func _ready():
 	modifiers_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modifiers_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	difficulty_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	difficulty_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	modifiers_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	difficulty_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	modifiers_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
 	add_child(hbox_container)
 	hbox_container.add_child(difficulty_label)

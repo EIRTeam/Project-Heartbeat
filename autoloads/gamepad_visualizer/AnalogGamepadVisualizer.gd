@@ -25,7 +25,7 @@ func _draw():
 		draw_circle(size / 2.0, deadzone * size.x / 2.0, col)
 		draw_circle((pos * size / 2) + size / 2, 2, Color.WHITE)
 	else:
-		var size = deadzone * size
-		draw_rect(Rect2(starting_pos, size), col)
+		var rect_size = deadzone * size
+		draw_rect(Rect2(starting_pos, rect_size), col)
 
-		draw_circle((pos * size / 2) + size / 2, 2, Color.WHITE)
+		draw_circle((pos * rect_size / 2) + rect_size / 2, 2, Color.WHITE)

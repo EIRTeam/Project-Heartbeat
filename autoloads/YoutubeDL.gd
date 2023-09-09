@@ -69,9 +69,11 @@ class CachingQueueEntry:
 
 	var current_process: Process
 	var aborted := false
-	var thread: Thread
+	var task_id := -1
 	signal download_progress_changed(download_progress, download_speed)
 	var extension := ""
+	var download_video: bool
+	var download_audio: bool
 
 	func abort_download():
 		mutex.lock()
@@ -162,7 +164,7 @@ func _ready():
 	pass
 	
 func ensure_perms():
-	if OS.get_name() == "X11":
+	if OS.get_name() == "Linux":
 		# Ensure YTDL can be executed on linoox
 		OS.execute("chmod", ["+x", get_ytdl_executable()])
 		OS.execute("chmod", ["+x", get_ffmpeg_executable()])
@@ -173,7 +175,7 @@ func get_aria2_executable():
 	var path
 	if OS.get_name() == "Windows":
 		path = YOUTUBE_DL_DIR + "/aria2c.exe"
-	elif OS.get_name() == "X11":
+	elif OS.get_name() == "Linux":
 		path = YOUTUBE_DL_DIR + "/aria2c"
 	return ProjectSettings.globalize_path(path)
 
@@ -248,21 +250,22 @@ func get_ytdl_executable():
 	var path
 	if OS.get_name() == "Windows":
 		path = YOUTUBE_DL_DIR + "/youtube-dl.exe"
-	elif OS.get_name() == "X11":
+	elif OS.get_name() == "Linux":
 		path = YOUTUBE_DL_DIR + "/youtube-dl"
+	print(OS.get_name())
 	return ProjectSettings.globalize_path(path)
 func get_ffmpeg_executable():
 	var path
 	if OS.get_name() == "Windows":
 		path = YOUTUBE_DL_DIR + "/ffmpeg.exe"
-	elif OS.get_name() == "X11":
+	elif OS.get_name() == "Linux":
 		path = YOUTUBE_DL_DIR + "/ffmpeg"
 	return ProjectSettings.globalize_path(path)
 func get_ffprobe_executable():
 	var path
 	if OS.get_name() == "Windows":
 		path = YOUTUBE_DL_DIR + "/ffprobe.exe"
-	elif OS.get_name() == "X11":
+	elif OS.get_name() == "Linux":
 		path = YOUTUBE_DL_DIR + "/ffprobe"
 	return ProjectSettings.globalize_path(path)
 
@@ -286,8 +289,10 @@ func get_audio_path(video_id, global=false, temp=false) -> String:
 	
 func get_ytdl_error(process: Process) -> String:
 	var error := "Unknown error"
+	print("LINES!", process.get_available_stderr_lines(), process.get_available_stdout_lines())
 	for _i in range(process.get_available_stderr_lines()):
 		var line := process.get_stderr_line()
+		prints("L", _i, line)
 		if "ERROR:" in line:
 			error = line
 			break
@@ -313,7 +318,7 @@ func get_ytdl_shared_params(handle_temp_files := false):
 		
 		shared_params.append(ProjectSettings.globalize_path(get_cache_dir()))
 	
-	if OS.get_name() == "X11":
+	if OS.get_name() == "Linux":
 		shared_params += ["--ffmpeg-location", ProjectSettings.globalize_path(YOUTUBE_DL_DIR)]
 	
 	return shared_params
@@ -337,15 +342,15 @@ func cleanup_video_media(video_id: String, video := false, audio := false):
 func clean_temp_folder():
 	HBUtils.remove_recursive(get_cache_dir().path_join("temp"))
 
-func _download_video(userdata):
+func _download_video(userdata: CachingQueueEntry):
 	var download_video = userdata.download_video
 	var download_audio = userdata.download_audio
 	if not userdata.video_id in cache_meta.cache:
 		cache_meta_mutex.lock()
 		cache_meta.cache[userdata.video_id] = {}
 		cache_meta_mutex.unlock()
-	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata.entry}
-	var entry := userdata.entry as CachingQueueEntry
+	var result = {"video_id": userdata.video_id, "song": userdata.song, "cache_entry": userdata}
+	var entry := userdata
 	# we have to ignroe the cache dir because youtube-dl is stupid
 	var shared_params = get_ytdl_shared_params(true)
 	var audio_download_ok = true
@@ -361,7 +366,7 @@ func _download_video(userdata):
 		entry.mutex.lock()
 		if entry.aborted:
 			entry.mutex.unlock()
-			call_deferred("_video_downloaded", userdata.thread, result)
+			call_deferred("_video_downloaded", userdata, result)
 			return
 		var audio_download_process := PHNative.create_process(get_ytdl_executable(), shared_params + audio_params)
 		entry.caching_stage = CACHING_STAGE.DOWNLOADING_AUDIO
@@ -384,7 +389,7 @@ func _download_video(userdata):
 			entry.mutex.lock()
 			if entry.aborted:
 				entry.mutex.unlock()
-				call_deferred("_video_downloaded", userdata.thread, result)
+				call_deferred("_video_downloaded", userdata, result)
 				return
 			var input_path := "%s" % get_audio_path(userdata.video_id, true, true)
 			var output_path := "%s" % get_audio_path(userdata.video_id, true)
@@ -404,8 +409,11 @@ func _download_video(userdata):
 			if ffmpeg_error_code != OK:
 				var stderr_lines := PackedStringArray()
 				
+				print(ffmpeg_process.get_available_stdout_lines())
 				for _i in range(ffmpeg_process.get_available_stderr_lines()):
 					stderr_lines.append(ffmpeg_process.get_stderr_line())
+				
+				print(get_ffmpeg_executable())
 				
 				result["audio_out"] = "".join(stderr_lines)
 				result["audio"] = false
@@ -469,7 +477,7 @@ func _download_video(userdata):
 				Log.log(self, "Error downloading video " + userdata.video_id + " ")
 				result["video_out"] = "Unknown error (file not found after download)"
 	Log.log(self, "Video download finish!")
-	call_deferred("_video_downloaded", userdata.thread, result)
+	call_deferred("_video_downloaded", entry, result)
 	
 func show_error(output: String, message: String, song: HBSong):
 	var progress_thing = PROGRESS_THING.instantiate()
@@ -491,9 +499,9 @@ func show_error(output: String, message: String, song: HBSong):
 	# We log the whole output to disk just in case
 	Log.log(self, message.format({"song_title": song.get_visible_title(), "error_message": output}), Log.LogLevel.ERROR)
 	
-func _video_downloaded(thread: Thread, result):
-	if thread:
-		thread.wait_to_finish()
+func _video_downloaded(entry: CachingQueueEntry, result):
+	if entry.task_id != -1:
+		WorkerThreadPool.wait_for_task_completion(entry.task_id)
 
 	if not result.video_id in tracked_video_downloads:
 		return
@@ -513,7 +521,7 @@ func _video_downloaded(thread: Thread, result):
 	if result.has("audio"):
 		if not result.audio:
 			has_error = true
-			show_error(result.audio_out, "Error downloading audio for {song_title}. ({error_message})", current_song)
+			show_error(result.audio_out, "Error downloading audio forxº {song_title}. ({error_message})", current_song)
 	if not has_error:
 		var progress_thing = PROGRESS_THING.instantiate()
 		DownloadProgress.add_notification(progress_thing, true)
@@ -578,10 +586,9 @@ func download_video(entry: CachingQueueEntry):
 			return ERR_ALREADY_EXISTS
 	video_ids_being_cached.append(video_id)
 	emit_signal("song_download_start", song)
-	var result = thread.start(Callable(self, "_download_video").bind({"thread": thread, "video_id": video_id, "download_video": download_video, "download_audio": download_audio, "song": song, "entry": entry}))
-	entry.thread = thread
-	if result != OK:
-		Log.log(self, "Error starting thread for ytdl download: " + str(result), Log.LogLevel.ERROR)
+	entry.task_id = WorkerThreadPool.add_task(_download_video.bind(entry))
+	entry.download_video = download_video
+	entry.download_audio = download_audio
 	
 func get_video_id(url: String):
 	var regex = RegEx.new()

@@ -12,7 +12,7 @@ const TITLE_TEMPLATE = "[font=res://fonts/new_fonts/roboto_black_35.tres]%s[/fon
 const SCROLL_SPEED = 1500.0
 
 var PH_AUTHORS = {
-	"Patrons": preload("res://patrons.gd").PATRONS,
+	"Patrons": preload("res://misc/patrons.gd").PATRONS,
 	"Programming": {
 		"Álex Román Núñez (EIREXE)": "Lead developer, engine developer",
 		"Lino Bigatti": "Volunteer developer",

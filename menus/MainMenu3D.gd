@@ -14,10 +14,13 @@ func _ready():
 		"state": "On main menu"
 	})
 	
+	if Steamworks.is_valid():
+		Steamworks.friends.set_rich_presence("steam_display", "#StatusMainMenu")
+	
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	UserSettings.enable_menu_fps_limits = true
-
+	
 func _on_viewport_size_changed():
 	# this scales shit for more squareish resolutions, it's a bit hacky so you might need
 	# to adjust the 0.90 magic number

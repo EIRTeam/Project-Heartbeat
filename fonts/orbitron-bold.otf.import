@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bhvxjn5pyyk55"
+uid="uid://igqm8fnnmk4q"
 path="res://.godot/imported/orbitron-bold.otf-b8993ed57199782a0e8f1db0e669e8ed.fontdata"
 
 [deps]
@@ -24,7 +24,7 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Resource("res://fonts/NotoSansJP-Regular.otf"), Resource("res://fonts/NotoSansKR-Regular.otf")]
+fallbacks=[]
 Compress=null
 compress=true
 preload=[]

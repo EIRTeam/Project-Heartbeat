@@ -62,7 +62,7 @@ func set_control_font(control: Control, property_name: String, font: Font):
 		control.set(property_name, font)
 	else:
 		var ff := HBGame.fallback_font.duplicate() as Font
-		ff.size = font.size
+		var fallback_font := HBUIFont.new()
 		ff.outline_size = font.outline_size
 		ff.outline_color = font.outline_color
 		control.set(property_name, ff)

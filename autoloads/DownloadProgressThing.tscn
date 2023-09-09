@@ -1,98 +1,102 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://c3tsw7u3rh8h0"]
 
-[ext_resource path="res://autoloads/DownloadProgressThing.gd" type="Script" id=1]
-[ext_resource path="res://fonts/orbitron-medium.otf" type="FontFile" id=2]
-[ext_resource path="res://graphics/check.svg" type="Texture2D" id=3]
-[ext_resource path="res://fonts/NotoSansJP-Regular.otf" type="FontFile" id=4]
-[ext_resource path="res://Theme_Game_Min.tres" type="Theme" id=5]
+[ext_resource type="Script" path="res://autoloads/DownloadProgressThing.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
+[ext_resource type="Texture2D" uid="uid://b3lvuimnbuc7f" path="res://graphics/check.svg" id="3"]
+[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
+[ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 77.0
-bg_color = Color( 0.188235, 0.0705882, 0.301961, 0.501961 )
-border_color = Color( 0.929412, 0.215686, 0.8, 0.501961 )
+bg_color = Color(0.188235, 0.0705882, 0.301961, 0.501961)
+border_color = Color(0.929412, 0.215686, 0.8, 0.501961)
 corner_radius_bottom_right = 1024
 corner_detail = 1
 expand_margin_right = 77.0
-shadow_color = Color( 0, 0, 0, 0.25 )
+shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[sub_resource type="FontFile" id=2]
-size = 15
-use_filter = true
-font_data = ExtResource( 2 )
-fallback/0 = ExtResource( 4 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("4")])
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/30/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id="3"]
 resource_local_to_scene = true
-bg_color = Color( 0.0627451, 0.2, 0.0705882, 1 )
+bg_color = Color(0.0627451, 0.2, 0.0705882, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.207843, 0.380392, 0.105882, 1 )
+border_color = Color(0.207843, 0.380392, 0.105882, 1)
 corner_radius_top_left = 1024
 corner_radius_top_right = 1024
 corner_radius_bottom_right = 1024
 corner_radius_bottom_left = 1024
 
 [node name="HBoxContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 70.0
 offset_bottom = 70.0
-theme = ExtResource( 5 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("5")
+script = ExtResource("1")
 easing = 0.392293
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 45.0
 offset_top = 18.0
 offset_right = 295.0
 offset_bottom = 52.0
-theme_override_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("1")
 
 [node name="Label" type="Label" parent="Panel"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-custom_minimum_size = Vector2( 0, 34 )
-theme_override_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "asdasdsadsadsa"
 vertical_alignment = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ProgressBar" type="ProgressBar" parent="Panel"]
 unique_name_in_owner = true
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_type_variation = "DownloadProgressThingProgressBar"
+theme_type_variation = &"DownloadProgressThingProgressBar"
 max_value = 1.0
 step = 0.0
-percent_visible = false
 
 [node name="Control" type="Panel" parent="."]
+layout_mode = 0
 offset_right = 70.0
 offset_bottom = 70.0
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme_override_styles/panel = SubResource("3")
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = -10.0
 offset_bottom = -10.0
-pivot_offset = Vector2( 25, 25 )
-texture = ExtResource( 3 )
-expand = true
+pivot_offset = Vector2(25, 25)
+texture = ExtResource("3")
+expand_mode = 1

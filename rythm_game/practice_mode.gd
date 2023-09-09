@@ -46,7 +46,10 @@ enum PRACTICE_GUI {
 	OPTIONS,
 	SPEED,
 }
-var practice_gui_mode := 0: set = _set_mode
+var practice_gui_mode_internal := 0
+func get_practice_gui_mode():
+	return practice_gui_mode_internal
+var practice_gui_mode: set = _set_mode, get = get_practice_gui_mode
 
 var pitch_shift_effect := Shinobu.instantiate_pitch_shift()
 
@@ -102,7 +105,7 @@ func pause():
 	set_process(true)
 	update_progress_bar()
 	quit_confirmation.hide()
-	quit_confirmation.release_focus()
+	#quit_confirmation.release_focus()
 	
 	if get_tree().paused:
 		pre_pause_game_mode = game.game_mode
@@ -226,7 +229,7 @@ func _set_mode_impl(new_mode: int, update := false):
 				practice_section_seek_gui.show()
 			else:
 				# Lets pray to the recursion gods that this doesnt implode
-				_set_mode(new_mode + (new_mode - practice_gui_mode))
+				_set_mode_impl(new_mode + (new_mode - practice_gui_mode))
 				return
 		else:
 			practice_section_seek_gui.hide()
@@ -243,7 +246,7 @@ func _set_mode_impl(new_mode: int, update := false):
 		else:
 			practice_speed_gui.hide()
 	
-	practice_gui_mode = new_mode
+	practice_gui_mode_internal = new_mode
 
 func set_waypoint(time: int):
 	waypoint = time

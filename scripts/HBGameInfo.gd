@@ -18,7 +18,6 @@ var song_id = ""
 var difficulty = ""
 var variant = -1
 func _init():
-	super._init()
 	time = Time.get_unix_time_from_system()
 	
 	serializable_fields += ["game_session_type", "time", "result", "modifiers",

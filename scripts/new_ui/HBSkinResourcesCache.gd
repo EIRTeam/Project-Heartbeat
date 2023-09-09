@@ -23,9 +23,10 @@ func get_texture(texture_name: String) -> Texture2D:
 				var texture_path := skin_resources.get_animated_texture_frame_path(texture_name, i)
 				var image := Image.load_from_file(texture_path)
 				var image_texture = ImageTexture.create_from_image(image) #,HBGame.platform_settings.texture_mode
-				image_texture.set_meta("animated_texture_path", texture_path)
-				animated_texture.set_frame_texture(i, image_texture)
-				animated_texture.set_frame_duration(i, skin_resources.get_animated_texture_frame_duration(texture_name, i))
+				if image_texture:
+					image_texture.set_meta("animated_texture_path", texture_path)
+					animated_texture.set_frame_texture(i, image_texture)
+					animated_texture.set_frame_duration(i, skin_resources.get_animated_texture_frame_duration(texture_name, i))
 			animated_texture.set_meta("texture_name", texture_name)
 			tex = animated_texture
 			texture_cache[texture_name] = animated_texture

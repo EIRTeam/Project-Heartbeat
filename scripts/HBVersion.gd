@@ -30,7 +30,6 @@ static func get_version_string(with_line_breaks := false):
 	
 	if HBGame.is_on_steam_deck():
 		os_name += " on Steam Deck"
-	
 	result = result.format({
 		"ver_name": ver_name + demo_string,
 		"status": status,
