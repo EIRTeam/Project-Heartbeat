@@ -138,6 +138,11 @@ const SPECTRUM_DEFINITION = 256
 var spectrum_snapshot: HBSpectrumSnapshot
 
 func _ready():
+	var exe_path := OS.get_executable_path()
+	var base_content_pack_path = exe_path.get_base_dir().path_join("Project Heartbeat Base Content.pck")
+	if FileAccess.file_exists(base_content_pack_path):
+		ProjectSettings.load_resource_pack(base_content_pack_path, false)
+	
 	spectrum_snapshot = HBSpectrumSnapshot.new(SPECTRUM_DEFINITION)
 	_game_init()
 	if "--demo-mode" in OS.get_cmdline_args():
