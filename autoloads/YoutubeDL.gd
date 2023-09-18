@@ -252,7 +252,6 @@ func get_ytdl_executable():
 		path = YOUTUBE_DL_DIR + "/youtube-dl.exe"
 	elif OS.get_name() == "Linux":
 		path = YOUTUBE_DL_DIR + "/youtube-dl"
-	print(OS.get_name())
 	return ProjectSettings.globalize_path(path)
 func get_ffmpeg_executable():
 	var path
@@ -289,11 +288,9 @@ func get_audio_path(video_id, global=false, temp=false) -> String:
 	
 func get_ytdl_error(process: Process) -> String:
 	var error := "Unknown error"
-	print("LINES!", process.get_available_stderr_lines(), process.get_available_stdout_lines())
 	for _i in range(process.get_available_stderr_lines()):
 		var line := process.get_stderr_line()
-		prints("L", _i, line)
-		if "ERROR:" in line:
+		if "ERROR:" in line and not "gameoverlayrenderer.so" in line:
 			error = line
 			break
 	return error
@@ -409,11 +406,8 @@ func _download_video(userdata: CachingQueueEntry):
 			if ffmpeg_error_code != OK:
 				var stderr_lines := PackedStringArray()
 				
-				print(ffmpeg_process.get_available_stdout_lines())
 				for _i in range(ffmpeg_process.get_available_stderr_lines()):
 					stderr_lines.append(ffmpeg_process.get_stderr_line())
-				
-				print(get_ffmpeg_executable())
 				
 				result["audio_out"] = "".join(stderr_lines)
 				result["audio"] = false
