@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://c1k1pnjjnkelc"]
 
 [ext_resource type="Theme" uid="uid://4xcdimhfc2hy" path="res://default_theme_tools.tres" id="1"]
-[ext_resource type="Texture2D" uid="uid://ceqe72gds8l5y" path="res://graphics/icons/lyric-start.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://c1hgppuw8cf5f" path="res://graphics/icons/form-textbox.svg" id="3"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/EventsModule.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://dw53q4426l2l6" path="res://graphics/icons/section.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://2fruys8sge51" path="res://graphics/icons/metronome.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://biwcvsf3t751q" path="res://graphics/icons/fast-forward-mirror.svg" id="7"]
-[ext_resource type="Texture2D" uid="uid://dussux3ksusnf" path="res://graphics/icons/lyric-end.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dvckffx8y5req" path="res://graphics/icons/lyric-start.svg" id="7_tk5ji"]
+[ext_resource type="Texture2D" uid="uid://cw6k7h1t23iex" path="res://graphics/icons/lyric-end.svg" id="8_nvy77"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="9"]
 [ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="10"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="11"]
@@ -75,7 +75,7 @@ size_flags_horizontal = 3
 script = ExtResource("9")
 text = "Phrase start"
 tooltip = "Shows a lyric phrase to the player."
-texture = ExtResource("2")
+texture = ExtResource("7_tk5ji")
 button_mode = "function"
 function_name = "create_phrase_start"
 action = "editor_quick_phrase_start"
@@ -87,7 +87,7 @@ size_flags_horizontal = 3
 script = ExtResource("9")
 text = "Phrase end"
 tooltip = "Hides a lyric phrase from the player."
-texture = ExtResource("8")
+texture = ExtResource("8_nvy77")
 button_mode = "function"
 function_name = "create_phrase_end"
 action = "editor_quick_phrase_end"

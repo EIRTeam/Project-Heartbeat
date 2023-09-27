@@ -4,17 +4,17 @@
 [ext_resource type="Script" path="res://tools/editor/editor_modules/PresetsModule.gd" id="2"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="3"]
 [ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://caufx3d8eftt6" path="res://graphics/icons/vertical-multi-right.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://droeqmm2r67h5" path="res://graphics/icons/quad-inside.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://copp8fxskpppe" path="res://graphics/icons/quad-outside.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://dp428hcl3ja5x" path="res://graphics/icons/horizontal-multi-down.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://4g5cquem74rp" path="res://graphics/icons/vertical-multi-left.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://48xc8sfutdan" path="res://graphics/icons/horizontal-multi-up.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://bamdqkuhcuy8w" path="res://graphics/icons/triangle-inverted.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://dvvhsy46nhxdm" path="res://graphics/icons/triangle-normal.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://d3u3drbns5n3k" path="res://graphics/icons/quad-sideways.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://bvhwptu1k7opv" path="res://graphics/icons/straight-vertical-multi.svg" id="14"]
+[ext_resource type="Texture2D" uid="uid://dkucbutgstcwe" path="res://graphics/icons/vertical-multi-left.svg" id="5_23f3r"]
+[ext_resource type="Texture2D" uid="uid://cokg7dess7v74" path="res://graphics/icons/vertical-multi-right.svg" id="6_7fnki"]
+[ext_resource type="Texture2D" uid="uid://dxsc4xep3djhi" path="res://graphics/icons/horizontal-multi-up.svg" id="8_vd5rn"]
+[ext_resource type="Texture2D" uid="uid://dki0eg0060oh6" path="res://graphics/icons/horizontal-multi-down.svg" id="9_w5bq6"]
+[ext_resource type="Texture2D" uid="uid://df77txo5r02sk" path="res://graphics/icons/quad-outside.svg" id="11_yewie"]
+[ext_resource type="Texture2D" uid="uid://bx8oraoesbrxo" path="res://graphics/icons/quad-inside.svg" id="12_ejwxe"]
+[ext_resource type="Texture2D" uid="uid://brs2l6dwpf6yb" path="res://graphics/icons/quad-sideways.svg" id="13_3278t"]
+[ext_resource type="Texture2D" uid="uid://bvhwptu1k7opv" path="res://graphics/icons/vertical-multi-straight.svg" id="14"]
+[ext_resource type="Texture2D" uid="uid://ps07eux1kws8" path="res://graphics/icons/triangle-normal.svg" id="14_0v60j"]
 [ext_resource type="Texture2D" uid="uid://dryx783dpnw5t" path="res://graphics/icons/diagonal-multi.svg" id="15"]
+[ext_resource type="Texture2D" uid="uid://cncbn4loek3mb" path="res://graphics/icons/triangle-inverted.svg" id="15_egvv7"]
 
 [node name="EditorModule" instance=ExtResource("1")]
 offset_bottom = 707.0
@@ -45,7 +45,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 690)
+custom_minimum_size = Vector2(144, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -54,11 +54,11 @@ tooltip = "Arranges multis vertically, with
 angles from the left.
 Use this if your sequence is going
 from right to left."
-texture = ExtResource("9")
+texture = ExtResource("5_23f3r")
 action = "editor_vertical_multi_left"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 690)
+custom_minimum_size = Vector2(144, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -67,12 +67,12 @@ tooltip = "Arranges multis vertically, with
 angles from the right.
 Use this if your sequence is going
 from left to right."
-texture = ExtResource("5")
+texture = ExtResource("6_7fnki")
 transform_id = 1
 action = "editor_vertical_multi_right"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(144, 691)
+custom_minimum_size = Vector2(144, 680)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -100,7 +100,7 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 690)
+custom_minimum_size = Vector2(150, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -109,12 +109,12 @@ tooltip = "Arranges multis horizontally, with
 angles from the top.
 Use this if your sequence is going
 from bottom to top."
-texture = ExtResource("10")
+texture = ExtResource("8_vd5rn")
 transform_id = 2
 action = "editor_horizontal_multi_top"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 690)
+custom_minimum_size = Vector2(150, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -123,12 +123,12 @@ tooltip = "Arranges multis horizontally, with
 angles from the bottom.
 Use this if your sequence is going
 from top to bottom."
-texture = ExtResource("8")
+texture = ExtResource("9_w5bq6")
 transform_id = 3
 action = "editor_horizontal_multi_bottom"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(150, 691)
+custom_minimum_size = Vector2(150, 680)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
@@ -158,37 +158,37 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="QuadOutsideButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 690)
+custom_minimum_size = Vector2(172, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
 text = "Outside"
 tooltip = "Arranges multis in a rectangle, with
 angles coming from outside."
-texture = ExtResource("7")
+texture = ExtResource("11_yewie")
 transform_id = 4
 action = "editor_quad"
 
 [node name="QuadInsideButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 690)
+custom_minimum_size = Vector2(172, 679)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
 text = "Inside"
 tooltip = "Arranges multis in a rectangle, with
 angles coming from inside."
-texture = ExtResource("6")
+texture = ExtResource("12_ejwxe")
 transform_id = 5
 action = "editor_inner_quad"
 
 [node name="QuadSidewaysButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer3" index="2" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(172, 691)
+custom_minimum_size = Vector2(172, 680)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
 text = "Sideways"
 tooltip = "Arranges multis in a diamond."
-texture = ExtResource("13")
+texture = ExtResource("13_3278t")
 transform_id = 6
 action = "editor_sideways_quad"
 
@@ -206,24 +206,24 @@ layout_mode = 2
 script = ExtResource("4")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer4" index="0" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(149, 1011)
+custom_minimum_size = Vector2(149, 1000)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
 text = "Normal"
 tooltip = "Arrange multis in a triangle."
-texture = ExtResource("12")
+texture = ExtResource("14_0v60j")
 transform_id = 7
 action = "editor_triangle"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer4" index="1" groups=["preset_buttons"]]
-custom_minimum_size = Vector2(149, 1011)
+custom_minimum_size = Vector2(149, 1000)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3")
 text = "Inverted"
 tooltip = "Arrange multis in an upside-down
 triangle."
-texture = ExtResource("11")
+texture = ExtResource("15_egvv7")
 transform_id = 8
 action = "editor_triangle_inverted"

@@ -1,16 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://ojpnaoiv0tsc"]
+[gd_scene load_steps=14 format=3 uid="uid://ojpnaoiv0tsc"]
 
-[ext_resource type="Texture2D" uid="uid://c0opqtj5gsxyd" path="res://graphics/icons/increment-angles.png" id="1"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/AnglesModule.gd" id="2"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://c45dps4dec7od" path="res://graphics/icons/decrement-angles-inverted.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://d388houqjhi85" path="res://graphics/icons/increment-angles-inverted.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://btmcjkl6shdqf" path="res://graphics/icons/flip-angles.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://30kidvx5b58o" path="res://graphics/icons/increment-angles.svg" id="6_q27fg"]
+[ext_resource type="Texture2D" uid="uid://b37l5oso0nmso" path="res://graphics/icons/decrement-angles.svg" id="7_vj26r"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="8"]
+[ext_resource type="Texture2D" uid="uid://bqm2d1jygdjok" path="res://graphics/icons/increment-angles-inverted.svg" id="8_sc1pm"]
 [ext_resource type="Script" path="res://menus/HBoxRatioContainer.gd" id="9"]
-[ext_resource type="Texture2D" uid="uid://iwf7vw1pq6ro" path="res://graphics/icons/flip-oscillations.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://bmnwr7wvduqop" path="res://graphics/icons/decrement-angles.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://b31e1bpibbgxl" path="res://graphics/icons/decrement-angles-inverted.svg" id="9_cmjgs"]
+[ext_resource type="Texture2D" uid="uid://t3k6s6msdeqv" path="res://graphics/icons/interpolate-angles.svg" id="10_quoot"]
+[ext_resource type="Texture2D" uid="uid://cqtbilom3nka8" path="res://graphics/icons/interpolate-distances.svg" id="11_m661p"]
+[ext_resource type="Texture2D" uid="uid://xwv17nfipnrj" path="res://graphics/icons/flip-oscillations.svg" id="12_10bxe"]
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="13"]
+[ext_resource type="Texture2D" uid="uid://me57hf7m1m0e" path="res://graphics/icons/flip-angles.svg" id="13_3p6rq"]
 
 [node name="EditorModule" instance=ExtResource("13")]
 script = ExtResource("2")
@@ -116,7 +118,7 @@ text = "Moving
 away"
 tooltip = "Increment angles so that they are
 moving away from the first note."
-texture = ExtResource("1")
+texture = ExtResource("6_q27fg")
 action = "editor_move_angles_away"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
@@ -128,7 +130,7 @@ text = "Moving
 closer"
 tooltip = "Increment angles so that they are
 moving towards the first note."
-texture = ExtResource("11")
+texture = ExtResource("7_vj26r")
 transform_id = 1
 action = "editor_move_angles_closer"
 
@@ -159,7 +161,7 @@ text = "Moving
 away"
 tooltip = "Increment angles so that they are
 moving away from the last note."
-texture = ExtResource("5")
+texture = ExtResource("8_sc1pm")
 transform_id = 2
 action = "editor_move_angles_away_back"
 
@@ -172,7 +174,7 @@ text = "Moving
 closer"
 tooltip = "Increment angles so that they are
 moving towards the last note."
-texture = ExtResource("4")
+texture = ExtResource("9_cmjgs")
 transform_id = 3
 action = "editor_move_angles_closer_back"
 
@@ -198,6 +200,7 @@ text = "Interpolate
 angles"
 tooltip = "Create a smooth transition from one
 angle to another."
+texture = ExtResource("10_quoot")
 transform_id = 4
 action = "editor_interpolate_angle"
 
@@ -210,6 +213,7 @@ text = "Interpolate
 distances"
 tooltip = "Create a smooth transition from one
 distance to another."
+texture = ExtResource("11_m661p")
 transform_id = 5
 action = "editor_interpolate_distance"
 echo_action = true
@@ -222,7 +226,7 @@ script = ExtResource("8")
 text = "Flip
 oscillations"
 tooltip = "Flip the oscillations."
-texture = ExtResource("10")
+texture = ExtResource("12_10bxe")
 transform_id = 6
 action = "editor_flip_oscillation"
 
@@ -234,6 +238,6 @@ script = ExtResource("8")
 text = "Flip
 angles"
 tooltip = "Flip the angles."
-texture = ExtResource("7")
+texture = ExtResource("13_3p6rq")
 transform_id = 7
 action = "editor_flip_angle"

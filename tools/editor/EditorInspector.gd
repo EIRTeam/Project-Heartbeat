@@ -53,6 +53,9 @@ func get_common_inspecting_class():
 		var _data_class = item._class_name
 		
 		while (not common_class in item._inheritance) and _data_class != common_class:
+			if inheritance_size - i < 0:
+				break
+			
 			common_class = inspecting_items[0]._inheritance[inheritance_size - i]
 			i += 1
 	

@@ -7,7 +7,7 @@
    viewBox="0 0 67.733327 67.733335"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="triangle-inverted.svg"
    inkscape:export-filename="/home/lino/prj/Project-Heartbeat/graphics/icons/triangle-inverted.png"
    inkscape:export-xdpi="192.00002"
@@ -29,28 +29,30 @@
      units="px"
      width="32px"
      inkscape:zoom="2.0039062"
-     inkscape:cx="127.75049"
+     inkscape:cx="117.76998"
      inkscape:cy="111.78168"
      inkscape:window-width="945"
      inkscape:window-height="1040"
      inkscape:window-x="965"
      inkscape:window-y="10"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#505050" />
   <defs
      id="defs2">
     <marker
        style="overflow:visible"
        id="TriangleOutS"
-       refX="0.0"
-       refY="0.0"
+       refX="0"
+       refY="0"
        orient="auto"
        inkscape:stockid="TriangleOutS"
        inkscape:isstock="true">
       <path
          transform="scale(0.2)"
-         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
          id="path1063" />
     </marker>
     <marker
@@ -282,35 +284,73 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <g
+       id="path1529-7">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="m 31.867187,55.121094 -0.05469,11.269531 4.027344,0.01953 0.05469,-11.269531 z"
+         id="path519" />
+      <g
+         id="g509">
+        <g
+           id="path511">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.805454pt;-inkscape-stroke:none"
+             d="m 33.902089,50.483416 3.994337,6.98611 -8.05445,-0.03802 z"
+             id="path515" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="m 33.90625,49.410156 -0.46875,0.802735 -4.529297,7.751953 9.916016,0.04687 z m -0.0098,2.146485 3.070313,5.371093 -6.191406,-0.0293 z"
+             id="path517" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="path1529-7-9">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="m 63.576172,2.6464844 -8.00586,7.9316406 2.833985,2.861328 8.005859,-7.9316405 z"
+         id="path505" />
+      <g
+         id="g495">
+        <g
+           id="path497">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.805454pt;-inkscape-stroke:none"
+             d="M 53.684776,15.278649 55.800278,7.5143008 61.46875,13.236541 Z"
+             id="path501" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="m 55.527344,6.4746094 -2.605469,9.5585936 0.898437,-0.234375 8.685547,-2.279297 z m 0.546875,2.0800781 4.357422,4.3984375 -5.984375,1.570313 z"
+             id="path503" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="path1529-7-9-7">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="M 4.15625,2.6464844 1.3222656,5.5078125 9.3300781,13.439453 12.164063,10.578125 Z"
+         id="path491" />
+      <g
+         id="g481">
+        <g
+           id="path483">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.805454pt;-inkscape-stroke:none"
+             d="M 14.048551,15.278649 6.2645769,13.236542 11.933048,7.5143008 Z"
+             id="path487" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="M 12.207031,6.4746094 5.2285156,13.519531 14.810547,16.033203 14.566406,15.136719 Z M 11.658203,8.5546875 13.287109,14.523438 7.3027344,12.953125 Z"
+             id="path489" />
+        </g>
+      </g>
+    </g>
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.02727;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS)"
-       d="m 33.826951,66.400935 0.0532,-11.270101"
-       id="path1529-7" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.02727;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-35)"
-       d="M 64.993292,4.0763936 56.986509,12.007941"
-       id="path1529-7-9" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.02727;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-35-1)"
-       d="M 2.7400346,4.0763936 10.746818,12.007941"
-       id="path1529-7-9-7" />
-    <path
-       sodipodi:type="star"
-       style="opacity:0.992;fill:none;stroke:#ffffff;stroke-width:18.9997;stroke-miterlimit:4;stroke-dasharray:none"
+       style="color:#000000;fill:#ffffff;-inkscape-stroke:none;opacity:0.992"
+       d="M 96.830078,7.4746094 29.248047,124.14453 l 134.830073,0.19336 -8.20703,-14.26172 z m -0.05469,37.9980466 34.421879,59.818364 -69.013676,-0.0996 z"
        id="path1387"
-       inkscape:flatsided="true"
-       sodipodi:sides="3"
-       sodipodi:cx="96.718445"
-       sodipodi:cy="85.318367"
-       sodipodi:r1="58.845013"
-       sodipodi:r2="26.453499"
-       sodipodi:arg1="0.52503337"
-       sodipodi:arg2="1.5722309"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="M 147.63746,114.81395 45.715012,114.66773 96.802864,26.473415 Z"
-       transform="matrix(0.26458333,0,0,-0.26458333,8.2913522,49.981333)"
-       inkscape:transform-center-x="-0.75012918"
-       inkscape:transform-center-y="2.8297901" />
+       transform="matrix(0.26458333,0,0,-0.26458333,8.2913522,49.981333)" />
   </g>
 </svg>

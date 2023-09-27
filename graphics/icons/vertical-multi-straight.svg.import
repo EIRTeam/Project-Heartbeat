@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://caufx3d8eftt6"
-path="res://.godot/imported/vertical-multi-right.png-71efc23e1b94146a4286a51730a0cffa.ctex"
+uid="uid://bvhwptu1k7opv"
+path="res://.godot/imported/vertical-multi-straight.svg-b86b5c5bd2eb3ff19c8c0ca1f1c9fddd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/vertical-multi-right.png"
-dest_files=["res://.godot/imported/vertical-multi-right.png-71efc23e1b94146a4286a51730a0cffa.ctex"]
+source_file="res://graphics/icons/vertical-multi-straight.svg"
+dest_files=["res://.godot/imported/vertical-multi-straight.svg-b86b5c5bd2eb3ff19c8c0ca1f1c9fddd.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=5.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

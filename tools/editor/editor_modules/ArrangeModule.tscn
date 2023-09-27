@@ -1,20 +1,20 @@
 [gd_scene load_steps=20 format=3 uid="uid://dp3dxv1k748mt"]
 
-[ext_resource type="Texture2D" uid="uid://bwwxwl36s1jhe" path="res://graphics/icons/circle-clockwise-inside.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://d0x0jbwaj58e" path="res://graphics/icons/rotate-relative-right.svg" id="2"]
 [ext_resource type="Script" path="res://tools/editor/editor_modules/ArrangeModule.gd" id="3"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorSpinBox.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://c2gg4gcju4k0o" path="res://graphics/icons/rotate-relative-left.svg" id="5"]
-[ext_resource type="Texture2D" uid="uid://bckgutcxcdh0t" path="res://graphics/icons/circle-counterclockwise-inside.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://cguvravg1mcvj" path="res://graphics/icons/circle-clockwise.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://c1jrfwwatoiby" path="res://graphics/icons/arrange-line.svg" id="5_dncfq"]
+[ext_resource type="Texture2D" uid="uid://bgi10pnx3ybc0" path="res://graphics/icons/circle-clockwise.svg" id="7_5egqo"]
 [ext_resource type="Texture2D" uid="uid://2uvl0wk3sttg" path="res://graphics/icons/arrow-left-right.svg" id="8"]
+[ext_resource type="Texture2D" uid="uid://d260pibrxbfsb" path="res://graphics/icons/circle-counterclockwise.svg" id="8_y761g"]
 [ext_resource type="PackedScene" uid="uid://pr5h8mdaei60" path="res://tools/editor/EditorModule.tscn" id="9"]
+[ext_resource type="Texture2D" uid="uid://b31dw8i43dqui" path="res://graphics/icons/circle-clockwise-inside.svg" id="9_dg0tx"]
 [ext_resource type="Texture2D" uid="uid://dtcdjl17e1n3u" path="res://graphics/icons/flip-horizontal.svg" id="10"]
+[ext_resource type="Texture2D" uid="uid://i1107r05ppvg" path="res://graphics/icons/circle-counterclockwise-inside.svg" id="10_kubfp"]
 [ext_resource type="Script" path="res://tools/editor/controls/HBEditorButton.gd" id="11"]
-[ext_resource type="Texture2D" uid="uid://ceowdj325im60" path="res://graphics/icons/arrange-line.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://bqawaajhn8wet" path="res://graphics/icons/arrow-up-down.svg" id="13"]
 [ext_resource type="PackedScene" uid="uid://bknhgu2vawn75" path="res://tools/editor/EditorArrangeMenu.tscn" id="14"]
-[ext_resource type="Texture2D" uid="uid://dluenhq745a1w" path="res://graphics/icons/circle-counterclockwise.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://bhy1gxhk6i74r" path="res://graphics/icons/rotate-relative-center.svg" id="16"]
 [ext_resource type="Texture2D" uid="uid://n7ot7i7efk77" path="res://graphics/icons/flip-vertical.svg" id="17"]
 [ext_resource type="Texture2D" uid="uid://cfjtyob2diytx" path="res://graphics/icons/rotate-absolute.svg" id="18"]
@@ -90,14 +90,14 @@ text = "Place in reverse:"
 layout_mode = 2
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(104, 550)
+custom_minimum_size = Vector2(104, 539)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
 script = ExtResource("11")
 text = "Apply"
 tooltip = "Arrange notes with the selected angle."
-texture = ExtResource("12")
+texture = ExtResource("5_dncfq")
 button_mode = "function"
 function_name = "_apply_arrange"
 
@@ -156,14 +156,14 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 528)
+custom_minimum_size = Vector2(181, 517)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
 text = "Clockwise"
 tooltip = "Makes a clockwise circle with
 angles pointing outwards."
-texture = ExtResource("7")
+texture = ExtResource("7_5egqo")
 action = "editor_make_circle_cw"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
@@ -175,7 +175,7 @@ text = "Counter
 clockwise"
 tooltip = "Makes a counter-clockwise circle
 with angles pointing outwards."
-texture = ExtResource("15")
+texture = ExtResource("8_y761g")
 transform_id = 1
 action = "editor_make_circle_ccw"
 
@@ -197,14 +197,14 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 528)
+custom_minimum_size = Vector2(181, 517)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
 text = "Clockwise"
 tooltip = "Makes a clockwise circle with
 angles pointing inwards."
-texture = ExtResource("1")
+texture = ExtResource("9_dg0tx")
 transform_id = 2
 action = "editor_make_circle_cw_inside"
 
@@ -217,7 +217,7 @@ text = "Counter
 clockwise"
 tooltip = "Makes a counter-clockwise circle
 with angles pointing inwards."
-texture = ExtResource("6")
+texture = ExtResource("10_kubfp")
 transform_id = 3
 action = "editor_make_circle_ccw_inside"
 
