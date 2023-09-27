@@ -110,7 +110,7 @@ layout_mode = 2
 script = ExtResource("9")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(128, 551)
+custom_minimum_size = Vector2(128, 204)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -122,7 +122,7 @@ texture = ExtResource("6_q27fg")
 action = "editor_move_angles_away"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(128, 551)
+custom_minimum_size = Vector2(128, 204)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -153,7 +153,7 @@ size_flags_horizontal = 3
 script = ExtResource("9")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(128, 551)
+custom_minimum_size = Vector2(128, 204)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -166,7 +166,7 @@ transform_id = 2
 action = "editor_move_angles_away_back"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(128, 551)
+custom_minimum_size = Vector2(128, 204)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -192,7 +192,7 @@ layout_mode = 2
 script = ExtResource("9")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 553)
+custom_minimum_size = Vector2(198, 266)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -205,7 +205,7 @@ transform_id = 4
 action = "editor_interpolate_angle"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 553)
+custom_minimum_size = Vector2(198, 266)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -219,7 +219,7 @@ action = "editor_interpolate_distance"
 echo_action = true
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 553)
+custom_minimum_size = Vector2(198, 274)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")
@@ -231,7 +231,7 @@ transform_id = 6
 action = "editor_flip_oscillation"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["angle_buttons"]]
-custom_minimum_size = Vector2(198, 553)
+custom_minimum_size = Vector2(198, 197)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("8")

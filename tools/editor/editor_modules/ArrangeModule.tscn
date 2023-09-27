@@ -90,7 +90,7 @@ text = "Place in reverse:"
 layout_mode = 2
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(104, 539)
+custom_minimum_size = Vector2(104, 146)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
@@ -156,7 +156,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 517)
+custom_minimum_size = Vector2(181, 223)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -167,7 +167,7 @@ texture = ExtResource("7_5egqo")
 action = "editor_make_circle_cw"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 551)
+custom_minimum_size = Vector2(181, 253)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -197,7 +197,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 517)
+custom_minimum_size = Vector2(181, 223)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -209,7 +209,7 @@ transform_id = 2
 action = "editor_make_circle_cw_inside"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer3/VBoxContainer2/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(181, 551)
+custom_minimum_size = Vector2(181, 253)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -235,7 +235,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 553)
+custom_minimum_size = Vector2(207, 244)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -248,7 +248,7 @@ transform_id = 4
 action = "editor_mirror_v"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 553)
+custom_minimum_size = Vector2(207, 283)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -261,7 +261,7 @@ transform_id = 5
 action = "editor_mirror_h"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="2" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 553)
+custom_minimum_size = Vector2(207, 244)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -274,7 +274,7 @@ transform_id = 6
 action = "editor_flip_v"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="3" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(207, 553)
+custom_minimum_size = Vector2(207, 283)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -327,7 +327,7 @@ layout_mode = 2
 script = ExtResource("21")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 553)
+custom_minimum_size = Vector2(175, 207)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -340,7 +340,7 @@ transform_id = 8
 action = "editor_rotate_center"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 553)
+custom_minimum_size = Vector2(175, 232)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -353,7 +353,7 @@ transform_id = 9
 action = "editor_rotate_left"
 
 [node name="HBEditorButton3" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="2" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 553)
+custom_minimum_size = Vector2(175, 251)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
@@ -366,7 +366,7 @@ transform_id = 10
 action = "editor_rotate_right"
 
 [node name="HBEditorButton4" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="3" groups=["arrange_buttons"]]
-custom_minimum_size = Vector2(175, 587)
+custom_minimum_size = Vector2(175, 241)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("11")
