@@ -11,7 +11,6 @@ config_version=5
 [application]
 
 config/name="Project Heartbeat"
-config/version="Early Access v0.2.9"
 run/main_scene="res://base_scene.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Project Heartbeat Laboratorio"
@@ -20,6 +19,7 @@ config/features=PackedStringArray("4.2")
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
+config/version="Early Access v0.2.9"
 run/delta_sync_after_draw=false
 config/build_time=1687305208
 config/build_commit="4608ec1f385f6da108eb39731ce3c171437e8986"

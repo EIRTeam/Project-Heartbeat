@@ -254,8 +254,8 @@ func _on_file_manager_cell_selected():
 	old_file_name = item.get_text(0)
 	popup_focus_trap(item, "move")
 
-func _on_file_manager_button_pressed(item: TreeItem, column: int, id: int):
-	if not item:
+func _on_file_manager_button_pressed(item: TreeItem, column: int, id: int, mouse_index: int):
+	if not item or mouse_index != MOUSE_BUTTON_LEFT:
 		return
 	
 	var file_name = item.get_text(0)

@@ -2375,7 +2375,7 @@ func _toggle_settings_popup():
 	if settings_editor.visible:
 		settings_editor.hide()
 	else:
-		settings_editor.popup_centered()
+		settings_editor.popup_centered_ratio(0.7)
 
 func shortcuts_blocked() -> bool:
 	if rhythm_game_playtest_popup in get_children():

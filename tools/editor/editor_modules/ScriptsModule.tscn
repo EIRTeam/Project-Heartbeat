@@ -205,6 +205,7 @@ script = ExtResource("5")
 [connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/SaveAsButton" to="." method="save_file" binds= [true]]
 [connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/NewFileButton" to="." method="new_file"]
 [connection signal="pressed" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer/OpenDirButton" to="." method="open_scripts_dir"]
+[connection signal="button_clicked" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_button_pressed"]
 [connection signal="cell_selected" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree" to="." method="_on_file_manager_cell_selected"]
 [connection signal="accepted" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_accepted"]
 [connection signal="rejected" from="ScriptEditorDialog/MarginContainer/VBoxContainer/HBoxContainer2/FileTree/FocusTrapLineEdit" to="." method="_on_name_rejected"]

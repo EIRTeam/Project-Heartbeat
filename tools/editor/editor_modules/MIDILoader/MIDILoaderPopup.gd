@@ -2,7 +2,7 @@ extends ConfirmationDialog
 
 signal track_import_accepted(smf, note_range, tracks)
 
-@onready var track_tree: Tree = get_node("%Tree")
+@onready var track_tree: Tree = get_node("%TrackTree")
 
 var current_smf: SMFLoader.SMF
 var track_root: TreeItem
@@ -36,13 +36,11 @@ func populate_tracks():
 
 func _on_confirmed():
 	var tracks = []
-	var current_item = track_root.get_children()
+	var items = track_root.get_children()
 	
-	while current_item:
-		if current_item.is_checked(0):
-			tracks.append(current_item.get_meta("track_id"))
-		
-		current_item = current_item.get_next()
+	for item in items:
+		if item.is_checked(0):
+			tracks.append(item.get_meta("track_id"))
 	
 	emit_signal("track_import_accepted", current_smf, [0, 255], tracks)
 
