@@ -37,7 +37,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(355, 1000)
+custom_minimum_size = Vector2(355, 359)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -50,7 +50,7 @@ function_name = "show_timing_change_dialog"
 action = "editor_create_timing_change"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(355, 1000)
+custom_minimum_size = Vector2(355, 397)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -111,7 +111,7 @@ layout_mode = 2
 script = ExtResource("6")
 
 [node name="HBEditorButton" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="0" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(176, 1000)
+custom_minimum_size = Vector2(176, 218)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
@@ -125,7 +125,7 @@ function_name = "calculator_pressed"
 action = "editor_tap_metronome"
 
 [node name="HBEditorButton2" type="Container" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxRatioContainer2" index="1" groups=["sync_buttons"]]
-custom_minimum_size = Vector2(176, 1000)
+custom_minimum_size = Vector2(176, 149)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("4")

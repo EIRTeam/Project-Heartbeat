@@ -7,7 +7,7 @@
    viewBox="0 0 67.733327 67.733335"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="quad-outside.svg"
    inkscape:export-filename="/home/lino/prj/Project-Heartbeat/graphics/icons/quad-outside.png"
    inkscape:export-xdpi="192.00002"
@@ -29,28 +29,30 @@
      units="px"
      width="32px"
      inkscape:zoom="2.0039062"
-     inkscape:cx="127.75049"
+     inkscape:cx="117.76998"
      inkscape:cy="127.75049"
      inkscape:window-width="945"
      inkscape:window-height="1040"
      inkscape:window-x="965"
      inkscape:window-y="10"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#505050" />
   <defs
      id="defs2">
     <marker
        style="overflow:visible"
        id="TriangleOutS"
-       refX="0.0"
-       refY="0.0"
+       refX="0"
+       refY="0"
        orient="auto"
        inkscape:stockid="TriangleOutS"
        inkscape:isstock="true">
       <path
          transform="scale(0.2)"
-         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
          id="path1063" />
     </marker>
     <marker
@@ -240,28 +242,93 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="opacity:0.992;fill:none;stroke:#ffffff;stroke-width:5.01914;stroke-miterlimit:4;stroke-dasharray:none"
-       id="rect979"
-       width="25.053993"
-       height="25.053989"
-       x="21.33967"
-       y="21.339672" />
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.95403;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS)"
-       d="M 64.65072,3.0661443 54.893957,12.915447"
-       id="path1529-7" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.95403;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-5)"
-       d="M 64.650722,64.6672 54.893957,54.817897"
-       id="path1529-7-5" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.95403;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-5-6)"
-       d="M 3.0826781,64.667199 12.839443,54.817896"
-       id="path1529-7-5-9" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4.95403;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-3)"
-       d="M 3.0826783,3.0661443 12.839441,12.915447"
-       id="path1529-7-7" />
+       style="color:#000000;fill:#ffffff;-inkscape-stroke:none;opacity:0.992"
+       d="m 18.830078,18.830078 v 2.509766 27.5625 H 48.902344 V 18.830078 Z m 5.019531,5.019531 H 43.884766 V 43.884766 H 23.849609 Z"
+       id="rect979" />
+    <g
+       id="path1529-7">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="m 62.890625,1.3222656 -9.755859,9.8496094 3.519531,3.486328 9.755859,-9.8496093 z"
+         id="path384" />
+      <g
+         id="g374">
+        <g
+           id="path376">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.990806pt;-inkscape-stroke:none"
+             d="m 50.870588,16.976977 2.512044,-9.5752306 7.039046,6.9729106 z"
+             id="path380" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="m 53.035156,6.1269531 -3.09375,11.7871089 1.103516,-0.298828 10.654297,-2.904296 z m 0.695313,2.5488282 5.414062,5.3632817 -7.345703,1.999999 z"
+             id="path382" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="path1529-7-5">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="m 56.654297,53.074219 -3.519531,3.486328 9.755859,9.849609 3.519531,-3.486328 z"
+         id="path370" />
+      <g
+         id="g360">
+        <g
+           id="path362">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.990806pt;-inkscape-stroke:none"
+             d="m 50.870587,50.756368 9.551091,2.602319 -7.039045,6.972911 z"
+             id="path366" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="m 49.941406,49.818359 0.291016,1.105469 2.802734,10.683594 8.664063,-8.585938 z m 1.859375,1.876953 7.341797,2 -5.412109,5.361329 z"
+             id="path368" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="path1529-7-5-9">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="m 11.080078,53.074219 -9.7578124,9.849609 3.5195313,3.486328 9.7578121,-9.849609 z"
+         id="path356" />
+      <g
+         id="g346">
+        <g
+           id="path348">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.990806pt;-inkscape-stroke:none"
+             d="m 16.862813,50.756367 -2.512046,9.57523 -7.0390453,-6.972911 z"
+             id="path352" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="m 17.791016,49.818359 -1.101563,0.300782 -10.6562499,2.902343 8.6660159,8.585938 z m -1.857422,1.876953 -1.931641,7.361329 -5.4101561,-5.361329 z"
+             id="path354" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="path1529-7-7">
+      <path
+         style="color:#000000;fill:#ffffff;-inkscape-stroke:none"
+         d="M 4.8417969,1.3222656 1.3222656,4.8085937 11.080078,14.658203 14.599609,11.171875 Z"
+         id="path342" />
+      <g
+         id="g332">
+        <g
+           id="path334">
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke-width:0.990806pt;-inkscape-stroke:none"
+             d="M 16.86281,16.976977 7.3117196,14.374657 14.350766,7.4017464 Z"
+             id="path338" />
+          <path
+             style="color:#000000;fill:#ffffff;fill-rule:evenodd;-inkscape-stroke:none"
+             d="M 14.699219,6.1269531 6.0332031,14.710938 17.791016,17.914062 17.501953,16.808594 Z m -0.697266,2.5507813 1.931641,7.3613276 -7.3437502,-1.999999 z"
+             id="path340" />
+        </g>
+      </g>
+    </g>
   </g>
 </svg>

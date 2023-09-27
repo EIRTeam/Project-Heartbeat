@@ -10,18 +10,21 @@ var button: Button
 var label: Label
 var module: HBEditorModule: set = set_module
 
-@export var text: String : set = set_text
-@export var tooltip: String : set = set_tooltip
+@export_category("UI")
+@export_multiline var text: String : set = set_text
+@export_multiline var tooltip: String : set = set_tooltip
 @export var texture: CompressedTexture2D: set = set_texture
 
 @export var disable_when_playing: bool = true
 @export var disable_with_popup: bool = true
 
-@export var button_mode = "transform" # (String, "transform", "function")
+@export_category("Action")
+@export_enum("transform", "function") var button_mode = "transform" # (String, "transform", "function")
 @export var transform_id: int = 0
 @export var function_name: String = ""
 @export var params: Array
 
+@export_category("Shortcut")
 @export var action: String = ""
 @export var echo_action: bool = false
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp428hcl3ja5x"
-path="res://.godot/imported/horizontal-multi-down.png-8ef8c910c4b5adee85a368cd1060fa73.ctex"
+uid="uid://me57hf7m1m0e"
+path="res://.godot/imported/flip-angles.svg-ba80d22a92a07f5df1e258e45793c113.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/icons/horizontal-multi-down.png"
-dest_files=["res://.godot/imported/horizontal-multi-down.png-8ef8c910c4b5adee85a368cd1060fa73.ctex"]
+source_file="res://graphics/icons/flip-angles.svg"
+dest_files=["res://.godot/imported/flip-angles.svg-ba80d22a92a07f5df1e258e45793c113.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=3.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

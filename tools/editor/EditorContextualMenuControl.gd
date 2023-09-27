@@ -27,7 +27,11 @@ func set_contextual_item_disabled(item_name: String, disabled: bool):
 
 func get_contextual_item_disabled(item_name: String):
 	var item_idx = HBUtils.find_key(name_id_map, item_name)
-	return is_item_disabled(item_idx)
+	
+	if item_idx != null:
+		return is_item_disabled(item_idx)
+	
+	return false
 
 func set_contextual_item_icon(item_name: String, icon: Texture2D):
 	var item_idx = HBUtils.find_key(name_id_map, item_name)
