@@ -14,7 +14,6 @@ func _ready():
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	hide()
-	connect("resumed", Callable(self, "_on_resumed"))
 	song_settings_editor.connect("back", Callable(list_container, "grab_focus"))
 	
 	connect("resized", Callable(self, "_on_resized"))
@@ -22,13 +21,13 @@ func _ready():
 func _on_resized():
 	$BackBufferCopy.rect = get_rect()
 	$BackBufferCopy2.rect = get_rect()
-	print(get_rect())
 	
 func _on_resumed():
 	$SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer.hide()
 	$SubViewportContainer/SubViewport/Node3D/RestartPopup.hide()
 	$SubViewportContainer/SubViewport/Node3D/QuitPopup.hide()
 	song_settings_editor.hide_editor()
+	resumed.emit()
 func _on_viewport_size_changed():
 	$SubViewportContainer/SubViewport.size = get_window().size
 
@@ -54,7 +53,7 @@ func _on_restart():
 	
 func resume():
 	emit_signal("resumed")
-	
+	print("RESUMED!!")
 	
 func disable_restart():
 	$SubViewportContainer/SubViewport/Node3D/ViewportLeft/MarginContainer/VBoxContainer/HBListContainer/RestartButton.queue_free()
