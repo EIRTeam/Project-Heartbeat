@@ -56,11 +56,12 @@ func _ready():
 	get_v_scroll_bar().connect("changed", Callable(self, "update_fade"))
 	get_v_scroll_bar().connect("changed", Callable(self, "_on_scroll_changed"))
 	item_container.connect("resized", Callable(self, "force_scroll"))
+	clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
 	if enable_fade:
 		var fade_mat = ShaderMaterial.new()
 		fade_mat.shader = FADE_SHADER
 		material = fade_mat
-		RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10, false)
+		RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY, 10.0, true, 10.0, false)
 	_on_resized()
 	
 func _on_scroll_changed():
@@ -102,7 +103,7 @@ func _on_resized():
 			mat.set_shader_parameter("size", get_global_transform().get_scale() * size)
 			mat.set_shader_parameter("pos", get_global_transform().origin)
 			
-			mat.set_shader_parameter("fade_size", 150.0 / float(size.x))
+			mat.set_shader_parameter("fade_size", 100.0)
 func get_selected_item():
 	if item_container.get_child_count() > current_selected_item and current_selected_item > -1:
 		var item = item_container.get_child(current_selected_item)
@@ -125,11 +126,11 @@ func update_fade():
 			var selected_item = get_selected_item()
 			if selected_item and selected_item.position.y <= target_scroll:
 				# This ensures that if the target is at the top the fade is disabled so it's visible
-				mat.set_shader_parameter("top_enabled", clamp(target_scroll, 0, max_scroll) > get_selected_item().position.y)
+				mat.set_shader_parameter("top_enabled", float(clamp(target_scroll, 0, max_scroll) > get_selected_item().position.y))
 			else:
-				mat.set_shader_parameter("top_enabled", target_scroll > 0)
+				mat.set_shader_parameter("top_enabled", float(target_scroll > 0))
 				
-			mat.set_shader_parameter("bottom_enabled", target_scroll < max_scroll)
+			mat.set_shader_parameter("bottom_enabled", float(target_scroll < max_scroll))
 	
 func select_item(item_i: int):
 	if item_container.get_child_count() == 0:

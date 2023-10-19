@@ -10,9 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://cfnmpwyjlgoc8" path="res://graphics/icons/refresh-big.svg" id="8"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="9"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="10"]
-[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="11"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12"]
-[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://58t8pxail3r7" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "spin"
@@ -125,7 +125,6 @@ enable_fade = true
 scroll_mode = 1
 
 [node name="GridContainer" type="VBoxContainer" parent="MarginContainer/Control/ScrollContainer"]
-use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -179,6 +178,13 @@ visible = false
 [node name="Label" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="0"]
 text = "Enter your search:"
 
+[node name="HBoxContainer" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton" index="0"]
+layout_mode = 2
+
+[node name="InputGlyphRect" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="0"]
+action_text = "Accept"
+action_name = &"gui_accept"
+
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 anchor_left = 0.5
@@ -230,4 +236,4 @@ enable_wrap_around = true
 [connection signal="entered" from="HBConfirmationWindow" to="." method="_on_text_search_entered"]
 
 [editable path="HBConfirmationWindow"]
-[editable path="HBConfirmationWindow/Panel/HBoxContainer/Panel4"]
+[editable path="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton"]
