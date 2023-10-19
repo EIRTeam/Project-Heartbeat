@@ -32,6 +32,7 @@ func _initialize_platform():
 		var service_init_result = set_service_provider(SteamPlatformServicePovider.new())
 		if service_init_result != OK:
 			set_service_provider(OfflinePlatformServicePovider.new())
+			InputGlyphsSingleton.init()
 			Log.log(self, "Loading Steamworks failed, falling back to offline service provider", Log.LogLevel.INFO)
 	else:
 		set_service_provider(OfflinePlatformServicePovider.new())

@@ -1,37 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://coi010tlbihnq"]
 
-[ext_resource path="res://fonts/Default_Font.tres" type="FontFile" id=1]
-[ext_resource path="res://styles/PanelStyleTransparentIcon.tres" type="StyleBox" id=2]
-[ext_resource path="res://menus/PromptPanel.gd" type="Script" id=3]
-[ext_resource path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" type="PackedScene" id=4]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="2"]
+[ext_resource type="Script" path="res://menus/PromptPanel.gd" id="3"]
 
-[node name="Panel4" type="Panel"]
-offset_right = 54.0
-offset_bottom = 40.0
-custom_minimum_size = Vector2( 54, 31 )
-theme_override_styles/panel = ExtResource( 2 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Panel4" type="PanelContainer"]
+custom_minimum_size = Vector2(165, 45)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 169.0
+offset_bottom = 15120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2")
+script = ExtResource("3")
 
-[node name="PromptInputAction" parent="HBoxContainer" instance=ExtResource( 4 )]
-offset_right = 40.0
-offset_bottom = 40.0
-custom_minimum_size = Vector2( 40, 0 )
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-offset_left = 44.0
-offset_right = 44.0
-offset_bottom = 40.0
-size_flags_vertical = 7
-theme_override_fonts/font = ExtResource( 1 )
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="InputGlyphRect" type="InputGlyphRect" parent="HBoxContainer"]
+layout_mode = 2
+action_text = ""
+action_name = &""

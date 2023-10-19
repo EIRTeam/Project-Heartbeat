@@ -29,6 +29,9 @@ func init_platform() -> int:
 		if not init:
 			return ERR_UNAVAILABLE
 		
+		Steamworks.input.init(true)
+		InputGlyphsSingleton.init()
+		
 		local_user = Steamworks.user.get_local_user()
 		friendly_username = local_user.persona_name
 		user_id = local_user.steam_id
