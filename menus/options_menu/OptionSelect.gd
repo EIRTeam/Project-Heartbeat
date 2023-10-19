@@ -44,6 +44,7 @@ func hover():
 	super.hover()
 	option_button.hover()
 func stop_hover():
+	super.stop_hover()
 	if is_inside_tree():
 		option_button.stop_hover()
 	
