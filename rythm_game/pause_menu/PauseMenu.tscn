@@ -125,8 +125,6 @@ offset_left = -636.5
 offset_top = -358.0
 offset_right = 636.5
 offset_bottom = 358.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [connection signal="quitted" from="SubViewportContainer/SubViewport/Node3D" to="." method="_on_quit"]
 [connection signal="restarted" from="SubViewportContainer/SubViewport/Node3D" to="." method="_on_restart"]

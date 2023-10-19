@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="2"]
 [ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="3"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="4"]
-[ext_resource type="FontFile" uid="uid://bhvxjn5pyyk55" path="res://fonts/orbitron-bold.otf" id="5"]
+[ext_resource type="FontFile" uid="uid://igqm8fnnmk4q" path="res://fonts/orbitron-bold.otf" id="5"]
 [ext_resource type="Texture2D" uid="uid://dflywc0pf4cen" path="res://menus/chart_feature_previews/normal_note.png" id="6"]
 
 [sub_resource type="FontFile" id="1"]
@@ -29,6 +29,10 @@ custom_minimum_size = Vector2(450, 450)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1470.0
+offset_bottom = -630.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = ExtResource("4")
 script = ExtResource("1")
 

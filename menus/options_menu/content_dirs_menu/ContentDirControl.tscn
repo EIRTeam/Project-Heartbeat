@@ -50,21 +50,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2")
 text = "Content "
-horizontal_alignment = 2
 vertical_alignment = 1
+text_overrun_behavior = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="Panel" type="Panel" parent="HBoxContainer/HBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(120, 64)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2")
 text = "Change"
 horizontal_alignment = 1

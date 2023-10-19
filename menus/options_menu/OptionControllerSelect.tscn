@@ -55,6 +55,7 @@ layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
+vertical_alignment = 1
 
 [node name="Control" type="HBoxContainer" parent="HBoxContainer"]
 use_parent_material = true
@@ -69,6 +70,7 @@ layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
 text = "(NT)Boolean Option"
+vertical_alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

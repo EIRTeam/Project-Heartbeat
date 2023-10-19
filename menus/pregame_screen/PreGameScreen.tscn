@@ -13,6 +13,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -55,10 +57,19 @@ offset_bottom = 285.0
 
 [node name="PerSongSettingsEditor" parent="." instance=ExtResource("10")]
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1013.0
+offset_bottom = 570.0
+grow_horizontal = 1
+grow_vertical = 1
 focus_mode = 2
 
 [node name="PerSongSettingsOptionSection" parent="PerSongSettingsEditor" index="0"]
-layout_mode = 1
 offset_left = 1.49829
 offset_top = -1.49835
 offset_right = 1.49829
