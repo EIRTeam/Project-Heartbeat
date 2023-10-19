@@ -15,6 +15,11 @@ var action_being_bound = ""
 func _unhandled_input(event):
 	if visible:
 		if action_being_bound and action_bind_debounce.is_stopped():
+			if event.is_action_pressed("gui_cancel"):
+				action_being_bound = ""
+				bind_popup.hide()
+				scroll_container.grab_focus()
+				return
 			if not event.is_pressed() or event.is_echo():
 				return
 			# we can only bind inputs from the selected controller device
@@ -105,9 +110,9 @@ func show_category(category: String, prevent_selection=false):
 func _on_action_add_press(action_name):
 	# To prevent double presses from being picked up
 	action_bind_debounce.start()
-	bind_popup.popup_centered()
+	bind_popup.show()
 	action_being_bound = action_name
-	grab_focus()
+	grab_focus.call_deferred()
 	
 func _on_event_delete(control, action, event):
 	if InputMap.action_has_event(action, event):
@@ -141,7 +146,7 @@ func add_event_user(action_name, event):
 	InputMap.action_add_event(action_name, event)
 	UserSettings.save_user_settings()
 func _on_reset_bindings():
-	reset_confirmation_window.popup_centered()
+	reset_confirmation_window.popup_centered_ratio()
 
 func _on_reset_bindings_confirmed():
 	UserSettings.reset_to_default_input_map()
