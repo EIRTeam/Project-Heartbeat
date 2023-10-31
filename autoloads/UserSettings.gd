@@ -458,16 +458,13 @@ func set_enable_menu_fps_limits(val):
 	_update_fps_limits
 	_update_fps_limits()
 func _update_fps_limits():
-	print("vsync mode", DisplayServer.VSYNC_ENABLED if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = 0
-	if not user_settings.vsync_enabled:
-		if enable_menu_fps_limits:
-			Engine.max_fps = 0
-			print(get_window().get_window_id())
-			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
-		else:
-			Engine.max_fps = int(user_settings.fps_limit)
+	if enable_menu_fps_limits:
+		Engine.max_fps = 0
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		Engine.max_fps = int(user_settings.fps_limit)
 func get_current_display():
 	return min(UserSettings.user_settings.display, DisplayServer.get_screen_count()-1)
 
