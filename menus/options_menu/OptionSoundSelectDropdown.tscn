@@ -29,6 +29,7 @@ script/source = "extends HBUniversalScrollList
 signal back
 
 func _gui_input(event: InputEvent):
+	super._gui_input(event)
 	if event.is_action_pressed(\"gui_cancel\"):
 		get_viewport().set_input_as_handled()
 		emit_signal(\"back\")
