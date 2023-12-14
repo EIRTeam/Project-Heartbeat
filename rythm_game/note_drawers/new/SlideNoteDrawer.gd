@@ -22,7 +22,7 @@ func set_pressed(val):
 	note_target_graphics.visible = !pressed
 	
 func _init():
-	slide_effect_scene = load("res://graphics/effects/SlideParticlesCPU.tscn")
+	slide_effect_scene = load("res://graphics/effects/SlideParticles.tscn")
 	
 func note_init():
 	super.note_init()
