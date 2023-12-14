@@ -1,29 +1,23 @@
-[gd_scene load_steps=9 format=3 uid="uid://c73hmv1ny7bc4"]
+[gd_scene load_steps=7 format=3 uid="uid://c73hmv1ny7bc4"]
 
 [ext_resource type="Texture2D" uid="uid://cfmgrqdhgpbb5" path="res://graphics/effects/flare.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2rdevke1bns4" path="res://graphics/effects/bubble.png" id="2"]
 [ext_resource type="PackedScene" path="res://rythm_game/note_drawers/NoteGraphic.tscn" id="3"]
 [ext_resource type="Script" path="res://graphics/effects/NoteHitEffect.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://b6drgmmh83lrh" path="res://graphics/effects/loop.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://bsro2vrbsxqqs" path="res://third_party/EasyBlend/Blends/overlay.png" id="6"]
-[ext_resource type="Shader" path="res://third_party/EasyBlend/EasyBlend.gdshader" id="7"]
+[ext_resource type="Texture2D" uid="uid://b0r076h70hqw8" path="res://graphics/effects/circle_01.png" id="5_gbx6u"]
 
-[sub_resource type="ShaderMaterial" id="1"]
-shader = ExtResource("7")
-shader_parameter/enabled = true
-shader_parameter/Intensity = 0.25
-shader_parameter/Blend = ExtResource("6")
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_aishp"]
+blend_mode = 1
 
 [node name="NoteHitEffect" type="Node2D"]
 z_index = -1
-material = SubResource("1")
+material = SubResource("CanvasItemMaterial_aishp")
 position = Vector2(940.718, 440.502)
 scale = Vector2(0.5, 0.5)
 script = ExtResource("4")
 
 [node name="Note" parent="." instance_placeholder="res://rythm_game/note_drawers/NoteGraphic.tscn"]
 visible = false
-use_parent_material = true
 position = Vector2(0, 0)
 
 [node name="NoteIcon" type="Sprite2D" parent="."]
@@ -32,7 +26,6 @@ scale = Vector2(0.05, 0.05)
 texture = ExtResource("2")
 
 [node name="Flare" parent="." instance=ExtResource("3")]
-use_parent_material = true
 position = Vector2(0, 0)
 scale = Vector2(0.4886, 0.4886)
 texture = ExtResource("1")
@@ -40,6 +33,6 @@ texture = ExtResource("1")
 [node name="Loop" type="Sprite2D" parent="."]
 use_parent_material = true
 scale = Vector2(0.56, 0.56)
-texture = ExtResource("5")
+texture = ExtResource("5_gbx6u")
 
 [node name="Threen" type="Threen" parent="."]

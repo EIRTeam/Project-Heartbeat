@@ -34,8 +34,8 @@ func play_effect():
 	tween.interpolate_property(note_icon, "modulate:a", 0.6, 0.0, 0.7, transparent_trans, transparent_ease)
 	
 	tween.interpolate_property(note_loop, "scale", Vector2(0.15, 0.15), Vector2(0.75, 0.75), 0.15, Threen.TRANS_BOUNCE, Threen.EASE_IN)
-	tween.interpolate_property(note_loop, "scale", Vector2(0.75, 0.75), Vector2(2.0, 2.0), 0.60, Threen.TRANS_QUAD, Threen.EASE_OUT, 0.15)
-	tween.interpolate_property(note_loop, "modulate:a", 0.6, 0.0, 0.7, transparent_trans, transparent_ease)
+	tween.interpolate_property(note_loop, "scale", Vector2(0.75, 0.75), Vector2(4.0, 4.0), 0.60, Threen.TRANS_QUAD, Threen.EASE_OUT, 0.15)
+	tween.interpolate_property(note_loop, "modulate:a", 0.2, 0.0, 0.7, transparent_trans, transparent_ease)
 	
 	tween.interpolate_property(note_flare, "scale", Vector2(0.15, 0.15), Vector2(0.75, 0.75), 0.15, Threen.TRANS_BOUNCE, Threen.EASE_IN)
 	tween.interpolate_property(note_flare, "scale", Vector2(0.75, 0.75), Vector2(1.0, 1.0), 0.25, Threen.TRANS_QUAD, Threen.EASE_OUT, 0.15)

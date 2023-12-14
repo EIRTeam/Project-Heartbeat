@@ -1,0 +1,75 @@
+[gd_scene load_steps=13 format=3 uid="uid://x7xfikvehhqo"]
+
+[ext_resource type="Texture2D" uid="uid://dxtkq6suj1nuh" path="res://graphics/effects/star_04.png" id="1_us5vf"]
+[ext_resource type="Script" path="res://graphics/effects/SliderPieceParticle.gd" id="2_jhinx"]
+[ext_resource type="Texture2D" uid="uid://hekel7lj4mxb" path="res://graphics/effects/trace_01.png" id="3_tbyq6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6kaqy"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_3tqvd"]
+colors = PackedColorArray(1, 1, 1, 0.35, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y2j1x"]
+gradient = SubResource("Gradient_3tqvd")
+
+[sub_resource type="Curve" id="Curve_q8cr8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.623099), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jl68v"]
+curve = SubResource("Curve_q8cr8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ejw70"]
+particle_flag_disable_z = true
+angle_min = 52.9
+angle_max = 52.9
+spread = 27.14
+initial_velocity_min = 448.53
+initial_velocity_max = 698.53
+angular_velocity_min = -250.0
+angular_velocity_max = -250.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.35
+scale_max = 0.35
+scale_curve = SubResource("CurveTexture_jl68v")
+color = Color(0.643137, 0.764706, 0.921569, 1)
+color_ramp = SubResource("GradientTexture1D_y2j1x")
+
+[sub_resource type="Gradient" id="Gradient_ce7rh"]
+offsets = PackedFloat32Array(0.47861, 1)
+colors = PackedColorArray(1, 1, 1, 0.35, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xn52p"]
+gradient = SubResource("Gradient_ce7rh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hln4q"]
+particle_flag_disable_z = true
+spread = 0.0
+initial_velocity_min = 1250.0
+initial_velocity_max = 1250.0
+gravity = Vector3(0, 0, 0)
+color = Color(0.643137, 0.764706, 0.921569, 1)
+color_ramp = SubResource("GradientTexture1D_xn52p")
+
+[node name="SliderPieceParticle" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_6kaqy")
+emitting = false
+amount = 2
+process_material = SubResource("ParticleProcessMaterial_ejw70")
+texture = ExtResource("1_us5vf")
+lifetime = 0.24
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 0
+script = ExtResource("2_jhinx")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_6kaqy")
+scale = Vector2(1, 0.5)
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_hln4q")
+texture = ExtResource("3_tbyq6")
+lifetime = 0.35
+one_shot = true

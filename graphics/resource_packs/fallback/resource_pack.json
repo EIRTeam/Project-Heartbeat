@@ -1,308 +1,307 @@
 {
-  "pack_name": "Fallback",
-  "pack_author_name": "EIRTeam",
-  "notes_atlas_data": {
-    "up_note.png": {
-      "region": "Rect2( 271, 683, 89, 90 )",
-      "margin": "Rect2( 23, 21, 39, 38 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_target.png": {
-      "region": "Rect2( 253, 377, 125, 128 )",
-      "margin": "Rect2( 2, 0, 3, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_multi_note.png": {
-      "region": "Rect2( 181, 681, 89, 90 )",
-      "margin": "Rect2( 23, 21, 39, 38 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_multi_note_target.png": {
-      "region": "Rect2( 1, 240, 125, 128 )",
-      "margin": "Rect2( 2, 0, 3, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_double_note.png": {
-      "region": "Rect2( 504, 506, 96, 89 )",
-      "margin": "Rect2( 19, 13, 32, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_double_note_target.png": {
-      "region": "Rect2( 775, 1, 128, 120 )",
-      "margin": "Rect2( 0, 0, 0, 8 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_sustain_note.png": {
-      "region": "Rect2( 643, 240, 126, 128 )",
-      "margin": "Rect2( 2, 0, 2, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "up_sustain_note_target.png": {
-      "region": "Rect2( 277, 591, 91, 91 )",
-      "margin": "Rect2( 19, 19, 37, 37 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_note.png": {
-      "region": "Rect2( 185, 591, 91, 89 )",
-      "margin": "Rect2( 21, 23, 37, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_target.png": {
-      "region": "Rect2( 259, 250, 127, 126 )",
-      "margin": "Rect2( 1, 1, 1, 2 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_multi_note.png": {
-      "region": "Rect2( 93, 568, 91, 89 )",
-      "margin": "Rect2( 21, 23, 37, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_multi_note_target.png": {
-      "region": "Rect2( 387, 250, 127, 126 )",
-      "margin": "Rect2( 1, 1, 1, 2 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_double_note.png": {
-      "region": "Rect2( 91, 658, 89, 96 )",
-      "margin": "Rect2( 13, 19, 39, 32 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_double_note_target.png": {
-      "region": "Rect2( 500, 377, 120, 128 )",
-      "margin": "Rect2( 0, 0, 8, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_sustain_note.png": {
-      "region": "Rect2( 515, 128, 127, 127 )",
-      "margin": "Rect2( 1, 1, 1, 1 )",
-      "type": "HBAtlasEntry"
-    },
-    "left_sustain_note_target.png": {
-      "region": "Rect2( 207, 506, 99, 84 )",
-      "margin": "Rect2( 15, 22, 29, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_note.png": {
-      "region": "Rect2( 1, 551, 89, 90 )",
-      "margin": "Rect2( 23, 23, 39, 38 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_target.png": {
-      "region": "Rect2( 897, 250, 125, 128 )",
-      "margin": "Rect2( 2, 0, 3, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_multi_note.png": {
-      "region": "Rect2( 914, 548, 89, 90 )",
-      "margin": "Rect2( 23, 23, 39, 38 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_multi_note_target.png": {
-      "region": "Rect2( 127, 354, 125, 128 )",
-      "margin": "Rect2( 2, 0, 3, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_double_note.png": {
-      "region": "Rect2( 407, 506, 96, 89 )",
-      "margin": "Rect2( 19, 32, 32, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_double_note_target.png": {
-      "region": "Rect2( 130, 1, 128, 120 )",
-      "margin": "Rect2( 0, 8, 0, 8 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_sustain_note.png": {
-      "region": "Rect2( 770, 250, 126, 128 )",
-      "margin": "Rect2( 2, 0, 2, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "down_sustain_note_target.png": {
-      "region": "Rect2( 1, 459, 91, 91 )",
-      "margin": "Rect2( 19, 19, 37, 37 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_note.png": {
-      "region": "Rect2( 551, 596, 90, 89 )",
-      "margin": "Rect2( 24, 23, 38, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_target.png": {
-      "region": "Rect2( 388, 1, 128, 126 )",
-      "margin": "Rect2( 0, 1, 0, 2 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_multi_note.png": {
-      "region": "Rect2( 460, 596, 90, 89 )",
-      "margin": "Rect2( 24, 23, 38, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_multi_note_target.png": {
-      "region": "Rect2( 517, 1, 128, 126 )",
-      "margin": "Rect2( 0, 1, 0, 2 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_double_note.png": {
-      "region": "Rect2( 824, 548, 89, 96 )",
-      "margin": "Rect2( 32, 19, 39, 32 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_double_note_target.png": {
-      "region": "Rect2( 379, 377, 120, 128 )",
-      "margin": "Rect2( 8, 0, 8, 0 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_sustain_note.png": {
-      "region": "Rect2( 775, 122, 128, 127 )",
-      "margin": "Rect2( 0, 1, 0, 1 )",
-      "type": "HBAtlasEntry"
-    },
-    "right_sustain_note_target.png": {
-      "region": "Rect2( 307, 506, 99, 84 )",
-      "margin": "Rect2( 15, 22, 29, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_note.png": {
-      "region": "Rect2( 695, 411, 93, 78 )",
-      "margin": "Rect2( 18, 18, 35, 50 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_target.png": {
-      "region": "Rect2( 1, 124, 128, 115 )",
-      "margin": "Rect2( 0, 0, 0, 13 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_multi_note.png": {
-      "region": "Rect2( 789, 469, 93, 78 )",
-      "margin": "Rect2( 18, 18, 35, 50 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_left_multi_note_target.png": {
-      "region": "Rect2( 130, 238, 128, 115 )",
-      "margin": "Rect2( 0, 0, 0, 13 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_note.png": {
-      "region": "Rect2( 883, 469, 93, 78 )",
-      "margin": "Rect2( 23, 18, 35, 50 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_target.png": {
-      "region": "Rect2( 646, 1, 128, 115 )",
-      "margin": "Rect2( 0, 0, 0, 13 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_multi_note.png": {
-      "region": "Rect2( 601, 506, 93, 78 )",
-      "margin": "Rect2( 23, 18, 35, 50 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_right_multi_note_target.png": {
-      "region": "Rect2( 130, 122, 128, 115 )",
-      "margin": "Rect2( 0, 0, 0, 13 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_note.png": {
-      "region": "Rect2( 434, 686, 72, 61 )",
-      "margin": "Rect2( 13, 13, 30, 41 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_target.png": {
-      "region": "Rect2( 847, 379, 104, 89 )",
-      "margin": "Rect2( 12, 26, 24, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_left_target_blue.png": {
-      "region": "Rect2( 568, 686, 60, 41 )",
-      "margin": "Rect2( 34, 50, 68, 87 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_note.png": {
-      "region": "Rect2( 361, 683, 72, 61 )",
-      "margin": "Rect2( 17, 13, 30, 41 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_target.png": {
-      "region": "Rect2( 1, 369, 104, 89 )",
-      "margin": "Rect2( 12, 26, 24, 39 )",
-      "type": "HBAtlasEntry"
-    },
-    "slide_chain_piece_right_target_blue.png": {
-      "region": "Rect2( 507, 686, 60, 41 )",
-      "margin": "Rect2( 34, 50, 68, 87 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_note.png": {
-      "region": "Rect2( 733, 548, 90, 84 )",
-      "margin": "Rect2( 22, 26, 38, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_target.png": {
-      "region": "Rect2( 646, 117, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_multi_note.png": {
-      "region": "Rect2( 642, 585, 90, 84 )",
-      "margin": "Rect2( 22, 26, 38, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_multi_note_target.png": {
-      "region": "Rect2( 1, 1, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_double_note.png": {
-      "region": "Rect2( 369, 596, 90, 84 )",
-      "margin": "Rect2( 22, 26, 38, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_double_note_target.png": {
-      "region": "Rect2( 259, 1, 128, 122 )",
-      "margin": "Rect2( 0, 3, 0, 6 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_sustain_note.png": {
-      "region": "Rect2( 259, 124, 128, 125 )",
-      "margin": "Rect2( 0, 3, 0, 3 )",
-      "type": "HBAtlasEntry"
-    },
-    "heart_sustain_note_target.png": {
-      "region": "Rect2( 106, 483, 100, 84 )",
-      "margin": "Rect2( 14, 22, 28, 44 )",
-      "type": "HBAtlasEntry"
-    },
-    "timing_arm.png": {
-      "region": "Rect2( 629, 686, 31, 83 )",
-      "margin": "Rect2( 49, 22, 97, 45 )",
-      "type": "HBAtlasEntry"
-    },
-    "hold_text.png": {
-      "region": "Rect2( 621, 369, 112, 31 )",
-      "margin": "Rect2( 8, 94, 16, 97 )",
-      "type": "HBAtlasEntry"
-    },
-    "hold_text_multi.png": {
-      "region": "Rect2( 734, 379, 112, 31 )",
-      "margin": "Rect2( 8, 94, 16, 97 )",
-      "type": "HBAtlasEntry"
-    }
-  },
   "effects_atlas_data": {
     "bubble.png": {
-      "region": "Rect2( 513, 1, 496, 496 )",
+      "region": "Rect2(513, 1, 496, 496)",
       "type": "HBAtlasEntry"
     },
     "flare.png": {
-      "region": "Rect2( 1, 1, 511, 458 )",
-      "margin": "Rect2( 172, 182, 289, 342 )",
+      "margin": "Rect2(172, 182, 289, 342)",
+      "region": "Rect2(1, 1, 511, 458)",
       "type": "HBAtlasEntry"
     },
     "loop.png": {
-      "region": "Rect2( 1, 460, 310, 309 )",
-      "margin": "Rect2( 0, 0, 0, 1 )",
+      "region": "Rect2(1, 460, 310, 310)",
       "type": "HBAtlasEntry"
     }
   },
+  "notes_atlas_data": {
+    "down_double_note.png": {
+      "margin": "Rect2(19, 32, 32, 39)",
+      "region": "Rect2(407, 506, 96, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "down_double_note_target.png": {
+      "margin": "Rect2(0, 8, 0, 8)",
+      "region": "Rect2(130, 1, 128, 120)",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note.png": {
+      "margin": "Rect2(23, 23, 39, 38)",
+      "region": "Rect2(914, 548, 89, 90)",
+      "type": "HBAtlasEntry"
+    },
+    "down_multi_note_target.png": {
+      "margin": "Rect2(2, 0, 3, 0)",
+      "region": "Rect2(127, 354, 125, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "down_note.png": {
+      "margin": "Rect2(23, 23, 39, 38)",
+      "region": "Rect2(1, 551, 89, 90)",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note.png": {
+      "margin": "Rect2(2, 0, 2, 0)",
+      "region": "Rect2(770, 250, 126, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "down_sustain_note_target.png": {
+      "margin": "Rect2(19, 19, 37, 37)",
+      "region": "Rect2(1, 459, 91, 91)",
+      "type": "HBAtlasEntry"
+    },
+    "down_target.png": {
+      "margin": "Rect2(2, 0, 3, 0)",
+      "region": "Rect2(897, 250, 125, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_double_note.png": {
+      "margin": "Rect2(22, 26, 38, 44)",
+      "region": "Rect2(369, 596, 90, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_double_note_target.png": {
+      "margin": "Rect2(0, 3, 0, 6)",
+      "region": "Rect2(259, 1, 128, 122)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_multi_note.png": {
+      "margin": "Rect2(22, 26, 38, 44)",
+      "region": "Rect2(642, 585, 90, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_multi_note_target.png": {
+      "margin": "Rect2(0, 3, 0, 6)",
+      "region": "Rect2(1, 1, 128, 122)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_note.png": {
+      "margin": "Rect2(22, 26, 38, 44)",
+      "region": "Rect2(733, 548, 90, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_sustain_note.png": {
+      "margin": "Rect2(0, 3, 0, 3)",
+      "region": "Rect2(259, 124, 128, 125)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_sustain_note_target.png": {
+      "margin": "Rect2(14, 22, 28, 44)",
+      "region": "Rect2(106, 483, 100, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "heart_target.png": {
+      "margin": "Rect2(0, 3, 0, 6)",
+      "region": "Rect2(646, 117, 128, 122)",
+      "type": "HBAtlasEntry"
+    },
+    "hold_text.png": {
+      "margin": "Rect2(8, 94, 16, 97)",
+      "region": "Rect2(621, 369, 112, 31)",
+      "type": "HBAtlasEntry"
+    },
+    "hold_text_multi.png": {
+      "margin": "Rect2(8, 94, 16, 97)",
+      "region": "Rect2(734, 379, 112, 31)",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note.png": {
+      "margin": "Rect2(13, 19, 39, 32)",
+      "region": "Rect2(91, 658, 89, 96)",
+      "type": "HBAtlasEntry"
+    },
+    "left_double_note_target.png": {
+      "margin": "Rect2(0, 0, 8, 0)",
+      "region": "Rect2(500, 377, 120, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note.png": {
+      "margin": "Rect2(21, 23, 37, 39)",
+      "region": "Rect2(93, 568, 91, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "left_multi_note_target.png": {
+      "margin": "Rect2(1, 1, 1, 2)",
+      "region": "Rect2(387, 250, 127, 126)",
+      "type": "HBAtlasEntry"
+    },
+    "left_note.png": {
+      "margin": "Rect2(21, 23, 37, 39)",
+      "region": "Rect2(185, 591, 91, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note.png": {
+      "margin": "Rect2(1, 1, 1, 1)",
+      "region": "Rect2(515, 128, 127, 127)",
+      "type": "HBAtlasEntry"
+    },
+    "left_sustain_note_target.png": {
+      "margin": "Rect2(15, 22, 29, 44)",
+      "region": "Rect2(207, 506, 99, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "left_target.png": {
+      "margin": "Rect2(1, 1, 1, 2)",
+      "region": "Rect2(259, 250, 127, 126)",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note.png": {
+      "margin": "Rect2(32, 19, 39, 32)",
+      "region": "Rect2(824, 548, 89, 96)",
+      "type": "HBAtlasEntry"
+    },
+    "right_double_note_target.png": {
+      "margin": "Rect2(8, 0, 8, 0)",
+      "region": "Rect2(379, 377, 120, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note.png": {
+      "margin": "Rect2(24, 23, 38, 39)",
+      "region": "Rect2(460, 596, 90, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "right_multi_note_target.png": {
+      "margin": "Rect2(0, 1, 0, 2)",
+      "region": "Rect2(517, 1, 128, 126)",
+      "type": "HBAtlasEntry"
+    },
+    "right_note.png": {
+      "margin": "Rect2(24, 23, 38, 39)",
+      "region": "Rect2(551, 596, 90, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note.png": {
+      "margin": "Rect2(0, 1, 0, 1)",
+      "region": "Rect2(775, 122, 128, 127)",
+      "type": "HBAtlasEntry"
+    },
+    "right_sustain_note_target.png": {
+      "margin": "Rect2(15, 22, 29, 44)",
+      "region": "Rect2(307, 506, 99, 84)",
+      "type": "HBAtlasEntry"
+    },
+    "right_target.png": {
+      "margin": "Rect2(0, 1, 0, 2)",
+      "region": "Rect2(388, 1, 128, 126)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_note.png": {
+      "margin": "Rect2(13, 13, 30, 41)",
+      "region": "Rect2(434, 686, 72, 61)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_target.png": {
+      "margin": "Rect2(12, 26, 24, 39)",
+      "region": "Rect2(847, 379, 104, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_left_target_blue.png": {
+      "margin": "Rect2(34, 50, 68, 87)",
+      "region": "Rect2(568, 686, 60, 41)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_note.png": {
+      "margin": "Rect2(17, 13, 30, 41)",
+      "region": "Rect2(361, 683, 72, 61)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_target.png": {
+      "margin": "Rect2(12, 26, 24, 39)",
+      "region": "Rect2(1, 369, 104, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_chain_piece_right_target_blue.png": {
+      "margin": "Rect2(34, 50, 68, 87)",
+      "region": "Rect2(507, 686, 60, 41)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_multi_note.png": {
+      "margin": "Rect2(18, 18, 35, 50)",
+      "region": "Rect2(789, 469, 93, 78)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_multi_note_target.png": {
+      "margin": "Rect2(0, 0, 0, 13)",
+      "region": "Rect2(130, 238, 128, 115)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_note.png": {
+      "margin": "Rect2(18, 18, 35, 50)",
+      "region": "Rect2(695, 411, 93, 78)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_left_target.png": {
+      "margin": "Rect2(0, 0, 0, 13)",
+      "region": "Rect2(1, 124, 128, 115)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_multi_note.png": {
+      "margin": "Rect2(23, 18, 35, 50)",
+      "region": "Rect2(601, 506, 93, 78)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_multi_note_target.png": {
+      "margin": "Rect2(0, 0, 0, 13)",
+      "region": "Rect2(130, 122, 128, 115)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_note.png": {
+      "margin": "Rect2(23, 18, 35, 50)",
+      "region": "Rect2(883, 469, 93, 78)",
+      "type": "HBAtlasEntry"
+    },
+    "slide_right_target.png": {
+      "margin": "Rect2(0, 0, 0, 13)",
+      "region": "Rect2(646, 1, 128, 115)",
+      "type": "HBAtlasEntry"
+    },
+    "timing_arm.png": {
+      "margin": "Rect2(49, 22, 97, 45)",
+      "region": "Rect2(629, 686, 31, 83)",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note.png": {
+      "margin": "Rect2(19, 13, 32, 39)",
+      "region": "Rect2(504, 506, 96, 89)",
+      "type": "HBAtlasEntry"
+    },
+    "up_double_note_target.png": {
+      "margin": "Rect2(0, 0, 0, 8)",
+      "region": "Rect2(775, 1, 128, 120)",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note.png": {
+      "margin": "Rect2(23, 21, 39, 38)",
+      "region": "Rect2(181, 681, 89, 90)",
+      "type": "HBAtlasEntry"
+    },
+    "up_multi_note_target.png": {
+      "margin": "Rect2(2, 0, 3, 0)",
+      "region": "Rect2(1, 240, 125, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "up_note.png": {
+      "margin": "Rect2(23, 21, 39, 38)",
+      "region": "Rect2(271, 683, 89, 90)",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note.png": {
+      "margin": "Rect2(2, 0, 2, 0)",
+      "region": "Rect2(643, 240, 126, 128)",
+      "type": "HBAtlasEntry"
+    },
+    "up_sustain_note_target.png": {
+      "margin": "Rect2(19, 19, 37, 37)",
+      "region": "Rect2(277, 591, 91, 91)",
+      "type": "HBAtlasEntry"
+    },
+    "up_target.png": {
+      "margin": "Rect2(2, 0, 3, 0)",
+      "region": "Rect2(253, 377, 125, 128)",
+      "type": "HBAtlasEntry"
+    }
+  },
+  "pack_author_name": "EIRTeam",
+  "pack_name": "Fallback",
   "type": "HBResourcePack"
 }

@@ -1,6 +1,7 @@
 extends HBNewNoteDrawer
 	
 var SINGLE_NOTE_DRAWER_SCENE := load("res://rythm_game/note_drawers/new/SingleNoteDrawer.tscn")
+@onready var SLIDE_PIECE_EFFECT := load("res://graphics/effects/SliderPieceParticle.tscn")
 	
 var chain_piece_drawers := {}
 	
@@ -206,6 +207,14 @@ func process_note(time_msec: int):
 					if not is_in_editor_mode():
 						game.show_slide_hold_score(piece.position, current_score, is_last)
 						super.show_note_hit_effect(piece.position)
+						var hit_particle: SliderPieceParticle = SLIDE_PIECE_EFFECT.instantiate()
+						
+						game.game_ui.get_drawing_layer_node("SlideChainParticles").add_child(hit_particle)
+						hit_particle.position = piece.position
+						hit_particle.scale.x = -1 if piece.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT else 1
+						hit_particle.do_emit()
+						hit_particle.finished.connect(self.free_node_bind)
+						hit_particle.finished.connect(hit_particle.queue_free)
 					free_node_bind(drawer)
 					drawer.queue_free()
 					chain_piece_drawers.erase(piece)

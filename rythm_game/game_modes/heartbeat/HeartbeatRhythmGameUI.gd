@@ -90,6 +90,7 @@ func _ready():
 	add_drawing_layer("HitParticles")
 	add_drawing_layer("AppearParticles")
 	add_drawing_layer("SlideChainPieces")
+	add_drawing_layer("SlideChainParticles")
 	add_drawing_layer("Notes")
 	
 	game_over_turn_off_node.hide()
