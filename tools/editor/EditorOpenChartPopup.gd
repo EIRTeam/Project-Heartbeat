@@ -142,7 +142,7 @@ func _on_about_to_show():
 	populate_tree()
 
 func _show_meta_editor():
-	song_meta_editor.hidden = tree.get_selected().get_meta("hidden")
+	song_meta_editor.show_hidden = tree.get_selected().get_meta("hidden")
 	song_meta_editor.song_meta = tree.get_selected().get_meta("song")
 	
 	song_meta_editor_dialog.size = Vector2.ZERO

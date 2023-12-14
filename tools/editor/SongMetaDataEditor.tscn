@@ -286,7 +286,6 @@ text = "Start time (in miliseconds)"
 layout_mode = 2
 min_value = -10000.0
 max_value = 2.14748e+09
-value = 10.0
 script = ExtResource("5")
 
 [node name="Label14" type="HBoxContainer" parent="TabContainer/Technical Data/MarginContainer/VBoxContainer"]

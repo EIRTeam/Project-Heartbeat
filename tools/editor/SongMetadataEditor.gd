@@ -176,18 +176,18 @@ func save_meta():
 	song_meta.background_image = background_image_filename_edit.text
 	song_meta.preview_image = preview_image_filename_edit.text
 	song_meta.youtube_url = youtube_url_line_edit.text
-	song_meta.use_youtube_for_audio = use_youtube_as_audio.pressed
-	song_meta.use_youtube_for_video = use_youtube_as_video.pressed
+	song_meta.use_youtube_for_audio = use_youtube_as_audio.button_pressed
+	song_meta.use_youtube_for_video = use_youtube_as_video.button_pressed
 	
-	song_meta.allows_intro_skip = intro_skip_checkbox.pressed
+	song_meta.allows_intro_skip = intro_skip_checkbox.button_pressed
 	song_meta.intro_skip_min_time = intro_skip_min_time_spinbox.value
 	
 	song_meta.start_time = start_time_spinbox.value
 	song_meta.end_time = end_time_spinbox.value
-	song_meta.hide_artist_name = hide_artist_name_checkbox.pressed
+	song_meta.hide_artist_name = hide_artist_name_checkbox.button_pressed
 	
 	song_meta.volume = volume_spinbox.value
-	song_meta.show_epilepsy_warning = epilepsy_warning_checkbox.pressed
+	song_meta.show_epilepsy_warning = epilepsy_warning_checkbox.button_pressed
 	
 	song_meta.skin_ugc_id = skin_picker.selected_value
 	
@@ -395,9 +395,9 @@ func set_enabled(enabled: bool):
 	romanized_title_edit.editable = enabled
 	artist_edit.editable = enabled
 	artist_alias_edit.editable = enabled
-	vocals_edit.readonly = not enabled
-	writers_edit.readonly = not enabled
-	composers_edit.readonly = not enabled
+	vocals_edit.editable = enabled
+	writers_edit.editable = enabled
+	composers_edit.editable = enabled
 	creator_edit.editable = enabled
 	original_title_edit.editable = enabled
 	audio_filename_edit.editable = enabled
