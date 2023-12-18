@@ -109,23 +109,23 @@ func _on_item_downloaded(_result: int, file_id: int, _app_id: int):
 func start_asset_load():
 	loadingu_label.text = tr("Loadingu...")
 	var song: HBSong = game_info.get_song()
-	var task = SongAssetLoader.request_asset_load(
-		song,
-		[
+	var assets_to_load: Array[SongAssetLoader.ASSET_TYPES] = [
 			SongAssetLoader.ASSET_TYPES.CIRCLE_IMAGE,
 			SongAssetLoader.ASSET_TYPES.PREVIEW,
 			SongAssetLoader.ASSET_TYPES.BACKGROUND,
 			SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO,
 			SongAssetLoader.ASSET_TYPES.AUDIO,
 			SongAssetLoader.ASSET_TYPES.VOICE,
-		],
+		]
+	if not song.has_audio_loudness:
+		if not SongDataCache.is_song_audio_loudness_cached(song):
+			assets_to_load.append(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
+	var task = SongAssetLoader.request_asset_load(
+		song,
+		assets_to_load,
 		game_info.variant
 	)
 	task.assets_loaded.connect(_on_song_assets_loaded)
-	var assets_to_get = ["audio", "voice"]
-	if not song.has_audio_loudness:
-		if not SongDataCache.is_song_audio_loudness_cached(song):
-			assets_to_get.append(SongAssetLoader.ASSET_TYPES.AUDIO_LOUDNESS)
 	task.assets_loaded.connect(_on_song_assets_loaded)
 func _on_song_assets_loaded(assets: SongAssetLoader.AssetLoadToken):
 	if not min_load_time_timer.is_stopped():
