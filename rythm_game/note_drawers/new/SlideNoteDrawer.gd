@@ -213,7 +213,6 @@ func process_note(time_msec: int):
 						hit_particle.position = piece.position
 						hit_particle.scale.x = -1 if piece.note_type == HBBaseNote.NOTE_TYPE.SLIDE_CHAIN_PIECE_LEFT else 1
 						hit_particle.do_emit()
-						hit_particle.finished.connect(self.free_node_bind)
 						hit_particle.finished.connect(hit_particle.queue_free)
 					free_node_bind(drawer)
 					drawer.queue_free()
