@@ -91,6 +91,18 @@ var ui_module_locations = {
 	"right_panel": "VBoxContainer/VSplitContainer/HSplitContainer/HSplitContainer/Control2/TabContainer",
 }
 
+const EDITOR_MODULE_PATHS: Array[String] = [
+	"res://tools/editor/editor_modules/AnglesModule.tscn",
+	"res://tools/editor/editor_modules/ArrangeModule.tscn",
+	"res://tools/editor/editor_modules/ContextualMenuModule.gd",
+	"res://tools/editor/editor_modules/EventsModule.tscn",
+	"res://tools/editor/editor_modules/ImportsModule.tscn",
+	"res://tools/editor/editor_modules/PresetsModule.tscn",
+	"res://tools/editor/editor_modules/ScriptsModule.tscn",
+	"res://tools/editor/editor_modules/SyncModule.tscn",
+	"res://tools/editor/editor_modules/TemplatesModule.tscn"
+]
+
 var modules := []
 var sync_module
 
@@ -121,29 +133,13 @@ func _sort_modules(a, b):
 	return a.priority < b.priority
 
 func load_modules():
-	var dir := DirAccess.open(EDITOR_MODULES_DIR)
-	if DirAccess.get_open_error() == OK:
-		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-		var file_name = dir.get_next()
-		
-		while file_name != "":
-			if not dir.current_is_dir() and not file_name.begins_with("."):
-				if file_name.ends_with(".tscn"):
-					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instantiate()
-					modules.append(module)
-				elif file_name.ends_with(".tscn.converted.res"):
-					var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).instantiate()
-					modules.append(module)
-				elif file_name.ends_with(".gd"):
-					if not dir.file_exists(file_name.trim_suffix(".gd") + ".tscn") and "Module" in file_name:
-						var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).new()
-						modules.append(module)
-				elif file_name.ends_with(".gdc"):
-					if not dir.file_exists(file_name.trim_suffix(".gdc") + ".tscn.converted.res") and "Module" in file_name:
-						var module = ResourceLoader.load(EDITOR_MODULES_DIR + "/" + file_name).new()
-						modules.append(module)
-			
-			file_name = dir.get_next()
+	
+	for module in EDITOR_MODULE_PATHS:
+		var module_c: Variant = load(module)
+		if module_c is PackedScene:
+			modules.append(module_c.instantiate())
+		elif module_c is GDScript:
+			modules.append(module_c.new())
 	
 	modules.sort_custom(Callable(self, "_sort_modules"))
 	for module in modules:
