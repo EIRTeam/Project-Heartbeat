@@ -1,38 +1,204 @@
-[gd_scene load_steps=7 format=3 uid="uid://c73hmv1ny7bc4"]
+[gd_scene load_steps=10 format=3 uid="uid://c73hmv1ny7bc4"]
 
 [ext_resource type="Texture2D" uid="uid://cfmgrqdhgpbb5" path="res://graphics/effects/flare.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://2rdevke1bns4" path="res://graphics/effects/bubble.png" id="2"]
 [ext_resource type="PackedScene" path="res://rythm_game/note_drawers/NoteGraphic.tscn" id="3"]
 [ext_resource type="Script" path="res://graphics/effects/NoteHitEffect.gd" id="4"]
-[ext_resource type="Texture2D" uid="uid://b0r076h70hqw8" path="res://graphics/effects/circle_01.png" id="5_gbx6u"]
+[ext_resource type="Texture2D" uid="uid://0uho05yjamtq" path="res://graphics/effects/shockwavetest.png" id="4_5vd8x"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_aishp"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xwbid"]
 blend_mode = 1
 
+[sub_resource type="Animation" id="Animation_d4yd2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NoteIcon:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.05, 0.05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NoteIcon:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flare:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.05, 0.05)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Flare:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Loop:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.033, 0.033)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Loop:self_modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ux1n5"]
+resource_name = "play"
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NoteIcon:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.116667, 0.466667),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(0.05, 0.05), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NoteIcon:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.116667, 0.416667, 0.466667),
+"transitions": PackedFloat32Array(0, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flare:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.05, 0.05), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Flare:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Loop:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.116667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.033, 0.033), Vector2(0.413, 0.413), Vector2(4, 4)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Loop:self_modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.116667, 0.2, 0.416667, 0.466667),
+"transitions": PackedFloat32Array(0, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.219608), Color(0.580392, 0.580392, 0.580392, 1), Color(0.537255, 0.537255, 0.537255, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_24dw0"]
+_data = {
+"RESET": SubResource("Animation_d4yd2"),
+"play": SubResource("Animation_ux1n5")
+}
+
 [node name="NoteHitEffect" type="Node2D"]
+modulate = Color(0.752941, 0.752941, 0.752941, 1)
 z_index = -1
-material = SubResource("CanvasItemMaterial_aishp")
-position = Vector2(940.718, 440.502)
-scale = Vector2(0.5, 0.5)
+material = SubResource("CanvasItemMaterial_xwbid")
+position = Vector2(944, 441)
 script = ExtResource("4")
 
 [node name="Note" parent="." instance_placeholder="res://rythm_game/note_drawers/NoteGraphic.tscn"]
 visible = false
+use_parent_material = true
 position = Vector2(0, 0)
+
+[node name="Flare" parent="." instance=ExtResource("3")]
+use_parent_material = true
+position = Vector2(0, 0)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1")
+
+[node name="Loop" type="Sprite2D" parent="."]
+use_parent_material = true
+scale = Vector2(0.033, 0.033)
+texture = ExtResource("4_5vd8x")
 
 [node name="NoteIcon" type="Sprite2D" parent="."]
 use_parent_material = true
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2")
 
-[node name="Flare" parent="." instance=ExtResource("3")]
-position = Vector2(0, 0)
-scale = Vector2(0.4886, 0.4886)
-texture = ExtResource("1")
-
-[node name="Loop" type="Sprite2D" parent="."]
-use_parent_material = true
-scale = Vector2(0.56, 0.56)
-texture = ExtResource("5_gbx6u")
-
 [node name="Threen" type="Threen" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_24dw0")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

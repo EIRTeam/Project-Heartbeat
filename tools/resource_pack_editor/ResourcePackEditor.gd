@@ -198,7 +198,8 @@ func populate_items():
 	if OS.has_feature("editor"):
 		add_graphic_item(misc_item, "Note Hit Bubble", "bubble.png", "effects", true, Vector2(496, 496))
 		add_graphic_item(misc_item, "Note Hit Flare", "flare.png", "effects", true, Vector2(800, 800))
-		add_graphic_item(misc_item, "Note Hit Loop", "loop.png", "effects", true, Vector2(310, 310))
+		add_graphic_item(misc_item, "Note Hit Loop", "loop.png", "effects", true, Vector2(512, 512))
+		add_graphic_item(misc_item, "Note Appear", "appear.png", "effects", true, Vector2(450, 450))
 	add_graphic_item(misc_item, "Sustain Trail", "sustain_trail.png", "__no_atlas", true, Vector2(128, 128))
 func _on_button_pressed(item: TreeItem, _column: int, id: int):
 	if item.has_meta("resource_name"):

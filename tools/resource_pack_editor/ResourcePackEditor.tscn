@@ -8,15 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://dhk4eaf1a04en" path="res://tools/icons/icon_load.svg" id="6"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/AtlasPreview.tres.gd" id="7"]
 [ext_resource type="FontFile" path="res://fonts/SongLabel.tres" id="8"]
-[ext_resource type="PackedScene" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://bi00tlp38rnc3" path="res://tools/editor/WorkshopUploadForm.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://cln670qlnyiv6" path="res://graphics/background.png" id="10"]
-[ext_resource type="PackedScene" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://c0p0ql3vtldti" path="res://rythm_game/game_modes/heartbeat/HeartbeatRhythmGameUI.tscn" id="11"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorComponentPicker.gd" id="12"]
-[ext_resource type="PackedScene" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://i08qk1n42uwn" path="res://tools/resource_pack_editor/skin_editor/skin_editor_widget.tscn" id="18"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/viewport_quad.gd" id="20"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/SkinEditorViewport.gd" id="21"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/skin_editor.gd" id="22"]
-[ext_resource type="PackedScene" path="res://tools/new_inspector/new_inspector.tscn" id="23"]
+[ext_resource type="PackedScene" uid="uid://dycvec2jy0kmy" path="res://tools/new_inspector/new_inspector.tscn" id="23"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinEditorOutliner.gd" id="24"]
 [ext_resource type="Script" path="res://tools/resource_pack_editor/skin_editor/HBSkinResourceEditor.gd" id="25"]
 
@@ -38,7 +38,9 @@ theme = ExtResource("1")
 script = ExtResource("3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.025
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -47,7 +49,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Textures" type="Panel" parent="VBoxContainer/TabContainer"]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
@@ -201,6 +202,7 @@ size_flags_vertical = 3
 script = ExtResource("7")
 
 [node name="Skin" type="Panel" parent="VBoxContainer/TabContainer"]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 mouse_filter = 2
@@ -361,6 +363,8 @@ editor_only = false
 [node name="Node2D" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control" instance=ExtResource("11")]
 visible = false
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 
 [node name="EditLayer" type="Control" parent="VBoxContainer/TabContainer/Skin/HSplitContainer/Panel2/HBoxContainer/VBoxContainer/AspectRatioContainer/TextureRect/SubViewport/Control"]
 anchors_preset = 0
@@ -505,8 +509,8 @@ dialog_text = "This will delete the file for this graphic, do you want to do thi
 [node name="ColorPicker" type="ColorPicker" parent="ColorPickerPopup"]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 298.0
-offset_bottom = 591.0
+offset_right = 314.0
+offset_bottom = 592.0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 position = Vector2i(0, 24)

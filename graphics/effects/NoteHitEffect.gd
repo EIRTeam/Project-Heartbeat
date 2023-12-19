@@ -6,6 +6,11 @@ extends Node2D
 
 @onready var tween = Threen.new()
 
+# 1-12: yellow thing
+# 7-28 note with 4 frame fade
+# 7-28 shockwave
+
+
 func _ready():
 	$NoteIcon.texture = ResourcePackLoader.get_graphic("bubble.png")
 	$Flare.texture = ResourcePackLoader.get_graphic("flare.png")
@@ -13,8 +18,11 @@ func _ready():
 	tween.connect("tween_all_completed", Callable(self, "queue_free"))
 	add_child(tween)
 	play_effect()
+	scale = Vector2.ONE * 0.75
 	
 func play_effect():
+	$AnimationPlayer.play("play")
+	return
 	note_icon.scale = Vector2.ZERO
 	note_icon.modulate.a = 0.0
 	note_loop.scale = Vector2.ZERO
@@ -29,9 +37,8 @@ func play_effect():
 	var transparent_trans = Threen.TRANS_QUINT
 	var transparent_ease = Threen.EASE_IN
 	
-	tween.interpolate_property(note_icon, "scale", Vector2(0.15, 0.15), Vector2(0.25, 0.25), 0.20, Threen.TRANS_BACK, Threen.EASE_IN)
-	tween.interpolate_property(note_icon, "scale", Vector2(0.25, 0.25), Vector2(0.65, 0.65), 0.5, Threen.TRANS_QUAD, Threen.EASE_OUT, 0.20)
-	tween.interpolate_property(note_icon, "modulate:a", 0.6, 0.0, 0.7, transparent_trans, transparent_ease)
+	tween.interpolate_property(note_icon, "scale", Vector2(0.25, 0.25), Vector2(0.65, 0.65), 0.25, Threen.TRANS_EXPO, Threen.EASE_OUT, 0.20)
+	tween.interpolate_property(note_icon, "modulate:a", 1.0, 0.0, 0.05, 0, 2, 0.20)
 	
 	tween.interpolate_property(note_loop, "scale", Vector2(0.15, 0.15), Vector2(0.75, 0.75), 0.15, Threen.TRANS_BOUNCE, Threen.EASE_IN)
 	tween.interpolate_property(note_loop, "scale", Vector2(0.75, 0.75), Vector2(4.0, 4.0), 0.60, Threen.TRANS_QUAD, Threen.EASE_OUT, 0.15)
@@ -48,3 +55,7 @@ func play_effect():
 func _notification(what):
 	if what == NOTIFICATION_EXIT_TREE:
 		queue_free()
+
+
+func _on_animation_player_animation_finished(_anim_name: StringName):
+	queue_free()
