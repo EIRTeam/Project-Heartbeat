@@ -1,3 +1,4 @@
+@uid("uid://btjtkniphugcg") # Generated automatically, do not modify.
 extends Panel
 
 var normal_style
@@ -7,34 +8,23 @@ var event : set = set_event
 signal hovered
 signal pressed
 @onready var icon_panel = get_node("HBoxContainer/HBoxContainer/Panel")
-@onready var button_icon := get_node("HBoxContainer/TextureRect")
+@onready var glyph_rect: InputGlyphRect = get_node("%InputGlyphRect")
+@onready var info_label: Label = get_node("%InfoLabel")
 func set_event(val):
 	event = val
 	if is_inside_tree():
-		button_icon.hide()
-		if event is InputEventJoypadMotion:
-			$HBoxContainer/Label.text = UserSettings.get_axis_name(event)
-			var button_tex = JoypadSupport.get_joy_axis_prompt_for(str(event.axis))
-			if button_tex:
-				button_icon.texture = button_tex
-				button_icon.show()
-			if UserSettings.should_use_direct_joystick_access():
-				if event.axis <= JOY_AXIS_RIGHT_Y and action in ["heart_note", "slide_left", "slide_right"]:
-					$HBoxContainer/Label.text += tr(" (Disabled due to Input -> Use direct joystick access)")
-		elif event is InputEventJoypadButton:
-			var button_tex = JoypadSupport.get_joypad_button_prompt_for(str(event.button_index))
-			if button_tex:
-				button_icon.texture = button_tex
-				button_icon.show()
-				$HBoxContainer/Label.hide()
-			$HBoxContainer/Label.text = UserSettings.get_button_name(event)
+		glyph_rect.hide()
+		if event is InputEventJoypadMotion or event is InputEventJoypadButton:
+			var origin := InputGlyphsSingleton.get_origin_from_joy_event(event)
+			glyph_rect.forced_joy_origin = origin
+			info_label.text = ""
+			glyph_rect.show()
+			if event is InputEventJoypadMotion:
+				if UserSettings.user_settings.use_direct_joystick_access:
+					if event.axis <= JOY_AXIS_RIGHT_Y and action in ["heart_note", "slide_left", "slide_right"]:
+						info_label.text += tr(" (Disabled due to Input -> Use direct joystick access)")
 		elif event is InputEventKey:
-			var button_tex = JoypadSupport.get_keyboard_prompt_for(str(event.keycode))
-			if button_tex:
-				button_icon.texture = button_tex
-				button_icon.show()
-				$HBoxContainer/Label.hide()
-			$HBoxContainer/Label.text = OS.get_keycode_string(event.keycode)
+			info_label.text = InputGlyphsSingleton.get_event_display_string(event)
 func _init():
 	normal_style = StyleBoxEmpty.new()
 	hover_style = preload("res://styles/PanelStyleTransparentHover.tres")

@@ -1,3 +1,4 @@
+@uid("uid://chn15krouqry5") # Generated automatically, do not modify.
 extends HBNewNoteDrawer
 	
 var SINGLE_NOTE_DRAWER_SCENE := load("res://rythm_game/note_drawers/new/SingleNoteDrawer.tscn")
@@ -15,6 +16,9 @@ var current_slide_chain_sound: ShinobuSoundPlayer
 var slide_effect_scene: PackedScene
 	
 var pressed := false: set = set_pressed
+
+var currently_vibrating_device_idx := -1
+
 func set_pressed(val):
 	pressed = val
 	note_graphics.visible = !pressed
@@ -117,15 +121,24 @@ func ensure_vibration():
 	if game.game_mode != HBRhythmGame.GAME_MODE.NORMAL:
 		end_vibration()
 		return
+		
+	if currently_vibrating_device_idx == -1:
+		if game.game_input_manager.last_action_device_type != HBGameInputManager.DEVICE_TYPE.JOYPAD or \
+				game.game_input_manager.last_action_device_idx == -1:
+			return
+		if game.game_input_manager.last_action_device_idx in Input.get_connected_joypads():
+			currently_vibrating_device_idx = game.game_input_manager.last_action_device_idx
 	if UserSettings.user_settings.enable_vibration:
-		if UserSettings.controller_device_idx in Input.get_connected_joypads():
-			Input.start_joy_vibration(UserSettings.controller_device_idx, 1.0, 1.0)
+		if currently_vibrating_device_idx in Input.get_connected_joypads():
+			Input.start_joy_vibration(currently_vibrating_device_idx, 1.0, 1.0)
 
 func end_vibration():
 	if UserSettings.user_settings.enable_vibration:
-		if UserSettings.controller_device_idx in Input.get_connected_joypads():
-			if Input.get_joy_vibration_strength(UserSettings.controller_device_idx).length() != 0:
-				Input.stop_joy_vibration(UserSettings.controller_device_idx)
+		if currently_vibrating_device_idx == -1:
+			return
+		if currently_vibrating_device_idx in Input.get_connected_joypads():
+			if Input.get_joy_vibration_strength(currently_vibrating_device_idx).length() != 0:
+				Input.stop_joy_vibration(currently_vibrating_device_idx)
 
 func is_slide_direction_pressed():
 	if is_in_editor_mode() or is_autoplay_enabled():

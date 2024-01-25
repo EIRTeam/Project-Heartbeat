@@ -1,3 +1,4 @@
+@uid("uid://bs57o82wfkelo") # Generated automatically, do not modify.
 extends Control
 
 signal back
@@ -21,10 +22,6 @@ func _unhandled_input(event):
 				scroll_container.grab_focus()
 				return
 			if not event.is_pressed() or event.is_echo():
-				return
-			# we can only bind inputs from the selected controller device
-			if (event is InputEventJoypadButton or event is InputEventJoypadMotion) \
-					and event.device != UserSettings.controller_device_idx:
 				return
 			if event is InputEventJoypadMotion and action_being_bound in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 				return

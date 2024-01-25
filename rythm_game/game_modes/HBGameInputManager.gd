@@ -1,3 +1,4 @@
+@uid("uid://bbg76kbyas88x") # Generated automatically, do not modify.
 # In PH all input must be converted to InputEventActions for consistency between
 # different controllers
 
@@ -6,6 +7,17 @@ extends Node
 class_name HBGameInputManager
 
 var _buffered_inputs = []
+
+enum DEVICE_TYPE {
+	JOYPAD,
+	OTHER
+}
+
+# This is used for deciding what device to vibrate, however since inputs are buffered and flushed all together
+# this might be problematic by failing to trigger vibration if say a keyboard is used on the same frame as a gamepad
+# but you'd have to be a special kind of retard to complain about something like this that no other rhythm game supports
+var last_action_device_idx := -1
+var last_action_device_type := DEVICE_TYPE.OTHER
 
 func _init():
 	name = "GameInputManager"
@@ -53,9 +65,9 @@ enum EVENT_FLAGS {
 	IS_DJA = 2 << 0
 }
 
-func get_dja_event_uid(axis: int) -> int:
+func get_dja_event_uid(device_idx: int, axis: int) -> int:
 	var flags = EVENT_FLAGS.IS_DJA
-	var ev_device = UserSettings.controller_device_idx
+	var ev_device = device_idx
 	var ev_scancode = axis
 	var flags_size = 2
 	return (ev_device << 8 + flags_size) + (ev_scancode << 16 + flags_size) + flags

@@ -1,3 +1,4 @@
+@uid("uid://jpwvs5vxrtuc") # Generated automatically, do not modify.
 extends HBGameInputManager
 
 class_name HeartbeatInputManager
@@ -22,8 +23,14 @@ var last_axis_values = {}
 var current_sending_actions_count = 0
 
 const DJA_SLIDE_DOT_THRESHOLD = 0.5
-var dja_last_filtered_axis_values = [Vector2(), Vector2()]
-var dja_joystick_wma_history := [PackedVector2Array(), PackedVector2Array()]
+class DJAAxisValues:
+	var left := Vector2()
+	var right := Vector2()
+var dja_last_filtered_axis_values := {}
+class DJAJoystickWMA:
+	var left := PackedVector2Array()
+	var right := PackedVector2Array()
+var dja_joystick_wma_history := {}
 
 func reset():
 	super.reset()
@@ -57,33 +64,50 @@ func _get_digital_action_held_count(action):
 func _get_action_deadzone(action: String):
 	var deadzone = UserSettings.user_settings.analog_deadzone
 	return deadzone
+	
+func get_last_filtered_axis_values_for_joy(joy_idx: int) -> DJAAxisValues:
+	if joy_idx in dja_last_filtered_axis_values:
+		return dja_last_filtered_axis_values[joy_idx]
+	dja_last_filtered_axis_values[joy_idx] = DJAAxisValues.new()
+	return dja_last_filtered_axis_values[joy_idx]
+	
+func get_dja_wma_history_for_joy(joy_idx: int) -> DJAJoystickWMA:
+	if joy_idx in dja_joystick_wma_history:
+		return dja_joystick_wma_history[joy_idx]
+	dja_joystick_wma_history[joy_idx] = DJAJoystickWMA.new()
+	return dja_joystick_wma_history[joy_idx]
+	
 func _get_analog_action_held_count(action):
 	var count = 0
-	if UserSettings.should_use_direct_joystick_access() and action in DIRECT_AXIS_ACTIONS:
-		var v1 = dja_last_filtered_axis_values[0]
-		var v2 = dja_last_filtered_axis_values[1]
-		var deadzone = _get_action_deadzone(action)
-		if action == "heart_note":
-			if v1.length() > deadzone:
-				count += 1
-			if v2.length() > deadzone:
-				count += 1
-		elif action == "slide_left":
-			if v1.x < 0 and v1.length() > deadzone and _is_in_slide_range(v1):
-				count += 1
-			if v2.x < 0 and v2.length() > deadzone and _is_in_slide_range(v2):
-				count += 1
-		elif action == "slide_right":
-			if v1.x > 0 and v1.length() > deadzone and _is_in_slide_range(v1):
-				count += 1
-			if v2.x > 0 and v2.length() > deadzone and _is_in_slide_range(v2):
-				count += 1
-	for device in last_axis_values:
-		if action in last_axis_values[device]:
-			for axis in last_axis_values[device][action]:
-				if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
-					if not UserSettings.should_use_direct_joystick_access() or not axis in DIRECT_AXIS:
-						count += 1
+	if action in DIRECT_AXIS_ACTIONS:
+		for device in dja_last_filtered_axis_values:
+			if not device in Input.get_connected_joypads() or not UserSettings.should_use_direct_joystick_access(device):
+				continue
+			var dja_lfa := get_last_filtered_axis_values_for_joy(device)
+			var v1 = dja_lfa.left
+			var v2 = dja_lfa.right
+			var deadzone = _get_action_deadzone(action)
+			if action == "heart_note":
+				if v1.length() > deadzone:
+					count += 1
+				if v2.length() > deadzone:
+					count += 1
+			elif action == "slide_left":
+				if v1.x < 0 and v1.length() > deadzone and _is_in_slide_range(v1):
+					count += 1
+				if v2.x < 0 and v2.length() > deadzone and _is_in_slide_range(v2):
+					count += 1
+			elif action == "slide_right":
+				if v1.x > 0 and v1.length() > deadzone and _is_in_slide_range(v1):
+					count += 1
+				if v2.x > 0 and v2.length() > deadzone and _is_in_slide_range(v2):
+					count += 1
+		for device in last_axis_values:
+			if action in last_axis_values[device]:
+				for axis in last_axis_values[device][action]:
+					if abs(last_axis_values[device][action][axis]) >= _get_action_deadzone(action):
+						if not UserSettings.should_use_direct_joystick_access(device) or not axis in DIRECT_AXIS:
+							count += 1
 	return count
 func _is_action_held_analog(action):
 	return _get_analog_action_held_count(action) > 0
@@ -92,27 +116,33 @@ func _is_in_slide_range(value: Vector2):
 	return abs((Vector2.RIGHT * sign(value.x)).angle_to(value)) < deg_to_rad(UserSettings.user_settings.direct_joystick_slider_angle_window) * 0.5
 
 func _handle_direct_axis_input():
+	for device in Input.get_connected_joypads():
+		_handle_direct_axis_input_for_device(device)
+
+func _handle_direct_axis_input_for_device(device_idx: int):
 	var deadzone = _get_action_deadzone("heart_note")
 
 	current_sending_actions_count = 0
 	var press_actions_to_send = []
 	var press_actions_event_uids = []
 	var action_state = []
+	var dja_lfa := get_last_filtered_axis_values_for_joy(device_idx)
+	var dja_wma := get_dja_wma_history_for_joy(device_idx)
 	for joystick in range(2):
-		var event_uid := get_dja_event_uid(joystick)
+		var event_uid := get_dja_event_uid(device_idx, joystick)
 		var off := 2 * joystick
 		var axis_x := JOY_AXIS_LEFT_X + off
 		var axis_y := JOY_AXIS_LEFT_Y + off
-		var x1 := Input.get_joy_axis(UserSettings.controller_device_idx, axis_x)
-		var y1 := Input.get_joy_axis(UserSettings.controller_device_idx, axis_y)
+		var x1 := Input.get_joy_axis(device_idx, axis_x)
+		var y1 := Input.get_joy_axis(device_idx, axis_y)
 		var curr_value := Vector2(x1, y1)
 		
-		var prev_filtered_input := dja_last_filtered_axis_values[joystick] as Vector2
+		var prev_filtered_input := dja_lfa.left if joystick == 0 else dja_lfa.right as Vector2
 		var filtered_input := curr_value
 		var factor: float = UserSettings.user_settings.direct_joystick_filter_factor
 		
 		# WMA
-		var pva := dja_joystick_wma_history[joystick] as PackedVector2Array
+		var pva := dja_wma.left if joystick == 0 else dja_wma.right as PackedVector2Array
 		if pva.size() != 20:
 			pva.resize(20)
 			pva.fill(Vector2.ZERO)
@@ -128,7 +158,10 @@ func _handle_direct_axis_input():
 		wma_sum /= wma_total
 		
 		pva[pva.size()-1] = curr_value
-		dja_joystick_wma_history[joystick] = pva
+		if joystick == 0:
+			dja_wma.left = pva
+		else:
+			dja_wma.right = pva
 		
 		filtered_input = wma_sum
 		
@@ -154,15 +187,20 @@ func _handle_direct_axis_input():
 			press_actions_to_send.push_back("heart_note")
 			press_actions_event_uids.push_back(event_uid)
 			action_state.push_back(false)
-		dja_last_filtered_axis_values[joystick] = filtered_input
+		if joystick == 0:
+			dja_lfa.left = filtered_input
+		else:
+			dja_lfa.right = filtered_input
 	
 	if press_actions_to_send.size() > 0:
 		current_sending_actions_count = press_actions_to_send.size()
 		for i in range(press_actions_to_send.size()):
+			last_action_device_idx = device_idx
+			last_action_device_type = DEVICE_TYPE.JOYPAD
 			send_input(press_actions_to_send[i], action_state[i], press_actions_to_send.size(), press_actions_event_uids[i], press_actions_to_send)
 
 func flush_inputs():
-	if UserSettings.should_use_direct_joystick_access() and is_processing_input():
+	if is_processing_input():
 		_handle_direct_axis_input()
 	super.flush_inputs()
 
@@ -172,9 +210,6 @@ func _input_received(event):
 	if event is InputEventHB:
 		return
 		
-	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
-		if UserSettings.controller_device_idx != event.device:
-			return
 	if not event is InputEventAction and not event is InputEventMouseMotion:
 		var found_actions = []
 		
@@ -187,7 +222,7 @@ func _input_received(event):
 		for action in found_actions:
 			if event is InputEventJoypadMotion:
 				var digital_action = action
-				if UserSettings.should_use_direct_joystick_access() \
+				if UserSettings.should_use_direct_joystick_access(event.device) \
 					and action in DIRECT_AXIS_ACTIONS \
 					and event.axis in DIRECT_AXIS:
 					continue
@@ -246,6 +281,16 @@ func _input_received(event):
 		for action_data in actions_to_send:
 			current_event = action_data.event
 			current_sending_actions_count = actions_to_send.size()
+			var device_type := DEVICE_TYPE.OTHER
+			var device_idx := -1
+			
+			if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+				device_idx = event.device
+				device_type = DEVICE_TYPE.JOYPAD
+			
+			last_action_device_idx = device_idx
+			last_action_device_type = device_type
+			
 			send_input(action_data.action, action_data.pressed, actions_to_send.size(), event_uid, current_actions)
 		for action in releases_to_send:
 			emit_signal("unhandled_release", action, event_uid)

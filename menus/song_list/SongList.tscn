@@ -1,9 +1,9 @@
 [gd_scene load_steps=25 format=3 uid="uid://mq8cvko6co3o"]
 
 [ext_resource type="FontFile" path="res://fonts/Default_Font_thin.tres" id="1"]
-[ext_resource type="Script" path="res://menus/song_list/SongList.gd" id="2"]
+[ext_resource type="Script" uid="uid://dks1agdj5qb8i" path="res://menus/song_list/SongList.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://r6cc2m204dqw" path="res://menus/HBConfirmationWindow.tscn" id="5"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="6"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="7"]
@@ -11,8 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dku88ebe3yjq0" path="res://graphics/icons/download.svg" id="9"]
 [ext_resource type="Script" path="res://menus/song_list/SongListSongContainer.gd" id="10"]
 [ext_resource type="PackedScene" uid="uid://c4tvo47nahi4h" path="res://menus/FolderManager.tscn" id="11"]
-[ext_resource type="Script" path="res://menus/ScrollingLabel.gd" id="12"]
-[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
+[ext_resource type="Script" uid="uid://bil3yngksv25g" path="res://menus/ScrollingLabel.gd" id="12"]
+[ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12_787qn"]
 [ext_resource type="PackedScene" path="res://menus/HBHovereableCheckbox.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://menus/HBHovereableOptionButton.tscn" id="15"]
 [ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="16"]
@@ -173,7 +173,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Difficulty"
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(39, 0)
@@ -182,10 +182,10 @@ texture = ExtResource("9")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PromptInputAction" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2" instance=ExtResource("13")]
-custom_minimum_size = Vector2(40, 0)
+[node name="InputGlyphRect" type="InputGlyphRect" parent="VBoxContainer/VBoxContainer2/HBoxContainer/PanelContainer/HBoxContainer2"]
 layout_mode = 2
-input_action = "note_up"
+action_text = ""
+action_name = &"note_up"
 
 [node name="FolderPath" type="Control" parent="VBoxContainer/VBoxContainer2/HBoxContainer"]
 material = SubResource("3")
@@ -246,10 +246,11 @@ layout_mode = 2
 size_flags_stretch_ratio = 1.25
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts"]
+[node name="HBoxContainer" type="PanelContainer" parent="VBoxContainer/Prompts"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
-alignment = 1
+theme_override_styles/panel = ExtResource("12_787qn")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Prompts/HBoxContainer"]
 layout_mode = 2
@@ -348,16 +349,16 @@ text = "Has downloaded media"
 
 [node name="FolderManager" parent="." instance=ExtResource("11")]
 visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 744.0
-offset_bottom = 516.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -374.0
+offset_top = -264.5
+offset_right = 374.0
+offset_bottom = 264.5
 
 [node name="SongCountIndicator" type="Label" parent="."]
 layout_mode = 0

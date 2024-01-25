@@ -1,3 +1,4 @@
+@uid("uid://bledxvxmbfr67") # Generated automatically, do not modify.
 @tool
 extends Button
 
@@ -12,7 +13,7 @@ func set_button_text(val):
 func set_action(val):
 	action = val
 	if is_inside_tree() or Engine.is_editor_hint():
-		$HBoxContainer/PromptInputAction.input_action = action
+		$HBoxContainer/InputGlyphRect.action_name = action
 		call_deferred("_on_resize")
 
 func _ready():

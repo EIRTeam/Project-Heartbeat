@@ -1,3 +1,4 @@
+@uid("uid://dks1agdj5qb8i") # Generated automatically, do not modify.
 extends HBMenu
 
 class_name HBSongListMenu
@@ -38,6 +39,8 @@ var allowed_sort_by = {
 	"_updated_time": tr("Last updated")
 }
 
+var rich_presence_start_timestamp: int
+
 func populate_sort_by_list():
 	var workshop_only_sort_by = ["_added_time", "_released_time", "_updated_time"]
 	
@@ -57,6 +60,7 @@ func populate_sort_by_list():
 
 func _on_menu_enter(force_hard_transition=false, args = {}):
 	super._on_menu_enter(force_hard_transition, args)
+	rich_presence_start_timestamp = Time.get_unix_time_from_system()
 	if PlatformService.service_provider.implements_ugc:
 		PlatformService.service_provider.ugc_provider.connect("ugc_song_meta_updated", Callable(self, "_on_ugc_song_meta_updated"))
 #	populate_difficulties()
@@ -289,10 +293,16 @@ func _on_song_hovered(song: HBSong):
 		remove_item_prompt.show()
 	song_count_indicator.text = "%d/%d" % [song_container.filtered_song_items.keys().find(song)+1, song_container.filtered_song_items.size()]
 
+	var image_url := song._ugc_preview_url
+
+	if image_url.is_empty():
+		image_url = "default"
+
 	HBGame.rich_presence.update_activity({
 		"state": "In song list",
 		"details": "%s" % [current_song.title],
-		"start_timestamp": Time.get_unix_time_from_system()
+		"start_timestamp": rich_presence_start_timestamp,
+		"large_image_key": image_url
 	})
 
 func should_receive_input(event):

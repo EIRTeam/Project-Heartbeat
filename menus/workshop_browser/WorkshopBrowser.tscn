@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d1ybtyf1sffqy"]
+[gd_scene load_steps=15 format=3 uid="uid://d1ybtyf1sffqy"]
 
 [ext_resource type="Script" path="res://menus/workshop_browser/WorkshopBrowser.gd" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://dtchd3yrqrcbd" path="res://menus/HBTextInput.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="11"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparent.tres" id="12"]
-[ext_resource type="PackedScene" uid="uid://58t8pxail3r7" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="13"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "spin"
@@ -64,9 +63,10 @@ layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="PromptInputAction2" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource("13")]
+[node name="InputGlyphRect" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4"]
 layout_mode = 2
-input_action = "gui_tab_left"
+action_text = ""
+action_name = &"gui_tab_left"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Control/HBoxContainer4"]
 layout_mode = 2
@@ -74,9 +74,10 @@ theme_override_constants/separation = 10
 alignment = 1
 script = ExtResource("3")
 
-[node name="PromptInputAction" parent="MarginContainer/Control/HBoxContainer4" instance=ExtResource("13")]
+[node name="InputGlyphRect2" type="InputGlyphRect" parent="MarginContainer/Control/HBoxContainer4"]
 layout_mode = 2
-input_action = "gui_tab_right"
+action_text = ""
+action_name = &"gui_tab_right"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Control"]
 custom_minimum_size = Vector2(0, 40)
@@ -174,16 +175,6 @@ libraries = {
 
 [node name="HBConfirmationWindow" parent="." instance=ExtResource("10")]
 visible = false
-
-[node name="Label" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer" index="0"]
-text = "Enter your search:"
-
-[node name="HBoxContainer" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton" index="0"]
-layout_mode = 2
-
-[node name="InputGlyphRect" parent="HBConfirmationWindow/Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="0"]
-action_text = "Accept"
-action_name = &"gui_accept"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0

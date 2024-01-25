@@ -1,3 +1,4 @@
+@uid("uid://dm3m87c36fdrl") # Generated automatically, do not modify.
 extends Control
 
 @onready var sticks_container: HBoxContainer = get_node("%SticksContainer")
@@ -27,7 +28,8 @@ func _input(event):
 		event_log.add_text("[%d] %s main: %s Other: %s" % [frame, "Press" if event.pressed else "Release", event.action, event.actions])
 		event_log.newline()
 func _ready():
-	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_DISABLED, SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280, 720))
+	var window := get_viewport() as Window
+	window.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	for _stick in range(STICK_COUNT):
 		var aspect_ratio_c := AspectRatioContainer.new()
 		aspect_ratio_c.stretch_mode = AspectRatioContainer.STRETCH_HEIGHT_CONTROLS_WIDTH
@@ -45,6 +47,7 @@ func _ready():
 	queue_redraw()
 
 func _draw_stick_debug(stick_idx: int):
+	print(input_man.last_action_device_idx)
 	var info: StickInfo = stick_infos[stick_idx]
 	var container: Control = stick_infos[stick_idx].container
 	draw_set_transform_matrix(container.get_global_transform_with_canvas())
@@ -55,8 +58,8 @@ func _draw_stick_debug(stick_idx: int):
 
 	draw_arc(center, radius, 0, deg_to_rad(360), 30, Color.GRAY)
 	draw_arc(center, radius * deadzone, 0, deg_to_rad(360), 30, Color.MEDIUM_PURPLE)
-	var axis0 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_0 + stick_idx * 2)
-	var axis1 = Input.get_joy_axis(UserSettings.controller_device_idx, JOY_AXIS_1 + stick_idx * 2)
+	var axis0 = Input.get_joy_axis(input_man.last_action_device_idx, JOY_AXIS_LEFT_X + stick_idx * 2)
+	var axis1 = Input.get_joy_axis(input_man.last_action_device_idx, JOY_AXIS_LEFT_Y + stick_idx * 2)
 	var input := Vector2(axis0, axis1)
 	var filtered_input := input
 	var factor := UserSettings.user_settings.direct_joystick_filter_factor

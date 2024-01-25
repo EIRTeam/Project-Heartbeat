@@ -1,13 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://ddwcdis3ndvvm"]
+[gd_scene load_steps=8 format=3 uid="uid://ddwcdis3ndvvm"]
 
-[ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="1"]
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
-[ext_resource type="PackedScene" path="res://third_party/joypad_support/Prompts/PromptInputAction.tscn" id="3"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
+[ext_resource type="PackedScene" uid="uid://bk36n81tgbx1g" path="res://menus/SongTitle.tscn" id="4_3niqd"]
 [ext_resource type="Script" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="6"]
-[ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="7"]
-[ext_resource type="Texture2D" uid="uid://45l2drxdvruu" path="res://graphics/logo-eirteam.png" id="8"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 25.0
@@ -23,65 +20,39 @@ shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 anti_aliasing = false
 
-[sub_resource type="Shader" id="3"]
-code = "shader_type canvas_item;
+[sub_resource type="GDScript" id="GDScript_wpdnd"]
+script/source = "extends Control
 
-uniform vec2 pos;
-uniform vec2 size;
-uniform vec2 res;
-uniform bool enabled;
-uniform float fade_size;
-float remap(float value, float low1, float low2, float high1, float high2) {
-	return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
-}
 
-void fragment() {
-	COLOR = COLOR * texture(TEXTURE, UV);
-	if (enabled) {
-		float start = pos.x / res.x;
-		float end = (pos.x + size.x) / res.x;
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
 
-		float remapped_x = remap(SCREEN_UV.x, start, 0.0, end, 1.0);
 
-		COLOR.a = COLOR.a * smoothstep(0.0, fade_size, remapped_x);
-		COLOR.a = COLOR.a * smoothstep(1.0, 1.0-fade_size, remapped_x);
-	}
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
 
-}"
 
-[sub_resource type="ShaderMaterial" id="5"]
-resource_local_to_scene = true
-shader = SubResource("3")
-shader_parameter/pos = null
-shader_parameter/size = null
-shader_parameter/res = null
-shader_parameter/enabled = null
-shader_parameter/fade_size = null
-
-[sub_resource type="FontFile" id="4"]
-fallbacks = Array[Font]([ExtResource("2"), ExtResource("7")])
-face_index = null
-embolden = null
-transform = null
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+func _on_line_edit_text_submitted(new_text):
+	$InputGlyphRect.action_name = new_text
+"
 
 [node name="MainMenuMusicPlayer" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.944
 anchor_right = 1.0
 anchor_bottom = 0.944
@@ -98,9 +69,15 @@ theme = ExtResource("4")
 theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MusicPlayer"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -5.0
+offset_right = 225.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 190
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
@@ -108,7 +85,7 @@ theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = -100
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer"]
@@ -122,24 +99,30 @@ custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 0.6
 texture = ExtResource("6")
-expand_mode = 1
-stretch_mode = 6
+expand_mode = 3
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
+theme_override_constants/separation = -10
 alignment = 1
 
-[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("1")]
+[node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_3niqd")]
+clip_contents = true
 layout_mode = 2
 
-[node name="CircleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="1"]
-texture = ExtResource("8")
+[node name="TitleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="1"]
+visible = false
+vertical_alignment = 0
 
-[node name="TitleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="2"]
-material = SubResource("5")
-clip_contents = true
+[node name="AuthorLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="2"]
+visible = false
+vertical_alignment = 0
+
+[node name="CircleLabel" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle" index="3"]
+expand_mode = 1
+stretch_mode = 0
 
 [node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -148,8 +131,11 @@ alignment = 1
 
 [node name="PlaybackCurrentTimeLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("4")
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 24
 text = "(NT)1:02/"
+vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -162,14 +148,16 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.0
 value = 0.5
+show_percentage = false
 
 [node name="PlaybackMaxLabel" type="Label" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("4")
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 24
 text = "(NT)4:00"
 horizontal_alignment = 2
 
-[node name="PromptInputAction" parent="HBoxContainer/MusicPlayer" instance=ExtResource("3")]
+[node name="PromptInputAction" type="InputGlyphRect" parent="HBoxContainer/MusicPlayer"]
 layout_mode = 0
 anchor_left = 0.073
 anchor_top = 0.2
@@ -177,7 +165,22 @@ anchor_right = 0.079
 anchor_bottom = 0.8
 offset_left = 0.300003
 offset_right = 55.9
-offset_bottom = 0.0
-input_action = "gui_show_song"
+action_text = ""
+action_name = &"gui_show_song"
+script = SubResource("GDScript_wpdnd")
+
+[node name="SongTitle" parent="." instance=ExtResource("4_3niqd")]
+layout_mode = 0
+
+[node name="TitleLabel" parent="SongTitle" index="1"]
+vertical_alignment = 0
+
+[node name="AuthorLabel" parent="SongTitle" index="2"]
+vertical_alignment = 0
+
+[node name="CircleLabel" parent="SongTitle" index="3"]
+expand_mode = 1
+stretch_mode = 0
 
 [editable path="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/SongTitle"]
+[editable path="SongTitle"]

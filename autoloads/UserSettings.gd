@@ -1,3 +1,4 @@
+@uid("uid://5b7pqe2ujnh3") # Generated automatically, do not modify.
 extends Node
 
 var user_settings: HBUserSettings = HBUserSettings.new()
@@ -363,25 +364,10 @@ func load_input_map():
 				if action is InputEventJoypadMotion and action_name in UserSettings.DISABLE_ANALOG_FOR_ACTION:
 					continue
 				if action is InputEventJoypadMotion or action is InputEventJoypadButton:
-					action.device = controller_device_idx
+					action.device = -1
 				InputMap.action_add_event(action_name, action)
 	current_mode = PROMPT_MODE.JOYPAD
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	
-func map_actions_to_controller():
-	for _device_idx in Input.get_connected_joypads():
-		if Input.get_joy_guid(_device_idx) == controller_guid:
-			Log.log(self, "Swapping main controller device from " + str(controller_device_idx) + " to " + str(_device_idx))
-			controller_device_idx = _device_idx
-			break
-	# Remap actions to new device id
-	load_input_map()
-	JoypadSupport._set_joypad(controller_device_idx, true)
-	
-	if Input.get_connected_joypads().size() == 0:
-		JoypadSupport.force_keyboard_prompts()
-	
-	emit_signal("controller_swapped", controller_device_idx)
 	
 enum PROMPT_MODE {
 	KEYBOARD,
@@ -390,22 +376,11 @@ enum PROMPT_MODE {
 	
 var current_mode = PROMPT_MODE.KEYBOARD
 func _input(event):
-	if event is InputEventJoypadButton:
-		if controller_device_idx == -1:
-			controller_device_idx = event.device
-			controller_guid = Input.get_joy_guid(controller_device_idx)
-			map_actions_to_controller()
-		if current_mode != PROMPT_MODE.JOYPAD:
-			current_mode = PROMPT_MODE.JOYPAD
-			#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-			set_joypad_prompts()
-			JoypadSupport._set_joypad(event.device, true)
-	elif event is InputEventKey or event is InputEventMouseButton:
+	if event is InputEventKey or event is InputEventMouseButton:
 		if current_mode != PROMPT_MODE.KEYBOARD:
 			current_mode = PROMPT_MODE.KEYBOARD
 			mouse_hide_timer.stop()
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			JoypadSupport.force_keyboard_prompts()
 	if event is InputEventMouseMotion:
 		mouse_hide_timer.stop()
 	if current_mode == PROMPT_MODE.JOYPAD:
@@ -430,18 +405,13 @@ func load_user_settings():
 func set_joypad_prompts():
 	match user_settings.button_prompt_override:
 		"default":
-			JoypadSupport.set_autodetect_to(true)
-			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.UNINDENTIFIED)
-			JoypadSupport.force_keyboard_prompts()
+			InputGlyphsSingleton.forced_input_type = InputGlyphsConstants.UNKNOWN
 		"xbox":
-			JoypadSupport.set_autodetect_to(false)
-			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.XBOX)
+			InputGlyphsSingleton.forced_input_type = InputGlyphsConstants.XBOX_ONE_CONTROLLER
 		"playstation":
-			JoypadSupport.set_autodetect_to(false)
-			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.PLAYSTATION)
+			InputGlyphsSingleton.forced_input_type = InputGlyphsConstants.PS5_CONTROLLER
 		"nintendo":
-			JoypadSupport.set_autodetect_to(false)
-			JoypadSupport.set_chosen_skin(JS_JoypadIdentifier.JoyPads.NINTENDO)
+			InputGlyphsSingleton.forced_input_type = InputGlyphsConstants.SWITCH_PRO_CONTROLLER
 func apply_user_settings(apply_display := false):
 	if apply_display:
 		apply_display_mode()
@@ -455,7 +425,6 @@ var enable_menu_fps_limits := false: set = set_enable_menu_fps_limits
 
 func set_enable_menu_fps_limits(val):
 	enable_menu_fps_limits = val
-	_update_fps_limits
 	_update_fps_limits()
 func _update_fps_limits():
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX if (user_settings.vsync_enabled) else DisplayServer.VSYNC_DISABLED)
@@ -554,9 +523,10 @@ func get_sound_path(sfx_name: String) -> String:
 	
 	return HBUserSettings.DEFAULT_SOUNDS[sfx_name]
 
-func should_use_direct_joystick_access() -> bool:
-	return user_settings.use_direct_joystick_access and Input.is_joy_known(controller_device_idx)
+func should_use_direct_joystick_access(device_idx: int) -> bool:
+	return user_settings.use_direct_joystick_access and device_idx in Input.get_connected_joypads() and Input.is_joy_known(device_idx)
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
-		Input.stop_joy_vibration(controller_device_idx)
+		for device in Input.get_connected_joypads():
+			Input.stop_joy_vibration(device)

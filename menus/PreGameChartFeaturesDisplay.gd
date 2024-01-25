@@ -93,6 +93,7 @@ func make_controls(features: Array):
 		control.actions_plus_one = feature_actions_plus_one_o
 		control.texture = feature_textures[feature]
 		control.disable_axis_direction_display = feature in disable_axis_direction_display_features
+		control.plus_one_skip_count = 4 if feature == FEATURES_DISPLAY_TYPES.HEART_NOTES else 1
 		
 		curr_container.add_child(control)
 		item_controls.append(control)

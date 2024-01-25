@@ -1,3 +1,4 @@
+@uid("uid://gxx2aqda8gf1") # Generated automatically, do not modify.
 extends Node2D
 
 class_name HBNewNoteDrawer
@@ -52,7 +53,7 @@ signal finished
 
 @onready var appear_particles_node = preload("res://menus/AppearParticles.tscn").instantiate()
 
-var game
+var game: HBRhythmGameBase
 
 class LayerBoundNodeData:
 	var node: Node2D

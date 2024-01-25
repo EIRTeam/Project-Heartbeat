@@ -1,3 +1,4 @@
+@uid("uid://d2lpr71gks2w8") # Generated automatically, do not modify.
 extends Panel
 
 @export var axis_x = 0
@@ -21,7 +22,7 @@ func _draw():
 	var deadzone = UserSettings.user_settings.analog_deadzone
 	var starting_pos = (1.0 - deadzone) * size / 2.0
 	
-	if axis_x <= JOY_AXIS_RIGHT_Y and axis_y <= JOY_AXIS_RIGHT_Y and UserSettings.should_use_direct_joystick_access():
+	if axis_x <= JOY_AXIS_RIGHT_Y and axis_y <= JOY_AXIS_RIGHT_Y and UserSettings.should_use_direct_joystick_access(device):
 		draw_circle(size / 2.0, deadzone * size.x / 2.0, col)
 		draw_circle((pos * size / 2) + size / 2, 2, Color.WHITE)
 	else:

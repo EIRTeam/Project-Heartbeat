@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://domwopqlk14pp"]
 
 [ext_resource type="FontFile" path="res://fonts/ThinButton.tres" id="1"]
-[ext_resource type="Script" path="res://menus/options_menu/OptionControlsSectionEvent.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://mj3l487obhj4" path="res://tools/icons/icon_remove_big.svg" id="3"]
+[ext_resource type="Script" uid="uid://btjtkniphugcg" path="res://menus/options_menu/OptionControlsSectionEvent.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://bxhrte7i7snxo" path="res://graphics/icons/icon_remove.svg" id="3_1b50h"]
 
 [node name="Control" type="Panel"]
 custom_minimum_size = Vector2(0, 64)
@@ -17,13 +17,13 @@ anchor_bottom = 1.0
 offset_left = 20.0
 offset_right = -20.0
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+[node name="InputGlyphRect" type="InputGlyphRect" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-expand_mode = 1
-stretch_mode = 5
+action_text = ""
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="InfoLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("1")
@@ -41,9 +41,16 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer/Panel"]
-layout_mode = 0
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 4
+anchor_bottom = 0.5
+offset_left = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_1b50h")
+expand_mode = 2
+stretch_mode = 5

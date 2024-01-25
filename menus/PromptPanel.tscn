@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://menus/PromptPanel.gd" id="3"]
 
 [node name="Panel4" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(165, 45)
 anchors_preset = 15
 anchor_right = 1.0

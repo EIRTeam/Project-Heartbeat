@@ -1,3 +1,4 @@
+@uid("uid://bqvvfuw1fpcqj") # Generated automatically, do not modify.
 extends HBUIComponent
 
 class_name HBUISkipIntroIndicator
@@ -13,10 +14,8 @@ var font := HBUIFont.new(): set = set_font
 	Label.new()
 ]
 
-const PROMPT_INPUT_ACTION_SCENE = preload("res://third_party/joypad_support/Prompts/PromptInputAction.tscn")
-
-@onready var prompt_input_action_1 := PROMPT_INPUT_ACTION_SCENE.instantiate()
-@onready var prompt_input_action_2 := PROMPT_INPUT_ACTION_SCENE.instantiate()
+@onready var prompt_input_action_1 := InputGlyphRect.new()
+@onready var prompt_input_action_2 := InputGlyphRect.new()
 
 @onready var tween := Threen.new()
 
@@ -24,8 +23,10 @@ var _starting_margin_left := 0
 
 func _ready():
 	super._ready()
-	prompt_input_action_1.input_action = "note_up"
-	prompt_input_action_2.input_action = "note_left"
+	prompt_input_action_1.action_name = "note_up"
+	prompt_input_action_2.action_name = "note_left"
+	prompt_input_action_1.action_text = ""
+	prompt_input_action_2.action_text = ""
 	labels[0].text = tr("Press ")
 	labels[1].text = "+"
 	labels[2].text = tr("to skip the intro")
