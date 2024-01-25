@@ -1,3 +1,4 @@
+@uid("uid://lx0yyfeicwor") # Generated automatically, do not modify.
 extends Control
 
 @onready var url_line_edit = get_node("Panel/MarginContainer/VBoxContainer/HBoxContainer/URLLineEdit")
@@ -223,11 +224,8 @@ func _on_zip_download_completed(result: int, response_code: int, headers: Packed
 		wait_dialog.popup_centered()
 		await get_tree().process_frame
 		
-		var norm = HBAudioNormalizer.new()
-		norm.set_target_ogg(song.get_audio_stream())
-		while not norm.work_on_normalization():
-			pass
-		var res = norm.get_normalization_result()
+		var ss := Shinobu.register_sound_from_memory("shinobu_norm_ppd", song.get_audio_stream().data)
+		var res = ss.ebur128_get_loudness()
 		song.has_audio_loudness = true
 		song.audio_loudness = res
 		song_ext.has_audio_loudness = true
