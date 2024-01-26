@@ -1,3 +1,4 @@
+@uid("uid://duw505w12btfa") # Generated automatically, do not modify.
 extends PlatformServiceProvider
 
 const LOG_NAME = "SteamServiceProvider"
@@ -29,7 +30,6 @@ func init_platform() -> int:
 		if not init:
 			return ERR_UNAVAILABLE
 		
-		Steamworks.input.init(true)
 		InputGlyphsSingleton.init()
 		
 		local_user = Steamworks.user.get_local_user()
