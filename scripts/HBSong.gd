@@ -1,3 +1,4 @@
+@uid("uid://cferyg68rsy43") # Generated automatically, do not modify.
 # Base class for all song meta types
 extends HBSerializable
 
@@ -68,6 +69,7 @@ var _note_usage_cache_lock = Mutex.new()
 var _added_time: int = 0
 var _released_time: int = 0
 var _updated_time: int = 0
+var _ugc_preview_url: String
 
 func get_leaderboard_name(difficulty: String):
 	return id + "_%s" % difficulty

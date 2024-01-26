@@ -198,6 +198,7 @@ func _on_ugc_meta_query_update_completed(results: Array[HBSteamUGCItem]):
 			song._added_time = detail.time_added_to_user_list
 			song._released_time = detail.time_created
 			song._updated_time = detail.time_updated
+			song._ugc_preview_url = detail.preview_image_url
 			added_time_map[song.ugc_id] = detail.time_added_to_user_list
 	if results.size() > 0:
 		emit_signal("ugc_song_meta_updated")

@@ -1,3 +1,4 @@
+@uid("uid://bf2xdvrk0cupo") # Generated automatically, do not modify.
 extends Control
 
 const LOG_NAME = "RhythmGameController"
@@ -183,6 +184,11 @@ func set_song(song: HBSong, difficulty: String, modifiers = [], force_caching_of
 	
 	if title.length() <= 1:
 		title = "A song named: %s" % [title]
+		
+	var song_preview_url := song._ugc_preview_url
+	
+	if not song_preview_url.is_empty():
+		large_image_name = song_preview_url
 		
 	HBGame.rich_presence.update_activity({
 		"state": "Playing a song",

@@ -1,3 +1,4 @@
+@uid("uid://3tm77b0ajy1v") # Generated automatically, do not modify.
 # Main Game class
 extends Node
 
@@ -282,7 +283,7 @@ func _game_init():
 	register_game_mode(HBHeartbeatGameMode.new())
 		
 	rich_presence = HBRichPresence.new()
-	if not OS.has_feature("no_rich_presence") and not OS.has_feature("editor"):
+	if not OS.has_feature("no_rich_presence"):
 		rich_presence = HBRichPresenceDiscord.new()
 	var res = rich_presence.init_presence()
 	if res != OK:
