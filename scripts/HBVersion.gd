@@ -1,3 +1,4 @@
+@uid("uid://b4i2iieepxu20") # Generated automatically, do not modify.
 # game version class
 extends Node
 
@@ -11,7 +12,7 @@ const status = "Early Access"
 const ver_name = "Project Heartbeat: Goth Girl Racing Department"
 
 static func get_version_string(with_line_breaks := false):
-	var result = "{ver_name} - {status} ({video_driver}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time})"
+	var result = "{ver_name} - {status} ({video_driver} {api_version}, {audio_driver}, {os_name}) - {version} (build {commit}, {build_date} {build_time}) - {video_adapter}"
 	if with_line_breaks:
 		result = result.replace(" - ", "\n")
 	var sha = ProjectSettings.get("application/config/build_commit").substr(0, 7)
@@ -34,6 +35,9 @@ static func get_version_string(with_line_breaks := false):
 		"ver_name": ver_name + demo_string,
 		"status": status,
 		"audio_driver": Shinobu.get_current_backend_name(),
+		"video_driver": PHNative.get_rendering_api_name(),
+		"api_version": RenderingServer.get_video_adapter_api_version(),
+		"video_adapter": RenderingServer.get_video_adapter_name(),
 		"os_name": os_name,
 		"version": version,
 		"commit": sha,
