@@ -1,3 +1,4 @@
+@uid("uid://coemhrr2djxue") # Generated automatically, do not modify.
 extends Panel
 var FREQ_MAX = 44100.0 / 2.5: set = set_freq_max
 const VU_COUNT = 256 # high VU_COUNTS break on windows
@@ -14,7 +15,7 @@ func set_min_db(value):
 
 func _ready():
 	add_to_group("song_backgrounds")
-	spectrum_image = Image.create(VU_COUNT, 1, false, Image.FORMAT_R8)
+	spectrum_image = Image.create(VU_COUNT, 1, false, Image.FORMAT_RF)
 	spectrum_image_texture = ImageTexture.create_from_image(spectrum_image) #,Texture2D.FLAG_FILTER
 	var mat := material as ShaderMaterial
 	mat.set_shader_parameter("audio", spectrum_image_texture)
@@ -37,10 +38,7 @@ func _background_dim_changed(new_dim: float):
 		box.bg_color.a = 0.5 + (new_dim * 0.5)
 
 func _process(delta):
-	for i in range(VU_COUNT):
-		var magnitude := HBGame.spectrum_snapshot.get_value_at_i(i) as float
-		spectrum_image.set_pixel(i, 0, Color(magnitude, 0.0, 0.0))
-	
+	spectrum_image.set_data(spectrum_image.get_width(), spectrum_image.get_height(), false, spectrum_image.get_format(), HBGame.spectrum_snapshot.arr.to_byte_array())
 	spectrum_image_texture.update(spectrum_image)
 	var mat := material as ShaderMaterial
 	mat.set_shader_parameter("size", size)
