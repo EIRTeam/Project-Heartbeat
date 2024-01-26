@@ -1,3 +1,4 @@
+@uid("uid://ce8332vai5mkl") # Generated automatically, do not modify.
 extends HBMenu
 
 var game_info : HBGameInfo: set = set_game_info
@@ -31,6 +32,8 @@ var mp_lobby: HBLobby
 var mp_entries = {}
 var current_song: HBSong
 var current_assets
+
+var score_web_id := -1
 
 @onready var tabbed_container = get_node("MarginContainer/VBoxContainer/VBoxContainer2/TabbedContainer")
 @onready var results_tab = preload("res://rythm_game/results_screen/ResultsScreenResultTab.tscn").instantiate()
@@ -125,6 +128,9 @@ func _on_share_on_twitter_pressed():
 	var song = SongLoader.songs[game_info.song_id] as HBSong
 	var result_pretty = HBUtils.thousands_sep(game_info.result.score)
 	var tweet_message = "I just obtained %s (%.2f %%25) points in %s in @PHeartbeatGame" % [result_pretty, game_info.result.get_percentage() * 100.0, song.get_visible_title()]
+	if score_web_id != -1:
+		tweet_message += "! https://ph.eirteam.moe/score/%d" % [score_web_id]
+	
 	OS.shell_open("https://twitter.com/intent/tweet?text=%s&hashtags=ProjectHeartbeat" % [tweet_message])
 
 func _on_vote_button_pressed(vote):
@@ -241,7 +247,7 @@ func set_game_info(val: HBGameInfo):
 			if song.comes_from_ugc():
 				var ugc = PlatformService.service_provider.ugc_provider as HBUGCService
 				if not ugc.has_user_item_vote(song.ugc_id):
-					var vote = await ugc.get_user_item_vote(song.ugc_id).completed
+					var vote = await ugc.get_user_item_vote(song.ugc_id)
 					if vote == HBUGCService.USER_ITEM_VOTE.NOT_VOTED:
 						# UGC songs can be rated at the end of the game
 						rating_popup.popup_centered()
@@ -260,6 +266,9 @@ func _on_score_uploaded(result):
 		hi_score_label.show()
 	else:
 		hi_score_label.hide()
+		
+	score_web_id = result.get("score_id", -1)
+		
 	HBBackend.refresh_user_info()
 	
 func _on_score_upload_failed(reason):
