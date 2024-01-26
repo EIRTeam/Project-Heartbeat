@@ -1,10 +1,11 @@
+@uid("uid://cv1vaotn6leud") # Generated automatically, do not modify.
 extends Control
 
 @onready var download_confirm_popup = get_node("DownloadConfirmPopup")
 @onready var downloading_prompt = get_node("DownloadingPrompt")
 @onready var error_prompt = get_node("ErrorPrompt")
-@onready var accept_button_audio = get_node("DownloadConfirmPopup/Panel/HBoxContainer/AcceptButtonAudio")
-@onready var button_menu = get_node("DownloadConfirmPopup/Panel/HBoxContainer")
+@onready var accept_button_audio = get_node("%AcceptButtonAudio")
+@onready var button_menu = $DownloadConfirmPopup.get_node("%ButtonContainer")
 signal done
 var current_song_downloading: HBSong
 var current_variant = -1
@@ -30,7 +31,7 @@ func show_download_prompt(song: HBSong, variant_n := -1, force_disable_audio_opt
 	}
 	download_confirm_popup.text = messages[variant.get_cache_status()]
 	accept_button_audio.visible = !variant.audio_only and not force_disable_audio_option
-	download_confirm_popup.popup_centered_ratio(0.5)
+	download_confirm_popup.popup_centered_ratio(0.0)
 	button_menu.select_button(0)
 	
 func _on_error_prompt_accepted():

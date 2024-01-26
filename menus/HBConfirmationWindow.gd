@@ -1,5 +1,6 @@
+@uid("uid://bgd0ah6ji7iwi") # Generated automatically, do not modify.
 @tool
-extends Popup
+extends Control
 
 signal accept
 signal cancel
@@ -10,7 +11,7 @@ signal cancel
 @export var cancel_text: String  = "No": set = set_cancel_text
 @onready var cancel_button = get_node("%CancelButton")
 func _ready():
-	exclusive = true
+	hide()
 	_connect_button_signals()
 	connect("cancel", Callable(self, "hide"))
 	connect("accept", Callable(self, "hide"))
@@ -21,6 +22,13 @@ func _ready():
 	if not Engine.is_editor_hint():
 		cancel_button.set_meta("sfx", HBGame.menu_back_sfx)
 		
+func _input(event: InputEvent):
+	if visible:
+		if event.is_action_pressed("gui_cancel"):
+			cancel.emit()
+			hide()
+			get_viewport().set_input_as_handled()
+			print("CANCEL")
 func _connect_button_signals():
 	%AcceptButton.connect("pressed", Callable(self, "_on_accept_pressed"))
 	%CancelButton.connect("pressed", Callable(self, "_on_cancel_pressed"))
@@ -33,7 +41,7 @@ func _on_cancel_pressed():
 
 func set_text(value):
 	text = value
-	$Panel/MarginContainer/VBoxContainer/Label.text = value
+	%TextLabel.text = value
 func set_accept_text(value):
 	accept_text = value
 	%AcceptButton.text = value
@@ -43,8 +51,18 @@ func set_cancel_text(value):
 
 
 func _on_Control_about_to_show():
-	$Panel/HBoxContainer.grab_focus()
+	%ButtonContainer.grab_focus()
 	if has_cancel:
-		$Panel/HBoxContainer.select_button(cancel_button.get_index())
+		%ButtonContainer.select_button(cancel_button.get_index())
 	else:
-		$Panel/HBoxContainer.select_button(0)
+		%ButtonContainer.select_button(0)
+func popup():
+	_on_Control_about_to_show()
+	show()
+func popup_centered_ratio(ratio := 0.5):
+	size = get_viewport().size * ratio
+	popup_centered()
+func popup_centered():
+	_on_Control_about_to_show()
+	global_position = get_viewport().size * 0.5 - size * 0.5 
+	show()

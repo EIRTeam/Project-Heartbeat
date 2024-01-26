@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://csftab5uoigrn"]
+[gd_scene load_steps=9 format=3 uid="uid://csftab5uoigrn"]
 
 [ext_resource type="FontFile" uid="uid://dkdc6i25as00" path="res://fonts/Roboto-Black.ttf" id="1"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="2"]
@@ -6,13 +6,9 @@
 [ext_resource type="FontFile" uid="uid://713af3dfi1rs" path="res://fonts/NotoSansJP-Regular.otf" id="4"]
 [ext_resource type="FontFile" uid="uid://bg63fnrfyg0x3" path="res://fonts/Roboto-Regular.ttf" id="5"]
 [ext_resource type="Script" path="res://menus/news_list/NewsListItem.gd" id="6"]
-[ext_resource type="Shader" path="res://menus/ScrollingLabelShader.gdshader" id="8"]
 
 [sub_resource type="FontFile" id="1"]
 fallbacks = Array[Font]([ExtResource("5"), ExtResource("4")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -28,18 +24,8 @@ cache/0/30/0/scale = 1.0
 cache/0/30/0/kerning_overrides/16/0 = Vector2(0, 0)
 cache/0/30/0/kerning_overrides/30/0 = Vector2(0, 0)
 
-[sub_resource type="ShaderMaterial" id="2"]
-shader = ExtResource("8")
-shader_parameter/pos = null
-shader_parameter/size = null
-shader_parameter/enabled = false
-shader_parameter/fade_size = null
-
 [sub_resource type="FontFile" id="3"]
 fallbacks = Array[Font]([ExtResource("1"), ExtResource("4")])
-face_index = null
-embolden = null
-transform = null
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -85,7 +71,6 @@ text = "asdsadsadas"
 autowrap_mode = 3
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-material = SubResource("2")
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_fonts/font = SubResource("3")

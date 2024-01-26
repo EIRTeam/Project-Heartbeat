@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="1"]
 [ext_resource type="Script" path="res://menus/HBHovereableButton.gd" id="2"]
 [ext_resource type="Script" path="res://menus/HBSimpleMenu.gd" id="3"]
-[ext_resource type="Script" path="res://menus/HBConfirmationWindow.gd" id="4"]
+[ext_resource type="Script" uid="uid://bgd0ah6ji7iwi" path="res://menus/HBConfirmationWindow.gd" id="4"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIconHover.tres" id="5"]
 [ext_resource type="StyleBox" path="res://styles/PanelStyleTransparentIcon.tres" id="6"]
 
@@ -24,48 +24,54 @@ corner_detail = 20
 shadow_color = Color(0, 0, 0, 0.25)
 shadow_size = 10
 
-[node name="HBConfirmationWindow" type="Popup"]
-visible = true
-exclusive = true
+[node name="HBConfirmationWindow" type="PanelContainer"]
+visible = false
+offset_right = 650.0
+offset_bottom = 398.0
 theme = ExtResource("1")
 script = ExtResource("4")
 
-[node name="Panel" type="Panel" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(650, 195)
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+[node name="TextLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Are you sure you want to do this?"
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
-layout_mode = 0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -74.0
-offset_bottom = -28.0
+[node name="ButtonContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 focus_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 script = ExtResource("3")
 
-[node name="AcceptButton" type="Button" parent="Panel/HBoxContainer"]
+[node name="AcceptButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
@@ -75,7 +81,7 @@ theme_override_styles/pressed = ExtResource("5")
 text = "Yes"
 script = ExtResource("2")
 
-[node name="CancelButton" type="Button" parent="Panel/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ButtonContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(55, 0)
 layout_mode = 2
@@ -85,5 +91,4 @@ theme_override_styles/pressed = ExtResource("5")
 text = "No"
 script = ExtResource("2")
 
-[connection signal="about_to_popup" from="." to="." method="_on_Control_about_to_show"]
-[connection signal="pressed" from="Panel/HBoxContainer/CancelButton" to="." method="hide"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ButtonContainer/CancelButton" to="." method="hide"]

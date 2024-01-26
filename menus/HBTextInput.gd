@@ -1,3 +1,4 @@
+@uid("uid://8sqeankfcdem") # Generated automatically, do not modify.
 extends "res://menus/HBConfirmationWindow.gd"
 
 signal entered(text)
@@ -27,3 +28,5 @@ func _on_gamepad_input_dismissed(submitted: bool, text: String):
 		_on_LineEdit_text_entered(text)
 	else:
 		emit_signal("cancel")
+
+

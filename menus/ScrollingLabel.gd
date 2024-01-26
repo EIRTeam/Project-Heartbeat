@@ -1,3 +1,4 @@
+@uid("uid://bil3yngksv25g") # Generated automatically, do not modify.
 extends Control
 
 
@@ -93,8 +94,8 @@ func _draw():
 	
 	text_2_pos.y = y_pos
 	text_1_pos.y = y_pos
-	draw_string(font_1, text_1_pos, text_1)
-	draw_string(font_2, text_2_pos, text_2)
+	draw_string(font_1, text_1_pos, text_1, 0, -1, 32)
+	draw_string(font_2, text_2_pos, text_2, 0, -1, 32)
 	var mat = material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter("size", size)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dtchd3yrqrcbd"]
 
-[ext_resource type="PackedScene" path="res://menus/PromptPanel.tscn" id="1"]
-[ext_resource type="Script" path="res://menus/HBTextInput.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://coi010tlbihnq" path="res://menus/PromptPanel.tscn" id="1"]
+[ext_resource type="Script" uid="uid://8sqeankfcdem" path="res://menus/HBTextInput.gd" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -58,17 +58,14 @@ func _gui_input(event):
 		emit_signal(\"cancel\")
 "
 
-[node name="HBConfirmationWindow" type="Popup"]
-size = Vector2i(602, 200)
-visible = true
-exclusive = true
+[node name="HBConfirmationWindow" type="PanelContainer"]
+offset_right = 688.0
+offset_bottom = 200.0
 theme = ExtResource("3")
 script = ExtResource("2")
 
 [node name="Panel" type="PanelContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
 theme_override_styles/panel = SubResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
@@ -82,13 +79,15 @@ layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+[node name="TextLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Please enter the folder's name:"
 
 [node name="LineEdit" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("3")
 theme_override_styles/focus = SubResource("2")
 script = SubResource("4")
@@ -105,18 +104,9 @@ layout_mode = 2
 action_name = "gui_accept"
 text = "Accept"
 
-[node name="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton" index="0"]
-layout_mode = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-
-[node name="PromptInputAction" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="0"]
-layout_mode = 2
-input_action = "gui_accept"
-
-[node name="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="1"]
-layout_mode = 2
-text = "Accept"
+[node name="InputGlyphRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer/AcceptButton/HBoxContainer" index="0"]
+action_text = "Accept"
+action_name = &"gui_accept"
 
 [node name="CancelButton" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -125,8 +115,7 @@ layout_mode = 2
 action_name = "gui_cancel"
 text = "Cancel"
 
-[connection signal="about_to_popup" from="." to="." method="_on_Control_about_to_show"]
-[connection signal="cancel" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="emit_signal" binds= ["cancel"]]
+[connection signal="cancel" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="emit_signal"]
 [connection signal="focus_entered" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_focus_entered"]
 [connection signal="text_submitted" from="Panel/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
 

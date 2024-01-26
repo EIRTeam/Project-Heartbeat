@@ -1,59 +1,80 @@
-extends HBoxContainer
-@onready var title_label = get_node("TitleLabel")
-@onready var circle_text_rect = get_node("CircleLabel")
-@onready var difficulty_label = get_node("DifficultyLabel")
+@uid("uid://lgbt87xiaj46") # Generated automatically, do not modify.
+@tool
+extends Container
+@onready var song_title = get_node("SongTitle")
 var song: HBSong: set = set_song
 var difficulty : set = set_difficulty
 
+const SCROLL_DURATION := 3.0
+
+var scroll_amount := 0.0
+var tween: Tween
+
+var MATERIAL: ShaderMaterial = load("res://menus/scrolling_container_material.tres")
+
+const FADE_SIZE = 100
+
 func set_song(value):
-	song = value
-	title_label.text_2 = song.get_visible_title()
-	circle_text_rect.hide()
-	if song.hide_artist_name:
-		title_label.text_1 = ""
-	elif song.artist_alias != "":
-		title_label.text_1 = song.artist_alias
-	else:
-		title_label.text_1 = song.artist
-	var circle_logo_path = song.get_song_circle_logo_image_res_path()
-	
-	if circle_logo_path:
-#		author_label.hide()
-		var token = SongAssetLoader.request_asset_load(song, [SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO])
-		token.assets_loaded.connect(_on_assets_loaded)
-	else:
-		circle_text_rect.texture = null
-		_on_resized()
+	song_title.song = value
 func set_difficulty(value):
-	if not value:
-		difficulty_label.hide()
-	else:
-		difficulty_label.show()
-		difficulty = value
-		difficulty_label.text = "[%s]" % value
+	song_title.difficulty = value
 		
-func _on_resized():
-	if circle_text_rect:
-		if circle_text_rect.texture and circle_text_rect.texture.get_image():
-			var image = circle_text_rect.texture.get_image() as Image
-			var ratio = image.get_width() / image.get_height()
-			var new_size = Vector2(size.y * ratio, size.y)
-			new_size.x = clamp(new_size.x, 0, 250)
-			circle_text_rect.custom_minimum_size = new_size
-		else:
-			circle_text_rect.custom_minimum_size = Vector2.ZERO
-			circle_text_rect.size = Vector2.ZERO
+func _update_scroll(delta: float):
+	if not tween or not tween.is_running():
+		var final_value := 0.0 if scroll_amount == 1.0 else 1.0
+		tween = create_tween()
+		tween.tween_property(self, "scroll_amount", final_value, SCROLL_DURATION).set_delay(1.0)
+	
+	var center_y := size.y * 0.5
+	var last_child_x_max := 0.0
+	
+	var total_children_width := 0.0
+	for child: Control in get_children():
+		if child.visible:
+			total_children_width += child.size.x
+	
+	var remainder := total_children_width - size.x
+	var offset := remainder * scroll_amount
+	for child: Control in get_children():
+		if not child.visible:
+			continue
+		child.size = child.get_minimum_size()
+		child.position.y = center_y - child.get_minimum_size().y * 0.5
+		child.position.x = last_child_x_max - offset
+		last_child_x_max += child.size.x
+	# HACK: We pass the fade data through MODULATE since godot 4 doesn't support
+	# instance uniforms for 2d yet...
+	var fade_amount_l := (FADE_SIZE / size.x) * min((offset/FADE_SIZE), 1.0) as float
+	var fade_amount_r := (FADE_SIZE / size.x) * min(-(offset-remainder)/FADE_SIZE, 1.0) as float
+	self_modulate.r = fade_amount_l
+	self_modulate.g = fade_amount_r
+func _process(delta: float):
+	_update_scroll(delta)
 
-func _ready():
-	connect("resized", Callable(self, "_on_resized"))
-	_on_resized()
-
-func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
-#	author_label.hide()
-	var circle_logo: Texture2D = token.get_asset(SongAssetLoader.ASSET_TYPES.CIRCLE_LOGO)
-	if circle_logo:
-		circle_text_rect.show()
-		circle_text_rect.texture = circle_logo
+func _on_sort_children():
+	var total_children_width := 0.0
+	for child: Control in get_children():
+		if child.visible:
+			total_children_width += child.size.x
+	if total_children_width > size.x:
+		if not material:
+			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+			RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_CLIP_ONLY)
+			material = MATERIAL
+			queue_redraw()
+		set_process(true)
 	else:
-		circle_text_rect = null
-	_on_resized()
+		if material:
+			clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+			material = null
+			RenderingServer.canvas_item_set_canvas_group_mode(get_canvas_item(), RenderingServer.CANVAS_GROUP_MODE_DISABLED)
+			queue_redraw()
+		set_process(false)
+	_update_scroll(0.0)
+func _ready():
+	set_process(false)
+	sort_children.connect(_on_sort_children)
+	material = null
+func _draw():
+	if material:
+		draw_rect(Rect2(Vector2.ZERO, size), Color.WHITE)

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dakangk3xanaf"]
+
+[ext_resource type="Shader" path="res://menus/scrolling_container_shader.gdshader" id="1_sw0hk"]
+
+[resource]
+shader = ExtResource("1_sw0hk")
+shader_parameter/fade_size = 50
+shader_parameter/fade_left_amount = 1.0
+shader_parameter/fade_right_amount = 0.0
+shader_parameter/position = null

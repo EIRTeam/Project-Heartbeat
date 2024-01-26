@@ -261,8 +261,5 @@ libraries = {
 }
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="MainMenuMusicPlayer" parent="CanvasLayer2" instance=ExtResource("10")]
-grow_horizontal = 2
-grow_vertical = 2
