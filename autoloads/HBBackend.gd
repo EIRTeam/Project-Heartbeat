@@ -1,3 +1,4 @@
+@uid("uid://cuyt5ae3ogdgt") # Generated automatically, do not modify.
 extends Node
 
 signal result_entered(result)
@@ -136,13 +137,13 @@ func _on_request_completed(result, response_code, headers, body, request_type, r
 		if request_type == REQUEST_TYPE.ENTER_RESULT:
 			var failure_reason = "Unknown error (%d)" % [response_code]
 			var test_json_conv = JSON.new()
-			test_json_conv.parse(body.get_string_from_utf8())
+			var err := test_json_conv.parse(body.get_string_from_utf8())
 			var json = test_json_conv.data
-			if json.error == OK:
+			if err == OK:
 				if "error_message" in json.result:
 					failure_reason = json.result.error_message
 			emit_signal("score_enter_failed", failure_reason)
-		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + str(response_code) + body.get_string_from_utf8())
+		Log.log(self, "Error doing request " + HBUtils.find_key(REQUEST_TYPE, request_type) + " " + str(response_code) + body.get_string_from_utf8())
 func _on_logged_in(json, _params):
 	jwt_token = json.token
 	connected = true
@@ -186,6 +187,9 @@ func make_request(url: String, payload: Dictionary, method, type, params = {}, n
 	
 	var requester = HTTPRequest.new()
 	requester.use_threads = true
+	if not service_env.validate_domain:
+		var tls_options := TLSOptions.client_unsafe()
+		requester.set_tls_options(tls_options)
 	requester.connect("request_completed", Callable(self, "_on_request_completed").bind(type, requester, params))
 	add_child(requester)
 	var headers = ["Content-Type: application/json"]
