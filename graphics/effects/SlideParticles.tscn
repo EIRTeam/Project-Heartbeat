@@ -1,31 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://dssxtjqhuhlbn"]
+[gd_scene load_steps=4 format=3 uid="uid://dssxtjqhuhlbn"]
 
 [ext_resource type="Texture2D" uid="uid://dui0a71scapf5" path="res://graphics/slide_fx_star.png" id="1"]
-[ext_resource type="Script" path="res://graphics/effects/SlideParticles.gd" id="2"]
+[ext_resource type="Script" uid="uid://bx4ofak8m5q6b" path="res://graphics/effects/SlideParticles.gd" id="2"]
 
 [sub_resource type="Gradient" id="Gradient_u1ssq"]
 offsets = PackedFloat32Array(0.668203, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_stmj0"]
-gradient = SubResource("Gradient_u1ssq")
-
-[sub_resource type="ParticleProcessMaterial" id="8"]
-emission_shape = 2
-emission_sphere_radius = 50.0
-spread = 25.0
-initial_velocity_min = 250.0
-initial_velocity_max = 1000.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.5
-color_ramp = SubResource("GradientTexture1D_stmj0")
-
-[node name="Node2D" type="GPUParticles2D"]
+[node name="Node2D" type="CPUParticles2D"]
 emitting = false
 amount = 24
-process_material = SubResource("8")
-texture = ExtResource("1")
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
+local_coords = true
+draw_order = 1
+texture = ExtResource("1")
+emission_shape = 2
+emission_sphere_radius = 50.0
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 250.0
+initial_velocity_max = 1000.0
+scale_amount_min = 0.5
+color_ramp = SubResource("Gradient_u1ssq")
 script = ExtResource("2")
