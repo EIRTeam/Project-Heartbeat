@@ -18,6 +18,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5")
 
+[node name="Node2D" parent="." instance=ExtResource("6_x0nmg")]
+
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
 anchor_right = 1.0
@@ -54,5 +56,3 @@ size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("1")
 text = "Loadingu..."
 horizontal_alignment = 1
-
-[node name="Node2D" parent="." instance=ExtResource("6_x0nmg")]
