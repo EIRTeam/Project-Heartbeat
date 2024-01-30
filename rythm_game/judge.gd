@@ -1,3 +1,4 @@
+@uid("uid://cbsy7wtd6fgj3") # Generated automatically, do not modify.
 class_name HBJudge
 enum JUDGE_RATINGS {
 	WORST,
@@ -53,8 +54,28 @@ func judge_note(hit_time_msec: int, target_note_time: int) -> int:
 		return JUDGE_RATINGS.WORST
 	return RATING_WINDOWS[closest]
 
+func judge_note_usec(hit_time_usec: int, target_note_time_usec: int) -> int:
+	var diff =  hit_time_usec - target_note_time_usec
+	var closest = 128_000 * timing_window_scale
+	var target_window_usec := get_target_window_msec() * 1000 as int
+	
+	if diff < -target_window_usec:
+		return -1
+	
+	for i in range(RATING_WINDOWS.size()-1, -1, -1):
+		var rating_window = int(RATING_WINDOWS.keys()[i] * timing_window_scale) * 1000
+		if rating_window >= abs(diff):
+			closest = RATING_WINDOWS.keys()[i]
+			break
+	if diff >= target_window_usec:
+		return JUDGE_RATINGS.WORST
+	return RATING_WINDOWS[closest]
+
 func get_target_window_msec():
 	return int(RATING_WINDOWS.keys()[0] * timing_window_scale)
+
+func get_target_window_usec():
+	return int(RATING_WINDOWS.keys()[0] * timing_window_scale) * 1000
 
 func get_window_for_rating(rating):
 	return int(HBUtils.find_key(RATING_WINDOWS, rating) * timing_window_scale)

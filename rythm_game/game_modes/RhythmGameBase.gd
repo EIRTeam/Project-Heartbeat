@@ -815,7 +815,7 @@ func editor_find_group_at_time(time_msec: int, sorted_groups: bool = true) -> HB
 	var group_i := -1
 	
 	if sorted_groups:
-		group_i = note_groups_by_end_time.bsearch_custom(time_msec, self._group_compare_end)
+		group_i = note_groups_by_end_time.bsearch_custom(time_msec * 1000, self._group_compare_end)
 	else:
 		for i in range(note_groups_by_end_time.size()):
 			var group = note_groups_by_end_time[i]

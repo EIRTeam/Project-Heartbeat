@@ -1,3 +1,4 @@
+@uid("uid://c0e4smhnlr8ym") # Generated automatically, do not modify.
 class_name HBNoteGroup
 
 # note_data: note_drawer map
@@ -19,7 +20,7 @@ var note_judgement_infos := {}
 
 var game
 
-var current_time_msec := 0
+var current_time_usec := 0
 
 # final judgement is the final judgement when judging multiple notes, otherwise it's the same as
 # judgement_infos[0].judgement
@@ -80,27 +81,27 @@ func update_multi_note_renderer():
 		laser_renderer.show()
 
 # Returns true if the group is done
-func process_group(time_msec: int) -> bool:
+func process_group(time_usec: int) -> bool:
 	if game.game_mode == 1:
 		finished_notes.clear()
 		note_judgement_infos.clear()
 		if laser_renderer:
-			if time_msec > get_hit_time_msec():
+			if time_usec > get_hit_time_msec() * 1000:
 				laser_renderer.hide()
 			else:
 				laser_renderer.show()
-	current_time_msec = time_msec
+	current_time_usec = time_usec
 	for nd in note_datas:
 		var note_data := nd as HBBaseNote
 		if note_data in finished_notes:
 			continue
-		if note_data.time - note_data.get_time_out(game.get_note_speed_at_time(note_data.time)) <= time_msec:
+		if (note_data.time - note_data.get_time_out(game.get_note_speed_at_time(note_data.time))) * 1000 <= time_usec:
 			var note_drawer
 			if not note_data in note_drawers:
 				note_drawer = create_note_drawer(note_data)
 			else:
 				note_drawer = note_drawers[note_data]
-			note_drawer.process_note(time_msec)
+			note_drawer.process_note(time_usec)
 	
 	var should_finish := note_datas.size() == finished_notes.size()
 	if note_judgement_infos.size() != note_datas.size() and note_datas.size() > 1:
@@ -134,7 +135,7 @@ func process_input(event: InputEventHB) -> bool:
 	# from getting a wrong on slides when using the heart action
 	var heart_bypass_hack := false
 	var is_analog_event: bool = event.is_action_pressed("slide_left") or event.is_action_pressed("slide_right") or event.is_action_pressed("heart_note")
-	var is_input_in_range: bool = abs(game.time_msec - get_hit_time_msec()) < game.judge.get_target_window_msec()
+	var is_input_in_range: bool = abs(event.game_time - get_hit_time_msec() * 1000) < game.judge.get_target_window_msec() * 1000
 	
 	var is_macro = event.actions.size() > 1
 	var is_multi = note_datas.size() > 1
@@ -242,7 +243,7 @@ func _on_wrong():
 	for judgement in note_judgement_infos.values():
 		judgement.wrong = true
 	# Calculate the "average" judgement (see calculate_judgement above)
-	var final_judgement := game.judge.judge_note(game.time_msec, note_datas[0].time) as int
+	var final_judgement := game.judge.judge_note_usec(game.time_usec, note_datas[0].time * 1000) as int
 	if note_judgement_infos.size() > 0:
 		var c := calculate_judgement(note_judgement_infos.values())
 		if c != -1:
@@ -254,7 +255,7 @@ func _on_wrong():
 		if not note in note_judgement_infos:
 			var note_judgement_info := HBNoteJudgementInfo.new()
 			note_judgement_info.note_data = note
-			note_judgement_info.time_msec = current_time_msec
+			note_judgement_info.time_msec = current_time_usec / 1000
 			note_judgement_info.judgement = final_judgement
 			note_judgement_infos[note] = note_judgement_info
 		_on_note_finished(note)
@@ -286,7 +287,7 @@ func _on_note_remove_node_from_layer(layer_name: String, node: Node):
 func _on_note_judged(judgement: int, independent: bool, judgement_target_time: int, input_event: InputEventHB, note_data: HBBaseNote):
 	var judgement_info := HBNoteJudgementInfo.new()
 	judgement_info.judgement = judgement
-	judgement_info.time_msec = current_time_msec
+	judgement_info.time_msec = current_time_usec / 1000
 	judgement_info.note_data = note_data
 	judgement_info.input_event = input_event
 	if not independent:

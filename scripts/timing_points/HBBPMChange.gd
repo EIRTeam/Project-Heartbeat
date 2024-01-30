@@ -1,3 +1,4 @@
+@uid("uid://bnevusw2gxg2p") # Generated automatically, do not modify.
 # Timing point that denotes a change in BPM (bpm is used for calculating automatic time_out)
 # keep in mind BPM changes apply to notes that end after the bpm change, this means that if
 # the note appears earlier due to the time_out property it will still be affected by the BPM
@@ -16,6 +17,7 @@ var speed_factor := 100.0
 var usage = USAGE_TYPES.AUTO_BPM
 
 func _init():
+	super._init()
 	_class_name = "HBBPMChange" # Workaround for godot#4708
 	_inheritance.append("HBTimingPoint")
 	
