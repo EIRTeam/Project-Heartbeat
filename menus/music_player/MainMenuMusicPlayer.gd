@@ -1,3 +1,4 @@
+@uid("uid://dtim1fc8g6bwc") # Generated automatically, do not modify.
 extends HBMenu
 
 var current_song_length
@@ -75,7 +76,7 @@ func set_time(time: float):
 		playback_progress_bar.value = time / current_song_length
 
 func _on_assets_loaded(token: SongAssetLoader.AssetLoadToken):
-	if token.song == current_song:
+	if token.song != current_song:
 		return
 	image_preview_texture_rect.material = null
 	var preview_image := token.get_asset(SongAssetLoader.ASSET_TYPES.PREVIEW)

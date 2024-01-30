@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://bbtlss1puugqn" path="res://fonts/orbitron-medium.otf" id="2"]
 [ext_resource type="Theme" uid="uid://b4yu237ua3sml" path="res://Theme_Game_Min.tres" id="4"]
 [ext_resource type="PackedScene" uid="uid://n2yd8i4x5hox" path="res://menus/SongTitleScrolling.tscn" id="4_a3lbd"]
-[ext_resource type="Script" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
+[ext_resource type="Script" uid="uid://dtim1fc8g6bwc" path="res://menus/music_player/MainMenuMusicPlayer.gd" id="5"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="6"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -78,7 +78,7 @@ offset_top = -5.0
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 190
+theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
@@ -107,8 +107,8 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="SongTitle" parent="HBoxContainer/MusicPlayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_a3lbd")]
-self_modulate = Color(1284, 929.52, 1, 1)
-material = null
+self_modulate = Color(0, -0.0313015, 1, 1)
+clip_children = 0
 layout_mode = 2
 size_flags_vertical = 3
 
