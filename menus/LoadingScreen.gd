@@ -1,3 +1,4 @@
+@uid("uid://du5oeuubcmh70") # Generated automatically, do not modify.
 extends Control
 
 var current_diff
@@ -78,13 +79,13 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 		if PlatformService.service_provider.implements_ugc:
 			var ugc_service: SteamUGCService = PlatformService.service_provider.ugc_provider
 			if ugc_service:
-				var item_state := Steam.getItemState(song.skin_ugc_id) as int
-				print("FLAGFS!!!", item_state)
-				if not item_state & Steam.ITEM_STATE_INSTALLED or item_state & Steam.ITEM_STATE_NEEDS_UPDATE:
-					if Steam.downloadItem(song.skin_ugc_id, true):
+				var ugc_item := HBSteamUGCItem.from_id(song.skin_ugc_id)
+				var item_state := ugc_item.item_state as int
+				if not item_state & SteamworksConstants.ITEM_STATE_INSTALLED or item_state & SteamworksConstants.ITEM_STATE_NEEDS_UPDATE:
+					if ugc_item.download(true):
 						loadingu_label.text = tr("Downloadingu UI Skin...")
 						skin_downloading_item = song.skin_ugc_id
-						Steam.connect("item_downloaded", Callable(self, "_on_item_downloaded"))
+						Steamworks.ugc.item_installed.connect(Callable(self, "_on_item_installed"))
 						start_now = false
 					elif item_state & Steam.ITEM_STATE_INSTALLED:
 						_load_ugc_skin(song.skin_ugc_id)
@@ -93,18 +94,19 @@ func load_song(new_game_info: HBGameInfo, practice: bool, assets: SongAssetLoade
 	if start_now:
 		start_asset_load()
 func _load_ugc_skin(file_id: int):
-	var item_state := Steam.getItemState(file_id) as int
-	if item_state & Steam.ITEM_STATE_INSTALLED:
-		var install_info := Steam.getItemInstallInfo(file_id) as Dictionary
-		if install_info.ret:
-			var res_pack: HBResourcePack = HBResourcePack.load_from_directory(install_info.folder)
+	var item := HBSteamUGCItem.from_id(file_id)
+	var item_state := item.item_state
+	if item_state & SteamworksConstants.ITEM_STATE_INSTALLED:
+		var install_dir := item.install_directory
+		if not install_dir.is_empty():
+			var res_pack: HBResourcePack = HBResourcePack.load_from_directory(install_dir)
 			if res_pack:
 				if res_pack.is_skin():
 					ugc_skin_to_use = res_pack.get_skin()
 
-func _on_item_downloaded(_result: int, file_id: int, _app_id: int):
-	if skin_downloading_item == file_id:
-		_load_ugc_skin(file_id)
+func _on_item_downloaded(app_id: int, item_id: int):
+	if skin_downloading_item == item_id:
+		_load_ugc_skin(item_id)
 		start_asset_load()
 func start_asset_load():
 	loadingu_label.text = tr("Loadingu...")

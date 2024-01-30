@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://bth6nkx5rjn86"]
 
-[ext_resource type="Script" path="res://menus/LoadingScreen.gd" id="1"]
+[ext_resource type="Script" uid="uid://du5oeuubcmh70" path="res://menus/LoadingScreen.gd" id="1"]
 [ext_resource type="FontFile" path="res://fonts/new_fonts/Comforta.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://cwn3cpsxb1ntk" path="res://graphics/no_preview_texture.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dyst4sw87pyjr" path="res://graphics/loadingu_bg.png" id="4"]
@@ -69,10 +69,11 @@ theme_override_styles/panel = SubResource("31")
 [node name="Panel" type="TextureRect" parent="LoadingScreenElements/Panel2"]
 self_modulate = Color(0.592157, 0.239216, 0.94902, 0.501961)
 show_behind_parent = true
+texture_repeat = 2
 layout_mode = 2
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 2
+stretch_mode = 1
 
 [node name="Panel3" type="PanelContainer" parent="LoadingScreenElements/Panel2"]
 custom_minimum_size = Vector2(0, 202)
@@ -154,7 +155,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 2
+stretch_mode = 1
 
 [node name="Panel3" type="Panel" parent="LoadingScreenElements/EpilepsyWarning"]
 layout_mode = 0
