@@ -1,3 +1,4 @@
+@uid("uid://cnltgci1qiotv") # Generated automatically, do not modify.
 extends BoxContainer
 
 class_name HBSimpleMenu
@@ -132,7 +133,7 @@ func _gui_input(event):
 			if sfx_type:
 				HBGame.fire_and_forget_sound(sfx_type, HBGame.sfx_group)
 			if selected_button.toggle_mode:
-				selected_button.button_pressed = !selected_button.pressed
+				selected_button.button_pressed = !selected_button.button_pressed
 			else:
 				selected_button.emit_signal("pressed")
 	elif event.is_action_pressed("gui_down")  and not ignore_down:
